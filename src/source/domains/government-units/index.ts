@@ -1,29 +1,10 @@
-/**
- * The government-units domain's public API.
- *
- * This domain is wired into the command matrix and compiles **no production
- * records** in this environment, because the Census Government Units listing
- * could not be acquired here — the coding environment's outbound proxy denies
- * census.gov at the CONNECT with an HTTP 403 policy denial. The gate below
- * records that reason so `source:manifest` and `source:validate` carry it and an
- * auditor reads the gate rather than discovering an absence.
- *
- * The distinction from the state-office-qualifications gate matters. That domain
- * is gated on a *sourcing* question — whether a research synthesis is admissible
- * as production evidence. This domain is gated only on an *acquisition-
- * environment* limitation: the Census Government Units listing is a legitimate
- * first-party primary source, and the production compiler here is real and
- * complete. When a network environment that reaches census.gov pins the artifact
- * through `source:acquire`, lifting the gate and committing the lock is a data
- * change, not a design change — `compileGovernmentUnitsProduction` already
- * compiles the real corpus through the same capability boundary every other
- * domain uses.
- *
- * The compiler is exercised end to end by an authoritative fixture, on the cases
- * that matter: government identity kept distinct from Census place identity, a
- * county geography that implies no county government, missing kept distinct from
- * inactive and from not-applicable, and crosswalks preserved unresolved rather
- * than matched by name.
+/** Government-unit domain and its two explicit source formats.
+ * The historical TSV fixture compiler remains available. The retrieved 2025
+ * publisher workbook uses PID6, five tabs, and a June 30 inventory snapshot;
+ * published-2025.ts reads its general-purpose identity fields without inventing
+ * legacy GIDs, governing parents, or place links for township/county codes.
+ * The full legacy corpus remains gated until that format is reconciled across
+ * every publisher tab. Acquisition is no longer the blocker.
  */
 
 import {
@@ -100,7 +81,10 @@ export const GOVERNMENT_UNITS_CORPUS_AS_OF = "2025-01-01";
  * Stated in full so that the manifest and validator carry the exact blocker.
  */
 export const GOVERNMENT_UNITS_PRODUCTION_GATE =
-  "The 2025 Census Government Units listing could not be acquired in this coding environment: the outbound proxy denies census.gov, rejecting the CONNECT to www2.census.gov with an HTTP 403 policy denial, so gov_units_2025.zip cannot be retrieved and hashed here. Production compilation is gated on running source:acquire --domain government-units from a network environment that reaches census.gov, which pins the real artifact through the ordinary source lock and requires no code change to compile. The domain, its compiler, its validator and its capability boundary are complete and exercised by an authoritative fixture.";
+  "The official 2025 archive is now retrieved and locked. Its actual five-tab XLSX/PID6 format differs from the historical TSV/14-digit-GID fixture contract. The general-purpose publisher identity reader is available for MUNI; full legacy corpus production remains gated until all tabs, native identifiers, dormant-versus-inventory status and unavailable legacy GIDs are reconciled without dropping usable units or guessing joins.";
+
+export { readPublishedGeneralPurposeUnits } from "./published-2025";
+export type { PublishedGeneralPurposeUnit } from "./published-2025";
 
 type GovernmentUnitsRole = "listing";
 

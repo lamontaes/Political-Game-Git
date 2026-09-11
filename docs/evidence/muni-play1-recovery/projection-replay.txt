@@ -1,0 +1,5 @@
+
+> political-life-rpg@0.2.0 export:municipal-governments
+> node --import tsx scripts/source/export-municipal-governments.ts --check
+
+Municipal browser projection regenerates byte-identically.

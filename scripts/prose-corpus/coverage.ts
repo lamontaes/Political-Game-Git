@@ -55,6 +55,16 @@ export interface CoverageReport {
  */
 export const SCAN_EXCLUSIONS: readonly { path: string; reason: string }[] = [
   {
+    path: "src/simulation/municipal-rule-registry.generated.ts",
+    reason:
+      "Generated admission projection of the municipal source inventory. Authored rule adapter prose remains inventoried at its original source, not duplicated in the transport.",
+  },
+  {
+    path: "src/simulation/municipal-governments.generated.ts",
+    reason:
+      "Generated municipal source projection and provenance metadata, not authored prose. Authored municipal panels, histories and refusals are separately inventoried computed surfaces.",
+  },
+  {
     path: "src/source",
     reason:
       "The source substrate is cited evidence about the real world — statute text, agency tables, citations. It is not authored player prose and reaches the world only through a named one-way adapter.",
@@ -72,6 +82,11 @@ export const SCAN_EXCLUSIONS: readonly { path: string; reason: string }[] = [
   {
     path: "src/cli",
     reason: "Headless command output for developers and CI.",
+  },
+  {
+    path: "src/release",
+    reason:
+      "Build identity: the accepted release version and the source revision the bundle came from. Its strings are a version number and a commit hash, not authored prose, and the only player-visible form of them is a quiet vX.Y.Z the UI composes.",
   },
   {
     path: "src/simulation/national-places.generated.ts",

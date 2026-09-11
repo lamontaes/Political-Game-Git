@@ -285,7 +285,9 @@ ${people}${grounding}`;
 ${
   transcript.campaign.legislative
     ? `\n### Legislative surface reached\n\n- ${transcript.campaign.legislative.designation} — ${transcript.campaign.legislative.stage}\n${transcript.campaign.legislative.lines.map((line) => `  - ${line}`).join("\n")}\n`
-    : "\n_No legislative surface: the capability layer did not open one for this run._\n"
+    : transcript.campaign.legislativeRefusal
+      ? `\n_Legislative work unavailable: ${transcript.campaign.legislativeRefusal}_\n`
+      : "\n_No legislative surface: the capability layer did not open one for this run._\n"
 }`
       : "";
 

@@ -1,0 +1,12 @@
+[WebServer] (node:49442) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 1 test using 1 worker
+
+(node:49443) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] [chromium] › tests/e2e/people-snapshot6-before.spec.ts:7:1 › SNAPSHOT6 reproduces the saved primary caption discrepancy
+  1 passed (3.7s)

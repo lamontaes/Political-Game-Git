@@ -1,4 +1,13 @@
-import { useMemo, useRef, useState, type CSSProperties } from "react";
+import { PeopleVisual4Review } from "./PeopleVisual4Review";
+import { frameCharacterReview } from "../presentation/character-review-framing";
+import { useReviewEnvironment, useReviewStorage } from "./review-context";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 
 import clippingAfterUrl from "../../docs/agent/evidence/office-clipping-after-1440x900.png";
 import clippingBeforeUrl from "../../docs/agent/evidence/office-clipping-before-1440x900.png";
@@ -24,6 +33,8 @@ import {
   PRODUCTION_CHARACTER_LIBRARY,
   PRODUCTION_VISUAL_LIBRARY,
 } from "../presentation/visual-integration";
+import { PersonPortrait } from "../player/PersonPortrait";
+import { CandidateAdmissionReview } from "./CandidateAdmissionReview";
 import { ModularCharacter } from "../player/ModularCharacter";
 import { useSceneTransform } from "../player/useSceneTransform";
 import type { EntityId, World } from "../simulation/types";
@@ -47,6 +58,29 @@ function proofSetFromUrl(): CharacterProofSetId {
 }
 
 /**
+ * `?set=wave-a` is a THIRD review surface, not a third proof set.
+ *
+ * The two proof sets each compose four generated people, which needs a library
+ * that can finish a person. The admitted Wave A bodies deliberately cannot: no
+ * face and no wardrobe has been drawn for them yet. Giving them their own
+ * surface keeps that distinction visible instead of showing four broken people
+ * and calling it a set.
+ */
+function waveAReviewRequested(): boolean {
+  return new URLSearchParams(window.location.search).get("set") === "wave-a";
+}
+
+const SET_LINKS = (
+  <p>
+    Sets:{" "}
+    <a href="?view=character-proof&set=visual4">Corrected selectable people</a>{" "}
+    · <a href="?view=character-proof&set=real">real production candidates</a> ·{" "}
+    <a href="?view=character-proof&set=dev">DEV fixtures</a> ·{" "}
+    <a href="?view=character-proof&set=wave-a">Wave A candidate admission</a>
+  </p>
+);
+
+/**
  * Which library a proof set composes from.
  *
  * The `real` set reviews BANKED CANDIDATES: parts that have files and hashes
@@ -66,11 +100,14 @@ function librariesFor(setId: CharacterProofSetId) {
       };
 }
 
-function initialWorld(setId: CharacterProofSetId): {
+function initialWorld(
+  setId: CharacterProofSetId,
+  storage: Storage,
+): {
   readonly world: World;
   readonly source: CharacterProofWorldSource;
 } {
-  const restored = loadCharacterProofSnapshot(window.localStorage, setId);
+  const restored = loadCharacterProofSnapshot(storage, setId);
   if (restored) return { world: restored, source: "restored-snapshot" };
   return {
     world: createCharacterProofSetWorld(
@@ -157,10 +194,17 @@ interface StageProps {
 
 function ProofStage({ characters, debugAnchors, testId, label }: StageProps) {
   const viewportRef = useRef<HTMLDivElement>(null);
-  const transform = useSceneTransform(
+  const viewportTransform = useSceneTransform(
     viewportRef,
     CHARACTER_PROOF_SCENE.plate,
     CHARACTER_PROOF_SCENE.camera,
+  );
+  const transform = frameCharacterReview(
+    viewportTransform.viewport,
+    CHARACTER_PROOF_SCENE.plate,
+    characters.map((character) => character.plan),
+    CHARACTER_PROOF_SCENE.camera,
+    viewportTransform.devicePixelRatio,
   );
   const cameraStyle = {
     width: `${CHARACTER_PROOF_SCENE.plate.width}px`,
@@ -281,22 +325,78 @@ function OfficePathTable() {
 }
 
 export function CharacterProofView() {
+  if (new URLSearchParams(window.location.search).get("set") === "visual4")
+    return <PeopleVisual4Review />;
+  if (waveAReviewRequested()) {
+    return (
+      <main
+        className="character-proof"
+        data-testid="character-proof"
+        data-proof-set="wave-a"
+      >
+        <header className="character-proof-header">
+          <div>
+            <p className="character-proof-eyebrow">
+              Developer proof · Wave A candidate admission — NOT IN ANY CATALOG
+            </p>
+            <h1>Modular character runtime proof</h1>
+            {SET_LINKS}
+          </div>
+        </header>
+        <CandidateAdmissionReview />
+      </main>
+    );
+  }
+  return <CharacterProofWorldView />;
+}
+
+function CharacterProofWorldView() {
+  const storage = useReviewStorage();
+  const review = useReviewEnvironment();
   const [setId] = useState<CharacterProofSetId>(proofSetFromUrl);
   const set = CHARACTER_PROOF_SETS[setId];
   const [{ world, source }, setWorldState] = useState(() =>
-    initialWorld(setId),
+    initialWorld(setId, storage),
   );
   const [debugAnchors, setDebugAnchors] = useState(false);
+  const [wardrobeMode, setWardrobeMode] = useState("identity");
+  const wardrobe =
+    wardrobeMode === "identity"
+      ? undefined
+      : {
+          id: `proof-${wardrobeMode}-v1`,
+          families: {
+            top:
+              setId === "dev"
+                ? wardrobeMode === "formal"
+                  ? ["dev-blazer-navy", "dev-g2-suit-charcoal"]
+                  : ["dev-tee-teal", "dev-g2-knit-olive"]
+                : wardrobeMode === "formal"
+                  ? ["pg-top-005"]
+                  : ["pg-top-001"],
+          },
+        };
   const [status, setStatus] = useState<string>(
     source === "restored-snapshot"
       ? "Restored the saved world snapshot from browser storage."
       : "Created a fresh seeded world.",
   );
 
+  useEffect(() => {
+    review?.reportWorld(world);
+  }, [world, review]);
+
   const libraries = librariesFor(setId);
   const composition = useMemo(
-    () => composeCharacterProof(world, libraries.characters, libraries.visuals),
-    [world, libraries],
+    () =>
+      composeCharacterProof(
+        world,
+        libraries.characters,
+        libraries.visuals,
+        CHARACTER_PROOF_SCENE,
+        wardrobe,
+      ),
+    [world, libraries, wardrobe],
   );
   const reuse = useMemo(
     () => summarizeComponentReuse([...composition.stage, composition.side]),
@@ -338,15 +438,21 @@ export function CharacterProofView() {
             {libraries.characters.catalogGeneration}; people pinned to{" "}
             {set.catalogGeneration ?? libraries.characters.catalogGeneration}.
           </p>
-          <p>
-            Sets:{" "}
-            <a href="?view=character-proof&set=real">
-              real production candidates
-            </a>{" "}
-            · <a href="?view=character-proof&set=dev">DEV fixtures</a>
-          </p>
+          {SET_LINKS}
         </div>
         <div className="character-proof-controls">
+          <label>
+            Review activity wardrobe{" "}
+            <select
+              data-testid="character-proof-wardrobe"
+              value={wardrobeMode}
+              onChange={(event) => setWardrobeMode(event.target.value)}
+            >
+              <option value="identity">Saved default</option>
+              <option value="casual">Casual review</option>
+              <option value="formal">Formal review</option>
+            </select>
+          </label>
           <label>
             <input
               type="checkbox"
@@ -360,9 +466,11 @@ export function CharacterProofView() {
             type="button"
             data-testid="character-proof-save"
             onClick={() => {
-              saveCharacterProofSnapshot(window.localStorage, world, setId);
+              saveCharacterProofSnapshot(storage, world, setId);
               setStatus(
-                "Saved the world snapshot to browser storage. Reload to restore it.",
+                review
+                  ? "Saved to disposable review memory only; reset or exit discards it."
+                  : "Saved the world snapshot to browser storage. Reload to restore it.",
               );
             }}
           >
@@ -371,7 +479,11 @@ export function CharacterProofView() {
           <button
             type="button"
             data-testid="character-proof-reload"
-            onClick={() => window.location.reload()}
+            onClick={() =>
+              review
+                ? setWorldState(initialWorld(setId, storage))
+                : window.location.reload()
+            }
           >
             Reload page
           </button>
@@ -379,7 +491,7 @@ export function CharacterProofView() {
             type="button"
             data-testid="character-proof-clear"
             onClick={() => {
-              clearCharacterProofSnapshot(window.localStorage, setId);
+              clearCharacterProofSnapshot(storage, setId);
               setWorldState({
                 world: createCharacterProofSetWorld(libraries.characters, set),
                 source: "fresh",
@@ -509,6 +621,22 @@ export function CharacterProofView() {
           that pose fails closed.
         </p>
         <OfficePathTable />
+        <h3>Actual dossier portrait consumer</h3>
+        {(() => {
+          const fixture = createRunBFixture();
+          return (
+            <div data-testid="people1-dossier-consumers">
+              {fixture.scenePeople.map((person) => (
+                <PersonPortrait
+                  key={person.personId}
+                  world={fixture.world}
+                  personId={person.personId}
+                  size="large"
+                />
+              ))}
+            </div>
+          );
+        })()}
       </section>
 
       <section className="character-proof-reuse">

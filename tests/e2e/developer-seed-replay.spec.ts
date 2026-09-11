@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./fixtures";
 
 test.describe("Developer View: Seed Generation and Deterministic Replay", () => {
   test("loads developer viewer and creates new simulation from seed", async ({

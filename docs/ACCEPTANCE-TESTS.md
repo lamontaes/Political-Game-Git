@@ -1831,3 +1831,119 @@ closes the C119C defect and preserves the grounding, withholding, age, callback,
 persistence, research-accounting, campaign-isolation, bargaining-isolation and
 canonical-ownership controls. Landing onto current main is mechanical. Owner
 visual acceptance is still not implied by passing automated browser tests.
+
+## NEWS-HELP2 — Canonical public information
+
+### NEWS-001 — Publication is explicit and reproducible
+
+An existing public event produces no digest item until `publishPublicEvent`
+appends one stable publication. Reopening and projecting do not append, reroll,
+or alter World. A repeated initial publication for the same event is rejected.
+
+### NEWS-002 — Recorded votes are records, not intentions
+
+A published legislative vote must resolve through the source action's exact
+`voteId` to an existing `LegislativeVoteRecord`. Its copy uses the recorded
+tally and outcome. A vote commitment and a future vote produce no tally or
+final result.
+
+### NEWS-003 — Disclosure fails closed
+
+Private, future, missing, setup, clock, evidence-discovery, and publication
+plumbing events cannot become public-information items. A game with no explicit
+publication has an owned-but-empty `headline` surface and renders the scene's
+declared fallback.
+
+### NEWS-004 — Newspaper and supported screens share one item
+
+The digest and `headline` surface adapter resolve the same root publication ID,
+source event ID, and accessible headline. A domestic television receives it
+only through a declared `public-broadcast` slot; no geometry or anchor is
+created by NEWS-HELP2.
+
+### NEWS-005 — Corrections and saves retain history
+
+A correction appends one later edition linked to the immediately preceding
+edition. The original remains byte-for-byte present, correction history is
+linear, and JSON/browser/SQLite persistence retains the complete chain.
+
+### NEWS-006 — Inline help is local, accessible, and typed
+
+Explicit civic-term buttons support keyboard and touch activation. Help focuses
+its close control; Escape closes it and returns focus to the trigger. Reading
+does not change World or time. A typed person button calls the canonical person
+route with `personId` and never opens glossary content.
+
+### PRESS-001 — A request is an actual conversation record
+
+Arrangement requires an exact existing source claim made in an event with the
+actual reporter. A missing/mismatched claim, nonexistent person, stale
+non-journalism role, nonexistent adviser relationship, or unknown/future
+question basis fails before schedule or work records are appended.
+
+### PRESS-002 — Preparation and completion use canonical work and time
+
+Preparation cannot be recorded until the assigned staff work is ready for
+review. Interactive and condensed routes preserve the same selected intent,
+follow-up and confirmed exact wording. Condensed projection explicitly carries
+no refusal or automatic penalty. Completing the exchange performs the existing
+scheduled activity and advances the canonical clock.
+
+### PRESS-003 — Terms constrain publication
+
+On-record publication may expose typed source and reporter references.
+On-background publication uses the negotiated attribution and does not expose
+the source as a typed person. Off-record material cannot enter the press-story
+publication path. No claim exists before exact-wording confirmation, and a
+changed confirmation is rejected.
+
+### PRESS-004 — Publication, feedback, help and persistence remain honest
+
+An eligible completed story uses the existing public-information writer and
+retains correction history across save/reload. Adviser feedback requires that
+actual publication and stays a fallible claim rather than polling or causal
+truth. Feature-local browser tests cover keyboard and touch activation, help
+focus/return, Escape layering, typed-person routing, condensed selection and
+the exact wording handed to confirmation.
+
+### PRODUCERS-001 — Reporter eligibility is canonical and read-only
+
+The eligible-reporter projection returns only existing people with a current
+`profession:journalism` role who know every non-future question-basis event or
+can access its actual publication. Missing, future, unknown and non-journalist
+candidates are absent. Repeating the projection leaves serialized World
+byte-for-byte unchanged.
+
+### PRODUCERS-002 — Request, reporter agreement and adviser willingness are distinct
+
+An explicit request writes the source's exact limited claim and a normal contact
+record. It does not schedule anything. The domain producer—not the controlled
+source or UI—makes and durably traces the requested reporter's decision from
+current role, knowledge and availability. It separately makes the current
+colleague's assignment decision from current shared work and availability.
+Refusal, no response, the wrong person, or family/household status without
+shared current work leaves schedule and work history unchanged.
+
+### PRODUCERS-003 — Preparation and feedback use actual knowledge
+
+Prepared facts, follow-ups and response options are derived only from saved
+knowledge records belonging to the assigned adviser after the work item is
+ready. Unknown, other-person and future knowledge is rejected. Feedback cannot
+exist before the story's actual publication; its producer records the assigned
+adviser's media knowledge and derives a fallible interpretation from that
+publication and the confirmed answer. The caller supplies none of this NPC
+wording, and no poll or automatic effect is created.
+
+### PRODUCERS-004 — The normal loop reaches the one publication path and survives reload
+
+The production-world proof follows request → reporter consent → adviser consent
+→ arrangement → assigned work → preparation → condensed written answer → exact
+confirmation → completion → existing publication writer → digest/typed person
+link → correction → actual-adviser feedback → save/reload. Condensed play carries
+no refusal or penalty, and the digest/correction identities survive unchanged.
+
+### NEWS-N1 — Unknown screen locality fails closed
+
+A room with unknown jurisdiction receives only an unlocated publication. It
+does not omit the jurisdiction filter and select a newer publication from an
+unrelated jurisdiction. Projection remains read-only.

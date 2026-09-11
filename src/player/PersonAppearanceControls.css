@@ -1,0 +1,50 @@
+.person-appearance-controls {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+.person-appearance-controls fieldset {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  gap: 0.8rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0.8rem;
+}
+.person-appearance-controls label {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+}
+.person-appearance-controls select {
+  width: 100%;
+  min-width: 0;
+  padding: 0.45rem;
+  font: inherit;
+}
+.person-appearance-controls [role="alert"] {
+  overflow-wrap: anywhere;
+}
+
+/* Developer composition preview contains the viewport-fixed shared backdrop. */
+.people-visual4-scene-preview .scene-backdrop {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 480px;
+  transform: translateZ(0);
+}
+.people-visual4-scene-preview .scene-backdrop-stage,
+.people-visual4-scene-preview .scene-backdrop-people {
+  position: absolute;
+}
+.people-visual4-scene-preview .scene-backdrop-stage {
+  z-index: 0;
+}
+.people-visual4-scene-preview .scene-backdrop .scene-backdrop-content {
+  display: none;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  padding: 0;
+}

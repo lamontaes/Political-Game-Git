@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 
 import { planLifeScenePeople } from "../src/presentation/life-scene-people";
-import { DOMESTIC_CANONICAL_SCENE_ID } from "../src/presentation/scene-registry";
+import {
+  DOMESTIC_CANONICAL_SCENE_ID,
+  SCENE_REGISTRY,
+} from "../src/presentation/scene-registry";
 import { createNewGameWorld } from "../src/presentation/new-game";
 import type { ScenePerson } from "../src/presentation/life-story";
 import type { EntityId, NewGameSetup } from "../src/simulation";
@@ -109,6 +112,18 @@ describe("The generated people stand in the room", () => {
     // Never more people than the room has places, and no anchor used twice.
     const anchors = once.map((p) => p.anchorId);
     expect(new Set(anchors).size).toBe(anchors.length);
-    expect(once.length).toBeLessThanOrEqual(3);
+    expect(once.length).toBe(4);
+    expect(once.length).toBeLessThanOrEqual(
+      SCENE_REGISTRY.scenes.get(DOMESTIC_CANONICAL_SCENE_ID)!.anchors.size,
+    );
   });
+});
+
+it("keeps uncalibrated named presence distinct from real art", () => {
+  const { world } = aWorld();
+  const scene = SCENE_REGISTRY.scenes.get(DOMESTIC_CANONICAL_SCENE_ID)!;
+  expect(scene.floorCalibration).toBeNull();
+  const placed = planLifeScenePeople(world, scenePeople(2), scene.sceneId);
+  expect(placed).toHaveLength(2);
+  expect(placed.every((person) => !person.hasArt)).toBe(true);
 });

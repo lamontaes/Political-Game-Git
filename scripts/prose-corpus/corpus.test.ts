@@ -422,7 +422,10 @@ describe("transcripts", () => {
       "campaign-sessions",
       "election-won",
       "election-lost",
-      "legislative-measure-briefing",
+      // P12: this inherited campaign fixture reaches its first introduction
+      // after the sourced session deadline. Preserve its actual refusal;
+      // valid-window briefing behavior remains covered by the LEG route tests.
+      "legislative-session-unavailable",
     ]) {
       expect(seen).toContain(claim);
     }
@@ -540,16 +543,15 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
   });
 
   it("reports counts that match a live measurement, not a stale run", () => {
-    // The PR body first reported 48,382 literals and 1,904 INVENTORIED. Both
-    // were carried over from a measurement taken before the template-span fix
-    // in scan.ts, and the independent audit's 48,066 / 1,902 were correct.
-    // This pins the reported numbers to what the scanner actually returns.
-    // Re-measured by corpus:prose on the actual OPENING checkpoint composed
-    // with frozen P2R2/P01; these are observed scanner counts, not pin arithmetic.
+    // Re-measured by corpus:prose on this tree, which composes current
+    // accepted main (including PEOPLE-VISUAL4) with the OPENING-LIFE1
+    // checkpoint, using UI144's already-correct anchor union (per C's
+    // RETURN11 disposition on PR #150) rather than either parent's own
+    // smaller ledger. These are observed scanner counts, not pin arithmetic.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(53856);
-    expect(coverage.counts.INVENTORIED).toBe(2115);
-    expect(coverage.scannedFiles).toBe(370);
+    expect(coverage.totalLiterals).toBe(65409);
+    expect(coverage.counts.INVENTORIED).toBe(2107);
+    expect(coverage.scannedFiles).toBe(465);
   });
 });
 

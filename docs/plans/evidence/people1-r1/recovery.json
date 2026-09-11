@@ -1,0 +1,319 @@
+{
+  "source": "/Users/lamontae/Documents/Political-Game-PEOPLE1",
+  "head": "adeb685fc4f2961768eaacb6af5e4ff6257e0ee8",
+  "mergeHead": "1eb0b0d09be40e3e10bedd2a1d9fa301eae47f4b",
+  "untracked": [],
+  "files": [
+    {
+      "path": ".github/workflows/validate.yml",
+      "sha256": "0f5f81cfc092c2850033a7b8b4388c844fbcb42b677ad7c905bc3c126f46eba3"
+    },
+    {
+      "path": "ARCHITECTURE.md",
+      "sha256": "b44aa74dc9c1776a1cae34400169a48986e9170a69dc70b58e0ec8999b860dc8"
+    },
+    {
+      "path": "PATCH_NOTES.md",
+      "sha256": "b0a7973de4f24a330c90addd701eddf2ecd50e5bf665d011c3a9460c95baa069"
+    },
+    {
+      "path": "art/intake/ax-92b1/asset-bank-observed.json",
+      "sha256": "b477d5f482945efd78195ac5a8e52c5bfe101b153341daa02364f7d16f4664f2"
+    },
+    {
+      "path": "art/intake/ax-92b1/asset-bank.json",
+      "sha256": "b3afd557304df96c05f1517326fbc39c016618c7a6869c6232b44e1d329968f3"
+    },
+    {
+      "path": "art/intake/ax-92b1/environment-intake-report.json",
+      "sha256": "eacd4941fb5e1f4076f8f2fc87402a32ceb9b70c6485a90dff194a2bd038caa3"
+    },
+    {
+      "path": "art/intake/environment-batch-ax-92b1.request.json",
+      "sha256": "e937792df1f7f26f4d88979d03789be3a0019aa4f5ee87aec6d54a372b0644b5"
+    },
+    {
+      "path": "art/qa/ax-92b1/README.md",
+      "sha256": "24b113891b8e646a6430ed362b2ffbcdb90e2995a07538e68d82d515871a3766"
+    },
+    {
+      "path": "art/qa/ax-92b1/lifecycle_matrix.json",
+      "sha256": "f2f5a7ffb7c715c839d8a3acefa916b972175a906a2dc92b503ae951971d5879"
+    },
+    {
+      "path": "art/qa/ax-92b1/release-review.html",
+      "sha256": "d4b9a7541faaac544cc6656ca7b8a86a1f3749abd0436b18720ec81ef8fb213b"
+    },
+    {
+      "path": "docs/ARCHITECTURE-INTEGRITY-AUDIT.md",
+      "sha256": "29eb6c1cded0aea3f55b3c3a8aecafcc7da346ad3637d3f727533c26b498dcfc"
+    },
+    {
+      "path": "docs/SYSTEM-DEPENDENCIES.md",
+      "sha256": "21dabd80937dc284a4c32690b09c50f5ca4466afef130ff93039d30a8342d06e"
+    },
+    {
+      "path": "docs/decisions/DECISION-LOG.md",
+      "sha256": "7285184daf8196e0b7855337c5f6db4ef874b40c39dbaabdc0d2fa8b66a69806"
+    },
+    {
+      "path": "docs/plans/completed/pr79-current-main-integration.md",
+      "sha256": "bb3e2104aa1f5fd0580183700b90099c54f46632658b40d057a7be1b410518fc"
+    },
+    {
+      "path": "docs/plans/completed/pr79-post-m3-finalization.md",
+      "sha256": "0973198ac61e6d8850a70d03e09d49c58e83035e617aaa7912480320683fa699"
+    },
+    {
+      "path": "docs/plans/completed/pr79f-real-player-governing-route-integration.md",
+      "sha256": "3b574e6a74301b1118054a410c37bcde84886849c89da1728a357896ed8f8443"
+    },
+    {
+      "path": "docs/plans/completed/pr79l-current-main-landing.md",
+      "sha256": "0b291a3609fda865edb0d65d7556c3c86999c68dac80c7df69a91437c28a08e9"
+    },
+    {
+      "path": "docs/plans/completed/pr79r1-member-authority-repair.md",
+      "sha256": "cf07da75dfe4beb42dd40eade89a433152996fd8c9cedaa960a2dad54cda7e78"
+    },
+    {
+      "path": "docs/plans/completed/pr79r2-chamber-write-and-evidence-repair.md",
+      "sha256": "6b6559f4a13728acdc2adc51f56380f5dec65e87fef602dd62cf7de8d2a409b7"
+    },
+    {
+      "path": "docs/prose-inventory/README.md",
+      "sha256": "a22c341d7b89b1ac909f35e6ce3be61546c3d21e71f904532c7c1980ab6ff4e5"
+    },
+    {
+      "path": "docs/prose-inventory/coverage-candidates.json",
+      "sha256": "7fac00c09f8ee109dccb2dfbe81b8685deb8b05b3588d5c501a9ed07a4489e2e"
+    },
+    {
+      "path": "docs/prose-inventory/coverage-report.md",
+      "sha256": "f9229cc4f2fb34294b49c2a73a56cba019434198d8c5ce82550ff59d7659dada"
+    },
+    {
+      "path": "docs/prose-inventory/grounding-map.md",
+      "sha256": "93de6c36c9e40db84b7a3a72a039fc302e83532d0c00155de9fb55177ef0adbc"
+    },
+    {
+      "path": "docs/prose-inventory/lint-findings.json",
+      "sha256": "2ee5f01a128bca2a737e08d050c4d92a313aba2a6ed57658159e924d4bcb4595"
+    },
+    {
+      "path": "docs/prose-inventory/lint-summary.md",
+      "sha256": "d780d18881fbc1832fe1ae61555be79c515e11ab405685a99708ee9a02dd6d9a"
+    },
+    {
+      "path": "docs/prose-inventory/metrics-baseline.json",
+      "sha256": "ad60a72e89b8740829748e38aa30cc3786788d8754965c149eb98652405e41c3"
+    },
+    {
+      "path": "docs/prose-inventory/prose-inventory.csv",
+      "sha256": "b436a2c1babd618f022beb9e6a1f72d7dcba0310c33d93737b716cda48ad83f3"
+    },
+    {
+      "path": "docs/prose-inventory/prose-inventory.json",
+      "sha256": "38ddd9747e0f595fcedb44a50b7534f105e072b67d8f093b28bc6a021eb72a73"
+    },
+    {
+      "path": "docs/prose-inventory/review-packet.html",
+      "sha256": "f1d50a109ec3ccdda3ba58fc538ef95d886765acd0f883655b0b81bb7642c9ef"
+    },
+    {
+      "path": "docs/systems/legislative-politics.md",
+      "sha256": "7ac62a5014a2c3c03b51fab12c1f32dd622917b21c40b12d4014970b0e8b0e18"
+    },
+    {
+      "path": "scripts/art-asset-factory/ax-92b1-park-press-intake.test.ts",
+      "sha256": "f64949f1aaabe9fcbc0cb4cd5f2158a00f84e1bdac1566ca7e0927a6a94a2054"
+    },
+    {
+      "path": "scripts/prose-corpus/computed-anchor-baseline.json",
+      "sha256": "6b461eb5a45c2a2bd490101a9724decdd9cb0588a00e285d5e2064eb17abb1c5"
+    },
+    {
+      "path": "scripts/prose-corpus/computed-anchor-ledger.json",
+      "sha256": "d5dab44b258ed57414b77a0309d9ef548a5d2d37f3890a062ba510dad7e5eef0"
+    },
+    {
+      "path": "scripts/prose-corpus/computed-anchors.json",
+      "sha256": "678b953e193ee22fd11df6985f949626bbbdd053bdd75dff6ad8afe918907399"
+    },
+    {
+      "path": "scripts/prose-corpus/corpus.test.ts",
+      "sha256": "c195125f219c46835150e459da23ad188ad4a789bdc161ddd13b4b3322f870cc"
+    },
+    {
+      "path": "src/App.tsx",
+      "sha256": "32a9a3577b4b140785594008c276adbf99f19c389c84a4f7bc839a18b4b3d700"
+    },
+    {
+      "path": "src/player/MeasureFloorSurface.tsx",
+      "sha256": "ff33efe771827272fda35d3d9bcc8f58a542f80db62b921349c25922ec971c8a"
+    },
+    {
+      "path": "src/player/MeasureFloorView.tsx",
+      "sha256": "0e1eec2dd59db1db01b7da7ab34dd05de8fb9fd380d5cb02fe8d4b83487477ac"
+    },
+    {
+      "path": "src/player/MeasurePaperWorkspace.tsx",
+      "sha256": "197549705634ff42bcf966f6067749e517c8ebc075457f41d3e218431faefd29"
+    },
+    {
+      "path": "src/player/OfficeScene.tsx",
+      "sha256": "36d596fb968c880fa26f3ef363512e673054de315b59796fc394900222ef045c"
+    },
+    {
+      "path": "src/player/PlayerGame.tsx",
+      "sha256": "950ba04d793282bb3353195cbeec9e5f4327e75f132199de1cb9992d4dcc6561"
+    },
+    {
+      "path": "src/player/player.css",
+      "sha256": "0ee239e02a4992ac2723450711e598e31f3091f608a356bd17bbb9056664f0ee"
+    },
+    {
+      "path": "src/presentation/conversation-consequences.ts",
+      "sha256": "3605d9d3bc2abc6788f09eb4e18c56a5ae8839d3a44108a23fdf9d1b0b6ac153"
+    },
+    {
+      "path": "src/presentation/conversation-subjects.ts",
+      "sha256": "ef72bec953208af1da052a50590a3274dc5af3dfa43ab944b2fbe16d5ad6979c"
+    },
+    {
+      "path": "src/presentation/legislative-action-authority.test.ts",
+      "sha256": "ff0e4cfbc9aebce5935a5c092fafc7a74a7ddecb40dad6e0c33dae6217a83461"
+    },
+    {
+      "path": "src/presentation/legislative-bargaining-actions.ts",
+      "sha256": "510c9e1c5e1bb3f2c1da650f3d14822956ac157255f6ee7b2f32a39e3feab198"
+    },
+    {
+      "path": "src/presentation/legislative-bargaining-brief.ts",
+      "sha256": "d86184eb3ab283dc2d69e201ab7749048f04e4a0f648b9d7ab1141f2a52006be"
+    },
+    {
+      "path": "src/presentation/legislative-bargaining-fixture.ts",
+      "sha256": "977fd4ce6aa29145975d44011d20d3d693133b4da0073019438c80f2a29e16fd"
+    },
+    {
+      "path": "src/presentation/legislative-bargaining-no-fixture.test.ts",
+      "sha256": "d3d4119f1a20c0c2a9d0bedf886e958410f6083506954414ae2b19099e568487"
+    },
+    {
+      "path": "src/presentation/legislative-bargaining-world.test.ts",
+      "sha256": "6032cc148e0ad51548c16a015022663945a8951bcf8377df582999d9ee79b6cf"
+    },
+    {
+      "path": "src/presentation/legislative-bargaining-world.ts",
+      "sha256": "989807e8ef0705b2e6ecf780b736f00bc76ccfdb257e42d58d54454acddf97ae"
+    },
+    {
+      "path": "src/presentation/legislative-bargaining.test.ts",
+      "sha256": "8c5725d4ca3c3673de1b69cbdb9883f909b9312990c747f7bd3cf628c34ba490"
+    },
+    {
+      "path": "src/presentation/legislative-bargaining.ts",
+      "sha256": "a0f6a0848d1a43c4b1eb050e013c97f00f8eb37180b63d50981eb1bec15aebb8"
+    },
+    {
+      "path": "src/presentation/legislative-commitment-standing.test.ts",
+      "sha256": "7725eff160a8309f1cee36677fa83e03a8e27a95556aa164b4ad9fb1dfbe0002"
+    },
+    {
+      "path": "src/presentation/legislative-dialogue-motifs.ts",
+      "sha256": "c301be8faf9f046463238da4b00d3d1fb16a578237b157b46370f1df82a2ea18"
+    },
+    {
+      "path": "src/presentation/legislative-member-seat.test.ts",
+      "sha256": "b1311d5d1302ce3e478d0d3c976ea78c7659b83b7bbfb393685e7210825def37"
+    },
+    {
+      "path": "src/presentation/legislative-member-seat.ts",
+      "sha256": "21964d78a10326d057134839298488dd0197cdb7c498031f3178f0f1cba94d8f"
+    },
+    {
+      "path": "src/presentation/prior-work-evidence.test.ts",
+      "sha256": "4756965b336af36811ae84435820a10f1dd6418ec27d6a0e9ff4a439906ddb58"
+    },
+    {
+      "path": "src/presentation/prior-work-evidence.ts",
+      "sha256": "53405f2dff320f9cb17357e5fd9772e04b4e59be69cdb5186a46ef54e37a208c"
+    },
+    {
+      "path": "src/presentation/run-a-fixture.ts",
+      "sha256": "9c951e4e0646765e4302de1ba2212527fb366cc71ec9480028805b4a313393e7"
+    },
+    {
+      "path": "src/presentation/run-a-projection.ts",
+      "sha256": "6132af3abe1ccb3369f8a941021ad5cade44d26f7a0dc72f1fbd01ae8dfdc8e3"
+    },
+    {
+      "path": "src/presentation/run-b-conversation-progress.ts",
+      "sha256": "4595e27d348811cb17661caa0f52d58422868a9de4193bac1f9ea7f60f64a56c"
+    },
+    {
+      "path": "src/presentation/run-b-conversation.ts",
+      "sha256": "5d5d937d56aa05d74d7f6d2684274afcccfc5e9282aa6e4085574a431f6292ea"
+    },
+    {
+      "path": "src/simulation/decisions.ts",
+      "sha256": "45013b658a0eb8db4d3ba3d4be43af6a750279221776f5d01b6ff8d7a653626a"
+    },
+    {
+      "path": "src/simulation/index.ts",
+      "sha256": "e125bb1fd09bb52ed86a8bbccb0cbbb0d12b1c37847fcecce0ee05a8de1b624e"
+    },
+    {
+      "path": "src/simulation/legislative-member-decisions.ts",
+      "sha256": "93794d2d3b6c702e0327ad0852842a88d03138b76fa54a9928130c18909237fc"
+    },
+    {
+      "path": "src/simulation/legislative-politics-integrity.ts",
+      "sha256": "ca6c48de2172ce5e5513cca1877cbcc34e9f6a52de998aa2b021e3baae133161"
+    },
+    {
+      "path": "src/simulation/legislative-politics.ts",
+      "sha256": "70f3fa1209bcb83d3a9667750eb9c0ceee48b1c375b48cc631c5bb09854a7dba"
+    },
+    {
+      "path": "src/simulation/mind-integrity.ts",
+      "sha256": "50ab058c01ed87b021bebee7e1d70fd55db9df346f04def75eadfff4f3730aa6"
+    },
+    {
+      "path": "src/simulation/types.ts",
+      "sha256": "c470e06b09d06f3aaf2c2e5c1ae23cc1ca733a90b6afc42701327748237eba0b"
+    },
+    {
+      "path": "src/simulation/world.ts",
+      "sha256": "bc58476d64d687de8fbf21613abd053b9ec53572f74fbcea843013be22b1c4fe"
+    },
+    {
+      "path": "tests/e2e/legislative-bargaining.spec.ts",
+      "sha256": "bb59dd479c7cc75eb3e6eab48762fc5bd9d4b987630b9989cd7bdc14f41c2d5f"
+    },
+    {
+      "path": "tests/e2e/pr79-integration.spec.ts",
+      "sha256": "e5a182453c87f0e35df2a4447e1f4781ed51240d14f3e383e1dcd22986c2057f"
+    },
+    {
+      "path": "tests/e2e/pr79f-production-floor.spec.ts",
+      "sha256": "454101541c9fe133419c42dbe09cf69017477326aec205e8b9fd34b9fadb0677"
+    },
+    {
+      "path": "tests/ordinary-conversation-integration.test.ts",
+      "sha256": "12b7fc8965cb5fed21d3ba2dc74daec728d77cfb55b78b2688d1abd49d8118d9"
+    },
+    {
+      "path": "tests/support/ordinary-conversation-replay.ts",
+      "sha256": "a372a6ac14911b8cb5bf2bf8cffb2e958a0152e3003ae10c671ca7f3648dcc9c"
+    }
+  ],
+  "recipient": "/private/tmp/pg-people1-r1",
+  "recipientBranch": "codex/people1-r1-transfer",
+  "remoteHead": "adeb685fc4f2961768eaacb6af5e4ff6257e0ee8",
+  "recoveryStorage": "/private/tmp/people1-r1-recovery",
+  "noSourceProcessCwdObserved": true,
+  "sourceStableOnRecheck": true,
+  "replay": "Ordinary merge of exact MERGE_HEAD reproduced 70 nonconflict files byte-for-byte and the same 6 index conflicts. Source working files already contained unpublished resolutions: refreshed corpus (51992 literals / 1914 inventoried / 343 files) and CSS union missing its closing brace. Preserved those resolutions, corrected the missing CSS brace, then regenerated corpus for new R1 code. No untracked files."
+}

@@ -26,6 +26,7 @@ import {
 } from "../../core/index";
 import type { Claim, Evidence, ParseDefect, Sourced } from "../../core/index";
 import { matrixField } from "./parse";
+import type { QualificationMatrixSchema } from "./parse";
 import type { DelimitedRow } from "../../core/index";
 import type {
   CitedAuthority,
@@ -35,16 +36,28 @@ import type {
   QualificationField,
   QualificationRecord,
 } from "./types";
+import { unknownTransportValidity } from "./temporal";
 
-const OFFICE_FAMILIES: readonly OfficeFamily[] = [
-  "GOVERNOR",
-  "LIEUTENANT_GOVERNOR",
-  "ATTORNEY_GENERAL",
-  "SECRETARY_OF_STATE",
-  "UPPER_CHAMBER",
-  "LOWER_CHAMBER",
-  "UNICAMERAL_CHAMBER",
-];
+/**
+ * The office names the two batches use, mapped onto this domain's vocabulary.
+ *
+ * Declared rather than derived. 31C writes `LOWER_CHAMBER` and 31D writes
+ * `lower_legislator` for the same institution, and upper-casing one into the
+ * other would silently accept any name a future batch happened to invent.
+ */
+const OFFICE_FAMILY_BY_MATRIX_NAME: Readonly<Record<string, OfficeFamily>> = {
+  GOVERNOR: "GOVERNOR",
+  LIEUTENANT_GOVERNOR: "LIEUTENANT_GOVERNOR",
+  LT_GOVERNOR: "LIEUTENANT_GOVERNOR",
+  ATTORNEY_GENERAL: "ATTORNEY_GENERAL",
+  SECRETARY_OF_STATE: "SECRETARY_OF_STATE",
+  UPPER_CHAMBER: "UPPER_CHAMBER",
+  UPPER_LEGISLATOR: "UPPER_CHAMBER",
+  LOWER_CHAMBER: "LOWER_CHAMBER",
+  LOWER_LEGISLATOR: "LOWER_CHAMBER",
+  UNICAMERAL_CHAMBER: "UNICAMERAL_CHAMBER",
+  NEBRASKA_UNICAMERAL: "UNICAMERAL_CHAMBER",
+};
 
 /** 31F's field names, mapped onto this domain's vocabulary. */
 const FIELD_BY_MATRIX_NAME: Readonly<Record<string, QualificationField>> = {
@@ -82,17 +95,29 @@ function requirementValue(raw: string): string | number {
   return raw.trim();
 }
 
-function authorityFrom(row: DelimitedRow): CitedAuthority {
+function authorityFrom(
+  row: DelimitedRow,
+  schema: QualificationMatrixSchema,
+): CitedAuthority {
+  const rawDerivation = matrixField(row, "direct_derived", schema);
   const derivation =
-    matrixField(row, "direct_derived") === "DERIVED" ? "DERIVED" : "DIRECT";
+    rawDerivation === "DERIVED" || rawDerivation === "HISTORICAL"
+      ? rawDerivation
+      : "DIRECT";
   return {
-    authorityType: matrixField(row, "authority_type"),
-    legalLocator: matrixField(row, "legal_locator"),
-    authorityUrl: matrixField(row, "authority_url"),
-    effectiveDate: matrixField(row, "effective_date"),
+    authorityType: matrixField(row, "authority_type", schema),
+    legalLocator: matrixField(row, "legal_locator", schema),
+    authorityUrl: matrixField(row, "authority_url", schema),
+    researchReportedEffectiveDate: matrixField(row, "effective_date", schema),
+    provisionValidity: unknownTransportValidity(
+      "The staged research transport does not establish provision-specific temporal applicability.",
+    ),
+    sourceRetrievedAt: null,
+    sourceStatedVintage: null,
     derivation,
-    derivationChain: null,
-    paraphrase: matrixField(row, "paraphrase"),
+    derivationChain: matrixField(row, "derivation_chain", schema) || null,
+    paraphrase: matrixField(row, "paraphrase", schema),
+    notes: matrixField(row, "notes", schema) || null,
   };
 }
 
@@ -110,25 +135,22 @@ export function readRequirement(
   authority: CitedAuthority,
   corpusAsOf: string,
 ): Sourced<string | number> {
-  /*
-   * A requirement with no effective date cannot be KNOWN.
-   *
-   * Every one of these rules took effect on some day and some of them have
-   * changed since; a value with no date cannot be applied to a moment, and
-   * dating it from the compile would be inventing the fact that matters most.
-   * So it stays unresolved and the validator reports the missing date.
-   */
-  const datable = /^\d{4}-\d{2}-\d{2}$/.test(authority.effectiveDate);
+  // The transport date is validated as transport, never used as `Sourced.asOf`.
+  const researchDateIsDated = /^\d{4}-\d{2}-\d{2}$/.test(
+    authority.researchReportedEffectiveDate,
+  );
+
+  if (authority.derivation === "HISTORICAL") {
+    return unknown(
+      `The source row is historical context, not a current qualification: ${authority.paraphrase}`,
+      [evidence],
+    );
+  }
 
   switch (status) {
     case "KNOWN":
-      return datable
-        ? known(
-            requirementValue(rawValue),
-            [evidence],
-            "FINAL",
-            authority.effectiveDate,
-          )
+      return researchDateIsDated
+        ? known(requirementValue(rawValue), [evidence], "FINAL", corpusAsOf)
         : unknown(
             `The research states "${rawValue}" but supplies no effective date, so the requirement cannot be placed in time.`,
             [evidence],
@@ -148,11 +170,11 @@ export function readRequirement(
       );
     case "CREATED_NOT_YET_OPERATIVE":
     case "NOT_YET_OPERATIVE":
-      return datable
+      return researchDateIsDated
         ? notYetOperative(
             requirementValue(rawValue),
             [evidence],
-            authority.effectiveDate,
+            authority.researchReportedEffectiveDate,
             corpusAsOf,
           )
         : unknown(
@@ -179,17 +201,20 @@ export function normalizeQualifications(
   rows: readonly DelimitedRow[],
   artifactId: string,
   corpusAsOf: string,
+  schema: QualificationMatrixSchema,
 ): QualificationNormalizeResult {
   const records: QualificationRecord[] = [];
   const defects: ParseDefect[] = [];
 
   for (const row of rows) {
-    const stateUsps = matrixField(row, "state").toUpperCase();
-    const officeRaw = matrixField(row, "office_family").toUpperCase();
-    const fieldName = matrixField(row, "fact_field");
-    const status = matrixField(row, "status");
-    const value = matrixField(row, "value");
-    const reviewRequired = matrixField(row, "review_required") === "true";
+    const read = (name: Parameters<typeof matrixField>[1]) =>
+      matrixField(row, name, schema);
+    const stateUsps = read("state").toUpperCase();
+    const officeRaw = read("office_family").toUpperCase();
+    const fieldName = read("fact_field");
+    const status = read("status");
+    const value = read("value");
+    const reviewRequired = read("review_required") === "true";
 
     if (!/^[A-Z]{2}$/.test(stateUsps)) {
       defects.push({
@@ -199,7 +224,7 @@ export function normalizeQualifications(
       });
       continue;
     }
-    const officeFamily = OFFICE_FAMILIES.find((family) => family === officeRaw);
+    const officeFamily = OFFICE_FAMILY_BY_MATRIX_NAME[officeRaw];
     if (!officeFamily) {
       defects.push({
         kind: "unparsable-record",
@@ -209,7 +234,7 @@ export function normalizeQualifications(
       continue;
     }
 
-    const authority = authorityFrom(row);
+    const authority = authorityFrom(row, schema);
     const evidence: Evidence = {
       artifactId,
       locator: {
@@ -222,7 +247,7 @@ export function normalizeQualifications(
 
     if (EXISTENCE_FIELD_NAMES.has(fieldName)) {
       const datedExistence = /^\d{4}-\d{2}-\d{2}$/.test(
-        authority.effectiveDate,
+        authority.researchReportedEffectiveDate,
       );
       const exists: Sourced<boolean> = !datedExistence
         ? unknown(
@@ -230,22 +255,17 @@ export function normalizeQualifications(
             [evidence],
           )
         : status === "OFFICE_DOES_NOT_EXIST"
-          ? known(false, [evidence], "FINAL", authority.effectiveDate)
+          ? known(false, [evidence], "FINAL", corpusAsOf)
           : status === "CREATED_NOT_YET_OPERATIVE" ||
               status === "NOT_YET_OPERATIVE"
             ? notYetOperative(
                 true,
                 [evidence],
-                authority.effectiveDate,
+                authority.researchReportedEffectiveDate,
                 corpusAsOf,
               )
             : status === "KNOWN"
-              ? known(
-                  value !== "false",
-                  [evidence],
-                  "FINAL",
-                  authority.effectiveDate,
-                )
+              ? known(value !== "false", [evidence], "FINAL", corpusAsOf)
               : unknown(
                   `The research recorded office existence as "${status}".`,
                   [evidence],

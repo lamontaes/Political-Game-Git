@@ -7675,6 +7675,23 @@
   }
 }
 
+/*
+ * The review floor line.
+ *
+ * A candidate body is placed by putting its own MEASURED sole on this line, so
+ * the line has to be visible: a reviewer looking at whether a figure stands on
+ * the ground needs to see the ground it was placed against. It is a review
+ * constant, not a calibrated scene floor, and it is drawn as a hairline rather
+ * than as scenery so nobody mistakes it for one.
+ */
+.candidate-review-floor-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-top: 1px dashed rgb(40 40 40 / 45%);
+}
+
 /* ------------------------------------------------------------------------- */
 /* The members' room, reached from normal play (79F).                        */
 /* The production floor sits over the life shell while it is open, the same  */
@@ -7698,4 +7715,79 @@
 
 .production-floor-layer .measure-floor {
   min-height: 100vh;
+}
+
+/* NEWS-HELP2 feature-local digest. UI-core chooses where this panel lives. */
+.public-information-panel {
+  position: relative;
+  width: min(42rem, calc(100vw - 2rem));
+  max-height: min(46rem, calc(100vh - 2rem));
+  padding: 1rem;
+  overflow: auto;
+  color: var(--run-a-ink);
+}
+
+.public-information-header,
+.public-information-article > header,
+.public-information-help > header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.public-information-kicker,
+.public-information-article header p {
+  margin: 0;
+  color: var(--run-a-muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+}
+
+.public-information-editions,
+.public-information-corrections ol {
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.public-information-article {
+  padding: 1rem 0;
+  border-top: 1px solid var(--run-a-line);
+}
+
+.public-information-references,
+.public-information-people {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.public-information-references button,
+.public-information-people button {
+  min-height: 2.75rem;
+  padding: 0.45rem 0.7rem;
+}
+
+.public-information-help {
+  position: sticky;
+  bottom: 0;
+  margin-top: 1rem;
+  padding: 0.9rem;
+  border: 1px solid var(--run-a-gold);
+  border-radius: 0.7rem;
+  background: #161a22;
+  box-shadow: 0 0.8rem 2rem rgb(0 0 0 / 35%);
+}
+
+.public-information-help-note {
+  color: var(--run-a-muted);
+  font-size: 0.82rem;
+}
+
+.public-information-panel button:focus-visible,
+.public-information-panel summary:focus-visible {
+  outline: 3px solid var(--run-a-focus);
+  outline-offset: 2px;
 }
