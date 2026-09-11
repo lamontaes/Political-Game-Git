@@ -68,6 +68,7 @@ import {
   withCreatorLocation,
   type CreatorLocationDraft,
 } from "../presentation/creator-location";
+import { placeStartFacts } from "../presentation/place-start-summary";
 import {
   openOrdinaryLife,
   passOrdinaryDays,
@@ -1215,6 +1216,17 @@ function SetupScreen({
                     : "County-wide start; a specific town is not selected."}
                 </p>
               ) : null}
+              {placeStartFacts(place)
+                .filter((fact) => fact.kind !== "name")
+                .map((fact) => (
+                  <p key={`${fact.kind}:${fact.text}`} className="game-hint">
+                    {fact.kind === "county"
+                      ? fact.asOf
+                        ? `${fact.text} · ${fact.asOf.slice(0, 4)}`
+                        : fact.text
+                      : fact.text}
+                  </p>
+                ))}
               <button
                 type="button"
                 className="game-creator-next"
