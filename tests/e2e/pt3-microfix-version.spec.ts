@@ -1,6 +1,11 @@
 import { expect, test, type Page } from "./fixtures";
 
-import { enterLife, openCreator, startLife } from "./support/creator";
+import {
+  chooseStateThenTown,
+  enterLife,
+  openCreator,
+  startLife,
+} from "./support/creator";
 
 async function freshBrowser(page: Page) {
   await page.goto("/");
@@ -71,12 +76,7 @@ for (const viewport of [
 
     await page.getByTestId("start-normal").click();
     await page.getByTestId("creator-continue-character").click();
-    await page.getByTestId("place-search").fill("Kentucky");
-    await page
-      .getByTestId("place-choices")
-      .getByRole("button", { name: /Kentucky/i })
-      .first()
-      .click();
+    await chooseStateThenTown(page, "Kentucky", "Lexingto", /Lexington/i);
     await page.getByTestId("creator-continue-place").click();
     await page.getByTestId("whoareyou-answer").click();
     await page.getByTestId("begin").click();

@@ -238,7 +238,10 @@ test.describe("The page says whose life this is", () => {
     await expectNoDestination(page, "keep-world");
     await page.reload();
     await page.getByTestId("continue").click();
-    // A loaded save has been introduced already, so it opens on the moment.
+    // A loaded save has been introduced already, so it opens on the room's
+    // scene; the continuing life, where the name is read, is one step in.
+    await expect(page.getByTestId("opening-life-scene")).toBeVisible();
+    await enterLife(page);
     await expect(who).toHaveText(named);
   });
 });

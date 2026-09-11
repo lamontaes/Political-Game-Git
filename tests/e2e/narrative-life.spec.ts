@@ -170,8 +170,9 @@ test.describe("Setting up a life reads like a game, not a form", () => {
     ]) {
       await expect(page.getByTestId(later)).toHaveCount(0);
     }
-    // And Begin is not a thing you can press before you have decided anything.
-    await expect(page.getByTestId("begin")).toBeDisabled();
+    // And Begin is not a thing you can press before you have decided anything
+    // — PT3-03 goes further and does not show it until the stage it belongs to.
+    await expect(page.getByTestId("begin")).toHaveCount(0);
 
     await page.getByTestId("start-normal").click();
     await expect(page.getByTestId("creator-stage-character")).toBeVisible();

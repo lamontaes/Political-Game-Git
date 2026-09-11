@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "./fixtures";
 
-import { openCreator } from "./support/creator";
+import { chooseStateThenTown, openCreator } from "./support/creator";
 
 async function freshBrowser(page: Page) {
   await page.goto("/");
@@ -30,12 +30,7 @@ async function reachPlaceSearch(page: Page) {
 }
 
 async function chooseKentucky(page: Page) {
-  await page.getByTestId("place-search").fill("Kentucky");
-  await page
-    .getByTestId("place-choices")
-    .getByRole("button", { name: /Kentucky/i })
-    .first()
-    .click();
+  await chooseStateThenTown(page, "Kentucky", "Lexingto", /Lexington/i);
 }
 
 async function expectFooterInsideViewport(
@@ -97,7 +92,14 @@ test("bounds long search results and preserves Back/edit with keyboard", async (
   await reachPlaceSearch(page);
   await page.getByTestId("start-age").fill("22");
   await page.getByTestId("creator-continue-character").click();
-  await page.getByTestId("place-search").fill("Springfield");
+  /*
+   * A long result list inside one state. The composed creator searches within
+   * a chosen state, where "Springfield" is one or two rows; a short query in a
+   * large state is the long list this check is about.
+   */
+  await page.getByTestId("state-search").fill("Texas");
+  await page.getByTestId("state-TX").click();
+  await page.getByTestId("place-search").fill("a");
 
   const choices = page.getByTestId("place-choices");
   await expect(choices.getByRole("button").first()).toBeVisible();
@@ -114,10 +116,7 @@ test("bounds long search results and preserves Back/edit with keyboard", async (
     ),
   ).toBeLessThanOrEqual(1);
 
-  await choices
-    .getByRole("button", { name: /Springfield, Illinois/i })
-    .first()
-    .click();
+  await choices.getByRole("button").first().click();
   await expect(page.getByTestId("creator-continue-place")).toBeVisible();
   await expectFooterInsideViewport(page, viewport);
 

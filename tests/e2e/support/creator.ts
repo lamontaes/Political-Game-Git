@@ -329,3 +329,30 @@ export async function saveLife(page: Page): Promise<void> {
   await expect(keep).toHaveCount(0);
   await expect(page.getByTestId("save-world")).toBeEnabled();
 }
+
+/**
+ * The composed creator's place step, spelled out: a state, then a town in it.
+ *
+ * The microfix specs were written against UI144's single national search; on
+ * the composed creator (PT3-CREATOR B) a place is chosen state-first, so they
+ * reach the same "a place is chosen" state through this rather than typing a
+ * state name into the town search.
+ */
+export async function chooseStateThenTown(
+  page: Page,
+  stateName: string,
+  townQuery: string,
+  town: RegExp,
+): Promise<void> {
+  const state = namedState(stateName);
+  if (!state) throw new Error(`No canonical state named ${stateName}.`);
+  await page.getByTestId("state-search").fill(state.name);
+  await page.getByTestId(`state-${state.usps}`).click();
+  await page.getByTestId("place-search").fill(townQuery);
+  await page
+    .getByTestId("place-choices")
+    .getByRole("button")
+    .filter({ hasText: town })
+    .first()
+    .click();
+}

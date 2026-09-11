@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "./fixtures";
 
-import { openCreator } from "./support/creator";
+import { chooseStateThenTown, openCreator } from "./support/creator";
 
 async function freshBrowser(page: Page) {
   await page.goto("/");
@@ -37,12 +37,7 @@ test("keeps the canonical place without formal or capability clutter", async ({
   await freshBrowser(page);
   await reachPlaceSearch(page);
 
-  await page.getByTestId("place-search").fill("lex");
-  await page
-    .getByTestId("place-choices")
-    .getByRole("button", { name: /Lexington, Kentucky/i })
-    .first()
-    .click();
+  await chooseStateThenTown(page, "Kentucky", "lex", /Lexington/i);
 
   const context = page.getByTestId("place-context");
   await expect(context).toContainText("Lexington, Kentucky");
@@ -63,12 +58,7 @@ test("scopes the unavailable message to the legislative staff start", async ({
   await page.getByTestId("start-custom").click();
   await page.getByTestId("creator-continue-character").click();
   await expect(page.getByTestId("creator-stage-place")).toBeVisible();
-  await page.getByTestId("place-search").fill("lex");
-  await page
-    .getByTestId("place-choices")
-    .getByRole("button", { name: /Lexington, Kentucky/i })
-    .first()
-    .click();
+  await chooseStateThenTown(page, "Kentucky", "lex", /Lexington/i);
   await page.getByTestId("creator-continue-place").click();
   await expect(page.getByTestId("creator-stage-background")).toBeVisible();
   const office = page.getByTestId("office-start");

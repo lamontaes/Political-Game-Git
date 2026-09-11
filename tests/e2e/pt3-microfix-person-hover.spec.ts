@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "./fixtures";
 
-import { startLife } from "./support/creator";
+import { chooseStateThenTown, startLife } from "./support/creator";
 
 async function freshBrowser(page: Page) {
   await page.goto("/");
@@ -66,12 +66,7 @@ test("an ordinary creator button keeps the intended green hover", async ({
   await page.getByTestId("new-game").click();
   await page.getByTestId("start-normal").click();
   await page.getByTestId("creator-continue-character").click();
-  await page.getByTestId("place-search").fill("Kentucky");
-  await page
-    .getByTestId("place-choices")
-    .getByRole("button", { name: /Kentucky/i })
-    .first()
-    .click();
+  await chooseStateThenTown(page, "Kentucky", "Lexingto", /Lexington/i);
   await page.getByTestId("creator-continue-place").click();
   await page.getByTestId("whoareyou-play").click();
   const begin = page.getByTestId("begin");
