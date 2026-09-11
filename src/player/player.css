@@ -7220,6 +7220,10 @@
   pointer-events: auto;
 }
 
+.scene-person-token--selectable:hover:not(:disabled) {
+  background: none;
+}
+
 .scene-person-token--selectable:focus-visible {
   outline: 3px solid var(--run-a-focus, #f0c987);
   outline-offset: 4px;
