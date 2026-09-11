@@ -1890,7 +1890,7 @@ export interface PersonnelStep {
 
 export interface PersonnelMatterView {
   readonly id: EntityId;
-  readonly kind: "position" | "action" | "offer";
+  readonly kind: "position" | "vacancy" | "action" | "offer";
   readonly heading: string;
   readonly facts: readonly string[];
   readonly steps: readonly PersonnelStep[];
@@ -1975,7 +1975,75 @@ export function personnelMatters(world: World): readonly PersonnelMatterView[] {
               available: discipline.available,
               reason: discipline.available ? null : discipline.reason,
             },
+            ...(incumbency.tenure === "probationary"
+              ? [
+                  {
+                    key: "complete-probation",
+                    label: "Complete probation",
+                    available: false,
+                    reason: `${personnelProcedure("mn-probation").citation.citation}: the probation length is set by a plan or agreement that is not acquired.`,
+                  },
+                ]
+              : []),
+            {
+              key: "suspend-or-demote",
+              label: "Suspend or demote",
+              available: false,
+              reason:
+                "Suspension and demotion need class, pay and return terms that are not represented.",
+            },
           ],
+    });
+  }
+  // Every vacancy this authority controls, with the one supported route and
+  // the unsupported ones named, rather than silently omitted.
+  for (const job of personnelPositions(world)) {
+    if (!positionIsVacant(world, job.id)) continue;
+    if (
+      !personnelAuthority(world, actor, "appointing-authority", {
+        organizationId: job.organizationId,
+        jurisdictionKey: job.jurisdictionKey,
+      }).ok
+    )
+      continue;
+    const formerPeople = [
+      ...new Set(
+        recordsOf(world, "incumbency")
+          .filter((i) => incumbencyIsActive(world, i) === false)
+          .map((i) => i.personId),
+      ),
+    ];
+    const assessments = formerPeople.map((personId) =>
+      assessMinnesotaReinstatement(world, actor, job.id, personId),
+    );
+    const eligible = assessments.some((a) => a.available);
+    const dated = procedureApplicability("mn-reinstatement", world.currentDate);
+    views.push({
+      id: job.id,
+      kind: "vacancy",
+      heading: `Vacant ${job.title} position`,
+      facts: [
+        `Civil-service class: ${job.civilClass}. Agreement coverage: ${job.agreementCoverage}.`,
+      ],
+      steps: [
+        {
+          key: "competitive-selection",
+          label: "Fill by competitive selection",
+          available: false,
+          reason:
+            "Classified selection needs the commissioner's qualifications, the finalist-pool procedure and pay plans, which are not acquired.",
+        },
+        {
+          key: "reinstatement",
+          label: "Offer direct reinstatement",
+          available: eligible,
+          reason: eligible
+            ? null
+            : dated.state === "UNKNOWN"
+              ? dated.reason
+              : "No former permanent or probationary employee of this job class, within four years of separation, can be offered it.",
+        },
+      ],
     });
   }
   for (const action of actions) {

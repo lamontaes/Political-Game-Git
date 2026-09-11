@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2107 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5668 |
-| DIAGNOSTIC_OR_TEST | 4522 |
-| **NEEDS_CLASSIFICATION** | **5823** |
+| INTENTIONALLY_NON_PLAYER_FACING | 5678 |
+| DIAGNOSTIC_OR_TEST | 4531 |
+| **NEEDS_CLASSIFICATION** | **5844** |
 
-Scanned 497 files holding 67805 string
+Scanned 499 files holding 68016 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -40,7 +40,7 @@ literals in total; the table counts only those that read like a sentence.
 | 214 | `src/simulation/executive-authority-rule-packs.ts` |
 | 199 | `src/simulation/legislation-service-families.ts` |
 | 126 | `src/simulation/legislation.ts` |
-| 106 | `src/simulation/civil-personnel-actions.ts` |
+| 113 | `src/simulation/civil-personnel-actions.ts` |
 | 87 | `src/simulation/policy.ts` |
 | 76 | `src/presentation/legislative-bargaining.ts` |
 | 72 | `src/simulation/life-paths2.ts` |
@@ -143,6 +143,7 @@ literals in total; the table counts only those that read like a sentence.
 | 13 | `src/player/OfficeScene.tsx` |
 | 13 | `src/player/WorkPendingWorkspace.tsx` |
 | 13 | `src/presentation/campaign-compliance-projection.ts` |
+| 13 | `src/simulation/civil-personnel-start.ts` |
 | 13 | `src/simulation/election-contests.ts` |
 | 13 | `src/simulation/life-places.ts` |
 | 13 | `src/simulation/resource-integrity.ts` |
@@ -173,6 +174,7 @@ literals in total; the table counts only those that read like a sentence.
 | 8 | `src/player/PlayerOffice.tsx` |
 | 8 | `src/presentation/legislative-bargaining-world.ts` |
 | 8 | `src/presentation/legislative-office-context.ts` |
+| 8 | `src/presentation/new-game.ts` |
 | 8 | `src/presentation/ordinary-life.ts` |
 | 8 | `src/presentation/player-capabilities.ts` |
 | 8 | `src/simulation/future-transitions.ts` |
@@ -184,7 +186,6 @@ literals in total; the table counts only those that read like a sentence.
 | 7 | `src/player/PublicInformationPanel.tsx` |
 | 7 | `src/player/QuickDossier.tsx` |
 | 7 | `src/presentation/candidate-review.ts` |
-| 7 | `src/presentation/new-game.ts` |
 | 7 | `src/presentation/player-conversation.ts` |
 | 7 | `src/simulation/candidate-qualification.ts` |
 | 7 | `src/simulation/executive-work-entry.ts` |

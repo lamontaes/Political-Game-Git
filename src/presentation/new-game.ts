@@ -1,4 +1,9 @@
 import {
+  initializeStateAgencyStart,
+  stateAgencyStartAvailableFor,
+  STATE_AGENCY_START_MINIMUM_AGE,
+} from "../simulation/civil-personnel-start";
+import {
   defaultPronounsForGender,
   generationInputsFor,
   lifePlaceByKey,
@@ -42,7 +47,8 @@ export type NewGameDepth = "play-formative-years" | "summarize-earlier-life";
  * the office and legislation surfaces exist because the world says the person
  * works there, not because the game has nowhere else to put them.
  */
-export type NewGameStartingLife = "ordinary-life" | "legislative-office";
+export type NewGameStartingLife =
+  "ordinary-life" | "legislative-office" | "state-agency-director";
 
 /**
  * Whether anybody else is at home.
@@ -186,6 +192,18 @@ export function newGameSetupProblems(
       message: `Choose a starting age between ${MINIMUM_START_AGE} and ${MAXIMUM_START_AGE}.`,
     });
   }
+  if (
+    setup.startingLife === "state-agency-director" &&
+    (setup.startKind !== "custom" ||
+      setup.startAge < STATE_AGENCY_START_MINIMUM_AGE ||
+      setup.depth !== "summarize-earlier-life" ||
+      (place && !stateAgencyStartAvailableFor(place.stateJurisdictionKey)))
+  ) {
+    problems.push({
+      field: "startingLife",
+      message: `Directing a state agency requires Custom Start, age ${STATE_AGENCY_START_MINIMUM_AGE} or older, beginning after the early years, and a place in a state whose personnel procedures the game has compiled.`,
+    });
+  }
   if (setup.startingLife === "legislative-office") {
     if (setup.startAge < LEGISLATIVE_OFFICE_MINIMUM_AGE) {
       problems.push({
@@ -296,7 +314,10 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     // answers. The starting role stays as the setup carries it: the normal
     // creator offers no office, so a normal start is already `ordinary-life`,
     // and a life reaches work through play rather than beginning in one.
-    startingLife: setup.startingLife,
+    startingLife:
+      setup.startingLife === "state-agency-director"
+        ? "ordinary-life"
+        : setup.startingLife,
     household: resolvedHousehold(setup),
     depth: resolvedDepth(setup),
     priors,
@@ -306,8 +327,18 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     generation:
       setup.startKind === "custom" ? null : generationInputsFor(priors),
   });
+  // The agency, its authored charter, positions and staff are written once at
+  // Custom Begin by the personnel feature's own initializer.
+  const agency =
+    setup.startingLife === "state-agency-director"
+      ? initializeStateAgencyStart(built.world, {
+          mode: "custom",
+          jurisdictionId: place.context.jurisdiction.id,
+        })
+      : { ok: true as const, world: built.world };
+  if (!agency.ok) throw new Error(agency.reason);
   return {
-    world: built.world,
+    world: agency.world,
     playerPersonId: built.playerPersonId,
     place,
     setup,

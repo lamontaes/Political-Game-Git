@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import type {
   EntityId,
   FutureTransitionHandlerRegistry,
@@ -171,13 +171,38 @@ export function CivilPersonnelPanel({
           </li>
         ))}
       </ul>
-      {matters.length > 0 || vacancies.length > 0 ? (
+      {matters.length > 0 ? (
         <section aria-label="Personnel matters">
           <h3>Personnel matters</h3>
           {matters.map((matter) => (
             <PersonnelMatter
               key={matter.id}
               matter={matter}
+              reinstatement={
+                vacancies.find((v) => v.position.id === matter.id)
+                  ? (() => {
+                      const vacancy = vacancies.find(
+                        (v) => v.position.id === matter.id,
+                      )!;
+                      return (
+                        <ReinstatementForm
+                          title={vacancy.position.title}
+                          candidates={vacancy.candidates}
+                          offer={(personId, probation) =>
+                            apply(
+                              offerMinnesotaReinstatement(world, {
+                                positionId: vacancy.position.id,
+                                personId,
+                                probation,
+                              }),
+                              "The offer was made and answered on receipt. Only an acceptance is an appointment.",
+                            )
+                          }
+                        />
+                      );
+                    })()
+                  : null
+              }
               act={(step, input) => {
                 switch (step.key) {
                   case "informal-resolution":
@@ -214,23 +239,6 @@ export function CivilPersonnelPanel({
               }}
             />
           ))}
-          {vacancies.map((vacancy) => (
-            <ReinstatementForm
-              key={vacancy.position.id}
-              title={vacancy.position.title}
-              candidates={vacancy.candidates}
-              offer={(personId, probation) =>
-                apply(
-                  offerMinnesotaReinstatement(world, {
-                    positionId: vacancy.position.id,
-                    personId,
-                    probation,
-                  }),
-                  "The offer was made and answered on receipt. Only an acceptance is an appointment.",
-                )
-              }
-            />
-          ))}
         </section>
       ) : null}
     </section>
@@ -246,9 +254,12 @@ interface StepInput {
 function PersonnelMatter({
   matter,
   act,
+  reinstatement,
 }: {
   readonly matter: PersonnelMatterView;
   readonly act: (step: PersonnelStep, input: StepInput) => void;
+  /** The supported appointment route, shown only where it is available. */
+  readonly reinstatement: ReactNode;
 }) {
   const grounds = justCauseGrounds();
   const [text, setText] = useState("");
@@ -314,26 +325,30 @@ function PersonnelMatter({
           />
         </label>
       ) : null}
-      {matter.steps.map((step) => (
-        <div key={step.key}>
-          <button
-            type="button"
-            disabled={
-              !step.available ||
-              ((step.key === "informal-resolution" ||
-                step.key === "discipline") &&
-                !text.trim())
-            }
-            onClick={() => {
-              act(step, { text, action, ground });
-              setText("");
-            }}
-          >
-            {step.label}
-          </button>
-          {step.reason ? <p>{step.reason}</p> : null}
-        </div>
-      ))}
+      {matter.steps.map((step) =>
+        step.key === "reinstatement" && step.available ? (
+          <div key={step.key}>{reinstatement}</div>
+        ) : (
+          <div key={step.key}>
+            <button
+              type="button"
+              disabled={
+                !step.available ||
+                ((step.key === "informal-resolution" ||
+                  step.key === "discipline") &&
+                  !text.trim())
+              }
+              onClick={() => {
+                act(step, { text, action, ground });
+                setText("");
+              }}
+            >
+              {step.label}
+            </button>
+            {step.reason ? <p>{step.reason}</p> : null}
+          </div>
+        ),
+      )}
     </article>
   );
 }
@@ -361,8 +376,7 @@ function ReinstatementForm({
     candidates.find((c) => c.personId === chosen) ?? candidates[0]!;
   const personId = candidate.personId;
   return (
-    <article aria-label={`Vacant ${title} position`}>
-      <h4>Vacant {title} position</h4>
+    <div role="group" aria-label={`Direct reinstatement to ${title}`}>
       <p>
         Direct reinstatement is open to former employees of this job class
         within four years of leaving it.
@@ -412,6 +426,6 @@ function ReinstatementForm({
       >
         Offer reinstatement
       </button>
-    </article>
+    </div>
   );
 }
