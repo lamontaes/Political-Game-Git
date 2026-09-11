@@ -11,8 +11,11 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    # Repository validation plus 283 browser tests exceeded the 30-minute job budget.
-    timeout-minutes: 45
+    # Repository validation plus browser proofs exceeded the 30-minute job
+    # budget, then 45 minutes after EDU-PATH7 landed. ENV composition's hosted
+    # run 34625861616 hit 45m during Playwright with repository validation
+    # already green. The proofs still have to finish; this is not a skip.
+    timeout-minutes: 75
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
