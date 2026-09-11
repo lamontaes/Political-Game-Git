@@ -1,0 +1,59 @@
+diff --git a/src/player/PlayerGame.tsx b/src/player/PlayerGame.tsx
+index 17e88842..6051c203 100644
+--- a/src/player/PlayerGame.tsx
++++ b/src/player/PlayerGame.tsx
+@@ -15,6 +15,7 @@ import { resolveActivityVenueScene } from "../presentation/scene-venues";
+ import { publishLegislativeTransition } from "../presentation/publish-legislative-transition";
+ import { PublicInformationPanel } from "./PublicInformationPanel";
+ import { projectPublicInformationPanel } from "../presentation/public-information-adapters";
++import { PlacesWorkspace } from "./PlacesWorkspace";
+ import { LifeStartTransition } from "./LifeStartTransition";
+ import { VenueActivityPanel } from "./VenueActivityPanel";
+ import { completedActivityHere } from "../presentation/scene-venues";
+@@ -1846,6 +1847,13 @@ function PlayingScreen({
+       testid: "nav-personal-entry",
+       open: openSurface === "personal",
+     });
++    entries.push({
++      surface: "places",
++      label: "Places",
++      hint: "Where you are, where you can go, and what you can attend",
++      testid: "nav-places",
++      open: openSurface === "places",
++    });
+     entries.push({
+       surface: "life-scenes",
+       label: "Life scenes",
+@@ -2620,6 +2628,20 @@ function renderWorkspace({
+         municipalSurface(),
+       );
+ 
++    case "places":
++      return frame(
++        "Places",
++        "places-workspace",
++        <PlacesWorkspace
++          world={session.world}
++          personId={session.personId}
++          onOpenEntity={openEntity}
++          onTogglePin={togglePin}
++          onWorldChange={onWorldChange}
++          transitionHandlers={createCampaignElectionTransitionRegistry()}
++        />,
++      );
++
+     case "news":
+       return frame(
+         "News",
+diff --git a/src/presentation/shell-navigation.ts b/src/presentation/shell-navigation.ts
+index 8e437133..cefbafb0 100644
+--- a/src/presentation/shell-navigation.ts
++++ b/src/presentation/shell-navigation.ts
+@@ -59,6 +59,7 @@ export type ShellSurface =
+   | "personal"
+   | "work"
+   | "news"
++  | "places"
+   | "life-scenes"
+   | "municipal"
+   | "journal"
