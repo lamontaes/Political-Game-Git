@@ -1,0 +1,103 @@
+diff --git a/src/presentation/new-game-identity.ts b/src/presentation/new-game-identity.ts
+index b5fd60a4..a8f9dd0a 100644
+--- a/src/presentation/new-game-identity.ts
++++ b/src/presentation/new-game-identity.ts
+@@ -234,7 +234,8 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
+       record.depth !== "summarize-earlier-life") ||
+     (record.startingLife !== "ordinary-life" &&
+       record.startingLife !== "legislative-office" &&
+-      record.startingLife !== "judicial-office-practice") ||
++      record.startingLife !== "judicial-office-practice" &&
++      record.startingLife !== "state-agency-director") ||
+     (record.household !== "lives-alone" &&
+       record.household !== "shares-a-home") ||
+     (record.givenName !== null && typeof record.givenName !== "string") ||
+diff --git a/src/presentation/new-game.ts b/src/presentation/new-game.ts
+index 76764d24..4e42b31a 100644
+--- a/src/presentation/new-game.ts
++++ b/src/presentation/new-game.ts
+@@ -1,4 +1,9 @@
+ import { initializeJudicialOfficePractice } from "../simulation/judicial-office-start";
++import {
++  initializeStateAgencyStart,
++  stateAgencyStartAvailableFor,
++  STATE_AGENCY_START_MINIMUM_AGE,
++} from "../simulation/civil-personnel-start";
+ import {
+   defaultPronounsForGender,
+   generationInputsFor,
+@@ -44,7 +49,10 @@ export type NewGameDepth = "play-formative-years" | "summarize-earlier-life";
+  * works there, not because the game has nowhere else to put them.
+  */
+ export type NewGameStartingLife =
+-  "ordinary-life" | "legislative-office" | "judicial-office-practice";
++  | "ordinary-life"
++  | "legislative-office"
++  | "judicial-office-practice"
++  | "state-agency-director";
+ 
+ /**
+  * Whether anybody else is at home.
+@@ -200,6 +208,18 @@ export function newGameSetupProblems(
+         "Judicial office practice requires Custom Start, age 25 or older, and beginning after the early years.",
+     });
+   }
++  if (
++    setup.startingLife === "state-agency-director" &&
++    (setup.startKind !== "custom" ||
++      setup.startAge < STATE_AGENCY_START_MINIMUM_AGE ||
++      setup.depth !== "summarize-earlier-life" ||
++      (place && !stateAgencyStartAvailableFor(place.stateJurisdictionKey)))
++  ) {
++    problems.push({
++      field: "startingLife",
++      message: `Directing a state agency requires Custom Start, age ${STATE_AGENCY_START_MINIMUM_AGE} or older, beginning after the early years, and a place in a state whose personnel procedures the game has compiled.`,
++    });
++  }
+   if (setup.startingLife === "legislative-office") {
+     if (setup.startAge < LEGISLATIVE_OFFICE_MINIMUM_AGE) {
+       problems.push({
+@@ -313,7 +333,8 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
+     // creator offers no office, so a normal start is already `ordinary-life`,
+     // and a life reaches work through play rather than beginning in one.
+     startingLife:
+-      setup.startingLife === "judicial-office-practice"
++      setup.startingLife === "judicial-office-practice" ||
++      setup.startingLife === "state-agency-director"
+         ? "ordinary-life"
+         : setup.startingLife,
+     household: resolvedHousehold(setup),
+@@ -333,8 +354,18 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
+         })
+       : { ok: true as const, world: built.world };
+   if (!office.ok) throw new Error(office.reason);
++  // The agency, its authored charter, positions and staff are written once at
++  // Custom Begin by the personnel feature's own initializer.
++  const agency =
++    setup.startingLife === "state-agency-director"
++      ? initializeStateAgencyStart(office.world, {
++          mode: "custom",
++          jurisdictionId: place.context.jurisdiction.id,
++        })
++      : { ok: true as const, world: office.world };
++  if (!agency.ok) throw new Error(agency.reason);
+   return {
+-    world: office.world,
++    world: agency.world,
+     playerPersonId: built.playerPersonId,
+     place,
+     setup,
+diff --git a/src/presentation/setup-questionnaire-flow.ts b/src/presentation/setup-questionnaire-flow.ts
+index 1f6a7079..27fe895a 100644
+--- a/src/presentation/setup-questionnaire-flow.ts
++++ b/src/presentation/setup-questionnaire-flow.ts
+@@ -77,7 +77,8 @@ export function lifeContextFor(setup: NewGameSetup): SetupLifeContext {
+   return setupLifeContext({
+     startAge: setup.startAge,
+     startingLife:
+-      setup.startingLife === "judicial-office-practice"
++      setup.startingLife === "judicial-office-practice" ||
++      setup.startingLife === "state-agency-director"
+         ? "ordinary-life"
+         : setup.startingLife,
+     household: setup.household,

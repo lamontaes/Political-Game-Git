@@ -28,7 +28,7 @@ import {
  *   --place <key>            life place key
  *   --age <n>                starting age
  *   --depth play-formative-years|summarize-earlier-life
- *   --starting-life ordinary-life|legislative-office
+ *   --starting-life ordinary-life|legislative-office|state-agency-director
  *   --household lives-alone|shares-a-home
  *   --format markdown|json
  */
@@ -89,9 +89,13 @@ function parseOptions(argv: readonly string[]): Options {
         index += 1;
         break;
       case "--starting-life":
-        if (value !== "ordinary-life" && value !== "legislative-office") {
+        if (
+          value !== "ordinary-life" &&
+          value !== "legislative-office" &&
+          value !== "state-agency-director"
+        ) {
           throw new Error(
-            "--starting-life must be ordinary-life or legislative-office.",
+            "--starting-life must be ordinary-life, legislative-office or state-agency-director.",
           );
         }
         setup = { ...setup, startingLife: value satisfies NewGameStartingLife };

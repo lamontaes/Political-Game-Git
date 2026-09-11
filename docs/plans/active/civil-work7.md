@@ -48,3 +48,6 @@ commands passed. The UI owner published registration and the normal test at
 [handoff](../../handoffs/civil-work7.md) records all unimplemented legal actions
 and dependencies. The full personnel journey remains unaccepted, so this plan
 stays active.
+
+Continued by [CIVIL-AUTHORITY13](civil-authority13.md), which implements the
+supported Minnesota personnel transitions and records the remaining refusals.
