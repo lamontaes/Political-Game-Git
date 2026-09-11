@@ -12,7 +12,7 @@ and RETURN13 backlog item 6. The contract is in
 | Main at entry                           | `95e34ed5779ac76f20acd3da5e537d716931e669`                         |
 | CIVIL-WORK7 merge                       | `9f9ce18c019208d57e75cfcd74fb86db315e879b` (#154)                  |
 | UI owner #144 (mount already present)   | `302e1f0cb3fb6c7d5823c41cf9b5bf87d2bfcac2`                         |
-| Main merged most recently               | `4f265ebb7ea4107bc43c6a6204f0337c227c2843`                         |
+| Main merged most recently               | `b57e5e6c` (#168 DISTRICTS13)                                      |
 | Civil-service corpus digest (unchanged) | `9d63e5a66a1e4dcc9e08311b62c167818f705737779432a25dc17fb67dfd5c1f` |
 
 The completed source audit was not repeated. No lock, raw byte, domain fact or
