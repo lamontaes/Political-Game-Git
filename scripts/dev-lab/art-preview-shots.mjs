@@ -117,7 +117,7 @@ for (const lane of LANES) {
           const rect = img.getBoundingClientRect();
           return `${img.complete && img.naturalWidth > 0 ? "loaded" : "BROKEN"}:${img.naturalWidth}x${img.naturalHeight}->${Math.round(rect.width)}x${Math.round(rect.height)}`;
         });
-        return `${node.getAttribute("data-testid")} art=${node.getAttribute("data-has-art")} box=${Math.round(box.width)}x${Math.round(box.height)}@${Math.round(box.left)},${Math.round(box.top)} refusal=${node.getAttribute("data-art-refusal") || "none"}\n              layers ${images.join(" ") || "(none)"}`;
+        return `${node.getAttribute("data-testid")} art=${node.getAttribute("data-has-art")} box=${Math.round(box.width)}x${Math.round(box.height)}@${Math.round(box.left)},${Math.round(box.top)} refusal=${node.getAttribute("data-art-refusal") || "none"} diagnostics=${node.getAttribute("data-art-diagnostics") || "none"}\n              layers ${images.join(" ") || "(none)"}`;
       }),
     )
     .catch(() => []);

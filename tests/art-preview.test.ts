@@ -9,7 +9,10 @@ import {
   previewArtRefusal,
   previewDatabaseName,
 } from "../src/presentation/art-preview";
-import { planLifeScenePeople } from "../src/presentation/life-scene-people";
+import {
+  fitLayersToBox,
+  planLifeScenePeople,
+} from "../src/presentation/life-scene-people";
 import { resolveLifeScene } from "../src/presentation/life-scene";
 import { resolvePersonPortrait } from "../src/presentation/person-visual";
 import { createNewGameWorld } from "../src/presentation/new-game";
@@ -180,6 +183,63 @@ describe("the preview does not put an adult body on a child", () => {
     expect(refusal).toContain("10");
   });
 
+  /*
+   * The eighteenth birthday itself, from three sides.
+   *
+   * The first version of this guard subtracted calendar years, so somebody
+   * born in December read as an adult from the first of January — nearly a
+   * year of a minor being eligible for an adult body, and the error ran in the
+   * unsafe direction every time. These cases are written against the calendar
+   * rather than against the age helper, so a regression in the helper cannot
+   * pass them by agreeing with itself.
+   */
+  const EIGHTEENTH = [
+    { when: "the day before", date: "2026-12-13", allowed: false },
+    { when: "the day itself", date: "2026-12-14", allowed: true },
+    { when: "the day after", date: "2026-12-15", allowed: true },
+    {
+      when: "ten months early, same calendar year",
+      date: "2026-02-01",
+      allowed: false,
+    },
+    {
+      when: "the first day of the birth year + 18",
+      date: "2026-01-01",
+      allowed: false,
+    },
+  ] as const;
+
+  for (const probe of EIGHTEENTH) {
+    it(`is ${probe.allowed ? "allowed" : "refused"} on ${probe.when}`, () => {
+      const refusal = previewArtRefusal(
+        { id: "person_birthday" as EntityId, birthDate: "2008-12-14" },
+        probe.date,
+      );
+      if (probe.allowed) {
+        expect(refusal).toBeNull();
+      } else {
+        expect(refusal).toContain("no child body");
+      }
+    });
+  }
+
+  it("does not let a leap-day birthday turn seventeen into eighteen early", () => {
+    // Born 29 February 2008. In 2026, a common year, the birthday falls on the
+    // 28th; the 27th is still seventeen and the 28th is eighteen.
+    expect(
+      previewArtRefusal(
+        { id: "person_leap" as EntityId, birthDate: "2008-02-29" },
+        "2026-02-27",
+      ),
+    ).toContain("no child body");
+    expect(
+      previewArtRefusal(
+        { id: "person_leap" as EntityId, birthDate: "2008-02-29" },
+        "2026-02-28",
+      ),
+    ).toBeNull();
+  });
+
   it("refuses rather than guessing when the age is not known", () => {
     expect(
       previewArtRefusal(
@@ -217,6 +277,204 @@ describe("the preview does not put an adult body on a child", () => {
       expect(person.hasArt).toBe(false);
       expect(person.artRefusal ?? "").toContain("candidate-bank");
     }
+  });
+});
+
+describe("the fitted figure is scaled, not stretched", () => {
+  const { world, playerPersonId } = aWorld(34, "art-preview-fit");
+  const sceneId = resolveLifeScene(world, playerPersonId).sceneId;
+  const preview = planLifeScenePeople(
+    world,
+    householdOf(world, playerPersonId),
+    sceneId,
+    undefined,
+    { wardrobeByPersonId: {}, artPreview: PREVIEW },
+  );
+  const drawn = preview.find((person) => person.hasArt);
+
+  it("draws somebody to measure", () => {
+    expect(drawn).toBeDefined();
+    expect(drawn!.layers.length).toBeGreaterThan(1);
+  });
+
+  it("applies one common scale to every layer on both axes", () => {
+    /*
+     * Measured on the transform itself, with a box whose aspect deliberately
+     * disagrees with the figure's. Two independent scales — the version this
+     * replaces — give x and y different multipliers and this fails; one scale
+     * cannot. Checked per layer, so a fit that happened to be uniform for the
+     * bounding box while distorting the pieces inside it is caught too.
+     */
+    const layers = [
+      {
+        url: "a",
+        leftPercent: 10,
+        topPercent: 20,
+        widthPercent: 4,
+        heightPercent: 30,
+      },
+      {
+        url: "b",
+        leftPercent: 11,
+        topPercent: 21,
+        widthPercent: 2,
+        heightPercent: 3,
+      },
+      {
+        url: "c",
+        leftPercent: 12,
+        topPercent: 40,
+        widthPercent: 1,
+        heightPercent: 10,
+      },
+    ];
+    // Union is 4 wide by 30 tall; the box is 20 wide by 60 tall, so a stretched
+    // fit would use 5x horizontally and 2x vertically.
+    const fitted = fitLayersToBox(layers, {
+      leftPercent: 0,
+      topPercent: 0,
+      widthPercent: 20,
+      heightPercent: 60,
+    });
+    const scales = fitted.flatMap((layer, index) => [
+      layer.widthPercent / layers[index]!.widthPercent,
+      layer.heightPercent / layers[index]!.heightPercent,
+    ]);
+    for (const scale of scales) expect(scale).toBeCloseTo(2, 10);
+  });
+
+  it("leaves a figure that already fits exactly where it is", () => {
+    const layers = [
+      {
+        url: "a",
+        leftPercent: 10,
+        topPercent: 20,
+        widthPercent: 4,
+        heightPercent: 30,
+      },
+    ];
+    const fitted = fitLayersToBox(layers, {
+      leftPercent: 10,
+      topPercent: 20,
+      widthPercent: 4,
+      heightPercent: 30,
+    });
+    expect(fitted[0]!.leftPercent).toBeCloseTo(10, 10);
+    expect(fitted[0]!.topPercent).toBeCloseTo(20, 10);
+    expect(fitted[0]!.widthPercent).toBeCloseTo(4, 10);
+    expect(fitted[0]!.heightPercent).toBeCloseTo(30, 10);
+  });
+
+  it("stands the figure on the contact line the anchor declares", () => {
+    // The lowest point of the drawn figure is its floor contact, and it must
+    // land on the bottom of the box the placement reserved rather than
+    // anywhere a corner-anchored rescale would have left it floating.
+    const bottom = Math.max(
+      ...drawn!.layers.map((layer) => layer.topPercent + layer.heightPercent),
+    );
+    const contact = drawn!.topPercent + drawn!.heightPercent;
+    expect(Math.abs(bottom - contact)).toBeLessThan(0.001);
+  });
+
+  it("centres the figure's footprint on the anchor's x", () => {
+    const left = Math.min(...drawn!.layers.map((layer) => layer.leftPercent));
+    const right = Math.max(
+      ...drawn!.layers.map((layer) => layer.leftPercent + layer.widthPercent),
+    );
+    const centre = drawn!.leftPercent + drawn!.widthPercent / 2;
+    expect(Math.abs((left + right) / 2 - centre)).toBeLessThan(0.001);
+  });
+
+  it("fills exactly the height the placement reserved", () => {
+    const top = Math.min(...drawn!.layers.map((layer) => layer.topPercent));
+    const bottom = Math.max(
+      ...drawn!.layers.map((layer) => layer.topPercent + layer.heightPercent),
+    );
+    expect(Math.abs(bottom - top - drawn!.heightPercent)).toBeLessThan(0.001);
+  });
+});
+
+describe("a previewed figure still reports what is wrong with it", () => {
+  it("keeps the compositor's diagnostics on a person who DID draw", () => {
+    const { world, playerPersonId } = aWorld(34, "art-preview-diagnostics");
+    const sceneId = resolveLifeScene(world, playerPersonId).sceneId;
+    const drawn = planLifeScenePeople(
+      world,
+      householdOf(world, playerPersonId),
+      sceneId,
+      undefined,
+      { wardrobeByPersonId: {}, artPreview: PREVIEW },
+    ).find((person) => person.hasArt);
+
+    expect(drawn).toBeDefined();
+    /*
+     * This is the case the first version dropped. Diagnostics were only built
+     * on the way to refusing, so the moment a figure actually drew they went
+     * missing — and a figure composed against a room with no floor calibration
+     * came back looking like an unqualified success. The residence scenes
+     * declare no calibration, so this must say so.
+     */
+    expect(drawn!.artDiagnostics ?? []).toContain(
+      "scene-declares-no-floor-calibration",
+    );
+    // And a drawn person is still not a refusal.
+    expect(drawn!.artRefusal ?? "").toBe("");
+  });
+});
+
+describe("one catalog decides the whole of one person's picture", () => {
+  it("resolves a saved wardrobe against the library that will draw it", () => {
+    const { world, playerPersonId } = aWorld(34, "art-preview-wardrobe-path");
+    const sceneId = resolveLifeScene(world, playerPersonId).sceneId;
+    const household = householdOf(world, playerPersonId);
+    const target = household[0]!;
+
+    /*
+     * The control for the split path. `resolveWardrobe` is handed the same
+     * context the internal resolver gets, so this records which libraries the
+     * caller was told to use. Before the repair the preview switched the
+     * composition to the review catalog and left the wardrobe resolution on
+     * the production one, and nothing observed the disagreement.
+     */
+    const seen: Array<boolean> = [];
+    planLifeScenePeople(world, household, sceneId, undefined, {
+      wardrobeByPersonId: {
+        [target.personId]: {
+          personId: target.personId,
+          outfitId: "does-not-exist",
+        } as never,
+      },
+      artPreview: PREVIEW,
+      resolveWardrobe: (_person, _preference, context) => {
+        seen.push(context.preview?.characters === PREVIEW.characters);
+        throw new Error("probe");
+      },
+    });
+
+    expect(seen.length).toBeGreaterThan(0);
+    expect(seen.every(Boolean)).toBe(true);
+  });
+
+  it("tells a production caller there is no preview", () => {
+    const { world, playerPersonId } = aWorld(34, "art-preview-wardrobe-prod");
+    const sceneId = resolveLifeScene(world, playerPersonId).sceneId;
+    const household = householdOf(world, playerPersonId);
+    const target = household[0]!;
+    const seen: Array<boolean> = [];
+    planLifeScenePeople(world, household, sceneId, undefined, {
+      wardrobeByPersonId: {
+        [target.personId]: {
+          personId: target.personId,
+          outfitId: "does-not-exist",
+        } as never,
+      },
+      resolveWardrobe: (_person, _preference, context) => {
+        seen.push(context.preview === undefined);
+        throw new Error("probe");
+      },
+    });
+    expect(seen.length).toBeGreaterThan(0);
+    expect(seen.every(Boolean)).toBe(true);
   });
 });
 

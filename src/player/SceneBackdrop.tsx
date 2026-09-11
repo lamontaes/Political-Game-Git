@@ -216,6 +216,12 @@ export function SceneBackdrop({
                  * refusal they were looking at. Empty when a picture drew.
                  */
                 data-art-refusal={person.artRefusal ?? ""}
+                /*
+                 * And what is wrong with a person who DID draw. A figure
+                 * composed against an uncalibrated room or with a substituted
+                 * pose is not a clean success, and the DOM said it was.
+                 */
+                data-art-diagnostics={(person.artDiagnostics ?? []).join(" ")}
                 style={
                   {
                     left: `${topLeft.x}px`,

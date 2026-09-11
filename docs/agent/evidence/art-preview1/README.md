@@ -27,6 +27,28 @@ drew the people.
 | `child-preview-off-entry.png`   | the same, preview off                                                                    |
 | `child-preview-off-dossier.png` | the same, refusing with `development-fixture-only`                                       |
 
+## Re-taken after the U1-U4 review findings
+
+These shots are from after four repairs, and two of them are visible in the
+numbers rather than only in the code.
+
+The sibling in the child lane now reads as **13**, not 14. The age guard was
+subtracting calendar years, which is not somebody's age: it made a person an
+adult from the first January after their seventeenth birthday, so a minor was
+eligible for an adult body for up to a year, erring unsafe every time. It now
+uses the World's own `ageOnDate`.
+
+The body layer now renders 285px wide where it rendered 323px before. The fit
+was applying two independent scales, stretching every figure 13% wider than
+its own proportions — so every judgement about whether a body or a garment
+read correctly was being made through a squash. There is one scale now, taken
+from height, anchored on the contact point.
+
+And a drawn figure now reports `diagnostics=scene-declares-no-floor-calibration
+body-declares-no-contacts`. Those were computed only on the way to refusing, so
+the moment a figure actually drew they went missing and a composition with a
+known defect reported an unqualified success.
+
 ## What is good, and what is visibly wrong
 
 Six candidate layers load with real pixels — a 343x960 body, a head, hair and
@@ -36,7 +58,7 @@ same person in the room and in the dossier.
 Two defects are plainly visible in `adult-preview-on-entry.png` and they are
 the reason these pictures exist:
 
-- **She is far too large for the room.** Every residence scene in the registry
+- **She is far too large for the room, and not distorted.** Every residence scene in the registry
   declares no floor calibration and no standard body width. Placement is
   derived from those measurements, so the compositor has nothing to size a body
   against; the preview fits the figure into the box the anchor's own declared

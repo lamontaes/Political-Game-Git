@@ -7,6 +7,7 @@ import {
   CANDIDATE_REVIEW_VISUAL_LIBRARY,
 } from "./visual-integration";
 import { DEFAULT_DATABASE_NAME } from "./browser-world-repository";
+import { ageOnDate, makeIsoDate } from "../simulation/dates";
 
 /**
  * A LOCAL DEVELOPMENT preview of banked candidate art, in the ordinary shell.
@@ -128,9 +129,26 @@ export function previewArtRefusal(
   currentDate: string,
 ): string | null {
   if (!person.birthDate) return "candidate-bank: no birth date to check age";
-  const years =
-    Number(currentDate.slice(0, 4)) - Number(person.birthDate.slice(0, 4));
-  if (!Number.isFinite(years)) {
+  let years: number;
+  try {
+    /*
+     * The canonical age rule, not a second one written here.
+     *
+     * This subtracted calendar years, which is not somebody's age: a person
+     * born in December 2008 read as 18 on the first of January 2026, three
+     * hundred and fifty days before their eighteenth birthday. The guard whose
+     * entire job is keeping an adult body off a minor was letting a
+     * seventeen-year-old through for up to a year, and the error ran in the
+     * unsafe direction every time.
+     *
+     * `ageOnDate` is the World's own rule. It compares the full date and it
+     * already decides what a 29th-of-February birthday does in a common year,
+     * which is exactly the kind of thing a private copy gets wrong quietly.
+     * An unparseable date throws there, and a date this function cannot read
+     * is a refusal rather than a number.
+     */
+    years = ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(currentDate));
+  } catch {
     return "candidate-bank: birth date is not a date";
   }
   if (years < PREVIEW_MINIMUM_AGE) {

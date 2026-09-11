@@ -75,13 +75,27 @@ export function PersonPortrait({
       refusal = error instanceof Error ? error.message : String(error);
     }
   }
+  /*
+   * A shared snapshot belongs to the library that produced it.
+   *
+   * The saved snapshots are derived against the production libraries, and
+   * handing one to a composition against the review catalog is rejected by the
+   * snapshot's own binding check. The old condition dropped it under preview
+   * only as a side effect of `libraries` happening to be set, which is the same
+   * outcome reached by accident — and it would have silently stopped being
+   * true the moment a preview caller passed no libraries. The room states the
+   * rule outright; so does this, so the two surfaces agree for one reason
+   * rather than two coincidences.
+   */
+  const usingReviewLibraries = Boolean(visualLibraries) || Boolean(preview);
   const visual = refusal
     ? { kind: "placeholder" as const, reason: refusal }
     : resolvePersonPortrait(person, {
         libraries,
         wardrobe: resolvedWardrobe,
         snapshot:
-          snapshot ?? (!libraries && !wardrobe ? sharedSnapshot : undefined),
+          snapshot ??
+          (!usingReviewLibraries && !wardrobe ? sharedSnapshot : undefined),
       });
 
   return (

@@ -64,6 +64,8 @@ export interface LifeSceneWardrobeOptions {
     context: {
       readonly scene: RegisteredScene;
       readonly anchor: RegisteredSceneAnchor;
+      /** The same libraries the composition will use, never a different set. */
+      readonly preview?: LifeSceneArtPreview;
     },
   ) => CharacterWardrobeContext;
 }
@@ -124,6 +126,41 @@ export interface PlacedScenePerson {
    * a development diagnostic and never player-facing copy.
    */
   readonly artRefusal?: string;
+  /**
+   * What the compositor objected to, whether or not a picture drew.
+   *
+   * Separate from `artRefusal` because they answer different questions.
+   * A refusal says why there is nothing to look at; these say what is wrong
+   * with what you ARE looking at — a substituted pose, a room with no floor
+   * calibration, a body that declares no contacts. They were being dropped on
+   * exactly the path that matters, the one where a figure drew, so a preview
+   * with a known defect reported a clean success. Empty when the compositor
+   * had nothing to say. Development diagnostics, never player-facing copy.
+   */
+  readonly artDiagnostics?: readonly string[];
+}
+
+/**
+ * One set of libraries for the whole of one person's picture.
+ *
+ * Production or preview, whichever this call is: the pose probe, the wardrobe
+ * resolution and the final composition all read the SAME catalog. They did
+ * not. The composition switched to the review libraries under preview and this
+ * resolver stayed on the production ones, so a saved outfit was resolved
+ * against a catalog that does not contain the garments the figure was about to
+ * be drawn in — a preview whose clothing selection could not hold, for a
+ * reason nothing on screen could have explained.
+ */
+function librariesFor(preview?: LifeSceneArtPreview): {
+  readonly characters: CharacterComponentLibrary;
+  readonly visuals: RuntimeVisualLibrary;
+  readonly poseArt: PoseArtIndex;
+} {
+  return {
+    characters: preview?.characters ?? PRODUCTION_CHARACTER_LIBRARY,
+    visuals: preview?.visuals ?? PRODUCTION_VISUAL_LIBRARY,
+    poseArt: preview?.poseArt ?? PRODUCTION_POSE_ART,
+  };
 }
 
 function resolveSavedWardrobe(
@@ -132,12 +169,15 @@ function resolveSavedWardrobe(
   {
     scene,
     anchor,
+    preview,
   }: {
     readonly scene: RegisteredScene;
     readonly anchor: RegisteredSceneAnchor;
+    readonly preview?: LifeSceneArtPreview;
   },
 ): CharacterWardrobeContext {
   const appearance = person.appearance ?? derivePersonAppearance(person.id);
+  const libraries = librariesFor(preview);
   // Use the compositor's resolved pose, including its permitted-pose fallback.
   const probe = composeSceneCharacter({
     personId: person.id,
@@ -145,35 +185,53 @@ function resolveSavedWardrobe(
     appearance,
     scene,
     anchor,
-    library: PRODUCTION_CHARACTER_LIBRARY,
-    visualLibrary: PRODUCTION_VISUAL_LIBRARY,
+    library: libraries.characters,
+    visualLibrary: libraries.visuals,
     poseRegistry: PRODUCTION_POSE_REGISTRY,
-    poseArt: PRODUCTION_POSE_ART,
+    poseArt: libraries.poseArt,
   });
   return resolvePersonWardrobeContext({ ...person, appearance }, preference, {
-    library: PRODUCTION_CHARACTER_LIBRARY,
+    library: libraries.characters,
     poseFamily: probe.recipe.context.poseFamily,
   });
 }
 
 /**
- * Put a composed figure inside the box the placement already reserved for it.
+ * Scale a composed figure to the height the placement reserved, on its contact
+ * point, without distorting it.
  *
  * DEVELOPMENT PREVIEW ONLY, and only for a room that declares no floor
  * calibration. The compositor sizes a body from the scene's measured standard
  * body width; with no such measurement it falls back to something very small,
- * and the banked art was rendering as a sixteen-pixel person — a defect of the
+ * and the banked art rendered as a sixteen-pixel person — a defect of the
  * scene's missing calibration that made the art itself impossible to look at.
  *
- * This invents no measurement. It reuses the anchor's own declared footprint,
- * which is authored scene data and is already what the placeholder occupies,
- * and maps the layers' union bounding box onto it while preserving every
- * layer's relative position and proportion. It is a review convenience for
- * looking at art, not a placement any production surface may rely on, and the
- * `scene-declares-no-floor-calibration` diagnostic still travels with the
- * person so nobody reads this as a calibrated room.
+ * The first version of this stretched the union bounding box to fill the
+ * reserved box on both axes independently. That is two scales, and two scales
+ * is a distorted human being: the reserved width is a footprint estimate and
+ * the reserved height comes from a standing ratio, so their quotient is not
+ * this person's proportions, and everything the preview exists to judge —
+ * whether a body reads right, whether a garment sits on it — was being judged
+ * through an anisotropic squash nobody asked for.
+ *
+ * So there is ONE scale, taken from height, because height is the dimension
+ * the placement actually derives: the anchor's contact line and the standing
+ * ratio produce it. Width then follows from the art's own proportions and may
+ * exceed the footprint estimate, which is the honest outcome — a broad figure
+ * is broad, and hiding that by squeezing it is the failure.
+ *
+ * The transform is anchored on the CONTACT POINT rather than on a corner: the
+ * figure's own floor line lands on the anchor's contact line and its centre of
+ * footprint lands on the anchor's x. Corner-anchoring made a rescaled person
+ * float off the floor, which reads as a placement bug in art that has none.
+ *
+ * This invents no measurement. The height it scales to is the one the
+ * placeholder already occupies, derived from the anchor's declared footprint
+ * and the scene's own perspective ramp — authored scene data throughout — and
+ * `scene-declares-no-floor-calibration` still travels with the person, so a
+ * fitted figure is never mistaken for a calibrated room.
  */
-function fitLayersToBox(
+export function fitLayersToBox(
   layers: readonly ScenePersonLayer[],
   box: {
     readonly leftPercent: number;
@@ -194,14 +252,29 @@ function fitLayersToBox(
   const width = right - left;
   const height = bottom - top;
   if (width <= 0 || height <= 0) return layers;
-  const scaleX = box.widthPercent / width;
-  const scaleY = box.heightPercent / height;
+
+  /*
+   * One scale for both axes.
+   *
+   * A layer percentage is a percentage of the plate's width on x and of its
+   * height on y, and the renderer maps both consistently, so multiplying both
+   * by the same number preserves the figure's rendered aspect ratio exactly.
+   */
+  const scale = box.heightPercent / height;
+
+  // Where the figure must end up: its feet on the anchor's contact line, its
+  // footprint centred on the anchor's x.
+  const contactY = box.topPercent + box.heightPercent;
+  const contactX = box.leftPercent + box.widthPercent / 2;
+  // Where the figure's own contact point is, before scaling.
+  const figureContactX = left + width / 2;
+
   return layers.map((layer) => ({
     url: layer.url,
-    leftPercent: box.leftPercent + (layer.leftPercent - left) * scaleX,
-    topPercent: box.topPercent + (layer.topPercent - top) * scaleY,
-    widthPercent: layer.widthPercent * scaleX,
-    heightPercent: layer.heightPercent * scaleY,
+    leftPercent: contactX + (layer.leftPercent - figureContactX) * scale,
+    topPercent: contactY + (layer.topPercent - bottom) * scale,
+    widthPercent: layer.widthPercent * scale,
+    heightPercent: layer.heightPercent * scale,
   }));
 }
 
@@ -255,7 +328,13 @@ function releasedLayers(
   wardrobe?: CharacterWardrobeContext,
   snapshot?: PersonRenderSnapshot,
   preview?: LifeSceneArtPreview,
-): { readonly layers: readonly ScenePersonLayer[]; readonly refusal: string } {
+): {
+  readonly layers: readonly ScenePersonLayer[];
+  /** Why nothing drew. Empty when a picture drew. */
+  readonly refusal: string;
+  /** What the compositor objected to, drawn or not. Never dropped on success. */
+  readonly notes: readonly string[];
+} {
   // Ask #86's resolver for a real picture. Today this returns nothing — no body
   // master is released — but the call is the seam the released art lands on, so
   // it is made rather than assumed. Any throw from an unresolvable recipe is an
@@ -282,8 +361,13 @@ function releasedLayers(
    * reject is worth more than an empty room they cannot diagnose.
    */
   if (uncalibrated && !preview)
-    return { layers: [], refusal: "scene-declares-no-floor-calibration" };
-  const library = preview?.characters ?? PRODUCTION_CHARACTER_LIBRARY;
+    return {
+      layers: [],
+      refusal: "scene-declares-no-floor-calibration",
+      notes: ["scene-declares-no-floor-calibration"],
+    };
+  const libraries = librariesFor(preview);
+  const library = libraries.characters;
   if (preview) {
     // The compositor is age-blind, and the banked bodies are adult bodies.
     // Nobody's child gets an adult body just because a preview is on.
@@ -291,7 +375,7 @@ function releasedLayers(
     const refused = known
       ? previewArtRefusal(known, world.currentDate)
       : "candidate-bank: no canonical person to check age";
-    if (refused) return { layers: [], refusal: refused };
+    if (refused) return { layers: [], refusal: refused, notes: [refused] };
   }
   try {
     const record = world.people[person.id];
@@ -315,36 +399,46 @@ function releasedLayers(
       scene,
       anchor,
       library,
-      visualLibrary: preview?.visuals ?? PRODUCTION_VISUAL_LIBRARY,
+      visualLibrary: libraries.visuals,
       poseRegistry: PRODUCTION_POSE_REGISTRY,
-      poseArt: preview?.poseArt ?? PRODUCTION_POSE_ART,
+      poseArt: libraries.poseArt,
     });
     /*
      * The compositor already knows why it could not draw somebody, and every
      * one of these branches used to discard that and return an empty array.
      * That is the whole reason a household member could only ever be initials
      * with no way to ask why. The refusal is carried out now instead.
+     *
+     * These are computed BEFORE any branch, and returned on every path
+     * including the successful one. The version that only built them on the
+     * way to refusing dropped them the moment the preview actually drew
+     * somebody, which is precisely when they matter most: a figure that
+     * composed against an uncalibrated room, or with a pose substituted, came
+     * back looking like a clean success with nothing recorded anywhere. That
+     * made a preview claim more than it had measured.
      */
+    const named = [
+      ...presentation.poseGaps.map((gap) => gap.code),
+      ...presentation.diagnostics.map((entry) => entry.code),
+    ].filter(Boolean);
+    const notes = [...new Set(named)];
     const fixtures = presentation.layers.filter(
       (layer) => library.components.get(layer.assetId)?.fixture,
     );
     if (!presentation.complete) {
-      const named = [
-        ...presentation.poseGaps.map((gap) => gap.code),
-        ...presentation.diagnostics.map((entry) => entry.code),
-      ].filter(Boolean);
-      const refusal = named.length
-        ? `incomplete-composition: ${[...new Set(named)].join(", ")}`
+      const refusal = notes.length
+        ? `incomplete-composition: ${notes.join(", ")}`
         : "incomplete-composition";
       // A preview shows the defect rather than hiding it, as long as there is
       // anything drawable to show; that judgement is the owner's to make.
       if (!preview || presentation.layers.every((layer) => !layer.url)) {
-        return { layers: [], refusal };
+        return { layers: [], refusal, notes };
       }
     } else if (fixtures.length > 0 && !preview) {
       return {
         layers: [],
         refusal: `development-fixture-only: ${fixtures.length} of ${presentation.layers.length} layer(s)`,
+        notes,
       };
     }
     const drawn = presentation.layers
@@ -361,15 +455,14 @@ function releasedLayers(
     return {
       layers: drawn,
       refusal: drawn.length === 0 ? "composition-drew-no-layers" : "",
+      notes,
     };
   } catch (error) {
     // The compositor's own message, not a flattened one. An unresolvable recipe
     // is still an absent picture rather than a broken screen, but now it says
     // which recipe and why.
-    return {
-      layers: [],
-      refusal: `composition-threw: ${error instanceof Error ? error.message : String(error)}`,
-    };
+    const thrown = `composition-threw: ${error instanceof Error ? error.message : String(error)}`;
+    return { layers: [], refusal: thrown, notes: [thrown] };
   }
 }
 
@@ -433,7 +526,11 @@ export function planLifeScenePeople(
           );
         personWardrobe = (
           savedWardrobes.resolveWardrobe ?? resolveSavedWardrobe
-        )(record, preference, { scene, anchor });
+        )(record, preference, {
+          scene,
+          anchor,
+          preview: savedWardrobes.artPreview,
+        });
       } catch (error) {
         wardrobeRefusal =
           error instanceof Error ? error.message : String(error);
@@ -441,7 +538,7 @@ export function planLifeScenePeople(
     }
     const drawing =
       wardrobeRefusal !== undefined
-        ? { layers: [], refusal: wardrobeRefusal }
+        ? { layers: [], refusal: wardrobeRefusal, notes: [wardrobeRefusal] }
         : releasedLayers(
             world,
             { id: person.personId, displayName: person.name },
@@ -482,6 +579,7 @@ export function planLifeScenePeople(
         : person.name,
       ...(wardrobeRefusal !== undefined ? { wardrobeRefusal } : {}),
       ...(drawing.refusal ? { artRefusal: drawing.refusal } : {}),
+      ...(drawing.notes.length ? { artDiagnostics: drawing.notes } : {}),
     } satisfies PlacedScenePerson;
   });
 
