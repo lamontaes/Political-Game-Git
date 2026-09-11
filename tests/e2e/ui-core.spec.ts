@@ -538,9 +538,9 @@ test.describe("the deliberate workspaces", () => {
       expect(line).toMatch(/Version .+ · .+/);
     }
 
-    /* And the running version is on the title screen, where it was looked for. */
+    /* And the running version is on the title screen's fixed corner stamp. */
     await page.goto("/");
-    await expect(page.getByTestId("title-version")).toContainText(
+    await expect(page.getByTestId("shell-version")).toContainText(
       corner!.replace(/^v/, ""),
     );
   });
