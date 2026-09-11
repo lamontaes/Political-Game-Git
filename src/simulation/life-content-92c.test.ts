@@ -716,7 +716,9 @@ describe("every committed line has a fact packet and a grounding verdict behind 
     // straight into the source file. Each rendered sentence has to appear in
     // the reviewed output that produced it.
     for (const { episodeKey, stage } of lifeContent92cStages()) {
-      if (LIFE_CONTENT_92C_PROSE_PENDING_STAGES.has(`${episodeKey}/${stage.key}`))
+      if (
+        LIFE_CONTENT_92C_PROSE_PENDING_STAGES.has(`${episodeKey}/${stage.key}`)
+      )
         continue;
       const outputName = files.find((name) =>
         name.endsWith(`-${stage.key}.output.md`),

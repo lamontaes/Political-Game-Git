@@ -41,7 +41,8 @@ export const LIFE_CIRCUMSTANCE_ANSWERING_STAGE: Readonly<
   "shared-assignment": "school.the-thing-you-got-blamed-for/carrying-the-group",
   "supervisor-extra-shift": "work.the-shift-you-were-asked-for/called-in",
   "commute-schedule-conflict": "school.the-long-way-in/the-commute",
-  "class-work-schedule-conflict": "opening.adult.trans.drop-class-keep-job/moment",
+  "class-work-schedule-conflict":
+    "opening.adult.trans.drop-class-keep-job/moment",
   "own-shift-coverage-needed":
     "work.the-shift-you-were-asked-for/it-came-back-round",
   "household-move-preparation": "opening.early.family.packing-boxes/moment",

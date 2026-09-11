@@ -1100,8 +1100,7 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
   },
   "adult.trans.college-vs-work": {
     afterChoice: "lean-study",
-    premise:
-      "{person} asks which program you are looking at first.",
+    premise: "{person} asks which program you are looking at first.",
     choices: [
       {
         key: "certificate",
@@ -1179,13 +1178,28 @@ export const OPENING_LIFE_FAMILIES: readonly EpisodeFamily[] =
         ? [{ kind: "fact" as const, fact: "school.enrolled" as const }]
         : []),
       ...(scene.key === "early.family.packing-boxes"
-        ? [{ kind: "fact" as const, fact: "household.move-preparation" as const }]
+        ? [
+            {
+              kind: "fact" as const,
+              fact: "household.move-preparation" as const,
+            },
+          ]
         : []),
       ...(scene.key === "adult.trans.college-vs-work"
-        ? [{ kind: "fact" as const, fact: "life.education-work-crossroad" as const }]
+        ? [
+            {
+              kind: "fact" as const,
+              fact: "life.education-work-crossroad" as const,
+            },
+          ]
         : []),
       ...(scene.key === "adult.trans.drop-class-keep-job"
-        ? [{ kind: "fact" as const, fact: "work.class-schedule-conflict" as const }]
+        ? [
+            {
+              kind: "fact" as const,
+              fact: "work.class-schedule-conflict" as const,
+            },
+          ]
         : []),
     ];
     return {

@@ -1673,11 +1673,7 @@ const BREAKROOM_ENCOUNTER: EpisodeFamily = {
   stages: [
     {
       key: "calibration-chart",
-      requires: [
-        hasWork,
-        { kind: "role", role: "colleague" },
-        ...aged(18, 30),
-      ],
+      requires: [hasWork, { kind: "role", role: "colleague" }, ...aged(18, 30)],
       lines: [
         "You and {role:colleague} are on a break at the same time.",
         "{role:colleague} is looking at a chart you cannot quite read from your seat.",

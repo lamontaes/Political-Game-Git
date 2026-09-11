@@ -21,7 +21,10 @@ import {
   reconcileLifeContent62Kernels,
 } from "./life-content-reconciliation";
 import { createStableId } from "./ids";
-import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
+import {
+  createNewGameWorld,
+  DEFAULT_NEW_GAME_SETUP,
+} from "../presentation/new-game";
 
 function withColleagueOnly(seed: string) {
   const game = createNewGameWorld({
@@ -76,8 +79,7 @@ function withColleagueOnly(seed: string) {
           provenance,
           initialRole: {
             title: "Store assistant",
-            occupationClassification:
-              "occupation:retail-assistant" as const,
+            occupationClassification: "occupation:retail-assistant" as const,
             locationJurisdictionId: jurisdictionId,
             timeDemand: {
               expectedWeekly: { minimumHours: 2, maximumHours: 8 },
@@ -165,8 +167,7 @@ function withWorkAndSchool(seed: string) {
           provenance,
           initialRole: {
             title: "Store assistant",
-            occupationClassification:
-              "occupation:retail-assistant" as const,
+            occupationClassification: "occupation:retail-assistant" as const,
             locationJurisdictionId: jurisdictionId,
             timeDemand: {
               expectedWeekly: { minimumHours: 8, maximumHours: 16 },
@@ -255,7 +256,8 @@ describe("LIFE-CONTENT13 circumstance-backed play", () => {
       ),
     );
     expect(
-      kinds.has("supervisor-extra-shift") || kinds.has("commute-schedule-conflict"),
+      kinds.has("supervisor-extra-shift") ||
+        kinds.has("commute-schedule-conflict"),
     ).toBe(true);
     const facts = episodeFacts(refreshed, game.playerPersonId);
     expect(
