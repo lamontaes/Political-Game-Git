@@ -39,6 +39,7 @@ import {
   withCreatorLocation,
   type CreatorLocationDraft,
 } from "../presentation/creator-location";
+import { placeStartFacts } from "../presentation/place-start-summary";
 import {
   openOrdinaryLife,
   passOrdinaryDays,
@@ -81,12 +82,7 @@ import {
   lifePlaceStateIdentities,
   lifePlaces,
 } from "../simulation";
-import type {
-  EntityId,
-  LifePlace,
-  QuestionnairePhase,
-  World,
-} from "../simulation";
+import type { EntityId, QuestionnairePhase, World } from "../simulation";
 import {
   openLegislativeWork,
   type LegislativeAssignment,
@@ -569,23 +565,6 @@ const CUSTOM_CREATOR_STEPS = [
 type CreatorStep =
   (typeof NORMAL_CREATOR_STEPS)[number] | (typeof CUSTOM_CREATOR_STEPS)[number];
 
-/** A short, plain place context, built only from what the sources actually hold. */
-function placeContextLines(place: LifePlace): readonly string[] {
-  const lines: string[] = [];
-  if (place.withinName) lines.push(place.withinName);
-  if (place.formalName && place.formalName !== place.displayName) {
-    lines.push(place.formalName);
-  }
-  // Capability-gated, never fabricated: the only civic fact the accepted data
-  // carries is whether the game models a legislature you could later enter.
-  lines.push(
-    place.capabilities.legislativeScenarioKey
-      ? "The game models this state's legislature, so political office is reachable here later."
-      : "The game does not model a legislature here yet, so this is an everyday life for now.",
-  );
-  return lines;
-}
-
 function SetupScreen({
   seed,
   seedOrigin,
@@ -1018,16 +997,17 @@ function SetupScreen({
               <p className="creator-place-name" data-testid="place-canonical">
                 {place.displayName}
               </p>
-              <p className="game-hint" data-testid="place-scope">
-                {place.scope === "state"
-                  ? "A whole state, chosen as the scope of this life."
-                  : "This is the exact place this life will be lived in."}
-              </p>
-              {placeContextLines(place).map((line) => (
-                <p key={line} className="game-hint">
-                  {line}
-                </p>
-              ))}
+              {placeStartFacts(place)
+                .filter((fact) => fact.kind !== "name")
+                .map((fact) => (
+                  <p key={`${fact.kind}:${fact.text}`} className="game-hint">
+                    {fact.kind === "county"
+                      ? fact.asOf
+                        ? `${fact.text} · ${fact.asOf.slice(0, 4)}`
+                        : fact.text
+                      : fact.text}
+                  </p>
+                ))}
               <button
                 type="button"
                 className="game-creator-next"
