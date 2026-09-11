@@ -7,6 +7,7 @@ import {
 } from "./conversation-subjects";
 import {
   createHouseholdObligationProgress,
+  createLifeTalkProgress,
   createNeighborhoodMeetingProgress,
   createSchoolProjectProgress,
   isHouseholdObligationConversationProgress,
@@ -47,6 +48,8 @@ function openingProgress(
       return createSchoolProjectProgress();
     case "neighborhood-meeting-notice":
       return createNeighborhoodMeetingProgress();
+    case "life-talk":
+      return createLifeTalkProgress();
     default:
       // The office and legislative families carry richer opening state that is
       // built by their own fixtures; nothing here invents it for them.

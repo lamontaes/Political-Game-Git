@@ -283,6 +283,21 @@ export interface NeighborhoodMeetingConversationProgress {
   readonly silenceSettled: boolean;
 }
 
+/**
+ * A direct exchange with somebody present in the current opening-life scene.
+ *
+ * Progress is carried by `life.conversation` history rather than run-b turn
+ * tags; this record exists so the shared conversation engine can route intents,
+ * rooms and commits through the life-talk writer without inventing a second
+ * dialogue system.
+ */
+export interface LifeTalkConversationProgress {
+  readonly subject: "life-talk";
+  readonly phase: "open";
+  readonly pendingContributions: readonly [];
+  readonly silenceSettled: boolean;
+}
+
 export function createSchoolProjectProgress(): SchoolProjectConversationProgress {
   return {
     subject: "school-project-share",
@@ -331,7 +346,8 @@ export type ConversationProgress =
   | LegislativeBargainingProgress
   | HouseholdObligationConversationProgress
   | SchoolProjectConversationProgress
-  | NeighborhoodMeetingConversationProgress;
+  | NeighborhoodMeetingConversationProgress
+  | LifeTalkConversationProgress;
 
 export function isLegislativeBargainingProgress(
   progress: ConversationProgress,
@@ -361,6 +377,21 @@ export function isHouseholdObligationConversationProgress(
   progress: ConversationProgress,
 ): progress is HouseholdObligationConversationProgress {
   return progress.subject === "household-obligation";
+}
+
+export function createLifeTalkProgress(): LifeTalkConversationProgress {
+  return {
+    subject: "life-talk",
+    phase: "open",
+    pendingContributions: [],
+    silenceSettled: false,
+  };
+}
+
+export function isLifeTalkConversationProgress(
+  progress: ConversationProgress,
+): progress is LifeTalkConversationProgress {
+  return progress.subject === "life-talk";
 }
 
 export function createRunBConversationProgress(): RunBConversationProgress {
