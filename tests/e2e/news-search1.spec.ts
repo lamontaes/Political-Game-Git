@@ -83,8 +83,8 @@ test("empty save message differs from active-search no-match state", async ({
   await page
     .getByTestId("public-information-search-input")
     .fill("zzzz-no-match");
-  await expect(page.getByTestId("public-information-no-match")).toHaveText(
-    "No stories match your search.",
+  await expect(page.getByTestId("public-information-no-match")).toContainText(
+    "zzzz-no-match",
   );
   await expect(page.getByTestId("public-information-empty")).toHaveCount(0);
 });

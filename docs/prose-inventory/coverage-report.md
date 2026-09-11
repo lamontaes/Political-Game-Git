@@ -10,9 +10,9 @@ needs a person's judgement is the honest state of the check.
 | INVENTORIED | 2302 |
 | INTENTIONALLY_NON_PLAYER_FACING | 5638 |
 | DIAGNOSTIC_OR_TEST | 4604 |
-| **NEEDS_CLASSIFICATION** | **6039** |
+| **NEEDS_CLASSIFICATION** | **6038** |
 
-Scanned 543 files holding 70005 string
+Scanned 543 files holding 70007 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -153,7 +153,6 @@ literals in total; the table counts only those that read like a sentence.
 | 12 | `src/simulation/quantity.ts` |
 | 12 | `src/simulation/vitality.ts` |
 | 11 | `src/content/adapters/life-situations.ts` |
-| 11 | `src/player/PublicInformationPanel.tsx` |
 | 11 | `src/presentation/life-scene-flow.ts` |
 | 11 | `src/presentation/run-b-conversation-progress.ts` |
 | 11 | `src/presentation/scene-placement.ts` |
@@ -161,6 +160,7 @@ literals in total; the table counts only those that read like a sentence.
 | 11 | `src/ui/SceneAuthoringProofView.tsx` |
 | 11 | `src/ui/scene-venue-exercise.ts` |
 | 10 | `src/player/MeasureFloorSurface.tsx` |
+| 10 | `src/player/PublicInformationPanel.tsx` |
 | 10 | `src/presentation/life-record.ts` |
 | 10 | `src/presentation/person-dossier.ts` |
 | 10 | `src/presentation/production-world.ts` |
