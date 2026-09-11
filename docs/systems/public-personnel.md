@@ -44,6 +44,23 @@ content, never panel actions: no player can designate their own authority.
 Titles, kinship, friendship, leadership labels and bargaining rights grant
 nothing.
 
+## Entry
+
+A new game reaches this system through one explicit Custom Start:
+`startingLife: "state-agency-director"`, handled by
+`initializeStateAgencyStart` (`src/simulation/civil-personnel-start.ts`). It
+is accepted only on the Custom route, at age 25 or older, with the early years
+summarized, in a state with compiled procedures (today Minnesota). It runs
+once, at Custom Begin, after the ordinary production world is built. It
+authors a fictional agency, its charter, positions, staff and a vacancy, plus
+a fictional holder of the commissioner office. Nothing a player does later
+creates authority. The start date stays 2026-01-05, so procedures remain
+unavailable until ordinary play reaches 2026-09-06.
+
+The projection reaches the simulation as a generated TypeScript module, never
+a JSON import. `world.ts` is loaded by Node's ESM loader under Playwright, and a
+guard test forbids JSON imports anywhere below it.
+
 ## Civil and labor facts stay separate
 
 A position carries its civil class and, separately, its bargaining coverage
@@ -132,4 +149,6 @@ so no compensation flow is created and no money moves.
   removal authority are not established, and it authorizes nothing.
 - The panel keeps its `{world, onWorldChange}` signature, with optional
   `transitionHandlers`. With no positions, it renders exactly the earlier
-  preparation view.
+  preparation view. With positions, it also lists unsupported powers as
+  unavailable, with reasons: competitive selection, probation completion,
+  suspension and demotion, agreement-governed discipline and arbitration.

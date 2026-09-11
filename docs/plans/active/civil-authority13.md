@@ -70,9 +70,20 @@ jurisdictions (no compiled procedures).
 
 ## Acceptance
 
-Implementation, focused tests, component browser proofs and the full repository
-gate are complete. An independent adversarial review and a narrow re-review
-checked the delta. Normal-play reachability is not delivered: it needs a
-producer of authored public employment, or the acquired selection instruments.
-The [handoff](../../handoffs/civil-authority13.md) records the reasons, and the
-plan stays active until LAND and the owner decide. No self-merge.
+The supported transitions, the explicit state-agency Custom Start entry, the
+repair for the hosted browser-collection failure, focused and presentation
+tests, component and normal-route browser proofs (normal route in a disposable
+#144 composition), and the full repository gate are all complete. Adversarial
+reviews were independent, and the final consequential fixes are checked by a
+non-author.
+
+Not delivered:
+
+- the creator button and mount in #144, which is a UI-owner patch delivered in
+  `docs/handoffs/`;
+- human visual acceptance;
+- narrow-viewport time passage, which is blocked by a #144 overlay defect;
+- jurisdictions beyond Minnesota.
+
+The [handoff](../../handoffs/civil-authority13.md) records everything. No
+self-merge.

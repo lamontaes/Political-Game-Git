@@ -12,6 +12,7 @@ and RETURN13 backlog item 6. The contract is in
 | Main at entry                           | `95e34ed5779ac76f20acd3da5e537d716931e669`                         |
 | CIVIL-WORK7 merge                       | `9f9ce18c019208d57e75cfcd74fb86db315e879b` (#154)                  |
 | UI owner #144 (mount already present)   | `302e1f0cb3fb6c7d5823c41cf9b5bf87d2bfcac2`                         |
+| Main merged most recently               | `4f265ebb7ea4107bc43c6a6204f0337c227c2843`                         |
 | Civil-service corpus digest (unchanged) | `9d63e5a66a1e4dcc9e08311b62c167818f705737779432a25dc17fb67dfd5c1f` |
 
 The completed source audit was not repeated. No lock, raw byte, domain fact or
@@ -72,30 +73,100 @@ not, settlement directed or not, reinstatement accepted or declined).
   completion, arbitration list, selection, hearing and award, all Alaska
   employer actions and board decisions, and all federal actions.
 
-## Normal-play reachability (not delivered)
+## Hosted browser failure (run 34639494520): diagnosed and repaired
 
-Ordinary play creates no civil-service position and no designated authority.
-Classified selection is blocked by missing instruments, and no producer seeds
-pre-existing public employment. So these transitions are proven through an
-explicitly authored diagnostic scenario (`tests/e2e/support/civil-authority-world.ts`),
-not through a normal new game. To reach them, one of two things must happen:
+Tested head `208b1f97`. Repository validation passed (269 files, 4224 tests),
+Playwright installed, and then the browser step failed before running any test.
+Playwright collected **0 tests in 0 files** because Node's ESM loader refused
+`src/simulation/civil-personnel-sources.json`: it "needs an import attribute of
+type: json". This was not formatting or flakiness, and the defect was mine.
+`world.ts` imports `civil-personnel-integrity.ts`, which imported that JSON, so
+every spec that loads the simulation died at collection. The earlier local runs
+executed only the two component specs, which never load the simulation in Node.
 
-- **OPENING or CAREER** seeds authored public employment through
-  `establishPersonnelDesignation`, `establishPersonnelPosition` and
-  `establishPersonnelIncumbency`; or
-- **acquisition** of the Minnesota commissioner's plan and selection instruments
-  lets appointment itself become supported.
+Repair (`ae81516f`):
 
-## UI integration
+- The projection is now emitted as the typed module
+  `src/simulation/civil-personnel-sources.generated.ts`, following the
+  `office-qualifications.generated.ts` precedent. Replay is still byte-checked
+  by `scripts/compile-civil-personnel.ts --check` and by the source test.
+- The generated file is excluded from prose scanning, because it is cited
+  evidence, with the reason stated in `SCAN_EXCLUSIONS`.
+- A guard test, `civil-personnel-import-graph.test.ts`, forbids any JSON import
+  below `world.ts`. A negative control (restoring the old import) makes it fail.
+- `playwright test --list` now reports 328 tests in 52 files, where it reported 0.
 
-No root or navigation change is needed. PR #144 already mounts
-`<CivilPersonnelPanel world onWorldChange />` in the Work sections at
-`src/player/PlayerGame.tsx:2818` and `:2900` (at `302e1f0c`). The signature is
-unchanged. The optional `transitionHandlers` prop defaults to
-`createCampaignElectionTransitionRegistry()`. With no personnel records, the
-panel renders exactly the earlier preparation view, so existing normal-route
-tests are unaffected. The UI owner may pass the root's registry for
-consistency; nothing else is required.
+## Normal-play entry: explicit state-agency Custom Start
+
+The entry reuses the existing OPENING seam, shaped hunk for hunk like #144's
+judicial start. A Custom Start token, `startingLife: "state-agency-director"`,
+is accepted only on the Custom route, at age 25 or older, with the early years
+summarized, in a state whose personnel procedures are compiled (today
+`US-MN`). `createNewGameWorld` builds the ordinary production world. It then
+calls the feature's own initializer, `initializeStateAgencyStart`, once at
+Custom Begin. Nothing calls it from a panel, from Work or on load, and it is
+idempotent.
+
+What it authors, all with authored provenance that names it fiction:
+
+- the fictional Northstar Records Service (`service:state-agency`);
+- the player's director employment and leadership role;
+- a charter making the director the appointing authority;
+- four classified positions;
+- existing staff: one permanent and not agreement-covered, one permanent and
+  agreement-covered, one probationary, and one former specialist who resigned
+  in good standing 190 days before the start, leaving a vacancy;
+- a fictional holder of the statutory commissioner office.
+
+Their service dates are authored scenario facts. Every personnel procedure
+still applies only from 2026-09-06, so a new game on 2026-01-05 shows every
+step refused with that reason. Ordinary play then passes time to September.
+
+Shared presentation edits are small and additive:
+
+- `new-game.ts`: the token, the guard and the post-build initializer call;
+- `new-game-identity.ts`: the decoder token, so replay links rebuild the start;
+- `setup-questionnaire-flow.ts`: questionnaire context maps the token to
+  ordinary life, as #144 does for its judicial token;
+- `cli/compare-seeds.ts`: the new option.
+
+No `PlayerGame`, `App` or navigation file is edited.
+
+The panel shows only supported actions as available. Every vacancy lists "Fill
+by competitive selection" as unavailable, with the missing instruments named.
+Probationary staff show "Complete probation" as unavailable (§ 43A.16).
+Everyone shows "Suspend or demote" as unavailable. Agreement-covered staff keep
+the § 43A.33, subd. 3(a) refusal. Direct reinstatement appears only once it is
+supported.
+
+## UI owner deliverables (#144)
+
+- `civil-authority13-ui-registration.patch`: the creator's "State agency
+  director" button, beside the judicial button in the Custom background step.
+  It applies cleanly to `302e1f0c`.
+- `civil-authority13-start-token-union.patch`: the resolved union of both start
+  tokens in the three presentation files. These are the only conflicts when
+  this branch meets #144.
+- `civil-authority13-normal-route.spec.ts.txt`: the normal-route test.
+
+The panel mount already exists in #144 at `PlayerGame.tsx:2818` and `:2900`.
+
+In a disposable composition (#144 `302e1f0c` plus this branch's diff plus the
+patch, head `29658287`), the normal-route test passed. It walks the real
+creator: Custom → Minneapolis, MN → State agency director. It checks the
+January refusals, passes ordinary time with the player's own controls, holds
+the meeting, discharges by keyboard, files, then saves, reloads and continues
+with the state restored. #144's creator, judicial-start and component specs
+passed alongside it: 13 of 14.
+
+Two findings belong to the UI owner and are not caused by this branch:
+
+- `ui-core-feature-adapters.spec.ts` "mixed person, session and measure pins"
+  fails identically on untouched `302e1f0c`: the story section intercepts
+  pointer events on scene-person tokens.
+- At 390 px, the Day overlay's opening paragraph intercepts the story's "Let
+  time pass" button, so narrow-viewport time passage stalls. At 1440 px the
+  route works and nothing overflows horizontally.
 
 ## EXEC and LIFE
 
