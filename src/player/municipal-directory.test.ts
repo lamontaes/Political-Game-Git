@@ -3,6 +3,7 @@ import { createScenarioWorld } from "../simulation/demo";
 import { requireLifePlace } from "../simulation/life-places";
 import {
   filterMunicipalGovernmentEntries,
+  formatMunicipalHomePlaceLabel,
   groupMunicipalGovernmentEntries,
   municipalSelectionOnExternalPin,
   municipalSelectionOnUserPick,
@@ -10,6 +11,7 @@ import {
   projectMunicipalHomeContext,
   resolveMunicipalInspectionKey,
 } from "./municipal-directory";
+import { lifePlaceByKey } from "../simulation/life-places";
 
 describe("resolveMunicipalInspectionKey", () => {
   it("uses the shell pin until the player deliberately selects another government", () => {
@@ -79,6 +81,37 @@ describe("municipal selection helpers", () => {
   });
 });
 
+describe("formatMunicipalHomePlaceLabel", () => {
+  it("names a state-scope home once", () => {
+    expect(formatMunicipalHomePlaceLabel(lifePlaceByKey("kentucky"))).toBe(
+      "Kentucky",
+    );
+  });
+
+  it("keeps locality display names that already include the state", () => {
+    expect(
+      formatMunicipalHomePlaceLabel(lifePlaceByKey("lexington-fayette")),
+    ).toBe("Lexington, Kentucky");
+    expect(formatMunicipalHomePlaceLabel(lifePlaceByKey("5114968"))).toContain(
+      "Charlottesville",
+    );
+    expect(formatMunicipalHomePlaceLabel(lifePlaceByKey("5114968"))).toContain(
+      "Virginia",
+    );
+  });
+
+  it("keeps county display names that already include the state", () => {
+    expect(formatMunicipalHomePlaceLabel(lifePlaceByKey("county:51059"))).toBe(
+      "Fairfax County, Virginia",
+    );
+  });
+
+  it("returns null when the home place is unknown", () => {
+    expect(formatMunicipalHomePlaceLabel(null)).toBeNull();
+    expect(formatMunicipalHomePlaceLabel(undefined)).toBeNull();
+  });
+});
+
 describe("projectMunicipalHomeContext", () => {
   it("leads with the saved home place and linked government", () => {
     const place = requireLifePlace("5114968");
@@ -93,10 +126,51 @@ describe("projectMunicipalHomeContext", () => {
       },
     };
     const context = projectMunicipalHomeContext(world);
-    expect(context.placeLabel).toContain("Charlottesville");
+    expect(context.homePlaceLabel).toContain("Charlottesville");
+    expect(context.homePlaceLabel).not.toMatch(/Virginia, Virginia/);
     expect(context.stateCode).toBe("VA");
     expect(context.governmentKey).toBe("us-va-charlottesville");
     expect(context.governmentName).toContain("Charlottesville");
+  });
+
+  it("does not duplicate Kentucky for a state-scope home", () => {
+    const place = lifePlaceByKey("kentucky")!;
+    const generated = createScenarioWorld(
+      "municipal-state-home",
+      place.context,
+      {
+        peopleCount: 6,
+      },
+    );
+    const world = {
+      ...generated,
+      control: {
+        kind: "person" as const,
+        personId: generated.personOrder[0]!,
+      },
+    };
+    expect(projectMunicipalHomeContext(world).homePlaceLabel).toBe("Kentucky");
+  });
+
+  it("does not relabel home when inspecting another government", async () => {
+    const { municipalWorkspaceFor } =
+      await import("../presentation/municipal-workspace");
+    const place = requireLifePlace("5114968");
+    const generated = createScenarioWorld("municipal-visitor", place.context, {
+      peopleCount: 8,
+    });
+    const world = {
+      ...generated,
+      control: {
+        kind: "person" as const,
+        personId: generated.personOrder[0]!,
+      },
+    };
+    const home = projectMunicipalHomeContext(world);
+    expect(
+      municipalWorkspaceFor(world, "us-nv-carson-city")?.isHomeGovernment,
+    ).toBe(false);
+    expect(projectMunicipalHomeContext(world)).toEqual(home);
   });
 });
 
@@ -150,9 +224,9 @@ describe("groupMunicipalGovernmentEntries", () => {
     expect(groups[0]!.entries.map((entry) => entry.key)).toEqual([
       "us-va-charlottesville",
     ]);
-    expect(
-      groups[1]!.entries.every((entry) => entry.state === "VA"),
-    ).toBe(true);
+    expect(groups[1]!.entries.every((entry) => entry.state === "VA")).toBe(
+      true,
+    );
     expect(groups[2]!.entries.length).toBeGreaterThan(0);
   });
 });

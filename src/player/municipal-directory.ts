@@ -1,7 +1,18 @@
-import { personName, type EntityId, type World } from "../simulation";
-import type { MunicipalGovernment, MunicipalReading } from "../simulation/municipal-government";
+import {
+  personName,
+  type EntityId,
+  type LifePlace,
+  type World,
+} from "../simulation";
+import type {
+  MunicipalGovernment,
+  MunicipalReading,
+} from "../simulation/municipal-government";
 import { municipalGovernments } from "../simulation/municipal-government";
-import { municipalSeats, type MunicipalRole } from "../simulation/municipal-public-work";
+import {
+  municipalSeats,
+  type MunicipalRole,
+} from "../simulation/municipal-public-work";
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
 import { municipalWorkspaceFor } from "../presentation/municipal-workspace";
 
@@ -83,7 +94,8 @@ export interface MunicipalKnownPerson {
 }
 
 export interface MunicipalHomeContext {
-  readonly placeLabel: string | null;
+  /** Player-readable home label derived from the saved place scope. */
+  readonly homePlaceLabel: string | null;
   readonly stateCode: string | null;
   readonly stateName: string | null;
   readonly governmentKey: string | null;
@@ -106,6 +118,29 @@ export function uspsFromStateJurisdictionKey(
 export function stateDisplayName(stateCode: string | null | undefined): string {
   if (!stateCode) return "Unknown state";
   return STATE_NAMES[stateCode] ?? stateCode;
+}
+
+/**
+ * Format where this life lives for the municipal header.
+ *
+ * State-scope homes already name the state once. Locality and county rows carry
+ * their own canonical display names, including state where the place corpus does.
+ */
+export function formatMunicipalHomePlaceLabel(
+  place: LifePlace | null | undefined,
+): string | null {
+  if (!place) return null;
+  if (place.scope === "state") return place.displayName;
+  const stateCode = uspsFromStateJurisdictionKey(place.stateJurisdictionKey);
+  const stateName = stateCode ? stateDisplayName(stateCode) : null;
+  if (
+    stateName &&
+    place.displayName.toLowerCase().includes(stateName.toLowerCase())
+  ) {
+    return place.displayName;
+  }
+  if (stateName) return `${place.displayName}, ${stateName}`;
+  return place.displayName;
 }
 
 function humanRole(role: MunicipalRole): string {
@@ -148,14 +183,16 @@ export function filterMunicipalGovernmentEntries(
   );
 }
 
-export function projectMunicipalHomeContext(world: World): MunicipalHomeContext {
+export function projectMunicipalHomeContext(
+  world: World,
+): MunicipalHomeContext {
   const capabilities = resolvePlayerCapabilities(world);
   const place = capabilities.homePlace;
   const stateCode = uspsFromStateJurisdictionKey(place?.stateJurisdictionKey);
   const workspace = municipalWorkspaceFor(world);
   const government = workspace?.government ?? null;
   return {
-    placeLabel: place?.displayName ?? null,
+    homePlaceLabel: formatMunicipalHomePlaceLabel(place),
     stateCode,
     stateName: stateCode ? stateDisplayName(stateCode) : null,
     governmentKey: government?.key ?? null,
@@ -197,8 +234,9 @@ export function groupMunicipalGovernmentEntries(
   }
   const homeState = entries.filter((entry) => entry.group === "home-state");
   if (homeState.length > 0) {
-    const stateLabel =
-      homeState[0] ? stateDisplayName(homeState[0].state) : "your home state";
+    const stateLabel = homeState[0]
+      ? stateDisplayName(homeState[0].state)
+      : "your home state";
     groups.push({
       group: "home-state",
       label: `Other governments in ${stateLabel}`,
@@ -267,14 +305,16 @@ export function resolveMunicipalInspectionKey(input: {
   return input.openGovernmentKey ?? input.selectedKey;
 }
 
-export function municipalSelectionOnExternalPin(
-  openGovernmentKey?: string,
-): { readonly selectedKey: string; readonly userOverride: false } {
+export function municipalSelectionOnExternalPin(openGovernmentKey?: string): {
+  readonly selectedKey: string;
+  readonly userOverride: false;
+} {
   return { selectedKey: openGovernmentKey ?? "", userOverride: false };
 }
 
-export function municipalSelectionOnUserPick(
-  key: string,
-): { readonly selectedKey: string; readonly userOverride: true } {
+export function municipalSelectionOnUserPick(key: string): {
+  readonly selectedKey: string;
+  readonly userOverride: true;
+} {
   return { selectedKey: key, userOverride: true };
 }

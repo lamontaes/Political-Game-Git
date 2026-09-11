@@ -3,7 +3,11 @@ import { municipalCapacitySourceUrl } from "../simulation/municipal-capacity";
 import { municipalVenueForActivity } from "../presentation/municipal-venue";
 import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
-import type { EntityId, FutureTransitionHandlerRegistry, World } from "../simulation/types";
+import type {
+  EntityId,
+  FutureTransitionHandlerRegistry,
+  World,
+} from "../simulation/types";
 import {
   attendMunicipalPublicMeeting,
   performMunicipalMeetingNotes,
@@ -75,7 +79,10 @@ export function MunicipalWorkspace({
     setUserOverride(next.userOverride);
   }, [openGovernmentKey]);
 
-  const homeContext = useMemo(() => projectMunicipalHomeContext(world), [world]);
+  const homeContext = useMemo(
+    () => projectMunicipalHomeContext(world),
+    [world],
+  );
   const inspectionKey = resolveMunicipalInspectionKey({
     openGovernmentKey,
     selectedKey,
@@ -122,7 +129,10 @@ export function MunicipalWorkspace({
         />
       </label>
       {hasActiveSearch && governmentEntries.length === 0 ? (
-        <p className="municipal-search-empty" data-testid="municipal-search-empty">
+        <p
+          className="municipal-search-empty"
+          data-testid="municipal-search-empty"
+        >
           {"No supported government matches that search."}
         </p>
       ) : null}
@@ -173,11 +183,10 @@ export function MunicipalWorkspace({
       >
         <header className="municipal-header">
           <h2>{"Local government"}</h2>
-          {homeContext.placeLabel ? (
+          {homeContext.homePlaceLabel ? (
             <p data-testid="municipal-home-context">
               {"You live in "}
-              <strong>{homeContext.placeLabel}</strong>
-              {homeContext.stateName ? `, ${homeContext.stateName}` : null}
+              <strong>{homeContext.homePlaceLabel}</strong>
               {"."}
             </p>
           ) : null}
@@ -215,11 +224,10 @@ export function MunicipalWorkspace({
     <section className="municipal-workspace" aria-label="Municipal government">
       <header className="municipal-header">
         <h2>{"Local government"}</h2>
-        {homeContext.placeLabel ? (
+        {homeContext.homePlaceLabel ? (
           <p data-testid="municipal-home-context">
             {"You live in "}
-            <strong>{homeContext.placeLabel}</strong>
-            {homeContext.stateName ? `, ${homeContext.stateName}` : null}
+            <strong>{homeContext.homePlaceLabel}</strong>
             {"."}
           </p>
         ) : null}
@@ -297,7 +305,9 @@ export function MunicipalWorkspace({
         ) : (
           <ul className="municipal-people-list">
             {knownPeople.map((person) => (
-              <li key={`${person.roleLabel}:${person.name}:${person.personId ?? "unknown"}`}>
+              <li
+                key={`${person.roleLabel}:${person.name}:${person.personId ?? "unknown"}`}
+              >
                 {person.personId && onOpenPerson ? (
                   <button
                     type="button"
@@ -477,7 +487,10 @@ export function MunicipalWorkspace({
       </section>
 
       {view.meetingNotes.length > 0 && (
-        <section className="municipal-panel" data-testid="municipal-pending-work">
+        <section
+          className="municipal-panel"
+          data-testid="municipal-pending-work"
+        >
           <h3>{"Pending work"}</h3>
           <ul>
             {view.meetingNotes.map(({ item, state }) => (
@@ -519,10 +532,15 @@ export function MunicipalWorkspace({
         )}
       </section>
 
-      <section className="municipal-panel" data-testid="municipal-attendance-history">
+      <section
+        className="municipal-panel"
+        data-testid="municipal-attendance-history"
+      >
         <h3>{"Attendance history"}</h3>
         {attendanceHistory.length === 0 ? (
-          <p>{"No public meeting attendance is recorded for this government."}</p>
+          <p>
+            {"No public meeting attendance is recorded for this government."}
+          </p>
         ) : (
           attendanceHistory.map((event) => (
             <p key={event.id}>
@@ -534,7 +552,10 @@ export function MunicipalWorkspace({
         )}
       </section>
 
-      <details className="municipal-source-review" data-testid="municipal-source-review">
+      <details
+        className="municipal-source-review"
+        data-testid="municipal-source-review"
+      >
         <summary>{"Source review"}</summary>
         <p>
           {
@@ -544,7 +565,9 @@ export function MunicipalWorkspace({
         <p>
           {"Census place: "}
           {view.government.placeGeoid ?? "Unknown"}
-          {". A place identifier is not a government-unit or county identifier."}
+          {
+            ". A place identifier is not a government-unit or county identifier."
+          }
         </p>
         {view.government.identity ? (
           <details>

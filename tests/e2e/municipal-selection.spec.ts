@@ -1,10 +1,5 @@
 import { expect, test } from "./fixtures";
-import {
-  enterLife,
-  goTo,
-  saveLife,
-  startLife,
-} from "./support/creator";
+import { enterLife, goTo, saveLife, startLife } from "./support/creator";
 
 /**
  * Reproduces the pinned-government selection bug from UI9-12:
@@ -24,7 +19,9 @@ test("pinned government A, dropdown B, and external pin C all control inspection
   await goTo(page, "nav-municipal");
 
   const workspace = page.getByRole("region", { name: "Municipal government" });
-  const homeName = await workspace.getByTestId("municipal-current-name").textContent();
+  const homeName = await workspace
+    .getByTestId("municipal-current-name")
+    .textContent();
   expect(homeName).toBeTruthy();
 
   await workspace.getByTestId("municipal-pin").click();
@@ -69,6 +66,29 @@ test("pinned government A, dropdown B, and external pin C all control inspection
   );
 });
 
+test("a state-scope home is labeled once in the municipal header", async ({
+  page,
+}) => {
+  await page.goto("/?seed=municipal-kentucky-state11");
+  await startLife(page, {
+    age: 30,
+    route: "custom",
+    household: "lives-alone",
+    place: "Kentucky",
+    placeScope: "state",
+  });
+  await enterLife(page);
+  await goTo(page, "nav-municipal");
+
+  const workspace = page.getByRole("region", { name: "Municipal government" });
+  await expect(workspace.getByTestId("municipal-home-context")).toHaveText(
+    "You live in Kentucky.",
+  );
+  await expect(
+    workspace.getByTestId("municipal-home-context"),
+  ).not.toContainText("Kentucky, Kentucky");
+});
+
 test("municipal search clears and reports no matches at a narrow viewport", async ({
   page,
 }) => {
@@ -97,5 +117,7 @@ test("municipal search clears and reports no matches at a narrow viewport", asyn
   await expect(workspace.getByTestId("municipal-search-empty")).toHaveCount(0);
 
   await search.press("Tab");
-  await expect(workspace.getByTestId("municipal-government-select")).toBeFocused();
+  await expect(
+    workspace.getByTestId("municipal-government-select"),
+  ).toBeFocused();
 });
