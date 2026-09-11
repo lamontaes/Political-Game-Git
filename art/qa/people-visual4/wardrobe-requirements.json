@@ -1,0 +1,1777 @@
+{
+  "schema": "people-visual4-wardrobe-requirements-v1",
+  "generator": "people-visual4-wardrobe-requirements-v1",
+  "note": "Sizes only. No raster is derived, nothing is admitted, and no art is approved. A master must be recovered at or above minimumNativeSize for the pipeline to derive it without enlargement.",
+  "pairsConsidered": 98,
+  "derivableWithoutEnlargement": 29,
+  "blockedByEnlargement": 69,
+  "requests": [
+    {
+      "master": "bottoms/pg_master_bottom_01_straight_leg_jeans.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "kind": "bottom",
+      "available": { "width": 108, "height": 230 },
+      "bodiesBlocked": 9,
+      "minimumNativeSize": { "width": 243, "height": 315 },
+      "worstEnlargement": { "x": 2.251, "y": 1.37 },
+      "bodies": [
+        {
+          "body": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 214, "height": 266 }
+        },
+        {
+          "body": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 184, "height": 303 }
+        },
+        {
+          "body": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+          "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 188, "height": 298 }
+        },
+        {
+          "body": "wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 243, "height": 267 }
+        },
+        {
+          "body": "wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 218, "height": 312 }
+        },
+        {
+          "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+          "bodyFamily": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 214, "height": 307 }
+        },
+        {
+          "body": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 191, "height": 272 }
+        },
+        {
+          "body": "wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 155, "height": 312 }
+        },
+        {
+          "body": "wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+          "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 155, "height": 315 }
+        }
+      ]
+    },
+    {
+      "master": "bottoms/pg_master_bottom_02_dress_trousers.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "kind": "bottom",
+      "available": { "width": 112, "height": 231 },
+      "bodiesBlocked": 9,
+      "minimumNativeSize": { "width": 243, "height": 306 },
+      "worstEnlargement": { "x": 2.17, "y": 1.323 },
+      "bodies": [
+        {
+          "body": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 214, "height": 258 }
+        },
+        {
+          "body": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 184, "height": 294 }
+        },
+        {
+          "body": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+          "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 188, "height": 289 }
+        },
+        {
+          "body": "wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 243, "height": 259 }
+        },
+        {
+          "body": "wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 218, "height": 302 }
+        },
+        {
+          "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+          "bodyFamily": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 214, "height": 298 }
+        },
+        {
+          "body": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 191, "height": 264 }
+        },
+        {
+          "body": "wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 155, "height": 302 }
+        },
+        {
+          "body": "wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+          "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 155, "height": 306 }
+        }
+      ]
+    },
+    {
+      "master": "bottoms/pg_master_bottom_03_a_line_knee_skirt.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "kind": "bottom",
+      "available": { "width": 160, "height": 225 },
+      "bodiesBlocked": 7,
+      "minimumNativeSize": { "width": 243, "height": 206 },
+      "worstEnlargement": { "x": 1.519, "y": 0.917 },
+      "bodies": [
+        {
+          "body": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 214, "height": 176 }
+        },
+        {
+          "body": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 184, "height": 200 }
+        },
+        {
+          "body": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+          "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 188, "height": 197 }
+        },
+        {
+          "body": "wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 243, "height": 177 }
+        },
+        {
+          "body": "wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 218, "height": 206 }
+        },
+        {
+          "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+          "bodyFamily": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 214, "height": 203 }
+        },
+        {
+          "body": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 191, "height": 180 }
+        }
+      ]
+    },
+    {
+      "master": "tops/pg_master_top_01_short_sleeve_crew_tee.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "kind": "top",
+      "available": { "width": 187, "height": 199 },
+      "bodiesBlocked": 11,
+      "minimumNativeSize": { "width": 331, "height": 265 },
+      "worstEnlargement": { "x": 1.769, "y": 1.332 },
+      "bodies": [
+        {
+          "body": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 295, "height": 257 }
+        },
+        {
+          "body": "wave_a_average_woman_seated_front_neutral_v1_pv4",
+          "bodyFamily": "wave-a-average-woman-seated-front-neutral-v1-pv4",
+          "poseFamily": "seated-guest-neutral",
+          "required": { "width": 312, "height": 110 }
+        },
+        {
+          "body": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 276, "height": 224 }
+        },
+        {
+          "body": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+          "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 276, "height": 236 }
+        },
+        {
+          "body": "wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 331, "height": 245 }
+        },
+        {
+          "body": "wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 305, "height": 207 }
+        },
+        {
+          "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+          "bodyFamily": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 294, "height": 212 }
+        },
+        {
+          "body": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 277, "height": 265 }
+        },
+        {
+          "body": "wave_a_skinny_woman_seated_front_neutral_v1_pv4",
+          "bodyFamily": "wave-a-skinny-woman-seated-front-neutral-v1-pv4",
+          "poseFamily": "seated-guest-neutral",
+          "required": { "width": 289, "height": 154 }
+        },
+        {
+          "body": "wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 236, "height": 251 }
+        },
+        {
+          "body": "wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+          "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 248, "height": 101 }
+        }
+      ]
+    },
+    {
+      "master": "tops/pg_master_top_02_long_sleeve_button_shirt.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "kind": "top",
+      "available": { "width": 188, "height": 228 },
+      "bodiesBlocked": 11,
+      "minimumNativeSize": { "width": 331, "height": 302 },
+      "worstEnlargement": { "x": 1.759, "y": 1.325 },
+      "bodies": [
+        {
+          "body": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 295, "height": 293 }
+        },
+        {
+          "body": "wave_a_average_woman_seated_front_neutral_v1_pv4",
+          "bodyFamily": "wave-a-average-woman-seated-front-neutral-v1-pv4",
+          "poseFamily": "seated-guest-neutral",
+          "required": { "width": 312, "height": 126 }
+        },
+        {
+          "body": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 276, "height": 256 }
+        },
+        {
+          "body": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+          "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 276, "height": 269 }
+        },
+        {
+          "body": "wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 331, "height": 279 }
+        },
+        {
+          "body": "wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 305, "height": 236 }
+        },
+        {
+          "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+          "bodyFamily": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 294, "height": 242 }
+        },
+        {
+          "body": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 277, "height": 302 }
+        },
+        {
+          "body": "wave_a_skinny_woman_seated_front_neutral_v1_pv4",
+          "bodyFamily": "wave-a-skinny-woman-seated-front-neutral-v1-pv4",
+          "poseFamily": "seated-guest-neutral",
+          "required": { "width": 289, "height": 175 }
+        },
+        {
+          "body": "wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 236, "height": 286 }
+        },
+        {
+          "body": "wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+          "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 248, "height": 115 }
+        }
+      ]
+    },
+    {
+      "master": "tops/pg_master_top_03_pullover_sweater.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "kind": "top",
+      "available": { "width": 192, "height": 212 },
+      "bodiesBlocked": 11,
+      "minimumNativeSize": { "width": 331, "height": 276 },
+      "worstEnlargement": { "x": 1.723, "y": 1.3 },
+      "bodies": [
+        {
+          "body": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 295, "height": 267 }
+        },
+        {
+          "body": "wave_a_average_woman_seated_front_neutral_v1_pv4",
+          "bodyFamily": "wave-a-average-woman-seated-front-neutral-v1-pv4",
+          "poseFamily": "seated-guest-neutral",
+          "required": { "width": 312, "height": 115 }
+        },
+        {
+          "body": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 276, "height": 233 }
+        },
+        {
+          "body": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+          "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 276, "height": 245 }
+        },
+        {
+          "body": "wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 331, "height": 254 }
+        },
+        {
+          "body": "wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 305, "height": 215 }
+        },
+        {
+          "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+          "bodyFamily": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 294, "height": 220 }
+        },
+        {
+          "body": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 277, "height": 276 }
+        },
+        {
+          "body": "wave_a_skinny_woman_seated_front_neutral_v1_pv4",
+          "bodyFamily": "wave-a-skinny-woman-seated-front-neutral-v1-pv4",
+          "poseFamily": "seated-guest-neutral",
+          "required": { "width": 289, "height": 160 }
+        },
+        {
+          "body": "wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 236, "height": 261 }
+        },
+        {
+          "body": "wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+          "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 248, "height": 105 }
+        }
+      ]
+    },
+    {
+      "master": "tops/pg_master_top_04_structured_blazer.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "kind": "top",
+      "available": { "width": 185, "height": 225 },
+      "bodiesBlocked": 11,
+      "minimumNativeSize": { "width": 331, "height": 303 },
+      "worstEnlargement": { "x": 1.788, "y": 1.347 },
+      "bodies": [
+        {
+          "body": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 295, "height": 294 }
+        },
+        {
+          "body": "wave_a_average_woman_seated_front_neutral_v1_pv4",
+          "bodyFamily": "wave-a-average-woman-seated-front-neutral-v1-pv4",
+          "poseFamily": "seated-guest-neutral",
+          "required": { "width": 312, "height": 126 }
+        },
+        {
+          "body": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 276, "height": 257 }
+        },
+        {
+          "body": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+          "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 276, "height": 270 }
+        },
+        {
+          "body": "wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 331, "height": 280 }
+        },
+        {
+          "body": "wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 305, "height": 236 }
+        },
+        {
+          "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+          "bodyFamily": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 294, "height": 243 }
+        },
+        {
+          "body": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 277, "height": 303 }
+        },
+        {
+          "body": "wave_a_skinny_woman_seated_front_neutral_v1_pv4",
+          "bodyFamily": "wave-a-skinny-woman-seated-front-neutral-v1-pv4",
+          "poseFamily": "seated-guest-neutral",
+          "required": { "width": 289, "height": 176 }
+        },
+        {
+          "body": "wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+          "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 236, "height": 287 }
+        },
+        {
+          "body": "wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+          "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+          "poseFamily": "standing-neutral",
+          "required": { "width": 248, "height": 115 }
+        }
+      ]
+    }
+  ],
+  "pairs": [
+    {
+      "master": "tops/pg_master_top_01_short_sleeve_crew_tee.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_001_short_sleeve_crew_tee",
+      "kind": "top",
+      "body": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 187, "height": 199 },
+      "required": { "width": 295, "height": 257 },
+      "scale": { "x": 1.576, "y": 1.292 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_02_long_sleeve_button_shirt.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_005_long_sleeve_button_shirt",
+      "kind": "top",
+      "body": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 188, "height": 228 },
+      "required": { "width": 295, "height": 293 },
+      "scale": { "x": 1.567, "y": 1.285 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_03_pullover_sweater.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_006_pullover_sweater",
+      "kind": "top",
+      "body": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 192, "height": 212 },
+      "required": { "width": 295, "height": 267 },
+      "scale": { "x": 1.535, "y": 1.261 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_04_structured_blazer.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_011_structured_blazer",
+      "kind": "top",
+      "body": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 185, "height": 225 },
+      "required": { "width": 295, "height": 294 },
+      "scale": { "x": 1.593, "y": 1.307 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_01_straight_leg_jeans.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_001_straight_leg_blue_jeans",
+      "kind": "bottom",
+      "body": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 108, "height": 230 },
+      "required": { "width": 214, "height": 266 },
+      "scale": { "x": 1.978, "y": 1.157 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_02_dress_trousers.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_005_dress_trousers",
+      "kind": "bottom",
+      "body": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 112, "height": 231 },
+      "required": { "width": 214, "height": 258 },
+      "scale": { "x": 1.907, "y": 1.118 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_03_a_line_knee_skirt.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_010_a_line_knee_skirt",
+      "kind": "bottom",
+      "body": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 160, "height": 225 },
+      "required": { "width": 214, "height": 176 },
+      "scale": { "x": 1.335, "y": 0.783 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "footwear/pg_master_footwear_01_low_top_sneakers.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_001_low_top_sneakers",
+      "kind": "footwear",
+      "body": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 222, "height": 139 },
+      "required": { "width": 148, "height": 93 },
+      "scale": { "x": 0.666, "y": 0.666 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "footwear/pg_master_footwear_02_leather_loafers.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_004_leather_loafers",
+      "kind": "footwear",
+      "body": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 226, "height": 135 },
+      "required": { "width": 148, "height": 88 },
+      "scale": { "x": 0.654, "y": 0.654 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "footwear/pg_master_footwear_03_low_practical_flats.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_009_low_practical_flats",
+      "kind": "footwear",
+      "body": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 227, "height": 148 },
+      "required": { "width": 148, "height": 96 },
+      "scale": { "x": 0.651, "y": 0.651 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "tops/pg_master_top_01_short_sleeve_crew_tee.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_001_short_sleeve_crew_tee",
+      "kind": "top",
+      "body": "wave_a_average_woman_seated_front_neutral_v1_pv4",
+      "bodyFamily": "wave-a-average-woman-seated-front-neutral-v1-pv4",
+      "poseFamily": "seated-guest-neutral",
+      "available": { "width": 187, "height": 199 },
+      "required": { "width": 312, "height": 110 },
+      "scale": { "x": 1.667, "y": 0.555 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_02_long_sleeve_button_shirt.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_005_long_sleeve_button_shirt",
+      "kind": "top",
+      "body": "wave_a_average_woman_seated_front_neutral_v1_pv4",
+      "bodyFamily": "wave-a-average-woman-seated-front-neutral-v1-pv4",
+      "poseFamily": "seated-guest-neutral",
+      "available": { "width": 188, "height": 228 },
+      "required": { "width": 312, "height": 126 },
+      "scale": { "x": 1.658, "y": 0.552 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_03_pullover_sweater.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_006_pullover_sweater",
+      "kind": "top",
+      "body": "wave_a_average_woman_seated_front_neutral_v1_pv4",
+      "bodyFamily": "wave-a-average-woman-seated-front-neutral-v1-pv4",
+      "poseFamily": "seated-guest-neutral",
+      "available": { "width": 192, "height": 212 },
+      "required": { "width": 312, "height": 115 },
+      "scale": { "x": 1.623, "y": 0.542 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_04_structured_blazer.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_011_structured_blazer",
+      "kind": "top",
+      "body": "wave_a_average_woman_seated_front_neutral_v1_pv4",
+      "bodyFamily": "wave-a-average-woman-seated-front-neutral-v1-pv4",
+      "poseFamily": "seated-guest-neutral",
+      "available": { "width": 185, "height": 225 },
+      "required": { "width": 312, "height": 126 },
+      "scale": { "x": 1.685, "y": 0.561 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_01_short_sleeve_crew_tee.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_001_short_sleeve_crew_tee",
+      "kind": "top",
+      "body": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 187, "height": 199 },
+      "required": { "width": 276, "height": 224 },
+      "scale": { "x": 1.474, "y": 1.128 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_02_long_sleeve_button_shirt.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_005_long_sleeve_button_shirt",
+      "kind": "top",
+      "body": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 188, "height": 228 },
+      "required": { "width": 276, "height": 256 },
+      "scale": { "x": 1.466, "y": 1.122 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_03_pullover_sweater.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_006_pullover_sweater",
+      "kind": "top",
+      "body": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 192, "height": 212 },
+      "required": { "width": 276, "height": 233 },
+      "scale": { "x": 1.435, "y": 1.101 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_04_structured_blazer.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_011_structured_blazer",
+      "kind": "top",
+      "body": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 185, "height": 225 },
+      "required": { "width": 276, "height": 257 },
+      "scale": { "x": 1.49, "y": 1.141 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_01_straight_leg_jeans.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_001_straight_leg_blue_jeans",
+      "kind": "bottom",
+      "body": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 108, "height": 230 },
+      "required": { "width": 184, "height": 303 },
+      "scale": { "x": 1.704, "y": 1.316 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_02_dress_trousers.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_005_dress_trousers",
+      "kind": "bottom",
+      "body": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 112, "height": 231 },
+      "required": { "width": 184, "height": 294 },
+      "scale": { "x": 1.644, "y": 1.271 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_03_a_line_knee_skirt.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_010_a_line_knee_skirt",
+      "kind": "bottom",
+      "body": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 160, "height": 225 },
+      "required": { "width": 184, "height": 200 },
+      "scale": { "x": 1.15, "y": 0.89 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "footwear/pg_master_footwear_01_low_top_sneakers.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_001_low_top_sneakers",
+      "kind": "footwear",
+      "body": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 222, "height": 139 },
+      "required": { "width": 131, "height": 82 },
+      "scale": { "x": 0.59, "y": 0.59 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "footwear/pg_master_footwear_02_leather_loafers.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_004_leather_loafers",
+      "kind": "footwear",
+      "body": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 226, "height": 135 },
+      "required": { "width": 131, "height": 78 },
+      "scale": { "x": 0.58, "y": 0.58 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "footwear/pg_master_footwear_03_low_practical_flats.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_009_low_practical_flats",
+      "kind": "footwear",
+      "body": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 227, "height": 148 },
+      "required": { "width": 131, "height": 85 },
+      "scale": { "x": 0.577, "y": 0.577 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "tops/pg_master_top_01_short_sleeve_crew_tee.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_001_short_sleeve_crew_tee",
+      "kind": "top",
+      "body": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 187, "height": 199 },
+      "required": { "width": 276, "height": 236 },
+      "scale": { "x": 1.474, "y": 1.185 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_02_long_sleeve_button_shirt.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_005_long_sleeve_button_shirt",
+      "kind": "top",
+      "body": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 188, "height": 228 },
+      "required": { "width": 276, "height": 269 },
+      "scale": { "x": 1.466, "y": 1.179 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_03_pullover_sweater.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_006_pullover_sweater",
+      "kind": "top",
+      "body": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 192, "height": 212 },
+      "required": { "width": 276, "height": 245 },
+      "scale": { "x": 1.435, "y": 1.157 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_04_structured_blazer.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_011_structured_blazer",
+      "kind": "top",
+      "body": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 185, "height": 225 },
+      "required": { "width": 276, "height": 270 },
+      "scale": { "x": 1.49, "y": 1.199 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_01_straight_leg_jeans.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_001_straight_leg_blue_jeans",
+      "kind": "bottom",
+      "body": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 108, "height": 230 },
+      "required": { "width": 188, "height": 298 },
+      "scale": { "x": 1.737, "y": 1.294 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_02_dress_trousers.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_005_dress_trousers",
+      "kind": "bottom",
+      "body": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 112, "height": 231 },
+      "required": { "width": 188, "height": 289 },
+      "scale": { "x": 1.675, "y": 1.25 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_03_a_line_knee_skirt.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_010_a_line_knee_skirt",
+      "kind": "bottom",
+      "body": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 160, "height": 225 },
+      "required": { "width": 188, "height": 197 },
+      "scale": { "x": 1.173, "y": 0.875 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "footwear/pg_master_footwear_01_low_top_sneakers.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_001_low_top_sneakers",
+      "kind": "footwear",
+      "body": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 222, "height": 139 },
+      "required": { "width": 132, "height": 83 },
+      "scale": { "x": 0.595, "y": 0.595 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "footwear/pg_master_footwear_02_leather_loafers.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_004_leather_loafers",
+      "kind": "footwear",
+      "body": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 226, "height": 135 },
+      "required": { "width": 132, "height": 79 },
+      "scale": { "x": 0.585, "y": 0.585 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "footwear/pg_master_footwear_03_low_practical_flats.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_009_low_practical_flats",
+      "kind": "footwear",
+      "body": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 227, "height": 148 },
+      "required": { "width": 132, "height": 86 },
+      "scale": { "x": 0.582, "y": 0.582 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "tops/pg_master_top_01_short_sleeve_crew_tee.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_001_short_sleeve_crew_tee",
+      "kind": "top",
+      "body": "wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 187, "height": 199 },
+      "required": { "width": 331, "height": 245 },
+      "scale": { "x": 1.769, "y": 1.23 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_02_long_sleeve_button_shirt.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_005_long_sleeve_button_shirt",
+      "kind": "top",
+      "body": "wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 188, "height": 228 },
+      "required": { "width": 331, "height": 279 },
+      "scale": { "x": 1.759, "y": 1.223 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_03_pullover_sweater.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_006_pullover_sweater",
+      "kind": "top",
+      "body": "wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 192, "height": 212 },
+      "required": { "width": 331, "height": 254 },
+      "scale": { "x": 1.723, "y": 1.2 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_04_structured_blazer.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_011_structured_blazer",
+      "kind": "top",
+      "body": "wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 185, "height": 225 },
+      "required": { "width": 331, "height": 280 },
+      "scale": { "x": 1.788, "y": 1.244 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_01_straight_leg_jeans.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_001_straight_leg_blue_jeans",
+      "kind": "bottom",
+      "body": "wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 108, "height": 230 },
+      "required": { "width": 243, "height": 267 },
+      "scale": { "x": 2.251, "y": 1.161 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_02_dress_trousers.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_005_dress_trousers",
+      "kind": "bottom",
+      "body": "wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 112, "height": 231 },
+      "required": { "width": 243, "height": 259 },
+      "scale": { "x": 2.17, "y": 1.121 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_03_a_line_knee_skirt.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_010_a_line_knee_skirt",
+      "kind": "bottom",
+      "body": "wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 160, "height": 225 },
+      "required": { "width": 243, "height": 177 },
+      "scale": { "x": 1.519, "y": 0.785 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "footwear/pg_master_footwear_01_low_top_sneakers.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_001_low_top_sneakers",
+      "kind": "footwear",
+      "body": "wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 222, "height": 139 },
+      "required": { "width": 147, "height": 92 },
+      "scale": { "x": 0.661, "y": 0.661 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "footwear/pg_master_footwear_02_leather_loafers.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_004_leather_loafers",
+      "kind": "footwear",
+      "body": "wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 226, "height": 135 },
+      "required": { "width": 147, "height": 88 },
+      "scale": { "x": 0.649, "y": 0.649 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "footwear/pg_master_footwear_03_low_practical_flats.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_009_low_practical_flats",
+      "kind": "footwear",
+      "body": "wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 227, "height": 148 },
+      "required": { "width": 147, "height": 96 },
+      "scale": { "x": 0.646, "y": 0.646 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "tops/pg_master_top_01_short_sleeve_crew_tee.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_001_short_sleeve_crew_tee",
+      "kind": "top",
+      "body": "wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 187, "height": 199 },
+      "required": { "width": 305, "height": 207 },
+      "scale": { "x": 1.633, "y": 1.039 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_02_long_sleeve_button_shirt.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_005_long_sleeve_button_shirt",
+      "kind": "top",
+      "body": "wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 188, "height": 228 },
+      "required": { "width": 305, "height": 236 },
+      "scale": { "x": 1.624, "y": 1.034 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_03_pullover_sweater.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_006_pullover_sweater",
+      "kind": "top",
+      "body": "wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 192, "height": 212 },
+      "required": { "width": 305, "height": 215 },
+      "scale": { "x": 1.59, "y": 1.014 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_04_structured_blazer.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_011_structured_blazer",
+      "kind": "top",
+      "body": "wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 185, "height": 225 },
+      "required": { "width": 305, "height": 236 },
+      "scale": { "x": 1.65, "y": 1.051 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_01_straight_leg_jeans.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_001_straight_leg_blue_jeans",
+      "kind": "bottom",
+      "body": "wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 108, "height": 230 },
+      "required": { "width": 218, "height": 312 },
+      "scale": { "x": 2.021, "y": 1.355 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_02_dress_trousers.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_005_dress_trousers",
+      "kind": "bottom",
+      "body": "wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 112, "height": 231 },
+      "required": { "width": 218, "height": 302 },
+      "scale": { "x": 1.949, "y": 1.309 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_03_a_line_knee_skirt.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_010_a_line_knee_skirt",
+      "kind": "bottom",
+      "body": "wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 160, "height": 225 },
+      "required": { "width": 218, "height": 206 },
+      "scale": { "x": 1.364, "y": 0.917 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "footwear/pg_master_footwear_01_low_top_sneakers.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_001_low_top_sneakers",
+      "kind": "footwear",
+      "body": "wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 222, "height": 139 },
+      "required": { "width": 143, "height": 90 },
+      "scale": { "x": 0.646, "y": 0.646 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "footwear/pg_master_footwear_02_leather_loafers.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_004_leather_loafers",
+      "kind": "footwear",
+      "body": "wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 226, "height": 135 },
+      "required": { "width": 143, "height": 86 },
+      "scale": { "x": 0.634, "y": 0.634 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "footwear/pg_master_footwear_03_low_practical_flats.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_009_low_practical_flats",
+      "kind": "footwear",
+      "body": "wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 227, "height": 148 },
+      "required": { "width": 143, "height": 93 },
+      "scale": { "x": 0.632, "y": 0.632 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "tops/pg_master_top_01_short_sleeve_crew_tee.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_001_short_sleeve_crew_tee",
+      "kind": "top",
+      "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 187, "height": 199 },
+      "required": { "width": 294, "height": 212 },
+      "scale": { "x": 1.57, "y": 1.065 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_02_long_sleeve_button_shirt.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_005_long_sleeve_button_shirt",
+      "kind": "top",
+      "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 188, "height": 228 },
+      "required": { "width": 294, "height": 242 },
+      "scale": { "x": 1.562, "y": 1.06 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_03_pullover_sweater.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_006_pullover_sweater",
+      "kind": "top",
+      "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 192, "height": 212 },
+      "required": { "width": 294, "height": 220 },
+      "scale": { "x": 1.529, "y": 1.04 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_04_structured_blazer.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_011_structured_blazer",
+      "kind": "top",
+      "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 185, "height": 225 },
+      "required": { "width": 294, "height": 243 },
+      "scale": { "x": 1.587, "y": 1.078 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_01_straight_leg_jeans.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_001_straight_leg_blue_jeans",
+      "kind": "bottom",
+      "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 108, "height": 230 },
+      "required": { "width": 214, "height": 307 },
+      "scale": { "x": 1.978, "y": 1.334 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_02_dress_trousers.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_005_dress_trousers",
+      "kind": "bottom",
+      "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 112, "height": 231 },
+      "required": { "width": 214, "height": 298 },
+      "scale": { "x": 1.907, "y": 1.288 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_03_a_line_knee_skirt.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_010_a_line_knee_skirt",
+      "kind": "bottom",
+      "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 160, "height": 225 },
+      "required": { "width": 214, "height": 203 },
+      "scale": { "x": 1.335, "y": 0.902 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "footwear/pg_master_footwear_01_low_top_sneakers.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_001_low_top_sneakers",
+      "kind": "footwear",
+      "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 222, "height": 139 },
+      "required": { "width": 150, "height": 94 },
+      "scale": { "x": 0.676, "y": 0.676 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "footwear/pg_master_footwear_02_leather_loafers.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_004_leather_loafers",
+      "kind": "footwear",
+      "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 226, "height": 135 },
+      "required": { "width": 150, "height": 90 },
+      "scale": { "x": 0.664, "y": 0.664 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "footwear/pg_master_footwear_03_low_practical_flats.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_009_low_practical_flats",
+      "kind": "footwear",
+      "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 227, "height": 148 },
+      "required": { "width": 150, "height": 98 },
+      "scale": { "x": 0.661, "y": 0.661 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "tops/pg_master_top_01_short_sleeve_crew_tee.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_001_short_sleeve_crew_tee",
+      "kind": "top",
+      "body": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 187, "height": 199 },
+      "required": { "width": 277, "height": 265 },
+      "scale": { "x": 1.479, "y": 1.332 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_02_long_sleeve_button_shirt.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_005_long_sleeve_button_shirt",
+      "kind": "top",
+      "body": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 188, "height": 228 },
+      "required": { "width": 277, "height": 302 },
+      "scale": { "x": 1.472, "y": 1.325 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_03_pullover_sweater.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_006_pullover_sweater",
+      "kind": "top",
+      "body": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 192, "height": 212 },
+      "required": { "width": 277, "height": 276 },
+      "scale": { "x": 1.441, "y": 1.3 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_04_structured_blazer.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_011_structured_blazer",
+      "kind": "top",
+      "body": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 185, "height": 225 },
+      "required": { "width": 277, "height": 303 },
+      "scale": { "x": 1.495, "y": 1.347 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_01_straight_leg_jeans.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_001_straight_leg_blue_jeans",
+      "kind": "bottom",
+      "body": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 108, "height": 230 },
+      "required": { "width": 191, "height": 272 },
+      "scale": { "x": 1.77, "y": 1.183 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_02_dress_trousers.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_005_dress_trousers",
+      "kind": "bottom",
+      "body": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 112, "height": 231 },
+      "required": { "width": 191, "height": 264 },
+      "scale": { "x": 1.707, "y": 1.142 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_03_a_line_knee_skirt.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_010_a_line_knee_skirt",
+      "kind": "bottom",
+      "body": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 160, "height": 225 },
+      "required": { "width": 191, "height": 180 },
+      "scale": { "x": 1.195, "y": 0.8 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "footwear/pg_master_footwear_01_low_top_sneakers.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_001_low_top_sneakers",
+      "kind": "footwear",
+      "body": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 222, "height": 139 },
+      "required": { "width": 136, "height": 85 },
+      "scale": { "x": 0.61, "y": 0.61 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "footwear/pg_master_footwear_02_leather_loafers.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_004_leather_loafers",
+      "kind": "footwear",
+      "body": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 226, "height": 135 },
+      "required": { "width": 136, "height": 81 },
+      "scale": { "x": 0.6, "y": 0.6 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "footwear/pg_master_footwear_03_low_practical_flats.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_009_low_practical_flats",
+      "kind": "footwear",
+      "body": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 227, "height": 148 },
+      "required": { "width": 136, "height": 88 },
+      "scale": { "x": 0.597, "y": 0.597 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "tops/pg_master_top_01_short_sleeve_crew_tee.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_001_short_sleeve_crew_tee",
+      "kind": "top",
+      "body": "wave_a_skinny_woman_seated_front_neutral_v1_pv4",
+      "bodyFamily": "wave-a-skinny-woman-seated-front-neutral-v1-pv4",
+      "poseFamily": "seated-guest-neutral",
+      "available": { "width": 187, "height": 199 },
+      "required": { "width": 289, "height": 154 },
+      "scale": { "x": 1.547, "y": 0.772 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_02_long_sleeve_button_shirt.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_005_long_sleeve_button_shirt",
+      "kind": "top",
+      "body": "wave_a_skinny_woman_seated_front_neutral_v1_pv4",
+      "bodyFamily": "wave-a-skinny-woman-seated-front-neutral-v1-pv4",
+      "poseFamily": "seated-guest-neutral",
+      "available": { "width": 188, "height": 228 },
+      "required": { "width": 289, "height": 175 },
+      "scale": { "x": 1.539, "y": 0.769 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_03_pullover_sweater.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_006_pullover_sweater",
+      "kind": "top",
+      "body": "wave_a_skinny_woman_seated_front_neutral_v1_pv4",
+      "bodyFamily": "wave-a-skinny-woman-seated-front-neutral-v1-pv4",
+      "poseFamily": "seated-guest-neutral",
+      "available": { "width": 192, "height": 212 },
+      "required": { "width": 289, "height": 160 },
+      "scale": { "x": 1.507, "y": 0.754 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_04_structured_blazer.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_011_structured_blazer",
+      "kind": "top",
+      "body": "wave_a_skinny_woman_seated_front_neutral_v1_pv4",
+      "bodyFamily": "wave-a-skinny-woman-seated-front-neutral-v1-pv4",
+      "poseFamily": "seated-guest-neutral",
+      "available": { "width": 185, "height": 225 },
+      "required": { "width": 289, "height": 176 },
+      "scale": { "x": 1.564, "y": 0.782 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_01_short_sleeve_crew_tee.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_001_short_sleeve_crew_tee",
+      "kind": "top",
+      "body": "wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 187, "height": 199 },
+      "required": { "width": 236, "height": 251 },
+      "scale": { "x": 1.264, "y": 1.261 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_02_long_sleeve_button_shirt.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_005_long_sleeve_button_shirt",
+      "kind": "top",
+      "body": "wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 188, "height": 228 },
+      "required": { "width": 236, "height": 286 },
+      "scale": { "x": 1.257, "y": 1.254 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_03_pullover_sweater.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_006_pullover_sweater",
+      "kind": "top",
+      "body": "wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 192, "height": 212 },
+      "required": { "width": 236, "height": 261 },
+      "scale": { "x": 1.231, "y": 1.231 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_04_structured_blazer.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_011_structured_blazer",
+      "kind": "top",
+      "body": "wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 185, "height": 225 },
+      "required": { "width": 236, "height": 287 },
+      "scale": { "x": 1.278, "y": 1.276 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_01_straight_leg_jeans.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_001_straight_leg_blue_jeans",
+      "kind": "bottom",
+      "body": "wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 108, "height": 230 },
+      "required": { "width": 155, "height": 312 },
+      "scale": { "x": 1.431, "y": 1.355 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_02_dress_trousers.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_005_dress_trousers",
+      "kind": "bottom",
+      "body": "wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 112, "height": 231 },
+      "required": { "width": 155, "height": 302 },
+      "scale": { "x": 1.38, "y": 1.309 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_03_a_line_knee_skirt.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_010_a_line_knee_skirt",
+      "kind": "bottom",
+      "body": "wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 160, "height": 225 },
+      "required": { "width": 155, "height": 206 },
+      "scale": { "x": 0.966, "y": 0.917 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "footwear/pg_master_footwear_01_low_top_sneakers.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_001_low_top_sneakers",
+      "kind": "footwear",
+      "body": "wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 222, "height": 139 },
+      "required": { "width": 130, "height": 81 },
+      "scale": { "x": 0.585, "y": 0.585 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "footwear/pg_master_footwear_02_leather_loafers.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_004_leather_loafers",
+      "kind": "footwear",
+      "body": "wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 226, "height": 135 },
+      "required": { "width": 130, "height": 78 },
+      "scale": { "x": 0.575, "y": 0.575 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "footwear/pg_master_footwear_03_low_practical_flats.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_009_low_practical_flats",
+      "kind": "footwear",
+      "body": "wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+      "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 227, "height": 148 },
+      "required": { "width": 130, "height": 85 },
+      "scale": { "x": 0.572, "y": 0.572 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "tops/pg_master_top_01_short_sleeve_crew_tee.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_001_short_sleeve_crew_tee",
+      "kind": "top",
+      "body": "wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 187, "height": 199 },
+      "required": { "width": 248, "height": 101 },
+      "scale": { "x": 1.326, "y": 0.506 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_02_long_sleeve_button_shirt.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_005_long_sleeve_button_shirt",
+      "kind": "top",
+      "body": "wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 188, "height": 228 },
+      "required": { "width": 248, "height": 115 },
+      "scale": { "x": 1.319, "y": 0.504 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_03_pullover_sweater.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_006_pullover_sweater",
+      "kind": "top",
+      "body": "wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 192, "height": 212 },
+      "required": { "width": 248, "height": 105 },
+      "scale": { "x": 1.292, "y": 0.494 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "tops/pg_master_top_04_structured_blazer.png",
+      "masterSet": "PG_TOP_GARMENT_MASTERS_v1",
+      "garment": "pg_top_011_structured_blazer",
+      "kind": "top",
+      "body": "wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 185, "height": 225 },
+      "required": { "width": 248, "height": 115 },
+      "scale": { "x": 1.341, "y": 0.512 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_01_straight_leg_jeans.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_001_straight_leg_blue_jeans",
+      "kind": "bottom",
+      "body": "wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 108, "height": 230 },
+      "required": { "width": 155, "height": 315 },
+      "scale": { "x": 1.431, "y": 1.37 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_02_dress_trousers.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_005_dress_trousers",
+      "kind": "bottom",
+      "body": "wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 112, "height": 231 },
+      "required": { "width": 155, "height": 306 },
+      "scale": { "x": 1.38, "y": 1.323 },
+      "needsEnlargement": true
+    },
+    {
+      "master": "bottoms/pg_master_bottom_03_a_line_knee_skirt.png",
+      "masterSet": "PG_BOTTOM_GARMENT_MASTERS_v1",
+      "garment": "pg_bottom_010_a_line_knee_skirt",
+      "kind": "bottom",
+      "body": "wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 160, "height": 225 },
+      "required": { "width": 155, "height": 208 },
+      "scale": { "x": 0.966, "y": 0.926 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "footwear/pg_master_footwear_01_low_top_sneakers.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_001_low_top_sneakers",
+      "kind": "footwear",
+      "body": "wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 222, "height": 139 },
+      "required": { "width": 129, "height": 81 },
+      "scale": { "x": 0.58, "y": 0.58 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "footwear/pg_master_footwear_02_leather_loafers.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_004_leather_loafers",
+      "kind": "footwear",
+      "body": "wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 226, "height": 135 },
+      "required": { "width": 129, "height": 77 },
+      "scale": { "x": 0.57, "y": 0.57 },
+      "needsEnlargement": false
+    },
+    {
+      "master": "footwear/pg_master_footwear_03_low_practical_flats.png",
+      "masterSet": "PG_FOOTWEAR_MASTERS_v1",
+      "garment": "pg_shoe_009_low_practical_flats",
+      "kind": "footwear",
+      "body": "wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+      "bodyFamily": "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+      "poseFamily": "standing-neutral",
+      "available": { "width": 227, "height": 148 },
+      "required": { "width": 129, "height": 84 },
+      "scale": { "x": 0.567, "y": 0.567 },
+      "needsEnlargement": false
+    }
+  ]
+}
