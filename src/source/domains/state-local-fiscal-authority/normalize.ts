@@ -140,6 +140,7 @@ function authorityFrom(
   lineage: FiscalAuthorityLineage,
   derivation: "DIRECT" | "DERIVED",
 ): CitedFiscalAuthority {
+  const effectiveDate = fiscalMatrixField(row, "effective_date").trim();
   return {
     authorityType: fiscalMatrixField(row, "authority_type").trim(),
     artifactKind,
@@ -147,9 +148,14 @@ function authorityFrom(
     lineage,
     legalLocator: fiscalMatrixField(row, "legal_locator").trim(),
     authorityUrl: fiscalMatrixField(row, "authority_url").trim(),
-    effectiveDate: fiscalMatrixField(row, "effective_date").trim(),
+    enactedDate: null,
+    effectiveDate,
+    lastAmendedDate: null,
+    observedDate: effectiveDate,
+    versionApplicability: "CONTINUOUS_INTERVAL",
     derivation,
     derivationChain: null,
+    derivationArtifactIds: [],
     paraphrase: fiscalMatrixField(row, "paraphrase").trim(),
   };
 }

@@ -166,6 +166,32 @@
       "supporting_source_references": [
         "prov_env_legislative_chamber_floor_5632x3072_v1"
       ]
+    },
+    {
+      "family_id": "courtroom",
+      "room_use_category": "generic courtroom with a judicial bench, counsel tables and a public gallery",
+      "typical_proportion_rules": "Scene plate supplies only visual-estimate proportions; no physical dimensions are claimed.",
+      "seating_dais_logic": "A raised judicial bench seating six, a second lower bench, two counsel tables and fixed public pews behind a bar.",
+      "public_member_separation": "A bar rail separates the well from the public gallery. The rail is a depicted object, not an access rule: who may cross it is canonical role truth, never a property of the plate.",
+      "circulation_assumptions": "The well floor between the bench and the bar, and the gallery aisle behind it, stay visually clear.",
+      "camera_framing_guidance": "Wide eye-level room plate from the back left of the gallery, with pews available for character occlusion.",
+      "ceiling_height_category": "unknown",
+      "density_category": "formal-civic-courtroom",
+      "ornament_category": "restrained-civic",
+      "reusable_prop_slots": ["desk-document", "picture-frame"],
+      "event_layer_slots": [
+        "counsel-table-left-standing",
+        "well-floor-standing",
+        "gallery-aisle-standing",
+        "counsel-chair-left"
+      ],
+      "negative_constraints": [
+        "No physical measurement precision is authorized by the raster plate.",
+        "No court, jurisdiction, court level or bench composition derives from the picture.",
+        "No dynamic display surface exists in this family. There is no monitor, board, placard or docket sheet in the art, and none may be invented onto a wall panel.",
+        "This family is never substituted for a legislative chamber, hearing room or committee room."
+      ],
+      "supporting_source_references": ["prov_env_courtroom_empty_5504x3072_v1"]
     }
   ]
 }

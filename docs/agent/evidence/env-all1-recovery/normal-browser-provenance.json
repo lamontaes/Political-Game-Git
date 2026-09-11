@@ -1,0 +1,45 @@
+{
+  "expectedIdentity": {
+    "workspace": "/private/tmp/pg-env-normal-proof",
+    "head": "517dfa3bea238fe8cf37cf20330ca7d2c5b15918",
+    "branch": "",
+    "dirty": false,
+    "sourceDigest": "b7b4dee3ec511f485d6a1766ca900196e7196a5e7ceaf2ea90a8dabedb1453e2"
+  },
+  "served": {
+    "workspace": "/private/tmp/pg-env-normal-proof",
+    "head": "517dfa3bea238fe8cf37cf20330ca7d2c5b15918",
+    "branch": "",
+    "dirty": false,
+    "sourceDigest": "b7b4dee3ec511f485d6a1766ca900196e7196a5e7ceaf2ea90a8dabedb1453e2",
+    "pid": 16955,
+    "runId": "env-normal-517dfa3"
+  },
+  "baseURL": "http://127.0.0.1:5327",
+  "projects": [
+    {
+      "name": "chromium",
+      "use": {
+        "baseURL": "http://127.0.0.1:5327",
+        "trace": "retain-on-failure",
+        "screenshot": "only-on-failure",
+        "video": "off",
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.7922.34 Safari/537.36",
+        "screen": {
+          "width": 1920,
+          "height": 1080
+        },
+        "deviceScaleFactor": 1,
+        "isMobile": false,
+        "hasTouch": false,
+        "defaultBrowserType": "chromium",
+        "channel": "chrome"
+      }
+    }
+  ],
+  "seedPolicy": "Each test retains its original control seed; actual URL/world seed is captured by review proof."
+}
