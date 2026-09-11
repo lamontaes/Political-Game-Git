@@ -23,7 +23,7 @@ UI144 frozen publication: `302e1f0cb3fb6c7d5823c41cf9b5bf87d2bfcac2` (draft/open
 | 2     | #142 ENV     | `ca32eef8b35383d3a4b3f51cfe895c183bf25d04` | Composed onto current main as `cursor/land13-env-7cb6`. Prose inventory regenerated. County generated file excluded from prose scan (same class as places). |
 | 3     | #151 FISCAL  | `dee56eb22bf1bf201b55ec8c6d70d8e45d12a61b` | Pending after ENV                                                                                                                                           |
 | 4     | #152 CAREER  | `b274eef8ef106c467b757453c325b025b1c8d022` | Pending; Work root belongs to UI144                                                                                                                         |
-| 5     | #150 OPENING | `8845d61a423d2e764e515c4727c468c7c69bbc30` | Pending; use current UI solution where applicable                                                                                                           |
+| 5     | #150 OPENING | `8845d61a423d2e764e515c4727a468c7c69bbc30` | Pending; use current UI solution where applicable                                                                                                           |
 | 6     | #144 UI      | `302e1f0cb3fb6c7d5823c41cf9b5bf87d2bfcac2` | Freeze then compose last                                                                                                                                    |
 
 ## Assigned follow-ups (not merge blockers)
