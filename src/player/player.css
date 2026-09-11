@@ -6162,8 +6162,18 @@
   /* Controls belong on the left of the scene (Task C/R), so the room keeps the
      larger, open side of the frame. */
   justify-content: flex-start;
-  min-height: 100vh;
-  min-height: 100dvh;
+  /* Fixed height, not min-height: an owner composition (shell.css's accepted
+     R1 title grouping) overrides this rule's own padding with its own
+     viewport-relative clamp(), so the padding this rule's max-height budget
+     assumed does not always hold. With min-height, a taller actual padding
+     let the panel's own max-height:calc(100dvh - Nrem) still fit inside the
+     panel but push this container — and the whole page — past the viewport.
+     A fixed height plus overflow:hidden keeps the composition honest
+     regardless of which padding rule wins: the panel's own overflow-y:auto
+     is the one and only scroll region, never the page. */
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
   padding: 2rem clamp(1rem, 4vw, 3.5rem);
   box-sizing: border-box;
 }
