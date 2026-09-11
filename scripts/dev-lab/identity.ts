@@ -3,6 +3,30 @@ import { createHash } from "node:crypto";
 import { readFileSync, realpathSync } from "node:fs";
 import { resolve } from "node:path";
 
+export function sourceIdentityInputs(root = process.cwd()) {
+  const workspace = realpathSync(root);
+  const paths = (...args: string[]) =>
+    execFileSync("git", args, {
+      cwd: workspace,
+      encoding: "utf8",
+    })
+      .split("\0")
+      .filter(Boolean);
+  return [
+    ...new Set([
+      ...paths("diff", "HEAD", "--name-only", "-z"),
+      ...paths(
+        "ls-files",
+        "--others",
+        "--exclude-standard",
+        "--exclude=node_modules",
+        "--exclude=node_modules/**",
+        "-z",
+      ),
+    ]),
+  ].sort();
+}
+
 export function sourceIdentity(root = process.cwd()) {
   const workspace = realpathSync(root);
   const git = (...args: string[]) =>
@@ -13,25 +37,8 @@ export function sourceIdentity(root = process.cwd()) {
   // from HEAD plus untracked inputs, avoiding rereading gigabytes of unchanged
   // art on every health probe. Staged/unstaged status does not change identity.
   hash.update(git("rev-parse", "HEAD^{tree}")).update("\0");
-  const paths = (...args: string[]) =>
-    execFileSync("git", args, {
-      cwd: workspace,
-      encoding: "utf8",
-    })
-      .split("\0")
-      .filter(Boolean);
-  const files = [
-    ...paths("diff", "HEAD", "--name-only", "-z"),
-    ...paths(
-      "ls-files",
-      "--others",
-      "--exclude-standard",
-      "--exclude=node_modules",
-      "--exclude=node_modules/**",
-      "-z",
-    ),
-  ].sort();
-  for (const file of new Set(files)) {
+  const files = sourceIdentityInputs(workspace);
+  for (const file of files) {
     hash.update(file).update("\0");
     try {
       hash.update(readFileSync(resolve(workspace, file)));
@@ -55,9 +62,15 @@ export function assertIdentity(
   actual: SourceIdentity,
 ) {
   for (const key of ["workspace", "head", "branch", "sourceDigest"] as const) {
-    if (expected[key] !== actual[key])
+    if (expected[key] !== actual[key]) {
+      const changed =
+        key === "sourceDigest" ? sourceIdentityInputs(actual.workspace) : [];
       throw new Error(
-        `Served checkout mismatch: ${key}: expected ${expected[key]}, received ${actual[key]}`,
+        `Served checkout mismatch: ${key}: expected ${expected[key]}, received ${actual[key]}` +
+          (changed.length
+            ? `\nIdentity inputs (${changed.length} paths): ${changed.join(", ")}`
+            : ""),
       );
+    }
   }
 }
