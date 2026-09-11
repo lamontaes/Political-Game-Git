@@ -172,19 +172,22 @@ describe("A named person arrives with a relationship", () => {
     return { world: game.world, personId: game.playerPersonId };
   }
 
-  it("calls the guardian a parent, from the authority record", () => {
+  it("distinguishes a guardian from a parent using the authority record", () => {
     const { world, personId } = childWorld();
     const labels = Object.keys(world.people)
       .filter((id) => id !== personId)
       .map((id) => describePersonContext(world, personId, id as EntityId)!);
     const guardian = labels.find((entry) =>
-      /^your (mom|dad|parent)$/.test(entry.relationship ?? ""),
+      /^your (mom|dad|parent|guardian)$/.test(entry.relationship ?? ""),
     );
     expect(
       guardian,
       `no guardian label among ${labels.map((entry) => entry.relationship).join(", ")}`,
     ).toBeDefined();
     expect(guardian!.basis).toContain("authority record");
+    expect(guardian!.relationship === "your guardian").toBe(
+      !guardian!.basis.includes("parental:"),
+    );
   });
 
   it("calls a sibling a sibling, and says which of them is older", () => {

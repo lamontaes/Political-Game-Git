@@ -1002,9 +1002,9 @@ const SHIFT_ASKED_FOR: EpisodeFamily = {
       key: "asked-by-a-colleague",
       requires: [
         {
-          kind: "withheld",
-          reason:
-            "Missing canonical colleague coverage request and known funeral reason.",
+          kind: "fact",
+          fact: "work.coverage-requested",
+          counterpartRole: "colleague",
         },
         hasWork,
         { kind: "role", role: "colleague" },
@@ -1355,9 +1355,9 @@ const THE_LONG_WAY_IN: EpisodeFamily = {
       key: "carrying-the-group",
       requires: [
         {
-          kind: "withheld",
-          reason:
-            "Missing shared enrollment, assignment/deadline and contribution evidence.",
+          kind: "fact",
+          fact: "school.shared-assignment",
+          counterpartRole: "familiar",
         },
         inTraining,
         { kind: "role", role: "familiar" },

@@ -256,6 +256,17 @@ function describeRequirement(
   requirement: EpisodeRequirement,
 ): ContentRequirement {
   switch (requirement.kind) {
+    case "home-recorded":
+      return {
+        key: "home-recorded:current",
+        description: "A current household is recorded.",
+      };
+    case "local-time-window":
+      return {
+        key: `local-time-window:${requirement.startMinute}:${requirement.endMinuteExclusive}`,
+        description:
+          "The canonical moment is inside the declared local time window.",
+      };
     case "withheld":
       return {
         key: "withheld:missing-context",

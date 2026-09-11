@@ -1,0 +1,71 @@
+
+> political-life-rpg@0.2.0 test
+> vitest run
+
+
+ RUN  v4.1.1 /private/tmp/pg-opening-life1
+
+(node:37364) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:37368) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:37423) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:37463) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/content/adapters/adapters.test.ts (36 tests | 1 failed) 235ms
+     × reports an episode stage's own declared requirements 34ms
+(node:37525) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ tests/character-context.test.ts (34 tests | 1 failed) 1721ms
+     × calls the guardian a parent, from the authority record 80ms
+ ❯ tests/dialogue-reachability.test.ts (24 tests | 2 failed) 2993ms
+     × gives every family at least one branch that turns on an answer 14ms
+     × uses no option label twice 8ms
+ ❯ src/presentation/adaptive-life.test.ts (18 tests | 2 failed) 10239ms
+     × moves the household only through the declared seam 125ms
+     × writes the answers where they are, and nowhere history can see them 240ms
+ ❯ tests/character-components-validation.test.ts (8 tests | 1 failed) 8214ms
+     × reproduces the generation-2 rasters, hashes, and catalog signature from its script 5125ms
+ ❯ src/presentation/legislative-member-seat.test.ts (9 tests | 1 failed) 25833ms
+     × refuses a seat record whose campaign recorded a loss 5342ms
+ ❯ scripts/prose-corpus/corpus.test.ts (40 tests | 6 failed) 45435ms
+     × classifies the ten withheld 92C stages as withheld 11ms
+     × never lets a withheld stage appear in a played transcript 6574ms
+     × report what each seed actually demonstrated 8152ms
+     × does not claim the 92C pact callback without an actual trace 9991ms
+     × claims persistent cast across years only with a bound role and a span 10300ms
+     × reports counts that match a live measurement, not a stale run 7481ms
+ ❯ src/presentation/legislative-action-authority.test.ts (8 tests | 1 failed) 42485ms
+     × refuses rather than picking one when a second win makes the seat ambiguous 11513ms
+ ❯ src/presentation/legislative-bargaining-world.test.ts (6 tests | 4 failed) 24762ms
+     × carries a Lexington winner into real bargaining in their own world 6311ms
+     × derives the same dialogue word for word on the same records 5129ms
+     × reaches the same seat, chamber, measure and people after a reload 5467ms
+     × withholds the members' room while the bill is not on the floor 5107ms
+ ❯ tests/source/substrate.test.ts (19 tests | 1 failed) 44221ms
+     × declares a corpus digest that matches the file it describes 8672ms
+ ❯ src/presentation/p2r2-sustained-play.test.ts (11 tests | 4 failed) 30231ms
+     × keeps offering p2r2-sustained something to decide across a played life 6582ms
+     × keeps offering adaptive-life-test something to decide across a played life 5216ms
+     × keeps offering p1-quiet something to decide across a played life 6132ms
+     × carries on the same way after a save and a reload 6042ms
+ ❯ scripts/prose-corpus/anchor-crossbranch.test.ts (4 tests | 4 skipped) 45391ms
+ ❯ src/presentation/prior-work-evidence.test.ts (6 tests | 2 failed) 30096ms
+     × claims no work, and no acquaintance, when nothing puts them together 6682ms
+     × reads a work collaboration as shared work 5406ms
+ ❯ src/presentation/life-scene.test.ts (9 tests | 2 failed) 2602ms
+     × is short rather than invented when the records are thin 186ms
+     × introduces nobody at all when there is no household 265ms
+ ❯ tests/dev-identified.test.ts (5 tests | 5 failed) 25021ms
+     × prints banner and forwards custom arguments like --mode 5008ms
+     × handles --host= and --port= syntax without duplicating arguments 5003ms
+     × terminates cleanly and frees port on SIGTERM to wrapper 5002ms
+     × terminates cleanly and frees port on SIGINT to wrapper 5003ms
+     × fails with non-zero exit code if requested port is occupied (--strictPort) 5003ms
+ ❯ src/content/content-export.test.ts (9 tests | 1 failed) 1095ms
+     × shows an empty bank as empty rather than leaving it out 133ms
+(node:41501) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ tests/ordinary-conversation-integration.test.ts (1 test | 1 failed) 1328ms
+     × keeps relationship, commitment, aftermath, landed and turn records byte-identical to main 1323ms

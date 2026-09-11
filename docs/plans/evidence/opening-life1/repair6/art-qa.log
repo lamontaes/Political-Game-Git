@@ -1,0 +1,6 @@
+
+> political-life-rpg@0.2.0 qa:art
+> node --import tsx scripts/art-asset-factory/cli-qa.ts
+
+Contact sheet generated at /private/tmp/pg-opening-life1/art/qa/contact_sheets/index.html
+QA Report generated at /private/tmp/pg-opening-life1/art/qa/qa_report.json

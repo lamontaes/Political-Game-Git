@@ -276,6 +276,8 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     // The build seed, not the world's identity: the calibration is allowed to
     // change what the generator draws, and never which world this is.
     seed: buildSeedFor(setup),
+    familyStructureSeed: worldSeedFor(setup),
+    personalitySeed: setup.seed,
     place,
     age: setup.startAge,
     givenName: setup.givenName,

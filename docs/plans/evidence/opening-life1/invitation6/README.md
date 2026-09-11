@@ -1,0 +1,13 @@
+# Explicit ordinary invitation refusal
+
+Base aa6e91da5f1227b2a298d5cf545adecca0ff885f. Combined proof at UIc62b58ebd5e785484265d3bc53d0fa3b9404e28c in isolated /private/tmp/pg-opening-invitation-ui. UI's current source has the same canonical cancellation helper; no UI files were edited.
+
+Mount `SocialInvitationPanel` from src/presentation/SocialInvitationPanel.tsx in existing Day/Work, passing canonical world, personId and onWorldChange. Projection `socialInvitationsFor(world,personId)` is pure. Explicit writer `declineSocialInvitation(world,{personId,activityId,revision})` requires controlled invitee, exact source-linked social invitation, sole personal participant, no organizer responsibility, pending invitation, scheduled state and matching revision. It records explicit refusal and cancels only the matching personal hold. No clock movement, automatic consent, attendance, read/load cancellation, shared allocator change or organizer reassignment.
+
+Consumer delta: three NEW presentation files SocialInvitationPanel.tsx, social-invitation.ts and social-invitation.test.ts. The donor also imports the exact accepted-main cancelScheduledActivity function into its old frozen time-work base solely for compatibility/testing; UI ALREADY HAS IT and must not copy that dependency delta. No competing lifecycle implementation.
+
+Actual saved World: Jan7 at20:00; Jan10 future invitation scheduled-activity_40f1b8f6333747bd, source event_2c1f72643715e261. Before explicit refusal it is the sole blocker to Jan14. After refusal blockers=[], canonical clock unchanged, original activities/participants/responsibility unchanged, appended cancellation and reload verified. Raw saved JSON is wrapped using serializeWorld before deserializeWorld validation; no save edits or migration were used. Saved proof script and output attached. Generated focused2/2 and combined8/8 including unchanged conversation identity controls pass. Typecheck and actual corpus check pass; scanner53856literals/2115inventoried/370files,3498unclassified,zero hard errors.
+
+UI owns actual root placement and pointer/keyboard browser proof; no heavy runner while LAND owns slot. Accepted attendance/venue lifecycle and older adult scene response disposition remain unfinished and are not claimed by this bounded explicit refusal path. This source resolves the actual future-refusal blocker without inventing participation.
+
+LEARN: an invitation record is not acceptance or organizer authority. Provide an explicit source-bound personal response before changing its calendar hold; preserve the original activity while appending disposition.

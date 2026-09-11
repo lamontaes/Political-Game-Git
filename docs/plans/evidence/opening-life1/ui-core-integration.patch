@@ -1,0 +1,95 @@
+--- a/src/player/PlayerGame.tsx
++++ b/src/player/PlayerGame.tsx
+@@ -1,3 +1,5 @@
++import { createOpeningLifeController } from "../presentation/opening-life";
++import { OpeningLifeFlow } from "./opening-life/OpeningLifeFlow";
+ import {
+   useCallback,
+   useEffect,
+@@ -25,7 +27,6 @@
+   LEGISLATIVE_OFFICE_MINIMUM_AGE,
+   MAXIMUM_START_AGE,
+   MINIMUM_START_AGE,
+-  createNewGameWorld,
+   newGameSetupProblems,
+   type NewGameSetup,
+ } from "../presentation/new-game";
+@@ -172,7 +173,7 @@
+     if (replaySetup === null || replayStarted.current) return;
+     replayStarted.current = true;
+     try {
+-      const game = createNewGameWorld(replaySetup);
++      const game = createOpeningLifeController(replaySetup).finishTransition().game!;
+       startPlaying(game.world, game.playerPersonId, replaySetup.seed, null);
+     } catch (error) {
+       setProblem(
+@@ -398,7 +399,8 @@
+ 
+   function beginLife(setup: NewGameSetup) {
+     try {
+-      const game = createNewGameWorld(setup);
++      const controller = createOpeningLifeController(setup);
++      const game = controller.finishTransition().game!;
+       startPlaying(game.world, game.playerPersonId, setup.seed, null);
+     } catch (error) {
+       setProblem(
+@@ -1437,7 +1439,7 @@
+     () => buildLifeIntroduction(session.world, session.personId),
+     [session.world, session.personId],
+   );
+-  const [introduced, setIntroduced] = useState(session.saveId !== null);
++
+ 
+   const sceneId = useMemo(
+     () => resolveLifeScene(session.world, session.personId).sceneId,
+@@ -1559,47 +1561,9 @@
+         people={scenePeople}
+         surfaces={surfaceProjection}
+       >
+-        {!introduced && introduction ? (
+-          <section className="life-exposition" data-testid="life-introduction">
+-            <p className="life-exposition-kicker">Where this starts</p>
+-            {introduction.sentences.map((sentence) => (
+-              <p key={sentence} className="life-exposition-line">
+-                {sentence}
+-              </p>
+-            ))}
+-            {/*
+-              The life the generator already wrote, before the first thing the
+-              player has to decide about it. Absent when the records hold
+-              nothing, which is a real outcome and not a blank to be filled.
+-            */}
+-            {introduction.grounding.length > 0 ? (
+-              <div
+-                className="life-exposition-grounding"
+-                data-testid="life-grounding"
+-              >
+-                {introduction.grounding.map((fact) => (
+-                  <p
+-                    key={fact.basis}
+-                    className="life-exposition-line"
+-                    data-grounding={fact.kind}
+-                  >
+-                    {fact.text}
+-                  </p>
+-                ))}
+-              </div>
+-            ) : null}
+-            <button
+-              type="button"
+-              className="ui-action ui-action--primary"
+-              data-testid="introduction-continue"
+-              onClick={() => setIntroduced(true)}
+-            >
+-              Step inside
+-            </button>
+-          </section>
+-        ) : (
+-          <StoryView session={session} onWorldChange={onWorldChange} />
+-        )}
++        <OpeningLifeFlow key={session.world.id} world={session.world} playerPersonId={session.personId}
++          alreadyIntroduced={session.saveId !== null} onWorldChange={onWorldChange}
++          continuingLife={<StoryView session={session} onWorldChange={onWorldChange} />} />
+       </SceneBackdrop>
+ 
+       <LifePeopleRail

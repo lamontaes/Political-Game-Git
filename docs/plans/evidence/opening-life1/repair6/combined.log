@@ -1,0 +1,13 @@
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/dev-lab/vite-identity" without a file extension (vite.config.ts:6:33). Add the file extension
+  - import "./identity" without a file extension (scripts/dev-lab/vite-identity.ts:3:32). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+ RUN  v4.1.1 /private/tmp/pg-opening-repair6-combined
+
+
+ Test Files  4 passed (4)
+      Tests  68 passed (68)
+   Start at  12:20:16
+   Duration  23.29s (transform 5.52s, setup 0ms, import 8.24s, tests 14.22s, environment 1ms)
+

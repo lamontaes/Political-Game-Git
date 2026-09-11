@@ -1,0 +1,5 @@
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts
+
+Wrote docs/prose-inventory: 2141 templates, 3452 unclassified candidates, 0 hard errors, 267 warnings.

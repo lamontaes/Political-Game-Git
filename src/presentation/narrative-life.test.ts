@@ -11,6 +11,7 @@ import {
   playedEpisodeStages,
   playerModelFor,
   serializeWorld,
+  simulationMomentEpochMinute,
   setupOnlyPlayerModel,
   threadPresence,
 } from "../simulation";
@@ -78,6 +79,8 @@ function setup(overrides: Partial<NewGameSetup>): NewGameSetup {
 interface PlayedBeat {
   readonly index: number;
   readonly date: string;
+  readonly epochMinute: number;
+  readonly instanceKey: string | null;
   readonly age: number;
   readonly sceneKind: StoryMoment["scene"]["kind"];
   readonly connective: readonly string[];
@@ -128,6 +131,9 @@ function play(
     beats.push({
       index,
       date: world.currentDate,
+      epochMinute: simulationMomentEpochMinute(world.currentMoment),
+      instanceKey:
+        moment.scene.kind === "episode" ? moment.scene.beat.instanceKey : null,
       age: moment.age,
       sceneKind: moment.scene.kind,
       connective: moment.connective.sentences,
@@ -546,9 +552,21 @@ describe("Play-proof 3 — an adult thread runs across several beats", () => {
       running.length,
       `no episode instance reached a second stage: ${JSON.stringify(instances)}`,
     ).toBeGreaterThan(0);
-    // And the second stage happened later, not in the same moment.
+    // first/lastPlayedAt are day-granular reports. Ordinary follow-through
+    // can happen later on that same day. Compare the actual canonical clock
+    // captured before each choice, retaining strict chronology for every stage.
     for (const instance of running) {
-      expect(instance.lastPlayedAt > instance.firstPlayedAt).toBe(true);
+      const stages = life.beats.filter(
+        (beat) => beat.instanceKey === instance.instanceKey,
+      );
+      expect(stages.map((beat) => beat.stageKey)).toEqual(instance.stageKeys);
+      expect(stages[0]!.date).toBe(instance.firstPlayedAt);
+      expect(stages.at(-1)!.date).toBe(instance.lastPlayedAt);
+      for (let index = 1; index < stages.length; index++) {
+        expect(stages[index]!.epochMinute).toBeGreaterThan(
+          stages[index - 1]!.epochMinute,
+        );
+      }
     }
   });
 

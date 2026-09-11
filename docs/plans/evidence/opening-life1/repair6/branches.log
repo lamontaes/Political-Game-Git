@@ -1,0 +1,9 @@
+
+ RUN  v4.1.1 /private/tmp/pg-opening-life1
+
+
+ Test Files  1 passed (1)
+      Tests  20 passed (20)
+   Start at  12:20:27
+   Duration  5.82s (transform 2.86s, setup 0ms, import 3.23s, tests 2.41s, environment 0ms)
+

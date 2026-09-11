@@ -1,6 +1,9 @@
 import { createCausalMechanismCatalog } from "./causal-effects";
 import { createIncidentCatalog } from "./incident-catalog";
-import { createMindCatalog } from "./mind-catalog";
+import {
+  assertLifeMindContent,
+  createLifeMindCatalog,
+} from "./life-mind-content";
 import { createPolicyCatalog } from "./policy";
 import type {
   CausalMechanismCatalog,
@@ -82,11 +85,7 @@ export function createProductionPolicyCatalog(): PolicyCatalog {
 }
 
 export function createProductionMindCatalog(): MindCatalog {
-  return createMindCatalog({
-    catalogVersion: "mind-catalog-v1",
-    tendencies: [],
-    values: [],
-  });
+  return createLifeMindCatalog();
 }
 
 export function createProductionWorldMetricCatalog(): WorldMetricCatalog {
@@ -142,14 +141,13 @@ export function assertProductionCatalogBoundary(world: {
   // Emptiness is the current honest state of each of these, so it is also the
   // check. Adding sourced content means changing this function on purpose and
   // saying where the content came from.
+  assertLifeMindContent(world.mindCatalog);
   const populated = [
     ["policy domain", world.policyCatalog.domainOrder.length],
     ["policy issue", world.policyCatalog.issueOrder.length],
     ["policy proposition", world.policyCatalog.propositionOrder.length],
     ["policy subject", world.policyCatalog.subjectOrder.length],
     ["policy principle", world.policyCatalog.principleOrder.length],
-    ["personality tendency", world.mindCatalog.tendencyOrder.length],
-    ["personal value", world.mindCatalog.valueOrder.length],
     ["world metric", simulationEstablishedMetricCount(world.metricCatalog)],
     ["causal mechanism", world.causalMechanismCatalog.definitionOrder.length],
     ["incident", world.incidentCatalog.definitionOrder.length],

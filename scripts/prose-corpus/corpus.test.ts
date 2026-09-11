@@ -164,7 +164,7 @@ describe("PR #119 withholding is preserved, never fabricated", () => {
     (record) => record.reachability === "WITHHELD_BY_GROUNDING",
   );
 
-  it("classifies the ten withheld 92C stages as withheld", () => {
+  it("classifies the eight still-withheld 92C stages as withheld", () => {
     const stages = new Set(
       withheld
         .filter((record) => record.bank === "episode")
@@ -172,12 +172,10 @@ describe("PR #119 withholding is preserved, never fabricated", () => {
     );
     for (const stage of [
       "called-in",
-      "asked-by-a-colleague",
       "it-came-back-round",
       "pooled-tips",
       "what-you-said-stuck",
       "the-commute",
-      "carrying-the-group",
       "the-family-shop",
       "the-third-weekend",
       "sandbag-line",
@@ -546,12 +544,14 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
 
   it("reports counts that match a live measurement, not a stale run", () => {
     // Re-measured by corpus:prose on this tree, which composes current
-    // accepted main with the PEOPLE-VISUAL4 candidate assembly modules. The generator was re-run;
-    // these are the numbers it reports.
+    // accepted main (including PEOPLE-VISUAL4) with the OPENING-LIFE1
+    // checkpoint, using UI144's already-correct anchor union (per C's
+    // RETURN11 disposition on PR #150) rather than either parent's own
+    // smaller ledger. These are observed scanner counts, not pin arithmetic.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(65409);
-    expect(coverage.counts.INVENTORIED).toBe(2107);
-    expect(coverage.scannedFiles).toBe(465);
+    expect(coverage.totalLiterals).toBe(67078);
+    expect(coverage.counts.INVENTORIED).toBe(2295);
+    expect(coverage.scannedFiles).toBe(488);
   });
 });
 
