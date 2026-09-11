@@ -27,6 +27,9 @@ export interface LifeSceneDefinition {
 }
 const SOURCE =
   "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view";
+/** The reviewed packets, outputs and verdicts behind the PT3 first-session copy. */
+const PT3_FIRST_SESSION_SOURCE = "prose-review/pt3-first-session";
+
 function scene(
   key: string,
   ages: readonly [number, number],
@@ -35,6 +38,7 @@ function scene(
   premise: string,
   choices: readonly LifeSceneChoice[],
   minutes = 10,
+  source?: string,
 ): LifeSceneDefinition {
   return {
     key,
@@ -48,9 +52,10 @@ function scene(
     choices,
     minutes,
     source:
-      key.startsWith("adult.home.") || key.startsWith("young.home.")
+      source ??
+      (key.startsWith("adult.home.") || key.startsWith("young.home.")
         ? "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit"
-        : SOURCE,
+        : SOURCE),
   };
 }
 export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
@@ -427,25 +432,26 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
     [5, 17],
     "home",
     "alone",
-    "You have a little free time at home. What would you like to do?",
+    "You're at home, and the next fifteen minutes are yours.",
     [
       {
         key: "draw",
         label: "Draw something",
-        aftermath: "You spend a little time drawing.",
+        aftermath: "You draw for the fifteen minutes.",
       },
       {
         key: "read",
         label: "Read a book",
-        aftermath: "You spend a little time reading.",
+        aftermath: "You read for the fifteen minutes.",
       },
       {
         key: "rest",
         label: "Take a quiet break",
-        aftermath: "You take a quiet break.",
+        aftermath: "You sit quietly until the fifteen minutes are up.",
       },
     ],
     15,
+    `${PT3_FIRST_SESSION_SOURCE}/young-free-time`,
   ),
   scene(
     "young.home.ask-about-childhood",
@@ -479,52 +485,85 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
     [18, 110],
     "home",
     "alone",
-    "You have a little free time at home. What would you like to do?",
+    "You're at home with fifteen minutes free.",
     [
       {
         key: "read",
-        label: "Read for a while",
-        aftermath: "You spend a little time reading.",
+        label: "Read",
+        aftermath: "You spend the fifteen minutes reading.",
       },
       {
         key: "rest",
-        label: "Rest for a few minutes",
-        aftermath: "You take a quiet break.",
+        label: "Rest",
+        aftermath: "You rest for the fifteen minutes.",
       },
       {
         key: "draw",
-        label: "Spend time sketching",
-        aftermath: "You spend a little time drawing.",
+        label: "Sketch",
+        aftermath: "You spend the fifteen minutes sketching.",
       },
     ],
     15,
+    `${PT3_FIRST_SESSION_SOURCE}/adult-free-time`,
   ),
   scene(
     "adult.home.shared-time",
     [18, 110],
     "home",
     "housemate",
-    "You and {person} are both at home with time to talk.",
+    "You're home, and so is {who}.",
     [
       {
         key: "ask",
-        label: "Ask how their day is going",
+        label: "Ask about their day",
         aftermath: "You ask {person} how their day is going.",
         approach: "ask",
       },
       {
         key: "listen",
-        label: "Leave the topic to your housemate",
-        aftermath: "You let {person} choose a topic.",
+        label: "Let them pick the topic",
+        aftermath: "You let {person} choose what to talk about.",
         approach: "listen",
       },
       {
         key: "quiet",
-        label: "Ask for some quiet time",
+        label: "Ask for some quiet",
         aftermath: "You tell {person} you'd like a little quiet time.",
         approach: "direct",
       },
     ],
+    10,
+    `${PT3_FIRST_SESSION_SOURCE}/adult-shared-time`,
+  ),
+  // A decision with a recorded consequence, so an adult alone at home has
+  // something to decide besides how to spend fifteen minutes. Choosing records
+  // the plan through chooseOrdinaryLifeGoal; reading, resting or spending time
+  // with somebody later can keep it.
+  scene(
+    "adult.home.plan-week",
+    [18, 110],
+    "home",
+    "alone",
+    "You're at home, thinking about what to make time for in the days ahead.",
+    [
+      {
+        key: "learning",
+        label: "Make time to learn something",
+        aftermath: "You decide to set aside some time to learn something.",
+      },
+      {
+        key: "connection",
+        label: "Make time for people you know",
+        aftermath: "You decide to make time for people you know.",
+      },
+      {
+        key: "privacy",
+        label: "Make some time for yourself",
+        aftermath: "You decide to make some time for yourself.",
+      },
+    ],
+    5,
+    `${PT3_FIRST_SESSION_SOURCE}/adult-plan-week`,
   ),
 
   scene(
@@ -879,17 +918,34 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
   "adult.home.free-time": {
     afterChoice: "read",
     premise:
-      "You spent some of your free time reading. You can keep going or put the book aside.",
+      "You've been reading for the last fifteen minutes. You can read for five more, or stop here.",
     choices: [
       {
         key: "more",
-        label: "Read a little more before putting the book down",
-        aftermath: "You spend a few more minutes reading.",
+        label: "Read five more minutes",
+        aftermath: "You read for another five minutes.",
       },
       {
         key: "mark",
-        label: "Mark your place and put the book aside",
-        aftermath: "You mark your place and put the book aside.",
+        label: "Mark your place and stop",
+        aftermath: "You mark your place and put it aside.",
+      },
+    ],
+  },
+  "adult.home.plan-week": {
+    afterChoice: "learning",
+    premise:
+      "You've just made a plan to learn something, and there are five minutes open right now.",
+    choices: [
+      {
+        key: "read",
+        label: "Start by reading now",
+        aftermath: "You spend the five minutes reading.",
+      },
+      {
+        key: "later",
+        label: "Leave it for another time",
+        aftermath: "You set the plan aside for another time.",
       },
     ],
   },
@@ -948,6 +1004,21 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
   },
 };
 
+/**
+ * Scenes whose premise is only true at one time of day, as local minutes.
+ *
+ * A bedtime scene at bedtime, a moving shadow on a closet door after dark,
+ * a plate of broccoli at dinner — not at ten past nine in the morning, which
+ * is where the first session opens.
+ */
+export const OPENING_SCENE_TIME_WINDOWS: Readonly<
+  Record<string, readonly [number, number] | undefined>
+> = {
+  "early.home.bedtime-delay": [19 * 60, 24 * 60],
+  "early.home.closet-fear": [19 * 60, 24 * 60],
+  "early.home.food-refusal": [17 * 60, 20 * 60 + 30],
+};
+
 /** Retain accepted 92C stages; only genuinely additional kernels enter this bank. */
 export const OPENING_LIFE_ADDITIONS = OPENING_LIFE_SCENES.filter(
   (scene) =>
@@ -972,12 +1043,12 @@ export const OPENING_LIFE_FAMILIES: readonly EpisodeFamily[] =
       { kind: "age-at-least", age: scene.ages[0] },
       { kind: "age-below", age: scene.ages[1] + 1 },
       ...(scene.setting === "home" ? [{ kind: "home-recorded" as const }] : []),
-      ...(scene.key === "early.home.bedtime-delay"
+      ...(OPENING_SCENE_TIME_WINDOWS[scene.key]
         ? [
             {
               kind: "local-time-window" as const,
-              startMinute: 19 * 60,
-              endMinuteExclusive: 24 * 60,
+              startMinute: OPENING_SCENE_TIME_WINDOWS[scene.key]![0],
+              endMinuteExclusive: OPENING_SCENE_TIME_WINDOWS[scene.key]![1],
             },
           ]
         : []),
@@ -1002,13 +1073,21 @@ export const OPENING_LIFE_FAMILIES: readonly EpisodeFamily[] =
           key: "moment",
           requires: requirements,
           recordSceneContext: true,
-          lines: [scene.premise.replaceAll("{person}", slot)],
+          // `{who}` introduces the person with how the record relates them
+          // to the player ("Sierra Tucker, who you live with"). Authored only
+          // where it ends a clause, because the introduction carries its own
+          // comma and no closing one.
+          lines: [
+            scene.premise
+              .replaceAll("{who}", role ? `{who:${role}}` : "")
+              .replaceAll("{person}", slot),
+          ],
           stakes: "ordinary",
           tensions: [],
           mayLeadTo: [],
           options: scene.choices.map((choice) => ({
             key: choice.key,
-            label: choice.label,
+            label: choice.label.replaceAll("{person}", slot),
             description: `${scene.minutes} minutes`,
             memory: choice.aftermath.replaceAll("{person}", slot),
             nudges: [],

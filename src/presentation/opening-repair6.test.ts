@@ -11,6 +11,7 @@ import {
   OPENING_LIFE_ADDITIONS,
   OPENING_LIFE_FAMILIES,
   OPENING_LIFE_FOLLOWUPS,
+  OPENING_SCENE_TIME_WINDOWS,
 } from "../simulation/opening-life-content";
 import { chooseStoryOption } from "./life-story";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
@@ -36,10 +37,12 @@ describe("every authored opening continuation depends on the saved answer", () =
         seed: "repair6-branches",
         startAge: definition.ages[0],
       });
-      if (key === "early.home.bedtime-delay")
+      // A scene true only at one time of day is played at that time.
+      const window = OPENING_SCENE_TIME_WINDOWS[key];
+      if (window)
         game.world = advanceWorldMinutes(
           game.world,
-          19 * 60 - game.world.currentMoment.minuteOfDay,
+          window[0] - game.world.currentMoment.minuteOfDay,
         );
       const { playerPersonId: personId } = game;
       const beats = (world: typeof game.world) =>
