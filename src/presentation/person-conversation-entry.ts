@@ -1,3 +1,4 @@
+import { lifeTalkUnavailableReason } from "./life-talk-conversation";
 import { completedActivityHere } from "./scene-venues";
 import {
   availablePlayerConversations,
@@ -75,21 +76,12 @@ export function openConversationWith(
   const rooms = available.filter((entry) => eligible(entry, personId));
   const chosen = rooms.find((entry) => !entry.settled) ?? rooms[0];
   if (!chosen) {
-    /*
-     * Say what was actually checked.
-     *
-     * This told the player the person "is not somewhere you can talk to them",
-     * which is a claim about WHERE SOMEBODY IS — and the browser journey
-     * caught it being made about a household member standing in the room, drawn
-     * on screen, three feet away. What the test above establishes is narrower
-     * and different: no conversation this life can currently have lists this
-     * person as someone it can be addressed to. Being in the room and having
-     * something established to say are not the same fact, and only the second
-     * one was measured.
-     */
+    const specific = lifeTalkUnavailableReason(world, playerPersonId, personId);
     return {
       kind: "unavailable",
-      reason: `There is no conversation established with ${name} here yet.`,
+      reason:
+        specific ??
+        `There is no conversation established with ${name} here yet.`,
     };
   }
 

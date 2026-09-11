@@ -42,11 +42,13 @@ import type {
   ConversationStanding,
 } from "./conversation-consequences";
 import type { ConversationCommitContract } from "./conversation-subjects";
+import { commitLifeTalkConversationTurn } from "./life-talk-conversation";
 import {
   canListenToRunBConversation,
   createRunBConversationProgress,
   isHouseholdObligationConversationProgress,
   isLegislativeBargainingProgress,
+  isLifeTalkConversationProgress,
   isNeighborhoodMeetingConversationProgress,
   isSchoolProjectConversationProgress,
   isRunBReferralConversationProgress,
@@ -489,6 +491,13 @@ export function commitConversationTurn(
 ): CommitConversationTurnResult {
   const currentProgress = input.progress ?? createRunBConversationProgress();
   assertWorldIntegrity(inputWorld);
+  if (isLifeTalkConversationProgress(currentProgress)) {
+    return commitLifeTalkConversationTurn(
+      inputWorld,
+      input,
+      currentProgress,
+    );
+  }
   validateConversationRoom(inputWorld, input.room);
   validateConversationSession(inputWorld, input.room, input.session);
   validateAddressee(input.room, input.addressee);
