@@ -113,3 +113,16 @@ export function creatorPlaceScope(
 ): LifePlaceScope | null {
   return selectedCreatorPlace(draft)?.scope ?? null;
 }
+
+/**
+ * Hometown results stay collapsed after an explicit pick so Next remains on
+ * screen. They reopen only for a deliberate replacement — a new search or
+ * Change — without clearing the committed town until another locality is
+ * chosen. Changing state still uses `selectCreatorState`.
+ */
+export function creatorPlaceListOpen(
+  selectedPlaceKey: string | null,
+  replacing: boolean,
+): boolean {
+  return selectedPlaceKey === null || replacing;
+}

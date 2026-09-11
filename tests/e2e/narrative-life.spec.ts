@@ -241,6 +241,68 @@ test.describe("Setting up a life reads like a game, not a form", () => {
     expect(kentucky).not.toMatch(/Alabama/i);
     expect(kentucky).not.toMatch(/Statewide/i);
   });
+
+  test("keeps Lexington until a same-state replacement, including Back/edit", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 800, height: 900 });
+    await freshBrowser(page);
+    await openCreator(page);
+    await page.getByTestId("start-normal").click();
+    await page.getByTestId("start-age").fill("22");
+    await page.getByTestId("creator-continue-character").click();
+
+    await page.getByTestId("state-search").fill("Kentucky");
+    await page.getByTestId("state-KY").press("Enter");
+    await page.getByTestId("place-search").fill("lex");
+    await page
+      .getByTestId("place-choices")
+      .getByRole("button", { name: /Lexington, Kentucky/i })
+      .press("Enter");
+    await expect(page.getByTestId("place-canonical")).toHaveText(
+      /Lexington, Kentucky/,
+    );
+    await expect(page.getByTestId("place-choices")).toHaveCount(0);
+    await expect(page.getByTestId("creator-continue-place")).toBeVisible();
+
+    await page.getByTestId("place-search").fill("bowl");
+    await expect(page.getByTestId("place-canonical")).toHaveText(
+      /Lexington, Kentucky/,
+    );
+    await page
+      .getByTestId("place-choices")
+      .getByRole("button", { name: /Bowling Green, Kentucky/i })
+      .press("Enter");
+    await expect(page.getByTestId("place-canonical")).toHaveText(
+      /Bowling Green, Kentucky/,
+    );
+    await expect(page.getByTestId("place-choices")).toHaveCount(0);
+
+    await page.getByTestId("creator-continue-place").press("Enter");
+    await expect(page.getByTestId("creator-stage-whoareyou")).toBeVisible();
+    await page.getByTestId("creator-summary-place").press("Enter");
+    await expect(page.getByTestId("creator-stage-place")).toBeVisible();
+    await expect(page.getByTestId("place-canonical")).toHaveText(
+      /Bowling Green, Kentucky/,
+    );
+
+    await page.getByTestId("creator-change-place").press("Enter");
+    await page.getByTestId("place-search").fill("frank");
+    await page
+      .getByTestId("place-choices")
+      .getByRole("button", { name: /Frankfort, Kentucky/i })
+      .press("Enter");
+    await expect(page.getByTestId("place-canonical")).toHaveText(
+      /Frankfort, Kentucky/,
+    );
+
+    await page.getByTestId("creator-continue-place").press("Enter");
+    await page.getByTestId("whoareyou-play").press("Enter");
+    await expect(page.getByTestId("begin")).toBeEnabled();
+    await page.getByTestId("begin").press("Enter");
+    await enterLife(page);
+    await expect(page.getByTestId("story-section")).toBeVisible();
+  });
 });
 
 /* -------------------------------------------------------------------------- */

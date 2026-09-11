@@ -32,6 +32,7 @@ import {
 import {
   clearCreatorState,
   creatorLocationIsReady,
+  creatorPlaceListOpen,
   emptyCreatorLocation,
   selectCreatorPlace,
   selectCreatorState,
@@ -581,6 +582,7 @@ function SetupScreen({
   const coverage = lifePlaceCoverage();
   const [stateQuery, setStateQuery] = useState("");
   const [placeQuery, setPlaceQuery] = useState("");
+  const [replacingPlace, setReplacingPlace] = useState(false);
   const [location, setLocation] =
     useState<CreatorLocationDraft>(emptyCreatorLocation);
   const matchingStates = useMemo(() => {
@@ -636,6 +638,7 @@ function SetupScreen({
 
   const problems = newGameSetupProblems(committed);
   const place = selectedCreatorPlace(location);
+  const placeListOpen = creatorPlaceListOpen(location.placeKey, replacingPlace);
   const officeAvailable =
     place?.capabilities.legislativeScenarioKey !== null &&
     setup.startAge >= LEGISLATIVE_OFFICE_MINIMUM_AGE;
@@ -855,6 +858,7 @@ function SetupScreen({
               onClick={() => {
                 setLocation(clearCreatorState());
                 setPlaceQuery("");
+                setReplacingPlace(false);
                 setSetup((now) => ({ ...now, placeKey: "" }));
               }}
             >
@@ -890,6 +894,7 @@ function SetupScreen({
                           selectCreatorState(now, state.jurisdictionKey),
                         );
                         setPlaceQuery("");
+                        setReplacingPlace(false);
                         setSetup((now) => ({ ...now, placeKey: "" }));
                       }}
                     >
@@ -913,7 +918,10 @@ function SetupScreen({
                   data-testid="place-search"
                   value={placeQuery}
                   placeholder="Type a city or town"
-                  onChange={(event) => setPlaceQuery(event.target.value)}
+                  onChange={(event) => {
+                    setPlaceQuery(event.target.value);
+                    if (location.placeKey) setReplacingPlace(true);
+                  }}
                 />
               </label>
               {custom && statewidePlace ? (
@@ -930,6 +938,7 @@ function SetupScreen({
                       setLocation((now) =>
                         selectCreatorPlace(now, statewidePlace),
                       );
+                      setReplacingPlace(false);
                       setSetup((now) => ({
                         ...now,
                         placeKey: statewidePlace.key,
@@ -943,7 +952,7 @@ function SetupScreen({
                   </button>
                 </div>
               ) : null}
-              {place ? null : matchingPlaces.length > 0 ? (
+              {placeListOpen && matchingPlaces.length > 0 ? (
                 <div className="game-choices" data-testid="place-choices">
                   {matchingPlaces.map((candidate) => (
                     <button
@@ -958,6 +967,7 @@ function SetupScreen({
                         setLocation((now) =>
                           selectCreatorPlace(now, candidate),
                         );
+                        setReplacingPlace(false);
                         setSetup((now) => ({
                           ...now,
                           placeKey: candidate.key,
@@ -976,15 +986,15 @@ function SetupScreen({
                     </button>
                   ))}
                 </div>
-              ) : placeQuery.trim().length === 0 ? (
+              ) : placeListOpen && placeQuery.trim().length === 0 ? (
                 <p className="game-note" data-testid="place-prompt">
                   Choose a town in this state. {coverage.playerNote}
                 </p>
-              ) : (
+              ) : placeListOpen ? (
                 <p className="game-note" data-testid="place-no-match">
                   Nothing here matches that yet. {coverage.playerNote}
                 </p>
-              )}
+              ) : null}
             </>
           ) : (
             <p className="game-note" data-testid="place-prompt">
@@ -994,9 +1004,22 @@ function SetupScreen({
           {place &&
           creatorLocationIsReady(location, custom ? "custom" : "normal") ? (
             <div className="creator-place-context" data-testid="place-context">
-              <p className="creator-place-name" data-testid="place-canonical">
-                {place.displayName}
-              </p>
+              <button
+                type="button"
+                className="creator-summary"
+                data-testid="creator-change-place"
+                onClick={() => setReplacingPlace((open) => !open)}
+              >
+                <span
+                  className="creator-place-name"
+                  data-testid="place-canonical"
+                >
+                  {place.displayName}
+                </span>
+                <span className="creator-summary-edit">
+                  {replacingPlace ? "Keep" : "Change"}
+                </span>
+              </button>
               {placeStartFacts(place)
                 .filter((fact) => fact.kind !== "name")
                 .map((fact) => (
@@ -1008,14 +1031,16 @@ function SetupScreen({
                       : fact.text}
                   </p>
                 ))}
-              <button
-                type="button"
-                className="game-creator-next"
-                data-testid="creator-continue-place"
-                onClick={() => advanceTo(custom ? "background" : "whoAreYou")}
-              >
-                Next
-              </button>
+              {replacingPlace ? null : (
+                <button
+                  type="button"
+                  className="game-creator-next"
+                  data-testid="creator-continue-place"
+                  onClick={() => advanceTo(custom ? "background" : "whoAreYou")}
+                >
+                  Next
+                </button>
+              )}
             </div>
           ) : location.stateJurisdictionKey ? (
             <p className="game-note" data-testid="place-need-locality">
