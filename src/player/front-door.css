@@ -51,7 +51,7 @@
   );
 }
 
-.title-tableau--art.front-door .title-tableau-content > * {
+.title-tableau--art.front-door .title-tableau-content > *:not(.pg-version) {
   position: relative;
   z-index: 1;
 }
