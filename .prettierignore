@@ -47,3 +47,7 @@ src/districts/place-membership.generated.json
 src/simulation/municipal-governments.generated.ts
 src/simulation/municipal-capacity.generated.json
 src/simulation/municipal-rule-registry.generated.ts
+
+# Double-clickable macOS launchers. These are shell scripts, and Prettier has
+# no shell parser, so it reports them as an error rather than skipping them.
+*.command
