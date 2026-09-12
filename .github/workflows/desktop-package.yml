@@ -26,9 +26,15 @@ jobs:
           - os: macos-latest
             command: "node scripts/package.mjs --mac --arm64"
             name: mac-arm64
+            profile: production
+          - os: macos-latest
+            command: "node scripts/package.mjs --mac --arm64"
+            name: mac-arm64-art-review
+            profile: internal-art-review
           - os: windows-latest
             command: "node scripts/package.mjs --win --x64"
             name: win-x64
+            profile: production
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     steps:
@@ -49,13 +55,8 @@ jobs:
 
       - name: Build the game
         env:
-          # scripts/dev-lab/run-config.ts requires in-checkout run artifacts
-          # to sit under the POSIX-shaped test-results/ prefix, which a
-          # Windows checkout path can never satisfy (path.relative emits
-          # backslashes). The guard explicitly supports an external artifact
-          # parent, so point run output outside the checkout instead of
-          # weakening the shared guard.
           PG_ARTIFACTS_DIR: ${{ runner.temp }}/pg-artifacts
+          VITE_OCD_BUILD_PROFILE: ${{ matrix.profile }}
         run: npm run build
 
       - name: Install desktop shell dependencies
@@ -98,6 +99,8 @@ jobs:
       - name: Runtime smoke — launch the packaged app (macOS)
         if: runner.os == 'macOS'
         working-directory: desktop
+        env:
+          OCD_EXPECT_ART_PREVIEW: ${{ matrix.profile == 'internal-art-review' && '1' || '' }}
         # Unpacked-.app proof on the runner (the DMG contains this same
         # bundle); resize/fullscreen/minimize/quit included via --shell.
         run: |

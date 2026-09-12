@@ -13,7 +13,13 @@ import {
   PRODUCTION_VISUAL_LIBRARY,
 } from "./visual-integration";
 import { derivePersonAppearance } from "../simulation";
-import type { CharacterWardrobeContext } from "./character-components";
+import type {
+  CharacterComponentLibrary,
+  CharacterWardrobeContext,
+} from "./character-components";
+import type { PoseArtIndex } from "./pose-families";
+import type { RuntimeVisualLibrary } from "./visual-integration";
+import { previewArtRefusal } from "./art-preview";
 import {
   resolvePersonWardrobeContext,
   type PersonWardrobePreference,
@@ -21,12 +27,20 @@ import {
 import type { ScenePerson } from "./life-story";
 import type { Person, World } from "../simulation";
 
+export interface LifeSceneArtPreview {
+  readonly characters: CharacterComponentLibrary;
+  readonly visuals: RuntimeVisualLibrary;
+  readonly poseArt: PoseArtIndex;
+}
+
 export interface LifeSceneWardrobeOptions {
   /** Optional shared presentation snapshots; production eligibility still applies. */
   readonly snapshotsByPersonId?: Readonly<Record<string, PersonRenderSnapshot>>;
   readonly wardrobeByPersonId: Readonly<
     Record<string, PersonWardrobePreference>
   >;
+  /** Internal art-review / development preview libraries. Absent = production. */
+  readonly artPreview?: LifeSceneArtPreview;
   /** A caller with another catalog resolves against that catalog and the anchor's actual pose. */
   readonly resolveWardrobe?: (
     person: Person,
@@ -87,6 +101,14 @@ export interface PlacedScenePerson {
   readonly wardrobeRefusal?: string;
 }
 
+function previewLibraries(preview?: LifeSceneArtPreview) {
+  return {
+    library: preview?.characters ?? PRODUCTION_CHARACTER_LIBRARY,
+    visualLibrary: preview?.visuals ?? PRODUCTION_VISUAL_LIBRARY,
+    poseArt: preview?.poseArt ?? PRODUCTION_POSE_ART,
+  };
+}
+
 function resolveSavedWardrobe(
   person: Person,
   preference: PersonWardrobePreference,
@@ -145,6 +167,7 @@ function releasedLayers(
   anchor: RegisteredSceneAnchor,
   wardrobe?: CharacterWardrobeContext,
   snapshot?: PersonRenderSnapshot,
+  preview?: LifeSceneArtPreview,
 ): readonly ScenePersonLayer[] {
   // Ask #86's resolver for a real picture. Today this returns nothing — no body
   // master is released — but the call is the seam the released art lands on, so
@@ -154,7 +177,12 @@ function releasedLayers(
     return [];
   try {
     const record = world.people[person.id];
+    if (preview && record) {
+      const refusal = previewArtRefusal(record, world.currentDate);
+      if (refusal) return [];
+    }
     const appearance = record?.appearance ?? derivePersonAppearance(person.id);
+    const libs = previewLibraries(preview);
     const presentation = composeSceneCharacter({
       snapshot,
       wardrobe,
@@ -163,13 +191,14 @@ function releasedLayers(
       appearance,
       scene,
       anchor,
-      library: PRODUCTION_CHARACTER_LIBRARY,
-      visualLibrary: PRODUCTION_VISUAL_LIBRARY,
+      library: libs.library,
+      visualLibrary: libs.visualLibrary,
       poseRegistry: PRODUCTION_POSE_REGISTRY,
-      poseArt: PRODUCTION_POSE_ART,
+      poseArt: libs.poseArt,
     });
+    if (!presentation.complete) return [];
     if (
-      !presentation.complete ||
+      !preview &&
       presentation.layers.some(
         (layer) =>
           PRODUCTION_CHARACTER_LIBRARY.components.get(layer.assetId)?.fixture,
@@ -268,6 +297,7 @@ export function planLifeScenePeople(
             anchor,
             personWardrobe,
             savedWardrobes?.snapshotsByPersonId?.[person.personId],
+            savedWardrobes?.artPreview,
           );
     return {
       personId: person.personId,

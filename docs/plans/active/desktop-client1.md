@@ -20,8 +20,10 @@ Owner: Cursor Grok 4.6 Medium continuation on isolated branch
 - Close/update: window close waits for an actual `closed` event. A
   timeout is not persistence; a blocked flush does not force quit.
 - Candidate people: production packages still cannot show
-  `?art-preview=candidate`. Internal art-review needs the PT3/PEOPLE
-  adapter over `VITE_OCD_BUILD_PROFILE`; not claimed here.
+  `?art-preview=candidate`. A separately compiled internal art-review
+  package (`VITE_OCD_BUILD_PROFILE=internal-art-review`, `DEV=false`)
+  uses the existing Visual4 preview libraries, an isolated database, and
+  a distinct userData directory.
 - Linux cloud packaging is not Mac/Windows launch proof. CI remains the
   macOS/Windows runner path.
 - Root Vitest excludes `desktop/**` (those suites use Node `node:test`).

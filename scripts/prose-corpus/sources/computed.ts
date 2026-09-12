@@ -464,6 +464,23 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
       },
     ],
   },
+  {
+    sourcePath: "src/presentation/art-preview.ts",
+    domain: "shell",
+    bank: "art-preview",
+    symbols: ["ART_PREVIEW_LABEL", "INTERNAL_ART_REVIEW_LABEL"],
+    surface: "status",
+    reachability: "PLAYER_REACHABLE",
+    reachabilityReason:
+      "The labelled internal art-review package and the development preview banner.",
+    grounding: [
+      {
+        key: "build-profile",
+        description:
+          "Whether this compiled client is production or internal-art-review; the banner does not admit pixels.",
+      },
+    ],
+  },
 ];
 
 /** Is this literal a sentence a player reads, or machinery? */

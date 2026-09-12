@@ -91,7 +91,13 @@ export {
  */
 
 export const DEFAULT_DATABASE_NAME = "political-life-worlds";
-const DATABASE_VERSION = 1;
+/**
+ * Same additive version the UI-bearing shell uses: worlds at v1, interface
+ * (pins, journal, wardrobe) added at v2 in this database. Desktop transfer
+ * writes that store instead of reporting a complete import while dropping it.
+ */
+export const DATABASE_VERSION = 2;
+export const INTERFACE_STORE_NAME = "interface";
 const STORE_NAME = "worlds";
 const WRITE_FAILED = "This game could not be saved just now.";
 
@@ -338,6 +344,15 @@ export class BrowserSaveStore {
       options.delay ??
       ((milliseconds) =>
         new Promise((resolve) => setTimeout(resolve, milliseconds)));
+  }
+
+  /** The IndexedDB this store was bound to — the same one portable transfer uses. */
+  get indexedDB(): IDBFactory {
+    return this.#factory;
+  }
+
+  get databaseName(): string {
+    return this.#databaseName;
   }
 
   /**
@@ -1420,7 +1435,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === "object" && !Array.isArray(value);
 }
 
-function openDatabase(
+export function openDatabase(
   factory: IDBFactory,
   databaseName: string,
 ): Promise<IDBDatabase> {
@@ -1430,6 +1445,11 @@ function openDatabase(
       const database = request.result;
       if (!database.objectStoreNames.contains(STORE_NAME)) {
         database.createObjectStore(STORE_NAME, { keyPath: "saveId" });
+      }
+      if (!database.objectStoreNames.contains(INTERFACE_STORE_NAME)) {
+        database.createObjectStore(INTERFACE_STORE_NAME, {
+          keyPath: "saveId",
+        });
       }
     };
     request.onsuccess = () => {

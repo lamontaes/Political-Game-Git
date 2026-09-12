@@ -121,6 +121,18 @@ async function stableIdentity(page) {
     /* no household introduction */
   }
   await page.getByTestId("play-screen").waitFor();
+  if (process.env.OCD_EXPECT_ART_PREVIEW === "1") {
+    await page.getByTestId("art-preview-banner").waitFor({ timeout: 10000 });
+    check(
+      "art-review: labelled candidate banner is on the installed play screen",
+      (await page.getByTestId("art-preview-banner").count()) === 1,
+    );
+  } else {
+    check(
+      "production: candidate banner is absent",
+      (await page.getByTestId("art-preview-banner").count()) === 0,
+    );
+  }
   identity = await stableIdentity(page);
   await page.getByTestId("keep-world").click();
   await page

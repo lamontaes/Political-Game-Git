@@ -23,6 +23,7 @@ import {
   importPortableSave,
   parsePortableSave,
   serializePortableSave,
+  emptyInterfaceState,
 } from "./portable-save";
 import { guardUnsavedWork } from "./unsaved-work-guard";
 import type { UnloadTarget } from "./unsaved-work-guard";
@@ -273,9 +274,10 @@ class FakeStorageControl {
  */
 class FakeIndexedDbFactory {
   readonly records = new Map<string, unknown>();
+  readonly interfaceRecords = new Map<string, unknown>();
   readonly control = new FakeStorageControl();
   readonly #lock = new FakeTransactionLock();
-  #hasStore = false;
+  readonly #created = new Set<string>();
 
   asFactory(): IDBFactory {
     return { open: () => this.#open() } as unknown as IDBFactory;
@@ -285,18 +287,26 @@ class FakeIndexedDbFactory {
     this.records.set(saveId, structuredClone(value));
   }
 
+  #storeMap(name: string): Map<string, unknown> {
+    if (name === "interface") return this.interfaceRecords;
+    return this.records;
+  }
+
   #open(): IDBOpenDBRequest {
-    const objectStoreNames = { contains: () => this.#hasStore };
+    const created = this.#created;
+    const objectStoreNames = {
+      contains: (name: string) => created.has(name),
+    };
     const database = {
       objectStoreNames,
       onversionchange: null,
-      createObjectStore: () => {
-        this.#hasStore = true;
+      createObjectStore: (name: string) => {
+        created.add(name);
         return {} as IDBObjectStore;
       },
-      transaction: () =>
+      transaction: (name: string) =>
         new FakeTransaction(
-          this.records,
+          this.#storeMap(name),
           this.control,
           this.#lock,
         ) as unknown as IDBTransaction,
@@ -318,7 +328,9 @@ class FakeIndexedDbFactory {
       onblocked: null,
     };
     queueMicrotask(() => {
-      if (!this.#hasStore) request.onupgradeneeded?.();
+      if (!created.has("worlds") || !created.has("interface")) {
+        request.onupgradeneeded?.();
+      }
       request.onsuccess?.();
     });
     return request as unknown as IDBOpenDBRequest;
@@ -1755,7 +1767,10 @@ describe("portable save transfer", () => {
     expect(exported.bundle.world.payload).toBe(
       (await store.inspectRecord(saveId))?.payload,
     );
-    expect(exported.bundle.interface.status).toBe("unavailable");
+    expect(exported.bundle.interface.status).toBe("included");
+    if (exported.bundle.interface.status === "included") {
+      expect(exported.bundle.interface.state.pins).toEqual([]);
+    }
 
     const imported = await importPortableSave(store, exported.bundle);
     expect(imported.status).toBe("imported");
@@ -1840,5 +1855,162 @@ describe("portable save transfer", () => {
     ).toBe(5);
     expect((await store.inspectSnapshot(again.saveId))?.id).toBe(first.id);
     expect((await store.inspectSnapshot(other.saveId))?.id).toBe(second.id);
+  });
+
+  it("writes included pins and journal instead of dropping them", async () => {
+    const { factory, store } = storeWith();
+    const world = playerWorld("portable-interface");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+    const exported = await exportPortableSave(store, saveId);
+    expect(exported.status).toBe("ok");
+    if (exported.status !== "ok") return;
+    const withInterface = {
+      ...exported.bundle,
+      interface: {
+        status: "included" as const,
+        state: {
+          ...emptyInterfaceState(),
+          pins: [{ ref: { kind: "person", id: world.playerPersonId } }],
+          journal: { ambition: "Hold the seat", notes: [] },
+        },
+      },
+    };
+    const imported = await importPortableSave(store, withInterface);
+    expect(imported.status).toBe("imported");
+    if (imported.status !== "imported") return;
+    const stored = factory.interfaceRecords.get(imported.saveId) as {
+      pins: unknown[];
+      journal: { ambition: string };
+    };
+    expect(stored.pins).toHaveLength(1);
+    expect(stored.journal.ambition).toBe("Hold the seat");
+    expect(factory.records.has(saveId)).toBe(true);
+  });
+
+  it("refuses a future interface record instead of importing empty pins", async () => {
+    const { store } = storeWith();
+    const world = playerWorld("portable-future-interface");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+    const exported = await exportPortableSave(store, saveId);
+    expect(exported.status).toBe("ok");
+    if (exported.status !== "ok") return;
+    const parsed = parsePortableSave(
+      JSON.stringify({
+        ...exported.bundle,
+        interface: {
+          status: "included",
+          state: { ...emptyInterfaceState(), version: 99 },
+        },
+      }),
+    );
+    expect(parsed.status).toBe("error");
+    if (parsed.status === "error") expect(parsed.failure).toBe("malformed");
+    expect((await store.list()).saves.map((row) => row.saveId)).toEqual([
+      saveId,
+    ]);
+  });
+
+  it("refuses malformed pins rather than treating them as an empty rail", async () => {
+    const { store } = storeWith();
+    const world = playerWorld("portable-bad-pins");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+    const exported = await exportPortableSave(store, saveId);
+    expect(exported.status).toBe("ok");
+    if (exported.status !== "ok") return;
+    const parsed = parsePortableSave(
+      JSON.stringify({
+        ...exported.bundle,
+        interface: {
+          status: "included",
+          state: { pins: "not-an-array", journal: { ambition: "x" } },
+        },
+      }),
+    );
+    expect(parsed.status).toBe("error");
+    if (parsed.status === "error") expect(parsed.failure).toBe("malformed");
+  });
+
+  it("rolls back the new slot when interface write fails after the world is stored", async () => {
+    const { factory, store } = storeWith();
+    const world = playerWorld("portable-interface-fail");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+    const exported = await exportPortableSave(store, saveId);
+    expect(exported.status).toBe("ok");
+    if (exported.status !== "ok") return;
+    const withInterface = {
+      ...exported.bundle,
+      interface: {
+        status: "included" as const,
+        state: {
+          ...emptyInterfaceState(),
+          pins: [{ ref: { kind: "person", id: world.playerPersonId } }],
+        },
+      },
+    };
+    const beforeWorlds = (await store.inspectRecord(saveId))?.payload;
+    factory.control.failNext("put", 1, 1);
+    const imported = await importPortableSave(store, withInterface);
+    expect(imported.status).toBe("error");
+    expect((await store.inspectRecord(saveId))?.payload).toBe(beforeWorlds);
+    expect((await store.list()).saves.map((row) => row.saveId)).toEqual([
+      saveId,
+    ]);
+  });
+
+  it("can import the world only when asked, without claiming pins transferred", async () => {
+    const { factory, store } = storeWith();
+    const world = playerWorld("portable-world-only");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+    const exported = await exportPortableSave(store, saveId);
+    expect(exported.status).toBe("ok");
+    if (exported.status !== "ok") return;
+    const withInterface = {
+      ...exported.bundle,
+      interface: {
+        status: "included" as const,
+        state: {
+          ...emptyInterfaceState(),
+          pins: [{ ref: { kind: "person", id: world.playerPersonId } }],
+        },
+      },
+    };
+    const imported = await importPortableSave(store, withInterface, {
+      interfacePolicy: "world-only",
+    });
+    expect(imported.status).toBe("imported");
+    if (imported.status !== "imported") return;
+    expect(factory.interfaceRecords.get(imported.saveId)).toBeUndefined();
+  });
+
+  it("does not treat a flipped provenance label as candidate admission", () => {
+    const { store } = storeWith();
+    const world = playerWorld("portable-label");
+    const saveId = store.newSaveId(world);
+    return store.save(world, saveId).then(async () => {
+      const exported = await exportPortableSave(store, saveId);
+      expect(exported.status).toBe("ok");
+      if (exported.status !== "ok") return;
+      const relabelled = parsePortableSave(
+        serializePortableSave({
+          ...exported.bundle,
+          artProvenance: "production",
+        }),
+        { productionProfile: true },
+      );
+      expect(relabelled.status).toBe("ok");
+      const stillCandidate = parsePortableSave(
+        serializePortableSave({
+          ...exported.bundle,
+          artProvenance: "candidate-review",
+        }),
+        { productionProfile: true },
+      );
+      expect(stillCandidate.status).toBe("error");
+    });
   });
 });

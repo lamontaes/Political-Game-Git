@@ -1,7 +1,8 @@
 import { deserializeWorld } from "../simulation/serialization";
 import type { EntityId } from "../simulation/types";
 import {
-  DEFAULT_DATABASE_NAME,
+  INTERFACE_STORE_NAME,
+  openDatabase,
   readStoredRecord,
   type BrowserSaveStore,
   type StoredBrowserWorldRecord,
@@ -14,8 +15,10 @@ import {
  * The life is two persistence paths: the canonical World, and the shell's
  * interface state (pins, private journal, wardrobe preferences) when that
  * store exists. Exporting only the World would silently drop the interface.
- * On accepted main the interface store is not yet present, so the bundle
- * records that honestly instead of inventing pins.
+ * The interface store is created by the same additive IndexedDB migration
+ * the UI-bearing shell uses. An included pins/journal/wardrobe payload is
+ * written there, or the import is refused and rolled back — never reported
+ * complete after a silent drop.
  *
  * Import always creates a new local slot. The person inside the World stays
  * themselves; a new save id is not a new fictional life. Existing slots are
@@ -70,7 +73,8 @@ export type PortableSaveParseResult =
       readonly reason: string;
     };
 
-const INTERFACE_STORE_NAME = "interface";
+/** Stored shell records use 1 or 2; anything else is a future payload. */
+export const INTERFACE_RECORD_VERSIONS = new Set([1, 2]);
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === "object" && !Array.isArray(value);
@@ -89,15 +93,26 @@ export function readPortableInterfaceState(
   value: unknown,
 ): PortableInterfaceState | null {
   if (!isRecord(value)) return null;
-  const pins = Array.isArray(value.pins) ? value.pins : [];
-  const personWardrobes = isRecord(value.personWardrobes)
-    ? value.personWardrobes
-    : {};
+  if (
+    value.version !== undefined &&
+    (typeof value.version !== "number" ||
+      !INTERFACE_RECORD_VERSIONS.has(value.version))
+  ) {
+    return null;
+  }
+  if (!Array.isArray(value.pins)) return null;
+  if (value.journal !== undefined && !isRecord(value.journal)) return null;
+  if (value.preferences !== undefined && !isRecord(value.preferences)) {
+    return null;
+  }
+  if (value.personWardrobes !== undefined && !isRecord(value.personWardrobes)) {
+    return null;
+  }
   return {
-    pins,
+    pins: value.pins,
     journal: value.journal ?? { ambition: "", notes: [] },
     preferences: value.preferences ?? {},
-    personWardrobes,
+    personWardrobes: value.personWardrobes ?? {},
   };
 }
 
@@ -293,8 +308,8 @@ export async function exportPortableSave(
     };
   }
   const iface = await readOptionalInterface(
-    options.indexedDB ?? globalThis.indexedDB,
-    options.databaseName ?? DEFAULT_DATABASE_NAME,
+    options.indexedDB ?? store.indexedDB,
+    options.databaseName ?? store.databaseName,
     saveId,
   );
   return {
@@ -318,6 +333,11 @@ export async function importPortableSave(
     readonly indexedDB?: IDBFactory;
     readonly databaseName?: string;
     readonly existingSaveIds?: () => Promise<readonly EntityId[]>;
+    /**
+     * `world-only` skips included pins/journal/wardrobe on purpose and says
+     * so. The default writes included interface state or rolls the slot back.
+     */
+    readonly interfacePolicy?: "transfer" | "world-only";
   } = {},
 ): Promise<
   | { readonly status: "imported"; readonly saveId: EntityId }
@@ -350,10 +370,13 @@ export async function importPortableSave(
         reason: `${outcome.reason} Existing saves are unchanged.`,
       };
     }
-    if (bundle.interface.status === "included") {
+    if (
+      bundle.interface.status === "included" &&
+      options.interfacePolicy !== "world-only"
+    ) {
       const written = await writeOptionalInterface(
-        options.indexedDB ?? globalThis.indexedDB,
-        options.databaseName ?? DEFAULT_DATABASE_NAME,
+        options.indexedDB ?? store.indexedDB,
+        options.databaseName ?? store.databaseName,
         saveId,
         bundle.interface.state,
       );
@@ -404,17 +427,16 @@ async function snapshotPayloads(store: BrowserSaveStore): Promise<string> {
   return rows.sort().join("|");
 }
 
-function openExistingDatabase(
+async function openGameDatabase(
   factory: IDBFactory | undefined,
   databaseName: string,
 ): Promise<IDBDatabase | null> {
-  if (!factory) return Promise.resolve(null);
-  return new Promise((resolve) => {
-    const request = factory.open(databaseName);
-    request.onerror = () => resolve(null);
-    request.onblocked = () => resolve(null);
-    request.onsuccess = () => resolve(request.result);
-  });
+  if (!factory) return null;
+  try {
+    return await openDatabase(factory, databaseName);
+  } catch {
+    return null;
+  }
 }
 
 export async function readOptionalInterface(
@@ -422,7 +444,7 @@ export async function readOptionalInterface(
   databaseName: string,
   saveId: EntityId,
 ): Promise<PortableInterfacePayload> {
-  const database = await openExistingDatabase(factory, databaseName);
+  const database = await openGameDatabase(factory, databaseName);
   if (database === null) {
     return {
       status: "unavailable",
@@ -434,7 +456,7 @@ export async function readOptionalInterface(
       return {
         status: "unavailable",
         reason:
-          "This build has no durable interface store. Pins and private notes live only in the UI-bearing shell.",
+          "This build has no durable interface store. Pins and private notes were not stored with this life.",
       };
     }
     const raw = await new Promise<unknown>((resolve, reject) => {
@@ -470,14 +492,19 @@ async function writeOptionalInterface(
   saveId: EntityId,
   state: PortableInterfaceState,
 ): Promise<{ ok: true } | { ok: false; reason: string }> {
-  const database = await openExistingDatabase(factory, databaseName);
+  const database = await openGameDatabase(factory, databaseName);
   if (database === null) {
     return { ok: false, reason: "Saved-game storage is not available." };
   }
   try {
     if (!database.objectStoreNames.contains(INTERFACE_STORE_NAME)) {
-      return { ok: true };
+      return {
+        ok: false,
+        reason:
+          "This build cannot store pins and private notes. Existing saves are unchanged.",
+      };
     }
+    const writeFailed = "The interface state could not be stored.";
     await new Promise<void>((resolve, reject) => {
       const transaction = database.transaction(
         INTERFACE_STORE_NAME,
@@ -491,9 +518,10 @@ async function writeOptionalInterface(
         preferences: state.preferences,
         personWardrobes: state.personWardrobes,
       });
+      const fail = () => reject(transaction.error ?? new Error(writeFailed));
       transaction.oncomplete = () => resolve();
-      transaction.onerror = () =>
-        reject(transaction.error ?? new Error("interface write failed"));
+      transaction.onerror = fail;
+      transaction.onabort = fail;
     });
     return { ok: true };
   } catch (error) {

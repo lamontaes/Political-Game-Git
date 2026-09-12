@@ -93,6 +93,14 @@ import {
   SaveImportControl,
   SaveTransferControls,
 } from "./SaveTransferControls";
+import {
+  artPreviewBanner,
+  artPreviewLibraries,
+  artPreviewMode,
+  previewDatabaseName,
+} from "../presentation/art-preview";
+import { gameBuildProfile } from "../presentation/build-profile";
+import type { PersonVisualLibraries } from "../presentation/person-visual";
 
 /**
  * The game.
@@ -128,13 +136,30 @@ interface Session {
 }
 
 export function PlayerGame() {
+  const previewMode = useMemo(
+    () =>
+      artPreviewMode(window.location.search, {
+        development: import.meta.env.DEV,
+        profile: gameBuildProfile(),
+      }),
+    [],
+  );
+  const artPreview = useMemo(
+    () => artPreviewLibraries(previewMode),
+    [previewMode],
+  );
+  const previewLibraries: PersonVisualLibraries | undefined = artPreview
+    ? { characters: artPreview.characters, visuals: artPreview.visuals }
+    : undefined;
   const store = useMemo(() => {
     try {
-      return new BrowserSaveStore();
+      return new BrowserSaveStore({
+        databaseName: previewDatabaseName(previewMode),
+      });
     } catch {
       return null;
     }
-  }, []);
+  }, [previewMode]);
   // A replay seed is honoured for the whole session; otherwise every trip to
   // the setup screen draws a new one, so starting a second life does not
   // quietly rebuild the first.
@@ -507,6 +532,9 @@ export function PlayerGame() {
       onKeep={() => void keepThisWorld()}
       onLeave={() => void leaveGame()}
       savesUnavailable={savesUnavailable}
+      artPreview={artPreview}
+      previewLibraries={previewLibraries}
+      previewBanner={artPreviewBanner(previewMode)}
     />
   );
 }
@@ -1427,6 +1455,9 @@ function PlayingScreen({
   onKeep,
   onLeave,
   savesUnavailable,
+  artPreview,
+  previewLibraries,
+  previewBanner,
 }: {
   readonly session: Session;
   readonly notice: string | null;
@@ -1435,6 +1466,9 @@ function PlayingScreen({
   readonly onKeep: () => void;
   readonly onLeave: () => void;
   readonly savesUnavailable: boolean;
+  readonly artPreview: ReturnType<typeof artPreviewLibraries>;
+  readonly previewLibraries: PersonVisualLibraries | undefined;
+  readonly previewBanner: string | null;
 }) {
   const capabilities = useMemo(
     () => resolvePlayerCapabilities(session.world),
@@ -1508,8 +1542,14 @@ function PlayingScreen({
 
   const scenePeople = useMemo(
     () =>
-      planLifeScenePeople(session.world, moment.scene.presentPeople, sceneId),
-    [session.world, moment.scene.presentPeople, sceneId],
+      planLifeScenePeople(
+        session.world,
+        moment.scene.presentPeople,
+        sceneId,
+        undefined,
+        artPreview ? { wardrobeByPersonId: {}, artPreview } : undefined,
+      ),
+    [session.world, moment.scene.presentPeople, sceneId, artPreview],
   );
 
   const elsewhere = useMemo(() => {
@@ -1690,6 +1730,8 @@ function PlayingScreen({
         unsaved={session.unsavedSeed !== null}
         notice={notice}
         problem={problem}
+        previewLibraries={previewLibraries}
+        previewBanner={previewBanner}
       />
 
       {open === "day" ? (
@@ -1985,6 +2027,8 @@ function LifeHud({
   unsaved,
   notice,
   problem,
+  previewLibraries,
+  previewBanner,
 }: {
   readonly world: World;
   readonly personId: EntityId;
@@ -2003,9 +2047,20 @@ function LifeHud({
   readonly unsaved: boolean;
   readonly notice: string | null;
   readonly problem: string | null;
+  readonly previewLibraries: PersonVisualLibraries | undefined;
+  readonly previewBanner: string | null;
 }) {
   return (
     <div className="life-hud" data-testid="life-hud">
+      {previewBanner ? (
+        <p
+          className="life-hud-note"
+          data-testid="art-preview-banner"
+          role="status"
+        >
+          {previewBanner}
+        </p>
+      ) : null}
       {notice ? (
         <p className="life-hud-note" role="status">
           {notice}
@@ -2022,6 +2077,7 @@ function LifeHud({
           personId={personId}
           size="small"
           note={`${age}${placeName ? ` · ${placeName}` : ""}`}
+          visualLibraries={previewLibraries}
         />
         <div className="life-hud-clock">
           <strong>{dateLabel}</strong>

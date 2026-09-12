@@ -1,4 +1,4 @@
-/* global console, process, setTimeout */
+/* global console, process, setTimeout, indexedDB */
 /**
  * Browser-file save transfer against a packaged build on an isolated
  * profile: keep a life, export it, import it as a second slot, then
@@ -7,7 +7,7 @@
  * Usage: node scripts/transfer-test.mjs --app <executable>
  */
 
-import { mkdtempSync, readdirSync } from "node:fs";
+import { mkdtempSync, readdirSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import os from "node:os";
@@ -28,6 +28,10 @@ function arg(name) {
   return index >= 0 ? process.argv[index + 1] : undefined;
 }
 const appPath = arg("--app");
+const saveDatabaseName =
+  process.env.OCD_EXPECT_ART_PREVIEW === "1"
+    ? "political-life-worlds-art-preview"
+    : "political-life-worlds";
 if (!appPath) {
   console.error("Usage: node scripts/transfer-test.mjs --app <executable>");
   process.exit(1);
@@ -81,6 +85,53 @@ await page.getByTestId("keep-world").click();
 await page
   .getByTestId("keep-world")
   .waitFor({ state: "detached", timeout: 15000 });
+
+const interfaceSeed = await page.evaluate(async (databaseName) => {
+  const db = await new Promise((resolve, reject) => {
+    const request = indexedDB.open(databaseName, 2);
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+  const worlds = await new Promise((resolve, reject) => {
+    const request = db
+      .transaction("worlds", "readonly")
+      .objectStore("worlds")
+      .getAll();
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+  const record = worlds.find((row) => row && row.saveId && row.payload);
+  if (!record) {
+    db.close();
+    return null;
+  }
+  await new Promise((resolve, reject) => {
+    const transaction = db.transaction("interface", "readwrite");
+    transaction.objectStore("interface").put({
+      saveId: record.saveId,
+      version: 2,
+      pins: [
+        {
+          ref: { kind: "person", id: record.metadata.playerPersonId },
+          size: "normal",
+        },
+      ],
+      journal: { ambition: "Keep the district", notes: [] },
+      preferences: {},
+      personWardrobes: {},
+    });
+    transaction.oncomplete = () => resolve();
+    transaction.onerror = () => reject(transaction.error);
+  });
+  db.close();
+  return record.saveId;
+}, saveDatabaseName);
+check(
+  "transfer: interface store accepted pins and journal",
+  Boolean(interfaceSeed),
+  interfaceSeed ?? "no world record",
+);
+
 await page.getByTestId("leave-game").click();
 await page.getByTestId("new-game").waitFor();
 await page.getByTestId("open-saves").click();
@@ -110,6 +161,15 @@ if (!filePath) {
   process.exit(1);
 }
 
+const exportedBundle = JSON.parse(readFileSync(filePath, "utf8"));
+check(
+  "transfer: exported file includes interface pins",
+  exportedBundle.interface?.status === "included" &&
+    Array.isArray(exportedBundle.interface.state?.pins) &&
+    exportedBundle.interface.state.pins.length >= 1,
+  exportedBundle.interface?.status ?? "missing interface",
+);
+
 const chooserPromise = page.waitForEvent("filechooser", { timeout: 10000 });
 await page.getByTestId("import-save").click();
 const chooser = await chooserPromise;
@@ -122,6 +182,35 @@ check(
   "transfer: import created a new slot beside the original",
   afterCount === beforeCount + 1,
   `${beforeCount} -> ${afterCount}`,
+);
+
+const interfaceAfter = await page.evaluate(async (databaseName) => {
+  const db = await new Promise((resolve, reject) => {
+    const request = indexedDB.open(databaseName, 2);
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+  const rows = await new Promise((resolve, reject) => {
+    const request = db
+      .transaction("interface", "readonly")
+      .objectStore("interface")
+      .getAll();
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+  db.close();
+  return rows.filter(
+    (row) =>
+      row &&
+      Array.isArray(row.pins) &&
+      row.pins.length > 0 &&
+      row.journal?.ambition === "Keep the district",
+  ).length;
+}, saveDatabaseName);
+check(
+  "transfer: imported slot kept the same pins and journal",
+  interfaceAfter >= 2,
+  String(interfaceAfter),
 );
 
 await app.close();

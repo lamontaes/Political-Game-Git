@@ -1,7 +1,7 @@
 {
-  "digest": "ed6734b9ffc91fb7",
+  "digest": "3e700a4c0c83c498",
   "counts": {
-    "total": 2104,
+    "total": 2106,
     "byDomain": {
       "campaign": 23,
       "conversation": 180,
@@ -11,7 +11,7 @@
       "narration": 75,
       "ordinary": 4,
       "setup": 354,
-      "shell": 35
+      "shell": 37
     },
     "bySurface": {
       "answer": 280,
@@ -24,18 +24,18 @@
       "option-witnessed": 54,
       "prompt": 74,
       "scene-line": 162,
-      "status": 353,
+      "status": 355,
       "thread-recap": 32
     },
     "byReachability": {
       "DEV_FIXTURE_ONLY": 91,
       "LEGACY_OR_WITHDRAWN": 90,
-      "PLAYER_REACHABLE": 1464,
+      "PLAYER_REACHABLE": 1466,
       "UNKNOWN": 68,
       "WITHHELD_BY_GROUNDING": 391
     },
     "byRealization": {
-      "static": 1754,
+      "static": 1756,
       "templated": 350
     }
   },
@@ -79302,6 +79302,70 @@
       "contextRevision": "813e34fd6ba5"
     },
     {
+      "id": "prose:shell:art-preview:ART_PREVIEW_LABEL-0001#text",
+      "domain": "shell",
+      "bank": "art-preview",
+      "stableKey": "ART_PREVIEW_LABEL-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/art-preview.ts",
+      "sourceSymbol": "ART_PREVIEW_LABEL",
+      "text": "Development art preview — unreleased candidate art, not approved",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The labelled internal art-review package and the development preview banner.",
+      "grounding": [
+        {
+          "key": "build-profile",
+          "description": "Whether this compiled client is production or internal-art-review; the banner does not admit pixels.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "ART_PREVIEW_LABEL",
+        "anchor": "ART_PREVIEW_LABEL-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "2736f3c5c2b6",
+      "contextRevision": "344c358df8bb"
+    },
+    {
+      "id": "prose:shell:art-preview:INTERNAL_ART_REVIEW_LABEL-0001#text",
+      "domain": "shell",
+      "bank": "art-preview",
+      "stableKey": "INTERNAL_ART_REVIEW_LABEL-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/art-preview.ts",
+      "sourceSymbol": "INTERNAL_ART_REVIEW_LABEL",
+      "text": "Internal art review — unreleased candidate art, not approved",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The labelled internal art-review package and the development preview banner.",
+      "grounding": [
+        {
+          "key": "build-profile",
+          "description": "Whether this compiled client is production or internal-art-review; the banner does not admit pixels.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "INTERNAL_ART_REVIEW_LABEL",
+        "anchor": "INTERNAL_ART_REVIEW_LABEL-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "503328cde9d8",
+      "contextRevision": "344c358df8bb"
+    },
+    {
       "id": "prose:shell:save-transfer:exportLife-0001#text",
       "domain": "shell",
       "bank": "save-transfer",
@@ -80308,7 +80372,7 @@
       "surface": "status",
       "sourcePath": "src/presentation/portable-save.ts",
       "sourceSymbol": "readOptionalInterface",
-      "text": "This build has no durable interface store. Pins and private notes live only in the UI-bearing shell.",
+      "text": "This build has no durable interface store. Pins and private notes were not stored with this life.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -80328,7 +80392,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "56c62a506160",
+      "textRevision": "ae7d44d1e40f",
       "contextRevision": "74a44d6a8044"
     },
     {
@@ -80404,7 +80468,7 @@
       "surface": "status",
       "sourcePath": "src/presentation/portable-save.ts",
       "sourceSymbol": "writeOptionalInterface",
-      "text": "interface write failed",
+      "text": "This build cannot store pins and private notes. Existing saves are unchanged.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -80424,7 +80488,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "1838085a2ffd",
+      "textRevision": "f9d0c96bcda8",
       "contextRevision": "74a44d6a8044"
     }
   ]

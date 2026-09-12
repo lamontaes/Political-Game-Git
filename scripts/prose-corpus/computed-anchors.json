@@ -155,6 +155,14 @@
       "textRevision": "b80ce067127c"
     },
     {
+      "anchor": "ART_PREVIEW_LABEL-0001",
+      "sourcePath": "src/presentation/art-preview.ts",
+      "symbol": "ART_PREVIEW_LABEL",
+      "text": "Development art preview — unreleased candidate art, not approved",
+      "occurrence": 0,
+      "textRevision": "2736f3c5c2b6"
+    },
+    {
       "anchor": "COMMIT_CONTRACTS-0001",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "COMMIT_CONTRACTS",
@@ -889,6 +897,14 @@
       "text": "Something from a while back came up again.",
       "occurrence": 0,
       "textRevision": "05a14e8db969"
+    },
+    {
+      "anchor": "INTERNAL_ART_REVIEW_LABEL-0001",
+      "sourcePath": "src/presentation/art-preview.ts",
+      "symbol": "INTERNAL_ART_REVIEW_LABEL",
+      "text": "Internal art review — unreleased candidate art, not approved",
+      "occurrence": 0,
+      "textRevision": "503328cde9d8"
     },
     {
       "anchor": "MunicipalWorkspace-0001",
@@ -4526,9 +4542,9 @@
       "anchor": "readOptionalInterface-0003",
       "sourcePath": "src/presentation/portable-save.ts",
       "symbol": "readOptionalInterface",
-      "text": "This build has no durable interface store. Pins and private notes live only in the UI-bearing shell.",
+      "text": "This build has no durable interface store. Pins and private notes were not stored with this life.",
       "occurrence": 0,
-      "textRevision": "56c62a506160"
+      "textRevision": "ae7d44d1e40f"
     },
     {
       "anchor": "recapSentence-0001",
@@ -5014,9 +5030,9 @@
       "anchor": "writeOptionalInterface-0003",
       "sourcePath": "src/presentation/portable-save.ts",
       "symbol": "writeOptionalInterface",
-      "text": "interface write failed",
+      "text": "This build cannot store pins and private notes. Existing saves are unchanged.",
       "occurrence": 0,
-      "textRevision": "1838085a2ffd"
+      "textRevision": "f9d0c96bcda8"
     }
   ]
 }

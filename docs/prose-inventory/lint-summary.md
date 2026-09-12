@@ -22,7 +22,7 @@ defect than the one it was aimed at.
 
 ## Repetition
 
-- 2104 templates, 2064 distinct texts.
+- 2106 templates, 2066 distinct texts.
 - 28 exact duplicate groups.
 - 35 normalized duplicate groups.
 - 8 near-duplicate clusters (Jaccard ≥ 0.72).
@@ -43,16 +43,16 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `and it is` | 13 | 5 |
 | `instrument read establishes` | 13 | 2 |
 | `out of the` | 13 | 5 |
+| `existing saves are` | 12 | 1 |
+| `existing saves are unchanged` | 12 | 1 |
 | `proof of income` | 12 | 2 |
+| `saves are unchanged` | 12 | 1 |
 | `the two of` | 12 | 3 |
-| `existing saves are` | 11 | 1 |
-| `existing saves are unchanged` | 11 | 1 |
 | `has asked you` | 11 | 4 |
 | `is on the` | 11 | 6 |
 | `no instrument read establishes` | 11 | 1 |
 | `of income form` | 11 | 2 |
 | `proof of income form` | 11 | 2 |
-| `saves are unchanged` | 11 | 1 |
 | `the bill is` | 11 | 2 |
 | `is not a` | 10 | 3 |
 | `the end of` | 10 | 4 |

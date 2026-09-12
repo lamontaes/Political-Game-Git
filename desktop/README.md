@@ -36,14 +36,15 @@ research archives, no repository metadata, no secrets.
 
 A normal production package sets `import.meta.env.DEV` false. Appending
 `?art-preview=candidate` to `app://game` will **not** show candidate
-people. That is a production-safety fact, not a packaging bug. The
-browser development route remains the working candidate review. An
-internal art-review package needs a PT3/PEOPLE adapter that reads
-`VITE_OCD_BUILD_PROFILE=internal-art-review` (see
-`src/presentation/build-profile.ts`) without setting `DEV=true`, using
-an isolated profile/database, and labelling the build unmistakably.
-That adapter is not in this wrapper. Do not treat blank production
-figures as the modular result.
+people. That is a production-safety fact, not a packaging bug.
+
+A separately compiled internal art-review package is built with
+`VITE_OCD_BUILD_PROFILE=internal-art-review` (still `DEV=false`). That
+package turns the existing candidate compositor on, labels the play
+screen, and keeps saves in `political-life-worlds-art-preview` plus a
+distinct Electron userData directory. Steam and ordinary production
+builds still refuse the URL flag. Do not treat a blank production
+figure as the modular result.
 
 ## Identity, storage, saves
 
@@ -63,11 +64,12 @@ figures as the modular result.
   desktop app. Transfer is a versioned `.ocd-life.json` file from Saved
   games → Export, then Import a saved life in the other origin. Import
   always creates a **new slot**; it never overwrites. The World (person,
-  time, money, history, appearance) transfers. Interface state (pins,
-  private journal, wardrobe preferences) transfers when that object
-  store exists (UI-bearing builds); on accepted main it is recorded as
-  unavailable rather than faked. Candidate-preview exports are refused
-  by production imports. The shell does not scrape browser profiles.
+  time, money, history, appearance) transfers. Pins, private journal, and
+  wardrobe preferences transfer through the same IndexedDB `interface`
+  store the UI shell uses. If that write cannot complete, the new slot is
+  rolled back. Candidate-preview exports are refused by production
+  imports; flipping the provenance label in the file is not admission.
+  The shell does not scrape browser profiles.
 - `OCD_USER_DATA_DIR` redirects the profile for isolated automated
   tests only; it grants nothing else.
 

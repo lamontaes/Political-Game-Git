@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 2142 |
+| INVENTORIED | 2145 |
 | INTENTIONALLY_NON_PLAYER_FACING | 5642 |
-| DIAGNOSTIC_OR_TEST | 4497 |
-| **NEEDS_CLASSIFICATION** | **5719** |
+| DIAGNOSTIC_OR_TEST | 4510 |
+| **NEEDS_CLASSIFICATION** | **5722** |
 
-Scanned 510 files holding 67480 string
+Scanned 512 files holding 67607 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -227,6 +227,7 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/simulation/vitality-catalog.ts` |
 | 3 | `src/education/compact.ts` |
 | 3 | `src/player/JudicialOfficeWork.tsx` |
+| 3 | `src/presentation/art-preview.ts` |
 | 3 | `src/presentation/economic-context.ts` |
 | 3 | `src/presentation/legislation-composition.ts` |
 | 3 | `src/presentation/life-introduction.ts` |

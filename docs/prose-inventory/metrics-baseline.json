@@ -1,7 +1,7 @@
 {
-  "digest": "ed6734b9ffc91fb7",
-  "totalRecords": 2104,
-  "distinctTexts": 2064,
+  "digest": "3e700a4c0c83c498",
+  "totalRecords": 2106,
+  "distinctTexts": 2066,
   "exactDuplicateGroups": 28,
   "normalizedDuplicateGroups": 35,
   "nearDuplicateClusters": 8,
@@ -16,7 +16,7 @@
   "reachability": {
     "DEV_FIXTURE_ONLY": 91,
     "LEGACY_OR_WITHDRAWN": 90,
-    "PLAYER_REACHABLE": 1464,
+    "PLAYER_REACHABLE": 1466,
     "UNKNOWN": 68,
     "WITHHELD_BY_GROUNDING": 391
   },
@@ -2090,6 +2090,8 @@
     "prose:setup:questionnaire:who_gets_the_credit#option:say-it-after:text": "dc9c6a69a0c0",
     "prose:setup:questionnaire:who_gets_the_credit#option:say-it-there:text": "cb503f91c5e6",
     "prose:setup:questionnaire:who_gets_the_credit#prompt": "0c396c965fea",
+    "prose:shell:art-preview:ART_PREVIEW_LABEL-0001#text": "2736f3c5c2b6",
+    "prose:shell:art-preview:INTERNAL_ART_REVIEW_LABEL-0001#text": "503328cde9d8",
     "prose:shell:save-transfer:exportLife-0001#text": "49688ba636bc",
     "prose:shell:save-transfer:exportLife-0002#text": "a62a663eb413",
     "prose:shell:save-transfer:exportPortableSave-0001#text": "b1e534618756",
@@ -2121,10 +2123,10 @@
     "prose:shell:save-transfer:parsePortableSave-0015#text": "0970cdfa09a0",
     "prose:shell:save-transfer:readOptionalInterface-0001#text": "67a628504cd3",
     "prose:shell:save-transfer:readOptionalInterface-0002#text": "03da0e49005a",
-    "prose:shell:save-transfer:readOptionalInterface-0003#text": "56c62a506160",
+    "prose:shell:save-transfer:readOptionalInterface-0003#text": "ae7d44d1e40f",
     "prose:shell:save-transfer:writeOptionalInterface-0001#text": "1961cbe9939d",
     "prose:shell:save-transfer:writeOptionalInterface-0002#text": "306fa2680a48",
-    "prose:shell:save-transfer:writeOptionalInterface-0003#text": "1838085a2ffd"
+    "prose:shell:save-transfer:writeOptionalInterface-0003#text": "f9d0c96bcda8"
   },
   "contexts": {
     "prose:campaign:campaign-status:detail-0001#text": "15862db75231",
@@ -4196,6 +4198,8 @@
     "prose:setup:questionnaire:who_gets_the_credit#option:say-it-after:text": "813e34fd6ba5",
     "prose:setup:questionnaire:who_gets_the_credit#option:say-it-there:text": "813e34fd6ba5",
     "prose:setup:questionnaire:who_gets_the_credit#prompt": "813e34fd6ba5",
+    "prose:shell:art-preview:ART_PREVIEW_LABEL-0001#text": "344c358df8bb",
+    "prose:shell:art-preview:INTERNAL_ART_REVIEW_LABEL-0001#text": "344c358df8bb",
     "prose:shell:save-transfer:exportLife-0001#text": "4d5f540aca52",
     "prose:shell:save-transfer:exportLife-0002#text": "4d5f540aca52",
     "prose:shell:save-transfer:exportPortableSave-0001#text": "74a44d6a8044",

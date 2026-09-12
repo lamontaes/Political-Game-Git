@@ -81,6 +81,11 @@ const contentRoot = app.isPackaged
  */
 if (process.env.OCD_USER_DATA_DIR) {
   app.setPath("userData", path.resolve(process.env.OCD_USER_DATA_DIR));
+} else if (identity.profile === "internal-art-review") {
+  app.setPath(
+    "userData",
+    path.join(app.getPath("appData"), "Our Civic Duty Internal Art Review"),
+  );
 }
 
 const APP_SCHEME = "app";
