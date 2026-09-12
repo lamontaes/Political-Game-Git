@@ -2,7 +2,7 @@
   "counts": {
     "INVENTORIED": 2353,
     "INTENTIONALLY_NON_PLAYER_FACING": 5706,
-    "DIAGNOSTIC_OR_TEST": 4833,
+    "DIAGNOSTIC_OR_TEST": 4834,
     "NEEDS_CLASSIFICATION": 6228
   },
   "needsClassification": [
@@ -52104,7 +52104,7 @@
       "sourcePath": "src/presentation/scene-venues.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 23
+      "count": 24
     },
     {
       "sourcePath": "src/presentation/scene-transform.ts",

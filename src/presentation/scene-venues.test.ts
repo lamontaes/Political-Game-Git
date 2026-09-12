@@ -7,13 +7,11 @@ import {
   serializeWorld,
   deserializeWorld,
   scheduledActivitiesVisibleTo,
-  controlledCommitmentsBlockingActivityPerformance,
   type EntityId,
   type World,
 } from "../simulation";
 import { openOrdinaryLife } from "./ordinary-life";
 import { performVenueActivity, venueActivities } from "./venue-activity";
-import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import { createNewGameWorld, type NewGameSetup } from "./new-game";
 import { resolveLifeScene } from "./life-scene";
 import { PUBLIC_MEETING_ROOM_SCENE_ID, SCENE_REGISTRY } from "./scene-registry";
@@ -166,6 +164,10 @@ describe("where a life actually is", () => {
     expect(resolveLifeScene(during, life.personId).sceneId).toBe(
       PUBLIC_MEETING_ROOM_SCENE_ID,
     );
+    expect(
+      resolveVenueScene(advanceWorldMinutes(during, 1), life.personId).sceneId,
+    ).toBeNull();
+    expect(() => performScheduledActivity(during, meeting!.id)).toThrow();
   });
 
   it("does not equate a scheduled interval with attendance", () => {
@@ -178,30 +180,19 @@ describe("where a life actually is", () => {
       resolveVenueScene(atMomentOf(life.world, meeting.id), life.personId)
         .sceneId,
     ).toBeNull();
-    const journey = venueActivities(life.world, life.personId).find(
-      (e) => e.activity.id === meeting.id,
-    )!.journey!;
-    let resolved = life.world;
-    // This seeded household has an earlier protected promise. Resolve it by
-    // its owning writer, never by deleting history or inventing arrival.
-    for (const id of controlledCommitmentsBlockingActivityPerformance(
-      resolved,
-      journey.activity.id,
-    )) {
-      resolved = performScheduledActivity(
-        resolved,
-        id,
-        createCampaignElectionTransitionRegistry(),
-      );
-    }
-    const done = performVenueActivity(resolved, life.personId, meeting.id);
-    expect(resolveVenueScene(done, life.personId).sceneId).toBe(
-      PUBLIC_MEETING_ROOM_SCENE_ID,
-    );
+    // This household's earlier commitment is not the controlled person's to
+    // perform. The refusal must not counterfeit either travel or attendance.
+    expect(
+      venueActivities(life.world, life.personId).find(
+        (e) => e.activity.id === meeting.id,
+      )!.refusal,
+    ).toBe("An earlier commitment must be resolved first.");
+    const done = performVenueActivity(life.world, life.personId, meeting.id);
+    expect(done).toBe(life.world);
+    expect(resolveVenueScene(done, life.personId).sceneId).toBeNull();
     expect(
       resolveVenueScene(advanceWorldMinutes(done, 1), life.personId).sceneId,
     ).toBeNull();
-    expect(() => performScheduledActivity(done, meeting.id)).toThrow();
   });
 
   /**
