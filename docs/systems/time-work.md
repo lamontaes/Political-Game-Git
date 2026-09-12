@@ -50,6 +50,13 @@ interval, but rejects to the exact input World if an earlier unresolved player
 commitment would be skipped. This is a hard boundary, not a late-arrival or
 missed-appointment model.
 
+When the composed future-transition registry carries `routine`, ordinary
+personal work windows from accepted job terms are auto-resolvable: a requested
+skip completes those windows once as time crosses their ends instead of
+treating them as blocking busywork. See [routine-time.md](routine-time.md).
+Non-routine commitments still stop the skip. Staff progress still excludes the
+controlled person.
+
 At the same represented instant, resolution uses a fixed deterministic order:
 date boundary and its due work, then work completion, then selected scheduled
 activity completion, with stable creation sequence breaking ties inside a
