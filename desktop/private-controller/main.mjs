@@ -74,7 +74,10 @@ function installBootstrapIfNeeded() {
   );
   mkdirSync(versionRoot, { recursive: true });
   if (!existsSync(installedApp))
-    cpSync(bootstrapApp, installedApp, { recursive: true });
+    cpSync(bootstrapApp, installedApp, {
+      recursive: true,
+      verbatimSymlinks: true,
+    });
   const defaultRepository = path.join(
     app.getPath("home"),
     "Documents",

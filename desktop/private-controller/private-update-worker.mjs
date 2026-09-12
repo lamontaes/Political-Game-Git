@@ -335,7 +335,10 @@ async function main() {
     mkdirSync(paths.versionPath, { recursive: true });
     const temporaryApp = `${paths.appPath}.installing-${process.pid}`;
     rmSync(temporaryApp, { recursive: true, force: true });
-    cpSync(builtApp, temporaryApp, { recursive: true });
+    cpSync(builtApp, temporaryApp, {
+      recursive: true,
+      verbatimSymlinks: true,
+    });
     rmSync(paths.appPath, { recursive: true, force: true });
     renameSync(temporaryApp, paths.appPath);
     const record = buildRecord(
