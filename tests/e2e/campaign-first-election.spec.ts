@@ -383,7 +383,10 @@ test.describe("P85D integration through ordinary player controls", () => {
     await expect(page.getByTestId("office-section")).toContainText(
       "Kentucky legislature",
     );
-    await page.getByTestId("open-legislation").click();
+    await Promise.all([
+      page.waitForURL(/[?&]view=legislation(?:&|$)/, { waitUntil: "load" }),
+      page.getByTestId("open-legislation").click(),
+    ]);
     await expect(page.getByTestId("legislation-workspace")).toBeVisible();
     await expect(page.getByTestId("legislation-error")).toHaveCount(0);
     expect(errors).toEqual([]);

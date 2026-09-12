@@ -148,6 +148,8 @@ test.describe("PT3 — the corridor scene on the screen", () => {
     test(`${route.label} route names the incident and peer through reload and continuation`, async ({
       page,
     }) => {
+      // This walks up to forty beats, saves/reopens and reaches a later scene.
+      test.setTimeout(90000);
       await freshBrowser(page, route.seed);
       await walkCreator(page, { age: route.age, childhood: true });
       await enterLife(page);

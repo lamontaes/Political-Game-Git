@@ -121,6 +121,9 @@ for (const kind of ["unpinned", "gen2"] as const) {
   test(`old ${kind} donor life opens and persists its catalog in a distinct slot`, async ({
     page,
   }, info) => {
+    // Like the fresh-life proofs above, this covers two distinct Worlds plus
+    // conversation, wardrobe and repeated reloads, not one isolated control.
+    test.setTimeout(90000);
     const fixture = JSON.parse(
       readFileSync(
         `src/presentation/fixtures/morning23-old-${kind}.json`,
