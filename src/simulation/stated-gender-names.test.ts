@@ -2,7 +2,12 @@ import { describe, expect, it } from "vitest";
 
 import { createStableId } from "./ids";
 import { GIVEN_NAME_GENERATION_POOLS_V1, NAMES_STARTER_V1 } from "./names-data";
-import { createStartingPerson } from "./people";
+import {
+  createStartingPerson,
+  drawCanonicalName,
+  drawCanonicalNameForGender,
+} from "./people";
+import { SeededRng } from "./rng";
 import type { GenderIdentityKey, IsoDate, PronounSetKey } from "./types";
 
 /**
@@ -87,6 +92,63 @@ describe("a blank name respects the gender the player stated", () => {
 
   it("is deterministic for the same seed and the same answer", () => {
     expect(start("male", null).givenName).toBe(start("male", null).givenName);
+  });
+});
+
+describe("two people drawn off one stream are two people", () => {
+  /*
+   * `SeededRng.fork` derives from the seed and the key, never from how far the
+   * stream has run. The gendered draw forked on a constant key, so every
+   * gendered person drawn from one stream came back with the SAME given name:
+   * a household, which then overwrites the family name with the player's,
+   * produced a guardian and a sibling called exactly the same thing, and the
+   * third playtest's home scene offered "Tell Charles Rush" about Charles Rush.
+   */
+  function drawSeveral(gender: GenderIdentityKey, count: number): string[] {
+    const rng = new SeededRng("one-household").fork("household");
+    return Array.from(
+      { length: count },
+      () => drawCanonicalNameForGender(rng, gender).givenName,
+    );
+  }
+
+  it("gives each of them their own name", () => {
+    const names = drawSeveral("male", 4);
+    expect(new Set(names).size).toBe(names.length);
+  });
+
+  it("still draws from the pool the stated gender names", () => {
+    for (const name of drawSeveral("female", 4)) {
+      expect(GIVEN_NAME_GENERATION_POOLS_V1.female).toContain(name);
+    }
+  });
+
+  it("steps past a name the caller says is already taken", () => {
+    const rng = new SeededRng("taken").fork("household");
+    const first = drawCanonicalNameForGender(rng, "male").givenName;
+    const again = new SeededRng("taken").fork("household");
+    const avoided = drawCanonicalNameForGender(again, "male", undefined, [
+      first,
+    ]).givenName;
+    expect(avoided).not.toBe(first);
+    expect(GIVEN_NAME_GENERATION_POOLS_V1.male).toContain(avoided);
+  });
+
+  it("keeps the drawn name rather than inventing one outside the pool", () => {
+    // Every name spoken for: the honest answer is a repeat, not a new name.
+    const rng = new SeededRng("exhausted").fork("household");
+    const name = drawCanonicalNameForGender(rng, "male", undefined, [
+      ...GIVEN_NAME_GENERATION_POOLS_V1.male,
+    ]).givenName;
+    expect(GIVEN_NAME_GENERATION_POOLS_V1.male).toContain(name);
+  });
+
+  it("leaves a person the world says nothing about on the unrestricted draw", () => {
+    const rng = new SeededRng("unstated").fork("household");
+    const plain = new SeededRng("unstated").fork("household");
+    expect(drawCanonicalNameForGender(rng, "unstated")).toStrictEqual(
+      drawCanonicalName(plain),
+    );
   });
 });
 

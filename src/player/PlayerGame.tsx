@@ -47,7 +47,9 @@ import { guardUnsavedWork } from "../presentation/unsaved-work-guard";
 import {
   chooseStoryOption,
   letStoryTimePass,
+  presentPeopleSentence,
   projectStoryMoment,
+  type StoryMoment,
 } from "../presentation/life-story";
 import { projectLifeRecord } from "../presentation/life-record";
 import {
@@ -83,7 +85,7 @@ import {
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
 import { projectToday, projectWorkRole } from "../presentation/day-overview";
 import { projectDynamicSurfaces } from "../presentation/surface-projection";
-import { resolveLifeScene } from "../presentation/life-scene";
+import { resolvePlaySceneContext } from "../presentation/play-scene-context";
 import { planLifeScenePeople } from "../presentation/life-scene-people";
 import {
   ART_PREVIEW_LABEL,
@@ -1864,20 +1866,46 @@ function PlayingScreen({
    */
   const [returnFocusTo, setReturnFocusTo] = useState<EntityId | null>(null);
 
-  const sceneId = useMemo(() => {
+  const projectedMoment = useMemo(
+    () => projectStoryMoment(session.world, session.personId),
+    [session.world, session.personId],
+  );
+
+  const playScene = useMemo(() => {
     const activity = completedActivityHere(session.world, session.personId);
     const venue =
       activity && municipalVenueForActivity(session.world, activity.id);
     if (activity && venue) {
-      return resolveActivityVenueScene(
+      const resolved = resolveActivityVenueScene(
         session.world,
         session.personId,
         activity.id,
         venue,
-      ).sceneId;
+      );
+      return {
+        purpose: "activity" as const,
+        locationKey: activity.location.locationKey,
+        sceneId: resolved.sceneId,
+        reason: resolved.reason,
+        placeLabel: activity.location.label,
+        presentPeople: projectedMoment.scene.presentPeople.filter(
+          (person) =>
+            completedActivityHere(
+              session.world,
+              person.personId,
+              activity.id,
+            ) !== null,
+        ),
+      };
     }
-    return resolveLifeScene(session.world, session.personId).sceneId;
-  }, [session.world, session.personId]);
+    return resolvePlaySceneContext(
+      session.world,
+      session.personId,
+      projectedMoment.scene,
+    );
+  }, [session.world, session.personId, projectedMoment]);
+
+  const sceneId = playScene.sceneId;
 
   const surfaceProjection = useMemo(
     () =>
@@ -1888,27 +1916,17 @@ function PlayingScreen({
     [session.world, capabilities.legislativeJurisdictionId, assignment],
   );
 
-  const moment = useMemo(() => {
-    const projected = projectStoryMoment(session.world, session.personId);
-    const activity = completedActivityHere(session.world, session.personId);
-    return activity
-      ? {
-          ...projected,
-          placeName: activity.location.label,
-          scene: {
-            ...projected.scene,
-            presentPeople: projected.scene.presentPeople.filter(
-              (person) =>
-                completedActivityHere(
-                  session.world,
-                  person.personId,
-                  activity.id,
-                ) !== null,
-            ),
-          },
-        }
-      : projected;
-  }, [session.world, session.personId]);
+  const moment = useMemo(
+    () => ({
+      ...projectedMoment,
+      placeName: playScene.placeLabel ?? projectedMoment.placeName,
+      scene: {
+        ...projectedMoment.scene,
+        presentPeople: playScene.presentPeople,
+      },
+    }),
+    [projectedMoment, playScene],
+  );
 
   const renderSnapshots = useMemo(
     () => savedRenderSnapshots(session.world, shell.personWardrobes),
@@ -2269,6 +2287,7 @@ function PlayingScreen({
           className="life-shell"
           data-testid="play-screen"
           data-scene-id={sceneId ?? ""}
+          data-scene-purpose={playScene.purpose}
         >
           {/*
         THE ROOM IS THE SURFACE.
@@ -2321,7 +2340,11 @@ function PlayingScreen({
               onWorldChange={onWorldChange}
               transitionHandlers={createCampaignElectionTransitionRegistry()}
               continuingLife={
-                <StoryView session={session} onWorldChange={onWorldChange} />
+                <StoryView
+                  session={session}
+                  moment={moment}
+                  onWorldChange={onWorldChange}
+                />
               }
               onTalkTo={(personId) => talkTo(personId)}
               returnFocusTo={returnFocusTo}
@@ -3280,16 +3303,14 @@ function renderWorkspace({
  */
 function StoryView({
   session,
+  moment,
   onWorldChange,
 }: {
   readonly session: Session;
+  readonly moment: StoryMoment;
   readonly onWorldChange: (world: World) => void;
 }) {
   const [journalOpen, setJournalOpen] = useState(false);
-  const moment = useMemo(
-    () => projectStoryMoment(session.world, session.personId),
-    [session.world, session.personId],
-  );
 
   if (completedActivityHere(session.world, session.personId))
     return (
@@ -3352,10 +3373,7 @@ function StoryView({
       */}
       {moment.scene.presentPeople.length > 0 ? (
         <p className="game-note" data-testid="story-people">
-          {moment.scene.presentPeople
-            .map((person) => person.introduction)
-            .join(" and ")}{" "}
-          {moment.scene.presentPeople.length === 1 ? "is" : "are"} here.
+          {presentPeopleSentence(moment.scene.presentPeople)}
         </p>
       ) : null}
 

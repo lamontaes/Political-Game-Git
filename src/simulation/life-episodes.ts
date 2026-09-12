@@ -29,6 +29,7 @@ import {
   type ThreadAnchor,
 } from "./narrative-threads";
 import { personName } from "./people";
+import { SeededRng } from "./rng";
 import { describePersonContext, introducePerson } from "./person-context";
 import { personPronouns } from "./person-identity";
 import type {
@@ -503,6 +504,22 @@ export interface EpisodeStage {
   readonly lines: readonly string[];
   /** Preserve this proposed immediate scene in the ordinary resolution event. */
   readonly recordSceneContext?: boolean;
+  /**
+   * Where the copy is happening as an immediate scene.
+   *
+   * Omitted stages inherit the family default: school families are at school,
+   * household families are at home. `recollection` means the life is not in
+   * that room now — the text remembers it, and the current physical room is
+   * left alone.
+   */
+  readonly sceneSetting?: EpisodeSceneSetting;
+  /**
+   * Bound roles who are physically in the room with the player.
+   *
+   * Omitted means every bound person is there. An empty list means the copy
+   * names people who are not standing in this room.
+   */
+  readonly physicallyPresentRoles?: readonly EpisodeRoleKey[];
   readonly options: readonly EpisodeOption[];
   readonly stakes: LifeStakesTier;
   readonly tensions: readonly InterestTension[];
@@ -522,6 +539,43 @@ export interface EpisodeExit {
   readonly reason: string;
 }
 
+/**
+ * Authored alternatives a family may draw one of, once per instance.
+ *
+ * A scene that turns on a specific thing — what got broken, what was asked
+ * for — cannot leave that thing unnamed and still be a scene a player can
+ * answer. The third playtest met exactly that: "Something got broken in the
+ * corridor at your school", with an option to say who did it and nobody to
+ * name. The engine has no business inventing the object, so the alternatives
+ * are authored here in content, and the engine only chooses between them —
+ * once per instance, seeded by the world and that instance's identity, so the
+ * same run of the same family says the same thing on every read, after a
+ * reload, and in the memory the choice leaves behind.
+ *
+ * This is not a synonym randomizer. Each entry is a different authored
+ * incident, and a chosen one stays chosen for the life of the instance.
+ */
+export type EpisodeDetailBank = Readonly<Record<string, readonly string[]>>;
+
+/** Where an immediate episode scene is taking place. */
+export type EpisodeSceneSetting = "home" | "school" | "recollection";
+
+/**
+ * The family's default room, when a stage does not name one.
+ *
+ * This follows the family the content already declared. It does not scan the
+ * prose for the word "school".
+ */
+export function episodeSceneSetting(
+  family: Pick<EpisodeFamily, "family">,
+  stage: Pick<EpisodeStage, "sceneSetting">,
+): EpisodeSceneSetting | null {
+  if (stage.sceneSetting) return stage.sceneSetting;
+  if (family.family === "school") return "school";
+  if (family.family === "household") return "home";
+  return null;
+}
+
 export interface EpisodeFamily {
   /** Authored everyday activities may start a new instance on a new calendar day. */
   readonly recurrence?: "daily";
@@ -530,6 +584,8 @@ export interface EpisodeFamily {
   readonly authority: EpisodeAuthority;
   /** Roles this family may bind. A stage asks for the ones it needs. */
   readonly roles: readonly EpisodeRoleKey[];
+  /** Authored alternatives, one drawn per instance and substituted as `{detail:<key>}`. */
+  readonly details?: EpisodeDetailBank;
   /** Birth-cohort restriction applied before both instance identity and casting. */
   readonly peerRoles?: readonly EpisodeRoleKey[];
   readonly stages: readonly EpisodeStage[];
@@ -555,6 +611,13 @@ export interface EpisodeBeat {
   readonly instanceKey: string;
   readonly stageKey: string;
   readonly family: NarrativeThreadFamily;
+  /** Immediate place of this beat, or null when the family does not name one. */
+  readonly sceneSetting: EpisodeSceneSetting | null;
+  /**
+   * Bound people who are actually in the room. Empty when the copy names
+   * somebody who is not standing here.
+   */
+  readonly physicallyPresentPersonIds: readonly EntityId[];
   readonly prose: string;
   readonly options: readonly EpisodeSceneOption[];
   readonly bindings: readonly EpisodeRoleBinding[];
@@ -1298,6 +1361,7 @@ export function eligibleEpisodeBeats(
       family.recurrence === "daily"
         ? `${baseInstanceKey}@${asOfDate}`
         : baseInstanceKey;
+    const details = episodeDetails(world, instanceKey, family.details);
     const instanceStages = played.filter(
       (entry) => entry.instanceKey === instanceKey,
     );
@@ -1415,11 +1479,21 @@ export function eligibleEpisodeBeats(
         instanceKey,
         stageKey: stage.key,
         family: family.family,
+        sceneSetting: episodeSceneSetting(family, stage),
+        physicallyPresentPersonIds:
+          stage.physicallyPresentRoles === undefined
+            ? stageBindings.map((binding) => binding.personId)
+            : stageBindings
+                .filter((binding) =>
+                  stage.physicallyPresentRoles!.includes(binding.role),
+                )
+                .map((binding) => binding.personId),
         prose: substituteSlots(stage.lines.join(" "), {
           world,
           person,
           bindings: stageBindings,
           asOfDate,
+          details,
         }),
         options: stage.options.map((option) => ({
           key: option.key,
@@ -1428,12 +1502,14 @@ export function eligibleEpisodeBeats(
             person,
             bindings: stageBindings,
             asOfDate,
+            details,
           }),
           description: substituteSlots(option.description, {
             world,
             person,
             bindings: stageBindings,
             asOfDate,
+            details,
           }),
         })),
         bindings: stageBindings,
@@ -1804,6 +1880,37 @@ interface SlotContext {
   readonly person: Person;
   readonly bindings: readonly EpisodeRoleBinding[];
   readonly asOfDate: IsoDate;
+  /** The authored alternatives this instance drew, if its family has any. */
+  readonly details?: Readonly<Record<string, string>>;
+}
+
+/**
+ * The authored alternatives this instance is running with.
+ *
+ * Derived, never stored: the world seed and the instance's own identity decide
+ * it, so every read of the same instance — the scene, the option labels, the
+ * memory written when it is answered, the continuation a year later, the same
+ * life after a reload — resolves the same authored incident. A family with no
+ * bank gets an empty record and `{detail:...}` in its copy is an authoring
+ * error, exactly like an unbound role.
+ */
+export function episodeDetails(
+  world: World,
+  instanceKey: string,
+  bank: EpisodeDetailBank | undefined,
+): Readonly<Record<string, string>> {
+  if (!bank) return {};
+  const chosen: Record<string, string> = {};
+  for (const [key, alternatives] of Object.entries(bank)) {
+    if (alternatives.length === 0) {
+      throw new Error(`Episode detail bank ${key} has no alternatives.`);
+    }
+    const rng = new SeededRng(world.seed).fork(
+      `episode-detail-v1:${instanceKey}:${key}`,
+    );
+    chosen[key] = alternatives[rng.integer(0, alternatives.length)]!;
+  }
+  return chosen;
 }
 
 /**
@@ -1841,7 +1948,35 @@ export function substituteSlots(text: string, context: SlotContext): string {
     return binding;
   }
 
-  return text.replace(/\{([a-z]+)(?::([a-z-]+))?\}/g, (match, slot, detail) => {
+  /*
+   * A slot that opens a sentence is capitalized, and only then.
+   *
+   * Authored copy has to be able to start a sentence with what the world
+   * supplies — "{they:school-peer} broke it", "{detail:incident} is broken" —
+   * and before this it could not: the substitution arrived in the middle of a
+   * sentence's grammar with a lower-case letter, so the copy had to be written
+   * around the engine. Names already arrive capitalized and are unaffected.
+   */
+  function openingASentence(offset: number): boolean {
+    const before = text.slice(0, offset).replace(/\s+$/, "");
+    return before.length === 0 || /[.!?]$/.test(before);
+  }
+
+  return text.replace(
+    /\{([a-z]+)(?::([a-z-]+))?\}/g,
+    (match, slot, detail, offset: number) => {
+      const value = resolveSlot(match, slot, detail);
+      return openingASentence(offset)
+        ? value.charAt(0).toUpperCase() + value.slice(1)
+        : value;
+    },
+  );
+
+  function resolveSlot(
+    match: string,
+    slot: string,
+    detail: string | undefined,
+  ): string {
     if (slot === "self") return personName(context.person);
     if (slot === "age") {
       return String(ageOnDate(context.person.birthDate, context.asOfDate));
@@ -1851,6 +1986,15 @@ export function substituteSlots(text: string, context: SlotContext): string {
         context.person.homeJurisdictionId,
       );
       return place?.displayName ?? "town";
+    }
+    if (slot === "detail") {
+      const authored = context.details?.[String(detail)];
+      if (authored === undefined) {
+        throw new Error(
+          `Episode copy names an authored detail the family does not declare: ${match}`,
+        );
+      }
+      return authored;
     }
     if (slot === "role") return bindingFor(detail).personName;
     if (slot === "who") {
@@ -1898,7 +2042,7 @@ export function substituteSlots(text: string, context: SlotContext): string {
       }
     }
     throw new Error(`Episode copy uses an unknown slot: ${match}`);
-  });
+  }
 }
 
 /* -------------------------------------------------------------------------- */
@@ -1978,6 +2122,9 @@ export function playEpisodeOption(
     person,
     bindings: input.beat.bindings,
     asOfDate: world.currentDate,
+    // The same draw the scene was composed with: derived from the world seed
+    // and this instance, so the memory names what the player was shown.
+    details: episodeDetails(world, input.beat.instanceKey, family.details),
   });
   const companions = input.beat.bindings.map((binding) => binding.personId);
 

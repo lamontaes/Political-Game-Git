@@ -144,7 +144,15 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
   key: "home.someone-is-not-all-right",
   family: "household",
   authority: EPISODE_AUTHORITY,
-  roles: ["household-peer"],
+  /*
+   * The guardian is here for the same reason the school scene binds a
+   * classmate: "Tell a grown-up at home" named nobody, and the memory it
+   * wrote said "somebody at home". The adult responsible for this child is on
+   * the authority record, so the option can say who it is — and where no such
+   * record exists the stage is withheld rather than written around a person
+   * the world does not have.
+   */
+  roles: ["household-peer", "guardian"],
   stages: [
     ...LIFE_CONTENT_92C_HOME_STAGES,
     {
@@ -155,11 +163,18 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
         // player — has to be old enough for that to be plausible.
         needsMobileHouseholdPeer,
         doesNotAnswerForThemselves,
+        // The adult the "tell somebody" option now names. The engine already
+        // withholds a stage whose copy names a role nothing can fill; saying so
+        // here is what makes the requirement readable in the record.
+        { kind: "role", role: "guardian" },
         { kind: "age-below", age: 18 },
         { kind: "fact", fact: "household.shared" },
       ],
       lines: [
-        "{who:household-peer} has come in after everyone else three nights this week, and said a different place each time.",
+        // The introduction closes the sentence. `{who:}` renders an appositive
+        // — "Simon Rush, your older brother" — so copy that ran on from it
+        // lost the closing comma and read as one long noun.
+        "Three nights this week the last one in has been {who:household-peer}, and the place was different each time.",
         "Nobody has said anything about it at breakfast, and you have started waiting to see whether they will.",
       ],
       stakes: "ordinary",
@@ -187,9 +202,9 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
         },
         {
           key: "tell-someone",
-          label: "Tell a grown-up at home",
+          label: "Tell {role:guardian}",
           description:
-            "Then it is theirs to deal with, and they will know it came from you.",
+            "Then it is {role:guardian}'s to deal with, and {role:household-peer} will know it came from you.",
           nudges: [
             nudge("care-obligation", 0.35),
             nudge("privacy-preference", -0.45),
@@ -197,7 +212,7 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
           ],
           aftermath: "grievance",
           memory:
-            "You told somebody at home about {role:household-peer} coming in late, and {they:household-peer} found out you had.",
+            "You told {role:guardian} about {role:household-peer} coming in late, and {they:household-peer} found out you had.",
         },
         {
           key: "watch",
@@ -713,22 +728,72 @@ const FRIEND_OVER_YEARS: EpisodeFamily = {
 /* Formative — school                                                          */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * The corridor, repaired.
+ *
+ * What the third playtest met here was "Something got broken in the corridor
+ * at your school and your name is the one that came up", followed by an option
+ * reading "Say who did it" — with no object, no accuser and nobody bound to
+ * name. The family declared `roles: []`, so "the person who did is standing
+ * four feet away" was a sentence about somebody who did not exist in the
+ * record, and a choice whose subject the player could not identify.
+ *
+ * Three things changed, and none of them is wording alone:
+ *
+ * 1. The family binds a `school-peer` and lists it as a peer role, so the
+ *    person who actually did it is a classmate the records put in the same
+ *    school, in the player's own cohort — and because the cast is part of the
+ *    instance identity, the same classmate is named in the scene, in the
+ *    option, in the memory, in the continuation and after a reload.
+ * 2. The incident is one of four authored alternatives, drawn once per
+ *    instance from the world seed (`details`), so the scene names what got
+ *    broken instead of "something". It is authored game content: the engine
+ *    chooses between written incidents and invents none.
+ * 3. What the player saw is separated from what the school was told, which is
+ *    the whole of the decision — and the continuation no longer calls 200 days
+ *    a year.
+ */
 const SCHOOL_TROUBLE: EpisodeFamily = {
   key: "school.the-thing-you-got-blamed-for",
   family: "school",
   authority: PLAYTEST_AUTHORITY,
-  roles: [],
+  roles: ["school-peer"],
+  /* Same school, same cohort: a classmate, not a child of six or an adult. */
+  peerRoles: ["school-peer"],
+  details: {
+    /*
+     * Four authored incidents. Each is a thing a school corridor actually
+     * holds, breakable by accident, worth a note to the office and no more:
+     * nothing here is an injury, a crime or a punishment the game would then
+     * have to model.
+     */
+    incident: [
+      "the glass panel in the corridor door",
+      "the trophy case at the end of the corridor",
+      "the fire-alarm cover by the stairs",
+      "the projector cart outside the science room",
+    ],
+  },
   stages: [
     ...LIFE_CONTENT_92C_SCHOOL_STAGES,
     {
       key: "blamed",
+      recordSceneContext: true,
+      sceneSetting: "school",
       requires: [
         { kind: "fact", fact: "school.enrolled" },
         { kind: "age-below", age: 18 },
+        /*
+         * Somebody in the same school has to exist for this to be the scene it
+         * says it is. Where nobody does, the stage is withheld and this life
+         * is offered something the records can ground instead.
+         */
+        { kind: "role", role: "school-peer" },
       ],
       lines: [
-        "Something got broken in the corridor at your school and your name is the one that came up.",
-        "You were there. You did not do it. The person who did is standing four feet away saying nothing.",
+        "{detail:incident} is broken at school, and the office has your name for it.",
+        "You were standing next to it when it happened, and so was {who:school-peer}.",
+        "{they:school-peer} broke it. {they:school-peer} {has:school-peer} not said so, and nobody has asked you what you saw.",
       ],
       stakes: "notable",
       tensions: [
@@ -742,50 +807,63 @@ const SCHOOL_TROUBLE: EpisodeFamily = {
       options: [
         {
           key: "name-them",
-          label: "Say who did it",
-          description: "Out loud, in front of them.",
+          label: "Say it was {role:school-peer}",
+          description: "Out loud, in front of {them:school-peer}.",
           nudges: [
             nudge("civic-order", 0.45),
             nudge("personal-ties", -0.4),
             nudge("decision-style", 0.3),
           ],
           aftermath: "grievance",
-          memory: "You said who had actually done it, in front of them.",
+          memory:
+            "You told the office that {role:school-peer} had broken {detail:incident}, with {them:school-peer} standing there.",
         },
         {
           key: "take-it",
           label: "Take the blame",
-          description: "Whatever it costs this week.",
+          description: "Let the office keep your name on it.",
           nudges: [
             nudge("personal-ties", 0.4),
             nudge("security-stability", -0.35),
           ],
           aftermath: "goodwill",
-          memory: "You took the blame for it and never said otherwise.",
+          memory:
+            "You took the blame for breaking {detail:incident} and never said {role:school-peer} had done it.",
         },
         {
           key: "deny",
           label: "Say only that it wasn't you",
-          description: "Without saying who it was.",
+          description: "Without saying whose it was.",
           nudges: [
             nudge("privacy-preference", 0.35),
             nudge("decision-style", 0.2),
           ],
           aftermath: null,
-          memory: "You said it had not been you, and stopped talking there.",
+          memory:
+            "You said you had not broken {detail:incident}, and did not say who had.",
         },
       ],
     },
     {
       key: "it-stuck",
+      sceneSetting: "school",
+      physicallyPresentRoles: [],
       requires: [
         { kind: "after-choice", stage: "blamed", option: "take-it" },
-        { kind: "days-since-stage", stage: "blamed", days: 200 },
+        /*
+         * A year, because the copy says a year. This asked for 200 days and
+         * then told the player it had been a year — the same defect as an
+         * unnamed object, pointing at the calendar.
+         */
+        { kind: "days-since-stage", stage: "blamed", days: 365 },
         { kind: "fact", fact: "school.enrolled" },
+        // The classmate the correction would name: the continuation is about
+        // the same person the corridor was about, or it is not offered.
+        { kind: "role", role: "school-peer" },
       ],
       lines: [
-        "It is a year later and it is still on your record at school, in a sentence somebody else wrote about you.",
-        "A teacher who was not there brings it up as though it settles something.",
+        "A year on, the school record still says you broke {detail:incident}, in a sentence somebody else wrote.",
+        "It comes up again in a meeting nobody who was in the corridor is at.",
       ],
       stakes: "notable",
       tensions: [
@@ -800,7 +878,7 @@ const SCHOOL_TROUBLE: EpisodeFamily = {
         {
           key: "correct-it",
           label: "Correct the record",
-          description: "A year late, and it names somebody.",
+          description: "A year late, and it names {role:school-peer}.",
           nudges: [
             nudge("civic-order", 0.35),
             nudge("institutional-trust", 0.25),
@@ -808,7 +886,7 @@ const SCHOOL_TROUBLE: EpisodeFamily = {
           ],
           aftermath: "grievance",
           memory:
-            "A year on you told them what had actually happened in the corridor.",
+            "A year on you told the school that {role:school-peer} had broken {detail:incident}.",
         },
         {
           key: "let-it-stand",
@@ -820,19 +898,23 @@ const SCHOOL_TROUBLE: EpisodeFamily = {
           ],
           aftermath: null,
           memory:
-            "You let the school keep the version of the corridor that was not true.",
+            "You let the school keep {detail:incident} on your record as yours.",
         },
       ],
     },
     {
       key: "it-came-out",
+      sceneSetting: "school",
+      physicallyPresentRoles: [],
       requires: [
         { kind: "after-choice", stage: "blamed", option: "name-them" },
         { kind: "days-since-stage", stage: "blamed", days: 200 },
+        // The person the player named. Same rule as it-stuck.
+        { kind: "role", role: "school-peer" },
       ],
       lines: [
-        "The person you named has not spoken to you since, and has told other people their own version.",
-        "One of them asks you, straight out, what actually happened.",
+        "{role:school-peer} has not spoken to you since you said it, and has been telling people a different version.",
+        "One of them asks you, straight out, what happened in the corridor.",
       ],
       stakes: "ordinary",
       tensions: [
@@ -851,7 +933,7 @@ const SCHOOL_TROUBLE: EpisodeFamily = {
           nudges: [nudge("decision-style", 0.3), nudge("civic-order", 0.3)],
           aftermath: "standing",
           memory:
-            "You told the corridor story again, the same way, to somebody who had only heard the other one.",
+            "You said again that {role:school-peer} had broken {detail:incident}, to one of the people who had only heard {their:school-peer} version.",
         },
         {
           key: "drop-it",
