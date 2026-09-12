@@ -30,6 +30,13 @@ keyboard activation. This is interaction evidence, not final art approval.
 
 ## Current reconciliation receipts
 
+Core #219 is now main 215b3e90; its two completed plans are archived under
+`docs/plans/completed/`. This active plan owns only remaining ready returns.
+E source is preserved in PR #220, retargeted to current main. Later history/
+receipt/declaration changes do not alter the browser-proven E runtime from
+628d2f2b; that 11/11 receipt remains named at its actual proof head. No full
+browser or installed-artifact acceptance is implied by publication.
+
 - E exact 6bdb41c2 preserved by merge 8b323286. All 88 affected tests, lint,
   typecheck, formatting, release validation and build passed. Combined corpus
   has 2607 templates, 6286 unclassified candidates, zero hard errors and 265
