@@ -27,3 +27,28 @@ was entered through actual controls. The native top menu accepted Down/Return,
 changed to the burgundy polo and rendered that exact asset in both views.
 Collapsed disclosure is not an active garment control; expand it before
 keyboard activation. This is interaction evidence, not final art approval.
+
+## Current reconciliation receipts
+
+- E exact 6bdb41c2 preserved by merge 8b323286. All 88 affected tests, lint,
+  typecheck, formatting, release validation and build passed. Combined corpus
+  has 2607 templates, 6286 unclassified candidates, zero hard errors and 265
+  existing warnings. Core title, foreground room and Personal ownership unchanged.
+- Art validation, inventory and QA passed. The extra two report entries are
+  existing tracked candidates from bf7d6473, not the unpublished new B return.
+  Keep their truthful generated report entries; do not discard counts to make
+  a worktree look clean. No art status or asset file changed.
+- Initial E browser run: ten passed, one failed at A's incorrect navigation
+  wait; its evidence also rejected a commit made while its server was running.
+  Neither is hidden or relabelled green. Corrected proof now asserts the
+  inline destination; rerun only after final source/commit freeze.
+- Frozen 18b823e2's older save/amendment browser workflow passed 1/1 with a
+  larger total budget. Its campaign-entry diagnostic exposed the same invalid
+  URL wait; no application state failure was observed at that destination.
+
+## LEARN
+
+Match destination assertions to the root that owns the control: an inline
+workspace is not a URL transition. Freeze the commit identity before starting
+the identified browser server, not merely its file contents; a mid-proof commit
+correctly invalidates the receipt even when runtime files have not changed.
