@@ -10,9 +10,9 @@ needs a person's judgement is the honest state of the check.
 | INVENTORIED | 2353 |
 | INTENTIONALLY_NON_PLAYER_FACING | 5699 |
 | DIAGNOSTIC_OR_TEST | 4846 |
-| **NEEDS_CLASSIFICATION** | **6194** |
+| **NEEDS_CLASSIFICATION** | **6195** |
 
-Scanned 591 files holding 72671 string
+Scanned 591 files holding 72673 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -211,6 +211,7 @@ literals in total; the table counts only those that read like a sentence.
 | 6 | `src/player/ModularCharacter.tsx` |
 | 6 | `src/player/PersonAppearanceControls.tsx` |
 | 6 | `src/player/SceneBackdrop.tsx` |
+| 6 | `src/player/TitleTableau.tsx` |
 | 6 | `src/player/VenueActivityPanel.tsx` |
 | 6 | `src/player/opening-life/OpeningLifePanel.tsx` |
 | 6 | `src/presentation/component-masters.ts` |
@@ -229,7 +230,6 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/player/CareerPathsPanel.tsx` |
 | 5 | `src/player/CivilPersonnelPanel.tsx` |
 | 5 | `src/player/LegislationWorkspace.tsx` |
-| 5 | `src/player/TitleTableau.tsx` |
 | 5 | `src/presentation/browser-world-repository-protocol.ts` |
 | 5 | `src/presentation/life-conversation.ts` |
 | 5 | `src/presentation/opening-officeholders.ts` |

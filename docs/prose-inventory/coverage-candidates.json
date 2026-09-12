@@ -3,7 +3,7 @@
     "INVENTORIED": 2353,
     "INTENTIONALLY_NON_PLAYER_FACING": 5699,
     "DIAGNOSTIC_OR_TEST": 4846,
-    "NEEDS_CLASSIFICATION": 6194
+    "NEEDS_CLASSIFICATION": 6195
   },
   "needsClassification": [
     {
@@ -5825,7 +5825,7 @@
     {
       "sourcePath": "src/player/TitleScreen.tsx",
       "enclosingSymbol": "query",
-      "line": 69,
+      "line": 73,
       "text": "(prefers-reduced-motion: reduce)",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5833,7 +5833,7 @@
     {
       "sourcePath": "src/player/TitleScreen.tsx",
       "enclosingSymbol": "TYPOGRAPHIC_ONLY",
-      "line": 192,
+      "line": 196,
       "text": "The title screen.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5841,7 +5841,7 @@
     {
       "sourcePath": "src/player/TitleScreen.tsx",
       "enclosingSymbol": "TYPOGRAPHIC_ONLY",
-      "line": 193,
+      "line": 197,
       "text": "No banked tableau is available.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5849,7 +5849,7 @@
     {
       "sourcePath": "src/player/TitleScreen.tsx",
       "enclosingSymbol": "TitleScreen",
-      "line": 261,
+      "line": 265,
       "text": " · {recent.residence.name}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5889,8 +5889,16 @@
     {
       "sourcePath": "src/player/TitleTableau.tsx",
       "enclosingSymbol": "TitleTableau",
-      "line": 188,
-      "text": "title-tableau title-tableau--art",
+      "line": 189,
+      "text": "title-tableau title-tableau--art front-door",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/TitleTableau.tsx",
+      "enclosingSymbol": "TitleTableau",
+      "line": 190,
+      "text": "title-tableau front-door",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
