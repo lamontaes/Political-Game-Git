@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 2416 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5708 |
-| DIAGNOSTIC_OR_TEST | 4955 |
+| INVENTORIED | 2454 |
+| INTENTIONALLY_NON_PLAYER_FACING | 5710 |
+| DIAGNOSTIC_OR_TEST | 4968 |
 | **NEEDS_CLASSIFICATION** | **6250** |
 
-Scanned 596 files holding 73563 string
+Scanned 601 files holding 73853 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -244,7 +244,6 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/persistence/sqlite-world-repository.ts` |
 | 4 | `src/player/ExecutiveWorkWorkspace.tsx` |
 | 4 | `src/player/TitleScreen.tsx` |
-| 4 | `src/presentation/art-preview.ts` |
 | 4 | `src/presentation/executive-work.ts` |
 | 4 | `src/presentation/life-story.ts` |
 | 4 | `src/presentation/place-hometown-population.ts` |
@@ -259,6 +258,7 @@ literals in total; the table counts only those that read like a sentence.
 | 3 | `src/player/JudicialOfficeWork.tsx` |
 | 3 | `src/player/PeopleRelationshipWeb.tsx` |
 | 3 | `src/player/PressWorkspace.tsx` |
+| 3 | `src/presentation/art-preview.ts` |
 | 3 | `src/presentation/browser-shell-state.ts` |
 | 3 | `src/presentation/economic-context.ts` |
 | 3 | `src/presentation/legislation-composition.ts` |
@@ -304,6 +304,7 @@ literals in total; the table counts only those that read like a sentence.
 | 1 | `src/presentation/opening-life.ts` |
 | 1 | `src/presentation/person-conversation-entry.ts` |
 | 1 | `src/presentation/place-start-summary.ts` |
+| 1 | `src/presentation/portable-save.ts` |
 | 1 | `src/presentation/scene-conversation.ts` |
 | 1 | `src/simulation/commitment-seam.ts` |
 | 1 | `src/simulation/life-personality.ts` |

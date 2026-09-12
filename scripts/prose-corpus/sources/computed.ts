@@ -53,6 +53,68 @@ export interface ComputedSurface {
 
 export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
   {
+    sourcePath: "src/player/SaveTransferControls.tsx",
+    domain: "shell",
+    bank: "save-transfer",
+    symbols: [
+      "SaveTransferControls",
+      "exportLife",
+      "SaveImportControl",
+      "onFile",
+    ],
+    surface: "status",
+    reachability: "PLAYER_REACHABLE",
+    reachabilityReason:
+      "The Saved games screen mounts export and import on an existing slot list.",
+    grounding: [
+      {
+        key: "portable-save-slot",
+        description:
+          "The selected local save identity, or a newly created slot on import. Existing slots are not overwritten.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/presentation/portable-save.ts",
+    domain: "shell",
+    bank: "save-transfer",
+    symbols: [
+      "parsePortableSave",
+      "exportPortableSave",
+      "importPortableSave",
+      "readOptionalInterface",
+      "writeOptionalInterface",
+    ],
+    surface: "status",
+    reachability: "PLAYER_REACHABLE",
+    reachabilityReason:
+      "Export and import surface these refusals and outcomes on the Saved games screen.",
+    grounding: [
+      {
+        key: "portable-save-bundle",
+        description:
+          "The versioned life file, its World payload, and whether an interface store was present.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/presentation/art-preview.ts",
+    domain: "shell",
+    bank: "art-preview",
+    symbols: ["ART_PREVIEW_LABEL", "INTERNAL_ART_REVIEW_LABEL"],
+    surface: "status",
+    reachability: "PLAYER_REACHABLE",
+    reachabilityReason:
+      "The labelled internal art-review package and the development preview banner.",
+    grounding: [
+      {
+        key: "build-profile",
+        description:
+          "Whether this compiled client is production or internal-art-review; the banner does not admit pixels.",
+      },
+    ],
+  },
+  {
     sourcePath: "src/player/MunicipalWorkspace.tsx",
     domain: "governing",
     bank: "municipal-workspace",

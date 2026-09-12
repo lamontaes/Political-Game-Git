@@ -57,3 +57,9 @@ src/simulation/municipal-rule-registry.generated.ts
 # not, so formatting it would put the committed report permanently out of step
 # with a fresh measurement.
 docs/agent/evidence/modular-gen14/APPEARANCE-RECIPE-V2.md
+
+# Desktop shell derived output.
+desktop/staged
+desktop/release-artifacts
+desktop/controller-release-artifacts
+desktop/node_modules
