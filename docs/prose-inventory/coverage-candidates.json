@@ -2,8 +2,8 @@
   "counts": {
     "INVENTORIED": 2353,
     "INTENTIONALLY_NON_PLAYER_FACING": 5706,
-    "DIAGNOSTIC_OR_TEST": 4834,
-    "NEEDS_CLASSIFICATION": 6228
+    "DIAGNOSTIC_OR_TEST": 4840,
+    "NEEDS_CLASSIFICATION": 6230
   },
   "needsClassification": [
     {
@@ -12368,16 +12368,32 @@
     },
     {
       "sourcePath": "src/presentation/routine-outcome.ts",
-      "enclosingSymbol": "lines",
-      "line": 24,
-      "text": "{elapsed} minutes passed. Now {after.currentDate} at {Math.floor(after.currentMoment.minuteOfDay/60,).toString().padStart(2,\"0\",)}:{(after.currentMoment.minuteOfDay%60).toString().padStart(2,\"0\")}.",
+      "enclosingSymbol": "formatRoutineElapsedMinutes",
+      "line": 21,
+      "text": "{count} {unit}{count===1?\"\":\"s\"}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/routine-outcome.ts",
+      "enclosingSymbol": "formatRoutineElapsedMinutes",
+      "line": 23,
+      "text": "0 minutes",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/presentation/routine-outcome.ts",
       "enclosingSymbol": "lines",
-      "line": 32,
+      "line": 39,
+      "text": "{formatRoutineElapsedMinutes(elapsed)} passed ({elapsed} minutes). Now {after.currentDate} at {Math.floor(after.currentMoment.minuteOfDay/60,).toString().padStart(2,\"0\",)}:{(after.currentMoment.minuteOfDay%60).toString().padStart(2,\"0\")}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/routine-outcome.ts",
+      "enclosingSymbol": "lines",
+      "line": 47,
       "text": "No time passed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12385,7 +12401,7 @@
     {
       "sourcePath": "src/presentation/routine-outcome.ts",
       "enclosingSymbol": "describeRoutineOutcome",
-      "line": 42,
+      "line": 57,
       "text": "{work.length} ordinary work shift{work.length===1?\"\":\"s\"} completed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12393,7 +12409,7 @@
     {
       "sourcePath": "src/presentation/routine-outcome.ts",
       "enclosingSymbol": "key",
-      "line": 56,
+      "line": 71,
       "text": "{received?\"Received\":\"Paid\"} {outcome.transferredAmount.currency}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12401,7 +12417,7 @@
     {
       "sourcePath": "src/presentation/routine-outcome.ts",
       "enclosingSymbol": "describeRoutineOutcome",
-      "line": 62,
+      "line": 77,
       "text": "Payment remains unresolved.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12409,7 +12425,7 @@
     {
       "sourcePath": "src/presentation/routine-outcome.ts",
       "enclosingSymbol": "describeRoutineOutcome",
-      "line": 66,
+      "line": 81,
       "text": "{key}: {(amount/100).toFixed(2)}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12417,7 +12433,7 @@
     {
       "sourcePath": "src/presentation/routine-outcome.ts",
       "enclosingSymbol": "describeRoutineOutcome",
-      "line": 75,
+      "line": 90,
       "text": "Earned shift pay is due {due.dueAt}; it has not posted yet.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12425,7 +12441,7 @@
     {
       "sourcePath": "src/presentation/routine-outcome.ts",
       "enclosingSymbol": "describeRoutineOutcome",
-      "line": 92,
+      "line": 107,
       "text": "Study is pending unpaid tuition.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12433,7 +12449,7 @@
     {
       "sourcePath": "src/presentation/routine-outcome.ts",
       "enclosingSymbol": "describeRoutineOutcome",
-      "line": 111,
+      "line": 126,
       "text": "Stopped for {activity.title}; resolve this commitment before continuing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12441,7 +12457,7 @@
     {
       "sourcePath": "src/presentation/routine-outcome.ts",
       "enclosingSymbol": "describeRoutineOutcome",
-      "line": 112,
+      "line": 127,
       "text": "Stopped before the requested time; resolve the pending commitment before continuing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -52512,7 +52528,7 @@
       "sourcePath": "src/presentation/next24-routine-route.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 17
+      "count": 23
     },
     {
       "sourcePath": "src/presentation/new-game-identity.test.ts",

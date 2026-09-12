@@ -8,6 +8,21 @@ import {
   type World,
 } from "../simulation";
 
+/** Elapsed clock duration, not a guessed number of calendar dates. */
+export function formatRoutineElapsedMinutes(minutes: number): string {
+  const parts: string[] = [];
+  for (const [unit, size] of [
+    ["day", 1440],
+    ["hour", 60],
+    ["minute", 1],
+  ] as const) {
+    const count = Math.floor(minutes / size);
+    minutes %= size;
+    if (count) parts.push(`${count} ${unit}${count === 1 ? "" : "s"}`);
+  }
+  return parts.join(", ") || "0 minutes";
+}
+
 /** Read only: summarize actual appended outcomes, never advertised earnings. */
 export function describeRoutineOutcome(
   before: World,
@@ -21,7 +36,7 @@ export function describeRoutineOutcome(
   );
   const lines = [
     elapsed > 0
-      ? `${elapsed} minutes passed. Now ${after.currentDate} at ${Math.floor(
+      ? `${formatRoutineElapsedMinutes(elapsed)} passed (${elapsed} minutes). Now ${after.currentDate} at ${Math.floor(
           after.currentMoment.minuteOfDay / 60,
         )
           .toString()
@@ -112,5 +127,5 @@ export function describeRoutineOutcome(
         : "Stopped before the requested time; resolve the pending commitment before continuing.",
     );
   }
-  return lines.join(" ");
+  return lines.join("\n");
 }

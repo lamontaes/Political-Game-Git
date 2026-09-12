@@ -122,7 +122,11 @@ export function PersonalRoutinePanel({
         </>
       ) : null}
       {notice ? (
-        <p role="status" data-testid="personal-routine-outcome">
+        <p
+          role="status"
+          data-testid="personal-routine-outcome"
+          style={{ whiteSpace: "pre-line" }}
+        >
           {notice}
         </p>
       ) : null}

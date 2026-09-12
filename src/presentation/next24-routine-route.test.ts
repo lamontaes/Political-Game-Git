@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
-import { describeRoutineOutcome } from "./routine-outcome";
+import {
+  describeRoutineOutcome,
+  formatRoutineElapsedMinutes,
+} from "./routine-outcome";
 import {
   performVenueActivity,
   venueActivities,
@@ -33,6 +36,18 @@ function life(seed = "next24-routine-route") {
 }
 
 describe("NEXT24 combined private-citizen routine route", () => {
+  it("makes exact elapsed duration readable without changing the World", () => {
+    expect(formatRoutineElapsedMinutes(0)).toBe("0 minutes");
+    expect(formatRoutineElapsedMinutes(60)).toBe("1 hour");
+    expect(formatRoutineElapsedMinutes(1310)).toBe("21 hours, 50 minutes");
+    expect(formatRoutineElapsedMinutes(230340)).toBe("159 days, 23 hours");
+    const { world, personId } = life("posthandoff26-read-only-outcome");
+    const snapshot = serializeWorld(world);
+    expect(describeRoutineOutcome(world, world, personId)).toBe(
+      "No time passed.",
+    );
+    expect(serializeWorld(world)).toBe(snapshot);
+  });
   it("resumes a kept mid-shift life before the included journey without duplicate pay", () => {
     const { world, personId } = life("next24-mid-shift-attend");
     const morning = passOrdinaryDays(
