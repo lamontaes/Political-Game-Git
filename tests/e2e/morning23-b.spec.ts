@@ -32,12 +32,17 @@ for (const seed of [
     ).not.toBeVisible();
     await page.screenshot({ path: info.outputPath("npc-readonly.png") });
     await page.getByTestId("dossier-talk").click();
-    await expect(page.getByTestId("dossier-conversation-close")).toBeVisible();
+    await expect(
+      page.getByRole("region", { name: /^Conversation with / }),
+    ).toBeVisible();
     await page
       .getByTestId("person-portrait")
       .first()
       .screenshot({ path: info.outputPath("conversation-portrait.png") });
-    await page.getByTestId("dossier-conversation-close").click();
+    await page.getByTestId("talk-back").click();
+    await person.click({ position: { x: 30, y: 55 } });
+    await page.getByTestId("action-inspect").click();
+    await page.getByTestId("quick-dossier-full").click();
 
     await page
       .getByTestId("own-wardrobe-access")
@@ -162,7 +167,10 @@ for (const kind of ["unpinned", "gen2"] as const) {
         .getByTestId("person-portrait")
         .first()
         .screenshot({ path: info.outputPath(`old-${kind}-conversation.png`) });
-      await page.getByTestId("dossier-conversation-close").click();
+      await page.getByTestId("talk-back").click();
+      await person.click({ position: { x: 30, y: 55 } });
+      await page.getByTestId("action-inspect").click();
+      await page.getByTestId("quick-dossier-full").click();
     } else {
       await expect(page.getByTestId("dossier-talk-unavailable")).toBeVisible();
     }

@@ -2518,6 +2518,17 @@ function PlayingScreen({
                   ? inspectTalkEntry.reason
                   : null
               }
+              expandedContent={
+                <SavedAppearanceControls
+                  world={session.world}
+                  personId={selectedDossier.personId}
+                  preference={shell.personWardrobes[selectedDossier.personId]}
+                  onWorldChange={onWorldChange}
+                  onPreferenceChange={(preference) =>
+                    dispatch({ type: "set-person-wardrobe", preference })
+                  }
+                />
+              }
             />
           ) : null}
 

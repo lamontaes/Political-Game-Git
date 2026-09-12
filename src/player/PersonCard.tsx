@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 
 import {
   EDGE_KIND_LABELS,
@@ -65,6 +65,7 @@ export function PersonCard({
   onTalk,
   talkUnavailable,
   onOpenLink,
+  expandedContent,
 }: {
   readonly world: World;
   readonly playerId: EntityId;
@@ -79,6 +80,7 @@ export function PersonCard({
   readonly onTalk?: () => void;
   readonly talkUnavailable: string | null;
   readonly onOpenLink: (ref: ShellRef) => void;
+  readonly expandedContent?: ReactNode;
 }) {
   const closeRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
@@ -210,6 +212,8 @@ export function PersonCard({
           </ul>
         ) : null}
       </div>
+
+      {expanded ? expandedContent : null}
 
       {connections.length > 0 ? (
         <div className="pg-dossier-section">
