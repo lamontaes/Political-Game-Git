@@ -1,10 +1,13 @@
 ---
 id: people-web17
-impact: none
+impact: minor
+section: Added
+title: People opens as a relationship web with one person card
 ---
 
-Replace this line with a one-line internal reason this change has nothing to
-tell a player. If it does have something to tell a player, set impact to patch
-(bugfix or polish) or minor (a visible feature or system), add a section
-(Added, Improved, Fixed or Changed) and a title, and write the body as prose a
-player would read in a public update.
+People now opens as a map of the connections this life actually has — family,
+household, work, politics, and recorded acquaintance — with search and a list
+still there as alternatives. Selecting someone, inspecting them in the room, or
+opening a pin uses the same card: portrait, what is known, who they connect to,
+pin, and Talk when that is available. Unknown stays unknown; a pin is only a
+saved reference.
