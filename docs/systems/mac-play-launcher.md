@@ -30,14 +30,14 @@ it, or run it from a terminal.
 
 All are environment variables, and each has a default at the top of the file.
 
-| Variable       | Default                                 | Meaning                             |
-| -------------- | --------------------------------------- | ----------------------------------- |
-| `PG_REPO`      | `$HOME/Documents/Political Game`       | your clone or linked worktree       |
-| `PG_SOURCE`    | `origin/codex/ui-core-release-transfer` | branch or commit to play            |
-| `PG_PORT`      | `5199`                                  | port for this play copy; never 5188 |
-| `PG_MODE`      | `candidate`                             | `candidate` or `production` art     |
-| `PG_PLAY_ROOT` | `$HOME/political-game-play`             | where play copies are kept          |
-| `PG_OFFLINE_CACHED` | unset                            | explicit `1` allows a cached source after fetch failure |
+| Variable            | Default                                 | Meaning                                                 |
+| ------------------- | --------------------------------------- | ------------------------------------------------------- |
+| `PG_REPO`           | `$HOME/Documents/Political Game`        | your clone or linked worktree                           |
+| `PG_SOURCE`         | `origin/codex/ui-core-release-transfer` | branch or commit to play                                |
+| `PG_PORT`           | `5199`                                  | port for this play copy; never 5188                     |
+| `PG_MODE`           | `candidate`                             | `candidate` or `production` art                         |
+| `PG_PLAY_ROOT`      | `$HOME/political-game-play`             | where play copies are kept                              |
+| `PG_OFFLINE_CACHED` | unset                                   | explicit `1` allows a cached source after fetch failure |
 
 ```bash
 PG_PORT=5200 PG_SOURCE=origin/main ~/Desktop/play-mac.command
