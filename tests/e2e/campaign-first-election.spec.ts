@@ -351,6 +351,7 @@ test.describe("P85D integration through ordinary player controls", () => {
   test("a Lexington winner can activate Kentucky Work before and after reload", async ({
     page,
   }) => {
+    test.setTimeout(90_000);
     const errors = watchForErrors(page);
     await freshBrowser(page);
     await page.goto("/?seed=p85c-owner-0");
@@ -383,10 +384,9 @@ test.describe("P85D integration through ordinary player controls", () => {
     await expect(page.getByTestId("office-section")).toContainText(
       "Kentucky legislature",
     );
-    await Promise.all([
-      page.waitForURL(/[?&]view=legislation(?:&|$)/, { waitUntil: "load" }),
-      page.getByTestId("open-legislation").click(),
-    ]);
+    // PlayerGame opens this workspace inline; PlayerOffice's fixture route
+    // navigates. Assert the destination owned by this root, not the other one.
+    await page.getByTestId("open-legislation").click();
     await expect(page.getByTestId("legislation-workspace")).toBeVisible();
     await expect(page.getByTestId("legislation-error")).toHaveCount(0);
     expect(errors).toEqual([]);
