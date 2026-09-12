@@ -741,29 +741,29 @@ function createLifePathRoutineHook(): RoutineTimeHook {
           left.relationshipId.localeCompare(right.relationshipId),
       );
     },
-    ensureScheduled(world, window) {
+    ensureScheduled(world, slot) {
       const existing = world.history.scheduledActivities.find(
         (a) =>
-          a.sourceEntityIds.includes(window.relationshipId) &&
+          a.sourceEntityIds.includes(slot.relationshipId) &&
           scheduledActivityState(world, a.id).status === "scheduled",
       );
       if (existing) return world;
-      const path = pathForRelationship(world, window.relationshipId);
-      const actor = relationshipActor(world, window.relationshipId);
+      const path = pathForRelationship(world, slot.relationshipId);
+      const actor = relationshipActor(world, slot.relationshipId);
       if (!path || !actor) return world;
       const start =
-        compareSimulationMoments(window.start, world.currentMoment) < 0
+        compareSimulationMoments(slot.start, world.currentMoment) < 0
           ? world.currentMoment
-          : window.start;
-      if (compareSimulationMoments(start, window.end) >= 0) return world;
+          : slot.start;
+      if (compareSimulationMoments(start, slot.end) >= 0) return world;
       try {
         return createScheduledActivity(world, {
-          stableKey: key(world, `session:${window.relationshipId}`),
+          stableKey: key(world, `session:${slot.relationshipId}`),
           title: path.title,
           summary: path.responsibility,
           kind: "confirmed",
           start,
-          end: window.end,
+          end: slot.end,
           participantPersonIds: [actor],
           responsiblePersonId: actor,
           location: {
@@ -771,7 +771,7 @@ function createLifePathRoutineHook(): RoutineTimeHook {
             label: path.organizationName,
             jurisdictionId: null,
           },
-          sourceEntityIds: [window.relationshipId],
+          sourceEntityIds: [slot.relationshipId],
           flexibility: { kind: "fixed" },
           access: { kind: "private", personIds: [actor] },
         });
