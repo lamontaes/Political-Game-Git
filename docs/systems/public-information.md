@@ -49,6 +49,23 @@ references, and canonical source IDs.
   still applies the scene's information-access declaration, so ENV retains all
   physical geometry and placement authority.
 
+The normal reader also derives three interface-only views from that same
+projection:
+
+- **For You** includes a story only when its canonical person references name
+  the controlled person or the player explicitly follows its represented
+  outlet;
+- **All** preserves the complete projected publication order; and
+- an **outlet view** groups stories by the `outletKey` and `outletName` already
+  stored on their real publication records, with search and correction history
+  unchanged.
+
+An outlet follow is a per-life shell preference in the existing interface-state
+record. It does not enter `World`, history, knowledge, reputation, time, or the
+publication writer. Older interface records load with no followed outlets, and
+different save slots keep independent follow lists. An unfollowed outlet's
+stories remain available in All and in that outlet's view.
+
 An unknown room jurisdiction stays `null` through that adapter. It selects only
 unlocated publications; it does not become an omitted filter that can pull a
 headline from an unrelated jurisdiction.
@@ -154,9 +171,11 @@ polling, sentiment, causal effect, or omniscient reception.
 ## Integration adapters
 
 - **UI-core:** call `projectPublicInformationPanel(world, jurisdictionId)` and
-  render `PublicInformationPanel`, providing `onClose` and an existing
+  render `PublicInformationPanel`, providing `onClose`, the controlled
+  `viewerPersonId`, the shell's `followedOutletKeys`, a
+  `onToggleOutletFollow(outletKey)` shell action, and the existing
   `onOpenPerson(personId)` route. UI-core chooses the global entry and final
-  placement; NEWS-HELP2 does not edit `PlayerGame` or the permanent shell.
+  placement; the reader does not write publication records.
 - **ENV:** continue passing `projectDynamicSurfaces(world, ...)` through
   `dynamicSurfacePayloads`. The NEWS-HELP2 headline owner now supplies only
   canonical published copy. Scene slots, access classes, rectangles, z-order,

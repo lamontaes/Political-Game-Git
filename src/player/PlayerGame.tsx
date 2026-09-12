@@ -2883,6 +2883,11 @@ function renderWorkspace({
             model={projectPublicInformationPanel(session.world)}
             onClose={back}
             onOpenPerson={openPerson}
+            viewerPersonId={session.personId}
+            followedOutletKeys={shell.preferences.followedNewsOutletKeys}
+            onToggleOutletFollow={(outletKey) =>
+              dispatch({ type: "toggle-news-outlet-follow", outletKey })
+            }
           />
         </>,
       );
