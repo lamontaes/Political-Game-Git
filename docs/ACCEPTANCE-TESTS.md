@@ -8,6 +8,22 @@
 
 ## Automated Now
 
+### CAMPAIGN-OFFICE-001 — Discovery is read-only and deliberate
+
+Established offices are grouped by provider government level with current
+canonical eligibility. No radio is preselected and filing requires an explicit
+office key. Missing timing/connections stay unestablished; selecting an office
+does not write history, schedule an election or move money. Unknown/unsupported
+office keys refuse. District discovery likewise requires the chosen office.
+
+### CAMPAIGN-OFFICE-002 — Existing campaign identity wins over browsing
+
+Selecting an alternative after filing does not replace the chosen office,
+opponents, treasury or contest. The normal browser route chooses the supported
+Senate alternative by keyboard and commits by pointer, then browses the House
+and saves/reloads without changing those records. Filing rechecks current
+eligibility and refuses a second active campaign.
+
 The current semantic suite is under `src/simulation/*.test.ts`,
 `src/persistence/*.test.ts`, and `src/presentation/*.test.ts` and runs in
 Vitest's Node environment. Run A browser proof is under `tests/e2e/` and runs

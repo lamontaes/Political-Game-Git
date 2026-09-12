@@ -434,6 +434,13 @@ Education and participation do not contain duplicate time-demand fields. When co
 
 ## Campaign Strategy Action Context
 
+Office discovery consumes the declared candidacy provider and current
+`candidacyEligibility` assessments. `projectCampaignOffices` is read-only;
+selection remains transient until `fileForOffice` receives the explicit office
+key. Existing campaigns resolve their authority by stored `officeKey` and keep
+their exact contest, treasury and opponents. `offeredDistricts` requires the
+same selected office coordinate and never chooses a first chamber implicitly.
+
 - **Owns:** no new root record family; an optional structured strategy context on an existing campaign action records the active staff proposer or honest solo source, the proposal's action kind, represented geography and approved committee spending ceiling.
 - **Stable IDs exposed:** the existing campaign and campaign-action IDs. Geography reuses the campaign jurisdiction or the contest's explicit versioned district binding; no new place or precinct identity is created.
 - **Referenced by:** the feature-local campaign-strategy proposal/commit/report adapter and `CampaignWorkspace`.

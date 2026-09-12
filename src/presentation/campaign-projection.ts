@@ -148,15 +148,18 @@ function quantityPercent(value: {
 /**
  * The offer to run.
  *
- * Only one chamber-level office is offered even where a pack establishes two
- * chambers. Numbered district identity is bound at filing from an explicit
- * Gazetteer record; it is not inferred from the first office or a centroid.
+ * Only a caller-selected established office is resolved. Numbered district
+ * identity is bound at filing from an explicit Gazetteer record.
  */
 function offeredOffice(
-  world: World,
   jurisdictionId: EntityId,
+  officeKey: string,
 ): ElectiveOfficeOption | null {
-  return candidacyPackForJurisdiction(jurisdictionId)?.offices[0] ?? null;
+  return (
+    candidacyPackForJurisdiction(jurisdictionId)?.offices.find(
+      (option) => option.officeKey === officeKey,
+    ) ?? null
+  );
 }
 
 /** Nothing gets booked past the evening; a campaign is not a night shift. */
@@ -239,7 +242,7 @@ function planFor(
         ? {
             locationKey: "campaign-doors",
             label: "Somebody's street",
-            title: "An afternoon on the doors",
+            title: "A session on the doors",
             summary:
               "Knocking, listening, and talking to whoever opens. One way to learn what people are hearing.",
           }
@@ -278,6 +281,7 @@ export function advertisingBuyFor(treasury: MoneyAmount): MoneyAmount {
 export function projectCampaign(
   world: World,
   personId: EntityId,
+  selectedOfficeKey: string | null = null,
 ): CampaignView {
   const person = world.people[personId];
   if (!person) throw new Error("This character is not in the world.");
@@ -286,12 +290,19 @@ export function projectCampaign(
   const placeName = place?.displayName ?? null;
   const existing = campaignForCandidate(world, personId);
 
-  if (!existing) return notYetFiled(world, personId, candidateName, placeName);
+  if (!existing)
+    return notYetFiled(
+      world,
+      personId,
+      candidateName,
+      placeName,
+      selectedOfficeKey,
+    );
 
   const campaign = existing;
   const state = campaignState(world, campaign.id);
   const contest = requireElectionContest(world, campaign.contestId);
-  const option = offeredOffice(world, campaign.jurisdictionId);
+  const option = offeredOffice(campaign.jurisdictionId, campaign.officeKey);
   const treasury = campaignTreasuryPosition(world, campaign)?.liquidBalance ?? {
     minorUnits: 0,
     currency: campaign.treasuryCurrency,
@@ -348,16 +359,27 @@ function notYetFiled(
   personId: EntityId,
   candidateName: string,
   placeName: string | null,
+  selectedOfficeKey: string | null,
 ): CampaignView {
   const person = world.people[personId]!;
   const jurisdictionId = person.homeJurisdictionId;
-  const option = offeredOffice(world, jurisdictionId);
-  const eligibility = candidacyEligibility(world, {
-    personId,
-    jurisdictionId,
-    officeKey: option?.officeKey ?? "",
-    alreadyACandidate: activeCampaignForCandidate(world, personId) !== null,
-  });
+  const options = candidacyPackForJurisdiction(jurisdictionId)?.offices ?? [];
+  const option = selectedOfficeKey
+    ? offeredOffice(jurisdictionId, selectedOfficeKey)
+    : null;
+  const assessments = (
+    selectedOfficeKey
+      ? [selectedOfficeKey]
+      : options.map((item) => item.officeKey)
+  ).map((officeKey) =>
+    candidacyEligibility(world, {
+      personId,
+      jurisdictionId,
+      officeKey,
+      alreadyACandidate: activeCampaignForCandidate(world, personId) !== null,
+    }),
+  );
+  const eligible = assessments.some((assessment) => assessment.eligible);
   const emptyTreasury: MoneyAmount = {
     minorUnits: 0,
     currency: CAMPAIGN_CURRENCY,
@@ -366,9 +388,15 @@ function notYetFiled(
     unavailableReason: null as string | null,
     candidateName,
     placeName,
-    officeTitle: option?.office.title ?? null,
-    officeAuthority: option ? officeAuthority(option) : null,
-    openQuestions: option ? [...option.unresolvedGaps] : [],
+    officeTitle:
+      option?.office.title ??
+      (options.map((item) => item.office.title).join(" or ") || null),
+    officeAuthority: option
+      ? officeAuthority(option)
+      : [...new Set(options.map(officeAuthority))].join(" ") || null,
+    openQuestions: option
+      ? [...option.unresolvedGaps]
+      : [...new Set(options.flatMap((item) => item.unresolvedGaps))],
     campaignId: null,
     committeeName: null,
     opponentNames: [] as readonly string[],
@@ -381,12 +409,22 @@ function notYetFiled(
     tallies: [] as readonly CampaignTallyLine[],
     afterword: null,
   };
-  if (!eligibility.eligible) {
+  if (!eligible) {
     return {
       ...base,
       phase: "unavailable",
-      unavailableReason: eligibility.blocks
-        .map((block) => block.reason)
+      unavailableReason: (assessments.length
+        ? assessments
+        : [
+            candidacyEligibility(world, {
+              personId,
+              jurisdictionId,
+              officeKey: "",
+              alreadyACandidate: false,
+            }),
+          ]
+      )
+        .flatMap((assessment) => assessment.blocks.map((block) => block.reason))
         .join(" "),
     };
   }
@@ -414,9 +452,9 @@ function offersFor(
       kind,
       label:
         kind === "fundraising"
-          ? "Spend the afternoon on the phones"
+          ? "Spend a session on the phones"
           : kind === "outreach"
-            ? "Spend the afternoon on the doors"
+            ? "Spend a session on the doors"
             : "Place an advertising buy",
       cost:
         kind === "advertising"
@@ -527,11 +565,14 @@ export function fileForOffice(
   world: World,
   personId: EntityId,
   districtBinding: DistrictSeatBinding | null = null,
+  officeKey: string | null = null,
 ): World {
   const person = world.people[personId];
   if (!person) throw new Error("This character is not in the world.");
   const jurisdictionId = person.homeJurisdictionId;
-  const option = offeredOffice(world, jurisdictionId);
+  if (!officeKey)
+    throw new Error("Choose an established office before filing.");
+  const option = offeredOffice(jurisdictionId, officeKey);
   if (!option) {
     throw new Error("There is no office here the game has read the rules for.");
   }

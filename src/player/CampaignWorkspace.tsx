@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 
 import "./campaign-workspace.css";
+import { projectCampaignOffices } from "../presentation/campaign-office-discovery";
 
 import {
   fileForOffice,
@@ -48,9 +49,18 @@ export function CampaignWorkspace({
   personId,
   onWorldChange,
 }: CampaignWorkspaceProps) {
-  const view = useMemo(
-    () => projectCampaign(world, personId),
+  const [selectedOfficeKey, setSelectedOfficeKey] = useState<string | null>(
+    null,
+  );
+  const offices = useMemo(
+    () => projectCampaignOffices(world, personId),
     [world, personId],
+  );
+  const selectedOffice =
+    offices.find((office) => office.officeKey === selectedOfficeKey) ?? null;
+  const view = useMemo(
+    () => projectCampaign(world, personId, selectedOfficeKey),
+    [world, personId, selectedOfficeKey],
   );
   const strategy = useMemo(
     () => projectCampaignStrategy(world, personId),
@@ -79,7 +89,7 @@ export function CampaignWorkspace({
 
   function file() {
     run(
-      () => fileForOffice(world, personId),
+      () => fileForOffice(world, personId, null, selectedOfficeKey),
       (next) => onWorldChange(next),
     );
   }
@@ -140,7 +150,7 @@ export function CampaignWorkspace({
     );
   }
 
-  if (view.phase === "unavailable") {
+  if (view.phase === "unavailable" && offices.length === 0) {
     return (
       <section className="game-campaign" data-testid="campaign-section">
         <h2>Standing for something</h2>
@@ -155,6 +165,62 @@ export function CampaignWorkspace({
     <section className="game-campaign" data-testid="campaign-section">
       <h2>Standing for something</h2>
 
+      {offices.length ? (
+        <section
+          className="game-campaign-strategy"
+          data-testid="campaign-office-browser"
+        >
+          <h3>Explore established offices</h3>
+          <p>
+            Inspecting or selecting an office does not start a campaign or spend
+            money. Existing campaigns keep their recorded office.
+          </p>
+          {[...new Set(offices.map((office) => office.governmentLevel))].map(
+            (level) => (
+              <fieldset key={level}>
+                <legend>{level}</legend>
+                {offices
+                  .filter((office) => office.governmentLevel === level)
+                  .map((office) => (
+                    <label key={office.officeKey}>
+                      <input
+                        type="radio"
+                        name="campaign-office"
+                        value={office.officeKey}
+                        checked={selectedOfficeKey === office.officeKey}
+                        onChange={() => {
+                          setSelectedOfficeKey(office.officeKey);
+                          setProblem(null);
+                        }}
+                      />
+                      <span>
+                        {office.title}
+                        <small>{office.provider}</small>
+                        <small>{office.eligibility}</small>
+                        <small>{office.timing}</small>
+                        <small>
+                          {office.connections.join(" ") ||
+                            "No office-related connections are established in your records."}
+                        </small>
+                      </span>
+                    </label>
+                  ))}
+              </fieldset>
+            ),
+          )}
+          <p className="game-note">
+            No national election calendar or inferred district membership is
+            supplied here. The existing campaign filing route uses its 28-day
+            game scenario schedule, not a sourced real-world election date.
+          </p>
+        </section>
+      ) : null}
+      {view.phase === "unavailable" ? (
+        <p className="game-note" data-testid="campaign-unavailable">
+          {view.unavailableReason}
+        </p>
+      ) : null}
+
       {view.phase === "can-file" ? (
         <div data-testid="campaign-offer">
           <p>
@@ -166,7 +232,12 @@ export function CampaignWorkspace({
           {view.officeAuthority ? (
             <p className="game-campaign-authority">{view.officeAuthority}</p>
           ) : null}
-          <button type="button" data-testid="file-candidacy" onClick={file}>
+          <button
+            type="button"
+            data-testid="file-candidacy"
+            disabled={!selectedOffice?.eligible}
+            onClick={file}
+          >
             Put their name in
             <small>The committee opens with nothing in it.</small>
           </button>

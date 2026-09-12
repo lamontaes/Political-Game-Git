@@ -16,11 +16,8 @@ import {
 } from "../simulation";
 import type { EntityId, World } from "../simulation";
 import { buildProductionWorld } from "./production-world";
-import {
-  fileForOffice,
-  projectCampaign,
-  spendAnAfternoon,
-} from "./campaign-projection";
+import { projectCampaign, spendAnAfternoon } from "./campaign-projection";
+import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import {
   commitCampaignStrategy,
   projectCampaignStrategy,

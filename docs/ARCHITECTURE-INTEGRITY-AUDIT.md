@@ -1,5 +1,24 @@
 # Architecture Integrity Audit
 
+## NEXT24 E — Deliberate office discovery audit (2026-09-12)
+
+The browser is a pure projection over the existing declared candidacy provider,
+eligibility resolver, contests and player-owned contact history. No office,
+qualification, district membership, electorate, calendar or treasury engine is
+added. Timing comes only from recorded contests; the inherited filing scenario
+schedule is explicitly distinguished from sourced election timing. Selection is
+transient UI state, not a campaign writer. Filing requires the selected stable
+office key and reuses the existing writer's current eligibility refusal.
+
+Existing campaign projection uses its stored office key, so browsing cannot
+redirect authority, money, opponents, contest or results. District discovery
+uses the same explicit office coordinate. Legacy test scenarios deliberately
+choose their intended office through a fixture adapter, not production policy.
+No shared root or common dialogue surface is changed.
+
+LEARN: source authority must follow the saved office identity even after the
+discovery list gains alternatives; a UI selection is not a migration directive.
+
 This audit is permanent development governance. Run it at every major stage boundary and whenever a new architecture rule, failure pattern, or invariant could affect completed work. Earlier stages are not grandfathered.
 
 The audit does not authorize a broad rewrite. For every plausibly affected implementation, record one disposition:

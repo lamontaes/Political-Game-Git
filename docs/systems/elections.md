@@ -85,6 +85,22 @@ top. None of it is a flat bonus per click.
 
 ### The first staff-strategy interaction
 
+The supported office browser in `campaign-office-discovery.ts` lists all
+established alternatives from the candidate's declared provider, grouped by
+government level. It shows current canonical candidacy assessments, recorded
+upcoming contest dates with provenance method, and contestants with whom the
+player has actual prior contact. Unknown timing and connections remain unknown.
+No office is preselected; browsing/selecting writes nothing, starts no campaign
+and spends no money. `fileForOffice` requires the deliberate office key and
+uses the existing eligibility/writer path. Its inherited 28-day game scenario
+schedule is disclosed rather than presented as a sourced election date.
+
+District discovery also requires an office key instead of taking the first
+chamber. Existing campaign projection resolves authority from the saved office
+key, never from a newly browsed option. Discovery and reload preserve the
+campaign, treasury, opponent and election identities. Scenario fixtures now
+explicitly name their intended office without changing old campaign arithmetic.
+
 `src/presentation/campaign-strategy.ts` projects one feature-local planning
 subject over those existing records. It attributes a proposal only to a person
 whose campaign work relationship is currently active; otherwise it says that

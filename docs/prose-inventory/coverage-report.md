@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 2355 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5709 |
-| DIAGNOSTIC_OR_TEST | 4789 |
-| **NEEDS_CLASSIFICATION** | **6191** |
+| INVENTORIED | 2356 |
+| INTENTIONALLY_NON_PLAYER_FACING | 5711 |
+| DIAGNOSTIC_OR_TEST | 4794 |
+| **NEEDS_CLASSIFICATION** | **6198** |
 
-Scanned 579 files holding 72182 string
+Scanned 581 files holding 72249 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -181,6 +181,7 @@ literals in total; the table counts only those that read like a sentence.
 | 9 | `src/presentation/surface-binding.ts` |
 | 9 | `src/simulation/campaign-compliance.ts` |
 | 9 | `src/simulation/life-circumstances.ts` |
+| 8 | `src/player/CampaignWorkspace.tsx` |
 | 8 | `src/player/EducationOptionsPanel.tsx` |
 | 8 | `src/player/PinRail.tsx` |
 | 8 | `src/player/PlayerOffice.tsx` |
@@ -198,7 +199,6 @@ literals in total; the table counts only those that read like a sentence.
 | 8 | `src/ui/DeveloperViewer.tsx` |
 | 8 | `src/ui/PersonInspector.tsx` |
 | 8 | `src/ui/PoseContactProof.tsx` |
-| 7 | `src/player/CampaignWorkspace.tsx` |
 | 7 | `src/player/QuickDossier.tsx` |
 | 7 | `src/player/ShellDossier.tsx` |
 | 7 | `src/presentation/candidate-review.ts` |
@@ -214,6 +214,7 @@ literals in total; the table counts only those that read like a sentence.
 | 6 | `src/player/SceneBackdrop.tsx` |
 | 6 | `src/player/VenueActivityPanel.tsx` |
 | 6 | `src/player/opening-life/OpeningLifePanel.tsx` |
+| 6 | `src/presentation/campaign-office-discovery.ts` |
 | 6 | `src/presentation/component-masters.ts` |
 | 6 | `src/presentation/day-overview.ts` |
 | 6 | `src/presentation/formative-context.ts` |

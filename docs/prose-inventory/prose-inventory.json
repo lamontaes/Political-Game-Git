@@ -1,5 +1,5 @@
 {
-  "digest": "9c9fd97934398cd7",
+  "digest": "afee17928dd44a5f",
   "counts": {
     "total": 2502,
     "byDomain": {
@@ -49,7 +49,7 @@
       "surface": "status",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "sourceSymbol": "detail",
-      "text": "An afternoon on the doors",
+      "text": "A session on the doors",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -74,7 +74,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "5c0f15dd448c",
+      "textRevision": "85275d6e29bc",
       "contextRevision": "15862db75231"
     },
     {
@@ -609,7 +609,7 @@
       "surface": "status",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "sourceSymbol": "offersFor",
-      "text": "Spend the afternoon on the doors",
+      "text": "Spend a session on the doors",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -634,7 +634,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "6b303987a034",
+      "textRevision": "537f783e2c1a",
       "contextRevision": "15862db75231"
     },
     {
@@ -646,7 +646,7 @@
       "surface": "status",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "sourceSymbol": "offersFor",
-      "text": "Spend the afternoon on the phones",
+      "text": "Spend a session on the phones",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -671,7 +671,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "36c65d6007cf",
+      "textRevision": "9557435643c0",
       "contextRevision": "15862db75231"
     },
     {
