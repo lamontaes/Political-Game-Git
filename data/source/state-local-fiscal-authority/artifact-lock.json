@@ -1,0 +1,263 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "ak-ch-74-sla-1985-enrolled-session-law",
+      "bytes": {
+        "length": 36898000,
+        "sha256": "30dfaeab42ba7a22200897671249b7bfe10a57a41ce1edcb16b91ef1dd02225f"
+      },
+      "localPath": null,
+      "mediaType": "application/pdf",
+      "provider": "Alaska State Legislature",
+      "publisher": {
+        "documentationUrl": "https://www.akleg.gov/pdf/billfiles/SLAs/SLA%201985/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "ch. 74 SLA 1985"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 36898000,
+        "retrievedAt": "2026-09-09T16:35:20.685Z",
+        "url": "https://www.akleg.gov/pdf/billfiles/SLAs/SLA%201985/CH%2074%20SLA%201985.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "ak-ch-74-sla-1985-enrolled-session-law-selected-pages",
+      "bytes": {
+        "length": 13727,
+        "sha256": "4c6cb6515114178c22b04bb13ac7f959f6bc8f73485631e9ba6660669c04f8a1"
+      },
+      "derivation": {
+        "parentArtifactId": "ak-ch-74-sla-1985-enrolled-session-law",
+        "parentSha256": "30dfaeab42ba7a22200897671249b7bfe10a57a41ce1edcb16b91ef1dd02225f",
+        "selectionPredicate": "PDF.js 6.3.289 text items from one-based PDF pages 101, 102, 116, 136, 137, 138, 150, and 211, in ascending order; join items with spaces, collapse whitespace, retain decoded characters, and prefix each page with `PDF PAGE <number>`."
+      },
+      "localPath": "data/source/state-local-fiscal-authority/raw/ak-ch-74-sla-1985.selected-pages.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "Alaska State Legislature",
+      "publisher": {
+        "documentationUrl": "https://www.akleg.gov/pdf/billfiles/SLAs/SLA%201985/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "ch. 74 SLA 1985"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 13727,
+        "retrievedAt": "2026-09-09T16:35:20.685Z",
+        "url": "https://www.akleg.gov/pdf/billfiles/SLAs/SLA%201985/CH%2074%20SLA%201985.pdf"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Alaska State Legislature",
+          "instrumentKind": "statute",
+          "instrumentTitle": "Chapter 74, Session Laws of Alaska 1985",
+          "jurisdictionKey": "US-AK",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 3697,
+              "sha256": "c811d6280309a8aa4c69c4c4cbab91b0b7f29d1990ef354b91c86dd376ee30e6"
+            },
+            "regions": [
+              {
+                "beginsWith": "Sec. 29.45.010. PROPERTY TAX.",
+                "endsWith": "(c) If a tax is levied on real property or on personal property, the tax must be assessed, levied, and collected as provided in this chapter."
+              },
+              {
+                "beginsWith": "Sec. 29 .45.090. TAX LIMITATION .",
+                "endsWith": "All property on which a tax is levied shall be taxed a t the same rate during the year ."
+              },
+              {
+                "beginsWith": "Sec. 29.45.650. SALES AND USE TAX.",
+                "endsWith": "This subsection applies to home rule and general law municipal- ities."
+              },
+              {
+                "beginsWith": "Sec. 29.45.670. REFERENDUM, ADOPTION, AND MODIFICATION.",
+                "endsWith": "approved by ordinance does not take effect until ratifie d by a major - ity of the voters at an election."
+              },
+              {
+                "beginsWith": "Sec. 29.45 . 700. POWER OF LEVY .",
+                "endsWith": "(c) A city outside a borough may levy and collect sales and use taxes in the manner provided for boroughs."
+              },
+              {
+                "beginsWith": "Sec. 29 . 4 7. 180 . GENERAL OBLIGATION BONDS.",
+                "endsWith": "Any municipal voter may vote in the bond elec - tion, except as otherwise provided by law."
+              },
+              {
+                "beginsWith": "* Sec. 90. This Act takes effect January 1, 1986.",
+                "endsWith": "* Sec. 90. This Act takes effect January 1, 1986."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "ak-municipal-sales-use-tax-statutes",
+      "bytes": {
+        "length": 12464,
+        "sha256": "17b394d4fcc7d934aa4bf965973c7144e5a8e43d378fe1075f151413a087eb1b"
+      },
+      "localPath": "data/source/state-local-fiscal-authority/raw/ak-29.45.650-710.html",
+      "mediaType": "text/html; charset=windows-1252",
+      "provider": "Alaska State Legislature",
+      "publisher": {
+        "documentationUrl": "https://www.akleg.gov/basis/statutes.asp",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "Alaska Statutes retrieved for corpus as of 2026-09-09"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 12464,
+        "retrievedAt": "2026-09-09T16:35:23.978Z",
+        "url": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=29.45.650&secEnd=29.45.710"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Alaska State Legislature",
+          "instrumentKind": "statute",
+          "instrumentTitle": "Alaska Statutes §§ 29.45.650-.710, Municipal Sales and Use Taxes",
+          "jurisdictionKey": "US-AK",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 10715,
+              "sha256": "a683b51c3f2d6bb5d2851c607d94dbadbc19a45caab23b62fcec3883fd9b166e"
+            },
+            "regions": [
+              {
+                "beginsWith": "Sec. 29.45.650. Sales and use tax.",
+                "endsWith": "Article 6. Mobile Telecommunications Sourcing Act."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ak-municipal-property-tax-statutes",
+      "bytes": {
+        "length": 68277,
+        "sha256": "c93e7b0ff63c9aa94d9b9d5f0a2a63584d6a818a26d243facaa5dfc5a6101848"
+      },
+      "localPath": "data/source/state-local-fiscal-authority/raw/ak-29.45.010-100.html",
+      "mediaType": "text/html; charset=windows-1252",
+      "provider": "Alaska State Legislature",
+      "publisher": {
+        "documentationUrl": "https://www.akleg.gov/basis/statutes.asp",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "Alaska Statutes retrieved for corpus as of 2026-09-09"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 68277,
+        "retrievedAt": "2026-09-09T16:35:24.164Z",
+        "url": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=29.45.010&secEnd=29.45.100"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Alaska State Legislature",
+          "instrumentKind": "statute",
+          "instrumentTitle": "Alaska Statutes §§ 29.45.010-.100, Municipal Property Taxes",
+          "jurisdictionKey": "US-AK",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 59974,
+              "sha256": "216ee9f581002e532e1651055117bd5e3d67498e6dd5b43876e0d49c124f4e27"
+            },
+            "regions": [
+              {
+                "beginsWith": "Sec. 29.45.010. Property tax.",
+                "endsWith": "Taxes to pay or secure the payment of principal and interest on bonds may be levied without limitation as to rate or amount, regardless of whether the bonds are in default or in danger of default."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ak-municipal-general-obligation-bond-statutes",
+      "bytes": {
+        "length": 2197,
+        "sha256": "02a1a00507ff1c2c6d1a89624a8f9cc34f772f1e160cdf33eca38efa59c4e621"
+      },
+      "localPath": "data/source/state-local-fiscal-authority/raw/ak-29.47.180-200.html",
+      "mediaType": "text/html; charset=windows-1252",
+      "provider": "Alaska State Legislature",
+      "publisher": {
+        "documentationUrl": "https://www.akleg.gov/basis/statutes.asp",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "Alaska Statutes retrieved for corpus as of 2026-09-09"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 2197,
+        "retrievedAt": "2026-09-09T16:35:24.342Z",
+        "url": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=29.47.180&secEnd=29.47.200"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Alaska State Legislature",
+          "instrumentKind": "statute",
+          "instrumentTitle": "Alaska Statutes §§ 29.47.180-.200, Municipal General Obligation Bonds",
+          "jurisdictionKey": "US-AK",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1830,
+              "sha256": "e111bdabae50de1a4e118e1b6cfc2ec1de6186ed7cd66795006920f3af5416ef"
+            },
+            "regions": [
+              {
+                "beginsWith": "Sec. 29.47.180. General obligation bonds.",
+                "endsWith": "This subsection applies to home rule and general law municipalities."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "state-local-fiscal-authority"
+}

@@ -29,6 +29,7 @@ export type EntityKind =
   | "decision"
   | "decision-trace"
   | "development-proposal"
+  | "district-residence"
   | "dwelling"
   | "dwelling-occupancy"
   | "dwelling-occupancy-state"
@@ -2933,6 +2934,53 @@ export type ControlState =
 
 export type ElectionContestStatus = "pending" | "resolved" | "cancelled";
 
+export interface DistrictSeatBinding {
+  readonly vintage: "census-gazetteer-2025";
+  readonly compilerVersion: string;
+  readonly chamber: "congressional" | "state-lower" | "state-upper";
+  readonly geoid: string;
+  readonly recordId: string;
+  readonly stateUsps: string;
+}
+
+export type DistrictResidenceProvenanceMethod =
+  "authored" | "simulated-event" | "canonical-home-join";
+
+export interface DistrictResidenceProvenance {
+  readonly method: DistrictResidenceProvenanceMethod;
+  readonly sourceEventId: EntityId | null;
+  readonly note: string;
+}
+
+/**
+ * Player-chosen seat identity. This is not home-membership evidence and is
+ * not a proved district-residence interval.
+ */
+export interface DistrictSeatIntent {
+  readonly personId: EntityId;
+  readonly binding: DistrictSeatBinding;
+  readonly selectedOn: IsoDate;
+}
+
+/**
+ * Evidence-backed interval of residence in one numbered district identity.
+ *
+ * Absent from old saves. Missing history is UNKNOWN, never backfilled from
+ * birthplace, state residence, Gazetteer interior points, or a picker choice.
+ * A verified whole-place Census join may establish an interval on a new life;
+ * it does not rewrite older saves.
+ */
+export interface DistrictResidenceInterval {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly binding: DistrictSeatBinding;
+  readonly startedOn: IsoDate;
+  readonly endedOn: IsoDate | null;
+  readonly provenance: DistrictResidenceProvenance;
+}
+
 export interface ElectiveOfficeRef {
   /** Stable semantic identifier for the office, e.g. "mayor", "council:district-1", "school-board:seat-a". */
   readonly officeKey: string;
@@ -2940,6 +2988,11 @@ export interface ElectiveOfficeRef {
   readonly title: string;
   /** Optional seat, district, or ward designation. */
   readonly seatKey: string | null;
+  /**
+   * Explicit Gazetteer district identity for this seat, when one has been
+   * bound. Missing on older contests. Never inferred from a centroid.
+   */
+  readonly districtBinding?: DistrictSeatBinding | null;
   /** Open taxonomy classification linking to occupation/work semantics if applicable. */
   readonly occupationClassification: OccupationClassification | null;
 }
@@ -3239,6 +3292,13 @@ export interface HistoryStore {
   readonly scheduledActivityStates: readonly ScheduledActivityStateRecord[];
   readonly workItems: readonly WorkItemRecord[];
   readonly workItemStates: readonly WorkItemStateRecord[];
+  /** Optional so pre-DISTRICTS13 snapshots remain structurally readable. */
+  readonly districtResidenceIntervals?: readonly DistrictResidenceInterval[];
+  /**
+   * Current desired seat identity per person. Optional on old saves. Not
+   * membership, not sequenced history, and never a substitute for intervals.
+   */
+  readonly districtSeatIntents?: readonly DistrictSeatIntent[];
   readonly electionContests?: readonly ElectionContestRecord[];
   readonly electionContestResults?: readonly ElectionContestResultRecord[];
   readonly campaigns?: readonly CampaignRecord[];

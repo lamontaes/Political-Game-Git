@@ -100,11 +100,54 @@ export function validateFiscalAuthorityCorpus(
         recordId: record.recordId,
       });
     }
+    if (
+      authority.derivation === "DERIVED" &&
+      authority.derivationArtifactIds.length === 0
+    ) {
+      findings.push({
+        severity: "error",
+        code: "fiscal/derivation-without-artifacts",
+        message: `${record.recordId} claims a derived legal fact without naming the locked artifacts traversed by the derivation.`,
+        recordId: record.recordId,
+      });
+    }
     if (!/^\d{4}-\d{2}-\d{2}$/.test(authority.effectiveDate)) {
       findings.push({
         severity: "error",
         code: "fiscal/no-effective-date",
         message: `${record.recordId} carries effective date "${authority.effectiveDate}". A fiscal rule without a date cannot be applied to a fiscal year.`,
+        recordId: record.recordId,
+      });
+    }
+    for (const [field, value] of [
+      ["enactedDate", authority.enactedDate],
+      ["lastAmendedDate", authority.lastAmendedDate],
+    ] as const) {
+      if (value !== null && !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+        findings.push({
+          severity: "error",
+          code: "fiscal/invalid-legal-date",
+          message: `${record.recordId} carries ${field} "${value}", which is neither a supported ISO date nor null.`,
+          recordId: record.recordId,
+        });
+      }
+    }
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(authority.observedDate)) {
+      findings.push({
+        severity: "error",
+        code: "fiscal/no-observed-date",
+        message: `${record.recordId} carries observedDate "${authority.observedDate}" rather than a source-observation date.`,
+        recordId: record.recordId,
+      });
+    }
+    if (
+      authority.versionApplicability === "FOUNDATIONAL_AND_OBSERVED_POINTS" &&
+      authority.observedDate < authority.effectiveDate
+    ) {
+      findings.push({
+        severity: "error",
+        code: "fiscal/inverted-observation-date",
+        message: `${record.recordId} observes current wording before its foundational effective date.`,
         recordId: record.recordId,
       });
     }

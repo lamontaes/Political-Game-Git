@@ -23,3 +23,21 @@ EDU code/source head: `89a0049ecf7f952a657a2b73acfa5896f0a42b48`, draft PR 153. 
 Current validation: 24 source/provider/LIFE tests passed in the combined run. One existing prose test exceeded its five-second timeout; the isolated single-worker prose rerun passed all 40 tests without a code change. App and Node TypeScript, lint, source replay, art validation, art inventory and art QA passed. The source replay is byte-identical. The feature browser diagnostic passed 1/1 in Chromium (run `edu-path7-20260909-r2`, 11.2 seconds), including pointer/keyboard request, acceptance, study, interruption, save/reload, return and another attended session/save/reload. The first run reached the correct state but failed a test-only uppercase `Active` expectation; existing LIFE renders `active`, and the corrected assertion passed. The normal player Save/reload journey remains pending UI integration proof. The shared browser slot was explicitly released to UI after this finite run. Human visual acceptance remains open.
 
 The isolated branch is clean at the code checkpoint. The original detached workspace and its pre-existing image changes were not modified. No merge or monitoring was performed. The active plan stays active until the remaining journey proof is recorded.
+
+## Normal-route result under investigation
+
+UI applied the current edition at clean integration head `ce2df91f9ad81a8d6015b1e8c1ce1499f815e35f`. Its normal test reached real 2026 search, comparison, request and acceptance with zero attended sessions, then encountered the existing LIFE refusal: “You already have a commitment at that time.” No attendance control was created because scheduling was refused. This is not a completed normal journey.
+
+LIFE owner verified that its fixed-time scheduler does not search later free dates. The conflicting activity must be resolved through its owning normal action; guarded day advancement may itself refuse pending commitments. Generic calendar completion must not replace LIFE attendance, which owns fees and study effects. UI is investigating the normal conflict-resolution route. An unreachable owning action would remain an integration gap, not authority for an EDU clock bypass.
+
+## Earned-pay dependency repair
+
+The next actual normal run resolved the meeting and scheduled study, then correctly refused attendance without $25. A completed Shop assistant shift and next-day advancement exposed a missing personal resource position: transfer outcomes existed but the balance query required an account. LIFE owner supplied `8082d477796606e4e9eb096c484b037a00149d5e`, composed here as `c36c341` with both EDU and resource-helper imports preserved.
+
+The owner repair establishes a zero opening position before new wage transfers. For an already affected save, it records a documented opening checkpoint from actual signed prior transfers, preserving outcomes and avoiding double counting. It does not infer organization accounts, invent initial wealth, alter the generic balance query, or bypass study fees. Refused study discards a candidate account repair. Combined source/provider/LIFE/account tests pass 27/27. The UI owner is rerunning the normal paid-work-to-study journey with the same repair; acceptance remains pending its result.
+
+## Normal paid-study proof receipt
+
+UI owner reports the actual earned-work → first study attendance → interruption → Keep/save and reload → return journey proven at UI `5501b74`, published in clean combined UI `defd15a1882ce08ee7b005e70d884cd8d917dcd7`. Evidence is owned by UI under `docs/plans/evidence/ui-return7`. Its composition includes the 2025 edition and LIFE account repair.
+
+The second session remains blocked by a January 10 tentative invitation with no responsible person. LIFE routed explicit source-linked response/disposition handling to the OPENING owner. EDU does not cancel or complete that activity through an unrelated writer. This is partial actual normal-route acceptance, not completion of the repeated-session journey. The EDU active plan remains open; no monitoring or merge is established.

@@ -51,7 +51,7 @@ export interface AcquisitionRequest {
     readonly cut: (
       parentBytes: Buffer,
       alreadyAcquired: ReadonlyMap<string, Buffer>,
-    ) => Buffer;
+    ) => Buffer | Promise<Buffer>;
   };
 }
 

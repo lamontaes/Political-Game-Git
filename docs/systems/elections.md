@@ -48,8 +48,12 @@ further is claimed:
 - **The game applies its own adult rule instead, and labels it as its own.** A
   character under 21 is turned away by the game, which is a different sentence
   from "the law says no", and the refusal says which it is.
-- **No district is claimed.** There is no district geography, so a contest is
-  for a seat in a chamber and `seatKey` is `null`.
+- **District identity is explicit.** Gazetteer records identify numbered
+  districts by chamber and GEOID. A contest may carry a versioned district
+  binding chosen at filing. Interior points are not boundaries, and state or
+  city residence is not district membership. A selected district is the seat
+  identity, not proved home membership. Old saves without district intervals
+  remain UNKNOWN.
 - **The pack is resolved through declared jurisdiction identity, never supplied
   by the caller.** A locality can reach its own parent-state pack through
   `stateJurisdictionKey`. A Lexington resident can therefore stand for a
