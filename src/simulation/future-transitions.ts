@@ -19,6 +19,7 @@ import type {
   FutureTransitionHandler,
   FutureTransitionHandlerRegistry,
   FutureTransitionKey,
+  RoutineTimeHook,
   HistoricalCutoff,
   IsoDate,
   World,
@@ -95,6 +96,7 @@ function assertTerminalFutureDueItemStatus(
 
 export function createFutureTransitionHandlerRegistry(
   entries: readonly (readonly [FutureTransitionKey, FutureTransitionHandler])[],
+  routine?: RoutineTimeHook,
 ): FutureTransitionHandlerRegistry {
   const handlers = new Map<FutureTransitionKey, FutureTransitionHandler>();
   for (const [key, handler] of entries) {
@@ -104,7 +106,10 @@ export function createFutureTransitionHandlerRegistry(
     }
     handlers.set(key, handler);
   }
-  return { get: (transitionKey) => handlers.get(transitionKey) };
+  return {
+    get: (transitionKey) => handlers.get(transitionKey),
+    ...(routine ? { routine } : {}),
+  };
 }
 
 export const EMPTY_FUTURE_TRANSITION_HANDLERS =
@@ -122,6 +127,7 @@ export const EMPTY_FUTURE_TRANSITION_HANDLERS =
 export function composeFutureTransitionHandlerRegistries(
   ...registries: readonly FutureTransitionHandlerRegistry[]
 ): FutureTransitionHandlerRegistry {
+  const routine = registries.find((registry) => registry.routine)?.routine;
   return {
     get: (transitionKey) => {
       for (const registry of registries) {
@@ -132,6 +138,7 @@ export function composeFutureTransitionHandlerRegistries(
       }
       return undefined;
     },
+    ...(routine ? { routine } : {}),
   };
 }
 

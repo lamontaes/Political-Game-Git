@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2107 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5640 |
-| DIAGNOSTIC_OR_TEST | 4491 |
-| **NEEDS_CLASSIFICATION** | **5718** |
+| INTENTIONALLY_NON_PLAYER_FACING | 5641 |
+| DIAGNOSTIC_OR_TEST | 4501 |
+| **NEEDS_CLASSIFICATION** | **5726** |
 
-Scanned 506 files holding 67266 string
+Scanned 506 files holding 67328 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -41,7 +41,7 @@ literals in total; the table counts only those that read like a sentence.
 | 126 | `src/simulation/legislation.ts` |
 | 87 | `src/simulation/policy.ts` |
 | 76 | `src/presentation/legislative-bargaining.ts` |
-| 72 | `src/simulation/life-paths2.ts` |
+| 74 | `src/simulation/life-paths2.ts` |
 | 69 | `src/simulation/character-history.ts` |
 | 67 | `src/player/PlayerGame.tsx` |
 | 64 | `src/simulation/press-interview-producers.ts` |
@@ -80,6 +80,7 @@ literals in total; the table counts only those that read like a sentence.
 | 33 | `src/presentation/life-diagnostics.ts` |
 | 32 | `src/content/adapters/legislative-blueprints.ts` |
 | 31 | `src/content/adapters/life-episodes.ts` |
+| 31 | `src/simulation/career-path7.ts` |
 | 31 | `src/simulation/people.ts` |
 | 31 | `src/simulation/politics.ts` |
 | 30 | `src/simulation/life-paths2-catalog.ts` |
@@ -90,7 +91,6 @@ literals in total; the table counts only those that read like a sentence.
 | 28 | `src/ui/MindProfile.tsx` |
 | 27 | `src/presentation/garment-fit.ts` |
 | 26 | `src/presentation/legislation-session.ts` |
-| 26 | `src/simulation/career-path7.ts` |
 | 25 | `src/presentation/economic-graphs.ts` |
 | 25 | `src/simulation/judicial-office-work.ts` |
 | 25 | `src/ui/DeveloperReviewHub.tsx` |
@@ -187,6 +187,7 @@ literals in total; the table counts only those that read like a sentence.
 | 7 | `src/simulation/candidate-qualification.ts` |
 | 7 | `src/simulation/executive-work-entry.ts` |
 | 7 | `src/simulation/judicial-office-start.ts` |
+| 6 | `src/player/CareerPathsPanel.tsx` |
 | 6 | `src/player/ModularCharacter.tsx` |
 | 6 | `src/player/PersonAppearanceControls.tsx` |
 | 6 | `src/player/SceneBackdrop.tsx` |
@@ -202,7 +203,6 @@ literals in total; the table counts only those that read like a sentence.
 | 6 | `src/simulation/vitality-integrity.ts` |
 | 6 | `src/ui/ProductionOfficeProofView.tsx` |
 | 5 | `src/player/CampaignWorkspace.tsx` |
-| 5 | `src/player/CareerPathsPanel.tsx` |
 | 5 | `src/player/CivilPersonnelPanel.tsx` |
 | 5 | `src/player/LegislationWorkspace.tsx` |
 | 5 | `src/player/TitleTableau.tsx` |

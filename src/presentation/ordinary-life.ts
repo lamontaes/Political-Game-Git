@@ -5,6 +5,7 @@ import {
   addDays,
   advanceWorld,
   advanceWorldMinutes,
+  compareSimulationMoments,
   createCampaignElectionTransitionRegistry,
   ageOnDate,
   formativeIntervalAt,
@@ -189,7 +190,12 @@ export const ORDINARY_DAY_START_MINUTE = 7 * 60;
  *
  * A commitment the character has not answered yet is still a hard boundary:
  * the sub-day path refuses to step over one, and when it does the day moves as
- * it did before rather than not at all.
+ * it did before rather than not at all. Routine work on that first crossing
+ * may complete before the commitment; the calendar still moves from there.
+ *
+ * Remaining whole days stay on `advanceWorld`. A residency skip of years is
+ * not a thousand sub-day resolutions; the player control is one day, and
+ * further days keep the local minute the first crossing established.
  */
 export function passOrdinaryDays(world: World, days = 1): World {
   // The handler registry travels with every advance an adult life can make.
@@ -207,16 +213,13 @@ export function passOrdinaryDays(world: World, days = 1): World {
     timeZone: world.currentMoment.timeZone,
     preferredUtcOffsetMinutes: world.currentMoment.utcOffsetMinutes,
   });
-  const stepped = advanceWorldMinutes(
-    world,
-    simulationMinutesBetween(world.currentMoment, morning),
-    handlers,
-  );
-  // An unanswered commitment stands between here and the morning, so the
-  // sub-day boundary handed the world straight back. The day still has to
-  // move, and it moves the way it always did.
+  const minutes = simulationMinutesBetween(world.currentMoment, morning);
+  const stepped =
+    minutes > 0 ? advanceWorldMinutes(world, minutes, handlers) : world;
   const tomorrow =
-    stepped === world ? advanceWorld(world, 1, handlers) : stepped;
+    compareSimulationMoments(stepped.currentMoment, morning) >= 0
+      ? stepped
+      : advanceWorld(stepped, 1, handlers);
   if (wholeDays === 1) return tomorrow;
   return advanceWorld(tomorrow, wholeDays - 1, handlers);
 }

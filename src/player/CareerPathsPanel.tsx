@@ -12,8 +12,7 @@ import {
   careerEligibility,
   seekCareerOffer,
   respondCareerOffer,
-  scheduleCareerTask,
-  completeCareerTask,
+  performCareerWork,
   acceptCareerResponsibilities,
   resignCareer,
 } from "../simulation/career-path7";
@@ -24,10 +23,8 @@ import {
 } from "../simulation/life-paths2";
 import type { LifePathResult } from "../simulation/life-paths2";
 import { workRoleAt, workStatusAt } from "../simulation/life-queries";
-import {
-  advanceWorldMinutes,
-  scheduledActivityState,
-} from "../simulation/time-work";
+import { simulationMinutesBetween } from "../simulation/dates";
+import { advanceWorldMinutes } from "../simulation/time-work";
 import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
 export function CareerPathsPanel({
   world,
@@ -39,12 +36,9 @@ export function CareerPathsPanel({
   readonly transitionHandlers?: FutureTransitionHandlerRegistry;
 }) {
   const [selected, setSelected] = useState(CAREER_PROVIDERS[0]!.id),
-    [taskId, setTaskId] = useState(""),
-    [submission, setSubmission] = useState(""),
     [notice, setNotice] = useState("");
   const p = CAREER_PROVIDERS.find((p) => p.id === selected)!;
   const path = lifePathDefinition(p.pathId);
-  const task = p.tasks.find((t) => t.id === taskId) ?? p.tasks[0]!;
   const act = (r: LifePathResult) => {
     setNotice(r.message);
     if (r.ok) onWorldChange(r.world);
@@ -77,8 +71,6 @@ export function CareerPathsPanel({
           value={selected}
           onChange={(e) => {
             setSelected(e.target.value);
-            setTaskId("");
-            setSubmission("");
           }}
         >
           {CAREER_PROVIDERS.map((p) => (
@@ -129,11 +121,6 @@ export function CareerPathsPanel({
       </details>
       {mine.map((r) => {
         const status = workStatusAt(world, r.id)?.status;
-        const activity = world.history.scheduledActivities.find(
-          (a) =>
-            a.sourceEntityIds.includes(r.id) &&
-            scheduledActivityState(world, a.id).status === "scheduled",
-        );
         return (
           <article key={r.id}>
             <h4>{workRoleAt(world, r.id)?.title}</h4>
@@ -166,7 +153,15 @@ export function CareerPathsPanel({
                       );
                     else {
                       onWorldChange(next);
-                      setNotice("One day passed.");
+                      const elapsed = simulationMinutesBetween(
+                        world.currentMoment,
+                        next.currentMoment,
+                      );
+                      setNotice(
+                        elapsed < 1440
+                          ? "Time advanced, but a commitment stopped short of the requested point."
+                          : "One day passed.",
+                      );
                     }
                   }}
                 >
@@ -178,64 +173,13 @@ export function CareerPathsPanel({
               </>
             ) : status === "active" ? (
               <>
-                <label>
-                  Responsibility{" "}
-                  <select
-                    value={task.id}
-                    onChange={(e) => setTaskId(e.target.value)}
-                  >
-                    {p.tasks.map((t) => (
-                      <option key={t.id} value={t.id}>
-                        {t.text}
-                      </option>
-                    ))}
-                  </select>
-                </label>
                 <button
-                  disabled={!!activity}
                   onClick={() =>
-                    act(scheduleCareerTask(world, r.id, p, task.id))
+                    act(performCareerWork(world, r.id, p, handlers))
                   }
                 >
-                  Schedule responsibility
+                  Perform work
                 </button>
-                {activity && (
-                  <>
-                    <p>
-                      {
-                        world.history.events.find(
-                          (e) =>
-                            e.type === "career-path7.task-planned" &&
-                            e.involvedEntityIds.includes(activity.id),
-                        )?.summary
-                      }
-                    </p>
-                    <label>
-                      Work submission{" "}
-                      <textarea
-                        value={submission}
-                        maxLength={2000}
-                        onChange={(e) => setSubmission(e.target.value)}
-                      />
-                    </label>
-                    <button
-                      onClick={() =>
-                        act(
-                          completeCareerTask(
-                            world,
-                            r.id,
-                            p,
-                            activity.id,
-                            submission,
-                            handlers,
-                          ),
-                        )
-                      }
-                    >
-                      Perform shift and submit work
-                    </button>
-                  </>
-                )}
                 <button
                   onClick={() =>
                     act(acceptCareerResponsibilities(world, r.id, p))
@@ -256,6 +200,7 @@ export function CareerPathsPanel({
                       "career-path7.deliverable",
                       "career-path7.work-record",
                       "career-path7.responsibilities",
+                      "life-paths2.work-session",
                     ].includes(e.type) && e.involvedEntityIds.includes(r.id),
                 )
                 .map((e) => (

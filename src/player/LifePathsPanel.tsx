@@ -18,6 +18,7 @@ import {
   lifePathEntryReason,
   pathForRelationship,
   performLifePathSession,
+  performLifePathWork,
   progressLifePathWork,
   recruitLifePathPerson,
   scheduleLifePathSession,
@@ -172,11 +173,23 @@ export function LifePathsPanel({
             )}
             {status === "active" && (
               <>
-                <button
-                  onClick={() => act(scheduleLifePathSession(world, record.id))}
-                >
-                  Schedule next session
-                </button>
+                {path.kind === "study" ? (
+                  <button
+                    onClick={() =>
+                      act(scheduleLifePathSession(world, record.id))
+                    }
+                  >
+                    Schedule next session
+                  </button>
+                ) : (
+                  <button
+                    onClick={() =>
+                      act(performLifePathWork(world, record.id, handlers))
+                    }
+                  >
+                    Perform work
+                  </button>
+                )}
                 <button
                   onClick={() =>
                     act(changeLifePathStatus(world, record.id, "pause"))

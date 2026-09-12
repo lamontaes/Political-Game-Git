@@ -27,7 +27,9 @@ record family or parallel snapshot format is introduced.
 
 Personal employment uses WorkRelationship, WorkStatus and WorkRole. The authored
 routes have different prerequisites, durations, schedules, responsibilities and
-pay. Ten completed shifts establish an experienced role, and the explicit later
+pay. Ordinary shifts complete through **Perform work** or as requested time
+crosses the authored window; written deliverables are optional history, not a
+requirement. Ten completed shifts establish an experienced role, and the explicit later
 progression action changes future compensation terms. Exit preserves earned pay
 and prior history. Interruption cancels future sessions and stops activity.
 

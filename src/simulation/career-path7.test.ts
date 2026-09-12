@@ -1,4 +1,4 @@
-import { simulationMinutesBetween } from "./dates";
+import { addSimulationMinutes } from "./dates";
 import type { EntityId } from "./types";
 import { describe, it, expect } from "vitest";
 import {
@@ -16,6 +16,7 @@ import {
   respondCareerOffer,
   scheduleCareerTask,
   completeCareerTask,
+  performCareerWork,
   resignCareer,
   acceptCareerResponsibilities,
   careerEligibility,
@@ -27,9 +28,15 @@ import {
   performLifePathSession,
   hasLifePathCredential,
   LIFE_PATHS2_HANDLERS,
+  changeLifePathStatus,
 } from "./life-paths2";
 import { workStatusAt } from "./life-queries";
-import { scheduledActivityState } from "./time-work";
+import {
+  scheduledActivityState,
+  advanceWorldMinutes,
+  createScheduledActivity,
+} from "./time-work";
+import { createCampaignElectionTransitionRegistry } from "./campaigns";
 const p = CAREER_PROVIDERS[0]!;
 function fixture() {
   const d = createDemoWorld("career-path7");
@@ -80,31 +87,27 @@ describe("CAREER-PATH7 source tasks through canonical LIFE work", () => {
     w = startCareerWork(w, id, p).world;
     expect(acceptCareerResponsibilities(w, id, p).ok).toBe(false);
     for (let i = 0; i < 2; i++) {
-      const scheduled = scheduleCareerTask(w, id, p, p.tasks[i]!.id);
-      expect(scheduled.ok).toBe(true);
-      w = scheduled.world;
-      const a = w.history.scheduledActivities.at(-1)!;
-      const timing = scheduledActivityState(w, a.id);
-      expect(simulationMinutesBetween(timing.start, timing.end)).toBe(240);
-      expect(scheduleCareerTask(w, id, p, p.tasks[i]!.id).world).toBe(w);
-      const done = completeCareerTask(
-        w,
-        id,
-        p,
-        a.id,
-        "Submitted the completed customer request and stock record.",
-      );
+      const done = performCareerWork(w, id, p);
       expect(done.ok).toBe(true);
       w = done.world;
-      expect(w.currentMoment).toEqual(timing.end);
-      expect(scheduledActivityState(w, a.id).status).toBe("completed");
       expect(
-        completeCareerTask(w, id, p, a.id, "Duplicate submission is forbidden.")
-          .world,
+        w.history.events.filter((e) => e.type === "life-paths2.work-session"),
+      ).toHaveLength(i + 1);
+      expect(
+        completeCareerTask(
+          w,
+          id,
+          p,
+          w.history.scheduledActivities.at(-1)!.id,
+          "Duplicate submission is forbidden.",
+        ).world,
       ).toBe(w);
     }
     expect(
       w.history.events.filter((e) => e.type === "career-path7.deliverable"),
+    ).toHaveLength(0);
+    expect(
+      w.history.events.filter((e) => e.type === "career-path7.work-record"),
     ).toHaveLength(2);
     w = acceptCareerResponsibilities(w, id, p).world;
     expect(
@@ -185,5 +188,161 @@ describe("CAREER-PATH7 source tasks through canonical LIFE work", () => {
       expect(new Set(provider.tasks.map((t) => t.id)).size).toBe(
         provider.tasks.length,
       );
+  });
+});
+
+function employed() {
+  let w = fixture();
+  w = seekCareerOffer(w, p).world;
+  const id = w.history.workRelationships.at(-1)!.id;
+  w = respondCareerOffer(w, id, p, true).world;
+  w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
+  w = startCareerWork(w, id, p).world;
+  return { w, id };
+}
+
+function sessions(w: ReturnType<typeof fixture>, id: EntityId) {
+  return w.history.events.filter(
+    (e) =>
+      e.type === "life-paths2.work-session" && e.involvedEntityIds.includes(id),
+  );
+}
+
+describe("ordinary work without mandatory submissions and during fast-forward", () => {
+  it("keeps optional historical submissions and refuses a too-short offered text", () => {
+    const started = employed();
+    let w = started.w;
+    const id = started.id;
+    w = scheduleCareerTask(w, id, p, p.tasks[0]!.id).world;
+    const a = w.history.scheduledActivities.at(-1)!;
+    expect(completeCareerTask(w, id, p, a.id, "short").ok).toBe(false);
+    const recorded = completeCareerTask(
+      w,
+      id,
+      p,
+      a.id,
+      "Submitted the completed customer request and stock record.",
+    );
+    expect(recorded.ok).toBe(true);
+    w = recorded.world;
+    expect(
+      w.history.events.some((e) => e.type === "career-path7.deliverable"),
+    ).toBe(true);
+    const saved = serializeWorld(w);
+    expect(serializeWorld(deserializeWorld(saved))).toBe(saved);
+  });
+  it("earns pay after Perform work with no written report", () => {
+    const started = employed();
+    let w = started.w;
+    const id = started.id;
+    expect(performCareerWork(w, id, p).ok).toBe(true);
+    w = performCareerWork(w, id, p).world;
+    expect(sessions(w, id)).toHaveLength(1);
+    expect(
+      w.history.events.some((e) => e.type === "career-path7.deliverable"),
+    ).toBe(false);
+    w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
+    expect(w.history.resourceTransferOutcomes).toHaveLength(1);
+    expect(
+      w.history.resourceTransferOutcomes[0]?.transferredAmount.minorUnits,
+    ).toBe(7200);
+  });
+  it("completes the authored 09:00–13:00 shift once when skipping to 20:00", () => {
+    const { w, id } = employed();
+    const skipped = advanceWorldMinutes(w, 20 * 60, LIFE_PATHS2_HANDLERS);
+    expect(skipped.currentMoment.minuteOfDay).toBe(20 * 60);
+    expect(sessions(skipped, id)).toHaveLength(1);
+    expect(skipped.history.resourceTransferOutcomes).toHaveLength(0);
+    const paid = advanceWorld(skipped, 1, LIFE_PATHS2_HANDLERS);
+    expect(paid.history.resourceTransferOutcomes).toHaveLength(1);
+  });
+  it("uses the same shared clock registry the ordinary day surface composes", () => {
+    const { w, id } = employed();
+    const skipped = advanceWorldMinutes(
+      w,
+      20 * 60,
+      createCampaignElectionTransitionRegistry(),
+    );
+    expect(sessions(skipped, id)).toHaveLength(1);
+    expect(skipped.currentMoment.minuteOfDay).toBe(20 * 60);
+  });
+  it("does not invent work when unemployed or interrupted, and does not double a completed day", () => {
+    const idle = advanceWorldMinutes(fixture(), 20 * 60, LIFE_PATHS2_HANDLERS);
+    expect(
+      idle.history.events.filter((e) => e.type === "life-paths2.work-session"),
+    ).toHaveLength(0);
+    const started = employed();
+    let w = started.w;
+    const id = started.id;
+    w = changeLifePathStatus(w, id, "pause").world;
+    expect(
+      sessions(advanceWorldMinutes(w, 20 * 60, LIFE_PATHS2_HANDLERS), id),
+    ).toHaveLength(0);
+    const once = employed();
+    const evening = advanceWorldMinutes(once.w, 18 * 60, LIFE_PATHS2_HANDLERS);
+    expect(sessions(evening, once.id)).toHaveLength(1);
+    const later = advanceWorldMinutes(evening, 2 * 60, LIFE_PATHS2_HANDLERS);
+    expect(sessions(later, once.id)).toHaveLength(1);
+  });
+  it("stops for a conflicting appointment instead of overlapping ordinary work", () => {
+    const started = employed();
+    let w = started.w;
+    const id = started.id;
+    const actor =
+      w.control.kind === "person" ? w.control.personId : w.personOrder[0]!;
+    const start = addSimulationMinutes(w.currentMoment, 10 * 60);
+    w = createScheduledActivity(w, {
+      stableKey: "test:conflicting-appointment",
+      title: "Political meeting",
+      summary: "A commitment that still requires this person.",
+      kind: "confirmed",
+      start,
+      end: addSimulationMinutes(start, 60),
+      participantPersonIds: [actor],
+      responsiblePersonId: actor,
+      location: {
+        locationKey: "meeting",
+        label: "Meeting",
+        jurisdictionId: null,
+      },
+      sourceEntityIds: [w.history.events[0]!.id],
+      flexibility: { kind: "fixed" },
+      access: { kind: "private", personIds: [actor] },
+    });
+    const skipped = advanceWorldMinutes(w, 20 * 60, LIFE_PATHS2_HANDLERS);
+    expect(skipped.currentMoment.minuteOfDay).toBe(10 * 60);
+    expect(sessions(skipped, id)).toHaveLength(0);
+  });
+  it("matches long and short skips for work and pay, and survives a mid-window save", () => {
+    const longStart = employed();
+    const long = advanceWorldMinutes(
+      longStart.w,
+      3 * 1440,
+      LIFE_PATHS2_HANDLERS,
+    );
+    expect(sessions(long, longStart.id)).toHaveLength(3);
+    expect(long.history.resourceTransferOutcomes).toHaveLength(3);
+    let short = employed();
+    for (let i = 0; i < 3; i++)
+      short = {
+        w: advanceWorldMinutes(short.w, 1440, LIFE_PATHS2_HANDLERS),
+        id: short.id,
+      };
+    expect(sessions(short.w, short.id)).toHaveLength(3);
+    expect(short.w.history.resourceTransferOutcomes).toHaveLength(3);
+    let mid = employed();
+    mid = {
+      w: advanceWorldMinutes(mid.w, 10 * 60, LIFE_PATHS2_HANDLERS),
+      id: mid.id,
+    };
+    expect(sessions(mid.w, mid.id)).toHaveLength(0);
+    const restored = deserializeWorld(serializeWorld(mid.w));
+    const finished = advanceWorldMinutes(
+      restored,
+      10 * 60,
+      LIFE_PATHS2_HANDLERS,
+    );
+    expect(sessions(finished, mid.id)).toHaveLength(1);
+    expect(finished.currentMoment.minuteOfDay).toBe(20 * 60);
   });
 });
