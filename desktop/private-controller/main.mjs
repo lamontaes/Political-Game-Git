@@ -24,7 +24,11 @@ const { app, BrowserWindow, dialog, ipcMain, session, shell } = electron;
 const execFileAsync = promisify(execFile);
 const appRoot = path.dirname(fileURLToPath(import.meta.url));
 const resourcesRoot = process.resourcesPath;
-const bootstrapApp = path.join(resourcesRoot, "bootstrap", "Our Civic Duty.app");
+const bootstrapApp = path.join(
+  resourcesRoot,
+  "bootstrap",
+  "Our Civic Duty.app",
+);
 const workerPath = path.join(appRoot, "private-update-worker.mjs");
 
 app.setName("Our Civic Duty Private");
@@ -65,7 +69,9 @@ function installBootstrapIfNeeded() {
   const existing = readState();
   if (existing) return existing;
   if (!existsSync(bootstrapApp))
-    throw new Error("The controller does not contain its verified initial game.");
+    throw new Error(
+      "The controller does not contain its verified initial game.",
+    );
   const identity = readIdentity(bootstrapApp);
   const versionRoot = path.join(dataRoot, "versions", identity.revision);
   const installedApp = path.join(

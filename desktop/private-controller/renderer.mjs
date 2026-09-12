@@ -50,9 +50,7 @@ async function action(run) {
   else await refresh();
 }
 
-play.addEventListener("click", () =>
-  action(() => window.ocdController.play()),
-);
+play.addEventListener("click", () => action(() => window.ocdController.play()));
 update.addEventListener("click", () =>
   action(() => window.ocdController.update()),
 );

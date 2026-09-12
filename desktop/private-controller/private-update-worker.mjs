@@ -57,7 +57,10 @@ function fail(message, reason = "failed") {
 if (!dataRoot || !path.isAbsolute(dataRoot)) {
   fail("The controller data folder is invalid.", "invalid-data-root");
 } else if (!requestedRepository || !path.isAbsolute(requestedRepository)) {
-  fail("Choose the Political Game repository folder first.", "missing-repository");
+  fail(
+    "Choose the Political Game repository folder first.",
+    "missing-repository",
+  );
 } else {
   await main();
 }
@@ -167,22 +170,31 @@ async function verifyRepository(candidate) {
     { cwd: canonicalRoot, label: "Checking repository identity" },
   );
   if (!repositoryIsExpected(origin))
-    throw new Error("The repository origin is not lamontaes/Political-Game-Git.");
+    throw new Error(
+      "The repository origin is not lamontaes/Political-Game-Git.",
+    );
   return canonicalRoot;
 }
 
 async function removeOwnedStaging(paths, repositoryPath) {
   if (!existsSync(paths.stagingRoot)) return;
-  const marker = path.join(paths.stagingRoot, ".ocd-private-controller-staging");
+  const marker = path.join(
+    paths.stagingRoot,
+    ".ocd-private-controller-staging",
+  );
   if (!existsSync(marker))
     throw new Error(
       "The update workspace already exists and is not owned by this controller.",
     );
   if (existsSync(paths.sourcePath)) {
-    await run("/usr/bin/git", ["worktree", "remove", "--force", paths.sourcePath], {
-      cwd: repositoryPath,
-      label: "Removing the controller's interrupted update workspace",
-    });
+    await run(
+      "/usr/bin/git",
+      ["worktree", "remove", "--force", paths.sourcePath],
+      {
+        cwd: repositoryPath,
+        label: "Removing the controller's interrupted update workspace",
+      },
+    );
   }
   rmSync(paths.stagingRoot, { recursive: true, force: true });
 }
@@ -190,7 +202,8 @@ async function removeOwnedStaging(paths, repositoryPath) {
 async function main() {
   const statePath = path.join(path.resolve(dataRoot), "state.json");
   const state = readState(statePath);
-  if (!state) return fail("The installed controller has no verified current build.");
+  if (!state)
+    return fail("The installed controller has no verified current build.");
 
   try {
     const repositoryPath = await verifyRepository(requestedRepository);
@@ -246,12 +259,18 @@ async function main() {
     const paths = controllerPaths(dataRoot, targetRevision);
     await removeOwnedStaging(paths, repositoryPath);
     mkdirSync(paths.stagingRoot, { recursive: true });
-    writeFileSync(path.join(paths.stagingRoot, ".ocd-private-controller-staging"), "1\n");
+    writeFileSync(
+      path.join(paths.stagingRoot, ".ocd-private-controller-staging"),
+      "1\n",
+    );
 
     await run(
       "/usr/bin/git",
       ["worktree", "add", "--detach", paths.sourcePath, targetRevision],
-      { cwd: repositoryPath, label: "Creating a clean versioned build workspace" },
+      {
+        cwd: repositoryPath,
+        label: "Creating a clean versioned build workspace",
+      },
     );
     const exactHead = await capture("/usr/bin/git", ["rev-parse", "HEAD"], {
       cwd: paths.sourcePath,
@@ -286,13 +305,7 @@ async function main() {
     );
     await run(
       process.execPath,
-      [
-        "scripts/package.mjs",
-        "--mac",
-        "--arm64",
-        "--dir",
-        "-c.mac.target=dir",
-      ],
+      ["scripts/package.mjs", "--mac", "--arm64", "--dir", "-c.mac.target=dir"],
       {
         cwd: desktopPath,
         env: { CSC_IDENTITY_AUTO_DISCOVERY: "false" },
@@ -315,7 +328,12 @@ async function main() {
     );
     if (identity.revision !== targetRevision)
       throw new Error("The application identity does not match accepted main.");
-    const executable = path.join(builtApp, "Contents", "MacOS", APP_NAME.slice(0, -4));
+    const executable = path.join(
+      builtApp,
+      "Contents",
+      "MacOS",
+      APP_NAME.slice(0, -4),
+    );
     const architecture = await capture("/usr/bin/file", ["-b", executable], {
       label: "Checking the application architecture",
     });
@@ -328,7 +346,8 @@ async function main() {
       {
         cwd: desktopPath,
         env: { OCD_EXPECT_ART_PREVIEW: "1" },
-        label: "Launching and health-checking the candidate-profile application",
+        label:
+          "Launching and health-checking the candidate-profile application",
       },
     );
 
@@ -351,10 +370,14 @@ async function main() {
     if (!(await runningApplication(state.current.appPath))) {
       next = activatePendingBuild(next);
       writeState(statePath, next);
-      emit("complete", "Update installed. Play now opens the new verified build.", {
-        outcome: "activated",
-        revision: record.revision,
-      });
+      emit(
+        "complete",
+        "Update installed. Play now opens the new verified build.",
+        {
+          outcome: "activated",
+          revision: record.revision,
+        },
+      );
     } else {
       writeState(statePath, next);
       emit(

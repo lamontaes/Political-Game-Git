@@ -112,5 +112,9 @@ pre {
   padding: 14px;
   color: #30423a;
   background: rgba(255, 253, 247, 0.78);
-  font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+  font:
+    12px/1.5 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
 }

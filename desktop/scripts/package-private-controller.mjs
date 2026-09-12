@@ -37,7 +37,9 @@ const electronApp = path.join(
 );
 
 if (process.platform !== "darwin" || process.arch !== "arm64") {
-  console.error("The private controller is currently an Apple Silicon Mac delivery.");
+  console.error(
+    "The private controller is currently an Apple Silicon Mac delivery.",
+  );
   process.exit(1);
 }
 if (!existsSync(bootstrapApp) || !existsSync(identityPath)) {
@@ -52,7 +54,9 @@ if (!existsSync(electronApp)) {
 }
 const identity = JSON.parse(readFileSync(identityPath, "utf8"));
 if (identity.profile !== "internal-art-review") {
-  console.error("The bootstrap application is not the internal art-review profile.");
+  console.error(
+    "The bootstrap application is not the internal art-review profile.",
+  );
   process.exit(1);
 }
 
@@ -105,7 +109,10 @@ for (const linkPath of [
     "Resources",
   ),
 ]) {
-  if (!lstatSync(linkPath).isSymbolicLink() || path.isAbsolute(readlinkSync(linkPath))) {
+  if (
+    !lstatSync(linkPath).isSymbolicLink() ||
+    path.isAbsolute(readlinkSync(linkPath))
+  ) {
     console.error(`Refusing non-portable framework link: ${linkPath}`);
     process.exit(1);
   }

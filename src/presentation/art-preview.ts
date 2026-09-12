@@ -84,10 +84,12 @@ export function candidatePreviewAllowed(
 
 export function artPreviewMode(
   search: string,
-  options: {
-    readonly development: boolean;
-    readonly profile?: GameBuildProfile;
-  } | boolean,
+  options:
+    | {
+        readonly development: boolean;
+        readonly profile?: GameBuildProfile;
+      }
+    | boolean,
 ): ArtPreviewMode {
   const normalized =
     typeof options === "boolean" ? { development: options } : options;

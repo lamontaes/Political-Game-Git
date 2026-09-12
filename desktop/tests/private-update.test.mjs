@@ -39,21 +39,36 @@ test("repository identity accepts only the configured project", () => {
     repositoryIsExpected("https://github.com/lamontaes/Political-Game-Git.git"),
     true,
   );
-  assert.equal(repositoryIsExpected("https://github.com/example/fork.git"), false);
+  assert.equal(
+    repositoryIsExpected("https://github.com/example/fork.git"),
+    false,
+  );
   assert.equal(repositoryIsExpected("file:///tmp/repository"), false);
 });
 
 test("target assessment refuses forks and downgrades", () => {
   assert.deepEqual(
-    assessUpdateTarget({ currentRevision: A, targetRevision: A, currentIsAncestor: true }),
+    assessUpdateTarget({
+      currentRevision: A,
+      targetRevision: A,
+      currentIsAncestor: true,
+    }),
     { action: "none", reason: "up-to-date" },
   );
   assert.deepEqual(
-    assessUpdateTarget({ currentRevision: A, targetRevision: B, currentIsAncestor: true }),
+    assessUpdateTarget({
+      currentRevision: A,
+      targetRevision: B,
+      currentIsAncestor: true,
+    }),
     { action: "build", reason: "newer-main" },
   );
   assert.deepEqual(
-    assessUpdateTarget({ currentRevision: A, targetRevision: B, currentIsAncestor: false }),
+    assessUpdateTarget({
+      currentRevision: A,
+      targetRevision: B,
+      currentIsAncestor: false,
+    }),
     { action: "refuse", reason: "unsupported-downgrade-or-fork" },
   );
 });
@@ -64,12 +79,7 @@ test("paths stay versioned beneath the controller root", () => {
   assert.equal(paths.sourcePath, path.join(root, "staging", A, "source"));
   assert.equal(
     paths.appPath,
-    path.join(
-      root,
-      "versions",
-      A,
-      "Our Civic Duty Internal Art Review.app",
-    ),
+    path.join(root, "versions", A, "Our Civic Duty Internal Art Review.app"),
   );
   assert.throws(() => controllerPaths(root, "../outside"));
 });
@@ -94,7 +104,10 @@ test("pending build never changes current until explicit activation", () => {
 test("state and built identity validation fail closed", () => {
   assert.equal(cleanControllerState({ schema: 2 }), null);
   assert.equal(
-    cleanControllerState({ schema: 1, current: { ...build(A), profile: "production" } }),
+    cleanControllerState({
+      schema: 1,
+      current: { ...build(A), profile: "production" },
+    }),
     null,
   );
   assert.throws(() =>

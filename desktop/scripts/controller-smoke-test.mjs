@@ -34,14 +34,21 @@ try {
   await page
     .getByRole("button", { name: "Choose Project…", exact: true })
     .waitFor();
-  await page.waitForFunction(
-    () => document.querySelector("#identity")?.textContent?.includes("internal art review"),
+  await page.waitForFunction(() =>
+    document
+      .querySelector("#identity")
+      ?.textContent?.includes("internal art review"),
   );
-  assert.equal(await page.getByRole("button", { name: "Play" }).isEnabled(), true);
+  assert.equal(
+    await page.getByRole("button", { name: "Play" }).isEnabled(),
+    true,
+  );
   if (screenshot) {
     await page.screenshot({ path: path.resolve(screenshot), fullPage: true });
   }
-  const state = JSON.parse(readFileSync(path.join(dataRoot, "state.json"), "utf8"));
+  const state = JSON.parse(
+    readFileSync(path.join(dataRoot, "state.json"), "utf8"),
+  );
   assert.equal(state.schema, 1);
   assert.equal(state.current.profile, "internal-art-review");
   assert.match(state.current.revision, /^[0-9a-f]{40}$/);

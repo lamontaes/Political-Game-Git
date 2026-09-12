@@ -80,9 +80,7 @@ export function cleanControllerState(value) {
       version: typeof build.version === "string" ? build.version : "unknown",
       profile: "internal-art-review",
       architecture:
-        typeof build.architecture === "string"
-          ? build.architecture
-          : "unknown",
+        typeof build.architecture === "string" ? build.architecture : "unknown",
       installedAt:
         typeof build.installedAt === "string" ? build.installedAt : "unknown",
     };
@@ -127,7 +125,9 @@ export function buildRecord(identity, appPath, architecture, installedAt) {
   if (!validateRevision(identity.revision))
     throw new Error("The built application revision is invalid.");
   if (identity.profile !== "internal-art-review")
-    throw new Error("The built application is not the internal art-review profile.");
+    throw new Error(
+      "The built application is not the internal art-review profile.",
+    );
   return {
     revision: identity.revision,
     appPath: path.resolve(appPath),
