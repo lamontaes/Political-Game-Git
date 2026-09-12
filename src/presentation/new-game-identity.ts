@@ -7,9 +7,12 @@ import {
   GENDER_IDENTITY_KEYS,
   PRONOUN_SET_KEYS,
   SETUP_BANK_VERSION,
+  DISTINCT_GIVEN_NAME_GENERATION_VERSION,
+  LEGACY_GIVEN_NAME_GENERATION_VERSION,
 } from "../simulation";
 import type {
   GenderIdentityKey,
+  GivenNameGenerationVersion,
   PronounSetKey,
   SetupAnswerRecord,
   SetupQuestionnairePath,
@@ -199,11 +202,15 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
   const answers = setup.priors ?? [];
   const path = setup.questionnaire ?? "skipped";
   const appearanceRecipeVersion = setup.appearanceRecipeVersion;
+  const givenNameGenerationVersion = setup.givenNameGenerationVersion;
   const appearanceCatalogGeneration = setup.appearanceCatalogGeneration;
   const extras = {
     ...(appearanceRecipeVersion === undefined
       ? {}
       : { appearanceRecipeVersion }),
+    ...(givenNameGenerationVersion === undefined
+      ? {}
+      : { givenNameGenerationVersion }),
     ...(appearanceCatalogGeneration === undefined
       ? {}
       : { appearanceCatalogGeneration }),
@@ -287,6 +294,14 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
       return null;
     }
   }
+  const givenNameGenerationVersion = record.givenNameGenerationVersion;
+  if (
+    givenNameGenerationVersion !== undefined &&
+    givenNameGenerationVersion !== LEGACY_GIVEN_NAME_GENERATION_VERSION &&
+    givenNameGenerationVersion !== DISTINCT_GIVEN_NAME_GENERATION_VERSION
+  ) {
+    return null;
+  }
   const appearanceCatalogGeneration = record.appearanceCatalogGeneration;
   if (
     appearanceCatalogGeneration !== undefined &&
@@ -317,6 +332,12 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     ...(appearanceRecipeVersion === undefined
       ? {}
       : { appearanceRecipeVersion: appearanceRecipeVersion as string }),
+    ...(givenNameGenerationVersion === undefined
+      ? {}
+      : {
+          givenNameGenerationVersion:
+            givenNameGenerationVersion as GivenNameGenerationVersion,
+        }),
   };
   if (record.priors === undefined) return base;
   const priors = decodePriorEncoding(record.priors);

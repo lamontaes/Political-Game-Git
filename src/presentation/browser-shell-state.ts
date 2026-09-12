@@ -33,7 +33,12 @@ import type { EntityId } from "../simulation";
  * cannot be opened — the shell then keeps its defaults, which is a working game.
  */
 
-const RECORD_VERSION = 3;
+export const SHELL_RECORD_VERSION = 3;
+export const SHELL_RECORD_VERSIONS: readonly number[] = [
+  1,
+  2,
+  SHELL_RECORD_VERSION,
+];
 
 const PIN_SIZES: readonly PinSize[] = ["tiny", "normal", "expanded"];
 /**
@@ -138,12 +143,27 @@ function readPreferences(value: unknown): ShellPreferences {
  */
 export function readStoredShellState(value: unknown): StoredShellState | null {
   if (!isRecord(value)) return null;
-  if (![1, 2, RECORD_VERSION].includes(value.version as number)) return null;
+  if (!SHELL_RECORD_VERSIONS.includes(value.version as number)) return null;
   return {
     journal: readJournal(value.journal),
     personWardrobes: readWardrobes(value.personWardrobes),
     pins: readPins(value.pins),
     preferences: readPreferences(value.preferences),
+  };
+}
+
+/** One validated wire codec for shell writes and portable transfers. */
+export function encodeStoredShellState(
+  saveId: EntityId,
+  state: StoredShellState,
+) {
+  return {
+    saveId,
+    version: SHELL_RECORD_VERSION,
+    journal: readJournal(state.journal),
+    personWardrobes: readWardrobes(state.personWardrobes),
+    pins: readPins(state.pins).map((pin) => ({ ref: pin.ref, size: pin.size })),
+    preferences: readPreferences(state.preferences),
   };
 }
 
@@ -295,21 +315,7 @@ export class BrowserShellStateStore {
     if (!database) return false;
     try {
       await transact(database, "readwrite", (store) =>
-        store.put({
-          saveId,
-          version: RECORD_VERSION,
-          journal: state.journal ?? EMPTY_JOURNAL,
-          personWardrobes: readWardrobes(state.personWardrobes),
-          pins: state.pins.map((pin) => ({
-            ref: { kind: pin.ref.kind, id: pin.ref.id },
-            size: pin.size,
-          })),
-          preferences: {
-            peopleView: state.preferences.peopleView,
-            defaultPinSize: state.preferences.defaultPinSize,
-            followedNewsOutletKeys: state.preferences.followedNewsOutletKeys,
-          },
-        }),
+        store.put(encodeStoredShellState(saveId, state)),
       );
       return true;
     } catch {

@@ -1,6 +1,7 @@
 import { initializeJudicialOfficePractice } from "../simulation/judicial-office-start";
 import {
   defaultPronounsForGender,
+  DISTINCT_GIVEN_NAME_GENERATION_VERSION,
   generationInputsFor,
   lifePlaceByKey,
   questionnaireLength,
@@ -9,6 +10,7 @@ import {
 } from "../simulation";
 import type {
   EntityId,
+  GivenNameGenerationVersion,
   GenderIdentityKey,
   LifePlace,
   PronounSetKey,
@@ -137,6 +139,8 @@ export interface NewGameSetup {
    * still means what it meant: the legacy recipe. New Game stamps v2.
    */
   readonly appearanceRecipeVersion?: string;
+  /** Absent keeps every replay written before the distinct-name repair. */
+  readonly givenNameGenerationVersion?: GivenNameGenerationVersion;
   /** Explicit creation lineage, preserved in replays; absent keeps historical defaults. */
   readonly appearanceCatalogGeneration?: number;
 }
@@ -171,6 +175,7 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   // with it by accident.
   gender: "unstated",
   appearanceRecipeVersion: COHERENT_APPEARANCE_RECIPE_VERSION,
+  givenNameGenerationVersion: DISTINCT_GIVEN_NAME_GENERATION_VERSION,
   questionnaire: "short",
   priors: [],
 };
@@ -340,6 +345,7 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
       setup.startKind === "custom" ? null : generationInputsFor(priors),
     appearanceRecipeVersion:
       setup.appearanceRecipeVersion ?? LEGACY_APPEARANCE_RECIPE_VERSION,
+    givenNameGenerationVersion: setup.givenNameGenerationVersion,
     ...(setup.appearanceCatalogGeneration === undefined
       ? {}
       : { appearanceCatalogGeneration: setup.appearanceCatalogGeneration }),

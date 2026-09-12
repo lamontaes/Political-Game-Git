@@ -24,7 +24,7 @@ import {
  */
 
 async function freshBrowser(page: Page) {
-  await page.goto("/");
+  await page.goto("/", { waitUntil: "domcontentloaded" });
   await page.evaluate(async () => {
     const databases = (await indexedDB.databases?.()) ?? [];
     await Promise.all(
@@ -41,7 +41,7 @@ async function freshBrowser(page: Page) {
     );
     window.localStorage.clear();
   });
-  await page.reload();
+  await page.reload({ waitUntil: "domcontentloaded" });
 }
 
 /* -------------------------------------------------------------------------- */
@@ -117,7 +117,8 @@ test.describe("The title is a room with a menu on it", () => {
     // page's one timer is driven forward and the screen is read after each
     // step, which is what makes "roughly fifteen seconds" checkable rather
     // than a thing somebody watched once.
-    await page.clock.install();
+    await page.clock.install({ time: new Date("2026-01-05T08:00:00Z") });
+    await page.clock.pauseAt(new Date("2026-01-05T10:00:00Z"));
     await freshBrowser(page);
     await expect(page.getByTestId("title-tableau")).toHaveAttribute(
       "data-has-plate",
@@ -318,6 +319,14 @@ test.describe("A life happens in the room the records put it in", () => {
 
     const introduction = page.getByTestId("life-introduction");
     await expect(introduction).toBeVisible();
+    await expect(page.getByTestId("play-screen")).toHaveAttribute(
+      "data-scene-purpose",
+      "home",
+    );
+    await expect(page.getByTestId("scene-backdrop")).toHaveAttribute(
+      "data-scene-id",
+      /residence-apartment/,
+    );
 
     /*
      * The introduction is two beats now, not one: the world this life starts
@@ -334,6 +343,10 @@ test.describe("A life happens in the room the records put it in", () => {
     await expect(introduction).toHaveAttribute(
       "data-introduction-phase",
       "household",
+    );
+    await expect(page.getByTestId("play-screen")).toHaveAttribute(
+      "data-scene-purpose",
+      "home",
     );
 
     const said = await introduction.innerText();

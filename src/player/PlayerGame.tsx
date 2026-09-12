@@ -47,7 +47,9 @@ import { guardUnsavedWork } from "../presentation/unsaved-work-guard";
 import {
   chooseStoryOption,
   letStoryTimePass,
+  presentPeopleSentence,
   projectStoryMoment,
+  type StoryMoment,
 } from "../presentation/life-story";
 import { projectLifeRecord } from "../presentation/life-record";
 import {
@@ -87,14 +89,18 @@ import {
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
 import { projectToday, projectWorkRole } from "../presentation/day-overview";
 import { projectDynamicSurfaces } from "../presentation/surface-projection";
-import { resolveLifeScene } from "../presentation/life-scene";
+import {
+  resolvePlaySceneContext,
+  resolveOpeningPlaySceneContext,
+} from "../presentation/play-scene-context";
 import { planLifeScenePeople } from "../presentation/life-scene-people";
 import {
-  ART_PREVIEW_LABEL,
+  artPreviewBanner,
   artPreviewLibraries,
   artPreviewMode,
   previewDatabaseName,
 } from "../presentation/art-preview";
+import { gameBuildProfile } from "../presentation/build-profile";
 import { SceneBackdrop } from "./SceneBackdrop";
 import {
   AmbientTableau,
@@ -169,6 +175,10 @@ import {
   WorkspaceFrame,
 } from "./ShellWorkspaces";
 import { PlayerVersion } from "./PlayerVersion";
+import {
+  SaveImportControl,
+  SaveTransferControls,
+} from "./SaveTransferControls";
 
 /**
  * The game.
@@ -217,7 +227,11 @@ export function PlayerGame() {
    * game. See `src/presentation/art-preview.ts`.
    */
   const previewMode = useMemo(
-    () => artPreviewMode(window.location.search, import.meta.env.DEV),
+    () =>
+      artPreviewMode(window.location.search, {
+        development: import.meta.env.DEV,
+        profile: gameBuildProfile(),
+      }),
     [],
   );
   /*
@@ -642,13 +656,21 @@ export function PlayerGame() {
   if (screen.kind === "saves") {
     return (
       <SavesScreen
+        store={store}
         saves={saves}
         damaged={damaged}
         savesUnavailable={savesUnavailable}
         notice={notice}
+        problem={problem}
+        artProvenance={previewMode}
         onBack={() => setScreen({ kind: "title" })}
         onOpen={(saveId) => void loadSave(saveId)}
         onDelete={(saveId) => void deleteSave(saveId)}
+        onTransferSettled={(nextNotice, nextProblem) => {
+          setNotice(nextNotice);
+          setProblem(nextProblem);
+          void refreshSaves();
+        }}
       />
     );
   }
@@ -1684,21 +1706,32 @@ function QuestionnaireScreenView({
 /* -------------------------------------------------------------------------- */
 
 function SavesScreen({
+  store,
   saves,
   damaged,
   savesUnavailable,
   notice,
+  problem,
+  artProvenance,
   onBack,
   onOpen,
   onDelete,
+  onTransferSettled,
 }: {
+  readonly store: BrowserSaveStore | null;
   readonly saves: readonly BrowserWorldSummary[];
   readonly damaged: readonly QuarantinedSave[];
   readonly savesUnavailable: boolean;
   readonly notice: string | null;
+  readonly problem: string | null;
+  readonly artProvenance: "production" | "candidate-review";
   readonly onBack: () => void;
   readonly onOpen: (saveId: EntityId) => void;
   readonly onDelete: (saveId: EntityId) => void;
+  readonly onTransferSettled: (
+    notice: string | null,
+    problem: string | null,
+  ) => void;
 }) {
   const [confirming, setConfirming] = useState<EntityId | null>(null);
   return (
@@ -1710,6 +1743,11 @@ function SavesScreen({
         </p>
       ) : null}
       {notice ? <p className="game-note">{notice}</p> : null}
+      {problem ? (
+        <p className="game-problem" role="alert">
+          {problem}
+        </p>
+      ) : null}
       <ul>
         {saves.map((save) => (
           <li key={save.saveId} data-testid="save-entry">
@@ -1725,6 +1763,15 @@ function SavesScreen({
               <button type="button" onClick={() => onOpen(save.saveId)}>
                 Open
               </button>
+              {store ? (
+                <SaveTransferControls
+                  store={store}
+                  saveId={save.saveId}
+                  playerName={save.playerName}
+                  onSettled={onTransferSettled}
+                  artProvenance={artProvenance}
+                />
+              ) : null}
               {confirming === save.saveId ? (
                 <>
                   <button
@@ -1812,6 +1859,14 @@ function SavesScreen({
         </section>
       ) : null}
 
+      {store ? (
+        <SaveImportControl
+          store={store}
+          onSettled={onTransferSettled}
+          artProvenance={artProvenance}
+        />
+      ) : null}
+
       <button type="button" onClick={onBack}>
         Back
       </button>
@@ -1863,13 +1918,19 @@ function PlayingScreen({
    * development-only concern in the signature of surfaces that have nothing to
    * do with art.
    */
-  const artPreview = useMemo(
+  const previewMode = useMemo(
     () =>
-      artPreviewLibraries(
-        artPreviewMode(window.location.search, import.meta.env.DEV),
-      ),
+      artPreviewMode(window.location.search, {
+        development: import.meta.env.DEV,
+        profile: gameBuildProfile(),
+      }),
     [],
   );
+  const artPreview = useMemo(
+    () => artPreviewLibraries(previewMode),
+    [previewMode],
+  );
+  const previewBanner = artPreviewBanner(previewMode);
 
   /*
    * One shell for the whole life: what is open, how the player got there, and
@@ -1906,21 +1967,50 @@ function PlayingScreen({
    * on screen; this is the request, cleared as soon as it is honored.
    */
   const [returnFocusTo, setReturnFocusTo] = useState<EntityId | null>(null);
+  const [continuingLifeShown, setContinuingLifeShown] = useState(false);
 
-  const sceneId = useMemo(() => {
+  const projectedMoment = useMemo(
+    () => projectStoryMoment(session.world, session.personId),
+    [session.world, session.personId],
+  );
+
+  const playScene = useMemo(() => {
+    if (!continuingLifeShown)
+      return resolveOpeningPlaySceneContext(session.world, session.personId);
     const activity = completedActivityHere(session.world, session.personId);
     const venue =
       activity && municipalVenueForActivity(session.world, activity.id);
     if (activity && venue) {
-      return resolveActivityVenueScene(
+      const resolved = resolveActivityVenueScene(
         session.world,
         session.personId,
         activity.id,
         venue,
-      ).sceneId;
+      );
+      return {
+        purpose: "activity" as const,
+        locationKey: activity.location.locationKey,
+        sceneId: resolved.sceneId,
+        reason: resolved.reason,
+        placeLabel: activity.location.label,
+        presentPeople: projectedMoment.scene.presentPeople.filter(
+          (person) =>
+            completedActivityHere(
+              session.world,
+              person.personId,
+              activity.id,
+            ) !== null,
+        ),
+      };
     }
-    return resolveLifeScene(session.world, session.personId).sceneId;
-  }, [session.world, session.personId]);
+    return resolvePlaySceneContext(
+      session.world,
+      session.personId,
+      projectedMoment.scene,
+    );
+  }, [session.world, session.personId, projectedMoment, continuingLifeShown]);
+
+  const sceneId = playScene.sceneId;
 
   const surfaceProjection = useMemo(
     () =>
@@ -1931,27 +2021,17 @@ function PlayingScreen({
     [session.world, capabilities.legislativeJurisdictionId, assignment],
   );
 
-  const moment = useMemo(() => {
-    const projected = projectStoryMoment(session.world, session.personId);
-    const activity = completedActivityHere(session.world, session.personId);
-    return activity
-      ? {
-          ...projected,
-          placeName: activity.location.label,
-          scene: {
-            ...projected.scene,
-            presentPeople: projected.scene.presentPeople.filter(
-              (person) =>
-                completedActivityHere(
-                  session.world,
-                  person.personId,
-                  activity.id,
-                ) !== null,
-            ),
-          },
-        }
-      : projected;
-  }, [session.world, session.personId]);
+  const moment = useMemo(
+    () => ({
+      ...projectedMoment,
+      placeName: playScene.placeLabel ?? projectedMoment.placeName,
+      scene: {
+        ...projectedMoment.scene,
+        presentPeople: playScene.presentPeople,
+      },
+    }),
+    [projectedMoment, playScene],
+  );
 
   const renderSnapshots = useMemo(
     () => savedRenderSnapshots(session.world, shell.personWardrobes),
@@ -2319,6 +2399,7 @@ function PlayingScreen({
           className="life-shell"
           data-testid="play-screen"
           data-scene-id={sceneId ?? ""}
+          data-scene-purpose={playScene.purpose}
         >
           {/*
         THE ROOM IS THE SURFACE.
@@ -2328,7 +2409,7 @@ function PlayingScreen({
         people this life has are a rail on the right, and everything else is a
         quiet cluster in the corner that grows as you reach for it.
       */}
-          {artPreview ? (
+          {previewBanner ? (
             /*
              * Said out loud, on the screen, for as long as the mode is on.
              * A preview that looked like the game would be worse than no
@@ -2341,7 +2422,7 @@ function PlayingScreen({
               role="status"
               data-testid="art-preview-banner"
             >
-              {ART_PREVIEW_LABEL}
+              {previewBanner}
             </p>
           ) : null}
           <SceneBackdrop
@@ -2368,10 +2449,15 @@ function PlayingScreen({
               world={session.world}
               playerPersonId={session.personId}
               alreadyIntroduced={session.saveId !== null}
+              onContinuingChange={setContinuingLifeShown}
               onWorldChange={onWorldChange}
               transitionHandlers={createCampaignElectionTransitionRegistry()}
               continuingLife={
-                <StoryView session={session} onWorldChange={onWorldChange} />
+                <StoryView
+                  session={session}
+                  moment={moment}
+                  onWorldChange={onWorldChange}
+                />
               }
               onTalkTo={(personId) => talkTo(personId)}
               returnFocusTo={returnFocusTo}
@@ -3347,16 +3433,14 @@ function renderWorkspace({
  */
 function StoryView({
   session,
+  moment,
   onWorldChange,
 }: {
   readonly session: Session;
+  readonly moment: StoryMoment;
   readonly onWorldChange: (world: World) => void;
 }) {
   const [journalOpen, setJournalOpen] = useState(false);
-  const moment = useMemo(
-    () => projectStoryMoment(session.world, session.personId),
-    [session.world, session.personId],
-  );
 
   if (completedActivityHere(session.world, session.personId))
     return (
@@ -3419,10 +3503,7 @@ function StoryView({
       */}
       {moment.scene.presentPeople.length > 0 ? (
         <p className="game-note" data-testid="story-people">
-          {moment.scene.presentPeople
-            .map((person) => person.introduction)
-            .join(" and ")}{" "}
-          {moment.scene.presentPeople.length === 1 ? "is" : "are"} here.
+          {presentPeopleSentence(moment.scene.presentPeople)}
         </p>
       ) : null}
 
