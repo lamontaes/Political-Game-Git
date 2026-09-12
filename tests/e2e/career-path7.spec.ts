@@ -1,5 +1,10 @@
 import { expect, test } from "./fixtures";
-import { startLife, enterLife, openElsewhere, openShellMenu } from "./support/creator";
+import {
+  startLife,
+  enterLife,
+  openElsewhere,
+  openShellMenu,
+} from "./support/creator";
 /**
  * Requires the UI owner's LIFE-panel registration patch, never a fixture
  * route. That registration is UI's own composition (LifePathsPanel mounting
