@@ -45,8 +45,8 @@
   z-index: 0;
   background: linear-gradient(
     90deg,
-    rgb(8 13 21 / 0.55) 0%,
-    rgb(8 13 21 / 0.28) 54%,
+    rgb(8 13 21 / 0.72) 0%,
+    rgb(8 13 21 / 0.38) 52%,
     transparent 100%
   );
 }
@@ -57,14 +57,19 @@
 }
 
 @media (width <= 52rem) {
+  .title-tableau--art.front-door .title-tableau-content:has(.game-title) {
+    align-items: flex-end;
+    justify-content: center;
+  }
+
   .title-tableau--art.front-door .title-tableau-content::before {
     inset: auto 0 0;
     width: 100%;
-    height: min(58%, 28rem);
+    height: min(62%, 30rem);
     background: linear-gradient(
       0deg,
-      rgb(8 13 21 / 0.72) 0%,
-      rgb(8 13 21 / 0.28) 62%,
+      rgb(8 13 21 / 0.82) 0%,
+      rgb(8 13 21 / 0.38) 62%,
       transparent 100%
     );
   }
@@ -117,8 +122,8 @@
   border-radius: 0;
   background: linear-gradient(
     90deg,
-    rgb(8 13 21 / 0.42) 0%,
-    rgb(8 13 21 / 0.1) 78%,
+    rgb(8 13 21 / 0.7) 0%,
+    rgb(8 13 21 / 0.22) 78%,
     transparent 100%
   );
   color: var(--front-door-ink);
@@ -144,6 +149,7 @@
   line-height: 1.35;
   text-transform: none;
   overflow-wrap: anywhere;
+  opacity: 1;
 }
 
 .title-tableau--art.front-door
@@ -187,6 +193,15 @@
   box-shadow: inset 2px 0 currentColor;
 }
 
+.title-tableau--art.front-door .game-creator button {
+  background: rgb(8 13 21 / 0.7);
+}
+
+.title-tableau--art.front-door .game-creator button small {
+  color: var(--front-door-ink);
+  opacity: 1;
+}
+
 .title-tableau--art.front-door .game-creator {
   width: min(24rem, 100%);
   max-height: calc(100dvh - 4rem);
@@ -196,7 +211,14 @@
 
 .title-tableau--art.front-door .game-creator h2 {
   margin: 0.15rem 0 0.65rem;
+  padding: 0.15rem 0.55rem 0.25rem 0.15rem;
   color: var(--front-door-ink);
+  background: linear-gradient(
+    90deg,
+    rgb(8 13 21 / 0.55) 0%,
+    rgb(8 13 21 / 0.12) 78%,
+    transparent 100%
+  );
   font-family: var(--front-door-display);
   font-size: 1.28rem;
   font-weight: 600;
@@ -241,7 +263,12 @@
 .title-tableau--art.front-door .creator-summary {
   color: var(--front-door-ink);
   border-bottom-color: rgb(245 235 212 / 0.22);
-  background: transparent;
+  background: linear-gradient(
+    90deg,
+    rgb(8 13 21 / 0.55) 0%,
+    rgb(8 13 21 / 0.08) 80%,
+    transparent 100%
+  );
   text-transform: none;
   letter-spacing: 0.01em;
   font-weight: 500;

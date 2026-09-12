@@ -104,6 +104,18 @@ test.describe("The front door stays compact and readable over the room", () => {
     });
   }
 
+  test("moves the compact menu to the thumb edge on a narrow phone", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await freshBrowser(page);
+    const box = await page.getByTestId("title-screen").boundingBox();
+    expect(box).not.toBeNull();
+    expect(box!.y + box!.height / 2).toBeGreaterThan(844 / 2);
+    const heading = await computed(page, "title-screen", "h1");
+    expect(relativeLuminance(heading.color)).toBeGreaterThan(0.7);
+  });
+
   test("keeps disabled Continue and Saved games readable, not merely dim", async ({
     page,
   }) => {
