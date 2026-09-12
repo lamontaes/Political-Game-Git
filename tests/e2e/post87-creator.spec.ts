@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "./fixtures";
 
-import { openCreator } from "./support/creator";
+import { openCreator, chooseCreatorLocation } from "./support/creator";
 
 /**
  * The post-#87 creator, in a browser.
@@ -41,13 +41,8 @@ async function walkToWhoAreYou(page: Page) {
   await page.getByTestId("start-age").fill("10");
   await page.getByTestId("creator-continue-character").click();
   await expect(page.getByTestId("creator-stage-place")).toBeVisible();
-  await page.getByTestId("place-search").fill("Kentu");
-  await page
-    .getByTestId("place-choices")
-    .getByRole("button", { name: /Kentucky/i })
-    .first()
-    .click();
-  await page.getByTestId("creator-continue-place").click();
+  await expect(page.getByTestId("place-context")).toHaveCount(0);
+  await chooseCreatorLocation(page, { age: 10, place: "Lexington" }, false);
   await expect(page.getByTestId("creator-stage-whoareyou")).toBeVisible();
 }
 
