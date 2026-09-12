@@ -1,3 +1,4 @@
+import { fileCandidacy } from "./support/campaign";
 import { expect, test, type Page } from "@playwright/test";
 
 import { enterLife, openElsewhere, startLife } from "./support/creator";
@@ -49,7 +50,7 @@ test("captures the five-minute click path", async ({ page }) => {
   await startLife(page, { age: 34, place: "Lexington", gender: "male" });
   await enterLife(page);
   await openElsewhere(page, "work");
-  await page.getByTestId("file-candidacy").click();
+  await fileCandidacy(page);
   await page.getByTestId("campaign-fundraising").click();
   for (let day = 0; day < 3; day += 1) {
     await page.getByTestId("pass-day").click();
