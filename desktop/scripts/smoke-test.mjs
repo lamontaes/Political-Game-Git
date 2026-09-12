@@ -146,6 +146,10 @@ async function stableIdentity(page) {
   await page
     .getByTestId("keep-world")
     .waitFor({ state: "detached", timeout: 15000 });
+  // The control flips as soon as the slot exists; the visible Saved status is
+  // the later durability acknowledgement. Do not race app.close against the
+  // repository write or Playwright may collide with the legitimate close guard.
+  await page.getByText("Saved.", { exact: true }).waitFor({ timeout: 15000 });
   check("save: life kept", true, identity.split("\n")[0]);
   check(
     "offline: no request left the packaged origin",
