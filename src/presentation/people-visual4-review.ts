@@ -11,6 +11,8 @@ import {
   type CharacterCatalogData,
 } from "./character-components";
 import { createGarmentFitBank, type GarmentFitBankData } from "./garment-fit";
+import toneData from "../../art/manifest/character_candidate_visual4_tone.json";
+import type { SkinTone } from "./character-components";
 import {
   createRuntimeVisualLibrary,
   repositoryVisualUrls,
@@ -119,10 +121,22 @@ const lifted = liftCandidatesForReview(
   eligible,
   (catalog as CharacterCatalogData).slots,
 );
+/**
+ * Measured skin tone, so appearance recipe v2 can keep a face and its body in
+ * the same skin. Read from the committed measurement rather than from any
+ * family name; see `scripts/art-asset-factory/people-visual4-tone.ts`.
+ */
+const PEOPLE_VISUAL4_SKIN_TONE: ReadonlyMap<string, SkinTone> = new Map(
+  (toneData as { tones: { family: string; rgb: SkinTone }[] }).tones.map(
+    (entry) => [entry.family, entry.rgb],
+  ),
+);
+
 export const PEOPLE_VISUAL4_CHARACTER_LIBRARY = createCharacterComponentLibrary(
   lifted.records,
   lifted.catalog,
   createGarmentFitBank(fitData as GarmentFitBankData),
+  PEOPLE_VISUAL4_SKIN_TONE,
 );
 export const PEOPLE_VISUAL4_VISUAL_LIBRARY = createRuntimeVisualLibrary(
   lifted.records as readonly RuntimeVisualAssetRecord[],

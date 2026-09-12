@@ -99,18 +99,34 @@ Khaki shorts pass because they stop above the knee, above where the silhouettes
 diverge. It is a real gap in the art, not a weighting, and it is not hidden by
 one — see `../WARDROBE-COVERAGE.md`.
 
-**Names and bodies do not agree about gender.** Cedric Jenkins is drawn with a
-woman's body, a feminine head and a female top; George Tran gets a heavy man's
-body with a feminine head and hair; Vanessa Stewart gets a woman's body with a
-masculine head. This is systematic rather than unlucky:
-`derivePersonAppearance(personId)` takes **only the person's id**, so body, head
-and hair are each hashed independently of the person's gender and of each other.
+**A face is not painted in the same skin as the body carrying it.** This is the
+real defect in the run above, and it is systematic rather than unlucky: every
+banked head declares every banked body as compatible, so the compatibility
+filter passes all of them and the seeded draw put any face on any body.
+Measured on the rasters, the chosen head sat a median of 54 RGB from the chosen
+body across the twenty-five people five lives create, worst case 85.
 
-I have not touched it, on purpose. Making appearance read gender changes what
-every existing seed resolves to, which rerolls saved people — explicitly out of
-bounds. It needs a deliberate decision about identity derivation and probably a
-catalog generation with a migration, and that is a bigger call than a preview
-screenshot should force.
+It is fixed, for people created from now on, by appearance recipe **v2** — see
+`../APPEARANCE-RECIPE-V2.md` for the same twenty-five people measured under both
+recipes (median 54 → 24, worst 85 → 27). The recipe is declared by
+`buildProductionWorld`, not defaulted into, so nobody already saved is
+repainted and the fixture constructors with accepted serialized bytes keep
+building exactly the people they always built.
+
+> **A correction to an earlier version of this note.** It previously read the
+> run as "names and bodies do not agree about gender", citing Cedric Jenkins on
+> a woman's body and George Tran with a feminine head. That was wrong at the
+> root: the name corpus deliberately does not encode gender, so a name is not
+> evidence of anybody's identity, and long hair or a given garment is not a
+> contradiction. Nothing about gender, anatomy or complexion is inferred from a
+> name anywhere in this work. What was actually measurable — and what was
+> repaired — is the skin mismatch above, read from pixels.
+
+The fix costs face variety, and the cost is the art's rather than the policy's:
+the nine banked heads cluster darker than the five dressable bodies, so under
+v2 two faces stay in play where v1 drew nine. Widening the tolerance buys faces
+back only by restoring the mismatch. Getting more faces needs heads measured
+into the bodies' tone range — a specific, named art limit.
 
 ## What this preview is not
 

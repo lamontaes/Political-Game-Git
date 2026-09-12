@@ -3,7 +3,11 @@ import {
   type PersonRenderSnapshot,
 } from "../presentation/person-render-snapshot";
 import { resolvePersonWardrobeContext } from "../presentation/person-visual-selection";
-import { derivePersonAppearance, type World } from "../simulation";
+import {
+  derivePersonAppearance,
+  LEGACY_APPEARANCE_RECIPE_VERSION,
+  type World,
+} from "../simulation";
 import { createContext, useContext } from "react";
 import type { PersonWardrobePreference } from "../presentation/person-visual-selection";
 import {
@@ -49,7 +53,9 @@ export function savedRenderSnapshots(
         : undefined;
       snapshots[personId] = createPersonRenderSnapshot({
         personId,
-        appearance: person.appearance ?? derivePersonAppearance(personId),
+        appearance:
+          person.appearance ??
+          derivePersonAppearance(personId, LEGACY_APPEARANCE_RECIPE_VERSION),
         wardrobe,
         library: PRODUCTION_CHARACTER_LIBRARY,
       });
