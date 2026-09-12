@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import type { EntityId } from "../simulation";
 import type {
@@ -6,6 +6,8 @@ import type {
   PublicInformationPanelModel,
 } from "../presentation/public-information-adapters";
 import type { CivicGlossaryEntry } from "../presentation/civic-glossary";
+import { filterPublishedNewsItems } from "./public-information-search";
+import "./public-information-panel.css";
 
 export interface PublicInformationPanelProps {
   readonly model: PublicInformationPanelModel;
@@ -22,10 +24,19 @@ export function PublicInformationPanel({
   const [activeConcept, setActiveConcept] = useState<CivicGlossaryEntry | null>(
     null,
   );
+  const [searchQuery, setSearchQuery] = useState("");
   const panelCloseRef = useRef<HTMLButtonElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const conceptCloseRef = useRef<HTMLButtonElement>(null);
   const conceptTriggerRef = useRef<HTMLButtonElement | null>(null);
   const returnConceptFocusRef = useRef(false);
+
+  const trimmedQuery = searchQuery.trim();
+  const filteredItems = useMemo(
+    () => filterPublishedNewsItems(model.items, searchQuery),
+    [model.items, searchQuery],
+  );
+  const hasActiveSearch = trimmedQuery.length > 0;
 
   useEffect(() => {
     panelCloseRef.current?.focus();
@@ -43,6 +54,11 @@ export function PublicInformationPanel({
   function closeConcept(): void {
     returnConceptFocusRef.current = true;
     setActiveConcept(null);
+  }
+
+  function clearSearch(): void {
+    setSearchQuery("");
+    searchInputRef.current?.focus();
   }
 
   return (
@@ -81,20 +97,73 @@ export function PublicInformationPanel({
           No public-information items have been published in this save.
         </p>
       ) : (
-        <ol className="public-information-editions">
-          {model.items.map((item) => (
-            <li key={item.publicationId}>
-              <PublicInformationArticle
-                item={item}
-                onOpenConcept={(entry, trigger) => {
-                  conceptTriggerRef.current = trigger;
-                  setActiveConcept(entry);
-                }}
-                onOpenPerson={onOpenPerson}
+        <>
+          <div className="public-information-search">
+            <label htmlFor="public-information-search-input">
+              Search published news
+            </label>
+            <div className="public-information-search-controls">
+              <input
+                ref={searchInputRef}
+                id="public-information-search-input"
+                type="search"
+                value={searchQuery}
+                autoComplete="off"
+                spellCheck={false}
+                data-testid="public-information-search-input"
+                onChange={(event) => setSearchQuery(event.currentTarget.value)}
               />
-            </li>
-          ))}
-        </ol>
+              <button
+                type="button"
+                className="public-information-search-clear"
+                aria-label="Clear search"
+                disabled={searchQuery.length === 0}
+                data-testid="public-information-search-clear"
+                onClick={clearSearch}
+              >
+                Clear search
+              </button>
+            </div>
+            {hasActiveSearch && filteredItems.length === 0 ? (
+              <p
+                className="public-information-no-match"
+                data-testid="public-information-no-match"
+                aria-live="polite"
+              >
+                No stories match &ldquo;{trimmedQuery}&rdquo;.
+              </p>
+            ) : (
+              <p
+                className="public-information-search-count"
+                data-testid="public-information-search-count"
+                aria-live="polite"
+              >
+                {hasActiveSearch
+                  ? `Showing ${filteredItems.length} of ${model.items.length} published stories.`
+                  : `${model.items.length} published ${
+                      model.items.length === 1 ? "story" : "stories"
+                    }.`}
+              </p>
+            )}
+          </div>
+
+          {hasActiveSearch && filteredItems.length === 0 ? null : (
+            <ol className="public-information-editions">
+              {filteredItems.map((item) => (
+                <li key={item.publicationId}>
+                  <PublicInformationArticle
+                    item={item}
+                    onOpenConcept={(entry, trigger) => {
+                      conceptTriggerRef.current = trigger;
+                      setActiveConcept(entry);
+                    }}
+                    onOpenPerson={onOpenPerson}
+                  />
+                </li>
+              ))}
+            </ol>
+          )}
+        </>
       )}
 
       {activeConcept ? (

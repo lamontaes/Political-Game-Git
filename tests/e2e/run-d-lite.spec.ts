@@ -200,6 +200,11 @@ test("derives truthful work groups and advances staff work during player activit
     "Transit draft follow-up",
   );
   await openPlanning(page, "Work / Pending");
+  // Collins's summary reads under staff-handling rather than completed-ready
+  // because `deriveWorkPendingGroup` puts an active item assigned to somebody
+  // else there — the downstream consequence of the occupied-minutes
+  // conservation change, not a relaxed assertion. `run-d-lite.test.ts`
+  // independently pins that item to Collins in this same group.
   await expect(page.getByTestId("work-group-staff-handling")).toContainText(
     "Collins's transit analysis summary",
   );

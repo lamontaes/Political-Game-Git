@@ -1,7 +1,6 @@
 import { makeIsoDate } from "../simulation/dates";
 import { useState } from "react";
 import { createRoot } from "react-dom/client";
-import { EducationOptionsPanel } from "../player/EducationOptionsPanel";
 import { LifePathsPanel } from "../player/LifePathsPanel";
 import {
   createDemoWorld,
@@ -56,7 +55,13 @@ function Proof() {
       <button onClick={() => localStorage.setItem(key, serializeWorld(world))}>
         Save study journey
       </button>
-      <EducationOptionsPanel world={world} onWorldChange={update} />
+      {/*
+        LifePathsPanel already owns the education panel, so mounting one here
+        too put two "Search institutions" boxes on the page and every search in
+        this proof resolved to both. Study has one owner — that is UI9-01's
+        whole point — and a diagnostic that mounts it twice is not showing the
+        route it claims to be showing.
+      */}
       <LifePathsPanel world={world} onWorldChange={update} />
     </main>
   );

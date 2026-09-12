@@ -117,10 +117,21 @@ describe("A9 / A10 / A11 — deterministic replay", () => {
     );
   });
 
-  // EDU-PATH7 adds a 132,874-record education domain to this loop; hashing
+  // What this costs is a function of how much source the repository holds, not
+  // of anything it asserts: it reads, parses and canonically digests every
+  // non-gated domain's whole corpus. Composing the returned branches took that
+  // from fifteen domains and 85 MB to eighteen and 184 MB; EDU-PATH7 further
+  // adds a 132,874-record education domain to the loop. Together, hashing
   // every production domain's corpus now measures ~30-37s under load, past
-  // the 5s default. Same pattern as municipal-delta5.test.ts's full-projection
-  // replay: a real, honest cost of the data, not a defect.
+  // the five-second default when the suite runs it beside everything else.
+  // Same pattern as municipal-delta5.test.ts's full-projection replay: a real,
+  // honest cost of the data, not a defect.
+  //
+  // So the budget is stated rather than the work reduced. Every domain is
+  // still digested and still compared; a domain that stops matching its
+  // manifest fails exactly as it did before. Expect this to want raising again
+  // as more source lands — a real regression here surfaces as a digest
+  // mismatch, never as a slow test.
   it("declares a corpus digest that matches the file it describes", async () => {
     for (const domain of await loadDomains()) {
       if (domain.productionGate) continue;
@@ -135,7 +146,7 @@ describe("A9 / A10 / A11 — deterministic replay", () => {
       expect(corpus.recordCount).toBe(records.length);
       expect(corpus.inputClass).toBe("production");
     }
-  }, 60000);
+  }, 60_000);
 
   it("canonical JSON sorts keys, drops undefined and refuses what it cannot represent", () => {
     expect(toCanonicalJson({ b: 1, a: 2 })).toBe('{\n  "a": 2,\n  "b": 1\n}\n');

@@ -1,0 +1,255 @@
+diff --git a/src/player/PlayerGame.tsx b/src/player/PlayerGame.tsx
+index 63d9888..6778468 100644
+--- a/src/player/PlayerGame.tsx
++++ b/src/player/PlayerGame.tsx
+@@ -85,6 +85,8 @@ import type { LegislativeBargainingSeat } from "../presentation/legislative-barg
+ import { MeasureFloorSurface } from "./MeasureFloorSurface";
+ import { CampaignWorkspace } from "./CampaignWorkspace";
+ import { LegislationWorkspace } from "./LegislationWorkspace";
++import type { LifePersonContext } from "../presentation/life-person-dossier";
++import { LifePersonSurface } from "./LifePersonSurface";
+ import { PlayerConversations } from "./PlayerConversation";
+ import { PersonPortrait } from "./PersonPortrait";
+ 
+@@ -1421,6 +1423,17 @@ function PlayingScreen({
+    * is one press away rather than already on the page.
+    */
+   const [open, setOpen] = useState<"day" | "people" | "work" | null>(null);
++  /*
++   * Who the player last chose, and how this life stands to them.
++   *
++   * Kept as the selection itself rather than as a boolean "the people panel is
++   * open", because the recorded failure was exactly that collapse: the rail
++   * knew the person and the shell only recorded that something had been
++   * clicked. The relationship travels with the id so the surface describes them
++   * the way the World already does, without re-deriving it from a name.
++   */
++  const [selectedPerson, setSelectedPerson] =
++    useState<LifePersonContext | null>(null);
+ 
+   /**
+    * The generated family, explained before the first beat.
+@@ -1605,7 +1618,10 @@ function PlayingScreen({
+       <LifePeopleRail
+         moment={moment}
+         household={introduction?.household ?? []}
+-        onOpenPerson={() => setOpen("people")}
++        onOpenPerson={(person) => {
++          setSelectedPerson(person);
++          setOpen("people");
++        }}
+       />
+ 
+       <LifeHud
+@@ -1656,15 +1672,43 @@ function PlayingScreen({
+ 
+       {open === "people" ? (
+         <LifeOverlay
+-          title="People"
++          title={selectedPerson ? "Someone in this life" : "People"}
+           testid="people-overlay"
+-          onClose={() => setOpen(null)}
++          onClose={() => {
++            setOpen(null);
++            setSelectedPerson(null);
++          }}
+         >
+-          <PlayerConversations
+-            world={session.world}
+-            personId={session.personId}
+-            onWorldChange={onWorldChange}
+-          />
++          {selectedPerson ? (
++            <>
++              <LifePersonSurface
++                world={session.world}
++                playerPersonId={session.personId}
++                person={selectedPerson}
++                onClose={() => setSelectedPerson(null)}
++                onWorldChange={onWorldChange}
++              />
++              {/*
++                Back to everyone, without closing the panel. Choosing a person
++                narrows this surface; it does not become a different place the
++                player has to escape from.
++              */}
++              <button
++                type="button"
++                className="ui-action"
++                data-testid="person-back-to-people"
++                onClick={() => setSelectedPerson(null)}
++              >
++                Back to people
++              </button>
++            </>
++          ) : (
++            <PlayerConversations
++              world={session.world}
++              personId={session.personId}
++              onWorldChange={onWorldChange}
++            />
++          )}
+         </LifeOverlay>
+       ) : null}
+ 
+@@ -1752,7 +1796,7 @@ function LifePeopleRail({
+ }: {
+   readonly moment: StoryMoment;
+   readonly household: readonly IntroducedPerson[];
+-  readonly onOpenPerson: (personId: EntityId) => void;
++  readonly onOpenPerson: (person: LifePersonContext) => void;
+ }) {
+   const [collapsed, setCollapsed] = useState(false);
+   const [pinned, setPinned] = useState<readonly EntityId[]>([]);
+@@ -1829,7 +1873,13 @@ function LifePeopleRail({
+                   className="life-pin"
+                   data-testid={`rail-person-${person.personId}`}
+                   data-present={person.present ? "true" : "false"}
+-                  onClick={() => onOpenPerson(person.personId)}
++                  onClick={() =>
++                    onOpenPerson({
++                      personId: person.personId,
++                      relationship: person.relationship,
++                      present: person.present,
++                    })
++                  }
+                 >
+                   <span className="life-pin-mark" aria-hidden="true">
+                     {railInitials(person.name)}
+diff --git a/src/player/player.css b/src/player/player.css
+index cfdc037..0608191 100644
+--- a/src/player/player.css
++++ b/src/player/player.css
+@@ -7699,3 +7699,59 @@
+ .production-floor-layer .measure-floor {
+   min-height: 100vh;
+ }
++
++/* -------------------------------------------------------------------------- */
++/* One chosen person                                                           */
++/* -------------------------------------------------------------------------- */
++
++/*
++ * The surface for the person the player actually selected.
++ *
++ * It reuses the accepted quick dossier rather than introducing a second way of
++ * describing somebody, and puts the conversation for that person directly
++ * under it, so choosing a person and speaking to them are one continuous act
++ * instead of two unrelated screens.
++ */
++.life-person-surface {
++  display: grid;
++  gap: 0.9rem;
++}
++
++/*
++ * Inside this surface the dossier is content, not a floating layer: it is
++ * already inside an overlay the player opened deliberately, and a panel
++ * floating within a panel reads as two things going wrong at once.
++ */
++.life-person-surface .quick-dossier {
++  position: static;
++  width: auto;
++  max-width: none;
++  /*
++   * Let the surface grow to its content.
++   *
++   * The floating dossier is sized against the scene it hovers over — 74% of
++   * the viewport, scrolled if it overflows. Embedded in a panel that already
++   * scrolls, that cap ended the dark card early and left the last sections
++   * rendering past its background: ivory text on the panel's white paper,
++   * invisible. The height belongs to the content here, not to the viewport.
++   */
++  height: auto;
++  max-height: none;
++  overflow: visible;
++}
++
++/*
++ * One way out, not two identical ones.
++ *
++ * The panel already has a close control in its header, and this surface has an
++ * explicit "Back to people". A third × inside the dossier looked the same as
++ * the panel's and did something different, which is the worst of both.
++ */
++.life-person-surface .dossier-close {
++  display: none;
++}
++
++.life-person-actions {
++  display: grid;
++  gap: 0.6rem;
++}
+diff --git a/src/presentation/player-conversation.ts b/src/presentation/player-conversation.ts
+index 837c932..39a2172 100644
+--- a/src/presentation/player-conversation.ts
++++ b/src/presentation/player-conversation.ts
+@@ -318,3 +318,37 @@ function resolveListenerNames(
+ }
+ 
+ export { conversationSubjectPresentation };
++
++/**
++ * The conversation that can actually reach one particular person.
++ *
++ * The recorded failure this exists to prevent: the people rail emitted the id
++ * of the person the player clicked, the shell dropped it, and the generic list
++ * of every available conversation opened instead — so choosing your brother and
++ * choosing your mother produced the same screen with the same participants.
++ *
++ * Conversations are keyed by subject and room, not by person, so reaching a
++ * named person means finding the room that actually admits them as an
++ * addressee. Physical presence is checked as the fallback because a room may
++ * list somebody as present before the subject has a part for them.
++ *
++ * Returns null when no room can reach them. That is a real answer — the caller
++ * must say which limitation applies rather than opening a conversation with
++ * whoever happens to be first in the list.
++ */
++export function conversationReaching(
++  world: World,
++  playerPersonId: EntityId,
++  targetPersonId: EntityId,
++): AvailableConversation | null {
++  const available = availablePlayerConversations(world, playerPersonId);
++  return (
++    available.find((entry) =>
++      entry.room.eligibleAddresseePersonIds.includes(targetPersonId),
++    ) ??
++    available.find((entry) =>
++      entry.room.physicallyPresentPersonIds.includes(targetPersonId),
++    ) ??
++    null
++  );
++}
+diff --git a/src/presentation/run-a-projection.ts b/src/presentation/run-a-projection.ts
+index 2fcaa8a..690afee 100644
+--- a/src/presentation/run-a-projection.ts
++++ b/src/presentation/run-a-projection.ts
+@@ -54,7 +54,7 @@ function requireScenePerson(world: World, personId: EntityId) {
+   return person;
+ }
+ 
+-function projectPublicPosition(
++export function projectPublicPosition(
+   world: World,
+   personId: EntityId,
+ ): PlayerVisibleFact {
+@@ -80,7 +80,7 @@ function projectPublicPosition(
+       };
+ }
+ 
+-function projectLatestInteraction(
++export function projectLatestInteraction(
+   world: World,
+   scenePersonId: EntityId,
+   playerPersonId: EntityId,
+@@ -108,7 +108,7 @@ function projectLatestInteraction(
+       };
+ }
+ 
+-function projectHomePlace(world: World, personId: EntityId): PlayerVisibleFact {
++export function projectHomePlace(world: World, personId: EntityId): PlayerVisibleFact {
+   const person = requireScenePerson(world, personId);
+   const facts = factsForPerson(person);
+   const birthplace = facts.find(

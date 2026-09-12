@@ -1,0 +1,46 @@
+
+> political-life-rpg@0.2.0 test
+> vitest run src/presentation/run-d-lite.test.ts -t continues canonically through flexible work --maxWorkers=1
+
+
+ RUN  v4.1.1 /private/tmp/ui-connect2-staff-base
+
+ ❯ src/presentation/run-d-lite.test.ts (33 tests | 1 failed | 32 skipped) 2351ms
+     × continues canonically through flexible work, travel, and a later meeting 2349ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/presentation/run-d-lite.test.ts > Stage 6.5 Run D-Lite canonical agenda > continues canonically through flexible work, travel, and a later meeting
+AssertionError: expected { …(14) } to match object { status: 'ready-for-review', …(2) }
+(14 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "completedEffortMinutes": 50,
++   "completedEffortMinutes": 0,
+    "recordedAt": {
+-     "minuteOfDay": 600,
++     "minuteOfDay": 550,
+    },
+-   "status": "ready-for-review",
++   "status": "active",
+  }
+
+ ❯ src/presentation/run-d-lite.test.ts:560:65
+    558|       fixture.dLite.flexibleActivityId,
+    559|     );
+    560|     expect(workItemState(world, fixture.dLite.staffWorkItemId)).toMatc…
+       |                                                                 ^
+    561|       status: "ready-for-review",
+    562|       completedEffortMinutes: 50,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 32 skipped (33)
+   Start at  23:13:20
+   Duration  8.87s (transform 5.48s, setup 0ms, import 6.11s, tests 2.35s, environment 0ms)
+

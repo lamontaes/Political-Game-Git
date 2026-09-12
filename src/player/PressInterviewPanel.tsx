@@ -12,6 +12,8 @@ import type { EntityId } from "../simulation";
 
 export interface PressInterviewPanelProps {
   readonly view: PressInterviewProjection;
+  readonly preparationUnavailable?: string;
+  readonly feedbackUnavailable?: string;
   readonly onClose: () => void;
   readonly onOpenPerson: (personId: EntityId) => void;
   /** Records already-completed staff preparation; it does not create it. */
@@ -51,6 +53,8 @@ const INTENT_COPY: Readonly<
 export function PressInterviewPanel({
   view,
   onClose,
+  preparationUnavailable,
+  feedbackUnavailable,
   onOpenPerson,
   onReviewPreparation,
   onDraftResponse,
@@ -62,7 +66,7 @@ export function PressInterviewPanel({
   const [mode, setMode] = useState<PressPlayMode>("interactive");
   const [intent, setIntent] = useState<PressResponseIntent>("answer-directly");
   const [followUpQuestion, setFollowUpQuestion] = useState(
-    view.likelyFollowUps[0] ?? "",
+    view.likelyFollowUps[0] ?? view.primaryQuestion,
   );
   const [wording, setWording] = useState("");
   const [activeConcept, setActiveConcept] = useState<CivicGlossaryEntry | null>(
@@ -97,12 +101,14 @@ export function PressInterviewPanel({
     setActiveConcept(entry);
   }
 
+  const unprepared = view.adviserPersonId === null;
   const preparationReady =
     view.preparationStatus === "ready-for-review" ||
     view.preparationStatus === "completed";
   const preparationRecorded = view.knownFacts.length > 0;
   const drafted = view.proposedWording !== null;
   const confirmed = view.confirmedWording !== null;
+  const mayAnswer = preparationRecorded || unprepared;
 
   return (
     <section
@@ -182,11 +188,16 @@ export function PressInterviewPanel({
         </p>
       </section>
 
-      {!preparationRecorded ? (
+      {!unprepared && !preparationRecorded ? (
         <section aria-labelledby="press-preparation-title">
           <h3 id="press-preparation-title">Preparation</h3>
           {preparationReady ? (
-            <button type="button" onClick={onReviewPreparation}>
+            <button
+              type="button"
+              disabled={!!preparationUnavailable}
+              title={preparationUnavailable}
+              onClick={onReviewPreparation}
+            >
               Review {view.adviserName}&apos;s preparation
             </button>
           ) : (
@@ -200,7 +211,7 @@ export function PressInterviewPanel({
         <PreparationBrief view={view} onOpenPerson={onOpenPerson} />
       )}
 
-      {preparationRecorded && !drafted ? (
+      {mayAnswer && !drafted ? (
         <section aria-labelledby="press-response-title">
           <h3 id="press-response-title">Choose how to answer</h3>
           <div role="group" aria-label="Interview presentation">
@@ -311,8 +322,13 @@ export function PressInterviewPanel({
         )
       ) : null}
 
-      {view.publicationId && !view.adviserFeedback ? (
-        <button type="button" onClick={onRequestAdviserFeedback}>
+      {view.publicationId && !view.adviserFeedback && view.adviserPersonId ? (
+        <button
+          type="button"
+          disabled={!!feedbackUnavailable}
+          title={feedbackUnavailable}
+          onClick={onRequestAdviserFeedback}
+        >
           Ask adviser about the published story
         </button>
       ) : null}
@@ -369,7 +385,9 @@ function PreparationBrief({
         <button
           type="button"
           data-person-id={view.adviserPersonId}
-          onClick={() => onOpenPerson(view.adviserPersonId)}
+          onClick={() => {
+            if (view.adviserPersonId) onOpenPerson(view.adviserPersonId);
+          }}
         >
           {view.adviserName}
         </button>

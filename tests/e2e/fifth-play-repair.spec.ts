@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "./fixtures";
 
-import { enterLife, openCreator, startLife } from "./support/creator";
+import { enterLife, goTo, openCreator, startLife } from "./support/creator";
 
 /**
  * The fifth human-play repairs: viewport-bound creator, and People surfaces
@@ -52,8 +52,11 @@ test.describe("The creator stays inside the viewport", () => {
       await freshBrowser(page);
       await reachPlaceSearch(page);
 
-      // A common town name returns many results across states.
-      await page.getByTestId("place-search").fill("Springfield");
+      await page.getByTestId("state-search").fill("Texas");
+      await page.getByTestId("state-TX").click();
+
+      // A short query in a large state still has to stay inside the list.
+      await page.getByTestId("place-search").fill("san");
       const choices = page.getByTestId("place-choices");
       await expect(choices.getByRole("button").first()).toBeVisible();
 
@@ -71,10 +74,7 @@ test.describe("The creator stays inside the viewport", () => {
       expect(pageScroll).toBeLessThanOrEqual(1);
 
       // Selecting a place keeps its Next reachable without hunting below fold.
-      await choices
-        .getByRole("button", { name: /Springfield, Illinois/i })
-        .first()
-        .click();
+      await choices.getByRole("button").first().click();
       const next = page.getByTestId("creator-continue-place");
       await expect(next).toBeVisible();
       const box = await next.boundingBox();
@@ -96,7 +96,7 @@ test.describe("People surfaces have an obvious way out", () => {
     const momentBefore = await page.getByTestId("story-prose").innerText();
 
     // Open People, then close with the explicit X.
-    await page.getByTestId("elsewhere-people").click();
+    await goTo(page, "elsewhere-people");
     const overlay = page.getByTestId("people-overlay");
     await expect(overlay).toBeVisible();
     await expect(page.getByTestId("people-overlay-close")).toBeVisible();
@@ -104,7 +104,7 @@ test.describe("People surfaces have an obvious way out", () => {
     await expect(overlay).toHaveCount(0);
 
     // Reopen and close with Escape.
-    await page.getByTestId("elsewhere-people").click();
+    await goTo(page, "elsewhere-people");
     await expect(overlay).toBeVisible();
     await page.keyboard.press("Escape");
     await expect(overlay).toHaveCount(0);

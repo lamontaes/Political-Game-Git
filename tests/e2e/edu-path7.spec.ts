@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 test("EDU real institution search, explicit offer, study, interruption and save", async ({
   page,
 }) => {

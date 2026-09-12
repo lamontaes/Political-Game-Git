@@ -71,6 +71,13 @@ import {
 /* -------------------------------------------------------------------------- */
 
 export type DocketBillStage =
+  /**
+   * Still being written. Distinct from `filed` because saying "Filed, awaiting
+   * referral" about a bill nobody has filed tells the player their measure is
+   * waiting on somebody else when it is actually waiting on them — which is
+   * what UI9-14 reported as a bill that never moves.
+   */
+  | "drafting"
   | "filed"
   | "in-committee"
   | "on-floor"
@@ -192,6 +199,7 @@ function stageOf(
   const chamberName = position.chamberKey ?? null;
   switch (position.phase) {
     case "drafting":
+      return { stage: "drafting", chamberName, concluded: false };
     case "awaiting-referral":
       return { stage: "filed", chamberName, concluded: false };
     case "in-committee":

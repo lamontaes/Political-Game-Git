@@ -204,13 +204,9 @@ test.describe("the life the player asked for is the life they get", () => {
     await expect(page.getByTestId("play-screen")).toBeVisible();
 
     // The introduction names family members, not the player. Read the
-    // persistent player plaque so a parent's generated name cannot satisfy or
-    // fail this assertion by accident.
-    const shown = await page
-      .getByTestId("life-hud")
-      .getByTestId("person-portrait")
-      .locator("strong")
-      .innerText();
+    // persistent identity on the corner cluster so a parent's generated name
+    // cannot satisfy or fail this assertion by accident.
+    const shown = await page.getByTestId("shell-nav-identity").innerText();
     const givenName = shown.split(" ")[0];
     expect(GIVEN_NAME_GENERATION_POOLS_V1.male).toContain(givenName);
   });
@@ -220,6 +216,9 @@ test.describe("the life the player asked for is the life they get", () => {
   }) => {
     await freshBrowser(page);
     await startLife(page, { age: 34, place: "Kentucky", gender: "male" });
+    // The introduction opens on the world, then the household; the grounding
+    // is the household beat's, and it still comes before the first choice.
+    await page.getByTestId("introduction-continue").click();
 
     const grounding = page.getByTestId("life-grounding");
     await expect(grounding).toBeVisible();
@@ -253,8 +252,9 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     await startLife(page, { age: 34, place: "Lexington", gender: "male" });
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await enterLife(page);
-    await openElsewhere(page, "day");
-    await expect(page.getByTestId("ordinary-section")).toBeVisible();
+    // PT3: running for office is in Work, not stacked under the day.
+    await openElsewhere(page, "work");
+    await expect(page.getByTestId("work-section-campaign")).toBeVisible();
 
     // The owner saw the refusal here. There must now be something to file for,
     // and no message claiming nobody has written the offices down.
@@ -268,7 +268,7 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     await freshBrowser(page);
     await startLife(page, { age: 34, place: "Lexington", gender: "male" });
     await enterLife(page);
-    await openElsewhere(page, "day");
+    await openElsewhere(page, "work");
 
     await page.getByTestId("file-candidacy").click();
     await page.getByTestId("campaign-fundraising").click();
@@ -292,7 +292,7 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     await freshBrowser(page);
     await startLife(page, { age: 34, place: "Lexington", gender: "male" });
     await enterLife(page);
-    await openElsewhere(page, "day");
+    await openElsewhere(page, "work");
     await page.getByTestId("file-candidacy").click();
 
     // Three sessions fit before the already-posted evening meeting. A fourth
@@ -309,20 +309,39 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     }
     await expect(page.getByTestId("pass-day")).toBeEnabled();
 
-    // Campaign time does not leak into the ordinary conversation surface.
+    /*
+     * Campaign time does not leak into the ordinary conversation surface.
+     *
+     * The sessions were held at the campaign office, and UI144's venues keep
+     * the life there until the day moves on — so this evening there is no
+     * kitchen conversation to have, and People offers none. Where a housemate
+     * cannot be talked to, their record says why in terms of where the life
+     * is, never that the day is spent.
+     */
     await openElsewhere(page, "people");
+    await expect(
+      page.locator('[data-testid^="conversation-start-"]'),
+    ).toHaveCount(0);
+    await page.locator('[data-testid^="people-person-"]').first().click();
+    const refusal = page.getByTestId("dossier-talk-unavailable");
+    await expect(refusal).toBeVisible();
+    await expect(refusal).not.toContainText(/spoken for|no time|too late/i);
+
+    await openElsewhere(page, "work");
+    await page.getByTestId("pass-day").focus();
+    await page.keyboard.press("Space");
+    await expect(page.getByTestId("campaign-fundraising")).toBeEnabled();
+    await expect(page.getByTestId("campaign-outreach")).toBeEnabled();
+
+    // And the next morning, back at home, the conversation is there to have.
+    await openElsewhere(page, "people");
+    await page.locator('[data-testid^="conversation-start-"]').first().click();
     const intent = page
       .getByTestId("conversation-intents")
       .first()
       .getByRole("button")
       .first();
     await expect(intent).toBeEnabled();
-
-    await openElsewhere(page, "day");
-    await page.getByTestId("pass-day").focus();
-    await page.keyboard.press("Space");
-    await expect(page.getByTestId("campaign-fundraising")).toBeEnabled();
-    await expect(page.getByTestId("campaign-outreach")).toBeEnabled();
   });
 
   test("lists a campaign opponent as relevant without silently pinning them", async ({
@@ -332,7 +351,7 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     await freshBrowser(page);
     await startLife(page, { age: 34, place: "Lexington", gender: "male" });
     await enterLife(page);
-    await openElsewhere(page, "day");
+    await openElsewhere(page, "work");
     await page.getByTestId("file-candidacy").click();
     const opponentLine = (
       await page.getByTestId("campaign-opponents").innerText()
@@ -347,15 +366,25 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     }
     await expect(page.getByTestId("campaign-result")).toBeVisible();
 
+    /*
+     * Where the relevant-people list lives now.
+     *
+     * The claim this test makes has not changed: meeting an opponent puts them
+     * in front of the player, and does NOT pin them. What changed under it is
+     * the surface — UI9-03 removed the automatic rail above the room, and
+     * People is where contact browsing and the deliberate act of pinning were
+     * already going.
+     */
+    await openElsewhere(page, "people");
     const opponent = page
-      .getByTestId("people-rail")
+      .getByTestId("people-list")
       .locator("li")
       .filter({ hasText: opponentName });
     await expect(opponent).toHaveCount(1);
-    // The rail is a relevant-people list. The empty star is the separate,
-    // deliberate hold state; discovery must not press it for the player.
-    const pin = opponent.locator("[data-testid^='rail-pin-']");
+    // The empty star is the separate, deliberate hold state; discovery must
+    // not press it for the player.
+    const pin = opponent.locator("[data-testid^='people-pin-']");
     await expect(pin).toHaveAttribute("aria-pressed", "false");
-    await expect(pin).toHaveAttribute("aria-label", "Pin");
+    await expect(pin).toHaveAttribute("aria-label", `Pin ${opponentName}`);
   });
 });

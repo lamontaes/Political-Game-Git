@@ -11,14 +11,16 @@ import {
   createWorld,
   createWorldId,
   dateAtAge,
-  drawCanonicalName,
+  drawCanonicalNameForGender,
   generatePersonIdentity,
   generateQuickCharacterHistory,
   personName,
   recordWorldEvent,
+  recordPersonDeath,
   SeededRng,
   syncDistrictMembershipFromCanonicalHome,
 } from "../simulation";
+import { establishLifePersonality } from "../simulation/life-personality";
 import type {
   CharacterHistoryTransition,
   EntityId,
@@ -66,6 +68,10 @@ export type ProductionHousehold = "lives-alone" | "shares-a-home";
 export interface ProductionWorldInput {
   /** The full world seed, already derived from the player's setup. */
   readonly seed: string;
+  /** Independent raw seed; excludes names, demographics and setup identity. */
+  readonly personalitySeed?: string;
+  /** World identity seed, before calibration; topology is not a shaped age range. */
+  readonly familyStructureSeed?: string;
   readonly place: LifePlace;
   readonly age: number;
   readonly givenName: string | null;
@@ -179,11 +185,25 @@ export function buildProductionWorld(
     input.depth,
     input.household,
     input.generation ?? null,
+    input.familyStructureSeed ?? input.seed,
   );
   if (input.startingLife === "legislative-office") {
     world = employInLegislativeOffice(world, player.id, place);
   }
 
+  for (const personId of world.personOrder) {
+    if (
+      world.history.personDeaths.some(
+        (death) =>
+          death.personId === personId && death.diedAt <= world.currentDate,
+      )
+    )
+      continue;
+    world = establishLifePersonality(world, personId, {
+      seed: input.personalitySeed ?? input.seed,
+      key: `person:${world.personOrder.indexOf(personId)}`,
+    });
+  }
   world = { ...world, control: { kind: "person", personId: player.id } };
   world = syncDistrictMembershipFromCanonicalHome(world, player.id);
   assertWorldIntegrity(world);
@@ -260,6 +280,7 @@ function establishAgeEligibleState(
   depth: ProductionDepth,
   household: ProductionHousehold,
   generation: SetupGenerationInputs | null,
+  familyStructureSeed: string,
 ): World {
   const jurisdictionId = place.context.jurisdiction.id;
   const age = ageOnDate(player.birthDate, world.currentDate);
@@ -327,7 +348,10 @@ function establishAgeEligibleState(
       // and their age from the same adult range as anyone else's; the world is
       // not claiming anything else about who they are to each other.
       const otherKey = `${stableKey}:housemate`;
-      const otherName = drawCanonicalName(rng);
+      const otherName = drawCanonicalNameForGender(
+        rng,
+        generatedIdentityFor(world.seed, otherKey).gender,
+      );
       transitions.push(
         {
           kind: "context-person",
@@ -367,7 +391,15 @@ function establishAgeEligibleState(
   // this child — and says nothing else about them.
   const guardianKey = `${stableKey}:guardian`;
   const guardianId = characterHistoryContextPersonId(world, guardianKey);
-  const guardianName = drawCanonicalName(rng);
+  const guardianName = drawCanonicalNameForGender(
+    rng,
+    generatedIdentityFor(world.seed, guardianKey).gender,
+  );
+  // Authored household configurations, not survey probabilities. This stream
+  // cannot change existing names, ages, or the sibling draw.
+  const familyShape = new SeededRng(familyStructureSeed)
+    .fork("opening-life-family-v1")
+    .pick(["one-parent", "two-parents", "two-parents", "guardian"] as const);
   // The band the guardian's age is drawn from. Unleant it is 24 to 41, exactly
   // as it has always been; a calibration that leaned toward keeping the ground
   // firm moves both ends later and one that leaned toward disruption moves them
@@ -422,7 +454,10 @@ function establishAgeEligibleState(
         stableKey: `${stableKey}:kinship:guardian`,
         personIds: [guardianId, player.id],
         establishedAt: player.birthDate,
-        kind: "lineal:parent-child",
+        kind:
+          familyShape === "guardian"
+            ? "custom:family-connection"
+            : "lineal:parent-child",
         provenance: PROVENANCE,
       },
     },
@@ -436,8 +471,11 @@ function establishAgeEligibleState(
           personId: guardianId,
         },
         establishedAt: player.birthDate,
-        kind: "parental:primary",
-        basisKind: "legal:presumed",
+        kind:
+          familyShape === "guardian"
+            ? "guardianship:ordinary"
+            : "parental:primary",
+        basisKind: "custom:generated-start",
         context: null,
         provenance: PROVENANCE,
       },
@@ -458,7 +496,10 @@ function establishAgeEligibleState(
   if (household === "shares-a-home") {
     const siblingKey = `${stableKey}:sibling`;
     const siblingId = characterHistoryContextPersonId(world, siblingKey);
-    const siblingName = drawCanonicalName(rng);
+    const siblingName = drawCanonicalNameForGender(
+      rng,
+      generatedIdentityFor(world.seed, siblingKey).gender,
+    );
     // Close enough in age to be a peer and never the same day, so "older" and
     // "younger" are always answerable from the record. Which side of the player
     // the candidates sit on is tilted by the care lean; the pick is still the
@@ -510,9 +551,117 @@ function establishAgeEligibleState(
           childPersonId: siblingId,
           holder: { kind: "person", personId: guardianId },
           establishedAt: siblingBirthDate,
-          kind: "parental:primary",
-          basisKind: "legal:presumed",
+          kind:
+            familyShape === "guardian"
+              ? "guardianship:ordinary"
+              : "parental:primary",
+          basisKind: "custom:generated-start",
           context: null,
+          provenance: PROVENANCE,
+        },
+      },
+    );
+  }
+
+  if (familyShape === "guardian") {
+    // Authority establishes care responsibility, not kinship. Do not invent
+    // a family relationship to make the introduction longer.
+    const index = transitions.findIndex(
+      (entry) =>
+        entry.kind === "kinship" &&
+        entry.input.stableKey === `${stableKey}:kinship:guardian`,
+    );
+    if (index >= 0) transitions.splice(index, 1);
+  }
+  if (familyShape === "two-parents") {
+    const otherKey = `${stableKey}:second-parent`;
+    const otherId = characterHistoryContextPersonId(world, otherKey);
+    const otherRng = new SeededRng(world.seed).fork(otherKey);
+    transitions.push(
+      {
+        kind: "context-person",
+        input: {
+          stableKey: otherKey,
+          ...drawCanonicalNameForGender(
+            otherRng,
+            generatedIdentityFor(world.seed, otherKey).gender,
+          ),
+          identity: generatedIdentityFor(world.seed, otherKey),
+          birthDate: yearsBefore(player.birthDate, otherRng.integer(24, 41)),
+          homeJurisdictionId: jurisdictionId,
+        },
+      },
+      {
+        kind: "household-membership",
+        input: {
+          stableKey: `${otherKey}:membership`,
+          personId: otherId,
+          householdId,
+          startedAt: world.currentDate,
+          residenceRole: "primary",
+          kind: "resident:member",
+          provenance: PROVENANCE,
+        },
+      },
+      {
+        kind: "kinship",
+        input: {
+          stableKey: `${otherKey}:kinship`,
+          personIds: [otherId, player.id],
+          establishedAt: player.birthDate,
+          kind: "lineal:parent-child",
+          provenance: PROVENANCE,
+        },
+      },
+      {
+        kind: "authority",
+        input: {
+          stableKey: `${otherKey}:authority`,
+          childPersonId: player.id,
+          holder: { kind: "person", personId: otherId },
+          establishedAt: player.birthDate,
+          kind: "parental:shared",
+          basisKind: "custom:generated-start",
+          context: null,
+          provenance: PROVENANCE,
+        },
+      },
+    );
+  }
+
+  // Fictional starting circumstances are independent of identity and setup priors.
+  // A missing parent record is not a claim of abandonment or death.
+  const otherParentState =
+    familyShape === "one-parent" && age >= 5
+      ? new SeededRng(familyStructureSeed)
+          .fork("opening-life-other-parent-v1")
+          .pick(["unrecorded", "nonresident", "deceased"] as const)
+      : "unrecorded";
+  const otherParentKey = `${stableKey}:nonresident-parent`;
+  const otherParentId = characterHistoryContextPersonId(world, otherParentKey);
+  if (otherParentState !== "unrecorded") {
+    const otherRng = new SeededRng(world.seed).fork(otherParentKey);
+    transitions.push(
+      {
+        kind: "context-person",
+        input: {
+          stableKey: otherParentKey,
+          ...drawCanonicalNameForGender(
+            otherRng,
+            generatedIdentityFor(world.seed, otherParentKey).gender,
+          ),
+          identity: generatedIdentityFor(world.seed, otherParentKey),
+          birthDate: yearsBefore(player.birthDate, otherRng.integer(24, 41)),
+          homeJurisdictionId: jurisdictionId,
+        },
+      },
+      {
+        kind: "kinship",
+        input: {
+          stableKey: `${otherParentKey}:kinship`,
+          personIds: [otherParentId, player.id],
+          establishedAt: player.birthDate,
+          kind: "lineal:parent-child",
           provenance: PROVENANCE,
         },
       },
@@ -563,7 +712,10 @@ function establishAgeEligibleState(
     // this child. Whether either of them becomes anybody is decided in play.
     for (const ordinal of [1, 2]) {
       const classmateKey = `${stableKey}:classmate:${ordinal}`;
-      const classmateName = drawCanonicalName(rng);
+      const classmateName = drawCanonicalNameForGender(
+        rng,
+        generatedIdentityFor(world.seed, classmateKey).gender,
+      );
       transitions.push(
         {
           kind: "context-person",
@@ -591,12 +743,27 @@ function establishAgeEligibleState(
     }
   }
 
-  return applyCharacterHistoryPlan(world, {
+  const householdWorld = applyCharacterHistoryPlan(world, {
     stableKey,
     mode: "quick-generated",
     personId: player.id,
     transitions,
   }).world;
+  return otherParentState === "deceased"
+    ? recordPersonDeath(householdWorld, {
+        stableKey: `${otherParentKey}:death`,
+        personId: otherParentId,
+        diedAt: addDays(world.currentDate, -1),
+        causeKey: "cause:unknown",
+        sourceEntityIds: [otherParentId],
+        summary:
+          "This parent died before the current life began. The cause is not recorded.",
+        provenance: {
+          kind: "authored",
+          note: "Fictional starting family history; no empirical mortality rate or inferred cause.",
+        },
+      })
+    : householdWorld;
 }
 
 const OFFICE_HOURS = {

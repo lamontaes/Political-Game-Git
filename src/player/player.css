@@ -6162,8 +6162,18 @@
   /* Controls belong on the left of the scene (Task C/R), so the room keeps the
      larger, open side of the frame. */
   justify-content: flex-start;
-  min-height: 100vh;
-  min-height: 100dvh;
+  /* Fixed height, not min-height: an owner composition (shell.css's accepted
+     R1 title grouping) overrides this rule's own padding with its own
+     viewport-relative clamp(), so the padding this rule's max-height budget
+     assumed does not always hold. With min-height, a taller actual padding
+     let the panel's own max-height:calc(100dvh - Nrem) still fit inside the
+     panel but push this container — and the whole page — past the viewport.
+     A fixed height plus overflow:hidden keeps the composition honest
+     regardless of which padding rule wins: the panel's own overflow-y:auto
+     is the one and only scroll region, never the page. */
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
   padding: 2rem clamp(1rem, 4vw, 3.5rem);
   box-sizing: border-box;
 }
@@ -6239,6 +6249,7 @@
 /* The place results are a bounded, internally-scrolling list so a long search
    (a common town name across many states) never moves the panel or the room,
    and the selected place's context and Next stay in view. */
+.title-tableau--art .game-creator [data-testid="state-choices"],
 .title-tableau--art .game-creator [data-testid="place-choices"] {
   max-height: 32vh;
   overflow-y: auto;
@@ -7155,6 +7166,60 @@
   justify-content: flex-end;
 }
 
+/*
+ * A person in the room is the thing you click on.
+ *
+ * The rail above the room used to be the only way to choose somebody, and it
+ * filled itself from whoever was present — a second roster the player never
+ * asked for. Selection lives on the person now, so the token has to look and
+ * behave like a control: no button chrome over the art, a real focus ring for
+ * the keyboard, and a visible state while their menu is open.
+ *
+ * `pointer-events` is the line that matters and it is easy to lose. The layer
+ * above is click-through, because a full-viewport sheet of people would
+ * otherwise swallow every click aimed at the room and at the panel floating
+ * over it — true and necessary while nobody standing there could be chosen.
+ * The moment a token became a button that stopped being harmless: the keyboard
+ * reached it perfectly, focus ring and all, and the mouse went straight
+ * through it to the backdrop. Only the selectable tokens take the pointer
+ * back; the empty space between them stays click-through.
+ */
+.scene-person-token--selectable {
+  appearance: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.scene-person-token--selectable:hover:not(:disabled) {
+  background: none;
+}
+
+.scene-person-token--selectable:focus-visible {
+  outline: 3px solid var(--run-a-focus, #f0c987);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.scene-person-token--chosen {
+  outline: 2px solid var(--run-a-focus, #f0c987);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* The refusal that belongs to a disabled action, said rather than implied. */
+.pg-action-menu-reason {
+  margin: 0.15rem 0.15rem 0.35rem;
+  max-width: 20rem;
+  color: var(--pg-ivory-dim, #cfd6e4);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
 /* The fail-closed placeholder: a soft, floor-anchored presence, not a broken
    image and not somebody else's likeness. It is replaced by real layers the
    day a body master is released. */
@@ -7750,8 +7815,100 @@
   font-size: 0.82rem;
 }
 
+.public-information-search {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.public-information-search label {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.public-information-search-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.public-information-search input[type="search"] {
+  flex: 1 1 12rem;
+  min-height: 2.75rem;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.45rem;
+  background: rgb(255 255 255 / 4%);
+  color: inherit;
+}
+
+.public-information-search-clear {
+  min-height: 2.75rem;
+  padding: 0.45rem 0.7rem;
+}
+
+.public-information-search-clear:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.public-information-search-count {
+  margin: 0;
+  color: var(--run-a-muted);
+  font-size: 0.82rem;
+}
+
 .public-information-panel button:focus-visible,
-.public-information-panel summary:focus-visible {
+.public-information-panel summary:focus-visible,
+.public-information-panel input:focus-visible {
   outline: 3px solid var(--run-a-focus);
   outline-offset: 2px;
+}
+
+/* --- Framing around the people in the room (PT3 / MODULAR-GEN14) -------- */
+
+/*
+ * The softened fill behind a lowered camera. Only drawn when the camera has
+ * been lowered to show a crown, and only ever the room's own painting.
+ */
+.scene-backdrop-fill {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  filter: blur(18px) brightness(0.72);
+  transform: scale(1.08);
+  pointer-events: none;
+}
+
+/*
+ * The foreground panel docks away from the people standing in the room. The
+ * left dock leaves the corner cluster its space.
+ */
+.life-shell .scene-backdrop-content[data-dock="right"] {
+  justify-content: flex-end;
+  padding-right: 20px;
+}
+
+.life-shell .scene-backdrop-content[data-dock="left"] {
+  justify-content: flex-start;
+  padding-left: 272px;
+}
+
+/* The lowered plate fades into its softened fill instead of meeting it at a line. */
+.scene-backdrop-camera--lowered .scene-environment-art {
+  mask-image: linear-gradient(to bottom, transparent 0, black 36px);
+}
+
+/* The version stamp keeps its corner when the panel docks right. */
+.life-shell .scene-backdrop-content[data-dock="right"] {
+  padding-bottom: 2.4rem;
+}
+
+/* A side dock narrows to the room beside the people when it has to. */
+.life-shell .scene-backdrop-content[data-dock] > * {
+  max-width: var(--pg-dock-width, 100%);
 }

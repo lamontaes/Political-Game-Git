@@ -1,3 +1,6 @@
+import { acceptedMainComparableReplay } from "./support/opening-conversation-control";
+import { createNewGameWorld } from "../src/presentation/new-game";
+import { openOrdinaryLife } from "../src/presentation/ordinary-life";
 import { describe, expect, it } from "vitest";
 import {
   ordinaryConversationFingerprint,
@@ -54,7 +57,10 @@ const EXPECTED_COUNTS = {
 
 describe("PR79 optional consequence hook preserves ordinary subjects", () => {
   it("accounts explicitly for P2R2 initialization while preserving wording", () => {
-    const replay = ordinaryConversationReplayRecords();
+    const current = ordinaryConversationReplayRecords();
+    expect(current.household.initialNextSequence).toBe(112);
+    expect(current.householdCallback.initialNextSequence).toBe(112);
+    const replay = acceptedMainComparableReplay(current);
     const household = ordinaryConversationFingerprint(replay.household);
     const householdCallback = ordinaryConversationFingerprint(
       replay.householdCallback,
@@ -105,11 +111,11 @@ describe("PR79 optional consequence hook preserves ordinary subjects", () => {
 
       for (const relationship of household.records.relationship) {
         expect(eventIds.has(relationship.eventId)).toBe(true);
-        expect(relationship.stableKey).toContain("frontier-82");
+        expect(relationship.stableKey).toContain("frontier-112");
       }
       for (const commitment of household.records.commitment) {
         expect(eventIds.has(commitment.provenance.eventId)).toBe(true);
-        expect(commitment.stableKey).toContain("frontier-82");
+        expect(commitment.stableKey).toContain("frontier-112");
       }
       for (const due of household.records.aftermath) {
         const referencedEvents = due.entityIds.filter((id) =>
@@ -120,14 +126,14 @@ describe("PR79 optional consequence hook preserves ordinary subjects", () => {
         expect(
           due.provenance.sourceEntityIds.every((id) => eventIds.has(id)),
         ).toBe(true);
-        expect(due.stableKey).toContain("frontier-82");
+        expect(due.stableKey).toContain("frontier-112");
       }
       for (const turn of household.records.turns) {
         const commitmentId = turn.semantic.commitmentId;
         if (commitmentId !== null) {
           expect(commitmentIds.has(commitmentId)).toBe(true);
         }
-        expect(turn.semantic.turnKey).toContain("frontier-82");
+        expect(turn.semantic.turnKey).toContain("frontier-112");
       }
     }
   });
@@ -172,4 +178,46 @@ describe("PR79 optional consequence hook preserves ordinary subjects", () => {
       expected.wordingSha256,
     );
   });
+});
+
+it("accounts for the thirty versioned OPENING records and the actual canonical name", () => {
+  const game = createNewGameWorld({
+    startKind: "custom",
+    placeKey: "kentucky",
+    startAge: 34,
+    depth: "summarize-earlier-life",
+    startingLife: "ordinary-life",
+    household: "shares-a-home",
+    seed: "pr79-ordinary-baseline",
+    givenName: null,
+    familyName: null,
+  });
+  const world = openOrdinaryLife(game.world, game.playerPersonId);
+  const groups = [
+    world.history.personalityTendencies,
+    world.history.personalValues,
+    world.history.goalStates,
+  ].map((rows) =>
+    rows.filter((row) => row.stableKey.includes("opening-life-mind-v1")),
+  );
+  expect(groups.map((rows) => rows.length)).toEqual([10, 15, 5]);
+  expect(new Set(groups.flat().map((row) => row.personId)).size).toBe(5);
+  expect(world.people["person_159b46fda48b2fea"]?.givenName).toBe("Donna");
+});
+
+it("refuses unaccounted corruption before applying the explicit OPENING delta", () => {
+  for (const kind of ["identity", "reference", "wording"] as const) {
+    const corrupt = ordinaryConversationReplayRecords();
+    if (kind === "identity")
+      corrupt.household.records.landed[0]!.id = "event_corrupt_identity";
+    if (kind === "reference")
+      corrupt.household.records.relationship[0]!.eventId =
+        "event_missing_reference";
+    if (kind === "wording")
+      corrupt.household.records.relationship[0]!.summary +=
+        " Unexpected wording.";
+    expect(() => acceptedMainComparableReplay(corrupt)).toThrow(
+      "Unexpected OPENING leaf",
+    );
+  }
 });

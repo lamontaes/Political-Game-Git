@@ -1,4 +1,7 @@
+import { SocialInvitationPanel } from "../presentation/SocialInvitationPanel";
 import { useState } from "react";
+import { CareerPathsPanel } from "./CareerPathsPanel";
+import { EducationOptionsPanel } from "./EducationOptionsPanel";
 import type {
   EntityId,
   FutureTransitionHandlerRegistry,
@@ -41,11 +44,14 @@ export interface LifePathsPanelProps {
   readonly world: World;
   readonly onWorldChange: (world: World) => void;
   readonly transitionHandlers?: FutureTransitionHandlerRegistry;
+  /** False when the surface mounting this already carries the same title. */
+  readonly headed?: boolean;
 }
 export function LifePathsPanel({
   world,
   onWorldChange,
   transitionHandlers,
+  headed = true,
 }: LifePathsPanelProps) {
   const [notice, setNotice] = useState("");
   const [person, setPerson] = useState<EntityId | "">("");
@@ -82,10 +88,27 @@ export function LifePathsPanel({
     world.people[id]?.givenName + " " + world.people[id]?.familyName;
   return (
     <section aria-label="Education and work">
-      <h2>Education and work</h2>
+      {/*
+        The frame that opens this panel is already titled "Education and work",
+        so repeating it here is the duplicated heading the owner reported. The
+        proofs that mount this panel on their own still want a heading, and the
+        region keeps its accessible name either way.
+      */}
+      {headed ? <h2>Education and work</h2> : null}
       <p role="status" aria-live="polite">
         {notice}
       </p>
+      <CareerPathsPanel
+        world={world}
+        onWorldChange={onWorldChange}
+        transitionHandlers={handlers}
+      />
+      <EducationOptionsPanel world={world} onWorldChange={onWorldChange} />
+      <SocialInvitationPanel
+        world={world}
+        personId={actor}
+        onWorldChange={onWorldChange}
+      />
       <h3>Available paths</h3>
       <p>These opportunities and terms are fictional parts of the game.</p>
       {LIFE_PATHS2_CATALOG.filter((p) => p.scope === "personal").map((path) => {

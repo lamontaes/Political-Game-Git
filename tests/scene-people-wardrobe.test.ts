@@ -49,6 +49,16 @@ vi.mock("../src/presentation/scene-composition", () => ({
   composeSceneCharacter: vi.fn((request) => ({
     complete: true,
     recipe: { context: { poseFamily: "standing-neutral" } },
+    /*
+     * `SceneCharacterPresentation` always carries these, empty when the
+     * composition is clean, and the planner now reads them on every path
+     * rather than only on the way to refusing — a figure that drew against an
+     * uncalibrated room was reporting an unqualified success. This double left
+     * them off, which a `vi.mock` factory is not type-checked against, so it
+     * modelled a shape the real compositor cannot produce.
+     */
+    poseGaps: [],
+    diagnostics: [],
     layers: [
       {
         assetId: "planning-seam-layer",

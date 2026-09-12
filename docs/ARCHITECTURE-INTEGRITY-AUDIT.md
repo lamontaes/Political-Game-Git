@@ -920,6 +920,55 @@ the Stage 6 baseline or campaign-clock ownership.
 | Persistence and history         | Confirmed             | Successful statements/corrections are append-only, refused writes are zero-write, and save/reload preserves the exact records.                                                                                                                                                                        |
 | Clock and ownership             | Confirmed unchanged   | Compliance writers retain the world's existing date/moment/action sequence. No #135 clock file, municipal procedure, or global navigation root is changed.                                                                                                                                            |
 
+## UI transfer adapter composition audit — 2026-09-08
+
+The exclusive UI recipient composes the frozen LIFE, EXEC, JUD, PEOPLE, ENV and
+LEG adapters with the recovered production shell. One canonical World, person,
+clock and save repository remain authoritative. Shell references use the existing
+database's additive interface store; navigation and record reads do not advance
+simulation time. No Stage 6 policy/mind rule or probability model is changed.
+
+- **Corrected expectations:** LIFE-PATHS2's supplied contention regression explicitly
+  requires one assignee minute across all assignments, including unbound legacy
+  WorkItems. The older D-Lite fixture expected 65 minutes on the meeting brief and
+  another 50 minutes on the same person's summary during one 65-minute interval.
+  Its timing assertions now verify the earlier task's 65 minutes, zero concurrent
+  summary work, and both tasks' 140 total minutes after 140 elapsed minutes. Player
+  activity timing and subsequent travel/meeting assertions are preserved. The
+  new shared-capacity rule is not scoped away to grandfather double execution.
+- **Corrected expectations:** PEOPLE's owner-supplied placement test uses the
+  registered room's actual anchor capacity and retains uniqueness/determinism,
+  with an added no-real-art-without-calibration guard. The old arbitrary cap of
+  three does not override authored room geometry.
+- **Confirmed compatible:** exact selected-person/document IDs, eligible Talk,
+  save/reload reference order/size, actual completed-attendance place/presence,
+  and released-art gates have bounded normal-route browser proof.
+- **Dependency-bound:** OPENING/MUNI final root integration and complete composed
+  proof remain pending their immutable deliveries. Historical raster decode-error
+  and placeholder-consumer findings remain explicit UI follow-ups. Automated proof
+  does not constitute human visual acceptance.
+
+## NEWS-HELP2 Public Information Audit — 2026-09-08
+
+This audit rechecks the new public-information rule against canonical history,
+legislative identity, disclosure, persistence, scene ownership, and the
+accepted Stage 6/6.5 boundaries.
+
+| Concern                                 | Disposition          | Evidence and rationale                                                                                                                                                                                                                                             |
+| --------------------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Canonical occurrence versus publication | Preserved            | `PublicationRecord` cites one earlier `HistoricalEvent`; event time, publication time, and append sequence remain separate. Projection never invokes the writer.                                                                                                   |
+| Vote truth versus intention             | Fail-closed          | Only a `LegislativeActionRecord.eventId` with an existing canonical `voteId` resolves as `recorded-vote`. Commitments and future questions cannot provide a tally.                                                                                                 |
+| Disclosure and private state            | Fail-closed          | Sources must be public and completed. Private, future, missing, setup, clock, discovery, and publication plumbing are rejected atomically. No mind, appraisal, prior, forecast, or external headline reader is imported.                                           |
+| History and persistence                 | Compatible extension | The optional family joins the existing contiguous sequence and stable-ID set. Root and correction editions are append-only; older snapshots with no family read as an empty digest. Existing JSON, SQLite, and browser payloads remain the only persistence paths. |
+| Shared newspaper/screen truth           | Preserved            | `projectPublicInformationDigest` owns accessible copy. The feature panel and `headline` surface adapter consume that same item; there is no second headline generator.                                                                                             |
+| ENV/UI-core ownership                   | Preserved            | No scene rectangle, z-order, access class, anchor, `PlayerGame`, or permanent-shell file changes. ENV's binder still decides physical receipt; UI-core receives a typed panel model and callbacks for final placement.                                             |
+| Inline help and people                  | Typed and read-only  | Civic concepts are selected by stable IDs and carry official-reference metadata. Person controls carry canonical `personId`; no name matching or glossary fallback exists. Browser tests cover Enter, touch, focus, Escape, and exact World read purity.           |
+| Stage scope                             | Bounded              | No live-news import, media business, audience/opinion system, institution/law rewrite, automatic knowledge propagation, or Stage 7 mechanic is added.                                                                                                              |
+
+LEARN: public visibility and publication are separate states. The durable guard
+is a typed publication source plus negative tests at the writer boundary; an
+empty television is never sufficient reason to widen disclosure.
+
 ## ECON-CONTEXT2 Source-to-Read-Model Audit — 2026-09-08
 
 This audit rechecks the source/simulation boundary, D-042 observation separation,
@@ -1031,24 +1080,23 @@ automated entry proof and independent/human acceptance remain separate claims.
 
 ## NEWS-HELP2 Public Information Audit — 2026-09-08
 
-This audit rechecks the new public-information rule against canonical history,
-legislative identity, disclosure, persistence, scene ownership, and the
-accepted Stage 6/6.5 boundaries.
+### LEG-FINISH4 — targeted composition and calendar boundary review
 
-| Concern                                 | Disposition          | Evidence and rationale                                                                                                                                                                                                                                             |
-| --------------------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Canonical occurrence versus publication | Preserved            | `PublicationRecord` cites one earlier `HistoricalEvent`; event time, publication time, and append sequence remain separate. Projection never invokes the writer.                                                                                                   |
-| Vote truth versus intention             | Fail-closed          | Only a `LegislativeActionRecord.eventId` with an existing canonical `voteId` resolves as `recorded-vote`. Commitments and future questions cannot provide a tally.                                                                                                 |
-| Disclosure and private state            | Fail-closed          | Sources must be public and completed. Private, future, missing, setup, clock, discovery, and publication plumbing are rejected atomically. No mind, appraisal, prior, forecast, or external headline reader is imported.                                           |
-| History and persistence                 | Compatible extension | The optional family joins the existing contiguous sequence and stable-ID set. Root and correction editions are append-only; older snapshots with no family read as an empty digest. Existing JSON, SQLite, and browser payloads remain the only persistence paths. |
-| Shared newspaper/screen truth           | Preserved            | `projectPublicInformationDigest` owns accessible copy. The feature panel and `headline` surface adapter consume that same item; there is no second headline generator.                                                                                             |
-| ENV/UI-core ownership                   | Preserved            | No scene rectangle, z-order, access class, anchor, `PlayerGame`, or permanent-shell file changes. ENV's binder still decides physical receipt; UI-core receives a typed panel model and callbacks for final placement.                                             |
-| Inline help and people                  | Typed and read-only  | Civic concepts are selected by stable IDs and carry official-reference metadata. Person controls carry canonical `personId`; no name matching or glossary fallback exists. Browser tests cover Enter, touch, focus, Escape, and exact World read purity.           |
-| Stage scope                             | Bounded              | No live-news import, media business, audience/opinion system, institution/law rewrite, automatic knowledge propagation, or Stage 7 mechanic is added.                                                                                                              |
+The delta retains one World, the existing clock, existing vote records and the
+existing adopted-provision writer. Typed working copies use explicit private
+history events; comparison/read/reload does not write. Batch adoption validates
+all current section references before appending and preserves original filed
+text and identities. The consumer requires exact proposal-to-recorded-vote
+provenance rather than inferring adoption from conversation or unrelated votes.
 
-LEARN: public visibility and publication are separate states. The durable guard
-is a typed publication source plus negative tests at the writer boundary; an
-empty television is never sufficient reason to widen disclosure.
+Ordinary filing resolves the member's existing election/work chain, sponsor and
+origin chamber. Employment, sponsorship, referral and committee appointment are
+kept distinct. No term dates, staffing authority, committee appointments,
+economic effects or production catalogs are synthesized. P12 adds sourced
+regular-session outer-limit data and production action-time refusal; it does not
+create a second calendar or mark pending bills dead. UI's refusal handler is
+consumed from its owner's exact `5df86b856d946fddfb8e63ad682a43cb076f8b4a`
+patch. Final tests and human/independent acceptance are reported separately.
 
 ## NEWS-PRESS4 Press Communication Audit — 2026-09-09
 
@@ -1092,3 +1140,18 @@ baseline.
 LEARN: a normal producer should save each person's decision before it creates
 downstream work. Request identity plus separate affirmative response records
 makes consent auditable without inventing agreement in a scheduling adapter.
+
+## PRESS-REACH13 Normal Reachability Audit — 2026-09-11
+
+This audit covers the missing journalism-role and public-pitch path in front of
+the accepted PRESS4/PRODUCERS6 loop. It does not add a publisher, News search
+or second consent engine.
+
+| Concern          | Disposition          | Evidence and rationale                                                                                                                                                                                                                                                                                                                                      |
+| ---------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Population       | Canonical generation | `seekCivicPressContact` prefers a living, available current journalist. Otherwise it creates a new person through `createCharacterHistoryContextPerson` and employs only that person via `createOrganization` / `createWorkRelationship`. Existing family and colleagues are not reassigned. Dead, unavailable and expired journalism roles are not reused. |
+| Knowledge        | Fail-closed          | Eligibility accepts a public, non-future civic basis. The request may convey that basis as `told-by` knowledge. Private, future and missing events stay ineligible.                                                                                                                                                                                         |
+| Consent          | Fail-closed          | Reporter decisions remain autonomous and durable: accept, defer for unfinished assigned work, or decline. Arrangement requires an accepted response. Adviser preparation stays optional.                                                                                                                                                                    |
+| Time and work    | Canonical reuse      | Prepared interviews still create the existing work item. Unprepared interviews skip it and allow drafting after arrangement.                                                                                                                                                                                                                                |
+| Publication      | Single path          | Off-record still has no story writer. On-record/background still call `publishPublicEvent`.                                                                                                                                                                                                                                                                 |
+| UI/ENV ownership | Preserved            | `PlayerGame` is untouched. `PressWorkspace` and `PressInterviewPanel` remain the existing consumers.                                                                                                                                                                                                                                                        |

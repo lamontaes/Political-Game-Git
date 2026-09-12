@@ -2,10 +2,13 @@ import { expect, test, type Page } from "./fixtures";
 
 import {
   enterLife,
+  expectNoDestination,
   fillCreator,
+  goTo,
   openCreator,
   openElsewhere,
   startLife as walkCreator,
+  chooseCreatorLocation,
 } from "./support/creator";
 
 /**
@@ -78,7 +81,9 @@ async function openSetup(
     // needs a peer to talk to at home gets one; a normal start generates it.
     ...(household ? { household } : {}),
   });
-  await enterLife(page);
+  // A calibrated start opens on the questions, not the life; the callers that
+  // answer them step into the life afterwards (see `takeOneBeat`).
+  if (calibration === "skip") await enterLife(page);
 }
 
 /** Answers the whole calibration, taking the option at `index` each time. */
@@ -123,8 +128,8 @@ async function readJournal(page: Page): Promise<string> {
 }
 
 async function keepAndWait(page: Page) {
-  await page.getByTestId("keep-world").click();
-  await expect(page.getByTestId("keep-world")).toHaveCount(0);
+  await goTo(page, "keep-world");
+  await expectNoDestination(page, "keep-world");
 }
 
 /* -------------------------------------------------------------------------- */
@@ -189,7 +194,7 @@ test.describe("The calibration is a set of situations, not a quiz", () => {
     // Declining goes straight into the life.
     await expect(page.getByTestId("play-screen")).toBeVisible();
 
-    await page.getByTestId("leave-game").click();
+    await goTo(page, "leave-game");
     await openSetup(page, 40, "deep");
     await expect(page.getByTestId("questionnaire-screen")).toBeVisible();
     // There is no per-question decline any more. The authority removed it: a
@@ -214,13 +219,7 @@ test.describe("The calibration is a set of situations, not a quiz", () => {
     await page.getByTestId("start-normal").click();
     await page.getByTestId("start-age").fill("31");
     await page.getByTestId("creator-continue-character").click();
-    await page.getByTestId("place-search").fill("Kentu");
-    await page
-      .getByTestId("place-choices")
-      .getByRole("button", { name: /Kentucky/i })
-      .first()
-      .click();
-    await page.getByTestId("creator-continue-place").click();
+    await chooseCreatorLocation(page, { age: 31, place: "Lexington" }, false);
 
     await expect(page.getByTestId("creator-stage-whoareyou")).toBeVisible();
     const answer = await page.getByTestId("whoareyou-answer").innerText();
@@ -276,7 +275,7 @@ test.describe("An adult has something to do, and it follows from their life", ()
     // offers rather than the single hard-wired panel it used to be.
     await openElsewhere(page, "people");
     await expect(
-      page.getByTestId("conversation-household-obligation"),
+      page.getByTestId("conversation-start-household-obligation"),
     ).toBeVisible();
   });
 
@@ -319,7 +318,9 @@ test.describe("Nothing on screen says how much a choice will matter", () => {
 
     const written = await page.evaluate(async () => {
       return new Promise<string>((resolve) => {
-        const open = indexedDB.open("political-life-worlds", 1);
+        // The current schema version, whatever it is; pinning version 1 made
+        // the open fail once the store moved on, and the test read "" here.
+        const open = indexedDB.open("political-life-worlds");
         open.onsuccess = () => {
           const transaction = open.result.transaction("worlds", "readonly");
           const request = transaction.objectStore("worlds").getAll();
@@ -358,6 +359,8 @@ test.describe("A life is kept, and comes back adapting the same way", () => {
     await page.reload();
     await page.getByTestId("continue").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
+    // A reload opens on the room's scene; the continuing life is one step in.
+    await enterLife(page);
 
     // Same record, and the same next situation — which is the claim that
     // matters, because the next situation is chosen from the calibration and
@@ -393,13 +396,19 @@ test.describe("A life is kept, and comes back adapting the same way", () => {
 
     await page.getByTestId("begin").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
-    const before = await page.getByTestId("play-screen").innerText();
+    /*
+     * Who the life is, read from the introduction itself. The first two lines
+     * of the whole play screen were whatever happened to render first — a
+     * housemate's name plate once the room's picture had decoded, the
+     * introduction before it had — so the same life could read differently.
+     */
+    const kicker = page
+      .getByTestId("opening-life-panel")
+      .locator(".life-exposition-kicker");
+    const identity = (await kicker.textContent()) ?? "";
 
     await page.goto(replay);
     await expect(page.getByTestId("play-screen")).toBeVisible();
-    const identity = before.split("\n").slice(0, 2).join("\n");
-    expect(await page.getByTestId("play-screen").innerText()).toContain(
-      identity,
-    );
+    await expect(kicker).toHaveText(identity);
   });
 });

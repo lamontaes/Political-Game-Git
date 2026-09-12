@@ -1,0 +1,5 @@
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts check
+
+corpus:check OK — 2453 templates, 270 warnings, 5724 unclassified candidates. 7 artifacts byte-identical; review-packet.html identical apart from the commit it records.

@@ -80,8 +80,15 @@ describe("the content export", () => {
   });
 
   it("shows an empty bank as empty rather than leaving it out", () => {
-    const markdown = exportContentMarkdown(index);
-    expect(markdown).toContain("content.production-catalogs");
+    const populated = index.banks.find(
+      (bank) => bank.id === "content.production-catalogs",
+    )!;
+    expect(populated.items.length).toBeGreaterThan(0);
+    const empty = new ContentBankRegistry()
+      .register(() => ({ ...populated, items: [] }))
+      .build();
+    const markdown = exportContentMarkdown(empty);
+    expect(markdown).toContain(populated.id);
     expect(markdown).toContain(
       "This bank registers no items. That is a fact about the game, not a gap in the report.",
     );

@@ -45,6 +45,9 @@ pointer/keyboard/snapshot browser test passed; the latter is explicitly diagnost
 Typecheck, feature lint/format, projection replay and all three required art
 commands passed. The UI owner published registration and the normal test at
 `2da3404325b1041cde2bdcb0c22bd8b79a6cb3da`; normal-route execution is pending. The
+jurisdiction is unknown. Source/consumer tests pass (18/18). The component
+browser harness is under verification; its proof is explicitly diagnostic.
+The exact UI registration patch applies to the pinned UI source. The
 [handoff](../../handoffs/civil-work7.md) records all unimplemented legal actions
 and dependencies. The full personnel journey remains unaccepted, so this plan
 stays active.

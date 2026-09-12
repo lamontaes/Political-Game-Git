@@ -1,6 +1,13 @@
 import { expect, test, type Page } from "./fixtures";
 
-import { enterLife, openElsewhere, startLife } from "./support/creator";
+import {
+  enterLife,
+  expectNoDestination,
+  goTo,
+  openElsewhere,
+  shellIdentity,
+  startLife,
+} from "./support/creator";
 
 /**
  * 79F, in a browser, on the route a player actually opens.
@@ -46,9 +53,10 @@ function watchForErrors(page: Page): string[] {
   return errors;
 }
 
-async function openDay(page: Page) {
-  await openElsewhere(page, "day");
-  await expect(page.getByTestId("ordinary-section")).toBeVisible();
+/** Running for office lives in Work (PT3), beside the day's time control. */
+async function openCampaign(page: Page) {
+  await openElsewhere(page, "work");
+  await expect(page.getByTestId("work-section-campaign")).toBeVisible();
 }
 
 async function liveUntilDecided(page: Page, maxDays = 45) {
@@ -75,10 +83,12 @@ test("a winner reaches real bargaining from normal play, and keeps it through a 
   await startLife(page, { age: 34, place: "Lexington", gender: "male" });
   await enterLife(page);
 
-  // Before the win there is no Work surface at all: nothing to leak.
-  await expect(page.getByTestId("elsewhere-work")).toHaveCount(0);
+  // Ordinary Work is available; it grants no institutional workspace.
+  await goTo(page, "elsewhere-work");
+  await expect(page.getByTestId("personal-work-section")).toBeVisible();
+  await expect(page.getByTestId("office-section")).toHaveCount(0);
 
-  await openDay(page);
+  await openCampaign(page);
   await page.getByTestId("file-candidacy").click();
   await page.getByTestId("campaign-fundraising").click();
   for (let day = 0; day < 3; day += 1) {
@@ -88,8 +98,8 @@ test("a winner reaches real bargaining from normal play, and keeps it through a 
   expect(await liveUntilDecided(page)).toBe(true);
   await expect(page.getByTestId("campaign-afterword")).toContainText("won.");
 
-  // The win opened the office; the residence HUD still says Lexington.
-  await expect(page.getByTestId("life-hud")).toContainText("Lexington");
+  // The win opened the office; the corner cluster still says Lexington.
+  expect(await shellIdentity(page)).toContain("Lexington");
   await openElsewhere(page, "work");
   await expect(page.getByTestId("office-section")).toContainText(
     "Kentucky legislature",
@@ -134,13 +144,13 @@ test("a winner reaches real bargaining from normal play, and keeps it through a 
 
   // Save from the ordinary repository, then reload the browser.
   await page.getByTestId("leave-floor").click();
-  await page.getByTestId("keep-world").click();
-  await expect(page.getByTestId("keep-world")).toHaveCount(0);
+  await goTo(page, "keep-world");
+  await expectNoDestination(page, "keep-world");
   await page.reload();
   await page.getByTestId("continue").click();
   await expect(page.getByTestId("play-screen")).toBeVisible();
   await enterLife(page);
-  await expect(page.getByTestId("life-hud")).toContainText("Lexington");
+  expect(await shellIdentity(page)).toContain("Lexington");
 
   // The same seat, chamber and bill are still there after the reload.
   await openElsewhere(page, "work");

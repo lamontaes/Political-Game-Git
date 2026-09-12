@@ -1,0 +1,13 @@
+=== start age 10 — player person_7dca448c1254dda5 ===
+  Clara Poole            person_05c7ef3bf3da0e91  kind=unavailable reason=Clara Poole is not somewhere you can talk to them right now.
+  Aiden Poole            person_9f9246b15fbe00a0  kind=unavailable reason=Aiden Poole is not somewhere you can talk to them right now.
+  Joseph Ramos           person_e8566fbde6979229  kind=unavailable reason=Joseph Ramos is not somewhere you can talk to them right now.
+  Clara Freeman          person_b76b638bb77bc85a  kind=available
+  Aiden Phillips         person_b76b628bb77bc6a7  kind=available
+
+=== start age 34 — player person_fc0afdf29b6e7238 ===
+  Derek Summers          person_b1b308d13671f4d9  kind=available
+  Raymond Petty          person_3c0bb3b8c6c1582d  kind=unavailable reason=Raymond Petty is not somewhere you can talk to them right now.
+  Mei Sawyer             person_26ec676d0a1561f9  kind=unavailable reason=Mei Sawyer is not somewhere you can talk to them right now.
+  Catherine Fields       person_bb84a9f02e685712  kind=available
+

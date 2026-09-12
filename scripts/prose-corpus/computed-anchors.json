@@ -883,12 +883,220 @@
       "textRevision": "956c490a5f7b"
     },
     {
+      "anchor": "COMMIT_CONTRACTS-0092",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "A direct conversation with somebody present in the current opening-life scene.",
+      "occurrence": 0,
+      "textRevision": "d54f81ed6481"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0093",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "An ordinary moment",
+      "occurrence": 0,
+      "textRevision": "e5e2ab8a91f5"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0094",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "Speak to somebody who is here with you.",
+      "occurrence": 0,
+      "textRevision": "ee1be0763247"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0095",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player asked {addresseeName} if they wanted to talk.",
+      "occurrence": 0,
+      "textRevision": "cb73aa0e7f07"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0096",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player asked {addresseeName} if this should be a date.",
+      "occurrence": 0,
+      "textRevision": "ea0a92f084e9"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0097",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player asked {addresseeName} what they would like to do.",
+      "occurrence": 0,
+      "textRevision": "7a8555245664"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0098",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player asked {addresseeName} why.",
+      "occurrence": 0,
+      "textRevision": "a6a41fda2327"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0099",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player brought up an earlier conversation with {addresseeName}.",
+      "occurrence": 0,
+      "textRevision": "c56be3ef452d"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0100",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player greeted {addresseeName}.",
+      "occurrence": 0,
+      "textRevision": "bafa9d11ca46"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0101",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player let {addresseeName} know they had been heard.",
+      "occurrence": 0,
+      "textRevision": "801ef452a120"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0102",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player said goodbye to {addresseeName}.",
+      "occurrence": 0,
+      "textRevision": "f646db25cf32"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0103",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player spent time with {addresseeName}.",
+      "occurrence": 0,
+      "textRevision": "8ede7b3dd6b6"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0104",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player suggested playing a game with {addresseeName}.",
+      "occurrence": 0,
+      "textRevision": "772d1d341b16"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0105",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player suggested sitting and talking with {addresseeName}.",
+      "occurrence": 0,
+      "textRevision": "ff3cee6810cb"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0106",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "life talk",
+      "occurrence": 0,
+      "textRevision": "1fb1b9594055"
+    },
+    {
       "anchor": "GENERIC_RETURN-0001",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "GENERIC_RETURN",
       "text": "Something from a while back came up again.",
       "occurrence": 0,
       "textRevision": "05a14e8db969"
+    },
+    {
+      "anchor": "LIFE_TALK_INTENTS-0001",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "LIFE_TALK_INTENTS",
+      "text": "Ask if they want to talk",
+      "occurrence": 0,
+      "textRevision": "40f9d78fad79"
+    },
+    {
+      "anchor": "LIFE_TALK_INTENTS-0002",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "LIFE_TALK_INTENTS",
+      "text": "Ask if they would like this to be a date",
+      "occurrence": 0,
+      "textRevision": "d99688446528"
+    },
+    {
+      "anchor": "LIFE_TALK_INTENTS-0003",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "LIFE_TALK_INTENTS",
+      "text": "Ask what they would like to do",
+      "occurrence": 0,
+      "textRevision": "e4379c17e14a"
+    },
+    {
+      "anchor": "LIFE_TALK_INTENTS-0004",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "LIFE_TALK_INTENTS",
+      "text": "Ask why",
+      "occurrence": 0,
+      "textRevision": "13f4c8fc5dd4"
+    },
+    {
+      "anchor": "LIFE_TALK_INTENTS-0005",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "LIFE_TALK_INTENTS",
+      "text": "Let them know you heard",
+      "occurrence": 0,
+      "textRevision": "9e48e1a9d46d"
+    },
+    {
+      "anchor": "LIFE_TALK_INTENTS-0006",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "LIFE_TALK_INTENTS",
+      "text": "Say goodbye",
+      "occurrence": 0,
+      "textRevision": "22cabba56bbc"
+    },
+    {
+      "anchor": "LIFE_TALK_INTENTS-0007",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "LIFE_TALK_INTENTS",
+      "text": "Say hello",
+      "occurrence": 0,
+      "textRevision": "6d995dba1af0"
+    },
+    {
+      "anchor": "LIFE_TALK_INTENTS-0008",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "LIFE_TALK_INTENTS",
+      "text": "Spend half an hour together",
+      "occurrence": 0,
+      "textRevision": "37360153d7f6"
+    },
+    {
+      "anchor": "LIFE_TALK_INTENTS-0009",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "LIFE_TALK_INTENTS",
+      "text": "Suggest playing a game together",
+      "occurrence": 0,
+      "textRevision": "04517e13cbea"
+    },
+    {
+      "anchor": "LIFE_TALK_INTENTS-0010",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "LIFE_TALK_INTENTS",
+      "text": "Suggest sitting and talking together",
+      "occurrence": 0,
+      "textRevision": "5fd5faa03326"
+    },
+    {
+      "anchor": "LIFE_TALK_INTENTS-0011",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "LIFE_TALK_INTENTS",
+      "text": "Talk about an earlier conversation",
+      "occurrence": 0,
+      "textRevision": "f6f11212caa3"
     },
     {
       "anchor": "MunicipalWorkspace-0001",
@@ -1107,30 +1315,6 @@
       "textRevision": "398ae82a08fa"
     },
     {
-      "anchor": "MunicipalWorkspace-0028",
-      "sourcePath": "src/player/MunicipalWorkspace.tsx",
-      "symbol": "MunicipalWorkspace",
-      "text": "Municipal government",
-      "occurrence": 0,
-      "textRevision": "eda1cb399538"
-    },
-    {
-      "anchor": "MunicipalWorkspace-0029",
-      "sourcePath": "src/player/MunicipalWorkspace.tsx",
-      "symbol": "MunicipalWorkspace",
-      "text": "Municipal government",
-      "occurrence": 1,
-      "textRevision": "eda1cb399538"
-    },
-    {
-      "anchor": "MunicipalWorkspace-0030",
-      "sourcePath": "src/player/MunicipalWorkspace.tsx",
-      "symbol": "MunicipalWorkspace",
-      "text": "Municipal government",
-      "occurrence": 2,
-      "textRevision": "eda1cb399538"
-    },
-    {
       "anchor": "MunicipalWorkspace-0031",
       "sourcePath": "src/player/MunicipalWorkspace.tsx",
       "symbol": "MunicipalWorkspace",
@@ -1243,14 +1427,6 @@
       "textRevision": "0f73e8e53d10"
     },
     {
-      "anchor": "MunicipalWorkspace-0045",
-      "sourcePath": "src/player/MunicipalWorkspace.tsx",
-      "symbol": "MunicipalWorkspace",
-      "text": "Public visitor",
-      "occurrence": 0,
-      "textRevision": "710d5ca056e7"
-    },
-    {
       "anchor": "MunicipalWorkspace-0046",
       "sourcePath": "src/player/MunicipalWorkspace.tsx",
       "symbol": "MunicipalWorkspace",
@@ -1337,6 +1513,134 @@
       "text": "part-time employees; observed ",
       "occurrence": 0,
       "textRevision": "a56300e7ca19"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0058",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Pin {view.government.displayName}",
+      "occurrence": 0,
+      "textRevision": "1abd8754549c"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0059",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Unpin {view.government.displayName}",
+      "occurrence": 0,
+      "textRevision": "3c83191b1910"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0060",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "★ Pinned",
+      "occurrence": 0,
+      "textRevision": "4316a1e262ba"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0061",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "☆ Pin this government",
+      "occurrence": 0,
+      "textRevision": "c3868f824680"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0062",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": " ({state.completedEffortMinutes}/{item.effort?.requiredMinutes??0} minutes)",
+      "occurrence": 0,
+      "textRevision": "cdca0bf4c235"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0063",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": " — not represented in this save",
+      "occurrence": 0,
+      "textRevision": "0dfa192540cf"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0064",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Known people",
+      "occurrence": 0,
+      "textRevision": "9604f2b8d524"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0065",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Local government",
+      "occurrence": 0,
+      "textRevision": "95710bbf0f02"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0066",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Municipal government",
+      "occurrence": 0,
+      "textRevision": "eda1cb399538"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0067",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "No current officeholders are recorded in this save.",
+      "occurrence": 0,
+      "textRevision": "581e508b3632"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0068",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "No public meeting attendance is recorded for this government.",
+      "occurrence": 0,
+      "textRevision": "6d362e69fc90"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0069",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Pending work",
+      "occurrence": 0,
+      "textRevision": "f18b96b68dbd"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0070",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Publisher observations, research references, and capacity records for this government. These are not the normal gameplay screen.",
+      "occurrence": 0,
+      "textRevision": "351a6b46e08d"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0071",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Source review",
+      "occurrence": 0,
+      "textRevision": "9de096fb3a0f"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0072",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "You live in ",
+      "occurrence": 0,
+      "textRevision": "adac08386791"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0073",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Your standing here",
+      "occurrence": 0,
+      "textRevision": "95f6140cbf90"
     },
     {
       "anchor": "PHASE_SENTENCES-0001",
@@ -2251,14 +2555,6 @@
       "textRevision": "35b5cebde79d"
     },
     {
-      "anchor": "buildGrounding-0002",
-      "sourcePath": "src/presentation/life-introduction.ts",
-      "symbol": "buildGrounding",
-      "text": "You were raised by {introducePerson(context)}.",
-      "occurrence": 0,
-      "textRevision": "63cc07e9c396"
-    },
-    {
       "anchor": "buildGrounding-0003",
       "sourcePath": "src/presentation/life-introduction.ts",
       "symbol": "buildGrounding",
@@ -2275,20 +2571,28 @@
       "textRevision": "75d1ba529be9"
     },
     {
+      "anchor": "buildGrounding-0005",
+      "sourcePath": "src/presentation/life-introduction.ts",
+      "symbol": "buildGrounding",
+      "text": "You started work at {name} in {yearOf(work.startedAt)}.",
+      "occurrence": 0,
+      "textRevision": "b4addf5f87dd"
+    },
+    {
+      "anchor": "buildGrounding-0006",
+      "sourcePath": "src/presentation/life-introduction.ts",
+      "symbol": "buildGrounding",
+      "text": "{introducePerson(context)} has died.",
+      "occurrence": 0,
+      "textRevision": "a757f0ab51ac"
+    },
+    {
       "anchor": "buildLifeIntroduction-0001",
       "sourcePath": "src/presentation/life-introduction.ts",
       "symbol": "buildLifeIntroduction",
       "text": "At home with you:",
       "occurrence": 0,
       "textRevision": "6a074258f505"
-    },
-    {
-      "anchor": "buildLifeIntroduction-0002",
-      "sourcePath": "src/presentation/life-introduction.ts",
-      "symbol": "buildLifeIntroduction",
-      "text": "You live on your own.",
-      "occurrence": 0,
-      "textRevision": "b4319fce0ffb"
     },
     {
       "anchor": "buildLifeIntroduction-0003",
@@ -2619,6 +2923,14 @@
       "textRevision": "88c5f0b5664c"
     },
     {
+      "anchor": "describeBriefing-0008",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "describeBriefing",
+      "text": "You are somewhere ordinary, with people you know, and a moment to speak if you want it.",
+      "occurrence": 0,
+      "textRevision": "79c08f9fdb64"
+    },
+    {
       "anchor": "describeConversationHearing-0001",
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "symbol": "describeConversationHearing",
@@ -2771,6 +3083,30 @@
       "textRevision": "902955604322"
     },
     {
+      "anchor": "directory-0003",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "directory",
+      "text": "Name or state",
+      "occurrence": 0,
+      "textRevision": "012a130c6f2e"
+    },
+    {
+      "anchor": "directory-0004",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "directory",
+      "text": "No supported government matches that search.",
+      "occurrence": 0,
+      "textRevision": "9a78a34afcdd"
+    },
+    {
+      "anchor": "directory-0005",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "directory",
+      "text": "Search other supported governments",
+      "occurrence": 0,
+      "textRevision": "77334b43988c"
+    },
+    {
       "anchor": "elapsedPhrase-0001",
       "sourcePath": "src/presentation/life-narration.ts",
       "symbol": "elapsedPhrase",
@@ -2873,6 +3209,22 @@
       "text": "{person.familyName} for the {option.chamberName}",
       "occurrence": 0,
       "textRevision": "8e074194b004"
+    },
+    {
+      "anchor": "householdAbsenceLine-0001",
+      "sourcePath": "src/presentation/life-introduction.ts",
+      "symbol": "householdAbsenceLine",
+      "text": "No one else is recorded in your current household.",
+      "occurrence": 0,
+      "textRevision": "987c404d9518"
+    },
+    {
+      "anchor": "householdAbsenceLine-0002",
+      "sourcePath": "src/presentation/life-introduction.ts",
+      "symbol": "householdAbsenceLine",
+      "text": "Your current household is not recorded.",
+      "occurrence": 0,
+      "textRevision": "8d21a6746a69"
     },
     {
       "anchor": "humanSeries-0001",
@@ -3417,6 +3769,14 @@
       "text": "“We are fine now,” {shortPersonName(world,speaker.personId)} says, and means it.",
       "occurrence": 0,
       "textRevision": "c14665a1f11e"
+    },
+    {
+      "anchor": "openingBeat-0013",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "openingBeat",
+      "text": "{shortPersonName(world,personId)} is here with you.",
+      "occurrence": 0,
+      "textRevision": "17a822545b36"
     },
     {
       "anchor": "openingFacts-0001",
@@ -4425,6 +4785,254 @@
       "text": "Prepared private meeting notes for {meeting.title} using the recorded references and measure history.",
       "occurrence": 0,
       "textRevision": "35bd7e2a2b83"
+    },
+    {
+      "anchor": "replyFor-0001",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "Can we play a game we both know?",
+      "occurrence": 0,
+      "textRevision": "44f9b97dd12f"
+    },
+    {
+      "anchor": "replyFor-0002",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "Can we try a new game?",
+      "occurrence": 0,
+      "textRevision": "662ab7b0f797"
+    },
+    {
+      "anchor": "replyFor-0003",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "Hi again.",
+      "occurrence": 0,
+      "textRevision": "af7afdb158c8"
+    },
+    {
+      "anchor": "replyFor-0004",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "Hi, {world.people[playerPersonId]!.givenName}.",
+      "occurrence": 0,
+      "textRevision": "6d9e2e63a598"
+    },
+    {
+      "anchor": "replyFor-0005",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "I remember saying, “{remembered.context.immediateReaction}”",
+      "occurrence": 0,
+      "textRevision": "a54067801e89"
+    },
+    {
+      "anchor": "replyFor-0006",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "I said yes because I want to hear what you have to say.",
+      "occurrence": 0,
+      "textRevision": "be0a2e3d858c"
+    },
+    {
+      "anchor": "replyFor-0007",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "I want to spend time with you.",
+      "occurrence": 0,
+      "textRevision": "8306c5ef7b90"
+    },
+    {
+      "anchor": "replyFor-0008",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "I want to try something I haven't done before.",
+      "occurrence": 0,
+      "textRevision": "9172c0342abf"
+    },
+    {
+      "anchor": "replyFor-0009",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "I'd like some company. We could spend a little time together.",
+      "occurrence": 0,
+      "textRevision": "bb669f3dabd8"
+    },
+    {
+      "anchor": "replyFor-0010",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "I'd like to do something I already enjoy.",
+      "occurrence": 0,
+      "textRevision": "fa5f00b42eee"
+    },
+    {
+      "anchor": "replyFor-0011",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "I'd like to try something new. What did you have in mind?",
+      "occurrence": 0,
+      "textRevision": "9cd32704856d"
+    },
+    {
+      "anchor": "replyFor-0012",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "I'd rather do something familiar. We don't have to make a big plan.",
+      "occurrence": 0,
+      "textRevision": "644d1e55cf05"
+    },
+    {
+      "anchor": "replyFor-0013",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "I'd rather keep that to myself for now.",
+      "occurrence": 0,
+      "textRevision": "ba338e842c0b"
+    },
+    {
+      "anchor": "replyFor-0014",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "I'd rather not sit and talk right now. Thanks for asking.",
+      "occurrence": 0,
+      "textRevision": "e4853ffbfd58"
+    },
+    {
+      "anchor": "replyFor-0015",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "I'm glad we took some time together.",
+      "occurrence": 0,
+      "textRevision": "305855e33be8"
+    },
+    {
+      "anchor": "replyFor-0016",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "I'm listening. Go ahead.",
+      "occurrence": 0,
+      "textRevision": "77943cbdd259"
+    },
+    {
+      "anchor": "replyFor-0017",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "I'm not ready to talk about it. Please leave it there.",
+      "occurrence": 0,
+      "textRevision": "9f7a60789bfb"
+    },
+    {
+      "anchor": "replyFor-0018",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "It isn't what I feel like doing right now. We can leave it there.",
+      "occurrence": 0,
+      "textRevision": "461b4d84dbf0"
+    },
+    {
+      "anchor": "replyFor-0019",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "Let's do something together.",
+      "occurrence": 0,
+      "textRevision": "f669b8aeadf3"
+    },
+    {
+      "anchor": "replyFor-0020",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "No, thank you. I'd like to keep this as it is.",
+      "occurrence": 0,
+      "textRevision": "8de156125421"
+    },
+    {
+      "anchor": "replyFor-0021",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "Not a game right now, thanks. I'd rather leave it for another time.",
+      "occurrence": 0,
+      "textRevision": "d0b7888eedf0"
+    },
+    {
+      "anchor": "replyFor-0022",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "Not right now. Can we talk about something else?",
+      "occurrence": 0,
+      "textRevision": "6505b3297e58"
+    },
+    {
+      "anchor": "replyFor-0023",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "See you.",
+      "occurrence": 0,
+      "textRevision": "61adafbd65d8"
+    },
+    {
+      "anchor": "replyFor-0024",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "Sure. What did you want to talk about?",
+      "occurrence": 0,
+      "textRevision": "ca736e25008d"
+    },
+    {
+      "anchor": "replyFor-0025",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "Thanks for hearing me out.",
+      "occurrence": 0,
+      "textRevision": "85e413f8d9a4"
+    },
+    {
+      "anchor": "replyFor-0026",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "That sounds like a way I'd enjoy spending time together.",
+      "occurrence": 0,
+      "textRevision": "637665ef173a"
+    },
+    {
+      "anchor": "replyFor-0027",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "We haven't talked about that.",
+      "occurrence": 0,
+      "textRevision": "83e74a57d1bf"
+    },
+    {
+      "anchor": "replyFor-0028",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "Yes, I'd like to play a game together.",
+      "occurrence": 0,
+      "textRevision": "66f2dc42a0ee"
+    },
+    {
+      "anchor": "replyFor-0029",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "Yes. I'd like that. We could sit and talk for a while.",
+      "occurrence": 0,
+      "textRevision": "ae28db5233a4"
+    },
+    {
+      "anchor": "replyFor-0030",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "Yes. Let's sit and talk for a while.",
+      "occurrence": 0,
+      "textRevision": "714ed05c3a75"
+    },
+    {
+      "anchor": "replyFor-0031",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "Yes. Tell me what's on your mind.",
+      "occurrence": 0,
+      "textRevision": "271b59880924"
     },
     {
       "anchor": "requirementNoteFor-0001",

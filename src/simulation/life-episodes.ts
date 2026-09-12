@@ -1,3 +1,4 @@
+import { lifeCircumstancesFor } from "./life-circumstances";
 import type { AdultAftermathKind, LifeStakesTier } from "./adult-situations";
 import {
   applyCharacterHistoryPlan,
@@ -109,7 +110,9 @@ export type EpisodeFactKey =
   | "commitment.open"
   | "incident.active"
   | "person.recurring"
-  | "thread.pressing";
+  | "thread.pressing"
+  | "work.coverage-requested"
+  | "school.shared-assignment";
 
 /**
  * What a character is actually in a position to do.
@@ -150,6 +153,7 @@ export type EpisodeCapabilities = ReadonlyMap<
 >;
 
 export interface EpisodeFact {
+  readonly counterpartPersonId?: EntityId;
   readonly key: EpisodeFactKey;
   readonly holds: boolean;
   /** The records that answered it. Empty exactly when it does not hold. */
@@ -178,8 +182,7 @@ export function episodeCapabilities(
   const capabilities = new Map<EpisodeCapabilityKey, EpisodeCapability>();
   const person = world.people[personId];
   if (!person) return capabilities;
-  const cutoff = currentLifeCutoff(world);
-  void asOfDate;
+  const cutoff = { ...currentLifeCutoff(world), asOfDate };
 
   function record(
     key: EpisodeCapabilityKey,
@@ -287,6 +290,7 @@ export function episodeCapabilities(
  * offered.
  */
 export type EpisodeRoleKey =
+  | "school-peer"
   /** Somebody on the same household record. */
   | "household-companion"
   /**
@@ -343,7 +347,17 @@ export interface EpisodeRoleBinding {
 
 export type EpisodeRequirement =
   | { readonly kind: "withheld"; readonly reason: string }
-  | { readonly kind: "fact"; readonly fact: EpisodeFactKey }
+  | {
+      readonly kind: "local-time-window";
+      readonly startMinute: number;
+      readonly endMinuteExclusive: number;
+    }
+  | { readonly kind: "home-recorded" }
+  | {
+      readonly kind: "fact";
+      readonly fact: EpisodeFactKey;
+      readonly counterpartRole?: EpisodeRoleKey;
+    }
   | { readonly kind: "absent"; readonly fact: EpisodeFactKey }
   | { readonly kind: "age-at-least"; readonly age: number }
   | { readonly kind: "age-below"; readonly age: number }
@@ -509,6 +523,8 @@ export interface EpisodeExit {
 }
 
 export interface EpisodeFamily {
+  /** Authored everyday activities may start a new instance on a new calendar day. */
+  readonly recurrence?: "daily";
   readonly key: string;
   readonly family: NarrativeThreadFamily;
   readonly authority: EpisodeAuthority;
@@ -569,7 +585,7 @@ export function episodeFacts(
   const person = world.people[personId];
   const facts = new Map<EpisodeFactKey, EpisodeFact>();
   if (!person) return facts;
-  const cutoff = currentLifeCutoff(world);
+  const cutoff = { ...currentLifeCutoff(world), asOfDate };
   const threads = narrativeThreads(world, personId, asOfDate);
 
   function record(
@@ -792,6 +808,34 @@ export function episodeFacts(
     "Something on an open thread has come due.",
   );
 
+  for (const circumstance of lifeCircumstancesFor(world, personId, cutoff)) {
+    const key: EpisodeFactKey =
+      circumstance.kind === "colleague-coverage-request"
+        ? "work.coverage-requested"
+        : "school.shared-assignment";
+    facts.set(key, {
+      key,
+      holds: true,
+      ...(circumstance.counterpartPersonId
+        ? { counterpartPersonId: circumstance.counterpartPersonId }
+        : {}),
+      anchors: [
+        {
+          store: "events",
+          recordId: circumstance.eventId,
+          stableKey: circumstance.stableKey,
+          at: circumstance.openedAt,
+          sequence: circumstance.sequence,
+          role: "context",
+          note: "The actual request and named counterpart.",
+        },
+      ],
+      detail:
+        circumstance.kind === "colleague-coverage-request"
+          ? "A colleague asked for shift coverage and stated a funeral reason."
+          : "A recorded shared assignment is due with the named person's contribution outstanding.",
+    });
+  }
   return facts;
 }
 
@@ -852,6 +896,39 @@ export function episodeRoleBindings(
       basis,
       anchors,
     });
+  }
+
+  const schoolEnrollments = activeEducationEnrollmentsAt(
+    world,
+    personId,
+    cutoff,
+  );
+  for (const enrollment of schoolEnrollments) {
+    for (const otherId of world.personOrder) {
+      if (
+        otherId === personId ||
+        !world.people[otherId] ||
+        world.people[otherId]!.birthDate > asOfDate
+      )
+        continue;
+      const shared = activeEducationEnrollmentsAt(world, otherId, cutoff).find(
+        (other) =>
+          other.enrollment.organizationId ===
+          enrollment.enrollment.organizationId,
+      );
+      if (!shared) continue;
+      bind("school-peer", otherId, "Active enrollment in the same school.", [
+        {
+          store: "educationEnrollments",
+          recordId: shared.enrollment.id,
+          stableKey: shared.enrollment.stableKey,
+          at: shared.enrollment.startedAt,
+          sequence: shared.enrollment.sequence,
+          role: "context",
+          note: "Shared active enrollment; scene presence is established separately.",
+        },
+      ]);
+    }
   }
 
   // Who is responsible for whom, before anything about who lives where. A
@@ -1212,7 +1289,15 @@ export function eligibleEpisodeBeats(
         person.birthDate < other.birthDate ? other.birthDate : person.birthDate;
       return ageOnDate(earlier, later) < 2;
     });
-    const instanceKey = episodeInstanceKey(family.key, bindings, family.roles);
+    const baseInstanceKey = episodeInstanceKey(
+      family.key,
+      bindings,
+      family.roles,
+    );
+    const instanceKey =
+      family.recurrence === "daily"
+        ? `${baseInstanceKey}@${asOfDate}`
+        : baseInstanceKey;
     const instanceStages = played.filter(
       (entry) => entry.instanceKey === instanceKey,
     );
@@ -1230,6 +1315,10 @@ export function eligibleEpisodeBeats(
             instanceStages,
             age,
             asOfDate,
+            minuteOfDay:
+              asOfDate === world.currentDate
+                ? world.currentMoment.minuteOfDay
+                : null,
           }).satisfied,
       ),
     );
@@ -1260,6 +1349,10 @@ export function eligibleEpisodeBeats(
           instanceStages,
           age,
           asOfDate,
+          minuteOfDay:
+            asOfDate === world.currentDate
+              ? world.currentMoment.minuteOfDay
+              : null,
         });
         if (!outcome.satisfied) {
           exclusions.push({
@@ -1284,7 +1377,18 @@ export function eligibleEpisodeBeats(
         const binding = bindingForStageRole(bindings, stage, role);
         return binding ? [binding] : [];
       });
-      if (stageBindings.length !== neededRoles.length) continue;
+      if (stageBindings.length !== neededRoles.length) {
+        for (const role of neededRoles) {
+          if (stageBindings.some((binding) => binding.role === role)) continue;
+          exclusions.push({
+            episodeKey: family.key,
+            stageKey: stage.key,
+            requirement: { kind: "role", role },
+            detail: `No eligible person can fill the required ${role} role for this stage.`,
+          });
+        }
+        continue;
+      }
 
       // Persistent roles keep the existing first-binding identity. A stage's
       // age gates may select somebody else; withholding is safer than writing
@@ -1433,6 +1537,7 @@ interface RequirementCheckInput {
   readonly instanceStages: readonly PlayedEpisodeStage[];
   readonly age: number;
   readonly asOfDate: IsoDate;
+  readonly minuteOfDay: number | null;
 }
 
 interface RequirementOutcome {
@@ -1452,12 +1557,38 @@ function checkRequirement(input: RequirementCheckInput): RequirementOutcome {
     asOfDate,
   } = input;
   switch (requirement.kind) {
+    case "home-recorded":
+      return {
+        satisfied:
+          facts.get("household.shared")?.holds === true ||
+          facts.get("household.alone")?.holds === true,
+        anchors: [],
+        detail: "Requires a recorded current household.",
+      };
+    case "local-time-window":
+      return {
+        satisfied:
+          input.minuteOfDay !== null &&
+          Number.isInteger(requirement.startMinute) &&
+          Number.isInteger(requirement.endMinuteExclusive) &&
+          requirement.startMinute >= 0 &&
+          requirement.endMinuteExclusive <= 1440 &&
+          input.minuteOfDay >= requirement.startMinute &&
+          input.minuteOfDay < requirement.endMinuteExclusive,
+        anchors: [],
+        detail: "Requires the authored local time window.",
+      };
     case "withheld":
       return { satisfied: false, anchors: [], detail: requirement.reason };
     case "fact": {
       const fact = facts.get(requirement.fact);
       return {
-        satisfied: fact?.holds === true,
+        satisfied:
+          fact?.holds === true &&
+          (!requirement.counterpartRole ||
+            bindings.find(
+              (binding) => binding.role === requirement.counterpartRole,
+            )?.personId === fact.counterpartPersonId),
         anchors: fact?.anchors ?? [],
         detail:
           fact?.holds === true

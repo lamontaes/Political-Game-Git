@@ -16,6 +16,11 @@ for (const set of ["dev", "real"]) {
   test(`saved ${set} world keeps identity across actual wardrobe changes, pointer and keyboard`, async ({
     page,
   }) => {
+    // The reload assertion below needs more than the default 5s under load;
+    // give the rest of the test (a keyboard wardrobe change and a screenshot
+    // after it) enough of the default 30s budget left over once that wait
+    // has actually spent time on it.
+    test.setTimeout(60_000);
     await page.goto(`/?view=character-proof&set=${set}`);
     const authored = page
       .getByTestId("people1-dossier-consumers")
@@ -48,9 +53,16 @@ for (const set of ["dev", "real"]) {
     await page.getByTestId("character-proof-save").click();
     await page.getByTestId("character-proof-reload").focus();
     await page.keyboard.press("Enter");
+    // A real browser reload of this dev route re-fetches and re-transforms
+    // the whole Vite module graph before React mounts anything into #root -
+    // confirmed (twice, on two different heads including one predating any
+    // of this session's changes) to occasionally run past the default 5s
+    // assertion timeout under load. Not a race in the app: everything after
+    // this point passes once the remount actually completes.
     await expect(page.getByTestId("character-proof")).toHaveAttribute(
       "data-world-source",
       "restored-snapshot",
+      { timeout: 20_000 },
     );
     await select.focus();
     await page.keyboard.press("f");
@@ -114,36 +126,23 @@ test("normalized candidate states name head and fit limitations beside the actua
   });
 });
 
-test("normal play uses the canonical person's portrait fallback and named people", async ({
-  page,
-}) => {
-  const { startLife, enterLife } = await import("./support/creator");
-  await page.goto("/");
-  await startLife(page, {
-    age: 10,
-    route: "custom",
-    childhood: true,
-    household: "shares-a-home",
-  });
-  await enterLife(page);
-  const portrait = page.getByTestId("life-hud").getByTestId("person-portrait");
-  await expect(portrait).toBeVisible();
-  await expect(portrait).toHaveAttribute("data-likeness", "none");
-  await expect(portrait.locator("img")).toHaveCount(0);
-  await expect(portrait.locator("strong")).not.toHaveText("");
-  const people = page.getByRole("complementary", {
-    name: "People in this life",
-  });
-  await expect(people).toBeVisible();
-  await expect(people.getByRole("listitem")).toHaveCount(2);
-  await page.getByTestId("elsewhere-people").click();
-  fs.mkdirSync(evidenceDir(), { recursive: true });
-  await page.screenshot({
-    path: path.join(evidenceDir(), "normal-player-people-1440.png"),
-  });
-  await page.setViewportSize({ width: 1200, height: 720 });
-  await expect(portrait).toBeVisible();
-  await page.screenshot({
-    path: path.join(evidenceDir(), "normal-player-people-1200.png"),
-  });
+/**
+ * Retired: this asserted the pre-scene-first shell - a portrait mounted
+ * inside `life-hud`, a "People in this life" complementary rail, and an
+ * `elsewhere-people` destination. The scene-first redesign (UI9-03) replaced
+ * all three deliberately: people render in the room itself
+ * (`scene-first-shell.spec.ts` asserts `people-rail` has count 0), the
+ * corner cluster shows an emblem and text rather than a portrait
+ * (`ShellNav.tsx`'s `shell-nav-identity`), and no `elsewhere-people`
+ * destination exists in current source. None of the three testids/roles
+ * this test looked for exist anywhere in `src/` any more - not a bug this
+ * reconciliation introduced, and not something to restore against an
+ * accepted redesign. Left retired rather than deleted so the obsolete
+ * expectation and its reason stay in history.
+ */
+test("normal play uses the canonical person's portrait fallback and named people", async () => {
+  test.skip(
+    true,
+    "Tests the pre-scene-first shell (life-hud portrait, People-in-this-life rail, elsewhere-people); all three were deliberately replaced by the scene-first redesign and no longer exist in source. See scene-first-shell.spec.ts for the current coverage of named people in the room.",
+  );
 });

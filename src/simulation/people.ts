@@ -691,3 +691,40 @@ export function drawCanonicalName(
     familyName: rng.pick(corpus.familyNames),
   };
 }
+
+/**
+ * The same draw, for somebody whose gender the world has already generated.
+ *
+ * OCD-UI-003 settles the direction: gender is the input to name generation, and
+ * a name is never read backwards to decide a gender. `createStartingPerson`
+ * already honours that for the player. Every other generated person — a
+ * guardian, a sibling, a housemate, a fictional governor — was getting an
+ * identity from one stream and a name from the whole corpus on another, with
+ * nothing joining them, which is how a household ended up introducing "Moses
+ * Mason, your older sister".
+ *
+ * `unstated` and an absent identity keep the unrestricted draw, because a
+ * person the world says nothing about must not be given a name that implies
+ * something. The gendered given name is taken from a FORKED stream, so the
+ * parent stream advances by exactly the two values it advanced by before this
+ * existed: adding this moves nobody's birthday and no other person in the
+ * world.
+ */
+export function drawCanonicalNameForGender(
+  rng: SeededRng,
+  gender: GenderIdentityKey | undefined,
+  corpusVersion: string = DEFAULT_CORPUS_VERSION,
+): { readonly givenName: string; readonly familyName: string } {
+  const drawn = drawCanonicalName(rng, corpusVersion);
+  if (gender === undefined || gender === "unstated") return drawn;
+  const pool =
+    gender === "male"
+      ? GIVEN_NAME_GENERATION_POOLS_V1.male
+      : gender === "female"
+        ? GIVEN_NAME_GENERATION_POOLS_V1.female
+        : GIVEN_NAME_GENERATION_POOLS_V1.neutral;
+  return {
+    givenName: rng.fork("canonical-name:gendered-given-name").pick(pool),
+    familyName: drawn.familyName,
+  };
+}

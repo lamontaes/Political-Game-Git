@@ -1,8 +1,11 @@
 import { expect, test, type Page } from "./fixtures";
 import {
   enterLife,
+  expectNoDestination,
+  goTo,
   openCreator,
   startLife as walkCreator,
+  chooseCreatorLocation,
 } from "./support/creator";
 
 /**
@@ -53,16 +56,9 @@ async function openSetup(page: Page, age: number) {
   await page.getByTestId("start-age").fill(String(age));
 }
 
-/** Picks Kentucky on the place step and advances past it. */
+/** Picks Kentucky, then Lexington, and advances past the place step. */
 async function chooseKentucky(page: Page) {
-  await expect(page.getByTestId("creator-stage-place")).toBeVisible();
-  await page.getByTestId("place-search").fill("Kentu");
-  await page
-    .getByTestId("place-choices")
-    .getByRole("button", { name: /Kentucky/i })
-    .first()
-    .click();
-  await page.getByTestId("creator-continue-place").click();
+  await chooseCreatorLocation(page, { age: 10, place: "Lexington" }, false);
 }
 
 test.describe("A player chooses who the character is", () => {
@@ -235,14 +231,17 @@ test.describe("The page says whose life this is", () => {
     const who = page.getByTestId("story-who").locator(".life-identity-name");
     const named = await who.innerText();
 
-    await page.getByTestId("keep-world").click();
+    await goTo(page, "keep-world");
     // Saving is asynchronous, and the control leaving is how the screen says
     // it finished. Reloading before that raced the write; every sibling spec
     // waits here, and this one did not.
-    await expect(page.getByTestId("keep-world")).toHaveCount(0);
+    await expectNoDestination(page, "keep-world");
     await page.reload();
     await page.getByTestId("continue").click();
-    // A loaded save has been introduced already, so it opens on the moment.
+    // A loaded save has been introduced already, so it opens on the room's
+    // scene; the continuing life, where the name is read, is one step in.
+    await expect(page.getByTestId("opening-life-scene")).toBeVisible();
+    await enterLife(page);
     await expect(who).toHaveText(named);
   });
 });

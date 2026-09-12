@@ -3,6 +3,12 @@ import { readFileSync } from "node:fs";
 
 import { describe, expect, it } from "vitest";
 
+import {
+  loadEducationCatalog,
+  type CatalogManifest,
+  type FetchLike,
+} from "../../src/education/catalog-load";
+
 /**
  * The committed education catalogs, checked the way they are actually trusted.
  *
@@ -15,10 +21,14 @@ import { describe, expect, it } from "vitest";
  * Dropping them out of the formatter is only honest if what actually protects
  * them is checked, so this is that check. Prettier was never the protection:
  * the files are content-addressed, `public/education/manifest.json` records
- * each chunk's digest and record count, and `EducationOptionsPanel` re-hashes
- * every chunk it fetches and refuses one whose bytes do not match. What was
- * missing was any test that the committed bytes still satisfy that contract,
- * or that the refusal is real rather than a line of code nobody runs.
+ * each chunk's digest and record count, and the loader re-hashes every chunk it
+ * fetches and refuses one whose bytes do not match.
+ *
+ * Be precise about the guarantee. This establishes INTERNAL CONSISTENCY — that
+ * the committed bytes are the bytes the manifest and the file names claim, and
+ * that the loader really refuses bytes that are not. That catches a
+ * hand-edited catalog, which is the risk the formatter's departure creates. It
+ * is NOT producer replay, and the last case below says so and pins it.
  */
 
 const DIR = "public/education";
@@ -99,25 +109,98 @@ describe("committed education catalogs", () => {
     }
   });
 
-  it("would refuse a corrupted chunk rather than load it", () => {
-    // The negative control for the browser loader's integrity check. One byte
-    // is enough; if this ever stopped being true the check in
-    // `EducationOptionsPanel` would be decorative.
+  it("refuses a corrupted chunk at the loader the panel actually uses", async () => {
+    /*
+     * The real negative control, and a correction.
+     *
+     * What stood here called this file's own sha256 helper on a flipped byte
+     * and asserted the digest changed — which is a property of SHA-256, not of
+     * this repository. It never touched the loader, so deleting the integrity
+     * check would not have failed it, and the comment claiming otherwise had it
+     * exactly backwards. Reported by the independent reviewer.
+     *
+     * This drives `loadEducationCatalog` with tampered bytes and watches it
+     * refuse. Remove the digest comparison and this fails.
+     */
     const chunk = [...manifest.chunks].sort(
       (a, b) => a.recordCount - b.recordCount,
     )[0]!;
-    const bytes = readFileSync(`${DIR}/${chunk.path}`);
-    expect(sha256(bytes)).toBe(chunk.sha256);
+    const good = readFileSync(`${DIR}/${chunk.path}`);
+    const oneManifest: CatalogManifest = { chunks: [chunk] };
 
-    const tampered = Buffer.from(bytes);
+    const respond = (bytes: Buffer): FetchLike =>
+      ((input: string) =>
+        Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve(oneManifest),
+          arrayBuffer: () =>
+            Promise.resolve(
+              input.endsWith("manifest.json")
+                ? new ArrayBuffer(0)
+                : bytes.buffer.slice(
+                    bytes.byteOffset,
+                    bytes.byteOffset + bytes.byteLength,
+                  ),
+            ),
+        })) as unknown as FetchLike;
+
+    // The committed bytes load.
+    const rows = await loadEducationCatalog(chunk.kind, respond(good));
+    expect(rows).toHaveLength(chunk.recordCount);
+
+    // One flipped byte is refused, by the check the panel relies on.
+    const tampered = Buffer.from(good);
     const at = Math.floor(tampered.length / 2);
     tampered[at] = tampered[at]! ^ 0x01;
-    expect(tampered.length).toBe(bytes.length);
-    expect(sha256(tampered)).not.toBe(chunk.sha256);
+    await expect(
+      loadEducationCatalog(chunk.kind, respond(tampered)),
+    ).rejects.toThrow(/integrity check failed/i);
 
-    // Truncation is the other way a chunk goes wrong, and it is the case the
-    // record count is there to catch when the digest is not consulted.
-    const truncated = bytes.subarray(0, bytes.length - 1);
-    expect(sha256(truncated)).not.toBe(chunk.sha256);
+    // So is a manifest that names a path which is not content-addressed.
+    const renamed: CatalogManifest = {
+      chunks: [{ ...chunk, path: "catalog-latest.json" }],
+    };
+    const renamedFetch = (() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve(renamed),
+        arrayBuffer: () => Promise.resolve(new ArrayBuffer(0)),
+      })) as unknown as FetchLike;
+    await expect(
+      loadEducationCatalog(chunk.kind, renamedFetch),
+    ).rejects.toThrow(/Invalid directory manifest/i);
+  });
+
+  it("is backed by a real producer replay, wired into the gate", () => {
+    /*
+     * This replaces the assertion that used to live here.
+     *
+     * It pinned the ABSENCE of a producer runner and said, in as many words,
+     * that the day one was added it should fail and be rewritten to check the
+     * runner instead of describing its lack. That day came: the compilation
+     * moved into `scripts/source/education-export.ts` as a builder that writes
+     * nothing, `scripts/source/check-education.ts` replays it against the
+     * committed catalogs byte for byte, and `education:check` runs in
+     * `validate`.
+     *
+     * So the statement inverts rather than disappears. Everything above still
+     * establishes only INTERNAL CONSISTENCY — a catalog matching a digest
+     * committed beside it by the same run — and that is still not producer
+     * replay. What changed is that the replay now exists somewhere, and this
+     * asserts it stays wired rather than silently dropping out of the gate and
+     * leaving 78 MB the education panel fetches outside every producer check
+     * again.
+     */
+    const scripts = JSON.parse(readFileSync("package.json", "utf8")) as {
+      scripts: Record<string, string>;
+    };
+    expect(
+      scripts.scripts["education:check"],
+      "the education producer replay lost its npm script",
+    ).toContain("check-education");
+    expect(
+      scripts.scripts.validate,
+      "education:check dropped out of the validate gate",
+    ).toContain("education:check");
   });
 });

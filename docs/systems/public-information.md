@@ -93,21 +93,25 @@ ground rules and anonymous-source explanation and Reuters' published standards:
 
 NEWS-PRESS4 adds no parallel press database. NEWS-PRODUCERS6 supplies the normal
 writer in front of that accepted loop. `projectEligiblePressReporters` reads
-existing people, current journalism work roles, and actual reporter knowledge;
-it creates nothing. `recordPressRequest` appends the source's limited request,
-exact pitch claim, direct knowledge and ordinary contact interaction. A
+existing people, current journalism work roles, and actual reporter knowledge
+or a public, non-future basis a pitch may convey; it creates nothing. `recordPressRequest` appends the source's limited request,
+exact pitch claim, direct knowledge and ordinary contact interaction. A public
+basis the reporter did not already know is conveyed as fallible `told-by`
+knowledge from that pitch; private and future facts stay closed. A
 separate `producePressRequestResponse` makes and durably records the requested
-reporter's own acceptance or refusal from that person's current role,
-knowledge and functional availability. The controlled source supplies neither
-the decision nor the reporter's words. No response or a refusal can arrange an
+reporter's own acceptance, deferral or refusal from that person's current role,
+knowledge, assigned work and functional availability. The controlled source supplies neither
+the decision nor the reporter's words. No response, a deferral or a refusal can arrange an
 interview.
 
 `projectEligiblePressAdvisers` reads only current colleagues who share the
 source's actual organization. Family or household status grants no staff role
 or willingness. A separate `producePressAdviserResponse` makes and durably
 records that person's acceptance or refusal from current shared work and
-functional availability. Only two accepted responses let
-`arrangeAcceptedPressInterview` delegate to the existing arrangement writer,
+functional availability. `arrangeAcceptedPressInterview` may proceed after
+reporter acceptance without an adviser; preparation minutes and feedback still
+require an accepted colleague. When both responses are accepted it
+delegates to the existing arrangement writer,
 which appends the limited arrangement event, fixed scheduled activity and one
 preparation work item assigned to that adviser. Every question basis remains
 an existing non-future event that the reporter learned or that was actually
@@ -127,6 +131,13 @@ The source chooses an intent and reviews consequential wording. A claim is
 written only after the confirmed text exactly matches that displayed wording.
 This confirmation governs what the source said; it never grants the outlet
 prepublication review or approval of a later story.
+
+`seekCivicPressContact` is the employment writer for a missing journalism role:
+it prefers a living, available person who already holds `profession:journalism`,
+otherwise it generates a new fictional reporter through the character-history
+population writer and employs that person at an authored civic news desk. It
+does not reassign an existing adult, create consent, private knowledge or an
+adviser. `projectPressReachSnapshot` is a read-only gap trace.
 
 Completion uses the existing scheduled-activity transition and clock. An
 on-record or on-background story becomes public only through an explicit

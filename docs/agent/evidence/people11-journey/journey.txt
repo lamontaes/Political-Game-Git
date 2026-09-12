@@ -1,0 +1,36 @@
+
+=== child-world-adult-relative (start age 10) ===
+  person        person_05c7ef3bf3da0e91
+  placed        person_05c7ef3bf3da0e91 drawn=true
+  room          hasArt=true layers=6
+  room notes    scene-declares-no-floor-calibration body-declares-no-contacts
+  dossier       likeness=modular layers=6
+  conversation  refused by the world — There is no conversation established with Clara Poole here yet.; surfaces=0
+  wardrobe      catalog=candidate-review chose=pg-top-001
+  after choice  hasArt=true layers=6
+  save          clicked through navigation
+  saved games   1
+  after reload  hasArt=true layers=6
+  identity      room==after-choice false (expected false once a garment is chosen)
+  PERSISTENCE   after-choice==after-reload true
+  components    pg_body_fl_standing_v1.png pg_shoe_001_low_top_sneakers_fl_v1.png pg_bottom_010_a_line_knee_skirt_fl_v1.png pg_top_011_structured_blazer_fl_v1.png pg_head_f_01_bald_neutral_v1.png pg_hair_f_black_004_shoulder_natural_curls_v1.png
+  after choice  pg_body_fl_standing_v1.png pg_shoe_001_low_top_sneakers_fl_v1.png pg_bottom_010_a_line_knee_skirt_fl_v1.png pg_top_001_short_sleeve_crew_tee_fl_v1.png pg_head_f_01_bald_neutral_v1.png pg_hair_f_black_004_shoulder_natural_curls_v1.png
+  after reload  pg_body_fl_standing_v1.png pg_shoe_001_low_top_sneakers_fl_v1.png pg_bottom_010_a_line_knee_skirt_fl_v1.png pg_top_001_short_sleeve_crew_tee_fl_v1.png pg_head_f_01_bald_neutral_v1.png pg_hair_f_black_004_shoulder_natural_curls_v1.png
+
+=== adult-start (start age 34) ===
+  person        person_bb84a9f02e685712
+  placed        person_bb84a9f02e685712 drawn=true
+  room          hasArt=true layers=6
+  room notes    scene-declares-no-floor-calibration body-declares-no-contacts
+  dossier       likeness=modular layers=6
+  conversation  opened; surfaces=7
+  wardrobe      catalog=candidate-review chose=pg-top-001
+  after choice  hasArt=true layers=6
+  save          clicked through navigation
+  saved games   1
+  after reload  hasArt=true layers=6
+  identity      room==after-choice false (expected false once a garment is chosen)
+  PERSISTENCE   after-choice==after-reload true
+  components    pg_body_fl_standing_v1.png pg_shoe_009_low_practical_flats_fl_v1.png pg_bottom_001_straight_leg_blue_jeans_fl_v1.png pg_top_006_pullover_sweater_fl_v1.png pg_head_f_01_bald_neutral_v1.png pg_hair_f_black_004_shoulder_natural_curls_v1.png
+  after choice  pg_body_fl_standing_v1.png pg_shoe_009_low_practical_flats_fl_v1.png pg_bottom_001_straight_leg_blue_jeans_fl_v1.png pg_top_001_short_sleeve_crew_tee_fl_v1.png pg_head_f_01_bald_neutral_v1.png pg_hair_f_black_004_shoulder_natural_curls_v1.png
+  after reload  pg_body_fl_standing_v1.png pg_shoe_009_low_practical_flats_fl_v1.png pg_bottom_001_straight_leg_blue_jeans_fl_v1.png pg_top_001_short_sleeve_crew_tee_fl_v1.png pg_head_f_01_bald_neutral_v1.png pg_hair_f_black_004_shoulder_natural_curls_v1.png

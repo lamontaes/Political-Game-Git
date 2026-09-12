@@ -1,3 +1,4 @@
+import { DeveloperReviewHub } from "./ui/DeveloperReviewHub";
 import { LegislationDevRoute } from "./player/LegislationWorkspace";
 import { MeasureFloorView } from "./player/MeasureFloorView";
 import { PlayerGame } from "./player/PlayerGame";
@@ -30,6 +31,7 @@ import { ScenePresentationProofView } from "./ui/ScenePresentationProofView";
  */
 export function App() {
   const view = new URLSearchParams(window.location.search).get("view");
+  if (view === "review") return <DeveloperReviewHub />;
   if (view === "developer") return <DeveloperViewer />;
   if (view === "causal-trace") return <CausalTraceView />;
   if (view === "character-proof") return <CharacterProofView />;

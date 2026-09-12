@@ -21,10 +21,15 @@ import {
   bargainingTopicLabel,
   describeBargainingBriefingContext,
 } from "./legislative-bargaining";
+import {
+  LIFE_TALK_INTENTS,
+  projectLifeConversation,
+} from "./life-conversation";
 import type {
   ConversationProgress,
   ConversationSubjectKey,
   HouseholdObligationConversationProgress,
+  LifeTalkConversationProgress,
   NeighborhoodMeetingConversationProgress,
   SchoolProjectConversationProgress,
   LegislativeBargainingProgress,
@@ -583,6 +588,56 @@ export function advanceNeighborhoodMeeting(
 }
 
 /* -------------------------------------------------------------------------- */
+/* A known person in the current opening-life scene.                           */
+/* -------------------------------------------------------------------------- */
+
+const lifeTalkSubject: ConversationSubjectPresentation<LifeTalkConversationProgress> =
+  {
+    subject: "life-talk",
+    topicLabel: () => "A moment together",
+    describeBriefing(world, room, progress) {
+      void world;
+      void room;
+      void progress;
+      return "You are somewhere ordinary, with people you know, and a moment to speak if you want it.";
+    },
+    availableIntents(world, room, addressee) {
+      if (addressee === "everyone") return [];
+      const view = projectLifeConversation(
+        world,
+        room.playerPersonId,
+        addressee as EntityId,
+      );
+      if (!view) return [];
+      return view.intents.map((intent) => ({
+        key: intent.key,
+        label: intent.label,
+        description: LIFE_TALK_INTENTS[intent.key],
+      }));
+    },
+    openingBeat(world, room, addressee) {
+      const personId =
+        addressee === "everyone"
+          ? room.eligibleAddresseePersonIds[0]!
+          : (addressee as EntityId);
+      const view = projectLifeConversation(
+        world,
+        room.playerPersonId,
+        personId,
+      );
+      const last = view?.transcript.at(-1);
+      const speaker = world.people[personId]!;
+      return {
+        speakerPersonId: personId,
+        speakerName: personName(speaker),
+        dialogue:
+          last?.reply ??
+          `${shortPersonName(world, personId)} is here with you.`,
+      };
+    },
+  };
+
+/* -------------------------------------------------------------------------- */
 /* The bill on the floor.                                                      */
 /*                                                                             */
 /* The content itself lives in ./legislative-bargaining, which is where the     */
@@ -702,6 +757,7 @@ const SUBJECTS = {
   "shared-intake-checklist": referralSubject,
   "transit-access-pilot-provision": legislativeDraftSubject,
   "measure-bargaining": measureBargainingSubject,
+  "life-talk": lifeTalkSubject,
   "household-obligation": householdObligationSubject,
   "school-project-share": schoolProjectSubject,
   "neighborhood-meeting-notice": neighborhoodMeetingSubject,
@@ -1413,6 +1469,41 @@ const COMMIT_CONTRACTS: Readonly<
           return null;
       }
     },
+  },
+  "life-talk": {
+    subject: "life-talk",
+    eventType: "life.conversation",
+    contextTag: "life.conversation",
+    subjectTag: "conversation.subject.life-talk",
+    setting: "An ordinary moment",
+    socialContext:
+      "A direct conversation with somebody present in the current opening-life scene.",
+    interactionTags: ["life.conversation"],
+    interactionKind: () => "contact:direct",
+    motivation: "Speak to somebody who is here with you.",
+    pressure: () => null,
+    choice: choiceWriter("life talk", {
+      greet: ({ addresseeName }) => `The player greeted ${addresseeName}.`,
+      activity: ({ addresseeName }) =>
+        `The player asked ${addresseeName} what they would like to do.`,
+      explain: ({ addresseeName }) => `The player asked ${addresseeName} why.`,
+      suggestGame: ({ addresseeName }) =>
+        `The player suggested playing a game with ${addresseeName}.`,
+      suggestQuiet: ({ addresseeName }) =>
+        `The player suggested sitting and talking with ${addresseeName}.`,
+      share: ({ addresseeName }) =>
+        `The player asked ${addresseeName} if they wanted to talk.`,
+      remember: ({ addresseeName }) =>
+        `The player brought up an earlier conversation with ${addresseeName}.`,
+      acknowledge: ({ addresseeName }) =>
+        `The player let ${addresseeName} know they had been heard.`,
+      leave: ({ addresseeName }) =>
+        `The player said goodbye to ${addresseeName}.`,
+      date: ({ addresseeName }) =>
+        `The player asked ${addresseeName} if this should be a date.`,
+      spendTime: ({ addresseeName }) =>
+        `The player spent time with ${addresseeName}.`,
+    }),
   },
 };
 

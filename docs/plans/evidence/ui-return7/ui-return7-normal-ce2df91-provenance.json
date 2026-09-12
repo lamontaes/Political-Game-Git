@@ -1,0 +1,45 @@
+{
+  "expectedIdentity": {
+    "workspace": "/private/tmp/pg-ui-core-release-transfer",
+    "head": "ce2df91f9ad81a8d6015b1e8c1ce1499f815e35f",
+    "branch": "codex/ui-core-release-transfer",
+    "dirty": false,
+    "sourceDigest": "0087d5dd8a6f1244db4d68ef495e76b5bfbf3d5621d5a440e7d0dd23078a1358"
+  },
+  "served": {
+    "workspace": "/private/tmp/pg-ui-core-release-transfer",
+    "head": "ce2df91f9ad81a8d6015b1e8c1ce1499f815e35f",
+    "branch": "codex/ui-core-release-transfer",
+    "dirty": false,
+    "sourceDigest": "0087d5dd8a6f1244db4d68ef495e76b5bfbf3d5621d5a440e7d0dd23078a1358",
+    "pid": 10095,
+    "runId": "ui-return7-normal-ce2df91"
+  },
+  "baseURL": "http://127.0.0.1:5371",
+  "projects": [
+    {
+      "name": "chromium",
+      "use": {
+        "baseURL": "http://127.0.0.1:5371",
+        "trace": "retain-on-failure",
+        "screenshot": "only-on-failure",
+        "video": "off",
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.7922.34 Safari/537.36",
+        "screen": {
+          "width": 1920,
+          "height": 1080
+        },
+        "deviceScaleFactor": 1,
+        "isMobile": false,
+        "hasTouch": false,
+        "defaultBrowserType": "chromium",
+        "channel": "chrome"
+      }
+    }
+  ],
+  "seedPolicy": "Each test retains its original control seed; actual URL/world seed is captured by review proof."
+}

@@ -11,6 +11,11 @@ import {
 } from "./conversation-subjects";
 import { schoolConversationRoom } from "./formative-play";
 import {
+  lifeTalkConversationRoom,
+  lifeTalkSessionStart,
+  lifeTalkTurnCount,
+} from "./life-talk-conversation";
+import {
   householdConversationRoom,
   neighborhoodConversationRoom,
 } from "./ordinary-life";
@@ -31,6 +36,7 @@ import type {
 } from "./run-b-conversation";
 import {
   createHouseholdObligationProgress,
+  createLifeTalkProgress,
   createNeighborhoodMeetingProgress,
   createSchoolProjectProgress,
 } from "./run-b-conversation-progress";
@@ -73,6 +79,11 @@ interface SubjectWiring {
  * office is worse than an unreachable subject.
  */
 const WIRINGS: readonly SubjectWiring[] = [
+  {
+    subject: "life-talk",
+    room: lifeTalkConversationRoom,
+    opening: createLifeTalkProgress,
+  },
   {
     subject: "household-obligation",
     room: householdConversationRoom,
@@ -266,12 +277,17 @@ export function projectPlayerConversation(
     session: createConversationSessionDescriptor(
       world,
       room,
-      openConversationSessionStart(world, personId, subject) ?? undefined,
+      subject === "life-talk" && addressee !== "everyone"
+        ? (lifeTalkSessionStart(world, personId, addressee as EntityId) ??
+            undefined)
+        : (openConversationSessionStart(world, personId, subject) ?? undefined),
     ),
     // Turn ordinals start at one and come from what the world recorded, not
     // from a counter that resets when a component does.
     turnOrdinal:
-      recordedConversationIntents(world, personId, subject).length + 1,
+      subject === "life-talk" && addressee !== "everyone"
+        ? lifeTalkTurnCount(world, personId, addressee as EntityId) + 1
+        : recordedConversationIntents(world, personId, subject).length + 1,
     addressees,
     audibilities,
     intents: settled

@@ -16,6 +16,7 @@ import type {
   DecisionConsideration,
   DecisionEvaluation,
   EntityId,
+  FutureTransitionHandlerRegistry,
   IsoDate,
   MindSourceReference,
   RelationshipChange,
@@ -42,11 +43,13 @@ import type {
   ConversationStanding,
 } from "./conversation-consequences";
 import type { ConversationCommitContract } from "./conversation-subjects";
+import { commitLifeTalkConversationTurn } from "./life-talk-conversation";
 import {
   canListenToRunBConversation,
   createRunBConversationProgress,
   isHouseholdObligationConversationProgress,
   isLegislativeBargainingProgress,
+  isLifeTalkConversationProgress,
   isNeighborhoodMeetingConversationProgress,
   isSchoolProjectConversationProgress,
   isRunBReferralConversationProgress,
@@ -219,6 +222,16 @@ export interface CommitConversationTurnInput {
   readonly addressee: ConversationAddressee;
   readonly audibility: ConversationAudibility;
   readonly intent: ConversationIntent;
+  /**
+   * The handlers any time this turn spends must answer to.
+   *
+   * Only a subject whose turns take clock time reads it — today, the ordinary
+   * talk with somebody in the scene, which spends its accepted two minutes.
+   * The scene panel always passed them when it committed that talk itself; the
+   * shared surface passes them here, so moving the talk into one box does not
+   * quietly drop a callback that falls due during it.
+   */
+  readonly transitionHandlers?: FutureTransitionHandlerRegistry;
 }
 
 export interface ConversationSemanticResult {
@@ -489,6 +502,9 @@ export function commitConversationTurn(
 ): CommitConversationTurnResult {
   const currentProgress = input.progress ?? createRunBConversationProgress();
   assertWorldIntegrity(inputWorld);
+  if (isLifeTalkConversationProgress(currentProgress)) {
+    return commitLifeTalkConversationTurn(inputWorld, input, currentProgress);
+  }
   validateConversationRoom(inputWorld, input.room);
   validateConversationSession(inputWorld, input.room, input.session);
   validateAddressee(input.room, input.addressee);

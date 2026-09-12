@@ -1,3 +1,5 @@
+import { composeExecutiveWorkHandlers } from "./executive-work";
+import { LIFE_PATHS2_HANDLERS } from "./life-paths2";
 import { requireCandidacyPack } from "./candidacy-packs";
 import { candidacyEligibility } from "./candidacy";
 import {
@@ -1707,11 +1709,14 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
   // so an advance that carries the election handler must also carry the ordinary
   // life handlers: election day and a promised conversation can fall due on the
   // same day, and time refuses to step over a due item it has no handler for.
-  return composeFutureTransitionHandlerRegistries(
-    createFutureTransitionHandlerRegistry([
-      [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
-    ]),
-    LIFE_TRANSITION_HANDLERS,
+  return composeExecutiveWorkHandlers(
+    composeFutureTransitionHandlerRegistries(
+      LIFE_PATHS2_HANDLERS,
+      createFutureTransitionHandlerRegistry([
+        [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
+      ]),
+      LIFE_TRANSITION_HANDLERS,
+    ),
   );
 }
 

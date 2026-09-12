@@ -1,8 +1,11 @@
 import { expect, test, type Page } from "./fixtures";
 import {
   enterLife,
+  expectNoDestination,
   fillCreator,
+  goTo,
   openElsewhere,
+  saveLife,
   startLife as walkCreator,
 } from "./support/creator";
 
@@ -90,16 +93,46 @@ function watchForErrors(page: Page): string[] {
 /** Waits until the world has actually been written before leaving or reloading. */
 /** Opens the journal, reads it, and closes it again. */
 async function readJournal(page: Page): Promise<string> {
-  await page.getByTestId("open-journal").click();
+  await goTo(page, "nav-journal-entry");
   await expect(page.getByTestId("journal")).toBeVisible();
-  const text = await page.getByTestId("journal").innerText();
-  await page.getByTestId("open-journal").click();
+  const text = await page.getByTestId("journal-entries").innerText();
+  await page
+    .getByTestId("journal")
+    .getByRole("button", { name: "Close", exact: true })
+    .click();
   return text;
 }
 
+async function savedWorlds(page: Page): Promise<unknown[]> {
+  return page.evaluate(async () => {
+    const db = await new Promise<IDBDatabase>((resolve, reject) => {
+      const request = indexedDB.open("political-life-worlds");
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    try {
+      return await new Promise<unknown[]>((resolve, reject) => {
+        const request = db
+          .transaction("worlds", "readonly")
+          .objectStore("worlds")
+          .getAll();
+        request.onsuccess = () =>
+          resolve(
+            request.result.map(
+              (record: { payload: string }) => JSON.parse(record.payload).world,
+            ),
+          );
+        request.onerror = () => reject(request.error);
+      });
+    } finally {
+      db.close();
+    }
+  });
+}
+
 async function keepAndWait(page: Page) {
-  await page.getByTestId("keep-world").click();
-  await expect(page.getByTestId("keep-world")).toHaveCount(0);
+  await goTo(page, "keep-world");
+  await expectNoDestination(page, "keep-world");
 }
 
 test.describe("Opening the game opens a game", () => {
@@ -120,6 +153,13 @@ test.describe("Opening the game opens a game", () => {
   });
 
   test("gives three cold boots three different people", async ({ page }) => {
+    // Three full cold boots - clear storage, reload, and the whole creator
+    // walk - each time. The composition this exercises has grown well past
+    // what the default 30s budget assumed; this reproduces as a timeout at a
+    // different stage on each attempt (creator-change-state, then
+    // creator-stage-whoareyou), which is a capacity ceiling, not a logic
+    // fault at either stage.
+    test.setTimeout(90_000);
     const names: string[] = [];
     for (let attempt = 0; attempt < 3; attempt += 1) {
       await freshBrowser(page);
@@ -148,11 +188,21 @@ test.describe("Opening the game opens a game", () => {
 
     await page.getByTestId("begin").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
-    const before = await page.getByTestId("play-screen").innerText();
+    await enterLife(page);
+    const before = await page.getByTestId("story-who").innerText();
+    await saveLife(page);
+    const original = await savedWorlds(page);
 
     await page.goto(replay);
     await expect(page.getByTestId("play-screen")).toBeVisible();
-    expect(await page.getByTestId("play-screen").innerText()).toBe(before);
+    await enterLife(page);
+    await expect(page.getByTestId("story-who")).toHaveText(before, {
+      useInnerText: true,
+    });
+    await saveLife(page);
+    const replayed = await savedWorlds(page);
+    expect(replayed).toHaveLength(2);
+    for (const world of replayed) expect(world).toEqual(original[0]);
   });
 });
 
@@ -175,9 +225,10 @@ test.describe("A new life is not a renamed fixture", () => {
     await freshBrowser(page);
     await startLife(page, { age: 41 });
 
-    // The day is one press away rather than stacked under the moment, and
-    // Work is not in the row at all for somebody who does not work in one.
-    await expect(page.getByTestId("elsewhere-work")).toHaveCount(0);
+    // Ordinary education/work is reachable without granting institutional powers.
+    await openElsewhere(page, "work");
+    await expect(page.getByTestId("personal-work-section")).toBeVisible();
+    await expect(page.getByTestId("office-section")).toHaveCount(0);
     await openElsewhere(page, "day");
     await expect(page.getByTestId("ordinary-section")).toBeVisible();
     await expect(page.getByTestId("office-section")).toHaveCount(0);
@@ -217,7 +268,8 @@ test.describe("A life is kept, and comes back", () => {
   }) => {
     await freshBrowser(page);
     await startLife(page, { age: 27 });
-    const before = await page.getByTestId("play-screen").innerText();
+    await enterLife(page);
+    const before = await page.getByTestId("story-who").innerText();
 
     await keepAndWait(page);
 
@@ -226,21 +278,21 @@ test.describe("A life is kept, and comes back", () => {
     await expect(page.getByTestId("play-screen")).toBeVisible();
     // The same person, the same age, the same place — the notice line above
     // them is session chrome and is allowed to differ.
-    const identity = before.split("\n").slice(0, 3).join("\n");
-    expect(await page.getByTestId("play-screen").innerText()).toContain(
-      identity,
-    );
+    await enterLife(page);
+    await expect(page.getByTestId("story-who")).toHaveText(before, {
+      useInnerText: true,
+    });
   });
 
   test("keeps two lives apart in the saved games list", async ({ page }) => {
     await freshBrowser(page);
     await startLife(page, { age: 22, place: "Kentucky" });
     await keepAndWait(page);
-    await page.getByTestId("leave-game").click();
+    await goTo(page, "leave-game");
 
     await startLife(page, { age: 55, place: "Alaska" });
     await keepAndWait(page);
-    await page.getByTestId("leave-game").click();
+    await goTo(page, "leave-game");
 
     await page.getByTestId("open-saves").click();
     await expect(page.getByTestId("save-entry")).toHaveCount(2);
@@ -250,7 +302,7 @@ test.describe("A life is kept, and comes back", () => {
     await freshBrowser(page);
     await startLife(page, { age: 31 });
     await keepAndWait(page);
-    await page.getByTestId("leave-game").click();
+    await goTo(page, "leave-game");
 
     await page.getByTestId("open-saves").click();
     await expect(page.getByTestId("save-entry")).toHaveCount(1);
@@ -270,12 +322,12 @@ test.describe("A life is kept, and comes back", () => {
     await freshBrowser(page);
     await startLife(page, { age: 29 });
     await keepAndWait(page);
-    await page.getByTestId("leave-game").click();
+    await goTo(page, "leave-game");
 
     // A record this build cannot read, written straight into storage.
     await page.evaluate(async () => {
-      await new Promise<void>((resolve) => {
-        const open = indexedDB.open("political-life-worlds", 1);
+      await new Promise<void>((resolve, reject) => {
+        const open = indexedDB.open("political-life-worlds");
         open.onsuccess = () => {
           const database = open.result;
           const transaction = database.transaction("worlds", "readwrite");
@@ -287,9 +339,9 @@ test.describe("A life is kept, and comes back", () => {
             payload: "{}",
           });
           transaction.oncomplete = () => resolve();
-          transaction.onerror = () => resolve();
+          transaction.onerror = () => reject(transaction.error);
         };
-        open.onerror = () => resolve();
+        open.onerror = () => reject(open.error);
       });
     });
 
@@ -321,15 +373,15 @@ test.describe("What is written to disk is a player's world", () => {
   /** Reads the stored records the way a player's browser holds them. */
   async function storedRecords(page: Page) {
     return page.evaluate(async () => {
-      return new Promise<readonly unknown[]>((resolve) => {
-        const open = indexedDB.open("political-life-worlds", 1);
+      return new Promise<readonly unknown[]>((resolve, reject) => {
+        const open = indexedDB.open("political-life-worlds");
         open.onsuccess = () => {
           const transaction = open.result.transaction("worlds", "readonly");
           const request = transaction.objectStore("worlds").getAll();
           request.onsuccess = () => resolve(request.result as unknown[]);
-          request.onerror = () => resolve([]);
+          request.onerror = () => reject(request.error);
         };
-        open.onerror = () => resolve([]);
+        open.onerror = () => reject(open.error);
       });
     });
   }
@@ -370,7 +422,7 @@ test.describe("What is written to disk is a player's world", () => {
     await page.getByTestId("story-options").getByRole("button").first().click();
     const remembered = await readJournal(page);
 
-    await page.getByTestId("leave-game").click();
+    await goTo(page, "leave-game");
     await expect(page.getByTestId("title-screen")).toBeVisible();
     await page.reload();
     await page.getByTestId("continue").click();
@@ -402,6 +454,7 @@ test.describe("What the world records, it keeps", () => {
     await keepAndWait(page);
     await page.reload();
     await page.getByTestId("continue").click();
+    await enterLife(page);
     // The same sentence the world wrote down, not a re-derived paraphrase.
     await page.getByTestId("open-journal").click();
     await expect(page.getByTestId("journal-entries")).toContainText(
@@ -419,6 +472,8 @@ test.describe("What the world records, it keeps", () => {
     await openElsewhere(page, "people");
     // A day now offers more than one conversation, so everything below is
     // scoped to the kitchen one rather than to whichever the page drew first.
+    // PT3: People starts it; the conversation is the one box in the room.
+    await page.getByTestId("conversation-start-household-obligation").click();
     const kitchen = page.getByTestId("conversation-household-obligation");
     await expect(kitchen).toBeVisible();
 
@@ -438,6 +493,7 @@ test.describe("What the world records, it keeps", () => {
     await page.reload();
     await page.getByTestId("continue").click();
     await openElsewhere(page, "people");
+    await page.getByTestId("conversation-start-household-obligation").click();
     // The conversation picks up where it was left, rather than reopening at
     // turn one because the screen forgot what the world remembered.
     await expect(
@@ -487,11 +543,96 @@ test.describe("Nothing on screen is developer vocabulary", () => {
     expect(screen).not.toMatch(/synthetic|lorem|TODO|placeholder/i);
 
     await keepAndWait(page);
-    await page.getByTestId("leave-game").click();
+    await goTo(page, "leave-game");
     await page.getByTestId("open-saves").click();
     expect(await page.getByTestId("saves-screen").innerText()).not.toMatch(
       DEVELOPER_WORDS,
     );
     expect(errors).toEqual([]);
   });
+});
+
+test("initial Keep becomes repeatable Save on the same slot across changes and reload", async ({
+  page,
+}) => {
+  await freshBrowser(page);
+  await startLife(page, { age: 9 });
+  const read = () =>
+    page.evaluate(async () => {
+      const db = await new Promise<IDBDatabase>((resolve, reject) => {
+        const request = indexedDB.open("political-life-worlds");
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+      const records = await new Promise<
+        Array<{ saveId: string; payload: string }>
+      >((resolve, reject) => {
+        const request = db
+          .transaction("worlds", "readonly")
+          .objectStore("worlds")
+          .getAll();
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+      db.close();
+      return records;
+    });
+  await keepAndWait(page);
+  const initial = await read();
+  expect(initial).toHaveLength(1);
+  const world = JSON.parse(initial[0]!.payload).world;
+  await saveLife(page);
+  await saveLife(page);
+  expect((await read()).map((r) => r.saveId)).toEqual(
+    initial.map((r) => r.saveId),
+  );
+  expect(JSON.parse((await read())[0]!.payload).world).toEqual(world);
+  await page.getByTestId("shell-nav-cluster").click();
+  await page.getByTestId("story-options").getByRole("button").first().click();
+  await saveLife(page);
+  const changed = await read();
+  expect(changed).toHaveLength(1);
+  expect(changed[0]!.saveId).toBe(initial[0]!.saveId);
+  const after = JSON.parse(changed[0]!.payload).world;
+  expect(after.id).toBe(world.id);
+  expect(after.control).toEqual(world.control);
+  expect(after.history).not.toEqual(world.history);
+  await page.reload();
+  await page.getByTestId("continue").click();
+  await enterLife(page);
+  await expectNoDestination(page, "keep-world");
+  await saveLife(page);
+  expect((await read())[0]!.saveId).toBe(initial[0]!.saveId);
+  expect(JSON.parse((await read())[0]!.payload).world).toEqual(after);
+});
+
+test("two normal browser tabs refuse an older World without overwriting the newer save", async ({
+  page,
+  context,
+}) => {
+  await freshBrowser(page);
+  await startLife(page, { age: 9 });
+  await saveLife(page);
+  const initial = await savedWorlds(page);
+  const other = await context.newPage();
+  await other.goto("/");
+  await other.getByTestId("continue").click();
+  await enterLife(other);
+  await page.getByTestId("shell-nav-cluster").click();
+  await page.getByTestId("story-options").getByRole("button").first().click();
+  await saveLife(page);
+  const newer = await savedWorlds(page);
+  expect(newer).toHaveLength(1);
+  expect(newer).not.toEqual(initial);
+  await goTo(other, "save-world");
+  await expect(
+    other.getByText(/This saved game was changed somewhere else/),
+  ).toBeVisible();
+  expect(await savedWorlds(other)).toEqual(newer);
+  await page.reload();
+  await page.getByTestId("continue").click();
+  await enterLife(page);
+  await saveLife(page);
+  expect(await savedWorlds(page)).toEqual(newer);
+  await other.close();
 });

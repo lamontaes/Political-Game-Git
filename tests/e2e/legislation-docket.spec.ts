@@ -2,7 +2,14 @@ import { programConfigurations } from "../../src/simulation/legislation-program-
 import { shotPath } from "./support/shot-path";
 import { expect, test, type Page } from "@playwright/test";
 
-import { enterLife, openElsewhere, startLife } from "./support/creator";
+import {
+  enterLife,
+  expectNoDestination,
+  goTo,
+  openElsewhere,
+  openShellMenu,
+  startLife,
+} from "./support/creator";
 
 /**
  * The owner's click path, in a browser, through the ordinary game entry.
@@ -68,9 +75,10 @@ async function freshBrowser(page: Page) {
   });
 }
 
-async function openDay(page: Page) {
-  await openElsewhere(page, "day");
-  await expect(page.getByTestId("ordinary-section")).toBeVisible();
+/** Running for office lives in Work (PT3), beside the day's time control. */
+async function openCampaign(page: Page) {
+  await openElsewhere(page, "work");
+  await expect(page.getByTestId("work-section-campaign")).toBeVisible();
 }
 
 async function liveUntilDecided(page: Page, maxDays = 45) {
@@ -87,7 +95,7 @@ async function wonSeatWithWorkOpen(page: Page) {
   await page.goto("/?seed=p85c-owner-0");
   await startLife(page, { age: 34, place: "Lexington", gender: "male" });
   await enterLife(page);
-  await openDay(page);
+  await openCampaign(page);
   await page.getByTestId("file-candidacy").click();
   await page.getByTestId("campaign-fundraising").click();
   for (let day = 0; day < 3; day += 1) {
@@ -259,13 +267,15 @@ test.describe("the docket, from the ordinary route", () => {
     await page.getByTestId("file-the-draft").click();
     await expect(page.getByTestId("docket-bill")).toBeVisible();
 
-    await page.getByTestId("keep-world").click();
-    await expect(page.getByTestId("keep-world")).toHaveCount(0);
+    // Keep lives in the corner menu; it is opened the way a player opens it.
+    await goTo(page, "keep-world");
+    await expectNoDestination(page, "keep-world");
     await page.reload();
     await page.getByTestId("continue").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await enterLife(page);
 
+    await openShellMenu(page);
     await page.getByTestId("elsewhere-work").focus();
     await page.keyboard.press("Space");
     await expect(page.getByTestId("docket-list")).toBeVisible();
@@ -330,8 +340,9 @@ test("saves compatible proposed changes through ordinary Work without rewriting 
       .filter({ hasText: "Proposed changes saved" }),
   ).toContainText("Proposed changes saved");
   expect(await clauses.innerText()).toBe(originalText);
-  await page.getByTestId("keep-world").click();
-  await expect(page.getByTestId("keep-world")).toHaveCount(0);
+  // Keep lives in the corner menu; it is opened the way a player opens it.
+  await goTo(page, "keep-world");
+  await expectNoDestination(page, "keep-world");
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
@@ -412,8 +423,9 @@ test("new service clauses, saved selection and unavailable scenario refusal work
   await page
     .getByTestId("docket-open-legislative-docket:kentucky:bill-001")
     .click();
-  await page.getByTestId("keep-world").click();
-  await expect(page.getByTestId("keep-world")).toHaveCount(0);
+  // Keep lives in the corner menu; it is opened the way a player opens it.
+  await goTo(page, "keep-world");
+  await expectNoDestination(page, "keep-world");
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);

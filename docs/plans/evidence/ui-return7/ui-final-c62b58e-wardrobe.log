@@ -1,0 +1,5 @@
+
+> political-life-rpg@0.2.0 derive:wave-a-wardrobe
+> node --import tsx scripts/art-asset-factory/cli-wave-a-wardrobe.ts --check
+
+Wave A wardrobe metadata is up to date. 12 downsampled bodies and 19 non-enlarged garments reproduced byte-for-byte; 49 historical enlarged candidates checked against banked hashes only, NOT accepted or re-generated.

@@ -1,0 +1,17 @@
+{
+  "art-inventory-connect2.txt": "fdeb8e0a4aceccfd2acf88515811c385742979cb3fbe029d5979a301fddb641b",
+  "art-qa-connect2.txt": "5d847f790f97a7011f2aa0c5541720dfcb302eed13eb5ae1dc1a17d963428a0a",
+  "art-validate-connect2.txt": "34c81ae3e18ae3aa1902fdad29240ed3b94379accf5ba83f98564b751c178a3d",
+  "browser-final-14.txt": "02caa97451548ecee3ba4af9138beb9fb4b815ef69ebca62f18fbffa0a9f18ba",
+  "build-connect2.txt": "84b0a7402d5a3c36d8347db5ce0bf35901a3723dfe777930ab99973268421a8a",
+  "demo-connect2.txt": "23577a0dbaf87b9f126d63017b5f75ab8e6db24854aa9711fe5a010bf7aa6cfd",
+  "format-connect2.txt": "a1e42754a9297f2279607d3638966865a531761374d8cdf443e22ae1af85904b",
+  "full-tests-connect2.txt": "7e24a3ae6744945f4f516a72ad98ebf9a145adbed7cd8beb6eefb1d392f9f1d4",
+  "infrastructure-connect2.txt": "61b8cbec47aa95c709fb89e9865420a349258d2c56f3375eafe4bc27609227c4",
+  "lint-connect2.txt": "4b20635aaa5f3cafad97e76ca9a19c5644c4c1441d14999845f8be60054581e2",
+  "replay-connect2.txt": "182cdde87df3c41c8752adeeb8825fb19e5d684fcd0e99fa6ea5d0208fc48fff",
+  "source-connect2.txt": "f4b43d3c9ea532930adcb8784811ad1b9fa0fb500e923773ee85cd5c0fd76f30",
+  "staff-life-base.txt": "bd544d6d73a5a0246a78815f891fc9aa84384b0f153d909fef1f20d6fb6dc62f",
+  "staff-main-base.txt": "fd0dbb584e288e949bd3f6b7ec5ea78ac7fa7b0249a2049483c03fd8d88c6ad8",
+  "typecheck-connect2.txt": "9135b26bed78ac3be8220385b3003f0af2553c410d431c72cc781a95209dfa61"
+}

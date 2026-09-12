@@ -1,3 +1,4 @@
+import { refreshLifeCircumstances } from "../simulation/life-circumstances";
 import {
   createCampaignElectionTransitionRegistry,
   adaptiveSelectionSeed,
@@ -486,7 +487,10 @@ export function letAdultTimePass(world: World, days = QUIET_STEP_DAYS): World {
   // has to remember to pass. An observer world has nobody waiting on anything,
   // so nothing is written for one.
   return advanced.control.kind === "person"
-    ? refreshLifeOpportunities(advanced, advanced.control.personId)
+    ? refreshLifeCircumstances(
+        refreshLifeOpportunities(advanced, advanced.control.personId),
+        advanced.control.personId,
+      )
     : advanced;
 }
 

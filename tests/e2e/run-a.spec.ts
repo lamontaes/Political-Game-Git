@@ -294,6 +294,11 @@ test("keeps manual pin sizing through other inspectorial actions", async ({
 });
 
 test("reproduces every named Run A fixture state by URL", async ({ page }) => {
+  // Six sequential navigations share the default 30s test budget; under load
+  // CI has timed out on a different specific page.goto each run (submenu,
+  // then mixed-pins on retry) - a capacity ceiling, not a logic fault at
+  // either fixture.
+  test.setTimeout(60_000);
   const expectations = [
     ["person-menu", "person-action-menu"],
     ["dossier", "quick-dossier"],

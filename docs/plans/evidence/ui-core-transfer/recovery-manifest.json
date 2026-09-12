@@ -1,0 +1,43 @@
+[
+  {
+    "source": "/Users/lamontae/Documents/Political-Game-UICore",
+    "head": "1eb0b0d09be40e3e10bedd2a1d9fa301eae47f4b",
+    "branch": "claude/ui-core-release-production",
+    "status": " M src/player/PlayerGame.tsx\n M src/player/player.css\n M src/presentation/player-conversation.ts\n M src/presentation/run-a-projection.ts\n?? docs/plans/active/ui-core-release-screens/\n?? src/player/LifePersonSurface.tsx\n?? src/presentation/life-person-dossier.ts\n?? tests/e2e/ui-core-person-targeting.spec.ts\n?? tests/e2e/ui-core-review-screens.spec.ts\n",
+    "patchSha256": "ce5cf661a20f0d39e2c1e9cd19f516df9c8fadbb508df98cebc9cd8ce56a4621",
+    "untracked": [
+      {
+        "path": "docs/plans/active/ui-core-release-screens/01-life-scene.jpg",
+        "sha256": "55a72859f840db36d4594ec67a0047a8fe8b54b686aa2b87a393d4a1e5a297c7"
+      },
+      {
+        "path": "docs/plans/active/ui-core-release-screens/02-person-a.jpg",
+        "sha256": "31eab634fe9de553e7d3ef9e1eb3eeab5cf3c95bfaeb42c87145fa99f8676866"
+      },
+      {
+        "path": "src/player/LifePersonSurface.tsx",
+        "sha256": "ba4a773f6aa29c4759f18f171fe4912240f36245bb76ea3c702879a34badecb1"
+      },
+      {
+        "path": "src/presentation/life-person-dossier.ts",
+        "sha256": "6552c4c95a5963a07fb924aa0d265d6d1f1ad404e770eac26f607f2b75992f46"
+      },
+      {
+        "path": "tests/e2e/ui-core-person-targeting.spec.ts",
+        "sha256": "40d384f868da78ca2ed5b3ce08ed3fd0fea7b4d4fb2ed0389539415432b4c54a"
+      },
+      {
+        "path": "tests/e2e/ui-core-review-screens.spec.ts",
+        "sha256": "94ebe5620efdbb1038882dcc88a694370f4e842c0981f27765280a59040ea6f1"
+      }
+    ]
+  },
+  {
+    "source": "/Users/lamontae/Documents/Political-Game-UICore-Prod",
+    "head": "455b87b37d51ba8b1b935518a570ad74707270f8",
+    "branch": "claude/ui-core-production-integration",
+    "status": " M tests/e2e/campaign-first-election.spec.ts\n M tests/e2e/character-context.spec.ts\n M tests/e2e/fifth-play-repair.spec.ts\n M tests/e2e/owner-play-repair.spec.ts\n M tests/e2e/packet77-presentation.spec.ts\n M tests/e2e/pennywise-adaptive-life.spec.ts\n M tests/e2e/pr79f-production-floor.spec.ts\n M tests/e2e/production-play.spec.ts\n M tests/e2e/scene-first-shell.spec.ts\n M tests/e2e/support/creator.ts\n M tests/e2e/title-tableau.spec.ts\n",
+    "patchSha256": "1b2d6bf773b751b21f2f8e7563a97962b1dd0635fd7f80899244eedb50d86e7e",
+    "untracked": []
+  }
+]
