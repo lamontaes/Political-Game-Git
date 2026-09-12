@@ -1,10 +1,10 @@
 {
-  "digest": "d86189df1106082a",
+  "digest": "bf673e2b8d2953ab",
   "totalRecords": 2607,
   "distinctTexts": 2448,
   "exactDuplicateGroups": 32,
   "normalizedDuplicateGroups": 40,
-  "nearDuplicateClusters": 19,
+  "nearDuplicateClusters": 20,
   "warningsByFamily": {
     "and-it-scaffold": 38,
     "anonymous-actor": 1,
@@ -22,10 +22,10 @@
     "WITHHELD_BY_GROUNDING": 358
   },
   "texts": {
-    "prose:campaign:campaign-status:detail-0001#text": "5c0f15dd448c",
-    "prose:campaign:campaign-status:detail-0002#text": "57b3a6158563",
+    "prose:campaign:campaign-status:detail-0001#text": "85275d6e29bc",
+    "prose:campaign:campaign-status:detail-0002#text": "0d66b6f67c03",
     "prose:campaign:campaign-status:detail-0003#text": "c379ba69ac49",
-    "prose:campaign:campaign-status:detail-0004#text": "1d852fe88f94",
+    "prose:campaign:campaign-status:detail-0004#text": "61217947bdfe",
     "prose:campaign:campaign-status:detail-0005#text": "20604ae99bea",
     "prose:campaign:campaign-status:detail-0006#text": "cc6caa72e614",
     "prose:campaign:campaign-status:detail-0007#text": "17c95a9585cc",
@@ -37,8 +37,8 @@
     "prose:campaign:campaign-status:offersFor-0001#text": "03651752f61a",
     "prose:campaign:campaign-status:offersFor-0002#text": "b83c13ddd1bc",
     "prose:campaign:campaign-status:offersFor-0003#text": "e5eb367db1b4",
-    "prose:campaign:campaign-status:offersFor-0004#text": "6b303987a034",
-    "prose:campaign:campaign-status:offersFor-0005#text": "36c65d6007cf",
+    "prose:campaign:campaign-status:offersFor-0004#text": "537f783e2c1a",
+    "prose:campaign:campaign-status:offersFor-0005#text": "9557435643c0",
     "prose:campaign:campaign-status:officeAuthority-0001#text": "ff443ef0133d",
     "prose:campaign:campaign-status:projectCampaign-0001#text": "0486ea5ede7c",
     "prose:campaign:campaign-status:projectCampaign-0002#text": "9f38e3705693",

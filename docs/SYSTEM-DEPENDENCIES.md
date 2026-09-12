@@ -432,6 +432,23 @@ Education and participation do not contain duplicate time-demand fields. When co
 - **Temporary scaffolding:** one opening liquid position per tracked owner/currency plus meaningful outcomes, not accounts, card purchases, merchants, taxes, interest products, investments, insurance, credit reporting, or arbitrary balance mutation. Cadence does not auto-post transfers.
 - **Current/future consumers:** Stage 5 personal life and Stage 4 subjective evidence now; later campaign, organization, and government finance may reuse the vocabulary but must add their own domain identities and rules.
 
+## Campaign Strategy Action Context
+
+Office discovery consumes the declared candidacy provider and current
+`candidacyEligibility` assessments. `projectCampaignOffices` is read-only;
+selection remains transient until `fileForOffice` receives the explicit office
+key. Existing campaigns resolve their authority by stored `officeKey` and keep
+their exact contest, treasury and opponents. `offeredDistricts` requires the
+same selected office coordinate and never chooses a first chamber implicitly.
+
+- **Owns:** no new root record family; an optional structured strategy context on an existing campaign action records the active staff proposer or honest solo source, the proposal's action kind, represented geography and approved committee spending ceiling.
+- **Stable IDs exposed:** the existing campaign and campaign-action IDs. Geography reuses the campaign jurisdiction or the contest's explicit versioned district binding; no new place or precinct identity is created.
+- **Referenced by:** the feature-local campaign-strategy proposal/commit/report adapter and `CampaignWorkspace`.
+- **Queries/APIs:** `projectCampaignStrategy`, `commitCampaignStrategy`, `projectLatestCampaignStrategyReport`, and `spendPlannedCampaignAction`.
+- **Serialization/persistence:** the optional action context round-trips through the existing World snapshot. Integrity validates campaign geography, staff membership, action kind, currency and spend ceiling while accepting older actions with no context.
+- **Temporary scaffolding:** one attributed planning exchange over existing action kinds, not staff recruitment, a staff simulator, an electorate/geographic effects engine, a media market, a campaign budget system or an outcome guarantee.
+- **Current/future consumers:** the current campaign workspace and later shared structured conversation presentation.
+
 ## Major Resource Obligations and Affordability
 
 - **Owns:** stable obligation identity linked to a flow, open basis, optional care or housing context, optional exact debt principal, active/satisfied/ended state, and derived outstanding debt.

@@ -2982,17 +2982,17 @@
       "anchor": "detail-0001",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "detail",
-      "text": "An afternoon on the doors",
+      "text": "A session on the doors",
       "occurrence": 0,
-      "textRevision": "5c0f15dd448c"
+      "textRevision": "85275d6e29bc"
     },
     {
       "anchor": "detail-0002",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "detail",
-      "text": "An afternoon on the phones",
+      "text": "A fundraising session",
       "occurrence": 0,
-      "textRevision": "57b3a6158563"
+      "textRevision": "0d66b6f67c03"
     },
     {
       "anchor": "detail-0003",
@@ -3006,9 +3006,9 @@
       "anchor": "detail-0004",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "detail",
-      "text": "Knocking, and talking to whoever opens. Slow, and the only thing that changes minds.",
+      "text": "Knocking, listening, and talking to whoever opens. One way to learn what people are hearing.",
       "occurrence": 0,
-      "textRevision": "1d852fe88f94"
+      "textRevision": "61217947bdfe"
     },
     {
       "anchor": "detail-0005",
@@ -3654,17 +3654,17 @@
       "anchor": "offersFor-0004",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "offersFor",
-      "text": "Spend the afternoon on the doors",
+      "text": "Spend a session on the doors",
       "occurrence": 0,
-      "textRevision": "6b303987a034"
+      "textRevision": "537f783e2c1a"
     },
     {
       "anchor": "offersFor-0005",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "offersFor",
-      "text": "Spend the afternoon on the phones",
+      "text": "Spend a session on the phones",
       "occurrence": 0,
-      "textRevision": "36c65d6007cf"
+      "textRevision": "9557435643c0"
     },
     {
       "anchor": "officeAuthority-0001",

@@ -1,3 +1,4 @@
+import { fileCandidacy } from "./support/campaign";
 import { expect, test, type Page } from "./fixtures";
 
 import {
@@ -129,6 +130,41 @@ async function liveUntilDecided(page: Page, maxDays = 45) {
 }
 
 test.describe("A life can stand for something", () => {
+  test("deliberately selects the Senate and preserves the campaign while browsing and reloading", async ({
+    page,
+  }) => {
+    await freshBrowser(page);
+    await beginAdultLifeIn(page, "Kentucky");
+    const browser = page.getByTestId("campaign-office-browser");
+    await expect(browser.locator("input:checked")).toHaveCount(0);
+    await expect(page.getByTestId("file-candidacy")).toBeDisabled();
+    const senate = browser.locator(
+      'input[value="us-ky-general-assembly-v1:senate"]',
+    );
+    await senate.focus();
+    await page.keyboard.press("Space");
+    await expect(senate).toBeChecked();
+    await page.getByTestId("file-candidacy").click();
+    await expect(page.getByTestId("campaign-band")).toContainText("Senate");
+    const band = (await page.getByTestId("campaign-band").textContent()) ?? "";
+    const opponents =
+      (await page.getByTestId("campaign-opponents").textContent()) ?? "";
+    const treasury =
+      (await page.getByTestId("campaign-treasury").textContent()) ?? "";
+    await browser
+      .locator('input[value="us-ky-general-assembly-v1:house"]')
+      .check();
+    await expect(page.getByTestId("campaign-band")).toHaveText(band);
+    await goTo(page, "keep-world");
+    await expectNoDestination(page, "keep-world");
+    await page.reload();
+    await page.getByTestId("continue").click();
+    await enterLife(page);
+    await openCampaign(page);
+    await expect(page.getByTestId("campaign-band")).toHaveText(band);
+    await expect(page.getByTestId("campaign-opponents")).toHaveText(opponents);
+    await expect(page.getByTestId("campaign-treasury")).toHaveText(treasury);
+  });
   test("offers a candidacy where the game has read the rules, and says how it knows", async ({
     page,
   }) => {
@@ -144,7 +180,9 @@ test.describe("A life can stand for something", () => {
       /unresolved formal count carries no numeric fallback/i,
     );
     // And it is willing to say what it still does not know.
-    await campaign.getByRole("group").click();
+    await campaign
+      .getByText("What the game does not know about this", { exact: true })
+      .click();
     await expect(campaign).toContainText(/no accepted source/i);
     await expect(campaign).toContainText(
       /no instrument establishing the size of the chamber/i,
@@ -197,7 +235,7 @@ test.describe("A life can stand for something", () => {
     await freshBrowser(page);
     await beginAdultLifeIn(page, "Kentucky");
 
-    await page.getByTestId("file-candidacy").click();
+    await fileCandidacy(page);
     const campaign = page.getByTestId("campaign-section");
     await expect(page.getByTestId("campaign-band")).toContainText(
       /days to go|day to go/i,
@@ -236,6 +274,45 @@ test.describe("A life can stand for something", () => {
     expect(errors).toEqual([]);
   });
 
+  test("sets an explicit campaign priority and geography with ordinary controls", async ({
+    page,
+  }) => {
+    const errors = watchForErrors(page);
+    await freshBrowser(page);
+    await beginAdultLifeIn(page, "Kentucky");
+
+    await fileCandidacy(page);
+    const strategy = page.getByTestId("campaign-strategy");
+    await expect(strategy).toBeVisible();
+    await expect(
+      strategy.getByRole("group", { name: "Priority" }),
+    ).toBeVisible();
+    await expect(
+      strategy.getByRole("group", { name: "Represented geography" }),
+    ).toBeVisible();
+    await expect(
+      strategy.getByRole("group", { name: "Committee spending ceiling" }),
+    ).toContainText("No committee spending");
+
+    // The alternative priority is selected with the keyboard, then the plan
+    // is committed with a pointer. Both are the controls a player actually sees.
+    const outreach = strategy.getByRole("radio", {
+      name: /Spend a session on the doors/i,
+    });
+    await outreach.focus();
+    await page.keyboard.press("Space");
+    await expect(outreach).toBeChecked();
+    await strategy.getByTestId("campaign-strategy-commit").click();
+
+    const report = page.getByTestId("campaign-strategy-report");
+    await expect(report).toBeVisible();
+    await expect(report).toContainText(/player chose/i);
+    await expect(report).toContainText(/with a ceiling of USD 0\.00/i);
+    await expect(report).toContainText(/Kentucky/i);
+    await expect(page.getByTestId("campaign-memo")).toBeVisible();
+    expect(errors).toEqual([]);
+  });
+
   test("reaches election day by living the weeks, and carries on afterwards", async ({
     page,
   }) => {
@@ -243,7 +320,7 @@ test.describe("A life can stand for something", () => {
     await freshBrowser(page);
     await beginAdultLifeIn(page, "Kentucky");
 
-    await page.getByTestId("file-candidacy").click();
+    await fileCandidacy(page);
     await page.getByTestId("campaign-outreach").click();
     await expect(page.getByTestId("campaign-memo")).toBeVisible();
     // A second afternoon, a day later, because a day only holds so much.
@@ -294,7 +371,7 @@ test.describe("A life can stand for something", () => {
     await freshBrowser(page);
     await beginAdultLifeIn(page, "Kentucky");
 
-    await page.getByTestId("file-candidacy").click();
+    await fileCandidacy(page);
     await page.getByTestId("campaign-fundraising").click();
     const treasury = await page.getByTestId("campaign-treasury").textContent();
     const band = await page.getByTestId("campaign-band").textContent();
@@ -328,7 +405,7 @@ test.describe("P85D integration through ordinary player controls", () => {
       await startLife(page, { age: 34, place: "Lexington", gender: "male" });
       await enterLife(page);
       await openCampaign(page);
-      await page.getByTestId("file-candidacy").click();
+      await fileCandidacy(page);
       const before = await page.getByTestId("day-date").innerText();
       await closeWork(page);
       if (route === "quiet") {
@@ -357,7 +434,7 @@ test.describe("P85D integration through ordinary player controls", () => {
     await startLife(page, { age: 34, place: "Lexington", gender: "male" });
     await enterLife(page);
     await openCampaign(page);
-    await page.getByTestId("file-candidacy").click();
+    await fileCandidacy(page);
     await page.getByTestId("campaign-fundraising").click();
     for (let day = 0; day < 3; day += 1) {
       await page.getByTestId("pass-day").click();

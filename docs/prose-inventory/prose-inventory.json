@@ -1,5 +1,5 @@
 {
-  "digest": "d86189df1106082a",
+  "digest": "bf673e2b8d2953ab",
   "counts": {
     "total": 2607,
     "byDomain": {
@@ -49,7 +49,7 @@
       "surface": "status",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "sourceSymbol": "detail",
-      "text": "An afternoon on the doors",
+      "text": "A session on the doors",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -74,7 +74,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "5c0f15dd448c",
+      "textRevision": "85275d6e29bc",
       "contextRevision": "15862db75231"
     },
     {
@@ -86,7 +86,7 @@
       "surface": "status",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "sourceSymbol": "detail",
-      "text": "An afternoon on the phones",
+      "text": "A fundraising session",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -111,7 +111,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "57b3a6158563",
+      "textRevision": "0d66b6f67c03",
       "contextRevision": "15862db75231"
     },
     {
@@ -160,7 +160,7 @@
       "surface": "status",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "sourceSymbol": "detail",
-      "text": "Knocking, and talking to whoever opens. Slow, and the only thing that changes minds.",
+      "text": "Knocking, listening, and talking to whoever opens. One way to learn what people are hearing.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -185,7 +185,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "1d852fe88f94",
+      "textRevision": "61217947bdfe",
       "contextRevision": "15862db75231"
     },
     {
@@ -609,7 +609,7 @@
       "surface": "status",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "sourceSymbol": "offersFor",
-      "text": "Spend the afternoon on the doors",
+      "text": "Spend a session on the doors",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -634,7 +634,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "6b303987a034",
+      "textRevision": "537f783e2c1a",
       "contextRevision": "15862db75231"
     },
     {
@@ -646,7 +646,7 @@
       "surface": "status",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "sourceSymbol": "offersFor",
-      "text": "Spend the afternoon on the phones",
+      "text": "Spend a session on the phones",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -671,7 +671,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "36c65d6007cf",
+      "textRevision": "9557435643c0",
       "contextRevision": "15862db75231"
     },
     {
