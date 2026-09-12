@@ -75,10 +75,14 @@ export const PARK_COMMUNITY_PAVILION_CANDIDATE_SCENE: EnvironmentSceneSpec = {
       kind: "floor-standing",
       x_percent: 50,
       z_order: 3,
-      footprint_percent: 14,
-      allowed_pose_families: ["standing-neutral", "standing-listening", "standing-podium-or-lectern"],
+      footprint_percent: 5,
+      allowed_pose_families: [
+        "standing-neutral",
+        "standing-listening",
+        "standing-podium-or-lectern",
+      ],
       permitted_facings: ["front"],
-      floor_contact: { floor_y_percent: 78, max_foot_spread_percent: 8 },
+      floor_contact: { floor_y_percent: 68, max_foot_spread_percent: 8 },
     },
     {
       /** Standing near the shelter perimeter on the walkway/lawn transition. */
@@ -87,7 +91,7 @@ export const PARK_COMMUNITY_PAVILION_CANDIDATE_SCENE: EnvironmentSceneSpec = {
       kind: "floor-standing",
       x_percent: 24,
       z_order: 2,
-      footprint_percent: 15,
+      footprint_percent: 8,
       allowed_pose_families: ["standing-neutral", "standing-listening"],
       permitted_facings: ["front"],
       floor_contact: { floor_y_percent: 82, max_foot_spread_percent: 8 },

@@ -1,3 +1,4 @@
+import { locationReviewVisuals } from "./location-art-review";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -85,43 +86,38 @@ describe("campaign storefront production scene", () => {
 
     expect(
       PRODUCTION_VISUAL_LIBRARY.has("env_campaign_storefront_5504x3072_v1"),
-    ).toBe(true);
+    ).toBe(false);
   });
 
   it("authors distinct standing and seated anchors with valid floor contacts", () => {
     const scene = requireScene(SCENE_REGISTRY, CAMPAIGN_STOREFRONT_SCENE_ID);
-    expect(scene.anchors.size).toBe(3);
+    expect(scene.anchors.size).toBe(2);
 
     const phoneBank = scene.anchors.get("phone-bank-standing")!;
     expect(phoneBank).toBeDefined();
-    expect(phoneBank.xPercent).toBe(26);
-    expect(phoneBank.contactFloorYPercent).toBe(82);
+    expect(phoneBank.xPercent).toBe(31);
+    expect(phoneBank.contactFloorYPercent).toBe(76);
     expect(phoneBank.allowedPoseFamilies).toContain("standing-neutral");
     expect(phoneBank.allowedPoseFamilies).toContain("standing-listening");
 
     const organizer = scene.anchors.get("organizer-standing")!;
     expect(organizer).toBeDefined();
-    expect(organizer.xPercent).toBe(62);
-    expect(organizer.contactFloorYPercent).toBe(85);
+    expect(organizer.xPercent).toBe(38);
+    expect(organizer.contactFloorYPercent).toBe(94);
     expect(organizer.allowedPoseFamilies).toContain("standing-neutral");
-    expect(organizer.allowedPoseFamilies).toContain("standing-podium-or-lectern");
+    expect(organizer.allowedPoseFamilies).toContain(
+      "standing-podium-or-lectern",
+    );
 
-    const volunteerSeat = scene.anchors.get("volunteer-desk-chair")!;
-    expect(volunteerSeat).toBeDefined();
-    expect(volunteerSeat.xPercent).toBe(38);
-    expect(volunteerSeat.seatContact).not.toBeNull();
-    expect(volunteerSeat.seatContact!.seat_plane_y_percent).toBe(65);
-    expect(volunteerSeat.contactFloorYPercent).toBe(82);
-    expect(volunteerSeat.allowedPoseFamilies).toContain("seated-at-desk");
+    expect(scene.anchors.has("volunteer-desk-chair")).toBe(false);
   });
 
   it("declares ordered foreground occluders and public dynamic surface slots", () => {
     const scene = requireScene(SCENE_REGISTRY, CAMPAIGN_STOREFRONT_SCENE_ID);
-    expect(scene.occluders.length).toBe(2);
-    expect(scene.occluders[0]!.id).toBe("stacked-boxes-foreground");
-    expect(scene.occluders[0]!.zOrder).toBe(5);
-    expect(scene.occluders[1]!.id).toBe("folding-table-foreground");
-    expect(scene.occluders[1]!.zOrder).toBe(6);
+    expect(scene.occluders.length).toBe(1);
+    expect(scene.occluders[0]!.id).toBe("folding-table-foreground");
+    expect(scene.occluders[0]!.zOrder).toBe(6);
+    expect(scene.occluders[0]!.plateClip?.confidence).toBe("visual-estimate");
 
     expect(scene.surfaceSlots.length).toBe(4);
     const slotIds = scene.surfaceSlots.map((s) => s.slot_id);
@@ -131,7 +127,7 @@ describe("campaign storefront production scene", () => {
     expect(slotIds).toContain("table-literature-pamphlet");
 
     for (const slot of scene.surfaceSlots) {
-      expect(slot.information_access).toBe("public-record");
+      expect(slot.information_access).toBe("institutional-working");
     }
   });
 
@@ -160,7 +156,10 @@ describe("campaign storefront production scene", () => {
     const initialResolution = resolveLifeScene(life.world, personId);
     expect(initialResolution.sceneId).not.toBe(CAMPAIGN_STOREFRONT_SCENE_ID);
 
-    const existingActivity = scheduledActivitiesVisibleTo(life.world, personId)[0]!;
+    const existingActivity = scheduledActivitiesVisibleTo(
+      life.world,
+      personId,
+    )[0]!;
 
     // Schedule a campaign phone bank activity
     const createdWorld = createScheduledActivity(life.world, {
@@ -194,8 +193,13 @@ describe("campaign storefront production scene", () => {
         minuteOfDay: createdWorld.currentMoment.minuteOfDay + 120,
       },
     };
-    const unperformedResolution = resolveLifeScene(clockAdvancedWorld, personId);
-    expect(unperformedResolution.sceneId).not.toBe(CAMPAIGN_STOREFRONT_SCENE_ID);
+    const unperformedResolution = resolveLifeScene(
+      clockAdvancedWorld,
+      personId,
+    );
+    expect(unperformedResolution.sceneId).not.toBe(
+      CAMPAIGN_STOREFRONT_SCENE_ID,
+    );
 
     // Reset clock and actually perform the activity
     const performedWorld = performScheduledActivity(
@@ -204,7 +208,13 @@ describe("campaign storefront production scene", () => {
     );
 
     // In the immediate aftermath of completed performance, the player is in the campaign storefront
-    const performedResolution = resolveLifeScene(performedWorld, personId);
+    const performedResolution = resolveLifeScene(
+      performedWorld,
+      personId,
+      undefined,
+      locationReviewVisuals(true),
+    );
+    expect(resolveLifeScene(performedWorld, personId).sceneId).toBeNull();
     expect(performedResolution.sceneId).toBe(CAMPAIGN_STOREFRONT_SCENE_ID);
     expect(performedResolution.reason).toContain("Storefront Phone Bank");
 
@@ -217,7 +227,10 @@ describe("campaign storefront production scene", () => {
   it("does not mutate world state during scene resolution and survives serialization", () => {
     const life = anOrdinaryLife("campaign-roundtrip");
     const personId = life.personId;
-    const existingActivity = scheduledActivitiesVisibleTo(life.world, personId)[0]!;
+    const existingActivity = scheduledActivitiesVisibleTo(
+      life.world,
+      personId,
+    )[0]!;
 
     const createdWorld = createScheduledActivity(life.world, {
       stableKey: "test:campaign-strategy-session",
@@ -244,14 +257,24 @@ describe("campaign storefront production scene", () => {
     const performedWorld = performScheduledActivity(createdWorld, activity.id);
 
     const serializedBefore = serializeWorld(performedWorld);
-    const resolution1 = resolveLifeScene(performedWorld, personId);
+    const resolution1 = resolveLifeScene(
+      performedWorld,
+      personId,
+      undefined,
+      locationReviewVisuals(true),
+    );
     const serializedAfter = serializeWorld(performedWorld);
 
     expect(serializedAfter).toBe(serializedBefore);
     expect(resolution1.sceneId).toBe(CAMPAIGN_STOREFRONT_SCENE_ID);
 
     const roundtrippedWorld = deserializeWorld(serializedBefore);
-    const resolution2 = resolveLifeScene(roundtrippedWorld, personId);
+    const resolution2 = resolveLifeScene(
+      roundtrippedWorld,
+      personId,
+      undefined,
+      locationReviewVisuals(true),
+    );
     expect(resolution2.sceneId).toBe(CAMPAIGN_STOREFRONT_SCENE_ID);
     expect(resolution2.reason).toBe(resolution1.reason);
   });

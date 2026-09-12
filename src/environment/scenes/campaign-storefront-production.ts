@@ -1,9 +1,9 @@
 import type { EnvironmentSceneSpec } from "../environment-scene-spec";
 
 /**
- * A campaign storefront field office, authored as PRODUCTION art.
+ * A campaign storefront field office, authored as candidate engineering.
  *
- * PRODUCTION ART. Its raster is derived from the swept 5504x3072 master
+ * UNRELEASED CANDIDATE ART. Its raster is derived from the swept 5504x3072 master
  * `IMG_5205.JPG` (Drive file id `1omryvYo8QYASr96guWI7XeQkJ6hdTKCu`), preserved
  * byte-for-byte under `art/references/candidates/recent-drive-sweep/source-images/`
  * and carried into the runtime as two deterministic Lanczos-3 downscales. Nothing
@@ -26,7 +26,7 @@ export const CAMPAIGN_STOREFRONT_PRODUCTION_SCENE: EnvironmentSceneSpec = {
   environment_id: "environment:campaign-storefront:field-office:v1",
   scene_id: "campaign-storefront-production",
   family_id: "campaign-storefront",
-  label: "A campaign storefront field office",
+  label: "A campaign storefront field office (candidate)",
   presentation_status: "production",
   fidelity_tier: "F4",
   coordinate_system: "plate-normalized",
@@ -76,72 +76,48 @@ export const CAMPAIGN_STOREFRONT_PRODUCTION_SCENE: EnvironmentSceneSpec = {
       id: "phone-bank-standing",
       type: "standing-person",
       kind: "floor-standing",
-      x_percent: 26,
+      x_percent: 31,
       z_order: 3,
-      footprint_percent: 14,
+      footprint_percent: 9,
       allowed_pose_families: ["standing-neutral", "standing-listening"],
       permitted_facings: ["front"],
-      floor_contact: { floor_y_percent: 82, max_foot_spread_percent: 8 },
+      floor_contact: { floor_y_percent: 76, max_foot_spread_percent: 8 },
     },
     {
-      /** Standing in the clear central floor area near the strategy corkboard. */
+      /** Standing in the near central aisle, in front of the right work table. */
       id: "organizer-standing",
       type: "standing-person",
       kind: "floor-standing",
-      x_percent: 62,
-      z_order: 2,
-      footprint_percent: 15,
-      allowed_pose_families: [
-        "standing-neutral",
-        "standing-podium-or-lectern",
-      ],
-      permitted_facings: ["front"],
-      floor_contact: { floor_y_percent: 85, max_foot_spread_percent: 8 },
-    },
-    {
-      /** Seated volunteer chair at the folding phone table. */
-      id: "volunteer-desk-chair",
-      type: "seated-person",
-      kind: "seat",
       x_percent: 38,
-      z_order: 4,
-      footprint_percent: 12,
-      allowed_pose_families: ["seated-at-desk"],
+      z_order: 7,
+      footprint_percent: 10,
+      allowed_pose_families: ["standing-neutral", "standing-podium-or-lectern"],
       permitted_facings: ["front"],
-      seat_contact: {
-        seat_plane_y_percent: 65,
-        seat_front_x_percent: 38,
-        seat_width_percent: 9,
-        floor_y_percent: 82,
-        seat_z_order: 4,
-        backrest_z_order: 3,
-      },
+      floor_contact: { floor_y_percent: 94, max_foot_spread_percent: 8 },
     },
   ],
 
   foreground_occlusion_objects: [
     {
-      /** The folding work table in the mid-foreground. */
       id: "folding-table-foreground",
       type: "furniture-foreground",
       z_order: 6,
-      region_percent: {
-        x_percent: 18,
-        y_percent: 62,
-        width_percent: 32,
-        height_percent: 28,
-      },
-    },
-    {
-      /** Cardboard supply boxes stacked on the right floor. */
-      id: "stacked-boxes-foreground",
-      type: "furniture-foreground",
-      z_order: 5,
-      region_percent: {
-        x_percent: 75,
-        y_percent: 65,
-        width_percent: 22,
-        height_percent: 32,
+      plate_clip: {
+        confidence: "visual-estimate",
+        method_note:
+          "G traced the near right table silhouette from IMG_5205 in plate percentages. Review-only geometry; no physical dimension or owner acceptance inferred. Excludes chairs and floor shadows.",
+        points: [
+          { x: 31, y: 49 },
+          { x: 58, y: 57 },
+          { x: 100, y: 67 },
+          { x: 100, y: 74 },
+          { x: 88, y: 75 },
+          { x: 87, y: 97 },
+          { x: 86, y: 97 },
+          { x: 85, y: 75 },
+          { x: 46, y: 60 },
+          { x: 32, y: 51 },
+        ],
       },
     },
   ],
@@ -152,10 +128,10 @@ export const CAMPAIGN_STOREFRONT_PRODUCTION_SCENE: EnvironmentSceneSpec = {
       slot_id: "storefront-window-banner",
       kind: "title-banner-safe",
       rect_percent: {
-        x_percent: 8,
-        y_percent: 8,
-        width_percent: 36,
-        height_percent: 18,
+        x_percent: 13,
+        y_percent: 28,
+        width_percent: 10,
+        height_percent: 6,
       },
       z_order: 0,
       allowed_content_classes: [
@@ -163,7 +139,7 @@ export const CAMPAIGN_STOREFRONT_PRODUCTION_SCENE: EnvironmentSceneSpec = {
         "jurisdiction-name",
         "headline",
       ],
-      information_access: "public-record",
+      information_access: "institutional-working",
       fallback_decoration: "bare storefront window glass",
     },
     {
@@ -171,14 +147,14 @@ export const CAMPAIGN_STOREFRONT_PRODUCTION_SCENE: EnvironmentSceneSpec = {
       slot_id: "phone-bank-corkboard",
       kind: "monitor-or-bulletin-board",
       rect_percent: {
-        x_percent: 48,
-        y_percent: 20,
-        width_percent: 18,
+        x_percent: 67,
+        y_percent: 23,
+        width_percent: 17,
         height_percent: 22,
       },
       z_order: 0,
       allowed_content_classes: ["document-body", "headline"],
-      information_access: "public-record",
+      information_access: "institutional-working",
       fallback_decoration: "plain brown cork with empty pushpins",
     },
     {
@@ -186,14 +162,14 @@ export const CAMPAIGN_STOREFRONT_PRODUCTION_SCENE: EnvironmentSceneSpec = {
       slot_id: "strategy-whiteboard",
       kind: "agenda-board",
       rect_percent: {
-        x_percent: 70,
-        y_percent: 22,
-        width_percent: 20,
-        height_percent: 24,
+        x_percent: 88,
+        y_percent: 23,
+        width_percent: 12,
+        height_percent: 25,
       },
       z_order: 0,
       allowed_content_classes: ["document-body", "headline"],
-      information_access: "public-record",
+      information_access: "institutional-working",
       fallback_decoration: "a clean white marker board",
     },
     {
@@ -208,12 +184,14 @@ export const CAMPAIGN_STOREFRONT_PRODUCTION_SCENE: EnvironmentSceneSpec = {
       },
       z_order: 7,
       allowed_content_classes: ["document-body"],
-      information_access: "public-record",
+      information_access: "institutional-working",
       fallback_decoration: "a bare laminate folding table top",
     },
   ],
 
   explicit_unknowns: [
+    "Same-source visual acceptance and rights approval are pending; the stable production scene ID describes engineering, not release eligibility.",
+    "Historical volunteer seat removed from the active spec because no dependable cushion/contact pair is visible there. No seated fit is claimed.",
     "Every anchor contact, floor line and occlusion boundary is a VISUAL ESTIMATE read directly from the 5504x3072 master IMG_5205.JPG. No architectural plan or calibrated laser survey exists.",
     "This is a generic campaign field office and phone bank. It depicts no real political candidate, campaign organization, party headquarters or historical election.",
     "Baked labels on boxes, the corkboard and the whiteboard are verified blank in the source image; all campaign slogans, volunteer call targets and candidate names are supplied dynamically by canonical World state.",

@@ -4647,11 +4647,12 @@
       "negative_constraints": [
         "No candidate name, slogan, logo or jurisdiction is baked into the plate; dynamic surfaces carry campaign content.",
         "Proportions and contacts are visual estimates read from the plate.",
-        "Do not upscale this master."
+        "Do not upscale this master.",
+        "POST-HANDOFF26 G: #212 released this source without recorded same-source owner acceptance. 18E-R1A exact Drive ID 1omryvYo8QYASr96guWI7XeQkJ6hdTKCu identifies it as candidate. Original commit and bytes retained; development review only until acceptance."
       ],
       "generation_status": "approved",
-      "qa_status": "approved",
-      "runtime_release_status": "released",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
       "final_path": "art/families/campaign-storefront/env_campaign_storefront_v1.png",
       "hash": "35a37c8a6526a86eb569be61383558c1b90369abb9c185d21a7d5765d52edfc0",
       "requires_transparency": false,
@@ -4680,7 +4681,9 @@
       "jurisdiction_scope": "unscoped-generic-park-pavilion",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": ["prov_env_park_community_pavilion_candidate_5504x3072_v1"],
+      "source_refs": [
+        "prov_env_park_community_pavilion_candidate_5504x3072_v1"
+      ],
       "rights_note": "Owner source master; external reuse rights remain unknown.",
       "fixed_or_modular": "fixed",
       "variant_rules": "Community park pavilion: outdoor covered shelter on concrete slab with picnic tables. Candidate review plate derived via deterministic Lanczos-3 downscale from 5504x3072 master IMG_5204.JPG.",
@@ -4721,9 +4724,7 @@
       "jurisdiction_scope": "unscoped-generic-executive-office",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_env_executive_office_candidate_5504x3072_v1"
-      ],
+      "source_refs": ["prov_env_executive_office_candidate_5504x3072_v1"],
       "rights_note": "Candidate source master; external reuse rights remain unknown.",
       "fixed_or_modular": "fixed",
       "variant_rules": "Executive private office: wood-panelled private study with fireplace, bookshelves, executive desk and visitor armchairs. Candidate review plate derived via deterministic Lanczos-3 downscale from 5504x3072 master IMG_5189.JPG (answers open request env-executive-office-4k-master).",
@@ -4911,6 +4912,46 @@
       "final_path": "art/references/masters/wardrobe/OCD_CANDIDATE_WARDROBE_FOOTWEAR_SOURCE_12UP_3584x4800_01.png",
       "hash": "fa1abe93d5abe3a0a93d580a7910fd2abf2bd9372c2e913eb5699c52a441989b",
       "requires_transparency": true
+    },
+    {
+      "asset_id": "env_press_briefing_room_candidate_v1",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "family_id": "press-briefing-room",
+      "jurisdiction_scope": "unscoped-generic-press-room",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_env_press_briefing_room_candidate_v1"],
+      "rights_note": "Owner-supplied candidate; rights remain unknown; no acceptance inferred.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Existing AX-92B1 IMG_5202 press room; JPEG decoded without scaling, then Lanczos-3 downscaled. Native detail unverified.",
+      "negative_constraints": [
+        "Unreleased; candidate compositions only. No canonical press activity producer.",
+        "No physical measurement precision, fabricated attendance, seal or briefing content.",
+        "Not a hearing room, school, courtroom or chamber."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/families/press-briefing-room/env_press_briefing_room_candidate_v1-1376.png",
+      "hash": "f36ddf9b0161e182711c3496adbc5e678a5864e382322b0a1b9d1a96fa00e4f8",
+      "requires_transparency": false,
+      "raster_tiers": [
+        {
+          "derivation": "deterministic-downscale",
+          "hash": "f36ddf9b0161e182711c3496adbc5e678a5864e382322b0a1b9d1a96fa00e4f8",
+          "height": 768,
+          "path": "art/families/press-briefing-room/env_press_briefing_room_candidate_v1-1376.png",
+          "width": 1376
+        },
+        {
+          "derivation": "deterministic-downscale",
+          "hash": "9ba4ba3e5eea2dddcbdc70a15b4a3a4f3c87fea6553c32e528d29f835e2986a5",
+          "height": 1536,
+          "path": "art/families/press-briefing-room/env_press_briefing_room_candidate_v1-2752.png",
+          "width": 2752
+        }
+      ]
     }
   ]
 }

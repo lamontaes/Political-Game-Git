@@ -2103,6 +2103,23 @@
       "edits_performed": "Master preserved byte-for-byte at art/references/candidates/recent-drive-sweep/source-images/IMG_5189.JPG. Derived two runtime tiers via deterministic Lanczos-3 downscale: 1376x768 sha256 1f77a0b5f908cd43a4aa99d56df42e000fc8514a26ded64c178f032ece55e4b6 and 2752x1536 sha256 71f7043510a374d2d27936a058c170729de6d4ba6924682c1090b44868ccfe6b. Nothing was enlarged and master is unmodified.",
       "output_hash_version": "sha256",
       "approval_status": "approved"
+    },
+    {
+      "provenance_id": "prov_env_press_briefing_room_candidate_v1",
+      "asset_id": "env_press_briefing_room_candidate_v1",
+      "source_url_or_path": "art/references/candidates/recent-drive-sweep/source-images/IMG_5202.JPG",
+      "document_photo_plan_title": "18E-R1A Drive 1SPvoi-0L7T4mK156yFg1dpOW82ggb4J6; IMG_5202.JPG; sha256 e16e1b0b0c5cd93a6254ac1b1145f5439351a4e6b8530d739844bd62e973d065; 3068797 bytes; 5504x3072 JPEG",
+      "access_retrieval_date": "2026-09-12",
+      "rights_license_status": "unknown",
+      "reference_type": "ai-generated",
+      "source_authority_category": "visual-estimate-support",
+      "generator_tool": "not-recorded",
+      "generated_model_version": "not-recorded",
+      "prompt_spec_manifest_id": "POST-HANDOFF26 SECTION G existing press-room candidate",
+      "generation_edit_date": "2026-09-12",
+      "edits_performed": "Original JPEG untouched. pureimage JPEG decode to temporary PNG sha256 ff4d65e2e0d420d37f55e51ac50958ed70a7973b777f71377da1838593624b80; existing derive:tiers Lanczos-3 at 1376/2752. Unverified native detail and unknown rights retained. Deterministic reproduction script: scripts/art-asset-factory/derive-g-press.ts.",
+      "output_hash_version": "sha256",
+      "approval_status": "pending"
     }
   ]
 }

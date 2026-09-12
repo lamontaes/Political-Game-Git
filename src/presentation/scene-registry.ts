@@ -1,3 +1,4 @@
+import { PRESS_BRIEFING_ROOM_CANDIDATE_SCENE } from "../environment/scenes/press-briefing-room-candidate";
 import {
   validateEnvironmentSceneSpec,
   type Anchor,
@@ -324,6 +325,7 @@ export const SCENE_REGISTRY: SceneRegistry = createSceneRegistry([
   CAMPAIGN_STOREFRONT_PRODUCTION_SCENE,
   PARK_COMMUNITY_PAVILION_CANDIDATE_SCENE,
   EXECUTIVE_OFFICE_CANDIDATE_SCENE,
+  PRESS_BRIEFING_ROOM_CANDIDATE_SCENE,
   OFFICE_COUNCIL_STAFF_FIXTURE_SCENE,
   COMMITTEE_ROOM_FIXTURE_SCENE,
 ]);
@@ -385,3 +387,5 @@ export const DOMESTIC_SCENE_IDS: readonly string[] = [
   DOMESTIC_CANONICAL_SCENE_ID,
   DOMESTIC_ORDINARY_SCENE_ID,
 ];
+
+export const PRESS_BRIEFING_ROOM_SCENE_ID = "press-briefing-room-candidate";

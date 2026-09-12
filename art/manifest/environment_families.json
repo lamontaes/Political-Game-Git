@@ -249,6 +249,27 @@
       "supporting_source_references": [
         "prov_env_park_community_pavilion_candidate_5504x3072_v1"
       ]
+    },
+    {
+      "family_id": "press-briefing-room",
+      "room_use_category": "press announcement room candidate",
+      "typical_proportion_rules": "Scene plate supplies only visual-estimate proportions; no physical dimensions are claimed.",
+      "seating_dais_logic": "Empty stacking-chair audience rows facing a lectern on the low riser.",
+      "public_member_separation": "Lectern/riser and empty audience chairs; no institution or attendance inferred.",
+      "circulation_assumptions": "Limited clear riser space; no seated placement asserted.",
+      "camera_framing_guidance": "Wide first-person audience view; lectern and stage remain in frame.",
+      "ceiling_height_category": "unknown",
+      "density_category": "press-announcement-room",
+      "ornament_category": "restrained-civic",
+      "reusable_prop_slots": ["briefing-screen", "lectern-nameplate"],
+      "event_layer_slots": ["lectern-speaker", "stage-side-standing"],
+      "negative_constraints": [
+        "Candidate review only; unknown rights and unverified native detail.",
+        "No attendance, physical measurements, briefing content or institutional identity inferred."
+      ],
+      "supporting_source_references": [
+        "prov_env_press_briefing_room_candidate_v1"
+      ]
     }
   ]
 }

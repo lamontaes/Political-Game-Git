@@ -275,13 +275,14 @@ export const SCENE_CONSUMERS: readonly SceneConsumerDeclaration[] = [
     sceneId: CAMPAIGN_STOREFRONT_SCENE_ID,
     wiredThrough: "src/presentation/scene-venues.ts",
     openRequestIds: [],
-    blockedSeam: null,
-    note: "The campaign storefront field office is authored as production art and registered as `campaign-storefront-production`. Canonical activities `campaign-office` and `campaign-call-desk` resolve to this room via `scene-venues.ts` and compose through `resolveLifeScene` into <SceneBackdrop>.",
+    blockedSeam:
+      "Same-source visual/floor-plane acceptance and release approval; candidate route is reviewable.",
+    note: "Unreleased candidate engineering, stable scene ID campaign-storefront-production. Existing canonical campaign actions resolve it only through isolated development candidate mode. Normal production remains an honest fallback.",
   },
   {
     consumerId: "park-community-pavilion",
     label: "A community park pavilion shelter",
-    runtimeComponent: "none",
+    runtimeComponent: "src/ui/LocationCompositionReview.tsx",
     canonicalGate:
       "Candidate preview surface. Normal-play reachability is isolated pending human visual acceptance.",
     sceneId: PARK_COMMUNITY_PAVILION_SCENE_ID,
@@ -289,7 +290,20 @@ export const SCENE_CONSUMERS: readonly SceneConsumerDeclaration[] = [
     openRequestIds: [],
     blockedSeam:
       "Human visual acceptance and an exterior location activity producer in normal play.",
-    note: "CANDIDATE ART. Preserves AX-92B1 intake invariants. The scene is authored and registered under candidate isolation, deliberately unreached by canonical venue keys.",
+    note: "Candidate composition at ?view=location-review. Preserves AX-92B1 intake invariants. The scene is authored and registered under candidate isolation, deliberately unreached by canonical venue keys.",
+  },
+  {
+    consumerId: "press-briefing-room-review",
+    label: "A press briefing room candidate composition",
+    runtimeComponent: "src/ui/LocationCompositionReview.tsx",
+    canonicalGate:
+      "Development review only; no canonical briefing-room producer.",
+    sceneId: "press-briefing-room-candidate",
+    wiredThrough: null,
+    openRequestIds: [],
+    blockedSeam:
+      "Owner visual/floor-plane acceptance and a source-grounded canonical briefing activity/location producer.",
+    note: "Existing exact-ID IMG_5202 source, deterministic tiers and shared compositor. No invented briefing or attendance history; not a hearing room or school.",
   },
 ];
 

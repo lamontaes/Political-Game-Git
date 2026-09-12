@@ -110,14 +110,14 @@ export const SCENE_VENUES: readonly SceneVenue[] = [
     locationKey: "campaign-call-desk",
     sceneId: CAMPAIGN_STOREFRONT_SCENE_ID,
     reason:
-      "Calling voters from a phone bank desk happens in the campaign storefront field office. The plate provides phone-bank-standing and volunteer-desk-chair anchors and dynamic slots for campaign literature and call targets.",
+      "Calling voters from a phone bank desk happens in the campaign storefront field office. The unreleased candidate provides standing anchors and dynamic slots for campaign literature and call targets.",
     isJourney: false,
   },
   {
     locationKey: "campaign-office",
     sceneId: CAMPAIGN_STOREFRONT_SCENE_ID,
     reason:
-      "Campaign operations, strategy planning, and staff management happen in the campaign storefront field office. The plate provides organizer-standing anchor and dynamic slots for strategy and goals.",
+      "Campaign operations, strategy planning, and staff management happen in the campaign storefront field office. The unreleased candidate provides organizer-standing anchor and dynamic slots for strategy and goals.",
     isJourney: false,
   },
   {
@@ -341,6 +341,10 @@ export const VENUE_WITH_PRODUCTION_ACTIVITY: readonly string[] = [
  */
 export const VENUE_DELIBERATELY_UNREACHED: ReadonlyMap<string, string> =
   new Map([
+    [
+      "press-briefing-room-candidate",
+      "Existing press interviews do not establish a canonical briefing-room venue. Candidate composition only; acceptance and a location producer remain pending.",
+    ],
     [
       COURTROOM_SCENE_ID,
       "The current JUD-WORK2 consumer establishes office preparation only, not a source-confirmed courtroom kind. Its location key cannot admit this unreleased plate.",

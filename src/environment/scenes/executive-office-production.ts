@@ -238,7 +238,8 @@ export const EXECUTIVE_OFFICE_CANDIDATE_SCENE: EnvironmentSceneSpec = {
         "calendar-date",
       ],
       information_access: "institutional-working",
-      fallback_decoration: "leather desk pad blotter with daily executive agenda folder",
+      fallback_decoration:
+        "leather desk pad blotter with daily executive agenda folder",
     },
     {
       /** Computer workstation display on the right side of the desk. */
@@ -253,7 +254,8 @@ export const EXECUTIVE_OFFICE_CANDIDATE_SCENE: EnvironmentSceneSpec = {
       z_order: 4,
       allowed_content_classes: ["headline", "agenda", "briefing-slide"],
       information_access: "institutional-working",
-      fallback_decoration: "dark desktop workstation monitor with state system lock screen",
+      fallback_decoration:
+        "dark desktop workstation monitor with state system lock screen",
     },
     {
       /** Framed architectural drawing mounted on the built-in bookcase. */
@@ -269,7 +271,8 @@ export const EXECUTIVE_OFFICE_CANDIDATE_SCENE: EnvironmentSceneSpec = {
       allowed_content_classes: ["jurisdiction-seal", "officeholder-portrait"],
       civic_symbol_policy: "canonical-source-only",
       information_access: "public-record",
-      fallback_decoration: "framed architectural facade elevation sketch in wooden frame",
+      fallback_decoration:
+        "framed architectural facade elevation sketch in wooden frame",
     },
   ],
 

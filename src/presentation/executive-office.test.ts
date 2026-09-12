@@ -30,7 +30,9 @@ describe("executive private office candidate scene", () => {
     expect(scene.presentationStatus).toBe("development-fixture");
     expect(scene.plate).toEqual({ width: 1376, height: 768 });
     expect(scene.raster).not.toBeNull();
-    expect(scene.raster!.assetId).toBe("env_executive_office_candidate_5504x3072_v1");
+    expect(scene.raster!.assetId).toBe(
+      "env_executive_office_candidate_5504x3072_v1",
+    );
 
     const ladder = scene.raster!.ladder;
     expect(ladder.tiers).toHaveLength(2);
@@ -50,7 +52,9 @@ describe("executive private office candidate scene", () => {
 
     // Unreleased candidate asset must NOT be in production visual library
     expect(
-      PRODUCTION_VISUAL_LIBRARY.has("env_executive_office_candidate_5504x3072_v1"),
+      PRODUCTION_VISUAL_LIBRARY.has(
+        "env_executive_office_candidate_5504x3072_v1",
+      ),
     ).toBe(false);
   });
 
@@ -151,7 +155,9 @@ describe("executive private office candidate scene", () => {
       (contentClass) => payloads[contentClass] ?? undefined,
     );
 
-    const deskDocBound = bound.find((b) => b.slotId === "desk-working-document")!;
+    const deskDocBound = bound.find(
+      (b) => b.slotId === "desk-working-document",
+    )!;
     expect(deskDocBound.state).toBe("bound");
     expect(deskDocBound.shows).toBe("Clean Water Infrastructure Bond Act");
 
@@ -159,7 +165,9 @@ describe("executive private office candidate scene", () => {
       (b) => b.slotId === "executive-monitor-screen",
     )!;
     expect(monitorBound.state).toBe("bound");
-    expect(monitorBound.shows).toBe("Governor Signs Clean Water Executive Order");
+    expect(monitorBound.shows).toBe(
+      "Governor Signs Clean Water Executive Order",
+    );
 
     const portraitBound = bound.find(
       (b) => b.slotId === "bookcase-architectural-sketch",
@@ -183,7 +191,9 @@ describe("executive private office candidate scene", () => {
     const venue = sceneVenueForLocationKey("executive-office");
     expect(venue).not.toBeNull();
     expect(venue!.sceneId).toBeNull();
-    expect(venue!.reason).toContain("remains unreleased pending human visual acceptance");
+    expect(venue!.reason).toContain(
+      "remains unreleased pending human visual acceptance",
+    );
 
     // 3. Not in reachable or production activity lists
     expect(VENUE_REACHABLE_SCENE_IDS).not.toContain(EXECUTIVE_OFFICE_SCENE_ID);

@@ -145,14 +145,15 @@ export const ENVIRONMENT_SOURCES: readonly EnvironmentSourceRecord[] = [
   },
   {
     sourceId: "env_campaign_storefront_5504x3072_v1",
-    label: "A campaign storefront field office",
+    label: "A campaign storefront field office (candidate)",
     path: "art/families/campaign-storefront/env_campaign_storefront_v1.png",
-    disposition: "in-ordinary-play",
+    disposition: "candidate-preview-only",
     sceneId: "campaign-storefront-production",
-    remainingStep: null,
-    owedBy: null,
+    remainingStep:
+      "Same-source owner visual acceptance, floor-plane review and release approval. #212's release flag had no recorded acceptance; original bytes/history retained.",
+    owedBy: "the owner",
     openRequestIds: [],
-    note: "PRODUCTION ART. Derived as two deterministic Lanczos-3 downscales from the swept 5504x3072 master IMG_5205.JPG. Reached in ordinary play when performing canonical campaign activities (campaign-office, campaign-call-desk) mapped in scene-venues.ts.",
+    note: "Two deterministic downscales from IMG_5205, exact Drive ID 1omryvYo8QYASr96guWI7XeQkJ6hdTKCu. Actual canonical campaign-call-desk activity resolves this plate only in isolated development candidate mode. Stable scene ID does not imply release. Native detail unverified; rights unknown.",
   },
   {
     sourceId: "env_shared_workroom_office_v1",
@@ -282,13 +283,13 @@ export const ENVIRONMENT_SOURCES: readonly EnvironmentSourceRecord[] = [
     note: "#131 intake ran it to `production` disposition mechanically; that is an intake verdict about the bytes, not owner acceptance of the art. Its baked furniture is extensive — roughly a dozen picnic tables — so modular people could not stand on the slab without contending with them. Rights status is unknown and stays unknown.",
   },
   {
-    sourceId: "env_press_briefing_room_5504x3072_01",
+    sourceId: "env_press_briefing_room_candidate_v1",
     label: "A press or announcement room (candidate)",
     path: "art/references/candidates/recent-drive-sweep/source-images/IMG_5202.JPG",
     disposition: "candidate-preview-only",
-    sceneId: null,
+    sceneId: "press-briefing-room-candidate",
     remainingStep:
-      "Owner acceptance plus the D-070 floor-plane gate, as above. It ALSO needs a canonical press event: nothing in this game says a briefing exists, is scheduled or is attendable.",
+      "Authored candidate composition at ?view=location-review. Owner acceptance and D-070 floor-plane gate remain pending; no canonical briefing activity/location producer exists. Existing press interviews are not a briefing-room association.",
     owedBy: "the owner, and then a campaign or executive owner",
     openRequestIds: [],
     note: "IT IS NOT THE HEARING ROOM, and the intake pass says so explicitly. It must not be substituted for `civic-hearing-room-production` or the committee fixture. Very little open floor survives between its thirty stacking chairs and the riser.",

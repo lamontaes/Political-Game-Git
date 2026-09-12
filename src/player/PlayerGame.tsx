@@ -1,3 +1,5 @@
+import { projectLocationSurfaces } from "../presentation/location-surfaces";
+import { locationReviewVisuals } from "../presentation/location-art-review";
 import { PressWorkspace } from "./PressWorkspace";
 import {
   SavedAppearanceProvider,
@@ -1918,9 +1920,19 @@ function PlayingScreen({
     [session.world, session.personId],
   );
 
+  const sceneVisuals = useMemo(
+    () => locationReviewVisuals(Boolean(artPreview) && import.meta.env.DEV),
+    [artPreview],
+  );
+
   const playScene = useMemo(() => {
     if (!continuingLifeShown)
-      return resolveOpeningPlaySceneContext(session.world, session.personId);
+      return resolveOpeningPlaySceneContext(
+        session.world,
+        session.personId,
+        undefined,
+        sceneVisuals,
+      );
     const activity = completedActivityHere(session.world, session.personId);
     const venue =
       activity && municipalVenueForActivity(session.world, activity.id);
@@ -1951,18 +1963,37 @@ function PlayingScreen({
       session.world,
       session.personId,
       projectedMoment.scene,
+      undefined,
+      sceneVisuals,
     );
-  }, [session.world, session.personId, projectedMoment, continuingLifeShown]);
+  }, [
+    session.world,
+    session.personId,
+    projectedMoment,
+    continuingLifeShown,
+    sceneVisuals,
+  ]);
 
   const sceneId = playScene.sceneId;
 
   const surfaceProjection = useMemo(
     () =>
-      projectDynamicSurfaces(session.world, {
-        jurisdictionId: capabilities.legislativeJurisdictionId,
-        measureId: assignment?.measureId ?? null,
-      }),
-    [session.world, capabilities.legislativeJurisdictionId, assignment],
+      projectLocationSurfaces(
+        session.world,
+        session.personId,
+        sceneId,
+        projectDynamicSurfaces(session.world, {
+          jurisdictionId: capabilities.legislativeJurisdictionId,
+          measureId: assignment?.measureId ?? null,
+        }),
+      ),
+    [
+      session.world,
+      session.personId,
+      sceneId,
+      capabilities.legislativeJurisdictionId,
+      assignment,
+    ],
   );
 
   const moment = useMemo(
@@ -1986,9 +2017,7 @@ function PlayingScreen({
     () =>
       planLifeScenePeople(
         session.world,
-        completedActivityHere(session.world, session.personId)
-          ? []
-          : moment.scene.presentPeople,
+        moment.scene.presentPeople,
         sceneId,
         undefined,
         {
@@ -2371,6 +2400,7 @@ function PlayingScreen({
           ) : null}
           <SceneBackdrop
             sceneId={sceneId}
+            visualLibrary={sceneVisuals}
             people={scenePeople}
             surfaces={surfaceProjection}
             /*

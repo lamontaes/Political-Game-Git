@@ -73,6 +73,7 @@ describe("scene registry", () => {
         COURTROOM_SCENE_ID,
         CAMPAIGN_STOREFRONT_SCENE_ID,
         PARK_COMMUNITY_PAVILION_SCENE_ID,
+        "press-briefing-room-candidate",
         EXECUTIVE_OFFICE_SCENE_ID,
       ].sort(),
     );
