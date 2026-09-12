@@ -319,7 +319,7 @@ test.describe("Nothing on screen says how much a choice will matter", () => {
 
     const written = await page.evaluate(async () => {
       return new Promise<string>((resolve) => {
-        const open = indexedDB.open("political-life-worlds", 1);
+        const open = indexedDB.open("political-life-worlds");
         open.onsuccess = () => {
           const transaction = open.result.transaction("worlds", "readonly");
           const request = transaction.objectStore("worlds").getAll();

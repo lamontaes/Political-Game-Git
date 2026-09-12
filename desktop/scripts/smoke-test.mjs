@@ -156,11 +156,17 @@ async function stableIdentity(page) {
     await win((w) => w.setSize(1024, 700));
     await new Promise((r) => setTimeout(r, 400));
     const size = await win((w) => w.getSize());
-    // A small runner display may clamp the height; what must hold is that
-    // the resize took effect and stayed within the window's contract.
+    // A small runner display may clamp the height. The contract is that
+    // the window is at the requested width and at least the minimum
+    // height. If it was already at that clamped size, setSize is a no-op
+    // rather than a product defect.
+    const withinContract = size[0] === 1024 && size[1] >= 640;
+    const changed = String(size) !== String(before);
+    const alreadyClamped =
+      before[0] === 1024 && before[1] >= 640 && before[1] <= 700;
     check(
       "shell: resize applies",
-      size[0] === 1024 && size[1] >= 640 && String(size) !== String(before),
+      withinContract && (changed || alreadyClamped),
       `${before} -> ${size}`,
     );
     check(

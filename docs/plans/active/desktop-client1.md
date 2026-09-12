@@ -70,8 +70,9 @@ Owner: Cursor Grok 4.6 Medium continuation on isolated branch
   hard-disables it.
 - Browser (Safari/Chrome) saves do not appear in the desktop app
   automatically. Transfer is the Saved games export/import file on this
-  branch. Pins/private journal persist only when the UI-bearing interface
-  store is present; accepted main discloses that store as unavailable.
+  branch. Pins/private journal persist when the same-life transfer includes
+  the `interface` store (this branch opens IndexedDB at version 2).
+  An explicit world-only import still refuses to invent that store.
 - Candidate preview remains DEV-gated in the UI-bearing source; a
   production installed build must not be described as showing that cast.
 

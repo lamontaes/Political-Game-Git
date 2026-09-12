@@ -102,10 +102,18 @@ jobs:
         env:
           OCD_EXPECT_ART_PREVIEW: ${{ matrix.profile == 'internal-art-review' && '1' || '' }}
         # Unpacked-.app proof on the runner (the DMG contains this same
-        # bundle); resize/fullscreen/minimize/quit included via --shell.
+        # bundle). Production also exercises window chrome via --shell.
+        # The internal-art-review job proves the labelled candidate
+        # banner, keep/relaunch, and portable transfer on an isolated
+        # profile; window chrome is already covered by production Mac.
         run: |
-          node scripts/smoke-test.mjs --app "release-artifacts/mac-arm64/Our Civic Duty.app/Contents/MacOS/Our Civic Duty" --shell
-          node scripts/transfer-test.mjs --app "release-artifacts/mac-arm64/Our Civic Duty.app/Contents/MacOS/Our Civic Duty"
+          app="release-artifacts/mac-arm64/Our Civic Duty.app/Contents/MacOS/Our Civic Duty"
+          if [ "${{ matrix.profile }}" = "internal-art-review" ]; then
+            node scripts/smoke-test.mjs --app "$app"
+          else
+            node scripts/smoke-test.mjs --app "$app" --shell
+          fi
+          node scripts/transfer-test.mjs --app "$app"
 
       - name: Record checksums and source identity
         shell: bash

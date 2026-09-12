@@ -275,7 +275,9 @@ test.describe("A life is kept, and comes back", () => {
     // A record this build cannot read, written straight into storage.
     await page.evaluate(async () => {
       await new Promise<void>((resolve) => {
-        const open = indexedDB.open("political-life-worlds", 1);
+        // Attach to the live database. Pinning an old version here throws
+        // VersionError once the store has migrated, and the write never lands.
+        const open = indexedDB.open("political-life-worlds");
         open.onsuccess = () => {
           const database = open.result;
           const transaction = database.transaction("worlds", "readwrite");
@@ -322,7 +324,9 @@ test.describe("What is written to disk is a player's world", () => {
   async function storedRecords(page: Page) {
     return page.evaluate(async () => {
       return new Promise<readonly unknown[]>((resolve) => {
-        const open = indexedDB.open("political-life-worlds", 1);
+        // Do not pin DATABASE_VERSION. A stale version throws VersionError
+        // and this helper used to treat that as an empty disk.
+        const open = indexedDB.open("political-life-worlds");
         open.onsuccess = () => {
           const transaction = open.result.transaction("worlds", "readonly");
           const request = transaction.objectStore("worlds").getAll();
