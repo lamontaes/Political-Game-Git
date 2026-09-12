@@ -5,7 +5,6 @@ import {
   currentLifeCutoff,
   householdMembershipsAt,
   addDays,
-  advanceWorld,
   advanceWorldMinutes,
   compareSimulationMoments,
   createCampaignElectionTransitionRegistry,
@@ -182,8 +181,8 @@ export const ORDINARY_DAY_START_MINUTE = 7 * 60;
  * for falls through to the substrate's own handler, so this changes nothing for
  * a life with no campaign in it.
  *
- * The first day is crossed on the canonical sub-day path rather than the
- * date-level one, and that is the whole of this repair. `advanceWorld` keeps
+ * Every requested day is crossed on the canonical sub-day path rather than
+ * falling back to the date-level primitive. `advanceWorld` keeps
  * the local minute by its own accepted contract, which is right for a date
  * primitive and wrong for the one control a player has: a character who spent
  * their evening and then moved to tomorrow arrived at tomorrow still standing
@@ -192,8 +191,8 @@ export const ORDINARY_DAY_START_MINUTE = 7 * 60;
  * books nothing that would run past nine — then had no reachable time left in
  * any day for the rest of the life, and the button that said "move to
  * tomorrow" could not make tomorrow any different. Crossing the first
- * midnight by minutes lands the character in the morning, and the remaining
- * whole days keep that morning by the same contract.
+ * midnight by minutes lands the character in the morning; a longer request
+ * targets the selected later morning on that same exact clock.
  *
  * A commitment the character has not answered yet is still a hard boundary:
  * the sub-day path may complete routine work before it, then returns at the
@@ -203,8 +202,8 @@ export const ORDINARY_DAY_START_MINUTE = 7 * 60;
  * A tentative opt-in is different from a promised commitment. Choosing to
  * pass beyond it records an explicit decline and releases its hold; it is
  * never auto-attended. Confirmed activity and travel remain hard boundaries.
- * Once that first exact crossing reaches tomorrow morning, additional whole
- * days retain the accepted date-level behavior and its composed due handlers.
+ * Later days cannot bypass a protected commitment through a date-level fallback.
+ * The composed due handlers still settle dated pay and study outcomes.
  */
 export function passOrdinaryDays(world: World, days = 1): World {
   // The handler registry travels with every advance an adult life can make.
@@ -218,7 +217,7 @@ export function passOrdinaryDays(world: World, days = 1): World {
   const migrated = migrateLegacyStudyProgression(world);
   const wholeDays = Math.max(1, Math.trunc(days));
   const morning = simulationMomentAtLocalTime({
-    date: addDays(migrated.currentDate, 1),
+    date: addDays(migrated.currentDate, wholeDays),
     minuteOfDay: ORDINARY_DAY_START_MINUTE,
     timeZone: migrated.currentMoment.timeZone,
     preferredUtcOffsetMinutes: migrated.currentMoment.utcOffsetMinutes,
@@ -226,15 +225,10 @@ export function passOrdinaryDays(world: World, days = 1): World {
   let current = migrated;
   for (let step = 0; step < 64; step += 1) {
     const minutes = simulationMinutesBetween(current.currentMoment, morning);
-    if (minutes <= 0)
-      return wholeDays === 1
-        ? current
-        : advanceWorld(current, wholeDays - 1, handlers);
+    if (minutes <= 0) return current;
     const stepped = advanceWorldMinutes(current, minutes, handlers);
     if (compareSimulationMoments(stepped.currentMoment, morning) >= 0)
-      return wholeDays === 1
-        ? stepped
-        : advanceWorld(stepped, wholeDays - 1, handlers);
+      return stepped;
 
     // Passing time is an explicit choice not to attend an optional hold. Write
     // that choice and release only the tentative activity at this exact
@@ -244,7 +238,18 @@ export function passOrdinaryDays(world: World, days = 1): World {
       const state = scheduledActivityState(stepped, activity.id);
       return (
         state.status === "scheduled" &&
-        compareSimulationMoments(state.start, stepped.currentMoment) === 0
+        (compareSimulationMoments(state.start, stepped.currentMoment) === 0 ||
+          stepped.history.scheduledActivities.some(
+            (journey) =>
+              journey.kind === "travel" &&
+              journey.sourceEntityIds.includes(activity.id) &&
+              scheduledActivityState(stepped, journey.id).status ===
+                "scheduled" &&
+              compareSimulationMoments(
+                scheduledActivityState(stepped, journey.id).start,
+                stepped.currentMoment,
+              ) === 0,
+          ))
       );
     });
     if (!optional || stepped.control.kind !== "person") return stepped;

@@ -713,9 +713,18 @@ function personalWorkWindow(
     minuteOfDay: path.sessionStartMinute,
   });
   const todayEnd = addSimulationMinutes(todayStart, path.sessionMinutes);
+  const scheduled = world.history.scheduledActivities.find(
+    (a) =>
+      a.sourceEntityIds.includes(id) &&
+      scheduledActivityState(world, a.id).status === "scheduled",
+  );
+  if (scheduled) {
+    const state = scheduledActivityState(world, scheduled.id);
+    return { start: state.start, end: state.end };
+  }
   if (
     !completedToday &&
-    compareSimulationMoments(world.currentMoment, todayEnd) < 0
+    compareSimulationMoments(world.currentMoment, todayStart) <= 0
   )
     return { start: todayStart, end: todayEnd };
   return nextLifePathSession(world, id);
@@ -757,7 +766,7 @@ function createLifePathRoutineHook(): RoutineTimeHook {
         if (!timing || !path) continue;
         if (compareSimulationMoments(timing.end, world.currentMoment) <= 0)
           continue;
-        if (compareSimulationMoments(timing.end, target) > 0) continue;
+        if (compareSimulationMoments(timing.start, target) >= 0) continue;
         windows.push({
           relationshipId: work.id,
           kind: "work",

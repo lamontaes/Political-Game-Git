@@ -52,12 +52,14 @@ export interface LifePathsPanelProps {
   readonly transitionHandlers?: FutureTransitionHandlerRegistry;
   /** False when the surface mounting this already carries the same title. */
   readonly headed?: boolean;
+  readonly showTimeControl?: boolean;
 }
 export function LifePathsPanel({
   world,
   onWorldChange,
   transitionHandlers,
   headed = true,
+  showTimeControl = true,
 }: LifePathsPanelProps) {
   const [notice, setNotice] = useState("");
   const [person, setPerson] = useState<EntityId | "">("");
@@ -160,22 +162,24 @@ export function LifePathsPanel({
           </article>
         );
       })}
-      <button
-        onClick={() => {
-          const next = advanceWorldMinutes(world, 1440, handlers);
-          act(
-            next === world
-              ? {
-                  ok: false,
-                  world,
-                  message: "A calendar commitment must be resolved first.",
-                }
-              : { ok: true, world: next, message: "One day passed." },
-          );
-        }}
-      >
-        Continue one day
-      </button>
+      {showTimeControl ? (
+        <button
+          onClick={() => {
+            const next = advanceWorldMinutes(world, 1440, handlers);
+            act(
+              next === world
+                ? {
+                    ok: false,
+                    world,
+                    message: "A calendar commitment must be resolved first.",
+                  }
+                : { ok: true, world: next, message: "One day passed." },
+            );
+          }}
+        >
+          Continue one day
+        </button>
+      ) : null}
       <h3>Your paths</h3>
       {mine.map((record) => {
         const path = pathForRelationship(world, record.id)!;

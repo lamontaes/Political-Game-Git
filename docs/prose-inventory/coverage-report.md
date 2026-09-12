@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2353 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5705 |
-| DIAGNOSTIC_OR_TEST | 4814 |
-| **NEEDS_CLASSIFICATION** | **6211** |
+| INTENTIONALLY_NON_PLAYER_FACING | 5706 |
+| DIAGNOSTIC_OR_TEST | 4830 |
+| **NEEDS_CLASSIFICATION** | **6228** |
 
-Scanned 582 files holding 72431 string
+Scanned 585 files holding 72549 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -70,6 +70,7 @@ literals in total; the table counts only those that read like a sentence.
 | 39 | `src/simulation/voice-bands.ts` |
 | 38 | `src/simulation/life-episodes.ts` |
 | 37 | `src/presentation/scene-consumers.ts` |
+| 37 | `src/simulation/life-opportunities.ts` |
 | 37 | `src/simulation/setup-opening-bank.ts` |
 | 36 | `src/simulation/world-metrics.ts` |
 | 35 | `src/simulation/campaign-compliance.generated.ts` |
@@ -77,7 +78,6 @@ literals in total; the table counts only those that read like a sentence.
 | 35 | `src/simulation/person-stress-harness.ts` |
 | 35 | `src/ui/PoliticalProfile.tsx` |
 | 34 | `src/simulation/civil-personnel.ts` |
-| 34 | `src/simulation/life-opportunities.ts` |
 | 34 | `src/simulation/mind.ts` |
 | 33 | `src/content/adapters/life-episodes.ts` |
 | 33 | `src/presentation/life-diagnostics.ts` |
@@ -154,6 +154,7 @@ literals in total; the table counts only those that read like a sentence.
 | 12 | `src/content/adapters/ordinary-life.ts` |
 | 12 | `src/player/PermanentShell.tsx` |
 | 12 | `src/player/opening-life/LifeScenePanel.tsx` |
+| 12 | `src/presentation/venue-activity.ts` |
 | 12 | `src/simulation/history.ts` |
 | 12 | `src/simulation/quantity.ts` |
 | 12 | `src/simulation/vitality.ts` |
@@ -170,7 +171,7 @@ literals in total; the table counts only those that read like a sentence.
 | 10 | `src/presentation/life-record.ts` |
 | 10 | `src/presentation/person-dossier.ts` |
 | 10 | `src/presentation/production-world.ts` |
-| 10 | `src/presentation/venue-activity.ts` |
+| 10 | `src/presentation/routine-outcome.ts` |
 | 10 | `src/simulation/office-qualification-rules.ts` |
 | 10 | `src/simulation/press-reach.ts` |
 | 10 | `src/simulation/setup-questionnaire-bank.ts` |
@@ -276,6 +277,7 @@ literals in total; the table counts only those that read like a sentence.
 | 3 | `src/ui/WorldControls.tsx` |
 | 2 | `src/fiscal-authority/query.ts` |
 | 2 | `src/player/IncidentResponsePanel.tsx` |
+| 2 | `src/player/PersonalRoutinePanel.tsx` |
 | 2 | `src/presentation/character-proof.ts` |
 | 2 | `src/presentation/legislation-docket-selection.ts` |
 | 2 | `src/presentation/people-directory.ts` |

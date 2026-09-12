@@ -63,8 +63,9 @@ control returns that exact partial World. It never falls back to
 `advanceWorld` from the boundary, because a date jump there would step around
 the commitment. Passing beyond a tentative opt-in records an explicit decline
 and releases that hold without attending it. Once the first exact crossing
-reaches tomorrow morning, any additional requested whole days retain the
-accepted date-level advancement behavior and its composed due handlers.
+targets a later morning, every requested day uses the exact-minute path and
+the composed due handlers. There is no whole-day fallback that can bypass a
+later protected interruption or omit ordinary work.
 
 At the same represented instant, resolution uses a fixed deterministic order:
 date boundary and its due work, then work completion, then selected scheduled

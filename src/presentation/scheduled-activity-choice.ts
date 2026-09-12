@@ -53,5 +53,15 @@ export function declineVenueActivity(
       immediateReaction: null,
     },
   });
-  return cancelScheduledActivity(recorded, activityId);
+  let next = cancelScheduledActivity(recorded, activityId);
+  for (const journey of next.history.scheduledActivities) {
+    if (
+      journey.kind === "travel" &&
+      journey.responsiblePersonId === personId &&
+      journey.sourceEntityIds.includes(activityId) &&
+      scheduledActivityState(next, journey.id).status === "scheduled"
+    )
+      next = cancelScheduledActivity(next, journey.id);
+  }
+  return next;
 }

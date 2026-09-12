@@ -1,5 +1,6 @@
 import {
   canPersonAccess,
+  advanceWorldMinutes,
   compareSimulationMoments,
   controlledCommitmentsBlockingActivityPerformance,
   performScheduledActivity,
@@ -35,6 +36,13 @@ interface DisclosedJourney {
  * would make the commitment look cheaper than the rules can establish.
  */
 const ATTEND_JOURNEYS = [
+  {
+    journeyLocationKey: "ordinary-life:to-meeting-room",
+    destinationLocationKey: "ordinary-life:meeting-room",
+    destinationSetting: "community room",
+    costDisclosure:
+      "Travel cost is not represented for this game-authored local route; no fare will be charged.",
+  },
   {
     journeyLocationKey: "office-to-east-end",
     destinationLocationKey: "east-end-community-room",
@@ -166,8 +174,12 @@ export function performVenueActivity(
   if (!journey)
     return performScheduledActivity(world, activityId, transitionHandlers);
 
+  // Resolve the legitimate ordinary windows crossed while waiting to depart.
+  // A protected interruption returns the partial World, never false arrival.
+  const waited = journey.waitMinutes > 0 ? advanceWorldMinutes(world, journey.waitMinutes, transitionHandlers) : world;
+  if (compareSimulationMoments(waited.currentMoment, scheduledActivityState(world, journey.activity.id).start) < 0) return waited;
   const travelled = performScheduledActivity(
-    world,
+    waited,
     journey.activity.id,
     transitionHandlers,
   );

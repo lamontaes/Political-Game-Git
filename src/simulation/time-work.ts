@@ -940,6 +940,10 @@ function completeRoutineWindow(
   if (blockers.some((id) => windowOverlapsActivity(world, slot, id)))
     return null;
   const prepared = hook.ensureScheduled(world, slot);
+  // A partial authorized skip establishes the work window before moving
+  // inside it. Reload can then resume actual work, not invent a late start.
+  if (compareSimulationMoments(slot.end, target) > 0)
+    return prepared === world ? null : prepared;
   const activity = prepared.history.scheduledActivities.find(
     (a) =>
       a.sourceEntityIds.includes(slot.relationshipId) &&

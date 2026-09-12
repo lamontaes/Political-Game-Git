@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   deserializeWorld,
+  cancelScheduledActivity,
   scheduledActivityState,
   serializeWorld,
 } from "../simulation";
@@ -12,7 +13,7 @@ import {
 } from "./life-scene-flow";
 import { createAuthoredMunicipalPublicSession } from "./municipal-workspace";
 import { describePlacesOutcome, projectPlacesWorkspace } from "./player-places";
-import { openOrdinaryLife } from "./ordinary-life";
+import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 import { declineVenueActivity, performVenueActivity } from "./venue-activity";
 import {
   createRunDLiteFixture,
@@ -95,7 +96,12 @@ describe("player-places projection", () => {
       questionnaire: "skipped",
       priors: [],
     });
-    const world = openOrdinaryLife(created.world, created.playerPersonId);
+    const opened = openOrdinaryLife(created.world, created.playerPersonId);
+    // A cancelled leg (like an older life without one) grants no arrival.
+    const journey = opened.history.scheduledActivities.find(
+      (a) => a.location.locationKey === "ordinary-life:to-meeting-room",
+    )!;
+    const world = passOrdinaryDays(cancelScheduledActivity(opened, journey.id));
     const model = projectPlacesWorkspace(world, created.playerPersonId)!;
     const venueOffer = model.offers.find(
       (offer) => offer.kind === "attend" && offer.activityId,

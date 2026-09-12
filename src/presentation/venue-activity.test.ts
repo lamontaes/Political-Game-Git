@@ -1,10 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { createNewGameWorld } from "./new-game";
-import { openOrdinaryLife } from "./ordinary-life";
+import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 import { performVenueActivity, venueActivities } from "./venue-activity";
 import { completedActivityHere, resolveVenueScene } from "./scene-venues";
 import {
   deserializeWorld,
+  cancelScheduledActivity,
   recordWorldEvent,
   serializeWorld,
   simulationMinutesBetween,
@@ -25,7 +26,11 @@ function life() {
     questionnaire: "skipped",
     priors: [],
   });
-  const opened = openOrdinaryLife(created.world, created.playerPersonId);
+  const initial = openOrdinaryLife(created.world, created.playerPersonId);
+  const journey = initial.history.scheduledActivities.find(
+    (a) => a.location.locationKey === "ordinary-life:to-meeting-room",
+  )!;
+  const opened = passOrdinaryDays(cancelScheduledActivity(initial, journey.id));
   const activity = opened.history.scheduledActivities.find(
     (candidate) =>
       candidate.location.locationKey === "ordinary-life:meeting-room",

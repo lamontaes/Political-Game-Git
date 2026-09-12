@@ -16,7 +16,7 @@ import {
   futureDueItemStateAt,
 } from "./future-transitions";
 import { cancelScheduledActivity, scheduledActivityState } from "./time-work";
-import { addDays } from "./dates";
+import { addDays, daysBetween } from "./dates";
 import type { LifePathDefinition } from "./life-paths2-catalog";
 import type { EntityId, IsoDate, World } from "./types";
 
@@ -29,6 +29,26 @@ const authored = {
 
 export function studyUsesPeriodModel(path: LifePathDefinition): boolean {
   return path.progressionModel === "periods";
+}
+
+/** Paused dates are preserved evidence, not attended study time. */
+function studyInactiveDays(world: World, enrollmentId: EntityId): number {
+  const states = world.history.educationEnrollmentStates.filter(
+    (s) => s.enrollmentId === enrollmentId,
+  );
+  let inactive = 0;
+  for (let i = 0; i < states.length; i += 1) {
+    const state = states[i]!;
+    if (state.status === "temporarily-inactive")
+      inactive += Math.max(
+        0,
+        daysBetween(
+          state.effectiveAt,
+          states[i + 1]?.effectiveAt ?? world.currentDate,
+        ),
+      );
+  }
+  return inactive;
 }
 
 /**
@@ -192,7 +212,10 @@ export function studyProgressSummary(
   );
   const nextDueDate =
     enrollment && completed < total
-      ? studyPeriodDueDate(enrollment.startedAt, path, completed + 1)
+      ? addDays(
+          studyPeriodDueDate(enrollment.startedAt, path, completed + 1),
+          studyInactiveDays(world, enrollmentId),
+        )
       : null;
   const periodCost = path.periodCostMinor ?? 0;
   return {
@@ -248,7 +271,10 @@ export function scheduleStudyPeriodDue(
   if (!enrollment) throw new Error("Missing enrollment");
   if (hasScheduledStudyPeriodDue(world, enrollmentId, periodNumber))
     return world;
-  let dueAt = studyPeriodDueDate(enrollment.startedAt, path, periodNumber);
+  let dueAt = addDays(
+    studyPeriodDueDate(enrollment.startedAt, path, periodNumber),
+    studyInactiveDays(world, enrollmentId),
+  );
   if (dueAt <= world.currentDate) dueAt = addDays(world.currentDate, 1);
   return scheduleFutureDueItem(world, {
     stableKey: periodDueStableKey(
@@ -349,6 +375,14 @@ export function completeStudyPeriod(
   const periodNumber = completedStudyPeriods(world, enrollmentId, path) + 1;
   const total = totalStudyPeriods(path);
   if (periodNumber > total) return world;
+  if (
+    world.currentDate <
+    addDays(
+      studyPeriodDueDate(enrollment.startedAt, path, periodNumber),
+      studyInactiveDays(world, enrollmentId),
+    )
+  )
+    return world;
   const legacyPaid =
     completedStudySessions(world, enrollmentId) * path.sessionCostMinor;
   const cost = Math.max(

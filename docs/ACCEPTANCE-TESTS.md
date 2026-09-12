@@ -1,5 +1,15 @@
 # Acceptance Tests
 
+NEXT24 D regression: Personal's controlled-person routine mount must work
+without office capability. Pointer and keyboard can accept ordinary work,
+enroll/interupt/resume period study, Attend after journey disclosure, and Keep/
+reopen the same life. Actual 09:00–13:00 work earns one payable shift; completed
+travel precedes arrival and attendance. Longer skips stop at later protected
+commitments; tuition refusal and cancellation cannot invent pay or arrival.
+Inactive study dates do not count toward a credential. See
+`tests/e2e/next24-personal-routine.spec.ts` and
+`src/presentation/next24-routine-route.test.ts`.
+
 ## Status Vocabulary
 
 - **AUTOMATED NOW** — executable in the current repository and required to pass.

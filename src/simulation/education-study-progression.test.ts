@@ -59,6 +59,19 @@ const liquid = (w: World) =>
   )!.liquidBalance.minorUnits;
 
 describe("period-based study progression", () => {
+  it("excludes inactive dates across reload when resuming a period", () => {
+    let w = enterLifePath(fixture(), "college-office-certificate").world;
+    const id = w.history.educationEnrollments.at(-1)!.id;
+    w = advanceWorld(w, 20, LIFE_PATHS2_HANDLERS);
+    w = changeLifePathStatus(w, id, "pause").world;
+    w = advanceWorld(w, 200, LIFE_PATHS2_HANDLERS);
+    w = deserializeWorld(serializeWorld(w));
+    w = changeLifePathStatus(w, id, "return").world;
+    w = advanceWorld(w, 140, LIFE_PATHS2_HANDLERS);
+    expect(completedStudyPeriods(w, id)).toBe(0);
+    w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
+    expect(completedStudyPeriods(w, id)).toBe(1);
+  });
   it("enrolls in bachelor's, advances by period, charges once per period, and completes after elapsed years", () => {
     let w = enterLifePath(fixture(), "college-bachelors").world;
     const id = w.history.educationEnrollments.at(-1)!.id;
