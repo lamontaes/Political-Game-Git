@@ -24,6 +24,9 @@ Owner: Cursor Grok 4.6 Medium continuation on isolated branch
   adapter over `VITE_OCD_BUILD_PROFILE`; not claimed here.
 - Linux cloud packaging is not Mac/Windows launch proof. CI remains the
   macOS/Windows runner path.
+- Root Vitest excludes `desktop/**` (those suites use Node `node:test`).
+  Save-transfer player copy is registered as computed `shell/save-transfer`
+  prose.
 
 ## What exists
 

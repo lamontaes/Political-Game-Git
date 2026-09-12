@@ -419,6 +419,51 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
       },
     ],
   },
+  {
+    sourcePath: "src/player/SaveTransferControls.tsx",
+    domain: "shell",
+    bank: "save-transfer",
+    symbols: [
+      "SaveTransferControls",
+      "exportLife",
+      "SaveImportControl",
+      "onFile",
+    ],
+    surface: "status",
+    reachability: "PLAYER_REACHABLE",
+    reachabilityReason:
+      "The Saved games screen mounts export and import on an existing slot list.",
+    grounding: [
+      {
+        key: "portable-save-slot",
+        description:
+          "The selected local save identity, or a newly created slot on import. Existing slots are not overwritten.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/presentation/portable-save.ts",
+    domain: "shell",
+    bank: "save-transfer",
+    symbols: [
+      "parsePortableSave",
+      "exportPortableSave",
+      "importPortableSave",
+      "readOptionalInterface",
+      "writeOptionalInterface",
+    ],
+    surface: "status",
+    reachability: "PLAYER_REACHABLE",
+    reachabilityReason:
+      "Export and import surface these refusals and outcomes on the Saved games screen.",
+    grounding: [
+      {
+        key: "portable-save-bundle",
+        description:
+          "The versioned life file, its World payload, and whether an interface store was present.",
+      },
+    ],
+  },
 ];
 
 /** Is this literal a sentence a player reads, or machinery? */

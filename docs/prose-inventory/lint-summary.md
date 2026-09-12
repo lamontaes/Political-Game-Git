@@ -22,9 +22,9 @@ defect than the one it was aimed at.
 
 ## Repetition
 
-- 2069 templates, 2037 distinct texts.
-- 25 exact duplicate groups.
-- 31 normalized duplicate groups.
+- 2104 templates, 2064 distinct texts.
+- 28 exact duplicate groups.
+- 35 normalized duplicate groups.
 - 8 near-duplicate clusters (Jaccard ≥ 0.72).
 
 Exact duplicate text at two semantic locations is not itself a defect: each
@@ -45,20 +45,20 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `out of the` | 13 | 5 |
 | `proof of income` | 12 | 2 |
 | `the two of` | 12 | 3 |
+| `existing saves are` | 11 | 1 |
+| `existing saves are unchanged` | 11 | 1 |
 | `has asked you` | 11 | 4 |
 | `is on the` | 11 | 6 |
 | `no instrument read establishes` | 11 | 1 |
 | `of income form` | 11 | 2 |
 | `proof of income form` | 11 | 2 |
+| `saves are unchanged` | 11 | 1 |
 | `the bill is` | 11 | 2 |
+| `is not a` | 10 | 3 |
 | `the end of` | 10 | 4 |
 | `the player asked` | 10 | 1 |
 | `the two of you` | 10 | 3 |
 | `two of you` | 10 | 3 |
-| `you did not` | 10 | 4 |
-| `at the end` | 9 | 3 |
-| `at the end of` | 9 | 3 |
-| `in the room` | 9 | 5 |
 
 ### Most repeated sentence openings
 
@@ -68,6 +68,7 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `there is a` | 12 |
 | `the bill is` | 10 |
 | `the player asked` | 10 |
+| `that file is` | 9 |
 | `you took the` | 9 |
 | `say you will` | 8 |
 | `you told them` | 7 |
@@ -78,6 +79,5 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `ask about the` | 5 |
 | `say nothing to` | 5 |
 | `they said they` | 5 |
-| `you asked to` | 5 |
 
 Every finding with its exact semantic ID is in `lint-findings.json`.
