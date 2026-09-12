@@ -1,4 +1,4 @@
-/* global process, URL, Response, setTimeout */
+/* global process, URL, Response */
 /**
  * Our Civic Duty — desktop shell main process.
  *
@@ -23,6 +23,7 @@ import { fileURLToPath } from "node:url";
 import electron from "electron";
 import { runUpdateCheck, updateActivation } from "./updater.mjs";
 import { windowsAllClosed } from "./window-close.mjs";
+import { portableDownloadSavePath } from "./download-policy.mjs";
 
 const { app, BrowserWindow, Menu, dialog, protocol, session, shell } = electron;
 
@@ -405,6 +406,24 @@ if (!app.requestSingleInstanceLock()) {
       callback(false),
     );
     ses.setPermissionCheckHandler(() => false);
+
+    // Browser-compatible save export uses an <a download> of a JSON blob.
+    // Electron will not finish that download unless the main process names a
+    // destination. Only JSON portable-save files from blob/data/app origin.
+    ses.on("will-download", (event, item) => {
+      const destDir = process.env.OCD_DOWNLOAD_DIR || app.getPath("downloads");
+      const dest = portableDownloadSavePath(
+        item.getFilename(),
+        item.getURL(),
+        destDir,
+        APP_ORIGIN,
+      );
+      if (dest === null) {
+        event.preventDefault();
+        return;
+      }
+      item.setSavePath(dest);
+    });
 
     app.on("web-contents-created", (_event, contents) => {
       contents.on("will-prevent-unload", () => {

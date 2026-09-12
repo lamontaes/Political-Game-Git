@@ -7,7 +7,7 @@
  * Usage: node scripts/transfer-test.mjs --app <executable>
  */
 
-import { mkdtempSync } from "node:fs";
+import { mkdtempSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import os from "node:os";
@@ -43,7 +43,11 @@ function check(label, condition, detail = "") {
 
 const app = await _electron.launch({
   executablePath: appPath,
-  env: { ...process.env, OCD_USER_DATA_DIR: profile },
+  env: {
+    ...process.env,
+    OCD_USER_DATA_DIR: profile,
+    OCD_DOWNLOAD_DIR: profile,
+  },
 });
 const page = await app.firstWindow();
 await page.waitForLoadState("domcontentloaded");
@@ -84,19 +88,27 @@ await page.getByTestId("saves-screen").waitFor();
 const beforeCount = await page.getByTestId("save-entry").count();
 check("transfer: a kept life is listed", beforeCount >= 1, String(beforeCount));
 
-const downloadPromise = page.waitForEvent("download", { timeout: 15000 });
 await page
   .getByTestId(/^export-save-/)
   .first()
   .click();
-const download = await downloadPromise;
-const filePath = path.join(profile, download.suggestedFilename());
-await download.saveAs(filePath);
+let filePath = null;
+for (let i = 0; i < 40 && filePath === null; i += 1) {
+  const found = readdirSync(profile).filter((name) =>
+    name.endsWith(".ocd-life.json"),
+  );
+  if (found.length > 0) filePath = path.join(profile, found[0]);
+  else await new Promise((resolve) => setTimeout(resolve, 250));
+}
 check(
   "transfer: export produced a file",
-  filePath.endsWith(".ocd-life.json") || filePath.endsWith(".json"),
-  filePath,
+  Boolean(filePath),
+  filePath ?? "no file in profile download dir",
 );
+if (!filePath) {
+  await app.close();
+  process.exit(1);
+}
 
 const chooserPromise = page.waitForEvent("filechooser", { timeout: 10000 });
 await page.getByTestId("import-save").click();

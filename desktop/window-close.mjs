@@ -1,3 +1,4 @@
+/* global setTimeout, clearTimeout */
 /**
  * Close every window through the ordinary close path.
  *
