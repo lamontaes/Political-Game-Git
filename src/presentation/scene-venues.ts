@@ -15,6 +15,7 @@ import {
   PUBLIC_MEETING_ROOM_SCENE_ID,
   CAMPAIGN_STOREFRONT_SCENE_ID,
   PARK_COMMUNITY_PAVILION_SCENE_ID,
+  EXECUTIVE_OFFICE_SCENE_ID,
   SCENE_REGISTRY,
   type SceneRegistry,
 } from "./scene-registry";
@@ -81,7 +82,7 @@ export const SCENE_VENUES: readonly SceneVenue[] = [
     locationKey: "executive-office",
     sceneId: null,
     reason:
-      "No executive room is released. The banked executive master is 1672px wide, below the 4608px environment master minimum, so it cannot be carried into the runtime. The 5504px candidate that would replace it is unapproved. See asset request 'env-executive-office-4k-master'.",
+      "No executive room is released in production. The swept 5504x3072 master IMG_5189.JPG is authored as candidate fixture 'executive-office-candidate' (answering 'env-executive-office-4k-master'), but remains unreleased pending human visual acceptance.",
     isJourney: false,
   },
   {
@@ -338,5 +339,9 @@ export const VENUE_DELIBERATELY_UNREACHED: ReadonlyMap<string, string> =
     [
       PARK_COMMUNITY_PAVILION_SCENE_ID,
       "Candidate scene. The park community pavilion is candidate-isolated pending human visual acceptance and an exterior location producer in normal play.",
+    ],
+    [
+      EXECUTIVE_OFFICE_SCENE_ID,
+      "Candidate scene. The executive private study is candidate-isolated pending human visual acceptance and formal owner sign-off.",
     ],
   ]);

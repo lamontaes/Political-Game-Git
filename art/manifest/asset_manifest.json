@@ -4714,6 +4714,48 @@
       ]
     },
     {
+      "asset_id": "env_executive_office_candidate_5504x3072_v1",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "family_id": "executive-private-office",
+      "jurisdiction_scope": "unscoped-generic-executive-office",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_env_executive_office_candidate_5504x3072_v1"
+      ],
+      "rights_note": "Candidate source master; external reuse rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Executive private office: wood-panelled private study with fireplace, bookshelves, executive desk and visitor armchairs. Candidate review plate derived via deterministic Lanczos-3 downscale from 5504x3072 master IMG_5189.JPG (answers open request env-executive-office-4k-master).",
+      "negative_constraints": [
+        "Candidate status; unreleased in production until owner visual approval.",
+        "Do not upscale this master.",
+        "Do not bake names, seals, flags, or simulation text into this plate."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/families/executive-private-office/env_executive_office_v1.png",
+      "hash": "1f77a0b5f908cd43a4aa99d56df42e000fc8514a26ded64c178f032ece55e4b6",
+      "requires_transparency": false,
+      "raster_tiers": [
+        {
+          "width": 1376,
+          "height": 768,
+          "path": "art/families/executive-private-office/env_executive_office_v1.png",
+          "hash": "1f77a0b5f908cd43a4aa99d56df42e000fc8514a26ded64c178f032ece55e4b6",
+          "derivation": "deterministic-downscale"
+        },
+        {
+          "width": 2752,
+          "height": 1536,
+          "path": "art/families/executive-private-office/env_executive_office_runtime_2x_v1.png",
+          "hash": "71f7043510a374d2d27936a058c170729de6d4ba6924682c1090b44868ccfe6b",
+          "derivation": "deterministic-downscale"
+        }
+      ]
+    },
+    {
       "asset_id": "env_office_executive_private_lincoln_1672x941_v1",
       "asset_type": "environment-master",
       "art_class": "production",

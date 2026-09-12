@@ -2086,6 +2086,23 @@
       "edits_performed": "Master preserved byte-for-byte at art/references/candidates/recent-drive-sweep/source-images/IMG_5204.JPG. Derived two runtime tiers via deterministic Lanczos-3 downscale: 1376x768 sha256 d785b09e41f02a41b625a2fccda9f840dadc5f56cf3fd3f388350aeec6f4f813 and 2752x1536 sha256 228fd1dcf898c13277c0efc301f3347d0baab8a5d49076a6cb0a769aac242dbc. Nothing was enlarged and master is unmodified.",
       "output_hash_version": "sha256",
       "approval_status": "approved"
+    },
+    {
+      "provenance_id": "prov_env_executive_office_candidate_5504x3072_v1",
+      "asset_id": "env_executive_office_candidate_5504x3072_v1",
+      "source_url_or_path": "art/references/candidates/recent-drive-sweep/source-images/IMG_5189.JPG",
+      "document_photo_plan_title": "Drive file id 1b8jYAdg2wyxrcgAeddZ5eW4KBzzO78ux · IMG_5189.JPG · master sha256 a538616176e4340aa828fa56dbc61fe18b298552d7604e889233872bbb1179aa · 3418160 bytes · 5504x3072 JPEG",
+      "access_retrieval_date": "2026-09-12",
+      "rights_license_status": "unknown",
+      "reference_type": "ai-generated",
+      "source_authority_category": "visual-estimate-support",
+      "generator_tool": "not-recorded",
+      "generated_model_version": "not-recorded",
+      "prompt_spec_manifest_id": "NEXT24 Section G executive office candidate (replaces 1672px master)",
+      "generation_edit_date": "2026-09-12",
+      "edits_performed": "Master preserved byte-for-byte at art/references/candidates/recent-drive-sweep/source-images/IMG_5189.JPG. Derived two runtime tiers via deterministic Lanczos-3 downscale: 1376x768 sha256 1f77a0b5f908cd43a4aa99d56df42e000fc8514a26ded64c178f032ece55e4b6 and 2752x1536 sha256 71f7043510a374d2d27936a058c170729de6d4ba6924682c1090b44868ccfe6b. Nothing was enlarged and master is unmodified.",
+      "output_hash_version": "sha256",
+      "approval_status": "approved"
     }
   ]
 }

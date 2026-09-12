@@ -25,6 +25,7 @@ import {
   TITLE_TABLEAU_SCENE_ID,
   CAMPAIGN_STOREFRONT_SCENE_ID,
   PARK_COMMUNITY_PAVILION_SCENE_ID,
+  EXECUTIVE_OFFICE_SCENE_ID,
   registerScene,
   requireScene,
   requireSceneAnchor,
@@ -35,6 +36,7 @@ import { CIVIC_COMMUNITY_MEETING_ROOM_SCENE } from "../environment/scenes/civic-
 import { COURTROOM_EMPTY_PRODUCTION_SCENE } from "../environment/scenes/courtroom-empty-production";
 import { CAMPAIGN_STOREFRONT_PRODUCTION_SCENE } from "../environment/scenes/campaign-storefront-production";
 import { PARK_COMMUNITY_PAVILION_CANDIDATE_SCENE } from "../environment/scenes/park-community-pavilion-production";
+import { EXECUTIVE_OFFICE_CANDIDATE_SCENE } from "../environment/scenes/executive-office-production";
 
 describe("scene registry", () => {
   it("registers every shipped scene from a validated EnvironmentSceneSpec", () => {
@@ -49,6 +51,7 @@ describe("scene registry", () => {
       COURTROOM_EMPTY_PRODUCTION_SCENE,
       CAMPAIGN_STOREFRONT_PRODUCTION_SCENE,
       PARK_COMMUNITY_PAVILION_CANDIDATE_SCENE,
+      EXECUTIVE_OFFICE_CANDIDATE_SCENE,
       OFFICE_COUNCIL_STAFF_FIXTURE_SCENE,
       COMMITTEE_ROOM_FIXTURE_SCENE,
     ]) {
@@ -70,6 +73,7 @@ describe("scene registry", () => {
         COURTROOM_SCENE_ID,
         CAMPAIGN_STOREFRONT_SCENE_ID,
         PARK_COMMUNITY_PAVILION_SCENE_ID,
+        EXECUTIVE_OFFICE_SCENE_ID,
       ].sort(),
     );
   });
@@ -106,6 +110,7 @@ describe("scene registry", () => {
       OFFICE_FIXTURE_SCENE_ID,
       COMMITTEE_FIXTURE_SCENE_ID,
       PARK_COMMUNITY_PAVILION_SCENE_ID,
+      EXECUTIVE_OFFICE_SCENE_ID,
     ]) {
       expect(
         requireScene(SCENE_REGISTRY, sceneId).presentationStatus,

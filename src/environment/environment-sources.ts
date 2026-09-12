@@ -229,6 +229,18 @@ export const ENVIRONMENT_SOURCES: readonly EnvironmentSourceRecord[] = [
     openRequestIds: [],
     note: "CANDIDATE ART, FULLY CARRIED, HELD AT THE GATE. Derived as two deterministic Lanczos-3 downscales. Registered as candidate fixture art under candidate isolation pending human visual review. Preserves AX-92B1 candidate intake invariants.",
   },
+  {
+    sourceId: "env_executive_office_candidate_5504x3072_v1",
+    label: "An executive private study (candidate)",
+    path: "art/families/executive-private-office/env_executive_office_v1.png",
+    disposition: "carried-not-released",
+    sceneId: "executive-office-candidate",
+    remainingStep:
+      "Owner visual acceptance and formal style-family sign-off, plus executive workplace activity integration.",
+    owedBy: "the owner, and then an executive gameplay owner",
+    openRequestIds: ["env-executive-office-4k-master"],
+    note: "CANDIDATE ART, FULLY CARRIED, HELD AT THE GATE. Answers open request env-executive-office-4k-master and replaces the 1672px master. Derived as two deterministic Lanczos-3 downscales from swept 5504x3072 master IMG_5189.JPG. Authored and registered as candidate fixture art under candidate isolation pending human visual review.",
+  },
 
   /* --- Approved, mechanically blocked ------------------------------------ */
   {
@@ -291,7 +303,7 @@ export const ENVIRONMENT_SOURCES: readonly EnvironmentSourceRecord[] = [
       "Owner acceptance. Mechanically it is the strongest unaccepted candidate in the bank: it is the only one that answers a standing asset request outright.",
     owedBy: "the owner",
     openRequestIds: ["env-executive-office-4k-master"],
-    note: "Classified NEW_PRODUCTION_SOURCE_CANDIDATE by the drive sweep and never carried further. At 5504px it clears the master minimum the banked 1672px executive master fails. Acceptance would still need scene authoring and the executive owner’s exact workplace consumer.",
+    note: "Classified NEW_PRODUCTION_SOURCE_CANDIDATE by the drive sweep. Replaces the banked 1672px master below the 4608px minimum. Derived into runtime candidate tiers and authored as candidate fixture 'executive-office-candidate' under candidate isolation; owner visual acceptance and style-family sign-off remain pending.",
   },
   {
     sourceId: "IMG_5190.JPG",

@@ -10,6 +10,7 @@ import {
   PUBLIC_MEETING_ROOM_SCENE_ID,
   CAMPAIGN_STOREFRONT_SCENE_ID,
   PARK_COMMUNITY_PAVILION_SCENE_ID,
+  EXECUTIVE_OFFICE_SCENE_ID,
   SCENE_REGISTRY,
   TITLE_TABLEAU_SCENE_ID,
   type SceneRegistry,
@@ -244,13 +245,13 @@ export const SCENE_CONSUMERS: readonly SceneConsumerDeclaration[] = [
     label: "An executive's private study",
     runtimeComponent: "none",
     canonicalGate:
-      "A source-confirmed executive workplace and a released scene. The transferred executive lane owns capability and activity integration.",
-    sceneId: null,
+      "Candidate preview surface. A source-confirmed executive workplace and released production scene remain needed for gameplay.",
+    sceneId: EXECUTIVE_OFFICE_SCENE_ID,
     wiredThrough: null,
     openRequestIds: ["env-executive-office-4k-master"],
     blockedSeam:
-      "The executive owner must provide the actual workplace/activity context; ENV must not infer a private study from an executive role.",
-    note: "The 1672px master is below the environment master minimum. The larger candidate remains unaccepted and cannot substitute for released art, regardless of executive gameplay availability.",
+      "Owner visual acceptance of candidate IMG_5189.JPG and executive owner workplace activity integration.",
+    note: "CANDIDATE FIXTURE. Authored against swept 5504x3072 master IMG_5189.JPG and registered as candidate fixture 'executive-office-candidate' answering request 'env-executive-office-4k-master'. Kept candidate-isolated pending human visual acceptance.",
   },
   {
     consumerId: "courtroom",
