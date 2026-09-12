@@ -129,6 +129,7 @@ describe("the shell's own store", () => {
     expect(read?.preferences).toEqual({
       peopleView: "list",
       defaultPinSize: "tiny",
+      followedNewsOutletKeys: [],
     });
   });
 
@@ -159,6 +160,26 @@ describe("the shell's own store", () => {
     await expect(store.read(SLOT)).resolves.toEqual(EMPTY_SHELL_STATE);
   });
 
+  it("keeps followed outlets distinct between two saved lives", async () => {
+    const { store } = storeWith();
+    const otherSlot = "save-2" as EntityId;
+    await store.write(SLOT, {
+      ...EMPTY_SHELL_STATE,
+      preferences: {
+        ...DEFAULT_PREFERENCES,
+        followedNewsOutletKeys: ["civic-ledger"],
+      },
+    });
+    await store.write(otherSlot, EMPTY_SHELL_STATE);
+
+    expect(
+      (await store.read(SLOT))?.preferences.followedNewsOutletKeys,
+    ).toEqual(["civic-ledger"]);
+    expect(
+      (await store.read(otherSlot))?.preferences.followedNewsOutletKeys,
+    ).toEqual([]);
+  });
+
   it("forgets a slot when it is cleared", async () => {
     const { store } = storeWith();
     await store.write(SLOT, {
@@ -176,7 +197,15 @@ describe("the shell's own store", () => {
     });
     expect(store.available).toBe(false);
     await expect(store.read(SLOT)).resolves.toBeNull();
-    await expect(store.write(SLOT, EMPTY_SHELL_STATE)).resolves.toBe(false);
+    await expect(
+      store.write(SLOT, {
+        ...EMPTY_SHELL_STATE,
+        preferences: {
+          ...DEFAULT_PREFERENCES,
+          followedNewsOutletKeys: ["civic-ledger"],
+        },
+      }),
+    ).resolves.toBe(false);
   });
 });
 
@@ -220,6 +249,25 @@ describe("what the reader will accept", () => {
     });
     expect(read?.pins[0]?.size).toBe("normal");
     expect(read?.preferences).toEqual(DEFAULT_PREFERENCES);
+  });
+
+  it("migrates old records and validates distinct outlet follows", () => {
+    expect(
+      readStoredShellState({
+        version: 2,
+        pins: [],
+        preferences: {},
+      })?.preferences.followedNewsOutletKeys,
+    ).toEqual([]);
+    expect(
+      readStoredShellState({
+        version: 3,
+        pins: [],
+        preferences: {
+          followedNewsOutletKeys: ["civic-ledger", " civic-ledger ", "", 4],
+        },
+      })?.preferences.followedNewsOutletKeys,
+    ).toEqual(["civic-ledger"]);
   });
 });
 

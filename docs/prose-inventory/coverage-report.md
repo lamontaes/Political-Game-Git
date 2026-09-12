@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 2353 |
 | INTENTIONALLY_NON_PLAYER_FACING | 5722 |
-| DIAGNOSTIC_OR_TEST | 4838 |
-| **NEEDS_CLASSIFICATION** | **6206** |
+| DIAGNOSTIC_OR_TEST | 4852 |
+| **NEEDS_CLASSIFICATION** | **6211** |
 
-Scanned 594 files holding 72787 string
+Scanned 596 files holding 72892 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -158,6 +158,7 @@ literals in total; the table counts only those that read like a sentence.
 | 12 | `src/simulation/quantity.ts` |
 | 12 | `src/simulation/vitality.ts` |
 | 11 | `src/content/adapters/life-situations.ts` |
+| 11 | `src/player/PublicInformationPanel.tsx` |
 | 11 | `src/presentation/life-scene-flow.ts` |
 | 11 | `src/presentation/portable-save.ts` |
 | 11 | `src/presentation/run-b-conversation-progress.ts` |
@@ -166,10 +167,10 @@ literals in total; the table counts only those that read like a sentence.
 | 11 | `src/ui/SceneAuthoringProofView.tsx` |
 | 11 | `src/ui/scene-venue-exercise.ts` |
 | 10 | `src/player/MeasureFloorSurface.tsx` |
-| 10 | `src/player/PublicInformationPanel.tsx` |
 | 10 | `src/presentation/life-record.ts` |
 | 10 | `src/presentation/person-dossier.ts` |
 | 10 | `src/presentation/production-world.ts` |
+| 10 | `src/presentation/shell-navigation.ts` |
 | 10 | `src/simulation/office-qualification-rules.ts` |
 | 10 | `src/simulation/press-reach.ts` |
 | 10 | `src/simulation/setup-questionnaire-bank.ts` |
@@ -192,7 +193,6 @@ literals in total; the table counts only those that read like a sentence.
 | 8 | `src/presentation/new-game.ts` |
 | 8 | `src/presentation/ordinary-life.ts` |
 | 8 | `src/presentation/player-capabilities.ts` |
-| 8 | `src/presentation/shell-navigation.ts` |
 | 8 | `src/simulation/future-transitions.ts` |
 | 8 | `src/simulation/incident-catalog.ts` |
 | 8 | `src/simulation/production-catalog.ts` |
@@ -279,6 +279,7 @@ literals in total; the table counts only those that read like a sentence.
 | 2 | `src/fiscal-authority/query.ts` |
 | 2 | `src/player/IncidentResponsePanel.tsx` |
 | 2 | `src/player/WardrobeFigure.tsx` |
+| 2 | `src/player/public-information-views.ts` |
 | 2 | `src/presentation/character-proof.ts` |
 | 2 | `src/presentation/legislation-docket-selection.ts` |
 | 2 | `src/presentation/people-directory.ts` |
