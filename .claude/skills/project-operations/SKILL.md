@@ -27,18 +27,22 @@ active plan rather than reconstructing authorization from historical evidence.
 1. Run `npm run agent:preflight`. Fetch the relevant remote refs, then record the
    absolute workspace, branch, local HEAD, upstream ref/SHA, dirty tracked files,
    untracked files, and worktree ownership.
-2. Stop if the workspace, branch, PR, or active writer is ambiguous. A task that
+2. During edits, run `npm run agent:test-cadence` and execute the focused stages
+   it names for the files you actually changed. Before readiness or LAND handoff,
+   rerun with `--readiness` and record exact-source proof through
+   `scripts/agent-run-receipt.mjs`.
+3. Stop if the workspace, branch, PR, or active writer is ambiguous. A task that
    is idle or stalled may still own a worktree.
-3. For a takeover, treat the source worktree as read-only. Compare remote heads,
+4. For a takeover, treat the source worktree as read-only. Compare remote heads,
    local refs, the owning plan, and actual dirty/untracked files. Never stash,
    reset, clean, or force-push to simplify recovery.
-4. If unpublished work must move, save a bounded binary-capable patch plus only
+5. If unpublished work must move, save a bounded binary-capable patch plus only
    explicitly reviewed untracked project files, with a manifest and hashes, then
    replay them in the recipient's isolated worktree. Preserve the source.
-5. Before publication, fetch again and verify the expected remote head and sole
+6. Before publication, fetch again and verify the expected remote head and sole
    ownership. Reconcile normally; stop on unexpected movement. Never infer a PR
    number or use a GUI footer as branch proof.
-6. Hand off with every field required by `pg-handoff.md`, including tests actually
+7. Hand off with every field required by `pg-handoff.md`, including tests actually
    run, remaining defects, acceptance state, and a small LEARN note.
 
 ## Delegation boundary
