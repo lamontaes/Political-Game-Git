@@ -503,11 +503,19 @@ describe("the day a campaign runs out of, and the morning after it", () => {
       .sort((left, right) => compareSimulationMoments(left.start, right.start));
 
     const tomorrow = passOrdinaryDays(world, 1);
+    const target = {
+      ...world.currentMoment,
+      date: addDays(world.currentDate, 1),
+      minuteOfDay: ORDINARY_DAY_START_MINUTE,
+    };
+    const crossed = unanswered.filter(
+      (state) => compareSimulationMoments(state.start, target) < 0,
+    );
     expect(tomorrow.currentMoment.date).toBe(tomorrow.currentDate);
-    if (unanswered.length > 0) {
+    if (crossed.length > 0) {
       // The commitment wins. Partial time is retained at its exact boundary;
       // no whole-day fallback is allowed to step around it.
-      expect(tomorrow.currentMoment).toEqual(unanswered[0]!.start);
+      expect(tomorrow.currentMoment).toEqual(crossed[0]!.start);
     } else {
       expect(tomorrow.currentDate).toBe(addDays(world.currentDate, 1));
       expect(tomorrow.currentMoment.minuteOfDay).toBe(
@@ -564,7 +572,9 @@ describe("the day a campaign runs out of, and the morning after it", () => {
     // Getting on with the day is an explicit choice not to attend this
     // tentative opt-in. The activity remains in history with a cancellation
     // state and an ordinary decision event; it is not silently discarded.
-    const later = passOrdinaryDays(world, 1);
+    // Newly authored meetings are on the following evening, so cross that
+    // actual hold rather than expecting tomorrow morning to decline it early.
+    const later = passOrdinaryDays(world, 2);
     for (const state of openBefore) {
       const still = later.history.scheduledActivities.find(
         (activity) => activity.id === state.activityId,
@@ -579,7 +589,7 @@ describe("the day a campaign runs out of, and the morning after it", () => {
         (event) => event.type === "life.scheduled-activity-declined",
       ),
     ).toBe(true);
-    expect(later.currentDate).toBe(addDays(world.currentDate, 1));
+    expect(later.currentDate).toBe(addDays(world.currentDate, 2));
     expect(later.currentMoment.minuteOfDay).toBe(ORDINARY_DAY_START_MINUTE);
   }, 60_000);
 

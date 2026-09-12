@@ -7,10 +7,13 @@ import {
   serializeWorld,
   deserializeWorld,
   scheduledActivitiesVisibleTo,
+  controlledCommitmentsBlockingActivityPerformance,
   type EntityId,
   type World,
 } from "../simulation";
 import { openOrdinaryLife } from "./ordinary-life";
+import { performVenueActivity, venueActivities } from "./venue-activity";
+import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import { createNewGameWorld, type NewGameSetup } from "./new-game";
 import { resolveLifeScene } from "./life-scene";
 import { PUBLIC_MEETING_ROOM_SCENE_ID, SCENE_REGISTRY } from "./scene-registry";
@@ -64,7 +67,11 @@ function atMomentOf(world: World, activityId: EntityId): World {
     .filter((entry) => entry.activityId === activityId)
     .at(-1);
   if (!state) throw new Error("The activity has no state.");
-  return { ...world, currentMoment: { ...state.start } };
+  return {
+    ...world,
+    currentDate: state.start.date,
+    currentMoment: { ...state.start },
+  };
 }
 
 describe("the venue table", () => {
@@ -150,7 +157,7 @@ describe("where a life actually is", () => {
       "the ordinary life should post a public meeting",
     ).toBeTruthy();
 
-    const during = performScheduledActivity(life.world, meeting!.id);
+    const during = performVenueActivity(life.world, life.personId, meeting!.id);
     const resolved = resolveVenueScene(during, life.personId);
     expect(resolved.sceneId).toBe(PUBLIC_MEETING_ROOM_SCENE_ID);
     expect(resolved.activityId).toBe(meeting!.id);
@@ -163,12 +170,31 @@ describe("where a life actually is", () => {
 
   it("does not equate a scheduled interval with attendance", () => {
     const life = anOrdinaryLife("venue-invitation");
-    const meeting = scheduledActivitiesVisibleTo(life.world, life.personId)[0]!;
+    const meeting = scheduledActivitiesVisibleTo(
+      life.world,
+      life.personId,
+    ).find((a) => a.title === "Posted public meeting")!;
     expect(
       resolveVenueScene(atMomentOf(life.world, meeting.id), life.personId)
         .sceneId,
     ).toBeNull();
-    const done = performScheduledActivity(life.world, meeting.id);
+    const journey = venueActivities(life.world, life.personId).find(
+      (e) => e.activity.id === meeting.id,
+    )!.journey!;
+    let resolved = life.world;
+    // This seeded household has an earlier protected promise. Resolve it by
+    // its owning writer, never by deleting history or inventing arrival.
+    for (const id of controlledCommitmentsBlockingActivityPerformance(
+      resolved,
+      journey.activity.id,
+    )) {
+      resolved = performScheduledActivity(
+        resolved,
+        id,
+        createCampaignElectionTransitionRegistry(),
+      );
+    }
+    const done = performVenueActivity(resolved, life.personId, meeting.id);
     expect(resolveVenueScene(done, life.personId).sceneId).toBe(
       PUBLIC_MEETING_ROOM_SCENE_ID,
     );
