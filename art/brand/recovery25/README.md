@@ -1,8 +1,15 @@
 # RECOVERY25 brand candidates
 
-These are **owner-review candidates**, not a selected or released identity.
+The two packaged concepts below are **rejected exploration history**, not a
+selected or released identity. Do not refine, ship, publish, or use either as a
+replacement identity.
 Nothing in this directory changes the app ID, product/storage name, save profile,
 code-signing identity, current title implementation, or any store asset.
+
+The current owner-review deliverable is the single black-and-white breadth sheet
+at `review-10/our-civic-duty-10-rough-directions-contact-sheet.png`. Its ten
+directions are deliberately rough and unselected; the repeated title placements
+are mockups over the current title art, not application changes.
 
 ## Option 1 — Civic Roundtable
 
@@ -64,4 +71,5 @@ was copied or used as a visual input. The title mockup's room raster is an
 existing repository asset and retains its own manifest provenance and rights
 status; it is not redistributed here as a new brand source.
 
-Candidate status: `owner-review`; selection: `none`; publication: `none`.
+Packaged-concept status: `rejected`; ten-direction sheet status: `owner-review`;
+selection: `none`; identity publication: `none`.

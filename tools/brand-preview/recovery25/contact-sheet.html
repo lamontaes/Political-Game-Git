@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Our Civic Duty — RECOVERY25 ten-direction rough contact sheet</title>
+    <link rel="stylesheet" href="./contact-sheet.css" />
+  </head>
+  <body>
+    <main class="sheet" data-contact-sheet="recovery25-brand-10">
+      <header class="sheet-header">
+        <div>
+          <p>OUR CIVIC DUTY · RECOVERY25 BRAND</p>
+          <h1>10 ROUGH BLACK-AND-WHITE DIRECTIONS</h1>
+        </div>
+        <aside>OWNER REVIEW · NONE SELECTED · ROUGH ONLY</aside>
+      </header>
+      <section id="directions" class="directions"></section>
+      <footer class="sheet-footer">
+        STOP FOR OWNER SELECTION · NO TITLE, ICON, APP/SAVE IDENTITY, DESKTOP,
+        OR STORE CHANGE
+      </footer>
+    </main>
+
+    <script type="module">
+      const titleArt =
+        "../../../art/families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_runtime_2048_v1.png";
+
+      const marks = {
+        skyline: `<svg viewBox="0 0 260 170" aria-hidden="true"><path d="M8 148h244M18 148V91h38v57M25 91V74h24v17M73 148V80h67v68M86 80l20-27 21 27M98 53v-13h16v13M155 148V58h87v90M168 58V42h61v16M178 80h14v17h-14zm24 0h14v17h-14zm-24 30h14v17h-14zm24 0h14v17h-14z" fill="currentColor"/></svg>`,
+        chamber: `<svg viewBox="0 0 260 170" aria-hidden="true"><path d="M30 145a100 82 0 0 1 200 0M53 145a77 59 0 0 1 154 0M77 145a53 37 0 0 1 106 0" fill="none" stroke="currentColor" stroke-width="8"/><path d="M111 82h38l8 47h-54zM98 129h64v16H98zM119 62h22v20h-22z" fill="currentColor"/><path d="M70 113h15M175 113h15M56 133h17M187 133h17" stroke="currentColor" stroke-width="8"/></svg>`,
+        columns: `<svg viewBox="0 0 260 170" aria-hidden="true"><path d="M28 61l102-42 102 42v13H28zM42 78h28v59H42zm49 0h28v59H91zm50 0h28v59h-28zm49 0h28v59h-28zM25 139h210v12H25zM12 153h236v12H12z" fill="currentColor"/></svg>`,
+        levels: `<svg viewBox="0 0 300 170" aria-hidden="true"><path d="M8 149h284" stroke="currentColor" stroke-width="8"/><path d="M18 149V88h67v61M30 88V69h43v19M44 69V51h15v18M96 149V76h91v73M110 76l31-29 32 29M133 47V31h16v16M202 149V45h80v104M216 45V29h52v16M219 67h16v18h-16zm30 0h16v18h-16zm-30 34h16v18h-16zm30 0h16v18h-16z" fill="currentColor"/></svg>`,
+        masthead: `<svg viewBox="0 0 280 150" aria-hidden="true"><path d="M20 118h240M34 108h212M57 108V62h18v46m31 0V62h18v46m31 0V62h18v46m31 0V62h18v46M44 57h192l-96-34z" fill="currentColor"/><path d="M20 132h240" stroke="currentColor" stroke-width="5"/></svg>`,
+        night: `<svg viewBox="0 0 260 170" aria-hidden="true"><path d="M33 148V45h194v103zM52 45V28h156v17" fill="currentColor"/><g fill="white"><path d="M58 66h23v19H58zm40 0h23v19H98zm40 0h23v19h-23zm40 0h23v19h-23zM58 101h23v19H58zm80 0h23v19h-23zm40 0h23v19h-23zM116 121h28v27h-28z"/></g></svg>`,
+        rostrum: `<svg viewBox="0 0 240 180" aria-hidden="true"><path d="M70 76h100l-12 77H82zM58 153h124v16H58zM91 51h58l11 25H80z" fill="currentColor"/><path d="M99 52L80 22M141 52l19-30" stroke="currentColor" stroke-width="8"/><circle cx="78" cy="20" r="8" fill="currentColor"/><circle cx="162" cy="20" r="8" fill="currentColor"/></svg>`,
+        cityhall: `<svg viewBox="0 0 260 180" aria-hidden="true"><path d="M24 157V88h48v69M188 157V88h48v69M72 157V66h116v91M98 66V41h64v25M115 41V20h30v21M22 157h216v13H22z" fill="currentColor"/><circle cx="130" cy="53" r="9" fill="white"/><path d="M89 88h24v24H89zm58 0h24v24h-24zm-31 34h28v35h-28z" fill="white"/></svg>`,
+        corridor: `<svg viewBox="0 0 260 180" aria-hidden="true"><path d="M18 16h224v148H18zM76 48h108v116H76z" fill="none" stroke="currentColor" stroke-width="8"/><path d="M18 16l58 32m166-32l-58 32M18 164l58-36m166 36l-58-36M130 48v116" stroke="currentColor" stroke-width="7"/><path d="M48 57h16v76H48zm148 0h16v76h-16zM92 82h76v82H92z" fill="currentColor"/><path d="M108 98h44v66h-44z" fill="white"/></svg>`,
+        desk: `<svg viewBox="0 0 280 180" aria-hidden="true"><path d="M24 95h232v25H24zM45 120h22v46H45zm168 0h22v46h-22zM88 70h86v25H88z" fill="currentColor"/><path d="M100 57h75v31h-75z" fill="white" stroke="currentColor" stroke-width="7"/><path d="M107 65h48M107 76h38" stroke="currentColor" stroke-width="5"/><path d="M210 95V47m0 0l-29 22m29-22l22 22" fill="none" stroke="currentColor" stroke-width="8"/><circle cx="210" cy="42" r="10" fill="currentColor"/><path d="M111 166v-29h58v29" fill="none" stroke="currentColor" stroke-width="10"/></svg>`,
+      };
+
+      const directions = [
+        {
+          id: "01",
+          slug: "civic-skyline",
+          label: "COMPOSITE CIVIC SKYLINE",
+          mark: marks.skyline,
+          type: "stack",
+        },
+        {
+          id: "02",
+          slug: "legislative-chamber",
+          label: "LEGISLATIVE CHAMBER + ROSTRUM",
+          mark: marks.chamber,
+          type: "chamber",
+        },
+        {
+          id: "03",
+          slug: "institutional-steps",
+          label: "INSTITUTIONAL STEPS + COLUMNS",
+          mark: marks.columns,
+          type: "columns",
+        },
+        {
+          id: "04",
+          slug: "three-levels",
+          label: "THREE LEVELS · THREE BUILDINGS",
+          mark: marks.levels,
+          type: "levels",
+        },
+        {
+          id: "05",
+          slug: "editorial-masthead",
+          label: "POLITICAL-EDITORIAL MASTHEAD",
+          mark: marks.masthead,
+          type: "masthead",
+        },
+        {
+          id: "06",
+          slug: "government-at-night",
+          label: "GOVERNMENT BUILDING AT NIGHT",
+          mark: marks.night,
+          type: "night",
+        },
+        {
+          id: "07",
+          slug: "rostrum-icon",
+          label: "ROSTRUM / CHAMBER ICON",
+          mark: marks.rostrum,
+          type: "rostrum",
+        },
+        {
+          id: "08",
+          slug: "city-hall-icon",
+          label: "CITY HALL / COURTHOUSE ICON",
+          mark: marks.cityhall,
+          type: "cityhall",
+        },
+        {
+          id: "09",
+          slug: "capitol-corridor",
+          label: "CAPITOL CORRIDOR / CHAMBER ENTRANCE",
+          mark: marks.corridor,
+          type: "corridor",
+        },
+        {
+          id: "10",
+          slug: "governing-work",
+          label: "PUBLIC-OFFICE GOVERNING WORK",
+          mark: marks.desk,
+          type: "desk",
+        },
+      ];
+
+      function words(type) {
+        if (type === "masthead") {
+          return `<div class="words words--masthead"><span>OUR CIVIC DUTY</span></div>`;
+        }
+        if (type === "night") {
+          return `<div class="words words--night"><span>OUR</span><strong>CIVIC</strong><span>DUTY</span></div>`;
+        }
+        if (type === "chamber") {
+          return `<div class="words words--chamber"><span>OUR</span><strong>CIVIC DUTY</strong></div>`;
+        }
+        if (type === "cityhall") {
+          return `<div class="words words--cityhall"><span>OUR</span><strong>CIVIC DUTY</strong></div>`;
+        }
+        return `<div class="words words--stack"><span>OUR</span><strong>CIVIC</strong><span>DUTY</span></div>`;
+      }
+
+      function wordmark(direction, placement = false) {
+        return `<div class="rough-wordmark rough-wordmark--${direction.type} ${placement ? "rough-wordmark--placement" : ""}">
+          <div class="wordmark-mark">${direction.mark}</div>
+          ${words(direction.type)}
+        </div>`;
+      }
+
+      document.querySelector("#directions").innerHTML = directions
+        .map(
+          (
+            direction,
+          ) => `<article class="direction" data-direction="${direction.id}" data-slug="${direction.slug}">
+            <header><b>${direction.id}</b><h2>${direction.label}</h2></header>
+            <div class="direction-body">
+              <section class="wordmark-panel" aria-label="Rough wordmark">${wordmark(direction)}</section>
+              <section class="icon-panel" aria-label="Rough standalone app icon"><div class="rough-icon rough-icon--${direction.type}">${direction.mark}</div></section>
+              <section class="placement-panel" aria-label="Quick current-title placement">
+                <img src="${titleArt}" alt="" />
+                <div class="placement-scrim"></div>
+                <div class="placement-brand">${wordmark(direction, true)}</div>
+                <div class="placement-menu"><i></i><i></i><i></i></div>
+                <small>CURRENT TITLE · ROUGH PLACEMENT</small>
+              </section>
+            </div>
+          </article>`,
+        )
+        .join("");
+    </script>
+  </body>
+</html>

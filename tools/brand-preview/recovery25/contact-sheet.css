@@ -1,0 +1,429 @@
+:root {
+  color: black;
+  background: white;
+  font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  font-synthesis: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: white;
+}
+
+body {
+  width: 3200px;
+}
+
+.sheet {
+  width: 3200px;
+  padding: 72px 78px 58px;
+  background: white;
+}
+
+.sheet-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  min-height: 190px;
+  padding: 0 0 34px;
+  border-bottom: 14px solid black;
+}
+
+.sheet-header p,
+.sheet-header h1,
+.sheet-header aside {
+  margin: 0;
+}
+
+.sheet-header p {
+  margin-bottom: 12px;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.sheet-header h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 72px;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+}
+
+.sheet-header aside {
+  padding: 12px 16px;
+  border: 4px solid black;
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.directions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 36px;
+  padding: 42px 0;
+}
+
+.direction {
+  height: 834px;
+  overflow: hidden;
+  border: 5px solid black;
+  background: white;
+}
+
+.direction > header {
+  display: flex;
+  align-items: center;
+  height: 92px;
+  border-bottom: 5px solid black;
+}
+
+.direction > header b {
+  display: grid;
+  place-items: center;
+  width: 92px;
+  align-self: stretch;
+  border-right: 5px solid black;
+  background: black;
+  color: white;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 40px;
+}
+
+.direction > header h2 {
+  margin: 0;
+  padding: 0 24px;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 0.09em;
+}
+
+.direction-body {
+  display: grid;
+  grid-template-columns: 2fr 0.72fr;
+  grid-template-rows: 310px 427px;
+  height: 737px;
+}
+
+.wordmark-panel,
+.icon-panel,
+.placement-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.wordmark-panel {
+  display: grid;
+  place-items: center;
+  padding: 28px 36px;
+  border-right: 4px solid black;
+  border-bottom: 4px solid black;
+}
+
+.icon-panel {
+  display: grid;
+  place-items: center;
+  border-bottom: 4px solid black;
+}
+
+.placement-panel {
+  grid-column: 1 / -1;
+  background: rgb(17 17 17);
+}
+
+.placement-panel > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: grayscale(1) contrast(1.06);
+}
+
+.placement-scrim {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 49%;
+  background: linear-gradient(
+    90deg,
+    rgb(0 0 0 / 0.9),
+    rgb(0 0 0 / 0.56),
+    transparent
+  );
+}
+
+.placement-brand {
+  position: absolute;
+  top: 42px;
+  left: 44px;
+  width: 445px;
+  color: white;
+}
+
+.placement-menu {
+  position: absolute;
+  top: 232px;
+  left: 48px;
+  display: grid;
+  gap: 10px;
+}
+
+.placement-menu i {
+  display: block;
+  width: 230px;
+  height: 12px;
+  background: white;
+}
+
+.placement-menu i:nth-child(2) {
+  width: 175px;
+}
+
+.placement-menu i:nth-child(3) {
+  width: 205px;
+}
+
+.placement-panel small {
+  position: absolute;
+  right: 16px;
+  bottom: 14px;
+  padding: 7px 10px;
+  background: black;
+  color: white;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.rough-wordmark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  width: 100%;
+  color: currentColor;
+}
+
+.wordmark-mark {
+  flex: 0 0 250px;
+}
+
+.wordmark-mark svg {
+  display: block;
+  width: 100%;
+  max-height: 215px;
+}
+
+.words {
+  min-width: 0;
+  color: currentColor;
+}
+
+.words--stack {
+  display: grid;
+  justify-items: start;
+  font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  font-size: 54px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 0.82;
+}
+
+.words--stack strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 94px;
+  letter-spacing: -0.05em;
+}
+
+.words--chamber {
+  display: grid;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 48px;
+  line-height: 0.9;
+}
+
+.words--chamber strong {
+  font-size: 69px;
+  letter-spacing: -0.04em;
+}
+
+.words--masthead {
+  border-top: 7px solid currentColor;
+  border-bottom: 7px solid currentColor;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 60px;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.words--night {
+  display: grid;
+  padding: 18px 24px;
+  background: black;
+  color: white;
+  font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  font-size: 43px;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  line-height: 0.83;
+}
+
+.words--night strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 82px;
+  letter-spacing: -0.04em;
+}
+
+.words--cityhall {
+  display: grid;
+  font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  font-size: 44px;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  line-height: 0.95;
+}
+
+.words--cityhall strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 68px;
+  letter-spacing: -0.045em;
+}
+
+.rough-wordmark--columns {
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rough-wordmark--columns .wordmark-mark {
+  flex-basis: auto;
+  width: 260px;
+  margin-bottom: -32px;
+}
+
+.rough-wordmark--columns .words--stack {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  font-size: 41px;
+}
+
+.rough-wordmark--columns .words--stack strong {
+  font-size: 74px;
+}
+
+.rough-wordmark--levels .wordmark-mark {
+  flex-basis: 300px;
+}
+
+.rough-wordmark--masthead {
+  flex-direction: column-reverse;
+  gap: 4px;
+}
+
+.rough-wordmark--masthead .wordmark-mark {
+  flex-basis: auto;
+  width: 300px;
+  margin-top: -34px;
+}
+
+.rough-wordmark--night {
+  background: black;
+  color: white;
+  padding: 22px 30px;
+}
+
+.rough-wordmark--rostrum .wordmark-mark {
+  flex-basis: 190px;
+}
+
+.rough-wordmark--cityhall {
+  flex-direction: column;
+  gap: 0;
+}
+
+.rough-wordmark--cityhall .wordmark-mark {
+  flex-basis: auto;
+  width: 235px;
+  margin-bottom: -24px;
+}
+
+.rough-wordmark--cityhall .words--cityhall {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.rough-wordmark--corridor .wordmark-mark {
+  flex-basis: 180px;
+}
+
+.rough-wordmark--corridor .words--stack {
+  padding-left: 20px;
+  border-left: 8px solid currentColor;
+}
+
+.rough-wordmark--desk {
+  align-items: end;
+}
+
+.rough-wordmark--desk .words--stack {
+  border-bottom: 8px solid currentColor;
+  padding-bottom: 12px;
+}
+
+.rough-icon {
+  display: grid;
+  place-items: center;
+  width: 210px;
+  height: 210px;
+  border: 8px solid black;
+  color: black;
+}
+
+.rough-icon svg {
+  width: 172px;
+  height: 148px;
+}
+
+.rough-icon--night {
+  background: black;
+  color: white;
+}
+
+.rough-icon--corridor {
+  border-width: 12px;
+}
+
+.rough-wordmark--placement {
+  justify-content: start;
+  gap: 16px;
+  transform: scale(0.62);
+  transform-origin: top left;
+}
+
+.rough-wordmark--placement .wordmark-mark {
+  flex-basis: 190px;
+}
+
+.rough-wordmark--placement.rough-wordmark--columns,
+.rough-wordmark--placement.rough-wordmark--masthead,
+.rough-wordmark--placement.rough-wordmark--cityhall {
+  align-items: start;
+}
+
+.sheet-footer {
+  padding-top: 24px;
+  border-top: 10px solid black;
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-align: center;
+}

@@ -1,5 +1,5 @@
 {
-  "totalItems": 1892,
+  "totalItems": 1893,
   "items": [
     {
       "filePath": "brand/recovery25/exports/option-1-civic-roundtable/app-icon-1024.png",
@@ -88,6 +88,10 @@
     {
       "filePath": "brand/recovery25/mockups/option-2-title-1440x900.png",
       "hash": "50029efa834086109d1513f98ae2a7f2b00fc0191cad67795218817f6dc7b08f"
+    },
+    {
+      "filePath": "brand/recovery25/review-10/our-civic-duty-10-rough-directions-contact-sheet.png",
+      "hash": "6747622c67792920e0b2140af0e5fa012e06abe8926c286193c62006b6e359d0"
     },
     {
       "filePath": "families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png",
