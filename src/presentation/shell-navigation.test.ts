@@ -231,6 +231,23 @@ describe("preferences", () => {
     expect(restored.preferences.peopleView).toBe("list");
     expect(restored.pins).toHaveLength(1);
   });
+
+  it("follows and unfollows a represented outlet without touching navigation", () => {
+    const followed = shellReducer(INITIAL_SHELL_STATE, {
+      type: "toggle-news-outlet-follow",
+      outletKey: "civic-ledger",
+    });
+    expect(followed.preferences.followedNewsOutletKeys).toEqual([
+      "civic-ledger",
+    ]);
+    expect(followed.history).toEqual(INITIAL_SHELL_STATE.history);
+
+    const unfollowed = shellReducer(followed, {
+      type: "toggle-news-outlet-follow",
+      outletKey: "civic-ledger",
+    });
+    expect(unfollowed.preferences.followedNewsOutletKeys).toEqual([]);
+  });
 });
 
 describe("UI9 destinations", () => {

@@ -1,4 +1,71 @@
-/* NEWS-SEARCH1 leaf styles — imported only by PublicInformationPanel. */
+/* NEWS-SEARCH1 + RECOVERY25 NEWS leaf styles — scoped to this reader. */
+
+.public-information-panel .public-information-views {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0.9rem 0;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--run-a-line);
+}
+
+.public-information-panel .public-information-views button {
+  min-height: 2.5rem;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid var(--run-a-line);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 3%);
+  color: inherit;
+}
+
+.public-information-panel
+  .public-information-views
+  button[aria-pressed="true"] {
+  border-color: var(--run-a-accent);
+  background: rgb(255 255 255 / 10%);
+}
+
+.public-information-panel .public-information-masthead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0.5rem 0 1rem;
+  padding: 0.9rem 1rem;
+  border-block: 0.2rem double var(--run-a-line);
+}
+
+.public-information-panel .public-information-masthead p,
+.public-information-panel .public-information-masthead h3,
+.public-information-panel .public-information-masthead span {
+  margin: 0;
+}
+
+.public-information-panel .public-information-masthead p {
+  color: var(--run-a-muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.public-information-panel .public-information-masthead h3 {
+  margin: 0.12rem 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.45rem, 4vw, 2rem);
+  line-height: 1;
+}
+
+.public-information-panel .public-information-masthead button {
+  min-height: 2.75rem;
+  min-width: 6.5rem;
+}
+
+.public-information-panel .public-information-relevance {
+  margin: 0.7rem 0 0;
+  color: var(--run-a-muted);
+  font-size: 0.86rem;
+  font-style: italic;
+}
 
 .public-information-panel .public-information-article > header p {
   line-height: 1.45;
@@ -31,10 +98,29 @@
 }
 
 @media (max-width: 32rem) {
+  .pg-workspace:has(.public-information-panel) {
+    inset: 0.5rem;
+    width: auto;
+    max-width: none;
+    max-height: calc(100vh - 1rem);
+    margin: 0;
+    z-index: 80;
+  }
+
+  .pg-workspace:has(.public-information-panel) .pg-workspace-body {
+    padding: 0.65rem;
+  }
+
   .public-information-panel {
     width: calc(100vw - 1rem);
     max-height: calc(100vh - 1rem);
     padding: 0.85rem;
+  }
+
+  .pg-workspace .public-information-panel {
+    width: 100%;
+    max-height: none;
+    padding: 0.75rem;
   }
 
   .public-information-panel .public-information-header {
@@ -47,9 +133,28 @@
     align-items: stretch;
   }
 
+  .public-information-panel .public-information-views {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 0.65rem;
+  }
+
+  .public-information-panel .public-information-views button {
+    flex: 0 0 auto;
+  }
+
+  .public-information-panel .public-information-masthead {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
   .public-information-panel .public-information-search input[type="search"],
   .public-information-panel .public-information-search-clear {
     width: 100%;
+  }
+
+  .public-information-panel .public-information-search input[type="search"] {
+    flex: 0 0 auto;
   }
 
   .public-information-panel .public-information-help {

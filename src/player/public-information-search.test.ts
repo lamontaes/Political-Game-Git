@@ -11,6 +11,7 @@ function item(
     sourceEventId: "event-1",
     sourceRecordIds: [],
     kind: "civic-event",
+    outletKey: "civic-ledger",
     outletName: "Civic Ledger",
     jurisdictionId: "jurisdiction-1",
     jurisdictionName: "Franklin County",

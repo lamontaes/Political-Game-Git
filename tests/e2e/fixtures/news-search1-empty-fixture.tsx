@@ -22,6 +22,9 @@ const root = createRoot(document.getElementById("root")!);
 root.render(
   <PublicInformationPanel
     model={model}
+    viewerPersonId={game.playerPersonId}
+    followedOutletKeys={[]}
+    onToggleOutletFollow={() => {}}
     onClose={() => {
       document.body.dataset.panelClosed = "true";
     }}
