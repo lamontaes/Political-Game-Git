@@ -2,7 +2,7 @@
   "counts": {
     "INVENTORIED": 2334,
     "INTENTIONALLY_NON_PLAYER_FACING": 5652,
-    "DIAGNOSTIC_OR_TEST": 4735,
+    "DIAGNOSTIC_OR_TEST": 4738,
     "NEEDS_CLASSIFICATION": 6171
   },
   "needsClassification": [
@@ -12233,7 +12233,7 @@
     {
       "sourcePath": "src/presentation/relationship-web.ts",
       "enclosingSymbol": "projectRelationshipWeb",
-      "line": 208,
+      "line": 216,
       "text": "Same household",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12241,7 +12241,7 @@
     {
       "sourcePath": "src/presentation/relationship-web.ts",
       "enclosingSymbol": "projectRelationshipWeb",
-      "line": 245,
+      "line": 253,
       "text": "Work at {orgName}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12249,7 +12249,7 @@
     {
       "sourcePath": "src/presentation/relationship-web.ts",
       "enclosingSymbol": "projectRelationshipWeb",
-      "line": 273,
+      "line": 281,
       "text": "In {orgName}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12257,7 +12257,7 @@
     {
       "sourcePath": "src/presentation/relationship-web.ts",
       "enclosingSymbol": "projectRelationshipWeb",
-      "line": 273,
+      "line": 281,
       "text": "Political connection",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12265,7 +12265,7 @@
     {
       "sourcePath": "src/presentation/relationship-web.ts",
       "enclosingSymbol": "projectRelationshipWeb",
-      "line": 290,
+      "line": 298,
       "text": "Ran against you for {contest.office.title}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12273,7 +12273,7 @@
     {
       "sourcePath": "src/presentation/relationship-web.ts",
       "enclosingSymbol": "projectRelationshipWeb",
-      "line": 306,
+      "line": 314,
       "text": "On the record together",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12281,7 +12281,7 @@
     {
       "sourcePath": "src/presentation/relationship-web.ts",
       "enclosingSymbol": "projectRelationshipWeb",
-      "line": 307,
+      "line": 315,
       "text": "Last on the record: {summary.lastInteractionAt}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12289,7 +12289,7 @@
     {
       "sourcePath": "src/presentation/relationship-web.ts",
       "enclosingSymbol": "projectRelationshipWeb",
-      "line": 327,
+      "line": 335,
       "text": "Named together in a recorded exchange",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12297,7 +12297,7 @@
     {
       "sourcePath": "src/presentation/relationship-web.ts",
       "enclosingSymbol": "EDGE_KIND_LABELS",
-      "line": 448,
+      "line": 456,
       "text": "On the record",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -51798,7 +51798,7 @@
       "sourcePath": "src/presentation/relationship-web.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 7
+      "count": 10
     },
     {
       "sourcePath": "src/presentation/raster-tiers.ts",
