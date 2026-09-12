@@ -158,6 +158,15 @@ represented as accepted main or opened as a PR.
   by Saved games and the controls used production provenance even in review.
   The bounded current SavesScreen adapter now shows a semantic alert and passes
   its actual preview mode; ordinary production retains review-import refusal.
+- Restored the three existing desktop computed-surface registrations lost during
+  composition, then ran the existing monotonic anchor codec: zero retirements,
+  one explicitly reworded refusal and one new review-label identity; all prior
+  issued/burned IDs remain reserved. Regenerated source coverage/corpus.
+- Actual controller success testing reproduced a pre-activation health-check
+  failure caused by inheriting `ELECTRON_RUN_AS_NODE` into the GUI game. The
+  harness now strips only that worker-mode flag at game launch. Regression and
+  packaged smoke under the worker environment pass; no controller or renderer
+  privileges changed. LEARN: child GUI environment must not inherit worker mode.
 
 - Reconciled #197 at `a14ad4c8` onto the current #213 integrator head without
   replacing its newer PlayerGame, People, wardrobe, launcher, or visual-fit

@@ -1,7 +1,7 @@
 {
-  "digest": "5571fad38aa29f61",
+  "digest": "a3ca9292d4305a81",
   "counts": {
-    "total": 2502,
+    "total": 2539,
     "byDomain": {
       "campaign": 23,
       "conversation": 197,
@@ -10,7 +10,8 @@
       "life": 1569,
       "narration": 75,
       "ordinary": 4,
-      "setup": 354
+      "setup": 354,
+      "shell": 37
     },
     "bySurface": {
       "answer": 311,
@@ -23,20 +24,20 @@
       "option-witnessed": 54,
       "prompt": 74,
       "scene-line": 204,
-      "status": 335,
+      "status": 372,
       "thread-recap": 32
     },
     "byReachability": {
       "CURRENTLY_UNREACHABLE": 42,
       "DEV_FIXTURE_ONLY": 106,
       "LEGACY_OR_WITHDRAWN": 90,
-      "PLAYER_REACHABLE": 1827,
+      "PLAYER_REACHABLE": 1864,
       "UNKNOWN": 68,
       "WITHHELD_BY_GROUNDING": 369
     },
     "byRealization": {
-      "static": 2041,
-      "templated": 461
+      "static": 2075,
+      "templated": 464
     }
   },
   "records": [
@@ -99988,6 +99989,1196 @@
       ],
       "textRevision": "0c396c965fea",
       "contextRevision": "813e34fd6ba5"
+    },
+    {
+      "id": "prose:shell:art-preview:ART_PREVIEW_LABEL-0001#text",
+      "domain": "shell",
+      "bank": "art-preview",
+      "stableKey": "ART_PREVIEW_LABEL-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/art-preview.ts",
+      "sourceSymbol": "ART_PREVIEW_LABEL",
+      "text": "Development art preview — unreleased candidate art, not approved",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The labelled internal art-review package and the development preview banner.",
+      "grounding": [
+        {
+          "key": "build-profile",
+          "description": "Whether this compiled client is production or internal-art-review; the banner does not admit pixels.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "ART_PREVIEW_LABEL",
+        "anchor": "ART_PREVIEW_LABEL-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "2736f3c5c2b6",
+      "contextRevision": "344c358df8bb"
+    },
+    {
+      "id": "prose:shell:art-preview:INTERNAL_ART_REVIEW_LABEL-0001#text",
+      "domain": "shell",
+      "bank": "art-preview",
+      "stableKey": "INTERNAL_ART_REVIEW_LABEL-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/art-preview.ts",
+      "sourceSymbol": "INTERNAL_ART_REVIEW_LABEL",
+      "text": "Internal art review — unreleased candidate art, not approved",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The labelled internal art-review package and the development preview banner.",
+      "grounding": [
+        {
+          "key": "build-profile",
+          "description": "Whether this compiled client is production or internal-art-review; the banner does not admit pixels.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "INTERNAL_ART_REVIEW_LABEL",
+        "anchor": "INTERNAL_ART_REVIEW_LABEL-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "503328cde9d8",
+      "contextRevision": "344c358df8bb"
+    },
+    {
+      "id": "prose:shell:save-transfer:exportLife-0001#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "exportLife-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/player/SaveTransferControls.tsx",
+      "sourceSymbol": "exportLife",
+      "text": "Saved life downloaded. Keep the file; the original save is still here.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The Saved games screen mounts export and import on an existing slot list.",
+      "grounding": [
+        {
+          "key": "portable-save-slot",
+          "description": "The selected local save identity, or a newly created slot on import. Existing slots are not overwritten.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "exportLife",
+        "anchor": "exportLife-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "49688ba636bc",
+      "contextRevision": "4d5f540aca52"
+    },
+    {
+      "id": "prose:shell:save-transfer:exportLife-0002#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "exportLife-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/player/SaveTransferControls.tsx",
+      "sourceSymbol": "exportLife",
+      "text": "That life could not be exported.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The Saved games screen mounts export and import on an existing slot list.",
+      "grounding": [
+        {
+          "key": "portable-save-slot",
+          "description": "The selected local save identity, or a newly created slot on import. Existing slots are not overwritten.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "exportLife",
+        "anchor": "exportLife-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "a62a663eb413",
+      "contextRevision": "4d5f540aca52"
+    },
+    {
+      "id": "prose:shell:save-transfer:exportPortableSave-0001#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "exportPortableSave-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "exportPortableSave",
+      "text": "That saved game could not be read.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "exportPortableSave",
+        "anchor": "exportPortableSave-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "b1e534618756",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:exportPortableSave-0002#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "exportPortableSave-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "exportPortableSave",
+      "text": "That saved game is no longer here.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "exportPortableSave",
+        "anchor": "exportPortableSave-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "f8d2dd95956e",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:importPortableSave-0001#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "importPortableSave-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "importPortableSave",
+      "text": "A new save slot could not be chosen. Existing saves are unchanged.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "importPortableSave",
+        "anchor": "importPortableSave-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "f74b41daceb5",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:importPortableSave-0002#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "importPortableSave-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "importPortableSave",
+      "text": "Import did not finish and existing saves may need a second look.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "importPortableSave",
+        "anchor": "importPortableSave-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "c8f15cd0616b",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:importPortableSave-0003#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "importPortableSave-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "importPortableSave",
+      "text": "Import did not finish.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "importPortableSave",
+        "anchor": "importPortableSave-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "cd7504d03b9c",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:importPortableSave-0004#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "importPortableSave-0004",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "importPortableSave",
+      "text": "Import did not finish. Existing saves are unchanged.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "importPortableSave",
+        "anchor": "importPortableSave-0004"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "4dc1a98db664",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:importPortableSave-0005#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "importPortableSave-0005",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "importPortableSave",
+      "text": "{error.message} Existing saves are unchanged.",
+      "realization": "templated",
+      "slots": [
+        "error.message"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "importPortableSave",
+        "anchor": "importPortableSave-0005"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "edfc4611c84c",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:importPortableSave-0006#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "importPortableSave-0006",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "importPortableSave",
+      "text": "{outcome.reason} Existing saves are unchanged.",
+      "realization": "templated",
+      "slots": [
+        "outcome.reason"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "importPortableSave",
+        "anchor": "importPortableSave-0006"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "fe9076a195e9",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:importPortableSave-0007#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "importPortableSave-0007",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "importPortableSave",
+      "text": "{written.reason} Existing saves are unchanged.",
+      "realization": "templated",
+      "slots": [
+        "written.reason"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "importPortableSave",
+        "anchor": "importPortableSave-0007"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "a63abc0e903f",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:onFile-0001#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "onFile-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/player/SaveTransferControls.tsx",
+      "sourceSymbol": "onFile",
+      "text": "Imported as a new save of the same life. The file and your other games were not changed.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The Saved games screen mounts export and import on an existing slot list.",
+      "grounding": [
+        {
+          "key": "portable-save-slot",
+          "description": "The selected local save identity, or a newly created slot on import. Existing slots are not overwritten.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "onFile",
+        "anchor": "onFile-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "5d9297ed5e3e",
+      "contextRevision": "4d5f540aca52"
+    },
+    {
+      "id": "prose:shell:save-transfer:onFile-0002#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "onFile-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/player/SaveTransferControls.tsx",
+      "sourceSymbol": "onFile",
+      "text": "That file could not be imported. Existing saves are unchanged.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The Saved games screen mounts export and import on an existing slot list.",
+      "grounding": [
+        {
+          "key": "portable-save-slot",
+          "description": "The selected local save identity, or a newly created slot on import. Existing slots are not overwritten.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "onFile",
+        "anchor": "onFile-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "013d69984b17",
+      "contextRevision": "4d5f540aca52"
+    },
+    {
+      "id": "prose:shell:save-transfer:onFile-0003#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "onFile-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/player/SaveTransferControls.tsx",
+      "sourceSymbol": "onFile",
+      "text": "That file is larger than a saved life is allowed to be.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The Saved games screen mounts export and import on an existing slot list.",
+      "grounding": [
+        {
+          "key": "portable-save-slot",
+          "description": "The selected local save identity, or a newly created slot on import. Existing slots are not overwritten.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "onFile",
+        "anchor": "onFile-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "627a61aeeb21",
+      "contextRevision": "4d5f540aca52"
+    },
+    {
+      "id": "prose:shell:save-transfer:parsePortableSave-0001#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "parsePortableSave-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "parsePortableSave",
+      "text": "Interface state was not stored with this life.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "parsePortableSave",
+        "anchor": "parsePortableSave-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "0c29524649d4",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:parsePortableSave-0002#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "parsePortableSave-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "parsePortableSave",
+      "text": "That file is larger than a saved life is allowed to be.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "parsePortableSave",
+        "anchor": "parsePortableSave-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "627a61aeeb21",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:parsePortableSave-0003#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "parsePortableSave-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "parsePortableSave",
+      "text": "That file is not a saved life.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "parsePortableSave",
+        "anchor": "parsePortableSave-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "5d41480f2ced",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:parsePortableSave-0004#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "parsePortableSave-0004",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "parsePortableSave",
+      "text": "That file is not a saved life.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "parsePortableSave",
+        "anchor": "parsePortableSave-0004"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "5d41480f2ced",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:parsePortableSave-0005#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "parsePortableSave-0005",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "parsePortableSave",
+      "text": "That file is not a saved life.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "parsePortableSave",
+        "anchor": "parsePortableSave-0005"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "5d41480f2ced",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:parsePortableSave-0006#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "parsePortableSave-0006",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "parsePortableSave",
+      "text": "That file is not a saved life.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "parsePortableSave",
+        "anchor": "parsePortableSave-0006"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "5d41480f2ced",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:parsePortableSave-0007#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "parsePortableSave-0007",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "parsePortableSave",
+      "text": "That file is not a saved life.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "parsePortableSave",
+        "anchor": "parsePortableSave-0007"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "5d41480f2ced",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:parsePortableSave-0008#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "parsePortableSave-0008",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "parsePortableSave",
+      "text": "That file is not a saved life.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "parsePortableSave",
+        "anchor": "parsePortableSave-0008"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "5d41480f2ced",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:parsePortableSave-0009#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "parsePortableSave-0009",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "parsePortableSave",
+      "text": "That file is not a saved life.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "parsePortableSave",
+        "anchor": "parsePortableSave-0009"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "5d41480f2ced",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:parsePortableSave-0010#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "parsePortableSave-0010",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "parsePortableSave",
+      "text": "That file's interface state could not be read. Existing saves are unchanged.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "parsePortableSave",
+        "anchor": "parsePortableSave-0010"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "b41f8050946c",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:parsePortableSave-0011#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "parsePortableSave-0011",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "parsePortableSave",
+      "text": "That life needs catalogs this game does not have. Existing saves are unchanged.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "parsePortableSave",
+        "anchor": "parsePortableSave-0011"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "3f65cbf8bf08",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:parsePortableSave-0012#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "parsePortableSave-0012",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "parsePortableSave",
+      "text": "That life was exported from a candidate-art preview and cannot be opened in the ordinary game. Existing saves are unchanged.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "parsePortableSave",
+        "anchor": "parsePortableSave-0012"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "c9b0a5dbbf84",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:parsePortableSave-0013#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "parsePortableSave-0013",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "parsePortableSave",
+      "text": "That save was written by a newer game and cannot be opened here. Your existing games are unchanged.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "parsePortableSave",
+        "anchor": "parsePortableSave-0013"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "97fd0d9821dd",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:parsePortableSave-0014#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "parsePortableSave-0014",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "parsePortableSave",
+      "text": "That saved world could not be read. Existing saves are unchanged.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "parsePortableSave",
+        "anchor": "parsePortableSave-0014"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "0970cdfa09a0",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:parsePortableSave-0015#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "parsePortableSave-0015",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "parsePortableSave",
+      "text": "That saved world could not be read. Existing saves are unchanged.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "parsePortableSave",
+        "anchor": "parsePortableSave-0015"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "0970cdfa09a0",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:readOptionalInterface-0001#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "readOptionalInterface-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "readOptionalInterface",
+      "text": "Saved-game storage is not available in this browser.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "readOptionalInterface",
+        "anchor": "readOptionalInterface-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "67a628504cd3",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:readOptionalInterface-0002#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "readOptionalInterface-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "readOptionalInterface",
+      "text": "The interface state for this life could not be read. No incomplete transfer was exported; existing saves are unchanged.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "readOptionalInterface",
+        "anchor": "readOptionalInterface-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "e0fdd968c569",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:readOptionalInterface-0003#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "readOptionalInterface-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "readOptionalInterface",
+      "text": "This build has no durable interface store. Pins and private notes were not stored with this life.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "readOptionalInterface",
+        "anchor": "readOptionalInterface-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "ae7d44d1e40f",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:writeOptionalInterface-0001#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "writeOptionalInterface-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "writeOptionalInterface",
+      "text": "Saved-game storage is not available.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "writeOptionalInterface",
+        "anchor": "writeOptionalInterface-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "1961cbe9939d",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:writeOptionalInterface-0002#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "writeOptionalInterface-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "writeOptionalInterface",
+      "text": "The interface state could not be stored.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "writeOptionalInterface",
+        "anchor": "writeOptionalInterface-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "306fa2680a48",
+      "contextRevision": "74a44d6a8044"
+    },
+    {
+      "id": "prose:shell:save-transfer:writeOptionalInterface-0003#text",
+      "domain": "shell",
+      "bank": "save-transfer",
+      "stableKey": "writeOptionalInterface-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "sourceSymbol": "writeOptionalInterface",
+      "text": "This build cannot store pins and private notes. Existing saves are unchanged.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Export and import surface these refusals and outcomes on the Saved games screen.",
+      "grounding": [
+        {
+          "key": "portable-save-bundle",
+          "description": "The versioned life file, its World payload, and whether an interface store was present.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "writeOptionalInterface",
+        "anchor": "writeOptionalInterface-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "f9d0c96bcda8",
+      "contextRevision": "74a44d6a8044"
     }
   ]
 }

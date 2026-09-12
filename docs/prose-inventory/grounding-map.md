@@ -34,6 +34,8 @@ declare is reported as undeclared rather than filled in from a guess.
 | `narration/thread-recap` | 32 | 0 | 0 | — |
 | `ordinary/work-item` | 4 | 0 | 4 | — |
 | `setup/questionnaire` | 354 | 0 | 0 | — |
+| `shell/art-preview` | 2 | 0 | 0 | — |
+| `shell/save-transfer` | 35 | 0 | 0 | — |
 
 ## The concerns PR #119 named
 

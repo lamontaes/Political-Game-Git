@@ -1019,6 +1019,14 @@
       "textRevision": "05a14e8db969"
     },
     {
+      "anchor": "INTERNAL_ART_REVIEW_LABEL-0001",
+      "sourcePath": "src/presentation/art-preview.ts",
+      "symbol": "INTERNAL_ART_REVIEW_LABEL",
+      "text": "Internal art review — unreleased candidate art, not approved",
+      "occurrence": 0,
+      "textRevision": "503328cde9d8"
+    },
+    {
       "anchor": "LIFE_TALK_INTENTS-0001",
       "sourcePath": "src/presentation/life-conversation.ts",
       "symbol": "LIFE_TALK_INTENTS",
@@ -4886,9 +4894,9 @@
       "anchor": "readOptionalInterface-0002",
       "sourcePath": "src/presentation/portable-save.ts",
       "symbol": "readOptionalInterface",
-      "text": "The interface state for this life could not be read.",
+      "text": "The interface state for this life could not be read. No incomplete transfer was exported; existing saves are unchanged.",
       "occurrence": 0,
-      "textRevision": "03da0e49005a"
+      "textRevision": "e0fdd968c569"
     },
     {
       "anchor": "readOptionalInterface-0003",

@@ -14,3 +14,8 @@ verified initial game and keeps the last known-good version available while a
 new accepted-main build is fetched, compiled, packaged, launched, and checked.
 This is private development delivery only; it does not configure or claim a
 public signed update channel and does not change released simulation behavior.
+
+Controller success proof additionally reproduced inherited Electron Node-worker
+mode preventing the candidate health-check from opening a GUI. The launch
+environment now strips that worker-only flag for the actual game, retaining
+the isolated profile and review label; failure still leaves the current pointer.

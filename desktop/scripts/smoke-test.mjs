@@ -17,6 +17,7 @@ import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import os from "node:os";
 import path from "node:path";
+import { gameLaunchEnvironment } from "./game-launch-environment.mjs";
 
 const require = createRequire(
   path.join(
@@ -54,7 +55,7 @@ function check(label, condition, detail = "") {
 async function launch() {
   const app = await _electron.launch({
     executablePath: appPath,
-    env: { ...process.env, OCD_USER_DATA_DIR: profile },
+    env: gameLaunchEnvironment(process.env, profile),
   });
   const page = await app.firstWindow();
   const foreign = [];

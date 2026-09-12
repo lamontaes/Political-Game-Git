@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 2353 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5722 |
-| DIAGNOSTIC_OR_TEST | 4852 |
-| **NEEDS_CLASSIFICATION** | **6211** |
+| INVENTORIED | 2391 |
+| INTENTIONALLY_NON_PLAYER_FACING | 5701 |
+| DIAGNOSTIC_OR_TEST | 4859 |
+| **NEEDS_CLASSIFICATION** | **6194** |
 
-Scanned 596 files holding 72892 string
+Scanned 596 files holding 72961 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -160,7 +160,6 @@ literals in total; the table counts only those that read like a sentence.
 | 11 | `src/content/adapters/life-situations.ts` |
 | 11 | `src/player/PublicInformationPanel.tsx` |
 | 11 | `src/presentation/life-scene-flow.ts` |
-| 11 | `src/presentation/portable-save.ts` |
 | 11 | `src/presentation/run-b-conversation-progress.ts` |
 | 11 | `src/presentation/scene-placement.ts` |
 | 11 | `src/simulation/political-belief-formation.ts` |
@@ -230,9 +229,7 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/player/CareerPathsPanel.tsx` |
 | 5 | `src/player/CivilPersonnelPanel.tsx` |
 | 5 | `src/player/LegislationWorkspace.tsx` |
-| 5 | `src/player/SaveTransferControls.tsx` |
 | 5 | `src/player/TitleTableau.tsx` |
-| 5 | `src/presentation/art-preview.ts` |
 | 5 | `src/presentation/browser-world-repository-protocol.ts` |
 | 5 | `src/presentation/life-conversation.ts` |
 | 5 | `src/presentation/opening-officeholders.ts` |
@@ -260,6 +257,7 @@ literals in total; the table counts only those that read like a sentence.
 | 3 | `src/player/JudicialOfficeWork.tsx` |
 | 3 | `src/player/PeopleRelationshipWeb.tsx` |
 | 3 | `src/player/PressWorkspace.tsx` |
+| 3 | `src/presentation/art-preview.ts` |
 | 3 | `src/presentation/browser-shell-state.ts` |
 | 3 | `src/presentation/economic-context.ts` |
 | 3 | `src/presentation/legislation-composition.ts` |
@@ -305,6 +303,7 @@ literals in total; the table counts only those that read like a sentence.
 | 1 | `src/presentation/opening-life.ts` |
 | 1 | `src/presentation/person-conversation-entry.ts` |
 | 1 | `src/presentation/place-start-summary.ts` |
+| 1 | `src/presentation/portable-save.ts` |
 | 1 | `src/presentation/scene-conversation.ts` |
 | 1 | `src/simulation/commitment-seam.ts` |
 | 1 | `src/simulation/life-personality.ts` |
