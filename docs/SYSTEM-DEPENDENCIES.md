@@ -853,12 +853,14 @@ See [Canonical Public Information](systems/public-information.md).
   pure reporter/adviser eligibility projections; an accepted-arrangement
   adapter; knowledge-derived preparation; and publication-derived fallible
   feedback. UI supplies no NPC acceptance flag or adviser/reporter prose.
-- **Consent boundary:** requesting is not agreement. A reporter refusal, missing
-  response, adviser refusal, or family/household relationship without current
-  shared work cannot create an arrangement or work item.
+- **Consent boundary:** requesting is not agreement. A reporter refusal, deferral, missing
+  response, or family/household relationship without current
+  shared work cannot create an arrangement or work item. An adviser is optional
+  for an unprepared interview; preparation and feedback still require an
+  accepted current colleague.
 - **UI boundary:** UI #144's existing `PressWorkspace` and
   `PressInterviewPanel` remain the consumer and sole global placement path.
-  NEWS supplies action adapters only and adds no root, panel, headline generator
+  PRESS-REACH13 updates that consumer only; it adds no root, panel, headline generator
   or publication writer.
 
 ---

@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2334 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5641 |
-| DIAGNOSTIC_OR_TEST | 4684 |
-| **NEEDS_CLASSIFICATION** | **6131** |
+| INTENTIONALLY_NON_PLAYER_FACING | 5652 |
+| DIAGNOSTIC_OR_TEST | 4728 |
+| **NEEDS_CLASSIFICATION** | **6151** |
 
-Scanned 562 files holding 71116 string
+Scanned 564 files holding 71379 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -42,9 +42,9 @@ literals in total; the table counts only those that read like a sentence.
 | 97 | `src/simulation/opening-life-content.ts` |
 | 87 | `src/simulation/policy.ts` |
 | 76 | `src/presentation/legislative-bargaining.ts` |
+| 74 | `src/simulation/press-interview-producers.ts` |
 | 72 | `src/simulation/life-paths2.ts` |
 | 69 | `src/simulation/character-history.ts` |
-| 64 | `src/simulation/press-interview-producers.ts` |
 | 61 | `src/simulation/press-interviews.ts` |
 | 59 | `src/presentation/legislative-dialogue-motifs.ts` |
 | 59 | `src/simulation/adult-situations.ts` |
@@ -169,6 +169,7 @@ literals in total; the table counts only those that read like a sentence.
 | 10 | `src/presentation/person-dossier.ts` |
 | 10 | `src/presentation/production-world.ts` |
 | 10 | `src/simulation/office-qualification-rules.ts` |
+| 10 | `src/simulation/press-reach.ts` |
 | 10 | `src/simulation/setup-questionnaire-bank.ts` |
 | 10 | `src/ui/CausalTraceView.tsx` |
 | 10 | `src/ui/PeopleVisual4Review.tsx` |

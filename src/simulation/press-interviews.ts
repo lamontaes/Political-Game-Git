@@ -56,7 +56,7 @@ export interface ArrangePressInterviewInput {
   readonly reporterPersonId: EntityId;
   /** Current active work-role record carrying profession:journalism. */
   readonly reporterWorkRoleId: EntityId;
-  readonly adviserPersonId: EntityId;
+  readonly adviserPersonId: EntityId | null;
   readonly jurisdictionId: EntityId | null;
   readonly channel: PressInterviewChannel;
   readonly terms: PressRecordTerms;
@@ -80,7 +80,7 @@ export interface ArrangePressInterviewInput {
 export interface ArrangedPressInterview {
   readonly world: World;
   readonly activityId: EntityId;
-  readonly preparationWorkItemId: EntityId;
+  readonly preparationWorkItemId: EntityId | null;
 }
 
 export interface RecordPressPreparationInput {
@@ -130,15 +130,16 @@ export interface PressInterviewProjection {
   readonly reporterName: string;
   readonly subjectPersonId: EntityId;
   readonly subjectName: string;
-  readonly adviserPersonId: EntityId;
-  readonly adviserName: string;
+  readonly adviserPersonId: EntityId | null;
+  readonly adviserName: string | null;
   readonly channel: PressInterviewChannel;
   readonly terms: PressRecordTerms;
   readonly backgroundAttribution: string | null;
   readonly pitch: string;
   readonly primaryQuestion: string;
-  readonly preparationWorkItemId: EntityId;
-  readonly preparationStatus: ReturnType<typeof workItemState>["status"];
+  readonly preparationWorkItemId: EntityId | null;
+  readonly preparationStatus:
+    ReturnType<typeof workItemState>["status"] | "none";
   readonly knownFacts: readonly string[];
   readonly likelyFollowUps: readonly string[];
   readonly responseOptions: readonly string[];
@@ -166,13 +167,16 @@ export function arrangePressInterview(
   assertWorldIntegrity(world);
   const subjectPersonId = controlledPersonId(world);
   requirePerson(world, input.reporterPersonId, "reporter");
-  requirePerson(world, input.adviserPersonId, "adviser");
+  if (input.adviserPersonId !== null) {
+    requirePerson(world, input.adviserPersonId, "adviser");
+  }
   if (input.reporterPersonId === subjectPersonId) {
     throw new Error("A press source cannot also be the reporter.");
   }
   if (
-    input.adviserPersonId === subjectPersonId ||
-    input.adviserPersonId === input.reporterPersonId
+    input.adviserPersonId !== null &&
+    (input.adviserPersonId === subjectPersonId ||
+      input.adviserPersonId === input.reporterPersonId)
   ) {
     throw new Error(
       "A press adviser must be a separate person from the source and reporter.",
@@ -190,14 +194,22 @@ export function arrangePressInterview(
       "Background attribution is only valid for an on-background interview.",
     );
   }
-  if (
+  if (input.adviserPersonId === null) {
+    if (input.preparationMinutes !== 0) {
+      throw new Error(
+        "An unprepared interview cannot carry preparation minutes.",
+      );
+    }
+  } else if (
     !Number.isSafeInteger(input.preparationMinutes) ||
     input.preparationMinutes <= 0
   ) {
     throw new Error("Press preparation requires positive whole minutes.");
   }
   assertReporterRole(world, input.reporterPersonId, input.reporterWorkRoleId);
-  assertActualAdviser(world, subjectPersonId, input.adviserPersonId);
+  if (input.adviserPersonId !== null) {
+    assertActualAdviser(world, subjectPersonId, input.adviserPersonId);
+  }
   assertCanonicalPitch(
     world,
     input.pitchClaimId,
@@ -239,7 +251,7 @@ export function arrangePressInterview(
     involvedEntityIds: canonicalIds([
       subjectPersonId,
       input.reporterPersonId,
-      input.adviserPersonId,
+      ...(input.adviserPersonId ? [input.adviserPersonId] : []),
       ...(input.jurisdictionId ? [input.jurisdictionId] : []),
     ]),
     participants: [
@@ -253,11 +265,15 @@ export function arrangePressInterview(
         role: "observation:reporter",
         detail: "Agreed the channel and ground rules",
       },
-      {
-        personId: input.adviserPersonId,
-        role: "coordination:press-adviser",
-        detail: "Assigned to prepare the source",
-      },
+      ...(input.adviserPersonId
+        ? ([
+            {
+              personId: input.adviserPersonId,
+              role: "coordination:press-adviser",
+              detail: "Assigned to prepare the source",
+            },
+          ] as const)
+        : []),
     ],
     personFactConstraints: [],
     visibility: "limited",
@@ -266,6 +282,7 @@ export function arrangePressInterview(
       `${CHANNEL_PREFIX}${input.channel}`,
       `${TERMS_PREFIX}${input.terms}`,
       `press.pitch-claim:${input.pitchClaimId}`,
+      ...(input.adviserPersonId ? [] : ["press.unprepared"]),
       ...basisEventIds.map((eventId) => `press.basis:${eventId}`),
       ...relationshipIds.map(
         (relationshipId) => `press.contact:${relationshipId}`,
@@ -314,6 +331,14 @@ export function arrangePressInterview(
   });
   const activity = next.history.scheduledActivities.at(-1)!;
 
+  if (input.adviserPersonId === null) {
+    return {
+      world: next,
+      activityId: activity.id,
+      preparationWorkItemId: null,
+    };
+  }
+
   next = createWorkItem(next, {
     stableKey: `${input.stableKey}:preparation`,
     title: "Prepare for press questions",
@@ -348,8 +373,14 @@ export function recordPressPreparation(
 ): World {
   const press = requirePressInterview(world, input.activityId);
   requireNoEvent(world, input.activityId, "press.interview-prepared");
-  if (input.adviserPersonId !== press.adviserPersonId) {
+  if (
+    press.adviserPersonId === null ||
+    input.adviserPersonId !== press.adviserPersonId
+  ) {
     throw new Error("Press preparation must come from the assigned adviser.");
+  }
+  if (!press.preparationWorkItem) {
+    throw new Error("An unprepared interview has no preparation work item.");
   }
   const state = workItemState(world, press.preparationWorkItem.id);
   if (state.status !== "ready-for-review" && state.status !== "completed") {
@@ -442,7 +473,9 @@ export function draftPressResponse(
   input: DraftPressResponseInput,
 ): World {
   const press = requirePressInterview(world, input.activityId);
-  requireEvent(world, input.activityId, "press.interview-prepared");
+  if (press.preparationWorkItem) {
+    requireEvent(world, input.activityId, "press.interview-prepared");
+  }
   requireNoEvent(world, input.activityId, "press.response-drafted");
   assertMember(PRESS_PLAY_MODES, input.mode, "press play mode");
   assertMember(PRESS_RESPONSE_INTENTS, input.intent, "press response intent");
@@ -712,7 +745,11 @@ export function recordPressAdviserFeedback(
 ): World {
   const press = requirePressInterview(world, input.activityId);
   requireNoEvent(world, input.activityId, "press.adviser-feedback-given");
-  if (input.adviserPersonId !== press.adviserPersonId) {
+  if (
+    press.adviserPersonId === null ||
+    !press.preparationWorkItem ||
+    input.adviserPersonId !== press.adviserPersonId
+  ) {
     throw new Error("Press feedback must come from the assigned adviser.");
   }
   const prepState = workItemState(world, press.preparationWorkItem.id);
@@ -827,15 +864,18 @@ export function projectPressInterview(
     subjectPersonId: press.subjectPersonId,
     subjectName: personName(world.people[press.subjectPersonId]!),
     adviserPersonId: press.adviserPersonId,
-    adviserName: personName(world.people[press.adviserPersonId]!),
+    adviserName: press.adviserPersonId
+      ? personName(world.people[press.adviserPersonId]!)
+      : null,
     channel: press.channel,
     terms: press.terms,
     backgroundAttribution: press.backgroundAttribution,
     pitch: press.pitch,
     primaryQuestion: press.primaryQuestion,
-    preparationWorkItemId: press.preparationWorkItem.id,
-    preparationStatus: workItemState(world, press.preparationWorkItem.id)
-      .status,
+    preparationWorkItemId: press.preparationWorkItem?.id ?? null,
+    preparationStatus: press.preparationWorkItem
+      ? workItemState(world, press.preparationWorkItem.id).status
+      : "none",
     knownFacts: preparation
       ? decodeList(preparation.context.socialContext)
       : [],
@@ -862,10 +902,10 @@ export function projectPressInterview(
 interface RequiredPressInterview {
   readonly activity: World["history"]["scheduledActivities"][number];
   readonly arrangement: HistoricalEvent;
-  readonly preparationWorkItem: WorkItemRecord;
+  readonly preparationWorkItem: WorkItemRecord | null;
   readonly subjectPersonId: EntityId;
   readonly reporterPersonId: EntityId;
-  readonly adviserPersonId: EntityId;
+  readonly adviserPersonId: EntityId | null;
   readonly channel: PressInterviewChannel;
   readonly terms: PressRecordTerms;
   readonly backgroundAttribution: string | null;
@@ -896,16 +936,24 @@ function requirePressInterview(
   const adviser = arrangement.participants.find(
     (participant) => participant.role === "coordination:press-adviser",
   );
-  if (!subject || !reporter || !adviser) {
+  if (!subject || !reporter) {
     throw new Error("Press arrangement is missing its actual people.");
   }
-  const preparationWorkItem = world.history.workItems.find(
-    (item) =>
-      item.sourceEntityIds.includes(activity.id) &&
-      item.sourceEntityIds.includes(arrangement.id),
-  );
-  if (!preparationWorkItem) {
+  const unprepared = arrangement.tags.includes("press.unprepared");
+  if (!unprepared && !adviser) {
+    throw new Error("Press arrangement is missing its actual people.");
+  }
+  const preparationWorkItem =
+    world.history.workItems.find(
+      (item) =>
+        item.sourceEntityIds.includes(activity.id) &&
+        item.sourceEntityIds.includes(arrangement.id),
+    ) ?? null;
+  if (!unprepared && !preparationWorkItem) {
     throw new Error("Press arrangement is missing its preparation work item.");
+  }
+  if (unprepared && preparationWorkItem) {
+    throw new Error("An unprepared interview cannot carry preparation work.");
   }
   const terms = tagValue(
     arrangement,
@@ -925,7 +973,7 @@ function requirePressInterview(
     preparationWorkItem,
     subjectPersonId: subject.personId,
     reporterPersonId: reporter.personId,
-    adviserPersonId: adviser.personId,
+    adviserPersonId: adviser?.personId ?? null,
     terms,
     channel,
     backgroundAttribution:
