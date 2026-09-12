@@ -122,6 +122,15 @@ export interface LightweightPersonInput {
    * never reads the manifest itself.
    */
   readonly appearanceCatalogGeneration?: number;
+  /**
+   * Appearance recipe to create this person under, when the caller declares one.
+   *
+   * Absent means the default, which does not move — see
+   * `DEFAULT_APPEARANCE_RECIPE_VERSION`. A caller that wants a newer recipe
+   * says so, so the change reaches the people it was authorized for and no
+   * existing constructor's people are rebuilt behind its back.
+   */
+  readonly appearanceRecipeVersion?: string;
 }
 
 export function personName(person: Person): string {
@@ -335,7 +344,7 @@ export function createLightweightPerson(input: LightweightPersonInput): Person {
 
   const appearance = derivePersonAppearance(
     id,
-    undefined,
+    input.appearanceRecipeVersion,
     input.appearanceCatalogGeneration,
   );
   const birthplaceJurisdictionId =
@@ -530,6 +539,8 @@ export interface StartingPersonInput {
   readonly familyName?: string | null;
   readonly corpusVersion?: string;
   readonly appearanceCatalogGeneration?: number;
+  /** See `LightweightPersonInput.appearanceRecipeVersion`. */
+  readonly appearanceRecipeVersion?: string;
   /**
    * The gender and pronouns the player chose, when they chose any.
    *
@@ -621,7 +632,7 @@ export function createStartingPerson(input: StartingPersonInput): Person {
 
   const appearance = derivePersonAppearance(
     id,
-    undefined,
+    input.appearanceRecipeVersion,
     input.appearanceCatalogGeneration,
   );
   const birthplaceJurisdictionId =
@@ -692,6 +703,12 @@ export function drawCanonicalName(
   };
 }
 
+export const LEGACY_GIVEN_NAME_GENERATION_VERSION = "given-name-v1";
+export const DISTINCT_GIVEN_NAME_GENERATION_VERSION = "given-name-v2";
+export type GivenNameGenerationVersion =
+  | typeof LEGACY_GIVEN_NAME_GENERATION_VERSION
+  | typeof DISTINCT_GIVEN_NAME_GENERATION_VERSION;
+
 /**
  * The same draw, for somebody whose gender the world has already generated.
  *
@@ -709,11 +726,29 @@ export function drawCanonicalName(
  * parent stream advances by exactly the two values it advanced by before this
  * existed: adding this moves nobody's birthday and no other person in the
  * world.
+ *
+ * Version 2's fork key carries the unrestricted draw. `SeededRng.fork` derives from the
+ * seed and the key alone and never from how far the stream has run, so a fixed
+ * key gave every gendered person drawn off one stream the SAME given name —
+ * "Luke Whitehead", "Luke Snyder", "Luke Marshall" from one household stream.
+ * A household then overwrites the family name with the player's, so the third
+ * playtest's home scene offered "Tell Charles Rush" about Charles Rush: a
+ * guardian and a sibling the player could not tell apart. Keying the fork on
+ * the name this person's own two draws produced varies it per person while the
+ * parent stream still advances by exactly two values.
+ *
+ * `takenGivenNames` is for a group the player meets under one roof, where two
+ * people sharing a first name is not colour but an unanswerable scene: the
+ * household passes the names it has already handed out and the draw steps on
+ * through the same pool. It is a preference, not a guarantee — a pool smaller
+ * than the group keeps the drawn name rather than inventing one outside it.
  */
 export function drawCanonicalNameForGender(
   rng: SeededRng,
   gender: GenderIdentityKey | undefined,
   corpusVersion: string = DEFAULT_CORPUS_VERSION,
+  generationVersion: GivenNameGenerationVersion = LEGACY_GIVEN_NAME_GENERATION_VERSION,
+  takenGivenNames: readonly string[] = [],
 ): { readonly givenName: string; readonly familyName: string } {
   const drawn = drawCanonicalName(rng, corpusVersion);
   if (gender === undefined || gender === "unstated") return drawn;
@@ -723,8 +758,21 @@ export function drawCanonicalNameForGender(
       : gender === "female"
         ? GIVEN_NAME_GENERATION_POOLS_V1.female
         : GIVEN_NAME_GENERATION_POOLS_V1.neutral;
-  return {
-    givenName: rng.fork("canonical-name:gendered-given-name").pick(pool),
-    familyName: drawn.familyName,
-  };
+  if (generationVersion === LEGACY_GIVEN_NAME_GENERATION_VERSION) {
+    return {
+      givenName: rng.fork("canonical-name:gendered-given-name").pick(pool),
+      familyName: drawn.familyName,
+    };
+  }
+  const offset = rng
+    .fork(
+      `canonical-name:gendered-given-name:${drawn.givenName}:${drawn.familyName}`,
+    )
+    .integer(0, pool.length);
+  const taken = new Set(takenGivenNames);
+  let givenName = pool[offset] as string;
+  for (let step = 0; step < pool.length && taken.has(givenName); step += 1) {
+    givenName = pool[(offset + step + 1) % pool.length] as string;
+  }
+  return { givenName, familyName: drawn.familyName };
 }

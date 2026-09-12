@@ -1,7 +1,9 @@
+import { LEGACY_COHERENT_CATALOG_GENERATION } from "../simulation/person-appearance";
 import {
   guardianAgeBand,
   siblingAgeGaps,
   applyCharacterHistoryPlan,
+  COHERENT_APPEARANCE_RECIPE_VERSION,
   assertWorldIntegrity,
   addDays,
   ageOnDate,
@@ -14,6 +16,7 @@ import {
   drawCanonicalNameForGender,
   generatePersonIdentity,
   generateQuickCharacterHistory,
+  LEGACY_GIVEN_NAME_GENERATION_VERSION,
   personName,
   recordWorldEvent,
   recordPersonDeath,
@@ -24,6 +27,7 @@ import { establishLifePersonality } from "../simulation/life-personality";
 import type {
   CharacterHistoryTransition,
   EntityId,
+  GivenNameGenerationVersion,
   IsoDate,
   LifePlace,
   Person,
@@ -104,6 +108,18 @@ export interface ProductionWorldInput {
    * the ranges it drew before this existed.
    */
   readonly generation?: SetupGenerationInputs | null;
+  /**
+   * Appearance recipe this life is created under.
+   *
+   * Declared rather than defaulted at the New Game / replay seam. Absent here
+   * still means the coherent recipe, which is what a player starting now gets.
+   * An old replay descriptor that never named a recipe is handled by
+   * `createNewGameWorld`, which passes the legacy version explicitly.
+   */
+  readonly appearanceRecipeVersion?: string;
+  readonly appearanceCatalogGeneration?: number;
+  /** Versioned independently so newer naming does not rewrite old replays. */
+  readonly givenNameGenerationVersion?: GivenNameGenerationVersion;
 }
 
 export interface ProductionWorld {
@@ -156,6 +172,18 @@ export function buildProductionWorld(
     age: input.age,
     givenName: input.givenName,
     familyName: input.familyName,
+    // A life starting now is drawn under the coherent recipe, declared here
+    // rather than taken from a default, so that people already saved — and
+    // the fixture worlds with accepted serialized bytes — keep the recipe
+    // they were created under. See `person-appearance.ts`.
+    appearanceRecipeVersion:
+      input.appearanceRecipeVersion ?? COHERENT_APPEARANCE_RECIPE_VERSION,
+    appearanceCatalogGeneration:
+      input.appearanceCatalogGeneration ??
+      ((input.appearanceRecipeVersion ?? COHERENT_APPEARANCE_RECIPE_VERSION) ===
+      COHERENT_APPEARANCE_RECIPE_VERSION
+        ? LEGACY_COHERENT_CATALOG_GENERATION
+        : undefined),
     ...(input.identity === undefined ? {} : { identity: input.identity }),
   });
 
@@ -186,6 +214,7 @@ export function buildProductionWorld(
     input.household,
     input.generation ?? null,
     input.familyStructureSeed ?? input.seed,
+    input.givenNameGenerationVersion ?? LEGACY_GIVEN_NAME_GENERATION_VERSION,
   );
   if (input.startingLife === "legislative-office") {
     world = employInLegislativeOffice(world, player.id, place);
@@ -281,6 +310,7 @@ function establishAgeEligibleState(
   household: ProductionHousehold,
   generation: SetupGenerationInputs | null,
   familyStructureSeed: string,
+  givenNameGenerationVersion: GivenNameGenerationVersion,
 ): World {
   const jurisdictionId = place.context.jurisdiction.id;
   const age = ageOnDate(player.birthDate, world.currentDate);
@@ -289,6 +319,17 @@ function establishAgeEligibleState(
   const householdKey = `${stableKey}:household`;
   const householdId = householdIdFor(world.id, householdKey);
   const rng = new SeededRng(world.seed).fork("production-world-v1:household");
+
+  /*
+   * First names already spoken for around this player.
+   *
+   * Scenes at home address these people by name — "Tell {role:guardian}" about
+   * {role:household-peer} — so two of them answering to the same first name is
+   * not texture, it is a choice the player cannot read. Each draw is told what
+   * is taken and steps on within its own pool; nobody is renamed afterwards,
+   * and a name that cannot be avoided is kept rather than invented around.
+   */
+  const spokenFor: string[] = [player.givenName];
 
   const transitions: CharacterHistoryTransition[] = [
     {
@@ -351,7 +392,11 @@ function establishAgeEligibleState(
       const otherName = drawCanonicalNameForGender(
         rng,
         generatedIdentityFor(world.seed, otherKey).gender,
+        undefined,
+        givenNameGenerationVersion,
+        spokenFor,
       );
+      spokenFor.push(otherName.givenName);
       transitions.push(
         {
           kind: "context-person",
@@ -394,7 +439,11 @@ function establishAgeEligibleState(
   const guardianName = drawCanonicalNameForGender(
     rng,
     generatedIdentityFor(world.seed, guardianKey).gender,
+    undefined,
+    givenNameGenerationVersion,
+    spokenFor,
   );
+  spokenFor.push(guardianName.givenName);
   // Authored household configurations, not survey probabilities. This stream
   // cannot change existing names, ages, or the sibling draw.
   const familyShape = new SeededRng(familyStructureSeed)
@@ -499,7 +548,11 @@ function establishAgeEligibleState(
     const siblingName = drawCanonicalNameForGender(
       rng,
       generatedIdentityFor(world.seed, siblingKey).gender,
+      undefined,
+      givenNameGenerationVersion,
+      spokenFor,
     );
+    spokenFor.push(siblingName.givenName);
     // Close enough in age to be a peer and never the same day, so "older" and
     // "younger" are always answerable from the record. Which side of the player
     // the candidates sit on is tilted by the care lean; the pick is still the
@@ -577,15 +630,20 @@ function establishAgeEligibleState(
     const otherKey = `${stableKey}:second-parent`;
     const otherId = characterHistoryContextPersonId(world, otherKey);
     const otherRng = new SeededRng(world.seed).fork(otherKey);
+    const secondParentName = drawCanonicalNameForGender(
+      otherRng,
+      generatedIdentityFor(world.seed, otherKey).gender,
+      undefined,
+      givenNameGenerationVersion,
+      spokenFor,
+    );
+    spokenFor.push(secondParentName.givenName);
     transitions.push(
       {
         kind: "context-person",
         input: {
           stableKey: otherKey,
-          ...drawCanonicalNameForGender(
-            otherRng,
-            generatedIdentityFor(world.seed, otherKey).gender,
-          ),
+          ...secondParentName,
           identity: generatedIdentityFor(world.seed, otherKey),
           birthDate: yearsBefore(player.birthDate, otherRng.integer(24, 41)),
           homeJurisdictionId: jurisdictionId,
@@ -641,15 +699,20 @@ function establishAgeEligibleState(
   const otherParentId = characterHistoryContextPersonId(world, otherParentKey);
   if (otherParentState !== "unrecorded") {
     const otherRng = new SeededRng(world.seed).fork(otherParentKey);
+    const otherParentName = drawCanonicalNameForGender(
+      otherRng,
+      generatedIdentityFor(world.seed, otherParentKey).gender,
+      undefined,
+      givenNameGenerationVersion,
+      spokenFor,
+    );
+    spokenFor.push(otherParentName.givenName);
     transitions.push(
       {
         kind: "context-person",
         input: {
           stableKey: otherParentKey,
-          ...drawCanonicalNameForGender(
-            otherRng,
-            generatedIdentityFor(world.seed, otherParentKey).gender,
-          ),
+          ...otherParentName,
           identity: generatedIdentityFor(world.seed, otherParentKey),
           birthDate: yearsBefore(player.birthDate, otherRng.integer(24, 41)),
           homeJurisdictionId: jurisdictionId,
@@ -715,7 +778,11 @@ function establishAgeEligibleState(
       const classmateName = drawCanonicalNameForGender(
         rng,
         generatedIdentityFor(world.seed, classmateKey).gender,
+        undefined,
+        givenNameGenerationVersion,
+        spokenFor,
       );
+      spokenFor.push(classmateName.givenName);
       transitions.push(
         {
           kind: "context-person",

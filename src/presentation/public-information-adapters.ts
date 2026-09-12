@@ -11,10 +11,18 @@ export interface PublicInformationPanelItem extends PublicInformationDigestItem 
   readonly civicReferences: readonly CivicGlossaryEntry[];
 }
 
+export interface PublicInformationPanelOutlet {
+  readonly outletKey: string;
+  readonly outletName: string;
+  readonly storyCount: number;
+}
+
 /** Exact props payload UI-core can register in its chosen global placement. */
 export interface PublicInformationPanelModel {
   readonly digest: PublicInformationDigest;
   readonly items: readonly PublicInformationPanelItem[];
+  /** Derived only from canonical publication records represented above. */
+  readonly outlets: readonly PublicInformationPanelOutlet[];
 }
 
 export function projectPublicInformationPanel(
@@ -22,8 +30,18 @@ export function projectPublicInformationPanel(
   jurisdictionId?: EntityId | null,
 ): PublicInformationPanelModel {
   const digest = projectPublicInformationDigest(world, jurisdictionId);
+  const outlets = new Map<string, PublicInformationPanelOutlet>();
+  for (const item of digest.items) {
+    const existing = outlets.get(item.outletKey);
+    outlets.set(item.outletKey, {
+      outletKey: item.outletKey,
+      outletName: item.outletName,
+      storyCount: (existing?.storyCount ?? 0) + 1,
+    });
+  }
   return {
     digest,
+    outlets: [...outlets.values()],
     items: digest.items.map((item) => ({
       ...item,
       civicReferences: conceptIdsFor(item, world)

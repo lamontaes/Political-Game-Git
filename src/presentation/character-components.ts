@@ -1,5 +1,8 @@
 import { stableHash } from "../simulation/ids";
-import type { PersonAppearance } from "../simulation/person-appearance";
+import {
+  COHERENT_APPEARANCE_RECIPE_VERSION,
+  type PersonAppearance,
+} from "../simulation/person-appearance";
 import { SeededRng } from "../simulation/rng";
 import {
   compileGarmentFitMatrix,
@@ -407,6 +410,90 @@ export interface CharacterComponentLibrary {
    * to the unfitted rectangle.
    */
   readonly fit: GarmentFitBank | null;
+  /**
+   * Measured skin tone per body and head family, or null when unmeasured.
+   *
+   * Null is the ORIGINAL contract and stays the default: a library without it
+   * resolves exactly as it always did. It is consulted only by appearance
+   * recipe v2, which uses it to keep a person's face painted in the same skin
+   * as the body carrying it. A v2 appearance against a library with no tone
+   * data falls back to the v1 choice and says so in a diagnostic, rather than
+   * guessing a complexion from a family name.
+   */
+  readonly skinTone: ReadonlyMap<string, SkinTone> | null;
+}
+
+/** Median opaque colour of a bare-skin band, measured from the raster. */
+export interface SkinTone {
+  readonly r: number;
+  readonly g: number;
+  readonly b: number;
+}
+
+/**
+ * The recipe version that keeps a face and its body in the same skin.
+ *
+ * The writer and the resolver have to agree on one string — that agreement is
+ * what a version IS — so it is declared once, where an appearance is created,
+ * and read here. Naming it separately would let the two drift silently, and a
+ * resolver that stopped recognising the version people were being created
+ * under would fall back to v1 without failing anything.
+ */
+export const COMPLEXION_COHERENT_RECIPE_VERSION =
+  COHERENT_APPEARANCE_RECIPE_VERSION;
+
+/**
+ * How far a head's measured skin may sit from the body's and still be chosen.
+ *
+ * A band rather than the single nearest, because picking the nearest would
+ * collapse every body to exactly one face and throw away the variety the
+ * seeded draw exists for. Twenty-five is a visual estimate calibrated against
+ * the measured spread: the closest head is 2 to 23 away for every banked body,
+ * so this admits the best for each and usually a little company, while
+ * excluding the 40-to-85 mismatches that prompted it. It is an authored policy
+ * about painted coherence, not a claim about anybody.
+ */
+export const COMPLEXION_COHERENT_TOLERANCE = 25;
+
+function complexionCoherentHeads(
+  library: CharacterComponentLibrary,
+  bodyFamily: string,
+  headFamilies: readonly string[],
+): { readonly families: readonly string[] } | null {
+  const tones = library.skinTone;
+  if (!tones) return null;
+  const body = tones.get(bodyFamily);
+  if (!body) return { families: [] };
+  const scored = headFamilies
+    .map((family) => ({ family, tone: tones.get(family) }))
+    .filter(
+      (entry): entry is { family: string; tone: SkinTone } =>
+        entry.tone !== undefined,
+    )
+    .map((entry) => ({
+      family: entry.family,
+      distance: Math.hypot(
+        entry.tone.r - body.r,
+        entry.tone.g - body.g,
+        entry.tone.b - body.b,
+      ),
+    }));
+  if (scored.length === 0) return { families: [] };
+  const nearest = Math.min(...scored.map((entry) => entry.distance));
+  /*
+   * Measured from the NEAREST rather than from an absolute cut, so a body whose
+   * closest available face is 23 away still gets that face instead of falling
+   * through to the unfiltered draw. The bank decides what is achievable; the
+   * tolerance decides how much company the best answer keeps.
+   */
+  return {
+    families: scored
+      .filter(
+        (entry) => entry.distance <= nearest + COMPLEXION_COHERENT_TOLERANCE,
+      )
+      .map((entry) => entry.family)
+      .sort(),
+  };
 }
 
 export const CHARACTER_GENERATION_SIGNATURE_PREFIX = "csig_";
@@ -539,6 +626,7 @@ export function createCharacterComponentLibrary(
   records: readonly CharacterComponentManifestRecord[],
   catalog: CharacterCatalogData,
   fit: GarmentFitBank | null = null,
+  skinTone: ReadonlyMap<string, SkinTone> | null = null,
 ): CharacterComponentLibrary {
   const components = new Map<string, CharacterComponent>();
   for (const record of records) {
@@ -556,6 +644,7 @@ export function createCharacterComponentLibrary(
     generations: catalog.generations,
     components,
     fit,
+    skinTone,
   };
 }
 
@@ -1384,6 +1473,13 @@ export interface CharacterRecipeIdentity {
 export type CharacterRecipeDiagnosticCode =
   /** W9: a required slot resolved no component for this context. */
   | "required-slot-empty"
+  /**
+   * A v2 appearance asked for a face painted in the body's skin, and the
+   * catalog carries no measurement to answer with. The seeded v1 choice stands
+   * and nothing is inferred from a family name; this says the coherence was
+   * unavailable rather than achieved.
+   */
+  | "complexion-unmeasured"
   /** The chosen family has art, but none for this pose. */
   | "slot-family-has-no-art-for-pose"
   /** The chosen family has art for this pose, but not for this facing. */
@@ -1466,50 +1562,107 @@ export interface CharacterRecipe {
 export function liftCandidatesForReview(
   records: readonly CharacterComponentManifestRecord[],
   slots: readonly CharacterSlotDefinition[],
+  options?: {
+    /**
+     * Asset IDs frozen as review generation 1. Anything else lifted beside
+     * them joins generation 2 so new candidates cannot rewrite yesterday's
+     * membership. Omitted keeps the original all-generation-1 lift.
+     */
+    readonly frozenGeneration1Ids?: readonly string[];
+    /** Published review generations. Membership and definitions must match. */
+    readonly frozenGenerations?: readonly CharacterCatalogGeneration[];
+  },
 ): {
   readonly records: readonly CharacterComponentManifestRecord[];
   readonly catalog: CharacterCatalogData;
 } {
+  const frozen = new Set(options?.frozenGeneration1Ids ?? []);
+  const useFrozen = frozen.size > 0;
+  const published = options?.frozenGenerations;
+  const membership = new Map(
+    published?.flatMap((g) =>
+      g.component_ids.map((id) => [id, g.generation] as const),
+    ) ?? [],
+  );
+  if (
+    published &&
+    membership.size !==
+      published.reduce((n, g) => n + g.component_ids.length, 0)
+  )
+    throw new Error("Duplicate published candidate membership.");
   const lifted = records
     .filter(
       (record) =>
         record.asset_type === CHARACTER_COMPONENT_CANDIDATE_ASSET_TYPE &&
         record.candidate_component !== undefined,
     )
-    .map((record) => ({
-      ...record,
-      asset_type: CHARACTER_COMPONENT_ASSET_TYPE,
-      generation_status: "approved" as const,
-      qa_status: "approved" as const,
-      runtime_release_status: "released" as const,
-      component: {
-        ...record.candidate_component!,
-        catalog_generation: CANDIDATE_REVIEW_GENERATION,
-      },
-      candidate_component: undefined,
-    }));
+    .map((record) => {
+      const generation = published
+        ? (membership.get(record.asset_id) ??
+          Math.max(...published.map((g) => g.generation)) + 1)
+        : useFrozen && !frozen.has(record.asset_id)
+          ? CANDIDATE_REVIEW_GENERATION + 1
+          : CANDIDATE_REVIEW_GENERATION;
+      return {
+        ...record,
+        asset_type: CHARACTER_COMPONENT_ASSET_TYPE,
+        generation_status: "approved" as const,
+        qa_status: "approved" as const,
+        runtime_release_status: "released" as const,
+        component: {
+          ...record.candidate_component!,
+          catalog_generation: generation,
+        },
+        candidate_component: undefined,
+      };
+    });
   // The review generation is invented here and belongs to this throwaway
   // library alone. A candidate declares no generation, so there is no number to
   // carry over; composing one for review needs a library, a library needs a
-  // ledger, and a ledger needs a generation. Numbering them all 1 keeps that
-  // scaffolding visibly local: this is not generation 1 of the real catalog,
-  // and nothing here is written back to it.
-  const members = lifted.map((record) => ({
-    assetId: record.asset_id,
-    definition: record.component,
-  }));
+  // ledger, and a ledger needs a generation. Numbering frozen members 1 and
+  // later additive candidates 2 keeps that scaffolding visibly local: this is
+  // not generation 1 of the real catalog, and nothing here is written back to
+  // it.
+  const byGeneration = new Map<number, typeof lifted>();
+  for (const record of lifted) {
+    const generation = record.component.catalog_generation;
+    const list = byGeneration.get(generation) ?? [];
+    list.push(record);
+    byGeneration.set(generation, list);
+  }
+  const generations = [...byGeneration.keys()]
+    .sort((a, b) => a - b)
+    .map((generation) => {
+      const members = (byGeneration.get(generation) ?? []).map((record) => ({
+        assetId: record.asset_id,
+        definition: record.component,
+      }));
+      return {
+        generation,
+        component_ids: members.map((member) => member.assetId).sort(),
+        signature: computeCharacterGenerationSignature(members),
+      };
+    });
+  for (const frozenGeneration of published ?? []) {
+    const actual = generations.find(
+      (g) => g.generation === frozenGeneration.generation,
+    );
+    if (
+      !actual ||
+      actual.signature !== frozenGeneration.signature ||
+      JSON.stringify(actual.component_ids) !==
+        JSON.stringify([...frozenGeneration.component_ids].sort())
+    )
+      throw new Error(
+        `Published candidate generation ${frozenGeneration.generation} changed membership or definitions.`,
+      );
+  }
   return {
     records: lifted,
     catalog: {
-      catalog_generation: CANDIDATE_REVIEW_GENERATION,
+      catalog_generation: generations.at(-1)?.generation ?? 0,
       slots,
-      generations: [
-        {
-          generation: CANDIDATE_REVIEW_GENERATION,
-          component_ids: members.map((member) => member.assetId).sort(),
-          signature: computeCharacterGenerationSignature(members),
-        },
-      ],
+      generations,
     },
   };
 }
@@ -1521,6 +1674,39 @@ export function liftCandidatesForReview(
  * guess which number the review surface used.
  */
 export const CANDIDATE_REVIEW_GENERATION = 1;
+
+/** Frozen first membership of a review library, matching unpinned v1 lives. */
+export const LEGACY_CHARACTER_CATALOG_GENERATION = 1;
+
+/**
+ * Which catalog slice a stored appearance should resolve against.
+ *
+ * An explicit pin always wins. Otherwise a life created under the coherent
+ * recipe without a pin retains the last unpinned catalog (generation 2).
+ * New creation must persist its pin; every other appearance stays on generation 1 —
+ * yesterday's frozen list, not today's.
+ */
+export function resolveAppearanceCatalogGeneration(
+  appearance: PersonAppearance,
+  libraryCatalogGeneration: number,
+): number {
+  const pinned = appearance.catalogGeneration;
+  if (pinned !== undefined) {
+    if (
+      !isFiniteInteger(pinned) ||
+      pinned < 1 ||
+      pinned > libraryCatalogGeneration
+    ) {
+      throw new Error(
+        `Person appearance is pinned to catalog generation ${pinned} but the library only reaches ${libraryCatalogGeneration}.`,
+      );
+    }
+    return pinned;
+  }
+  return appearance.recipeVersion === COMPLEXION_COHERENT_RECIPE_VERSION
+    ? Math.min(2, libraryCatalogGeneration)
+    : LEGACY_CHARACTER_CATALOG_GENERATION;
+}
 
 /**
  * Promotes one banked candidate into a catalog generation.
@@ -1764,7 +1950,8 @@ export function resolveCharacterRecipe(
       "Explicit character selection requires body, head and hair family choices.",
     );
   }
-  const selectedGeneration = appearance.catalogGeneration ?? 1;
+  const selectedGeneration =
+    appearance.catalogGeneration ?? LEGACY_CHARACTER_CATALOG_GENERATION;
   if (
     selection &&
     request.catalogGeneration !== undefined &&
@@ -1776,7 +1963,12 @@ export function resolveCharacterRecipe(
   }
   const generation =
     request.catalogGeneration ??
-    (selection ? selectedGeneration : library.catalogGeneration);
+    (selection
+      ? selectedGeneration
+      : resolveAppearanceCatalogGeneration(
+          appearance,
+          library.catalogGeneration,
+        ));
   if (
     !isFiniteInteger(generation) ||
     generation < 1 ||
@@ -1898,11 +2090,59 @@ export function resolveCharacterRecipe(
       message: `No head component declares body family '${bodyFamily}' as compatible at generation ${generation}, so this identity has no face. The body can be reviewed; a person cannot be put in it.`,
     });
   } else {
-    headFamily = pickFamily(
-      rng,
-      `character-identity:${version}:head-family`,
-      headFamilies,
-    );
+    /*
+     * Recipe v2: the face is painted in the same skin as the body.
+     *
+     * Every banked head declares every banked body as compatible, so the
+     * compatibility filter above passes all of them and the seeded pick could
+     * put any face on any body. Measured over sixty seeded people that put the
+     * chosen head a median of 59 RGB apart from the chosen body, 43 of 60 more
+     * than 40 apart, worst case 85 — visibly a different skin above the neck.
+     *
+     * So v2 narrows the candidates to the heads measurably closest to THIS
+     * body before picking, and then picks among them with the same seeded draw
+     * as ever. Narrowing rather than choosing the single nearest keeps the
+     * variety the draw exists for: the closest head is 2 to 23 away for every
+     * body, so a band around the best still leaves real choice.
+     *
+     * v1 is untouched, deliberately and permanently. A person created under v1
+     * carries v1 in their serialized appearance, and resolving them here takes
+     * the same branch it always did, against the same families, in the same
+     * order. Nothing about this repaints anybody.
+     */
+    const coherent =
+      version === COMPLEXION_COHERENT_RECIPE_VERSION
+        ? complexionCoherentHeads(library, bodyFamily, headFamilies)
+        : null;
+    if (coherent && coherent.families.length > 0) {
+      headFamily = pickFamily(
+        rng,
+        `character-identity:${version}:head-family`,
+        coherent.families,
+      );
+    } else {
+      if (
+        version === COMPLEXION_COHERENT_RECIPE_VERSION &&
+        diagnoseUnresolvable
+      )
+        identityDiagnostics.push({
+          code: "complexion-unmeasured",
+          slotId:
+            library.slots.find((slot) => slot.kind === "head")?.slot_id ??
+            "head",
+          kind: "head",
+          family: bodyFamily,
+          message:
+            coherent === null
+              ? `This catalog carries no measured skin tone, so a complexion-coherent head cannot be chosen for '${bodyFamily}'. The seeded choice stands; no complexion was inferred from a name.`
+              : `No head has a measured skin tone to compare with body '${bodyFamily}'. The seeded choice stands.`,
+        });
+      headFamily = pickFamily(
+        rng,
+        `character-identity:${version}:head-family`,
+        headFamilies,
+      );
+    }
   }
 
   const slots: Record<string, string | null> = {};

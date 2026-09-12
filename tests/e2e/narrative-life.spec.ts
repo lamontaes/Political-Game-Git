@@ -304,6 +304,57 @@ test.describe("Setting up a life reads like a game, not a form", () => {
     await enterLife(page);
     await expect(page.getByTestId("story-section")).toBeVisible();
   });
+
+  test("shows sourced hometown population only for a matching geography", async ({
+    page,
+  }) => {
+    test.setTimeout(60_000);
+    await page.setViewportSize({ width: 800, height: 900 });
+    await freshBrowser(page);
+    await openCreator(page);
+    await page.getByTestId("start-normal").click();
+    await page.getByTestId("start-age").fill("22");
+    await page.getByTestId("creator-continue-character").click();
+
+    await page.getByTestId("state-search").fill("Kentucky");
+    await page.getByTestId("state-KY").press("Enter");
+    await page.getByTestId("place-search").fill("lex");
+    await page
+      .getByTestId("place-choices")
+      .getByRole("button", { name: /Lexington, Kentucky/i })
+      .press("Enter");
+    await expect(page.getByTestId("place-canonical")).toHaveText(
+      /Lexington, Kentucky/,
+    );
+    await expect(page.getByTestId("place-population")).toHaveCount(0);
+
+    await page.getByTestId("creator-change-state").press("Enter");
+    await page.getByTestId("state-search").fill("Virginia");
+    await page.getByTestId("state-VA").press("Enter");
+    await page.getByTestId("place-search").fill("Richmond");
+    await page
+      .getByTestId("place-choices")
+      .getByRole("button", { name: /Richmond, Virginia/i })
+      .click();
+    await expect(page.getByTestId("place-canonical")).toHaveText(
+      /Richmond, Virginia/,
+    );
+    await expect(page.getByTestId("place-population")).toContainText(/people/);
+    await expect(page.getByTestId("place-population")).toContainText(/2024/);
+    await expect(page.getByTestId("place-population")).not.toContainText(
+      /^0 people/,
+    );
+    await expect(page.getByTestId("place-population-source")).toContainText(
+      /BEA/,
+    );
+
+    await page.getByTestId("creator-continue-place").press("Enter");
+    await page.getByTestId("whoareyou-play").press("Enter");
+    await expect(page.getByTestId("begin")).toBeEnabled();
+    await page.getByTestId("begin").press("Enter");
+    await enterLife(page);
+    await expect(page.getByTestId("story-section")).toBeVisible();
+  });
 });
 
 /* -------------------------------------------------------------------------- */
@@ -347,6 +398,15 @@ test.describe("A life is told continuously", () => {
     page,
   }) => {
     await freshBrowser(page);
+    /*
+     * A named life, because the assertion below is about a run of quiet steps
+     * and an unseeded one decides how many of them cross a birthday. Six steps
+     * that all land inside the same year produce six identical recaps, which is
+     * a true reading of that life and a failing test either way — the check is
+     * worth keeping, so the life it reads is pinned rather than drawn fresh on
+     * every run.
+     */
+    await page.goto("/?seed=narrative-life-quiet-stretch");
     await startLife(page, 44);
 
     const said: string[] = [];

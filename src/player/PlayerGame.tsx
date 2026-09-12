@@ -47,7 +47,9 @@ import { guardUnsavedWork } from "../presentation/unsaved-work-guard";
 import {
   chooseStoryOption,
   letStoryTimePass,
+  presentPeopleSentence,
   projectStoryMoment,
+  type StoryMoment,
 } from "../presentation/life-story";
 import { projectLifeRecord } from "../presentation/life-record";
 import {
@@ -69,7 +71,11 @@ import {
   withCreatorLocation,
   type CreatorLocationDraft,
 } from "../presentation/creator-location";
-import { placeStartFacts } from "../presentation/place-start-summary";
+import {
+  placeStartFacts,
+  type PlaceStartFact,
+} from "../presentation/place-start-summary";
+import { queryHometownPopulationFacts } from "../presentation/place-hometown-population";
 import {
   openOrdinaryLife,
   passOrdinaryDays,
@@ -83,7 +89,10 @@ import {
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
 import { projectToday, projectWorkRole } from "../presentation/day-overview";
 import { projectDynamicSurfaces } from "../presentation/surface-projection";
-import { resolveLifeScene } from "../presentation/life-scene";
+import {
+  resolvePlaySceneContext,
+  resolveOpeningPlaySceneContext,
+} from "../presentation/play-scene-context";
 import { planLifeScenePeople } from "../presentation/life-scene-people";
 import {
   ART_PREVIEW_LABEL,
@@ -760,6 +769,9 @@ function SetupScreen({
   const [stateQuery, setStateQuery] = useState("");
   const [placeQuery, setPlaceQuery] = useState("");
   const [replacingPlace, setReplacingPlace] = useState(false);
+  const [populationFacts, setPopulationFacts] = useState<
+    readonly PlaceStartFact[]
+  >([]);
   /*
    * An edit of an already-chosen setup reopens with that setup's place; a
    * fresh start opens with none (PT3-CREATOR B).
@@ -841,6 +853,19 @@ function SetupScreen({
   const problems = newGameSetupProblems(committed);
   const place = selectedCreatorPlace(location);
   const placeListOpen = creatorPlaceListOpen(location.placeKey, replacingPlace);
+
+  useEffect(() => {
+    const chosen = selectedCreatorPlace(location);
+    setPopulationFacts([]);
+    if (!chosen) return;
+    let cancelled = false;
+    void queryHometownPopulationFacts(chosen).then((facts) => {
+      if (!cancelled) setPopulationFacts(facts);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [location.placeKey]);
   const officeAvailable =
     place?.capabilities.legislativeScenarioKey !== null &&
     setup.startAge >= LEGISLATIVE_OFFICE_MINIMUM_AGE;
@@ -1242,7 +1267,11 @@ function SetupScreen({
               {placeStartFacts(place)
                 .filter((fact) => fact.kind !== "name")
                 .map((fact) => (
-                  <p key={`${fact.kind}:${fact.text}`} className="game-hint">
+                  <p
+                    key={`${fact.kind}:${fact.text}`}
+                    className="game-hint"
+                    data-testid={`place-${fact.kind}`}
+                  >
                     {fact.kind === "county"
                       ? fact.asOf
                         ? `${fact.text} · ${fact.asOf.slice(0, 4)}`
@@ -1250,6 +1279,25 @@ function SetupScreen({
                       : fact.text}
                   </p>
                 ))}
+              {populationFacts.map((fact) => (
+                <p
+                  key={`${fact.kind}:${fact.text}:${fact.asOf}`}
+                  className="game-hint"
+                  data-testid="place-population"
+                >
+                  {fact.asOf
+                    ? `${fact.text} · ${fact.geography} · ${fact.asOf}`
+                    : fact.text}
+                  {fact.attribution ? (
+                    <span
+                      className="creator-place-attribution"
+                      data-testid="place-population-source"
+                    >
+                      {fact.attribution}
+                    </span>
+                  ) : null}
+                </p>
+              ))}
               {replacingPlace ? null : (
                 <button
                   type="button"
@@ -1863,21 +1911,50 @@ function PlayingScreen({
    * on screen; this is the request, cleared as soon as it is honored.
    */
   const [returnFocusTo, setReturnFocusTo] = useState<EntityId | null>(null);
+  const [continuingLifeShown, setContinuingLifeShown] = useState(false);
 
-  const sceneId = useMemo(() => {
+  const projectedMoment = useMemo(
+    () => projectStoryMoment(session.world, session.personId),
+    [session.world, session.personId],
+  );
+
+  const playScene = useMemo(() => {
+    if (!continuingLifeShown)
+      return resolveOpeningPlaySceneContext(session.world, session.personId);
     const activity = completedActivityHere(session.world, session.personId);
     const venue =
       activity && municipalVenueForActivity(session.world, activity.id);
     if (activity && venue) {
-      return resolveActivityVenueScene(
+      const resolved = resolveActivityVenueScene(
         session.world,
         session.personId,
         activity.id,
         venue,
-      ).sceneId;
+      );
+      return {
+        purpose: "activity" as const,
+        locationKey: activity.location.locationKey,
+        sceneId: resolved.sceneId,
+        reason: resolved.reason,
+        placeLabel: activity.location.label,
+        presentPeople: projectedMoment.scene.presentPeople.filter(
+          (person) =>
+            completedActivityHere(
+              session.world,
+              person.personId,
+              activity.id,
+            ) !== null,
+        ),
+      };
     }
-    return resolveLifeScene(session.world, session.personId).sceneId;
-  }, [session.world, session.personId]);
+    return resolvePlaySceneContext(
+      session.world,
+      session.personId,
+      projectedMoment.scene,
+    );
+  }, [session.world, session.personId, projectedMoment, continuingLifeShown]);
+
+  const sceneId = playScene.sceneId;
 
   const surfaceProjection = useMemo(
     () =>
@@ -1888,27 +1965,17 @@ function PlayingScreen({
     [session.world, capabilities.legislativeJurisdictionId, assignment],
   );
 
-  const moment = useMemo(() => {
-    const projected = projectStoryMoment(session.world, session.personId);
-    const activity = completedActivityHere(session.world, session.personId);
-    return activity
-      ? {
-          ...projected,
-          placeName: activity.location.label,
-          scene: {
-            ...projected.scene,
-            presentPeople: projected.scene.presentPeople.filter(
-              (person) =>
-                completedActivityHere(
-                  session.world,
-                  person.personId,
-                  activity.id,
-                ) !== null,
-            ),
-          },
-        }
-      : projected;
-  }, [session.world, session.personId]);
+  const moment = useMemo(
+    () => ({
+      ...projectedMoment,
+      placeName: playScene.placeLabel ?? projectedMoment.placeName,
+      scene: {
+        ...projectedMoment.scene,
+        presentPeople: playScene.presentPeople,
+      },
+    }),
+    [projectedMoment, playScene],
+  );
 
   const renderSnapshots = useMemo(
     () => savedRenderSnapshots(session.world, shell.personWardrobes),
@@ -2218,6 +2285,13 @@ function PlayingScreen({
         actionPerson.personId,
       )
     : null;
+  const inspectTalkEntry = selectedDossier
+    ? openConversationWith(
+        session.world,
+        session.personId,
+        selectedDossier.personId,
+      )
+    : null;
 
   /**
    * Starts the real conversation with exactly the person who was chosen, in
@@ -2269,6 +2343,7 @@ function PlayingScreen({
           className="life-shell"
           data-testid="play-screen"
           data-scene-id={sceneId ?? ""}
+          data-scene-purpose={playScene.purpose}
         >
           {/*
         THE ROOM IS THE SURFACE.
@@ -2318,10 +2393,15 @@ function PlayingScreen({
               world={session.world}
               playerPersonId={session.personId}
               alreadyIntroduced={session.saveId !== null}
+              onContinuingChange={setContinuingLifeShown}
               onWorldChange={onWorldChange}
               transitionHandlers={createCampaignElectionTransitionRegistry()}
               continuingLife={
-                <StoryView session={session} onWorldChange={onWorldChange} />
+                <StoryView
+                  session={session}
+                  moment={moment}
+                  onWorldChange={onWorldChange}
+                />
               }
               onTalkTo={(personId) => talkTo(personId)}
               returnFocusTo={returnFocusTo}
@@ -2445,15 +2525,13 @@ function PlayingScreen({
           {selectedDossier ? (
             <QuickDossier
               world={session.world}
+              playerId={session.personId}
               dossier={selectedDossier}
               pinned={isPinned(shell, {
                 kind: "person",
                 id: selectedDossier.personId,
               })}
               onClose={() => dispatch({ type: "close-quick-dossier" })}
-              onOpenFull={() =>
-                openEntity({ kind: "person", id: selectedDossier.personId })
-              }
               onTogglePin={() =>
                 dispatch({
                   type: "toggle-pin",
@@ -2461,6 +2539,15 @@ function PlayingScreen({
                 })
               }
               onOpenLink={openEntity}
+              onOpenPerson={(personId) =>
+                dispatch({ type: "open-quick-dossier", personId })
+              }
+              onTalk={() => talkTo(selectedDossier.personId)}
+              talkUnavailable={
+                inspectTalkEntry?.kind === "unavailable"
+                  ? inspectTalkEntry.reason
+                  : null
+              }
             />
           ) : null}
 
@@ -2711,6 +2798,7 @@ function renderWorkspace({
           />
           <FullDossier
             world={session.world}
+            playerId={session.personId}
             dossier={dossier}
             pinned={pinnedRef({ kind: "person", id: dossier.personId })}
             onTogglePin={() =>
@@ -2719,6 +2807,9 @@ function renderWorkspace({
             onTalk={() => talkTo(dossier.personId)}
             talkUnavailable={entry.kind === "unavailable" ? entry.reason : null}
             onOpenLink={openEntity}
+            onOpenPerson={(personId) =>
+              openEntity({ kind: "person", id: personId })
+            }
           />
         </>,
         "Record",
@@ -2797,7 +2888,8 @@ function renderWorkspace({
             personId={session.personId}
             state={shell}
             dispatch={dispatch}
-            onOpenPerson={openPerson}
+            onTalk={talkTo}
+            onOpenRef={openEntity}
           />
           {/*
             What this life can actually talk about, in the room it is in — as
@@ -2883,6 +2975,11 @@ function renderWorkspace({
             model={projectPublicInformationPanel(session.world)}
             onClose={back}
             onOpenPerson={openPerson}
+            viewerPersonId={session.personId}
+            followedOutletKeys={shell.preferences.followedNewsOutletKeys}
+            onToggleOutletFollow={(outletKey) =>
+              dispatch({ type: "toggle-news-outlet-follow", outletKey })
+            }
           />
         </>,
       );
@@ -3280,16 +3377,14 @@ function renderWorkspace({
  */
 function StoryView({
   session,
+  moment,
   onWorldChange,
 }: {
   readonly session: Session;
+  readonly moment: StoryMoment;
   readonly onWorldChange: (world: World) => void;
 }) {
   const [journalOpen, setJournalOpen] = useState(false);
-  const moment = useMemo(
-    () => projectStoryMoment(session.world, session.personId),
-    [session.world, session.personId],
-  );
 
   if (completedActivityHere(session.world, session.personId))
     return (
@@ -3352,10 +3447,7 @@ function StoryView({
       */}
       {moment.scene.presentPeople.length > 0 ? (
         <p className="game-note" data-testid="story-people">
-          {moment.scene.presentPeople
-            .map((person) => person.introduction)
-            .join(" and ")}{" "}
-          {moment.scene.presentPeople.length === 1 ? "is" : "are"} here.
+          {presentPeopleSentence(moment.scene.presentPeople)}
         </p>
       ) : null}
 

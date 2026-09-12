@@ -6,6 +6,10 @@ import type {
 import type { RuntimeVisualLibrary } from "./visual-integration";
 import type { Person } from "../simulation/types";
 import {
+  LEGACY_APPEARANCE_RECIPE_VERSION,
+  derivePersonAppearance,
+} from "../simulation/person-appearance";
+import {
   CHARACTER_VISUAL_RECIPES,
   PRODUCTION_CHARACTER_LIBRARY,
   PRODUCTION_VISUAL_LIBRARY,
@@ -41,13 +45,33 @@ export function resolvePersonPortrait(
   const visuals = options?.libraries?.visuals ?? PRODUCTION_VISUAL_LIBRARY;
   if (!person.appearance)
     return { kind: "placeholder", reason: "appearance-unassigned" };
+  /*
+   * An authored likeness belongs to a PERSON, not to one version of their seed.
+   *
+   * The recipes below carry literal seeds computed under appearance recipe v1,
+   * because that is the only version that existed when they were authored. The
+   * seed itself forks on the recipe version — that fork is what makes versioning
+   * safe — so the same person created under v2 hashes to a different seed and
+   * would silently lose a likeness that was drawn for them specifically.
+   *
+   * So the person's own v1 seed is tried as well. This restores exactly the
+   * prior behaviour for the characters these recipes were authored for and
+   * changes nothing for anybody else: a seed is a hash of one person's id, so
+   * no other person can collide into someone's authored face.
+   */
+  const legacySeed = derivePersonAppearance(
+    person.id,
+    LEGACY_APPEARANCE_RECIPE_VERSION,
+  ).seed;
   const authored =
     !person.appearance.selection &&
     !options?.libraries &&
     !options?.wardrobe &&
     !options?.snapshot &&
     Object.values(CHARACTER_VISUAL_RECIPES).find(
-      (recipe) => recipe.appearanceSeed === person.appearance!.seed,
+      (recipe) =>
+        recipe.appearanceSeed === person.appearance!.seed ||
+        recipe.appearanceSeed === legacySeed,
     );
   const asset = authored && PRODUCTION_VISUAL_LIBRARY.get(authored.assetId);
   if (asset) return { kind: "authored", asset };

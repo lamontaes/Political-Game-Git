@@ -1,4 +1,5 @@
 import { OPENING_LIFE_ADDITIONS } from "../simulation/opening-life-content";
+import { scheduleAgreedCoverShift } from "../simulation/life-circumstances";
 import { advanceWorldMinutes } from "../simulation/time-work";
 import {
   describePersonContext,
@@ -105,6 +106,31 @@ export interface ScenePerson {
   readonly relationship: string | null;
   /** "Maya Pittman, your mom" — or just the name when nothing is known. */
   readonly introduction: string;
+}
+
+/**
+ * Who is in the room, as one sentence.
+ *
+ * An introduction that carries a relation is an appositive — "Phoebe Akhtar,
+ * who is in your class" — and an appositive has to be closed before the
+ * sentence goes on, or the screen reads "Phoebe Akhtar, who is in your class
+ * is here" as one long noun. The comma belongs to the sentence, so it is put
+ * in here rather than into the introduction, which other callers show on its
+ * own.
+ */
+export function presentPeopleSentence(
+  people: readonly ScenePerson[],
+): string | null {
+  if (people.length === 0) return null;
+  const introduced = people.map((person, index) =>
+    person.relationship !== null && index < people.length - 1
+      ? `${person.introduction},`
+      : person.introduction,
+  );
+  const last = people[people.length - 1]!;
+  const closing = last.relationship === null ? "" : ",";
+  const verb = people.length === 1 ? "is" : "are";
+  return `${introduced.join(" and ")}${closing} ${verb} here.`;
 }
 
 export type StoryScene =
@@ -712,6 +738,18 @@ export function chooseStoryOption(
         optionKey: input.optionKey,
         families: EPISODE_FAMILIES,
       });
+      if (
+        scene.beat.episodeKey === "work.the-shift-you-were-asked-for" &&
+        scene.beat.stageKey === "asked-by-a-colleague" &&
+        input.optionKey === "cover-it"
+      ) {
+        // Saying yes is only the agreement. Put the promised work on the
+        // canonical calendar and leave the clock here so the player can carry
+        // it out through the existing Calendar/Places route. The scheduler
+        // refuses missing employment, a departed colleague, or a conflicting
+        // commitment without pretending the shift was completed.
+        return scheduleAgreedCoverShift(played.world, input.personId);
+      }
       if (ordinaryMinutes !== undefined)
         return advanceWorldMinutes(
           played.world,

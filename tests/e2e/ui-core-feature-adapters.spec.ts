@@ -281,7 +281,6 @@ test("normal activity completion replaces household presence without a second cl
     .first()
     .click();
   await expect(page.getByTestId("dossier-talk")).toBeDisabled();
-  await page.getByTestId("person-workspace-close").click();
   await goTo(page, "keep-world");
   await expect(page.getByText("Saved.", { exact: true })).toBeVisible();
   await page.reload();

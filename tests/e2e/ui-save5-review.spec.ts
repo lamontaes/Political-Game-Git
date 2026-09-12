@@ -23,13 +23,23 @@ test("current normal scene and saved-person dossier remain available for owner r
   await page.locator('[data-testid^="scene-person-"]').first().click();
   await page.getByTestId("action-inspect").click();
   await page.getByTestId("quick-dossier-full").click();
+  await expect(page.getByTestId("saved-appearance-controls")).toHaveCount(0);
+  await expect(page.getByTestId("person-portrait")).toBeVisible();
+  await page.screenshot({
+    path: info.outputPath("normal-npc-dossier.png"),
+    fullPage: true,
+  });
+
+  await goTo(page, "nav-personal-group");
+  await page.getByTestId("nav-personal").click();
+  await page.getByTestId("personal-appearance").click();
   const controls = page.getByTestId("saved-appearance-controls");
   await controls.locator("summary").focus();
   await controls.locator("summary").press("Enter");
   await expect(controls).toHaveAttribute("open", "");
   await expect(page.getByTestId("person-portrait")).toBeVisible();
   await page.screenshot({
-    path: info.outputPath("normal-dossier-wardrobe.png"),
+    path: info.outputPath("normal-own-wardrobe.png"),
     fullPage: true,
   });
 });

@@ -58,6 +58,27 @@ export interface SceneVenue {
  */
 export const SCENE_VENUES: readonly SceneVenue[] = [
   {
+    locationKey: "formative:school-corridor",
+    sceneId: null,
+    reason:
+      "No school interior is released. A household apartment is not a school corridor, and borrowing one would label the living room as class.",
+    isJourney: false,
+  },
+  {
+    locationKey: "episode:school",
+    sceneId: null,
+    reason:
+      "School episodes are immediate scenes at school. Missing school art is an honest empty plate, never a reused home.",
+    isJourney: false,
+  },
+  {
+    locationKey: "life-circumstance:covered-shift",
+    sceneId: null,
+    reason:
+      "This is ordinary paid work recorded on the player's calendar. No released workplace interior is bound to it, so the activity remains playable without borrowing another institution's room.",
+    isJourney: false,
+  },
+  {
     locationKey: "ordinary-life:meeting-room",
     sceneId: PUBLIC_MEETING_ROOM_SCENE_ID,
     reason:

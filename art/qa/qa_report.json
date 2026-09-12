@@ -8110,6 +8110,16 @@
     "meetsTransparencyReq": null
   },
   {
+    "file": "generated/candidates/people-visual4-masked/wave_a_female_top_burgundy_short_sleeve_polo_v1_armmasked.png",
+    "metadata": {
+      "width": 1092,
+      "height": 1120,
+      "aspectRatio": "39:40",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
     "file": "generated/candidates/people-visual4/pv4_ocd_head_adult_light_long_older_v1.png",
     "metadata": {
       "width": 117,
@@ -8205,6 +8215,16 @@
       "width": 383,
       "height": 450,
       "aspectRatio": "383:450",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/people-visual4/pv4_wave_a_female_top_burgundy_short_sleeve_polo_v1_armmasked.png",
+    "metadata": {
+      "width": 355,
+      "height": 365,
+      "aspectRatio": "71:73",
       "hasTransparency": "confirmed"
     },
     "meetsTransparencyReq": null

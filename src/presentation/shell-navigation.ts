@@ -82,7 +82,7 @@ export type ShellView =
 
 export type PinSize = "tiny" | "normal" | "expanded";
 
-export type PeopleView = "categories" | "list";
+export type PeopleView = "web" | "categories" | "list";
 
 export interface ShellPin {
   /** Stable, derived from the reference. A pin is its target, not a row. */
@@ -100,11 +100,14 @@ export interface ShellPin {
 export interface ShellPreferences {
   readonly peopleView: PeopleView;
   readonly defaultPinSize: PinSize;
+  /** Interface-only outlet follows, scoped to this saved life. */
+  readonly followedNewsOutletKeys: readonly string[];
 }
 
 export const DEFAULT_PREFERENCES: ShellPreferences = {
-  peopleView: "categories",
+  peopleView: "web",
   defaultPinSize: "normal",
+  followedNewsOutletKeys: [],
 };
 
 /** Private player writing, never simulation facts or NPC knowledge. */
@@ -200,6 +203,7 @@ export type ShellAction =
   | { readonly type: "set-people-category"; readonly category: string }
   | { readonly type: "set-people-query"; readonly query: string }
   | { readonly type: "set-default-pin-size"; readonly size: PinSize }
+  | { readonly type: "toggle-news-outlet-follow"; readonly outletKey: string }
   /** Restores pins and preferences read back from storage. */
   | {
       readonly type: "restore";
@@ -456,6 +460,25 @@ export function shellReducer(
         ...state,
         preferences: { ...state.preferences, defaultPinSize: action.size },
       };
+
+    case "toggle-news-outlet-follow": {
+      const outletKey = action.outletKey.trim();
+      if (!outletKey) return state;
+      const followed =
+        state.preferences.followedNewsOutletKeys.includes(outletKey);
+      return {
+        ...state,
+        preferences: {
+          ...state.preferences,
+          followedNewsOutletKeys: followed
+            ? state.preferences.followedNewsOutletKeys.filter(
+                (candidate) => candidate !== outletKey,
+              )
+            : [...state.preferences.followedNewsOutletKeys, outletKey],
+        },
+        announcement: followed ? "Outlet unfollowed." : "Outlet followed.",
+      };
+    }
 
     case "set-person-wardrobe":
       return {

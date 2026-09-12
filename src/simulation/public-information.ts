@@ -54,6 +54,8 @@ export interface PublicInformationDigestItem {
   readonly sourceEventId: EntityId;
   readonly sourceRecordIds: readonly EntityId[];
   readonly kind: PublicationKind;
+  /** Stable outlet identity carried by the canonical publication record. */
+  readonly outletKey: typeof CIVIC_PUBLICATION_OUTLET_KEY;
   readonly outletName: string;
   readonly jurisdictionId: EntityId | null;
   readonly jurisdictionName: string | null;
@@ -245,6 +247,7 @@ function projectDigestItem(
     sourceEventId: root.sourceEventId,
     sourceRecordIds: [...root.sourceRecordIds],
     kind: root.kind,
+    outletKey: root.outletKey,
     outletName: root.outletName,
     jurisdictionId: root.jurisdictionId,
     jurisdictionName: root.jurisdictionId
