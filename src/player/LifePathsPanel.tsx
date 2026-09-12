@@ -12,7 +12,6 @@ import {
   acceptLifePathCounteroffer,
   activateLifePathRecruit,
   changeLifePathStatus,
-  completedStudySessions,
   delegateLifePathWork,
   departLifePathRecruit,
   enterLifePath,
@@ -39,6 +38,12 @@ import {
   advanceWorldMinutes,
 } from "../simulation/time-work";
 import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
+import { studyUsesPeriodModel } from "../simulation/education-study-progression";
+import {
+  studyEnrollmentProgressLabel,
+  studyProgramCostLabel,
+  studyUsesPeriodUi,
+} from "./education-study-display";
 
 /** Feature-local adapter. UI-CORE owns opening/closing this panel and the World. */
 export interface LifePathsPanelProps {
@@ -120,17 +125,27 @@ export function LifePathsPanel({
             <p>{path.organizationName}</p>
             <p>{path.responsibility}</p>
             <p>
-              {path.sessionMinutes / 60} hours per session.{" "}
-              {path.sessionCostMinor > 0
-                ? `You pay $${path.sessionCostMinor / 100} after each attended session.`
-                : path.sessionPayMinor > 0
-                  ? `The employer pays $${path.sessionPayMinor / 100} the day after each completed shift.`
-                  : "This is unpaid volunteer work."}
+              {path.kind === "study" && studyUsesPeriodModel(path)
+                ? studyProgramCostLabel(path)
+                : path.sessionMinutes > 0
+                  ? `${path.sessionMinutes / 60} hours per session. ${
+                      path.sessionCostMinor > 0
+                        ? `You pay $${path.sessionCostMinor / 100} after each attended session.`
+                        : path.sessionPayMinor > 0
+                          ? `The employer pays $${path.sessionPayMinor / 100} the day after each completed shift.`
+                          : "This is unpaid volunteer work."
+                    }`
+                  : path.sessionPayMinor > 0
+                    ? `The employer pays $${path.sessionPayMinor / 100} the day after each completed shift.`
+                    : "This is unpaid volunteer work."}
             </p>
-            {path.requiredSessions && (
+            {path.kind === "study" && path.credential && (
+              <p>Completing leads to: {path.credential}.</p>
+            )}
+            {path.requiredSessions && path.kind === "study" && (
               <p>
                 {path.requiredSessions} sessions, at least {path.minimumGapDays}{" "}
-                days apart, lead to {path.credential}.
+                days apart (legacy session model).
               </p>
             )}
             {reason && <p>{reason}</p>}
@@ -179,10 +194,9 @@ export function LifePathsPanel({
                 : path.title}
             </h4>
             <p>
-              {status === "temporarily-inactive" ? "Interrupted" : status}.{" "}
               {path.kind === "study"
-                ? `${completedStudySessions(world, record.id)} attended sessions.`
-                : ""}
+                ? studyEnrollmentProgressLabel(world, record.id, path)
+                : `${status === "temporarily-inactive" ? "Interrupted" : status}.`}
             </p>
             {path.kind === "work" && status === "active" && (
               <button
@@ -197,6 +211,7 @@ export function LifePathsPanel({
             {status === "active" && (
               <>
                 {path.kind === "study" ? (
+                  studyUsesPeriodUi(world, record.id, path) ? null : (
                   <button
                     onClick={() =>
                       act(scheduleLifePathSession(world, record.id))
@@ -204,6 +219,7 @@ export function LifePathsPanel({
                   >
                     Schedule next session
                   </button>
+                  )
                 ) : (
                   <button
                     onClick={() =>

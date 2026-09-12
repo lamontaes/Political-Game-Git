@@ -1,5 +1,14 @@
-import { test, expect } from "./fixtures";
-test("EDU real institution search, explicit offer, study, interruption and save", async ({
+import { test, expect, type Page } from "./fixtures";
+
+async function continueDays(page: Page, days: number) {
+  const button = page.getByRole("button", {
+    name: "Continue one day",
+    exact: true,
+  });
+  for (let i = 0; i < days; i++) await button.click();
+}
+
+test("EDU real institution search, explicit offer, period study, interruption and save", async ({
   page,
 }) => {
   await page.goto("/edu-path7-proof.html");
@@ -20,30 +29,24 @@ test("EDU real institution search, explicit offer, study, interruption and save"
     page.getByRole("button", { name: "Accept study offer" }),
   ).toBeVisible();
   await page.getByRole("button", { name: "Accept study offer" }).click();
-  await page
-    .getByRole("button", { name: "Schedule next session", exact: true })
-    .focus();
-  await page.keyboard.press("Enter");
-  await page
-    .getByRole("button", { name: /^Attend Workforce Education/ })
-    .click();
-  await page.getByRole("button", { name: "Interrupt", exact: true }).focus();
-  await page.keyboard.press("Space");
+  const study = page.locator("article").filter({
+    has: page.getByRole("heading", {
+      name: /Workforce Education — noncredit study/,
+    }),
+  });
+  await expect(study).toContainText("period 1 of 1");
+  await expect(
+    study.getByRole("button", { name: "Schedule next session", exact: true }),
+  ).toHaveCount(0);
+  await continueDays(page, 20);
+  await study.getByRole("button", { name: "Interrupt", exact: true }).click();
   await page.getByRole("button", { name: "Save study journey" }).click();
   await page.reload();
-  await expect(
-    page.getByText("Interrupted. 1 attended sessions.", { exact: true }),
-  ).toBeVisible();
-  await page.getByRole("button", { name: "Return", exact: true }).click();
-  await page
-    .getByRole("button", { name: "Schedule next session", exact: true })
-    .click();
-  await page
-    .getByRole("button", { name: /^Attend Workforce Education/ })
-    .click();
+  await expect(study).toContainText("Interrupted");
+  await study.getByRole("button", { name: "Return", exact: true }).click();
+  await continueDays(page, 29);
+  await expect(study).toContainText("Completed");
   await page.getByRole("button", { name: "Save study journey" }).click();
   await page.reload();
-  await expect(
-    page.getByText("active. 2 attended sessions.", { exact: true }),
-  ).toBeVisible();
+  await expect(study).toContainText("Completed");
 });
