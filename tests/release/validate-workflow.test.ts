@@ -37,6 +37,7 @@ describe("deterministic validation workflow capacity", () => {
     expect(browser).not.toContain("npm run validate");
     expect(browser).toContain("timeout-minutes: 75");
     expect(browser).toContain("PG_RUN_ID: gha-${{ github.run_id }}-s");
+    expect(browser).toContain("matrix.total");
     expect(browser).toContain("test-results/runs/${{ env.PG_RUN_ID }}");
     expect(playwright).toContain("fullyParallel: false");
     expect(playwright).toContain("outputDir: `${run.artifacts}/results`");

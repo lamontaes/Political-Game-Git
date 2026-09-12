@@ -8,9 +8,6 @@ on:
 permissions:
   contents: read
 
-env:
-  E2E_SHARD_TOTAL: "2"
-
 jobs:
   repository:
     name: repository
@@ -86,9 +83,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2]
+        include:
+          - shard: 1
+            total: 2
+          - shard: 2
+            total: 2
     env:
-      PG_RUN_ID: gha-${{ github.run_id }}-s${{ matrix.shard }}of${{ env.E2E_SHARD_TOTAL }}
+      PG_RUN_ID: gha-${{ github.run_id }}-s${{ matrix.shard }}of${{ matrix.total }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
@@ -109,16 +110,16 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Enumerate this browser shard
-        run: node --import tsx scripts/dev-lab/write-e2e-shard-inventory.ts ${{ matrix.shard }} ${{ env.E2E_SHARD_TOTAL }}
+        run: node --import tsx scripts/dev-lab/write-e2e-shard-inventory.ts ${{ matrix.shard }} ${{ matrix.total }}
 
       - name: Run Run A and Run B browser proofs
-        run: npx playwright test --shard=${{ matrix.shard }}/${{ env.E2E_SHARD_TOTAL }}
+        run: npx playwright test --shard=${{ matrix.shard }}/${{ matrix.total }}
 
       - name: Upload this shard inventory
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: playwright-shard-inventory-${{ matrix.shard }}-of-${{ env.E2E_SHARD_TOTAL }}
+          name: playwright-shard-inventory-${{ matrix.shard }}-of-${{ matrix.total }}
           path: test-results/runs/${{ env.PG_RUN_ID }}/shard-inventory.json
           if-no-files-found: error
           retention-days: 14
@@ -128,7 +129,7 @@ jobs:
         if: failure() || cancelled()
         uses: actions/upload-artifact@v7
         with:
-          name: playwright-failure-evidence-shard-${{ matrix.shard }}-of-${{ env.E2E_SHARD_TOTAL }}
+          name: playwright-failure-evidence-shard-${{ matrix.shard }}-of-${{ matrix.total }}
           path: test-results/runs/${{ env.PG_RUN_ID }}
           if-no-files-found: ignore
           retention-days: 14
