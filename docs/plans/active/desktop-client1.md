@@ -134,3 +134,28 @@ represented as accepted main or opened as a PR.
   catalog chunks (6.7/60.6/11.4 MB) with sha256 integrity verified in
   the secure app:// context, and the economic-context v1 manifest +
   a BEA county shard. Still disposable; not part of this PR.
+
+## RECOVERY25 continuation (2026-09-12)
+
+- Reconciled #197 at `a14ad4c8` onto the current #213 integrator head without
+  replacing its newer PlayerGame, People, wardrobe, launcher, or visual-fit
+  work. The bounded Save/Load and build-profile adapters were re-applied on the
+  current consumers; the append-only prose identity histories were composed
+  and recovered through their verified checkpoint path.
+- Added `Our Civic Duty Private.app`, a separate controller that installs its
+  verified internal-art-review bootstrap once, exposes Play/Update/Finish in a
+  compact native Mac window, and keeps versioned game applications under its
+  own Application Support directory. Game saves retain the existing stable
+  `app://game` origin and internal-review profile directory; controller
+  reinstall does not replace either.
+- The controller accepts only the exact configured project and `origin/main`,
+  fetches and resolves an exact commit, builds in a controller-owned clean
+  worktree, checks compiled provenance/profile/arm64 identity, runs the actual
+  packaged-game smoke test, and only then atomically activates the version.
+  Offline, cancelled, failed, busy/running-game and non-descendant targets keep
+  the prior verified build. The current game must close through its existing
+  save guard before a pending update can activate.
+- The ordinary gameplay client remains free of repository credentials and
+  development command execution. The controller has a sandboxed local UI and a
+  fixed six-action preload; only its main process can start the bounded update
+  worker. Public signed automatic updating remains unconfigured and unclaimed.

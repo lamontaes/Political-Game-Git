@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Our Civic Duty</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">Private Mac build controller</p>
+      <h1>Our Civic Duty</h1>
+      <p id="identity" class="identity">Reading the installed build…</p>
+
+      <section class="actions" aria-label="Play and update">
+        <button id="play" class="primary">Play</button>
+        <button id="update">Update</button>
+        <button id="finish" hidden>Finish Update &amp; Play</button>
+        <button id="cancel" hidden>Cancel</button>
+      </section>
+
+      <section class="project" aria-labelledby="project-heading">
+        <div>
+          <h2 id="project-heading">Update source</h2>
+          <p id="repository">No project selected.</p>
+        </div>
+        <button id="choose">Choose Project…</button>
+      </section>
+
+      <section class="progress" aria-labelledby="progress-heading">
+        <h2 id="progress-heading">Status</h2>
+        <p id="status" role="status">The last verified build is ready to play.</p>
+        <pre id="log" aria-label="Update progress">Play never waits for an update. Update fetches accepted main, builds it in a clean separate workspace, launches a health check, and only then changes the Play pointer.</pre>
+      </section>
+    </main>
+    <script src="renderer.mjs" type="module"></script>
+  </body>
+</html>

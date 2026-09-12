@@ -24,6 +24,28 @@ cross-builds Intel Mac output (untested until launched on an Intel Mac).
 Rebuilding after newer accepted UI/game changes is exactly the same
 commands — the wrapper does not change.
 
+The private Apple Silicon delivery adds a separate controller app around a
+verified internal-art-review build:
+
+```bash
+VITE_OCD_BUILD_PROFILE=internal-art-review npm run build
+cd desktop
+node scripts/stage.mjs --composition <honest-composition-label>
+node scripts/package.mjs --mac --arm64 --dir -c.mac.target=dir
+node scripts/package-private-controller.mjs
+```
+
+`Our Civic Duty Private.app` contains that exact verified game as its bootstrap
+build. Install the controller once. From then on its visible **Play**, **Update**,
+and **Finish Update & Play** actions own the private flow; the player does not
+run Git or npm. The controller defaults to the known project location and has a
+folder picker fallback. Update accepts only the configured GitHub repository's
+`origin/main`, builds it in a clean versioned worktree, verifies revision,
+profile and architecture, launches the packaged game through the smoke harness,
+then atomically moves the Play pointer. Network loss, cancellation, build or
+health failure, an unrelated/forked target, or a running game leave the prior
+verified build active. It never swaps code beneath a running game.
+
 Packaging consumes `dist/client` only when that tree's compile-time
 provenance matches this checkout (source revision, dirty flag, and
 content hash). Stale `dist/client` cannot be relabelled with a newer
@@ -119,9 +141,18 @@ the canonical version and exist only for throwaway artifacts.
 - Signing/notarization hooks exist in `electron-builder.yml`
   (`identity`, `hardenedRuntime`, `notarize`, or `CSC_LINK`/
   `CSC_KEY_PASSWORD`). Until credentials exist, Mac builds are unsigned
-  (Gatekeeper: right-click → Open, or
-  `xattr -dr com.apple.quarantine "Our Civic Duty.app"`), and **signed
-  Mac automatic-update installation is NOT VERIFIED**.
+  (Gatekeeper may require the ordinary one-time right-click → Open
+  confirmation), and **signed Mac automatic-update installation is NOT
+  VERIFIED**. Do not disable Gatekeeper or remove quarantine broadly.
+
+### Private controller versus public auto-update
+
+The private controller is a developer-only local delivery for the owner's
+existing repository and toolchain. Its command execution lives in the
+controller process, behind six fixed IPC actions; the gameplay renderer and
+ordinary packaged client still have no preload, IPC, filesystem, repository,
+credential, or process surface. No repository token is stored or packaged.
+Public signed in-place updating remains a separate external service boundary.
 
 ## Security posture
 

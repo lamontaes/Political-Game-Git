@@ -115,6 +115,14 @@ jobs:
           fi
           node scripts/transfer-test.mjs --app "$app"
 
+      - name: Package and launch the private Play/Update controller (macOS art review)
+        if: runner.os == 'macOS' && matrix.profile == 'internal-art-review'
+        working-directory: desktop
+        run: |
+          node scripts/package-private-controller.mjs
+          controller="controller-release-artifacts/Our Civic Duty Private.app/Contents/MacOS/Our Civic Duty Private"
+          node scripts/controller-smoke-test.mjs --app "$controller"
+
       - name: Record checksums and source identity
         shell: bash
         working-directory: desktop
@@ -132,6 +140,15 @@ jobs:
             shasum -a 256 * 2>/dev/null || sha256sum *
           } > SHA256SUMS-${{ matrix.name }}.txt
           cat SHA256SUMS-${{ matrix.name }}.txt
+          if [ -d ../controller-release-artifacts ]; then
+            {
+              echo "source revision: $(git rev-parse HEAD)"
+              echo "workflow run: $GITHUB_RUN_ID"
+              cat ../staged/build-identity.json
+              shasum -a 256 ../controller-release-artifacts/*.zip
+            } > ../controller-release-artifacts/SHA256SUMS-private-controller.txt
+            cat ../controller-release-artifacts/SHA256SUMS-private-controller.txt
+          fi
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v7
@@ -139,4 +156,5 @@ jobs:
           name: desktop-${{ matrix.name }}
           path: |
             desktop/release-artifacts/*
+            desktop/controller-release-artifacts/*
           retention-days: 14
