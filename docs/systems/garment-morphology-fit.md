@@ -406,3 +406,18 @@ unchanged. Interior neckline accuracy is separately verified in complete
 compositions, since a silhouette metric cannot detect opaque collar lining.
 The head/body shading mismatch and source hair volume remain art limitations,
 not corrected anatomy or human-approved coherent art.
+
+### Matched render pieces
+
+A top may declare `render_piece_ids`; each referenced component declares
+`render_piece_of`. Pieces share the owner's family, catalog generation, canvas,
+origin, pose/body compatibility and fit profile. Only their integer draw order
+and source-preserving alpha differ. They never enter wardrobe choice lists.
+Resolution emits them in the same slot and the existing projection/renderer
+handles their normal image layers. Reciprocal references, identical attachment
+metadata and release status are required; nested pieces are forbidden.
+
+A later raster revision may add these validated pieces, without changing its
+identity or attachment metadata. Older generations resolve the original single
+raster. This is a matched artwork contract, not authorization for new painted
+surfaces, arbitrary fit relaxation or automatic visual approval.

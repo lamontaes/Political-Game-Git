@@ -4,6 +4,8 @@ import { describe, it, expect } from "vitest";
 import { PEOPLE_VISUAL4_CHARACTER_LIBRARY as library } from "./people-visual4-review";
 import {
   componentsAtGeneration,
+  createCharacterComponentLibrary,
+  type CharacterComponentManifestRecord,
   resolveCharacterRecipe,
   projectCharacterLayers,
 } from "./character-components";
@@ -22,6 +24,29 @@ describe("matched collar family", () => {
         (c) => c.definition.render_piece_of,
       ),
     ).toBe(false);
+  });
+  it("rejects a piece whose attachment drifts away from its logical garment", () => {
+    const records = [...library.components.values()].map((c) => ({
+      asset_id: c.assetId,
+      asset_type: "character-component",
+      generation_status: "approved",
+      qa_status: "approved",
+      runtime_release_status: "released",
+      component: c.definition,
+    })) as CharacterComponentManifestRecord[];
+    const front = records.find((r) => r.component?.render_piece_of)!;
+    const invalid = records.map((r) =>
+      r === front
+        ? { ...r, component: { ...r.component!, origin: { x: 0.2, y: 0.2 } } }
+        : r,
+    );
+    expect(() =>
+      createCharacterComponentLibrary(invalid, {
+        catalog_generation: library.catalogGeneration,
+        slots: library.slots,
+        generations: library.generations,
+      }),
+    ).toThrow("Invalid coordinated render piece");
   });
   it("conserves every source color and alpha across disjoint pieces", () => {
     for (const original of source.assets) {

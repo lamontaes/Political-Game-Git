@@ -99,3 +99,21 @@ Dev Blog5, Brenda van Vugt's Rizia breakdown, Spine mix-and-match/meshes.
 Vagastia artist page could not be opened; indexed primary excerpt confirms
 repainting concealed cut areas, not a procedural population system.
 These support matched authored pieces; none supplies reusable project artwork.
+
+Matched proof on current A22c4dead plus B resolves 8/8 browser journeys:
+same Haley, all five sequential normal lives, average/skinny wardrobe swaps and
+reload. The front-collar order changes246 pixels in the259x659 same-person crop,
+confined to x92..165/y144..183; it is a small occlusion repair, not style conversion.
+Direct IAB native interaction on the same composition/adapter also passed:
+expand disclosure; click top menu; Down/Return selects polo; pointer-click top10
+selects button-up. Both views render the two matching pieces, and every body,
+head and hair asset ID is unchanged. The prior keyboard-proof gap is closed for
+this matched composition; historical failed automation traces remain evidence.
+
+36 focused tests, typecheck, scoped ESLint, deterministic generation --check,
+validate:art, inventory:art and qa:art passed. Remaining source work: match neck
+shading/line weight to the retained face without moving jaw/neck/shoulder anchors;
+review hair20 volume, room contact, missing top pairings and the second skinny
+bottom separately. No source painting, pose expansion or art approval occurred.
+LEARN: native select menus need native events after disclosure expansion; DOM
+option presence alone does not establish an open, operable control.
