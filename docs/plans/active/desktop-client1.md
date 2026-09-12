@@ -154,6 +154,10 @@ represented as accepted main or opened as a PR.
   authority. Packaged transfer proof seeds the current complete wire shape,
   checks every field after reopening, and retains a future-schema negative.
   Controller, actual-window-close handling and completed OS proof are unchanged.
+- Packaged negative testing additionally found transfer errors were not rendered
+  by Saved games and the controls used production provenance even in review.
+  The bounded current SavesScreen adapter now shows a semantic alert and passes
+  its actual preview mode; ordinary production retains review-import refusal.
 
 - Reconciled #197 at `a14ad4c8` onto the current #213 integrator head without
   replacing its newer PlayerGame, People, wardrobe, launcher, or visual-fit

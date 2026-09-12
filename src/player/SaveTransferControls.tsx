@@ -8,6 +8,7 @@ import {
   importPortableSave,
   parsePortableSave,
   serializePortableSave,
+  type PortableArtProvenance,
 } from "../presentation/portable-save";
 
 /**
@@ -22,18 +23,22 @@ export function SaveTransferControls({
   saveId,
   playerName,
   onSettled,
+  artProvenance = "production",
 }: {
   readonly store: BrowserSaveStore;
   readonly saveId: EntityId;
   readonly playerName: string;
   readonly onSettled: (notice: string | null, problem: string | null) => void;
+  readonly artProvenance?: PortableArtProvenance;
 }) {
   const [busy, setBusy] = useState(false);
 
   async function exportLife() {
     setBusy(true);
     try {
-      const exported = await exportPortableSave(store, saveId);
+      const exported = await exportPortableSave(store, saveId, {
+        artProvenance,
+      });
       if (exported.status !== "ok") {
         onSettled(null, exported.reason);
         return;
@@ -73,9 +78,11 @@ export function SaveTransferControls({
 export function SaveImportControl({
   store,
   onSettled,
+  artProvenance = "production",
 }: {
   readonly store: BrowserSaveStore;
   readonly onSettled: (notice: string | null, problem: string | null) => void;
+  readonly artProvenance?: PortableArtProvenance;
 }) {
   const input = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
@@ -92,7 +99,9 @@ export function SaveImportControl({
         return;
       }
       const text = await file.text();
-      const parsed = parsePortableSave(text);
+      const parsed = parsePortableSave(text, {
+        productionProfile: artProvenance === "production",
+      });
       if (parsed.status !== "ok") {
         onSettled(null, parsed.reason);
         return;

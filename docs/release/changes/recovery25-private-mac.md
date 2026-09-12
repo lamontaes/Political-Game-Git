@@ -3,6 +3,12 @@ id: recovery25-private-mac
 impact: none
 ---
 
+The current transfer proof compares every v3 interface field without slot IDs,
+reopens both slots, and exercises future-schema refusal. The Saved games adapter
+now shows refusal errors and labels exported review lives with their actual
+profile; ordinary production still refuses review imports. This is private,
+unreleased desktop continuity, not a version-number change or public release.
+
 Adds an unsigned Apple Silicon internal-art-review delivery that bundles a
 verified initial game and keeps the last known-good version available while a
 new accepted-main build is fetched, compiled, packaged, launched, and checked.

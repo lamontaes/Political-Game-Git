@@ -195,6 +195,13 @@ if (!filePath) {
 }
 
 const exportedBundle = JSON.parse(readFileSync(filePath, "utf8"));
+check(
+  "transfer: file carries the actual source profile",
+  exportedBundle.artProvenance ===
+    (process.env.OCD_EXPECT_ART_PREVIEW === "1"
+      ? "candidate-review"
+      : "production"),
+);
 const wireState = (state) => ({
   version: state.version,
   journal: state.journal,
@@ -265,7 +272,10 @@ writeFileSync(
 const futureChooser = page.waitForEvent("filechooser");
 await page.getByTestId("import-save").click();
 await (await futureChooser).setFiles(futurePath);
-await page.getByText(/interface state could not be read/).waitFor();
+await page
+  .getByRole("alert")
+  .filter({ hasText: /interface state could not be read/ })
+  .waitFor();
 check(
   "transfer: future interface refusal creates no new slot",
   (await page.getByTestId("save-entry").count()) === afterCount,

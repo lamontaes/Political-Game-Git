@@ -656,6 +656,8 @@ export function PlayerGame() {
         damaged={damaged}
         savesUnavailable={savesUnavailable}
         notice={notice}
+        problem={problem}
+        artProvenance={previewMode}
         onBack={() => setScreen({ kind: "title" })}
         onOpen={(saveId) => void loadSave(saveId)}
         onDelete={(saveId) => void deleteSave(saveId)}
@@ -1704,6 +1706,8 @@ function SavesScreen({
   damaged,
   savesUnavailable,
   notice,
+  problem,
+  artProvenance,
   onBack,
   onOpen,
   onDelete,
@@ -1714,6 +1718,8 @@ function SavesScreen({
   readonly damaged: readonly QuarantinedSave[];
   readonly savesUnavailable: boolean;
   readonly notice: string | null;
+  readonly problem: string | null;
+  readonly artProvenance: "production" | "candidate-review";
   readonly onBack: () => void;
   readonly onOpen: (saveId: EntityId) => void;
   readonly onDelete: (saveId: EntityId) => void;
@@ -1732,6 +1738,11 @@ function SavesScreen({
         </p>
       ) : null}
       {notice ? <p className="game-note">{notice}</p> : null}
+      {problem ? (
+        <p className="game-problem" role="alert">
+          {problem}
+        </p>
+      ) : null}
       <ul>
         {saves.map((save) => (
           <li key={save.saveId} data-testid="save-entry">
@@ -1753,6 +1764,7 @@ function SavesScreen({
                   saveId={save.saveId}
                   playerName={save.playerName}
                   onSettled={onTransferSettled}
+                  artProvenance={artProvenance}
                 />
               ) : null}
               {confirming === save.saveId ? (
@@ -1843,7 +1855,11 @@ function SavesScreen({
       ) : null}
 
       {store ? (
-        <SaveImportControl store={store} onSettled={onTransferSettled} />
+        <SaveImportControl
+          store={store}
+          onSettled={onTransferSettled}
+          artProvenance={artProvenance}
+        />
       ) : null}
 
       <button type="button" onClick={onBack}>
