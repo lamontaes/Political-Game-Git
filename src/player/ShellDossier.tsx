@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
 
 import type { PersonDossier } from "../presentation/person-dossier";
 import type { ShellRef } from "../presentation/shell-navigation";
@@ -23,7 +23,6 @@ export function QuickDossier({
   onOpenPerson,
   onTalk,
   talkUnavailable,
-  expandedContent,
 }: {
   readonly world: World;
   readonly playerId: EntityId;
@@ -35,7 +34,6 @@ export function QuickDossier({
   readonly onOpenPerson?: (personId: EntityId) => void;
   readonly onTalk?: () => void;
   readonly talkUnavailable?: string | null;
-  readonly expandedContent?: ReactNode;
 }) {
   const [expanded, setExpanded] = useState(false);
   return (
@@ -56,7 +54,6 @@ export function QuickDossier({
       onTalk={onTalk}
       talkUnavailable={talkUnavailable ?? null}
       onOpenLink={onOpenLink}
-      expandedContent={expandedContent}
     />
   );
 }

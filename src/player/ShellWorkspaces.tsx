@@ -615,6 +615,19 @@ export function PersonalWorkspace({
         </p>
       </header>
 
+      <section className="pg-personal-section">
+        <h3>Appearance</h3>
+        <button
+          type="button"
+          className="ui-action"
+          data-testid="personal-appearance"
+          onClick={() => onOpenPerson(personId)}
+        >
+          Appearance and wardrobe
+        </button>
+        <p className="game-note">Change only your own saved appearance.</p>
+      </section>
+
       {record.household.length > 0 ? (
         <section className="pg-personal-section">
           <h3>Household</h3>

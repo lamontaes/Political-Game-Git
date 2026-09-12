@@ -1,6 +1,18 @@
 import { readFileSync } from "node:fs";
+import type { Page } from "@playwright/test";
 import { test, expect } from "./fixtures";
 import { startLife, enterLife, saveLife } from "./support/creator";
+
+async function openOwnWardrobe(page: Page) {
+  await page.getByTestId("shell-nav-cluster").click();
+  await page.getByTestId("nav-personal-group").click();
+  await page.getByTestId("nav-personal").click();
+  await page.getByTestId("personal-appearance").click();
+  const controls = page.getByTestId("saved-appearance-controls");
+  await controls.locator("summary").focus();
+  await page.keyboard.press("Enter");
+  return controls;
+}
 
 for (const seed of [
   "morning23-b-play",
@@ -26,7 +38,7 @@ for (const seed of [
     await page.getByTestId("action-inspect").click();
     await page.screenshot({ path: info.outputPath("card.png") });
     await page.getByTestId("quick-dossier-full").click();
-    await expect(page.getByTestId("appearance-read-only")).toBeVisible();
+    await expect(page.getByTestId("full-dossier")).toBeVisible();
     await expect(
       page.getByTestId("saved-appearance-controls"),
     ).not.toBeVisible();
@@ -40,17 +52,7 @@ for (const seed of [
       .first()
       .screenshot({ path: info.outputPath("conversation-portrait.png") });
     await page.getByTestId("talk-back").click();
-    await person.click({ position: { x: 30, y: 55 } });
-    await page.getByTestId("action-inspect").click();
-    await page.getByTestId("quick-dossier-full").click();
-
-    await page
-      .getByTestId("own-wardrobe-access")
-      .locator(":scope > summary")
-      .click();
-    const controls = page.getByTestId("saved-appearance-controls");
-    await controls.locator("summary").focus();
-    await page.keyboard.press("Enter");
+    await openOwnWardrobe(page);
     await expect(page.getByTestId("wardrobe-full-body")).toBeVisible();
     const body = page.getByRole("combobox", { name: "Body", exact: true });
     await body.selectOption(
@@ -87,19 +89,7 @@ for (const seed of [
     await page.reload();
     await page.getByTestId("continue").click();
     await enterLife(page);
-    const again = page.locator('[data-testid^="scene-person-"]').first();
-    await again.focus();
-    await page.keyboard.press("Enter");
-    await page.getByTestId("action-inspect").click();
-    await page.getByTestId("quick-dossier-full").click();
-    await page
-      .getByTestId("own-wardrobe-access")
-      .locator(":scope > summary")
-      .click();
-    await page
-      .getByTestId("saved-appearance-controls")
-      .locator("summary")
-      .click();
+    await openOwnWardrobe(page);
     await expect(page.getByTestId("wardrobe-full-body")).toHaveAttribute(
       "data-appearance-seed",
       identity!,
@@ -168,20 +158,11 @@ for (const kind of ["unpinned", "gen2"] as const) {
         .first()
         .screenshot({ path: info.outputPath(`old-${kind}-conversation.png`) });
       await page.getByTestId("talk-back").click();
-      await person.click({ position: { x: 30, y: 55 } });
-      await page.getByTestId("action-inspect").click();
-      await page.getByTestId("quick-dossier-full").click();
     } else {
       await expect(page.getByTestId("dossier-talk-unavailable")).toBeVisible();
+      await page.getByTestId("quick-dossier-close").click();
     }
-    await page
-      .getByTestId("own-wardrobe-access")
-      .locator(":scope > summary")
-      .click();
-    await page
-      .getByTestId("saved-appearance-controls")
-      .locator("summary")
-      .click();
+    await openOwnWardrobe(page);
     await expect(page.getByTestId("wardrobe-full-body")).toHaveAttribute(
       "data-catalog-generation",
       "2",
@@ -197,19 +178,7 @@ for (const kind of ["unpinned", "gen2"] as const) {
     await page.reload();
     await page.getByTestId("continue").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
-    const again = page.locator('[data-testid^="scene-person-"]').first();
-    await again.focus();
-    await page.keyboard.press("Enter");
-    await page.getByTestId("action-inspect").click();
-    await page.getByTestId("quick-dossier-full").click();
-    await page
-      .getByTestId("own-wardrobe-access")
-      .locator(":scope > summary")
-      .click();
-    await page
-      .getByTestId("saved-appearance-controls")
-      .locator("summary")
-      .click();
+    await openOwnWardrobe(page);
     expect(
       await page
         .getByTestId("wardrobe-full-body")
