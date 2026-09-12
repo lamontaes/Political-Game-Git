@@ -140,6 +140,8 @@ async function stableIdentity(page) {
     await page.screenshot({ path: path.resolve(screenshot), fullPage: true });
   }
   identity = await stableIdentity(page);
+  await page.getByTestId("shell-nav-cluster").click();
+  await page.getByTestId("shell-nav-flyout").waitFor();
   await page.getByTestId("keep-world").click();
   await page
     .getByTestId("keep-world")
