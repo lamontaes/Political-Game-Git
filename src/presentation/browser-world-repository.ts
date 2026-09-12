@@ -353,6 +353,15 @@ export class BrowserSaveStore {
         new Promise((resolve) => setTimeout(resolve, milliseconds)));
   }
 
+  /** The IndexedDB this store was bound to — the same one portable transfer uses. */
+  get indexedDB(): IDBFactory {
+    return this.#factory;
+  }
+
+  get databaseName(): string {
+    return this.#databaseName;
+  }
+
   /**
    * A new slot for this world. Called twice for one world it gives two slots,
    * because keeping a life twice is a thing a player is allowed to do.
@@ -558,6 +567,24 @@ export class BrowserSaveStore {
       return migrateUnpinnedAppearanceCatalog(
         deserializeWorld(read.record.payload),
       );
+    });
+  }
+
+  /**
+   * The stored record itself, without taking the slot. Used to export the
+   * exact payload a player already has rather than a freshly serialized copy.
+   */
+  inspectRecord(saveId: EntityId): Promise<StoredBrowserWorldRecord | null> {
+    return this.#enqueue(async () => {
+      const raw = await this.#get(saveId);
+      const state = readSlotState(raw);
+      if (state.kind === "absent" || state.kind === "deleted") return null;
+      const read = readStoredRecord(raw);
+      if (read.kind !== "healthy")
+        throw new Error("This save cannot be inspected safely.");
+      if (read.record.saveId !== saveId)
+        throw new Error("Save identity mismatch.");
+      return read.record;
     });
   }
 
