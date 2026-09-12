@@ -20,7 +20,7 @@ The old patches against UI head `302e1f0c` are superseded. Consume the branch
 as one tested unit; do not reapply those patches.
 
 - `src/presentation/new-game.ts`: the additive `NewGameStartingLife` union
-  retains `ordinary`, `legislative-career` and `judicial` and adds
+  retains `ordinary-life`, `legislative-office` and `judicial-office-practice` and adds
   `state-agency-director`; the mutually exclusive state-agency initializer runs
   after the ordinary World and judicial initializer path.
 - `src/presentation/new-game-identity.ts`: replay decoding accepts all four
@@ -58,3 +58,35 @@ Automated desktop acceptance is complete when those gates pass. Human visual
 acceptance remains separate. The existing compact Day overlay can intercept
 the time-passage control, so compact normal-route acceptance remains assigned
 to UI-core rather than being repaired here.
+
+## Resume verification — 2026-09-12
+
+Recovered implementation head: `15c4541f2f5e9fd395e055d62ecd3c62d31916d6`;
+remote already contained that same head on entry. Current main was verified at
+`215b3e90d163ed3344dbbd36bfaa621501bd67f8`.
+
+`recovery25-civil-current-registration.patch` contains only the additive creator
+registration and applies cleanly to that current main PlayerGame. A owns its
+composition and merge. Consume the feature dependency files listed above with
+this adapter; never replace current PlayerGame with the donor's whole file.
+The successor PR preserves the original donor merge ancestry.
+
+LEARN: a stopped recording is not publication truth. Verify actual local and
+remote heads before reconstructing work or repeating an already fixed problem.
+
+Fresh continuation checks: 39 focused tests (6 files), typecheck, lint,
+release:check, production build, validate:art, inventory:art and qa:art passed.
+The frozen browser run `recovery25-civil-frozen` passed all 3 tests with its
+checkout identity guard: Custom Minnesota start, January refusal, ordinary time
+passage to September, reinstatement/NPC answer/save/reopen, and structured
+cause/evidence notice plus pointer/keyboard activation of procedural actions.
+An earlier run passed assertions but failed teardown because handoff docs were
+edited during execution; it is superseded by the frozen run.
+
+The additional `npm run validate` passed format/lint/typecheck/release checks;
+its full Vitest phase was stopped without a result. Do not count it as a fresh
+full-suite pass. Original worker separately reports its prior serial suite at
+15c4541f: 4518 passed, 2 skipped, with six loopback EPERM tests separately
+passing with permission. Those are original-head proofs, not current-main
+composition or human visual acceptance. Compact Day-overlay interception
+remains assigned to UI-core. No other fresh CIVIL failure remains.

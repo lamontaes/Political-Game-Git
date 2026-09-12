@@ -1,6 +1,8 @@
 ---
 id: civil-authority13-personnel-decisions
-impact: none
+impact: minor
+section: Added
+title: State agency director Custom Start and personnel matters
 ---
 
-Sourced public-personnel decisions and an explicit state-agency Custom Start that reaches them; no creator control on this build offers that start yet, so nothing a player can reach changes until the UI owner mounts it.
+Eligible adult Custom Start characters in Minnesota can direct a fictional state agency and review its personnel matters. Supported procedures become available when their sourced dates apply; notices use structured cause and known supporting records, and employee responses survive saving and reopening.
