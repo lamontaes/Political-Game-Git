@@ -69,7 +69,11 @@ import {
   withCreatorLocation,
   type CreatorLocationDraft,
 } from "../presentation/creator-location";
-import { placeStartFacts } from "../presentation/place-start-summary";
+import {
+  placeStartFacts,
+  type PlaceStartFact,
+} from "../presentation/place-start-summary";
+import { queryHometownPopulationFacts } from "../presentation/place-hometown-population";
 import {
   openOrdinaryLife,
   passOrdinaryDays,
@@ -760,6 +764,9 @@ function SetupScreen({
   const [stateQuery, setStateQuery] = useState("");
   const [placeQuery, setPlaceQuery] = useState("");
   const [replacingPlace, setReplacingPlace] = useState(false);
+  const [populationFacts, setPopulationFacts] = useState<
+    readonly PlaceStartFact[]
+  >([]);
   /*
    * An edit of an already-chosen setup reopens with that setup's place; a
    * fresh start opens with none (PT3-CREATOR B).
@@ -841,6 +848,19 @@ function SetupScreen({
   const problems = newGameSetupProblems(committed);
   const place = selectedCreatorPlace(location);
   const placeListOpen = creatorPlaceListOpen(location.placeKey, replacingPlace);
+
+  useEffect(() => {
+    const chosen = selectedCreatorPlace(location);
+    setPopulationFacts([]);
+    if (!chosen) return;
+    let cancelled = false;
+    void queryHometownPopulationFacts(chosen).then((facts) => {
+      if (!cancelled) setPopulationFacts(facts);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [location.placeKey]);
   const officeAvailable =
     place?.capabilities.legislativeScenarioKey !== null &&
     setup.startAge >= LEGISLATIVE_OFFICE_MINIMUM_AGE;
@@ -1242,7 +1262,11 @@ function SetupScreen({
               {placeStartFacts(place)
                 .filter((fact) => fact.kind !== "name")
                 .map((fact) => (
-                  <p key={`${fact.kind}:${fact.text}`} className="game-hint">
+                  <p
+                    key={`${fact.kind}:${fact.text}`}
+                    className="game-hint"
+                    data-testid={`place-${fact.kind}`}
+                  >
                     {fact.kind === "county"
                       ? fact.asOf
                         ? `${fact.text} · ${fact.asOf.slice(0, 4)}`
@@ -1250,6 +1274,25 @@ function SetupScreen({
                       : fact.text}
                   </p>
                 ))}
+              {populationFacts.map((fact) => (
+                <p
+                  key={`${fact.kind}:${fact.text}:${fact.asOf}`}
+                  className="game-hint"
+                  data-testid="place-population"
+                >
+                  {fact.asOf
+                    ? `${fact.text} · ${fact.geography} · ${fact.asOf}`
+                    : fact.text}
+                  {fact.attribution ? (
+                    <span
+                      className="creator-place-attribution"
+                      data-testid="place-population-source"
+                    >
+                      {fact.attribution}
+                    </span>
+                  ) : null}
+                </p>
+              ))}
               {replacingPlace ? null : (
                 <button
                   type="button"
@@ -2218,6 +2261,13 @@ function PlayingScreen({
         actionPerson.personId,
       )
     : null;
+  const inspectTalkEntry = selectedDossier
+    ? openConversationWith(
+        session.world,
+        session.personId,
+        selectedDossier.personId,
+      )
+    : null;
 
   /**
    * Starts the real conversation with exactly the person who was chosen, in
@@ -2445,15 +2495,13 @@ function PlayingScreen({
           {selectedDossier ? (
             <QuickDossier
               world={session.world}
+              playerId={session.personId}
               dossier={selectedDossier}
               pinned={isPinned(shell, {
                 kind: "person",
                 id: selectedDossier.personId,
               })}
               onClose={() => dispatch({ type: "close-quick-dossier" })}
-              onOpenFull={() =>
-                openEntity({ kind: "person", id: selectedDossier.personId })
-              }
               onTogglePin={() =>
                 dispatch({
                   type: "toggle-pin",
@@ -2461,6 +2509,15 @@ function PlayingScreen({
                 })
               }
               onOpenLink={openEntity}
+              onOpenPerson={(personId) =>
+                dispatch({ type: "open-quick-dossier", personId })
+              }
+              onTalk={() => talkTo(selectedDossier.personId)}
+              talkUnavailable={
+                inspectTalkEntry?.kind === "unavailable"
+                  ? inspectTalkEntry.reason
+                  : null
+              }
             />
           ) : null}
 
@@ -2711,6 +2768,7 @@ function renderWorkspace({
           />
           <FullDossier
             world={session.world}
+            playerId={session.personId}
             dossier={dossier}
             pinned={pinnedRef({ kind: "person", id: dossier.personId })}
             onTogglePin={() =>
@@ -2719,6 +2777,9 @@ function renderWorkspace({
             onTalk={() => talkTo(dossier.personId)}
             talkUnavailable={entry.kind === "unavailable" ? entry.reason : null}
             onOpenLink={openEntity}
+            onOpenPerson={(personId) =>
+              openEntity({ kind: "person", id: personId })
+            }
           />
         </>,
         "Record",
@@ -2797,7 +2858,8 @@ function renderWorkspace({
             personId={session.personId}
             state={shell}
             dispatch={dispatch}
-            onOpenPerson={openPerson}
+            onTalk={talkTo}
+            onOpenRef={openEntity}
           />
           {/*
             What this life can actually talk about, in the room it is in — as
@@ -2883,6 +2945,11 @@ function renderWorkspace({
             model={projectPublicInformationPanel(session.world)}
             onClose={back}
             onOpenPerson={openPerson}
+            viewerPersonId={session.personId}
+            followedOutletKeys={shell.preferences.followedNewsOutletKeys}
+            onToggleOutletFollow={(outletKey) =>
+              dispatch({ type: "toggle-news-outlet-follow", outletKey })
+            }
           />
         </>,
       );

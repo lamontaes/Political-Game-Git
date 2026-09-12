@@ -1,7 +1,9 @@
+import { LEGACY_COHERENT_CATALOG_GENERATION } from "../simulation/person-appearance";
 import {
   guardianAgeBand,
   siblingAgeGaps,
   applyCharacterHistoryPlan,
+  COHERENT_APPEARANCE_RECIPE_VERSION,
   assertWorldIntegrity,
   addDays,
   ageOnDate,
@@ -104,6 +106,16 @@ export interface ProductionWorldInput {
    * the ranges it drew before this existed.
    */
   readonly generation?: SetupGenerationInputs | null;
+  /**
+   * Appearance recipe this life is created under.
+   *
+   * Declared rather than defaulted at the New Game / replay seam. Absent here
+   * still means the coherent recipe, which is what a player starting now gets.
+   * An old replay descriptor that never named a recipe is handled by
+   * `createNewGameWorld`, which passes the legacy version explicitly.
+   */
+  readonly appearanceRecipeVersion?: string;
+  readonly appearanceCatalogGeneration?: number;
 }
 
 export interface ProductionWorld {
@@ -156,6 +168,18 @@ export function buildProductionWorld(
     age: input.age,
     givenName: input.givenName,
     familyName: input.familyName,
+    // A life starting now is drawn under the coherent recipe, declared here
+    // rather than taken from a default, so that people already saved — and
+    // the fixture worlds with accepted serialized bytes — keep the recipe
+    // they were created under. See `person-appearance.ts`.
+    appearanceRecipeVersion:
+      input.appearanceRecipeVersion ?? COHERENT_APPEARANCE_RECIPE_VERSION,
+    appearanceCatalogGeneration:
+      input.appearanceCatalogGeneration ??
+      ((input.appearanceRecipeVersion ?? COHERENT_APPEARANCE_RECIPE_VERSION) ===
+      COHERENT_APPEARANCE_RECIPE_VERSION
+        ? LEGACY_COHERENT_CATALOG_GENERATION
+        : undefined),
     ...(input.identity === undefined ? {} : { identity: input.identity }),
   });
 

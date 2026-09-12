@@ -5,6 +5,7 @@ import {
 import type { PersonAppearance } from "../simulation/person-appearance";
 import {
   projectCharacterLayers,
+  resolveAppearanceCatalogGeneration,
   resolveCharacterRecipe,
   type CharacterComponentKind,
   type CharacterWardrobeContext,
@@ -199,14 +200,10 @@ export function resolvePersonCatalogGeneration(
   appearance: PersonAppearance,
   library: CharacterComponentLibrary,
 ): number {
-  const generation =
-    appearance.catalogGeneration ?? LEGACY_APPEARANCE_CATALOG_GENERATION;
-  if (generation > library.catalogGeneration) {
-    throw new Error(
-      `Person appearance is pinned to catalog generation ${generation} but the library only reaches ${library.catalogGeneration}.`,
-    );
-  }
-  return generation;
+  return resolveAppearanceCatalogGeneration(
+    appearance,
+    library.catalogGeneration,
+  );
 }
 
 export function resolvePersonCharacterRecipe(
