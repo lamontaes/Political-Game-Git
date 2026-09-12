@@ -1,0 +1,1 @@
+[{"width":1440,"activation":"pointer","unreleased":true,"initialRasterRequest":false,"loadedWidth":1376,"errors":[]},{"width":960,"activation":"keyboard","unreleased":true,"initialRasterRequest":false,"loadedWidth":1376,"errors":[]}]

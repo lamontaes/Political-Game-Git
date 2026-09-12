@@ -107,6 +107,7 @@ describe("A life can start anywhere in the country", () => {
       false,
     );
     expect(alabama.some((place) => place.scope === "state")).toBe(false);
+    expect(alabama.every((place) => place.scope === "locality")).toBe(true);
 
     const kentucky = searchLifePlaces("", 12, {
       stateJurisdictionKey: "US-KY",

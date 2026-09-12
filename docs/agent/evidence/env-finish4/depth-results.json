@@ -1,0 +1,41 @@
+{
+  "head": "a1912c5bbfec9ae0e95646bbfd6630f5fd296af2",
+  "results": [
+    {
+      "scene": "office",
+      "width": 1440,
+      "depths": {
+        "mask": "linear-gradient(rgb(0, 0, 0), rgb(0, 0, 0)), url(\"http://127.0.0.1:5362/art/families/council-staff-office/env_lexington_council_staff_office_prompt30_foreground_mask_2x_v1.png\")",
+        "count": "1"
+      },
+      "errors": []
+    },
+    {
+      "scene": "office",
+      "width": 960,
+      "depths": {
+        "mask": "linear-gradient(rgb(0, 0, 0), rgb(0, 0, 0)), url(\"http://127.0.0.1:5362/art/families/council-staff-office/env_lexington_council_staff_office_prompt30_foreground_mask_2x_v1.png\")",
+        "count": "1"
+      },
+      "errors": []
+    },
+    {
+      "scene": "hall",
+      "width": 1440,
+      "depths": {
+        "mask": "linear-gradient(rgb(0, 0, 0), rgb(0, 0, 0)), url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%20preserveAspectRatio%3D%22none%22%3E%3Cpolygon%20points%3D%2222.1657%2C39.974%2033.3576%2C32.4219%2040.3343%2C34.375%2040.3343%2C36.7188%2036.7006%2C39.4531%2036.7733%2C92.5781%2040.1163%2C94.0104%2040.1163%2C96.4844%2029.4331%2C98.8281%2024.2733%2C92.4479%2024.2733%2C89.974%2026.7442%2C89.3229%2026.7442%2C43.8802%2022.1657%2C41.6667%22%20fill%3D%22black%22%2F%3E%3C%2Fsvg%3E\")",
+        "count": "1"
+      },
+      "errors": []
+    },
+    {
+      "scene": "hall",
+      "width": 960,
+      "depths": {
+        "mask": "linear-gradient(rgb(0, 0, 0), rgb(0, 0, 0)), url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%20preserveAspectRatio%3D%22none%22%3E%3Cpolygon%20points%3D%2222.1657%2C39.974%2033.3576%2C32.4219%2040.3343%2C34.375%2040.3343%2C36.7188%2036.7006%2C39.4531%2036.7733%2C92.5781%2040.1163%2C94.0104%2040.1163%2C96.4844%2029.4331%2C98.8281%2024.2733%2C92.4479%2024.2733%2C89.974%2026.7442%2C89.3229%2026.7442%2C43.8802%2022.1657%2C41.6667%22%20fill%3D%22black%22%2F%3E%3C%2Fsvg%3E\")",
+        "count": "1"
+      },
+      "errors": []
+    }
+  ]
+}
