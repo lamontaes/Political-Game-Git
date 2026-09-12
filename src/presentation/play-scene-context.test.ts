@@ -12,13 +12,19 @@ import {
   type EpisodeBeat,
   type World,
 } from "../simulation";
-import { createNewGameWorld, type NewGameSetup } from "./new-game";
+import {
+  createNewGameWorld,
+  DEFAULT_NEW_GAME_SETUP,
+  type NewGameSetup,
+} from "./new-game";
 import { projectStoryMoment, type StoryScene } from "./life-story";
 import { DOMESTIC_SCENE_IDS } from "./scene-registry";
 import {
   householdResidentIds,
+  resolveOpeningPlaySceneContext,
   resolvePlaySceneContext,
 } from "./play-scene-context";
+import { currentOpeningLifeScene, openNextLifeScene } from "./life-scene-flow";
 import { resolveLifeScene } from "./life-scene";
 import { sceneVenueForLocationKey } from "./scene-venues";
 
@@ -112,6 +118,49 @@ function nonresidentParentLife(): {
   }
   throw new Error("No generated life produced a nonresident parent token.");
 }
+
+describe("The foreground owns opening presence", () => {
+  it("introduces current household residents, not the later school story", () => {
+    const { world, playerPersonId } = createNewGameWorld(childSetup());
+    const before = serializeWorld(world);
+    const context = resolveOpeningPlaySceneContext(world, playerPersonId);
+    expect(context.purpose).toBe("home");
+    expect(DOMESTIC_SCENE_IDS).toContain(context.sceneId);
+    expect(
+      context.presentPeople.map((person) => person.personId).sort(),
+    ).toEqual([...householdResidentIds(world, playerPersonId)].sort());
+    expect(serializeWorld(world)).toBe(before);
+  });
+
+  it("reads the actual school opening and its named participants without moving time", () => {
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      startKind: "custom",
+      household: "shares-a-home",
+      seed: "repair6-lunchbox",
+      startAge: 6,
+    });
+    const world = openNextLifeScene(game.world, game.playerPersonId, "school");
+    const opening = currentOpeningLifeScene(world, game.playerPersonId)!;
+    expect(opening.definition.setting).toBe("school");
+    const before = serializeWorld(world);
+    const context = resolveOpeningPlaySceneContext(world, game.playerPersonId);
+    expect(context.purpose).toBe("school");
+    expect(context.sceneId).toBeNull();
+    expect(
+      context.presentPeople.map((person) => person.personId).sort(),
+    ).toEqual(
+      opening.presentPersonIds
+        .filter((id) => id !== game.playerPersonId)
+        .sort(),
+    );
+    const reloaded = deserializeWorld(before);
+    expect(
+      resolveOpeningPlaySceneContext(reloaded, game.playerPersonId),
+    ).toEqual(context);
+    expect(serializeWorld(world)).toBe(before);
+  });
+});
 
 describe("School scenes are not household apartments", () => {
   it("binds the corridor location without a home plate", () => {

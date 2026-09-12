@@ -3,12 +3,19 @@ import {
   currentLifeCutoff,
   householdMembershipsAt,
   organizationProfileAt,
+  describePersonContext,
+  introducePerson,
   peopleInHouseholdAt,
   type EntityId,
   type EpisodeSceneSetting,
   type World,
 } from "../simulation";
+import type { LifeSceneSetting } from "../simulation/opening-life-content";
 import { resolveLifeScene } from "./life-scene";
+import {
+  currentOpeningLifeScene,
+  openingLifeLocation,
+} from "./life-scene-flow";
 import type { ScenePerson, StoryScene } from "./life-story";
 import {
   DOMESTIC_SCENE_IDS,
@@ -62,10 +69,75 @@ export interface PlaySceneContext {
   readonly presentPeople: readonly ScenePerson[];
 }
 
+type ContextScene =
+  | StoryScene
+  | {
+      readonly kind: "opening";
+      readonly setting: LifeSceneSetting;
+      readonly presentPeople: readonly ScenePerson[];
+    };
+
+/** The visible introduction/opening scene is not the later ranked story. */
+export function resolveOpeningPlaySceneContext(
+  world: World,
+  personId: EntityId,
+  scenes: SceneRegistry = SCENE_REGISTRY,
+  library: RuntimeVisualLibrary = PRODUCTION_VISUAL_LIBRARY,
+): PlaySceneContext {
+  const opening = currentOpeningLifeScene(world, personId);
+  const location = openingLifeLocation(world, personId);
+  const recordedSetting =
+    opening?.definition.setting ?? location?.setting ?? "home";
+  const setting: LifeSceneSetting | null =
+    recordedSetting === "home" ||
+    recordedSetting === "school" ||
+    recordedSetting === "neighborhood"
+      ? recordedSetting
+      : null;
+  const ids =
+    opening?.presentPersonIds ??
+    (setting === "home" ? [...householdResidentIds(world, personId)] : []);
+  const presentPeople = ids.flatMap((id): ScenePerson[] => {
+    if (id === personId || !world.people[id]) return [];
+    const context = describePersonContext(world, personId, id);
+    return context
+      ? [
+          {
+            personId: id,
+            name: context.name,
+            relationship: context.relationship,
+            introduction: introducePerson(context),
+          },
+        ]
+      : [];
+  });
+  if (setting === "neighborhood" || setting === null)
+    return {
+      purpose: "unspecified",
+      locationKey: null,
+      sceneId: null,
+      reason:
+        "No released plate is bound to this opening location; household art is not substituted.",
+      placeLabel: location?.label ?? null,
+      presentPeople,
+    };
+  return resolvePlaySceneContext(
+    world,
+    personId,
+    {
+      kind: "opening",
+      setting,
+      presentPeople,
+    },
+    scenes,
+    library,
+  );
+}
+
 export function resolvePlaySceneContext(
   world: World,
   personId: EntityId,
-  scene: StoryScene,
+  scene: ContextScene,
   scenes: SceneRegistry = SCENE_REGISTRY,
   library: RuntimeVisualLibrary = PRODUCTION_VISUAL_LIBRARY,
 ): PlaySceneContext {
@@ -126,7 +198,7 @@ export function resolvePlaySceneContext(
 function contextFromActivity(
   world: World,
   personId: EntityId,
-  scene: StoryScene,
+  scene: ContextScene,
   venue: VenueResolution,
 ): PlaySceneContext {
   const activity = completedActivityHere(world, personId, venue.activityId!);
@@ -151,7 +223,10 @@ function contextFromActivity(
   };
 }
 
-function settingOf(scene: StoryScene): EpisodeSceneSetting | null {
+function settingOf(
+  scene: ContextScene,
+): EpisodeSceneSetting | LifeSceneSetting | null {
+  if (scene.kind === "opening") return scene.setting;
   if (scene.kind === "episode") return scene.beat.sceneSetting;
   if (scene.kind === "formative" || scene.kind === "adult") {
     if (SCHOOL_SITUATION_KEYS.has(scene.situationKey)) return "school";
@@ -168,7 +243,7 @@ function settingOf(scene: StoryScene): EpisodeSceneSetting | null {
 function presentAtSchool(
   world: World,
   personId: EntityId,
-  scene: StoryScene,
+  scene: ContextScene,
 ): readonly ScenePerson[] {
   const allowed = new Set(
     scene.kind === "episode"

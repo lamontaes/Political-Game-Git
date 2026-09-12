@@ -89,7 +89,10 @@ import {
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
 import { projectToday, projectWorkRole } from "../presentation/day-overview";
 import { projectDynamicSurfaces } from "../presentation/surface-projection";
-import { resolvePlaySceneContext } from "../presentation/play-scene-context";
+import {
+  resolvePlaySceneContext,
+  resolveOpeningPlaySceneContext,
+} from "../presentation/play-scene-context";
 import { planLifeScenePeople } from "../presentation/life-scene-people";
 import {
   ART_PREVIEW_LABEL,
@@ -1908,6 +1911,7 @@ function PlayingScreen({
    * on screen; this is the request, cleared as soon as it is honored.
    */
   const [returnFocusTo, setReturnFocusTo] = useState<EntityId | null>(null);
+  const [continuingLifeShown, setContinuingLifeShown] = useState(false);
 
   const projectedMoment = useMemo(
     () => projectStoryMoment(session.world, session.personId),
@@ -1915,6 +1919,8 @@ function PlayingScreen({
   );
 
   const playScene = useMemo(() => {
+    if (!continuingLifeShown)
+      return resolveOpeningPlaySceneContext(session.world, session.personId);
     const activity = completedActivityHere(session.world, session.personId);
     const venue =
       activity && municipalVenueForActivity(session.world, activity.id);
@@ -1946,7 +1952,7 @@ function PlayingScreen({
       session.personId,
       projectedMoment.scene,
     );
-  }, [session.world, session.personId, projectedMoment]);
+  }, [session.world, session.personId, projectedMoment, continuingLifeShown]);
 
   const sceneId = playScene.sceneId;
 
@@ -2387,6 +2393,7 @@ function PlayingScreen({
               world={session.world}
               playerPersonId={session.personId}
               alreadyIntroduced={session.saveId !== null}
+              onContinuingChange={setContinuingLifeShown}
               onWorldChange={onWorldChange}
               transitionHandlers={createCampaignElectionTransitionRegistry()}
               continuingLife={
