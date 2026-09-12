@@ -25,7 +25,7 @@ declare is reported as undeclared rather than filled in from a guess.
 | `legislative/measure-briefing` | 93 | 0 | 0 | measure |
 | `life/adult` | 384 | 287 | 0 | colleague-identity, household-kinship, persistent-cast |
 | `life/callback` | 41 | 0 | 0 | — |
-| `life/episode` | 915 | 82 | 0 | activity-evidence, age, colleague-identity, elapsed-time, enrollment, household-kinship, incident-locality, persistent-cast, work-standing |
+| `life/episode` | 1020 | 71 | 0 | activity-evidence, age, colleague-identity, elapsed-time, enrollment, household-kinship, incident-locality, persistent-cast, work-standing |
 | `life/formative` | 177 | 0 | 0 | persistent-cast |
 | `life/introduction` | 10 | 0 | 0 | — |
 | `life/opening-conversation-intents` | 11 | 0 | 0 | — |
@@ -56,7 +56,7 @@ count is how many families' declared grounding touches each one.
 
 ## Withheld scenes and the evidence each one is missing
 
-369 templates across 34 distinct
+358 templates across 33 distinct
 missing-evidence reasons. Each reason is the bank's own, read from the stage's
 `withheld` requirement rather than restated here.
 
@@ -78,12 +78,11 @@ missing-evidence reasons. Each reason is the bank's own, read from the stage's
 - **adult.petition-ask** — Group participation does not establish a petition or a request to sign. The petition, request and disclosure terms are missing.
 - **adult.care-request** — Kinship and no current care responsibility do not establish a care need or a discussion. A named recipient and actual care request are missing; a commitment written after choosing cannot establish them.
 - **adult.family-request** — Kinship does not establish a two-week request or a conflicting plan. The request and its terms need an actual record.
+- **growing-up.a-friend-over-years/dropped-pass** — Missing a recorded transit journey, stop and shared routine with this person; no transit mode or timetable is modeled.
 - **kin.the-work-that-is-not-paid/the-family-shop** — Missing canonical family business/work relationship and unpaid weekend request; kinship is insufficient.
-- **work.the-shift-you-were-asked-for/called-in** — Missing canonical supervisor shift request and coursework/evening conflict.
-- **school.the-thing-you-got-blamed-for/the-commute** — Missing canonical transit mode, journey/timetable and shift conflict.
+- **school.the-thing-you-got-blamed-for/the-commute** — Missing canonical transit mode, journey/timetable and shift end; a job plus an enrollment is not a commute or a clash (RETURN14 D).
 - **work.the-money-nobody-counts/what-you-said-stuck** — Missing continued workplace discussion and identified questioner knowledge linkage.
 - **kin.the-work-that-is-not-paid/the-third-weekend** — Missing continuing specific family-work commitment, active business/work context and performed weekends; earlier yes and elapsed time are insufficient.
-- **work.the-shift-you-were-asked-for/it-came-back-round** — Missing current coverage need/rota and performed earlier shift help; choosing yes is not performance.
 - **civic.the-thing-nobody-else-turned-up-for/sandbag-line** — Missing relevant local flood/affected-place evidence and sandbag activity/participation context; an unrelated active incident is insufficient.
 - **work.the-money-nobody-counts/pooled-tips** — Missing tipped workplace/pooling arrangement, cash removal and direct witness evidence.
 - **adult.friend-good-news** — Prior interaction does not establish good news or an invitation. The actual news and invitation are missing.

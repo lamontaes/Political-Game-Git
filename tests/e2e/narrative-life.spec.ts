@@ -398,6 +398,15 @@ test.describe("A life is told continuously", () => {
     page,
   }) => {
     await freshBrowser(page);
+    /*
+     * A named life, because the assertion below is about a run of quiet steps
+     * and an unseeded one decides how many of them cross a birthday. Six steps
+     * that all land inside the same year produce six identical recaps, which is
+     * a true reading of that life and a failing test either way — the check is
+     * worth keeping, so the life it reads is pinned rather than drawn fresh on
+     * every run.
+     */
+    await page.goto("/?seed=narrative-life-quiet-stretch");
     await startLife(page, 44);
 
     const said: string[] = [];

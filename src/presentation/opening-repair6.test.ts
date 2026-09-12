@@ -11,6 +11,7 @@ import {
   OPENING_LIFE_ADDITIONS,
   OPENING_LIFE_FAMILIES,
   OPENING_LIFE_FOLLOWUPS,
+  OPENING_LIFE_PREMISE_GATED_KEYS,
   OPENING_SCENE_TIME_WINDOWS,
 } from "../simulation/opening-life-content";
 import { chooseStoryOption } from "./life-story";
@@ -24,9 +25,9 @@ import {
 
 describe("every authored opening continuation depends on the saved answer", () => {
   it.each(
-    OPENING_LIFE_ADDITIONS.map(
-      (definition) => [definition.key, definition] as const,
-    ),
+    OPENING_LIFE_ADDITIONS.filter(
+      (definition) => !OPENING_LIFE_PREMISE_GATED_KEYS.has(definition.key),
+    ).map((definition) => [definition.key, definition] as const),
   )(
     "%s preserves positive and negative branches across reload",
     (key, definition) => {

@@ -126,6 +126,20 @@ function atAge(world: World, personId: EntityId, age: number): World {
   };
 }
 
+/**
+ * Facts that only a life-circumstance event can make true. A bare life holds
+ * none of them, so a stage gated on one is withheld exactly as an explicit
+ * `withheld` requirement is.
+ */
+const CIRCUMSTANCE_FACTS = new Set<string>([
+  "work.coverage-requested",
+  "school.shared-assignment",
+  "work.supervisor-shift-requested",
+  "school.commute-schedule-conflict",
+  "work.class-schedule-conflict",
+  "work.own-shift-coverage-needed",
+]);
+
 const withheld = [
   "called-in",
   "asked-by-a-colleague",
@@ -161,9 +175,7 @@ describe("C119B missing circumstances fail closed", () => {
             requires: entry.stage.requires.filter(
               (r) =>
                 r.kind === "withheld" ||
-                (r.kind === "fact" &&
-                  (r.fact === "work.coverage-requested" ||
-                    r.fact === "school.shared-assignment")),
+                (r.kind === "fact" && CIRCUMSTANCE_FACTS.has(r.fact)),
             ),
           },
         ],
@@ -179,8 +191,7 @@ describe("C119B missing circumstances fail closed", () => {
           (exclusion) =>
             exclusion.requirement.kind === "withheld" ||
             (exclusion.requirement.kind === "fact" &&
-              (exclusion.requirement.fact === "work.coverage-requested" ||
-                exclusion.requirement.fact === "school.shared-assignment")),
+              CIRCUMSTANCE_FACTS.has(exclusion.requirement.fact)),
         ),
       ).toBe(true);
     },
@@ -257,8 +268,10 @@ describe("C119B missing circumstances fail closed", () => {
 
   it("rejects a stale previously offered adult scene after grounding is withdrawn", () => {
     const { world, playerPersonId } = fixture(20);
+    // A stage whose copy binds nobody, so the stale beat composes in a bare
+    // life; called-in now names a recorded supervisor and cannot.
     const entry = lifeContent92cStages().find(
-      ({ stage }) => stage.key === "called-in",
+      ({ stage }) => stage.key === "the-commute",
     )!;
     const family = EPISODE_FAMILIES.find((f) => f.key === entry.episodeKey)!;
     const oldFamily = {
@@ -273,7 +286,7 @@ describe("C119B missing circumstances fail closed", () => {
       playEpisodeOption(world, {
         personId: playerPersonId,
         beat: oldBeat,
-        optionKey: "take-the-shift",
+        optionKey: "leave-early",
         families: EPISODE_FAMILIES,
       }),
     ).toThrow();
