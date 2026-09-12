@@ -1,0 +1,63 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "census-rel-2024-sldl-place20-national",
+      "bytes": {
+        "length": 6152014,
+        "sha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a"
+      },
+      "localPath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Geography Division",
+      "publisher": {
+        "documentationUrl": "https://www.census.gov/geographies/reference-files/time-series/geo/relationship-files.2020.html",
+        "releaseDate": null,
+        "schemaVersion": "2024 SLDL to 2020 Place national relationship file layout",
+        "statedVintage": "2024-SLD / 2020-place"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 6152014,
+        "retrievedAt": "2026-09-11T20:46:03.330Z",
+        "url": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "census-rel-2024-sldu-place20-national",
+      "bytes": {
+        "length": 5569927,
+        "sha256": "359f18be7d89150b82dfffbf3a2cce6e59903ef49c4c67e5077e36bd886317db"
+      },
+      "localPath": "data/source/sld-place-relations/raw/tab20_sldu202420_place20_natl.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Geography Division",
+      "publisher": {
+        "documentationUrl": "https://www.census.gov/geographies/reference-files/time-series/geo/relationship-files.2020.html",
+        "releaseDate": null,
+        "schemaVersion": "2024 SLDU to 2020 Place national relationship file layout",
+        "statedVintage": "2024-SLD / 2020-place"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 5569927,
+        "retrievedAt": "2026-09-11T20:46:05.636Z",
+        "url": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldu202420_place20_natl.txt"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "sld-place-relations"
+}

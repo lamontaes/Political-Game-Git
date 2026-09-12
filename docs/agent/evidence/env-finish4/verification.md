@@ -57,3 +57,21 @@ in this ENV lane.
 - Workroom alpha, hall body calibration, supported seated/child pixels and
   candidate art decisions remain distinct from released empty-room coverage.
   No painted crowd becomes a canonical participant.
+
+## Renderer browser correction
+
+The first depth fixture passed its DOM assertions but visually exposed darker
+repainted furniture. That was a real failure, not visual acceptance. The repair
+subtracts admitted alpha/vector silhouettes from each person only when the
+occluder is in front of that person's anchor. The room is not repainted; labels
+remain unmasked. The red blocks in this fixture are deliberately oversized
+rendering controls, not approved people or evidence of actual attendance.
+
+Office alpha and community lectern vector checks passed at 1440 and 960 pixels,
+with pointer/Enter activation and no page errors. Screenshots visibly confirm
+occlusion without the darker duplicated furniture. The microphone and shadow
+remain explicitly outside the authored lectern clip. Real-person fitting and
+normal MUNI/county proof are separate outstanding checks.
+
+Corrected corpus measurement: 52,533 literals / 355 files. TypeScript and the
+three occlusion tests passed after the repair.

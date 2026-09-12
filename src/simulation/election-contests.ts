@@ -100,6 +100,9 @@ export function scheduleElectionContest(
       title: input.office.title,
       seatKey: input.office.seatKey ?? null,
       occupationClassification: input.office.occupationClassification ?? null,
+      ...(input.office.districtBinding
+        ? { districtBinding: input.office.districtBinding }
+        : {}),
     },
     electionDate,
     candidatePersonIds,

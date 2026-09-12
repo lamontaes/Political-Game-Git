@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2334 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5652 |
-| DIAGNOSTIC_OR_TEST | 4728 |
-| **NEEDS_CLASSIFICATION** | **6151** |
+| INTENTIONALLY_NON_PLAYER_FACING | 5695 |
+| DIAGNOSTIC_OR_TEST | 4763 |
+| **NEEDS_CLASSIFICATION** | **6165** |
 
-Scanned 564 files holding 71379 string
+Scanned 576 files holding 71896 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -25,6 +25,7 @@ literals in total; the table counts only those that read like a sentence.
 - `src/cli` — Headless command output for developers and CI.
 - `src/release` — Build identity: the accepted release version and the source revision the bundle came from. Its strings are a version number and a commit hash, not authored prose, and the only player-visible form of them is a quiet vX.Y.Z the UI composes.
 - `src/simulation/national-places.generated.ts` — Generated place-name data compiled from the Census places corpus. Names of real localities are sourced facts, not authored prose.
+- `src/simulation/national-counties.generated.ts` — Generated county-name data compiled from the Census county corpus. Names of real localities are sourced facts, not authored prose.
 
 ## Where the unclassified candidates are
 
@@ -175,6 +176,7 @@ literals in total; the table counts only those that read like a sentence.
 | 10 | `src/ui/PeopleVisual4Review.tsx` |
 | 9 | `src/player/PlacesWorkspace.tsx` |
 | 9 | `src/player/ShellNav.tsx` |
+| 9 | `src/presentation/fiscal-authority-work.ts` |
 | 9 | `src/presentation/surface-binding.ts` |
 | 9 | `src/simulation/campaign-compliance.ts` |
 | 9 | `src/simulation/life-circumstances.ts` |
@@ -236,6 +238,7 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/simulation/incident-response.fixture.ts` |
 | 5 | `src/simulation/municipal-election-rules.ts` |
 | 5 | `src/ui/ScenePresentationProofView.tsx` |
+| 4 | `src/districts/query.ts` |
 | 4 | `src/education/catalog.ts` |
 | 4 | `src/persistence/sqlite-world-repository.ts` |
 | 4 | `src/player/ExecutiveWorkWorkspace.tsx` |
@@ -269,6 +272,7 @@ literals in total; the table counts only those that read like a sentence.
 | 3 | `src/simulation/perception.ts` |
 | 3 | `src/simulation/policy-decision.ts` |
 | 3 | `src/ui/WorldControls.tsx` |
+| 2 | `src/fiscal-authority/query.ts` |
 | 2 | `src/player/IncidentResponsePanel.tsx` |
 | 2 | `src/presentation/character-proof.ts` |
 | 2 | `src/presentation/legislation-docket-selection.ts` |
@@ -297,7 +301,6 @@ literals in total; the table counts only those that read like a sentence.
 | 1 | `src/presentation/place-start-summary.ts` |
 | 1 | `src/presentation/scene-conversation.ts` |
 | 1 | `src/simulation/commitment-seam.ts` |
-| 1 | `src/simulation/national-counties.generated.ts` |
 | 1 | `src/simulation/public-information-integrity.ts` |
 | 1 | `src/simulation/setup-questionnaire.ts` |
 | 1 | `src/simulation/situation-selection.ts` |
