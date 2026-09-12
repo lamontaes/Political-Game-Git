@@ -1,7 +1,7 @@
 # Political Game Operations
 
 - AGENTS.md/repository authority order remains binding;
-- no Stage 7 or Slice E without explicit authorization;
+- scope comes from the current Drive assignment and owning packet; historical stage and run labels neither grant nor withhold authorization (see `repository-reference.md`);
 - preflight is required before substantial work;
 - handoff is required when pausing/transferring substantive work;
 - summaries are not proof of implementation;

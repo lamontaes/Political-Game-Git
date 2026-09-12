@@ -26,5 +26,5 @@ alwaysApply: true
 ## Boundaries
 
 - One writer per overlapping surface; isolated worktrees for concurrent work.
-- Do not edit `validate.yml` or CI shard config here — that is CI-CAPACITY17.
+- `.github/workflows/validate.yml` and its shard configuration are a separately owned CI surface; a routing or guidance task does not edit them.
 - Codex loads `.codex/config.toml`; this rule does not replace it.
