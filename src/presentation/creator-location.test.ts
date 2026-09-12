@@ -56,6 +56,7 @@ describe("Creator location is chosen, not inherited", () => {
       alabama.some((place) => place.stateJurisdictionKey === "US-KY"),
     ).toBe(false);
     expect(alabama.some((place) => place.scope === "state")).toBe(false);
+    expect(alabama.every((place) => place.scope === "locality")).toBe(true);
 
     const kentucky = searchLifePlaces("lex", 20, {
       stateJurisdictionKey: "US-KY",
