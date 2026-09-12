@@ -52,7 +52,10 @@ export function withheldReason(stage: EpisodeStage): string | null {
 }
 
 /** Every requirement, restated as the fact it asks the world to establish. */
-function groundingFor(stage: EpisodeStage): readonly ProseGroundingRef[] {
+function groundingFor(
+  stage: EpisodeStage,
+  family: EpisodeFamily,
+): readonly ProseGroundingRef[] {
   const refs: ProseGroundingRef[] = stage.requires.map(
     (requirement: EpisodeRequirement): ProseGroundingRef => {
       switch (requirement.kind) {
@@ -162,6 +165,21 @@ function groundingFor(stage: EpisodeStage): readonly ProseGroundingRef[] {
       }
     },
   );
+  /*
+   * What the family itself authored for this scene to draw on.
+   *
+   * A `{detail:incident}` slot is not a requirement on the world — nothing has
+   * to be true for it to bind — but it is declared, and the record has to say
+   * where it comes from. A slot naming a detail the family never wrote is the
+   * same defect as a slot naming a role nobody bound.
+   */
+  for (const key of Object.keys(family.details ?? {})) {
+    refs.push({
+      key: `detail:${key}`,
+      description: `The family authors the alternatives this scene's ${key} is drawn from.`,
+      kind: "requirement",
+    });
+  }
   if (refs.length === 0) {
     refs.push({
       key: "unconditional",
@@ -183,7 +201,7 @@ function record(input: {
   const stableKey = `${family.key}/${stage.key}`;
   const held = withheldReason(stage);
   const slots = templateSlots(text);
-  const grounding = groundingFor(stage);
+  const grounding = groundingFor(stage, family);
   return {
     id: proseId({ domain: "life", bank: "episode", stableKey, field }),
     domain: "life",
