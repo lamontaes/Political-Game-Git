@@ -1,5 +1,6 @@
 import type { World, EntityId } from "./types";
 import type { LifePathDefinition } from "./life-paths2-catalog";
+import { studyUsesPeriodModel } from "./education-study-progression";
 /** Versioned accepted terms stored in ordinary canonical evidence artifacts. */
 export interface AcceptedEducationTerms {
   readonly version: 1;
@@ -41,6 +42,47 @@ export function acceptedEducationPath(
     ? terms.path
     : undefined;
 }
+function validSessionStudyPath(p: LifePathDefinition): boolean {
+  for (const n of [
+    "sessionMinutes",
+    "sessionStartMinute",
+    "minimumGapDays",
+    "minimumElapsedDays",
+    "sessionCostMinor",
+    "minimumAge",
+  ] as const)
+    if (!Number.isSafeInteger(p[n]) || p[n]! < 0) return false;
+  if (
+    p.sessionMinutes <= 0 ||
+    p.sessionMinutes > 1440 ||
+    p.sessionStartMinute >= 1440 ||
+    !p.requiredSessions ||
+    p.sessionPayMinor !== 0 ||
+    !p.credential ||
+    p.provenance.kind !== "authored"
+  )
+    return false;
+  return true;
+}
+function validPeriodStudyPath(p: LifePathDefinition): boolean {
+  if (
+    p.progressionModel !== "periods" ||
+    !Number.isSafeInteger(p.academicYears) ||
+    p.academicYears! <= 0 ||
+    !Number.isSafeInteger(p.periodsPerYear) ||
+    p.periodsPerYear! <= 0 ||
+    !Number.isSafeInteger(p.daysPerPeriod) ||
+    p.daysPerPeriod! <= 0 ||
+    !Number.isSafeInteger(p.periodCostMinor) ||
+    p.periodCostMinor! < 0 ||
+    !Number.isSafeInteger(p.minimumAge) ||
+    p.minimumAge < 0 ||
+    !p.credential ||
+    p.provenance.kind !== "authored"
+  )
+    return false;
+  return true;
+}
 export function parseEducationTerms(
   text: string | null,
 ): AcceptedEducationTerms | undefined {
@@ -70,26 +112,11 @@ export function parseEducationTerms(
       )
     )
       return undefined;
-    for (const n of [
-      "sessionMinutes",
-      "sessionStartMinute",
-      "minimumGapDays",
-      "minimumElapsedDays",
-      "sessionCostMinor",
-      "requiredSessions",
-      "minimumAge",
-    ] as const)
-      if (!Number.isSafeInteger(p[n]) || p[n]! < 0) return undefined;
-    if (
-      p.sessionMinutes <= 0 ||
-      p.sessionMinutes > 1440 ||
-      p.sessionStartMinute >= 1440 ||
-      !p.requiredSessions ||
-      p.sessionPayMinor !== 0 ||
-      !p.credential ||
-      p.provenance.kind !== "authored"
-    )
-      return undefined;
+    if (studyUsesPeriodModel(p)) {
+      if (!validPeriodStudyPath(p)) return undefined;
+      return terms;
+    }
+    if (!validSessionStudyPath(p)) return undefined;
     return terms;
   } catch {
     return undefined;
