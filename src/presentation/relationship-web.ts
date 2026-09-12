@@ -107,12 +107,20 @@ function hashAngle(id: string): number {
 }
 
 function knownRole(world: World, personId: EntityId): string | null {
-  const position = [...world.history.publicPositions]
-    .reverse()
-    .find(
-      (record) => record.personId === personId && record.audience === "public",
-    );
-  return position?.statement ?? null;
+  /*
+   * Public positions are policy stances, not employment or office records.
+   * The current-work query already applies the canonical date and active-status
+   * rules; the directory has already limited this projection to people the
+   * player is allowed to know about.
+   */
+  const roles = [
+    ...new Set(
+      activeWorkRelationshipsAt(world, personId).map(
+        (entry) => entry.role.title,
+      ),
+    ),
+  ];
+  return roles.length > 0 ? roles.join("; ") : null;
 }
 
 function describeWorkOrg(
