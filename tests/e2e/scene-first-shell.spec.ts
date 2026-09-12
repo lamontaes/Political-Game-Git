@@ -70,8 +70,13 @@ test.describe("A life is played in the room, not on a card", () => {
     await expect(room).toBeVisible();
     const people = room.locator('[data-testid^="scene-person-"]');
     expect(await people.count()).toBeGreaterThan(0);
+    // A named, real relationship - not necessarily a parental one.
+    // `resolveGuardian` (src/simulation/person-context.ts) reports "your
+    // guardian" for a non-parental child authority, which is a legitimate,
+    // tested outcome (see tests/character-context.test.ts) an unseeded age-10
+    // start can land on just as often as a parent or sibling.
     expect(await room.innerText()).toMatch(
-      /your (mom|dad|parent|older|younger|brother|sister)/i,
+      /your (mom|dad|parent|older|younger|brother|sister|guardian)/i,
     );
     // And nothing populates a roster for the player any more.
     await expect(page.getByTestId("people-rail")).toHaveCount(0);
