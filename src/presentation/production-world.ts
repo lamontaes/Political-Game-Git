@@ -290,6 +290,17 @@ function establishAgeEligibleState(
   const householdId = householdIdFor(world.id, householdKey);
   const rng = new SeededRng(world.seed).fork("production-world-v1:household");
 
+  /*
+   * First names already spoken for around this player.
+   *
+   * Scenes at home address these people by name — "Tell {role:guardian}" about
+   * {role:household-peer} — so two of them answering to the same first name is
+   * not texture, it is a choice the player cannot read. Each draw is told what
+   * is taken and steps on within its own pool; nobody is renamed afterwards,
+   * and a name that cannot be avoided is kept rather than invented around.
+   */
+  const spokenFor: string[] = [player.givenName];
+
   const transitions: CharacterHistoryTransition[] = [
     {
       kind: "household",
@@ -351,7 +362,10 @@ function establishAgeEligibleState(
       const otherName = drawCanonicalNameForGender(
         rng,
         generatedIdentityFor(world.seed, otherKey).gender,
+        undefined,
+        spokenFor,
       );
+      spokenFor.push(otherName.givenName);
       transitions.push(
         {
           kind: "context-person",
@@ -394,7 +408,10 @@ function establishAgeEligibleState(
   const guardianName = drawCanonicalNameForGender(
     rng,
     generatedIdentityFor(world.seed, guardianKey).gender,
+    undefined,
+    spokenFor,
   );
+  spokenFor.push(guardianName.givenName);
   // Authored household configurations, not survey probabilities. This stream
   // cannot change existing names, ages, or the sibling draw.
   const familyShape = new SeededRng(familyStructureSeed)
@@ -499,7 +516,10 @@ function establishAgeEligibleState(
     const siblingName = drawCanonicalNameForGender(
       rng,
       generatedIdentityFor(world.seed, siblingKey).gender,
+      undefined,
+      spokenFor,
     );
+    spokenFor.push(siblingName.givenName);
     // Close enough in age to be a peer and never the same day, so "older" and
     // "younger" are always answerable from the record. Which side of the player
     // the candidates sit on is tilted by the care lean; the pick is still the
@@ -577,15 +597,19 @@ function establishAgeEligibleState(
     const otherKey = `${stableKey}:second-parent`;
     const otherId = characterHistoryContextPersonId(world, otherKey);
     const otherRng = new SeededRng(world.seed).fork(otherKey);
+    const secondParentName = drawCanonicalNameForGender(
+      otherRng,
+      generatedIdentityFor(world.seed, otherKey).gender,
+      undefined,
+      spokenFor,
+    );
+    spokenFor.push(secondParentName.givenName);
     transitions.push(
       {
         kind: "context-person",
         input: {
           stableKey: otherKey,
-          ...drawCanonicalNameForGender(
-            otherRng,
-            generatedIdentityFor(world.seed, otherKey).gender,
-          ),
+          ...secondParentName,
           identity: generatedIdentityFor(world.seed, otherKey),
           birthDate: yearsBefore(player.birthDate, otherRng.integer(24, 41)),
           homeJurisdictionId: jurisdictionId,
@@ -641,15 +665,19 @@ function establishAgeEligibleState(
   const otherParentId = characterHistoryContextPersonId(world, otherParentKey);
   if (otherParentState !== "unrecorded") {
     const otherRng = new SeededRng(world.seed).fork(otherParentKey);
+    const otherParentName = drawCanonicalNameForGender(
+      otherRng,
+      generatedIdentityFor(world.seed, otherParentKey).gender,
+      undefined,
+      spokenFor,
+    );
+    spokenFor.push(otherParentName.givenName);
     transitions.push(
       {
         kind: "context-person",
         input: {
           stableKey: otherParentKey,
-          ...drawCanonicalNameForGender(
-            otherRng,
-            generatedIdentityFor(world.seed, otherParentKey).gender,
-          ),
+          ...otherParentName,
           identity: generatedIdentityFor(world.seed, otherParentKey),
           birthDate: yearsBefore(player.birthDate, otherRng.integer(24, 41)),
           homeJurisdictionId: jurisdictionId,
@@ -715,7 +743,10 @@ function establishAgeEligibleState(
       const classmateName = drawCanonicalNameForGender(
         rng,
         generatedIdentityFor(world.seed, classmateKey).gender,
+        undefined,
+        spokenFor,
       );
+      spokenFor.push(classmateName.givenName);
       transitions.push(
         {
           kind: "context-person",
