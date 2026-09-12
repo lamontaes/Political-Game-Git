@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 2353 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5695 |
-| DIAGNOSTIC_OR_TEST | 4778 |
-| **NEEDS_CLASSIFICATION** | **6162** |
+| INVENTORIED | 2354 |
+| INTENTIONALLY_NON_PLAYER_FACING | 5701 |
+| DIAGNOSTIC_OR_TEST | 4839 |
+| **NEEDS_CLASSIFICATION** | **6169** |
 
-Scanned 577 files holding 72025 string
+Scanned 581 files holding 72273 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -61,10 +61,10 @@ literals in total; the table counts only those that read like a sentence.
 | 45 | `src/simulation/time-work.ts` |
 | 43 | `src/player/DocketWorkspace.tsx` |
 | 43 | `src/presentation/legislative-bargaining-brief.ts` |
+| 43 | `src/simulation/episode-bank.ts` |
 | 42 | `src/simulation/demo.ts` |
 | 40 | `src/simulation/decisions.ts` |
 | 40 | `src/ui/SceneGalleryView.tsx` |
-| 39 | `src/simulation/episode-bank.ts` |
 | 39 | `src/simulation/player-model.ts` |
 | 39 | `src/simulation/voice-bands.ts` |
 | 38 | `src/simulation/life-episodes.ts` |
@@ -245,6 +245,7 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/player/TitleScreen.tsx` |
 | 4 | `src/presentation/art-preview.ts` |
 | 4 | `src/presentation/executive-work.ts` |
+| 4 | `src/presentation/life-story.ts` |
 | 4 | `src/presentation/setup-questionnaire-flow.ts` |
 | 4 | `src/presentation/social-invitation.ts` |
 | 4 | `src/simulation/person-identity.ts` |
@@ -259,7 +260,6 @@ literals in total; the table counts only those that read like a sentence.
 | 3 | `src/presentation/economic-context.ts` |
 | 3 | `src/presentation/legislation-composition.ts` |
 | 3 | `src/presentation/life-introduction.ts` |
-| 3 | `src/presentation/life-story.ts` |
 | 3 | `src/presentation/production-office.ts` |
 | 3 | `src/presentation/venue-activity.ts` |
 | 3 | `src/simulation/candidacy.ts` |
@@ -276,6 +276,7 @@ literals in total; the table counts only those that read like a sentence.
 | 2 | `src/presentation/character-proof.ts` |
 | 2 | `src/presentation/legislation-docket-selection.ts` |
 | 2 | `src/presentation/people-directory.ts` |
+| 2 | `src/presentation/play-scene-context.ts` |
 | 2 | `src/presentation/scene-proof.ts` |
 | 2 | `src/presentation/surface-review.ts` |
 | 2 | `src/presentation/title-ambient.ts` |

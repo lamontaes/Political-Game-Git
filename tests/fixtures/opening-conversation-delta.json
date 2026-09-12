@@ -26,7 +26,7 @@
     {
       "path": ["household", "records", "relationship", 0, "summary"],
       "before": "Joy Villanueva said out loud to Evelyn Newman what neither of them had been saying about the week.",
-      "after": "Joy Villanueva said out loud to Donna Newman what neither of them had been saying about the week."
+      "after": "Joy Villanueva said out loud to Kelsey Newman what neither of them had been saying about the week."
     },
     {
       "path": ["household", "records", "relationship", 0, "id"],
@@ -51,7 +51,7 @@
     {
       "path": ["household", "records", "relationship", 1, "summary"],
       "before": "Joy Villanueva took the week off Evelyn Newman without being asked to.",
-      "after": "Joy Villanueva took the week off Donna Newman without being asked to."
+      "after": "Joy Villanueva took the week off Kelsey Newman without being asked to."
     },
     {
       "path": ["household", "records", "relationship", 1, "id"],
@@ -113,7 +113,7 @@
     {
       "path": ["household", "records", "landed", 0, "summary"],
       "before": "Joy Villanueva brought up the week's errands with Newman. Evelyn Newman said they had been avoiding it too.",
-      "after": "Joy Villanueva brought up the week's errands with Newman. Donna Newman said they had been avoiding it too."
+      "after": "Joy Villanueva brought up the week's errands with Newman. Kelsey Newman said they had been avoiding it too."
     },
     {
       "path": ["household", "records", "landed", 1, "id"],
@@ -138,7 +138,7 @@
     {
       "path": ["household", "records", "landed", 1, "summary"],
       "before": "Joy Villanueva offered to cover the week themselves. Evelyn Newman let them take it.",
-      "after": "Joy Villanueva offered to cover the week themselves. Donna Newman let them take it."
+      "after": "Joy Villanueva offered to cover the week themselves. Kelsey Newman let them take it."
     },
     {
       "path": ["household", "records", "turns", 0, "semantic", "turnKey"],
@@ -156,7 +156,7 @@
         "speakerName"
       ],
       "before": "Evelyn Newman",
-      "after": "Donna Newman"
+      "after": "Kelsey Newman"
     },
     {
       "path": ["household", "records", "turns", 1, "semantic", "turnKey"],
@@ -192,7 +192,7 @@
         "speakerName"
       ],
       "before": "Evelyn Newman",
-      "after": "Donna Newman"
+      "after": "Kelsey Newman"
     },
     {
       "path": ["householdCallback", "initialNextSequence"],
@@ -217,7 +217,7 @@
     {
       "path": ["householdCallback", "records", "relationship", 0, "summary"],
       "before": "Joy Villanueva said out loud to Evelyn Newman what neither of them had been saying about the week.",
-      "after": "Joy Villanueva said out loud to Donna Newman what neither of them had been saying about the week."
+      "after": "Joy Villanueva said out loud to Kelsey Newman what neither of them had been saying about the week."
     },
     {
       "path": ["householdCallback", "records", "relationship", 0, "id"],
@@ -242,7 +242,7 @@
     {
       "path": ["householdCallback", "records", "relationship", 1, "summary"],
       "before": "Joy Villanueva put the week onto Evelyn Newman, who took it and said it was not every week.",
-      "after": "Joy Villanueva put the week onto Donna Newman, who took it and said it was not every week."
+      "after": "Joy Villanueva put the week onto Kelsey Newman, who took it and said it was not every week."
     },
     {
       "path": ["householdCallback", "records", "relationship", 1, "id"],
@@ -337,7 +337,7 @@
     {
       "path": ["householdCallback", "records", "landed", 0, "summary"],
       "before": "Joy Villanueva brought up the week's errands with Newman. Evelyn Newman said they had been avoiding it too.",
-      "after": "Joy Villanueva brought up the week's errands with Newman. Donna Newman said they had been avoiding it too."
+      "after": "Joy Villanueva brought up the week's errands with Newman. Kelsey Newman said they had been avoiding it too."
     },
     {
       "path": ["householdCallback", "records", "landed", 1, "id"],
@@ -362,7 +362,7 @@
     {
       "path": ["householdCallback", "records", "landed", 1, "summary"],
       "before": "Joy Villanueva asked Newman to take the week this time. Evelyn Newman took it on.",
-      "after": "Joy Villanueva asked Newman to take the week this time. Donna Newman took it on."
+      "after": "Joy Villanueva asked Newman to take the week this time. Kelsey Newman took it on."
     },
     {
       "path": [
@@ -387,7 +387,7 @@
         "speakerName"
       ],
       "before": "Evelyn Newman",
-      "after": "Donna Newman"
+      "after": "Kelsey Newman"
     },
     {
       "path": [
@@ -437,7 +437,7 @@
         "speakerName"
       ],
       "before": "Evelyn Newman",
-      "after": "Donna Newman"
+      "after": "Kelsey Newman"
     }
   ]
 }
