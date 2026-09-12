@@ -1,5 +1,9 @@
 # NEXT24 D — Combined Personal routine route
 
+POST-HANDOFF26 status: implementation and bounded publication complete; A owns
+the current-main landing and final acceptance. Historical receipts below retain
+their original sources and then-current publication boundary.
+
 Recovered source: `1d44f37e69762fae5efeee3cf0eae73d5b07e1e4`, clean on
 `codex/morning23-d`; live main remains `cc83c628`. Publication was requested but
 auto-review refused the source-history upload; do not bypass that refusal.
@@ -75,3 +79,58 @@ new records require an explicit inspected identity/reference delta, with unchang
 wording and topology, before immutable conversation controls are compared.
 Native disclosure drivers target the direct summary and the card's actual
 accessible action name, rather than forcing clicks or guessing its markup.
+
+## Authorized publication and current-main combined proof
+
+Read CURRENT CONTINUATION, SHARED CONTRACT and SECTION D in full at revision
+`ANLCKQkI_o5nSohei-L_YC8ZzTEueRyg7YouS78jMvf43nSIwK0KIMqpA9zI9LHL5Xf6gG_D0wPI9BVcrhEOCBoNG0Fd-uwjtA9T2rY7OOk`.
+Preflight confirmed the recovered continuation clean at `c5e3b548`; fetched main
+was `215b3e90`. The authorized remote branch was absent. Published that exact
+successor first to `codex/morning23-d` and opened PR #221; readback confirmed its
+head. The original `codex/morning23-d` worktree remains read-only at `1d44f37e`.
+The remote name is the owner's explicitly authorized destination; the newest
+local source remains isolated on `codex/next24-d`.
+
+Continued after publication with outcome-readability successor
+`6a3a4d98d848de99749e39ab747d45f07f68d21c`: exact minutes plus human-readable
+elapsed duration, and separate recorded outcome lines. A read-only test proves
+formatting leaves the serialized World unchanged. No simulation file changed.
+
+Latest checks actually run: 32 tests in five routine/venue/Places/study/work
+files passed with two workers and a 30-second default allowance; 42 live
+prose-inventory tests passed; D typecheck, lint and release check passed;
+art validation, inventory and QA passed. Generated prose reports zero hard
+errors and 276 existing warnings; duplicate art hashes remain disclosed.
+The earlier 4,516-test suite and source/build/demo gates remain valid historical
+evidence for the unchanged simulation, not claims of rerunning everything here.
+
+Created isolated current-main proof; retained every newer venue and opening
+binding while adding only the journey binding. Generated corpus was rebuilt
+from actual combined source (2,607 templates, zero hard errors, 265 warnings).
+Root typecheck passed at `a48b9e3c`. Its first two browser cases failed because
+the proof guard excluded `section: "identity"`, the real navigation route.
+Corrected only that predicate, preserving current props and finances, then froze
+`33d7f28bdce5201b78a92b650f159b51e8a25680`. Actual pointer/keyboard browser run
+`730f5170-df9f-4565-bedb-0130593c7e0c` passed both supported desktop sizes.
+
+The saved synthetic World assertions show a full 09:00–13:00 window during
+Attend's wait, a 20-minute included journey, arrival before attendance ends at
+19:45, pending pay then one USD 72 transfer after Keep/reload, unique subsequent
+pay periods, interrupted study retained after reopen, period tuition and one
+earned credential. Unfunded tuition, protected conflicts, cancellation, legacy
+migration and boundary reload remain covered by the focused domain tests.
+Screenshots reviewed at both sizes show separate exact elapsed/work/money/study
+outcomes. Serving source stays immutable at http://127.0.0.1:5220/; ports 5188,
+5218, all paused worktrees, existing lives and original pose edits are preserved.
+
+One net handoff to A is `docs/integration/next24-d-to-a.md`: identity-only root
+mount, preserve current props, additive venue reconciliation and sanctioned
+corpus regeneration. PR #221's root-dependent browser tests must not be skipped
+to manufacture D-only green. A owns the combined landing; no main merge occurs
+in this task. Human acceptance remains pending, with dense expanded institution
+browsing retained as a small visible limitation rather than a route blocker.
+
+LEARN: bind a mount to the canonical navigation discriminator actually written
+by the current menu, not an assumed absent optional field. The corrected real
+browser route and minimal mount contract encode this, rather than a larger
+prompt or a second navigation/scheduler abstraction.
