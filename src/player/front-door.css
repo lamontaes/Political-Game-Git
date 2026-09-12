@@ -194,7 +194,7 @@
 }
 
 .title-tableau--art.front-door .game-creator button {
-  background: rgb(8 13 21 / 0.7);
+  background: rgb(8 13 21 / 0.78);
 }
 
 .title-tableau--art.front-door .game-creator button small {
@@ -221,12 +221,7 @@
   margin: 0.15rem 0 0.65rem;
   padding: 0.15rem 0.55rem 0.25rem 0.15rem;
   color: var(--front-door-ink);
-  background: linear-gradient(
-    90deg,
-    rgb(8 13 21 / 0.55) 0%,
-    rgb(8 13 21 / 0.12) 78%,
-    transparent 100%
-  );
+  background: rgb(8 13 21 / 0.62);
   font-family: var(--front-door-display);
   font-size: 1.28rem;
   font-weight: 600;
@@ -249,6 +244,25 @@
   grid-template-columns: 1fr;
 }
 
+.title-tableau--art.front-door .game-creator .game-choices.game-choices-inline {
+  display: flex;
+  flex-wrap: wrap;
+  grid-template-columns: none;
+}
+
+.title-tableau--art.front-door
+  .game-creator
+  .game-choices.game-choices-inline
+  button {
+  width: auto;
+}
+
+.title-tableau--art.front-door .game-creator .game-fields {
+  grid-template-columns: 1fr;
+}
+
+.title-tableau--art.front-door .game-creator legend,
+.title-tableau--art.front-door .game-creator .game-search,
 .title-tableau--art.front-door .game-creator .game-fields label,
 .title-tableau--art.front-door .game-creator .game-disclosure > summary {
   color: var(--front-door-ink-dim);
