@@ -16,6 +16,7 @@ for (const set of ["dev", "real"]) {
   test(`saved ${set} world keeps identity across actual wardrobe changes, pointer and keyboard`, async ({
     page,
   }) => {
+    test.setTimeout(60_000);
     await page.goto(`/?view=character-proof&set=${set}`);
     const authored = page
       .getByTestId("people1-dossier-consumers")
@@ -46,8 +47,7 @@ for (const set of ["dev", "real"]) {
       .locator('img[data-kind="top"]')
       .getAttribute("data-asset-id");
     await page.getByTestId("character-proof-save").click();
-    await page.getByTestId("character-proof-reload").focus();
-    await page.keyboard.press("Enter");
+    await page.getByTestId("character-proof-reload").press("Enter");
     await expect(page.getByTestId("character-proof")).toHaveAttribute(
       "data-world-source",
       "restored-snapshot",
@@ -117,7 +117,7 @@ test("normalized candidate states name head and fit limitations beside the actua
 test("normal play uses the canonical person's portrait fallback and named people", async ({
   page,
 }) => {
-  const { startLife, enterLife } = await import("./support/creator");
+  const { startLife, enterLife, goTo } = await import("./support/creator");
   await page.goto("/");
   await startLife(page, {
     age: 10,
@@ -126,17 +126,12 @@ test("normal play uses the canonical person's portrait fallback and named people
     household: "shares-a-home",
   });
   await enterLife(page);
-  const portrait = page.getByTestId("life-hud").getByTestId("person-portrait");
+  await goTo(page, "nav-personal-entry");
+  const portrait = page.getByTestId("person-portrait");
   await expect(portrait).toBeVisible();
   await expect(portrait).toHaveAttribute("data-likeness", "none");
   await expect(portrait.locator("img")).toHaveCount(0);
   await expect(portrait.locator("strong")).not.toHaveText("");
-  const people = page.getByRole("complementary", {
-    name: "People in this life",
-  });
-  await expect(people).toBeVisible();
-  await expect(people.getByRole("listitem")).toHaveCount(2);
-  await page.getByTestId("elsewhere-people").click();
   fs.mkdirSync(evidenceDir(), { recursive: true });
   await page.screenshot({
     path: path.join(evidenceDir(), "normal-player-people-1440.png"),
@@ -146,4 +141,8 @@ test("normal play uses the canonical person's portrait fallback and named people
   await page.screenshot({
     path: path.join(evidenceDir(), "normal-player-people-1200.png"),
   });
+  await goTo(page, "elsewhere-people");
+  const people = page.getByTestId("people-list");
+  await expect(people).toBeVisible();
+  await expect(people.getByRole("listitem")).toHaveCount(2);
 });

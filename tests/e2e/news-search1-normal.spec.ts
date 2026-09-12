@@ -1,3 +1,4 @@
+import type { Page } from "@playwright/test";
 import { expect, test } from "./fixtures";
 import { enterLife, goTo, saveLife, startLife } from "./support/creator";
 import {
@@ -5,7 +6,6 @@ import {
   reachMemberOffice,
   readSavedLegislativeWorld as savedWorld,
 } from "./support/legislative-entry";
-import type { Page } from "@playwright/test";
 
 async function publishFirstBill(page: Page) {
   await reachMemberOffice(page);
@@ -13,6 +13,40 @@ async function publishFirstBill(page: Page) {
   await page.locator('[data-testid^="drafting-option-"]').first().click();
   await page.getByTestId("file-the-draft").press("Enter");
   await expect(page.getByTestId("docket-bill")).toBeVisible();
+}
+
+/**
+ * A token that actually distinguishes one on-screen article from the others.
+ *
+ * Taking the first four-letter word of a headline is not a search: two
+ * introductions commonly share "bill", "House", or the jurisdiction name, and
+ * the filter is a literal substring over the displayed fields. The proof is
+ * that typing something unique to one story hides the other, not that the
+ * expected count is two.
+ */
+async function distinctiveArticleToken(
+  page: Page,
+  index: number,
+): Promise<string> {
+  const articles = page.locator(".public-information-article");
+  const texts = await articles.evaluateAll((nodes) =>
+    nodes.map((node) => (node.textContent ?? "").toLowerCase()),
+  );
+  const headline = (await articles.nth(index).locator("h3").innerText()).trim();
+  const candidates = headline
+    .split(/\s+/)
+    .map((part) => part.replace(/[^\p{L}\p{N}-]+/gu, ""))
+    .filter((part) => part.length > 3);
+  const token = candidates.find((part) => {
+    const needle = part.toLowerCase();
+    return texts.filter((text) => text.includes(needle)).length === 1;
+  });
+  if (!token) {
+    throw new Error(
+      `No headline token uniquely matches article ${index}. Headlines and bodies: ${JSON.stringify(texts)}`,
+    );
+  }
+  return token;
 }
 
 test("normal legislative publication supports search, clear, help, person, Back, and save/reload without mutating World", async ({
@@ -45,9 +79,8 @@ test("normal legislative publication supports search, clear, help, person, Back,
     `.public-information-article[data-source-event-id="${introduction!.eventId}"]`,
   );
   await expect(article).toBeVisible();
-  const headline = await article.locator("h3").innerText();
   const search = page.getByTestId("public-information-search-input");
-  const queryToken = headline.split(/\s+/).find((part) => part.length > 3)!;
+  const queryToken = await distinctiveArticleToken(page, 0);
 
   await search.fill(queryToken);
   await expect(page.locator(".public-information-article")).toHaveCount(1);
@@ -139,8 +172,7 @@ test("normal News search stays usable on a narrow viewport after a second public
   const articles = page.locator(".public-information-article");
   await expect(articles).toHaveCount(2);
   const search = page.getByTestId("public-information-search-input");
-  const firstHeadline = await articles.first().locator("h3").innerText();
-  const token = firstHeadline.split(/\s+/).find((part) => part.length > 3)!;
+  const token = await distinctiveArticleToken(page, 0);
   await search.tap();
   await search.fill(token);
   await expect(articles).toHaveCount(1);

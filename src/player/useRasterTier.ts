@@ -29,6 +29,20 @@ export interface RasterTierPaint {
   readonly swapPending: boolean;
 }
 
+/**
+ * A room with no raster must not keep the last decoded plate.
+ *
+ * Holding paint across a resize is correct: the previous tier stays up until
+ * the next one decodes. Holding paint after the caller has switched to a scene
+ * with no ladder would show the previous room's picture as if it belonged here.
+ */
+export function rasterPaintIsAvailable(
+  ladder: RasterTierLadder | null,
+  tierUrls: ReadonlyMap<number, string> | null,
+): boolean {
+  return ladder !== null && tierUrls !== null;
+}
+
 export function useRasterTier(
   ladder: RasterTierLadder | null,
   tierUrls: ReadonlyMap<number, string> | null,
@@ -36,8 +50,14 @@ export function useRasterTier(
   devicePixelRatio: number,
   viewport: { readonly width: number; readonly height: number },
 ): RasterTierPaint {
+  const rasterAvailable = rasterPaintIsAvailable(ladder, tierUrls);
   const desired = useMemo(() => {
-    if (!ladder || paintedPlateCssWidth <= 0 || devicePixelRatio <= 0) {
+    if (
+      !rasterAvailable ||
+      !ladder ||
+      paintedPlateCssWidth <= 0 ||
+      devicePixelRatio <= 0
+    ) {
       return null;
     }
     return selectRasterTier(ladder, {
@@ -45,7 +65,13 @@ export function useRasterTier(
       devicePixelRatio,
       viewport,
     });
-  }, [ladder, paintedPlateCssWidth, devicePixelRatio, viewport]);
+  }, [
+    ladder,
+    paintedPlateCssWidth,
+    devicePixelRatio,
+    rasterAvailable,
+    viewport,
+  ]);
 
   const initialWidth = desired?.tier.width ?? ladder?.tiers[0]?.width ?? 0;
   const hysteresis = useRef(createTierHysteresisState(initialWidth));
@@ -54,7 +80,16 @@ export function useRasterTier(
     readonly width: number;
     readonly url: string;
   } | null>(null);
-  const requestedUrl = tierUrls?.get(committedWidth) ?? null;
+  const requestedUrl = rasterAvailable
+    ? (tierUrls?.get(committedWidth) ?? null)
+    : null;
+
+  useEffect(() => {
+    if (rasterAvailable) return;
+    hysteresis.current = createTierHysteresisState(0);
+    setCommittedWidth(0);
+    setPaint(null);
+  }, [rasterAvailable]);
 
   useEffect(() => {
     if (!desired) return;
@@ -102,9 +137,10 @@ export function useRasterTier(
 
   return {
     selection: desired,
-    paintedUrl: paint?.url ?? null,
-    paintedWidth: paint?.width ?? null,
+    paintedUrl: rasterAvailable ? (paint?.url ?? null) : null,
+    paintedWidth: rasterAvailable ? (paint?.width ?? null) : null,
     swapPending:
+      rasterAvailable &&
       committedWidth > 0 &&
       (paint?.url !== requestedUrl || paint?.width !== committedWidth),
   };

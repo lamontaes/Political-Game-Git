@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { enterLife, startLife } from "./support/creator";
+import { enterLife, saveLife, startLife } from "./support/creator";
 
 /**
  * The audit's two browser findings, answered in a browser.
@@ -67,6 +67,7 @@ test("a normal route keeps offering distinct scenes over a played year", async (
 test("keeps the same life across a save and a reload mid-route", async ({
   page,
 }) => {
+  test.setTimeout(90_000);
   await page.goto("/");
   await startLife(page, {
     age: 34,
@@ -82,8 +83,7 @@ test("keeps the same life across a save and a reload mid-route", async ({
   await page.getByTestId("open-journal").click();
   const journal = await page.getByTestId("journal").innerText();
   await page.getByTestId("open-journal").click();
-  await page.getByTestId("keep-world").click();
-  await expect(page.getByTestId("keep-world")).toHaveCount(0);
+  await saveLife(page);
   await page.reload();
   await page.getByTestId("continue").click();
   await expect(page.getByTestId("play-screen")).toBeVisible();

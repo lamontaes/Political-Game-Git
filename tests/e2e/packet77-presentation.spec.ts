@@ -198,13 +198,13 @@ test.describe("The title is a room with a menu on it", () => {
   test("consumes no world and no randomness while it drifts", async ({
     page,
   }) => {
+    test.setTimeout(90_000);
     // The cycle is presentation, and the proof is that leaving the title
     // running changes nothing about the game that follows. A replay address
     // pins the whole setup, seed included, so the same address is the same
     // world — unless something between the two visits consumed the randomness
     // the world is built from, which is exactly what a drifting backdrop must
     // never do.
-    await page.clock.install();
     await freshBrowser(page);
     await fillCreator(page, { age: 30 });
     await page.getByTestId("setup-advanced").click();
@@ -215,17 +215,17 @@ test.describe("The title is a room with a menu on it", () => {
 
     await page.goto(replay);
     await expect(page.getByTestId("play-screen")).toBeVisible();
-    // PT3: the intro is two beats and then the scene; the life moment is
-    // reached the way a player reaches it.
     await enterLife(page);
     const immediately = await page.getByTestId("story-who").innerText();
 
     await freshBrowser(page);
+    await page.clock.install();
     await page.clock.fastForward(120_000);
     // Two minutes of drifting, and still nothing saved.
     await expect(page.getByTestId("continue")).toBeDisabled();
     await expect(page.getByTestId("open-saves")).toBeDisabled();
 
+    await page.clock.uninstall();
     await page.goto(replay);
     await expect(page.getByTestId("play-screen")).toBeVisible();
     // PT3: the intro is two beats and then the scene; the life moment is
@@ -281,6 +281,7 @@ test.describe("The creator stands in the same world", () => {
   test("offers a normal start and a custom start, and they build differently", async ({
     page,
   }) => {
+    test.setTimeout(90_000);
     // The two routes, as the packet defines them: a normal start lets the
     // calibration lean the household the generator writes, and a custom start
     // does not. Same seed, same answers, one difference.

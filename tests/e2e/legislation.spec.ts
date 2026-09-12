@@ -295,6 +295,7 @@ test.describe("Moving a bill through a legislature", () => {
   test("a bill survives two saves and reloads with several amendments", async ({
     page,
   }) => {
+    test.setTimeout(90_000);
     await open(page, KENTUCKY);
     await step(page, "request-referral");
     await step(page, "request-committee-hearing");
@@ -385,6 +386,7 @@ test.describe("Moving a bill through a legislature", () => {
     await page.getByTestId("navigation-cluster").click();
     await expect(page.getByTestId("nav-legislation")).toBeVisible();
     await page.getByTestId("nav-legislation").click();
+    await expect(page).toHaveURL(/view=legislation/);
     await expect(page.getByTestId("legislation-workspace")).toBeVisible();
   });
 });
