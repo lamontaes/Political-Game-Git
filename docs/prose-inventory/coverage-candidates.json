@@ -35385,7 +35385,7 @@
     {
       "sourcePath": "src/simulation/life-places.ts",
       "enclosingSymbol": "OUTSTANDING_DEPENDENCY",
-      "line": 611,
+      "line": 617,
       "text": "The national place identity is accepted (2025 Census Gazetteer, via PR #77), so a life can start in any place. What remains sourced for only a few states is the legislative rule pack; everywhere else plays as an ordinary life until a pack is accepted.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -35393,7 +35393,7 @@
     {
       "sourcePath": "src/simulation/life-places.ts",
       "enclosingSymbol": "PLAYER_NOTE",
-      "line": 614,
+      "line": 620,
       "text": "Search for a town, city, county or county equivalent. Choosing a county leaves your town unspecified.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -35401,7 +35401,7 @@
     {
       "sourcePath": "src/simulation/life-places.ts",
       "enclosingSymbol": "stateJurisdictionForKey",
-      "line": 702,
+      "line": 708,
       "text": "United States",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
