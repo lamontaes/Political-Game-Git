@@ -1,3 +1,4 @@
+import { migrateUnpinnedAppearanceCatalog } from "../simulation/person-appearance";
 import { DatabaseSync } from "node:sqlite";
 
 import {
@@ -68,7 +69,9 @@ export class SqliteWorldRepository {
     const row = this.#database
       .prepare("SELECT payload FROM world_snapshots WHERE world_id = ?")
       .get(worldId) as { readonly payload: string } | undefined;
-    return row ? deserializeWorld(row.payload) : null;
+    return row
+      ? migrateUnpinnedAppearanceCatalog(deserializeWorld(row.payload))
+      : null;
   }
 
   list(): readonly StoredWorldSummary[] {

@@ -322,3 +322,21 @@ completion, fit evidence, native-resolution limits and missing faces separately.
 For recovered derivative limitations and the distinction between raw landmark
 residuals and the accepted ease-preserving fit metric, see the
 [PEOPLE1-R1 transfer plan](../plans/active/people1-r1-transfer.md).
+
+### Saved candidate catalog continuity (MORNING23 B)
+
+Visual4 review generations 1 and 2 are frozen from donor #206 in
+`art/manifest/character_candidate_visual4_generations.json`. Review lifting
+checks both membership and definition signatures; new entries enter the next
+generation. Publish its ledger before adding another generation. Do not edit a
+published part in place: author an additive identity instead.
+
+Unpinned recipe-v2 appearances retain generation 2, the last unpinned catalog;
+explicit selections without a pin retain their historical generation 1.
+Browser and SQLite loads migrate that lineage onto each person after validating
+the original snapshot. Loading preserves stored bytes; the next normal save
+persists the migrated World. Browser durability continues to describe the old
+stored content until that write succeeds. V1 and missing appearances are
+unchanged. New production-world creation pins v2 at creation; callers may pass
+an explicit newer generation. Render snapshots remain ephemeral and do not own
+migration. This is nondiegetic metadata, never a new history event.

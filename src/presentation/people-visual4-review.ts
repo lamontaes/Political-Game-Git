@@ -3,7 +3,7 @@ import registry from "../../art/manifest/character_candidate_visual4_registry.js
 import hairRegistry from "../../art/manifest/character_candidate_visual4_hair_registry.json";
 import fitData from "../../art/manifest/character_candidate_visual4_fit.json";
 import catalog from "../../art/manifest/character_catalog.json";
-import generation1 from "../../art/manifest/character_candidate_visual4_generation1.json";
+import generations from "../../art/manifest/character_candidate_visual4_generations.json";
 import {
   createCharacterComponentLibrary,
   liftCandidatesForReview,
@@ -121,7 +121,7 @@ const eligible = PEOPLE_VISUAL4_RECORDS.filter(
 const lifted = liftCandidatesForReview(
   eligible,
   (catalog as CharacterCatalogData).slots,
-  { frozenGeneration1Ids: generation1.component_ids },
+  { frozenGenerations: generations.generations },
 );
 /**
  * Measured skin tone, so appearance recipe v2 can keep a face and its body in
