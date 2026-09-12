@@ -333,7 +333,7 @@ test.describe("Setting up a life reads like a game, not a form", () => {
     await page
       .getByTestId("place-choices")
       .getByRole("button", { name: /^Richmond, Virginia$/i })
-      .press("Enter");
+      .click();
     await expect(page.getByTestId("place-canonical")).toHaveText(
       /^Richmond, Virginia$/,
     );
