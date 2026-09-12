@@ -192,6 +192,63 @@
         "This family is never substituted for a legislative chamber, hearing room or committee room."
       ],
       "supporting_source_references": ["prov_env_courtroom_empty_5504x3072_v1"]
+    },
+    {
+      "family_id": "campaign-storefront",
+      "room_use_category": "campaign field office or phone bank storefront",
+      "typical_proportion_rules": "Scene plate supplies only visual-estimate proportions; no physical dimensions are claimed.",
+      "seating_dais_logic": "Folding work tables with folding or task chairs; no dais.",
+      "public_member_separation": "Open storefront layout; no formal barrier or member separation.",
+      "circulation_assumptions": "Clear central floor area around work tables and open approach to phone stations.",
+      "camera_framing_guidance": "Wide eye-level perspective of storefront interior with foreground tables available for occlusion.",
+      "ceiling_height_category": "unknown",
+      "density_category": "ordinary-campaign-office",
+      "ornament_category": "restrained-civic",
+      "reusable_prop_slots": [
+        "corkboard-posters",
+        "whiteboard-notes",
+        "table-pamphlets",
+        "window-banner"
+      ],
+      "event_layer_slots": [
+        "phone-bank-standing",
+        "organizer-standing",
+        "volunteer-desk-chair"
+      ],
+      "negative_constraints": [
+        "No physical measurement precision is authorized by the raster plate.",
+        "No candidate name, slogan, logo or jurisdiction is baked into the plate; dynamic surfaces carry campaign content.",
+        "Geometry is visual-estimate evidence read off the plate."
+      ],
+      "supporting_source_references": [
+        "prov_env_campaign_storefront_5504x3072_v1"
+      ]
+    },
+    {
+      "family_id": "park-community-pavilion",
+      "room_use_category": "covered outdoor park or community pavilion with picnic tables",
+      "typical_proportion_rules": "Scene plate supplies only visual-estimate proportions; no physical dimensions are claimed.",
+      "seating_dais_logic": "Picnic tables on a concrete pad under an open-sided shelter; no dais.",
+      "public_member_separation": "Outdoor open park setting; no barrier or member separation.",
+      "circulation_assumptions": "Open perimeter around pavilion slab and clear path between picnic benches.",
+      "camera_framing_guidance": "Wide eye-level perspective of open-air pavilion structure.",
+      "ceiling_height_category": "unknown",
+      "density_category": "outdoor-community-park",
+      "ornament_category": "restrained-civic",
+      "reusable_prop_slots": ["pavilion-banner", "picnic-table-flyer"],
+      "event_layer_slots": [
+        "pavilion-pad-standing",
+        "pavilion-perimeter-standing",
+        "picnic-bench-seated"
+      ],
+      "negative_constraints": [
+        "No physical measurement precision is authorized by the raster plate.",
+        "Depicts an outdoor setting; not an interior room.",
+        "Baked picnic tables remain visual estimates and decor."
+      ],
+      "supporting_source_references": [
+        "prov_env_park_community_pavilion_candidate_5504x3072_v1"
+      ]
     }
   ]
 }

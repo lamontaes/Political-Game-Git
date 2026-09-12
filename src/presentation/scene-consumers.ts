@@ -8,6 +8,8 @@ import {
   OFFICE_FIXTURE_SCENE_ID,
   PRODUCTION_OFFICE_SCENE_ID,
   PUBLIC_MEETING_ROOM_SCENE_ID,
+  CAMPAIGN_STOREFRONT_SCENE_ID,
+  PARK_COMMUNITY_PAVILION_SCENE_ID,
   SCENE_REGISTRY,
   TITLE_TABLEAU_SCENE_ID,
   type SceneRegistry,
@@ -266,14 +268,27 @@ export const SCENE_CONSUMERS: readonly SceneConsumerDeclaration[] = [
   {
     consumerId: "campaign-field-office",
     label: "A campaign office",
+    runtimeComponent: "src/player/PlayerGame.tsx",
+    canonicalGate:
+      "A completed activity with participant evidence at canonical location `campaign-office` or `campaign-call-desk`.",
+    sceneId: CAMPAIGN_STOREFRONT_SCENE_ID,
+    wiredThrough: "src/presentation/scene-venues.ts",
+    openRequestIds: [],
+    blockedSeam: null,
+    note: "The campaign storefront field office is authored as production art and registered as `campaign-storefront-production`. Canonical activities `campaign-office` and `campaign-call-desk` resolve to this room via `scene-venues.ts` and compose through `resolveLifeScene` into <SceneBackdrop>.",
+  },
+  {
+    consumerId: "park-community-pavilion",
+    label: "A community park pavilion shelter",
     runtimeComponent: "none",
-    canonicalGate: "No campaign surface exists in the player runtime yet.",
-    sceneId: null,
+    canonicalGate:
+      "Candidate preview surface. Normal-play reachability is isolated pending human visual acceptance.",
+    sceneId: PARK_COMMUNITY_PAVILION_SCENE_ID,
     wiredThrough: null,
-    openRequestIds: ["env-campaign-storefront"],
+    openRequestIds: [],
     blockedSeam:
-      "A campaign surface in the player runtime. The campaign ACTIVITIES exist and are located — `campaign-office`, `campaign-call-desk`, `campaign-doors` are canonical location keys — so the venue table already has three campaign entries waiting on a room.",
-    note: "The room half is nearer than this entry used to say. Two 5504x3072 field-office candidates, IMG_5190 and IMG_5207, sit unaccepted in the drive sweep and answer this request; what is missing is owner acceptance, not a picture. `campaign-doors` is a separate and harder gap: canvassing is outdoors, and every registered scene in this game is an interior.",
+      "Human visual acceptance and an exterior location activity producer in normal play.",
+    note: "CANDIDATE ART. Preserves AX-92B1 intake invariants. The scene is authored and registered under candidate isolation, deliberately unreached by canonical venue keys.",
   },
 ];
 

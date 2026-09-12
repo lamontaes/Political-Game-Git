@@ -2052,6 +2052,40 @@
       "edits_performed": "Sheet preserved byte-for-byte. Cells were separated by projecting the sheet's own alpha onto each axis after clearing background haze at alpha<=8; no pixel of any retained cell was redrawn, recoloured or resampled.",
       "output_hash_version": "sha256",
       "approval_status": "approved"
+    },
+    {
+      "provenance_id": "prov_env_campaign_storefront_5504x3072_v1",
+      "asset_id": "env_campaign_storefront_5504x3072_v1",
+      "source_url_or_path": "art/references/candidates/recent-drive-sweep/source-images/IMG_5205.JPG",
+      "document_photo_plan_title": "Drive file id 1omryvYo8QYASr96guWI7XeQkJ6hdTKCu · IMG_5205.JPG · master sha256 c2829c934d7f3aa78dd8a2ed07be75c23189dd7dc6a614176403691edc43439c · 3068039 bytes · 5504x3072 JPEG",
+      "access_retrieval_date": "2026-09-12",
+      "rights_license_status": "unknown",
+      "reference_type": "ai-generated",
+      "source_authority_category": "visual-estimate-support",
+      "generator_tool": "not-recorded",
+      "generated_model_version": "not-recorded",
+      "prompt_spec_manifest_id": "MORNING23 Section G campaign storefront phone bank and field office",
+      "generation_edit_date": "2026-09-12",
+      "edits_performed": "Master preserved byte-for-byte at art/references/candidates/recent-drive-sweep/source-images/IMG_5205.JPG. Derived two runtime tiers via deterministic Lanczos-3 downscale: 1376x768 sha256 35a37c8a6526a86eb569be61383558c1b90369abb9c185d21a7d5765d52edfc0 and 2752x1536 sha256 8ed3362367898887a638b78caf95e55600f98dcaf9aa154d197a0035fc467663. Nothing was enlarged and master is unmodified.",
+      "output_hash_version": "sha256",
+      "approval_status": "approved"
+    },
+    {
+      "provenance_id": "prov_env_park_community_pavilion_candidate_5504x3072_v1",
+      "asset_id": "env_park_community_pavilion_candidate_5504x3072_v1",
+      "source_url_or_path": "art/references/candidates/recent-drive-sweep/source-images/IMG_5204.JPG",
+      "document_photo_plan_title": "Drive file id 1SVG_lRUgoMJTmyreTsmhLJB6roJitFr1 · IMG_5204.JPG · master sha256 935ce236f421786061677da8f017fc775fab50e47693d7f611c916920f22f59f · 3464125 bytes · 5504x3072 JPEG",
+      "access_retrieval_date": "2026-09-12",
+      "rights_license_status": "unknown",
+      "reference_type": "ai-generated",
+      "source_authority_category": "visual-estimate-support",
+      "generator_tool": "not-recorded",
+      "generated_model_version": "not-recorded",
+      "prompt_spec_manifest_id": "MORNING23 Section G park community pavilion candidate",
+      "generation_edit_date": "2026-09-12",
+      "edits_performed": "Master preserved byte-for-byte at art/references/candidates/recent-drive-sweep/source-images/IMG_5204.JPG. Derived two runtime tiers via deterministic Lanczos-3 downscale: 1376x768 sha256 d785b09e41f02a41b625a2fccda9f840dadc5f56cf3fd3f388350aeec6f4f813 and 2752x1536 sha256 228fd1dcf898c13277c0efc301f3347d0baab8a5d49076a6cb0a769aac242dbc. Nothing was enlarged and master is unmodified.",
+      "output_hash_version": "sha256",
+      "approval_status": "approved"
     }
   ]
 }

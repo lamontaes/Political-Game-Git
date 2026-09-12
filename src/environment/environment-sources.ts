@@ -144,6 +144,17 @@ export const ENVIRONMENT_SOURCES: readonly EnvironmentSourceRecord[] = [
     note: "One released plate serves title and completed public-meeting context. UI #144 normal Day pointer/keyboard and Save/Continue proof is recorded at 517dfa3 and retained in the later combined UI. This donor alone does not own the root. MUNI's additional callback is separately being verified; baked audience figures remain anonymous decor.",
   },
   {
+    sourceId: "env_campaign_storefront_5504x3072_v1",
+    label: "A campaign storefront field office",
+    path: "art/families/campaign-storefront/env_campaign_storefront_v1.png",
+    disposition: "in-ordinary-play",
+    sceneId: "campaign-storefront-production",
+    remainingStep: null,
+    owedBy: null,
+    openRequestIds: [],
+    note: "PRODUCTION ART. Derived as two deterministic Lanczos-3 downscales from the swept 5504x3072 master IMG_5205.JPG. Reached in ordinary play when performing canonical campaign activities (campaign-office, campaign-call-desk) mapped in scene-venues.ts.",
+  },
+  {
     sourceId: "env_shared_workroom_office_v1",
     label: "A shared staff workroom",
     path: "art/families/shared-workroom-office/env_shared_workroom_office_v1.png",
@@ -205,6 +216,18 @@ export const ENVIRONMENT_SOURCES: readonly EnvironmentSourceRecord[] = [
     owedBy: "a judicial gameplay owner",
     openRequestIds: [],
     note: "APPROVED ART, FULLY CARRIED, HELD AT THE GATE. This lane derived its two runtime tiers as deterministic downscales, authored its anchors, occluders and slots against the plate, and registered it. It stays UNRELEASED. Its recovered geometry is visual-estimate evidence, without a calibrated floor, measured body width or alpha furniture mask; human visual acceptance is pending. The departure from its earlier 'no tier until a consumer exists' constraint is recorded in the manifest entry rather than quietly taken.",
+  },
+  {
+    sourceId: "env_park_community_pavilion_candidate_5504x3072_v1",
+    label: "A park community pavilion shelter (candidate)",
+    path: "art/families/park-community-pavilion/env_park_community_pavilion_v1.png",
+    disposition: "carried-not-released",
+    sceneId: "park-community-pavilion-candidate",
+    remainingStep:
+      "Owner acceptance and human visual review, plus an exterior location activity producer in normal play.",
+    owedBy: "the owner, and then a gameplay owner",
+    openRequestIds: [],
+    note: "CANDIDATE ART, FULLY CARRIED, HELD AT THE GATE. Derived as two deterministic Lanczos-3 downscales. Registered as candidate fixture art under candidate isolation pending human visual review. Preserves AX-92B1 candidate intake invariants.",
   },
 
   /* --- Approved, mechanically blocked ------------------------------------ */

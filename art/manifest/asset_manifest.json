@@ -4633,6 +4633,87 @@
       ]
     },
     {
+      "asset_id": "env_campaign_storefront_5504x3072_v1",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "family_id": "campaign-storefront",
+      "jurisdiction_scope": "unscoped-generic-campaign-storefront",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_env_campaign_storefront_5504x3072_v1"],
+      "rights_note": "Owner source master; external reuse rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Storefront phone bank and field office: folding tables, mismatched chairs, desk phones, blank corkboard and whiteboard. Derived via deterministic Lanczos-3 downscale from 5504x3072 master IMG_5205.JPG.",
+      "negative_constraints": [
+        "No candidate name, slogan, logo or jurisdiction is baked into the plate; dynamic surfaces carry campaign content.",
+        "Proportions and contacts are visual estimates read from the plate.",
+        "Do not upscale this master."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "released",
+      "final_path": "art/families/campaign-storefront/env_campaign_storefront_v1.png",
+      "hash": "35a37c8a6526a86eb569be61383558c1b90369abb9c185d21a7d5765d52edfc0",
+      "requires_transparency": false,
+      "raster_tiers": [
+        {
+          "width": 1376,
+          "height": 768,
+          "path": "art/families/campaign-storefront/env_campaign_storefront_v1.png",
+          "hash": "35a37c8a6526a86eb569be61383558c1b90369abb9c185d21a7d5765d52edfc0",
+          "derivation": "deterministic-downscale"
+        },
+        {
+          "width": 2752,
+          "height": 1536,
+          "path": "art/families/campaign-storefront/env_campaign_storefront_runtime_2x_v1.png",
+          "hash": "8ed3362367898887a638b78caf95e55600f98dcaf9aa154d197a0035fc467663",
+          "derivation": "deterministic-downscale"
+        }
+      ]
+    },
+    {
+      "asset_id": "env_park_community_pavilion_candidate_5504x3072_v1",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "family_id": "park-community-pavilion",
+      "jurisdiction_scope": "unscoped-generic-park-pavilion",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_env_park_community_pavilion_candidate_5504x3072_v1"],
+      "rights_note": "Owner source master; external reuse rights remain unknown.",
+      "fixed_or_modular": "fixed",
+      "variant_rules": "Community park pavilion: outdoor covered shelter on concrete slab with picnic tables. Candidate review plate derived via deterministic Lanczos-3 downscale from 5504x3072 master IMG_5204.JPG.",
+      "negative_constraints": [
+        "Candidate status; unreleased in production until owner visual approval.",
+        "Outdoor setting; not an interior room.",
+        "Baked picnic tables remain visual estimates and decor.",
+        "Do not upscale this master."
+      ],
+      "generation_status": "approved",
+      "qa_status": "approved",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/families/park-community-pavilion/env_park_community_pavilion_v1.png",
+      "hash": "d785b09e41f02a41b625a2fccda9f840dadc5f56cf3fd3f388350aeec6f4f813",
+      "requires_transparency": false,
+      "raster_tiers": [
+        {
+          "width": 1376,
+          "height": 768,
+          "path": "art/families/park-community-pavilion/env_park_community_pavilion_v1.png",
+          "hash": "d785b09e41f02a41b625a2fccda9f840dadc5f56cf3fd3f388350aeec6f4f813",
+          "derivation": "deterministic-downscale"
+        },
+        {
+          "width": 2752,
+          "height": 1536,
+          "path": "art/families/park-community-pavilion/env_park_community_pavilion_runtime_2x_v1.png",
+          "hash": "228fd1dcf898c13277c0efc301f3347d0baab8a5d49076a6cb0a769aac242dbc",
+          "derivation": "deterministic-downscale"
+        }
+      ]
+    },
+    {
       "asset_id": "env_office_executive_private_lincoln_1672x941_v1",
       "asset_type": "environment-master",
       "art_class": "production",

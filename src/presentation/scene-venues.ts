@@ -13,6 +13,8 @@ import {
   LEGISLATIVE_CHAMBER_SCENE_ID,
   PRODUCTION_OFFICE_SCENE_ID,
   PUBLIC_MEETING_ROOM_SCENE_ID,
+  CAMPAIGN_STOREFRONT_SCENE_ID,
+  PARK_COMMUNITY_PAVILION_SCENE_ID,
   SCENE_REGISTRY,
   type SceneRegistry,
 } from "./scene-registry";
@@ -84,16 +86,16 @@ export const SCENE_VENUES: readonly SceneVenue[] = [
   },
   {
     locationKey: "campaign-call-desk",
-    sceneId: null,
+    sceneId: CAMPAIGN_STOREFRONT_SCENE_ID,
     reason:
-      "No campaign room is released. Calling voters from a desk is a real canonical activity with no picture of it; the two 5504px field-office candidates in the drive sweep are unapproved. See asset request 'env-campaign-storefront'.",
+      "Calling voters from a phone bank desk happens in the campaign storefront field office. The plate provides phone-bank-standing and volunteer-desk-chair anchors and dynamic slots for campaign literature and call targets.",
     isJourney: false,
   },
   {
     locationKey: "campaign-office",
-    sceneId: null,
+    sceneId: CAMPAIGN_STOREFRONT_SCENE_ID,
     reason:
-      "Same gap as the call desk. The shared workroom is NOT substituted: a campaign storefront is not a legislative staff room, and lending one to the other is how a room stops meaning anything.",
+      "Campaign operations, strategy planning, and staff management happen in the campaign storefront field office. The plate provides organizer-standing anchor and dynamic slots for strategy and goals.",
     isJourney: false,
   },
   {
@@ -298,6 +300,7 @@ export function scenesNoVenueReaches(
 export const VENUE_REACHABLE_SCENE_IDS: readonly string[] = [
   PUBLIC_MEETING_ROOM_SCENE_ID,
   PRODUCTION_OFFICE_SCENE_ID,
+  CAMPAIGN_STOREFRONT_SCENE_ID,
 ];
 
 /**
@@ -307,6 +310,7 @@ export const VENUE_REACHABLE_SCENE_IDS: readonly string[] = [
  */
 export const VENUE_WITH_PRODUCTION_ACTIVITY: readonly string[] = [
   PUBLIC_MEETING_ROOM_SCENE_ID,
+  CAMPAIGN_STOREFRONT_SCENE_ID,
 ];
 
 /**
@@ -330,5 +334,9 @@ export const VENUE_DELIBERATELY_UNREACHED: ReadonlyMap<string, string> =
     [
       DOMESTIC_ORDINARY_SCENE_ID,
       "Home art supplies residence context only when no later established place or completed travel contradicts it. A quiet calendar does not prove physical presence at home.",
+    ],
+    [
+      PARK_COMMUNITY_PAVILION_SCENE_ID,
+      "Candidate scene. The park community pavilion is candidate-isolated pending human visual acceptance and an exterior location producer in normal play.",
     ],
   ]);
