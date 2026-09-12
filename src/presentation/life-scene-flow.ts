@@ -1,5 +1,10 @@
 import { travelToPlace, type PlaceTravelProvider } from "./place-travel";
-import { completeOrdinaryGoal } from "../simulation/life-personality";
+import {
+  activeOrdinaryGoal,
+  chooseOrdinaryLifeGoal,
+  completeOrdinaryGoal,
+  ORDINARY_LIFE_GOALS,
+} from "../simulation/life-personality";
 import {
   activeChildAuthoritiesAt,
   activeEducationEnrollmentsAt,
@@ -468,15 +473,21 @@ export function chooseOpeningLifeScene(
       immediateReaction: aftermath,
     },
   });
-  const completedGoal =
-    scene.definition.key === "young.home.choose-activity" ||
-    scene.definition.key === "adult.home.free-time"
-      ? choice.key === "read"
-        ? "learning"
-        : choice.key === "rest"
-          ? "privacy"
-          : null
-      : null;
+  // Deciding what to make time for records the plan itself, through the same
+  // writer the personal-plans menu uses. The scene's own answer event is
+  // already written, so the plan follows the choice rather than standing in
+  // for it.
+  if (
+    scene.definition.key === "adult.home.plan-week" &&
+    scene.stageKey === "moment" &&
+    isOrdinaryGoal(choice.key)
+  )
+    return chooseOrdinaryLifeGoal(next, personId, choice.key);
+  const completedGoal = openingChoiceCompletes(
+    scene.definition.key,
+    scene.stageKey,
+    choice.key,
+  );
   return completedGoal
     ? completeOrdinaryGoal(
         next,
@@ -485,6 +496,81 @@ export function chooseOpeningLifeScene(
         next.history.events.at(-1)!.id,
       )
     : next;
+}
+
+function isOrdinaryGoal(key: string): key is keyof typeof ORDINARY_LIFE_GOALS {
+  return key in ORDINARY_LIFE_GOALS;
+}
+
+/** Which personal plan a performed opening choice keeps, if any. */
+function openingChoiceCompletes(
+  sceneKey: string,
+  stageKey: string,
+  choiceKey: string,
+): keyof typeof ORDINARY_LIFE_GOALS | null {
+  if (
+    (sceneKey === "young.home.choose-activity" ||
+      sceneKey === "adult.home.free-time") &&
+    stageKey === "moment"
+  )
+    return choiceKey === "read"
+      ? "learning"
+      : choiceKey === "rest"
+        ? "privacy"
+        : null;
+  if (
+    sceneKey === "adult.home.plan-week" &&
+    stageKey === "follow-through" &&
+    choiceKey === "read"
+  )
+    return "learning";
+  return null;
+}
+
+/**
+ * What each choice in the current scene would do to the player's own plans.
+ *
+ * A read, never a write: the UI adapter for "say what your next action does".
+ * `keeps` names an active personal plan this choice would complete once it is
+ * performed; `records` names the plan the choice itself would set. Both are
+ * null for a choice that touches no plan, which is most of them.
+ */
+export interface OpeningChoiceEffect {
+  readonly choiceKey: string;
+  readonly minutes: number;
+  readonly keeps: string | null;
+  readonly records: string | null;
+}
+
+export function openingSceneChoiceEffects(
+  world: World,
+  personId: EntityId,
+): readonly OpeningChoiceEffect[] {
+  const scene = currentOpeningLifeScene(world, personId);
+  if (!scene) return [];
+  return scene.choices.map((choice) => {
+    const completes = openingChoiceCompletes(
+      scene.definition.key,
+      scene.stageKey,
+      choice.key,
+    );
+    const records =
+      scene.definition.key === "adult.home.plan-week" &&
+      scene.stageKey === "moment" &&
+      isOrdinaryGoal(choice.key) &&
+      !activeOrdinaryGoal(world, personId, choice.key)
+        ? ORDINARY_LIFE_GOALS[choice.key]
+        : null;
+    return {
+      choiceKey: choice.key,
+      minutes: scene.definition.minutes,
+      keeps:
+        completes && activeOrdinaryGoal(world, personId, completes)
+          ? ORDINARY_LIFE_GOALS[completes]
+          : null,
+      records,
+    };
+  });
 }
 
 /** A chosen short walk writes arrival only after uninterrupted canonical time. */

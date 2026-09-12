@@ -1148,6 +1148,34 @@
     "evidence": "and it"
   },
   {
+    "id": "prose:life:episode:opening.adult.home.plan-week/follow-through#line:0",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "something"
+  },
+  {
+    "id": "prose:life:episode:opening.adult.home.plan-week/moment#option:learning:label",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "something"
+  },
+  {
+    "id": "prose:life:episode:opening.adult.home.plan-week/moment#option:learning:memory",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "something"
+  },
+  {
+    "id": "prose:life:episode:opening.adult.home.shared-time/moment#line:0",
+    "severity": "REVIEW_WARNING",
+    "family": "slot-agreement",
+    "message": "The template fills {who:household-companion}, which is not one of the slots the corpus can trace to declared grounding.",
+    "evidence": "who:household-companion"
+  },
+  {
     "id": "prose:life:episode:opening.early.home.bedtime-delay/follow-through#option:put-away:memory",
     "severity": "REVIEW_WARNING",
     "family": "rather-than-scaffold",
