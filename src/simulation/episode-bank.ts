@@ -779,6 +779,7 @@ const SCHOOL_TROUBLE: EpisodeFamily = {
     {
       key: "blamed",
       recordSceneContext: true,
+      sceneSetting: "school",
       requires: [
         { kind: "fact", fact: "school.enrolled" },
         { kind: "age-below", age: 18 },
@@ -845,6 +846,8 @@ const SCHOOL_TROUBLE: EpisodeFamily = {
     },
     {
       key: "it-stuck",
+      sceneSetting: "school",
+      physicallyPresentRoles: [],
       requires: [
         { kind: "after-choice", stage: "blamed", option: "take-it" },
         /*
@@ -901,6 +904,8 @@ const SCHOOL_TROUBLE: EpisodeFamily = {
     },
     {
       key: "it-came-out",
+      sceneSetting: "school",
+      physicallyPresentRoles: [],
       requires: [
         { kind: "after-choice", stage: "blamed", option: "name-them" },
         { kind: "days-since-stage", stage: "blamed", days: 200 },

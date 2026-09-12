@@ -504,6 +504,22 @@ export interface EpisodeStage {
   readonly lines: readonly string[];
   /** Preserve this proposed immediate scene in the ordinary resolution event. */
   readonly recordSceneContext?: boolean;
+  /**
+   * Where the copy is happening as an immediate scene.
+   *
+   * Omitted stages inherit the family default: school families are at school,
+   * household families are at home. `recollection` means the life is not in
+   * that room now — the text remembers it, and the current physical room is
+   * left alone.
+   */
+  readonly sceneSetting?: EpisodeSceneSetting;
+  /**
+   * Bound roles who are physically in the room with the player.
+   *
+   * Omitted means every bound person is there. An empty list means the copy
+   * names people who are not standing in this room.
+   */
+  readonly physicallyPresentRoles?: readonly EpisodeRoleKey[];
   readonly options: readonly EpisodeOption[];
   readonly stakes: LifeStakesTier;
   readonly tensions: readonly InterestTension[];
@@ -541,6 +557,25 @@ export interface EpisodeExit {
  */
 export type EpisodeDetailBank = Readonly<Record<string, readonly string[]>>;
 
+/** Where an immediate episode scene is taking place. */
+export type EpisodeSceneSetting = "home" | "school" | "recollection";
+
+/**
+ * The family's default room, when a stage does not name one.
+ *
+ * This follows the family the content already declared. It does not scan the
+ * prose for the word "school".
+ */
+export function episodeSceneSetting(
+  family: Pick<EpisodeFamily, "family">,
+  stage: Pick<EpisodeStage, "sceneSetting">,
+): EpisodeSceneSetting | null {
+  if (stage.sceneSetting) return stage.sceneSetting;
+  if (family.family === "school") return "school";
+  if (family.family === "household") return "home";
+  return null;
+}
+
 export interface EpisodeFamily {
   /** Authored everyday activities may start a new instance on a new calendar day. */
   readonly recurrence?: "daily";
@@ -576,6 +611,13 @@ export interface EpisodeBeat {
   readonly instanceKey: string;
   readonly stageKey: string;
   readonly family: NarrativeThreadFamily;
+  /** Immediate place of this beat, or null when the family does not name one. */
+  readonly sceneSetting: EpisodeSceneSetting | null;
+  /**
+   * Bound people who are actually in the room. Empty when the copy names
+   * somebody who is not standing here.
+   */
+  readonly physicallyPresentPersonIds: readonly EntityId[];
   readonly prose: string;
   readonly options: readonly EpisodeSceneOption[];
   readonly bindings: readonly EpisodeRoleBinding[];
@@ -1437,6 +1479,15 @@ export function eligibleEpisodeBeats(
         instanceKey,
         stageKey: stage.key,
         family: family.family,
+        sceneSetting: episodeSceneSetting(family, stage),
+        physicallyPresentPersonIds:
+          stage.physicallyPresentRoles === undefined
+            ? stageBindings.map((binding) => binding.personId)
+            : stageBindings
+                .filter((binding) =>
+                  stage.physicallyPresentRoles!.includes(binding.role),
+                )
+                .map((binding) => binding.personId),
         prose: substituteSlots(stage.lines.join(" "), {
           world,
           person,

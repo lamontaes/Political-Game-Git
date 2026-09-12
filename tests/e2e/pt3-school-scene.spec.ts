@@ -97,6 +97,15 @@ test.describe("PT3 — the corridor scene on the screen", () => {
 
     const beat = await playToCorridor(page);
 
+    await expect(page.getByTestId("play-screen")).toHaveAttribute(
+      "data-scene-purpose",
+      "school",
+    );
+    await expect(page.getByTestId("play-screen")).not.toHaveAttribute(
+      "data-scene-id",
+      /residence-apartment/,
+    );
+
     // What happened.
     const incident = INCIDENTS.find((candidate) =>
       beat.prose.toLowerCase().includes(candidate),
