@@ -1,6 +1,94 @@
 {
-  "totalItems": 1870,
+  "totalItems": 1892,
   "items": [
+    {
+      "filePath": "brand/recovery25/exports/option-1-civic-roundtable/app-icon-1024.png",
+      "hash": "879d47438d222e646a36fef140cfcf6e7f330800185cf4273501b607b74864a0"
+    },
+    {
+      "filePath": "brand/recovery25/exports/option-1-civic-roundtable/app-icon-128.png",
+      "hash": "b8c0d91ca5b9e8037f34ebe3598d762382be9e837b16d14c305e82d8ec2088e3"
+    },
+    {
+      "filePath": "brand/recovery25/exports/option-1-civic-roundtable/app-icon-16.png",
+      "hash": "ea84901516506eb6d5f771663e5986880bed7896e9be27417653f0405ad1c441"
+    },
+    {
+      "filePath": "brand/recovery25/exports/option-1-civic-roundtable/app-icon-256.png",
+      "hash": "7a565aa7a58074943ea554a1c8fa480a9f99c524c4933e17b91ba05ca534dc65"
+    },
+    {
+      "filePath": "brand/recovery25/exports/option-1-civic-roundtable/app-icon-32.png",
+      "hash": "f62fbf8797ac3bf8a1cb487fc3d667fe47d3f7f1d3c65ccaf0b2645fa8c75920"
+    },
+    {
+      "filePath": "brand/recovery25/exports/option-1-civic-roundtable/app-icon-512.png",
+      "hash": "a263376246d92e7d7d1e56f7918520f7f17734ccc6b6e4e2023710295b4174ec"
+    },
+    {
+      "filePath": "brand/recovery25/exports/option-1-civic-roundtable/app-icon-64.png",
+      "hash": "79ec862b619f65ec764974cf5ac1772efef953386a8011fe3238d6cf051bc6ae"
+    },
+    {
+      "filePath": "brand/recovery25/exports/option-1-civic-roundtable/wordmark-1200x260.png",
+      "hash": "29bc6118285094352f51955f1766344af5f6f0aee9f7abca1ad1daf951388799"
+    },
+    {
+      "filePath": "brand/recovery25/exports/option-1-civic-roundtable/wordmark-on-light-1200x260.png",
+      "hash": "84166d2742c32c229a8e10f942a87313dd11078d756508471d7c132713f5dd61"
+    },
+    {
+      "filePath": "brand/recovery25/exports/option-2-open-threshold/app-icon-1024.png",
+      "hash": "a3102de4978496c8066a846d44002c4c1499e436b9fb14b2b774a27297cacdb1"
+    },
+    {
+      "filePath": "brand/recovery25/exports/option-2-open-threshold/app-icon-128.png",
+      "hash": "ab6afa7d3bcbed8ffdc675324af751d786014bc8118aa5ef6353979c4bfddb7c"
+    },
+    {
+      "filePath": "brand/recovery25/exports/option-2-open-threshold/app-icon-16.png",
+      "hash": "4341379bab63aefe4745e3416b60a2150ed79e6a14a7b65c3f788388d8e75b6d"
+    },
+    {
+      "filePath": "brand/recovery25/exports/option-2-open-threshold/app-icon-256.png",
+      "hash": "89f80d662f384d22c3c0d61fadc448a6125976aa8d3bc2c1b12940936a772fc4"
+    },
+    {
+      "filePath": "brand/recovery25/exports/option-2-open-threshold/app-icon-32.png",
+      "hash": "2e8a4404c1fac3e2b7870722b201f55b27ccaf68079ea76a2c9af878ca8102d7"
+    },
+    {
+      "filePath": "brand/recovery25/exports/option-2-open-threshold/app-icon-512.png",
+      "hash": "eccc0563475f65c907af5dd442e7819252c2c4e80f61e9176c3348f71b18240d"
+    },
+    {
+      "filePath": "brand/recovery25/exports/option-2-open-threshold/app-icon-64.png",
+      "hash": "4849e2d4ec2022a99c2bd5642cc223c609f7aea0a8ddcc5d91e546e864157f15"
+    },
+    {
+      "filePath": "brand/recovery25/exports/option-2-open-threshold/wordmark-1200x260.png",
+      "hash": "f15269885457e990fe5480e9a24af8eaa0254a8c8592ece4916780768588b046"
+    },
+    {
+      "filePath": "brand/recovery25/exports/option-2-open-threshold/wordmark-on-light-1200x260.png",
+      "hash": "c858a4e708dd926d13b558f44413c51c17ee4357303b288a52384d73134f65ef"
+    },
+    {
+      "filePath": "brand/recovery25/mockups/option-1-desktop-1440x900.png",
+      "hash": "54f09d6a821ff575ba1e38e3e211d88a2b9896815be3f1e7145ece5ec4753d87"
+    },
+    {
+      "filePath": "brand/recovery25/mockups/option-1-title-1440x900.png",
+      "hash": "a9a73a5f316acea329755aa480c5b29d57313de76547f75df57efe3f87bf5d5f"
+    },
+    {
+      "filePath": "brand/recovery25/mockups/option-2-desktop-1440x900.png",
+      "hash": "aa20fec079680ff51a9a0abd5203ac68daae704c24c439f2de7767ed0d25b711"
+    },
+    {
+      "filePath": "brand/recovery25/mockups/option-2-title-1440x900.png",
+      "hash": "50029efa834086109d1513f98ae2a7f2b00fc0191cad67795218817f6dc7b08f"
+    },
     {
       "filePath": "families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png",
       "hash": "baa3f6f965250363fdb1e376148ef0bdd7b84a36dd702a84bbe5239162c5753f"

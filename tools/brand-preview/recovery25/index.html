@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RECOVERY25 BRAND — isolated candidate preview</title>
+    <link rel="stylesheet" href="./preview.css" />
+  </head>
+  <body>
+    <main
+      id="preview"
+      aria-label="Our Civic Duty brand candidate preview"
+    ></main>
+    <script type="module">
+      const parameters = new URLSearchParams(window.location.search);
+      const option = parameters.get("option") === "2" ? "2" : "1";
+      const view = parameters.get("view") === "desktop" ? "desktop" : "title";
+      const candidate =
+        option === "1"
+          ? {
+              label: "OPTION 1 · CIVIC ROUNDTABLE",
+              folder: "option-1-civic-roundtable",
+              note: "Four open seats around a shared table",
+            }
+          : {
+              label: "OPTION 2 · OPEN THRESHOLD",
+              folder: "option-2-open-threshold",
+              note: "An open civic threshold and shared path",
+            };
+
+      const sourceRoot = `../../../art/brand/recovery25/${candidate.folder}`;
+      const exportRoot = `../../../art/brand/recovery25/exports/${candidate.folder}`;
+      const preview = document.querySelector("#preview");
+
+      const wordmark = `<img class="candidate-wordmark" src="${sourceRoot}/wordmark.svg" alt="Our Civic Duty" />`;
+      const icon = (className = "") =>
+        `<img class="candidate-icon ${className}" src="${sourceRoot}/app-icon.svg" alt="" />`;
+
+      if (view === "title") {
+        document.body.className = "title-view";
+        preview.innerHTML = `
+          <section class="title-stage" aria-label="Current title composition with ${candidate.label}">
+            <img class="title-art" src="../../../art/families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_runtime_2048_v1.png" alt="" />
+            <div class="title-wash"></div>
+            <div class="title-scrim"></div>
+            <div class="candidate-flag">${candidate.label} · OWNER REVIEW · NOT SELECTED</div>
+            <div class="front-door-panel">
+              ${wordmark}
+              <nav class="front-door-actions" aria-label="Title menu mockup">
+                <button class="primary">NEW GAME</button>
+                <button disabled>CONTINUE <small>No saved life yet.</small></button>
+                <button>SAVED GAMES</button>
+                <button>OPTIONS</button>
+                <button disabled>QUIT <small>Not available in this build.</small></button>
+              </nav>
+            </div>
+            <div class="version">INTERNAL REVIEW · 6272545B</div>
+          </section>`;
+      } else {
+        document.body.className = "desktop-view";
+        preview.innerHTML = `
+          <section class="desktop-stage" aria-label="Desktop, About, compact menu, and small-size treatments for ${candidate.label}">
+            <div class="desktop-wallpaper"></div>
+            <div class="candidate-flag">${candidate.label} · OWNER REVIEW · NOT SELECTED</div>
+            <div class="desktop-icon">
+              ${icon("desktop-icon-image")}
+              <span>Our Civic Duty</span>
+            </div>
+            <section class="about-window" aria-label="About Our Civic Duty mockup">
+              <div class="window-chrome"><i></i><i></i><i></i></div>
+              ${icon("about-icon")}
+              <h1>Our Civic Duty</h1>
+              <p class="candidate-note">${candidate.note}</p>
+              <p>Internal review candidate<br />No identity or save-profile change</p>
+              <small>Build 6272545b · candidate preview only</small>
+            </section>
+            <section class="compact-menu" aria-label="Compact game menu mockup">
+              <header>${icon("menu-icon")}<div><b>Our Civic Duty</b><span>Menu</span></div></header>
+              <button>Return to game</button>
+              <button>Saved games</button>
+              <button>Options</button>
+              <footer>Candidate asset reference only</footer>
+            </section>
+            <section class="size-strip" aria-label="Small-size app icon exports">
+              <h2>SMALL-SIZE CHECK</h2>
+              <div class="sizes">
+                <figure><img src="${exportRoot}/app-icon-128.png" alt="" /><figcaption>128</figcaption></figure>
+                <figure><img src="${exportRoot}/app-icon-64.png" alt="" /><figcaption>64</figcaption></figure>
+                <figure><img src="${exportRoot}/app-icon-32.png" alt="" /><figcaption>32</figcaption></figure>
+                <figure><img src="${exportRoot}/app-icon-16.png" alt="" /><figcaption>16</figcaption></figure>
+              </div>
+            </section>
+          </section>`;
+      }
+    </script>
+  </body>
+</html>

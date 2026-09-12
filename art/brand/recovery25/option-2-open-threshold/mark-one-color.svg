@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">Open Threshold monochrome mark</title>
+  <desc id="desc">An open architectural threshold and converging path.</desc>
+  <g transform="translate(34 26)" fill="none" stroke="#172432" stroke-width="17" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M37 166V42h54M151 166V42H97"/>
+    <path d="M67 166l27-58 27 58"/>
+    <path d="M45 190h98M66 166h56" opacity=".5"/>
+  </g>
+</svg>
+

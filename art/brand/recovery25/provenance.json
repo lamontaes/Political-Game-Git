@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "work": "RECOVERY25 BRAND",
+  "project": "Our Civic Duty",
+  "createdOn": "2026-09-12",
+  "status": "owner-review-candidate",
+  "selection": null,
+  "publication": null,
+  "authorship": {
+    "creator": "OpenAI Codex",
+    "method": "original hand-authored SVG geometry and local HTML/CSS composition",
+    "imageGenerationUsed": false,
+    "externalLogoOrSealUsed": false
+  },
+  "sources": [
+    {
+      "kind": "written-contract",
+      "title": "RECOVERY25 — Dropped Deliveries, Desktop Without Terminal, and Codex Assignments",
+      "id": "1QN4Q1prub37MxLK10QzjjCZ1l3rN_Des6bNMJYUZgQs"
+    },
+    {
+      "kind": "written-brief",
+      "title": "MORNING23 — Researched Weekend Plan, Game Flow, Models and Hardcoding Review",
+      "id": "16CvrpkjvQw7V-ShX1n2f2dP8p_6id9hf-mlrwxGEW3c"
+    },
+    {
+      "kind": "repository-style-reference",
+      "title": "MORNING23 F title readability",
+      "commit": "6272545b3b072bc54e7cb9b2cc5c1fc1424cf400",
+      "path": "src/player/front-door.css"
+    }
+  ],
+  "fonts": {
+    "filesDistributed": false,
+    "displayStack": "Palatino, Palatino Linotype, Book Antiqua, Georgia, Times New Roman, serif",
+    "readingStack": "ui-sans-serif, system-ui, Segoe UI, Helvetica Neue, Helvetica, Arial, sans-serif"
+  },
+  "candidates": [
+    {
+      "id": "option-1-civic-roundtable",
+      "concept": "four open seats around a shared square table",
+      "prohibitedIdentityClaims": [
+        "official seal",
+        "party mark",
+        "campaign mark"
+      ]
+    },
+    {
+      "id": "option-2-open-threshold",
+      "concept": "open architectural threshold and converging civic path",
+      "prohibitedIdentityClaims": [
+        "official building",
+        "official seal",
+        "campaign mark"
+      ]
+    }
+  ],
+  "existingMockupRaster": {
+    "path": "art/families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_runtime_2048_v1.png",
+    "treatment": "referenced in local mockup only; original repository provenance remains authoritative"
+  }
+}

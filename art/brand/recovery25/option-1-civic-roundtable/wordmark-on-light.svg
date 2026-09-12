@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="260" viewBox="0 0 1200 260" role="img" aria-labelledby="title desc">
+  <title id="title">Our Civic Duty — Civic Roundtable candidate wordmark on light</title>
+  <desc id="desc">Four open seats around a shared square table beside the words Our Civic Duty.</desc>
+  <g transform="translate(36 36)" fill="none" stroke="#9A642F" stroke-width="18" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="68" y="68" width="52" height="52" rx="9"/>
+    <path d="M82 37h24M82 151h24M37 82v24M151 82v24"/>
+    <path d="M58 20h72a38 38 0 0 1 38 38M168 130a38 38 0 0 1-38 38H58a38 38 0 0 1-38-38M20 58a38 38 0 0 1 38-38" opacity=".48"/>
+  </g>
+  <text x="258" y="161" fill="#172432" font-family="Palatino, 'Palatino Linotype', 'Book Antiqua', Georgia, 'Times New Roman', serif" font-size="112" font-weight="600" letter-spacing="1.2">Our Civic Duty</text>
+</svg>
+

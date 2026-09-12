@@ -1,5 +1,225 @@
 [
   {
+    "file": "brand/recovery25/exports/option-1-civic-roundtable/app-icon-1024.png",
+    "metadata": {
+      "width": 1024,
+      "height": 1024,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "brand/recovery25/exports/option-1-civic-roundtable/app-icon-128.png",
+    "metadata": {
+      "width": 128,
+      "height": 128,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "brand/recovery25/exports/option-1-civic-roundtable/app-icon-16.png",
+    "metadata": {
+      "width": 16,
+      "height": 16,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "brand/recovery25/exports/option-1-civic-roundtable/app-icon-256.png",
+    "metadata": {
+      "width": 256,
+      "height": 256,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "brand/recovery25/exports/option-1-civic-roundtable/app-icon-32.png",
+    "metadata": {
+      "width": 32,
+      "height": 32,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "brand/recovery25/exports/option-1-civic-roundtable/app-icon-512.png",
+    "metadata": {
+      "width": 512,
+      "height": 512,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "brand/recovery25/exports/option-1-civic-roundtable/app-icon-64.png",
+    "metadata": {
+      "width": 64,
+      "height": 64,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "brand/recovery25/exports/option-1-civic-roundtable/wordmark-1200x260.png",
+    "metadata": {
+      "width": 1200,
+      "height": 260,
+      "aspectRatio": "60:13",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "brand/recovery25/exports/option-1-civic-roundtable/wordmark-on-light-1200x260.png",
+    "metadata": {
+      "width": 1200,
+      "height": 260,
+      "aspectRatio": "60:13",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "brand/recovery25/exports/option-2-open-threshold/app-icon-1024.png",
+    "metadata": {
+      "width": 1024,
+      "height": 1024,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "brand/recovery25/exports/option-2-open-threshold/app-icon-128.png",
+    "metadata": {
+      "width": 128,
+      "height": 128,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "brand/recovery25/exports/option-2-open-threshold/app-icon-16.png",
+    "metadata": {
+      "width": 16,
+      "height": 16,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "brand/recovery25/exports/option-2-open-threshold/app-icon-256.png",
+    "metadata": {
+      "width": 256,
+      "height": 256,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "brand/recovery25/exports/option-2-open-threshold/app-icon-32.png",
+    "metadata": {
+      "width": 32,
+      "height": 32,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "brand/recovery25/exports/option-2-open-threshold/app-icon-512.png",
+    "metadata": {
+      "width": 512,
+      "height": 512,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "brand/recovery25/exports/option-2-open-threshold/app-icon-64.png",
+    "metadata": {
+      "width": 64,
+      "height": 64,
+      "aspectRatio": "1:1",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "brand/recovery25/exports/option-2-open-threshold/wordmark-1200x260.png",
+    "metadata": {
+      "width": 1200,
+      "height": 260,
+      "aspectRatio": "60:13",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "brand/recovery25/exports/option-2-open-threshold/wordmark-on-light-1200x260.png",
+    "metadata": {
+      "width": 1200,
+      "height": 260,
+      "aspectRatio": "60:13",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "brand/recovery25/mockups/option-1-desktop-1440x900.png",
+    "metadata": {
+      "width": 1440,
+      "height": 900,
+      "aspectRatio": "8:5",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "brand/recovery25/mockups/option-1-title-1440x900.png",
+    "metadata": {
+      "width": 1440,
+      "height": 900,
+      "aspectRatio": "8:5",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "brand/recovery25/mockups/option-2-desktop-1440x900.png",
+    "metadata": {
+      "width": 1440,
+      "height": 900,
+      "aspectRatio": "8:5",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "brand/recovery25/mockups/option-2-title-1440x900.png",
+    "metadata": {
+      "width": 1440,
+      "height": 900,
+      "aspectRatio": "8:5",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
     "file": "families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png",
     "metadata": {
       "width": 1376,

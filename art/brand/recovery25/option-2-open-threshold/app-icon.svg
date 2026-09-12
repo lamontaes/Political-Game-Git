@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Our Civic Duty app icon candidate — Open Threshold</title>
+  <desc id="desc">An ivory and brass open threshold mark on a deep navy rounded square.</desc>
+  <defs>
+    <linearGradient id="ground" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#081521"/>
+      <stop offset="1" stop-color="#243749"/>
+    </linearGradient>
+  </defs>
+  <rect x="42" y="42" width="940" height="940" rx="218" fill="url(#ground)"/>
+  <rect x="58" y="58" width="908" height="908" rx="202" fill="none" stroke="#F5EBD4" stroke-opacity=".16" stroke-width="8"/>
+  <g transform="translate(230 195) scale(3)" fill="none" stroke="#E0C37A" stroke-width="17" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M37 166V42h54M151 166V42H97"/>
+    <path d="M67 166l27-58 27 58" stroke="#F5EBD4"/>
+    <path d="M45 190h98M66 166h56" opacity=".56"/>
+  </g>
+</svg>
+
