@@ -2523,7 +2523,7 @@ export interface RoutineTimeHook {
     world: World,
     target: SimulationMoment,
   ) => readonly RoutineWindow[];
-  readonly ensureScheduled: (world: World, window: RoutineWindow) => World;
+  readonly ensureScheduled: (world: World, slot: RoutineWindow) => World;
   readonly afterActivityCompleted: (
     world: World,
     activityId: EntityId,

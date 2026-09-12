@@ -886,14 +886,14 @@ function nonRoutineBlockingIds(
 
 function windowOverlapsActivity(
   world: World,
-  window: { start: SimulationMoment; end: SimulationMoment },
+  slot: { start: SimulationMoment; end: SimulationMoment },
   activityId: EntityId,
 ): boolean {
   const state = latestActivityStateUnchecked(world, activityId);
   if (!state) return false;
   return (
-    compareSimulationMoments(window.start, state.end) < 0 &&
-    compareSimulationMoments(state.start, window.end) < 0
+    compareSimulationMoments(slot.start, state.end) < 0 &&
+    compareSimulationMoments(state.start, slot.end) < 0
   );
 }
 
@@ -929,20 +929,20 @@ function completeRoutineWindow(
 ): World | null {
   const hook = transitionHandlers.routine;
   if (!hook) return null;
-  const window = hook.projectWindows(world, target)[0];
-  if (!window?.autoResolvable) return null;
+  const slot = hook.projectWindows(world, target)[0];
+  if (!slot?.autoResolvable) return null;
   const blockers = nonRoutineBlockingIds(
     world,
     target,
     null,
     transitionHandlers,
   );
-  if (blockers.some((id) => windowOverlapsActivity(world, window, id)))
+  if (blockers.some((id) => windowOverlapsActivity(world, slot, id)))
     return null;
-  const prepared = hook.ensureScheduled(world, window);
+  const prepared = hook.ensureScheduled(world, slot);
   const activity = prepared.history.scheduledActivities.find(
     (a) =>
-      a.sourceEntityIds.includes(window.relationshipId) &&
+      a.sourceEntityIds.includes(slot.relationshipId) &&
       scheduledActivityState(prepared, a.id).status === "scheduled",
   );
   if (!activity) return null;
