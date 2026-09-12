@@ -34,6 +34,9 @@ export default defineConfig({
   reporter: [
     ["line"],
     ["html", { open: "never", outputFolder: `${run.artifacts}/report` }],
+    ...(process.env.CI
+      ? ([["json", { outputFile: `${run.artifacts}/results.json` }]] as const)
+      : []),
   ],
   use: {
     baseURL: run.baseURL,
