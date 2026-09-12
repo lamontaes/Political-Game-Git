@@ -1,0 +1,8 @@
+{
+  "name": "our-civic-duty-private-controller",
+  "productName": "Our Civic Duty Private",
+  "version": "0.0.0",
+  "private": true,
+  "main": "main.mjs",
+  "type": "module"
+}

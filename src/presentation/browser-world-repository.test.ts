@@ -267,9 +267,10 @@ class FakeStorageControl {
  */
 class FakeIndexedDbFactory {
   readonly records = new Map<string, unknown>();
+  readonly interfaceRecords = new Map<string, unknown>();
   readonly control = new FakeStorageControl();
   readonly #lock = new FakeTransactionLock();
-  #hasStore = false;
+  readonly #created = new Set<string>();
 
   asFactory(): IDBFactory {
     return { open: () => this.#open() } as unknown as IDBFactory;
@@ -279,18 +280,26 @@ class FakeIndexedDbFactory {
     this.records.set(saveId, structuredClone(value));
   }
 
+  #storeMap(name: string): Map<string, unknown> {
+    if (name === "interface") return this.interfaceRecords;
+    return this.records;
+  }
+
   #open(): IDBOpenDBRequest {
-    const objectStoreNames = { contains: () => this.#hasStore };
+    const created = this.#created;
+    const objectStoreNames = {
+      contains: (name: string) => created.has(name),
+    };
     const database = {
       objectStoreNames,
       onversionchange: null,
-      createObjectStore: () => {
-        this.#hasStore = true;
+      createObjectStore: (name: string) => {
+        created.add(name);
         return {} as IDBObjectStore;
       },
-      transaction: () =>
+      transaction: (name: string) =>
         new FakeTransaction(
-          this.records,
+          this.#storeMap(name),
           this.control,
           this.#lock,
         ) as unknown as IDBTransaction,
@@ -312,7 +321,9 @@ class FakeIndexedDbFactory {
       onblocked: null,
     };
     queueMicrotask(() => {
-      if (!this.#hasStore) request.onupgradeneeded?.();
+      if (!created.has("worlds") || !created.has("interface")) {
+        request.onupgradeneeded?.();
+      }
       request.onsuccess?.();
     });
     return request as unknown as IDBOpenDBRequest;

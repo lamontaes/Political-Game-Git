@@ -10,6 +10,7 @@ import {
   artPreviewMode,
   previewArtRefusal,
 } from "../presentation/art-preview";
+import { gameBuildProfile } from "../presentation/build-profile";
 import { ModularCharacter } from "./ModularCharacter";
 import { personName } from "../simulation";
 import type { EntityId, World } from "../simulation";
@@ -46,7 +47,10 @@ export function PersonPortrait({
   const preview = artPreviewLibraries(
     artPreviewMode(
       typeof window === "undefined" ? "" : window.location.search,
-      import.meta.env.DEV,
+      {
+        development: import.meta.env.DEV,
+        profile: gameBuildProfile(),
+      },
     ),
   );
   const person = world.people[personId];
