@@ -16,3 +16,7 @@ content-export/
 
 # Blind prose-evaluation working data (never committed; holdout material stays in Drive)
 prose-eval-runs/
+
+# Local agent-run-receipt artifacts (scripts/agent-run-receipt.mjs): per-run
+# checkout-identity receipts and logs, never tracked historical evidence.
+.agent-receipts/

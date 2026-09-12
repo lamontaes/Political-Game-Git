@@ -70,6 +70,7 @@ import type {
   CampaignStateRecord,
   CandidateTally,
   CurrencyCode,
+  DistrictSeatBinding,
   EntityId,
   FutureDueItem,
   IsoDate,
@@ -152,6 +153,11 @@ export interface FileCampaignInput {
    * not govern the place it is filed in.
    */
   readonly officeKey: string;
+  /**
+   * Explicit Gazetteer district for this filing, when a sourced
+   * district-residence rule applies. Not inferred from state residence.
+   */
+  readonly districtBinding?: DistrictSeatBinding | null;
   readonly electionDate: string;
   readonly rivalPersonIds: readonly EntityId[];
   readonly existingContestId: EntityId | null;
@@ -524,6 +530,7 @@ export function fileCampaign(
     officeKey: input.officeKey,
     alreadyACandidate:
       activeCampaignForCandidate(inputWorld, input.candidatePersonId) !== null,
+    districtBinding: input.districtBinding ?? null,
   });
   if (!eligibility.eligible || !eligibility.office || !eligibility.pack) {
     throw new Error(
@@ -590,6 +597,8 @@ export function fileCampaign(
     contest.office.officeKey !== option.office.officeKey ||
     contest.office.title !== option.office.title ||
     contest.office.seatKey !== option.office.seatKey ||
+    JSON.stringify(contest.office.districtBinding ?? null) !==
+      JSON.stringify(option.office.districtBinding ?? null) ||
     contest.office.occupationClassification !==
       option.office.occupationClassification ||
     JSON.stringify([...contest.candidatePersonIds].sort()) !==

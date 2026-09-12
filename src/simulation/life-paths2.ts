@@ -1,5 +1,5 @@
-import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import { acceptedEducationPath } from "./education-study-terms";
+import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import { activeCampaignForCandidate } from "./campaign-queries";
 import {
   addDays,

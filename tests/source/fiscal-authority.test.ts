@@ -18,7 +18,7 @@ import { describe, expect, it } from "vitest";
 import { readFileSync, writeFileSync, rmSync } from "node:fs";
 import { resolve } from "node:path";
 import {
-  FISCAL_AUTHORITY_PRODUCTION_GATE,
+  FISCAL_AUTHORITY_PRODUCTION_SCOPE,
   FISCAL_FIELD_SCHEMA,
   FISCAL_MATRIX_COLUMNS,
   FISCAL_RULE_DEPENDENCIES,
@@ -1082,18 +1082,48 @@ describe("92N's own boundaries are permanent validation errors", () => {
   });
 });
 
-describe("the production gate", () => {
-  it("refuses to compile production records, and says why", () => {
-    expect(() =>
-      sourceDomain.compileProduction({ domain: "x", artifacts: [] }),
-    ).toThrow(/compiles no production corpus/);
-    expect(sourceDomain.productionGate).toBe(FISCAL_AUTHORITY_PRODUCTION_GATE);
-    expect(FISCAL_AUTHORITY_PRODUCTION_GATE).toMatch(/research synthesis/);
-    expect(FISCAL_AUTHORITY_PRODUCTION_GATE).toMatch(/source:acquire/);
+describe("the production activation", () => {
+  it("keeps the recovered synthesis outside the legal-evidence boundary", () => {
+    expect(sourceDomain.productionGate).toBeUndefined();
+    expect(FISCAL_AUTHORITY_PRODUCTION_SCOPE).toMatch(/first-party/);
+    expect(FISCAL_AUTHORITY_PRODUCTION_SCOPE).toMatch(/92N matrix/);
   });
 
-  it("declares an empty acquisition plan rather than a speculative one", () => {
-    expect(sourceDomain.acquisitionPlan.requests).toEqual([]);
+  it("declares the exact official artifacts production reads", () => {
+    expect(sourceDomain.acquisitionPlan.requests).toHaveLength(5);
+    expect(
+      sourceDomain.acquisitionPlan.requests.map((request) => ({
+        artifactId: request.artifactId,
+        provider: request.provider,
+        rights: request.rights.status,
+      })),
+    ).toEqual([
+      {
+        artifactId: "ak-ch-74-sla-1985-enrolled-session-law",
+        provider: "Alaska State Legislature",
+        rights: "UNKNOWN",
+      },
+      {
+        artifactId: "ak-ch-74-sla-1985-enrolled-session-law-selected-pages",
+        provider: "Alaska State Legislature",
+        rights: "public-domain-government-edict",
+      },
+      {
+        artifactId: "ak-municipal-sales-use-tax-statutes",
+        provider: "Alaska State Legislature",
+        rights: "public-domain-government-edict",
+      },
+      {
+        artifactId: "ak-municipal-property-tax-statutes",
+        provider: "Alaska State Legislature",
+        rights: "public-domain-government-edict",
+      },
+      {
+        artifactId: "ak-municipal-general-obligation-bond-statutes",
+        provider: "Alaska State Legislature",
+        rights: "public-domain-government-edict",
+      },
+    ]);
     expect(sourceDomain.domain).toBe("state-local-fiscal-authority");
   });
 });

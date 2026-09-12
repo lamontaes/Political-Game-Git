@@ -18,6 +18,7 @@ import {
   recordWorldEvent,
   recordPersonDeath,
   SeededRng,
+  syncDistrictMembershipFromCanonicalHome,
 } from "../simulation";
 import { establishLifePersonality } from "../simulation/life-personality";
 import type {
@@ -204,6 +205,7 @@ export function buildProductionWorld(
     });
   }
   world = { ...world, control: { kind: "person", personId: player.id } };
+  world = syncDistrictMembershipFromCanonicalHome(world, player.id);
   assertWorldIntegrity(world);
   return { world, playerPersonId: player.id, player };
 }

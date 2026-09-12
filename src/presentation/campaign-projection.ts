@@ -30,6 +30,7 @@ import type {
   CampaignRecord,
   CampaignStatus,
   CandidateTally,
+  DistrictSeatBinding,
   ElectiveOfficeOption,
   EntityId,
   MoneyAmount,
@@ -146,10 +147,9 @@ function quantityPercent(value: {
 /**
  * The offer to run.
  *
- * Only one office is offered even where a pack establishes two chambers,
- * because the game has no district geography and therefore no way to tell one
- * seat from another. Which chamber it is remains true and cited; which seat it
- * is remains an open question this view states rather than invents.
+ * Only one chamber-level office is offered even where a pack establishes two
+ * chambers. Numbered district identity is bound at filing from an explicit
+ * Gazetteer record; it is not inferred from the first office or a centroid.
  */
 function offeredOffice(
   world: World,
@@ -519,7 +519,11 @@ function latestReading(
  * The opponent is materialized first and separately, because they are a person
  * in this world afterwards rather than a fixture belonging to a screen.
  */
-export function fileForOffice(world: World, personId: EntityId): World {
+export function fileForOffice(
+  world: World,
+  personId: EntityId,
+  districtBinding: DistrictSeatBinding | null = null,
+): World {
   const person = world.people[personId];
   if (!person) throw new Error("This character is not in the world.");
   const jurisdictionId = person.homeJurisdictionId;
@@ -542,6 +546,7 @@ export function fileForOffice(world: World, personId: EntityId): World {
     candidatePersonId: personId,
     jurisdictionId,
     officeKey: option.officeKey,
+    districtBinding,
     electionDate,
     rivalPersonIds: opponents.personIds,
     existingContestId: null,
