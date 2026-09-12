@@ -162,7 +162,21 @@ describe("SKILL-OPS1 project delegation profile", () => {
     expect(relative(REPO_ROOT, configPath)).toBe(".codex/config.toml");
   });
 
-  it("keeps bounded delegation controls in the authoritative root", () => {
+  it("keeps focused delegation controls in the root and the preserved contract", () => {
+    const reference = readFileSync(
+      join(REPO_ROOT, ".agents", "rules", "repository-reference.md"),
+      "utf8",
+    );
+    const compactReference = reference.replace(/\s+/g, " ");
+    for (const required of [
+      "independently useful bounded output",
+      "no recursive delegation",
+      "duplicate full-repo review",
+      "Preserve configured concurrency limits",
+      "Model effort is proportional to the actual task",
+    ]) {
+      expect(compactRoot).toContain(required);
+    }
     for (const required of [
       "Plan no helpers by default",
       "user or repository/skill instructions authorize it",
@@ -175,13 +189,13 @@ describe("SKILL-OPS1 project delegation profile", () => {
       "redundant whole-repository reviews",
       "caps open helper threads at two per parent",
     ]) {
-      expect(compactRoot).toContain(required);
+      expect(compactReference).toContain(required);
     }
+    expect(rootInstructions).toContain(".agents/rules/repository-reference.md");
     expect(rootInstructions).toContain(".agents/skills/");
+    expect(sessionBridge).toContain("@AGENTS.md");
     expect(sessionBridge).toContain(".agents/skills/");
-    expect(sessionBridge).toContain(
-      "bounded delegation contract remains in `AGENTS.md`",
-    );
+    expect(sessionBridge).toContain("Skip ritual duplicate checks");
   });
 });
 
@@ -189,12 +203,71 @@ describe("SKILL-OPS1 civic prose correction", () => {
   const civic = skillText("civic-prose");
   const compactCivic = civic.replace(/\s+/g, " ");
 
-  it("permits only brief grounded orientation while retaining repetition boundaries", () => {
-    expect(civic).toContain("Orient briefly only when this moment needs it");
+  it("routes prose work while retaining brief-orientation boundaries", () => {
+    const ownerContract = readFileSync(
+      join(
+        REPO_ROOT,
+        ".agents",
+        "skills",
+        "civic-prose",
+        "references",
+        "owner-authoring-contract.md",
+      ),
+      "utf8",
+    );
+    const compactOwner = ownerContract.replace(/\s+/g, " ");
+    expect(civic).toContain("references/owner-authoring-contract.md");
     expect(compactCivic).toContain(
+      "A concise orientation is allowed when the screen does not already provide it",
+    );
+    expect(compactCivic).toContain("Do not repeat titles, recap needlessly");
+    expect(ownerContract).toContain(
+      "Orient briefly only when this moment needs it",
+    );
+    expect(compactOwner).toContain(
       "Use only packet-established facts, say it once",
     );
-    expect(civic).toContain("No repetitive recap or invented exposition");
+    expect(ownerContract).toContain(
+      "No repetitive recap or invented exposition",
+    );
+  });
+
+  it("resolves relocated markdown and contract paths from their new directories", () => {
+    const relocated = [
+      join(REPO_ROOT, ".agents", "rules", "repository-reference.md"),
+      join(REPO_ROOT, ".agents", "skills", "civic-prose", "SKILL.md"),
+      join(
+        REPO_ROOT,
+        ".agents",
+        "skills",
+        "civic-prose",
+        "references",
+        "owner-authoring-contract.md",
+      ),
+    ];
+    const link = /\]\(([^)]+)\)/g;
+    const localFile = /`([^`]+?\.(?:md|jsonl|ts))`/g;
+    for (const file of relocated) {
+      const text = readFileSync(file, "utf8");
+      const dir = dirname(file);
+      for (const match of text.matchAll(link)) {
+        const target = match[1] ?? "";
+        if (/^(https?:|mailto:|#)/.test(target)) continue;
+        const pathOnly = target.split("#")[0] ?? target;
+        expect(existsSync(join(dir, pathOnly)), `${file} -> ${target}`).toBe(
+          true,
+        );
+      }
+      for (const match of text.matchAll(localFile)) {
+        const target = match[1] ?? "";
+        const fromFile = join(dir, target);
+        const fromRoot = join(REPO_ROOT, target);
+        expect(
+          existsSync(fromFile) || existsSync(fromRoot),
+          `${file} -> ${target}`,
+        ).toBe(true);
+      }
+    }
   });
 
   it("consumes the DEV-LAB2 interface without copying its implementation", () => {
