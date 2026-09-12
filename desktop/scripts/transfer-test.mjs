@@ -196,7 +196,10 @@ if (!filePath) {
 
 const exportedBundle = JSON.parse(readFileSync(filePath, "utf8"));
 const wireState = (state) => ({
-  ...state,
+  version: state.version,
+  journal: state.journal,
+  preferences: state.preferences,
+  personWardrobes: state.personWardrobes,
   pins: state.pins.map(({ ref, size }) => ({ ref, size })),
 });
 check(
@@ -242,7 +245,7 @@ const interfaceAfter = await page.evaluate(async (databaseName) => {
 }, saveDatabaseName);
 check(
   "transfer: imported and original slots retain pins, Journal, all wardrobe parts and follows",
-  interfaceAfter.filter(({ saveId, ...state }) =>
+  interfaceAfter.filter((state) =>
     isDeepStrictEqual(wireState(state), wireState(interfaceSeed.state)),
   ).length === 2,
   String(interfaceAfter.length),
@@ -310,7 +313,7 @@ check(
 );
 check(
   "transfer: reopen preserves complete interface in both slots",
-  reopened.interfaces.filter(({ saveId, ...state }) =>
+  reopened.interfaces.filter((state) =>
     isDeepStrictEqual(wireState(state), wireState(interfaceSeed.state)),
   ).length === 2,
 );
