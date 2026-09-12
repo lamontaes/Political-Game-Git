@@ -247,13 +247,25 @@ export function EconomicGraph({
             })
           : graph.series.flatMap((series) =>
               lineSegments(series.points, minimum, range).map(
-                (points, index) => (
-                  <polyline
-                    key={`${series.seriesKey}:${index}`}
-                    className={`economic-line economic-line--${series.recordClass}`}
-                    points={points}
-                  />
-                ),
+                (points, index) => {
+                  const key = `${series.seriesKey}:${index}`;
+                  const className = `economic-line economic-line--${series.recordClass}`;
+                  if (!points.includes(" ")) {
+                    const [cx, cy] = points.split(",");
+                    return (
+                      <circle
+                        key={key}
+                        className={className}
+                        cx={cx}
+                        cy={cy}
+                        r="3"
+                      />
+                    );
+                  }
+                  return (
+                    <polyline key={key} className={className} points={points} />
+                  );
+                },
               ),
             )}
       </svg>
@@ -347,15 +359,18 @@ function uniqueSources(context: BrowserEconomicContextResult) {
 }
 
 function formatGraphValue(value: number, unit: string): string {
+  const exactNumber = new Intl.NumberFormat("en-US", {
+    maximumFractionDigits: 20,
+  }).format(value);
+  if (unit.endsWith(" minor units")) return `${exactNumber} ${unit}`;
   if (unit.toLowerCase().includes("usd") || unit === "Dollars") {
-    const dollars = unit === "USD minor units" ? value / 100 : value;
     return new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",
-      maximumFractionDigits: 0,
-    }).format(dollars);
+      maximumFractionDigits: 20,
+    }).format(value);
   }
-  return `${new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 }).format(value)} ${unit}`;
+  return `${exactNumber} ${unit}`;
 }
 
 function productLabel(

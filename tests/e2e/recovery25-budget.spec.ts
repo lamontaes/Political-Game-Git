@@ -54,7 +54,12 @@ test("normal Politics Budget route preserves exact Lexington scope, date, Back a
   const before = await savedWorldPayload(page);
   const currentDate = JSON.parse(before).world.currentDate as string;
 
-  await goTo(page, "nav-politics-budget");
+  await page.keyboard.press("Escape");
+  await page.getByTestId("shell-nav-cluster").focus();
+  await page.getByTestId("shell-nav-cluster").press("Enter");
+  await page.getByTestId("nav-politics-budget").focus();
+  await page.getByTestId("nav-politics-budget").press("Enter");
+  await expect(page.getByTestId("shell-nav-flyout")).toBeHidden();
   const politics = page.getByTestId("politics-workspace");
   const budget = page.getByTestId("budget-economy-workspace");
   await expect(politics).toBeVisible();
@@ -75,6 +80,10 @@ test("normal Politics Budget route preserves exact Lexington scope, date, Back a
   await goTo(page, "elsewhere-people");
   await expect(page.getByTestId("people-overlay")).toBeVisible();
   await page.getByTestId("people-overlay-back").press("Enter");
+  await expect(politics).toBeVisible();
+  await goTo(page, "nav-news");
+  await expect(politics).toHaveCount(0);
+  await page.getByTestId("news-workspace-back").press("Enter");
   await expect(politics).toBeVisible();
 
   await saveLife(page);
@@ -104,11 +113,19 @@ test("supported-date browser proof shows exact economic and fiscal graph metadat
   await expect(fiscal).toContainText("Lexington-Fayette, Kentucky");
   await expect(fiscal).toContainText("USD minor units");
   await expect(fiscal).toContainText("simulated history");
+  await expect(fiscal.locator("svg circle")).toHaveCount(2);
+  await expect(fiscal.locator("svg polyline")).toHaveCount(0);
 
   const exactValues = fiscal.getByText("Exact values", { exact: true });
   await exactValues.focus();
   await exactValues.press("Enter");
   await expect(fiscal.getByRole("table")).toBeVisible();
+  await expect(fiscal.getByRole("table")).toContainText(
+    "2,450,000,000 USD minor units",
+  );
+  await expect(fiscal.getByRole("table")).toContainText(
+    "2,370,000,000 USD minor units",
+  );
   await expect(
     fiscal.getByRole("columnheader", { name: "Period" }),
   ).toBeVisible();

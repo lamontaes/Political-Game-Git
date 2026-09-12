@@ -4,8 +4,12 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { createEconomicContextBrowserProvider } from "./economic-context-browser";
-import { legislativeEstimateComparisonGraph } from "./economic-graphs";
 import {
+  legislativeEstimateComparisonGraph,
+  fiscalRecordGraph,
+} from "./economic-graphs";
+import {
+  EconomicGraph,
   EconomicContextView,
   LEXINGTON_ECONOMIC_BINDING,
 } from "../player/EconomicContextPanel";
@@ -57,5 +61,46 @@ describe("EconomicContextView", () => {
     expect(html).not.toContain("fiscal-estimate");
     expect(html).toContain("SHA-256");
     expect(html).not.toContain("simulated future GDP");
+  });
+});
+
+describe("EconomicGraph sparse and exact records", () => {
+  function graphMarkup(values: readonly (number | null)[], unit: string) {
+    const graph = fiscalRecordGraph(
+      "budget-history:sparse-proof",
+      "Sparse budget",
+      values.map((value, index) => ({
+        recordKey: `record:${index}`,
+        seriesKey: "government.revenue",
+        seriesLabel: "Revenue",
+        period: `202${index}`,
+        value,
+        missingReason: value === null ? "Not supplied" : null,
+        unit,
+        geographyKey: "scope:proof",
+        geographyLabel: "Proof scope",
+        recordClass: "simulated-history" as const,
+      })),
+    )!;
+    return renderToStaticMarkup(createElement(EconomicGraph, { graph }));
+  }
+
+  it("shows isolated observations without inventing a line through a missing period", () => {
+    const html = graphMarkup([125, null, 126], "USD minor units");
+    expect(html.match(/<circle /g)).toHaveLength(2);
+    expect(html).not.toContain("<polyline");
+    expect(html).toContain("Missing — Not supplied");
+  });
+
+  it("retains exact money units and fractional values in the table", () => {
+    expect(graphMarkup([125], "USD minor units")).toContain(
+      "125 USD minor units",
+    );
+    expect(graphMarkup([12.34567], "Percent")).toContain("12.34567 Percent");
+    expect(graphMarkup([12.34567], "Dollars")).toContain("$12.34567");
+    expect(graphMarkup([125], "EUR minor units")).toContain(
+      "125 EUR minor units",
+    );
+    expect(graphMarkup([null], "USD minor units")).not.toContain("<circle");
   });
 });

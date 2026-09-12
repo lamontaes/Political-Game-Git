@@ -2,8 +2,8 @@
   "counts": {
     "INVENTORIED": 2353,
     "INTENTIONALLY_NON_PLAYER_FACING": 5698,
-    "DIAGNOSTIC_OR_TEST": 4791,
-    "NEEDS_CLASSIFICATION": 6172
+    "DIAGNOSTIC_OR_TEST": 4805,
+    "NEEDS_CLASSIFICATION": 6173
   },
   "needsClassification": [
     {
@@ -2856,8 +2856,8 @@
     },
     {
       "sourcePath": "src/player/EconomicContextPanel.tsx",
-      "enclosingSymbol": "EconomicGraph",
-      "line": 253,
+      "enclosingSymbol": "className",
+      "line": 252,
       "text": "economic-line economic-line--{series.recordClass}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2865,7 +2865,7 @@
     {
       "sourcePath": "src/player/EconomicContextPanel.tsx",
       "enclosingSymbol": "EconomicGraph",
-      "line": 260,
+      "line": 272,
       "text": "Record classes",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2873,31 +2873,39 @@
     {
       "sourcePath": "src/player/EconomicContextPanel.tsx",
       "enclosingSymbol": "EconomicGraph",
-      "line": 289,
+      "line": 301,
       "text": "Missing — {point.missingReason??\"Novaluesupplied\"}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/player/EconomicContextPanel.tsx",
-      "enclosingSymbol": "dollars",
-      "line": 351,
-      "text": "USD minor units",
+      "enclosingSymbol": "formatGraphValue",
+      "line": 365,
+      "text": " minor units",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/player/EconomicContextPanel.tsx",
       "enclosingSymbol": "formatGraphValue",
-      "line": 358,
-      "text": "{newIntl.NumberFormat(\"en-US\",{maximumFractionDigits:2}).format(value)} {unit}",
+      "line": 365,
+      "text": "{exactNumber} {unit}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/EconomicContextPanel.tsx",
+      "enclosingSymbol": "formatGraphValue",
+      "line": 373,
+      "text": "{exactNumber} {unit}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/player/EconomicContextPanel.tsx",
       "enclosingSymbol": "productLabel",
-      "line": 364,
+      "line": 379,
       "text": "BEA regional",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2905,7 +2913,7 @@
     {
       "sourcePath": "src/player/EconomicContextPanel.tsx",
       "enclosingSymbol": "productLabel",
-      "line": 366,
+      "line": 381,
       "text": "HUD housing",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -52520,7 +52528,7 @@
       "sourcePath": "src/presentation/economic-context-panel.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 8
+      "count": 22
     },
     {
       "sourcePath": "src/presentation/economic-context-browser.ts",

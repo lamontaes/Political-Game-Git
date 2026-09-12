@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 2353 |
 | INTENTIONALLY_NON_PLAYER_FACING | 5698 |
-| DIAGNOSTIC_OR_TEST | 4791 |
-| **NEEDS_CLASSIFICATION** | **6172** |
+| DIAGNOSTIC_OR_TEST | 4805 |
+| **NEEDS_CLASSIFICATION** | **6173** |
 
-Scanned 581 files holding 72185 string
+Scanned 581 files holding 72216 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -120,13 +120,13 @@ literals in total; the table counts only those that read like a sentence.
 | 18 | `src/simulation/records.ts` |
 | 17 | `src/content/adapters/conversation-subjects.ts` |
 | 17 | `src/player/ConversationStrip.tsx` |
+| 17 | `src/player/EconomicContextPanel.tsx` |
 | 17 | `src/player/MeasurePaperWorkspace.tsx` |
 | 17 | `src/presentation/legislation-estimate-action.ts` |
 | 17 | `src/presentation/player-places.ts` |
 | 17 | `src/simulation/executive-governing-kernels.ts` |
 | 17 | `src/simulation/incident-response.ts` |
 | 17 | `src/ui/CharacterProofView.tsx` |
-| 16 | `src/player/EconomicContextPanel.tsx` |
 | 16 | `src/player/PressInterviewPanel.tsx` |
 | 16 | `src/player/WorkingDocumentWorkspace.tsx` |
 | 16 | `src/presentation/run-a-projection.ts` |
