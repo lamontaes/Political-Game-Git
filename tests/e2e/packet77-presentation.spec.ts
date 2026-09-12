@@ -197,6 +197,7 @@ test.describe("The title is a room with a menu on it", () => {
 
   test("consumes no world and no randomness while it drifts", async ({
     page,
+    browser,
   }) => {
     test.setTimeout(90_000);
     // The cycle is presentation, and the proof is that leaving the title
@@ -218,14 +219,16 @@ test.describe("The title is a room with a menu on it", () => {
     await enterLife(page);
     const immediately = await page.getByTestId("story-who").innerText();
 
-    await freshBrowser(page);
-    await page.clock.install();
-    await page.clock.fastForward(120_000);
+    const idle = await browser.newPage();
+    await idle.goto("/");
+    await expect(idle.getByTestId("title-screen")).toBeVisible();
+    await idle.clock.install();
+    await idle.clock.fastForward(120_000);
     // Two minutes of drifting, and still nothing saved.
-    await expect(page.getByTestId("continue")).toBeDisabled();
-    await expect(page.getByTestId("open-saves")).toBeDisabled();
+    await expect(idle.getByTestId("continue")).toBeDisabled();
+    await expect(idle.getByTestId("open-saves")).toBeDisabled();
+    await idle.close();
 
-    await page.clock.uninstall();
     await page.goto(replay);
     await expect(page.getByTestId("play-screen")).toBeVisible();
     // PT3: the intro is two beats and then the scene; the life moment is
