@@ -52,8 +52,11 @@ test.describe("The creator stays inside the viewport", () => {
       await freshBrowser(page);
       await reachPlaceSearch(page);
 
-      // A common town name returns many results across states.
-      await page.getByTestId("place-search").fill("Springfield");
+      await page.getByTestId("state-search").fill("Texas");
+      await page.getByTestId("state-TX").click();
+
+      // A short query in a large state still has to stay inside the list.
+      await page.getByTestId("place-search").fill("san");
       const choices = page.getByTestId("place-choices");
       await expect(choices.getByRole("button").first()).toBeVisible();
 
@@ -71,10 +74,7 @@ test.describe("The creator stays inside the viewport", () => {
       expect(pageScroll).toBeLessThanOrEqual(1);
 
       // Selecting a place keeps its Next reachable without hunting below fold.
-      await choices
-        .getByRole("button", { name: /Springfield, Illinois/i })
-        .first()
-        .click();
+      await choices.getByRole("button").first().click();
       const next = page.getByTestId("creator-continue-place");
       await expect(next).toBeVisible();
       const box = await next.boundingBox();

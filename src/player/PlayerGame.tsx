@@ -5,8 +5,6 @@ import {
   savedRenderSnapshots,
   SavedAppearanceControls,
 } from "./SavedAppearance";
-import { playerEconomicContextLines } from "../presentation/economic-context";
-import { LifeScenePanel } from "./opening-life/LifeScenePanel";
 import { createOpeningLifeController } from "../presentation/opening-life";
 import { OpeningLifeFlow } from "./opening-life/OpeningLifeFlow";
 import { MunicipalWorkspace } from "./MunicipalWorkspace";
@@ -61,9 +59,20 @@ import {
   type NewGameSetup,
 } from "../presentation/new-game";
 import {
+  clearCreatorState,
+  creatorLocationFromPlaceKey,
+  creatorLocationIsReady,
+  creatorPlaceListOpen,
+  selectCreatorPlace,
+  selectCreatorState,
+  selectedCreatorPlace,
+  withCreatorLocation,
+  type CreatorLocationDraft,
+} from "../presentation/creator-location";
+import { placeStartFacts } from "../presentation/place-start-summary";
+import {
   openOrdinaryLife,
   passOrdinaryDays,
-  projectOrdinaryDay,
 } from "../presentation/ordinary-life";
 import {
   answerQuestionnaire,
@@ -72,6 +81,7 @@ import {
   questionnaireScreenFor,
 } from "../presentation/setup-questionnaire-flow";
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
+import { projectToday, projectWorkRole } from "../presentation/day-overview";
 import { projectDynamicSurfaces } from "../presentation/surface-projection";
 import { resolveLifeScene } from "../presentation/life-scene";
 import { planLifeScenePeople } from "../presentation/life-scene-people";
@@ -99,16 +109,12 @@ import {
   defaultPronounsForGender,
   GENDER_IDENTITY_KEYS,
   GENDER_IDENTITY_LABELS,
-  lifePlaceByKey,
   lifePlaceCoverage,
   lifePlaceSearch,
+  lifePlaceStateIdentities,
+  lifePlaces,
 } from "../simulation";
-import type {
-  EntityId,
-  LifePlace,
-  QuestionnairePhase,
-  World,
-} from "../simulation";
+import type { EntityId, QuestionnairePhase, World } from "../simulation";
 import {
   openLegislativeWork,
   type LegislativeAssignment,
@@ -126,14 +132,14 @@ import {
 import { selectedDocketKey } from "../presentation/legislation-docket-selection";
 import { measureById } from "../simulation";
 import { measureGate } from "../simulation/legislation";
-import { PlayerConversation, PlayerConversations } from "./PlayerConversation";
+import { ConversationStarters, SceneConversation } from "./SceneConversation";
+import type { ConversationAddressee } from "../presentation/run-b-conversation";
 import type { ConversationSubjectKey } from "../presentation/run-b-conversation-progress";
 import { openConversationWith } from "../presentation/person-conversation-entry";
 import {
   projectPersonDossier,
   type PersonDossier,
 } from "../presentation/person-dossier";
-import { CANONICAL_VERSION } from "../presentation/release-identity";
 import {
   activeView,
   canGoBack,
@@ -158,6 +164,7 @@ import {
   WorkWorkspace,
   WorkspaceFrame,
 } from "./ShellWorkspaces";
+import { PlayerVersion } from "./PlayerVersion";
 
 /**
  * The game.
@@ -734,29 +741,6 @@ const CUSTOM_CREATOR_STEPS = [
 type CreatorStep =
   (typeof NORMAL_CREATOR_STEPS)[number] | (typeof CUSTOM_CREATOR_STEPS)[number];
 
-/** A short, plain place context, built only from what the sources actually hold. */
-function placeContextLines(place: LifePlace): readonly string[] {
-  const lines: string[] = [];
-  if (place.withinName) lines.push(place.withinName);
-  if (place.formalName && place.formalName !== place.displayName) {
-    lines.push(place.formalName);
-  }
-  // Capability-gated, never fabricated: the only civic fact the accepted data
-  // carries is whether the game models a legislature you could later enter.
-  lines.push(
-    place.capabilities.legislativeScenarioKey
-      ? "The game models this state's legislature, so political office is reachable here later."
-      : "The game does not model a legislature here yet, so this is an everyday life for now.",
-  );
-  lines.push(
-    ...playerEconomicContextLines(
-      place.key,
-      place.context.initialMoment.date,
-    ).map((item) => item.text),
-  );
-  return lines;
-}
-
 function SetupScreen({
   seed,
   seedOrigin,
@@ -773,23 +757,44 @@ function SetupScreen({
   readonly problem: string | null;
 }) {
   const coverage = lifePlaceCoverage();
+  const [stateQuery, setStateQuery] = useState("");
   const [placeQuery, setPlaceQuery] = useState("");
-  /**
-   * Nothing until somebody asks for something, and then the national corpus.
-   *
-   * With an empty query the list is empty, so nothing reads as a recommended
-   * default. Once the player types, the search runs over the accepted national
-   * place identity (PR #77) and returns a bounded page of matches — anywhere in
-   * the country, found rather than offered.
+  const [replacingPlace, setReplacingPlace] = useState(false);
+  /*
+   * An edit of an already-chosen setup reopens with that setup's place; a
+   * fresh start opens with none (PT3-CREATOR B).
    */
-  const matchingPlaces = useMemo(
-    () => lifePlaceSearch(placeQuery, 12),
-    [placeQuery],
+  const [location, setLocation] = useState<CreatorLocationDraft>(() =>
+    creatorLocationFromPlaceKey(initialSetup?.placeKey),
   );
+  const matchingStates = useMemo(() => {
+    const needle = stateQuery.trim().toLowerCase();
+    const identities = lifePlaceStateIdentities();
+    if (needle.length === 0) return identities;
+    return identities.filter(
+      (state) =>
+        state.name.toLowerCase().includes(needle) ||
+        state.usps.toLowerCase() === needle,
+    );
+  }, [stateQuery]);
+  const matchingPlaces = useMemo(() => {
+    if (!location.stateJurisdictionKey) return [];
+    return lifePlaceSearch(placeQuery, 24, {
+      stateJurisdictionKey: location.stateJurisdictionKey,
+      scope: "locality",
+    });
+  }, [location.stateJurisdictionKey, placeQuery]);
+  const statewidePlace =
+    lifePlaces().find(
+      (candidate) =>
+        candidate.scope === "state" &&
+        candidate.stateJurisdictionKey === location.stateJurisdictionKey,
+    ) ?? null;
   const [setup, setSetup] = useState<NewGameSetup>(
     initialSetup ?? {
       ...DEFAULT_NEW_GAME_SETUP,
       seed,
+      placeKey: "",
     },
   );
   /**
@@ -809,6 +814,7 @@ function SetupScreen({
    */
   const [ageText, setAgeText] = useState(String(setup.startAge));
   const custom = setup.startKind === "custom";
+  const committed = withCreatorLocation(setup, location);
   const steps: readonly CreatorStep[] = custom
     ? CUSTOM_CREATOR_STEPS
     : NORMAL_CREATOR_STEPS;
@@ -832,8 +838,9 @@ function SetupScreen({
     );
   const reopen = (step: CreatorStep) => setCurrent(step);
 
-  const problems = newGameSetupProblems(setup);
-  const place = lifePlaceByKey(setup.placeKey);
+  const problems = newGameSetupProblems(committed);
+  const place = selectedCreatorPlace(location);
+  const placeListOpen = creatorPlaceListOpen(location.placeKey, replacingPlace);
   const officeAvailable =
     place?.capabilities.legislativeScenarioKey !== null &&
     setup.startAge >= LEGISLATIVE_OFFICE_MINIMUM_AGE;
@@ -866,8 +873,11 @@ function SetupScreen({
   const onReady = currentIndex >= steps.indexOf("begin");
 
   return (
-    <main className="game-setup game-creator" data-testid="setup-screen">
-      <h1>Your new life</h1>
+    <main
+      className="game-title game-setup game-creator"
+      data-testid="setup-screen"
+    >
+      <h1>Our Civic Duty</h1>
 
       {/*
             Finished steps, collapsed. Each is a one-line summary the player can
@@ -905,6 +915,12 @@ function SetupScreen({
               className={!custom ? "is-chosen" : undefined}
               onClick={() => {
                 setSetup((now) => ({ ...now, startKind: "normal" }));
+                setLocation((now) => {
+                  const selected = selectedCreatorPlace(now);
+                  return selected && selected.scope === "state"
+                    ? { ...now, placeKey: null }
+                    : now;
+                });
                 setCurrent("character");
               }}
             >
@@ -1046,93 +1062,209 @@ function SetupScreen({
       {isCurrent("place") ? (
         <section data-testid="creator-stage-place">
           <h2>Where you're from</h2>
-          <label className="game-search">
-            Search places
-            <input
-              type="search"
-              data-testid="place-search"
-              value={placeQuery}
-              placeholder="Type a state or a city"
-              onChange={(event) => setPlaceQuery(event.target.value)}
-            />
-          </label>
-          {matchingPlaces.length > 0 ? (
-            <div className="game-choices" data-testid="place-choices">
-              {matchingPlaces.map((candidate) => (
-                <button
-                  key={candidate.key}
-                  type="button"
-                  className={
-                    candidate.key === setup.placeKey ? "is-chosen" : undefined
-                  }
-                  onClick={() =>
-                    setSetup((now) => ({
-                      ...now,
-                      placeKey: candidate.key,
-                      startingLife:
-                        candidate.capabilities.legislativeScenarioKey === null
-                          ? "ordinary-life"
-                          : now.startingLife,
-                    }))
-                  }
-                >
-                  {candidate.displayName}
-                  {/*
-                    A search for "Kentucky" returns the whole state AND cities
-                    inside it. The owner play picked one meaning to get the
-                    other, so the two are now labelled as the different kinds of
-                    thing they are instead of as two similar-looking rows.
-                  */}
-                  <small data-place-scope={candidate.scope}>
-                    {candidate.scope === "state"
-                      ? "Statewide — not a hometown"
-                      : candidate.scope === "county"
-                        ? "County or county equivalent"
-                        : (candidate.withinName ?? "")}
-                  </small>
-                </button>
-              ))}
-            </div>
-          ) : placeQuery.trim().length === 0 ? (
-            <p className="game-note" data-testid="place-prompt">
-              Type where you're from. {coverage.playerNote}
-            </p>
+          {location.stateJurisdictionKey ? (
+            <button
+              type="button"
+              className="creator-summary"
+              data-testid="creator-change-state"
+              onClick={() => {
+                setLocation(clearCreatorState());
+                setPlaceQuery("");
+                setReplacingPlace(false);
+                setSetup((now) => ({ ...now, placeKey: "" }));
+              }}
+            >
+              <span className="creator-summary-value">
+                {lifePlaceStateIdentities().find(
+                  (state) =>
+                    state.jurisdictionKey === location.stateJurisdictionKey,
+                )?.name ?? location.stateJurisdictionKey}
+              </span>
+              <span className="creator-summary-edit">Change</span>
+            </button>
           ) : (
-            <p className="game-note" data-testid="place-no-match">
-              Nothing here matches that yet. {coverage.playerNote}
+            <>
+              <label className="game-search">
+                Choose a state
+                <input
+                  type="search"
+                  data-testid="state-search"
+                  value={stateQuery}
+                  placeholder="Type a state"
+                  onChange={(event) => setStateQuery(event.target.value)}
+                />
+              </label>
+              {matchingStates.length > 0 ? (
+                <div className="game-choices" data-testid="state-choices">
+                  {matchingStates.map((state) => (
+                    <button
+                      key={state.jurisdictionKey}
+                      type="button"
+                      data-testid={`state-${state.usps}`}
+                      onClick={() => {
+                        setLocation((now) =>
+                          selectCreatorState(now, state.jurisdictionKey),
+                        );
+                        setPlaceQuery("");
+                        setReplacingPlace(false);
+                        setSetup((now) => ({ ...now, placeKey: "" }));
+                      }}
+                    >
+                      {state.name}
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <p className="game-note" data-testid="state-no-match">
+                  Nothing here matches that yet.
+                </p>
+              )}
+            </>
+          )}
+          {location.stateJurisdictionKey ? (
+            <>
+              <label className="game-search">
+                Search places in this state
+                <input
+                  type="search"
+                  data-testid="place-search"
+                  value={placeQuery}
+                  placeholder="Type a city or town"
+                  onChange={(event) => {
+                    setPlaceQuery(event.target.value);
+                    if (location.placeKey) setReplacingPlace(true);
+                  }}
+                />
+              </label>
+              {custom && statewidePlace ? (
+                <div className="game-choices" data-testid="place-statewide">
+                  <button
+                    type="button"
+                    data-testid="place-statewide-choice"
+                    className={
+                      location.placeKey === statewidePlace.key
+                        ? "is-chosen"
+                        : undefined
+                    }
+                    onClick={() => {
+                      setLocation((now) =>
+                        selectCreatorPlace(now, statewidePlace),
+                      );
+                      setReplacingPlace(false);
+                      setSetup((now) => ({
+                        ...now,
+                        placeKey: statewidePlace.key,
+                      }));
+                    }}
+                  >
+                    {statewidePlace.displayName}
+                    <small data-place-scope="state">
+                      Statewide — not a hometown
+                    </small>
+                  </button>
+                </div>
+              ) : null}
+              {placeListOpen && matchingPlaces.length > 0 ? (
+                <div className="game-choices" data-testid="place-choices">
+                  {matchingPlaces.map((candidate) => (
+                    <button
+                      key={candidate.key}
+                      type="button"
+                      className={
+                        candidate.key === location.placeKey
+                          ? "is-chosen"
+                          : undefined
+                      }
+                      onClick={() => {
+                        setLocation((now) =>
+                          selectCreatorPlace(now, candidate),
+                        );
+                        setReplacingPlace(false);
+                        setSetup((now) => ({
+                          ...now,
+                          placeKey: candidate.key,
+                          startingLife:
+                            candidate.capabilities.legislativeScenarioKey ===
+                            null
+                              ? "ordinary-life"
+                              : now.startingLife,
+                        }));
+                      }}
+                    >
+                      {candidate.displayName}
+                      <small data-place-scope={candidate.scope}>
+                        {candidate.withinName ?? ""}
+                      </small>
+                    </button>
+                  ))}
+                </div>
+              ) : placeListOpen && placeQuery.trim().length === 0 ? (
+                <p className="game-note" data-testid="place-prompt">
+                  Choose a town in this state. {coverage.playerNote}
+                </p>
+              ) : placeListOpen ? (
+                <p className="game-note" data-testid="place-no-match">
+                  Nothing here matches that yet. {coverage.playerNote}
+                </p>
+              ) : null}
+            </>
+          ) : (
+            <p className="game-note" data-testid="place-prompt">
+              Choose a state first. A fresh start has no home selected.
             </p>
           )}
-          {place ? (
+          {place &&
+          creatorLocationIsReady(location, custom ? "custom" : "normal") ? (
             <div className="creator-place-context" data-testid="place-context">
-              {/*
-                The exact place that becomes canonical, said before Begin. The
-                owner play chose a state and was later told they lived in
-                Lexington; whatever the answer is, it is on screen first.
-              */}
-              <p className="creator-place-name" data-testid="place-canonical">
-                {place.displayName}
-              </p>
-              <p className="game-hint" data-testid="place-scope">
-                {place.scope === "state"
-                  ? "A whole state, chosen as the scope of this life."
-                  : place.scope === "county"
-                    ? "County or county equivalent. Your town is unspecified."
-                    : "This is the exact place this life will be lived in."}
-              </p>
-              {placeContextLines(place).map((line) => (
-                <p key={line} className="game-hint">
-                  {line}
-                </p>
-              ))}
               <button
                 type="button"
-                className="game-creator-next"
-                data-testid="creator-continue-place"
-                onClick={() => advanceTo(custom ? "background" : "whoAreYou")}
+                className="creator-summary"
+                data-testid="creator-change-place"
+                onClick={() => setReplacingPlace((open) => !open)}
               >
-                Next
+                <span
+                  className="creator-place-name"
+                  data-testid="place-canonical"
+                >
+                  {place.displayName}
+                </span>
+                <span className="creator-summary-edit">
+                  {replacingPlace ? "Keep" : "Change"}
+                </span>
               </button>
+              {place.scope !== "locality" ? (
+                <p className="game-hint" data-testid="place-scope">
+                  {place.scope === "state"
+                    ? "Statewide start."
+                    : "County-wide start; a specific town is not selected."}
+                </p>
+              ) : null}
+              {placeStartFacts(place)
+                .filter((fact) => fact.kind !== "name")
+                .map((fact) => (
+                  <p key={`${fact.kind}:${fact.text}`} className="game-hint">
+                    {fact.kind === "county"
+                      ? fact.asOf
+                        ? `${fact.text} · ${fact.asOf.slice(0, 4)}`
+                        : fact.text
+                      : fact.text}
+                  </p>
+                ))}
+              {replacingPlace ? null : (
+                <button
+                  type="button"
+                  className="game-creator-next"
+                  data-testid="creator-continue-place"
+                  onClick={() => advanceTo(custom ? "background" : "whoAreYou")}
+                >
+                  Next
+                </button>
+              )}
             </div>
+          ) : location.stateJurisdictionKey ? (
+            <p className="game-note" data-testid="place-need-locality">
+              Next waits until you choose a place in this state.
+            </p>
           ) : null}
         </section>
       ) : null}
@@ -1218,7 +1350,7 @@ function SetupScreen({
               Legislative staff
               <small>
                 {place?.capabilities.legislativeScenarioKey === null
-                  ? `${place.displayName} has no legislature you can work in yet.`
+                  ? "A legislative staff start is not available for this selected place yet."
                   : setup.startAge < LEGISLATIVE_OFFICE_MINIMUM_AGE
                     ? `Available for characters ${LEGISLATIVE_OFFICE_MINIMUM_AGE} and older.`
                     : "Working for a state legislature."}
@@ -1377,14 +1509,16 @@ function SetupScreen({
         <button type="button" onClick={onBack}>
           Back
         </button>
-        <button
-          type="button"
-          data-testid="begin"
-          disabled={problems.length > 0 || !onReady}
-          onClick={() => onBegin(setup)}
-        >
-          Begin
-        </button>
+        {onReady ? (
+          <button
+            type="button"
+            data-testid="begin"
+            disabled={problems.length > 0}
+            onClick={() => onBegin(committed)}
+          >
+            Begin
+          </button>
+        ) : null}
       </div>
 
       {/*
@@ -1405,7 +1539,7 @@ function SetupScreen({
         </p>
         <p>
           <code data-testid="setup-replay-link">
-            {replayDescriptorUrl("", "/", setup)}
+            {replayDescriptorUrl("", "/", committed)}
           </code>
         </p>
       </details>
@@ -1455,10 +1589,11 @@ function QuestionnaireScreenView({
   const note = questionnaireContentNote();
   return (
     <main
-      className="game-setup game-creator"
+      className="game-title game-setup game-creator"
       data-testid="questionnaire-screen"
     >
-      <h1>Who are you?</h1>
+      <h1>Our Civic Duty</h1>
+      <h2>Who are you?</h2>
       {/*
             What these questions actually are, said once and plainly: they are
             about the player, they orient what the game offers, and they decide
@@ -1708,17 +1843,26 @@ function PlayingScreen({
   );
   const [floorNote, setFloorNote] = useState<string | null>(null);
   /**
-   * The conversation the player asked for, and who they asked to speak to.
+   * The conversation the player asked for, and who they are facing in it.
    *
    * Held beside the shell rather than inside it because it is not a place — it
-   * is a thing happening with a person whose record is already open. The
-   * addressee travels with it, which is the whole repair: the recorded defect
-   * was a selected person being dropped on the way to a generic surface.
+   * is a thing happening in the room. The addressee travels with it, which is
+   * the whole repair: the recorded defect was a selected person being dropped
+   * on the way to a generic surface. PT3: it is drawn in ONE place, the
+   * conversation box in the room, whichever control started it.
    */
   const [conversation, setConversation] = useState<{
-    readonly personId: EntityId;
     readonly subject: ConversationSubjectKey;
+    readonly addressee: ConversationAddressee;
   } | null>(null);
+  /**
+   * Whose Talk-to control the room should focus when a conversation closes.
+   *
+   * Back with a keyboard used to leave focus on the page body. The scene
+   * panel does the focusing, because it owns the control and knows when it is
+   * on screen; this is the request, cleared as soon as it is honored.
+   */
+  const [returnFocusTo, setReturnFocusTo] = useState<EntityId | null>(null);
 
   const sceneId = useMemo(() => {
     const activity = completedActivityHere(session.world, session.personId);
@@ -1822,23 +1966,48 @@ function PlayingScreen({
     return () => cancelAnimationFrame(frame);
   }, [openSurface]);
 
+  /*
+   * What Work holds for THIS life, said on the way in.
+   *
+   * "Offices / Work — Education, work and your current role" was the same line
+   * for a ten-year-old, a shop assistant, a candidate and a member, so the menu
+   * could not tell anybody whether what they were hunting for was behind it.
+   * The hint is now built from what the Work surface will actually mount.
+   */
+  const workHint = capabilities.formativeYears
+    ? "School, and anything waiting on you"
+    : [
+        judicialOfficeContexts(session.world).length > 0 ||
+        resolveExecutiveOffice(session.world) ||
+        capabilities.legislation
+          ? "your office"
+          : null,
+        capabilities.campaign ? "running for office" : null,
+        "jobs and study",
+      ]
+        .filter((part): part is string => part !== null)
+        .join(", ")
+        .replace(/^./, (first) => first.toUpperCase());
+
   const destinations = useMemo<readonly ShellDestination[]>(() => {
     const entries: ShellDestination[] = [];
     if (!capabilities.formativeYears) {
       entries.push({
         surface: "day",
-        label: "The day",
-        hint: "What is in front of you today",
+        label: "Today",
+        hint: "What is happening, what is next, and your time",
         testid: "elsewhere-day",
         open: openSurface === "day",
+        group: "now",
       });
     }
     entries.push({
-      surface: "people",
-      label: "People / Friends",
-      hint: "Family, friends, work, politics",
-      testid: "elsewhere-people",
-      open: openSurface === "people",
+      surface: "work",
+      label: "Work",
+      hint: workHint,
+      testid: "elsewhere-work",
+      open: openSurface === "work",
+      group: "now",
     });
     entries.push({
       surface: "calendar",
@@ -1846,13 +2015,15 @@ function PlayingScreen({
       hint: "Your commitments, and the chamber's",
       testid: "nav-calendar",
       open: openSurface === "calendar",
+      group: "now",
     });
     entries.push({
-      surface: "work",
-      label: "Offices / Work",
-      hint: "Education, work and your current role",
-      testid: "elsewhere-work",
-      open: openSurface === "work",
+      surface: "people",
+      label: "People / Friends",
+      hint: "Family, friends, work, politics",
+      testid: "elsewhere-people",
+      open: openSurface === "people",
+      group: "world",
     });
     entries.push({
       surface: "personal",
@@ -1860,14 +2031,18 @@ function PlayingScreen({
       hint: "You, the household, money",
       testid: "nav-personal-entry",
       open: openSurface === "personal",
+      group: "you",
     });
-    entries.push({
-      surface: "life-scenes",
-      label: "Life scenes",
-      hint: "Return to your current scene and conversations",
-      testid: "nav-life-scenes",
-      open: openSurface === "life-scenes",
-    });
+    /*
+     * No "Life scenes" entry.
+     *
+     * It opened a second copy of the panel that is already standing in the
+     * room — the same scene, the same choices, the same people — under a name
+     * that did not say so. The owner's reaction was "it's the same thing. Not
+     * sure what that even means." The scene is the room; closing any
+     * workspace returns to it, and the panel there carries its own way back
+     * from the rest of the life.
+     */
     entries.push({
       /*
        * Where this life can go, and what it can do when it gets there.
@@ -1881,6 +2056,7 @@ function PlayingScreen({
       hint: "Where you are, where you can go, and what is on there",
       testid: "nav-places",
       open: openSurface === "places",
+      group: "world",
     });
     entries.push({
       surface: "municipal",
@@ -1888,6 +2064,7 @@ function PlayingScreen({
       hint: "Public meetings and your municipal work",
       testid: "nav-municipal",
       open: openSurface === "municipal",
+      group: "world",
     });
     entries.push({
       surface: "news",
@@ -1895,6 +2072,7 @@ function PlayingScreen({
       hint: "Published public records",
       testid: "nav-news",
       open: openSurface === "news",
+      group: "world",
     });
     entries.push({
       surface: "journal",
@@ -1902,6 +2080,7 @@ function PlayingScreen({
       hint: "Chapters, and what is still open",
       testid: "nav-journal-entry",
       open: openSurface === "journal",
+      group: "you",
     });
     entries.push({
       surface: "options",
@@ -1909,6 +2088,7 @@ function PlayingScreen({
       hint: "Settings this game actually reads",
       testid: "nav-options",
       open: openSurface === "options",
+      group: "game",
     });
     entries.push({
       surface: "patch-notes",
@@ -1916,15 +2096,10 @@ function PlayingScreen({
       hint: "What has changed, read from this build",
       testid: "nav-patch-notes",
       open: openSurface === "patch-notes",
+      group: "game",
     });
     return entries;
-  }, [
-    session.world,
-    capabilities.formativeYears,
-    capabilities.legislation,
-    capabilities.legislativeScenarioKey,
-    openSurface,
-  ]);
+  }, [capabilities.formativeYears, workHint, openSurface]);
 
   const openEntity = useCallback(
     (ref: ShellRef) => {
@@ -2044,18 +2219,29 @@ function PlayingScreen({
       )
     : null;
 
-  /** Starts the real conversation with exactly the person who was chosen. */
+  /**
+   * Starts the real conversation with exactly the person who was chosen, in
+   * the room.
+   *
+   * Whatever surface the choice was made on — the person in the scene, their
+   * record, the People list — the conversation itself happens in the one box
+   * over the scene, so the workspace closes and the room comes forward.
+   */
   const talkTo = useCallback(
-    (personId: EntityId) => {
+    (personId: EntityId, subject?: ConversationSubjectKey) => {
       const entry = openConversationWith(
         session.world,
         session.personId,
         personId,
       );
       if (entry.kind === "unavailable") return;
-      setConversation({ personId, subject: entry.subject });
+      setConversation({
+        subject: subject ?? entry.subject,
+        addressee: personId,
+      });
+      dispatch({ type: "go-to-scene" });
     },
-    [session.world, session.personId],
+    [session.world, session.personId, dispatch],
   );
 
   const workspace = renderWorkspace({
@@ -2066,7 +2252,6 @@ function PlayingScreen({
     capabilities,
     assignment,
     floorNote,
-    conversation,
     onWorldChange,
     openEntity,
     dossierFor,
@@ -2074,7 +2259,7 @@ function PlayingScreen({
     openTheBill,
     goToTheFloor,
     goToTheFloorFor,
-    setConversation,
+    workHint,
   });
 
   return (
@@ -2138,6 +2323,30 @@ function PlayingScreen({
               continuingLife={
                 <StoryView session={session} onWorldChange={onWorldChange} />
               }
+              onTalkTo={(personId) => talkTo(personId)}
+              returnFocusTo={returnFocusTo}
+              onFocusReturned={() => setReturnFocusTo(null)}
+              foreground={
+                conversation ? (
+                  <SceneConversation
+                    key={conversation.subject}
+                    world={session.world}
+                    playerPersonId={session.personId}
+                    subject={conversation.subject}
+                    addressee={conversation.addressee}
+                    onWorldChange={onWorldChange}
+                    onChange={(next) => setConversation(next)}
+                    onBack={() => {
+                      const facing = conversation.addressee;
+                      setConversation(null);
+                      // The room focuses the control this came from, so Back
+                      // with a keyboard lands on the person again.
+                      if (facing !== "everyone") setReturnFocusTo(facing);
+                    }}
+                    transitionHandlers={createCampaignElectionTransitionRegistry()}
+                  />
+                ) : null
+              }
             />
           </SceneBackdrop>
 
@@ -2191,10 +2400,7 @@ function PlayingScreen({
                     ? "pg-action-talk-reason"
                     : undefined
                 }
-                onClick={() => {
-                  openEntity({ kind: "person", id: actionPerson.personId });
-                  talkTo(actionPerson.personId);
-                }}
+                onClick={() => talkTo(actionPerson.personId)}
               >
                 Talk
                 <small>Say something to them</small>
@@ -2319,13 +2525,7 @@ function PlayingScreen({
             onOpen={openEntity}
           />
 
-          {/*
-        The build's own version, quiet in the corner and read from the checkout
-        rather than restated. Nothing on this route can change it.
-      */}
-          <p className="pg-version" data-testid="shell-version">
-            v{CANONICAL_VERSION}
-          </p>
+          <PlayerVersion />
 
           {floorSeat ? (
             <div
@@ -2371,7 +2571,6 @@ function renderWorkspace({
   capabilities,
   assignment,
   floorNote,
-  conversation,
   onWorldChange,
   openEntity,
   dossierFor,
@@ -2379,7 +2578,7 @@ function renderWorkspace({
   openTheBill,
   goToTheFloor,
   goToTheFloorFor,
-  setConversation,
+  workHint,
 }: {
   readonly view: ReturnType<typeof activeView>;
   readonly session: Session;
@@ -2388,18 +2587,17 @@ function renderWorkspace({
   readonly capabilities: ReturnType<typeof resolvePlayerCapabilities>;
   readonly assignment: LegislativeAssignment | null;
   readonly floorNote: string | null;
-  readonly conversation: {
-    readonly personId: EntityId;
-    readonly subject: ConversationSubjectKey;
-  } | null;
   readonly onWorldChange: (world: World) => void;
   readonly openEntity: (ref: ShellRef) => void;
   readonly dossierFor: (personId: EntityId) => PersonDossier | null;
-  readonly talkTo: (personId: EntityId) => void;
+  readonly talkTo: (
+    personId: EntityId,
+    subject?: ConversationSubjectKey,
+  ) => void;
   readonly openTheBill: () => void;
   readonly goToTheFloor: () => void;
   readonly goToTheFloorFor: (bill: DocketBill) => void;
-  readonly setConversation: (value: null) => void;
+  readonly workHint: string;
 }): ReactNode {
   if (view.surface === "scene") return null;
 
@@ -2522,31 +2720,6 @@ function renderWorkspace({
             talkUnavailable={entry.kind === "unavailable" ? entry.reason : null}
             onOpenLink={openEntity}
           />
-          {/*
-            The conversation opens against the person whose record this is, with
-            them already the addressee. Reading a dossier and speaking to
-            somebody stay different acts: this appears only once the player asks
-            for it.
-          */}
-          {conversation && conversation.personId === dossier.personId ? (
-            <div data-testid="dossier-conversation">
-              <button
-                type="button"
-                className="ui-action ui-action--subtle"
-                data-testid="dossier-conversation-close"
-                onClick={() => setConversation(null)}
-              >
-                Stop talking
-              </button>
-              <PlayerConversation
-                world={session.world}
-                personId={session.personId}
-                subject={conversation.subject}
-                initialAddressee={dossier.personId}
-                onWorldChange={onWorldChange}
-              />
-            </div>
-          ) : null}
         </>,
         "Record",
       );
@@ -2589,47 +2762,29 @@ function renderWorkspace({
 
   switch (view.surface) {
     case "day":
+      /*
+       * UI9-01 / PT3. Today answers four questions and links everywhere else.
+       *
+       * It used to mount the campaign in full below the ordinary day, after an
+       * earlier pass had already moved study and jobs out to Work — so a
+       * candidate's day was still most of a campaign office, and a player
+       * looking for "Work" found half of it here. Every one of those controls
+       * now lives in Work, once; the day says what is happening, what is
+       * next, what is waiting, and offers the two things that actually spend
+       * the day's time: attending what is planned and moving on to tomorrow.
+       */
       return frame(
-        "The day",
+        "Today",
         "day-overlay",
-        <>
-          <OrdinaryDayView session={session} onWorldChange={onWorldChange} />
-          {/*
-            UI9-01. The day used to mount the education-and-work stack and the
-            private personnel panel in full, and Work mounted the same two
-            again. Inspecting the same panels under a second name is not a
-            second thing to do, and it is most of why these menus read as
-            overlapping. Work owns study and jobs; the day links into that same
-            workspace rather than carrying a copy of it. Nothing is removed —
-            every one of those controls is still there, in one place.
-          */}
-          <button
-            type="button"
-            className="ui-action"
-            data-testid="day-open-work"
-            onClick={() => dispatch({ type: "go-to-surface", surface: "work" })}
-          >
-            Education and work
-            <small>Study, jobs and anything waiting on you</small>
-          </button>
-          {/*
-            Politics is a thing an ordinary life can turn into, so this sits
-            below the ordinary day rather than replacing it.
-          */}
-          {capabilities.campaign ? (
-            <CampaignWorkspace
-              world={session.world}
-              personId={session.personId}
-              onWorldChange={onWorldChange}
-            />
-          ) : capabilities.formativeYears ? null : (
-            <p className="game-note" data-testid="no-campaign">
-              {capabilities.withheld.find(
-                (entry) => entry.surface === "campaign",
-              )?.reason ?? ""}
-            </p>
-          )}
-        </>,
+        <TodayView
+          session={session}
+          onWorldChange={onWorldChange}
+          workHint={workHint}
+          onOpenCommitment={(activityId) =>
+            openEntity({ kind: "commitment", id: activityId })
+          }
+          onGoTo={(surface) => dispatch({ type: "go-to-surface", surface })}
+        />,
       );
 
     case "people":
@@ -2645,15 +2800,17 @@ function renderWorkspace({
             onOpenPerson={openPerson}
           />
           {/*
-            What this life can actually talk about, in the room it is in. Kept
-            here beside the directory because both answer "who is in this life",
-            and opening one person's record is a click away above.
+            What this life can actually talk about, in the room it is in — as
+            ways to START a conversation. They used to be every conversation
+            drawn in full, one under another; choosing one now opens it in the
+            conversation box in the room, the same box every other route
+            opens.
           */}
           {!completedActivityHere(session.world, session.personId) && (
-            <PlayerConversations
+            <ConversationStarters
               world={session.world}
               personId={session.personId}
-              onWorldChange={onWorldChange}
+              onStart={(personId, subject) => talkTo(personId, subject)}
             />
           )}
         </>,
@@ -2681,19 +2838,6 @@ function renderWorkspace({
           personId={session.personId}
           {...(view.section ? { section: view.section } : {})}
           onOpenPerson={openPerson}
-        />,
-      );
-
-    case "life-scenes":
-      return frame(
-        "Life scenes",
-        "life-scenes-workspace",
-        <LifeScenePanel
-          world={session.world}
-          playerPersonId={session.personId}
-          onWorldChange={onWorldChange}
-          onContinue={close}
-          transitionHandlers={createCampaignElectionTransitionRegistry()}
         />,
       );
 
@@ -2773,242 +2917,324 @@ function renderWorkspace({
       );
 
     case "work": {
+      /*
+       * Work, for every life, in one predictable order.
+       *
+       * This used to be four different screens depending on who the character
+       * was — a judge got only the court, an executive only the inbox, a
+       * member the office with study and jobs folded in, everybody else study
+       * and jobs alone — while the campaign lived under the day for all of
+       * them. A player could not know where anything was without knowing which
+       * of those lives the game thought they were in. Now it says who they
+       * are at work first, then the same sections in the same order: their
+       * office when they hold one, running for office, jobs and study, and
+       * hiring. Each section is the one canonical panel it always was; none of
+       * them is mounted anywhere else.
+       */
       const offices = judicialOfficeContexts(session.world);
-      if (offices.length > 0)
-        return frame(
-          "Office work",
-          "judicial-office-section",
+      const executive = resolveExecutiveOffice(session.world);
+      const legislative =
+        offices.length === 0 &&
+        !executive &&
+        capabilities.legislation &&
+        capabilities.legislativeScenarioKey !== null;
+      /*
+       * The member's office, exactly as it was: the working measure named, who
+       * has it next, the docket, and the older assignment kept distinct.
+       */
+      const legislativeOffice = (legislativeScenarioKey: string): ReactNode => {
+        const docketKey = selectedDocketKey(
+          session.world,
+          legislativeScenarioKey,
+          session.personId,
+        );
+        const workingBill = docketKey
+          ? docketBill(session.world, {
+              scenarioKey: legislativeScenarioKey,
+              playerPersonId: session.personId,
+              docketKey,
+            })
+          : null;
+        /*
+         * UI9-13: one working measure, said out loud.
+         *
+         * Two selections could sit on this surface at once — the docket
+         * selection the player made, and whatever the older "look at what is
+         * moving" assignment had opened — each with its own pin control, both
+         * presented as equals. The owner's report from that state was "This is
+         * not my bill." Neither selection is removed and nothing is relabelled
+         * as theirs: the docket selection is named as the one being worked on,
+         * and an assignment pointing at a DIFFERENT measure is named separately
+         * as the other document it is, so the two can never be read as one.
+         */
+        const workingName = workingBill
+          ? (measureById(session.world, workingBill.measureId)?.shortTitle ??
+            null)
+          : null;
+        /*
+         * UI9-13, second half: who has it now.
+         *
+         * Naming the working measure told the player WHICH bill is theirs and
+         * nothing about whether anything was waiting on them. The gate already
+         * knows — it is the canonical answer to what controls this measure's
+         * next step, and the bill workspace has been printing it as "who decides
+         * next" all along, two clicks in behind "Look at what is moving". A
+         * player standing in their office should not have to open the document
+         * to learn that the committee has it and there is nothing for them to do
+         * today.
+         *
+         * Read, never inferred: no phase is mapped to an actor here. What the
+         * chamber's own rule pack calls the referral authority, the committee or
+         * the leadership is what the office says.
+         */
+        const workingGate = workingBill
+          ? measureGate(session.world, workingBill.measureId)
+          : null;
+        const assignmentName = assignment
+          ? (measureById(session.world, assignment.measureId)?.shortTitle ??
+            null)
+          : null;
+        const assignmentIsOther =
+          assignment !== null &&
+          workingBill !== null &&
+          assignment.measureId !== workingBill.measureId;
+        return (
           <>
-            {offices.map((office) => (
-              <JudicialOfficeWork
-                key={office.workRelationshipId}
+            <p>
+              {capabilities.person.givenName} works for the{" "}
+              {capabilities.workPlace?.displayName} legislature, so what is in
+              front of the chamber is in front of them too.
+            </p>
+            {workingBill ? (
+              <p
+                className="game-band"
+                data-testid="active-measure"
+                data-measure-id={workingBill.measureId}
+              >
+                Working on:{" "}
+                {workingName ?? "a measure this world no longer holds"}
+              </p>
+            ) : null}
+            {workingGate ? (
+              <p className="game-note" data-testid="active-measure-next">
+                <span data-testid="active-measure-actor">
+                  {workingGate.actorLabel}
+                </span>
+                {" has it next. "}
+                {workingGate.description}
+                {workingGate.thresholdLabel
+                  ? ` It needs ${workingGate.thresholdLabel}.`
+                  : ""}
+              </p>
+            ) : null}
+            {assignmentIsOther ? (
+              <p className="game-note" data-testid="other-measure-open">
+                Also open, and not the one you are working on:{" "}
+                {assignmentName ?? "another measure"}.
+              </p>
+            ) : null}
+            <button
+              type="button"
+              className="ui-action"
+              data-testid="open-legislation"
+              onClick={openTheBill}
+            >
+              {assignment ? "Close the bill" : "Look at what is moving"}
+            </button>
+            {floorNote && !assignment ? (
+              <p role="status" data-testid="work-unavailable">
+                {floorNote}
+              </p>
+            ) : null}
+            {capabilities.legislativeJurisdictionId ? (
+              <DocketWorkspace
                 world={session.world}
-                courtOrganizationId={office.courtOrganizationId}
-                onWorldChange={onWorldChange}
-                onPerson={openPerson}
-                transitionHandlers={createCampaignElectionTransitionRegistry()}
+                playerPersonId={session.personId}
+                scenarioKey={legislativeScenarioKey}
+                jurisdictionId={capabilities.legislativeJurisdictionId}
+                onWorldChange={onLegislativeChange}
+                onGoToFloor={goToTheFloorFor}
+                floorNote={floorNote}
               />
-            ))}
-          </>,
+            ) : null}
+            {workingBill && (
+              <button
+                type="button"
+                className="ui-action"
+                data-testid="pin-docket-measure"
+                data-measure-id={workingBill.measureId}
+                aria-pressed={pinnedRef({
+                  kind: "measure",
+                  id: workingBill.measureId,
+                })}
+                onClick={() =>
+                  togglePin({ kind: "measure", id: workingBill.measureId })
+                }
+              >
+                {pinnedRef({ kind: "measure", id: workingBill.measureId })
+                  ? `Unpin ${workingName ?? "the measure you are working on"}`
+                  : `Pin ${workingName ?? "the measure you are working on"}`}
+              </button>
+            )}
+            {assignment ? (
+              <>
+                <button
+                  type="button"
+                  className="ui-action"
+                  data-testid="open-floor"
+                  onClick={goToTheFloor}
+                >
+                  Go to the members&rsquo; room
+                </button>
+                <button
+                  type="button"
+                  className="ui-action ui-action--rail"
+                  aria-pressed={pinnedRef({
+                    kind: "measure",
+                    id: assignment.measureId,
+                  })}
+                  data-testid="pin-measure"
+                  onClick={() =>
+                    togglePin({ kind: "measure", id: assignment.measureId })
+                  }
+                >
+                  {pinnedRef({ kind: "measure", id: assignment.measureId })
+                    ? `Unpin ${assignmentName ?? "this bill"}`
+                    : `Pin ${assignmentName ?? "this bill"}`}
+                </button>
+                {floorNote ? (
+                  <p data-testid="floor-withheld">{floorNote}</p>
+                ) : null}
+                <LegislationWorkspace
+                  world={session.world}
+                  assignment={assignment}
+                  onWorldChange={onLegislativeChange}
+                />
+              </>
+            ) : null}
+          </>
         );
-      if (resolveExecutiveOffice(session.world))
-        return frame(
-          "Executive work",
-          "executive-office-section",
-          <ExecutiveWorkWorkspace
-            world={session.world}
-            onWorldChange={(next) =>
-              onWorldChange(synchronizeExecutiveInbox(next))
-            }
-            onClose={close}
-            handlers={createCampaignElectionTransitionRegistry()}
-          />,
-        );
-      if (!capabilities.legislation || !capabilities.legislativeScenarioKey) {
-        return frame(
-          "Education and work",
-          "personal-work-section",
-          <>
-            <LifePathsPanel
+      };
+      const role = projectWorkRole(session.world, session.personId);
+      const sections: WorkSection[] = [];
+      if (offices.length > 0) {
+        sections.push({
+          key: "office",
+          title: "Your court",
+          body: (
+            <>
+              {offices.map((office) => (
+                <JudicialOfficeWork
+                  key={office.workRelationshipId}
+                  world={session.world}
+                  courtOrganizationId={office.courtOrganizationId}
+                  onWorldChange={onWorldChange}
+                  onPerson={openPerson}
+                  transitionHandlers={createCampaignElectionTransitionRegistry()}
+                />
+              ))}
+            </>
+          ),
+        });
+      } else if (executive) {
+        sections.push({
+          key: "office",
+          title: "Your office",
+          body: (
+            <ExecutiveWorkWorkspace
               world={session.world}
-              onWorldChange={onWorldChange}
-              transitionHandlers={createCampaignElectionTransitionRegistry()}
-              headed={false}
+              onWorldChange={(next) =>
+                onWorldChange(synchronizeExecutiveInbox(next))
+              }
+              onClose={close}
+              handlers={createCampaignElectionTransitionRegistry()}
             />
-            <CivilPersonnelPanel
-              world={session.world}
-              onWorldChange={onWorldChange}
-            />
-          </>,
-        );
+          ),
+        });
+      } else if (legislative && capabilities.legislativeScenarioKey) {
+        sections.push({
+          key: "office",
+          title: "Your office",
+          body: legislativeOffice(capabilities.legislativeScenarioKey),
+        });
       }
-      const docketKey = selectedDocketKey(
-        session.world,
-        capabilities.legislativeScenarioKey,
-        session.personId,
-      );
-      const workingBill = docketKey
-        ? docketBill(session.world, {
-            scenarioKey: capabilities.legislativeScenarioKey,
-            playerPersonId: session.personId,
-            docketKey,
-          })
-        : null;
-      /*
-       * UI9-13: one working measure, said out loud.
-       *
-       * Two selections could sit on this surface at once — the docket
-       * selection the player made, and whatever the older "look at what is
-       * moving" assignment had opened — each with its own pin control, both
-       * presented as equals. The owner's report from that state was "This is
-       * not my bill." Neither selection is removed and nothing is relabelled
-       * as theirs: the docket selection is named as the one being worked on,
-       * and an assignment pointing at a DIFFERENT measure is named separately
-       * as the other document it is, so the two can never be read as one.
-       */
-      const workingName = workingBill
-        ? (measureById(session.world, workingBill.measureId)?.shortTitle ??
-          null)
-        : null;
-      /*
-       * UI9-13, second half: who has it now.
-       *
-       * Naming the working measure told the player WHICH bill is theirs and
-       * nothing about whether anything was waiting on them. The gate already
-       * knows — it is the canonical answer to what controls this measure's
-       * next step, and the bill workspace has been printing it as "who decides
-       * next" all along, two clicks in behind "Look at what is moving". A
-       * player standing in their office should not have to open the document
-       * to learn that the committee has it and there is nothing for them to do
-       * today.
-       *
-       * Read, never inferred: no phase is mapped to an actor here. What the
-       * chamber's own rule pack calls the referral authority, the committee or
-       * the leadership is what the office says.
-       */
-      const workingGate = workingBill
-        ? measureGate(session.world, workingBill.measureId)
-        : null;
-      const assignmentName = assignment
-        ? (measureById(session.world, assignment.measureId)?.shortTitle ?? null)
-        : null;
-      const assignmentIsOther =
-        assignment !== null &&
-        workingBill !== null &&
-        assignment.measureId !== workingBill.measureId;
-      return frame(
-        "The office",
-        "office-section",
-        <WorkWorkspace world={session.world} personId={session.personId}>
-          <p>
-            {capabilities.person.givenName} works for the{" "}
-            {capabilities.workPlace?.displayName} legislature, so what is in
-            front of the chamber is in front of them too.
-          </p>
-          {/*
-            Study and jobs belong to Work for EVERY life, not only the ones
-            without an office. When the day stopped carrying its own copy of
-            these panels, an office-holding character lost the only route to
-            them — holding a seat is not a reason to stop being able to take a
-            course or a shift. Work owning them means Work owning them.
-          */}
+      if (!capabilities.formativeYears) {
+        sections.push({
+          key: "campaign",
+          title: "Running for office",
+          body: capabilities.campaign ? (
+            <CampaignWorkspace
+              world={session.world}
+              personId={session.personId}
+              onWorldChange={onWorldChange}
+            />
+          ) : (
+            <p className="game-note" data-testid="no-campaign">
+              {capabilities.withheld.find(
+                (entry) => entry.surface === "campaign",
+              )?.reason ?? ""}
+            </p>
+          ),
+        });
+      }
+      sections.push({
+        key: "paths",
+        title: capabilities.formativeYears ? "School" : "Jobs and study",
+        body: (
           <LifePathsPanel
             world={session.world}
             onWorldChange={onWorldChange}
             transitionHandlers={createCampaignElectionTransitionRegistry()}
+            headed={false}
           />
+        ),
+      });
+      sections.push({
+        key: "personnel",
+        title: "Hiring",
+        body: (
           <CivilPersonnelPanel
             world={session.world}
             onWorldChange={onWorldChange}
           />
-          {workingBill ? (
-            <p
-              className="game-band"
-              data-testid="active-measure"
-              data-measure-id={workingBill.measureId}
-            >
-              Working on:{" "}
-              {workingName ?? "a measure this world no longer holds"}
-            </p>
-          ) : null}
-          {workingGate ? (
-            <p className="game-note" data-testid="active-measure-next">
-              <span data-testid="active-measure-actor">
-                {workingGate.actorLabel}
-              </span>
-              {" has it next. "}
-              {workingGate.description}
-              {workingGate.thresholdLabel
-                ? ` It needs ${workingGate.thresholdLabel}.`
-                : ""}
-            </p>
-          ) : null}
-          {assignmentIsOther ? (
-            <p className="game-note" data-testid="other-measure-open">
-              Also open, and not the one you are working on:{" "}
-              {assignmentName ?? "another measure"}.
-            </p>
-          ) : null}
-          <button
-            type="button"
-            className="ui-action"
-            data-testid="open-legislation"
-            onClick={openTheBill}
-          >
-            {assignment ? "Close the bill" : "Look at what is moving"}
-          </button>
-          {floorNote && !assignment ? (
-            <p role="status" data-testid="work-unavailable">
-              {floorNote}
-            </p>
-          ) : null}
-          {capabilities.legislativeJurisdictionId ? (
-            <DocketWorkspace
-              world={session.world}
-              playerPersonId={session.personId}
-              scenarioKey={capabilities.legislativeScenarioKey}
-              jurisdictionId={capabilities.legislativeJurisdictionId}
-              onWorldChange={onLegislativeChange}
-              onGoToFloor={goToTheFloorFor}
-              floorNote={floorNote}
-            />
-          ) : null}
-          {workingBill && (
-            <button
-              type="button"
-              className="ui-action"
-              data-testid="pin-docket-measure"
-              data-measure-id={workingBill.measureId}
-              aria-pressed={pinnedRef({
-                kind: "measure",
-                id: workingBill.measureId,
-              })}
-              onClick={() =>
-                togglePin({ kind: "measure", id: workingBill.measureId })
-              }
-            >
-              {pinnedRef({ kind: "measure", id: workingBill.measureId })
-                ? `Unpin ${workingName ?? "the measure you are working on"}`
-                : `Pin ${workingName ?? "the measure you are working on"}`}
-            </button>
-          )}
-          {assignment ? (
-            <>
-              <button
-                type="button"
-                className="ui-action"
-                data-testid="open-floor"
-                onClick={goToTheFloor}
-              >
-                Go to the members&rsquo; room
-              </button>
-              <button
-                type="button"
-                className="ui-action ui-action--rail"
-                aria-pressed={pinnedRef({
-                  kind: "measure",
-                  id: assignment.measureId,
-                })}
-                data-testid="pin-measure"
-                onClick={() =>
-                  togglePin({ kind: "measure", id: assignment.measureId })
-                }
-              >
-                {pinnedRef({ kind: "measure", id: assignment.measureId })
-                  ? `Unpin ${assignmentName ?? "this bill"}`
-                  : `Pin ${assignmentName ?? "this bill"}`}
-              </button>
-              {floorNote ? (
-                <p data-testid="floor-withheld">{floorNote}</p>
-              ) : null}
-              <LegislationWorkspace
-                world={session.world}
-                assignment={assignment}
-                onWorldChange={onLegislativeChange}
+        ),
+      });
+      return frame(
+        "Work",
+        offices.length > 0
+          ? "judicial-office-section"
+          : executive
+            ? "executive-office-section"
+            : legislative
+              ? "office-section"
+              : "personal-work-section",
+        <WorkLayout
+          roleSentence={role.sentence}
+          pending={
+            <WorkWorkspace world={session.world} personId={session.personId}>
+              {null}
+            </WorkWorkspace>
+          }
+          sections={sections}
+          timeControl={
+            capabilities.formativeYears ? null : (
+              <PassDayControl
+                session={session}
+                onWorldChange={onWorldChange}
+                withClock
               />
-            </>
-          ) : null}
-        </WorkWorkspace>,
+            )
+          }
+        />,
+        offices.length > 0
+          ? "Judicial office"
+          : executive
+            ? "Executive office"
+            : legislative
+              ? "Legislative office"
+              : capabilities.formativeYears
+                ? "Growing up"
+                : undefined,
       );
     }
 
@@ -3308,50 +3534,238 @@ function OptionsScreen({ onBack }: { readonly onBack: () => void }) {
   );
 }
 
-function OrdinaryDayView({
+/**
+ * Today: what is happening, what is next, what is waiting, and the time.
+ *
+ * Reading this is free. The only controls on it that spend time are the ones
+ * that say how much: carrying out what is planned (the activity's own
+ * duration) and getting on with the day. Everything else is a link to the
+ * destination that owns it — inspecting a commitment opens the calendar's
+ * record of it, and work opens Work.
+ */
+function TodayView({
   session,
   onWorldChange,
+  workHint,
+  onOpenCommitment,
+  onGoTo,
 }: {
   readonly session: Session;
   readonly onWorldChange: (world: World) => void;
+  readonly workHint: string;
+  readonly onOpenCommitment: (activityId: EntityId) => void;
+  readonly onGoTo: (surface: "work" | "calendar" | "places") => void;
 }) {
-  const day = useMemo(
-    () => projectOrdinaryDay(session.world, session.personId),
+  const today = useMemo(
+    () => projectToday(session.world, session.personId),
     [session.world, session.personId],
   );
 
   return (
-    <section className="game-day" data-testid="ordinary-section">
+    <section className="game-day pg-today" data-testid="ordinary-section">
       <p className="game-band" data-testid="day-date">
-        {day.dateLabel} · {day.timeLabel}
+        {today.dateLabel} · {today.timeLabel}
+        {today.placeName ? ` · ${today.placeName}` : ""}
       </p>
-      {!completedActivityHere(session.world, session.personId) && (
-        <p className="game-scene" data-testid="day-opening">
-          {day.opening}
+
+      <section className="pg-today-block" aria-labelledby="pg-today-now">
+        <h3 id="pg-today-now">Now</h3>
+        <p
+          className="game-scene"
+          data-testid={
+            today.nowKind === "activity" ? "day-now-activity" : "day-opening"
+          }
+        >
+          {today.now}
         </p>
-      )}
-      {day.pending.length > 0 ? (
-        <ul className="game-pending" data-testid="day-pending">
-          {day.pending.map((thing) => (
-            <li key={thing.key}>{thing.sentence}</li>
-          ))}
-        </ul>
+        {today.nowKind === "scene" ? (
+          <p className="game-note" data-testid="day-now-scene">
+            It is waiting in the room. Close this to go back to it.
+          </p>
+        ) : null}
+      </section>
+
+      <section className="pg-today-block" aria-labelledby="pg-today-next">
+        <h3 id="pg-today-next">Next</h3>
+        {today.next ? (
+          <button
+            type="button"
+            className="ui-action ui-action--subtle pg-today-link"
+            data-testid="day-next"
+            data-activity-id={today.next.activityId}
+            onClick={() => onOpenCommitment(today.next!.activityId)}
+          >
+            {today.next.when} · {today.next.title}
+            <small>{today.next.locationLabel} · Read it in the calendar</small>
+          </button>
+        ) : (
+          <p className="game-note" data-testid="day-next-none">
+            Nothing else of yours is on the calendar.
+          </p>
+        )}
+      </section>
+
+      {today.waiting.length > 0 ? (
+        <section className="pg-today-block" aria-labelledby="pg-today-waiting">
+          <h3 id="pg-today-waiting">Waiting on you</h3>
+          <ul className="game-pending" data-testid="day-pending">
+            {today.waiting.map((thing) => (
+              <li key={thing.key}>{thing.sentence}</li>
+            ))}
+          </ul>
+        </section>
       ) : null}
-      <VenueActivityPanel
-        world={session.world}
-        personId={session.personId}
-        onWorldChange={onWorldChange}
-      />
-      <div className="game-choices">
+
+      <section className="pg-today-block" aria-labelledby="pg-today-time">
+        <h3 id="pg-today-time">Use your time</h3>
+        <VenueActivityPanel
+          world={session.world}
+          personId={session.personId}
+          onWorldChange={onWorldChange}
+        />
+        <PassDayControl session={session} onWorldChange={onWorldChange} />
+      </section>
+
+      <nav className="pg-today-links" aria-label="From today">
         <button
           type="button"
-          data-testid="pass-day"
-          onClick={() => onWorldChange(passOrdinaryDays(session.world))}
+          className="ui-action ui-action--subtle"
+          data-testid="day-open-work"
+          onClick={() => onGoTo("work")}
         >
-          Get on with the day
-          <small>Move to tomorrow.</small>
+          Work
+          <small>{workHint}</small>
         </button>
-      </div>
+        <button
+          type="button"
+          className="ui-action ui-action--subtle"
+          data-testid="day-open-calendar"
+          onClick={() => onGoTo("calendar")}
+        >
+          Calendar
+          <small>Everything that is scheduled</small>
+        </button>
+        <button
+          type="button"
+          className="ui-action ui-action--subtle"
+          data-testid="day-open-places"
+          onClick={() => onGoTo("places")}
+        >
+          Places
+          <small>Where you can go from here</small>
+        </button>
+      </nav>
     </section>
+  );
+}
+
+/**
+ * Moving on to tomorrow. The one control that waits, wherever it appears.
+ *
+ * It is on Today, and it is on Work, because the loop of a campaign or a job
+ * is "act, then let the day end": sending somebody from the work they are
+ * doing to another screen to end the day was the hunting the owner described.
+ * It is the same canonical writer and the same words in both places.
+ */
+function PassDayControl({
+  session,
+  onWorldChange,
+  withClock = false,
+}: {
+  readonly session: Session;
+  readonly onWorldChange: (world: World) => void;
+  /** Say what time it is beside the control, where nothing else on the page does. */
+  readonly withClock?: boolean;
+}) {
+  const today = useMemo(
+    () => (withClock ? projectToday(session.world, session.personId) : null),
+    [withClock, session.world, session.personId],
+  );
+  return (
+    <div className="game-choices pg-pass-day">
+      {today ? (
+        <p className="game-band" data-testid="day-date">
+          {today.dateLabel} · {today.timeLabel}
+        </p>
+      ) : null}
+      <button
+        type="button"
+        data-testid="pass-day"
+        onClick={() => onWorldChange(passOrdinaryDays(session.world))}
+      >
+        Get on with the day
+        <small>Move to tomorrow.</small>
+      </button>
+    </div>
+  );
+}
+
+interface WorkSection {
+  readonly key: "office" | "campaign" | "paths" | "personnel";
+  readonly title: string;
+  readonly body: ReactNode;
+}
+
+/**
+ * Work's one layout: who you are at work, where each section is, the sections.
+ *
+ * The jump list at the top is there because Work holds several long panels and
+ * the thing a player wants is often the third one down. It moves focus to the
+ * section's heading, so it works from the keyboard exactly as from a pointer,
+ * and it reads nothing and changes nothing.
+ */
+function WorkLayout({
+  roleSentence,
+  pending,
+  sections,
+  timeControl,
+}: {
+  readonly roleSentence: string;
+  /** What is waiting on the character, said right after who they are. */
+  readonly pending: ReactNode;
+  readonly sections: readonly WorkSection[];
+  readonly timeControl: ReactNode;
+}) {
+  const jumpTo = (key: WorkSection["key"]) => {
+    const heading = document.getElementById(`pg-work-${key}`);
+    heading?.scrollIntoView({ block: "start" });
+    heading?.focus();
+  };
+  return (
+    <div className="pg-work" data-testid="work-layout">
+      <p className="game-scene" data-testid="work-role">
+        {roleSentence}
+      </p>
+      {pending}
+      {sections.length > 1 ? (
+        <nav className="pg-work-jump" aria-label="On this page">
+          {sections.map((section) => (
+            <button
+              key={section.key}
+              type="button"
+              className="game-choice-chip"
+              data-testid={`work-jump-${section.key}`}
+              onClick={() => jumpTo(section.key)}
+            >
+              {section.title}
+            </button>
+          ))}
+        </nav>
+      ) : null}
+      {timeControl}
+      {sections.map((section) => (
+        <section
+          key={section.key}
+          className="pg-work-section"
+          aria-labelledby={`pg-work-${section.key}`}
+          data-testid={`work-section-${section.key}`}
+        >
+          <h3 id={`pg-work-${section.key}`} tabIndex={-1}>
+            {section.title}
+          </h3>
+          {section.body}
+        </section>
+      ))}
+    </div>
   );
 }

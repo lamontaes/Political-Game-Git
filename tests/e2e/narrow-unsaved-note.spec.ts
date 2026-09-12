@@ -1,6 +1,27 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
-import { enterLife } from "./support/creator";
+import { startLife } from "./support/creator";
+
+/**
+ * Starts an unsaved life at phone width, the state the note belongs to. This
+ * file used to call `enterLife` on a blank page, so it never reached the play
+ * screen at all and failed before measuring anything.
+ */
+async function unsavedLife(page: Page) {
+  await page.goto("/?seed=narrow-unsaved-note");
+  await startLife(page, { age: 22 });
+  // Through the two introduction beats to the room's scene, whose own way on
+  // is "Continue your life" — the control this file is about.
+  const opening = page.getByTestId("opening-life-panel");
+  await expect(
+    opening.or(page.getByTestId("opening-life-scene")),
+  ).toBeVisible();
+  if ((await opening.count()) > 0) {
+    await opening.getByRole("button", { name: "Meet your household" }).click();
+    await opening.getByRole("button", { name: "Step inside" }).click();
+  }
+  await expect(page.getByTestId("opening-life-scene")).toBeVisible();
+}
 
 /**
  * The status notes must not sit on the primary action at phone width.
@@ -22,7 +43,7 @@ test.describe("status notes at phone width", () => {
   test.use({ viewport: PHONE });
 
   test("leave the primary action readable and pressable", async ({ page }) => {
-    await enterLife(page);
+    await unsavedLife(page);
 
     const note = page.getByTestId("unsaved-note");
     const primary = page.getByRole("button", { name: /continue your life/i });
@@ -50,7 +71,7 @@ test.describe("status notes at phone width", () => {
 
     // 3. And the same control is reachable without a pointer at all.
     await page.reload({ waitUntil: "domcontentloaded" });
-    await enterLife(page);
+    await unsavedLife(page);
     const again = page.getByRole("button", { name: /continue your life/i });
     await again.focus();
     await expect(again).toBeFocused();
@@ -60,7 +81,7 @@ test.describe("status notes at phone width", () => {
   test("never swallow a press meant for the room behind them", async ({
     page,
   }) => {
-    await enterLife(page);
+    await unsavedLife(page);
     const note = page.getByTestId("unsaved-note");
     if ((await note.count()) === 0) test.skip();
     const box = await note.boundingBox();

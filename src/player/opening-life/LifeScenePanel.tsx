@@ -3,7 +3,7 @@ import {
   canJoinOrdinaryGroup,
   joinOrdinaryGroup,
 } from "../../presentation/ordinary-community";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { personName, describePersonContext } from "../../simulation";
 import type {
   EntityId,
@@ -17,10 +17,6 @@ import {
   openNextLifeScene,
   walkOpeningNeighborhood,
 } from "../../presentation/life-scene-flow";
-import {
-  projectLifeConversation,
-  commitLifeConversation,
-} from "../../presentation/life-conversation";
 import { formatMinute } from "../../presentation/player-calendar";
 import { openingLifeLocation } from "../../presentation/life-scene-flow";
 import {
@@ -30,28 +26,53 @@ import {
   chooseOrdinaryLifeGoal,
 } from "../../simulation/life-personality";
 
-/** No root/chrome/pixel ownership. Every button invokes a canonical command. */
+/**
+ * The situation in front of the character: where, what is happening, what
+ * they can do about it, and who is here to talk to.
+ *
+ * No root/chrome/pixel ownership. Every button invokes a canonical command.
+ *
+ * PT3: talking is no longer drawn here. This panel used to carry its own
+ * conversation — the last four exchanges printed under the scene's choices,
+ * with every talk option below them — so a few greetings pushed the scene's
+ * actual choices out of a scrolling box. Choosing somebody now hands them to
+ * the one conversation box the whole game uses, which replaces this panel
+ * while the conversation lasts and gives it back on Back.
+ */
 export function LifeScenePanel({
   world,
   playerPersonId,
   onWorldChange,
   onContinue,
+  onTalkTo,
+  returnFocusTo = null,
+  onFocusReturned,
   transitionHandlers,
 }: {
   world: World;
   playerPersonId: EntityId;
   onWorldChange: (world: World) => void;
   onContinue: () => void;
+  /** Opens the shared conversation box with exactly this person. */
+  onTalkTo: (personId: EntityId) => void;
+  /**
+   * Whose Talk-to control to focus, when the panel comes back from that
+   * person's conversation. Back with a keyboard has to land somewhere.
+   */
+  returnFocusTo?: EntityId | null;
+  onFocusReturned?: () => void;
   transitionHandlers?: FutureTransitionHandlerRegistry;
 }) {
-  const [selected, setSelected] = useState<EntityId | null>(null);
   const [problem, setProblem] = useState<string | null>(null);
   const [outcome, setOutcome] = useState<string | null>(null);
+  const talkToRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (!returnFocusTo) return;
+    talkToRef.current?.focus();
+    onFocusReturned?.();
+  }, [returnFocusTo, onFocusReturned]);
   const identity = projectOpeningLife(world, playerPersonId);
   const scene = currentOpeningLifeScene(world, playerPersonId);
-  const talk = selected
-    ? projectLifeConversation(world, playerPersonId, selected)
-    : null;
   const reflection = lifeReflectionOffer(world, playerPersonId);
   const lastSceneEvent = world.history.events
     .filter(
@@ -122,7 +143,10 @@ export function LifeScenePanel({
     }
   }
   return (
-    <section className="life-moment" data-testid="opening-life-scene">
+    <section
+      className="life-moment pg-opening-flow"
+      data-testid="opening-life-scene"
+    >
       <p data-testid="life-identity">
         {identity.name} · Age {identity.age} · {identity.date} ·{" "}
         {identity.place}
@@ -136,9 +160,18 @@ export function LifeScenePanel({
       {aftermath ? <p data-testid="life-scene-aftermath">{aftermath}</p> : null}
       {scene ? (
         <>
-          <p className="game-scene">{scene.prose}</p>
-          <p>{scene.definition.minutes} minutes</p>
-          <div className="game-choices">
+          <p className="game-scene" data-testid="life-scene-prose">
+            {scene.prose}
+          </p>
+          <p className="game-note" data-testid="life-scene-minutes">
+            Whatever you choose here takes {scene.definition.minutes} minutes.
+          </p>
+          <div
+            className="game-choices"
+            role="group"
+            aria-label="What you do"
+            data-testid="life-scene-choices"
+          >
             {scene.choices.map((choice) => (
               <button
                 className="ui-action"
@@ -160,77 +193,69 @@ export function LifeScenePanel({
               </button>
             ))}
           </div>
-          <nav aria-label="People here">
-            {scene.presentPersonIds
-              .filter((id) => id !== playerPersonId)
-              .map((id) => (
-                <button
-                  className="ui-action"
-                  type="button"
-                  key={id}
-                  aria-pressed={selected === id}
-                  onClick={() => setSelected(id)}
-                >
-                  {personName(world.people[id]!)}
-                  {describePersonContext(world, playerPersonId, id)
-                    ?.relationship
-                    ? ` · ${describePersonContext(world, playerPersonId, id)!.relationship}`
-                    : ""}
-                </button>
-              ))}
-          </nav>
-          {talk ? (
-            <div aria-label={`Conversation with ${talk.person.name}`}>
-              {talk.transcript.slice(-4).map((turn) => (
-                <p key={turn.eventId}>
-                  <span>{turn.action}</span>
-                  <br />“{turn.reply}”
-                </p>
-              ))}
-              <p>
-                Each exchange takes 2 minutes; spending time together takes 30
-                minutes.
-              </p>
-              <div className="game-choices">
-                {talk.intents.map((intent) => (
-                  <button
-                    className="ui-action"
-                    type="button"
-                    key={intent.key}
-                    onClick={() =>
-                      commit(() =>
-                        commitLifeConversation(world, {
-                          playerPersonId,
-                          personId: selected!,
-                          intent: intent.key,
-                          revision: talk.revision,
-                          transitionHandlers,
-                        }),
-                      )
-                    }
-                  >
-                    {intent.label}
-                  </button>
-                ))}
-              </div>
-            </div>
+          {/*
+            Who is here, as a way to start talking. Each carries their actual
+            id to the conversation box; nothing picks a person for the player.
+          */}
+          {scene.presentPersonIds.some((id) => id !== playerPersonId) ? (
+            <nav
+              aria-label="People here"
+              className="life-talk-to"
+              data-testid="life-scene-people"
+            >
+              <span className="game-band">Talk to</span>
+              {scene.presentPersonIds
+                .filter((id) => id !== playerPersonId)
+                .map((id) => {
+                  const relationship = describePersonContext(
+                    world,
+                    playerPersonId,
+                    id,
+                  )?.relationship;
+                  return (
+                    <button
+                      className="ui-action ui-action--subtle"
+                      type="button"
+                      key={id}
+                      data-testid={`life-talk-${id}`}
+                      ref={
+                        id === returnFocusTo
+                          ? (node) => {
+                              talkToRef.current = node;
+                            }
+                          : undefined
+                      }
+                      onClick={() => onTalkTo(id)}
+                    >
+                      {personName(world.people[id]!)}
+                      {relationship ? ` · ${relationship}` : ""}
+                    </button>
+                  );
+                })}
+            </nav>
           ) : null}
         </>
       ) : (
         <>
+          {/*
+            UI9-07. With no scene open, the one thing here that is not a way to
+            leave is looking for the next situation. It opens one when the life
+            has one waiting and otherwise says so, instead of falling through to
+            a different surface under the same words.
+          */}
           <button
             className="ui-action"
             type="button"
+            data-testid="life-next-scene"
             onClick={() => {
               const next = openNextLifeScene(world, playerPersonId);
-              if (next === world) onContinue();
-              else onWorldChange(next);
+              if (next === world) {
+                setOutcome(null);
+                setProblem("Nothing else is waiting here right now.");
+              } else onWorldChange(next);
             }}
           >
-            Continue your day
-          </button>
-          <button className="ui-action" type="button" onClick={onContinue}>
-            Continue your life
+            See what happens next
           </button>
         </>
       )}
@@ -329,6 +354,24 @@ export function LifeScenePanel({
           </button>
         ))}
       </details>
+      {/*
+        The one way from this moment to the rest of the life. It used to be
+        drawn twice — above the panel and again inside it when no scene was
+        open — beside a "Continue your day" that sometimes did the same thing.
+      */}
+      <div className="life-moment-foot">
+        <button
+          className="ui-action"
+          type="button"
+          aria-describedby="life-continue-hint"
+          onClick={onContinue}
+        >
+          Continue your life
+        </button>
+        <small id="life-continue-hint">
+          Step back from this moment; it stays where it is.
+        </small>
+      </div>
     </section>
   );
 }

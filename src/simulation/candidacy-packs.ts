@@ -128,7 +128,7 @@ const NO_MEMBERSHIP_INSTRUMENT =
   "The seat count is the accepted rule pack's own recorded value. No instrument establishing the size of the chamber, or who may sit in it, has been read into this repository.";
 
 const NO_DISTRICT_GEOGRAPHY =
-  "The game has no district geography, so a seat in this chamber has no district identity and a contest is for a seat rather than for a numbered district.";
+  "A numbered district is an explicit Gazetteer identity bound on the seat. Interior points are not boundaries, and a coarse home does not prove district membership.";
 
 function officeQualification(
   packId: string,
@@ -300,7 +300,8 @@ export function candidacyPackFromRulePack(
         // "Representative" or "Senator" from a chamber name would be inventing
         // a fact about an institution.
         title: `Seat in the ${chamber.name}`,
-        // No district corpus exists, so no district is claimed.
+        // District identity is bound at filing from an explicit Gazetteer
+        // record, not from this chamber-level office option.
         seatKey: null,
         occupationClassification: "service:elected-legislator",
       },

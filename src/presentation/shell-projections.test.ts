@@ -9,6 +9,7 @@ import {
 import { projectPersonalRecord } from "./personal-record";
 import { projectPlayerCalendar } from "./player-calendar";
 import { filterDirectory, projectPeopleDirectory } from "./people-directory";
+import { fileForOffice } from "./campaign-projection";
 import { openConversationWith } from "./person-conversation-entry";
 import { CANONICAL_VERSION, PATCH_NOTE_SECTIONS } from "./release-identity";
 import type { EntityId } from "../simulation";
@@ -285,5 +286,26 @@ describe("release identity", () => {
     expect(reserved).toBeDefined();
     expect(reserved!.released).toBe(false);
     expect(reserved!.releasedOn).toBeNull();
+  });
+});
+
+describe("the people directory holds campaign rivals", () => {
+  it("lists an opponent under Politics once the life has filed, without pinning them", () => {
+    const { world, personId } = newLife("directory-rival");
+    const before = projectPeopleDirectory(world, personId);
+    const filed = fileForOffice(world, personId);
+    const after = projectPeopleDirectory(filed, personId);
+    const added = after.people.filter(
+      (person) =>
+        !before.people.some((prior) => prior.personId === person.personId),
+    );
+    expect(added.length).toBeGreaterThan(0);
+    for (const person of added) {
+      expect(person.categories).toContain("politics");
+      expect(person.context).toMatch(/^Ran against you for /);
+    }
+    expect(after.counts.politics).toBeGreaterThan(before.counts.politics);
+    // Reading the directory writes nothing.
+    expect(projectPeopleDirectory(filed, personId)).toEqual(after);
   });
 });
