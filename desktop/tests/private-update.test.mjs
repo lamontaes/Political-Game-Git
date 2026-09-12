@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import path from "node:path";
 import test from "node:test";
 
 import {
@@ -15,7 +16,10 @@ import {
 const A = "a".repeat(40);
 const B = "b".repeat(40);
 
-function build(revision, appPath = `/tmp/${revision}/Game.app`) {
+function build(
+  revision,
+  appPath = path.resolve("test-builds", revision, "Game.app"),
+) {
   return {
     revision,
     appPath,
@@ -55,13 +59,19 @@ test("target assessment refuses forks and downgrades", () => {
 });
 
 test("paths stay versioned beneath the controller root", () => {
-  const paths = controllerPaths("/tmp/controller", A);
-  assert.equal(paths.sourcePath, `/tmp/controller/staging/${A}/source`);
+  const root = path.resolve("test-controller");
+  const paths = controllerPaths(root, A);
+  assert.equal(paths.sourcePath, path.join(root, "staging", A, "source"));
   assert.equal(
     paths.appPath,
-    `/tmp/controller/versions/${A}/Our Civic Duty Internal Art Review.app`,
+    path.join(
+      root,
+      "versions",
+      A,
+      "Our Civic Duty Internal Art Review.app",
+    ),
   );
-  assert.throws(() => controllerPaths("/tmp/controller", "../outside"));
+  assert.throws(() => controllerPaths(root, "../outside"));
 });
 
 test("pending build never changes current until explicit activation", () => {
@@ -88,12 +98,17 @@ test("state and built identity validation fail closed", () => {
     null,
   );
   assert.throws(() =>
-    buildRecord({ revision: A, version: "0.2.0", profile: "production" }, "/tmp/a.app", "arm64", "now"),
+    buildRecord(
+      { revision: A, version: "0.2.0", profile: "production" },
+      path.resolve("a.app"),
+      "arm64",
+      "now",
+    ),
   );
   assert.equal(
     buildRecord(
       { revision: A, version: "0.2.0", profile: "internal-art-review" },
-      "/tmp/a.app",
+      path.resolve("a.app"),
       "arm64",
       "now",
     ).revision,
