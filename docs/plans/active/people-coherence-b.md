@@ -81,3 +81,21 @@ Wardrobe selection uses Playwright native selectOption, not renderer injection.
 Pointer navigation and keyboard summary activation pass; keyboard-only garment
 selection attempts did not change the native value and remain unaccepted. Their
 failed traces are retained. No pointer-only garment-selection claim is made.
+
+## Matched-component continuation
+
+Recovered ef94d8f clean; upstream22c4dead verified. Updated CURRENT CONTINUATION
+and production decision read in full. Reuse existing sources and previous
+continuity/sample evidence. Generation4 adds coordinated shirt pieces for the
+two repaired shirts: same body/pose-specific fit, torso at35 and front collar43
+across head40. The front piece is not a wardrobe choice. Exact source alpha is
+partitioned; RGB, canvas, anchors, cloth ease and identity remain unchanged.
+Source-drawing mismatch was shown immediately, before further fitting: smooth
+painted face vs outlined flat-shaded neck/body. No additional fit cycles to
+conceal it; missing drawing remains explicit owner art work.
+
+Precedents read: Wildermyth Image layers (Head/Body Layers), Battle Brothers
+Dev Blog5, Brenda van Vugt's Rizia breakdown, Spine mix-and-match/meshes.
+Vagastia artist page could not be opened; indexed primary excerpt confirms
+repainting concealed cut areas, not a procedural population system.
+These support matched authored pieces; none supplies reusable project artwork.

@@ -58,7 +58,7 @@ test("same Haley room composition after neckline repair", async ({
     "data-testid",
     "scene-person-person_5e116c245562a11a",
   );
-  await expect(p.locator("img[src*=neckline_v1]")).toHaveCount(1);
+  await expect(p.locator("img[src*=matched_v1]")).toHaveCount(2);
   await expect(
     p.locator("img[src*=wave_a_skinny_man_standing_neutral_front_a]"),
   ).toHaveCount(2);
@@ -200,7 +200,7 @@ for (const body of ["average-man", "skinny-man"])
     expect(await layerIds(page)).toEqual(final);
     await expect(page.getByTestId("wardrobe-full-body")).toHaveAttribute(
       "data-catalog-generation",
-      "3",
+      "4",
     );
     await page
       .getByTestId("wardrobe-figure")

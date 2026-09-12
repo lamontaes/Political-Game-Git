@@ -1,5 +1,5 @@
 {
-  "catalog_generation": 3,
+  "catalog_generation": 4,
   "generations": [
     {
       "generation": 1,
@@ -683,6 +683,16 @@
         "pv4_wave_a_male_top_white_button_up_shirt_v1_neckline_v1"
       ],
       "signature": "csig_bb7333aa6c73539f"
+    },
+    {
+      "generation": 4,
+      "component_ids": [
+        "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_matched_v1",
+        "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_matched_v1_collar_front",
+        "pv4_wave_a_male_top_white_button_up_shirt_v1_matched_v1",
+        "pv4_wave_a_male_top_white_button_up_shirt_v1_matched_v1_collar_front"
+      ],
+      "signature": "csig_82dd68fab0860e69"
     }
   ]
 }

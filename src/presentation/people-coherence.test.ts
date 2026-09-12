@@ -161,13 +161,15 @@ describe("explicit new-life review lineage", () => {
   });
   it("pins a new preview and replays that exact creation lineage without changing world identity", () => {
     const reviewed = setupForArtPreview(setup, "candidate-review");
-    expect(reviewed.appearanceCatalogGeneration).toBe(3);
+    expect(reviewed.appearanceCatalogGeneration).toBe(
+      library.catalogGeneration,
+    );
     expect(worldSeedFor(reviewed)).toBe(worldSeedFor(setup));
     const decoded = decodeReplayDescriptor(encodeReplayDescriptor(reviewed))!;
-    expect(decoded.appearanceCatalogGeneration).toBe(3);
+    expect(decoded.appearanceCatalogGeneration).toBe(library.catalogGeneration);
     const game = createNewGameWorld(decoded);
     for (const p of Object.values(game.world.people))
-      expect(p.appearance!.catalogGeneration).toBe(3);
+      expect(p.appearance!.catalogGeneration).toBe(library.catalogGeneration);
     const old = decodeReplayDescriptor(encodeReplayDescriptor(setup))!;
     expect(old.appearanceCatalogGeneration).toBeUndefined();
   });
