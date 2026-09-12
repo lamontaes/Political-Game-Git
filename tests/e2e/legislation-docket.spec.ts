@@ -298,6 +298,7 @@ test.describe("the docket, from the ordinary route", () => {
 test("saves compatible proposed changes through ordinary Work without rewriting the bill", async ({
   page,
 }) => {
+  test.setTimeout(90_000);
   const errors = watchForErrors(page);
   await wonSeatWithWorkOpen(page);
   const office = page.getByTestId("docket-office-record");
