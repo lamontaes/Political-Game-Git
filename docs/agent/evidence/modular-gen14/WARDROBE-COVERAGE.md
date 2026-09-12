@@ -70,14 +70,35 @@ cleared 134,887px   opaque 687,672 -> 552,785
 painted bounds 964x992 -> 964x990
 ```
 
-Bounds barely move because the sleeves are wider than the forearms, so the
-silhouette the fit measure reads is unchanged — and the test asserts the pairing
-still measures clean rather than assuming it.
+**What the mask took, row by row.** The earlier note here said bounds barely
+move "because the sleeves are wider than the forearms", which is a reason
+rather than a measurement. Measured instead, over all 992 painted rows:
 
-**The block stays.** Whether the mask looks right is a visual decision about a
-garment, and the sleeve hem is where the grown mask runs closest to fabric that
-must survive. Overlay: `polo-arm-mask-overlay.png` (cleared pixels render
-black). A test pins the block so removing it has to be deliberate.
+```
+painted rows        992 -> 990   (two off the bottom, at the cut wrists)
+top painted row     unchanged
+rows that narrow    16 of 992
+lowest of those     row 596 of 64..1055 — below the midpoint, every one
+```
+
+So the entire upper half of the garment — collar, shoulders, chest, sleeve
+caps — is untouched to the pixel, and the rows that do narrow are the ones
+carrying a forearm outside the sleeve, which is exactly what was meant to go.
+That is the sleeve-hem question answered by the instrument rather than by
+squinting at an overlay.
+
+**What is still missing before admission, and it is not a look.** The masked
+file is a masked SOURCE crop (1120 rows). The registry's polo is the DERIVED
+game-space asset (365 rows). No fit claim can be made about the masked variant
+until it is derived into game space, and deriving it writes a registry record —
+which is the admission itself. The derivation also carries the block by name
+(`people-visual4.ts`), so admitting the masked variant means changing the
+pipeline's own refusal.
+
+**The block stays.** Whether the mask looks right is still a visual decision
+about a garment, and it is the owner's. Overlay: `polo-arm-mask-overlay.png`
+(cleared pixels render black). A test pins the block so removing it has to be
+deliberate.
 
 ## The instrument, repaired and characterised
 

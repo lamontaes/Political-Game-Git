@@ -56,10 +56,18 @@ import {
   recordRelationshipInteraction,
 } from "./records";
 import { drawCanonicalName } from "./people";
-import { derivePersonAppearance } from "./person-appearance";
+import {
+  COHERENT_APPEARANCE_RECIPE_VERSION,
+  derivePersonAppearance,
+} from "./person-appearance";
 import { generatePersonIdentity } from "./person-identity";
 import { SeededRng } from "./rng";
-import { recordWorldEvent, assertWorldIntegrity, advanceWorld } from "./world";
+import {
+  recordWorldEvent,
+  assertWorldIntegrity,
+  advanceWorld,
+  worldLineage,
+} from "./world";
 import {
   createDwelling,
   createHousingTenure,
@@ -501,8 +509,21 @@ export function createCharacterHistoryContextPerson(
      * same person every time. No seed is chosen here, no demographic is
      * asserted, and nobody is rerolled: an appearance is a stable handle for a
      * renderer, not a claim about who this person is.
+     *
+     * The recipe follows the WORLD'S LINEAGE rather than a moving default. A
+     * production world is somebody's game and its household is drawn under the
+     * coherent recipe; a fixture world is a diagnostic scaffold and keeps the
+     * recipe its accepted bytes were taken under. That is the same distinction
+     * `createWorld` already makes for catalogs, and for the same reason: the
+     * defect to prevent is content changing through a default argument nobody
+     * declared.
      */
-    appearance: derivePersonAppearance(id),
+    appearance: derivePersonAppearance(
+      id,
+      worldLineage(world) === "production"
+        ? COHERENT_APPEARANCE_RECIPE_VERSION
+        : undefined,
+    ),
     establishedFacts: facts,
   };
   const next: World = {

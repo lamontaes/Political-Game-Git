@@ -124,6 +124,78 @@ describe("the arm-masked polo candidate", () => {
   });
 
   /*
+   * What the mask actually took, measured on the raster it was applied to.
+   *
+   * A correction to an earlier version of this test, which measured the masked
+   * output against the body through the game-space projection and reported it
+   * as a fit comparison. That was invalid: `ARM_MASK_OUTPUT` is the masked
+   * SOURCE crop (1120 rows), while the registry's polo is the derived
+   * game-space asset (365 rows). Running one projection over both compares two
+   * different resolutions and means nothing, and it "found" three lost rows
+   * that were an artifact of the mismatch.
+   *
+   * What IS answerable here is the question the mask raises: did clearing the
+   * baked forearms take any FABRIC with it. The forearms hang below the short
+   * sleeves and end at cut wrists, so a correct mask removes rows only from the
+   * bottom of the painted area and never narrows it. That is measured below.
+   *
+   * The masked source still has to be DERIVED into a game-space asset before
+   * any fit claim about it can be made, and deriving it writes a registry
+   * record — which is the admission decision, and not this test's to take.
+   */
+  it("takes rows off the bottom only, and never narrows the fabric", () => {
+    const before = readRasterSpans(path.join(ROOT, ARM_MASK_SOURCE));
+    const after = readRasterSpans(path.join(ROOT, ARM_MASK_OUTPUT));
+    expect(after.width).toBe(before.width);
+    expect(after.height).toBe(before.height);
+
+    const painted = (spans: typeof before) =>
+      spans.rows.flatMap((row, index) =>
+        row === null ? [] : [{ index, row }],
+      );
+    const beforeRows = painted(before);
+    const afterRows = painted(after);
+    expect(beforeRows.length).toBeGreaterThan(900);
+
+    /* The top of the garment — collar, shoulders, sleeve caps — is untouched. */
+    expect(afterRows[0]!.index).toBe(beforeRows[0]!.index);
+    /* Rows came off the bottom, where the cut wrists were, and only there. */
+    expect(afterRows[afterRows.length - 1]!.index).toBeLessThan(
+      beforeRows[beforeRows.length - 1]!.index,
+    );
+    expect(beforeRows.length - afterRows.length).toBeLessThan(8);
+
+    /*
+     * Where the garment got narrower, and where it did not.
+     *
+     * Rows DO narrow, and they should: a row carrying both a sleeve and the
+     * forearm below it has the arm as its outermost content, so clearing the
+     * arm pulls that edge in. What would be a defect is narrowing up where
+     * there is no arm — the collar, the shoulders, the chest, the sleeve caps.
+     *
+     * Measured: 16 of 992 painted rows narrow, none above the midpoint of the
+     * painted area, so the entire upper half of the garment is untouched to
+     * the pixel. That is the sleeve-hem guard, and it is a measurement rather
+     * than a screenshot somebody has to squint at.
+     */
+    const top = beforeRows[0]!.index;
+    const bottom = beforeRows[beforeRows.length - 1]!.index;
+    const midpoint = top + (bottom - top) / 2;
+    const afterByIndex = new Map(
+      afterRows.map((entry) => [entry.index, entry.row]),
+    );
+    const narrowed = beforeRows.filter(({ index, row }) => {
+      const survived = afterByIndex.get(index);
+      return (
+        survived !== undefined && (survived.lo > row.lo || survived.hi < row.hi)
+      );
+    });
+    expect(narrowed.length).toBeGreaterThan(0);
+    expect(narrowed.length).toBeLessThan(beforeRows.length / 20);
+    for (const { index } of narrowed) expect(index).toBeGreaterThan(midpoint);
+  });
+
+  /*
    * The block stays until somebody looks.
    *
    * Whether this mask is good enough to draw is a visual decision about a

@@ -4,6 +4,7 @@ import garmentFitProfiles from "../../art/manifest/garment_fit_profiles.json";
 import poseFamilies from "../../art/manifest/pose_families.json";
 import {
   derivePersonAppearance,
+  LEGACY_APPEARANCE_RECIPE_VERSION,
   type PersonAppearance,
 } from "../simulation/person-appearance";
 import {
@@ -535,7 +536,10 @@ export interface PersonAppearanceContext {
 export function resolvePersonAppearance(
   person: PersonAppearanceContext,
 ): PersonAppearance {
-  return person.appearance ?? derivePersonAppearance(person.personId);
+  return (
+    person.appearance ??
+    derivePersonAppearance(person.personId, LEGACY_APPEARANCE_RECIPE_VERSION)
+  );
 }
 
 /**

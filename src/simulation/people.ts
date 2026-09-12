@@ -122,6 +122,15 @@ export interface LightweightPersonInput {
    * never reads the manifest itself.
    */
   readonly appearanceCatalogGeneration?: number;
+  /**
+   * Appearance recipe to create this person under, when the caller declares one.
+   *
+   * Absent means the default, which does not move — see
+   * `DEFAULT_APPEARANCE_RECIPE_VERSION`. A caller that wants a newer recipe
+   * says so, so the change reaches the people it was authorized for and no
+   * existing constructor's people are rebuilt behind its back.
+   */
+  readonly appearanceRecipeVersion?: string;
 }
 
 export function personName(person: Person): string {
@@ -335,7 +344,7 @@ export function createLightweightPerson(input: LightweightPersonInput): Person {
 
   const appearance = derivePersonAppearance(
     id,
-    undefined,
+    input.appearanceRecipeVersion,
     input.appearanceCatalogGeneration,
   );
   const birthplaceJurisdictionId =
@@ -530,6 +539,8 @@ export interface StartingPersonInput {
   readonly familyName?: string | null;
   readonly corpusVersion?: string;
   readonly appearanceCatalogGeneration?: number;
+  /** See `LightweightPersonInput.appearanceRecipeVersion`. */
+  readonly appearanceRecipeVersion?: string;
   /**
    * The gender and pronouns the player chose, when they chose any.
    *
@@ -621,7 +632,7 @@ export function createStartingPerson(input: StartingPersonInput): Person {
 
   const appearance = derivePersonAppearance(
     id,
-    undefined,
+    input.appearanceRecipeVersion,
     input.appearanceCatalogGeneration,
   );
   const birthplaceJurisdictionId =

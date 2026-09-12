@@ -2,6 +2,7 @@ import {
   guardianAgeBand,
   siblingAgeGaps,
   applyCharacterHistoryPlan,
+  COHERENT_APPEARANCE_RECIPE_VERSION,
   assertWorldIntegrity,
   addDays,
   ageOnDate,
@@ -155,6 +156,11 @@ export function buildProductionWorld(
     age: input.age,
     givenName: input.givenName,
     familyName: input.familyName,
+    // A life starting now is drawn under the coherent recipe, declared here
+    // rather than taken from a default, so that people already saved — and
+    // the fixture worlds with accepted serialized bytes — keep the recipe
+    // they were created under. See `person-appearance.ts`.
+    appearanceRecipeVersion: COHERENT_APPEARANCE_RECIPE_VERSION,
     ...(input.identity === undefined ? {} : { identity: input.identity }),
   });
 
