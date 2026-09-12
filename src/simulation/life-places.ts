@@ -600,9 +600,15 @@ export function searchLifePlaces(
     }
     results.push(synthesizeNationwidePlace(row));
   }
-  for (const place of nationwideCounties().values()) {
-    if (results.length >= limit) break;
-    if (placeMatches(place, needle)) results.push(place);
+  // Locality search is towns only. Unfiltered county rows match "lex" in
+  // display names from other states and break the creator's in-state list.
+  if (options?.scope !== "locality") {
+    for (const place of nationwideCounties().values()) {
+      if (results.length >= limit) break;
+      if (options?.scope && place.scope !== options.scope) continue;
+      if (stateKey && place.stateJurisdictionKey !== stateKey) continue;
+      if (placeMatches(place, needle)) results.push(place);
+    }
   }
   return results.slice(0, limit);
 }
