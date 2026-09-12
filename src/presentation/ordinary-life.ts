@@ -1,4 +1,5 @@
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
+import { migrateLegacyStudyProgression } from "../simulation/education-study-progression";
 import {
   activeChildAuthoritiesAt,
   currentLifeCutoff,
@@ -14,6 +15,7 @@ import {
   openOrdinaryLifeRecords,
   personName,
   refreshLifeOpportunities,
+  scheduledActivityState,
   simulationMinutesBetween,
   simulationMomentAtLocalTime,
   workPendingEntriesFor,
@@ -26,6 +28,7 @@ import type {
 } from "../simulation";
 import type { ConversationRoomContext } from "./run-b-conversation";
 import { shortPersonName } from "./conversation-subjects";
+import { declineVenueActivity } from "./scheduled-activity-choice";
 
 /**
  * A day in an ordinary life.
@@ -193,13 +196,15 @@ export const ORDINARY_DAY_START_MINUTE = 7 * 60;
  * whole days keep that morning by the same contract.
  *
  * A commitment the character has not answered yet is still a hard boundary:
- * the sub-day path refuses to step over one, and when it does the day moves as
- * it did before rather than not at all. Routine work on that first crossing
- * may complete before the commitment; the calendar still moves from there.
+ * the sub-day path may complete routine work before it, then returns at the
+ * exact boundary. It must not fall back to a date jump from that partially
+ * advanced world; doing so would silently step around the commitment.
  *
- * Remaining whole days stay on `advanceWorld`. A residency skip of years is
- * not a thousand sub-day resolutions; the player control is one day, and
- * further days keep the local minute the first crossing established.
+ * A tentative opt-in is different from a promised commitment. Choosing to
+ * pass beyond it records an explicit decline and releases its hold; it is
+ * never auto-attended. Confirmed activity and travel remain hard boundaries.
+ * Once that first exact crossing reaches tomorrow morning, additional whole
+ * days retain the accepted date-level behavior and its composed due handlers.
  */
 export function passOrdinaryDays(world: World, days = 1): World {
   // The handler registry travels with every advance an adult life can make.
@@ -210,22 +215,48 @@ export function passOrdinaryDays(world: World, days = 1): World {
   // registry composes the ordinary life handlers with the election handler, so
   // election day arrives without either the life or the contest being dropped.
   const handlers = createCampaignElectionTransitionRegistry();
+  const migrated = migrateLegacyStudyProgression(world);
   const wholeDays = Math.max(1, Math.trunc(days));
   const morning = simulationMomentAtLocalTime({
-    date: addDays(world.currentDate, 1),
+    date: addDays(migrated.currentDate, 1),
     minuteOfDay: ORDINARY_DAY_START_MINUTE,
-    timeZone: world.currentMoment.timeZone,
-    preferredUtcOffsetMinutes: world.currentMoment.utcOffsetMinutes,
+    timeZone: migrated.currentMoment.timeZone,
+    preferredUtcOffsetMinutes: migrated.currentMoment.utcOffsetMinutes,
   });
-  const minutes = simulationMinutesBetween(world.currentMoment, morning);
-  const stepped =
-    minutes > 0 ? advanceWorldMinutes(world, minutes, handlers) : world;
-  const tomorrow =
-    compareSimulationMoments(stepped.currentMoment, morning) >= 0
-      ? stepped
-      : advanceWorld(stepped, 1, handlers);
-  if (wholeDays === 1) return tomorrow;
-  return advanceWorld(tomorrow, wholeDays - 1, handlers);
+  let current = migrated;
+  for (let step = 0; step < 64; step += 1) {
+    const minutes = simulationMinutesBetween(current.currentMoment, morning);
+    if (minutes <= 0)
+      return wholeDays === 1
+        ? current
+        : advanceWorld(current, wholeDays - 1, handlers);
+    const stepped = advanceWorldMinutes(current, minutes, handlers);
+    if (compareSimulationMoments(stepped.currentMoment, morning) >= 0)
+      return wholeDays === 1
+        ? stepped
+        : advanceWorld(stepped, wholeDays - 1, handlers);
+
+    // Passing time is an explicit choice not to attend an optional hold. Write
+    // that choice and release only the tentative activity at this exact
+    // boundary. Confirmed commitments and travel fall through unchanged.
+    const optional = stepped.history.scheduledActivities.find((activity) => {
+      if (activity.kind !== "tentative") return false;
+      const state = scheduledActivityState(stepped, activity.id);
+      return (
+        state.status === "scheduled" &&
+        compareSimulationMoments(state.start, stepped.currentMoment) === 0
+      );
+    });
+    if (!optional || stepped.control.kind !== "person") return stepped;
+    const declined = declineVenueActivity(
+      stepped,
+      stepped.control.personId,
+      optional.id,
+    );
+    if (declined === stepped) return stepped;
+    current = declined;
+  }
+  throw new Error("Ordinary time advancement did not converge.");
 }
 
 function openingLine(

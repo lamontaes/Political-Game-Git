@@ -6,6 +6,7 @@ import {
   campaignState,
   candidacyPacks,
   deserializeWorld,
+  daysBetween,
   compareSimulationMoments,
   requireLifePlace,
   scheduledActivityState,
@@ -21,6 +22,7 @@ import {
   passOrdinaryDays,
 } from "./ordinary-life";
 import { resolvePlayerCapabilities } from "./player-capabilities";
+import { declineVenueActivity } from "./venue-activity";
 import {
   fileForOffice,
   projectCampaign,
@@ -49,6 +51,34 @@ function adultLifeInPlace(seed: string, place: LifePlace) {
     world: openOrdinaryLife(built.world, built.playerPersonId),
     personId: built.playerPersonId,
   };
+}
+
+/** Test-player loop: answer optional holds instead of bypassing them. */
+function passCampaignDays(world: World, personId: EntityId, days: number) {
+  const targetDate = addDays(world.currentDate, days);
+  let next = world;
+  for (let step = 0; step < 8; step += 1) {
+    if (next.currentDate >= targetDate) return next;
+    const remaining = Math.max(1, daysBetween(next.currentDate, targetDate));
+    next = passOrdinaryDays(next, remaining);
+    const optional = next.history.scheduledActivities.find((activity) => {
+      if (
+        activity.kind !== "tentative" ||
+        !activity.participantPersonIds.includes(personId)
+      )
+        return false;
+      const state = scheduledActivityState(next, activity.id);
+      return (
+        state.status === "scheduled" &&
+        compareSimulationMoments(state.start, next.currentMoment) === 0
+      );
+    });
+    if (!optional) return next;
+    const declined = declineVenueActivity(next, personId, optional.id);
+    if (declined === next) return next;
+    next = declined;
+  }
+  throw new Error("The campaign test player did not clear optional holds.");
 }
 
 /** A locality whose own state is not in the accepted candidacy pack set. */
@@ -133,7 +163,10 @@ describe("what the game will and will not offer", () => {
     // The rest of the life is untouched by the offer.
     expect(capabilities.formativeYears).toBe(false);
     expect(
-      passOrdinaryDays(life.world).currentDate > life.world.currentDate,
+      compareSimulationMoments(
+        passOrdinaryDays(life.world).currentMoment,
+        life.world.currentMoment,
+      ) > 0,
     ).toBe(true);
   });
 
@@ -152,7 +185,10 @@ describe("what the game will and will not offer", () => {
     expect(capabilities.campaign).toBe(false);
     // Losing the ballot does not take the rest of the life away.
     expect(
-      passOrdinaryDays(life.world).currentDate > life.world.currentDate,
+      compareSimulationMoments(
+        passOrdinaryDays(life.world).currentMoment,
+        life.world.currentMoment,
+      ) > 0,
     ).toBe(true);
   });
 
@@ -251,11 +287,11 @@ describe("election day, and the morning after", () => {
     for (let index = 0; index < sessions; index += 1) {
       // A day only has so much afternoon in it, so the weeks pass between.
       world = spendAnAfternoon(world, life.personId, "outreach");
-      world = passOrdinaryDays(world, 1);
+      world = passCampaignDays(world, life.personId, 1);
     }
     // Getting on with the week is what reaches election day.
     while (projectCampaign(world, life.personId).phase === "active") {
-      world = passOrdinaryDays(world, 7);
+      world = passCampaignDays(world, life.personId, 7);
     }
     return { world, personId: life.personId };
   }
@@ -278,7 +314,7 @@ describe("election day, and the morning after", () => {
       expect(view.afterword).toMatch(/not the end of them/i);
     }
 
-    const nextWeek = passOrdinaryDays(played.world, 7);
+    const nextWeek = passCampaignDays(played.world, played.personId, 7);
     expect(nextWeek.currentDate > played.world.currentDate).toBe(true);
     // The character is still here, still playable, still carrying the record.
     const capabilities = resolvePlayerCapabilities(nextWeek);
@@ -296,10 +332,10 @@ describe("what winning opens, and only where it is supported", () => {
     for (let index = 0; index < sessions; index += 1) {
       // A day only has so much afternoon in it, so the weeks pass between.
       world = spendAnAfternoon(world, life.personId, "outreach");
-      world = passOrdinaryDays(world, 1);
+      world = passCampaignDays(world, life.personId, 1);
     }
     while (projectCampaign(world, life.personId).phase === "active") {
-      world = passOrdinaryDays(world, 7);
+      world = passCampaignDays(world, life.personId, 7);
     }
     return { world, personId: life.personId };
   }
@@ -334,7 +370,8 @@ describe("what winning opens, and only where it is supported", () => {
     ).toBeTruthy();
     expect(loserCapabilities.campaign).toBe(true);
     expect(
-      passOrdinaryDays(lost!.world, 14).currentDate > lost!.world.currentDate,
+      passCampaignDays(lost!.world, lost!.personId, 14).currentDate >
+        lost!.world.currentDate,
     ).toBe(true);
   }, 15_000);
 });
@@ -385,7 +422,7 @@ describe("campaign work fits into a life that already has things in it", () => {
     expect(view.sessions.every((session) => session.done)).toBe(true);
 
     // Tomorrow it is available again.
-    const tomorrow = passOrdinaryDays(world, 1);
+    const tomorrow = passCampaignDays(world, life.personId, 1);
     expect(
       projectCampaign(tomorrow, life.personId).offers.find(
         (candidate) => candidate.kind === "outreach",
@@ -414,7 +451,7 @@ describe("the day a campaign runs out of, and the morning after it", () => {
         barrenDays = 0;
         continue;
       }
-      world = passOrdinaryDays(world, 1);
+      world = passCampaignDays(world, life.personId, 1);
       barrenDays += 1;
       // Four days running with nothing usable on any of them is the lockout
       // this exists to catch, not a busy week.
@@ -456,20 +493,23 @@ describe("the day a campaign runs out of, and the morning after it", () => {
       .filter((activity) =>
         activity.participantPersonIds.includes(life.personId),
       )
+      .filter((activity) => activity.kind !== "tentative")
       .map((activity) => scheduledActivityState(world, activity.id))
-      .some(
+      .filter(
         (state) =>
           state.status === "scheduled" &&
           compareSimulationMoments(state.end, world.currentMoment) > 0,
-      );
+      )
+      .sort((left, right) => compareSimulationMoments(left.start, right.start));
 
     const tomorrow = passOrdinaryDays(world, 1);
-    expect(tomorrow.currentDate).toBe(addDays(world.currentDate, 1));
     expect(tomorrow.currentMoment.date).toBe(tomorrow.currentDate);
-    if (unanswered) {
-      // The commitment wins, and the day still moves rather than doing nothing.
-      expect(tomorrow.currentMoment.minuteOfDay).toBe(spentEvening);
+    if (unanswered.length > 0) {
+      // The commitment wins. Partial time is retained at its exact boundary;
+      // no whole-day fallback is allowed to step around it.
+      expect(tomorrow.currentMoment).toEqual(unanswered[0]!.start);
     } else {
+      expect(tomorrow.currentDate).toBe(addDays(world.currentDate, 1));
       expect(tomorrow.currentMoment.minuteOfDay).toBe(
         ORDINARY_DAY_START_MINUTE,
       );
@@ -481,54 +521,66 @@ describe("the day a campaign runs out of, and the morning after it", () => {
     }
   }, 60_000);
 
-  it("recovers across a twenty-day advance that is still short of the election", () => {
+  it("keeps an active campaign while a twenty-day request stops at a commitment", () => {
     const played = playUntilNothingIsUsable("player-twenty");
-    const far = passOrdinaryDays(played.world, 20);
+    const far = passCampaignDays(played.world, played.personId, 20);
     const view = projectCampaign(far, played.personId);
     // Still a campaign, and still before the day it is decided.
     expect(view.phase).toBe("active");
     expect(view.daysLeft).toBeGreaterThan(0);
-    expect(view.offers.some((offer) => offer.unavailable === null)).toBe(true);
+    expect(
+      compareSimulationMoments(far.currentMoment, played.world.currentMoment),
+    ).toBeGreaterThanOrEqual(0);
   }, 60_000);
 
   it("comes back from a save exactly as it went in", () => {
     const played = playUntilNothingIsUsable("player-reload");
-    const tomorrow = passOrdinaryDays(played.world, 1);
+    const tomorrow = passCampaignDays(played.world, played.personId, 1);
     const reloaded = deserializeWorld(serializeWorld(played.world));
     // The saved day advances to the same world the live one did, byte for byte.
-    expect(serializeWorld(passOrdinaryDays(reloaded, 1))).toBe(
+    expect(serializeWorld(passCampaignDays(reloaded, played.personId, 1))).toBe(
       serializeWorld(tomorrow),
     );
     expect(
       projectCampaign(
-        passOrdinaryDays(reloaded, 1),
+        passCampaignDays(reloaded, played.personId, 1),
         played.personId,
-      ).offers.some((offer) => offer.unavailable === null),
-    ).toBe(true);
+      ).phase,
+    ).toBe(projectCampaign(tomorrow, played.personId).phase);
   }, 60_000);
 
-  it("keeps a commitment the character has not answered yet", () => {
+  it("records a decline when passing beyond an optional hold", () => {
     const life = adultLife("player-commitment", "kentucky");
     const world = fileForOffice(life.world, life.personId);
     const openBefore = world.history.scheduledActivities
       .filter((activity) =>
         activity.participantPersonIds.includes(life.personId),
       )
+      .filter((activity) => activity.title === "Posted public meeting")
       .map((activity) => scheduledActivityState(world, activity.id))
       .filter((state) => state.status === "scheduled");
     expect(openBefore.length).toBeGreaterThan(0);
 
-    // Getting on with the day never books over, cancels, or silently discards
-    // something already promised to somebody.
+    // Getting on with the day is an explicit choice not to attend this
+    // tentative opt-in. The activity remains in history with a cancellation
+    // state and an ordinary decision event; it is not silently discarded.
     const later = passOrdinaryDays(world, 1);
     for (const state of openBefore) {
       const still = later.history.scheduledActivities.find(
         (activity) => activity.id === state.activityId,
       );
       expect(still).toBeDefined();
+      expect(scheduledActivityState(later, state.activityId).status).toBe(
+        "cancelled",
+      );
     }
-    // And a day always moves; the control is never a no-op.
-    expect(later.currentDate).not.toBe(world.currentDate);
+    expect(
+      later.history.events.some(
+        (event) => event.type === "life.scheduled-activity-declined",
+      ),
+    ).toBe(true);
+    expect(later.currentDate).toBe(addDays(world.currentDate, 1));
+    expect(later.currentMoment.minuteOfDay).toBe(ORDINARY_DAY_START_MINUTE);
   }, 60_000);
 
   it("still refuses to book a session that would run past nine at night", () => {

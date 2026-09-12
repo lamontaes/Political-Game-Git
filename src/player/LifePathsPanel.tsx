@@ -142,12 +142,14 @@ export function LifePathsPanel({
             {path.kind === "study" && path.credential && (
               <p>Completing leads to: {path.credential}.</p>
             )}
-            {path.requiredSessions && path.kind === "study" && (
-              <p>
-                {path.requiredSessions} sessions, at least {path.minimumGapDays}{" "}
-                days apart (legacy session model).
-              </p>
-            )}
+            {path.requiredSessions &&
+              path.kind === "study" &&
+              !studyUsesPeriodModel(path) && (
+                <p>
+                  {path.requiredSessions} sessions, at least{" "}
+                  {path.minimumGapDays} days apart (legacy session model).
+                </p>
+              )}
             {reason && <p>{reason}</p>}
             <button
               disabled={!!reason}
@@ -212,13 +214,13 @@ export function LifePathsPanel({
               <>
                 {path.kind === "study" ? (
                   studyUsesPeriodUi(world, record.id, path) ? null : (
-                  <button
-                    onClick={() =>
-                      act(scheduleLifePathSession(world, record.id))
-                    }
-                  >
-                    Schedule next session
-                  </button>
+                    <button
+                      onClick={() =>
+                        act(scheduleLifePathSession(world, record.id))
+                      }
+                    >
+                      Schedule next session
+                    </button>
                   )
                 ) : (
                   <button

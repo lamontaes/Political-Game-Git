@@ -1,11 +1,23 @@
 import { describe, expect, it } from "vitest";
-import { deserializeWorld, serializeWorld } from "../simulation";
+import {
+  deserializeWorld,
+  scheduledActivityState,
+  serializeWorld,
+} from "../simulation";
 import { createNewGameWorld } from "./new-game";
-import { openNextLifeScene, walkOpeningNeighborhood } from "./life-scene-flow";
+import {
+  openNextLifeScene,
+  openingLifeLocation,
+  walkOpeningNeighborhood,
+} from "./life-scene-flow";
 import { createAuthoredMunicipalPublicSession } from "./municipal-workspace";
 import { describePlacesOutcome, projectPlacesWorkspace } from "./player-places";
 import { openOrdinaryLife } from "./ordinary-life";
-import { performVenueActivity } from "./venue-activity";
+import { declineVenueActivity, performVenueActivity } from "./venue-activity";
+import {
+  createRunDLiteFixture,
+  performRunDScheduledActivity,
+} from "./run-d-lite";
 
 function childAtHome(seed = "places11-child") {
   const game = createNewGameWorld({
@@ -70,7 +82,7 @@ describe("player-places projection", () => {
     );
   });
 
-  it("projects venue attendance with duration and preserves refusal on stale click", () => {
+  it("exposes the adapter gap instead of inventing a journey", () => {
     const created = createNewGameWorld({
       placeKey: "kentucky",
       startAge: 34,
@@ -89,14 +101,81 @@ describe("player-places projection", () => {
       (offer) => offer.kind === "attend" && offer.activityId,
     );
     expect(venueOffer).toBeDefined();
-    expect(venueOffer!.durationLabel).toMatch(/minutes/);
+    expect(venueOffer!.durationLabel).toBeNull();
+    expect(venueOffer!.unavailable).toMatch(/cannot establish a journey/);
+    expect(venueOffer!.declineActivityId).toBe(venueOffer!.activityId);
     expect(
       performVenueActivity(
         world,
         created.playerPersonId,
         venueOffer!.activityId!,
       ),
-    ).not.toBe(world);
+    ).toBe(world);
+    const declined = declineVenueActivity(
+      world,
+      created.playerPersonId,
+      venueOffer!.activityId!,
+    );
+    expect(declined.currentMoment).toEqual(world.currentMoment);
+    expect(
+      scheduledActivityState(declined, venueOffer!.activityId!).status,
+    ).toBe("cancelled");
+  });
+
+  it("makes the disclosed journey part of one Attend commitment", () => {
+    const fixture = createRunDLiteFixture("places11-attend-journey");
+    let world = performRunDScheduledActivity(
+      fixture.world,
+      fixture,
+      fixture.dLite.briefingActivityId,
+    );
+    world = performRunDScheduledActivity(
+      world,
+      fixture,
+      fixture.dLite.flexibleActivityId,
+    );
+
+    const model = projectPlacesWorkspace(world, fixture.playerPersonId)!;
+    const meeting = model.offers.find(
+      (offer) => offer.activityId === fixture.dLite.meetingActivityId,
+    )!;
+    expect(meeting.unavailable).toBeNull();
+    expect(meeting.detail).toMatch(
+      /Attend includes the disclosed 20-minute journey/,
+    );
+    expect(meeting.detail).toMatch(/cost is not represented/i);
+    expect(meeting.durationLabel).toMatch(/20 travelling/);
+    expect(
+      model.offers.some(
+        (offer) => offer.activityId === fixture.dLite.travelActivityId,
+      ),
+    ).toBe(false);
+
+    const attended = performVenueActivity(
+      world,
+      fixture.playerPersonId,
+      fixture.dLite.meetingActivityId,
+    );
+    expect(
+      scheduledActivityState(attended, fixture.dLite.travelActivityId).status,
+    ).toBe("completed");
+    expect(
+      scheduledActivityState(attended, fixture.dLite.meetingActivityId).status,
+    ).toBe("completed");
+    expect(attended.currentMoment.minuteOfDay).toBe(15 * 60 + 15);
+    expect(openingLifeLocation(attended, fixture.playerPersonId)?.label).toBe(
+      "East End Community Room",
+    );
+
+    const loaded = deserializeWorld(serializeWorld(attended));
+    expect(serializeWorld(loaded)).toBe(serializeWorld(attended));
+    expect(
+      performVenueActivity(
+        loaded,
+        fixture.playerPersonId,
+        fixture.dLite.meetingActivityId,
+      ),
+    ).toBe(loaded);
   });
 
   it("lists municipal meetings and inspect without inventing travel", () => {

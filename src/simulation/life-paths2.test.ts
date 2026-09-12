@@ -67,22 +67,26 @@ const balance = (w: World) =>
     money(0, "USD").currency,
   )!.liquidBalance.minorUnits;
 describe("LIFE-PATHS2 canonical progression", () => {
-  it("enrolls, consumes actual session time and fees, interrupts/returns and reloads", () => {
+  it("enrolls, preserves period time and cost, interrupts/returns and reloads", () => {
     let w = fixture();
     w = enterLifePath(w, "college-office-certificate").world;
     const id = w.history.educationEnrollments.at(-1)!.id;
     expect(balance(w)).toBe(100000);
-    w = scheduleLifePathSession(w, id).world;
-    const activity = w.history.scheduledActivities.at(-1)!.id;
-    const result = performLifePathSession(w, activity);
-    expect(result.ok).toBe(true);
-    w = result.world;
-    expect(balance(w)).toBe(97500);
-    expect(performLifePathSession(w, activity).world).toBe(w);
+    expect(scheduleLifePathSession(w, id).world).toBe(w);
+    w = advanceWorld(w, 80, LIFE_PATHS2_HANDLERS);
     w = changeLifePathStatus(w, id, "pause").world;
     expect(scheduleLifePathSession(w, id).world).toBe(w);
     w = deserializeWorld(serializeWorld(w));
-    expect(changeLifePathStatus(w, id, "return").ok).toBe(true);
+    w = changeLifePathStatus(w, id, "return").world;
+    w = advanceWorld(w, 81, LIFE_PATHS2_HANDLERS);
+    expect(balance(w)).toBe(40000);
+    expect(
+      hasLifePathCredential(
+        w,
+        w.personOrder[0]!,
+        "postsecondary:office-certificate",
+      ),
+    ).toBe(true);
   });
   it("refuses unqualified repair work and pays shop work only the following day", () => {
     let w = fixture();
@@ -150,23 +154,14 @@ describe("LIFE-PATHS2 canonical progression", () => {
 });
 
 describe("LIFE-PATHS2 complete path and refusals", () => {
-  it("earns a college credential only after every spaced session, surviving interruption and reload", () => {
+  it("earns a college credential only after its period, surviving interruption and reload", () => {
     let w = enterLifePath(fixture(), "college-office-certificate").world;
     const id = w.history.educationEnrollments.at(-1)!.id;
-    for (let i = 0; i < 24; i++) {
-      if (i === 8) {
-        w = changeLifePathStatus(w, id, "pause").world;
-        w = deserializeWorld(serializeWorld(w));
-        w = changeLifePathStatus(w, id, "return").world;
-      }
-      w = scheduleLifePathSession(w, id).world;
-      const result = performLifePathSession(
-        w,
-        w.history.scheduledActivities.at(-1)!.id,
-      );
-      expect(result.ok).toBe(true);
-      w = result.world;
-    }
+    w = advanceWorld(w, 80, LIFE_PATHS2_HANDLERS);
+    w = changeLifePathStatus(w, id, "pause").world;
+    w = deserializeWorld(serializeWorld(w));
+    w = changeLifePathStatus(w, id, "return").world;
+    w = advanceWorld(w, 81, LIFE_PATHS2_HANDLERS);
     expect(w.history.educationEnrollmentStates.at(-1)?.status).toBe(
       "completed",
     );
@@ -218,18 +213,21 @@ describe("LIFE-PATHS2 complete path and refusals", () => {
     ).toBe(w);
     expect(w.history.workItems).toHaveLength(0);
   });
-  it("refuses overlapping study and work sessions without changing either commitment", () => {
+  it("does not create a lesson commitment beside ordinary work", () => {
     let w = enterLifePath(fixture(), "college-associate").world;
-    w = scheduleLifePathSession(
-      w,
-      w.history.educationEnrollments.at(-1)!.id,
-    ).world;
+    const enrollmentId = w.history.educationEnrollments.at(-1)!.id;
+    expect(scheduleLifePathSession(w, enrollmentId).world).toBe(w);
     w = enterLifePath(w, "shop-assistant").world;
-    const before = serializeWorld(w);
+    const scheduled = scheduleLifePathSession(
+      w,
+      w.history.workRelationships.at(-1)!.id,
+    );
+    expect(scheduled.ok).toBe(true);
     expect(
-      scheduleLifePathSession(w, w.history.workRelationships.at(-1)!.id).world,
-    ).toBe(w);
-    expect(serializeWorld(w)).toBe(before);
+      scheduled.world.history.scheduledActivities.filter((activity) =>
+        activity.sourceEntityIds.includes(enrollmentId),
+      ),
+    ).toHaveLength(0);
   });
 });
 
@@ -507,38 +505,30 @@ it("binds campaign compensation to its treasury and refuses absent campaign auth
   expect(deserializeWorld(serializeWorld(result.world))).toEqual(result.world);
 });
 
-for (const [path, sessions, fee, program, timeout] of [
-  ["trade-training", 12, 1500, "training:repair-certificate", 30000],
+for (const [path, intervals, totalCost, program, timeout] of [
+  ["trade-training", [77], 18000, "training:repair-certificate", 30000],
   [
     "college-associate",
-    96,
-    4000,
+    [166, 166, 166, 167],
+    384000,
     "postsecondary:public-administration-associate",
-    60000,
+    30000,
   ],
 ] as const) {
-  // Hosted CI measured the full 96-session journey at 35.1 seconds. Give only
-  // that new long integration case a 60-second budget; retain every real
-  // session, fee, credential and reload assertion and all prior test limits.
   it(
     `completes the full supported ${path} program with its actual costs`,
     () => {
       let w = enterLifePath(fixture(1000000), path).world;
       const id = w.history.educationEnrollments.at(-1)!.id;
       expect(hasLifePathCredential(w, w.personOrder[0]!, program)).toBe(false);
-      for (let i = 0; i < sessions; i++) {
-        w = scheduleLifePathSession(w, id).world;
-        const result = performLifePathSession(
-          w,
-          w.history.scheduledActivities.at(-1)!.id,
-        );
-        expect(result.ok).toBe(true);
-        w = result.world;
-        if (i === Math.floor(sessions / 2))
+      expect(scheduleLifePathSession(w, id).world).toBe(w);
+      for (let i = 0; i < intervals.length; i++) {
+        w = advanceWorld(w, intervals[i]!, LIFE_PATHS2_HANDLERS);
+        if (i === Math.floor(intervals.length / 2))
           w = deserializeWorld(serializeWorld(w));
       }
       expect(hasLifePathCredential(w, w.personOrder[0]!, program)).toBe(true);
-      expect(balance(w)).toBe(1000000 - sessions * fee);
+      expect(balance(w)).toBe(1000000 - totalCost);
       if (path === "trade-training") {
         w = enterLifePath(w, "repair-worker").world;
         const work = w.history.workRelationships.at(-1)!.id;

@@ -40,7 +40,6 @@ import {
   recordWorkStatus,
 } from "./life";
 import { LIFE_TRANSITION_HANDLERS } from "./life-callbacks";
-import { LIFE_PATHS2_HANDLERS } from "./life-paths2";
 import { workStatusHistory } from "./life-queries";
 import {
   lifePlaceByJurisdictionId,

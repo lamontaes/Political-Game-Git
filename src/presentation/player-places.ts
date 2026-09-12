@@ -46,6 +46,7 @@ export interface PlacesOfferView {
   readonly companionLabel: string | null;
   readonly walkDestination?: "home" | "neighborhood";
   readonly activityId?: EntityId;
+  readonly declineActivityId?: EntityId;
   readonly governmentKey?: string;
   readonly meetingId?: EntityId;
   readonly inspectGovernmentKey?: string;
@@ -83,7 +84,16 @@ export function projectPlacesWorkspace(
     offers.push(projectWalkOffer(world, personId, destination));
   }
 
-  for (const entry of venueActivities(world, personId)) {
+  const venueEntries = venueActivities(world, personId);
+  const bundledJourneyIds = new Set(
+    venueEntries.flatMap((entry) =>
+      entry.journey ? [entry.journey.activity.id] : [],
+    ),
+  );
+  for (const entry of venueEntries) {
+    // A disclosed journey is part of Attend. Presenting it as a second action
+    // recreates the rejected leave-now click and lets the two halves drift.
+    if (bundledJourneyIds.has(entry.activity.id)) continue;
     offers.push(
       projectVenueOffer(
         world,
@@ -91,6 +101,8 @@ export function projectPlacesWorkspace(
         entry.activity,
         entry.refusal,
         entry.elapsedMinutes,
+        entry.journey,
+        entry.declinable,
       ),
     );
   }
@@ -157,10 +169,15 @@ function projectVenueOffer(
   activity: ScheduledActivityRecord,
   refusal: string | null,
   elapsedMinutes: number | null,
+  journey: ReturnType<typeof venueActivities>[number]["journey"],
+  declinable: boolean,
 ): PlacesOfferView {
   const venue = sceneVenueForLocationKey(activity.location.locationKey);
   const detailParts = [
     activity.summary.trim(),
+    journey
+      ? `Attend includes the disclosed ${journey.journeyMinutes}-minute journey to ${activity.location.label}. ${journey.costDisclosure}`
+      : null,
     venue?.isJourney
       ? "This is a journey, not a room you enter at the end."
       : venue?.sceneId
@@ -171,7 +188,15 @@ function projectVenueOffer(
   let durationLabel: string | null = null;
   if (refusal === null && elapsedMinutes !== null) {
     try {
-      durationLabel = `${elapsedMinutes} minutes, including any wait before it begins.`;
+      const activityState = scheduledActivityState(world, activity.id);
+      const activityMinutes =
+        activityState.status === "scheduled"
+          ? scheduledActivityPerformanceTiming(world, activity.id)
+              .activityMinutes
+          : null;
+      durationLabel = journey
+        ? `${elapsedMinutes} minutes total: ${journey.waitMinutes} waiting, ${journey.journeyMinutes} travelling, and ${activityMinutes} at the activity.`
+        : `${elapsedMinutes} minutes, including any wait before it begins.`;
     } catch {
       durationLabel = null;
     }
@@ -186,6 +211,7 @@ function projectVenueOffer(
     unavailable: refusal,
     companionLabel: null,
     activityId: activity.id,
+    ...(declinable ? { declineActivityId: activity.id } : {}),
   };
 }
 

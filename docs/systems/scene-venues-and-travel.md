@@ -36,6 +36,20 @@ provider and living participants after elapsed time, then appends arrival.
 A refused route/conflict returns the original World. If circumstances change
 while time elapses, elapsed history is preserved without claiming arrival.
 
+Normal-player Attend composes a journey only through an explicit route adapter.
+The D-Lite office-to–East End adapter binds the existing travel activity to its
+source meeting, verifies the shared endpoint time, discloses the authored 20
+minutes and the absence of a represented fare, and performs both through the
+same transition-handler registry. The linked journey is not offered as a
+separate action. Arrival is appended after travel completion and before meeting
+revalidation, so a cancellation or interruption can leave the player at the
+real destination and time without claiming attendance or charging twice.
+
+A venue invitation at another recorded location without such an adapter is
+disabled with a concrete missing-route explanation. The existence of the
+office-to–East End adapter establishes no generic distance, duration, fare, or
+route availability for any other pair.
+
 The OPENING provider's five-minute local walk is authored scenario content.
 No measured distance/speed, national route coverage, provider availability,
 county/government-unit equivalence, or workplace commute is inferred.

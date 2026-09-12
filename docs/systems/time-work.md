@@ -57,6 +57,15 @@ treating them as blocking busywork. See [routine-time.md](routine-time.md).
 Non-routine commitments still stop the skip. Staff progress still excludes the
 controlled person.
 
+The normal “move to tomorrow” control treats a partial minute advance as its
+result. If routine work advances the clock to an unresolved commitment, the
+control returns that exact partial World. It never falls back to
+`advanceWorld` from the boundary, because a date jump there would step around
+the commitment. Passing beyond a tentative opt-in records an explicit decline
+and releases that hold without attending it. Once the first exact crossing
+reaches tomorrow morning, any additional requested whole days retain the
+accepted date-level advancement behavior and its composed due handlers.
+
 At the same represented instant, resolution uses a fixed deterministic order:
 date boundary and its due work, then work completion, then selected scheduled
 activity completion, with stable creation sequence breaking ties inside a
@@ -93,6 +102,36 @@ duration, and provenance. The D-Lite fixture authors 20 minutes from the office
 to an off-site meeting. Because the player and Collins participate, another
 activity cannot consume that interval or manufacture instantaneous arrival.
 Routing, traffic, and map simulation remain deferred.
+
+On the normal Places surface, the explicitly authored office-to–East End
+travel activity is an adapter-owned part of the meeting's single Attend
+commitment. The offer discloses waiting, journey, activity, total elapsed time,
+and that no fare is represented before commitment. The travel activity is not
+presented as a second leave-now action. Execution performs that same scheduled
+journey, records the destination only after completion, revalidates the meeting,
+and then performs it. If the meeting changes during travel, elapsed time and
+the actual destination remain while attendance does not. Other location pairs
+remain unavailable with an explicit missing-route reason; no distance, time,
+or price is inferred from labels.
+
+## Period education and legacy progression
+
+Degree and training study use date-level future-due items through the same
+transition-handler registry as work and campaign consequences. Bachelor's,
+graduate, and law paths retain their authored four-, two-, and three-year
+durations and per-period tuition. The certificate, associate, and repair
+training paths now advance by period as well; their former required-session
+counts and unit costs remain in the versioned terms as migration evidence and
+cost credit, not as required clicks.
+
+An active legacy enrollment is migrated append-only when normal time advances:
+completed session events remain, their paid cost is credited cumulatively,
+an obsolete open session is cancelled, and one canonical next-period due item
+is scheduled. The accepted institution, program, credential, start date,
+elapsed minimum, session total, payment history, and enrollment identity are
+not rewritten. Save/reload preserves the migrated World exactly. Insufficient
+tuition blocks the due item; the system does not invent a lender, grant, free
+tuition, or automatic debt.
 
 ## Work and Work/Pending projection
 

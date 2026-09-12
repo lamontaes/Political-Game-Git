@@ -10,6 +10,7 @@ import {
   completedStudyPeriods,
   educationStudyPeriodDueHandler,
   EDUCATION_STUDY_PERIOD_DUE_KEY,
+  periodizedStudyPath,
 } from "./education-study-progression";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import { activeCampaignForCandidate } from "./campaign-queries";
@@ -211,8 +212,10 @@ export function pathForRelationship(
   const enrollment = world.history.educationEnrollments.find(
     (e) => e.id === id,
   );
-  if (enrollment?.programKind.startsWith("postsecondary:edu-path7-"))
-    return acceptedEducationPath(world, id);
+  if (enrollment?.programKind.startsWith("postsecondary:edu-path7-")) {
+    const accepted = acceptedEducationPath(world, id);
+    return accepted ? periodizedStudyPath(accepted) : undefined;
+  }
   if (enrollment)
     return LIFE_PATHS2_CATALOG.find(
       (p) => p.kind === "study" && p.program === enrollment.programKind,
@@ -416,6 +419,11 @@ export function scheduleLifePathSession(
     !relationshipActive(world, id)
   )
     return fail(world, "This path is not active for you.");
+  if (path.kind === "study" && studyUsesPeriodModel(path))
+    return fail(
+      world,
+      "This program advances by study period; there is no session to schedule.",
+    );
   if (
     world.history.scheduledActivities.some(
       (a) =>
@@ -966,10 +974,8 @@ export const LIFE_PATHS2_HANDLERS = composeFutureTransitionHandlerRegistries(
   LIFE_PATHS2_CORE_HANDLERS,
 );
 
-registerStudyPathResolver(
-  (world, enrollmentId) =>
-    acceptedEducationPath(world, enrollmentId) ??
-    pathForRelationship(world, enrollmentId),
+registerStudyPathResolver((world, enrollmentId) =>
+  pathForRelationship(world, enrollmentId),
 );
 
 export { enrollmentStudyModel, studyProgressSummary, completedStudyPeriods };

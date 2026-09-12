@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 
 import {
   assertWorldIntegrity,
+  advanceWorld,
+  createCampaignElectionTransitionRegistry,
   availableMeasureSteps,
   measurePosition,
   recordWorkRole,
@@ -73,7 +75,7 @@ function newLife(seed: string) {
 function runOneRace(world: World, personId: EntityId): World {
   let next = fileForOffice(world, personId);
   for (let index = 0; index < 4; index += 1) {
-    next = passOrdinaryDays(next);
+    next = advanceWorld(next, 1, createCampaignElectionTransitionRegistry());
     try {
       next = spendAnAfternoon(
         next,
@@ -89,7 +91,7 @@ function runOneRace(world: World, personId: EntityId): World {
     day < 60 && projectCampaign(next, personId).phase === "active";
     day += 1
   ) {
-    next = passOrdinaryDays(next);
+    next = advanceWorld(next, 1, createCampaignElectionTransitionRegistry());
   }
   return next;
 }

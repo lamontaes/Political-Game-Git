@@ -470,10 +470,12 @@ describe("transcripts", () => {
       "campaign-sessions",
       "election-won",
       "election-lost",
-      // P12: this inherited campaign fixture reaches its first introduction
-      // after the sourced session deadline. Preserve its actual refusal;
-      // valid-window briefing behavior remains covered by the LEG route tests.
-      "legislative-session-unavailable",
+      // MORNING23 D: the normal-game clock now carries these inherited
+      // campaign fixtures through their authored interruptions without a
+      // whole-day bypass. Their resulting introductions fall inside the
+      // available session window, so the corpus must report the briefing it
+      // actually reached rather than preserving the old refusal claim.
+      "legislative-measure-briefing",
     ]) {
       expect(seen).toContain(claim);
     }

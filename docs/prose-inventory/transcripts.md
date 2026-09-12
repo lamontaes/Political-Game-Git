@@ -1211,7 +1211,7 @@ _Grounded by: Age 11; needs at least 5.; Age 11; needs to be under 18.; Requires
 Seed `p85c-owner-clock`, start age 34, Ethan Vance.
 6 beats, 26 realized lines, 21 linked back to a template.
 
-**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-won, episode:home.the-week-that-does-not-balance, episode:opening.adult.home.free-time, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, legislative-session-unavailable, persistent-instance-continuation, person-introduction, scene:episode, thread-recap
+**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-won, episode:home.the-week-that-does-not-balance, episode:opening.adult.home.free-time, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, legislative-measure-briefing, persistent-instance-continuation, person-introduction, scene:episode, thread-recap
 
 ### Campaign
 
@@ -1220,7 +1220,16 @@ Seed `p85c-owner-clock`, start age 34, Ethan Vance.
 - Sessions: 6
 - Resolved: true (won)
 
-_Legislative work unavailable: The configured regular session cannot continue after 2026-04-15 (Ky. Const. Sec. 42). No exceptional-session record authorizes this action._
+### Legislative surface reached
+
+- HB 214 — The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
+  - Funds a two-year pilot extending fare-free bus service to riders enrolled in state assistance programs.
+  - The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
+  - Filed on 2026-03-28. Filed in the House of Representatives.
+  - Committee on Committees
+  - Committee on Committees decides which committee takes the measure.
+  - Ask for the bill to be sent to a committee
+  - Even-year sessions run 60 legislative days and adjourn by 15 April; odd-year sessions run 30 legislative days and adjourn by 30 March.
 
 
 ### Beats
@@ -1312,7 +1321,7 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 Seed `corpus-campaign-b`, start age 41, Nadia Tillman.
 6 beats, 22 realized lines, 17 linked back to a template.
 
-**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-won, episode:civic.the-thing-nobody-else-turned-up-for, episode:opening.adult.home.free-time, episode:opening.adult.home.plan-week, legislative-session-unavailable, persistent-instance-continuation, scene:episode, scene:ordinary-stretch, thread-recap
+**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-won, episode:civic.the-thing-nobody-else-turned-up-for, episode:opening.adult.home.free-time, episode:opening.adult.home.plan-week, legislative-measure-briefing, persistent-instance-continuation, scene:episode, scene:ordinary-stretch, thread-recap
 
 ### Campaign
 
@@ -1321,7 +1330,16 @@ Seed `corpus-campaign-b`, start age 41, Nadia Tillman.
 - Sessions: 6
 - Resolved: true (won)
 
-_Legislative work unavailable: The configured regular session cannot continue after 2026-04-15 (Ky. Const. Sec. 42). No exceptional-session record authorizes this action._
+### Legislative surface reached
+
+- HB 214 — The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
+  - Funds a two-year pilot extending fare-free bus service to riders enrolled in state assistance programs.
+  - The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
+  - Filed on 2026-04-12. Filed in the House of Representatives.
+  - Committee on Committees
+  - Committee on Committees decides which committee takes the measure.
+  - Ask for the bill to be sent to a committee
+  - Even-year sessions run 60 legislative days and adjourn by 15 April; odd-year sessions run 30 legislative days and adjourn by 30 March.
 
 
 ### Beats

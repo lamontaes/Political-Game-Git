@@ -2,7 +2,10 @@ import { RegularSessionUnavailableError } from "../../src/presentation/legislati
 import { createHash } from "node:crypto";
 import {
   campaignForCandidate,
+  createCampaignElectionTransitionRegistry,
   electionContestResult,
+  performScheduledActivity,
+  scheduledActivityState,
 } from "../../src/simulation";
 import type { EntityId, World } from "../../src/simulation";
 import {
@@ -398,7 +401,11 @@ function runCampaign(
   // game screen calls — and canvass again tomorrow. Nothing is scaled and no
   // outcome is written; the candidate just stops being cut off mid-campaign.
   const sessions: string[] = [];
-  for (let day = 0; sessions.length < afternoons && day <= afternoons;) {
+  // A single calendar crossing may stop at several authored commitments before
+  // it reaches the next morning. Count those interruptions as progress, not as
+  // campaign afternoons spent; otherwise a busy diary can exhaust the loop's
+  // guard while the transcript still contains only the first day's sessions.
+  for (let step = 0; sessions.length < afternoons && step < 256; step += 1) {
     if (electionContestResult(current, campaign.contestId)) break;
     const offers = (projectCampaign(current, personId)?.offers ?? []).filter(
       (candidate) => candidate.unavailable === null,
@@ -410,12 +417,32 @@ function runCampaign(
       current = spendAnAfternoon(current, personId, offer.kind);
       continue;
     }
-    // Today is spent. Tomorrow is a real day the campaign has to reach, not a
-    // free retry: if time refuses to move, the campaign is over.
+    // Today is spent. Tomorrow is a real day the campaign has to reach. If a
+    // confirmed commitment stops the clock, this scripted corpus player
+    // explicitly performs that exact activity before asking time to move
+    // again; it never relies on the removed whole-day bypass.
     const tomorrow = passOrdinaryDays(current);
-    if (tomorrow === current) break;
+    if (tomorrow === current) {
+      const blocker = current.history.scheduledActivities.find((activity) => {
+        const state = scheduledActivityState(current, activity.id);
+        return (
+          state.status === "scheduled" &&
+          state.start.date === current.currentMoment.date &&
+          state.start.minuteOfDay === current.currentMoment.minuteOfDay &&
+          activity.responsiblePersonId === personId
+        );
+      });
+      if (!blocker) break;
+      const performed = performScheduledActivity(
+        current,
+        blocker.id,
+        createCampaignElectionTransitionRegistry(),
+      );
+      if (performed === current) break;
+      current = performed;
+      continue;
+    }
     current = tomorrow;
-    day += 1;
   }
   // Let the clock reach the contest rather than writing a result.
   for (let index = 0; index < 60; index += 1) {

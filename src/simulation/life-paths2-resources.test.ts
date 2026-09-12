@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { createNewGameWorld } from "../presentation/new-game";
 import { deserializeWorld, serializeWorld } from "./serialization";
+import { addDays } from "./dates";
 import { advanceWorld } from "./world";
 import {
   money,
@@ -11,11 +12,12 @@ import { resourcePositionAt } from "./resource-queries";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import {
   enterLifePath,
+  changeLifePathStatus,
   scheduleLifePathSession,
   performLifePathSession,
   LIFE_PATHS2_HANDLERS,
 } from "./life-paths2";
-import type { World } from "./types";
+import type { EntityId, World } from "./types";
 
 function normal() {
   return createNewGameWorld({
@@ -39,14 +41,9 @@ const balance = (w: World) =>
     { kind: "person", personId: actor(w) },
     money(0, "USD").currency,
   )?.liquidBalance.minorUnits;
-function session(w: World, path: string) {
-  w = enterLifePath(w, path).world;
-  const id =
-    path === "shop-assistant"
-      ? w.history.workRelationships.at(-1)!.id
-      : w.history.educationEnrollments.at(-1)!.id;
+function workSession(w: World, id: EntityId, shiftNumber: number) {
   const scheduled = scheduleLifePathSession(w, id);
-  expect(scheduled.ok).toBe(true);
+  expect(scheduled.ok, `shift ${shiftNumber}: ${scheduled.message}`).toBe(true);
   return {
     world: scheduled.world,
     id: scheduled.world.history.scheduledActivities.at(-1)!.id,
@@ -56,12 +53,18 @@ describe("LIFE normal earned-money account lifecycle", () => {
   it("uses actual normal work pay for study with no starting funds, then reloads without paying twice", () => {
     let w = normal();
     expect(w.history.resourcePositions).toHaveLength(0);
-    const shift = session(w, "shop-assistant");
-    const worked = performLifePathSession(shift.world, shift.id);
-    expect(worked.ok).toBe(true);
-    expect(balance(worked.world)).toBeUndefined();
-    w = advanceWorld(worked.world, 1, LIFE_PATHS2_HANDLERS);
-    expect(balance(w)).toBe(7200);
+    const enteredWork = enterLifePath(w, "shop-assistant");
+    expect(enteredWork.ok, enteredWork.message).toBe(true);
+    w = enteredWork.world;
+    const workId = w.history.workRelationships.at(-1)!.id;
+    for (let shiftNumber = 0; shiftNumber < 9; shiftNumber += 1) {
+      const shift = workSession(w, workId, shiftNumber + 1);
+      const worked = performLifePathSession(shift.world, shift.id);
+      expect(worked.ok).toBe(true);
+      if (shiftNumber === 0) expect(balance(worked.world)).toBeUndefined();
+      w = advanceWorld(worked.world, 1, LIFE_PATHS2_HANDLERS);
+    }
+    expect(balance(w)).toBe(64_800);
     expect(w.history.resourcePositions.at(-1)!.openingBalance.minorUnits).toBe(
       0,
     );
@@ -69,27 +72,35 @@ describe("LIFE normal earned-money account lifecycle", () => {
     expect(w.history.resourcePositions.at(-1)!.sequence).toBeLessThan(
       transfer.sequence,
     );
+    w = changeLifePathStatus(w, workId, "leave").world;
     w = deserializeWorld(serializeWorld(w));
-    const study = session(w, "college-office-certificate");
-    const attended = performLifePathSession(study.world, study.id);
-    expect(attended.ok).toBe(true);
-    expect(balance(attended.world)).toBe(4700);
+    w = enterLifePath(w, "college-office-certificate").world;
+    const attended = advanceWorld(w, 161, LIFE_PATHS2_HANDLERS);
+    expect(balance(attended)).toBe(4_800);
     expect(
       balance(
         advanceWorld(
-          deserializeWorld(serializeWorld(attended.world)),
+          deserializeWorld(serializeWorld(attended)),
           1,
           LIFE_PATHS2_HANDLERS,
         ),
       ),
-    ).toBe(4700);
-  });
-  it("refuses unfunded study without creating an account or changing time", () => {
-    const study = session(normal(), "college-office-certificate");
-    expect(performLifePathSession(study.world, study.id).world).toBe(
-      study.world,
+    ).toBe(4_800);
+  }, 30_000);
+  it("blocks an unfunded period without inventing an account or tuition payment", () => {
+    const entered = enterLifePath(normal(), "college-office-certificate").world;
+    const expectedDate = addDays(entered.currentDate, 161);
+    const blocked = advanceWorld(entered, 161, LIFE_PATHS2_HANDLERS);
+    expect(blocked.currentDate).toBe(expectedDate);
+    expect(blocked.history.resourcePositions).toHaveLength(0);
+    expect(blocked.history.resourceTransferOutcomes).toHaveLength(0);
+    expect(blocked.history.educationEnrollmentStates.at(-1)?.status).toBe(
+      "active",
     );
-    expect(study.world.history.resourcePositions).toHaveLength(0);
+    expect(blocked.history.futureDueItemStates.at(-1)).toMatchObject({
+      status: "blocked",
+      reasonKey: "education:insufficient-tuition",
+    });
   });
   it("recovers only real earlier net transfers, preserving history and excluding other currencies and owners", () => {
     let w = normal();
@@ -100,8 +111,8 @@ describe("LIFE normal earned-money account lifecycle", () => {
     const owner = { kind: "person" as const, personId: actor(w) };
     const employer = { kind: "organization" as const, organizationId };
     for (const [name, source, recipient, amount, currency] of [
-      ["earned", employer, owner, 7200, "USD"],
-      ["spent", owner, employer, 1200, "USD"],
+      ["earned", employer, owner, 72_000, "USD"],
+      ["spent", owner, employer, 12_000, "USD"],
       ["foreign", employer, owner, 999, "EUR"],
     ] as const) {
       w = createResourceFlow(w, {
@@ -143,7 +154,7 @@ describe("LIFE normal earned-money account lifecycle", () => {
       actor(w),
       money(0, "USD").currency,
     );
-    expect(balance(repaired)).toBe(6000);
+    expect(balance(repaired)).toBe(60_000);
     expect(repaired.history.resourceTransferOutcomes).toEqual(outcomes);
     expect(repaired.history.resourcePositions.at(-1)!.provenance).toMatchObject(
       { note: expect.stringContaining(outcomes[0]!.id) },
@@ -155,12 +166,10 @@ describe("LIFE normal earned-money account lifecycle", () => {
         money(0, "USD").currency,
       ),
     ).toBe(repaired);
-    const study = session(
+    const study = enterLifePath(
       deserializeWorld(serializeWorld(w)),
       "college-office-certificate",
-    );
-    expect(balance(performLifePathSession(study.world, study.id).world)).toBe(
-      3500,
-    );
-  });
+    ).world;
+    expect(balance(advanceWorld(study, 161, LIFE_PATHS2_HANDLERS))).toBe(0);
+  }, 30_000);
 });

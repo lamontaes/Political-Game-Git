@@ -15,6 +15,7 @@ import {
   cancelFutureDueItem,
   futureDueItemStateAt,
 } from "./future-transitions";
+import { cancelScheduledActivity, scheduledActivityState } from "./time-work";
 import { addDays } from "./dates";
 import type { LifePathDefinition } from "./life-paths2-catalog";
 import type { EntityId, IsoDate, World } from "./types";
@@ -28,6 +29,27 @@ const authored = {
 
 export function studyUsesPeriodModel(path: LifePathDefinition): boolean {
   return path.progressionModel === "periods";
+}
+
+/**
+ * Reads accepted legacy session terms as one period without rewriting their
+ * evidence artifact. The original duration, session count, unit price and
+ * credential remain in the saved terms; only the future interaction changes.
+ */
+export function periodizedStudyPath(
+  path: LifePathDefinition,
+): LifePathDefinition {
+  if (studyUsesPeriodModel(path) || path.kind !== "study") return path;
+  const requiredSessions = path.requiredSessions ?? 0;
+  if (requiredSessions <= 0) return path;
+  return {
+    ...path,
+    progressionModel: "periods",
+    academicYears: 1,
+    periodsPerYear: 1,
+    daysPerPeriod: Math.max(1, path.minimumElapsedDays),
+    periodCostMinor: requiredSessions * path.sessionCostMinor,
+  };
 }
 
 export function totalStudyPeriods(path: LifePathDefinition): number {
@@ -44,12 +66,49 @@ export function minimumStudyElapsedDays(path: LifePathDefinition): number {
 export function completedStudyPeriods(
   world: World,
   enrollmentId: EntityId,
+  path?: LifePathDefinition,
 ): number {
-  return world.history.events.filter(
+  const recorded = world.history.events.filter(
     (e) =>
       e.type === `${prefix}study-period` &&
       e.involvedEntityIds.includes(enrollmentId),
   ).length;
+  if (!path || !studyUsesPeriodModel(path) || !path.requiredSessions)
+    return recorded;
+  const legacySessions = completedStudySessions(world, enrollmentId);
+  const credited = Math.floor(
+    (legacySessions * totalStudyPeriods(path)) / path.requiredSessions,
+  );
+  return Math.min(totalStudyPeriods(path), credited + recorded);
+}
+
+function completedStudySessions(world: World, enrollmentId: EntityId): number {
+  return world.history.events.filter(
+    (event) =>
+      event.type === `${prefix}study-session` &&
+      event.involvedEntityIds.includes(enrollmentId),
+  ).length;
+}
+
+function paidPeriodTuitionMinor(world: World, enrollmentId: EntityId): number {
+  const flowIds = new Set(
+    world.history.resourceFlows
+      .filter(
+        (flow) =>
+          flow.basisKind === "obligation:tuition" &&
+          flow.stableKey.includes(`study-period:${enrollmentId}:`),
+      )
+      .map((flow) => flow.id),
+  );
+  return world.history.resourceTransferOutcomes
+    .filter(
+      (outcome) =>
+        flowIds.has(outcome.resourceFlowId) && outcome.status === "completed",
+    )
+    .reduce(
+      (total, outcome) => total + outcome.transferredAmount.minorUnits,
+      0,
+    );
 }
 
 export function paidStudyPeriods(world: World, enrollmentId: EntityId): number {
@@ -68,14 +127,6 @@ export function enrollmentStudyModel(
   enrollmentId: EntityId,
   path: LifePathDefinition,
 ): "sessions" | "periods" {
-  if (
-    world.history.events.some(
-      (e) =>
-        e.type === `${prefix}study-session` &&
-        e.involvedEntityIds.includes(enrollmentId),
-    )
-  )
-    return "sessions";
   return studyUsesPeriodModel(path) ? "periods" : "sessions";
 }
 
@@ -84,7 +135,15 @@ export function studyPeriodDueDate(
   path: LifePathDefinition,
   periodNumber: number,
 ): IsoDate {
-  return addDays(startedAt, periodNumber * (path.daysPerPeriod ?? 182));
+  const intervalDue = addDays(
+    startedAt,
+    periodNumber * (path.daysPerPeriod ?? 182),
+  );
+  return periodNumber >= totalStudyPeriods(path)
+    ? ([intervalDue, addDays(startedAt, minimumStudyElapsedDays(path))]
+        .sort()
+        .at(-1) as IsoDate)
+    : intervalDue;
 }
 
 export function studyProgressSummary(
@@ -120,7 +179,7 @@ export function studyProgressSummary(
     };
   }
   const total = totalStudyPeriods(path);
-  const completed = completedStudyPeriods(world, enrollmentId);
+  const completed = completedStudyPeriods(world, enrollmentId, path);
   const periodsPerYear = path.periodsPerYear ?? 2;
   const academicYear =
     completed < total
@@ -237,7 +296,7 @@ export function bootstrapStudyPeriodProgression(
   path: LifePathDefinition,
 ): World {
   if (!studyUsesPeriodModel(path)) return world;
-  const completed = completedStudyPeriods(world, enrollmentId);
+  const completed = completedStudyPeriods(world, enrollmentId, path);
   const total = totalStudyPeriods(path);
   if (completed >= total) return world;
   return scheduleStudyPeriodDue(world, enrollmentId, path, completed + 1);
@@ -287,10 +346,17 @@ export function completeStudyPeriod(
   if (!enrollment) throw new Error("Missing enrollment");
   const status = educationEnrollmentStateAt(world, enrollmentId)?.status;
   if (status !== "active") return world;
-  const periodNumber = completedStudyPeriods(world, enrollmentId) + 1;
+  const periodNumber = completedStudyPeriods(world, enrollmentId, path) + 1;
   const total = totalStudyPeriods(path);
   if (periodNumber > total) return world;
-  const cost = path.periodCostMinor ?? 0;
+  const legacyPaid =
+    completedStudySessions(world, enrollmentId) * path.sessionCostMinor;
+  const cost = Math.max(
+    0,
+    periodNumber * (path.periodCostMinor ?? 0) -
+      legacyPaid -
+      paidPeriodTuitionMinor(world, enrollmentId),
+  );
   const actor = enrollment.personId;
   let next =
     cost > 0
@@ -304,7 +370,10 @@ export function completeStudyPeriod(
       money(0, "USD").currency,
     )?.liquidBalance.minorUnits ?? 0) < cost
   ) {
-    return next;
+    // Looking for carried transfer evidence must not itself invent a zeroed
+    // account when the period cannot be paid. A refusal preserves the incoming
+    // world exactly; the due-item resolver records the structured blocker.
+    return world;
   }
   if (cost > 0) {
     next = createResourceFlow(next, {
@@ -409,9 +478,9 @@ export const educationStudyPeriodDueHandler: FutureTransitionHandler = (
       outcomeEventId: null,
     };
   }
-  const before = completedStudyPeriods(world, enrollmentId);
+  const before = completedStudyPeriods(world, enrollmentId, path);
   const next = completeStudyPeriod(world, enrollmentId, path);
-  const after = completedStudyPeriods(next, enrollmentId);
+  const after = completedStudyPeriods(next, enrollmentId, path);
   if (after === before) {
     return {
       world: next,
@@ -443,4 +512,30 @@ function resolveStudyPath(
   if (!studyPathResolver)
     throw new Error("Study path resolver is not registered.");
   return studyPathResolver(world, enrollmentId);
+}
+
+/**
+ * Import/normal-play migration seam for active studies created before period
+ * progression. It is append-only: old sessions and payments remain evidence,
+ * an obsolete open session is cancelled, and one canonical future due item is
+ * scheduled for the remaining period work.
+ */
+export function migrateLegacyStudyProgression(world: World): World {
+  let next = world;
+  for (const enrollment of world.history.educationEnrollments) {
+    if (educationEnrollmentStateAt(next, enrollment.id)?.status !== "active")
+      continue;
+    const raw = resolveStudyPath(next, enrollment.id);
+    if (!raw) continue;
+    const path = periodizedStudyPath(raw);
+    if (!studyUsesPeriodModel(path)) continue;
+    for (const activity of next.history.scheduledActivities.filter(
+      (candidate) => candidate.sourceEntityIds.includes(enrollment.id),
+    )) {
+      if (scheduledActivityState(next, activity.id).status === "scheduled")
+        next = cancelScheduledActivity(next, activity.id);
+    }
+    next = bootstrapStudyPeriodProgression(next, enrollment.id, path);
+  }
+  return next;
 }

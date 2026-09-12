@@ -8,6 +8,8 @@ import {
   deserializeWorld,
   advanceWorld,
   createResourcePosition,
+  createFutureTransitionHandlerRegistry,
+  recordWorldEvent,
   money,
 } from "./index";
 import {
@@ -25,7 +27,6 @@ import { CAREER_PROVIDERS } from "../presentation/career-path7-provider";
 import {
   enterLifePath,
   scheduleLifePathSession,
-  performLifePathSession,
   hasLifePathCredential,
   LIFE_PATHS2_HANDLERS,
   changeLifePathStatus,
@@ -37,6 +38,7 @@ import {
   createScheduledActivity,
 } from "./time-work";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
+import { passOrdinaryDays } from "../presentation/ordinary-life";
 const p = CAREER_PROVIDERS[0]!;
 function fixture() {
   const d = createDemoWorld("career-path7");
@@ -150,17 +152,10 @@ describe("CAREER-PATH7 source tasks through canonical LIFE work", () => {
         "training:repair-certificate",
       ),
     ).toBe(false);
-    for (let i = 0; i < 12; i++) {
-      const scheduled = scheduleLifePathSession(w, enrollment);
-      expect(scheduled.ok).toBe(true);
-      w = scheduled.world;
-      const attended = performLifePathSession(
-        w,
-        w.history.scheduledActivities.at(-1)!.id,
-      );
-      expect(attended.ok).toBe(true);
-      w = attended.world;
-    }
+    // The accepted 12-session total remains in the terms and migration credit,
+    // but normal progression is one 77-day period rather than twelve clicks.
+    expect(scheduleLifePathSession(w, enrollment).ok).toBe(false);
+    w = advanceWorld(w, 77, LIFE_PATHS2_HANDLERS);
     expect(
       hasLifePathCredential(
         w,
@@ -256,6 +251,107 @@ describe("ordinary work without mandatory submissions and during fast-forward", 
     const paid = advanceWorld(skipped, 1, LIFE_PATHS2_HANDLERS);
     expect(paid.history.resourceTransferOutcomes).toHaveLength(1);
   });
+  it("completes an authored 09:00–17:00 routine on one skip to 20:00", () => {
+    const w = fixture();
+    const actor = w.personOrder[0]!;
+    const start = addSimulationMinutes(w.currentMoment, 9 * 60);
+    const end = addSimulationMinutes(w.currentMoment, 17 * 60);
+    const registry = createFutureTransitionHandlerRegistry([], {
+      isAutoResolvableActivity(world, activityId) {
+        return world.history.scheduledActivities.some(
+          (activity) =>
+            activity.id === activityId &&
+            activity.stableKey === "test:ordinary-nine-to-five",
+        );
+      },
+      projectWindows(world, target) {
+        const done = world.history.events.some(
+          (event) => event.stableKey === "test:ordinary-nine-to-five:done",
+        );
+        return !done &&
+          target.date === end.date &&
+          target.minuteOfDay >= end.minuteOfDay
+          ? [
+              {
+                relationshipId: actor,
+                kind: "work" as const,
+                start,
+                end,
+                autoResolvable: true,
+              },
+            ]
+          : [];
+      },
+      ensureScheduled(world) {
+        if (
+          world.history.scheduledActivities.some(
+            (activity) => activity.stableKey === "test:ordinary-nine-to-five",
+          )
+        )
+          return world;
+        return createScheduledActivity(world, {
+          stableKey: "test:ordinary-nine-to-five",
+          title: "Authored day shift",
+          summary: "A bounded test fixture for a nine-to-five workday.",
+          kind: "confirmed",
+          start,
+          end,
+          participantPersonIds: [actor],
+          responsiblePersonId: actor,
+          location: {
+            locationKey: "test:workplace",
+            label: "Workplace",
+            jurisdictionId: null,
+          },
+          sourceEntityIds: [actor],
+          flexibility: { kind: "fixed" },
+          access: { kind: "private", personIds: [actor] },
+        });
+      },
+      afterActivityCompleted(world) {
+        if (
+          world.history.events.some(
+            (event) => event.stableKey === "test:ordinary-nine-to-five:done",
+          )
+        )
+          return world;
+        return recordWorldEvent(world, {
+          stableKey: "test:ordinary-nine-to-five:done",
+          type: "simulation.synthetic-transition-resolved",
+          occurredAt: world.currentDate,
+          recordedAt: world.currentDate,
+          jurisdictionId: null,
+          involvedEntityIds: [actor],
+          participants: [
+            {
+              personId: actor,
+              role: "agency:worker",
+              detail: "Completed the authored day shift",
+            },
+          ],
+          personFactConstraints: [],
+          visibility: "private",
+          tags: ["test", "ordinary-routine"],
+          summary: "The authored day shift was completed.",
+          context: {
+            location: null,
+            socialContext: null,
+            pressure: null,
+            choice: null,
+            motivation: null,
+            immediateReaction: null,
+          },
+        });
+      },
+    });
+    const evening = advanceWorldMinutes(w, 20 * 60, registry);
+    expect(evening.currentMoment.minuteOfDay).toBe(20 * 60);
+    expect(
+      evening.history.events.filter(
+        (event) => event.stableKey === "test:ordinary-nine-to-five:done",
+      ),
+    ).toHaveLength(1);
+  });
   it("uses the same shared clock registry the ordinary day surface composes", () => {
     const { w, id } = employed();
     const skipped = advanceWorldMinutes(
@@ -312,6 +408,40 @@ describe("ordinary work without mandatory submissions and during fast-forward", 
     const skipped = advanceWorldMinutes(w, 20 * 60, LIFE_PATHS2_HANDLERS);
     expect(skipped.currentMoment.minuteOfDay).toBe(10 * 60);
     expect(sessions(skipped, id)).toHaveLength(0);
+  });
+  it("never uses a whole-day fallback after an interrupted ordinary skip", () => {
+    const started = employed();
+    let w = started.w;
+    const actor =
+      w.control.kind === "person" ? w.control.personId : w.personOrder[0]!;
+    const start = addSimulationMinutes(w.currentMoment, 10 * 60);
+    w = createScheduledActivity(w, {
+      stableKey: "test:ordinary-pass-interruption",
+      title: "Unanswered appointment",
+      summary: "A player commitment that the normal day control must preserve.",
+      kind: "confirmed",
+      start,
+      end: addSimulationMinutes(start, 60),
+      participantPersonIds: [actor],
+      responsiblePersonId: actor,
+      location: {
+        locationKey: "test:appointment",
+        label: "Appointment",
+        jurisdictionId: null,
+      },
+      sourceEntityIds: [w.history.events[0]!.id],
+      flexibility: { kind: "fixed" },
+      access: { kind: "private", personIds: [actor] },
+    });
+    const oneDay = passOrdinaryDays(w, 1);
+    const threeDays = passOrdinaryDays(w, 3);
+    expect(oneDay.currentMoment).toEqual(start);
+    expect(threeDays.currentMoment).toEqual(start);
+    expect(sessions(oneDay, started.id)).toHaveLength(0);
+    expect(
+      scheduledActivityState(oneDay, w.history.scheduledActivities.at(-1)!.id)
+        .status,
+    ).toBe("scheduled");
   });
   it("matches long and short skips for work and pay, and survives a mid-window save", () => {
     const longStart = employed();

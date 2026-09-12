@@ -4,6 +4,8 @@ import { fileDraftFromOffice } from "./legislation-docket";
 
 import {
   assertWorldIntegrity,
+  advanceWorld,
+  createCampaignElectionTransitionRegistry,
   createOrganization,
   createWorkRelationship,
   recordWorkStatus,
@@ -14,7 +16,7 @@ import {
   type World,
 } from "../simulation";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
-import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
+import { openOrdinaryLife } from "./ordinary-life";
 import {
   fileForOffice,
   projectCampaign,
@@ -157,7 +159,7 @@ function wonSeat() {
   let world = fileForOffice(life.world, life.personId);
   world = spendAnAfternoon(world, life.personId, "fundraising");
   for (let index = 0; index < 3; index += 1) {
-    world = passOrdinaryDays(world);
+    world = advanceWorld(world, 1, createCampaignElectionTransitionRegistry());
     world = spendAnAfternoon(world, life.personId, "outreach");
   }
   for (
@@ -165,7 +167,7 @@ function wonSeat() {
     day < 60 && projectCampaign(world, life.personId).phase === "active";
     day += 1
   ) {
-    world = passOrdinaryDays(world);
+    world = advanceWorld(world, 1, createCampaignElectionTransitionRegistry());
   }
   expect(projectCampaign(world, life.personId).phase).toBe("won");
   return { world, personId: life.personId };
@@ -326,7 +328,11 @@ describe("79R1 — a member label cannot borrow an outcome it does not have", ()
         day < 60 && projectCampaign(world, life.personId).phase === "active";
         day += 1
       ) {
-        world = passOrdinaryDays(world);
+        world = advanceWorld(
+          world,
+          1,
+          createCampaignElectionTransitionRegistry(),
+        );
       }
       if (projectCampaign(world, life.personId).phase === "lost") {
         return { world, personId: life.personId };
