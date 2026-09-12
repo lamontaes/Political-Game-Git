@@ -631,9 +631,19 @@
   color: var(--pg-brass);
 }
 
+.pg-personal-identity {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
 .pg-personal-identity h3 {
   margin: 0;
   font-size: 1.4rem;
+}
+
+.pg-personal-identity .person-portrait {
+  margin: 0;
 }
 
 .pg-tag {

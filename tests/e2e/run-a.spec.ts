@@ -293,20 +293,44 @@ test("keeps manual pin sizing through other inspectorial actions", async ({
   await expect(personPin).toHaveAttribute("data-size", "normal");
 });
 
-test("reproduces every named Run A fixture state by URL", async ({ page }) => {
-  const expectations = [
-    ["person-menu", "person-action-menu"],
-    ["dossier", "quick-dossier"],
-    ["civic-learning", "civic-learning-popover"],
-    ["navigation", "navigation-flyout"],
-    ["submenu", "nav-submenu"],
-  ] as const;
+test("reproduces a named Run A fixture state by URL: person-menu", async ({
+  page,
+}) => {
+  await page.goto("/?view=office-fixture&fixture=person-menu");
+  await expect(page.getByTestId("person-action-menu")).toBeVisible();
+});
 
-  for (const [fixture, testId] of expectations) {
-    await page.goto(`/?view=office-fixture&fixture=${fixture}`);
-    await expect(page.getByTestId(testId)).toBeVisible();
-  }
+test("reproduces a named Run A fixture state by URL: dossier", async ({
+  page,
+}) => {
+  await page.goto("/?view=office-fixture&fixture=dossier");
+  await expect(page.getByTestId("quick-dossier")).toBeVisible();
+});
 
+test("reproduces a named Run A fixture state by URL: civic-learning", async ({
+  page,
+}) => {
+  await page.goto("/?view=office-fixture&fixture=civic-learning");
+  await expect(page.getByTestId("civic-learning-popover")).toBeVisible();
+});
+
+test("reproduces a named Run A fixture state by URL: navigation", async ({
+  page,
+}) => {
+  await page.goto("/?view=office-fixture&fixture=navigation");
+  await expect(page.getByTestId("navigation-flyout")).toBeVisible();
+});
+
+test("reproduces a named Run A fixture state by URL: submenu", async ({
+  page,
+}) => {
+  await page.goto("/?view=office-fixture&fixture=submenu");
+  await expect(page.getByTestId("nav-submenu")).toBeVisible();
+});
+
+test("reproduces the mixed-pins Run A fixture without renaming pinned work", async ({
+  page,
+}) => {
   await page.goto("/?view=office-fixture&fixture=mixed-pins");
   await expect(page.locator('[data-pin-id="person"]')).toHaveAttribute(
     "data-size",

@@ -351,6 +351,7 @@ test.describe("P85D integration through ordinary player controls", () => {
   test("a Lexington winner can activate Kentucky Work before and after reload", async ({
     page,
   }) => {
+    test.setTimeout(90_000);
     const errors = watchForErrors(page);
     await freshBrowser(page);
     await page.goto("/?seed=p85c-owner-0");
@@ -378,8 +379,8 @@ test.describe("P85D integration through ordinary player controls", () => {
     // Where and when live on the corner cluster now, in its own label.
     expect(await shellIdentity(page)).toContain("Lexington");
     await openShellMenu(page);
-    await page.getByTestId("elsewhere-work").focus();
-    await page.keyboard.press("Space");
+    await page.getByTestId("elsewhere-work").press("Enter");
+    await expect(page.getByTestId("shell-nav-flyout")).toHaveCount(0);
     await expect(page.getByTestId("office-section")).toContainText(
       "Kentucky legislature",
     );

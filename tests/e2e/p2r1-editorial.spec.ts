@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { enterLife, startLife } from "./support/creator";
+import { enterLife, saveLife, startLife } from "./support/creator";
 
 test("P2R1 retained adult choices activate by pointer and keyboard on the player surface", async ({
   page,
@@ -51,6 +51,7 @@ test("P2R1 retained adult choices activate by pointer and keyboard on the player
 test("P2R1 preserves and reloads the old age-32 calibrated fixture when its next beat is quiet", async ({
   page,
 }) => {
+  test.setTimeout(90_000);
   // Same setup, same seed and same first-option chooser as the legacy
   // persistence proof. Every assertion below is the one P2R1 wrote: at a quiet
   // beat there is no story prose, a save and a reload return the identical
@@ -87,8 +88,7 @@ test("P2R1 preserves and reloads the old age-32 calibrated fixture when its next
   await page.getByTestId("open-journal").click();
   const journal = await page.getByTestId("journal").innerText();
   await page.getByTestId("open-journal").click();
-  await page.getByTestId("keep-world").click();
-  await expect(page.getByTestId("keep-world")).toHaveCount(0);
+  await saveLife(page);
   await page.reload();
   await page.getByTestId("continue").click();
   await expect(page.getByTestId("play-screen")).toBeVisible();

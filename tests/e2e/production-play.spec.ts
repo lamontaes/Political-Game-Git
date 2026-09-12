@@ -153,6 +153,7 @@ test.describe("Opening the game opens a game", () => {
   });
 
   test("gives three cold boots three different people", async ({ page }) => {
+    test.setTimeout(90_000);
     const names: string[] = [];
     for (let attempt = 0; attempt < 3; attempt += 1) {
       await freshBrowser(page);

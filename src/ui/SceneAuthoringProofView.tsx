@@ -134,7 +134,7 @@ function AuthoringStage({
           data-painted-tier={tier.paintedWidth ?? ""}
           style={cameraStyle}
         >
-          {tier.paintedUrl ? (
+          {scene.raster && tier.paintedUrl ? (
             <img
               className="scene-environment-art"
               src={tier.paintedUrl}
@@ -407,6 +407,7 @@ export function SceneAuthoringProofView() {
       </div>
 
       <AuthoringStage
+        key={scene.sceneId}
         scene={scene}
         captures={captures}
         onCapture={capture}

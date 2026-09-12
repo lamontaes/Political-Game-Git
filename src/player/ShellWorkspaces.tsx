@@ -4,6 +4,7 @@ import {
 } from "./EconomicContextPanel";
 import { playerEconomicContextLines } from "../presentation/economic-context";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { PersonPortrait } from "./PersonPortrait";
 import { PrivateJournalEditor } from "./PrivateJournalEditor";
 import type {
   PrivateJournal,
@@ -524,11 +525,14 @@ export function PersonalWorkspace({
   return (
     <>
       <header className="pg-personal-identity">
-        <h3 data-testid="personal-name">{record.identity.name}</h3>
-        <p className="game-band" data-testid="personal-age">
-          {record.identity.age}
-          {record.identity.placeName ? ` · ${record.identity.placeName}` : ""}
-        </p>
+        <PersonPortrait world={world} personId={personId} size="small" />
+        <div>
+          <h3 data-testid="personal-name">{record.identity.name}</h3>
+          <p className="game-band" data-testid="personal-age">
+            {record.identity.age}
+            {record.identity.placeName ? ` · ${record.identity.placeName}` : ""}
+          </p>
+        </div>
       </header>
 
       {record.household.length > 0 ? (
