@@ -202,6 +202,14 @@
   opacity: 1;
 }
 
+.title-tableau--art.front-door
+  .game-creator
+  button:is(:hover, :focus-visible):not(:disabled) {
+  color: var(--front-door-brass);
+  background: rgb(16 22 33 / 0.88);
+  box-shadow: inset 2px 0 currentColor;
+}
+
 .title-tableau--art.front-door .game-creator {
   width: min(24rem, 100%);
   max-height: calc(100dvh - 4rem);
