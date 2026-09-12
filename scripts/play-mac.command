@@ -27,8 +27,9 @@ REPO="${PG_REPO:-$HOME/Documents/Political Game}"
 
 # Which source to play. A branch name is resolved fresh from the remote every
 # run, so you get that branch's current head rather than a remembered commit.
-# This default is the branch that carries the assembled UI composition.
-SOURCE="${PG_SOURCE:-origin/codex/ui-core-release-transfer}"
+# The assembled UI is on main. Resolve it fresh on every run so the launcher
+# never silently serves the retired integration branch after ownership moved.
+SOURCE="${PG_SOURCE:-origin/main}"
 
 # The port for THIS play copy. Deliberately not 5173 (the project default) and
 # never 5188 (kept for the server you already run).
