@@ -1,0 +1,30 @@
+---
+description: Route Civic Duty agent sessions without duplicating AGENTS.md or rereading the full contract stack.
+alwaysApply: true
+---
+
+# Agent routing (Cursor)
+
+`AGENTS.md` is the compact router; `CLAUDE.md` is the session bridge only. Do not reread the full historical ledger or `.agents/rules/repository-reference.md` unless the task needs commands, art gates, or a preserved technical constraint.
+
+## Session start
+
+1. `npm run agent:preflight` — record workspace, branch, local/upstream SHA.
+2. Read the assigned task once; fetch only the refs it names.
+
+## During edits
+
+- `npm run agent:test-cadence` — focused commands for the files you actually changed.
+- Open a matching `.agents/skills/<name>/SKILL.md` only when that skill's trigger fits; skills are on-demand, not a preflight tour.
+
+## Readiness / LAND evidence
+
+- Re-run `npm run agent:test-cadence -- --readiness` before claiming ready.
+- Record exact-source proof with `node scripts/agent-run-receipt.mjs` for stages LAND must trust.
+- Prior-head or cancelled CI is historical until reproduced on the current head.
+
+## Boundaries
+
+- One writer per overlapping surface; isolated worktrees for concurrent work.
+- `.github/workflows/validate.yml` and its shard configuration are a separately owned CI surface; a routing or guidance task does not edit them.
+- Codex loads `.codex/config.toml`; this rule does not replace it.
