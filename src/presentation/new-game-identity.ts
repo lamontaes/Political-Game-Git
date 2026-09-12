@@ -15,6 +15,10 @@ import type {
   SetupQuestionnairePath,
 } from "../simulation";
 import type { NewGameSetup } from "./new-game";
+import {
+  COHERENT_APPEARANCE_RECIPE_VERSION,
+  LEGACY_APPEARANCE_RECIPE_VERSION,
+} from "../simulation/person-appearance";
 
 /**
  * What makes one new game a different new game from another.
@@ -194,11 +198,15 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
   >;
   const answers = setup.priors ?? [];
   const path = setup.questionnaire ?? "skipped";
+  const appearanceRecipeVersion = setup.appearanceRecipeVersion;
+  const extras =
+    appearanceRecipeVersion === undefined ? {} : { appearanceRecipeVersion };
   if (path === "skipped" && answers.length === 0) {
-    return JSON.stringify(world);
+    return JSON.stringify({ ...world, ...extras });
   }
   return JSON.stringify({
     ...world,
+    ...extras,
     priors: JSON.parse(
       canonicalPriorEncoding(setupPriorStoreFor(setup)),
     ) as unknown,
@@ -263,6 +271,15 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   if (record.startKind !== undefined && record.startKind !== "custom") {
     return null;
   }
+  const appearanceRecipeVersion = record.appearanceRecipeVersion;
+  if (appearanceRecipeVersion !== undefined) {
+    if (
+      appearanceRecipeVersion !== LEGACY_APPEARANCE_RECIPE_VERSION &&
+      appearanceRecipeVersion !== COHERENT_APPEARANCE_RECIPE_VERSION
+    ) {
+      return null;
+    }
+  }
   const base: NewGameSetup = {
     seed: record.seed,
     placeKey: record.placeKey,
@@ -279,6 +296,9 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
           pronouns: pronouns as PronounSetKey,
         }),
     ...(record.startKind === "custom" ? { startKind: "custom" as const } : {}),
+    ...(appearanceRecipeVersion === undefined
+      ? {}
+      : { appearanceRecipeVersion: appearanceRecipeVersion as string }),
   };
   if (record.priors === undefined) return base;
   const priors = decodePriorEncoding(record.priors);

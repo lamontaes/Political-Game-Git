@@ -104,6 +104,15 @@ export interface ProductionWorldInput {
    * the ranges it drew before this existed.
    */
   readonly generation?: SetupGenerationInputs | null;
+  /**
+   * Appearance recipe this life is created under.
+   *
+   * Declared rather than defaulted at the New Game / replay seam. Absent here
+   * still means the coherent recipe, which is what a player starting now gets.
+   * An old replay descriptor that never named a recipe is handled by
+   * `createNewGameWorld`, which passes the legacy version explicitly.
+   */
+  readonly appearanceRecipeVersion?: string;
 }
 
 export interface ProductionWorld {
@@ -160,7 +169,8 @@ export function buildProductionWorld(
     // rather than taken from a default, so that people already saved — and
     // the fixture worlds with accepted serialized bytes — keep the recipe
     // they were created under. See `person-appearance.ts`.
-    appearanceRecipeVersion: COHERENT_APPEARANCE_RECIPE_VERSION,
+    appearanceRecipeVersion:
+      input.appearanceRecipeVersion ?? COHERENT_APPEARANCE_RECIPE_VERSION,
     ...(input.identity === undefined ? {} : { identity: input.identity }),
   });
 

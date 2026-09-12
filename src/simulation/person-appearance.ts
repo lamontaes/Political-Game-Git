@@ -62,6 +62,34 @@ export const COHERENT_APPEARANCE_RECIPE_VERSION = "appearance-recipe-v2";
  * and recipe version, rather than any scene anchor, chair, room position, name string,
  * or demographic stereotype.
  */
+/**
+ * The appearance recipe and catalog pin a world already created under.
+ *
+ * Mixed or missing stamps fail closed to the default recipe and an unpinned
+ * catalog, so a later writer cannot invent a newer look for people who were
+ * never declared under it.
+ */
+export function appearanceLineageFromPeople(
+  people: Iterable<{ readonly appearance?: PersonAppearance }>,
+): {
+  readonly recipeVersion: string;
+  readonly catalogGeneration: number | undefined;
+} {
+  const recipes = new Set<string>();
+  const catalogs = new Set<number>();
+  for (const person of people) {
+    if (person.appearance?.recipeVersion)
+      recipes.add(person.appearance.recipeVersion);
+    if (person.appearance?.catalogGeneration !== undefined)
+      catalogs.add(person.appearance.catalogGeneration);
+  }
+  return {
+    recipeVersion:
+      recipes.size === 1 ? [...recipes][0]! : DEFAULT_APPEARANCE_RECIPE_VERSION,
+    catalogGeneration: catalogs.size === 1 ? [...catalogs][0] : undefined,
+  };
+}
+
 export function derivePersonAppearance(
   personId: EntityId | string,
   recipeVersion = DEFAULT_APPEARANCE_RECIPE_VERSION,

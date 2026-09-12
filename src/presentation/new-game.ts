@@ -22,6 +22,10 @@ import {
   setupPriorStoreFor,
   worldSeedFor,
 } from "./new-game-identity";
+import {
+  COHERENT_APPEARANCE_RECIPE_VERSION,
+  LEGACY_APPEARANCE_RECIPE_VERSION,
+} from "../simulation/person-appearance";
 
 /**
  * Starting a life.
@@ -126,6 +130,13 @@ export interface NewGameSetup {
    * nobody — see `buildSeedFor` for where the two halves meet.
    */
   readonly priors?: readonly SetupAnswerRecord[];
+  /**
+   * Appearance recipe this setup creates people under.
+   *
+   * Written only when declared, so an old replay descriptor without the field
+   * still means what it meant: the legacy recipe. New Game stamps v2.
+   */
+  readonly appearanceRecipeVersion?: string;
 }
 
 export interface NewGame {
@@ -157,6 +168,7 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   // only the gender cannot end up with a character whose pronouns disagree
   // with it by accident.
   gender: "unstated",
+  appearanceRecipeVersion: COHERENT_APPEARANCE_RECIPE_VERSION,
   questionnaire: "short",
   priors: [],
 };
@@ -324,6 +336,8 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     // the two routes are genuinely distinct rather than two labels.
     generation:
       setup.startKind === "custom" ? null : generationInputsFor(priors),
+    appearanceRecipeVersion:
+      setup.appearanceRecipeVersion ?? LEGACY_APPEARANCE_RECIPE_VERSION,
   });
   const office =
     setup.startingLife === "judicial-office-practice"
