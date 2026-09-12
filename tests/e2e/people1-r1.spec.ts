@@ -16,6 +16,11 @@ for (const set of ["dev", "real"]) {
   test(`saved ${set} world keeps identity across actual wardrobe changes, pointer and keyboard`, async ({
     page,
   }) => {
+    // The reload assertion below needs more than the default 5s under load;
+    // give the rest of the test (a keyboard wardrobe change and a screenshot
+    // after it) enough of the default 30s budget left over once that wait
+    // has actually spent time on it.
+    test.setTimeout(60_000);
     await page.goto(`/?view=character-proof&set=${set}`);
     const authored = page
       .getByTestId("people1-dossier-consumers")
@@ -48,9 +53,16 @@ for (const set of ["dev", "real"]) {
     await page.getByTestId("character-proof-save").click();
     await page.getByTestId("character-proof-reload").focus();
     await page.keyboard.press("Enter");
+    // A real browser reload of this dev route re-fetches and re-transforms
+    // the whole Vite module graph before React mounts anything into #root -
+    // confirmed (twice, on two different heads including one predating any
+    // of this session's changes) to occasionally run past the default 5s
+    // assertion timeout under load. Not a race in the app: everything after
+    // this point passes once the remount actually completes.
     await expect(page.getByTestId("character-proof")).toHaveAttribute(
       "data-world-source",
       "restored-snapshot",
+      { timeout: 20_000 },
     );
     await select.focus();
     await page.keyboard.press("f");
