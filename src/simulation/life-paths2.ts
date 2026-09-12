@@ -1,4 +1,16 @@
 import { acceptedEducationPath } from "./education-study-terms";
+import {
+  bootstrapStudyPeriodProgression,
+  cancelStudyPeriodDues,
+  enrollmentStudyModel,
+  registerStudyPathResolver,
+  scheduleStudyPeriodDue,
+  studyProgressSummary,
+  studyUsesPeriodModel,
+  completedStudyPeriods,
+  educationStudyPeriodDueHandler,
+  EDUCATION_STUDY_PERIOD_DUE_KEY,
+} from "./education-study-progression";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import { activeCampaignForCandidate } from "./campaign-queries";
 import {
@@ -39,6 +51,7 @@ import {
   cancelScheduledActivity,
 } from "./time-work";
 import {
+  composeFutureTransitionHandlerRegistries,
   createFutureTransitionHandlerRegistry,
   scheduleFutureDueItem,
 } from "./future-transitions";
@@ -244,6 +257,7 @@ export function enterLifePath(world: World, pathId: string): LifePathResult {
     );
   const org = ensureOrganization(world, path);
   let next = org.world;
+  let studyEnrollmentId: EntityId | null = null;
   if (path.kind === "study") {
     next = createEducationEnrollment(next, {
       stableKey: key(next, path.id),
@@ -254,12 +268,15 @@ export function enterLifePath(world: World, pathId: string): LifePathResult {
       contextKind: "program:life-paths2-v1",
       provenance: authored,
     });
+    studyEnrollmentId = next.history.educationEnrollments.at(-1)!.id;
     next = event(
       next,
       "enrolled",
-      [actor, next.history.educationEnrollments.at(-1)!.id],
+      [actor, studyEnrollmentId],
       `You enrolled in ${path.title}.`,
     );
+    if (studyUsesPeriodModel(path))
+      next = bootstrapStudyPeriodProgression(next, studyEnrollmentId, path);
   } else
     next = createPathWork(
       next,
@@ -269,10 +286,17 @@ export function enterLifePath(world: World, pathId: string): LifePathResult {
       path.sessionPayMinor,
       false,
     );
+  const periodStudy =
+    path.kind === "study" &&
+    studyEnrollmentId &&
+    studyUsesPeriodModel(path) &&
+    enrollmentStudyModel(next, studyEnrollmentId, path) === "periods";
   return done(
     next,
     path.kind === "study"
-      ? "You enrolled. Schedule a study session to begin."
+      ? periodStudy
+        ? "You enrolled. Study advances by academic period as time passes; tuition is due at each period end."
+        : "You enrolled. Schedule a study session to begin."
       : path.sessionPayMinor > 0
         ? "You accepted the work. Pay follows completed shifts."
         : "You accepted the volunteer work. This engagement is unpaid.",
@@ -574,7 +598,7 @@ export function performLifePathSession(
   }
   return done(next, "The session is complete.");
 }
-export const LIFE_PATHS2_HANDLERS = createFutureTransitionHandlerRegistry([
+const LIFE_PATHS2_CORE_HANDLERS = createFutureTransitionHandlerRegistry([
   [
     "life-paths2:delegated-pay",
     (world, due) => {
@@ -720,6 +744,22 @@ export const LIFE_PATHS2_HANDLERS = createFutureTransitionHandlerRegistry([
     },
   ],
 ]);
+
+export const LIFE_PATHS2_HANDLERS = composeFutureTransitionHandlerRegistries(
+  createFutureTransitionHandlerRegistry([
+    [EDUCATION_STUDY_PERIOD_DUE_KEY, educationStudyPeriodDueHandler],
+  ]),
+  LIFE_PATHS2_CORE_HANDLERS,
+);
+
+registerStudyPathResolver(
+  (world, enrollmentId) =>
+    acceptedEducationPath(world, enrollmentId) ??
+    pathForRelationship(world, enrollmentId),
+);
+
+export { enrollmentStudyModel, studyProgressSummary, completedStudyPeriods };
+
 export function changeLifePathStatus(
   world: World,
   id: EntityId,
@@ -751,6 +791,19 @@ export function changeLifePathStatus(
     if (scheduledActivityState(next, a.id).status === "scheduled")
       next = cancelScheduledActivity(next, a.id);
   if (path.kind === "study") {
+    if (
+      enrollmentStudyModel(next, id, path) === "periods" &&
+      studyUsesPeriodModel(path)
+    ) {
+      if (action === "pause" || action === "leave")
+        next = cancelStudyPeriodDues(next, id);
+      if (action === "return") {
+        const completed = completedStudyPeriods(next, id);
+        const total = (path.academicYears ?? 0) * (path.periodsPerYear ?? 2);
+        if (completed < total)
+          next = scheduleStudyPeriodDue(next, id, path, completed + 1);
+      }
+    }
     const previous = educationEnrollmentStateAt(next, id)!;
     next = recordEducationEnrollmentState(next, {
       stableKey: key(next, action),
