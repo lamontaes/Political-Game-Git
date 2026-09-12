@@ -105,7 +105,9 @@ function readPins(value: unknown): readonly ShellPin[] {
 function readPreferences(value: unknown): ShellPreferences {
   if (!isRecord(value)) return DEFAULT_PREFERENCES;
   const peopleView =
-    value.peopleView === "list" || value.peopleView === "categories"
+    value.peopleView === "list" ||
+    value.peopleView === "categories" ||
+    value.peopleView === "web"
       ? value.peopleView
       : DEFAULT_PREFERENCES.peopleView;
   const defaultPinSize = PIN_SIZES.includes(value.defaultPinSize as PinSize)
