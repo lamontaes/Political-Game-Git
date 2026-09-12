@@ -22,6 +22,31 @@
       ]
     },
     {
+      "component_family": "pv4-wave-a-male-top-brown-fur-hood-parka-v1-crossbody",
+      "kind": "top",
+      "classification": "bounded-warp-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "Bounded warp recovered pairings the affine step refused at the same 3% bound; original component membership is unchanged.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "bounded-warp",
+            "scaleY": 1,
+            "translateY": 0,
+            "controlPoints": [
+              { "at": 0, "scaleX": 1.116667, "offsetX": 0 },
+              { "at": 0.218015, "scaleX": 1.116667, "offsetX": 0 },
+              { "at": 0.755615, "scaleX": 1.089783, "offsetX": 0 },
+              { "at": 0.902815, "scaleX": 1.084112, "offsetX": 0 },
+              { "at": 1, "scaleX": 1.084112, "offsetX": 0 }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "component_family": "pv4-wave-a-male-top-burgundy-long-sleeve-polo-v1",
       "kind": "top",
       "classification": "affine-reusable",
@@ -64,6 +89,31 @@
       ]
     },
     {
+      "component_family": "pv4-wave-a-male-top-burgundy-long-sleeve-polo-v1-crossbody",
+      "kind": "top",
+      "classification": "bounded-warp-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "Bounded warp recovered pairings the affine step refused at the same 3% bound; original component membership is unchanged.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "bounded-warp",
+            "scaleY": 1,
+            "translateY": 0,
+            "controlPoints": [
+              { "at": 0, "scaleX": 1.029167, "offsetX": 0 },
+              { "at": 0.145629, "scaleX": 1.029167, "offsetX": 0 },
+              { "at": 0.773993, "scaleX": 1.092879, "offsetX": 0 },
+              { "at": 0.946045, "scaleX": 1.152648, "offsetX": 0 },
+              { "at": 1, "scaleX": 1.152648, "offsetX": 0 }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "component_family": "pv4-wave-a-male-top-charcoal-blazer-v1",
       "kind": "top",
       "classification": "affine-reusable",
@@ -79,6 +129,47 @@
             "scaleY": 1,
             "translateX": 0,
             "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-male-top-charcoal-blazer-v1-crossbody",
+      "kind": "top",
+      "classification": "bounded-warp-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "Bounded warp recovered pairings the affine step refused at the same 3% bound; original component membership is unchanged.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "bounded-warp",
+            "scaleY": 1,
+            "translateY": 0,
+            "controlPoints": [
+              { "at": 0, "scaleX": 1.116667, "offsetX": 0 },
+              { "at": 0.134338, "scaleX": 1.116667, "offsetX": 0 },
+              { "at": 0.762701, "scaleX": 1.089783, "offsetX": 0 },
+              { "at": 0.934753, "scaleX": 1.084112, "offsetX": 0 },
+              { "at": 1, "scaleX": 1.084112, "offsetX": 0 }
+            ]
+          }
+        },
+        {
+          "target_body_family": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "bounded-warp",
+            "scaleY": 1,
+            "translateY": 0,
+            "controlPoints": [
+              { "at": 0, "scaleX": 1.029167, "offsetX": 0 },
+              { "at": 0.134338, "scaleX": 1.029167, "offsetX": 0 },
+              { "at": 0.762701, "scaleX": 1.092879, "offsetX": 0 },
+              { "at": 0.934753, "scaleX": 1.152648, "offsetX": 0 },
+              { "at": 1, "scaleX": 1.152648, "offsetX": 0 }
+            ]
           }
         }
       ]
@@ -205,6 +296,31 @@
             "scaleY": 1.014002,
             "translateX": 0,
             "translateY": -0.001462066000000005
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-male-top-gray-long-sleeve-tee-v1-crossbody",
+      "kind": "top",
+      "classification": "bounded-warp-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "Bounded warp recovered pairings the affine step refused at the same 3% bound; original component membership is unchanged.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "bounded-warp",
+            "scaleY": 1,
+            "translateY": 0,
+            "controlPoints": [
+              { "at": 0, "scaleX": 1.029167, "offsetX": 0 },
+              { "at": 0.117451, "scaleX": 1.029167, "offsetX": 0 },
+              { "at": 0.745814, "scaleX": 1.092879, "offsetX": 0 },
+              { "at": 0.917866, "scaleX": 1.152648, "offsetX": 0 },
+              { "at": 1, "scaleX": 1.152648, "offsetX": 0 }
+            ]
           }
         }
       ]
@@ -378,6 +494,31 @@
       ]
     },
     {
+      "component_family": "pv4-wave-a-male-top-plaid-overshirt-v1-crossbody",
+      "kind": "top",
+      "classification": "bounded-warp-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "Bounded warp recovered pairings the affine step refused at the same 3% bound; original component membership is unchanged.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "bounded-warp",
+            "scaleY": 1,
+            "translateY": 0,
+            "controlPoints": [
+              { "at": 0, "scaleX": 1.029167, "offsetX": 0 },
+              { "at": 0.141882, "scaleX": 1.029167, "offsetX": 0 },
+              { "at": 0.770245, "scaleX": 1.092879, "offsetX": 0 },
+              { "at": 0.942297, "scaleX": 1.152648, "offsetX": 0 },
+              { "at": 1, "scaleX": 1.152648, "offsetX": 0 }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "component_family": "pv4-wave-a-male-top-tan-utility-shirt-v1",
       "kind": "top",
       "classification": "affine-reusable",
@@ -415,6 +556,31 @@
             "scaleY": 1.018291,
             "translateX": 0,
             "translateY": -0.001603603000000002
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-male-top-tan-utility-shirt-v1-crossbody",
+      "kind": "top",
+      "classification": "bounded-warp-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "Bounded warp recovered pairings the affine step refused at the same 3% bound; original component membership is unchanged.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "bounded-warp",
+            "scaleY": 1,
+            "translateY": 0,
+            "controlPoints": [
+              { "at": 0, "scaleX": 1.029167, "offsetX": 0 },
+              { "at": 0.143977, "scaleX": 1.029167, "offsetX": 0 },
+              { "at": 0.772341, "scaleX": 1.092879, "offsetX": 0 },
+              { "at": 0.944393, "scaleX": 1.152648, "offsetX": 0 },
+              { "at": 1, "scaleX": 1.152648, "offsetX": 0 }
+            ]
           }
         }
       ]
@@ -563,6 +729,31 @@
       ]
     },
     {
+      "component_family": "pv4-wave-a-female-top-cream-cardigan-v1-crossbody",
+      "kind": "top",
+      "classification": "bounded-warp-reusable",
+      "authored_for_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "basis": "Bounded warp recovered pairings the affine step refused at the same 3% bound; original component membership is unchanged.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "bounded-warp",
+            "scaleY": 1,
+            "translateY": 0,
+            "controlPoints": [
+              { "at": 0, "scaleX": 1.112613, "offsetX": 0 },
+              { "at": 0.130565, "scaleX": 1.112613, "offsetX": 0 },
+              { "at": 0.727606, "scaleX": 1.014368, "offsetX": 0 },
+              { "at": 0.909086, "scaleX": 0.986667, "offsetX": 0 },
+              { "at": 1, "scaleX": 0.986667, "offsetX": 0 }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "component_family": "pv4-wave-a-female-top-gray-short-sleeve-tee-v1",
       "kind": "top",
       "classification": "affine-reusable",
@@ -625,6 +816,31 @@
       ]
     },
     {
+      "component_family": "pv4-wave-a-female-top-mustard-cable-sweater-v1-crossbody",
+      "kind": "top",
+      "classification": "bounded-warp-reusable",
+      "authored_for_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "basis": "Bounded warp recovered pairings the affine step refused at the same 3% bound; original component membership is unchanged.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "bounded-warp",
+            "scaleY": 1,
+            "translateY": 0,
+            "controlPoints": [
+              { "at": 0, "scaleX": 1.112613, "offsetX": 0 },
+              { "at": 0.118804, "scaleX": 1.112613, "offsetX": 0 },
+              { "at": 0.715845, "scaleX": 1.014368, "offsetX": 0 },
+              { "at": 0.897324, "scaleX": 0.986667, "offsetX": 0 },
+              { "at": 1, "scaleX": 0.986667, "offsetX": 0 }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "component_family": "pv4-wave-a-female-top-navy-zip-hoodie-v1",
       "kind": "top",
       "classification": "affine-reusable",
@@ -651,6 +867,31 @@
             "scaleY": 1,
             "translateX": 0,
             "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-female-top-navy-zip-hoodie-v1-crossbody",
+      "kind": "top",
+      "classification": "bounded-warp-reusable",
+      "authored_for_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "basis": "Bounded warp recovered pairings the affine step refused at the same 3% bound; original component membership is unchanged.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "bounded-warp",
+            "scaleY": 1,
+            "translateY": 0,
+            "controlPoints": [
+              { "at": 0, "scaleX": 1.112613, "offsetX": 0 },
+              { "at": 0.167492, "scaleX": 1.112613, "offsetX": 0 },
+              { "at": 0.764533, "scaleX": 1.014368, "offsetX": 0 },
+              { "at": 0.946012, "scaleX": 0.986667, "offsetX": 0 },
+              { "at": 1, "scaleX": 0.986667, "offsetX": 0 }
+            ]
           }
         }
       ]
@@ -781,6 +1022,37 @@
     },
     {
       "component_family": "pv4-wave-a-female-top-teal-shell-jacket-v1",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        },
+        {
+          "target_body_family": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.980899,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-female-top-burgundy-short-sleeve-polo-v1-armmasked",
       "kind": "top",
       "classification": "affine-reusable",
       "authored_for_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",

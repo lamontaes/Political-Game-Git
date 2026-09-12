@@ -1562,50 +1562,77 @@ export interface CharacterRecipe {
 export function liftCandidatesForReview(
   records: readonly CharacterComponentManifestRecord[],
   slots: readonly CharacterSlotDefinition[],
+  options?: {
+    /**
+     * Asset IDs frozen as review generation 1. Anything else lifted beside
+     * them joins generation 2 so new candidates cannot rewrite yesterday's
+     * membership. Omitted keeps the original all-generation-1 lift.
+     */
+    readonly frozenGeneration1Ids?: readonly string[];
+  },
 ): {
   readonly records: readonly CharacterComponentManifestRecord[];
   readonly catalog: CharacterCatalogData;
 } {
+  const frozen = new Set(options?.frozenGeneration1Ids ?? []);
+  const useFrozen = frozen.size > 0;
   const lifted = records
     .filter(
       (record) =>
         record.asset_type === CHARACTER_COMPONENT_CANDIDATE_ASSET_TYPE &&
         record.candidate_component !== undefined,
     )
-    .map((record) => ({
-      ...record,
-      asset_type: CHARACTER_COMPONENT_ASSET_TYPE,
-      generation_status: "approved" as const,
-      qa_status: "approved" as const,
-      runtime_release_status: "released" as const,
-      component: {
-        ...record.candidate_component!,
-        catalog_generation: CANDIDATE_REVIEW_GENERATION,
-      },
-      candidate_component: undefined,
-    }));
+    .map((record) => {
+      const generation =
+        useFrozen && !frozen.has(record.asset_id)
+          ? CANDIDATE_REVIEW_GENERATION + 1
+          : CANDIDATE_REVIEW_GENERATION;
+      return {
+        ...record,
+        asset_type: CHARACTER_COMPONENT_ASSET_TYPE,
+        generation_status: "approved" as const,
+        qa_status: "approved" as const,
+        runtime_release_status: "released" as const,
+        component: {
+          ...record.candidate_component!,
+          catalog_generation: generation,
+        },
+        candidate_component: undefined,
+      };
+    });
   // The review generation is invented here and belongs to this throwaway
   // library alone. A candidate declares no generation, so there is no number to
   // carry over; composing one for review needs a library, a library needs a
-  // ledger, and a ledger needs a generation. Numbering them all 1 keeps that
-  // scaffolding visibly local: this is not generation 1 of the real catalog,
-  // and nothing here is written back to it.
-  const members = lifted.map((record) => ({
-    assetId: record.asset_id,
-    definition: record.component,
-  }));
+  // ledger, and a ledger needs a generation. Numbering frozen members 1 and
+  // later additive candidates 2 keeps that scaffolding visibly local: this is
+  // not generation 1 of the real catalog, and nothing here is written back to
+  // it.
+  const byGeneration = new Map<number, typeof lifted>();
+  for (const record of lifted) {
+    const generation = record.component.catalog_generation;
+    const list = byGeneration.get(generation) ?? [];
+    list.push(record);
+    byGeneration.set(generation, list);
+  }
+  const generations = [...byGeneration.keys()]
+    .sort((a, b) => a - b)
+    .map((generation) => {
+      const members = (byGeneration.get(generation) ?? []).map((record) => ({
+        assetId: record.asset_id,
+        definition: record.component,
+      }));
+      return {
+        generation,
+        component_ids: members.map((member) => member.assetId).sort(),
+        signature: computeCharacterGenerationSignature(members),
+      };
+    });
   return {
     records: lifted,
     catalog: {
-      catalog_generation: CANDIDATE_REVIEW_GENERATION,
+      catalog_generation: generations.at(-1)?.generation ?? 0,
       slots,
-      generations: [
-        {
-          generation: CANDIDATE_REVIEW_GENERATION,
-          component_ids: members.map((member) => member.assetId).sort(),
-          signature: computeCharacterGenerationSignature(members),
-        },
-      ],
+      generations,
     },
   };
 }
@@ -1617,6 +1644,39 @@ export function liftCandidatesForReview(
  * guess which number the review surface used.
  */
 export const CANDIDATE_REVIEW_GENERATION = 1;
+
+/** Frozen first membership of a review library, matching unpinned v1 lives. */
+export const LEGACY_CHARACTER_CATALOG_GENERATION = 1;
+
+/**
+ * Which catalog slice a stored appearance should resolve against.
+ *
+ * An explicit pin always wins. Otherwise a life created under the coherent
+ * recipe follows the library's current generation so NEW people can receive
+ * additive candidates, and every other appearance stays on generation 1 —
+ * yesterday's frozen list, not today's.
+ */
+export function resolveAppearanceCatalogGeneration(
+  appearance: PersonAppearance,
+  libraryCatalogGeneration: number,
+): number {
+  const pinned = appearance.catalogGeneration;
+  if (pinned !== undefined) {
+    if (
+      !isFiniteInteger(pinned) ||
+      pinned < 1 ||
+      pinned > libraryCatalogGeneration
+    ) {
+      throw new Error(
+        `Person appearance is pinned to catalog generation ${pinned} but the library only reaches ${libraryCatalogGeneration}.`,
+      );
+    }
+    return pinned;
+  }
+  return appearance.recipeVersion === COMPLEXION_COHERENT_RECIPE_VERSION
+    ? libraryCatalogGeneration
+    : LEGACY_CHARACTER_CATALOG_GENERATION;
+}
 
 /**
  * Promotes one banked candidate into a catalog generation.
@@ -1860,7 +1920,8 @@ export function resolveCharacterRecipe(
       "Explicit character selection requires body, head and hair family choices.",
     );
   }
-  const selectedGeneration = appearance.catalogGeneration ?? 1;
+  const selectedGeneration =
+    appearance.catalogGeneration ?? LEGACY_CHARACTER_CATALOG_GENERATION;
   if (
     selection &&
     request.catalogGeneration !== undefined &&
@@ -1872,7 +1933,12 @@ export function resolveCharacterRecipe(
   }
   const generation =
     request.catalogGeneration ??
-    (selection ? selectedGeneration : library.catalogGeneration);
+    (selection
+      ? selectedGeneration
+      : resolveAppearanceCatalogGeneration(
+          appearance,
+          library.catalogGeneration,
+        ));
   if (
     !isFiniteInteger(generation) ||
     generation < 1 ||

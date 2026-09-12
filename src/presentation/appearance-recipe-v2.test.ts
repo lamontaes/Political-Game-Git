@@ -12,6 +12,13 @@ import {
   createGeneratedWorld,
   requireLifePlace,
 } from "../simulation";
+import { deserializeWorld } from "../simulation/serialization";
+import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import {
+  decodeReplayDescriptor,
+  encodeReplayDescriptor,
+} from "./new-game-identity";
+import oldSave from "./fixtures/leg-american-english1-old-save.json";
 import toneData from "../../art/manifest/character_candidate_visual4_tone.json";
 import {
   COHERENT_APPEARANCE_RECIPE_VERSION,
@@ -366,5 +373,69 @@ describe("which people are created under which recipe", () => {
           DEFAULT_APPEARANCE_RECIPE_VERSION,
         );
     }
+  });
+
+  it("keeps an old serialized save on v1 after reload", () => {
+    const restored = deserializeWorld(JSON.stringify(oldSave));
+    const people = Object.values(restored.people);
+    expect(people.length).toBeGreaterThan(0);
+    const stamped = people.filter((person) => person.appearance);
+    expect(stamped.length).toBeGreaterThan(0);
+    for (const person of stamped) {
+      expect(person.appearance?.recipeVersion).toBe(
+        DEFAULT_APPEARANCE_RECIPE_VERSION,
+      );
+    }
+    expect(
+      people.some(
+        (person) =>
+          person.appearance?.recipeVersion ===
+          COMPLEXION_COHERENT_RECIPE_VERSION,
+      ),
+    ).toBe(false);
+    const again = deserializeWorld(JSON.stringify(oldSave));
+    expect(
+      Object.values(again.people).map((person) => person.appearance),
+    ).toEqual(
+      Object.values(restored.people).map((person) => person.appearance),
+    );
+  });
+
+  it("replays an old descriptor under v1, and a new setup under v2", () => {
+    const oldDescriptor = encodeReplayDescriptor({
+      placeKey: "kentucky",
+      startAge: 10,
+      depth: "play-formative-years",
+      startingLife: "ordinary-life",
+      household: "shares-a-home",
+      seed: "weekend19-old-replay",
+      givenName: null,
+      familyName: null,
+    });
+    const decodedOld = decodeReplayDescriptor(oldDescriptor);
+    expect(decodedOld?.appearanceRecipeVersion).toBeUndefined();
+    const replayed = createNewGameWorld(decodedOld!);
+    for (const person of Object.values(replayed.world.people))
+      expect(person.appearance?.recipeVersion).toBe(
+        DEFAULT_APPEARANCE_RECIPE_VERSION,
+      );
+
+    const fresh = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed: "weekend19-new-replay",
+    });
+    for (const person of Object.values(fresh.world.people))
+      expect(person.appearance?.recipeVersion).toBe(
+        COMPLEXION_COHERENT_RECIPE_VERSION,
+      );
+    const roundTrip = decodeReplayDescriptor(
+      encodeReplayDescriptor({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed: "weekend19-new-replay",
+      }),
+    );
+    expect(roundTrip?.appearanceRecipeVersion).toBe(
+      COMPLEXION_COHERENT_RECIPE_VERSION,
+    );
   });
 });
