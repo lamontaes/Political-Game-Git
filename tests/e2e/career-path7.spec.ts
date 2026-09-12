@@ -1,5 +1,5 @@
 import { expect, test } from "./fixtures";
-import { startLife, enterLife, openElsewhere } from "./support/creator";
+import { startLife, enterLife, openElsewhere, openShellMenu } from "./support/creator";
 /**
  * Requires the UI owner's LIFE-panel registration patch, never a fixture
  * route. That registration is UI's own composition (LifePathsPanel mounting
@@ -13,6 +13,13 @@ import { startLife, enterLife, openElsewhere } from "./support/creator";
  * So this checks reachability rather than assuming it, and names the real
  * reason when it's absent - never an unconditional skip, and never a
  * fixture standing in for the actual root.
+ *
+ * The reachability probe has to look where the destination actually lives.
+ * Every real destination, "elsewhere-work" included, renders inside the
+ * shell-nav flyout, not on the page by default (see openShellMenu/goTo in
+ * support/creator.ts, used the same way by 29 other specs) - checking for it
+ * without opening that menu first reports "absent" on every tree, composed
+ * or not, which is a false negative, not an honest one.
  */
 test("normal civilian career offer, keyboard consent, work, resignation and save", async ({
   page,
@@ -20,11 +27,13 @@ test("normal civilian career offer, keyboard consent, work, resignation and save
   await page.goto("/?seed=career-path7-normal");
   await startLife(page, { age: 35, route: "custom", household: "lives-alone" });
   await enterLife(page);
+  await openShellMenu(page);
   const workTab = page.getByTestId("elsewhere-work");
   const composed = await workTab
     .waitFor({ state: "visible", timeout: 3000 })
     .then(() => true)
     .catch(() => false);
+  await page.keyboard.press("Escape");
   test.skip(
     !composed,
     "Offices/Work entry not present on this tree - needs UI's actual composition (LifePathsPanel mounting CareerPathsPanel); proven working against it separately, see docs/integration/career-path7-ui-combined.md",
