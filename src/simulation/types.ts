@@ -2499,8 +2499,40 @@ export type FutureTransitionHandler = (
   dueItem: FutureDueItem,
 ) => FutureTransitionHandlerResult;
 
+/**
+ * Shared ordinary-routine contract on the existing clock.
+ *
+ * Education consumes this hook; it is not a second scheduler. Ordinary personal
+ * work windows may auto-resolve as requested time crosses them. Campaigning and
+ * other player-required commitments stay blocking.
+ */
+export interface RoutineWindow {
+  readonly relationshipId: EntityId;
+  readonly kind: "work" | "study";
+  readonly start: SimulationMoment;
+  readonly end: SimulationMoment;
+  readonly autoResolvable: boolean;
+}
+
+export interface RoutineTimeHook {
+  readonly isAutoResolvableActivity: (
+    world: World,
+    activityId: EntityId,
+  ) => boolean;
+  readonly projectWindows: (
+    world: World,
+    target: SimulationMoment,
+  ) => readonly RoutineWindow[];
+  readonly ensureScheduled: (world: World, window: RoutineWindow) => World;
+  readonly afterActivityCompleted: (
+    world: World,
+    activityId: EntityId,
+  ) => World;
+}
+
 export interface FutureTransitionHandlerRegistry {
   get(transitionKey: FutureTransitionKey): FutureTransitionHandler | undefined;
+  readonly routine?: RoutineTimeHook;
 }
 
 export interface MoneyAmount {

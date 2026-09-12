@@ -6,6 +6,7 @@ import {
   addDays,
   advanceWorld,
   advanceWorldMinutes,
+  compareSimulationMoments,
   createCampaignElectionTransitionRegistry,
   ageOnDate,
   formativeIntervalAt,
@@ -205,24 +206,23 @@ export function passOrdinaryDays(world: World, days = 1): World {
   // election day arrives without either the life or the contest being dropped.
   const handlers = createCampaignElectionTransitionRegistry();
   const wholeDays = Math.max(1, Math.trunc(days));
-  const morning = simulationMomentAtLocalTime({
-    date: addDays(world.currentDate, 1),
-    minuteOfDay: ORDINARY_DAY_START_MINUTE,
-    timeZone: world.currentMoment.timeZone,
-    preferredUtcOffsetMinutes: world.currentMoment.utcOffsetMinutes,
-  });
-  const stepped = advanceWorldMinutes(
-    world,
-    simulationMinutesBetween(world.currentMoment, morning),
-    handlers,
-  );
-  // An unanswered commitment stands between here and the morning, so the
-  // sub-day boundary handed the world straight back. The day still has to
-  // move, and it moves the way it always did.
-  const tomorrow =
-    stepped === world ? advanceWorld(world, 1, handlers) : stepped;
-  if (wholeDays === 1) return tomorrow;
-  return advanceWorld(tomorrow, wholeDays - 1, handlers);
+  let current = world;
+  for (let day = 0; day < wholeDays; day += 1) {
+    const morning = simulationMomentAtLocalTime({
+      date: addDays(current.currentDate, 1),
+      minuteOfDay: ORDINARY_DAY_START_MINUTE,
+      timeZone: current.currentMoment.timeZone,
+      preferredUtcOffsetMinutes: current.currentMoment.utcOffsetMinutes,
+    });
+    const minutes = simulationMinutesBetween(current.currentMoment, morning);
+    const stepped =
+      minutes > 0 ? advanceWorldMinutes(current, minutes, handlers) : current;
+    current =
+      compareSimulationMoments(stepped.currentMoment, morning) >= 0
+        ? stepped
+        : advanceWorld(stepped, 1, handlers);
+  }
+  return current;
 }
 
 function openingLine(

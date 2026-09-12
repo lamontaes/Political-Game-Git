@@ -860,10 +860,148 @@ export function advanceWorldMinutes(
   minutes: number,
   transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
 ): World {
-  if (controlledCommitmentsBlockingMinuteAdvance(world, minutes).length > 0) {
-    return world;
+  if (!transitionHandlers.routine) {
+    if (controlledCommitmentsBlockingMinuteAdvance(world, minutes).length > 0)
+      return world;
+    return advanceCanonicalMinutes(world, minutes, null, transitionHandlers);
   }
-  return advanceCanonicalMinutes(world, minutes, null, transitionHandlers);
+  return resolveAdvanceWithRoutine(
+    world,
+    addSimulationMinutes(world.currentMoment, minutes),
+    transitionHandlers,
+  );
+}
+
+function nonRoutineBlockingIds(
+  world: World,
+  target: SimulationMoment,
+  ignoredActivityId: EntityId | null,
+  transitionHandlers: FutureTransitionHandlerRegistry,
+): readonly EntityId[] {
+  const hook = transitionHandlers.routine;
+  return controlledCommitmentIdsBefore(world, target, ignoredActivityId).filter(
+    (id) => !hook?.isAutoResolvableActivity(world, id),
+  );
+}
+
+function windowOverlapsActivity(
+  world: World,
+  window: { start: SimulationMoment; end: SimulationMoment },
+  activityId: EntityId,
+): boolean {
+  const state = latestActivityStateUnchecked(world, activityId);
+  if (!state) return false;
+  return (
+    compareSimulationMoments(window.start, state.end) < 0 &&
+    compareSimulationMoments(state.start, window.end) < 0
+  );
+}
+
+function concludeScheduledActivity(
+  world: World,
+  activityId: EntityId,
+  transitionHandlers: FutureTransitionHandlerRegistry,
+): World {
+  const state = scheduledActivityState(world, activityId);
+  if (state.status !== "scheduled") return world;
+  if (compareSimulationMoments(world.currentMoment, state.start) <= 0)
+    return performScheduledActivity(world, activityId, transitionHandlers);
+  if (compareSimulationMoments(world.currentMoment, state.end) >= 0)
+    return world;
+  const remaining = simulationMinutesBetween(world.currentMoment, state.end);
+  if (
+    nonRoutineBlockingIds(world, state.end, activityId, transitionHandlers)
+      .length > 0
+  )
+    return world;
+  return advanceCanonicalMinutes(
+    world,
+    remaining,
+    activityId,
+    transitionHandlers,
+  );
+}
+
+function completeRoutineWindow(
+  world: World,
+  target: SimulationMoment,
+  transitionHandlers: FutureTransitionHandlerRegistry,
+): World | null {
+  const hook = transitionHandlers.routine;
+  if (!hook) return null;
+  const window = hook.projectWindows(world, target)[0];
+  if (!window?.autoResolvable) return null;
+  const blockers = nonRoutineBlockingIds(
+    world,
+    target,
+    null,
+    transitionHandlers,
+  );
+  if (blockers.some((id) => windowOverlapsActivity(world, window, id)))
+    return null;
+  const prepared = hook.ensureScheduled(world, window);
+  const activity = prepared.history.scheduledActivities.find(
+    (a) =>
+      a.sourceEntityIds.includes(window.relationshipId) &&
+      scheduledActivityState(prepared, a.id).status === "scheduled",
+  );
+  if (!activity) return null;
+  const next = concludeScheduledActivity(
+    prepared,
+    activity.id,
+    transitionHandlers,
+  );
+  if (next === prepared && prepared === world) return null;
+  if (scheduledActivityState(next, activity.id).status !== "completed")
+    return null;
+  return next;
+}
+
+function resolveAdvanceWithRoutine(
+  world: World,
+  target: SimulationMoment,
+  transitionHandlers: FutureTransitionHandlerRegistry,
+): World {
+  let current = world;
+  for (let step = 0; step < 400; step++) {
+    if (compareSimulationMoments(current.currentMoment, target) >= 0)
+      return current;
+    const completed = completeRoutineWindow(
+      current,
+      target,
+      transitionHandlers,
+    );
+    if (completed) {
+      current = completed;
+      continue;
+    }
+    const remaining = simulationMinutesBetween(current.currentMoment, target);
+    const blockers = nonRoutineBlockingIds(
+      current,
+      target,
+      null,
+      transitionHandlers,
+    );
+    if (blockers.length > 0) {
+      const stop = scheduledActivityState(current, blockers[0]!).start;
+      const minutes = simulationMinutesBetween(current.currentMoment, stop);
+      if (minutes > 0)
+        current = advanceCanonicalMinutes(
+          current,
+          minutes,
+          null,
+          transitionHandlers,
+        );
+      return current;
+    }
+    return advanceCanonicalMinutes(
+      current,
+      remaining,
+      null,
+      transitionHandlers,
+    );
+  }
+  throw new Error("Routine time resolution did not converge.");
 }
 
 export function scheduledActivityPerformanceTiming(
@@ -1077,6 +1215,11 @@ function advanceCanonicalMinutes(
         transition.entityId,
         inputWorld.actionSequence,
       );
+      if (transitionHandlers.routine)
+        world = transitionHandlers.routine.afterActivityCompleted(
+          world,
+          transition.entityId,
+        );
     }
   }
   world = setCurrentMoment(world, target);

@@ -93,18 +93,12 @@ test("normal civilian career offer, keyboard consent, work, resignation and save
     .click();
   await expect(career.getByRole("status")).toContainText("began");
   await career
-    .getByRole("button", { name: "Schedule responsibility", exact: true })
-    .click();
-  await expect(career.getByRole("status")).toContainText("scheduled");
-  await career
-    .getByRole("textbox", { name: "Work submission", exact: true })
-    .fill(
-      "Recorded the customer request and prepared the requested stock for purchase.",
-    );
-  await career
-    .getByRole("button", { name: "Perform shift and submit work", exact: true })
+    .getByRole("button", { name: "Perform work", exact: true })
     .click();
   await expect(career.getByRole("status")).toContainText("recorded");
+  await expect(
+    career.getByRole("textbox", { name: "Work submission", exact: true }),
+  ).toHaveCount(0);
   await career.getByRole("button", { name: "Resign", exact: true }).focus();
   await page.keyboard.press("Enter");
   await expect(career.getByRole("status")).toContainText("left");
@@ -117,8 +111,10 @@ test("normal civilian career offer, keyboard consent, work, resignation and save
   await openElsewhere(page, "work");
   await expect(
     career.getByText(
-      "Recorded the customer request and prepared the requested stock for purchase.",
-      { exact: false },
+      "Completed shift recorded. No written submission was required.",
+      {
+        exact: false,
+      },
     ),
   ).toBeVisible();
 });
