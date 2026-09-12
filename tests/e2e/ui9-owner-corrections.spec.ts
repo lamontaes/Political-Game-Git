@@ -90,7 +90,12 @@ test("UI9-06, UI9-07: a child is told why a walk is refused, and what a walk cos
   // game to name the character.
   await startLife(page, { age: 10, place: "Lexington" });
   await enterLife(page);
-  await goTo(page, "nav-life-scenes");
+  /*
+   * PT3: there is no "Life scenes" menu entry any more — it was a second copy
+   * of the panel already standing in the room. `enterLife` steps into the
+   * continuing life, so the way back to the scene is the panel's own control.
+   */
+  await page.getByRole("button", { name: "Return to your day" }).click();
 
   const scene = page.getByTestId("opening-life-scene");
   await expect(scene).toBeVisible();

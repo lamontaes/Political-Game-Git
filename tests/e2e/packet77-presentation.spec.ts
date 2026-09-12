@@ -1,6 +1,7 @@
 import { expect, test, type Page } from "./fixtures";
 
 import {
+  enterLife,
   expectNoDestination,
   fillCreator,
   goTo,
@@ -214,7 +215,9 @@ test.describe("The title is a room with a menu on it", () => {
 
     await page.goto(replay);
     await expect(page.getByTestId("play-screen")).toBeVisible();
-    await page.getByTestId("introduction-continue").click();
+    // PT3: the intro is two beats and then the scene; the life moment is
+    // reached the way a player reaches it.
+    await enterLife(page);
     const immediately = await page.getByTestId("story-who").innerText();
 
     await freshBrowser(page);
@@ -225,7 +228,9 @@ test.describe("The title is a room with a menu on it", () => {
 
     await page.goto(replay);
     await expect(page.getByTestId("play-screen")).toBeVisible();
-    await page.getByTestId("introduction-continue").click();
+    // PT3: the intro is two beats and then the scene; the life moment is
+    // reached the way a player reaches it.
+    await enterLife(page);
     expect(await page.getByTestId("story-who").innerText()).toBe(immediately);
   });
 
@@ -360,7 +365,9 @@ test.describe("A life happens in the room the records put it in", () => {
   }) => {
     await freshBrowser(page);
     await startLife(page, { age: 36 });
-    await page.getByTestId("introduction-continue").click();
+    // PT3: the intro is two beats and then the scene; the life moment is
+    // reached the way a player reaches it.
+    await enterLife(page);
 
     // THE ROOM. A canonical household resolves to a released domestic plate,
     // and the plate actually decodes.
@@ -402,7 +409,9 @@ test.describe("A life happens in the room the records put it in", () => {
   }) => {
     await freshBrowser(page);
     await startLife(page, { age: 36 });
-    await page.getByTestId("introduction-continue").click();
+    // PT3: the intro is two beats and then the scene; the life moment is
+    // reached the way a player reaches it.
+    await enterLife(page);
     const room = await page
       .getByTestId("scene-backdrop")
       .getAttribute("data-scene-id");
@@ -414,8 +423,11 @@ test.describe("A life happens in the room the records put it in", () => {
     await page.reload();
     await page.getByTestId("continue").click();
 
-    // A saved life has been introduced already, so it opens on its moment.
+    // A saved life has been introduced already, so it opens on its moment:
+    // the room's scene, with the continuing life one step in.
     await expect(page.getByTestId("life-introduction")).toHaveCount(0);
+    await expect(page.getByTestId("opening-life-scene")).toBeVisible();
+    await enterLife(page);
     await expect(who).toHaveText(moment);
     await expect(page.getByTestId("scene-backdrop")).toHaveAttribute(
       "data-scene-id",

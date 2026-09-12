@@ -5,6 +5,7 @@ import {
   goTo,
   openCreator,
   startLife as walkCreator,
+  chooseCreatorLocation,
 } from "./support/creator";
 
 /**
@@ -55,16 +56,9 @@ async function openSetup(page: Page, age: number) {
   await page.getByTestId("start-age").fill(String(age));
 }
 
-/** Picks Kentucky on the place step and advances past it. */
+/** Picks Kentucky, then Lexington, and advances past the place step. */
 async function chooseKentucky(page: Page) {
-  await expect(page.getByTestId("creator-stage-place")).toBeVisible();
-  await page.getByTestId("place-search").fill("Kentu");
-  await page
-    .getByTestId("place-choices")
-    .getByRole("button", { name: /Kentucky/i })
-    .first()
-    .click();
-  await page.getByTestId("creator-continue-place").click();
+  await chooseCreatorLocation(page, { age: 10, place: "Lexington" }, false);
 }
 
 test.describe("A player chooses who the character is", () => {
@@ -244,7 +238,10 @@ test.describe("The page says whose life this is", () => {
     await expectNoDestination(page, "keep-world");
     await page.reload();
     await page.getByTestId("continue").click();
-    // A loaded save has been introduced already, so it opens on the moment.
+    // A loaded save has been introduced already, so it opens on the room's
+    // scene; the continuing life, where the name is read, is one step in.
+    await expect(page.getByTestId("opening-life-scene")).toBeVisible();
+    await enterLife(page);
     await expect(who).toHaveText(named);
   });
 });

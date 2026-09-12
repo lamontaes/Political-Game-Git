@@ -6249,6 +6249,7 @@
 /* The place results are a bounded, internally-scrolling list so a long search
    (a common town name across many states) never moves the panel or the room,
    and the selected place's context and Next stay in view. */
+.title-tableau--art .game-creator [data-testid="state-choices"],
 .title-tableau--art .game-creator [data-testid="place-choices"] {
   max-height: 32vh;
   overflow-y: auto;
@@ -7194,6 +7195,10 @@
   pointer-events: auto;
 }
 
+.scene-person-token--selectable:hover:not(:disabled) {
+  background: none;
+}
+
 .scene-person-token--selectable:focus-visible {
   outline: 3px solid var(--run-a-focus, #f0c987);
   outline-offset: 4px;
@@ -7859,4 +7864,51 @@
 .public-information-panel input:focus-visible {
   outline: 3px solid var(--run-a-focus);
   outline-offset: 2px;
+}
+
+/* --- Framing around the people in the room (PT3 / MODULAR-GEN14) -------- */
+
+/*
+ * The softened fill behind a lowered camera. Only drawn when the camera has
+ * been lowered to show a crown, and only ever the room's own painting.
+ */
+.scene-backdrop-fill {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  filter: blur(18px) brightness(0.72);
+  transform: scale(1.08);
+  pointer-events: none;
+}
+
+/*
+ * The foreground panel docks away from the people standing in the room. The
+ * left dock leaves the corner cluster its space.
+ */
+.life-shell .scene-backdrop-content[data-dock="right"] {
+  justify-content: flex-end;
+  padding-right: 20px;
+}
+
+.life-shell .scene-backdrop-content[data-dock="left"] {
+  justify-content: flex-start;
+  padding-left: 272px;
+}
+
+/* The lowered plate fades into its softened fill instead of meeting it at a line. */
+.scene-backdrop-camera--lowered .scene-environment-art {
+  mask-image: linear-gradient(to bottom, transparent 0, black 36px);
+}
+
+/* The version stamp keeps its corner when the panel docks right. */
+.life-shell .scene-backdrop-content[data-dock="right"] {
+  padding-bottom: 2.4rem;
+}
+
+/* A side dock narrows to the room beside the people when it has to. */
+.life-shell .scene-backdrop-content[data-dock] > * {
+  max-width: var(--pg-dock-width, 100%);
 }

@@ -5,7 +5,8 @@ import type { World } from "../../../src/simulation";
 
 /** Replay the banked ordinary entry; never inject a World, seat or result. */
 export async function reachMemberOffice(page: Page) {
-  await goTo(page, "elsewhere-day");
+  // PT3: running for office lives in Work, beside the day's time control.
+  await goTo(page, "elsewhere-work");
   await expect(page.getByTestId("file-candidacy")).toBeEnabled();
   await page.getByTestId("file-candidacy").press("Enter");
   await page.getByTestId("campaign-fundraising").click();

@@ -1,0 +1,297 @@
+/*
+ * The conversation box.
+ *
+ * One bounded surface in the room, in the same dark glass and brass as the
+ * scene panel it replaces while somebody is being spoken to. Its height is
+ * set by its content, and its content is bounded by design rather than by a
+ * scrollbar: one exchange, the current choices, one row of controls. Earlier
+ * exchanges are paged inside the same box instead of growing it, which is the
+ * Run B rule — at a normal desktop size the active conversation never needs
+ * an internal scroll.
+ *
+ * Every button here states its own background, border and hover, because the
+ * global `button:hover` green would otherwise win over them — the same
+ * cascade the person-token hover defect came from.
+ */
+
+.pg-talk {
+  width: min(46rem, 100%);
+  padding: 0.7rem 1rem 0.65rem;
+  color: var(--run-a-ink);
+  background: linear-gradient(180deg, rgb(18 29 46 / 93%), rgb(11 19 32 / 95%));
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.9rem;
+  box-shadow: 0 1.2rem 3rem rgb(8 13 22 / 46%);
+  backdrop-filter: blur(5px);
+}
+
+.pg-talk-head {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.pg-talk-head .person-portrait figcaption {
+  /* The heading beside it already says the name. */
+  display: none;
+}
+
+.pg-talk-head .person-portrait-mark {
+  width: 3.2rem;
+  height: 3.2rem;
+  font-size: 1.05rem;
+  border-color: var(--run-a-gold);
+  background: #1c2a40;
+  color: var(--run-a-ink);
+}
+
+.pg-talk-who {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.pg-talk-name {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.2;
+  color: var(--run-a-ink);
+}
+
+.pg-talk-relation,
+.pg-talk-topic {
+  margin: 0.1rem 0 0;
+  font-size: 0.82rem;
+  color: var(--run-a-muted);
+}
+
+.pg-talk-topic {
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--run-a-gold);
+}
+
+.pg-talk-back {
+  align-self: flex-start;
+}
+
+.pg-talk-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.pg-talk > .pg-talk-row {
+  margin-top: 0.6rem;
+}
+
+.pg-talk-beat {
+  margin: 0.55rem 0 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-left: 2px solid var(--run-a-gold);
+  background: rgb(8 14 24 / 45%);
+  border-radius: 0 0.4rem 0.4rem 0;
+}
+
+.pg-talk-beat > p,
+.pg-talk-history li > p {
+  margin: 0;
+}
+
+.pg-talk-beat > p + p,
+.pg-talk-history li > p + p {
+  margin-top: 0.3rem;
+}
+
+.pg-talk-you {
+  font-size: 0.88rem;
+  font-style: italic;
+  color: var(--run-a-muted);
+}
+
+.pg-talk-line {
+  font-size: 1.02rem;
+  line-height: 1.45;
+  color: var(--run-a-ink);
+}
+
+.pg-talk-speaker {
+  font-weight: 700;
+  color: var(--run-a-gold);
+}
+
+.pg-talk-context,
+.pg-talk-note,
+.pg-talk-hearing,
+.pg-talk-clock {
+  font-size: 0.82rem;
+  color: var(--run-a-muted);
+}
+
+.pg-talk-hearing {
+  margin: 0.35rem 0 0;
+}
+
+.pg-talk > .pg-talk-context {
+  margin: 0.45rem 0 0;
+}
+
+.pg-talk-trouble {
+  margin: 0 0 0.5rem;
+  color: #ffd9a8;
+}
+
+.pg-talk-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.pg-talk .pg-talk-choice,
+.pg-talk .pg-talk-chip {
+  min-height: 2.1rem;
+  padding: 0.38rem 0.8rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--run-a-ink);
+  background: linear-gradient(180deg, rgb(24 37 58 / 92%), rgb(13 20 32 / 94%));
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.5rem;
+  text-align: left;
+}
+
+.pg-talk .pg-talk-chip {
+  min-height: 1.9rem;
+  padding: 0.28rem 0.65rem;
+  font-size: 0.8rem;
+  border-radius: 1rem;
+}
+
+.pg-talk .pg-talk-chip--small {
+  padding: 0.22rem 0.55rem;
+  font-size: 0.74rem;
+}
+
+.pg-talk .pg-talk-choice:hover:not(:disabled),
+.pg-talk .pg-talk-chip:hover:not(:disabled) {
+  border-color: var(--run-a-gold);
+  background: linear-gradient(180deg, rgb(31 46 71 / 95%), rgb(18 29 46 / 96%));
+}
+
+.pg-talk .pg-talk-chip[data-selected="true"] {
+  color: #14203a;
+  background: var(--run-a-gold);
+  border-color: var(--run-a-gold);
+}
+
+.pg-talk .pg-talk-listen {
+  border-style: dashed;
+}
+
+.pg-talk button:focus-visible {
+  outline: 3px solid var(--run-a-focus);
+  outline-offset: 2px;
+}
+
+.pg-talk-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.6rem;
+  margin-top: 0.5rem;
+}
+
+.pg-talk-volume {
+  margin-left: auto;
+}
+
+.pg-talk-history-list {
+  list-style: none;
+  margin: 0.4rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.pg-talk-history-list li {
+  padding: 0.45rem 0.7rem;
+  border-left: 2px solid var(--run-a-line);
+}
+
+.pg-talk-date {
+  font-style: normal;
+  color: var(--run-a-gold);
+}
+
+/* A narrow window keeps every control; it only lets the box use the width. */
+@media (width <= 52rem) {
+  .pg-talk {
+    width: 100%;
+  }
+
+  .pg-talk-volume {
+    margin-left: 0;
+  }
+}
+
+/* Starting points in People: a row of ways in, not a bulleted list. */
+.pg-talk-starters ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pg-talk-starters .ui-action {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+}
+
+.pg-talk-starters .ui-action small {
+  font-weight: 500;
+  color: var(--run-a-muted);
+}
+
+/* The scene panel's people-to-talk-to row and its one way out. */
+.life-talk-to {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.6rem;
+  margin: 0.7rem 0;
+}
+
+.life-talk-to .game-band {
+  margin: 0;
+}
+
+.life-moment-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.8rem;
+  margin-top: 0.8rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--run-a-line);
+}
+
+.life-moment-foot small {
+  color: var(--run-a-muted);
+}
+
+/* The continuing life and its way back, stacked rather than side by side. */
+.pg-opening-continuing {
+  display: grid;
+  gap: 0.5rem;
+  justify-items: end;
+  width: min(42rem, 100%);
+}
+
+.pg-opening-continuing > .life-moment {
+  width: 100%;
+}

@@ -2,10 +2,10 @@ import type { PoseArtIndex } from "./pose-families";
 import type { CharacterComponentLibrary } from "./character-components";
 import type { RuntimeVisualLibrary } from "./visual-integration";
 import {
-  CANDIDATE_REVIEW_CHARACTER_LIBRARY,
-  CANDIDATE_REVIEW_POSE_ART,
-  CANDIDATE_REVIEW_VISUAL_LIBRARY,
-} from "./visual-integration";
+  PEOPLE_VISUAL4_CHARACTER_LIBRARY,
+  PEOPLE_VISUAL4_POSE_ART,
+  PEOPLE_VISUAL4_VISUAL_LIBRARY,
+} from "./people-visual4-review";
 import { DEFAULT_DATABASE_NAME } from "./browser-world-repository";
 import { ageOnDate, makeIsoDate } from "../simulation/dates";
 
@@ -87,15 +87,46 @@ export function artPreviewMode(
  * null passes nothing on, and every downstream default stays exactly the
  * default it was. Handing back the production libraries explicitly would make
  * every call site look like an override even when nothing is overridden.
+ *
+ * ## Which provider, and why this one
+ *
+ * These are the Visual4 libraries — the corrected registry, its compatible
+ * hair, and the measured per-body garment fit bank. They were NOT what this
+ * function returned when the preview was built: it returned the older
+ * `CANDIDATE_REVIEW_*` lift, whose own comment states plainly that candidates
+ * there are reviewed UNFITTED and that no candidate has a fit profile at all.
+ *
+ * So there were two candidate providers, and the better one was reachable only
+ * from the developer proof route at `?view=character-proof&set=visual4`, which
+ * saves to a demo World in localStorage. The life path — room, dossier,
+ * wardrobe, conversation portrait, save and reload — ran on the other one. The
+ * fitted figures being reviewed and the figures actually being played were
+ * never the same figures.
+ *
+ * Measured across 48 seeded people at `standing-neutral`, the difference is
+ * not cosmetic:
+ *
+ *   older lift   24/24 resolved, but from 2 distinct bodies, with NO fit bank
+ *   Visual4      48/48 resolved, from 5 distinct bodies, fitted
+ *
+ * Two bodies for every generated person in the game is the coverage ceiling
+ * this work exists to lift, and an unfitted garment is a garment sitting where
+ * it was drawn rather than on the body wearing it.
+ *
+ * One provider, one answer: the proof route and the life path now compose from
+ * the same library, so the gallery can no longer disagree with the game about
+ * what the bank contains. The separation that matters is untouched — this is
+ * still development-only, still outside every catalog generation, still in its
+ * own IndexedDB database, and still nothing a shipped build can select.
  */
 export function artPreviewLibraries(
   mode: ArtPreviewMode,
 ): ArtPreviewLibraries | null {
   if (mode !== "candidate-review") return null;
   return {
-    characters: CANDIDATE_REVIEW_CHARACTER_LIBRARY,
-    visuals: CANDIDATE_REVIEW_VISUAL_LIBRARY,
-    poseArt: CANDIDATE_REVIEW_POSE_ART,
+    characters: PEOPLE_VISUAL4_CHARACTER_LIBRARY,
+    visuals: PEOPLE_VISUAL4_VISUAL_LIBRARY,
+    poseArt: PEOPLE_VISUAL4_POSE_ART,
   };
 }
 

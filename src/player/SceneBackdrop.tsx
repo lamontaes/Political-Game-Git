@@ -1,4 +1,11 @@
-import { useMemo, useRef, type CSSProperties, type ReactNode } from "react";
+import {
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 
 import { SCENE_REGISTRY } from "../presentation/scene-registry";
 import type { PlacedScenePerson } from "../presentation/life-scene-people";
@@ -18,6 +25,19 @@ import {
 } from "../presentation/scene-occlusion";
 import { useRasterTier } from "./useRasterTier";
 import { useSceneCoverTransform } from "./useSceneTransform";
+import {
+  chooseContentDock,
+  figureHeadroom,
+  type ContentPlacement,
+  type ScreenFigure,
+} from "../presentation/scene-framing";
+
+/*
+ * The room each side must leave for the shell's fixed controls when the panel
+ * docks there: the corner cluster lives bottom-left, the pin rail bottom-right.
+ */
+const DOCK_LEFT_INSET = 272;
+const DOCK_RIGHT_INSET = 20;
 
 /**
  * A registered room, painted behind a section of the page.
@@ -98,16 +118,91 @@ export function SceneBackdrop({
       },
     [scene],
   );
-  const transform = useSceneCoverTransform(viewportRef, plate, camera);
+  const covering = useSceneCoverTransform(viewportRef, plate, camera);
   const tier = useRasterTier(
     scene?.raster?.ladder ?? null,
     environment?.tierUrls ?? null,
-    transform.renderedSceneWidth,
-    transform.devicePixelRatio,
-    transform.viewport,
+    covering.renderedSceneWidth,
+    covering.devicePixelRatio,
+    covering.viewport,
   );
 
   const painted = Boolean(tier.paintedUrl);
+
+  /*
+   * Framing around the people (see `scene-framing.ts`). The covering camera is
+   * lowered just far enough to put every crown on screen, and the same lowered
+   * camera places the plate, the surfaces, the people and their names, so
+   * nothing drifts apart. With nobody in the room it is the covering camera
+   * unchanged.
+   */
+  const figuresAt = (yOffset: number): ScreenFigure[] =>
+    painted
+      ? people.map((person) => {
+          const left =
+            covering.xOffset +
+            (person.leftPercent / 100) * plate.width * covering.uniformScale;
+          const top =
+            yOffset +
+            (person.topPercent / 100) * plate.height * covering.uniformScale;
+          return {
+            left,
+            right:
+              left +
+              (person.widthPercent / 100) * plate.width * covering.uniformScale,
+            top,
+            bottom:
+              top +
+              (person.heightPercent / 100) *
+                plate.height *
+                covering.uniformScale,
+          };
+        })
+      : [];
+  const headroom = figureHeadroom(
+    figuresAt(covering.yOffset),
+    covering.viewport.height,
+  );
+  const transform = {
+    ...covering,
+    yOffset: covering.yOffset + headroom,
+  };
+  const figures = figuresAt(transform.yOffset);
+
+  /*
+   * The foreground panel goes where it covers the fewest people. Measured
+   * after layout, from the panel actually on screen, because what is in front
+   * — a scene, a conversation, the continuing life — sets its size.
+   */
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [placement, setPlacement] = useState<ContentPlacement>({
+    dock: "center",
+    maxWidth: null,
+  });
+  useLayoutEffect(() => {
+    const content = contentRef.current;
+    const panel = content?.firstElementChild;
+    if (!content || !panel) return;
+    /*
+     * Decided at the panel's own nominal width, not the width a previous
+     * decision narrowed it to, so the answer cannot feed back on itself.
+     */
+    const nominal = Math.min(672, covering.viewport.width - 40);
+    const next = chooseContentDock(
+      figures,
+      covering.viewport,
+      { width: nominal, height: panel.getBoundingClientRect().height },
+      { leftInset: DOCK_LEFT_INSET, rightInset: DOCK_RIGHT_INSET },
+    );
+    setPlacement((current) =>
+      current.dock === next.dock && current.maxWidth === next.maxWidth
+        ? current
+        : next,
+    );
+    // No dependency list on purpose: what is in front of the room changes its
+    // size without changing any prop here, and the guard above keeps a stable
+    // answer from re-rendering.
+  });
   const occluders = releasedSceneOccluders(scene);
   const plateClips = scenePlateClips(scene);
   const bindings = useMemo(
@@ -124,14 +219,29 @@ export function SceneBackdrop({
       data-testid="scene-backdrop"
       data-scene-id={scene?.sceneId ?? ""}
       data-has-plate={painted ? "true" : "false"}
+      data-headroom={headroom}
     >
       <div
         ref={viewportRef}
         className="scene-backdrop-stage"
         aria-hidden="true"
       >
+        {/*
+          Headroom is lowered camera, and the band it opens above the plate is
+          filled with the same painting, softened, rather than left black. It
+          is the room's own art stretched as ambience, never a second picture.
+        */}
+        {headroom > 0 && tier.paintedUrl ? (
+          <img
+            className="scene-backdrop-fill"
+            src={tier.paintedUrl}
+            alt=""
+            draggable="false"
+            data-testid="scene-backdrop-fill"
+          />
+        ) : null}
         <div
-          className="scene-camera scene-backdrop-camera"
+          className={`scene-camera scene-backdrop-camera${headroom > 0 ? " scene-backdrop-camera--lowered" : ""}`}
           data-testid="scene-backdrop-camera"
           data-painted-tier={tier.paintedWidth ?? ""}
           style={
@@ -309,11 +419,18 @@ export function SceneBackdrop({
                   ((person.leftPercent + person.widthPercent / 2) / 100) *
                     plate.width *
                     transform.uniformScale,
-                top:
+                /*
+                 * At the person's feet, or at the foot of the screen when a
+                 * lowered camera has put their feet below it — a name that
+                 * leaves the screen with the feet is a name nobody can read.
+                 */
+                top: Math.min(
                   transform.yOffset +
-                  ((person.topPercent + person.heightPercent) / 100) *
-                    plate.height *
-                    transform.uniformScale,
+                    ((person.topPercent + person.heightPercent) / 100) *
+                      plate.height *
+                      transform.uniformScale,
+                  transform.viewport.height - 48,
+                ),
                 transform: "translateX(-50%)",
                 zIndex:
                   Math.max(
@@ -336,7 +453,21 @@ export function SceneBackdrop({
           ))}
         </div>
       ) : null}
-      <div className="scene-backdrop-content">{children}</div>
+      <div
+        className="scene-backdrop-content"
+        ref={contentRef}
+        data-dock={placement.dock}
+        data-testid="scene-backdrop-content"
+        style={
+          placement.maxWidth === null
+            ? undefined
+            : ({
+                "--pg-dock-width": `${placement.maxWidth}px`,
+              } as CSSProperties)
+        }
+      >
+        {children}
+      </div>
     </div>
   );
 }

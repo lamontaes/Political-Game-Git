@@ -24,12 +24,86 @@ export const PEOPLE_VISUAL4_RECORDS = [
 ] as readonly CharacterComponentManifestRecord[];
 const errors = validateCharacterComponentCandidates(PEOPLE_VISUAL4_RECORDS);
 if (errors.length) throw new Error(errors.join("\n"));
+
+/**
+ * Which body families anything in this bank can actually dress.
+ *
+ * The rule below already says it for garments and hair: a part nothing can be
+ * combined with is a measured refusal, not a silently eligible choice. It was
+ * applied to everything EXCEPT bodies, and a body is the one part that decides
+ * whether a person exists at all — so an undressable body stayed selectable and
+ * the resolver kept handing identities to it. Measured on this bank, six of
+ * eleven body families have no declared top, bottom or footwear between them,
+ * and a person whose seed landed on one resolved no complete recipe: the body
+ * refused, and `head`, `top`, `bottom` and `footwear` all reported empty behind
+ * it. Fifteen of twenty-four seeded people composed nothing for that reason.
+ *
+ * Required-slot coverage is read from the registry's own declared
+ * compatibility, which was checked against the measured per-body fit profiles
+ * in `character_candidate_visual4_fit.json` before this was written: every
+ * measured (garment, body) pair is already declared, so there is no metadata
+ * gap being papered over here. The excluded families are short of PIXELS, not
+ * of bookkeeping, and `PEOPLE_VISUAL4_UNDRESSABLE_BODIES` names them with what
+ * each one is missing so the gap is reported rather than absorbed.
+ *
+ * Excluded bodies stay banked in the registry and in evidence, exactly as the
+ * garment rule intends. Nothing here promotes anything, and a family becomes
+ * selectable again the moment art declares it.
+ */
+const REQUIRED_GARMENT_KINDS = ["top", "bottom", "footwear"] as const;
+
+function dressableBodyFamilies(): {
+  readonly dressable: ReadonlySet<string>;
+  readonly refusals: readonly {
+    readonly family: string;
+    readonly missing: readonly string[];
+  }[];
+} {
+  const covered = new Map<string, Set<string>>();
+  for (const record of registry.assets) {
+    const component = record.candidate_component;
+    if (
+      !component ||
+      !(REQUIRED_GARMENT_KINDS as readonly string[]).includes(component.kind)
+    )
+      continue;
+    for (const family of component.compatible_body_families ?? []) {
+      if (!covered.has(family)) covered.set(family, new Set());
+      covered.get(family)!.add(component.kind);
+    }
+  }
+  const dressable = new Set<string>();
+  const refusals: { family: string; missing: string[] }[] = [];
+  for (const record of registry.assets) {
+    const component = record.candidate_component;
+    if (component?.kind !== "body") continue;
+    const have = covered.get(component.family) ?? new Set<string>();
+    const missing = REQUIRED_GARMENT_KINDS.filter((kind) => !have.has(kind));
+    if (missing.length === 0) dressable.add(component.family);
+    else refusals.push({ family: component.family, missing });
+  }
+  return { dressable, refusals };
+}
+
+const bodyCoverage = dressableBodyFamilies();
+
+/**
+ * The banked bodies no complete person can be built from, and what each lacks.
+ *
+ * Exported so the gap is a thing callers and reports can read and state
+ * exactly, rather than a silence. This is the asset request, in the bank's own
+ * terms: these families need those garment kinds drawn and fitted.
+ */
+export const PEOPLE_VISUAL4_UNDRESSABLE_BODIES = bodyCoverage.refusals;
+
 // Noncomposable candidates remain banked in the registry/evidence, not silently
 // eligible choices. An empty compatibility list is a measured refusal.
 const eligible = PEOPLE_VISUAL4_RECORDS.filter(
   (r) =>
-    r.candidate_component?.kind === "body" ||
-    (r.candidate_component?.compatible_body_families?.length ?? 0) > 0 ||
+    (r.candidate_component?.kind === "body" &&
+      bodyCoverage.dressable.has(r.candidate_component.family)) ||
+    (r.candidate_component?.kind !== "body" &&
+      (r.candidate_component?.compatible_body_families?.length ?? 0) > 0) ||
     ((r.candidate_component?.kind === "hair-front" ||
       r.candidate_component?.kind === "hair-back") &&
       (r.candidate_component?.compatible_head_families?.some((family) =>

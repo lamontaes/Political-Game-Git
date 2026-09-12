@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 2334 |
 | INTENTIONALLY_NON_PLAYER_FACING | 5652 |
-| DIAGNOSTIC_OR_TEST | 4685 |
-| **NEEDS_CLASSIFICATION** | **6110** |
+| DIAGNOSTIC_OR_TEST | 4728 |
+| **NEEDS_CLASSIFICATION** | **6151** |
 
-Scanned 552 files holding 70815 string
+Scanned 564 files holding 71379 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -38,7 +38,7 @@ literals in total; the table counts only those that read like a sentence.
 | 214 | `src/simulation/executive-authority-rule-packs.ts` |
 | 199 | `src/simulation/legislation-service-families.ts` |
 | 126 | `src/simulation/legislation.ts` |
-| 103 | `src/player/PlayerGame.tsx` |
+| 110 | `src/player/PlayerGame.tsx` |
 | 97 | `src/simulation/opening-life-content.ts` |
 | 87 | `src/simulation/policy.ts` |
 | 76 | `src/presentation/legislative-bargaining.ts` |
@@ -101,6 +101,7 @@ literals in total; the table counts only those that read like a sentence.
 | 24 | `src/ui/ContentBrowserView.tsx` |
 | 23 | `src/presentation/title-tableau.ts` |
 | 23 | `src/simulation/life-content-92c.ts` |
+| 22 | `src/player/SceneConversation.tsx` |
 | 21 | `src/simulation/legislation-content-contracts.ts` |
 | 20 | `src/presentation/economic-context-browser.ts` |
 | 20 | `src/presentation/legislative-bargaining-actions.ts` |
@@ -151,6 +152,7 @@ literals in total; the table counts only those that read like a sentence.
 | 13 | `src/simulation/resource-integrity.ts` |
 | 12 | `src/content/adapters/ordinary-life.ts` |
 | 12 | `src/player/PermanentShell.tsx` |
+| 12 | `src/player/opening-life/LifeScenePanel.tsx` |
 | 12 | `src/simulation/history.ts` |
 | 12 | `src/simulation/quantity.ts` |
 | 12 | `src/simulation/vitality.ts` |
@@ -172,7 +174,7 @@ literals in total; the table counts only those that read like a sentence.
 | 10 | `src/ui/CausalTraceView.tsx` |
 | 10 | `src/ui/PeopleVisual4Review.tsx` |
 | 9 | `src/player/PlacesWorkspace.tsx` |
-| 9 | `src/player/opening-life/LifeScenePanel.tsx` |
+| 9 | `src/player/ShellNav.tsx` |
 | 9 | `src/presentation/surface-binding.ts` |
 | 9 | `src/simulation/campaign-compliance.ts` |
 | 9 | `src/simulation/life-circumstances.ts` |
@@ -195,7 +197,6 @@ literals in total; the table counts only those that read like a sentence.
 | 8 | `src/ui/PoseContactProof.tsx` |
 | 7 | `src/player/QuickDossier.tsx` |
 | 7 | `src/player/ShellDossier.tsx` |
-| 7 | `src/player/ShellNav.tsx` |
 | 7 | `src/presentation/candidate-review.ts` |
 | 7 | `src/presentation/life-scene-people.ts` |
 | 7 | `src/presentation/life-talk-conversation.ts` |
@@ -210,6 +211,7 @@ literals in total; the table counts only those that read like a sentence.
 | 6 | `src/player/VenueActivityPanel.tsx` |
 | 6 | `src/player/opening-life/OpeningLifePanel.tsx` |
 | 6 | `src/presentation/component-masters.ts` |
+| 6 | `src/presentation/day-overview.ts` |
 | 6 | `src/presentation/formative-context.ts` |
 | 6 | `src/presentation/formative-play.ts` |
 | 6 | `src/presentation/legislative-bargaining-fixture.ts` |
@@ -270,6 +272,7 @@ literals in total; the table counts only those that read like a sentence.
 | 2 | `src/player/IncidentResponsePanel.tsx` |
 | 2 | `src/presentation/character-proof.ts` |
 | 2 | `src/presentation/legislation-docket-selection.ts` |
+| 2 | `src/presentation/people-directory.ts` |
 | 2 | `src/presentation/scene-proof.ts` |
 | 2 | `src/presentation/surface-review.ts` |
 | 2 | `src/presentation/title-ambient.ts` |
@@ -282,18 +285,17 @@ literals in total; the table counts only those that read like a sentence.
 | 1 | `src/player/LifeStartTransition.tsx` |
 | 1 | `src/player/MunicipalWorkspace.tsx` |
 | 1 | `src/player/PersonPortrait.tsx` |
-| 1 | `src/player/PlayerConversation.tsx` |
 | 1 | `src/player/PrivateJournalEditor.tsx` |
 | 1 | `src/player/SceneSurfaceLayer.tsx` |
-| 1 | `src/player/opening-life/OpeningLifeFlow.tsx` |
 | 1 | `src/presentation/SocialInvitationPanel.tsx` |
 | 1 | `src/presentation/adult-life.ts` |
 | 1 | `src/presentation/campaign-projection.ts` |
 | 1 | `src/presentation/legislation-projection.ts` |
 | 1 | `src/presentation/legislative-session-window.ts` |
 | 1 | `src/presentation/opening-life.ts` |
-| 1 | `src/presentation/people-directory.ts` |
 | 1 | `src/presentation/person-conversation-entry.ts` |
+| 1 | `src/presentation/place-start-summary.ts` |
+| 1 | `src/presentation/scene-conversation.ts` |
 | 1 | `src/simulation/commitment-seam.ts` |
 | 1 | `src/simulation/national-counties.generated.ts` |
 | 1 | `src/simulation/public-information-integrity.ts` |

@@ -1,7 +1,9 @@
 import {
   activeOrganizationParticipationsAt,
   activeWorkRelationshipsAt,
+  campaigns,
   deriveRelationshipSummary,
+  electionContestById,
   describePersonContext,
   kinshipRelationshipsAt,
   organizationProfileAt,
@@ -136,6 +138,31 @@ export function projectPeopleDirectory(
       const name = organizationProfileAt(world, organizationId)?.name;
       if (name && !contexts.has(otherId as EntityId)) {
         contexts.set(otherId as EntityId, name);
+      }
+    }
+  }
+
+  /*
+   * Anybody who stood in the same election as this life. The contest record
+   * names its candidates, and the campaign surface already tells the player
+   * who they are running against; standing against somebody is a political
+   * fact about both of you, whether or not you ever spoke. Before this, an
+   * opponent the player had just met on the ballot was nowhere in People —
+   * the automatic rail that used to show them was removed (UI9-03), and the
+   * directory had no record-backed way to hold them.
+   */
+  for (const campaign of campaigns(world)) {
+    if (campaign.candidatePersonId !== playerId) continue;
+    const contest = electionContestById(world, campaign.contestId);
+    if (!contest) continue;
+    for (const candidateId of contest.candidatePersonIds) {
+      if (candidateId === playerId || !world.people[candidateId]) continue;
+      addCategory(categories, candidateId, "politics");
+      if (!contexts.has(candidateId)) {
+        contexts.set(
+          candidateId,
+          `Ran against you for ${contest.office.title}`,
+        );
       }
     }
   }

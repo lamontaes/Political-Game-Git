@@ -221,11 +221,19 @@ test.describe("people, and who was chosen", () => {
       const talk = page.getByTestId("dossier-talk");
       if (await talk.isEnabled()) {
         await talk.click();
-        const conversation = page.getByTestId("dossier-conversation");
+        /*
+         * PT3: the conversation happens in the one box in the room, whichever
+         * control started it, so the record closes and the room comes forward
+         * with that person as the one being spoken to.
+         */
+        await expect(page.getByTestId("person-workspace")).toHaveCount(0);
+        const conversation = page.getByRole("region", {
+          name: /^Conversation with /,
+        });
         await expect(conversation).toBeVisible();
         /* A real conversation surface, not a fake exchange. */
         await expect(
-          conversation.locator('[data-testid^="conversation-"]').first(),
+          conversation.getByTestId("conversation-intents"),
         ).toBeVisible();
         opened = true;
         break;
@@ -538,9 +546,9 @@ test.describe("the deliberate workspaces", () => {
       expect(line).toMatch(/Version .+ · .+/);
     }
 
-    /* And the running version is on the title screen, where it was looked for. */
+    /* And the running version is on the title screen's fixed corner stamp. */
     await page.goto("/");
-    await expect(page.getByTestId("title-version")).toContainText(
+    await expect(page.getByTestId("shell-version")).toContainText(
       corner!.replace(/^v/, ""),
     );
   });
