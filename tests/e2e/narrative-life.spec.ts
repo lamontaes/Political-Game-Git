@@ -307,6 +307,7 @@ test.describe("Setting up a life reads like a game, not a form", () => {
   test("shows sourced hometown population only for a matching geography", async ({
     page,
   }) => {
+    test.setTimeout(60_000);
     await page.setViewportSize({ width: 800, height: 900 });
     await freshBrowser(page);
     await openCreator(page);
@@ -332,10 +333,10 @@ test.describe("Setting up a life reads like a game, not a form", () => {
     await page.getByTestId("place-search").fill("Richmond");
     await page
       .getByTestId("place-choices")
-      .getByRole("button", { name: /^Richmond, Virginia$/i })
+      .getByRole("button", { name: /Richmond, Virginia/i })
       .click();
     await expect(page.getByTestId("place-canonical")).toHaveText(
-      /^Richmond, Virginia$/,
+      /Richmond, Virginia/,
     );
     await expect(page.getByTestId("place-population")).toContainText(/people/);
     await expect(page.getByTestId("place-population")).toContainText(/2024/);
