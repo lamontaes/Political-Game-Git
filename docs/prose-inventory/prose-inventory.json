@@ -1,5 +1,5 @@
 {
-  "digest": "5571fad38aa29f61",
+  "digest": "9c9fd97934398cd7",
   "counts": {
     "total": 2502,
     "byDomain": {
@@ -86,7 +86,7 @@
       "surface": "status",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "sourceSymbol": "detail",
-      "text": "An afternoon on the phones",
+      "text": "A fundraising session",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -111,7 +111,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "57b3a6158563",
+      "textRevision": "0d66b6f67c03",
       "contextRevision": "15862db75231"
     },
     {
@@ -160,7 +160,7 @@
       "surface": "status",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "sourceSymbol": "detail",
-      "text": "Knocking, and talking to whoever opens. Slow, and the only thing that changes minds.",
+      "text": "Knocking, listening, and talking to whoever opens. One way to learn what people are hearing.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -185,7 +185,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "1d852fe88f94",
+      "textRevision": "61217947bdfe",
       "contextRevision": "15862db75231"
     },
     {

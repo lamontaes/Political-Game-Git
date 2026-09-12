@@ -27,6 +27,7 @@ import {
 } from "../simulation";
 import type {
   CampaignActionKind,
+  CampaignActionStrategyRecord,
   CampaignRecord,
   CampaignStatus,
   CandidateTally,
@@ -215,6 +216,7 @@ function planFor(
   kind: CampaignActionKind,
   jurisdictionId: EntityId,
   slot: { readonly startMinute: number; readonly endMinute: number },
+  geographyLabel?: string,
 ) {
   const date = world.currentDate;
   const local = (minuteOfDay: number) =>
@@ -229,7 +231,7 @@ function planFor(
       ? {
           locationKey: "campaign-call-desk",
           label: "The campaign's call desk",
-          title: "An afternoon on the phones",
+          title: "A fundraising session",
           summary:
             "Asking people who might give for something the campaign cannot do without.",
         }
@@ -239,7 +241,7 @@ function planFor(
             label: "Somebody's street",
             title: "An afternoon on the doors",
             summary:
-              "Knocking, and talking to whoever opens. Slow, and the only thing that changes minds.",
+              "Knocking, listening, and talking to whoever opens. One way to learn what people are hearing.",
           }
         : {
             locationKey: "campaign-office",
@@ -253,7 +255,9 @@ function planFor(
     end: local(slot.endMinute),
     location: {
       locationKey: detail.locationKey,
-      label: detail.label,
+      label: geographyLabel
+        ? `${detail.label} — ${geographyLabel}`
+        : detail.label,
       jurisdictionId,
     },
     title: detail.title,
@@ -598,6 +602,65 @@ export function spendAnAfternoon(
   // Booking and doing are one step for the player, so a session that turns out
   // not to be doable must not leave a dead entry behind on the calendar. The
   // booking is discarded and the original world handed back untouched.
+  if (performed === scheduled.world) return world;
+  return performed;
+}
+
+export interface PlannedCampaignActionInput {
+  readonly kind: CampaignActionKind;
+  readonly spend: MoneyAmount | null;
+  readonly strategy: CampaignActionStrategyRecord;
+}
+
+/**
+ * Commits one explicit strategy choice through the campaign's existing action
+ * writer. The caller supplies the already-projected structured choice rather
+ * than free text, and this boundary rechecks the committee's current funds.
+ */
+export function spendPlannedCampaignAction(
+  world: World,
+  personId: EntityId,
+  input: PlannedCampaignActionInput,
+): World {
+  const campaign = activeCampaignForCandidate(world, personId);
+  if (!campaign) throw new Error("There is no active campaign to plan for.");
+  const treasury = campaignTreasuryPosition(world, campaign)?.liquidBalance ?? {
+    minorUnits: 0,
+    currency: campaign.treasuryCurrency,
+  };
+  if (
+    input.kind === "advertising" &&
+    (!input.spend ||
+      input.spend.currency !== treasury.currency ||
+      input.spend.minorUnits > treasury.minorUnits)
+  ) {
+    throw new Error(
+      "The committee no longer has enough money for that buy. Review the plan again.",
+    );
+  }
+  if (input.kind !== "advertising" && input.spend !== null) {
+    throw new Error("This campaign action does not spend committee money.");
+  }
+  const slot = freeSlotToday(world, personId, input.kind);
+  if (!slot) {
+    throw new Error(
+      "The rest of today is already spoken for. Get on with the day and pick this up tomorrow.",
+    );
+  }
+  const scheduled = scheduleCampaignAction(world, {
+    campaignId: campaign.id,
+    kind: input.kind,
+    plan: planFor(
+      world,
+      input.kind,
+      campaign.jurisdictionId,
+      slot,
+      input.strategy.geographyLabel,
+    ),
+    spend: input.spend,
+    strategy: input.strategy,
+  });
+  const performed = performCampaignAction(scheduled.world, scheduled.action.id);
   if (performed === scheduled.world) return world;
   return performed;
 }

@@ -236,6 +236,45 @@ test.describe("A life can stand for something", () => {
     expect(errors).toEqual([]);
   });
 
+  test("sets an explicit campaign priority and geography with ordinary controls", async ({
+    page,
+  }) => {
+    const errors = watchForErrors(page);
+    await freshBrowser(page);
+    await beginAdultLifeIn(page, "Kentucky");
+
+    await page.getByTestId("file-candidacy").click();
+    const strategy = page.getByTestId("campaign-strategy");
+    await expect(strategy).toBeVisible();
+    await expect(
+      strategy.getByRole("group", { name: "Priority" }),
+    ).toBeVisible();
+    await expect(
+      strategy.getByRole("group", { name: "Represented geography" }),
+    ).toBeVisible();
+    await expect(
+      strategy.getByRole("group", { name: "Committee spending ceiling" }),
+    ).toContainText("No committee spending");
+
+    // The alternative priority is selected with the keyboard, then the plan
+    // is committed with a pointer. Both are the controls a player actually sees.
+    const outreach = strategy.getByRole("radio", {
+      name: /Spend the afternoon on the doors/i,
+    });
+    await outreach.focus();
+    await page.keyboard.press("Space");
+    await expect(outreach).toBeChecked();
+    await strategy.getByTestId("campaign-strategy-commit").click();
+
+    const report = page.getByTestId("campaign-strategy-report");
+    await expect(report).toBeVisible();
+    await expect(report).toContainText(/player chose/i);
+    await expect(report).toContainText(/with a ceiling of USD 0\.00/i);
+    await expect(report).toContainText(/Kentucky/i);
+    await expect(page.getByTestId("campaign-memo")).toBeVisible();
+    expect(errors).toEqual([]);
+  });
+
   test("reaches election day by living the weeks, and carries on afterwards", async ({
     page,
   }) => {

@@ -358,6 +358,46 @@ function assertCampaignActions(
         `Campaign action commits money it does not spend: ${action.id}`,
       );
     }
+    if (action.strategy) {
+      const strategy = action.strategy;
+      const contest = world.history.electionContests?.find(
+        (candidate) => candidate.id === campaign.contestId,
+      );
+      const staffPersonIds = new Set(
+        campaign.staffWorkRelationshipIds.flatMap((workRelationshipId) => {
+          const work = world.history.workRelationships.find(
+            (candidate) => candidate.id === workRelationshipId,
+          );
+          return work ? [work.personId] : [];
+        }),
+      );
+      const districtBinding = contest?.office.districtBinding ?? null;
+      const expectedGeographyKey =
+        strategy.geographyKind === "district" && districtBinding
+          ? `district:${districtBinding.vintage}:${districtBinding.chamber}:${districtBinding.geoid}`
+          : `jurisdiction:${campaign.jurisdictionId}`;
+      if (
+        strategy.geographyKey !== expectedGeographyKey ||
+        strategy.geographyLabel.trim().length === 0 ||
+        (strategy.geographyKind !== "jurisdiction" &&
+          strategy.geographyKind !== "district") ||
+        (strategy.proposerPersonId !== null &&
+          !staffPersonIds.has(strategy.proposerPersonId)) ||
+        !(CAMPAIGN_ACTION_KINDS as readonly string[]).includes(
+          strategy.proposedActionKind,
+        ) ||
+        !Number.isSafeInteger(strategy.approvedSpendCeiling.minorUnits) ||
+        strategy.approvedSpendCeiling.minorUnits < 0 ||
+        strategy.approvedSpendCeiling.currency !== campaign.treasuryCurrency ||
+        (action.kind === "advertising" &&
+          strategy.approvedSpendCeiling.minorUnits !==
+            (action.plannedSpend?.minorUnits ?? 0)) ||
+        (action.kind !== "advertising" &&
+          strategy.approvedSpendCeiling.minorUnits !== 0)
+      ) {
+        throw new Error(`Campaign action strategy is invalid: ${action.id}`);
+      }
+    }
     usedActivities.add(action.scheduledActivityId);
     actionById.set(action.id, action);
   }

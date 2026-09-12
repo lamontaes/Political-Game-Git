@@ -83,6 +83,30 @@ candidate being in the room. The size of an effect comes from how many people
 worked, for how long, and how much was actually spent, with seeded variation on
 top. None of it is a flat bonus per click.
 
+### The first staff-strategy interaction
+
+`src/presentation/campaign-strategy.ts` projects one feature-local planning
+subject over those existing records. It attributes a proposal only to a person
+whose campaign work relationship is currently active; otherwise it says that
+the candidate is planning without staff. The proposal exposes the committee's
+recorded balance, remaining days and whether a field memo exists, while keeping
+canonical support unavailable.
+
+The player chooses an exact existing action, represented contest geography and
+an explicit committee spending ceiling. A paid buy spends the chosen amount,
+not a hidden fraction of the treasury. The action record may carry its optional
+strategy context, so older actions and saves remain valid while new reports can
+explain who proposed the priority, what the player chose, where it applied and
+what actually happened. Commitment reprojects the live staff and choice set;
+execution rechecks the committee balance. A departed staff member or stale
+spending choice therefore refuses without writing a partial action.
+
+The player component renders the adapter with native radio controls and an
+explicit commit button. It does not add a second conversation component, clock,
+campaign action, geography engine or treasury. Existing direct campaign actions
+remain available for compatibility while the structured sequence is adopted by
+the shared dialogue presentation.
+
 ### Support truth, and what the campaign is told about it
 
 This is the distinction the whole system is built around.
@@ -132,8 +156,9 @@ one wins having done nothing and six win after three afternoons on the doors.
 - An electorate. Support is a bounded share rather than a modelled population,
   and the supporter pool and the advertising vendor are aggregate counterparties
   rather than a donor database or a media market.
-- Endorsements, staff recruitment, forums, speeches, and media as systems. A
-  campaign currently runs on the candidate alone.
+- Endorsements, staff recruitment, forums, speeches, and media as systems. The
+  strategy interaction can consume staff already recorded on a campaign, but
+  it neither recruits nor simulates a staff organization.
 - Contests for any office outside the accepted legislative rule-pack registry. Candidacy
   coverage and playable legislative-work coverage are separate boundaries.
 - Any NPC standing for office on their own initiative. An opponent is
