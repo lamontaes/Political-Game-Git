@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { createNewGameWorld } from "./new-game";
 import { projectPeopleDirectory } from "./people-directory";
 import { projectPersonalRecord } from "./personal-record";
+import { activeWorkRelationshipsAt } from "../simulation";
 import {
   layoutRelationshipWeb,
   neighborhoodIds,
@@ -10,7 +11,7 @@ import {
   otherPersonId,
   projectRelationshipWeb,
 } from "./relationship-web";
-import type { EntityId, World } from "../simulation";
+import type { EntityId, PublicPositionRecord, World } from "../simulation";
 
 function newLife(seed: string, household: "shares-a-home" | "lives-alone") {
   const game = createNewGameWorld({
@@ -19,6 +20,21 @@ function newLife(seed: string, household: "shares-a-home" | "lives-alone") {
     depth: "summarize-earlier-life",
     startingLife: "ordinary-life",
     household,
+    seed,
+    givenName: null,
+    familyName: null,
+  });
+  return { world: game.world, personId: game.playerPersonId };
+}
+
+function officeLife(seed: string) {
+  const game = createNewGameWorld({
+    startKind: "custom",
+    placeKey: "kentucky",
+    startAge: 34,
+    depth: "summarize-earlier-life",
+    startingLife: "legislative-office",
+    household: "shares-a-home",
     seed,
     givenName: null,
     familyName: null,
@@ -149,5 +165,47 @@ describe("the relationship web", () => {
       expect([edge.fromId, edge.toId]).toContain(personId);
       expect(otherPersonId(edge, personId)).not.toBe(personId);
     }
+  });
+
+  it("does not turn a public policy position into a job title", () => {
+    const { world, personId } = newLife("web-policy-role", "lives-alone");
+    const position: PublicPositionRecord = {
+      id: "web-policy-role-position" as EntityId,
+      stableKey: "web-policy-role-position",
+      sequence: world.history.nextSequence,
+      personId,
+      propositionId: "web-policy-proposition" as EntityId,
+      statedAt: world.currentDate,
+      stance: "support",
+      statement: "Supports a public policy proposal.",
+      audience: "public",
+      venue: null,
+      sourceEventId: null,
+      supersedesPublicPositionId: null,
+    };
+    const withPosition = {
+      ...world,
+      history: {
+        ...world.history,
+        publicPositions: [...world.history.publicPositions, position],
+      },
+    };
+
+    const player = projectRelationshipWeb(withPosition, personId).nodes.find(
+      (node) => node.personId === personId,
+    );
+    expect(player?.role).toBeNull();
+  });
+
+  it("uses a legitimate current work role when one is recorded", () => {
+    const { world, personId } = officeLife("web-current-role");
+    const currentRole = activeWorkRelationshipsAt(world, personId)[0]?.role
+      .title;
+    expect(currentRole).toBeDefined();
+
+    const player = projectRelationshipWeb(world, personId).nodes.find(
+      (node) => node.personId === personId,
+    );
+    expect(player?.role).toBe(currentRole);
   });
 });
