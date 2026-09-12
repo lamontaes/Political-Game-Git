@@ -7,7 +7,6 @@ import { resolvePersonWardrobeContext } from "../presentation/person-visual-sele
 import {
   derivePersonAppearance,
   LEGACY_APPEARANCE_RECIPE_VERSION,
-  personName,
   type World,
 } from "../simulation";
 import { createContext, useContext } from "react";
@@ -105,9 +104,6 @@ export function SavedAppearanceControls(
    * production catalog it always was, and the same honest refusal shows when
    * that catalog has nothing approved in it.
    */
-  const controlledId =
-    props.world.control.kind === "person" ? props.world.control.personId : null;
-  const ownPreference = useSavedWardrobe(controlledId ?? "");
   const preview = artPreviewLibraries(
     artPreviewMode(
       typeof window === "undefined" ? "" : window.location.search,
@@ -121,25 +117,9 @@ export function SavedAppearanceControls(
     props.world.control.personId === props.personId;
   if (!ownsAppearance)
     return (
-      <>
-        <p data-testid="appearance-read-only">
-          Appearance is read-only. You can change only your own wardrobe.
-        </p>
-        {controlledId && (
-          <details
-            data-testid="own-wardrobe-access"
-            className="pg-personal-section"
-          >
-            <summary>Your wardrobe</summary>
-            <p>{personName(props.world.people[controlledId]!)}</p>
-            <SavedAppearanceControls
-              {...props}
-              personId={controlledId}
-              preference={ownPreference}
-            />
-          </details>
-        )}
-      </>
+      <p data-testid="appearance-read-only">
+        Appearance is read-only. You can change only your own wardrobe.
+      </p>
     );
   const library = preview
     ? wearableChoicesIn(preview.characters)
