@@ -1,7 +1,7 @@
-# NEXT24 A inline workspace proof
-
-- Impact: none
-- Type: Changed
+---
+id: next24-a-inline-workspace-proof
+impact: none
+---
 
 Correct the browser proof's inline-workspace expectation. PlayerGame opens the
 existing workspace in place; PlayerOffice's separate fixture route navigates.
