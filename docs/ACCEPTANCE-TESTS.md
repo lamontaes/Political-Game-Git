@@ -1759,6 +1759,22 @@ lead time. Bowling Green assigns preparation/proposal to the City Manager with
 the sourced 30-day lead time. Preparation, proposal, amendment, adoption,
 fiscal year, deadlines, and balance constraints remain separate fields.
 
+### RECOVERY25-BUDGET — Politics exposes truthful Budget and economy graphs
+
+The normal player menu contains a Politics group with a reachable Budget &
+economy workspace. The workspace binds the saved person's exact home
+jurisdiction and current simulation date to the registered economic provider;
+an unmatched place receives no Lexington, county, metro, or state fallback.
+
+Available graphs visibly retain geography, geography level, units, period, and
+record class and provide a keyboard-accessible exact-value table. Only exact
+aggregate unsegmented World fiscal metric states may appear as simulated
+history; proposal segments, future periods, missing histories, and missing
+values are not converted into budget facts. Ordinary readers and authorized
+officeholders can inspect the same public surface, while all existing operative
+fiscal actions keep their separate authority checks. Opening, Back/navigation,
+save/reload, and disclosure interaction do not mutate World or advance time.
+
 ### MGOV-008 — Consolidation stays relational
 
 Predecessors, retained constitutional offices, service districts, nested home-

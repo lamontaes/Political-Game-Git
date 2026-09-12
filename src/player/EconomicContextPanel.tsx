@@ -11,36 +11,8 @@ import {
   type EconomicGraphPoint,
   type EconomicGraphRecordClass,
 } from "../presentation/economic-graphs";
+export { LEXINGTON_ECONOMIC_BINDING } from "../presentation/economic-context-bindings";
 import "./economic-context-panel.css";
-
-export const LEXINGTON_ECONOMIC_BINDING: BrowserEconomicGeographyBinding = {
-  bindingKey: "economic-context.lexington-ky.v2",
-  placeKey: "lexington-fayette",
-  placeLabel: "Lexington, Kentucky",
-  beaAreas: [
-    {
-      geographyLevel: "county",
-      geoFips: "21067",
-      relationship: "same-jurisdiction",
-    },
-    {
-      geographyLevel: "msa",
-      geoFips: "30460",
-      relationship: "containing-metro",
-    },
-    {
-      geographyLevel: "state",
-      geoFips: "21000",
-      relationship: "containing-state",
-    },
-  ],
-  lausAreaCodes: [
-    { areaCode: "ST2100000000000", relationship: "containing-state" },
-  ],
-  hudFipsCodes: [
-    { hudFipsCode: "2106799999", relationship: "same-jurisdiction" },
-  ],
-};
 
 const DEFAULT_PROVIDER = createEconomicContextBrowserProvider();
 
@@ -123,6 +95,25 @@ export function EconomicContextView({
     [context],
   );
   const graphs = [...collection.graphs, ...fiscalGraphs];
+  const hasBudgetHistory = fiscalGraphs.some(
+    (graph) =>
+      graph.graphKey.startsWith("budget-history:") &&
+      graph.series.some(
+        (series) =>
+          series.recordClass === "simulated-history" ||
+          series.recordClass === "outturn",
+      ),
+  );
+  const hasFiscalEstimate = fiscalGraphs.some((graph) =>
+    graph.series.some((series) => series.recordClass === "forecast"),
+  );
+  const unavailable = collection.unavailable.filter(
+    (item) =>
+      !(
+        (item.graphKind === "budget-history" && hasBudgetHistory) ||
+        (item.graphKind === "fiscal-estimate" && hasFiscalEstimate)
+      ),
+  );
   const sourceRows = uniqueSources(context);
 
   return (
@@ -167,17 +158,19 @@ export function EconomicContextView({
         <p role="status">No graphable records are available for this date.</p>
       )}
 
-      <details className="economic-unavailable">
-        <summary>Unavailable comparisons</summary>
-        <ul>
-          {collection.unavailable.map((item) => (
-            <li key={item.graphKind}>
-              <strong>{item.graphKind.replaceAll("-", " ")}</strong>:{" "}
-              {item.reason}
-            </li>
-          ))}
-        </ul>
-      </details>
+      {unavailable.length > 0 ? (
+        <details className="economic-unavailable">
+          <summary>Unavailable comparisons</summary>
+          <ul>
+            {unavailable.map((item) => (
+              <li key={item.graphKind}>
+                <strong>{item.graphKind.replaceAll("-", " ")}</strong>:{" "}
+                {item.reason}
+              </li>
+            ))}
+          </ul>
+        </details>
+      ) : null}
 
       <details className="economic-sources">
         <summary>Sources and scope</summary>
@@ -222,6 +215,12 @@ export function EconomicGraph({
       <figcaption>
         <strong>{graph.title}</strong>
         <span>{graph.description}</span>
+        <span className="economic-graph-scope">
+          {graph.geography
+            ? `${graph.geography.providerName} · ${graph.geography.level}`
+            : "Geography not supplied"}
+          {` · ${graph.unit} · ${graph.referenceLabel}`}
+        </span>
       </figcaption>
       <svg
         viewBox="0 0 640 220"

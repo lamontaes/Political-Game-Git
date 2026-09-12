@@ -126,3 +126,29 @@ supplied a typed budget-history/outturn interface, so that graph remains
 unavailable rather than being synthesized here. UI-core owns final normal-player
 registration; the exact handoff is recorded in
 `docs/agent/econ-context2-ui-core-handoff.md`.
+
+## RECOVERY25 Politics registration
+
+The normal player shell now exposes **Politics → Budget & economy** as a
+read-only workspace. Its root adapter supplies the saved person's exact home
+jurisdiction and the canonical `world.currentDate`; the feature projection
+resolves that jurisdiction back through `LifePlace` and then through the
+explicit browser binding registry. The Lexington binding remains the only
+registered crosswalk and is never used for an unmatched locality, county,
+state, or containing metro.
+
+The workspace reuses `EconomicContextPanel`, `economicObservationGraphs`, and
+`fiscalRecordGraph`. It may additionally show exact aggregate, unsegmented
+`government.revenue`, `government.outlays`, and `government.debt` metric-state
+history supplied by the World. Superseded same-period states collapse to the
+latest available state, future periods and proposal-specific segments are
+excluded, and the records remain labeled `simulated-history`. No missing value
+becomes zero; a missing fiscal catalog, history, or place binding is rendered
+as unavailable.
+
+Every graph visibly states its provider or World geography, geography level,
+unit, reference date/period, and record class, with the existing exact-value
+table as its text equivalent. Opening, reading, navigating away from, saving,
+and reopening this workspace has no World writer and cannot advance time or
+grant fiscal authority. Operative fiscal work stays on its existing
+role/jurisdiction predicates.

@@ -234,6 +234,23 @@ describe("preferences", () => {
 });
 
 describe("UI9 destinations", () => {
+  it("opens Politics as a real destination and returns through shared history", () => {
+    let state = shellReducer(INITIAL_SHELL_STATE, {
+      type: "go-to-surface",
+      surface: "politics",
+    });
+    expect(activeView(state)).toEqual({ surface: "politics" });
+    expect(canGoBack(state)).toBe(true);
+
+    state = shellReducer(state, {
+      type: "go-to-surface",
+      surface: "people",
+    });
+    expect(activeView(state)).toEqual({ surface: "people" });
+    state = shellReducer(state, { type: "back" });
+    expect(activeView(state)).toEqual({ surface: "politics" });
+  });
+
   it("keeps Who you are and Money and property apart", () => {
     // Both entries used to dispatch the identical view, so the second was a
     // second name for the first click rather than a destination.

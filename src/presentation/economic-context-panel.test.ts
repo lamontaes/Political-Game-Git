@@ -52,7 +52,9 @@ describe("EconomicContextView", () => {
     expect(html).toContain("PRELIMINARY");
     expect(html).toContain("Not established");
     expect(html).toContain("Missing — X: Data unavailable");
+    expect(html).toContain("Fayette, KY · county · Dollars");
     expect(html).toContain("No GDP effect is represented");
+    expect(html).not.toContain("fiscal-estimate");
     expect(html).toContain("SHA-256");
     expect(html).not.toContain("simulated future GDP");
   });

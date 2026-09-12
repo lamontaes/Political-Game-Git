@@ -1,0 +1,74 @@
+.budget-economy-workspace {
+  display: grid;
+  gap: 1rem;
+}
+
+.budget-economy-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid var(--run-a-line);
+  padding-bottom: 0.8rem;
+}
+
+.budget-economy-header h3,
+.budget-economy-header p,
+.budget-economy-availability h4,
+.budget-economy-availability p,
+.budget-economy-unavailable h4,
+.budget-economy-unavailable p {
+  margin: 0;
+}
+
+.budget-economy-header > p {
+  display: grid;
+  gap: 0.2rem;
+  text-align: right;
+}
+
+.budget-economy-header span,
+.budget-economy-boundary,
+.budget-economy-availability p,
+.budget-economy-unavailable p {
+  color: var(--run-a-muted);
+  line-height: 1.5;
+}
+
+.budget-economy-boundary {
+  max-width: 62rem;
+  margin: 0;
+}
+
+.budget-economy-availability,
+.budget-economy-unavailable {
+  display: grid;
+  gap: 0.35rem;
+  border-left: 0.25rem solid #64a8c9;
+  padding: 0.75rem 1rem;
+}
+
+.budget-economy-availability[data-status="unavailable"],
+.budget-economy-unavailable {
+  border-left-color: #a69a84;
+}
+
+.budget-economy-workspace > .economic-context-panel {
+  width: 100%;
+  max-height: none;
+  padding: 1rem 0 0;
+  overflow: visible;
+  border-top: 1px solid var(--run-a-line);
+  border-radius: 0;
+}
+
+@media (max-width: 760px) {
+  .budget-economy-header {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .budget-economy-header > p {
+    text-align: left;
+  }
+}
