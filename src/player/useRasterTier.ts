@@ -79,7 +79,14 @@ export function useRasterTier(
   useEffect(() => {
     if (committedWidth <= 0) return;
     const url = requestedUrl;
-    if (!url || (paint?.url === url && paint.width === committedWidth)) return;
+    if (!url) {
+      // Nothing this scene can paint at this width (no raster ladder, or no
+      // released tier for it) - a previous scene's decoded plate must not
+      // keep showing through a switch to one with none.
+      setPaint((current) => (current === null ? current : null));
+      return;
+    }
+    if (paint?.url === url && paint.width === committedWidth) return;
     let cancelled = false;
     const image = new Image();
     const settle = () => {
