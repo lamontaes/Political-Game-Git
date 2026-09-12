@@ -48,5 +48,6 @@ src/simulation/municipal-governments.generated.ts
 src/simulation/municipal-capacity.generated.json
 src/simulation/municipal-rule-registry.generated.ts
 
-# Content-addressed education catalogs: regenerate with scripts/source/export-education.ts.
-public/education/catalog-*.json
+# Double-clickable macOS launchers. These are shell scripts, and Prettier has
+# no shell parser, so it reports them as an error rather than skipping them.
+*.command
