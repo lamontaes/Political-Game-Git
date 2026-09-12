@@ -2261,6 +2261,13 @@ function PlayingScreen({
         actionPerson.personId,
       )
     : null;
+  const inspectTalkEntry = selectedDossier
+    ? openConversationWith(
+        session.world,
+        session.personId,
+        selectedDossier.personId,
+      )
+    : null;
 
   /**
    * Starts the real conversation with exactly the person who was chosen, in
@@ -2488,15 +2495,13 @@ function PlayingScreen({
           {selectedDossier ? (
             <QuickDossier
               world={session.world}
+              playerId={session.personId}
               dossier={selectedDossier}
               pinned={isPinned(shell, {
                 kind: "person",
                 id: selectedDossier.personId,
               })}
               onClose={() => dispatch({ type: "close-quick-dossier" })}
-              onOpenFull={() =>
-                openEntity({ kind: "person", id: selectedDossier.personId })
-              }
               onTogglePin={() =>
                 dispatch({
                   type: "toggle-pin",
@@ -2504,6 +2509,15 @@ function PlayingScreen({
                 })
               }
               onOpenLink={openEntity}
+              onOpenPerson={(personId) =>
+                dispatch({ type: "open-quick-dossier", personId })
+              }
+              onTalk={() => talkTo(selectedDossier.personId)}
+              talkUnavailable={
+                inspectTalkEntry?.kind === "unavailable"
+                  ? inspectTalkEntry.reason
+                  : null
+              }
             />
           ) : null}
 
@@ -2754,6 +2768,7 @@ function renderWorkspace({
           />
           <FullDossier
             world={session.world}
+            playerId={session.personId}
             dossier={dossier}
             pinned={pinnedRef({ kind: "person", id: dossier.personId })}
             onTogglePin={() =>
@@ -2762,6 +2777,9 @@ function renderWorkspace({
             onTalk={() => talkTo(dossier.personId)}
             talkUnavailable={entry.kind === "unavailable" ? entry.reason : null}
             onOpenLink={openEntity}
+            onOpenPerson={(personId) =>
+              openEntity({ kind: "person", id: personId })
+            }
           />
         </>,
         "Record",
@@ -2840,7 +2858,8 @@ function renderWorkspace({
             personId={session.personId}
             state={shell}
             dispatch={dispatch}
-            onOpenPerson={openPerson}
+            onTalk={talkTo}
+            onOpenRef={openEntity}
           />
           {/*
             What this life can actually talk about, in the room it is in — as

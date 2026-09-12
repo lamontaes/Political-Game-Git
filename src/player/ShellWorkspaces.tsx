@@ -9,7 +9,7 @@ import type {
   PrivateJournal,
   ShellSection,
 } from "../presentation/shell-navigation";
-import { useEffect, useMemo, useRef, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
 import {
   CATEGORY_LABELS,
@@ -40,6 +40,10 @@ import type {
   ShellState,
 } from "../presentation/shell-navigation";
 import { isPinned } from "../presentation/shell-navigation";
+import { projectPersonDossier } from "../presentation/person-dossier";
+import { openConversationWith } from "../presentation/person-conversation-entry";
+import { PersonCard } from "./PersonCard";
+import { PeopleRelationshipWeb } from "./PeopleRelationshipWeb";
 import {
   measureById,
   workPendingEntriesFor,
@@ -121,13 +125,15 @@ export function PeopleWorkspace({
   personId,
   state,
   dispatch,
-  onOpenPerson,
+  onTalk,
+  onOpenRef,
 }: {
   readonly world: World;
   readonly personId: EntityId;
   readonly state: ShellState;
   readonly dispatch: (action: ShellAction) => void;
-  readonly onOpenPerson: (id: EntityId) => void;
+  readonly onTalk: (id: EntityId) => void;
+  readonly onOpenRef: (ref: ShellRef) => void;
 }) {
   const directory = useMemo(
     () => projectPeopleDirectory(world, personId),
@@ -138,6 +144,22 @@ export function PeopleWorkspace({
     () => filterDirectory(directory, category, state.peopleQuery),
     [directory, category, state.peopleQuery],
   );
+  const [selectedId, setSelectedId] = useState<EntityId | null>(null);
+  const [webExpanded, setWebExpanded] = useState(false);
+  const peopleView = state.preferences.peopleView;
+  const showWeb = peopleView === "web";
+  const focusId = selectedId ?? personId;
+  const selectedDossier =
+    selectedId === null
+      ? null
+      : projectPersonDossier(world, personId, selectedId);
+  const talkEntry = selectedDossier
+    ? openConversationWith(world, personId, selectedDossier.personId)
+    : null;
+
+  function selectPerson(id: EntityId) {
+    setSelectedId(id);
+  }
 
   return (
     <>
@@ -153,6 +175,30 @@ export function PeopleWorkspace({
             }
           />
         </label>
+        <div
+          className="pg-people-web-toolbar"
+          role="group"
+          aria-label="People view"
+        >
+          {(
+            [
+              ["web", "Web"],
+              ["list", "List"],
+              ["categories", "Categories"],
+            ] as const
+          ).map(([view, label]: readonly [PeopleView, string]) => (
+            <button
+              key={view}
+              type="button"
+              className="ui-action ui-action--rail"
+              aria-pressed={peopleView === view}
+              data-testid={`people-view-${view}`}
+              onClick={() => dispatch({ type: "set-people-view", view })}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
         <div
           className="pg-people-categories"
           role="group"
@@ -176,6 +222,30 @@ export function PeopleWorkspace({
         </div>
       </div>
 
+      {showWeb ? (
+        <>
+          <PeopleRelationshipWeb
+            world={world}
+            playerId={personId}
+            focusId={focusId}
+            category={category}
+            query={state.peopleQuery}
+            expanded={webExpanded}
+            onSelect={selectPerson}
+          />
+          <button
+            type="button"
+            className="ui-action ui-action--subtle"
+            data-testid="people-web-expand"
+            onClick={() => setWebExpanded((value) => !value)}
+          >
+            {webExpanded
+              ? "Show the nearby connections"
+              : "Show everyone you know"}
+          </button>
+        </>
+      ) : null}
+
       {shown.length === 0 ? (
         <p className="game-note" data-testid="people-empty">
           Nobody here matches that. This life may simply not have met them yet.
@@ -183,7 +253,7 @@ export function PeopleWorkspace({
       ) : (
         <ul
           className="pg-people-list"
-          data-view={state.preferences.peopleView}
+          data-view={peopleView}
           data-testid="people-list"
         >
           {shown.map((person) => {
@@ -195,30 +265,15 @@ export function PeopleWorkspace({
                   type="button"
                   className="pg-person-row"
                   data-testid={`people-person-${person.personId}`}
-                  onClick={() => onOpenPerson(person.personId)}
+                  onClick={() => selectPerson(person.personId)}
                 >
                   <strong>{person.name}</strong>
-                  {/*
-                    What a row carries is the relation the record establishes and
-                    where you know them from. There is deliberately no number: a
-                    score standing for how much somebody likes you is not a fact
-                    this world holds.
-                  */}
                   {person.relationship ? (
                     <small>{person.relationship}</small>
                   ) : person.context ? (
                     <small>{person.context}</small>
                   ) : null}
                 </button>
-                {/*
-                  Pinning lives here now.
-
-                  The old people rail listed the whole standing cast and carried
-                  a pin control on every entry, so removing it would have taken
-                  with it the only way to pin somebody who is not in the room.
-                  This is where contact browsing belongs, so this is where the
-                  deliberate act of keeping somebody to hand belongs too.
-                */}
                 <button
                   type="button"
                   className="ui-action ui-action--rail"
@@ -236,6 +291,35 @@ export function PeopleWorkspace({
           })}
         </ul>
       )}
+
+      {selectedDossier ? (
+        <PersonCard
+          world={world}
+          playerId={personId}
+          dossier={selectedDossier}
+          pinned={isPinned(state, {
+            kind: "person",
+            id: selectedDossier.personId,
+          })}
+          expanded
+          mode="inline"
+          onTogglePin={() =>
+            dispatch({
+              type: "toggle-pin",
+              ref: { kind: "person", id: selectedDossier.personId },
+            })
+          }
+          onOpenPerson={selectPerson}
+          onTalk={() => onTalk(selectedDossier.personId)}
+          talkUnavailable={
+            talkEntry?.kind === "unavailable" ? talkEntry.reason : null
+          }
+          onOpenLink={(ref) => {
+            if (ref.kind === "person") selectPerson(ref.id);
+            else onOpenRef(ref);
+          }}
+        />
+      ) : null}
     </>
   );
 }
@@ -871,6 +955,7 @@ export function OptionsWorkspace({
         <div role="group" aria-label="People default view">
           {(
             [
+              ["web", "Relationship web"],
               ["categories", "By category"],
               ["list", "One list"],
             ] as const
