@@ -143,6 +143,26 @@ describe("SKILL-OPS1 repository skill discovery contracts", () => {
   }
 });
 
+describe("EFFICIENCY18 cursor routing and cadence", () => {
+  it("ships a native Cursor rule that links cadence without duplicating AGENTS.md", () => {
+    const rule = readFileSync(
+      join(REPO_ROOT, ".cursor", "rules", "agent-routing.mdc"),
+      "utf8",
+    );
+    expect(rule).toContain("npm run agent:test-cadence");
+    expect(rule).toContain("AGENTS.md");
+    expect(rule).not.toContain("docs/GAME-CONSTITUTION.md");
+  });
+
+  it("routes changed skill-ops files to the instruction contract suite", async () => {
+    const { planCadence } = await import("../agent-test-cadence.mjs");
+    const stages = planCadence(["scripts/skill-ops/skill-ops.test.ts"]);
+    expect(
+      stages.some((stage) => stage.command === "npm run test:skill-ops"),
+    ).toBe(true);
+  });
+});
+
 describe("SKILL-OPS1 project delegation profile", () => {
   const configPath = join(REPO_ROOT, ".codex", "config.toml");
   const config = readFileSync(configPath, "utf8");
@@ -196,6 +216,12 @@ describe("SKILL-OPS1 project delegation profile", () => {
     expect(sessionBridge).toContain("@AGENTS.md");
     expect(sessionBridge).toContain(".agents/skills/");
     expect(sessionBridge).toContain("Skip ritual duplicate checks");
+    const operations = readFileSync(
+      join(REPO_ROOT, ".agents", "rules", "political-game-operations.md"),
+      "utf8",
+    );
+    expect(operations).toContain("agent:test-cadence");
+    expect(operations).toContain("Composer 2.5 Standard");
   });
 });
 

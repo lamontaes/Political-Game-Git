@@ -1,7 +1,9 @@
 # PG Preflight Workflow
 
 1. run `npm run agent:preflight`;
-2. read `AGENTS.md`;
+2. read `AGENTS.md` once for routing; do not reread the full preserved contract
+   stack unless the task needs commands or art gates from
+   `.agents/rules/repository-reference.md`;
 3. read root `CLAUDE.md` and follow it to the canonical Drive chain; take
    continuation state from that chain and the owning `docs/plans/` file, not
    from any repository handoff file;
