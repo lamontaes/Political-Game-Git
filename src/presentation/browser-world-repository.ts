@@ -90,7 +90,7 @@ export {
  * unavailable".
  */
 
-const DEFAULT_DATABASE_NAME = "political-life-worlds";
+export const DEFAULT_DATABASE_NAME = "political-life-worlds";
 const DATABASE_VERSION = 1;
 const STORE_NAME = "worlds";
 const WRITE_FAILED = "This game could not be saved just now.";
@@ -543,6 +543,24 @@ export class BrowserSaveStore {
       if (read.record.saveId !== saveId)
         throw new Error("Save identity mismatch.");
       return deserializeWorld(read.record.payload);
+    });
+  }
+
+  /**
+   * The stored record itself, without taking the slot. Used to export the
+   * exact payload a player already has rather than a freshly serialized copy.
+   */
+  inspectRecord(saveId: EntityId): Promise<StoredBrowserWorldRecord | null> {
+    return this.#enqueue(async () => {
+      const raw = await this.#get(saveId);
+      const state = readSlotState(raw);
+      if (state.kind === "absent" || state.kind === "deleted") return null;
+      const read = readStoredRecord(raw);
+      if (read.kind !== "healthy")
+        throw new Error("This save cannot be inspected safely.");
+      if (read.record.saveId !== saveId)
+        throw new Error("Save identity mismatch.");
+      return read.record;
     });
   }
 

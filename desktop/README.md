@@ -24,10 +24,26 @@ cross-builds Intel Mac output (untested until launched on an Intel Mac).
 Rebuilding after newer accepted UI/game changes is exactly the same
 commands — the wrapper does not change.
 
-Packaging consumes `dist/client` as-is and refuses to run without it;
-staging never builds the game. Nothing outside `dist/client` is packaged:
-no `art/references`, no research archives, no repository metadata, no
-secrets.
+Packaging consumes `dist/client` only when that tree's compile-time
+provenance matches this checkout (source revision, dirty flag, and
+content hash). Stale `dist/client` cannot be relabelled with a newer
+HEAD. Pass `--rebuild` to `stage.mjs` to run `npm run build` and restage.
+`composition: accepted-main` is refused unless HEAD is `origin/main`.
+Nothing outside `dist/client` is packaged: no `art/references`, no
+research archives, no repository metadata, no secrets.
+
+## Candidate art in an installed build
+
+A normal production package sets `import.meta.env.DEV` false. Appending
+`?art-preview=candidate` to `app://game` will **not** show candidate
+people. That is a production-safety fact, not a packaging bug. The
+browser development route remains the working candidate review. An
+internal art-review package needs a PT3/PEOPLE adapter that reads
+`VITE_OCD_BUILD_PROFILE=internal-art-review` (see
+`src/presentation/build-profile.ts`) without setting `DEV=true`, using
+an isolated profile/database, and labelling the build unmistakably.
+That adapter is not in this wrapper. Do not treat blank production
+figures as the modular result.
 
 ## Identity, storage, saves
 
@@ -43,20 +59,24 @@ secrets.
   of unreadable/newer records all apply unchanged.
 - Saves survive reinstall and update because the profile lives outside
   the installation directory. Uninstall does not delete saves.
-- Browser (Safari/Chrome) saves do NOT automatically appear in the
-  desktop app — they live in the browser's own origin storage. The
-  current build has no save export/import route in the game UI, so there
-  is no validated transfer path yet; adding the thin export/import
-  wrapper over the save store's string payload is UI-owner work, and the
-  shell will not scrape or copy browser profiles as a substitute.
+- Browser (Safari/Chrome) saves do NOT appear automatically in the
+  desktop app. Transfer is a versioned `.ocd-life.json` file from Saved
+  games → Export, then Import a saved life in the other origin. Import
+  always creates a **new slot**; it never overwrites. The World (person,
+  time, money, history, appearance) transfers. Interface state (pins,
+  private journal, wardrobe preferences) transfers when that object
+  store exists (UI-bearing builds); on accepted main it is recorded as
+  unavailable rather than faked. Candidate-preview exports are refused
+  by production imports. The shell does not scrape browser profiles.
 - `OCD_USER_DATA_DIR` redirects the profile for isolated automated
   tests only; it grants nothing else.
 
 ## Version and build identity
 
-`scripts/stage.mjs` stamps `build-identity.json` from the canonical
-repository `package.json` version and the actual git revision (plus a
-dirty flag, distribution, and composition). The About dialog shows it.
+`scripts/stage.mjs` copies a provenance-checked `dist/client` and stamps
+`build-identity.json` from the canonical repository `package.json`
+version, the matching git revision, the client tree sha256, distribution,
+channel, profile, and composition. The About dialog shows it.
 The tracked `desktop/package.json` version is a fixed `0.0.0`
 placeholder that no build step ever rewrites: `scripts/package.mjs`
 injects the staged version into electron-builder through
@@ -76,8 +96,9 @@ the canonical version and exist only for throwaway artifacts.
 - "Check for Updates…" is finite and user-controlled: check → ask →
   download → ask again; nothing restarts on its own and unsaved play is
   never discarded (install-on-restart only proceeds once every window
-  agreed to close through the normal close flow; a window that stays
-  open defers the install instead of forcing it). Choosing "Later"
+  actually closed through the normal close flow after the game's
+  unsaved-work guard; a timeout is not treated as persistence, and a
+  blocked or failed flush does not force quit or claim a safe update). Choosing "Later"
   arms install-on-your-own-next-quit — exactly what the dialog says.
   Malformed metadata, an untrusted-channel candidate, a downgrade, and
   a failed or unverifiable download are refused and surfaced, never
@@ -127,6 +148,10 @@ hot reload, and no self-patcher.
   are refused but their bytes are preserved — never silently deleted —
   and the healthy life continues beside them. No second save-version
   system exists.
+- `scripts/transfer-test.mjs` launches a packaged build, keeps a life,
+  exports the portable file, imports it as a new slot, and checks that
+  both lives remain. Unit tests cover malformed/newer/candidate
+  refusals and two-life plus repeated-import slot identity.
 - `scripts/smoke-test.mjs --app <exe> [--shell]` is the bounded per-OS
   runtime proof (launch → new life → keep → relaunch → continue;
   `--shell` adds resize, fullscreen on/off, minimize/restore, clean
@@ -136,6 +161,7 @@ hot reload, and no self-patcher.
 ```bash
 node scripts/continuity-test.mjs --app-a <A executable> --app-b <B executable>
 node scripts/save-integrity-test.mjs --app <executable>
+node scripts/transfer-test.mjs --app <executable>
 node scripts/smoke-test.mjs --app <executable> --shell
 ```
 

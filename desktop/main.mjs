@@ -22,6 +22,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import electron from "electron";
 import { runUpdateCheck, updateActivation } from "./updater.mjs";
+import { windowsAllClosed } from "./window-close.mjs";
 
 const { app, BrowserWindow, Menu, dialog, protocol, session, shell } = electron;
 
@@ -227,19 +228,11 @@ let updateCheckInFlight = false;
  * persisting, and a window that stays open blocks the restart.
  */
 async function closeAllWindows() {
-  const windows = BrowserWindow.getAllWindows();
-  await Promise.all(
-    windows.map(
-      (win) =>
-        new Promise((resolve) => {
-          if (win.isDestroyed()) return resolve();
-          win.once("closed", resolve);
-          setTimeout(resolve, 3000);
-          win.close();
-        }),
-    ),
+  const windows = BrowserWindow.getAllWindows().filter(
+    (win) => !win.isDestroyed(),
   );
-  return BrowserWindow.getAllWindows().length === 0;
+  const closed = await windowsAllClosed(windows, 15000);
+  return closed && BrowserWindow.getAllWindows().length === 0;
 }
 
 async function checkForUpdates() {
@@ -299,6 +292,8 @@ function showAbout() {
       `Release version: ${identity.version}`,
       `Build revision: ${identity.revision}${dirtyNote}`,
       `Composition: ${identity.composition}`,
+      `Build profile: ${identity.profile ?? "production"}`,
+      `Client tree: ${identity.clientTreeSha256 ?? "unknown"}`,
       `Distribution: ${identity.distribution} / channel ${identity.channel}`,
       `Staged: ${identity.stagedAt}`,
     ].join("\n"),
@@ -412,6 +407,10 @@ if (!app.requestSingleInstanceLock()) {
     ses.setPermissionCheckHandler(() => false);
 
     app.on("web-contents-created", (_event, contents) => {
+      contents.on("will-prevent-unload", () => {
+        // Honour the page's unsaved-work guard. Forcing the unload would
+        // skip persistence and then claim a safe close or update.
+      });
       contents.on("will-navigate", (event, url) => {
         if (!url.startsWith(`${APP_ORIGIN}/`)) event.preventDefault();
       });

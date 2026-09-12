@@ -93,6 +93,7 @@ jobs:
           $exe = Join-Path $dest "Our Civic Duty.exe"
           if (-not (Test-Path $exe)) { throw "Installed executable missing at $exe" }
           node scripts/smoke-test.mjs --app $exe --shell
+          node scripts/transfer-test.mjs --app $exe
 
       - name: Runtime smoke — launch the packaged app (macOS)
         if: runner.os == 'macOS'
@@ -101,6 +102,7 @@ jobs:
         # bundle); resize/fullscreen/minimize/quit included via --shell.
         run: |
           node scripts/smoke-test.mjs --app "release-artifacts/mac-arm64/Our Civic Duty.app/Contents/MacOS/Our Civic Duty" --shell
+          node scripts/transfer-test.mjs --app "release-artifacts/mac-arm64/Our Civic Duty.app/Contents/MacOS/Our Civic Duty"
 
       - name: Record checksums and source identity
         shell: bash

@@ -1,12 +1,29 @@
 # DESKTOP-CLIENT1 — installed Mac/Windows client
 
-Owner: dedicated desktop implementation session (DESKTOP-CLIENT1).
-Branch: `claude/desktop-client1-electron` from accepted main
-`efaa49a48bf65ebb929dc970bd1f057dfa5d618f`. Scope: a thin Electron shell
-under `desktop/` around the unmodified compiled game — no game logic, no
-second UI, no second save system, zero changes to the game's
-package.json/lockfile/Vite config. Merge is LAND's; independent
-acceptance is the reviewer's.
+Owner: Cursor Grok 4.6 Medium continuation on isolated branch
+`cursor/desktop-client1-continuity-3b75`. Preserves PR #156 lineage
+(`claude/desktop-client1-electron` @ `5a062f44`) rebased onto current
+`origin/main`. Does not take over UI/LAND/modular worktrees.
+
+## Continuation (2026-09-12)
+
+- Rebased the seven #156 commits onto current main without rewriting that
+  branch. PR #156 remains the preserved Electron implementation.
+- Compile-time client provenance: `npm run build` stamps
+  `dist/client/.build-provenance.json`; staging refuses a HEAD/hash
+  mismatch unless `--rebuild`. `accepted-main` cannot be the default
+  composition on an unmerged working tree.
+- Portable `.ocd-life.json` export/import on the existing Saved games
+  screen (new slot only). World transfers; interface state transfers when
+  the UI-bearing `interface` store exists, otherwise recorded unavailable.
+  Candidate-preview exports are refused in production.
+- Close/update: window close waits for an actual `closed` event. A
+  timeout is not persistence; a blocked flush does not force quit.
+- Candidate people: production packages still cannot show
+  `?art-preview=candidate`. Internal art-review needs the PT3/PEOPLE
+  adapter over `VITE_OCD_BUILD_PROFILE`; not claimed here.
+- Linux cloud packaging is not Mac/Windows launch proof. CI remains the
+  macOS/Windows runner path.
 
 ## What exists
 
@@ -46,10 +63,12 @@ acceptance is the reviewer's.
 - Signed Mac automatic update: NOT VERIFIED (no credentials; hooks
   exist). Updater logic ships disabled/unconfigured; Steam-output mode
   hard-disables it.
-- Browser (Safari/Chrome) saves do not appear in the desktop app and no
-  validated transfer route exists yet in the game UI; the minimal
-  export/import belongs to the UI owner (`desktop/README.md` records
-  the gap; the save store's string payload makes the wrapper thin).
+- Browser (Safari/Chrome) saves do not appear in the desktop app
+  automatically. Transfer is the Saved games export/import file on this
+  branch. Pins/private journal persist only when the UI-bearing interface
+  store is present; accepted main discloses that store as unavailable.
+- Candidate preview remains DEV-gated in the UI-bearing source; a
+  production installed build must not be described as showing that cast.
 
 ## Update gates (all deliberately closed)
 

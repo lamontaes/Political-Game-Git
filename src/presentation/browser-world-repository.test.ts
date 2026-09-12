@@ -18,6 +18,12 @@ import {
   validateBrowserWorldRecord,
 } from "./browser-world-repository";
 import type { UnsavedSlot } from "./browser-world-repository";
+import {
+  exportPortableSave,
+  importPortableSave,
+  parsePortableSave,
+  serializePortableSave,
+} from "./portable-save";
 import { guardUnsavedWork } from "./unsaved-work-guard";
 import type { UnloadTarget } from "./unsaved-work-guard";
 import { recordedConversationIntents } from "./conversation-continuity";
@@ -1734,5 +1740,105 @@ describe("Read-only developer snapshots", () => {
     expect(JSON.stringify([...factory.records])).toBe(before);
     await store.remove(id);
     expect(await inspector.inspectSnapshot(id)).toBeNull();
+  });
+});
+
+describe("portable save transfer", () => {
+  it("exports a life and imports it into a new slot without touching the original", async () => {
+    const { store } = storeWith();
+    const world = playerWorld("portable-export");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+    const exported = await exportPortableSave(store, saveId);
+    expect(exported.status).toBe("ok");
+    if (exported.status !== "ok") return;
+    expect(exported.bundle.world.payload).toBe(
+      (await store.inspectRecord(saveId))?.payload,
+    );
+    expect(exported.bundle.interface.status).toBe("unavailable");
+
+    const imported = await importPortableSave(store, exported.bundle);
+    expect(imported.status).toBe("imported");
+    if (imported.status !== "imported") return;
+    expect(imported.saveId).not.toBe(saveId);
+    const original = await store.inspectRecord(saveId);
+    const copy = await store.inspectSnapshot(imported.saveId);
+    expect(copy).toStrictEqual(deserializeWorld(original!.payload));
+    expect((await store.list()).saves).toHaveLength(2);
+  });
+
+  it("leaves existing saves byte-identical when the bundle is malformed", async () => {
+    const { factory, store } = storeWith();
+    const world = playerWorld("portable-refuse");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+    const before = JSON.stringify([...factory.records]);
+    const parsed = parsePortableSave("{not-json");
+    expect(parsed.status).toBe("error");
+    if (parsed.status === "error") expect(parsed.failure).toBe("malformed");
+    expect(JSON.stringify([...factory.records])).toBe(before);
+  });
+
+  it("refuses a newer format version and a candidate life in production", async () => {
+    const { store } = storeWith();
+    const world = playerWorld("portable-gates");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+    const exported = await exportPortableSave(store, saveId);
+    expect(exported.status).toBe("ok");
+    if (exported.status !== "ok") return;
+    const newer = {
+      ...exported.bundle,
+      formatVersion: 99,
+    };
+    const parsedNewer = parsePortableSave(JSON.stringify(newer));
+    expect(parsedNewer.status).toBe("error");
+    if (parsedNewer.status === "error") {
+      expect(parsedNewer.failure).toBe("unsupported-version");
+    }
+    const candidate = parsePortableSave(
+      serializePortableSave({
+        ...exported.bundle,
+        artProvenance: "candidate-review",
+      }),
+    );
+    expect(candidate.status).toBe("error");
+    if (candidate.status === "error") {
+      expect(candidate.failure).toBe("candidate-in-production");
+    }
+    expect((await store.list()).saves.map((s) => s.saveId)).toEqual([saveId]);
+  });
+
+  it("imports two distinct lives and a repeated import as another slot", async () => {
+    const { store } = storeWith();
+    const first = playerWorld("portable-one");
+    const second = playerWorld("portable-two");
+    const firstId = store.newSaveId(first);
+    const secondId = store.newSaveId(second);
+    await store.save(first, firstId);
+    await store.save(second, secondId);
+    const one = await exportPortableSave(store, firstId);
+    const two = await exportPortableSave(store, secondId);
+    expect(one.status).toBe("ok");
+    expect(two.status).toBe("ok");
+    if (one.status !== "ok" || two.status !== "ok") return;
+    const again = await importPortableSave(store, one.bundle);
+    const other = await importPortableSave(store, two.bundle);
+    const repeat = await importPortableSave(store, one.bundle);
+    expect(again.status).toBe("imported");
+    expect(other.status).toBe("imported");
+    expect(repeat.status).toBe("imported");
+    if (
+      again.status !== "imported" ||
+      other.status !== "imported" ||
+      repeat.status !== "imported"
+    )
+      return;
+    expect(
+      new Set([firstId, secondId, again.saveId, other.saveId, repeat.saveId])
+        .size,
+    ).toBe(5);
+    expect((await store.inspectSnapshot(again.saveId))?.id).toBe(first.id);
+    expect((await store.inspectSnapshot(other.saveId))?.id).toBe(second.id);
   });
 });

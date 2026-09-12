@@ -89,6 +89,10 @@ import { DocketWorkspace } from "./DocketWorkspace";
 import type { DocketBill } from "../presentation/legislation-docket";
 import { PlayerConversations } from "./PlayerConversation";
 import { PersonPortrait } from "./PersonPortrait";
+import {
+  SaveImportControl,
+  SaveTransferControls,
+} from "./SaveTransferControls";
 
 /**
  * The game.
@@ -461,6 +465,7 @@ export function PlayerGame() {
   if (screen.kind === "saves") {
     return (
       <SavesScreen
+        store={store}
         saves={saves}
         damaged={damaged}
         savesUnavailable={savesUnavailable}
@@ -468,6 +473,11 @@ export function PlayerGame() {
         onBack={() => setScreen({ kind: "title" })}
         onOpen={(saveId) => void loadSave(saveId)}
         onDelete={(saveId) => void deleteSave(saveId)}
+        onTransferSettled={(nextNotice, nextProblem) => {
+          setNotice(nextNotice);
+          setProblem(nextProblem);
+          void refreshSaves();
+        }}
       />
     );
   }
@@ -1253,6 +1263,7 @@ function QuestionnaireScreenView({
 /* -------------------------------------------------------------------------- */
 
 function SavesScreen({
+  store,
   saves,
   damaged,
   savesUnavailable,
@@ -1260,7 +1271,9 @@ function SavesScreen({
   onBack,
   onOpen,
   onDelete,
+  onTransferSettled,
 }: {
+  readonly store: BrowserSaveStore | null;
   readonly saves: readonly BrowserWorldSummary[];
   readonly damaged: readonly QuarantinedSave[];
   readonly savesUnavailable: boolean;
@@ -1268,6 +1281,10 @@ function SavesScreen({
   readonly onBack: () => void;
   readonly onOpen: (saveId: EntityId) => void;
   readonly onDelete: (saveId: EntityId) => void;
+  readonly onTransferSettled: (
+    notice: string | null,
+    problem: string | null,
+  ) => void;
 }) {
   const [confirming, setConfirming] = useState<EntityId | null>(null);
   return (
@@ -1294,6 +1311,14 @@ function SavesScreen({
               <button type="button" onClick={() => onOpen(save.saveId)}>
                 Open
               </button>
+              {store ? (
+                <SaveTransferControls
+                  store={store}
+                  saveId={save.saveId}
+                  playerName={save.playerName}
+                  onSettled={onTransferSettled}
+                />
+              ) : null}
               {confirming === save.saveId ? (
                 <>
                   <button
@@ -1379,6 +1404,10 @@ function SavesScreen({
             ))}
           </ul>
         </section>
+      ) : null}
+
+      {store ? (
+        <SaveImportControl store={store} onSettled={onTransferSettled} />
       ) : null}
 
       <button type="button" onClick={onBack}>
