@@ -155,6 +155,14 @@
       "textRevision": "b80ce067127c"
     },
     {
+      "anchor": "ART_PREVIEW_LABEL-0001",
+      "sourcePath": "src/presentation/art-preview.ts",
+      "symbol": "ART_PREVIEW_LABEL",
+      "text": "Development art preview — unreleased candidate art, not approved",
+      "occurrence": 0,
+      "textRevision": "2736f3c5c2b6"
+    },
+    {
       "anchor": "COMMIT_CONTRACTS-0001",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "COMMIT_CONTRACTS",
@@ -3187,6 +3195,38 @@
       "textRevision": "24f422ccba44"
     },
     {
+      "anchor": "exportLife-0001",
+      "sourcePath": "src/player/SaveTransferControls.tsx",
+      "symbol": "exportLife",
+      "text": "Saved life downloaded. Keep the file; the original save is still here.",
+      "occurrence": 0,
+      "textRevision": "49688ba636bc"
+    },
+    {
+      "anchor": "exportLife-0002",
+      "sourcePath": "src/player/SaveTransferControls.tsx",
+      "symbol": "exportLife",
+      "text": "That life could not be exported.",
+      "occurrence": 0,
+      "textRevision": "a62a663eb413"
+    },
+    {
+      "anchor": "exportPortableSave-0001",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "exportPortableSave",
+      "text": "That saved game could not be read.",
+      "occurrence": 0,
+      "textRevision": "b1e534618756"
+    },
+    {
+      "anchor": "exportPortableSave-0002",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "exportPortableSave",
+      "text": "That saved game is no longer here.",
+      "occurrence": 0,
+      "textRevision": "f8d2dd95956e"
+    },
+    {
       "anchor": "fileForOffice-0001",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "fileForOffice",
@@ -3281,6 +3321,62 @@
       "text": "work session",
       "occurrence": 0,
       "textRevision": "492fa26db16a"
+    },
+    {
+      "anchor": "importPortableSave-0001",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "importPortableSave",
+      "text": "A new save slot could not be chosen. Existing saves are unchanged.",
+      "occurrence": 0,
+      "textRevision": "f74b41daceb5"
+    },
+    {
+      "anchor": "importPortableSave-0002",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "importPortableSave",
+      "text": "Import did not finish and existing saves may need a second look.",
+      "occurrence": 0,
+      "textRevision": "c8f15cd0616b"
+    },
+    {
+      "anchor": "importPortableSave-0003",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "importPortableSave",
+      "text": "Import did not finish.",
+      "occurrence": 0,
+      "textRevision": "cd7504d03b9c"
+    },
+    {
+      "anchor": "importPortableSave-0004",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "importPortableSave",
+      "text": "Import did not finish. Existing saves are unchanged.",
+      "occurrence": 0,
+      "textRevision": "4dc1a98db664"
+    },
+    {
+      "anchor": "importPortableSave-0005",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "importPortableSave",
+      "text": "{error.message} Existing saves are unchanged.",
+      "occurrence": 0,
+      "textRevision": "edfc4611c84c"
+    },
+    {
+      "anchor": "importPortableSave-0006",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "importPortableSave",
+      "text": "{outcome.reason} Existing saves are unchanged.",
+      "occurrence": 0,
+      "textRevision": "fe9076a195e9"
+    },
+    {
+      "anchor": "importPortableSave-0007",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "importPortableSave",
+      "text": "{written.reason} Existing saves are unchanged.",
+      "occurrence": 0,
+      "textRevision": "a63abc0e903f"
     },
     {
       "anchor": "installMunicipalGovernment-0001",
@@ -3673,6 +3769,30 @@
       "text": "{option.seats.value} of them, as {option.recordedBy.packName} records it.",
       "occurrence": 0,
       "textRevision": "ff443ef0133d"
+    },
+    {
+      "anchor": "onFile-0001",
+      "sourcePath": "src/player/SaveTransferControls.tsx",
+      "symbol": "onFile",
+      "text": "Imported as a new save of the same life. The file and your other games were not changed.",
+      "occurrence": 0,
+      "textRevision": "5d9297ed5e3e"
+    },
+    {
+      "anchor": "onFile-0002",
+      "sourcePath": "src/player/SaveTransferControls.tsx",
+      "symbol": "onFile",
+      "text": "That file could not be imported. Existing saves are unchanged.",
+      "occurrence": 0,
+      "textRevision": "013d69984b17"
+    },
+    {
+      "anchor": "onFile-0003",
+      "sourcePath": "src/player/SaveTransferControls.tsx",
+      "symbol": "onFile",
+      "text": "That file is larger than a saved life is allowed to be.",
+      "occurrence": 0,
+      "textRevision": "627a61aeeb21"
     },
     {
       "anchor": "openingBeat-0001",
@@ -4243,6 +4363,126 @@
       "textRevision": "5328d80d52d3"
     },
     {
+      "anchor": "parsePortableSave-0001",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "parsePortableSave",
+      "text": "Interface state was not stored with this life.",
+      "occurrence": 0,
+      "textRevision": "0c29524649d4"
+    },
+    {
+      "anchor": "parsePortableSave-0002",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "parsePortableSave",
+      "text": "That file is larger than a saved life is allowed to be.",
+      "occurrence": 0,
+      "textRevision": "627a61aeeb21"
+    },
+    {
+      "anchor": "parsePortableSave-0003",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "parsePortableSave",
+      "text": "That file is not a saved life.",
+      "occurrence": 0,
+      "textRevision": "5d41480f2ced"
+    },
+    {
+      "anchor": "parsePortableSave-0004",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "parsePortableSave",
+      "text": "That file is not a saved life.",
+      "occurrence": 1,
+      "textRevision": "5d41480f2ced"
+    },
+    {
+      "anchor": "parsePortableSave-0005",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "parsePortableSave",
+      "text": "That file is not a saved life.",
+      "occurrence": 2,
+      "textRevision": "5d41480f2ced"
+    },
+    {
+      "anchor": "parsePortableSave-0006",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "parsePortableSave",
+      "text": "That file is not a saved life.",
+      "occurrence": 3,
+      "textRevision": "5d41480f2ced"
+    },
+    {
+      "anchor": "parsePortableSave-0007",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "parsePortableSave",
+      "text": "That file is not a saved life.",
+      "occurrence": 4,
+      "textRevision": "5d41480f2ced"
+    },
+    {
+      "anchor": "parsePortableSave-0008",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "parsePortableSave",
+      "text": "That file is not a saved life.",
+      "occurrence": 5,
+      "textRevision": "5d41480f2ced"
+    },
+    {
+      "anchor": "parsePortableSave-0009",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "parsePortableSave",
+      "text": "That file is not a saved life.",
+      "occurrence": 6,
+      "textRevision": "5d41480f2ced"
+    },
+    {
+      "anchor": "parsePortableSave-0010",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "parsePortableSave",
+      "text": "That file's interface state could not be read. Existing saves are unchanged.",
+      "occurrence": 0,
+      "textRevision": "b41f8050946c"
+    },
+    {
+      "anchor": "parsePortableSave-0011",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "parsePortableSave",
+      "text": "That life needs catalogs this game does not have. Existing saves are unchanged.",
+      "occurrence": 0,
+      "textRevision": "3f65cbf8bf08"
+    },
+    {
+      "anchor": "parsePortableSave-0012",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "parsePortableSave",
+      "text": "That life was exported from a candidate-art preview and cannot be opened in the ordinary game. Existing saves are unchanged.",
+      "occurrence": 0,
+      "textRevision": "c9b0a5dbbf84"
+    },
+    {
+      "anchor": "parsePortableSave-0013",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "parsePortableSave",
+      "text": "That save was written by a newer game and cannot be opened here. Your existing games are unchanged.",
+      "occurrence": 0,
+      "textRevision": "97fd0d9821dd"
+    },
+    {
+      "anchor": "parsePortableSave-0014",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "parsePortableSave",
+      "text": "That saved world could not be read. Existing saves are unchanged.",
+      "occurrence": 0,
+      "textRevision": "0970cdfa09a0"
+    },
+    {
+      "anchor": "parsePortableSave-0015",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "parsePortableSave",
+      "text": "That saved world could not be read. Existing saves are unchanged.",
+      "occurrence": 1,
+      "textRevision": "0970cdfa09a0"
+    },
+    {
       "anchor": "passage-0001",
       "sourcePath": "src/simulation/municipal-government.ts",
       "symbol": "passage",
@@ -4633,6 +4873,30 @@
       "text": "Quorum is an absolute count the charter names: {reading.procedure.quorumText??\"seetheinstrument\"}",
       "occurrence": 0,
       "textRevision": "42e1b2e00cb7"
+    },
+    {
+      "anchor": "readOptionalInterface-0001",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "readOptionalInterface",
+      "text": "Saved-game storage is not available in this browser.",
+      "occurrence": 0,
+      "textRevision": "67a628504cd3"
+    },
+    {
+      "anchor": "readOptionalInterface-0002",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "readOptionalInterface",
+      "text": "The interface state for this life could not be read.",
+      "occurrence": 0,
+      "textRevision": "03da0e49005a"
+    },
+    {
+      "anchor": "readOptionalInterface-0003",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "readOptionalInterface",
+      "text": "This build has no durable interface store. Pins and private notes were not stored with this life.",
+      "occurrence": 0,
+      "textRevision": "ae7d44d1e40f"
     },
     {
       "anchor": "recapSentence-0001",
@@ -5345,6 +5609,30 @@
       "text": "{vote.tally.yea} in favor, {vote.tally.nay} against{otherPart} — {vote.requiredVotes} of {vote.denominatorValue} were needed.",
       "occurrence": 0,
       "textRevision": "eb19535c72b8"
+    },
+    {
+      "anchor": "writeOptionalInterface-0001",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "writeOptionalInterface",
+      "text": "Saved-game storage is not available.",
+      "occurrence": 0,
+      "textRevision": "1961cbe9939d"
+    },
+    {
+      "anchor": "writeOptionalInterface-0002",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "writeOptionalInterface",
+      "text": "The interface state could not be stored.",
+      "occurrence": 0,
+      "textRevision": "306fa2680a48"
+    },
+    {
+      "anchor": "writeOptionalInterface-0003",
+      "sourcePath": "src/presentation/portable-save.ts",
+      "symbol": "writeOptionalInterface",
+      "text": "This build cannot store pins and private notes. Existing saves are unchanged.",
+      "occurrence": 0,
+      "textRevision": "f9d0c96bcda8"
     }
   ]
 }

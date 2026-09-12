@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2353 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5699 |
-| DIAGNOSTIC_OR_TEST | 4832 |
-| **NEEDS_CLASSIFICATION** | **6189** |
+| INTENTIONALLY_NON_PLAYER_FACING | 5722 |
+| DIAGNOSTIC_OR_TEST | 4838 |
+| **NEEDS_CLASSIFICATION** | **6206** |
 
-Scanned 589 files holding 72566 string
+Scanned 594 files holding 72787 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -159,6 +159,7 @@ literals in total; the table counts only those that read like a sentence.
 | 12 | `src/simulation/vitality.ts` |
 | 11 | `src/content/adapters/life-situations.ts` |
 | 11 | `src/presentation/life-scene-flow.ts` |
+| 11 | `src/presentation/portable-save.ts` |
 | 11 | `src/presentation/run-b-conversation-progress.ts` |
 | 11 | `src/presentation/scene-placement.ts` |
 | 11 | `src/simulation/political-belief-formation.ts` |
@@ -229,7 +230,9 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/player/CareerPathsPanel.tsx` |
 | 5 | `src/player/CivilPersonnelPanel.tsx` |
 | 5 | `src/player/LegislationWorkspace.tsx` |
+| 5 | `src/player/SaveTransferControls.tsx` |
 | 5 | `src/player/TitleTableau.tsx` |
+| 5 | `src/presentation/art-preview.ts` |
 | 5 | `src/presentation/browser-world-repository-protocol.ts` |
 | 5 | `src/presentation/life-conversation.ts` |
 | 5 | `src/presentation/opening-officeholders.ts` |
@@ -244,7 +247,6 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/persistence/sqlite-world-repository.ts` |
 | 4 | `src/player/ExecutiveWorkWorkspace.tsx` |
 | 4 | `src/player/TitleScreen.tsx` |
-| 4 | `src/presentation/art-preview.ts` |
 | 4 | `src/presentation/executive-work.ts` |
 | 4 | `src/presentation/place-hometown-population.ts` |
 | 4 | `src/presentation/setup-questionnaire-flow.ts` |

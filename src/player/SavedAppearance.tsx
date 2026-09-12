@@ -15,6 +15,7 @@ import {
   artPreviewLibraries,
   artPreviewMode,
 } from "../presentation/art-preview";
+import { gameBuildProfile } from "../presentation/build-profile";
 import { PRODUCTION_CHARACTER_LIBRARY } from "../presentation/visual-integration";
 import type { CharacterComponentLibrary } from "../presentation/character-components";
 import {
@@ -107,7 +108,10 @@ export function SavedAppearanceControls(
   const preview = artPreviewLibraries(
     artPreviewMode(
       typeof window === "undefined" ? "" : window.location.search,
-      import.meta.env.DEV,
+      {
+        development: import.meta.env.DEV,
+        profile: gameBuildProfile(),
+      },
     ),
   );
   // Normal play owns only the controlled person's wardrobe. Developer proof
