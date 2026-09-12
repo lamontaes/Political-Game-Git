@@ -82,7 +82,7 @@ export type ShellView =
 
 export type PinSize = "tiny" | "normal" | "expanded";
 
-export type PeopleView = "categories" | "list";
+export type PeopleView = "web" | "categories" | "list";
 
 export interface ShellPin {
   /** Stable, derived from the reference. A pin is its target, not a row. */
@@ -103,7 +103,7 @@ export interface ShellPreferences {
 }
 
 export const DEFAULT_PREFERENCES: ShellPreferences = {
-  peopleView: "categories",
+  peopleView: "web",
   defaultPinSize: "normal",
 };
 
