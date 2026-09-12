@@ -190,7 +190,12 @@ export const ORDINARY_DAY_START_MINUTE = 7 * 60;
  *
  * A commitment the character has not answered yet is still a hard boundary:
  * the sub-day path refuses to step over one, and when it does the day moves as
- * it did before rather than not at all.
+ * it did before rather than not at all. Routine work on that first crossing
+ * may complete before the commitment; the calendar still moves from there.
+ *
+ * Remaining whole days stay on `advanceWorld`. A residency skip of years is
+ * not a thousand sub-day resolutions; the player control is one day, and
+ * further days keep the local minute the first crossing established.
  */
 export function passOrdinaryDays(world: World, days = 1): World {
   // The handler registry travels with every advance an adult life can make.
@@ -202,23 +207,21 @@ export function passOrdinaryDays(world: World, days = 1): World {
   // election day arrives without either the life or the contest being dropped.
   const handlers = createCampaignElectionTransitionRegistry();
   const wholeDays = Math.max(1, Math.trunc(days));
-  let current = world;
-  for (let day = 0; day < wholeDays; day += 1) {
-    const morning = simulationMomentAtLocalTime({
-      date: addDays(current.currentDate, 1),
-      minuteOfDay: ORDINARY_DAY_START_MINUTE,
-      timeZone: current.currentMoment.timeZone,
-      preferredUtcOffsetMinutes: current.currentMoment.utcOffsetMinutes,
-    });
-    const minutes = simulationMinutesBetween(current.currentMoment, morning);
-    const stepped =
-      minutes > 0 ? advanceWorldMinutes(current, minutes, handlers) : current;
-    current =
-      compareSimulationMoments(stepped.currentMoment, morning) >= 0
-        ? stepped
-        : advanceWorld(stepped, 1, handlers);
-  }
-  return current;
+  const morning = simulationMomentAtLocalTime({
+    date: addDays(world.currentDate, 1),
+    minuteOfDay: ORDINARY_DAY_START_MINUTE,
+    timeZone: world.currentMoment.timeZone,
+    preferredUtcOffsetMinutes: world.currentMoment.utcOffsetMinutes,
+  });
+  const minutes = simulationMinutesBetween(world.currentMoment, morning);
+  const stepped =
+    minutes > 0 ? advanceWorldMinutes(world, minutes, handlers) : world;
+  const tomorrow =
+    compareSimulationMoments(stepped.currentMoment, morning) >= 0
+      ? stepped
+      : advanceWorld(stepped, 1, handlers);
+  if (wholeDays === 1) return tomorrow;
+  return advanceWorld(tomorrow, wholeDays - 1, handlers);
 }
 
 function openingLine(
