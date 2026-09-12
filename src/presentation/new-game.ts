@@ -137,6 +137,8 @@ export interface NewGameSetup {
    * still means what it meant: the legacy recipe. New Game stamps v2.
    */
   readonly appearanceRecipeVersion?: string;
+  /** Explicit creation lineage, preserved in replays; absent keeps historical defaults. */
+  readonly appearanceCatalogGeneration?: number;
 }
 
 export interface NewGame {
@@ -338,6 +340,9 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
       setup.startKind === "custom" ? null : generationInputsFor(priors),
     appearanceRecipeVersion:
       setup.appearanceRecipeVersion ?? LEGACY_APPEARANCE_RECIPE_VERSION,
+    ...(setup.appearanceCatalogGeneration === undefined
+      ? {}
+      : { appearanceCatalogGeneration: setup.appearanceCatalogGeneration }),
   });
   const office =
     setup.startingLife === "judicial-office-practice"

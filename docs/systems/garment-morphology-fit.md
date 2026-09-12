@@ -387,3 +387,22 @@ measured. That measurement now exists —
 [Arm and Sleeve Measurement](./arm-and-sleeve-measurement.md) — and it
 reports the upper arm fused on every body in the repository, so no sleeve
 transform is derived from it yet.
+
+## Raster-only candidate repairs (PEOPLE/B)
+
+A later generation may declare `supersedes_asset_id` for an older component.
+The revision must retain **all** other component metadata (family, kind, canvas,
+origin, attachment, pose/facing/body compatibility and draw order). A library
+refuses mismatched metadata, missing/non-older predecessors and competing
+successors. Only a released eligible revision displaces its predecessor, and
+only for people pinned at or beyond that revision's generation. Unreleased
+production candidates cannot displace drawn art. The candidate review lift is
+still isolated from production membership.
+
+This is a raster-only revision, not pose admission or a change of identity.
+Existing signatures and source files remain immutable. The two generation-3
+neckline alpha masks reuse the same fit profiles; their outer raster spans are
+unchanged. Interior neckline accuracy is separately verified in complete
+compositions, since a silhouette metric cannot detect opaque collar lining.
+The head/body shading mismatch and source hair volume remain art limitations,
+not corrected anatomy or human-approved coherent art.

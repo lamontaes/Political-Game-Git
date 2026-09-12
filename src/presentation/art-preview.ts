@@ -1,3 +1,4 @@
+import type { NewGameSetup } from "./new-game";
 import type { PoseArtIndex } from "./pose-families";
 import type { CharacterComponentLibrary } from "./character-components";
 import type { RuntimeVisualLibrary } from "./visual-integration";
@@ -208,4 +209,22 @@ export function previewDatabaseName(
   base: string = DEFAULT_DATABASE_NAME,
 ): string {
   return mode === "candidate-review" ? `${base}-art-preview` : base;
+}
+
+/** New candidate lives may use the current review generation; existing replay pins win. */
+export function setupForArtPreview<T extends NewGameSetup>(
+  setup: T,
+  mode: ArtPreviewMode,
+): T {
+  if (
+    mode !== "candidate-review" ||
+    setup.appearanceRecipeVersion !== "appearance-recipe-v2" ||
+    setup.appearanceCatalogGeneration !== undefined
+  )
+    return setup;
+  return {
+    ...setup,
+    appearanceCatalogGeneration:
+      PEOPLE_VISUAL4_CHARACTER_LIBRARY.catalogGeneration,
+  };
 }

@@ -1,4 +1,5 @@
 import { indexPoseArt } from "./pose-families";
+import coherenceRegistry from "../../art/manifest/character_candidate_coherence_registry.json";
 import registry from "../../art/manifest/character_candidate_visual4_registry.json";
 import hairRegistry from "../../art/manifest/character_candidate_visual4_hair_registry.json";
 import fitData from "../../art/manifest/character_candidate_visual4_fit.json";
@@ -24,6 +25,7 @@ import {
 export const PEOPLE_VISUAL4_RECORDS = [
   ...registry.assets,
   ...hairRegistry.assets,
+  ...coherenceRegistry.assets,
 ] as readonly CharacterComponentManifestRecord[];
 const errors = validateCharacterComponentCandidates(PEOPLE_VISUAL4_RECORDS);
 if (errors.length) throw new Error(errors.join("\n"));

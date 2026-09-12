@@ -143,6 +143,8 @@ export interface CharacterComponentDefinition {
   readonly family: string;
   /** Append-only catalog lineage generation in which this component appeared. */
   readonly catalog_generation: number;
+  /** Later-generation raster-only revision; all other attachment/identity metadata must match. */
+  readonly supersedes_asset_id?: string;
   /** Integer draw order within one character; higher draws in front. */
   readonly layer: number;
   readonly canvas: CharacterCanvas;
@@ -622,6 +624,37 @@ function validateBodyContacts(
   }
 }
 
+function rasterRevisionErrors(
+  components: ReadonlyMap<string, CharacterComponent>,
+): string[] {
+  const errors: string[] = [];
+  const successors = new Set<string>();
+  const normalized = (definition: CharacterComponentDefinition) => {
+    const copy: Record<string, unknown> = { ...definition };
+    delete copy.catalog_generation;
+    delete copy.supersedes_asset_id;
+    return canonicalJson(copy);
+  };
+  for (const component of components.values()) {
+    const previousId = component.definition.supersedes_asset_id;
+    if (previousId === undefined) continue;
+    const previous = components.get(previousId);
+    if (
+      !previous ||
+      previous.definition.catalog_generation >=
+        component.definition.catalog_generation ||
+      normalized(previous.definition) !== normalized(component.definition)
+    )
+      errors.push(
+        `Invalid raster revision '${component.assetId}' of '${previousId}': an older component with identical identity/attachment metadata is required.`,
+      );
+    if (successors.has(previousId))
+      errors.push(`Conflicting raster revisions of '${previousId}'.`);
+    successors.add(previousId);
+  }
+  return errors;
+}
+
 export function createCharacterComponentLibrary(
   records: readonly CharacterComponentManifestRecord[],
   catalog: CharacterCatalogData,
@@ -638,6 +671,8 @@ export function createCharacterComponentLibrary(
       fixture: record.availability === "development-fixture",
     });
   }
+  const revisionErrors = rasterRevisionErrors(components);
+  if (revisionErrors.length) throw new Error(revisionErrors.join("\n"));
   return {
     catalogGeneration: catalog.catalog_generation,
     slots: catalog.slots,
@@ -1177,6 +1212,8 @@ export function validateCharacterComponentLibrary(
       }
     }
   }
+
+  errors.push(...rasterRevisionErrors(byId));
 
   // Complexion is a property of the head family, so identity can fix a
   // complexion by choosing a head and the body must then agree.
@@ -1825,12 +1862,20 @@ export function componentsAtGeneration(
   const inGeneration = [...library.components.values()].filter(
     (component) => component.definition.catalog_generation <= generation,
   );
-  const productionKinds = new Set(
+  const superseded = new Set(
     inGeneration
+      .filter((c) => c.released && c.definition.supersedes_asset_id)
+      .map((c) => c.definition.supersedes_asset_id!),
+  );
+  const current = inGeneration.filter(
+    (component) => !superseded.has(component.assetId),
+  );
+  const productionKinds = new Set(
+    current
       .filter((component) => !component.fixture && component.released)
       .map((component) => component.definition.kind),
   );
-  return inGeneration
+  return current
     .filter(
       (component) =>
         !component.fixture || !productionKinds.has(component.definition.kind),
