@@ -47,6 +47,7 @@ import { guardUnsavedWork } from "../presentation/unsaved-work-guard";
 import {
   chooseStoryOption,
   letStoryTimePass,
+  presentPeopleSentence,
   projectStoryMoment,
 } from "../presentation/life-story";
 import { projectLifeRecord } from "../presentation/life-record";
@@ -3352,10 +3353,7 @@ function StoryView({
       */}
       {moment.scene.presentPeople.length > 0 ? (
         <p className="game-note" data-testid="story-people">
-          {moment.scene.presentPeople
-            .map((person) => person.introduction)
-            .join(" and ")}{" "}
-          {moment.scene.presentPeople.length === 1 ? "is" : "are"} here.
+          {presentPeopleSentence(moment.scene.presentPeople)}
         </p>
       ) : null}
 

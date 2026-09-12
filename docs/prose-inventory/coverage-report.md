@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 2335 |
 | INTENTIONALLY_NON_PLAYER_FACING | 5697 |
-| DIAGNOSTIC_OR_TEST | 4788 |
-| **NEEDS_CLASSIFICATION** | **6169** |
+| DIAGNOSTIC_OR_TEST | 4809 |
+| **NEEDS_CLASSIFICATION** | **6170** |
 
-Scanned 577 files holding 72006 string
+Scanned 578 files holding 72033 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -245,6 +245,7 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/player/TitleScreen.tsx` |
 | 4 | `src/presentation/art-preview.ts` |
 | 4 | `src/presentation/executive-work.ts` |
+| 4 | `src/presentation/life-story.ts` |
 | 4 | `src/presentation/setup-questionnaire-flow.ts` |
 | 4 | `src/presentation/social-invitation.ts` |
 | 4 | `src/simulation/life-personality.ts` |
@@ -260,7 +261,6 @@ literals in total; the table counts only those that read like a sentence.
 | 3 | `src/presentation/economic-context.ts` |
 | 3 | `src/presentation/legislation-composition.ts` |
 | 3 | `src/presentation/life-introduction.ts` |
-| 3 | `src/presentation/life-story.ts` |
 | 3 | `src/presentation/production-office.ts` |
 | 3 | `src/presentation/venue-activity.ts` |
 | 3 | `src/simulation/candidacy.ts` |

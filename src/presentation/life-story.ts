@@ -107,6 +107,31 @@ export interface ScenePerson {
   readonly introduction: string;
 }
 
+/**
+ * Who is in the room, as one sentence.
+ *
+ * An introduction that carries a relation is an appositive — "Phoebe Akhtar,
+ * who is in your class" — and an appositive has to be closed before the
+ * sentence goes on, or the screen reads "Phoebe Akhtar, who is in your class
+ * is here" as one long noun. The comma belongs to the sentence, so it is put
+ * in here rather than into the introduction, which other callers show on its
+ * own.
+ */
+export function presentPeopleSentence(
+  people: readonly ScenePerson[],
+): string | null {
+  if (people.length === 0) return null;
+  const introduced = people.map((person, index) =>
+    person.relationship !== null && index < people.length - 1
+      ? `${person.introduction},`
+      : person.introduction,
+  );
+  const last = people[people.length - 1]!;
+  const closing = last.relationship === null ? "" : ",";
+  const verb = people.length === 1 ? "is" : "are";
+  return `${introduced.join(" and ")}${closing} ${verb} here.`;
+}
+
 export type StoryScene =
   | {
       readonly kind: "episode";
