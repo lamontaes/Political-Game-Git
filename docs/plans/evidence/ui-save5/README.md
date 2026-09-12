@@ -61,6 +61,15 @@ also compare initialized player preferences with skipped calibration and check
 that answer identities do not enter canonical history. Independent acceptance
 of this explicit reconciliation remains outstanding.
 
+PT3-PROSE amendment (2026-09-11): twelve of those recorded candidate leaves now
+read "Kelsey Newman" where they read "Donna Newman". One housemate was renamed
+by a generator repair — every gendered person drawn off one stream had been
+getting the same given name, because `drawCanonicalNameForGender` forked on a
+constant key — and nothing else moved: same person, same id, same household,
+same sequences, same references, same wording either side of the name. The
+accepted-main `before` values are untouched, so the restored comparison and
+OPENING's original identity and wording digests are unchanged.
+
 Consumed exact ECON926b036 endpoint-release delta and MUNIc9f0a44 source/panel/
 replay/scanner delta; combined anchors and reports were generated with accepted
 tooling. Existing staff/anchor correction, prior News integration, accepted main

@@ -1,13 +1,13 @@
 {
-  "digest": "f27f9a37c243ade8",
+  "digest": "1612caa5b168ed12",
   "counts": {
-    "total": 2485,
+    "total": 2486,
     "byDomain": {
       "campaign": 23,
       "conversation": 197,
       "governing": 187,
       "legislative": 93,
-      "life": 1552,
+      "life": 1553,
       "narration": 75,
       "ordinary": 4,
       "setup": 354
@@ -22,7 +22,7 @@
       "option-memory": 401,
       "option-witnessed": 54,
       "prompt": 74,
-      "scene-line": 202,
+      "scene-line": 203,
       "status": 335,
       "thread-recap": 32
     },
@@ -30,13 +30,13 @@
       "CURRENTLY_UNREACHABLE": 42,
       "DEV_FIXTURE_ONLY": 106,
       "LEGACY_OR_WITHDRAWN": 90,
-      "PLAYER_REACHABLE": 1810,
+      "PLAYER_REACHABLE": 1811,
       "UNKNOWN": 68,
       "WITHHELD_BY_GROUNDING": 369
     },
     "byRealization": {
-      "static": 2024,
-      "templated": 461
+      "static": 2009,
+      "templated": 477
     }
   },
   "records": [
@@ -42286,7 +42286,7 @@
       "surface": "scene-line",
       "sourcePath": "src/simulation/life-content-92c.ts",
       "sourceSymbol": "EPISODE_FAMILIES/home.someone-is-not-all-right/noticing",
-      "text": "{who:household-peer} has come in after everyone else three nights this week, and said a different place each time.",
+      "text": "Three nights this week the last one in has been {who:household-peer}, and the place was different each time.",
       "realization": "templated",
       "slots": [
         "who:household-peer"
@@ -42310,6 +42310,11 @@
           "kind": "requirement"
         },
         {
+          "key": "role:guardian",
+          "description": "A canonical person fills the guardian role.",
+          "kind": "role"
+        },
+        {
           "key": "age-below:18",
           "description": "The character is under 18.",
           "kind": "age-gate"
@@ -42330,8 +42335,8 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "6d6df49f236b",
-      "contextRevision": "e87b955276ac"
+      "textRevision": "64f4b9af6353",
+      "contextRevision": "52be853fa996"
     },
     {
       "id": "prose:life:episode:home.someone-is-not-all-right/noticing#line:1",
@@ -42364,6 +42369,11 @@
           "kind": "requirement"
         },
         {
+          "key": "role:guardian",
+          "description": "A canonical person fills the guardian role.",
+          "kind": "role"
+        },
+        {
           "key": "age-below:18",
           "description": "The character is under 18.",
           "kind": "age-gate"
@@ -42385,7 +42395,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "53e645187cd1",
-      "contextRevision": "e87b955276ac"
+      "contextRevision": "52be853fa996"
     },
     {
       "id": "prose:life:episode:home.someone-is-not-all-right/noticing#option:ask:description",
@@ -42418,6 +42428,11 @@
           "kind": "requirement"
         },
         {
+          "key": "role:guardian",
+          "description": "A canonical person fills the guardian role.",
+          "kind": "role"
+        },
+        {
           "key": "age-below:18",
           "description": "The character is under 18.",
           "kind": "age-gate"
@@ -42439,7 +42454,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "d338f54059ce",
-      "contextRevision": "e87b955276ac"
+      "contextRevision": "52be853fa996"
     },
     {
       "id": "prose:life:episode:home.someone-is-not-all-right/noticing#option:ask:label",
@@ -42476,6 +42491,11 @@
           "kind": "requirement"
         },
         {
+          "key": "role:guardian",
+          "description": "A canonical person fills the guardian role.",
+          "kind": "role"
+        },
+        {
           "key": "age-below:18",
           "description": "The character is under 18.",
           "kind": "age-gate"
@@ -42497,7 +42517,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "8dc2a93a474c",
-      "contextRevision": "e87b955276ac"
+      "contextRevision": "52be853fa996"
     },
     {
       "id": "prose:life:episode:home.someone-is-not-all-right/noticing#option:ask:memory",
@@ -42533,6 +42553,11 @@
           "kind": "requirement"
         },
         {
+          "key": "role:guardian",
+          "description": "A canonical person fills the guardian role.",
+          "kind": "role"
+        },
+        {
           "key": "age-below:18",
           "description": "The character is under 18.",
           "kind": "age-gate"
@@ -42554,7 +42579,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "33ca5fd74f83",
-      "contextRevision": "e87b955276ac"
+      "contextRevision": "52be853fa996"
     },
     {
       "id": "prose:life:episode:home.someone-is-not-all-right/noticing#option:cover:description",
@@ -42589,6 +42614,11 @@
           "kind": "requirement"
         },
         {
+          "key": "role:guardian",
+          "description": "A canonical person fills the guardian role.",
+          "kind": "role"
+        },
+        {
           "key": "age-below:18",
           "description": "The character is under 18.",
           "kind": "age-gate"
@@ -42610,7 +42640,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "05133bb4f951",
-      "contextRevision": "e87b955276ac"
+      "contextRevision": "52be853fa996"
     },
     {
       "id": "prose:life:episode:home.someone-is-not-all-right/noticing#option:cover:label",
@@ -42646,6 +42676,11 @@
           "kind": "requirement"
         },
         {
+          "key": "role:guardian",
+          "description": "A canonical person fills the guardian role.",
+          "kind": "role"
+        },
+        {
           "key": "age-below:18",
           "description": "The character is under 18.",
           "kind": "age-gate"
@@ -42667,7 +42702,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "26514e4fb5c0",
-      "contextRevision": "e87b955276ac"
+      "contextRevision": "52be853fa996"
     },
     {
       "id": "prose:life:episode:home.someone-is-not-all-right/noticing#option:cover:memory",
@@ -42703,6 +42738,11 @@
           "kind": "requirement"
         },
         {
+          "key": "role:guardian",
+          "description": "A canonical person fills the guardian role.",
+          "kind": "role"
+        },
+        {
           "key": "age-below:18",
           "description": "The character is under 18.",
           "kind": "age-gate"
@@ -42724,7 +42764,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "55e1cdce69e0",
-      "contextRevision": "e87b955276ac"
+      "contextRevision": "52be853fa996"
     },
     {
       "id": "prose:life:episode:home.someone-is-not-all-right/noticing#option:tell-someone:description",
@@ -42735,9 +42775,12 @@
       "surface": "option-description",
       "sourcePath": "src/simulation/life-content-92c.ts",
       "sourceSymbol": "EPISODE_FAMILIES/home.someone-is-not-all-right/noticing",
-      "text": "Then it is theirs to deal with, and they will know it came from you.",
-      "realization": "static",
-      "slots": [],
+      "text": "Then it is {role:guardian}'s to deal with, and {role:household-peer} will know it came from you.",
+      "realization": "templated",
+      "slots": [
+        "role:guardian",
+        "role:household-peer"
+      ],
       "reachability": "PLAYER_REACHABLE",
       "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
       "grounding": [
@@ -42755,6 +42798,11 @@
           "key": "without-capability:answers-for-themselves",
           "description": "The record shows the character does not answers-for-themselves.",
           "kind": "requirement"
+        },
+        {
+          "key": "role:guardian",
+          "description": "A canonical person fills the guardian role.",
+          "kind": "role"
         },
         {
           "key": "age-below:18",
@@ -42777,8 +42825,8 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "63659d63cc41",
-      "contextRevision": "e87b955276ac"
+      "textRevision": "fed7fcb71739",
+      "contextRevision": "52be853fa996"
     },
     {
       "id": "prose:life:episode:home.someone-is-not-all-right/noticing#option:tell-someone:label",
@@ -42789,9 +42837,11 @@
       "surface": "option-label",
       "sourcePath": "src/simulation/life-content-92c.ts",
       "sourceSymbol": "EPISODE_FAMILIES/home.someone-is-not-all-right/noticing",
-      "text": "Tell a grown-up at home",
-      "realization": "static",
-      "slots": [],
+      "text": "Tell {role:guardian}",
+      "realization": "templated",
+      "slots": [
+        "role:guardian"
+      ],
       "reachability": "PLAYER_REACHABLE",
       "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
       "grounding": [
@@ -42809,6 +42859,11 @@
           "key": "without-capability:answers-for-themselves",
           "description": "The record shows the character does not answers-for-themselves.",
           "kind": "requirement"
+        },
+        {
+          "key": "role:guardian",
+          "description": "A canonical person fills the guardian role.",
+          "kind": "role"
         },
         {
           "key": "age-below:18",
@@ -42831,8 +42886,8 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "7896c02b355d",
-      "contextRevision": "e87b955276ac"
+      "textRevision": "12645f0d9ff2",
+      "contextRevision": "52be853fa996"
     },
     {
       "id": "prose:life:episode:home.someone-is-not-all-right/noticing#option:tell-someone:memory",
@@ -42843,9 +42898,10 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/life-content-92c.ts",
       "sourceSymbol": "EPISODE_FAMILIES/home.someone-is-not-all-right/noticing",
-      "text": "You told somebody at home about {role:household-peer} coming in late, and {they:household-peer} found out you had.",
+      "text": "You told {role:guardian} about {role:household-peer} coming in late, and {they:household-peer} found out you had.",
       "realization": "templated",
       "slots": [
+        "role:guardian",
         "role:household-peer",
         "they:household-peer"
       ],
@@ -42868,6 +42924,11 @@
           "kind": "requirement"
         },
         {
+          "key": "role:guardian",
+          "description": "A canonical person fills the guardian role.",
+          "kind": "role"
+        },
+        {
           "key": "age-below:18",
           "description": "The character is under 18.",
           "kind": "age-gate"
@@ -42888,8 +42949,8 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "10705c214159",
-      "contextRevision": "e87b955276ac"
+      "textRevision": "5bd2cad75508",
+      "contextRevision": "52be853fa996"
     },
     {
       "id": "prose:life:episode:home.someone-is-not-all-right/noticing#option:watch:description",
@@ -42922,6 +42983,11 @@
           "kind": "requirement"
         },
         {
+          "key": "role:guardian",
+          "description": "A canonical person fills the guardian role.",
+          "kind": "role"
+        },
+        {
           "key": "age-below:18",
           "description": "The character is under 18.",
           "kind": "age-gate"
@@ -42943,7 +43009,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "de0d51af5337",
-      "contextRevision": "e87b955276ac"
+      "contextRevision": "52be853fa996"
     },
     {
       "id": "prose:life:episode:home.someone-is-not-all-right/noticing#option:watch:label",
@@ -42976,6 +43042,11 @@
           "kind": "requirement"
         },
         {
+          "key": "role:guardian",
+          "description": "A canonical person fills the guardian role.",
+          "kind": "role"
+        },
+        {
           "key": "age-below:18",
           "description": "The character is under 18.",
           "kind": "age-gate"
@@ -42997,7 +43068,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "987be0f5083e",
-      "contextRevision": "e87b955276ac"
+      "contextRevision": "52be853fa996"
     },
     {
       "id": "prose:life:episode:home.someone-is-not-all-right/noticing#option:watch:memory",
@@ -43032,6 +43103,11 @@
           "kind": "requirement"
         },
         {
+          "key": "role:guardian",
+          "description": "A canonical person fills the guardian role.",
+          "kind": "role"
+        },
+        {
           "key": "age-below:18",
           "description": "The character is under 18.",
           "kind": "age-gate"
@@ -43053,7 +43129,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "cef9cb716585",
-      "contextRevision": "e87b955276ac"
+      "contextRevision": "52be853fa996"
     },
     {
       "id": "prose:life:episode:home.someone-is-not-all-right/parent-exhaustion#line:0",
@@ -67463,9 +67539,11 @@
       "surface": "scene-line",
       "sourcePath": "src/simulation/life-content-92c.ts",
       "sourceSymbol": "EPISODE_FAMILIES/school.the-thing-you-got-blamed-for/blamed",
-      "text": "Something got broken in the corridor at your school and your name is the one that came up.",
-      "realization": "static",
-      "slots": [],
+      "text": "{detail:incident} is broken at school, and the office has your name for it.",
+      "realization": "templated",
+      "slots": [
+        "detail:incident"
+      ],
       "reachability": "PLAYER_REACHABLE",
       "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
       "grounding": [
@@ -67478,6 +67556,16 @@
           "key": "age-below:18",
           "description": "The character is under 18.",
           "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -67490,8 +67578,8 @@
         "family:school",
         "stakes:notable"
       ],
-      "textRevision": "bac43c5812b7",
-      "contextRevision": "3b8a68acfcce"
+      "textRevision": "1ffe947454a8",
+      "contextRevision": "b3c731b6377a"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/blamed#line:1",
@@ -67502,9 +67590,11 @@
       "surface": "scene-line",
       "sourcePath": "src/simulation/life-content-92c.ts",
       "sourceSymbol": "EPISODE_FAMILIES/school.the-thing-you-got-blamed-for/blamed",
-      "text": "You were there. You did not do it. The person who did is standing four feet away saying nothing.",
-      "realization": "static",
-      "slots": [],
+      "text": "You were standing next to it when it happened, and so was {who:school-peer}.",
+      "realization": "templated",
+      "slots": [
+        "who:school-peer"
+      ],
       "reachability": "PLAYER_REACHABLE",
       "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
       "grounding": [
@@ -67517,6 +67607,16 @@
           "key": "age-below:18",
           "description": "The character is under 18.",
           "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -67529,8 +67629,60 @@
         "family:school",
         "stakes:notable"
       ],
-      "textRevision": "c2db1ed47051",
-      "contextRevision": "3b8a68acfcce"
+      "textRevision": "f980dac30b9f",
+      "contextRevision": "b3c731b6377a"
+    },
+    {
+      "id": "prose:life:episode:school.the-thing-you-got-blamed-for/blamed#line:2",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "school.the-thing-you-got-blamed-for/blamed",
+      "field": "line:2",
+      "surface": "scene-line",
+      "sourcePath": "src/simulation/life-content-92c.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/school.the-thing-you-got-blamed-for/blamed",
+      "text": "{they:school-peer} broke it. {they:school-peer} {has:school-peer} not said so, and nobody has asked you what you saw.",
+      "realization": "templated",
+      "slots": [
+        "has:school-peer",
+        "they:school-peer"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        },
+        {
+          "key": "age-below:18",
+          "description": "The character is under 18.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "58_PR81_HUMAN_PLAYTEST_PRODUCT_FEEDBACK_AND_NARRATIVE_REPAIR_AUTHORITY",
+        "reference": "Sections D, E and F — continuous life narrative",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:notable"
+      ],
+      "textRevision": "83f8e27a5e5a",
+      "contextRevision": "b3c731b6377a"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/blamed#option:deny:description",
@@ -67541,7 +67693,7 @@
       "surface": "option-description",
       "sourcePath": "src/simulation/life-content-92c.ts",
       "sourceSymbol": "EPISODE_FAMILIES/school.the-thing-you-got-blamed-for/blamed",
-      "text": "Without saying who it was.",
+      "text": "Without saying whose it was.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -67556,6 +67708,16 @@
           "key": "age-below:18",
           "description": "The character is under 18.",
           "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -67568,8 +67730,8 @@
         "family:school",
         "stakes:notable"
       ],
-      "textRevision": "5c26c93239ee",
-      "contextRevision": "3b8a68acfcce"
+      "textRevision": "de2c9d0a7d59",
+      "contextRevision": "b3c731b6377a"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/blamed#option:deny:label",
@@ -67595,6 +67757,16 @@
           "key": "age-below:18",
           "description": "The character is under 18.",
           "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -67608,7 +67780,7 @@
         "stakes:notable"
       ],
       "textRevision": "ad6533f72f5a",
-      "contextRevision": "3b8a68acfcce"
+      "contextRevision": "b3c731b6377a"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/blamed#option:deny:memory",
@@ -67619,9 +67791,11 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/life-content-92c.ts",
       "sourceSymbol": "EPISODE_FAMILIES/school.the-thing-you-got-blamed-for/blamed",
-      "text": "You said it had not been you, and stopped talking there.",
-      "realization": "static",
-      "slots": [],
+      "text": "You said you had not broken {detail:incident}, and did not say who had.",
+      "realization": "templated",
+      "slots": [
+        "detail:incident"
+      ],
       "reachability": "PLAYER_REACHABLE",
       "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
       "grounding": [
@@ -67634,6 +67808,16 @@
           "key": "age-below:18",
           "description": "The character is under 18.",
           "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -67646,8 +67830,8 @@
         "family:school",
         "stakes:notable"
       ],
-      "textRevision": "f1ab7a974584",
-      "contextRevision": "3b8a68acfcce"
+      "textRevision": "ce31fb4d1252",
+      "contextRevision": "b3c731b6377a"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/blamed#option:name-them:description",
@@ -67658,9 +67842,11 @@
       "surface": "option-description",
       "sourcePath": "src/simulation/life-content-92c.ts",
       "sourceSymbol": "EPISODE_FAMILIES/school.the-thing-you-got-blamed-for/blamed",
-      "text": "Out loud, in front of them.",
-      "realization": "static",
-      "slots": [],
+      "text": "Out loud, in front of {them:school-peer}.",
+      "realization": "templated",
+      "slots": [
+        "them:school-peer"
+      ],
       "reachability": "PLAYER_REACHABLE",
       "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
       "grounding": [
@@ -67673,6 +67859,16 @@
           "key": "age-below:18",
           "description": "The character is under 18.",
           "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -67685,8 +67881,8 @@
         "family:school",
         "stakes:notable"
       ],
-      "textRevision": "6e51ca1d313f",
-      "contextRevision": "3b8a68acfcce"
+      "textRevision": "1181d1038730",
+      "contextRevision": "b3c731b6377a"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/blamed#option:name-them:label",
@@ -67697,9 +67893,11 @@
       "surface": "option-label",
       "sourcePath": "src/simulation/life-content-92c.ts",
       "sourceSymbol": "EPISODE_FAMILIES/school.the-thing-you-got-blamed-for/blamed",
-      "text": "Say who did it",
-      "realization": "static",
-      "slots": [],
+      "text": "Say it was {role:school-peer}",
+      "realization": "templated",
+      "slots": [
+        "role:school-peer"
+      ],
       "reachability": "PLAYER_REACHABLE",
       "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
       "grounding": [
@@ -67712,6 +67910,16 @@
           "key": "age-below:18",
           "description": "The character is under 18.",
           "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -67724,8 +67932,8 @@
         "family:school",
         "stakes:notable"
       ],
-      "textRevision": "2fcaefbb21a0",
-      "contextRevision": "3b8a68acfcce"
+      "textRevision": "ff4f48f84c4e",
+      "contextRevision": "b3c731b6377a"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/blamed#option:name-them:memory",
@@ -67736,9 +67944,13 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/life-content-92c.ts",
       "sourceSymbol": "EPISODE_FAMILIES/school.the-thing-you-got-blamed-for/blamed",
-      "text": "You said who had actually done it, in front of them.",
-      "realization": "static",
-      "slots": [],
+      "text": "You told the office that {role:school-peer} had broken {detail:incident}, with {them:school-peer} standing there.",
+      "realization": "templated",
+      "slots": [
+        "detail:incident",
+        "role:school-peer",
+        "them:school-peer"
+      ],
       "reachability": "PLAYER_REACHABLE",
       "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
       "grounding": [
@@ -67751,6 +67963,16 @@
           "key": "age-below:18",
           "description": "The character is under 18.",
           "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -67763,8 +67985,8 @@
         "family:school",
         "stakes:notable"
       ],
-      "textRevision": "61fc415c0d0b",
-      "contextRevision": "3b8a68acfcce"
+      "textRevision": "9d19804d7b97",
+      "contextRevision": "b3c731b6377a"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/blamed#option:take-it:description",
@@ -67775,7 +67997,7 @@
       "surface": "option-description",
       "sourcePath": "src/simulation/life-content-92c.ts",
       "sourceSymbol": "EPISODE_FAMILIES/school.the-thing-you-got-blamed-for/blamed",
-      "text": "Whatever it costs this week.",
+      "text": "Let the office keep your name on it.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -67790,6 +68012,16 @@
           "key": "age-below:18",
           "description": "The character is under 18.",
           "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -67802,8 +68034,8 @@
         "family:school",
         "stakes:notable"
       ],
-      "textRevision": "bdac0d59fd66",
-      "contextRevision": "3b8a68acfcce"
+      "textRevision": "94d02b447114",
+      "contextRevision": "b3c731b6377a"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/blamed#option:take-it:label",
@@ -67829,6 +68061,16 @@
           "key": "age-below:18",
           "description": "The character is under 18.",
           "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -67842,7 +68084,7 @@
         "stakes:notable"
       ],
       "textRevision": "9614a00ebe9d",
-      "contextRevision": "3b8a68acfcce"
+      "contextRevision": "b3c731b6377a"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/blamed#option:take-it:memory",
@@ -67853,9 +68095,12 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/life-content-92c.ts",
       "sourceSymbol": "EPISODE_FAMILIES/school.the-thing-you-got-blamed-for/blamed",
-      "text": "You took the blame for it and never said otherwise.",
-      "realization": "static",
-      "slots": [],
+      "text": "You took the blame for breaking {detail:incident} and never said {role:school-peer} had done it.",
+      "realization": "templated",
+      "slots": [
+        "detail:incident",
+        "role:school-peer"
+      ],
       "reachability": "PLAYER_REACHABLE",
       "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
       "grounding": [
@@ -67868,6 +68113,16 @@
           "key": "age-below:18",
           "description": "The character is under 18.",
           "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -67880,8 +68135,8 @@
         "family:school",
         "stakes:notable"
       ],
-      "textRevision": "5c56a38cf7b4",
-      "contextRevision": "3b8a68acfcce"
+      "textRevision": "237851656134",
+      "contextRevision": "b3c731b6377a"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/carrying-the-group#line:0",
@@ -67919,6 +68174,11 @@
           "key": "age-at-least:17",
           "description": "The character is at least 17.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -67932,7 +68192,7 @@
         "stakes:notable"
       ],
       "textRevision": "6af40d2a1351",
-      "contextRevision": "cfc6358a5b7f"
+      "contextRevision": "a41a16119ed5"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/carrying-the-group#line:1",
@@ -67970,6 +68230,11 @@
           "key": "age-at-least:17",
           "description": "The character is at least 17.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -67983,7 +68248,7 @@
         "stakes:notable"
       ],
       "textRevision": "9fe8ee20e315",
-      "contextRevision": "cfc6358a5b7f"
+      "contextRevision": "a41a16119ed5"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/carrying-the-group#option:do-their-part:description",
@@ -68021,6 +68286,11 @@
           "key": "age-at-least:17",
           "description": "The character is at least 17.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -68034,7 +68304,7 @@
         "stakes:notable"
       ],
       "textRevision": "0ca507a32edc",
-      "contextRevision": "cfc6358a5b7f"
+      "contextRevision": "a41a16119ed5"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/carrying-the-group#option:do-their-part:label",
@@ -68070,6 +68340,11 @@
           "key": "age-at-least:17",
           "description": "The character is at least 17.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -68083,7 +68358,7 @@
         "stakes:notable"
       ],
       "textRevision": "1c8617467793",
-      "contextRevision": "cfc6358a5b7f"
+      "contextRevision": "a41a16119ed5"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/carrying-the-group#option:do-their-part:memory",
@@ -68121,6 +68396,11 @@
           "key": "age-at-least:17",
           "description": "The character is at least 17.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -68134,7 +68414,7 @@
         "stakes:notable"
       ],
       "textRevision": "600bf0514336",
-      "contextRevision": "cfc6358a5b7f"
+      "contextRevision": "a41a16119ed5"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/carrying-the-group#option:hand-it-in-as-is:description",
@@ -68170,6 +68450,11 @@
           "key": "age-at-least:17",
           "description": "The character is at least 17.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -68183,7 +68468,7 @@
         "stakes:notable"
       ],
       "textRevision": "bf7ec6b3d3e1",
-      "contextRevision": "cfc6358a5b7f"
+      "contextRevision": "a41a16119ed5"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/carrying-the-group#option:hand-it-in-as-is:label",
@@ -68219,6 +68504,11 @@
           "key": "age-at-least:17",
           "description": "The character is at least 17.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -68232,7 +68522,7 @@
         "stakes:notable"
       ],
       "textRevision": "81d3584ab7c1",
-      "contextRevision": "cfc6358a5b7f"
+      "contextRevision": "a41a16119ed5"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/carrying-the-group#option:hand-it-in-as-is:memory",
@@ -68270,6 +68560,11 @@
           "key": "age-at-least:17",
           "description": "The character is at least 17.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -68283,7 +68578,7 @@
         "stakes:notable"
       ],
       "textRevision": "48c66565139e",
-      "contextRevision": "cfc6358a5b7f"
+      "contextRevision": "a41a16119ed5"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/carrying-the-group#option:tell-them:description",
@@ -68319,6 +68614,11 @@
           "key": "age-at-least:17",
           "description": "The character is at least 17.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -68332,7 +68632,7 @@
         "stakes:notable"
       ],
       "textRevision": "58e712947fae",
-      "contextRevision": "cfc6358a5b7f"
+      "contextRevision": "a41a16119ed5"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/carrying-the-group#option:tell-them:label",
@@ -68370,6 +68670,11 @@
           "key": "age-at-least:17",
           "description": "The character is at least 17.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -68383,7 +68688,7 @@
         "stakes:notable"
       ],
       "textRevision": "5c88c36da644",
-      "contextRevision": "cfc6358a5b7f"
+      "contextRevision": "a41a16119ed5"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/carrying-the-group#option:tell-them:memory",
@@ -68421,6 +68726,11 @@
           "key": "age-at-least:17",
           "description": "The character is at least 17.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -68434,7 +68744,7 @@
         "stakes:notable"
       ],
       "textRevision": "e411d4fb38e7",
-      "contextRevision": "cfc6358a5b7f"
+      "contextRevision": "a41a16119ed5"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/cubby-space#line:0",
@@ -68470,6 +68780,11 @@
           "key": "age-below:6",
           "description": "The character is under 6.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -68483,7 +68798,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "ab9db3d5322e",
-      "contextRevision": "5bf79d24b0d2"
+      "contextRevision": "0b8a89b51130"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/cubby-space#line:1",
@@ -68519,6 +68834,11 @@
           "key": "age-below:6",
           "description": "The character is under 6.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -68532,7 +68852,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "552ba7cffcf6",
-      "contextRevision": "5bf79d24b0d2"
+      "contextRevision": "0b8a89b51130"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/cubby-space#option:leave-it:description",
@@ -68568,6 +68888,11 @@
           "key": "age-below:6",
           "description": "The character is under 6.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -68581,7 +68906,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "5a99f7cbc7a4",
-      "contextRevision": "5bf79d24b0d2"
+      "contextRevision": "0b8a89b51130"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/cubby-space#option:leave-it:label",
@@ -68617,6 +68942,11 @@
           "key": "age-below:6",
           "description": "The character is under 6.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -68630,7 +68960,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "24c2ce958d17",
-      "contextRevision": "5bf79d24b0d2"
+      "contextRevision": "0b8a89b51130"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/cubby-space#option:leave-it:memory",
@@ -68666,6 +68996,11 @@
           "key": "age-below:6",
           "description": "The character is under 6.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -68679,7 +69014,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "9466ce9a5f01",
-      "contextRevision": "5bf79d24b0d2"
+      "contextRevision": "0b8a89b51130"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/cubby-space#option:say-it-is-yours:description",
@@ -68715,6 +69050,11 @@
           "key": "age-below:6",
           "description": "The character is under 6.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -68728,7 +69068,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "145c8525701e",
-      "contextRevision": "5bf79d24b0d2"
+      "contextRevision": "0b8a89b51130"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/cubby-space#option:say-it-is-yours:label",
@@ -68764,6 +69104,11 @@
           "key": "age-below:6",
           "description": "The character is under 6.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -68777,7 +69122,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "88db2e365285",
-      "contextRevision": "5bf79d24b0d2"
+      "contextRevision": "0b8a89b51130"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/cubby-space#option:say-it-is-yours:memory",
@@ -68813,6 +69158,11 @@
           "key": "age-below:6",
           "description": "The character is under 6.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -68826,7 +69176,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "2c340c41abce",
-      "contextRevision": "5bf79d24b0d2"
+      "contextRevision": "0b8a89b51130"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/cubby-space#option:take-the-coat-off:description",
@@ -68862,6 +69212,11 @@
           "key": "age-below:6",
           "description": "The character is under 6.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -68875,7 +69230,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "c0c61c859812",
-      "contextRevision": "5bf79d24b0d2"
+      "contextRevision": "0b8a89b51130"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/cubby-space#option:take-the-coat-off:label",
@@ -68911,6 +69266,11 @@
           "key": "age-below:6",
           "description": "The character is under 6.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -68924,7 +69284,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "98b471c088e1",
-      "contextRevision": "5bf79d24b0d2"
+      "contextRevision": "0b8a89b51130"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/cubby-space#option:take-the-coat-off:memory",
@@ -68960,6 +69320,11 @@
           "key": "age-below:6",
           "description": "The character is under 6.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -68973,7 +69338,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "80f46696b21f",
-      "contextRevision": "5bf79d24b0d2"
+      "contextRevision": "0b8a89b51130"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-came-out#line:0",
@@ -68984,9 +69349,11 @@
       "surface": "scene-line",
       "sourcePath": "src/simulation/life-content-92c.ts",
       "sourceSymbol": "EPISODE_FAMILIES/school.the-thing-you-got-blamed-for/it-came-out",
-      "text": "The person you named has not spoken to you since, and has told other people their own version.",
-      "realization": "static",
-      "slots": [],
+      "text": "{role:school-peer} has not spoken to you since you said it, and has been telling people a different version.",
+      "realization": "templated",
+      "slots": [
+        "role:school-peer"
+      ],
       "reachability": "PLAYER_REACHABLE",
       "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
       "grounding": [
@@ -68998,6 +69365,16 @@
         {
           "key": "days-since-stage:blamed:200",
           "description": "At least 200 days since blamed.",
+          "kind": "requirement"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
           "kind": "requirement"
         }
       ],
@@ -69011,8 +69388,8 @@
         "family:school",
         "stakes:ordinary"
       ],
-      "textRevision": "e7888da46b61",
-      "contextRevision": "03a24e702956"
+      "textRevision": "d673c8dc2b46",
+      "contextRevision": "e61116111a37"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-came-out#line:1",
@@ -69023,7 +69400,7 @@
       "surface": "scene-line",
       "sourcePath": "src/simulation/life-content-92c.ts",
       "sourceSymbol": "EPISODE_FAMILIES/school.the-thing-you-got-blamed-for/it-came-out",
-      "text": "One of them asks you, straight out, what actually happened.",
+      "text": "One of them asks you, straight out, what happened in the corridor.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -69038,6 +69415,16 @@
           "key": "days-since-stage:blamed:200",
           "description": "At least 200 days since blamed.",
           "kind": "requirement"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -69050,8 +69437,8 @@
         "family:school",
         "stakes:ordinary"
       ],
-      "textRevision": "d72b05e8082c",
-      "contextRevision": "03a24e702956"
+      "textRevision": "a3278f0b159f",
+      "contextRevision": "e61116111a37"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-came-out#option:drop-it:description",
@@ -69077,6 +69464,16 @@
           "key": "days-since-stage:blamed:200",
           "description": "At least 200 days since blamed.",
           "kind": "requirement"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -69090,7 +69487,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "bb91860c239e",
-      "contextRevision": "03a24e702956"
+      "contextRevision": "e61116111a37"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-came-out#option:drop-it:label",
@@ -69116,6 +69513,16 @@
           "key": "days-since-stage:blamed:200",
           "description": "At least 200 days since blamed.",
           "kind": "requirement"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -69129,7 +69536,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "b44310dad3f3",
-      "contextRevision": "03a24e702956"
+      "contextRevision": "e61116111a37"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-came-out#option:drop-it:memory",
@@ -69155,6 +69562,16 @@
           "key": "days-since-stage:blamed:200",
           "description": "At least 200 days since blamed.",
           "kind": "requirement"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -69168,7 +69585,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "d1f3c49fc4ae",
-      "contextRevision": "03a24e702956"
+      "contextRevision": "e61116111a37"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-came-out#option:tell-it-again:description",
@@ -69194,6 +69611,16 @@
           "key": "days-since-stage:blamed:200",
           "description": "At least 200 days since blamed.",
           "kind": "requirement"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -69207,7 +69634,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "61f22fe3aa98",
-      "contextRevision": "03a24e702956"
+      "contextRevision": "e61116111a37"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-came-out#option:tell-it-again:label",
@@ -69233,6 +69660,16 @@
           "key": "days-since-stage:blamed:200",
           "description": "At least 200 days since blamed.",
           "kind": "requirement"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -69246,7 +69683,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "3ee57c5e8bb3",
-      "contextRevision": "03a24e702956"
+      "contextRevision": "e61116111a37"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-came-out#option:tell-it-again:memory",
@@ -69257,9 +69694,13 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/life-content-92c.ts",
       "sourceSymbol": "EPISODE_FAMILIES/school.the-thing-you-got-blamed-for/it-came-out",
-      "text": "You told the corridor story again, the same way, to somebody who had only heard the other one.",
-      "realization": "static",
-      "slots": [],
+      "text": "You said again that {role:school-peer} had broken {detail:incident}, to one of the people who had only heard {their:school-peer} version.",
+      "realization": "templated",
+      "slots": [
+        "detail:incident",
+        "role:school-peer",
+        "their:school-peer"
+      ],
       "reachability": "PLAYER_REACHABLE",
       "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
       "grounding": [
@@ -69271,6 +69712,16 @@
         {
           "key": "days-since-stage:blamed:200",
           "description": "At least 200 days since blamed.",
+          "kind": "requirement"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
           "kind": "requirement"
         }
       ],
@@ -69284,8 +69735,8 @@
         "family:school",
         "stakes:ordinary"
       ],
-      "textRevision": "5381ad0a5df0",
-      "contextRevision": "03a24e702956"
+      "textRevision": "f73e38ead3a6",
+      "contextRevision": "e61116111a37"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-stuck#line:0",
@@ -69296,9 +69747,11 @@
       "surface": "scene-line",
       "sourcePath": "src/simulation/life-content-92c.ts",
       "sourceSymbol": "EPISODE_FAMILIES/school.the-thing-you-got-blamed-for/it-stuck",
-      "text": "It is a year later and it is still on your record at school, in a sentence somebody else wrote about you.",
-      "realization": "static",
-      "slots": [],
+      "text": "A year on, the school record still says you broke {detail:incident}, in a sentence somebody else wrote.",
+      "realization": "templated",
+      "slots": [
+        "detail:incident"
+      ],
       "reachability": "PLAYER_REACHABLE",
       "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
       "grounding": [
@@ -69308,13 +69761,23 @@
           "kind": "requirement"
         },
         {
-          "key": "days-since-stage:blamed:200",
-          "description": "At least 200 days since blamed.",
+          "key": "days-since-stage:blamed:365",
+          "description": "At least 365 days since blamed.",
           "kind": "requirement"
         },
         {
           "key": "fact:school.enrolled",
           "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
           "kind": "requirement"
         }
       ],
@@ -69328,8 +69791,8 @@
         "family:school",
         "stakes:notable"
       ],
-      "textRevision": "b034ef274a97",
-      "contextRevision": "fad4bfee3ae4"
+      "textRevision": "d8e13448e1ca",
+      "contextRevision": "91344881dd54"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-stuck#line:1",
@@ -69340,7 +69803,7 @@
       "surface": "scene-line",
       "sourcePath": "src/simulation/life-content-92c.ts",
       "sourceSymbol": "EPISODE_FAMILIES/school.the-thing-you-got-blamed-for/it-stuck",
-      "text": "A teacher who was not there brings it up as though it settles something.",
+      "text": "It comes up again in a meeting nobody who was in the corridor is at.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -69352,13 +69815,23 @@
           "kind": "requirement"
         },
         {
-          "key": "days-since-stage:blamed:200",
-          "description": "At least 200 days since blamed.",
+          "key": "days-since-stage:blamed:365",
+          "description": "At least 365 days since blamed.",
           "kind": "requirement"
         },
         {
           "key": "fact:school.enrolled",
           "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
           "kind": "requirement"
         }
       ],
@@ -69372,8 +69845,8 @@
         "family:school",
         "stakes:notable"
       ],
-      "textRevision": "994b495d64f3",
-      "contextRevision": "fad4bfee3ae4"
+      "textRevision": "ec15dfd329af",
+      "contextRevision": "91344881dd54"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-stuck#option:correct-it:description",
@@ -69384,9 +69857,11 @@
       "surface": "option-description",
       "sourcePath": "src/simulation/life-content-92c.ts",
       "sourceSymbol": "EPISODE_FAMILIES/school.the-thing-you-got-blamed-for/it-stuck",
-      "text": "A year late, and it names somebody.",
-      "realization": "static",
-      "slots": [],
+      "text": "A year late, and it names {role:school-peer}.",
+      "realization": "templated",
+      "slots": [
+        "role:school-peer"
+      ],
       "reachability": "PLAYER_REACHABLE",
       "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
       "grounding": [
@@ -69396,13 +69871,23 @@
           "kind": "requirement"
         },
         {
-          "key": "days-since-stage:blamed:200",
-          "description": "At least 200 days since blamed.",
+          "key": "days-since-stage:blamed:365",
+          "description": "At least 365 days since blamed.",
           "kind": "requirement"
         },
         {
           "key": "fact:school.enrolled",
           "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
           "kind": "requirement"
         }
       ],
@@ -69416,8 +69901,8 @@
         "family:school",
         "stakes:notable"
       ],
-      "textRevision": "50a53c496bc5",
-      "contextRevision": "fad4bfee3ae4"
+      "textRevision": "54c2c4c3c8fa",
+      "contextRevision": "91344881dd54"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-stuck#option:correct-it:label",
@@ -69440,13 +69925,23 @@
           "kind": "requirement"
         },
         {
-          "key": "days-since-stage:blamed:200",
-          "description": "At least 200 days since blamed.",
+          "key": "days-since-stage:blamed:365",
+          "description": "At least 365 days since blamed.",
           "kind": "requirement"
         },
         {
           "key": "fact:school.enrolled",
           "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
           "kind": "requirement"
         }
       ],
@@ -69461,7 +69956,7 @@
         "stakes:notable"
       ],
       "textRevision": "49d9ab7dcd24",
-      "contextRevision": "fad4bfee3ae4"
+      "contextRevision": "91344881dd54"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-stuck#option:correct-it:memory",
@@ -69472,9 +69967,12 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/life-content-92c.ts",
       "sourceSymbol": "EPISODE_FAMILIES/school.the-thing-you-got-blamed-for/it-stuck",
-      "text": "A year on you told them what had actually happened in the corridor.",
-      "realization": "static",
-      "slots": [],
+      "text": "A year on you told the school that {role:school-peer} had broken {detail:incident}.",
+      "realization": "templated",
+      "slots": [
+        "detail:incident",
+        "role:school-peer"
+      ],
       "reachability": "PLAYER_REACHABLE",
       "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
       "grounding": [
@@ -69484,13 +69982,23 @@
           "kind": "requirement"
         },
         {
-          "key": "days-since-stage:blamed:200",
-          "description": "At least 200 days since blamed.",
+          "key": "days-since-stage:blamed:365",
+          "description": "At least 365 days since blamed.",
           "kind": "requirement"
         },
         {
           "key": "fact:school.enrolled",
           "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
           "kind": "requirement"
         }
       ],
@@ -69504,8 +70012,8 @@
         "family:school",
         "stakes:notable"
       ],
-      "textRevision": "54ee7bbec75c",
-      "contextRevision": "fad4bfee3ae4"
+      "textRevision": "293521b5b656",
+      "contextRevision": "91344881dd54"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-stuck#option:let-it-stand:description",
@@ -69528,13 +70036,23 @@
           "kind": "requirement"
         },
         {
-          "key": "days-since-stage:blamed:200",
-          "description": "At least 200 days since blamed.",
+          "key": "days-since-stage:blamed:365",
+          "description": "At least 365 days since blamed.",
           "kind": "requirement"
         },
         {
           "key": "fact:school.enrolled",
           "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
           "kind": "requirement"
         }
       ],
@@ -69549,7 +70067,7 @@
         "stakes:notable"
       ],
       "textRevision": "1463f68967d6",
-      "contextRevision": "fad4bfee3ae4"
+      "contextRevision": "91344881dd54"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-stuck#option:let-it-stand:label",
@@ -69572,13 +70090,23 @@
           "kind": "requirement"
         },
         {
-          "key": "days-since-stage:blamed:200",
-          "description": "At least 200 days since blamed.",
+          "key": "days-since-stage:blamed:365",
+          "description": "At least 365 days since blamed.",
           "kind": "requirement"
         },
         {
           "key": "fact:school.enrolled",
           "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
           "kind": "requirement"
         }
       ],
@@ -69593,7 +70121,7 @@
         "stakes:notable"
       ],
       "textRevision": "b6057881b46d",
-      "contextRevision": "fad4bfee3ae4"
+      "contextRevision": "91344881dd54"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-stuck#option:let-it-stand:memory",
@@ -69604,9 +70132,11 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/life-content-92c.ts",
       "sourceSymbol": "EPISODE_FAMILIES/school.the-thing-you-got-blamed-for/it-stuck",
-      "text": "You let the school keep the version of the corridor that was not true.",
-      "realization": "static",
-      "slots": [],
+      "text": "You let the school keep {detail:incident} on your record as yours.",
+      "realization": "templated",
+      "slots": [
+        "detail:incident"
+      ],
       "reachability": "PLAYER_REACHABLE",
       "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
       "grounding": [
@@ -69616,13 +70146,23 @@
           "kind": "requirement"
         },
         {
-          "key": "days-since-stage:blamed:200",
-          "description": "At least 200 days since blamed.",
+          "key": "days-since-stage:blamed:365",
+          "description": "At least 365 days since blamed.",
           "kind": "requirement"
         },
         {
           "key": "fact:school.enrolled",
           "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
           "kind": "requirement"
         }
       ],
@@ -69636,8 +70176,8 @@
         "family:school",
         "stakes:notable"
       ],
-      "textRevision": "a577b588b8b6",
-      "contextRevision": "fad4bfee3ae4"
+      "textRevision": "76ce1395da81",
+      "contextRevision": "91344881dd54"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-was-still-there#line:0",
@@ -69678,6 +70218,11 @@
           "key": "age-below:9",
           "description": "The character is under 9.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -69691,7 +70236,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "6e29cae38e6a",
-      "contextRevision": "a6856ed61179"
+      "contextRevision": "b7420c181266"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-was-still-there#line:1",
@@ -69732,6 +70277,11 @@
           "key": "age-below:9",
           "description": "The character is under 9.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -69745,7 +70295,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "2ac4d91bc5c5",
-      "contextRevision": "a6856ed61179"
+      "contextRevision": "b7420c181266"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-was-still-there#option:go-to-the-window:description",
@@ -69786,6 +70336,11 @@
           "key": "age-below:9",
           "description": "The character is under 9.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -69799,7 +70354,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "11de65863c19",
-      "contextRevision": "a6856ed61179"
+      "contextRevision": "b7420c181266"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-was-still-there#option:go-to-the-window:label",
@@ -69840,6 +70395,11 @@
           "key": "age-below:9",
           "description": "The character is under 9.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -69853,7 +70413,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "2e6b7bdd6037",
-      "contextRevision": "a6856ed61179"
+      "contextRevision": "b7420c181266"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-was-still-there#option:go-to-the-window:memory",
@@ -69894,6 +70454,11 @@
           "key": "age-below:9",
           "description": "The character is under 9.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -69907,7 +70472,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "f2d5b049ceae",
-      "contextRevision": "a6856ed61179"
+      "contextRevision": "b7420c181266"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-was-still-there#option:stay-at-your-table:description",
@@ -69948,6 +70513,11 @@
           "key": "age-below:9",
           "description": "The character is under 9.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -69961,7 +70531,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "3460832c8547",
-      "contextRevision": "a6856ed61179"
+      "contextRevision": "b7420c181266"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-was-still-there#option:stay-at-your-table:label",
@@ -70002,6 +70572,11 @@
           "key": "age-below:9",
           "description": "The character is under 9.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -70015,7 +70590,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "2b526f82990b",
-      "contextRevision": "a6856ed61179"
+      "contextRevision": "b7420c181266"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-was-still-there#option:stay-at-your-table:memory",
@@ -70056,6 +70631,11 @@
           "key": "age-below:9",
           "description": "The character is under 9.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -70069,7 +70649,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "ab70e6e66c78",
-      "contextRevision": "a6856ed61179"
+      "contextRevision": "b7420c181266"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/partner-pairing#line:0",
@@ -70105,6 +70685,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -70118,7 +70703,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "b76c02f4b42d",
-      "contextRevision": "c09b21fb716e"
+      "contextRevision": "9b580e5afbe4"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/partner-pairing#line:1",
@@ -70154,6 +70739,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -70167,7 +70757,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "c9f112692f0a",
-      "contextRevision": "c09b21fb716e"
+      "contextRevision": "9b580e5afbe4"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/partner-pairing#option:ask-for-another:description",
@@ -70203,6 +70793,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -70216,7 +70811,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "c9a2093a44f3",
-      "contextRevision": "c09b21fb716e"
+      "contextRevision": "9b580e5afbe4"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/partner-pairing#option:ask-for-another:label",
@@ -70252,6 +70847,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -70265,7 +70865,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "931c5797c558",
-      "contextRevision": "c09b21fb716e"
+      "contextRevision": "9b580e5afbe4"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/partner-pairing#option:ask-for-another:memory",
@@ -70301,6 +70901,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -70314,7 +70919,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "e388ae07c8e4",
-      "contextRevision": "c09b21fb716e"
+      "contextRevision": "9b580e5afbe4"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/partner-pairing#option:look-around:description",
@@ -70350,6 +70955,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -70363,7 +70973,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "aa1ff2c60d1d",
-      "contextRevision": "c09b21fb716e"
+      "contextRevision": "9b580e5afbe4"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/partner-pairing#option:look-around:label",
@@ -70399,6 +71009,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -70412,7 +71027,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "b88dec83f8fe",
-      "contextRevision": "c09b21fb716e"
+      "contextRevision": "9b580e5afbe4"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/partner-pairing#option:look-around:memory",
@@ -70448,6 +71063,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -70461,7 +71081,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "b58c7120d0ab",
-      "contextRevision": "c09b21fb716e"
+      "contextRevision": "9b580e5afbe4"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/partner-pairing#option:start-the-work:description",
@@ -70497,6 +71117,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -70510,7 +71135,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "0c22f07c3d56",
-      "contextRevision": "c09b21fb716e"
+      "contextRevision": "9b580e5afbe4"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/partner-pairing#option:start-the-work:label",
@@ -70546,6 +71171,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -70559,7 +71189,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "f3819132ff57",
-      "contextRevision": "c09b21fb716e"
+      "contextRevision": "9b580e5afbe4"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/partner-pairing#option:start-the-work:memory",
@@ -70595,6 +71225,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -70608,7 +71243,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "f1b551a68f59",
-      "contextRevision": "c09b21fb716e"
+      "contextRevision": "9b580e5afbe4"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/recess-race#line:0",
@@ -70644,6 +71279,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -70657,7 +71297,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "b47a12904593",
-      "contextRevision": "5c8cd7e36ae5"
+      "contextRevision": "d6e0db8d6242"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/recess-race#line:1",
@@ -70693,6 +71333,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -70706,7 +71351,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "a9a552d4c30f",
-      "contextRevision": "5c8cd7e36ae5"
+      "contextRevision": "d6e0db8d6242"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/recess-race#option:race-again:description",
@@ -70742,6 +71387,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -70755,7 +71405,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "8395e2cd5e35",
-      "contextRevision": "5c8cd7e36ae5"
+      "contextRevision": "d6e0db8d6242"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/recess-race#option:race-again:label",
@@ -70791,6 +71441,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -70804,7 +71459,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "06d92573cd92",
-      "contextRevision": "5c8cd7e36ae5"
+      "contextRevision": "d6e0db8d6242"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/recess-race#option:race-again:memory",
@@ -70840,6 +71495,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -70853,7 +71513,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "60211e28c2bf",
-      "contextRevision": "5c8cd7e36ae5"
+      "contextRevision": "d6e0db8d6242"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/recess-race#option:say-nothing:description",
@@ -70889,6 +71549,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -70902,7 +71567,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "a6f2dca35278",
-      "contextRevision": "5c8cd7e36ae5"
+      "contextRevision": "d6e0db8d6242"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/recess-race#option:say-nothing:label",
@@ -70938,6 +71603,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -70951,7 +71621,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "7169974afc9e",
-      "contextRevision": "5c8cd7e36ae5"
+      "contextRevision": "d6e0db8d6242"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/recess-race#option:say-nothing:memory",
@@ -70987,6 +71657,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -71000,7 +71675,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "ffec138737ab",
-      "contextRevision": "5c8cd7e36ae5"
+      "contextRevision": "d6e0db8d6242"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/recess-race#option:say-they-cheated:description",
@@ -71036,6 +71711,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -71049,7 +71729,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "62116492b0bb",
-      "contextRevision": "5c8cd7e36ae5"
+      "contextRevision": "d6e0db8d6242"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/recess-race#option:say-they-cheated:label",
@@ -71085,6 +71765,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -71098,7 +71783,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "bf6552165794",
-      "contextRevision": "5c8cd7e36ae5"
+      "contextRevision": "d6e0db8d6242"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/recess-race#option:say-they-cheated:memory",
@@ -71134,6 +71819,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -71147,7 +71837,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "b4b61731f08e",
-      "contextRevision": "5c8cd7e36ae5"
+      "contextRevision": "d6e0db8d6242"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/tattle-boundary#line:0",
@@ -71183,6 +71873,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -71196,7 +71891,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "8096b31fd086",
-      "contextRevision": "5c8cd7e36ae5"
+      "contextRevision": "d6e0db8d6242"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/tattle-boundary#line:1",
@@ -71232,6 +71927,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -71245,7 +71945,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "6a90366ffbb5",
-      "contextRevision": "5c8cd7e36ae5"
+      "contextRevision": "d6e0db8d6242"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/tattle-boundary#option:ask-about-the-rule:description",
@@ -71281,6 +71981,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -71294,7 +71999,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "c4a3e3f621e2",
-      "contextRevision": "5c8cd7e36ae5"
+      "contextRevision": "d6e0db8d6242"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/tattle-boundary#option:ask-about-the-rule:label",
@@ -71330,6 +72035,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -71343,7 +72053,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "d4110a663fa3",
-      "contextRevision": "5c8cd7e36ae5"
+      "contextRevision": "d6e0db8d6242"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/tattle-boundary#option:ask-about-the-rule:memory",
@@ -71379,6 +72089,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -71392,7 +72107,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "811e63f5a9e8",
-      "contextRevision": "5c8cd7e36ae5"
+      "contextRevision": "d6e0db8d6242"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/tattle-boundary#option:keep-working:description",
@@ -71428,6 +72143,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -71441,7 +72161,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "7b43cc781eb9",
-      "contextRevision": "5c8cd7e36ae5"
+      "contextRevision": "d6e0db8d6242"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/tattle-boundary#option:keep-working:label",
@@ -71477,6 +72197,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -71490,7 +72215,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "5ed03f224664",
-      "contextRevision": "5c8cd7e36ae5"
+      "contextRevision": "d6e0db8d6242"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/tattle-boundary#option:keep-working:memory",
@@ -71526,6 +72251,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -71539,7 +72269,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "ae653586ef85",
-      "contextRevision": "5c8cd7e36ae5"
+      "contextRevision": "d6e0db8d6242"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/tattle-boundary#option:tell-the-adult:description",
@@ -71575,6 +72305,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -71588,7 +72323,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "c174b5f3a0b1",
-      "contextRevision": "5c8cd7e36ae5"
+      "contextRevision": "d6e0db8d6242"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/tattle-boundary#option:tell-the-adult:label",
@@ -71624,6 +72359,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -71637,7 +72377,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "0f14e0b6fe7e",
-      "contextRevision": "5c8cd7e36ae5"
+      "contextRevision": "d6e0db8d6242"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/tattle-boundary#option:tell-the-adult:memory",
@@ -71673,6 +72413,11 @@
           "key": "age-below:8",
           "description": "The character is under 8.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -71686,7 +72431,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "eef493ea9214",
-      "contextRevision": "5c8cd7e36ae5"
+      "contextRevision": "d6e0db8d6242"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/the-commute#line:0",
@@ -71727,6 +72472,11 @@
           "key": "age-below:26",
           "description": "The character is under 26.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -71741,7 +72491,7 @@
         "withheld"
       ],
       "textRevision": "10a0b958771a",
-      "contextRevision": "74e3b5e90949"
+      "contextRevision": "695389ce6bc5"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/the-commute#line:1",
@@ -71782,6 +72532,11 @@
           "key": "age-below:26",
           "description": "The character is under 26.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -71796,7 +72551,7 @@
         "withheld"
       ],
       "textRevision": "349e46b7fbec",
-      "contextRevision": "74e3b5e90949"
+      "contextRevision": "695389ce6bc5"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/the-commute#option:ask-for-another-shift:description",
@@ -71837,6 +72592,11 @@
           "key": "age-below:26",
           "description": "The character is under 26.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -71851,7 +72611,7 @@
         "withheld"
       ],
       "textRevision": "9b6d333f5491",
-      "contextRevision": "74e3b5e90949"
+      "contextRevision": "695389ce6bc5"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/the-commute#option:ask-for-another-shift:label",
@@ -71892,6 +72652,11 @@
           "key": "age-below:26",
           "description": "The character is under 26.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -71906,7 +72671,7 @@
         "withheld"
       ],
       "textRevision": "919596f1b13f",
-      "contextRevision": "74e3b5e90949"
+      "contextRevision": "695389ce6bc5"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/the-commute#option:ask-for-another-shift:memory",
@@ -71947,6 +72712,11 @@
           "key": "age-below:26",
           "description": "The character is under 26.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -71961,7 +72731,7 @@
         "withheld"
       ],
       "textRevision": "f7c422317528",
-      "contextRevision": "74e3b5e90949"
+      "contextRevision": "695389ce6bc5"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/the-commute#option:leave-early:description",
@@ -72002,6 +72772,11 @@
           "key": "age-below:26",
           "description": "The character is under 26.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -72016,7 +72791,7 @@
         "withheld"
       ],
       "textRevision": "03551b2f806b",
-      "contextRevision": "74e3b5e90949"
+      "contextRevision": "695389ce6bc5"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/the-commute#option:leave-early:label",
@@ -72057,6 +72832,11 @@
           "key": "age-below:26",
           "description": "The character is under 26.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -72071,7 +72851,7 @@
         "withheld"
       ],
       "textRevision": "bba5f1e0aa51",
-      "contextRevision": "74e3b5e90949"
+      "contextRevision": "695389ce6bc5"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/the-commute#option:leave-early:memory",
@@ -72112,6 +72892,11 @@
           "key": "age-below:26",
           "description": "The character is under 26.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -72126,7 +72911,7 @@
         "withheld"
       ],
       "textRevision": "f42109535719",
-      "contextRevision": "74e3b5e90949"
+      "contextRevision": "695389ce6bc5"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/the-commute#option:work-the-full-shift:description",
@@ -72167,6 +72952,11 @@
           "key": "age-below:26",
           "description": "The character is under 26.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -72181,7 +72971,7 @@
         "withheld"
       ],
       "textRevision": "04057ac2e011",
-      "contextRevision": "74e3b5e90949"
+      "contextRevision": "695389ce6bc5"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/the-commute#option:work-the-full-shift:label",
@@ -72222,6 +73012,11 @@
           "key": "age-below:26",
           "description": "The character is under 26.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -72236,7 +73031,7 @@
         "withheld"
       ],
       "textRevision": "668edd61dbd0",
-      "contextRevision": "74e3b5e90949"
+      "contextRevision": "695389ce6bc5"
     },
     {
       "id": "prose:life:episode:school.the-thing-you-got-blamed-for/the-commute#option:work-the-full-shift:memory",
@@ -72277,6 +73072,11 @@
           "key": "age-below:26",
           "description": "The character is under 26.",
           "kind": "age-gate"
+        },
+        {
+          "key": "detail:incident",
+          "description": "The family authors the alternatives this scene's incident is drawn from.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -72291,7 +73091,7 @@
         "withheld"
       ],
       "textRevision": "43707376b709",
-      "contextRevision": "74e3b5e90949"
+      "contextRevision": "695389ce6bc5"
     },
     {
       "id": "prose:life:episode:work.the-money-nobody-counts/pooled-tips#line:0",

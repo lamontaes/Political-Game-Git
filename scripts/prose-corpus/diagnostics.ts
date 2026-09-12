@@ -80,14 +80,46 @@ function normalized(text: string): string {
     .trim();
 }
 
+/**
+ * Every way a bound role can be named.
+ *
+ * A role the grounding declares is not only written `{role:x}`. Packet 72 gave
+ * the banks a closed vocabulary for referring to the same bound person —
+ * `{who:x}` introduces them, `{they:x}` and `{their:x}` refer back, `{has:x}`
+ * and `{is:x}` agree the verb with them — and every one of those resolves
+ * through the same binding. The lint knew only the first spelling, so it was
+ * reporting a dozen correctly grounded lines as untraceable.
+ */
+const ROLE_SLOT_FORMS = [
+  "role",
+  "who",
+  "they",
+  "them",
+  "their",
+  "theirs",
+  "themselves",
+  "s",
+  "es",
+  "is",
+  "has",
+  "was",
+  "does",
+] as const;
+
 /** Slots a record's own declared grounding could plausibly bind. */
 function bindableSlots(record: ProseRecord): ReadonlySet<string> {
   const bindable = new Set(["self", "place", "age", "date", "name"]);
   for (const ref of record.grounding) {
     if (ref.key.startsWith("role:")) {
+      const role = ref.key.slice("role:".length);
       bindable.add(ref.key);
-      bindable.add(ref.key.slice("role:".length));
+      bindable.add(role);
+      for (const form of ROLE_SLOT_FORMS) bindable.add(`${form}:${role}`);
     }
+    // `{detail:x}` draws one of the family's own authored alternatives. It is
+    // traceable exactly when the family declares that detail, which is what
+    // puts the key in the record's grounding.
+    if (ref.key.startsWith("detail:")) bindable.add(ref.key);
   }
   return bindable;
 }

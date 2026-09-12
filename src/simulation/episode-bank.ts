@@ -163,6 +163,10 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
         // player — has to be old enough for that to be plausible.
         needsMobileHouseholdPeer,
         doesNotAnswerForThemselves,
+        // The adult the "tell somebody" option now names. The engine already
+        // withholds a stage whose copy names a role nothing can fill; saying so
+        // here is what makes the requirement readable in the record.
+        { kind: "role", role: "guardian" },
         { kind: "age-below", age: 18 },
         { kind: "fact", fact: "household.shared" },
       ],
@@ -170,7 +174,7 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
         // The introduction closes the sentence. `{who:}` renders an appositive
         // — "Simon Rush, your older brother" — so copy that ran on from it
         // lost the closing comma and read as one long noun.
-        "Three nights this week somebody has come in after everyone else and said a different place each time: {who:household-peer}.",
+        "Three nights this week the last one in has been {who:household-peer}, and the place was different each time.",
         "Nobody has said anything about it at breakfast, and you have started waiting to see whether they will.",
       ],
       stakes: "ordinary",
@@ -850,6 +854,9 @@ const SCHOOL_TROUBLE: EpisodeFamily = {
          */
         { kind: "days-since-stage", stage: "blamed", days: 365 },
         { kind: "fact", fact: "school.enrolled" },
+        // The classmate the correction would name: the continuation is about
+        // the same person the corridor was about, or it is not offered.
+        { kind: "role", role: "school-peer" },
       ],
       lines: [
         "A year on, the school record still says you broke {detail:incident}, in a sentence somebody else wrote.",
@@ -897,10 +904,12 @@ const SCHOOL_TROUBLE: EpisodeFamily = {
       requires: [
         { kind: "after-choice", stage: "blamed", option: "name-them" },
         { kind: "days-since-stage", stage: "blamed", days: 200 },
+        // The person the player named. Same rule as it-stuck.
+        { kind: "role", role: "school-peer" },
       ],
       lines: [
         "{role:school-peer} has not spoken to you since you said it, and has been telling people a different version.",
-        "Somebody who has only heard that version asks you, straight out, what happened in the corridor.",
+        "One of them asks you, straight out, what happened in the corridor.",
       ],
       stakes: "ordinary",
       tensions: [
@@ -919,7 +928,7 @@ const SCHOOL_TROUBLE: EpisodeFamily = {
           nudges: [nudge("decision-style", 0.3), nudge("civic-order", 0.3)],
           aftermath: "standing",
           memory:
-            "You said again that {role:school-peer} had broken {detail:incident}, to somebody who had only heard {their:school-peer} version.",
+            "You said again that {role:school-peer} had broken {detail:incident}, to one of the people who had only heard {their:school-peer} version.",
         },
         {
           key: "drop-it",

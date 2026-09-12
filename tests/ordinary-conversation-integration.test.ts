@@ -202,7 +202,16 @@ it("accounts for the thirty versioned OPENING records and the actual canonical n
   );
   expect(groups.map((rows) => rows.length)).toEqual([10, 15, 5]);
   expect(new Set(groups.flat().map((row) => row.personId)).size).toBe(5);
-  expect(world.people["person_159b46fda48b2fea"]?.givenName).toBe("Donna");
+  /*
+   * The canonical name this control pins, which moved once and for a reason.
+   *
+   * Every gendered person drawn off one stream used to come back with the same
+   * given name, because the draw forked on a constant key. Keying the fork on
+   * the person's own draw ended that, and this housemate is one of the people
+   * it renamed — Donna to Kelsey. The identity is the same person, at the same
+   * id, in the same household: only the string the corpus handed them changed.
+   */
+  expect(world.people["person_159b46fda48b2fea"]?.givenName).toBe("Kelsey");
 });
 
 it("refuses unaccounted corruption before applying the explicit OPENING delta", () => {

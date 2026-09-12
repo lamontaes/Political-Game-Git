@@ -1,6 +1,6 @@
 # Prose diagnostics — current main baseline
 
-**0 hard errors. 272 review warnings.**
+**0 hard errors. 253 review warnings.**
 
 A hard error is objectively wrong: an ID collision, a slot the record's own
 grounding cannot bind, a withheld record with no reason. A review warning is a
@@ -13,18 +13,17 @@ defect than the one it was aimed at.
 
 | Family | Count |
 | --- | --- |
-| vague-referent | 174 |
-| and-it-scaffold | 39 |
+| vague-referent | 168 |
+| and-it-scaffold | 38 |
 | rather-than-scaffold | 28 |
-| slot-agreement | 12 |
 | third-person-player | 10 |
 | label-restated-in-description | 9 |
 
 ## Repetition
 
-- 2485 templates, 2351 distinct texts.
+- 2486 templates, 2352 distinct texts.
 - 33 exact duplicate groups.
-- 39 normalized duplicate groups.
+- 40 normalized duplicate groups.
 - 19 near-duplicate clusters (Jaccard ≥ 0.72).
 
 Exact duplicate text at two semantic locations is not itself a defect: each
@@ -34,19 +33,19 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 
 | N-gram | Count | Banks |
 | --- | --- | --- |
-| `in front of` | 25 | 8 |
+| `in front of` | 24 | 8 |
 | `no instrument read` | 21 | 1 |
 | `there is a` | 19 | 5 |
 | `it is not` | 16 | 3 |
 | `asked you to` | 15 | 4 |
 | `a long time` | 14 | 4 |
 | `the player asked` | 14 | 1 |
-| `and it is` | 13 | 5 |
 | `instrument read establishes` | 13 | 2 |
 | `out of the` | 13 | 5 |
+| `and it is` | 12 | 5 |
+| `has asked you` | 12 | 4 |
 | `proof of income` | 12 | 2 |
 | `the two of` | 12 | 3 |
-| `has asked you` | 11 | 4 |
 | `is on the` | 11 | 6 |
 | `no instrument read establishes` | 11 | 1 |
 | `of income form` | 11 | 2 |
@@ -55,10 +54,10 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `the end of` | 10 | 4 |
 | `the two of you` | 10 | 3 |
 | `two of you` | 10 | 3 |
-| `you did not` | 10 | 4 |
 | `at the end` | 9 | 3 |
 | `at the end of` | 9 | 3 |
 | `in the room` | 9 | 5 |
+| `on the floor` | 9 | 5 |
 
 ### Most repeated sentence openings
 
@@ -78,6 +77,6 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `it is not` | 6 |
 | `the bill has` | 6 |
 | `you agreed to` | 6 |
-| `ask about the` | 5 |
+| `you said you` | 6 |
 
 Every finding with its exact semantic ID is in `lint-findings.json`.

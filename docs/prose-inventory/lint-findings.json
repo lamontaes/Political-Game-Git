@@ -889,27 +889,6 @@
     "evidence": "and it"
   },
   {
-    "id": "prose:life:episode:home.someone-is-not-all-right/asked-directly#line:1",
-    "severity": "REVIEW_WARNING",
-    "family": "slot-agreement",
-    "message": "The template fills {does:household-peer}, which is not one of the slots the corpus can trace to declared grounding.",
-    "evidence": "does:household-peer"
-  },
-  {
-    "id": "prose:life:episode:home.someone-is-not-all-right/asked-directly#line:1",
-    "severity": "REVIEW_WARNING",
-    "family": "slot-agreement",
-    "message": "The template fills {s:household-peer}, which is not one of the slots the corpus can trace to declared grounding.",
-    "evidence": "s:household-peer"
-  },
-  {
-    "id": "prose:life:episode:home.someone-is-not-all-right/asked-directly#line:1",
-    "severity": "REVIEW_WARNING",
-    "family": "slot-agreement",
-    "message": "The template fills {they:household-peer}, which is not one of the slots the corpus can trace to declared grounding.",
-    "evidence": "they:household-peer"
-  },
-  {
     "id": "prose:life:episode:home.someone-is-not-all-right/it-got-worse#line:0",
     "severity": "REVIEW_WARNING",
     "family": "and-it-scaffold",
@@ -938,81 +917,11 @@
     "evidence": "Somebody"
   },
   {
-    "id": "prose:life:episode:home.someone-is-not-all-right/noticing#line:0",
-    "severity": "REVIEW_WARNING",
-    "family": "slot-agreement",
-    "message": "The template fills {who:household-peer}, which is not one of the slots the corpus can trace to declared grounding.",
-    "evidence": "who:household-peer"
-  },
-  {
-    "id": "prose:life:episode:home.someone-is-not-all-right/noticing#option:ask:label",
-    "severity": "REVIEW_WARNING",
-    "family": "slot-agreement",
-    "message": "The template fills {has:household-peer}, which is not one of the slots the corpus can trace to declared grounding.",
-    "evidence": "has:household-peer"
-  },
-  {
-    "id": "prose:life:episode:home.someone-is-not-all-right/noticing#option:ask:label",
-    "severity": "REVIEW_WARNING",
-    "family": "slot-agreement",
-    "message": "The template fills {they:household-peer}, which is not one of the slots the corpus can trace to declared grounding.",
-    "evidence": "they:household-peer"
-  },
-  {
-    "id": "prose:life:episode:home.someone-is-not-all-right/noticing#option:ask:memory",
-    "severity": "REVIEW_WARNING",
-    "family": "slot-agreement",
-    "message": "The template fills {they:household-peer}, which is not one of the slots the corpus can trace to declared grounding.",
-    "evidence": "they:household-peer"
-  },
-  {
-    "id": "prose:life:episode:home.someone-is-not-all-right/noticing#option:cover:description",
-    "severity": "REVIEW_WARNING",
-    "family": "slot-agreement",
-    "message": "The template fills {they:household-peer}, which is not one of the slots the corpus can trace to declared grounding.",
-    "evidence": "they:household-peer"
-  },
-  {
-    "id": "prose:life:episode:home.someone-is-not-all-right/noticing#option:cover:label",
-    "severity": "REVIEW_WARNING",
-    "family": "slot-agreement",
-    "message": "The template fills {s:household-peer}, which is not one of the slots the corpus can trace to declared grounding.",
-    "evidence": "s:household-peer"
-  },
-  {
-    "id": "prose:life:episode:home.someone-is-not-all-right/noticing#option:cover:label",
-    "severity": "REVIEW_WARNING",
-    "family": "slot-agreement",
-    "message": "The template fills {they:household-peer}, which is not one of the slots the corpus can trace to declared grounding.",
-    "evidence": "they:household-peer"
-  },
-  {
     "id": "prose:life:episode:home.someone-is-not-all-right/noticing#option:cover:label",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"whatever\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "whatever"
-  },
-  {
-    "id": "prose:life:episode:home.someone-is-not-all-right/noticing#option:cover:memory",
-    "severity": "REVIEW_WARNING",
-    "family": "slot-agreement",
-    "message": "The template fills {they:household-peer}, which is not one of the slots the corpus can trace to declared grounding.",
-    "evidence": "they:household-peer"
-  },
-  {
-    "id": "prose:life:episode:home.someone-is-not-all-right/noticing#option:tell-someone:memory",
-    "severity": "REVIEW_WARNING",
-    "family": "slot-agreement",
-    "message": "The template fills {they:household-peer}, which is not one of the slots the corpus can trace to declared grounding.",
-    "evidence": "they:household-peer"
-  },
-  {
-    "id": "prose:life:episode:home.someone-is-not-all-right/noticing#option:tell-someone:memory",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "somebody"
   },
   {
     "id": "prose:life:episode:home.someone-is-not-all-right/noticing#option:watch:description",
@@ -1218,20 +1127,6 @@
     "evidence": "somebody"
   },
   {
-    "id": "prose:life:episode:school.the-thing-you-got-blamed-for/blamed#line:0",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "Something"
-  },
-  {
-    "id": "prose:life:episode:school.the-thing-you-got-blamed-for/blamed#option:take-it:description",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"whatever\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "Whatever"
-  },
-  {
     "id": "prose:life:episode:school.the-thing-you-got-blamed-for/carrying-the-group#line:0",
     "severity": "REVIEW_WARNING",
     "family": "and-it-scaffold",
@@ -1253,20 +1148,6 @@
     "evidence": "Don't touch the coat"
   },
   {
-    "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-came-out#option:tell-it-again:memory",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "somebody"
-  },
-  {
-    "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-stuck#line:0",
-    "severity": "REVIEW_WARNING",
-    "family": "and-it-scaffold",
-    "message": "The \"and it ...\" scaffold appears 1 time(s).",
-    "evidence": "and it"
-  },
-  {
     "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-stuck#line:0",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
@@ -1274,25 +1155,11 @@
     "evidence": "somebody"
   },
   {
-    "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-stuck#line:1",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "something"
-  },
-  {
     "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-stuck#option:correct-it:description",
     "severity": "REVIEW_WARNING",
     "family": "and-it-scaffold",
     "message": "The \"and it ...\" scaffold appears 1 time(s).",
     "evidence": "and it"
-  },
-  {
-    "id": "prose:life:episode:school.the-thing-you-got-blamed-for/it-stuck#option:correct-it:description",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "somebody"
   },
   {
     "id": "prose:life:episode:school.the-thing-you-got-blamed-for/partner-pairing#option:ask-for-another:description",
