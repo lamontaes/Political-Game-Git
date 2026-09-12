@@ -4,9 +4,11 @@ import { createNewGameWorld } from "../presentation/new-game";
 import type { NewGameSetup } from "../presentation/new-game";
 import { EPISODE_FAMILIES, episodeFamily } from "./episode-bank";
 import { advanceWorld } from "./world";
+import { personName } from "./people";
 import {
   eligibleEpisodeBeats,
   episodeDetails,
+  episodeRoleBindings,
   playEpisodeOption,
   playedEpisodeStages,
   type EpisodeBeat,
@@ -28,6 +30,18 @@ import type { EntityId, World } from "./index";
 const SCHOOL = "school.the-thing-you-got-blamed-for";
 
 const INCIDENTS = episodeFamily(SCHOOL)!.details!["incident"]!;
+
+/** The authored incident as it appears, wherever it falls in the sentence. */
+function mentionsIncident(text: string, incident: string): boolean {
+  return (
+    text.includes(incident) ||
+    text.includes(incident.charAt(0).toUpperCase() + incident.slice(1))
+  );
+}
+
+function incidentIn(text: string): string | undefined {
+  return INCIDENTS.find((incident) => mentionsIncident(text, incident));
+}
 
 function schoolLife(age: number, seed: string) {
   const game = createNewGameWorld({
@@ -81,9 +95,10 @@ describe("PT3 — the school corridor names what happened and who did it", () =>
       expect(peer!.basis).toBe("Active enrollment in the same school.");
 
       // What happened, and who did it, are both on the screen.
-      expect(INCIDENTS.some((incident) => beat!.prose.includes(incident))).toBe(
-        true,
-      );
+      expect(
+        incidentIn(beat!.prose),
+        "the scene names what got broken",
+      ).toBeDefined();
       expect(beat!.prose).toContain(peer!.personName);
 
       // And what the playtest read is gone.
@@ -97,6 +112,11 @@ describe("PT3 — the school corridor names what happened and who did it", () =>
       );
       expect(nameThem!.label).toContain(peer!.personName);
       expect(nameThem!.label).not.toBe("Say who did it");
+
+      // Sentences read as sentences: a slot that opens one is capitalized.
+      for (const sentence of beat!.prose.split(/(?<=[.!?])\s+/)) {
+        expect(sentence).toMatch(/^[A-Z"“]/);
+      }
 
       // What was seen is separated from what the school was told.
       expect(beat!.prose).toMatch(/standing next to it when it happened/i);
@@ -175,9 +195,7 @@ describe("PT3 — the school corridor names what happened and who did it", () =>
     const { world, personId } = schoolLife(15, "pt3-school-follow");
     const beat = blamedBeat(world, personId)!;
     const peer = beat.bindings[0]!;
-    const incident = INCIDENTS.find((candidate) =>
-      beat.prose.includes(candidate),
-    )!;
+    const incident = incidentIn(beat.prose)!;
 
     const played = playEpisodeOption(world, {
       personId,
@@ -194,7 +212,7 @@ describe("PT3 — the school corridor names what happened and who did it", () =>
     const event = played.world.history.events.find(
       (candidate) => candidate.id === played.eventId,
     )!;
-    expect(event.summary).toContain(incident);
+    expect(mentionsIncident(event.summary, incident)).toBe(true);
     expect(event.summary).toContain(peer.personName);
     expect(event.involvedEntityIds).toContain(peer.personId);
 
@@ -213,13 +231,74 @@ describe("PT3 — the school corridor names what happened and who did it", () =>
     ).toBe(incident);
   });
 
+  it("names two people in the house two different names", () => {
+    /*
+     * The adjacent home scene, which binds a guardian and a household peer in
+     * the same sentence. Its option read "Tell Charles Rush — then it is
+     * Charles Rush's to deal with, and Charles Rush will know it came from
+     * you": the guardian and the older brother had been handed the same name
+     * by the generator, so the choice named nobody the player could pick out.
+     */
+    for (let index = 0; index < 12; index += 1) {
+      const { world, personId } = schoolLife(13, `pt3-house-${index}`);
+      const cast = new Map<string, EntityId>();
+      for (const binding of episodeRoleBindings(world, personId)) {
+        const already = cast.get(binding.personName);
+        expect(
+          already === undefined || already === binding.personId,
+          `two people in ${`pt3-house-${index}`} answer to ${binding.personName}`,
+        ).toBe(true);
+        cast.set(binding.personName, binding.personId);
+      }
+      expect(cast.has(personName(world.people[personId]!))).toBe(false);
+    }
+  });
+
+  it("hands the home scene's telling to the adult who is actually responsible", () => {
+    /*
+     * The first ordinary life that reaches the home scene. Not every household
+     * does — the peer has to be old enough to be out — and a fixture that
+     * forced one would be proving something the player never meets.
+     */
+    let beat: EpisodeBeat | undefined;
+    let world: World | undefined;
+    for (let index = 0; index < 12 && beat === undefined; index += 1) {
+      const life = schoolLife(14, `pt3-house-tell-${index}`);
+      beat = eligibleEpisodeBeats({
+        world: life.world,
+        personId: life.personId,
+        families: EPISODE_FAMILIES,
+      }).beats.find(
+        (candidate) =>
+          candidate.episodeKey === "home.someone-is-not-all-right" &&
+          candidate.stageKey === "noticing",
+      );
+      if (beat) world = life.world;
+    }
+    expect(beat, "the home scene is reachable in ordinary play").toBeDefined();
+    expect(world).toBeDefined();
+    const guardian = beat!.bindings.find(
+      (binding) => binding.role === "guardian",
+    )!;
+    const peer = beat!.bindings.find(
+      (binding) => binding.role === "household-peer",
+    )!;
+    expect(guardian.personId).not.toBe(peer.personId);
+
+    const tell = beat!.options.find((option) => option.key === "tell-someone")!;
+    // The unbound "a grown-up at home" is gone, and the two of them are told
+    // apart in the line the player reads.
+    expect(tell.label).toBe(`Tell ${guardian.personName}`);
+    expect(tell.description).toContain(peer.personName);
+    expect(guardian.personName).not.toBe(peer.personName);
+    expect(beat!.prose).toContain(peer.personName);
+  });
+
   it("waits a real year before saying a year has passed", () => {
     const { world, personId } = schoolLife(15, "pt3-school-year");
     const beat = blamedBeat(world, personId)!;
     const peer = beat.bindings[0]!;
-    const incident = INCIDENTS.find((candidate) =>
-      beat.prose.includes(candidate),
-    )!;
+    const incident = incidentIn(beat.prose)!;
     const after = playEpisodeOption(world, {
       personId,
       beat,
@@ -245,7 +324,7 @@ describe("PT3 — the school corridor names what happened and who did it", () =>
     const later = stuckAt(advanceWorld(twoHundred, 166));
     expect(later, "a year later it is still on the record").toBeDefined();
     expect(later!.prose).toMatch(/^A year on/);
-    expect(later!.prose).toContain(incident);
+    expect(mentionsIncident(later!.prose, incident)).toBe(true);
     expect(later!.instanceKey).toBe(beat.instanceKey);
     expect(
       later!.options.find((option) => option.key === "correct-it")!.description,

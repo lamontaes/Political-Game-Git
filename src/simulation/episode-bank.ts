@@ -144,7 +144,15 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
   key: "home.someone-is-not-all-right",
   family: "household",
   authority: EPISODE_AUTHORITY,
-  roles: ["household-peer"],
+  /*
+   * The guardian is here for the same reason the school scene binds a
+   * classmate: "Tell a grown-up at home" named nobody, and the memory it
+   * wrote said "somebody at home". The adult responsible for this child is on
+   * the authority record, so the option can say who it is — and where no such
+   * record exists the stage is withheld rather than written around a person
+   * the world does not have.
+   */
+  roles: ["household-peer", "guardian"],
   stages: [
     ...LIFE_CONTENT_92C_HOME_STAGES,
     {
@@ -159,7 +167,10 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
         { kind: "fact", fact: "household.shared" },
       ],
       lines: [
-        "{who:household-peer} has come in after everyone else three nights this week, and said a different place each time.",
+        // The introduction closes the sentence. `{who:}` renders an appositive
+        // — "Simon Rush, your older brother" — so copy that ran on from it
+        // lost the closing comma and read as one long noun.
+        "Three nights this week somebody has come in after everyone else and said a different place each time: {who:household-peer}.",
         "Nobody has said anything about it at breakfast, and you have started waiting to see whether they will.",
       ],
       stakes: "ordinary",
@@ -187,9 +198,9 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
         },
         {
           key: "tell-someone",
-          label: "Tell a grown-up at home",
+          label: "Tell {role:guardian}",
           description:
-            "Then it is theirs to deal with, and they will know it came from you.",
+            "Then it is {role:guardian}'s to deal with, and {role:household-peer} will know it came from you.",
           nudges: [
             nudge("care-obligation", 0.35),
             nudge("privacy-preference", -0.45),
@@ -197,7 +208,7 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
           ],
           aftermath: "grievance",
           memory:
-            "You told somebody at home about {role:household-peer} coming in late, and {they:household-peer} found out you had.",
+            "You told {role:guardian} about {role:household-peer} coming in late, and {they:household-peer} found out you had.",
         },
         {
           key: "watch",
