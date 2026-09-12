@@ -92,6 +92,7 @@ test("P2R1 preserves and reloads the old age-32 calibrated fixture when its next
   await page.reload();
   await page.getByTestId("continue").click();
   await expect(page.getByTestId("play-screen")).toBeVisible();
+  await enterLife(page);
   await expect(page.getByTestId("story-prose")).toHaveCount(0);
   expect(await page.getByTestId("story-section").innerText()).toBe(before);
   await page.getByTestId("open-journal").click();

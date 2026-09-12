@@ -87,6 +87,7 @@ test("keeps the same life across a save and a reload mid-route", async ({
   await page.reload();
   await page.getByTestId("continue").click();
   await expect(page.getByTestId("play-screen")).toBeVisible();
+  await enterLife(page);
   expect(await page.getByTestId("story-section").innerText()).toBe(before);
   await page.getByTestId("open-journal").click();
   expect(await page.getByTestId("journal").innerText()).toBe(journal);
