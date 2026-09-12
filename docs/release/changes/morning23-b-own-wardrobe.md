@@ -1,6 +1,8 @@
 ---
 id: morning23-b-own-wardrobe
 impact: patch
+section: Fixed
+title: Keep wardrobe editing with your own character
 ---
 
 Keep other people's appearance read-only during normal play. Add an explicit
