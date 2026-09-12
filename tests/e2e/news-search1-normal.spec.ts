@@ -139,10 +139,23 @@ test("normal News search stays usable on a narrow viewport after a second public
   const articles = page.locator(".public-information-article");
   await expect(articles).toHaveCount(2);
   const search = page.getByTestId("public-information-search-input");
-  const firstHeadline = await articles.first().locator("h3").innerText();
-  const token = firstHeadline.split(/\s+/).find((part) => part.length > 3)!;
+  const articleTexts = await articles.allTextContents();
+  const token = articleTexts[0]
+    ?.match(/[\p{L}\p{N}'’-]{4,}/gu)
+    ?.find((part) =>
+      articleTexts
+        .slice(1)
+        .every(
+          (text) =>
+            !text.toLocaleLowerCase().includes(part.toLocaleLowerCase()),
+        ),
+    );
+  expect(
+    token,
+    "the first publication should have a distinguishing search term",
+  ).toBeTruthy();
   await search.tap();
-  await search.fill(token);
+  await search.fill(token!);
   await expect(articles).toHaveCount(1);
   await page.getByTestId("public-information-search-clear").tap();
   await expect(articles).toHaveCount(2);
