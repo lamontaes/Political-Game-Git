@@ -63,6 +63,8 @@ await page.getByTestId("creator-stage-character").waitFor();
 await page.getByTestId("start-age").fill("27");
 await page.getByTestId("creator-continue-character").click();
 await page.getByTestId("creator-stage-place").waitFor();
+await page.getByTestId("state-search").fill("Kentucky");
+await page.getByTestId("state-KY").click();
 await page.getByTestId("place-search").fill("Kentu");
 await page
   .getByTestId("place-choices")
@@ -81,10 +83,13 @@ try {
   /* no household introduction */
 }
 await page.getByTestId("play-screen").waitFor();
+await page.getByTestId("shell-nav-cluster").click();
+await page.getByTestId("shell-nav-flyout").waitFor();
 await page.getByTestId("keep-world").click();
 await page
   .getByTestId("keep-world")
   .waitFor({ state: "detached", timeout: 15000 });
+await page.getByText("Saved.", { exact: true }).waitFor({ timeout: 15000 });
 
 const interfaceSeed = await page.evaluate(async (databaseName) => {
   const db = await new Promise((resolve, reject) => {
