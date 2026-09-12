@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2353 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5695 |
-| DIAGNOSTIC_OR_TEST | 4778 |
-| **NEEDS_CLASSIFICATION** | **6162** |
+| INTENTIONALLY_NON_PLAYER_FACING | 5696 |
+| DIAGNOSTIC_OR_TEST | 4788 |
+| **NEEDS_CLASSIFICATION** | **6167** |
 
-Scanned 577 files holding 72025 string
+Scanned 580 files holding 72179 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -39,7 +39,7 @@ literals in total; the table counts only those that read like a sentence.
 | 214 | `src/simulation/executive-authority-rule-packs.ts` |
 | 199 | `src/simulation/legislation-service-families.ts` |
 | 126 | `src/simulation/legislation.ts` |
-| 110 | `src/player/PlayerGame.tsx` |
+| 111 | `src/player/PlayerGame.tsx` |
 | 97 | `src/simulation/opening-life-content.ts` |
 | 87 | `src/simulation/policy.ts` |
 | 76 | `src/presentation/legislative-bargaining.ts` |
@@ -245,6 +245,7 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/player/TitleScreen.tsx` |
 | 4 | `src/presentation/art-preview.ts` |
 | 4 | `src/presentation/executive-work.ts` |
+| 4 | `src/presentation/place-hometown-population.ts` |
 | 4 | `src/presentation/setup-questionnaire-flow.ts` |
 | 4 | `src/presentation/social-invitation.ts` |
 | 4 | `src/simulation/person-identity.ts` |

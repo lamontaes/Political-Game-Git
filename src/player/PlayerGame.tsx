@@ -69,7 +69,11 @@ import {
   withCreatorLocation,
   type CreatorLocationDraft,
 } from "../presentation/creator-location";
-import { placeStartFacts } from "../presentation/place-start-summary";
+import {
+  placeStartFacts,
+  type PlaceStartFact,
+} from "../presentation/place-start-summary";
+import { queryHometownPopulationFacts } from "../presentation/place-hometown-population";
 import {
   openOrdinaryLife,
   passOrdinaryDays,
@@ -760,6 +764,9 @@ function SetupScreen({
   const [stateQuery, setStateQuery] = useState("");
   const [placeQuery, setPlaceQuery] = useState("");
   const [replacingPlace, setReplacingPlace] = useState(false);
+  const [populationFacts, setPopulationFacts] = useState<
+    readonly PlaceStartFact[]
+  >([]);
   /*
    * An edit of an already-chosen setup reopens with that setup's place; a
    * fresh start opens with none (PT3-CREATOR B).
@@ -841,6 +848,19 @@ function SetupScreen({
   const problems = newGameSetupProblems(committed);
   const place = selectedCreatorPlace(location);
   const placeListOpen = creatorPlaceListOpen(location.placeKey, replacingPlace);
+
+  useEffect(() => {
+    const chosen = selectedCreatorPlace(location);
+    setPopulationFacts([]);
+    if (!chosen) return;
+    let cancelled = false;
+    void queryHometownPopulationFacts(chosen).then((facts) => {
+      if (!cancelled) setPopulationFacts(facts);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [location.placeKey]);
   const officeAvailable =
     place?.capabilities.legislativeScenarioKey !== null &&
     setup.startAge >= LEGISLATIVE_OFFICE_MINIMUM_AGE;
@@ -1242,7 +1262,11 @@ function SetupScreen({
               {placeStartFacts(place)
                 .filter((fact) => fact.kind !== "name")
                 .map((fact) => (
-                  <p key={`${fact.kind}:${fact.text}`} className="game-hint">
+                  <p
+                    key={`${fact.kind}:${fact.text}`}
+                    className="game-hint"
+                    data-testid={`place-${fact.kind}`}
+                  >
                     {fact.kind === "county"
                       ? fact.asOf
                         ? `${fact.text} · ${fact.asOf.slice(0, 4)}`
@@ -1250,6 +1274,25 @@ function SetupScreen({
                       : fact.text}
                   </p>
                 ))}
+              {populationFacts.map((fact) => (
+                <p
+                  key={`${fact.kind}:${fact.text}:${fact.asOf}`}
+                  className="game-hint"
+                  data-testid="place-population"
+                >
+                  {fact.asOf
+                    ? `${fact.text} · ${fact.geography} · ${fact.asOf}`
+                    : fact.text}
+                  {fact.attribution ? (
+                    <span
+                      className="creator-place-attribution"
+                      data-testid="place-population-source"
+                    >
+                      {fact.attribution}
+                    </span>
+                  ) : null}
+                </p>
+              ))}
               {replacingPlace ? null : (
                 <button
                   type="button"

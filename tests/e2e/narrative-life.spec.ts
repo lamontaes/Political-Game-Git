@@ -304,6 +304,56 @@ test.describe("Setting up a life reads like a game, not a form", () => {
     await enterLife(page);
     await expect(page.getByTestId("story-section")).toBeVisible();
   });
+
+  test("shows sourced hometown population only for a matching geography", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 800, height: 900 });
+    await freshBrowser(page);
+    await openCreator(page);
+    await page.getByTestId("start-normal").click();
+    await page.getByTestId("start-age").fill("22");
+    await page.getByTestId("creator-continue-character").click();
+
+    await page.getByTestId("state-search").fill("Kentucky");
+    await page.getByTestId("state-KY").press("Enter");
+    await page.getByTestId("place-search").fill("lex");
+    await page
+      .getByTestId("place-choices")
+      .getByRole("button", { name: /Lexington, Kentucky/i })
+      .press("Enter");
+    await expect(page.getByTestId("place-canonical")).toHaveText(
+      /Lexington, Kentucky/,
+    );
+    await expect(page.getByTestId("place-population")).toHaveCount(0);
+
+    await page.getByTestId("creator-change-state").press("Enter");
+    await page.getByTestId("state-search").fill("Virginia");
+    await page.getByTestId("state-VA").press("Enter");
+    await page.getByTestId("place-search").fill("Richmond");
+    await page
+      .getByTestId("place-choices")
+      .getByRole("button", { name: /^Richmond, Virginia$/i })
+      .press("Enter");
+    await expect(page.getByTestId("place-canonical")).toHaveText(
+      /^Richmond, Virginia$/,
+    );
+    await expect(page.getByTestId("place-population")).toContainText(/people/);
+    await expect(page.getByTestId("place-population")).toContainText(/2024/);
+    await expect(page.getByTestId("place-population")).not.toContainText(
+      /^0 people/,
+    );
+    await expect(page.getByTestId("place-population-source")).toContainText(
+      /BEA/,
+    );
+
+    await page.getByTestId("creator-continue-place").press("Enter");
+    await page.getByTestId("whoareyou-play").press("Enter");
+    await expect(page.getByTestId("begin")).toBeEnabled();
+    await page.getByTestId("begin").press("Enter");
+    await enterLife(page);
+    await expect(page.getByTestId("story-section")).toBeVisible();
+  });
 });
 
 /* -------------------------------------------------------------------------- */
