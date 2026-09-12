@@ -4,7 +4,9 @@ import { spawnSync } from "node:child_process";
 import {
   cpSync,
   existsSync,
+  lstatSync,
   mkdirSync,
+  readlinkSync,
   readFileSync,
   rmSync,
   writeFileSync,
@@ -58,7 +60,7 @@ const outputRoot = path.join(desktopRoot, "controller-release-artifacts");
 const appPath = path.join(outputRoot, "Our Civic Duty Private.app");
 rmSync(outputRoot, { recursive: true, force: true });
 mkdirSync(outputRoot, { recursive: true });
-cpSync(electronApp, appPath, { recursive: true });
+cpSync(electronApp, appPath, { recursive: true, verbatimSymlinks: true });
 
 const contents = path.join(appPath, "Contents");
 const resources = path.join(contents, "Resources");
@@ -80,7 +82,34 @@ for (const name of [
 mkdirSync(path.join(resources, "bootstrap"), { recursive: true });
 cpSync(bootstrapApp, path.join(resources, "bootstrap", "Our Civic Duty.app"), {
   recursive: true,
+  verbatimSymlinks: true,
 });
+
+// A distributable .app must not retain links to this build machine. Node's
+// default recursive-copy behavior rewrites relative framework links as absolute
+// paths; preserve and verify the bundle-relative links before archiving.
+for (const linkPath of [
+  path.join(
+    contents,
+    "Frameworks",
+    "Electron Framework.framework",
+    "Resources",
+  ),
+  path.join(
+    resources,
+    "bootstrap",
+    "Our Civic Duty.app",
+    "Contents",
+    "Frameworks",
+    "Electron Framework.framework",
+    "Resources",
+  ),
+]) {
+  if (!lstatSync(linkPath).isSymbolicLink() || path.isAbsolute(readlinkSync(linkPath))) {
+    console.error(`Refusing non-portable framework link: ${linkPath}`);
+    process.exit(1);
+  }
+}
 
 // Preserve Electron's framework-sensitive metadata, including its executable,
 // principal class, SDK fields, and asar-integrity record. A minimal replacement
