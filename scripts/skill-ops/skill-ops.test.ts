@@ -191,9 +191,7 @@ describe("SKILL-OPS1 project delegation profile", () => {
     ]) {
       expect(compactReference).toContain(required);
     }
-    expect(rootInstructions).toContain(
-      ".agents/rules/repository-reference.md",
-    );
+    expect(rootInstructions).toContain(".agents/rules/repository-reference.md");
     expect(rootInstructions).toContain(".agents/skills/");
     expect(sessionBridge).toContain("@AGENTS.md");
     expect(sessionBridge).toContain(".agents/skills/");
@@ -232,6 +230,44 @@ describe("SKILL-OPS1 civic prose correction", () => {
     expect(ownerContract).toContain(
       "No repetitive recap or invented exposition",
     );
+  });
+
+  it("resolves relocated markdown and contract paths from their new directories", () => {
+    const relocated = [
+      join(REPO_ROOT, ".agents", "rules", "repository-reference.md"),
+      join(REPO_ROOT, ".agents", "skills", "civic-prose", "SKILL.md"),
+      join(
+        REPO_ROOT,
+        ".agents",
+        "skills",
+        "civic-prose",
+        "references",
+        "owner-authoring-contract.md",
+      ),
+    ];
+    const link = /\]\(([^)]+)\)/g;
+    const localFile = /`([^`]+?\.(?:md|jsonl|ts))`/g;
+    for (const file of relocated) {
+      const text = readFileSync(file, "utf8");
+      const dir = dirname(file);
+      for (const match of text.matchAll(link)) {
+        const target = match[1] ?? "";
+        if (/^(https?:|mailto:|#)/.test(target)) continue;
+        const pathOnly = target.split("#")[0] ?? target;
+        expect(existsSync(join(dir, pathOnly)), `${file} -> ${target}`).toBe(
+          true,
+        );
+      }
+      for (const match of text.matchAll(localFile)) {
+        const target = match[1] ?? "";
+        const fromFile = join(dir, target);
+        const fromRoot = join(REPO_ROOT, target);
+        expect(
+          existsSync(fromFile) || existsSync(fromRoot),
+          `${file} -> ${target}`,
+        ).toBe(true);
+      }
+    }
   });
 
   it("consumes the DEV-LAB2 interface without copying its implementation", () => {

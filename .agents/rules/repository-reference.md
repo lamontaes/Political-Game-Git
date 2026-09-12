@@ -6,7 +6,7 @@ Preserved from the reviewed AGENTS.md. Current root routing supersedes its old u
 
 Truth is layered. No single location is "the" source of truth:
 
-- The **canonical Google Drive current-control chain** owns CURRENT product, ownership, routing, and task state — what is authorized right now, and who owns it. Root [`CLAUDE.md`](CLAUDE.md) names the read order.
+- The **canonical Google Drive current-control chain** owns CURRENT product, ownership, routing, and task state — what is authorized right now, and who owns it. Root [`CLAUDE.md`](../../CLAUDE.md) names the read order.
 - **Live GitHub and the live repository** own EXECUTABLE implementation truth — what the code, tests, branches, PR heads, and CI actually are. Fetch it; never trust a remembered or local SHA.
 - The **repository constitution, decision, architecture, and system documents below** remain the durable technical and product authorities within that hierarchy. They govern how work is built and what behavior is accepted; they do not decide what is currently assigned.
 - **Historical plans, completion reports, evidence, and dated audits** are provenance. They record what happened. They are never current execution state or current authorization.
@@ -17,11 +17,11 @@ When a durable repository document and current canonical control disagree about 
 
 Read in this order:
 
-1. [Game Constitution](docs/GAME-CONSTITUTION.md) — binding product principles.
-2. [Decision Log](docs/decisions/DECISION-LOG.md) — accepted, non-superseded decisions.
-3. [Architecture](ARCHITECTURE.md), [Architecture Integrity Audit](docs/ARCHITECTURE-INTEGRITY-AUDIT.md), and [system documents](docs/systems/) — technical, governance, and domain contracts.
-4. [Roadmap](docs/ROADMAP.md) and [System Dependencies](docs/SYSTEM-DEPENDENCIES.md) — sequencing and integration contracts; they do not redefine implemented behavior.
-5. [First Build Spec](docs/FIRST-BUILD-SPEC.md), [UX Flow](docs/UX-FLOW.md), and [Acceptance Tests](docs/ACCEPTANCE-TESTS.md) — scope and verification contracts.
+1. [Game Constitution](../../docs/GAME-CONSTITUTION.md) — binding product principles.
+2. [Decision Log](../../docs/decisions/DECISION-LOG.md) — accepted, non-superseded decisions.
+3. [Architecture](../../ARCHITECTURE.md), [Architecture Integrity Audit](../../docs/ARCHITECTURE-INTEGRITY-AUDIT.md), and [system documents](../../docs/systems/) — technical, governance, and domain contracts.
+4. [Roadmap](../../docs/ROADMAP.md) and [System Dependencies](../../docs/SYSTEM-DEPENDENCIES.md) — sequencing and integration contracts; they do not redefine implemented behavior.
+5. [First Build Spec](../../docs/FIRST-BUILD-SPEC.md), [UX Flow](../../docs/UX-FLOW.md), and [Acceptance Tests](../../docs/ACCEPTANCE-TESTS.md) — scope and verification contracts.
 
 A lower-authority document or implementation cannot silently override a higher-authority document. Record conflicts explicitly; never weaken the Game Constitution for implementation convenience.
 
@@ -62,7 +62,7 @@ A lower-authority document or implementation cannot silently override a higher-a
 - Update affected documentation and tests with behavioral changes.
 - Run the Architecture Integrity Audit at major scope boundaries and whenever a new rule could affect completed work; earlier work is not grandfathered.
 - Start work in `docs/plans/active/`; move completed plans to `docs/plans/completed/`.
-- Every post-rollout eligible change declares `impact: patch`, `minor`, or explicit `none` once in `docs/release/changes/`, via `npm run release:declare -- <id>`. Validation compares the actual base/head history; only a branch demonstrably cut at or before the recorded rollout cutoff keeps the legacy exemption. `package.json.version` and `PATCH_NOTES.md` stay canonical and are advanced by the release on `main`, never by a branch and never by an agent choosing a number. See [Releases](docs/release/README.md).
+- Every post-rollout eligible change declares `impact: patch`, `minor`, or explicit `none` once in `docs/release/changes/`, via `npm run release:declare -- <id>`. Validation compares the actual base/head history; only a branch demonstrably cut at or before the recorded rollout cutoff keeps the legacy exemption. `package.json.version` and `PATCH_NOTES.md` stay canonical and are advanced by the release on `main`, never by a branch and never by an agent choosing a number. See [Releases](../../docs/release/README.md).
 - Do not use proprietary code, assets, text, or implementation from other political games.
 
 ## Scope and Authorization
@@ -79,7 +79,7 @@ A lower-authority document or implementation cannot silently override a higher-a
 - **No Fabricated Measurement Precision**: Never fabricate precise physical dimensions. Measurements must strictly distinguish confidence classes (e.g. `exact`, `plan-derived`, `specified`, `bounded-estimate`, `visual-estimate`). Missing measurements must remain missing, not guessed or zeroed out.
 - **Deterministic and Testable Tooling**: Prefer deterministic, inspectable, and testable tooling over opaque manual state. Generate deterministic fixture and replay outputs. Ensure art schemas are continually checked.
 - **Art-Pipeline Run Commands**: Art validation, inventory generation, and QA contact sheet generation commands have been explicitly added. Always run: `npm run validate:art`, `npm run inventory:art`, and `npm run qa:art`.
-- **Scene Authoring Pipeline**: Adding a room is authoring data, not writing scene-specific React or CSS. Environment masters enter through `npm run intake:environment` with an explicit source-lineage declaration; runtime tiers come from `npm run derive:tiers`; scene geometry starts as a `npm run scaffold:scene` scaffold whose unknowns stay explicit. See [Scene Authoring Pipeline](docs/systems/scene-authoring-pipeline.md).
+- **Scene Authoring Pipeline**: Adding a room is authoring data, not writing scene-specific React or CSS. Environment masters enter through `npm run intake:environment` with an explicit source-lineage declaration; runtime tiers come from `npm run derive:tiers`; scene geometry starts as a `npm run scaffold:scene` scaffold whose unknowns stay explicit. See [Scene Authoring Pipeline](../../docs/systems/scene-authoring-pipeline.md).
 - **No Repository Upscaling; Declare External Ones**: The pipeline never enlarges a raster. An externally upscaled master (a Firefly upscale, say) is admissible as a candidate master ONLY with its lineage declared, and that declaration follows every derived tier into the manifest and the runtime. Never present an upscale as native detail, and never synthesize a tier the master cannot fill.
 - **Lived-In, Not Legible**: Baked environment art may carry restrained non-readable texture. Anything the simulation owns — jurisdiction name or seal, campaign name, bill number, headline, agenda, election result, calendar date, map label, officeholder portrait, briefing slide — belongs in a declared dynamic surface slot, never in the picture.
 - **Physical Art Identity Is Not a World Label**: A scene family describes what the art depicts; what the World calls it is supplied by the caller from canonical truth and is never inferred from a filename, a family id, or an access class. Scene access tags describe where progression might point; they grant nothing.

@@ -15,19 +15,19 @@ income, schedule, time, location, and context — never a profession simulator.
 ## Workflow
 
 1. **Read the packet.** The fact packet is the complete authority for this
-   moment (`references/fact-packet-schema.md`). Never add facts, motives,
+   moment (`fact-packet-schema.md`). Never add facts, motives,
    objects, relationships, reactions, consequences, locations, feelings,
    connective events, or character knowledge it does not support.
 2. **Identify the surface first.** Pick the register from
-   `references/surface-registers.md` before writing a word. The same canonical
+   `surface-registers.md` before writing a word. The same canonical
    fact renders very differently per surface. Second person is the default for
    character-facing narration and player actions only — in-world artifacts
    (news, letters, legal documents, memos, dossiers) keep their native
    register.
-3. **Draft under the contract.** `references/prose-contract.md` is the full
-   accepted authority, and `references/grounding-gate.md` is the enumerated
-   grounding floor beneath it. Calibrated examples live in `examples/approved.jsonl`,
-   `examples/rejected.jsonl`, and `examples/needs-context.jsonl` — each row
+3. **Draft under the contract.** `prose-contract.md` is the full
+   accepted authority, and `grounding-gate.md` is the enumerated
+   grounding floor beneath it. Calibrated examples live in `../examples/approved.jsonl`,
+   `../examples/rejected.jsonl`, and `../examples/needs-context.jsonl` — each row
    records WHY, and conditional approvals carry their condition. Never promote
    a conditional example into a universal template.
 4. **Classify the result.** Return exactly one of:
@@ -40,7 +40,7 @@ income, schedule, time, location, and context — never a profession simulator.
 5. **Run the grounding gate.** This is a separate stage, not a glance back
    over the draft — a general self-check already existed and still shipped
    invented dates, invented delivery, and widened scope. Follow the verification
-   procedure in `references/grounding-gate.md`: inventory the claims, trace each
+   procedure in `grounding-gate.md`: inventory the claims, trace each
    one to a packet line, and walk all six enumerated classes by name (days and
    dates; delivery and staging; scope; player identity; surface authority;
    character knowledge). Then confirm the remaining hard gates: no
@@ -57,8 +57,8 @@ These are the owner's own review rules, recorded before any analysis and
 retained as pass/fail checks except for the targeted rule 2 correction below:
 concise canonical context or recap is permitted when the immediate moment needs
 it. Full detail, anti-pattern quotes, and repairs live in
-`references/prose-contract.md` ("Owner rules"); the calibrated failures are rows
-in `examples/rejected.jsonl`.
+`prose-contract.md` ("Owner rules"); the calibrated failures are rows
+in `../examples/rejected.jsonl`.
 
 1. **Second person, always, for player-facing scenes.** Never "he", "she",
    "the senator", "the judge", "the representative". A packet CHARACTER line
@@ -79,7 +79,7 @@ in `examples/rejected.jsonl`.
    factually accurate ("library tax", not "library levy").
    American English and jurisdiction-accurate role terminology apply to every
    authored surface; follow the explicit provenance boundaries in
-   `references/prose-contract.md` ("American English and role terminology").
+   `prose-contract.md` ("American English and role terminology").
 5. **Dialogue sounds spoken, not authored.** People interrupt, state things
    flatly, and leave things out. No epigrams.
 6. **Money is an arrangement, not a label.** "She'll pay you $500 for two
