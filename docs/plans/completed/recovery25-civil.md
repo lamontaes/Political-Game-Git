@@ -26,6 +26,9 @@ current `origin/main` at `cc83c628707be429839c53c536181ceb65647735`.
   validation in proportion to changed scope;
 - final Architecture Integrity Audit update and a small LEARN entry.
 
+Completed on `codex/recovery25-civil`. The exact tested and published head is
+recorded in the recovery handoff and successor PR.
+
 ## Stop conditions
 
 No governor/mayor career, public-personnel redesign, emergency-authority

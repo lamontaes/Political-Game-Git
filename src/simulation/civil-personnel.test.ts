@@ -87,9 +87,14 @@ describe("CIVIL-WORK7 consumer boundaries", () => {
     expect(assessPersonnelAction(context, "2026-09-09", "appoint").status).toBe(
       "blocked",
     );
+    const removal = assessPersonnelAction(context, "2026-09-06", "remove");
+    // A compiled procedure reaching the class is not a grant: the writer still
+    // needs the employer's designated appointing authority.
+    expect(removal.status).toBe("available");
+    expect(removal.requires.join(" ")).toContain("appointing authority");
     expect(
-      assessPersonnelAction(context, "2026-09-06", "remove").missing.join(" "),
-    ).toContain("decision-maker");
+      assessPersonnelAction(context, "2026-09-05", "remove").missing.join(" "),
+    ).toContain("2026-09-05");
     expect(
       assessPersonnelAction(context, "2026-09-06", "complete-probation").status,
     ).toBe("blocked");
@@ -163,7 +168,7 @@ describe("CIVIL-WORK7 consumer boundaries", () => {
     ).toBe(false);
   });
   it("implements the LIFE provider seam with explicit public refusals and no default permission", () => {
-    const { world, actor, organizationId } = fixture();
+    const { world, actor, organizationId, workRelationshipId } = fixture();
     const request = {
       actorPersonId: actor,
       actionKey: "work:public-appoint" as const,
@@ -171,18 +176,20 @@ describe("CIVIL-WORK7 consumer boundaries", () => {
       jurisdictionId: world.jurisdictionOrder[0]!,
       contextEntityIds: [organizationId],
     };
+    const provider = publicEmploymentPermissionProvider();
+    expect(evaluateLifeEligibility(world, request, provider).status).toBe(
+      "blocked",
+    );
+    // An ordinary job with no civil-service position record grants nothing.
     expect(
       evaluateLifeEligibility(
         world,
-        request,
-        publicEmploymentPermissionProvider(() => null),
-      ).status,
-    ).toBe("blocked");
-    expect(
-      evaluateLifeEligibility(
-        world,
-        request,
-        publicEmploymentPermissionProvider(() => context),
+        {
+          ...request,
+          actionKey: "work:public-discipline",
+          contextEntityIds: [workRelationshipId],
+        },
+        provider,
       ).status,
     ).toBe("blocked");
   });

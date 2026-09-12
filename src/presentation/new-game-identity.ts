@@ -234,7 +234,8 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
       record.depth !== "summarize-earlier-life") ||
     (record.startingLife !== "ordinary-life" &&
       record.startingLife !== "legislative-office" &&
-      record.startingLife !== "judicial-office-practice") ||
+      record.startingLife !== "judicial-office-practice" &&
+      record.startingLife !== "state-agency-director") ||
     (record.household !== "lives-alone" &&
       record.household !== "shares-a-home") ||
     (record.givenName !== null && typeof record.givenName !== "string") ||
