@@ -90,11 +90,12 @@ import { projectDynamicSurfaces } from "../presentation/surface-projection";
 import { resolveLifeScene } from "../presentation/life-scene";
 import { planLifeScenePeople } from "../presentation/life-scene-people";
 import {
-  ART_PREVIEW_LABEL,
+  artPreviewBanner,
   artPreviewLibraries,
   artPreviewMode,
   previewDatabaseName,
 } from "../presentation/art-preview";
+import { gameBuildProfile } from "../presentation/build-profile";
 import { SceneBackdrop } from "./SceneBackdrop";
 import {
   AmbientTableau,
@@ -169,6 +170,10 @@ import {
   WorkspaceFrame,
 } from "./ShellWorkspaces";
 import { PlayerVersion } from "./PlayerVersion";
+import {
+  SaveImportControl,
+  SaveTransferControls,
+} from "./SaveTransferControls";
 
 /**
  * The game.
@@ -217,7 +222,11 @@ export function PlayerGame() {
    * game. See `src/presentation/art-preview.ts`.
    */
   const previewMode = useMemo(
-    () => artPreviewMode(window.location.search, import.meta.env.DEV),
+    () =>
+      artPreviewMode(window.location.search, {
+        development: import.meta.env.DEV,
+        profile: gameBuildProfile(),
+      }),
     [],
   );
   /*
@@ -642,13 +651,21 @@ export function PlayerGame() {
   if (screen.kind === "saves") {
     return (
       <SavesScreen
+        store={store}
         saves={saves}
         damaged={damaged}
         savesUnavailable={savesUnavailable}
         notice={notice}
+        problem={problem}
+        artProvenance={previewMode}
         onBack={() => setScreen({ kind: "title" })}
         onOpen={(saveId) => void loadSave(saveId)}
         onDelete={(saveId) => void deleteSave(saveId)}
+        onTransferSettled={(nextNotice, nextProblem) => {
+          setNotice(nextNotice);
+          setProblem(nextProblem);
+          void refreshSaves();
+        }}
       />
     );
   }
@@ -1684,21 +1701,32 @@ function QuestionnaireScreenView({
 /* -------------------------------------------------------------------------- */
 
 function SavesScreen({
+  store,
   saves,
   damaged,
   savesUnavailable,
   notice,
+  problem,
+  artProvenance,
   onBack,
   onOpen,
   onDelete,
+  onTransferSettled,
 }: {
+  readonly store: BrowserSaveStore | null;
   readonly saves: readonly BrowserWorldSummary[];
   readonly damaged: readonly QuarantinedSave[];
   readonly savesUnavailable: boolean;
   readonly notice: string | null;
+  readonly problem: string | null;
+  readonly artProvenance: "production" | "candidate-review";
   readonly onBack: () => void;
   readonly onOpen: (saveId: EntityId) => void;
   readonly onDelete: (saveId: EntityId) => void;
+  readonly onTransferSettled: (
+    notice: string | null,
+    problem: string | null,
+  ) => void;
 }) {
   const [confirming, setConfirming] = useState<EntityId | null>(null);
   return (
@@ -1710,6 +1738,11 @@ function SavesScreen({
         </p>
       ) : null}
       {notice ? <p className="game-note">{notice}</p> : null}
+      {problem ? (
+        <p className="game-problem" role="alert">
+          {problem}
+        </p>
+      ) : null}
       <ul>
         {saves.map((save) => (
           <li key={save.saveId} data-testid="save-entry">
@@ -1725,6 +1758,15 @@ function SavesScreen({
               <button type="button" onClick={() => onOpen(save.saveId)}>
                 Open
               </button>
+              {store ? (
+                <SaveTransferControls
+                  store={store}
+                  saveId={save.saveId}
+                  playerName={save.playerName}
+                  onSettled={onTransferSettled}
+                  artProvenance={artProvenance}
+                />
+              ) : null}
               {confirming === save.saveId ? (
                 <>
                   <button
@@ -1812,6 +1854,14 @@ function SavesScreen({
         </section>
       ) : null}
 
+      {store ? (
+        <SaveImportControl
+          store={store}
+          onSettled={onTransferSettled}
+          artProvenance={artProvenance}
+        />
+      ) : null}
+
       <button type="button" onClick={onBack}>
         Back
       </button>
@@ -1863,13 +1913,19 @@ function PlayingScreen({
    * development-only concern in the signature of surfaces that have nothing to
    * do with art.
    */
-  const artPreview = useMemo(
+  const previewMode = useMemo(
     () =>
-      artPreviewLibraries(
-        artPreviewMode(window.location.search, import.meta.env.DEV),
-      ),
+      artPreviewMode(window.location.search, {
+        development: import.meta.env.DEV,
+        profile: gameBuildProfile(),
+      }),
     [],
   );
+  const artPreview = useMemo(
+    () => artPreviewLibraries(previewMode),
+    [previewMode],
+  );
+  const previewBanner = artPreviewBanner(previewMode);
 
   /*
    * One shell for the whole life: what is open, how the player got there, and
@@ -2328,7 +2384,7 @@ function PlayingScreen({
         people this life has are a rail on the right, and everything else is a
         quiet cluster in the corner that grows as you reach for it.
       */}
-          {artPreview ? (
+          {previewBanner ? (
             /*
              * Said out loud, on the screen, for as long as the mode is on.
              * A preview that looked like the game would be worse than no
@@ -2341,7 +2397,7 @@ function PlayingScreen({
               role="status"
               data-testid="art-preview-banner"
             >
-              {ART_PREVIEW_LABEL}
+              {previewBanner}
             </p>
           ) : null}
           <SceneBackdrop
