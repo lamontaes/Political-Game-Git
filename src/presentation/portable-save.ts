@@ -1,6 +1,14 @@
 import { deserializeWorld } from "../simulation/serialization";
 import type { EntityId } from "../simulation/types";
 import {
+  EMPTY_SHELL_STATE,
+  SHELL_RECORD_VERSION,
+  SHELL_RECORD_VERSIONS,
+  encodeStoredShellState,
+  readStoredShellState,
+  type StoredShellState,
+} from "./browser-shell-state";
+import {
   INTERFACE_STORE_NAME,
   openDatabase,
   readStoredRecord,
@@ -38,11 +46,8 @@ export type PortableInterfacePayload =
   | { readonly status: "included"; readonly state: PortableInterfaceState }
   | { readonly status: "unavailable"; readonly reason: string };
 
-export interface PortableInterfaceState {
-  readonly pins: readonly unknown[];
-  readonly journal: unknown;
-  readonly preferences: unknown;
-  readonly personWardrobes: Readonly<Record<string, unknown>>;
+export interface PortableInterfaceState extends StoredShellState {
+  readonly version: number;
 }
 
 export interface PortableSaveBundle {
@@ -73,20 +78,15 @@ export type PortableSaveParseResult =
       readonly reason: string;
     };
 
-/** Stored shell records use 1 or 2; anything else is a future payload. */
-export const INTERFACE_RECORD_VERSIONS = new Set([1, 2]);
+/** The shell owns the supported schema list; portable transfer cannot drift. */
+export const INTERFACE_RECORD_VERSIONS = new Set(SHELL_RECORD_VERSIONS);
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === "object" && !Array.isArray(value);
 }
 
 export function emptyInterfaceState(): PortableInterfaceState {
-  return {
-    pins: [],
-    journal: { ambition: "", notes: [] },
-    preferences: {},
-    personWardrobes: {},
-  };
+  return { ...EMPTY_SHELL_STATE, version: SHELL_RECORD_VERSION };
 }
 
 export function readPortableInterfaceState(
@@ -108,12 +108,9 @@ export function readPortableInterfaceState(
   if (value.personWardrobes !== undefined && !isRecord(value.personWardrobes)) {
     return null;
   }
-  return {
-    pins: value.pins,
-    journal: value.journal ?? { ambition: "", notes: [] },
-    preferences: value.preferences ?? {},
-    personWardrobes: value.personWardrobes ?? {},
-  };
+  // Original format-1 exports omitted the record tag and used the v2 shape.
+  const state = readStoredShellState({ ...value, version: value.version ?? 2 });
+  return state ? { ...state, version: SHELL_RECORD_VERSION } : null;
 }
 
 export function parsePortableSave(
@@ -244,9 +241,15 @@ export function parsePortableSave(
   } else if (parsed.interface.status === "included") {
     const state = readPortableInterfaceState(parsed.interface.state);
     if (state === null) {
+      const unsupported =
+        isRecord(parsed.interface.state) &&
+        parsed.interface.state.version !== undefined &&
+        !INTERFACE_RECORD_VERSIONS.has(
+          parsed.interface.state.version as number,
+        );
       return {
         status: "error",
-        failure: "malformed",
+        failure: unsupported ? "unsupported-version" : "malformed",
         reason:
           "That file's interface state could not be read. Existing saves are unchanged.",
       };
@@ -312,6 +315,7 @@ export async function exportPortableSave(
     options.databaseName ?? store.databaseName,
     saveId,
   );
+  if (iface.status === "error") return iface;
   return {
     status: "ok",
     bundle: {
@@ -347,6 +351,12 @@ export async function importPortableSave(
       readonly reason: string;
     }
 > {
+  // Validate again at the mutation boundary, including callers bypassing parse.
+  const checked = parsePortableSave(serializePortableSave(bundle), {
+    productionProfile: false,
+  });
+  if (checked.status === "error") return checked;
+  bundle = checked.bundle;
   const world = deserializeWorld(bundle.world.payload);
   const saveId = store.newSaveId(world);
   const existing = options.existingSaveIds
@@ -443,7 +453,10 @@ export async function readOptionalInterface(
   factory: IDBFactory | undefined,
   databaseName: string,
   saveId: EntityId,
-): Promise<PortableInterfacePayload> {
+): Promise<
+  | PortableInterfacePayload
+  | Extract<PortableSaveParseResult, { status: "error" }>
+> {
   const database = await openGameDatabase(factory, databaseName);
   if (database === null) {
     return {
@@ -476,8 +489,13 @@ export async function readOptionalInterface(
     const state = readPortableInterfaceState(record ?? raw);
     if (state === null) {
       return {
-        status: "unavailable",
-        reason: "The interface state for this life could not be read.",
+        status: "error",
+        failure:
+          record && !INTERFACE_RECORD_VERSIONS.has(record.version as number)
+            ? "unsupported-version"
+            : "malformed",
+        reason:
+          "The interface state for this life could not be read. No incomplete transfer was exported; existing saves are unchanged.",
       };
     }
     return { status: "included", state };
@@ -510,14 +528,9 @@ async function writeOptionalInterface(
         INTERFACE_STORE_NAME,
         "readwrite",
       );
-      transaction.objectStore(INTERFACE_STORE_NAME).put({
-        saveId,
-        version: 2,
-        pins: state.pins,
-        journal: state.journal,
-        preferences: state.preferences,
-        personWardrobes: state.personWardrobes,
-      });
+      transaction
+        .objectStore(INTERFACE_STORE_NAME)
+        .put(encodeStoredShellState(saveId, state));
       const fail = () => reject(transaction.error ?? new Error(writeFailed));
       transaction.oncomplete = () => resolve();
       transaction.onerror = fail;

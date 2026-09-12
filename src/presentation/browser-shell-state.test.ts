@@ -8,6 +8,20 @@ import {
 import { DEFAULT_PREFERENCES, refKey } from "./shell-navigation";
 import type { ShellRef } from "./shell-navigation";
 import type { EntityId } from "../simulation";
+import { createDemoWorld, serializeWorld, type World } from "../simulation";
+import {
+  createBrowserWorldRecord,
+  type BrowserSaveStore,
+  type StoredBrowserWorldRecord,
+} from "./browser-world-repository";
+import {
+  exportPortableSave,
+  importPortableSave,
+  parsePortableSave,
+  readPortableInterfaceState,
+  serializePortableSave,
+  type PortableSaveBundle,
+} from "./portable-save";
 
 const ALICE: ShellRef = { kind: "person", id: "person-alice" as EntityId };
 const MEETING: ShellRef = {
@@ -108,6 +122,188 @@ function storeWith() {
     }),
   };
 }
+
+describe("portable transfer uses the shell's v3 codec", () => {
+  function playerWorld() {
+    const world = createDemoWorld("portable-v3");
+    return {
+      ...world,
+      control: { kind: "person" as const, personId: world.personOrder[0]! },
+    };
+  }
+  const state = {
+    version: 3,
+    pins: [{ ref: ALICE, size: "expanded" }],
+    journal: {
+      ambition: "A private ambition",
+      notes: [
+        {
+          id: "note-1",
+          title: "Private",
+          body: "Not public news",
+          group: "Life",
+          personId: ALICE.id,
+          eventKey: "event-1",
+        },
+      ],
+    },
+    personWardrobes: {
+      [ALICE.id]: {
+        personId: ALICE.id,
+        families: { top: "top-1", bottom: "bottom-2", footwear: "shoes-3" },
+      },
+    },
+    preferences: {
+      peopleView: "web",
+      defaultPinSize: "tiny",
+      followedNewsOutletKeys: ["outlet-one", "outlet-two"],
+    },
+  };
+
+  function fixture() {
+    const database = new FakeDatabase();
+    database.stores.set(
+      "interface",
+      new Map([[SLOT, { ...state, saveId: SLOT }]]),
+    );
+    const records = new Map<EntityId, StoredBrowserWorldRecord>([
+      [
+        SLOT,
+        createBrowserWorldRecord(
+          playerWorld(),
+          "2026-09-12T00:00:00.000Z",
+          undefined,
+          SLOT,
+        ),
+      ],
+    ]);
+    let counter = 0;
+    const store = {
+      indexedDB: database.asFactory(),
+      databaseName: "portable-v3",
+      inspectRecord: async (id: EntityId) => records.get(id) ?? null,
+      list: async () => ({
+        saves: [...records.values()].map((r) => r.metadata),
+        damaged: [],
+      }),
+      newSaveId: () => `import-${++counter}` as EntityId,
+      save: async (world: World, id: EntityId) => {
+        records.set(
+          id,
+          createBrowserWorldRecord(
+            world,
+            "2026-09-12T00:00:00.000Z",
+            undefined,
+            id,
+          ),
+        );
+        return { status: "saved" };
+      },
+      remove: async (id: EntityId) => {
+        records.delete(id);
+      },
+    } as unknown as BrowserSaveStore;
+    return { database, records, store };
+  }
+
+  it.each([1, 2, 3, undefined])(
+    "reads supported/legacy tag %s through the validated codec",
+    (version) => {
+      const decoded = readPortableInterfaceState({ ...state, version });
+      expect(decoded).toEqual({ ...readStoredShellState(state), version: 3 });
+      expect(readPortableInterfaceState({ ...state, version: 4 })).toBeNull();
+      expect(readPortableInterfaceState({ ...state, version: "3" })).toBeNull();
+    },
+  );
+
+  it("exports, imports and reopens every interface field with byte-identical World in distinct slots", async () => {
+    const { database, records, store } = fixture();
+    const originalWorld = records.get(SLOT)?.payload;
+    const originalInterface = structuredClone(
+      database.stores.get("interface")?.get(SLOT),
+    );
+    const exported = await exportPortableSave(store, SLOT);
+    expect(exported.status).toBe("ok");
+    if (exported.status !== "ok") throw new Error(exported.reason);
+    expect(exported.bundle.interface).toEqual({
+      status: "included",
+      state: { ...readStoredShellState(state), version: 3 },
+    });
+    const parsed = parsePortableSave(serializePortableSave(exported.bundle));
+    if (parsed.status !== "ok") throw new Error(parsed.reason);
+    const imported = await importPortableSave(store, parsed.bundle);
+    expect(imported.status).toBe("imported");
+    if (imported.status !== "imported") throw new Error(imported.reason);
+    expect(imported.saveId).not.toBe(SLOT);
+    const reopened = await new BrowserShellStateStore({
+      indexedDB: store.indexedDB,
+      databaseName: store.databaseName,
+    }).read(imported.saveId);
+    expect(reopened).toEqual(readStoredShellState(state));
+    expect(records.get(imported.saveId)?.payload).toBe(originalWorld);
+    expect(records.get(SLOT)?.payload).toBe(originalWorld);
+    expect(database.stores.get("interface")?.get(SLOT)).toEqual(
+      originalInterface,
+    );
+    expect(serializeWorld(playerWorld())).toBe(originalWorld);
+  });
+
+  it("refuses future records on export and at import's mutation boundary, leaving all records unchanged", async () => {
+    const { database, records, store } = fixture();
+    const exported = await exportPortableSave(store, SLOT);
+    if (exported.status !== "ok") throw new Error(exported.reason);
+    const future = {
+      ...exported.bundle,
+      interface: { status: "included", state: { ...state, version: 4 } },
+    } as unknown as PortableSaveBundle;
+    const before = JSON.stringify([...records]);
+    const beforeInterface = JSON.stringify([
+      ...database.stores.get("interface")!,
+    ]);
+    expect(parsePortableSave(serializePortableSave(future))).toMatchObject({
+      status: "error",
+      failure: "unsupported-version",
+    });
+    expect(await importPortableSave(store, future)).toMatchObject({
+      status: "error",
+      failure: "unsupported-version",
+    });
+    expect(JSON.stringify([...records])).toBe(before);
+    expect(JSON.stringify([...database.stores.get("interface")!])).toBe(
+      beforeInterface,
+    );
+    database.stores
+      .get("interface")!
+      .set(SLOT, { ...state, saveId: SLOT, version: 4 });
+    const futureInterface = JSON.stringify([
+      ...database.stores.get("interface")!,
+    ]);
+    expect(await exportPortableSave(store, SLOT)).toMatchObject({
+      status: "error",
+      failure: "unsupported-version",
+    });
+    expect(JSON.stringify([...records])).toBe(before);
+    expect(JSON.stringify([...database.stores.get("interface")!])).toBe(
+      futureInterface,
+    );
+  });
+
+  it("does not bypass candidate-profile refusal", async () => {
+    const { store } = fixture();
+    const exported = await exportPortableSave(store, SLOT, {
+      artProvenance: "candidate-review",
+    });
+    if (exported.status !== "ok") throw new Error(exported.reason);
+    expect(
+      parsePortableSave(serializePortableSave(exported.bundle)),
+    ).toMatchObject({ status: "error", failure: "candidate-in-production" });
+    expect(
+      parsePortableSave(serializePortableSave(exported.bundle), {
+        productionProfile: false,
+      }).status,
+    ).toBe("ok");
+  });
+});
 
 describe("the shell's own store", () => {
   it("keeps pins and preferences in the game's database, not a second one", async () => {

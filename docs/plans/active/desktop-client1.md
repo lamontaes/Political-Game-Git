@@ -137,6 +137,24 @@ represented as accepted main or opened as a PR.
 
 ## RECOVERY25 continuation (2026-09-12)
 
+### Current #216 News transfer continuation
+
+- Frozen integration base: A #213 `f2dded2895aba1f55b741d55986a576f1e556b81`.
+  A confirmed desktop source ownership stays here while it banks other leaves.
+- Rechecked the current shared RECOVERY25 contract and SECTION DESKTOP in full.
+  The v3 incompatibility was runtime code, not repaired by the preceding test
+  driver update: portable export allowed only v1/2 and import wrote v2.
+- Portable transfer now uses the existing shell reader and a shared validated
+  writer. It carries an explicit current interface schema tag, migrates legacy
+  v1/2 and untagged original portable files, preserves followed outlets plus
+  pins, all Journal fields, preferences and wardrobe families, and revalidates
+  at import's mutation boundary. Future tags refuse before any new slot write;
+  future stored interfaces refuse export instead of silently omitting them.
+- LEARN: persistence readers and writers must share their supported schema
+  authority. Packaged transfer proof seeds the current complete wire shape,
+  checks every field after reopening, and retains a future-schema negative.
+  Controller, actual-window-close handling and completed OS proof are unchanged.
+
 - Reconciled #197 at `a14ad4c8` onto the current #213 integrator head without
   replacing its newer PlayerGame, People, wardrobe, launcher, or visual-fit
   work. The bounded Save/Load and build-profile adapters were re-applied on the

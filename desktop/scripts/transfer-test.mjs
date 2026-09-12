@@ -7,11 +7,12 @@
  * Usage: node scripts/transfer-test.mjs --app <executable>
  */
 
-import { mkdtempSync, readdirSync, readFileSync } from "node:fs";
+import { mkdtempSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import os from "node:os";
 import path from "node:path";
+import { isDeepStrictEqual } from "node:util";
 
 const require = createRequire(
   path.join(
@@ -90,6 +91,8 @@ await page
   .getByTestId("keep-world")
   .waitFor({ state: "detached", timeout: 15000 });
 await page.getByText("Saved.", { exact: true }).waitFor({ timeout: 15000 });
+await page.getByTestId("leave-game").click();
+await page.getByTestId("new-game").waitFor();
 
 const interfaceSeed = await page.evaluate(async (databaseName) => {
   const db = await new Promise((resolve, reject) => {
@@ -110,35 +113,60 @@ const interfaceSeed = await page.evaluate(async (databaseName) => {
     db.close();
     return null;
   }
-  await new Promise((resolve, reject) => {
-    const transaction = db.transaction("interface", "readwrite");
-    transaction.objectStore("interface").put({
-      saveId: record.saveId,
-      version: 2,
-      pins: [
+  const state = {
+    version: 3,
+    pins: [
+      {
+        ref: { kind: "person", id: record.metadata.playerPersonId },
+        size: "expanded",
+      },
+    ],
+    journal: {
+      ambition: "Keep the district",
+      notes: [
         {
-          ref: { kind: "person", id: record.metadata.playerPersonId },
-          size: "normal",
+          id: "private-note",
+          title: "Only for me",
+          body: "A private record",
+          group: "Life",
+          personId: record.metadata.playerPersonId,
+          eventKey: "transfer-fixture",
         },
       ],
-      journal: { ambition: "Keep the district", notes: [] },
-      preferences: {},
-      personWardrobes: {},
-    });
+    },
+    preferences: {
+      peopleView: "web",
+      defaultPinSize: "tiny",
+      followedNewsOutletKeys: ["civic-ledger", "second-represented-outlet"],
+    },
+    personWardrobes: {
+      [record.metadata.playerPersonId]: {
+        personId: record.metadata.playerPersonId,
+        families: {
+          top: "transfer-top",
+          bottom: "transfer-bottom",
+          footwear: "transfer-footwear",
+        },
+      },
+    },
+  };
+  await new Promise((resolve, reject) => {
+    const transaction = db.transaction("interface", "readwrite");
+    transaction
+      .objectStore("interface")
+      .put({ saveId: record.saveId, ...state });
     transaction.oncomplete = () => resolve();
     transaction.onerror = () => reject(transaction.error);
   });
   db.close();
-  return record.saveId;
+  return { saveId: record.saveId, state, payload: record.payload };
 }, saveDatabaseName);
 check(
   "transfer: interface store accepted pins and journal",
   Boolean(interfaceSeed),
-  interfaceSeed ?? "no world record",
+  interfaceSeed?.saveId ?? "no world record",
 );
 
-await page.getByTestId("leave-game").click();
-await page.getByTestId("new-game").waitFor();
 await page.getByTestId("open-saves").click();
 await page.getByTestId("saves-screen").waitFor();
 const beforeCount = await page.getByTestId("save-entry").count();
@@ -167,11 +195,17 @@ if (!filePath) {
 }
 
 const exportedBundle = JSON.parse(readFileSync(filePath, "utf8"));
+const wireState = (state) => ({
+  ...state,
+  pins: state.pins.map(({ ref, size }) => ({ ref, size })),
+});
 check(
-  "transfer: exported file includes interface pins",
+  "transfer: exported file includes complete validated v3 interface",
   exportedBundle.interface?.status === "included" &&
-    Array.isArray(exportedBundle.interface.state?.pins) &&
-    exportedBundle.interface.state.pins.length >= 1,
+    isDeepStrictEqual(
+      wireState(exportedBundle.interface.state),
+      wireState(interfaceSeed.state),
+    ),
   exportedBundle.interface?.status ?? "missing interface",
 );
 
@@ -204,18 +238,81 @@ const interfaceAfter = await page.evaluate(async (databaseName) => {
     request.onerror = () => reject(request.error);
   });
   db.close();
-  return rows.filter(
-    (row) =>
-      row &&
-      Array.isArray(row.pins) &&
-      row.pins.length > 0 &&
-      row.journal?.ambition === "Keep the district",
-  ).length;
+  return rows;
 }, saveDatabaseName);
 check(
-  "transfer: imported slot kept the same pins and journal",
-  interfaceAfter >= 2,
-  String(interfaceAfter),
+  "transfer: imported and original slots retain pins, Journal, all wardrobe parts and follows",
+  interfaceAfter.filter(({ saveId, ...state }) =>
+    isDeepStrictEqual(wireState(state), wireState(interfaceSeed.state)),
+  ).length === 2,
+  String(interfaceAfter.length),
+);
+
+const futurePath = path.join(profile, "future.ocd-life.json");
+writeFileSync(
+  futurePath,
+  JSON.stringify({
+    ...exportedBundle,
+    interface: {
+      status: "included",
+      state: { ...exportedBundle.interface.state, version: 4 },
+    },
+  }),
+);
+const futureChooser = page.waitForEvent("filechooser");
+await page.getByTestId("import-save").click();
+await (await futureChooser).setFiles(futurePath);
+await page.getByText(/interface state could not be read/).waitFor();
+check(
+  "transfer: future interface refusal creates no new slot",
+  (await page.getByTestId("save-entry").count()) === afterCount,
+);
+
+// Reopen both same-life slots using the real UI, not just raw record presence.
+for (let index = 0; index < 2; index += 1) {
+  await page
+    .getByTestId("save-entry")
+    .nth(index)
+    .getByRole("button", { name: "Open", exact: true })
+    .click();
+  await page.getByTestId("play-screen").waitFor();
+  await page.getByTestId("shell-nav-cluster").click();
+  await page.getByTestId("shell-nav-flyout").waitFor();
+  await page.getByTestId("leave-game").click();
+  await page.getByTestId("new-game").waitFor();
+  await page.getByTestId("open-saves").click();
+  await page.getByTestId("saves-screen").waitFor();
+}
+const reopened = await page.evaluate(async (databaseName) => {
+  const db = await new Promise((resolve, reject) => {
+    const request = indexedDB.open(databaseName, 2);
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+  const read = (store) =>
+    new Promise((resolve, reject) => {
+      const request = db
+        .transaction(store, "readonly")
+        .objectStore(store)
+        .getAll();
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  const worlds = await read("worlds");
+  const interfaces = await read("interface");
+  db.close();
+  return { worlds, interfaces };
+}, saveDatabaseName);
+check(
+  "transfer: reopen preserves complete World in both slots",
+  reopened.worlds.filter((row) => row.payload === interfaceSeed.payload)
+    .length === 2,
+);
+check(
+  "transfer: reopen preserves complete interface in both slots",
+  reopened.interfaces.filter(({ saveId, ...state }) =>
+    isDeepStrictEqual(wireState(state), wireState(interfaceSeed.state)),
+  ).length === 2,
 );
 
 await app.close();

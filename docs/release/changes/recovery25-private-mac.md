@@ -1,7 +1,6 @@
 ---
+id: recovery25-private-mac
 impact: none
-area: desktop
-summary: Private install-once Mac controller with visible Play and Update actions
 ---
 
 Adds an unsigned Apple Silicon internal-art-review delivery that bundles a
