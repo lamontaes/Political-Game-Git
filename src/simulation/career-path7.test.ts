@@ -210,7 +210,9 @@ function sessions(w: ReturnType<typeof fixture>, id: EntityId) {
 
 describe("ordinary work without mandatory submissions and during fast-forward", () => {
   it("keeps optional historical submissions and refuses a too-short offered text", () => {
-    let { w, id } = employed();
+    const started = employed();
+    let w = started.w;
+    const id = started.id;
     w = scheduleCareerTask(w, id, p, p.tasks[0]!.id).world;
     const a = w.history.scheduledActivities.at(-1)!;
     expect(completeCareerTask(w, id, p, a.id, "short").ok).toBe(false);
@@ -230,7 +232,9 @@ describe("ordinary work without mandatory submissions and during fast-forward", 
     expect(serializeWorld(deserializeWorld(saved))).toBe(saved);
   });
   it("earns pay after Perform work with no written report", () => {
-    let { w, id } = employed();
+    const started = employed();
+    let w = started.w;
+    const id = started.id;
     expect(performCareerWork(w, id, p).ok).toBe(true);
     w = performCareerWork(w, id, p).world;
     expect(sessions(w, id)).toHaveLength(1);
@@ -267,7 +271,9 @@ describe("ordinary work without mandatory submissions and during fast-forward", 
     expect(
       idle.history.events.filter((e) => e.type === "life-paths2.work-session"),
     ).toHaveLength(0);
-    let { w, id } = employed();
+    const started = employed();
+    let w = started.w;
+    const id = started.id;
     w = changeLifePathStatus(w, id, "pause").world;
     expect(
       sessions(advanceWorldMinutes(w, 20 * 60, LIFE_PATHS2_HANDLERS), id),
@@ -279,7 +285,9 @@ describe("ordinary work without mandatory submissions and during fast-forward", 
     expect(sessions(later, once.id)).toHaveLength(1);
   });
   it("stops for a conflicting appointment instead of overlapping ordinary work", () => {
-    let { w, id } = employed();
+    const started = employed();
+    let w = started.w;
+    const id = started.id;
     const actor =
       w.control.kind === "person" ? w.control.personId : w.personOrder[0]!;
     const start = addSimulationMinutes(w.currentMoment, 10 * 60);
