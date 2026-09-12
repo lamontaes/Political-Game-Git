@@ -48,4 +48,36 @@ claimed. Average-man has genuine independent bottoms; demonstrate both families
 and disclose the varied normal-generation sample without suppressing failures.
 
 Checks so far: 76 focused tests, typecheck, scoped ESLint and deterministic
-neckline --check pass. validate:art and inventory:art pass; full qa:art running.
+neckline --check pass. validate:art, inventory:art, and qa:art pass. Existing duplicate-hash inventory warnings remain.
+
+## Visual acceptance and bounded next art request
+
+All five sequential normal seeds were captured, with no cast injection or sample
+filtering. Two show a body without an admitted top. All retain the broad
+face/body drawing-style mismatch; this is a defect, not visual acceptance.
+The room comparison shows a narrower improvement at the shirt opening.
+
+A future authorized source edit should work only from the recorded skinny-man-A
+body, light-oval-young head and hair20 sources: reconcile neck skin/shading and
+hair silhouette while retaining the person's face identity, body proportions,
+pose, source lineage and separate modular layers. Review the complete person
+in the actual room alongside the matched civic-tableau reference. Do not
+regenerate the catalog, move all heads, widen compatibility bounds or replace
+old-save raster members. A second skinny-man bottom needs a separately inspected
+fit/source correction; the current single-bottom refusal remains honest.
+
+LEARN: outer silhouette residuals cannot establish interior occlusion quality.
+Keep the alpha-only neckline and unchanged outer-span assertions together with
+whole-person screenshots. Catalog raster revisions also need an explicit
+unreleased-revision exclusion so they cannot duplicate the original in choices.
+
+Evidence is local at /private/tmp/people-coherence-evidence. Google Drive upload
+was rejected by automatic approval review; no media was uploaded. Source repair
+is candidate-only, not production promotion. Human whole-person acceptance and
+the remaining source-art repairs are pending.
+
+Browser evidence: named-A same-person room and five unfiltered normal routes pass.
+Wardrobe selection uses Playwright native selectOption, not renderer injection.
+Pointer navigation and keyboard summary activation pass; keyboard-only garment
+selection attempts did not change the native value and remain unaccepted. Their
+failed traces are retained. No pointer-only garment-selection claim is made.

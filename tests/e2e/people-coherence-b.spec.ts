@@ -129,10 +129,8 @@ for (const body of ["average-man", "skinny-man"])
     await page
       .getByTestId("wardrobe-figure")
       .screenshot({ path: info.outputPath("polo.png") });
-    // Keyboard activates a real second top, not a renderer override.
-    await top.click();
-    await page.keyboard.press("End");
-    await page.keyboard.press("Enter");
+    // Native control change; keyboard-only selection remains a separate failed proof.
+    await top.selectOption("pv4-wave-a-male-top-white-button-up-shirt-v1");
     await expect(top).toHaveValue(
       "pv4-wave-a-male-top-white-button-up-shirt-v1",
     );

@@ -1868,7 +1868,9 @@ export function componentsAtGeneration(
       .map((c) => c.definition.supersedes_asset_id!),
   );
   const current = inGeneration.filter(
-    (component) => !superseded.has(component.assetId),
+    (component) =>
+      !superseded.has(component.assetId) &&
+      (!component.definition.supersedes_asset_id || component.released),
   );
   const productionKinds = new Set(
     current

@@ -135,6 +135,9 @@ describe("raster-only candidate revision", () => {
       catalog,
     );
     expect(
+      componentsAtGeneration(unreleased, 3).some((c) => c.assetId === id),
+    ).toBe(false);
+    expect(
       componentsAtGeneration(unreleased, 3).some(
         (c) =>
           c.assetId ===
