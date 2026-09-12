@@ -8,14 +8,14 @@ on:
 permissions:
   contents: read
 
+env:
+  E2E_SHARD_TOTAL: "2"
+
 jobs:
-  validate:
+  repository:
+    name: repository
     runs-on: ubuntu-latest
-    # Repository validation plus browser proofs exceeded the 30-minute job
-    # budget, then 45 minutes after EDU-PATH7 landed. ENV composition's hosted
-    # run 34625861616 hit 45m during Playwright with repository validation
-    # already green. The proofs still have to finish; this is not a skip.
-    timeout-minutes: 75
+    timeout-minutes: 45
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
@@ -62,20 +62,128 @@ jobs:
           RELEASE_DECLARATION_MODE="$declaration_mode" \
             npm run validate
 
+      - name: Record the baseline Playwright suite
+        env:
+          PG_RUN_ID: gha-${{ github.run_id }}-baseline
+        run: node --import tsx scripts/dev-lab/write-e2e-baseline-inventory.ts
+
+      - name: Upload the baseline Playwright suite
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-suite-baseline
+          path: test-results/runs/gha-${{ github.run_id }}-baseline/baseline-inventory.json
+          if-no-files-found: error
+          retention-days: 14
+
+  browser:
+    name: browser
+    runs-on: ubuntu-latest
+    # LAND already raised the combined-job budget to 75 minutes (164/166).
+    # Keep that budget on each isolated browser runner. Do not reopen those
+    # landings. A 45-minute cap is still present on some UI branches; that is
+    # a branch difference, not a reason to lower main.
+    timeout-minutes: 75
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
+    env:
+      PG_RUN_ID: gha-${{ github.run_id }}-s${{ matrix.shard }}of${{ env.E2E_SHARD_TOTAL }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Use Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.13.0
+          cache: npm
+
+      - name: Install deterministic dependencies
+        run: npm ci
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
+      - name: Enumerate this browser shard
+        run: node --import tsx scripts/dev-lab/write-e2e-shard-inventory.ts ${{ matrix.shard }} ${{ env.E2E_SHARD_TOTAL }}
+
       - name: Run Run A and Run B browser proofs
-        run: npm run test:e2e
+        run: npx playwright test --shard=${{ matrix.shard }}/${{ env.E2E_SHARD_TOTAL }}
+
+      - name: Upload this shard inventory
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-shard-inventory-${{ matrix.shard }}-of-${{ env.E2E_SHARD_TOTAL }}
+          path: test-results/runs/${{ env.PG_RUN_ID }}/shard-inventory.json
+          if-no-files-found: error
+          retention-days: 14
 
       - name: Preserve browser failure evidence
         # Best effort: a hard runner termination can still prevent upload.
         if: failure() || cancelled()
         uses: actions/upload-artifact@v7
         with:
-          name: playwright-failure-evidence
-          path: |
-            playwright-report
-            test-results
+          name: playwright-failure-evidence-shard-${{ matrix.shard }}-of-${{ env.E2E_SHARD_TOTAL }}
+          path: test-results/runs/${{ env.PG_RUN_ID }}
           if-no-files-found: ignore
           retention-days: 14
+
+  validate:
+    name: validate
+    if: always()
+    needs:
+      - repository
+      - browser
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - name: Require every mandatory job
+        shell: bash
+        run: |
+          set -euo pipefail
+          repository='${{ needs.repository.result }}'
+          browser='${{ needs.browser.result }}'
+          echo "repository=$repository"
+          echo "browser=$browser"
+          if [[ "$repository" != "success" || "$browser" != "success" ]]; then
+            echo "Aggregate validate succeeds only when every mandatory job succeeded."
+            exit 1
+          fi
+
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Use Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.13.0
+          cache: npm
+
+      - name: Install deterministic dependencies
+        run: npm ci
+
+      - name: Download the baseline Playwright suite
+        uses: actions/download-artifact@v7
+        with:
+          name: playwright-suite-baseline
+          path: /tmp/playwright-suite-baseline
+
+      - name: Download shard inventories
+        uses: actions/download-artifact@v7
+        with:
+          pattern: playwright-shard-inventory-*
+          path: /tmp/playwright-shard-inventories
+
+      - name: Confirm shard union equals the baseline suite
+        run: node --import tsx scripts/dev-lab/assert-e2e-shard-union.ts /tmp/playwright-suite-baseline/baseline-inventory.json /tmp/playwright-shard-inventories
