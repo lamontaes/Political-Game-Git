@@ -2,12 +2,10 @@
 
 import { spawnSync } from "node:child_process";
 import {
-  chmodSync,
   cpSync,
   existsSync,
   mkdirSync,
   readFileSync,
-  renameSync,
   rmSync,
   writeFileSync,
 } from "node:fs";
@@ -63,12 +61,7 @@ mkdirSync(outputRoot, { recursive: true });
 cpSync(electronApp, appPath, { recursive: true });
 
 const contents = path.join(appPath, "Contents");
-const macOS = path.join(contents, "MacOS");
 const resources = path.join(contents, "Resources");
-const oldExecutable = path.join(macOS, "Electron");
-const executable = path.join(macOS, "Our Civic Duty Private");
-renameSync(oldExecutable, executable);
-chmodSync(executable, 0o755);
 
 const packagedSource = path.join(resources, "app");
 mkdirSync(packagedSource, { recursive: true });
@@ -89,29 +82,26 @@ cpSync(bootstrapApp, path.join(resources, "bootstrap", "Our Civic Duty.app"), {
   recursive: true,
 });
 
-writeFileSync(
-  path.join(contents, "Info.plist"),
-  `<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-  <key>CFBundleDevelopmentRegion</key><string>en</string>
-  <key>CFBundleExecutable</key><string>Our Civic Duty Private</string>
-  <key>CFBundleIdentifier</key><string>com.ourcivicduty.private-controller</string>
-  <key>CFBundleInfoDictionaryVersion</key><string>6.0</string>
-  <key>CFBundleName</key><string>Our Civic Duty Private</string>
-  <key>CFBundleDisplayName</key><string>Our Civic Duty Private</string>
-  <key>CFBundlePackageType</key><string>APPL</string>
-  <key>CFBundleShortVersionString</key><string>${identity.version}</string>
-  <key>CFBundleVersion</key><string>${identity.version}</string>
-  <key>LSApplicationCategoryType</key><string>public.app-category.simulation-games</string>
-  <key>LSMinimumSystemVersion</key><string>13.0</string>
-  <key>NSHighResolutionCapable</key><true/>
-  <key>NSPrincipalClass</key><string>NSApplication</string>
-</dict>
-</plist>
-`,
-);
+// Preserve Electron's framework-sensitive metadata, including its executable,
+// principal class, SDK fields, and asar-integrity record. A minimal replacement
+// plist makes Chromium lose the Framework Resources path on macOS.
+const plistPath = path.join(contents, "Info.plist");
+for (const [key, value] of [
+  ["CFBundleIdentifier", "com.ourcivicduty.private-controller"],
+  ["CFBundleName", "Our Civic Duty Private"],
+  ["CFBundleDisplayName", "Our Civic Duty Private"],
+  ["CFBundleShortVersionString", identity.version],
+  ["CFBundleVersion", identity.version],
+  ["LSApplicationCategoryType", "public.app-category.simulation-games"],
+  ["LSMinimumSystemVersion", "13.0"],
+]) {
+  const replaced = spawnSync(
+    "/usr/bin/plutil",
+    ["-replace", key, "-string", value, plistPath],
+    { stdio: "inherit" },
+  );
+  if (replaced.status !== 0) process.exit(replaced.status ?? 1);
+}
 writeFileSync(
   path.join(resources, "controller-build.json"),
   `${JSON.stringify(

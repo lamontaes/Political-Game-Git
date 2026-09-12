@@ -120,7 +120,7 @@ jobs:
         working-directory: desktop
         run: |
           node scripts/package-private-controller.mjs
-          controller="controller-release-artifacts/Our Civic Duty Private.app/Contents/MacOS/Our Civic Duty Private"
+          controller="controller-release-artifacts/Our Civic Duty Private.app/Contents/MacOS/Electron"
           node scripts/controller-smoke-test.mjs --app "$controller"
 
       - name: Record checksums and source identity

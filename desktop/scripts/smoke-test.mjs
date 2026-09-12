@@ -9,7 +9,7 @@
  * packaged build: resize, fullscreen on/off, minimize/restore, and a
  * clean quit.
  *
- * Usage: node scripts/smoke-test.mjs --app <executable> [--shell]
+ * Usage: node scripts/smoke-test.mjs --app <executable> [--shell] [--screenshot <png>]
  */
 
 import { mkdtempSync } from "node:fs";
@@ -33,10 +33,11 @@ function arg(name) {
   return index >= 0 ? process.argv[index + 1] : undefined;
 }
 const appPath = arg("--app");
+const screenshot = arg("--screenshot");
 const shellChecks = process.argv.includes("--shell");
 if (!appPath) {
   console.error(
-    "Usage: node scripts/smoke-test.mjs --app <executable> [--shell]",
+    "Usage: node scripts/smoke-test.mjs --app <executable> [--shell] [--screenshot <png>]",
   );
   process.exit(1);
 }
@@ -103,6 +104,8 @@ async function stableIdentity(page) {
   await page.getByTestId("start-age").fill("27");
   await page.getByTestId("creator-continue-character").click();
   await page.getByTestId("creator-stage-place").waitFor();
+  await page.getByTestId("state-search").fill("Kentucky");
+  await page.getByTestId("state-KY").click();
   await page.getByTestId("place-search").fill("Kentu");
   await page
     .getByTestId("place-choices")
@@ -132,6 +135,9 @@ async function stableIdentity(page) {
       "production: candidate banner is absent",
       (await page.getByTestId("art-preview-banner").count()) === 0,
     );
+  }
+  if (screenshot) {
+    await page.screenshot({ path: path.resolve(screenshot), fullPage: true });
   }
   identity = await stableIdentity(page);
   await page.getByTestId("keep-world").click();
