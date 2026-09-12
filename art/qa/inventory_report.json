@@ -1,5 +1,5 @@
 {
-  "totalItems": 1870,
+  "totalItems": 1872,
   "items": [
     {
       "filePath": "families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png",
@@ -620,6 +620,10 @@
     {
       "filePath": "generated/candidates/people-visual4/pv4_wave_a_female_top_brown_fur_hood_parka_v1.png",
       "hash": "6ef0695108df24e47e84e1bf1423371ca6e024b92ffd64b8c7ffec665e5f24bf"
+    },
+    {
+      "filePath": "generated/candidates/people-visual4/pv4_wave_a_female_top_burgundy_short_sleeve_polo_v1_armmasked.png",
+      "hash": "4641d8b1fd36aa6eeb0e695b600f11a1be0060da573fd9e855e7c6c521d22ea8"
     },
     {
       "filePath": "generated/candidates/people-visual4/pv4_wave_a_female_top_burgundy_short_sleeve_polo_v1.png",
@@ -3900,6 +3904,10 @@
     {
       "filePath": "generated/candidates/people-visual4-hair/pv4_hair_63_tan_square_adult_masc_v1_front.png",
       "hash": "616a8f369b3f5437a57d662df74ed1cab7f078c135b15a3aba52f4aefd68d6fc"
+    },
+    {
+      "filePath": "generated/candidates/people-visual4-masked/wave_a_female_top_burgundy_short_sleeve_polo_v1_armmasked.png",
+      "hash": "a8f4303c6c2c8ff3ce3d53a842f6db1ac34b4ddaf04ad6a418d9f3779eb450cc"
     },
     {
       "filePath": "generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_seated_conversational_open_hand_v1.png",
