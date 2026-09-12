@@ -185,7 +185,9 @@ export function TitleTableau({
   return (
     <div
       className={
-        hasPlate ? "title-tableau title-tableau--art" : "title-tableau"
+        hasPlate
+          ? "title-tableau title-tableau--art front-door"
+          : "title-tableau front-door"
       }
       data-testid="title-tableau"
       data-has-plate={hasPlate ? "true" : "false"}
