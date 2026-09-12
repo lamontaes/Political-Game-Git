@@ -15,7 +15,9 @@ import {
   createScheduledActivity,
   simulationMomentAtLocalTime,
   addDays,
+  advanceWorldMinutes,
 } from "../simulation";
+import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 
 function life(seed = "next24-routine-route") {
   const game = createNewGameWorld({
@@ -31,6 +33,40 @@ function life(seed = "next24-routine-route") {
 }
 
 describe("NEXT24 combined private-citizen routine route", () => {
+  it("resumes a kept mid-shift life before the included journey without duplicate pay", () => {
+    const { world, personId } = life("next24-mid-shift-attend");
+    const morning = passOrdinaryDays(
+      enterLifePath(world, "shop-assistant").world,
+    );
+    const started = advanceWorldMinutes(
+      morning,
+      180,
+      createCampaignElectionTransitionRegistry(),
+    );
+    expect(started.currentMoment.minuteOfDay).toBe(600);
+    const loaded = deserializeWorld(serializeWorld(started));
+    const meeting = venueActivities(loaded, personId).find(
+      (e) => e.activity.title === "Posted public meeting",
+    )!;
+    expect(meeting.refusal).toBeNull();
+    const attended = performVenueActivity(
+      loaded,
+      personId,
+      meeting.activity.id,
+    );
+    expect(attended.currentMoment.minuteOfDay).toBe(1185);
+    expect(
+      attended.history.events.filter(
+        (e) => e.type === "life-paths2.work-session",
+      ),
+    ).toHaveLength(1);
+    const paid = passOrdinaryDays(deserializeWorld(serializeWorld(attended)));
+    expect(
+      paid.history.resourceTransferOutcomes.filter(
+        (o) => o.transferredAmount.minorUnits === 7200,
+      ),
+    ).toHaveLength(1);
+  });
   it("crosses a full 09–13 job window during Attend, arrives before attendance, pays once after reload", () => {
     const { world, personId } = life();
     const accepted = enterLifePath(world, "shop-assistant").world;

@@ -2,7 +2,7 @@
   "counts": {
     "INVENTORIED": 2353,
     "INTENTIONALLY_NON_PLAYER_FACING": 5706,
-    "DIAGNOSTIC_OR_TEST": 4830,
+    "DIAGNOSTIC_OR_TEST": 4832,
     "NEEDS_CLASSIFICATION": 6228
   },
   "needsClassification": [
@@ -16377,7 +16377,7 @@
     {
       "sourcePath": "src/presentation/venue-activity.ts",
       "enclosingSymbol": "venueActivities",
-      "line": 116,
+      "line": 120,
       "text": "This activity is not yours to carry out.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16385,7 +16385,7 @@
     {
       "sourcePath": "src/presentation/venue-activity.ts",
       "enclosingSymbol": "venueActivities",
-      "line": 128,
+      "line": 136,
       "text": "An earlier commitment must be resolved first.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16393,7 +16393,7 @@
     {
       "sourcePath": "src/presentation/venue-activity.ts",
       "enclosingSymbol": "venueActivities",
-      "line": 132,
+      "line": 140,
       "text": "The current location is not recorded, so the game cannot establish a journey to {activity.location.label}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16401,7 +16401,7 @@
     {
       "sourcePath": "src/presentation/venue-activity.ts",
       "enclosingSymbol": "venueActivities",
-      "line": 134,
+      "line": 142,
       "text": "No authored journey connects {origin.label} to {activity.location.label}. The supported office-to-East-End route does not establish this distance, time, or cost.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16409,7 +16409,7 @@
     {
       "sourcePath": "src/presentation/venue-activity.ts",
       "enclosingSymbol": "venueActivities",
-      "line": 141,
+      "line": 149,
       "text": "This activity cannot be performed now.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16417,7 +16417,7 @@
     {
       "sourcePath": "src/presentation/venue-activity.ts",
       "enclosingSymbol": "arrived",
-      "line": 207,
+      "line": 233,
       "text": "Arrived at {entry.activity.location.label}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16425,7 +16425,7 @@
     {
       "sourcePath": "src/presentation/venue-activity.ts",
       "enclosingSymbol": "arrived",
-      "line": 217,
+      "line": 243,
       "text": "Arrived at {entry.activity.location.label}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16433,7 +16433,7 @@
     {
       "sourcePath": "src/presentation/venue-activity.ts",
       "enclosingSymbol": "arrived",
-      "line": 226,
+      "line": 252,
       "text": "Attend {entry.activity.title}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -52512,7 +52512,7 @@
       "sourcePath": "src/presentation/next24-routine-route.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 15
+      "count": 17
     },
     {
       "sourcePath": "src/presentation/new-game-identity.test.ts",

@@ -3,9 +3,14 @@ import {
   startLife,
   enterLife,
   openShellMenu,
-  saveLife,
+  saveLife as keepLife,
 } from "./support/creator";
 import { readSavedLegislativeWorld } from "./support/legislative-entry";
+
+async function saveLife(page: Page) {
+  await keepLife(page);
+  await page.keyboard.press("Escape");
+}
 
 async function personal(page: Page) {
   await openShellMenu(page);
@@ -13,7 +18,7 @@ async function personal(page: Page) {
   await page.getByTestId("nav-personal").click();
   const routine = page.getByTestId("personal-routine");
   await expect(routine).toBeVisible();
-  await routine.locator("summary").press("Enter");
+  await routine.locator(":scope > summary").press("Enter");
   return routine;
 }
 
@@ -49,18 +54,16 @@ for (const viewport of [
         exact: true,
       })
       .click();
-    const meeting = routine
-      .locator("li")
-      .filter({
-          has: page.getByRole("heading", {
-          name: "Posted public meeting",
-          exact: true,
-        }),
-      });
+    const meeting = routine.locator("li").filter({
+      has: page.getByText("Posted public meeting", { exact: true }),
+    });
     await expect(meeting).toContainText("20-minute journey");
     await expect(meeting).toContainText("no fare");
     await meeting
-      .getByRole("button", { name: "Attend", exact: true })
+      .getByRole("button", {
+        name: "Attend: Posted public meeting",
+        exact: true,
+      })
       .press("Enter");
     await expect(routine.getByTestId("personal-routine-outcome")).toContainText(
       "1 ordinary work shift completed",
@@ -79,7 +82,7 @@ for (const viewport of [
     const study = routine
       .locator("article")
       .filter({
-          has: page.getByRole("heading", {
+        has: page.getByRole("heading", {
           name: "College office administration certificate",
           exact: true,
         }),
@@ -147,13 +150,17 @@ for (const viewport of [
       (s) => s.activityId === activity.id && s.status === "completed",
     )!;
     expect(arrival.sequence).toBeLessThan(outcome.sequence);
-    await test
-      .info()
-      .attach("combined-world-deltas.json", {
-        body: JSON.stringify({ attended, completed }),
-        contentType: "application/json",
-      });
-    await routine.locator("summary").click();
+    await test.info().attach("combined-world-deltas.json", {
+      body: JSON.stringify({ attended, completed }),
+      contentType: "application/json",
+    });
+    await routine
+      .getByTestId("personal-routine-outcome")
+      .scrollIntoViewIfNeeded();
+    await page.screenshot({
+      path: test.info().outputPath("personal-combined-outcome.png"),
+    });
+    await routine.locator(":scope > summary").click();
     await page.screenshot({
       path: test.info().outputPath("personal-combined-complete.png"),
     });

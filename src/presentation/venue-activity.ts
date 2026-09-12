@@ -92,7 +92,11 @@ function disclosedJourneyFor(
 }
 
 /** A player action over existing scheduled activity truth; no separate clock. */
-export function venueActivities(world: World, personId: EntityId) {
+export function venueActivities(
+  world: World,
+  personId: EntityId,
+  transitionHandlers: FutureTransitionHandlerRegistry = createCampaignElectionTransitionRegistry(),
+) {
   return scheduledActivitiesVisibleTo(world, personId)
     .filter((activity) =>
       sceneVenueForLocationKey(activity.location.locationKey),
@@ -123,7 +127,11 @@ export function venueActivities(world: World, personId: EntityId) {
           const blockers = controlledCommitmentsBlockingActivityPerformance(
             world,
             activity.id,
-          ).filter((id) => id !== journey?.activity.id);
+          ).filter(
+            (id) =>
+              id !== journey?.activity.id &&
+              !transitionHandlers.routine?.isAutoResolvableActivity(world, id),
+          );
           if (blockers.length)
             refusal = "An earlier commitment must be resolved first.";
           if (!refusal && activity.kind !== "travel" && !journey) {
@@ -161,7 +169,7 @@ export function performVenueActivity(
   activityId: EntityId,
   transitionHandlers: FutureTransitionHandlerRegistry = createCampaignElectionTransitionRegistry(),
 ): World {
-  const entry = venueActivities(world, personId).find(
+  const entry = venueActivities(world, personId, transitionHandlers).find(
     ({ activity }) => activity.id === activityId,
   );
   if (
@@ -171,13 +179,31 @@ export function performVenueActivity(
   )
     return world;
   const journey = entry.journey;
-  if (!journey)
-    return performScheduledActivity(world, activityId, transitionHandlers);
+  if (!journey) {
+    const start = scheduledActivityState(world, activityId).start;
+    const waitMinutes = simulationMinutesBetween(world.currentMoment, start);
+    const waited =
+      waitMinutes > 0
+        ? advanceWorldMinutes(world, waitMinutes, transitionHandlers)
+        : world;
+    if (compareSimulationMoments(waited.currentMoment, start) < 0)
+      return waited;
+    return performScheduledActivity(waited, activityId, transitionHandlers);
+  }
 
   // Resolve the legitimate ordinary windows crossed while waiting to depart.
   // A protected interruption returns the partial World, never false arrival.
-  const waited = journey.waitMinutes > 0 ? advanceWorldMinutes(world, journey.waitMinutes, transitionHandlers) : world;
-  if (compareSimulationMoments(waited.currentMoment, scheduledActivityState(world, journey.activity.id).start) < 0) return waited;
+  const waited =
+    journey.waitMinutes > 0
+      ? advanceWorldMinutes(world, journey.waitMinutes, transitionHandlers)
+      : world;
+  if (
+    compareSimulationMoments(
+      waited.currentMoment,
+      scheduledActivityState(world, journey.activity.id).start,
+    ) < 0
+  )
+    return waited;
   const travelled = performScheduledActivity(
     waited,
     journey.activity.id,
