@@ -1,3 +1,4 @@
+import { migrateUnpinnedAppearanceCatalog } from "../simulation/person-appearance";
 import { ageOnDate } from "../simulation/dates";
 import {
   currentLifeCutoff,
@@ -554,7 +555,9 @@ export class BrowserSaveStore {
         throw new Error("This save cannot be inspected safely.");
       if (read.record.saveId !== saveId)
         throw new Error("Save identity mismatch.");
-      return deserializeWorld(read.record.payload);
+      return migrateUnpinnedAppearanceCatalog(
+        deserializeWorld(read.record.payload),
+      );
     });
   }
 
@@ -611,7 +614,7 @@ export class BrowserSaveStore {
           result: undefined,
         };
       });
-      return world;
+      return migrateUnpinnedAppearanceCatalog(world);
     });
   }
 

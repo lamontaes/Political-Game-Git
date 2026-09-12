@@ -1,6 +1,6 @@
 import { stableHash } from "./ids";
 import { SeededRng } from "./rng";
-import type { EntityId, Person, PersonAppearance } from "./types";
+import type { EntityId, Person, PersonAppearance, World } from "./types";
 
 export type { PersonAppearance };
 
@@ -160,4 +160,38 @@ export function createScenePlacement(
     appearance,
     anchor,
   };
+}
+
+/** Last catalog used by unpinned coherent lives, frozen at the #206 donor. */
+export const LEGACY_COHERENT_CATALOG_GENERATION = 2;
+
+/** Nondiegetic migration of person-owned lineage; preserves all other canon. */
+export function migrateUnpinnedAppearanceCatalog(world: World): World {
+  let changed = false;
+  const people = Object.fromEntries(
+    Object.entries(world.people).map(([id, person]) => {
+      const appearance = person.appearance;
+      if (
+        !appearance ||
+        appearance.catalogGeneration !== undefined ||
+        appearance.recipeVersion !== COHERENT_APPEARANCE_RECIPE_VERSION
+      )
+        return [id, person];
+      changed = true;
+      // The old explicit-selection resolver used generation 1 without a pin.
+      return [
+        id,
+        {
+          ...person,
+          appearance: {
+            ...appearance,
+            catalogGeneration: appearance.selection
+              ? 1
+              : LEGACY_COHERENT_CATALOG_GENERATION,
+          },
+        },
+      ];
+    }),
+  );
+  return changed ? { ...world, people } : world;
 }

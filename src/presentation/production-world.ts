@@ -1,3 +1,4 @@
+import { LEGACY_COHERENT_CATALOG_GENERATION } from "../simulation/person-appearance";
 import {
   guardianAgeBand,
   siblingAgeGaps,
@@ -113,6 +114,7 @@ export interface ProductionWorldInput {
    * `createNewGameWorld`, which passes the legacy version explicitly.
    */
   readonly appearanceRecipeVersion?: string;
+  readonly appearanceCatalogGeneration?: number;
 }
 
 export interface ProductionWorld {
@@ -171,6 +173,12 @@ export function buildProductionWorld(
     // they were created under. See `person-appearance.ts`.
     appearanceRecipeVersion:
       input.appearanceRecipeVersion ?? COHERENT_APPEARANCE_RECIPE_VERSION,
+    appearanceCatalogGeneration:
+      input.appearanceCatalogGeneration ??
+      ((input.appearanceRecipeVersion ?? COHERENT_APPEARANCE_RECIPE_VERSION) ===
+      COHERENT_APPEARANCE_RECIPE_VERSION
+        ? LEGACY_COHERENT_CATALOG_GENERATION
+        : undefined),
     ...(input.identity === undefined ? {} : { identity: input.identity }),
   });
 

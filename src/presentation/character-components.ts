@@ -1569,6 +1569,8 @@ export function liftCandidatesForReview(
      * membership. Omitted keeps the original all-generation-1 lift.
      */
     readonly frozenGeneration1Ids?: readonly string[];
+    /** Published review generations. Membership and definitions must match. */
+    readonly frozenGenerations?: readonly CharacterCatalogGeneration[];
   },
 ): {
   readonly records: readonly CharacterComponentManifestRecord[];
@@ -1576,6 +1578,18 @@ export function liftCandidatesForReview(
 } {
   const frozen = new Set(options?.frozenGeneration1Ids ?? []);
   const useFrozen = frozen.size > 0;
+  const published = options?.frozenGenerations;
+  const membership = new Map(
+    published?.flatMap((g) =>
+      g.component_ids.map((id) => [id, g.generation] as const),
+    ) ?? [],
+  );
+  if (
+    published &&
+    membership.size !==
+      published.reduce((n, g) => n + g.component_ids.length, 0)
+  )
+    throw new Error("Duplicate published candidate membership.");
   const lifted = records
     .filter(
       (record) =>
@@ -1583,8 +1597,10 @@ export function liftCandidatesForReview(
         record.candidate_component !== undefined,
     )
     .map((record) => {
-      const generation =
-        useFrozen && !frozen.has(record.asset_id)
+      const generation = published
+        ? (membership.get(record.asset_id) ??
+          Math.max(...published.map((g) => g.generation)) + 1)
+        : useFrozen && !frozen.has(record.asset_id)
           ? CANDIDATE_REVIEW_GENERATION + 1
           : CANDIDATE_REVIEW_GENERATION;
       return {
@@ -1627,6 +1643,20 @@ export function liftCandidatesForReview(
         signature: computeCharacterGenerationSignature(members),
       };
     });
+  for (const frozenGeneration of published ?? []) {
+    const actual = generations.find(
+      (g) => g.generation === frozenGeneration.generation,
+    );
+    if (
+      !actual ||
+      actual.signature !== frozenGeneration.signature ||
+      JSON.stringify(actual.component_ids) !==
+        JSON.stringify([...frozenGeneration.component_ids].sort())
+    )
+      throw new Error(
+        `Published candidate generation ${frozenGeneration.generation} changed membership or definitions.`,
+      );
+  }
   return {
     records: lifted,
     catalog: {
@@ -1652,8 +1682,8 @@ export const LEGACY_CHARACTER_CATALOG_GENERATION = 1;
  * Which catalog slice a stored appearance should resolve against.
  *
  * An explicit pin always wins. Otherwise a life created under the coherent
- * recipe follows the library's current generation so NEW people can receive
- * additive candidates, and every other appearance stays on generation 1 —
+ * recipe without a pin retains the last unpinned catalog (generation 2).
+ * New creation must persist its pin; every other appearance stays on generation 1 —
  * yesterday's frozen list, not today's.
  */
 export function resolveAppearanceCatalogGeneration(
@@ -1674,7 +1704,7 @@ export function resolveAppearanceCatalogGeneration(
     return pinned;
   }
   return appearance.recipeVersion === COMPLEXION_COHERENT_RECIPE_VERSION
-    ? libraryCatalogGeneration
+    ? Math.min(2, libraryCatalogGeneration)
     : LEGACY_CHARACTER_CATALOG_GENERATION;
 }
 
