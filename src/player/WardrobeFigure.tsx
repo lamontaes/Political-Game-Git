@@ -59,14 +59,7 @@ export function WardrobeFigure({
       },
     });
     content = plan.complete ? (
-      <div
-        style={{
-          position: "relative",
-          width: 200,
-          aspectRatio: "300 / 560",
-          maxWidth: "100%",
-        }}
-      >
+      <div className="wardrobe-figure-stage">
         <ModularCharacter plan={plan} testId="wardrobe-full-body" />
       </div>
     ) : (
@@ -83,7 +76,11 @@ export function WardrobeFigure({
     );
   }
   return (
-    <section aria-label="Your outfit preview" data-testid="wardrobe-figure">
+    <section
+      className="wardrobe-figure"
+      aria-label="Your outfit preview"
+      data-testid="wardrobe-figure"
+    >
       <p>
         Candidate outfit — not approved. Your saved identity and clothing are
         used in every view.

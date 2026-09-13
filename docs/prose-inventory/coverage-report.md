@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 2457 |
 | INTENTIONALLY_NON_PLAYER_FACING | 5887 |
-| DIAGNOSTIC_OR_TEST | 5246 |
-| **NEEDS_CLASSIFICATION** | **6563** |
+| DIAGNOSTIC_OR_TEST | 5257 |
+| **NEEDS_CLASSIFICATION** | **6574** |
 
-Scanned 642 files holding 77082 string
+Scanned 647 files holding 77180 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -40,7 +40,7 @@ literals in total; the table counts only those that read like a sentence.
 | 214 | `src/simulation/executive-authority-rule-packs.ts` |
 | 199 | `src/simulation/legislation-service-families.ts` |
 | 126 | `src/simulation/legislation.ts` |
-| 119 | `src/player/PlayerGame.tsx` |
+| 117 | `src/player/PlayerGame.tsx` |
 | 117 | `src/simulation/civil-personnel-actions.ts` |
 | 117 | `src/simulation/opening-life-content.ts` |
 | 87 | `src/simulation/policy.ts` |
@@ -105,8 +105,8 @@ literals in total; the table counts only those that read like a sentence.
 | 24 | `src/presentation/civic-glossary.ts` |
 | 24 | `src/simulation/life-circumstances.ts` |
 | 24 | `src/ui/ContentBrowserView.tsx` |
+| 23 | `src/player/SceneConversation.tsx` |
 | 23 | `src/presentation/title-tableau.ts` |
-| 22 | `src/player/SceneConversation.tsx` |
 | 21 | `src/simulation/legislation-content-contracts.ts` |
 | 20 | `src/presentation/economic-context-browser.ts` |
 | 20 | `src/presentation/legislative-bargaining-actions.ts` |
@@ -151,6 +151,7 @@ literals in total; the table counts only those that read like a sentence.
 | 14 | `src/simulation/incidents.ts` |
 | 14 | `src/ui/CandidateAdmissionReview.tsx` |
 | 13 | `src/player/OfficeScene.tsx` |
+| 13 | `src/player/PersonCard.tsx` |
 | 13 | `src/player/WorkPendingWorkspace.tsx` |
 | 13 | `src/presentation/campaign-compliance-projection.ts` |
 | 13 | `src/simulation/civil-personnel-start.ts` |
@@ -184,7 +185,6 @@ literals in total; the table counts only those that read like a sentence.
 | 10 | `src/simulation/setup-questionnaire-bank.ts` |
 | 10 | `src/ui/CausalTraceView.tsx` |
 | 10 | `src/ui/PeopleVisual4Review.tsx` |
-| 9 | `src/player/PersonCard.tsx` |
 | 9 | `src/player/ShellNav.tsx` |
 | 9 | `src/presentation/fiscal-authority-work.ts` |
 | 9 | `src/presentation/new-game.ts` |
@@ -210,6 +210,7 @@ literals in total; the table counts only those that read like a sentence.
 | 8 | `src/ui/PersonInspector.tsx` |
 | 8 | `src/ui/PoseContactProof.tsx` |
 | 7 | `src/player/PersonAppearanceControls.tsx` |
+| 7 | `src/player/PersonSceneActionMenu.tsx` |
 | 7 | `src/player/QuickDossier.tsx` |
 | 7 | `src/player/education-study-display.ts` |
 | 7 | `src/presentation/candidate-review.ts` |
@@ -314,6 +315,7 @@ literals in total; the table counts only those that read like a sentence.
 | 1 | `src/player/PersonPortrait.tsx` |
 | 1 | `src/player/PrivateJournalEditor.tsx` |
 | 1 | `src/player/SceneSurfaceLayer.tsx` |
+| 1 | `src/player/overlay-focus.ts` |
 | 1 | `src/presentation/SocialInvitationPanel.tsx` |
 | 1 | `src/presentation/adult-life.ts` |
 | 1 | `src/presentation/economic-context-bindings.ts` |
