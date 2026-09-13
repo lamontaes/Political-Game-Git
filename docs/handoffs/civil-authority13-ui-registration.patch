@@ -1,0 +1,49 @@
+diff --git a/src/player/PlayerGame.tsx b/src/player/PlayerGame.tsx
+index f01b6aaf..40f1616d 100644
+--- a/src/player/PlayerGame.tsx
++++ b/src/player/PlayerGame.tsx
+@@ -143,6 +143,10 @@ import {
+   type ShellState,
+ } from "../presentation/shell-navigation";
+ import { useShell } from "./useShell";
++import {
++  stateAgencyStartAvailableFor,
++  STATE_AGENCY_START_MINIMUM_AGE,
++} from "../simulation/civil-personnel-start";
+ import { ShellNav, type ShellDestination } from "./ShellNav";
+ import { ShellPinRail } from "./ShellPinRail";
+ import { FullDossier, QuickDossier } from "./ShellDossier";
+@@ -1250,6 +1254,33 @@ function SetupScreen({
+               authority to decide cases.
+             </small>
+           </button>
++          <button
++            type="button"
++            data-testid="state-agency-start"
++            disabled={
++              setup.startAge < STATE_AGENCY_START_MINIMUM_AGE ||
++              !stateAgencyStartAvailableFor(place?.stateJurisdictionKey ?? null)
++            }
++            className={
++              setup.startingLife === "state-agency-director"
++                ? "is-chosen"
++                : undefined
++            }
++            onClick={() =>
++              setSetup((now) => ({
++                ...now,
++                startingLife: "state-agency-director",
++                depth: "summarize-earlier-life",
++              }))
++            }
++          >
++            State agency director
++            <small>
++              {stateAgencyStartAvailableFor(place?.stateJurisdictionKey ?? null)
++                ? `A fictional state agency with existing staff, for ages ${STATE_AGENCY_START_MINIMUM_AGE} and older. Its charter makes you the appointing authority; personnel procedures apply only where acquired law supports them.`
++                : "Available only in a state whose personnel procedures the game has compiled."}
++            </small>
++          </button>
+           <h3>At home</h3>
+           <div className="game-choices" data-testid="household-choices">
+             <button

@@ -13,20 +13,20 @@ import type {
 } from "../../simulation/civil-personnel-contract";
 import { PERSONNEL_ATTRIBUTE_KEYS } from "../../simulation/civil-personnel-contract";
 import type { PersonnelObservedAttribute } from "../../simulation/civil-personnel-contract";
+import { compilePersonnelProcedures } from "./civil-personnel-procedures";
 
 /** Reopens locked bytes on every compilation. A precomputed JSON file is not authority. */
 export function compilePersonnelSourceProjection(
   lock: ArtifactLock,
 ): PersonnelSourceProjection {
-  const compiled = compileCivilServiceLabor(
-    openCivilServiceLaborArtifacts(lock),
-  );
+  const opened = openCivilServiceLaborArtifacts(lock);
+  const compiled = compileCivilServiceLabor(opened);
   if (!isClean(validateCivilServiceLaborCorpus(compiled)))
     throw new Error(
       "Civil personnel projection requires a valid source corpus.",
     );
   return {
-    schemaVersion: 1,
+    schemaVersion: 2,
     corpusSha256: compiled.corpus.canonicalSha256,
     compilerVersion: compiled.corpus.compiler.version,
     profiles: compiled.records.map((record) => {
@@ -113,5 +113,6 @@ export function compilePersonnelSourceProjection(
         fields,
       };
     }),
+    procedures: compilePersonnelProcedures(opened.artifacts, lock),
   };
 }
