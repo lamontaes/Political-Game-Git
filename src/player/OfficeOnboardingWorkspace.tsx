@@ -1,6 +1,11 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-import type { EntityId, World } from "../simulation";
+import type {
+  EntityId,
+  OfficeCaseworkWorkflowMode,
+  OfficeVotingWorkflowMode,
+  World,
+} from "../simulation";
 import {
   recordOfficeBriefingInspection,
   recordOfficeVoteInstruction,
@@ -33,6 +38,19 @@ export function OfficeOnboardingWorkspace({
   );
   const [error, setError] = useState<string | null>(null);
   const [openItemId, setOpenItemId] = useState<EntityId | null>(null);
+  const [stagedVoting, setStagedVoting] =
+    useState<OfficeVotingWorkflowMode | null>(
+      projection.preference?.votingMode ?? null,
+    );
+  const [stagedCasework, setStagedCasework] =
+    useState<OfficeCaseworkWorkflowMode | null>(
+      projection.preference?.caseworkMode ?? null,
+    );
+
+  useEffect(() => {
+    setStagedVoting(projection.preference?.votingMode ?? null);
+    setStagedCasework(projection.preference?.caseworkMode ?? null);
+  }, [projection.preference?.id]);
 
   if (projection.membership.kind === "unseated") {
     return (
@@ -49,20 +67,19 @@ export function OfficeOnboardingWorkspace({
   }
 
   const seat = projection.membership.seat;
-  const votingMode =
-    projection.preference?.votingMode ?? "prior-instructions-with-exceptions";
-  const caseworkMode =
-    projection.preference?.caseworkMode ?? "staff-routine-player-exceptions";
 
-  function savePreferences(
-    nextVoting = votingMode,
-    nextCasework = caseworkMode,
-  ) {
+  function savePreferences() {
+    if (!stagedVoting || !stagedCasework) {
+      setError(
+        "Choose a voting workflow and a casework workflow, then record them.",
+      );
+      return;
+    }
     const result = recordOfficeWorkflowPreference(world, {
       personId: playerPersonId,
       officeRelationshipId: seat.relationshipId,
-      votingMode: nextVoting,
-      caseworkMode: nextCasework,
+      votingMode: stagedVoting,
+      caseworkMode: stagedCasework,
     });
     if (result.kind === "refused") {
       setError(result.reason);
@@ -75,26 +92,19 @@ export function OfficeOnboardingWorkspace({
   function saveInstruction(
     disposition: (typeof OFFICE_INSTRUCTION_CHOICES)[number]["disposition"],
   ) {
+    if (!projection.preference) {
+      setError(
+        "Record how this office handles votes and casework before leaving a standing instruction.",
+      );
+      return;
+    }
     if (!projection.selectedMeasureId) {
       setError(
         "Open a bill through the ordinary office route before leaving an instruction.",
       );
       return;
     }
-    const ensured =
-      projection.preference === null
-        ? recordOfficeWorkflowPreference(world, {
-            personId: playerPersonId,
-            officeRelationshipId: seat.relationshipId,
-            votingMode,
-            caseworkMode,
-          })
-        : { kind: "recorded" as const, world };
-    if (ensured.kind === "refused") {
-      setError(ensured.reason);
-      return;
-    }
-    const result = recordOfficeVoteInstruction(ensured.world, {
+    const result = recordOfficeVoteInstruction(world, {
       personId: playerPersonId,
       officeRelationshipId: seat.relationshipId,
       chamberKey: seat.chamberKey,
@@ -128,12 +138,15 @@ export function OfficeOnboardingWorkspace({
     <section
       className="office-onboarding"
       data-testid="office-onboarding"
+      data-briefing-role={projection.briefing.role}
+      data-recommendation-status={projection.briefing.recommendationStatus}
+      data-executed-delegation={String(projection.briefing.executedDelegation)}
       aria-label="Office onboarding"
     >
       <h3 className="office-onboarding-heading">How this office works</h3>
       <p className="office-onboarding-lede">
         {projection.membership.officeLabel}. Preferences stay with this office
-        term. Opening this page does not vote, amend, or hire anyone.
+        term. Opening this page does not vote, amend, or finish casework.
       </p>
       <fieldset className="office-onboarding-fieldset">
         <legend>Voting workflow</legend>
@@ -144,8 +157,11 @@ export function OfficeOnboardingWorkspace({
               name="office-voting-mode"
               value={choice.mode}
               data-testid={`office-voting-${choice.mode}`}
-              checked={votingMode === choice.mode}
-              onChange={() => savePreferences(choice.mode, caseworkMode)}
+              checked={stagedVoting === choice.mode}
+              onChange={() => {
+                setStagedVoting(choice.mode);
+                setError(null);
+              }}
             />
             <span>
               <strong>
@@ -166,8 +182,11 @@ export function OfficeOnboardingWorkspace({
               name="office-casework-mode"
               value={choice.mode}
               data-testid={`office-casework-${choice.mode}`}
-              checked={caseworkMode === choice.mode}
-              onChange={() => savePreferences(votingMode, choice.mode)}
+              checked={stagedCasework === choice.mode}
+              onChange={() => {
+                setStagedCasework(choice.mode);
+                setError(null);
+              }}
             />
             <span>
               <strong>{choice.label}</strong>
@@ -180,7 +199,7 @@ export function OfficeOnboardingWorkspace({
         type="button"
         className="ui-action"
         data-testid="office-record-workflow"
-        onClick={() => savePreferences(votingMode, caseworkMode)}
+        onClick={savePreferences}
       >
         Record this office workflow
       </button>
@@ -188,12 +207,13 @@ export function OfficeOnboardingWorkspace({
         <p data-testid="office-preference-recorded">
           Recorded for this office:{" "}
           {projection.preference.votingMode.replaceAll("-", " ")};{" "}
-          {projection.preference.caseworkMode.replaceAll("-", " ")}.
+          {projection.preference.caseworkMode.replaceAll("-", " ")}. Recording
+          this does not cast a vote or finish constituent work.
         </p>
       ) : (
         <p data-testid="office-preference-absent">
-          No workflow is recorded yet. Nothing will vote on opening, and nothing
-          will vote because a suggestion is highlighted.
+          No workflow is recorded yet. Choosing an option here does not save it
+          until you record it.
         </p>
       )}
       {projection.selectedMeasureId ? (
@@ -203,7 +223,7 @@ export function OfficeOnboardingWorkspace({
           </legend>
           <p>
             Bound to this bill as it now reads. A later amendment or step voids
-            it. S still owns whether a vote can actually be taken.
+            it. This instruction is not a recorded vote.
           </p>
           {OFFICE_INSTRUCTION_CHOICES.map((choice) => (
             <button
@@ -245,6 +265,9 @@ export function OfficeOnboardingWorkspace({
         <p data-testid="office-briefing-not-adoption">
           {projection.briefing.openingIsNotAdoption}
         </p>
+        <p data-testid="office-briefing-not-recommendation">
+          No recommended package is offered until a supported assessment exists.
+        </p>
         {projection.briefing.kind === "no-staff" ? (
           <p data-testid="office-no-staff">
             {projection.briefing.packageLabel}
@@ -266,6 +289,7 @@ export function OfficeOnboardingWorkspace({
                   type="button"
                   className="ui-action"
                   data-testid={`office-briefing-item-${item.itemId}`}
+                  data-access-status={item.access.status}
                   aria-expanded={openItemId === item.itemId}
                   onClick={() => inspectItem(item.itemId, item.kind)}
                 >

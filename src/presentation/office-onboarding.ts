@@ -100,6 +100,18 @@ export interface OfficeStaffMember {
   readonly title: string;
 }
 
+export type OfficeBriefingAccess =
+  | {
+      readonly status: "known";
+      readonly basis: "public-record" | "recorded-knowledge";
+      readonly summary: string;
+    }
+  | {
+      readonly status: "unavailable";
+      readonly reason: string;
+      readonly believedSummary: string | null;
+    };
+
 export interface OfficeBriefingItem {
   readonly kind: "amendment" | "filed-section";
   readonly itemId: EntityId;
@@ -107,11 +119,17 @@ export interface OfficeBriefingItem {
   readonly summary: string;
   readonly inspected: boolean;
   readonly known: boolean;
+  readonly access: OfficeBriefingAccess;
   readonly unknownReason: string | null;
 }
 
 export interface OfficeStaffBriefing {
   readonly kind: "staffed" | "no-staff";
+  /** Known items on file. Not a skill-ranked recommendation until one exists. */
+  readonly role: "briefing";
+  readonly recommendationStatus: "none";
+  /** A recorded casework preference is not completed constituent work. */
+  readonly executedDelegation: false;
   readonly staff: readonly OfficeStaffMember[];
   readonly packageLabel: string;
   readonly packageSummary: string;
@@ -256,13 +274,16 @@ function projectStaffBriefing(
   if (!input.measureId) {
     return {
       kind: "staffed",
+      role: "briefing",
+      recommendationStatus: "none",
+      executedDelegation: false,
       staff: input.staff,
       packageLabel: `${input.staff[0]!.name} has no bill on the table`,
       packageSummary:
-        "Open a measure through the ordinary office docket before asking staff for an amendment package.",
+        "Open a measure through the ordinary office docket before asking staff to brief known items.",
       items: [],
       openingIsNotAdoption:
-        "Opening a recommendation does not adopt it or change the bill.",
+        "Opening a briefing item does not adopt it, recommend it, or change the bill.",
     };
   }
   const measureId = input.measureId;
@@ -278,20 +299,22 @@ function projectStaffBriefing(
     );
   const amendments = measureAmendments(world, measureId);
   const items: OfficeBriefingItem[] = amendments.map((amendment) => {
-    const known = staffKnowAmendment(world, input.staff, amendment.id);
-    return {
-      kind: "amendment",
-      itemId: amendment.id,
-      heading: amendment.offeredByLabel,
-      summary: known
-        ? amendment.description
-        : "Staff have not established what this amendment says.",
-      inspected: inspected("amendment", amendment.id),
-      known,
-      unknownReason: known
-        ? null
-        : "No staff record of this amendment is in the office files they actually know.",
-    };
+    const event = world.history.events.find((record) =>
+      record.involvedEntityIds.includes(amendment.id),
+    );
+    const access = resolveStaffEventAccess(
+      world,
+      input.staff,
+      event ?? null,
+      amendment.description,
+    );
+    return briefingItem(
+      "amendment",
+      amendment.id,
+      amendment.offeredByLabel,
+      access,
+      inspected("amendment", amendment.id),
+    );
   });
   if (items.length === 0) {
     const introduction = world.history.events.find(
@@ -299,71 +322,150 @@ function projectStaffBriefing(
         record.type === "legislation.measure-introduced" &&
         record.involvedEntityIds.includes(measureId),
     );
-    const knownFromStaff = introduction
-      ? staffKnowEvent(world, input.staff, introduction.id)
-      : true;
     for (const section of currentMeasureProvisions(world, measureId)) {
-      items.push({
-        kind: "filed-section",
-        itemId: section.id,
-        heading: `Section ${section.sectionNumber}. ${section.heading}`,
-        summary: knownFromStaff
-          ? section.text
-          : "Staff cannot yet brief this section from what they actually know.",
-        inspected: inspected("filed-section", section.id),
-        known: knownFromStaff,
-        unknownReason: knownFromStaff
-          ? null
-          : "Staff knowledge of this filing is recorded as unknown.",
-      });
+      const filing = world.history.events.find(
+        (record) =>
+          record.type === "legislation.provision-filed" &&
+          record.involvedEntityIds.includes(measureId) &&
+          record.summary.includes(section.heading),
+      );
+      const access = resolveStaffEventAccess(
+        world,
+        input.staff,
+        filing ?? introduction ?? null,
+        section.text,
+      );
+      items.push(
+        briefingItem(
+          "filed-section",
+          section.id,
+          `Section ${section.sectionNumber}. ${section.heading}`,
+          access,
+          inspected("filed-section", section.id),
+        ),
+      );
     }
   }
   const knownCount = items.filter((item) => item.known).length;
   const lead = input.staff[0]!;
   const packageSummary =
     knownCount === 0
-      ? `${lead.name} cannot recommend a package: the office has no known amendment or section to group.`
-      : `${lead.name} recommends taking the known items together, with inspection of each still available. This is a staff judgment, not an omniscient best package.`;
+      ? `${lead.name} has no known items to brief on this bill.`
+      : `${lead.name} can brief the known items on file. This is not a recommended amendment package.`;
   return {
     kind: "staffed",
+    role: "briefing",
+    recommendationStatus: "none",
+    executedDelegation: false,
     staff: input.staff,
-    packageLabel: `${lead.name}'s recommended package`,
+    packageLabel: `Briefing from ${lead.name}`,
     packageSummary,
     items,
     openingIsNotAdoption:
-      "Opening a recommendation does not adopt it or change the bill.",
+      "Opening a briefing item does not adopt it, recommend it, or change the bill.",
   };
 }
 
-function staffKnowAmendment(
-  world: World,
-  staff: readonly OfficeStaffMember[],
-  amendmentId: EntityId,
-): boolean {
-  const amendment = (world.history.legislativeAmendments ?? []).find(
-    (record) => record.id === amendmentId,
-  );
-  if (!amendment) return false;
-  const event = world.history.events.find((record) =>
-    record.involvedEntityIds.includes(amendment.id),
-  );
-  if (!event) return true;
-  return staffKnowEvent(world, staff, event.id);
+function briefingItem(
+  kind: "amendment" | "filed-section",
+  itemId: EntityId,
+  heading: string,
+  access: OfficeBriefingAccess,
+  inspected: boolean,
+): OfficeBriefingItem {
+  const known = access.status === "known";
+  return {
+    kind,
+    itemId,
+    heading,
+    summary:
+      access.status === "known"
+        ? access.summary
+        : (access.believedSummary ?? access.reason),
+    inspected,
+    known,
+    access,
+    unknownReason: access.status === "unavailable" ? access.reason : null,
+  };
 }
 
-function staffKnowEvent(
+/**
+ * Staff may brief a public filing without a private knowledge row. Missing
+ * events, private records, and recorded unknown/incorrect knowledge do not
+ * become known by absence.
+ */
+export function resolveStaffEventAccess(
   world: World,
   staff: readonly OfficeStaffMember[],
-  eventId: EntityId,
-): boolean {
+  event: World["history"]["events"][number] | null,
+  canonicalSummary: string,
+): OfficeBriefingAccess {
+  if (!event) {
+    return {
+      status: "unavailable",
+      reason: "No established record of this item is available to brief.",
+      believedSummary: null,
+    };
+  }
   const staffIds = new Set(staff.map((member) => member.personId));
   const knowledge = world.history.knowledge.filter(
-    (record) => record.eventId === eventId && staffIds.has(record.personId),
+    (record) => record.eventId === event.id && staffIds.has(record.personId),
   );
-  if (knowledge.length === 0) return true;
-  return knowledge.some(
-    (record) => record.accuracy === "accurate" || record.accuracy === "partial",
-  );
+  if (knowledge.length > 0) {
+    const ranked = [...knowledge].sort(
+      (left, right) =>
+        rankAccuracy(right.accuracy) - rankAccuracy(left.accuracy),
+    );
+    const best = ranked[0]!;
+    if (best.accuracy === "accurate") {
+      return {
+        status: "known",
+        basis: "recorded-knowledge",
+        summary: canonicalSummary,
+      };
+    }
+    if (best.accuracy === "partial") {
+      return {
+        status: "known",
+        basis: "recorded-knowledge",
+        summary: best.believedSummary,
+      };
+    }
+    if (best.accuracy === "inaccurate") {
+      return {
+        status: "unavailable",
+        reason: "Staff's recorded account of this item is incorrect.",
+        believedSummary: best.believedSummary,
+      };
+    }
+    return {
+      status: "unavailable",
+      reason: "Staff knowledge of this record is unknown.",
+      believedSummary: best.believedSummary,
+    };
+  }
+  if (event.visibility === "public") {
+    return {
+      status: "known",
+      basis: "public-record",
+      summary: canonicalSummary,
+    };
+  }
+  return {
+    status: "unavailable",
+    reason:
+      "This record is not public, and no staff knowledge of it is recorded.",
+    believedSummary: null,
+  };
+}
+
+function rankAccuracy(
+  accuracy: "accurate" | "partial" | "inaccurate" | "unknown",
+) {
+  if (accuracy === "accurate") return 3;
+  if (accuracy === "partial") return 2;
+  if (accuracy === "inaccurate") return 1;
+  return 0;
 }
 
 function emptyBriefing(
@@ -372,17 +474,20 @@ function emptyBriefing(
 ): OfficeStaffBriefing {
   return {
     kind,
+    role: "briefing",
+    recommendationStatus: "none",
+    executedDelegation: false,
     staff,
     packageLabel:
       kind === "no-staff"
-        ? "No aide is on staff"
+        ? "No staff are recorded for this office"
         : "Staff have nothing to brief",
     packageSummary:
       kind === "no-staff"
-        ? "This office works without inventing an aide. You can still record how votes and casework should be handled."
-        : "Staff are present but have no known package for this bill.",
+        ? "You can still record how votes and casework should be handled."
+        : "Staff are present but have no known items to brief on this bill.",
     items: [],
     openingIsNotAdoption:
-      "Opening a recommendation does not adopt it or change the bill.",
+      "Opening a briefing item does not adopt it, recommend it, or change the bill.",
   };
 }

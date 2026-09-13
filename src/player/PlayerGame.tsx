@@ -140,6 +140,7 @@ import { MeasureFloorSurface } from "./MeasureFloorSurface";
 import { CampaignWorkspace } from "./CampaignWorkspace";
 import { LegislationWorkspace } from "./LegislationWorkspace";
 import { DocketWorkspace } from "./DocketWorkspace";
+import { OfficeOnboardingWorkspace } from "./OfficeOnboardingWorkspace";
 import {
   docketBill,
   type DocketBill,
@@ -3289,6 +3290,14 @@ function renderWorkspace({
               {capabilities.workPlace?.displayName} legislature, so what is in
               front of the chamber is in front of them too.
             </p>
+            <OfficeOnboardingWorkspace
+              world={session.world}
+              playerPersonId={session.personId}
+              selectedMeasureId={
+                workingBill?.measureId ?? assignment?.measureId ?? null
+              }
+              onWorldChange={onLegislativeChange}
+            />
             {workingBill ? (
               <p
                 className="game-band"

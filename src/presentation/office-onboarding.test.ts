@@ -16,13 +16,25 @@ import {
 } from "../simulation";
 import { applyLegislativeCommand } from "./legislation-world";
 import { resolveActiveMemberSeat } from "./legislative-member-seat";
-import { projectOfficeOnboarding } from "./office-onboarding";
+import {
+  projectOfficeOnboarding,
+  resolveStaffEventAccess,
+} from "./office-onboarding";
 import { evaluateOfficeVoteInstruction } from "./office-vote-instruction";
 import {
   hireOfficeStaff,
   openOfficeBill,
   wonLegislativeSeat,
 } from "../../tests/fixtures/office-onboarding-world";
+
+function filingEvents(world: World, measureId: EntityId) {
+  return world.history.events.filter(
+    (record) =>
+      (record.type === "legislation.measure-introduced" ||
+        record.type === "legislation.provision-filed") &&
+      record.involvedEntityIds.includes(measureId),
+  );
+}
 
 function recordDefaultPreference(world: World, personId: EntityId) {
   const membership = resolveActiveMemberSeat(world, personId);
@@ -62,6 +74,20 @@ describe("L staff-guided office onboarding", () => {
         measureId: opened.assignment.measureId,
       }).kind,
     ).toBe("refused");
+    const instructionWithoutRecord = recordOfficeVoteInstruction(opened.world, {
+      personId: member.personId,
+      officeRelationshipId: member.seat.relationshipId,
+      chamberKey: member.seat.chamberKey,
+      measureId: opened.assignment.measureId,
+      disposition: "yea",
+    });
+    expect(instructionWithoutRecord.kind).toBe("refused");
+    if (instructionWithoutRecord.kind === "refused") {
+      expect(instructionWithoutRecord.reason).toMatch(
+        /Record how this office handles votes/i,
+      );
+    }
+    expect(serializeWorld(opened.world)).toBe(before);
   });
 
   it("records revisable preferences bound to the live office, not a new term", () => {
@@ -179,7 +205,7 @@ describe("L staff-guided office onboarding", () => {
     ).toBe("yea");
   });
 
-  it("briefs from actual staff and still works with none, without inventing an aide", () => {
+  it("briefs from actual staff and still works when none are recorded", () => {
     const member = wonLegislativeSeat("l-onboard-staff");
     const opened = openOfficeBill(member.world, member.personId);
     const none = projectOfficeOnboarding(
@@ -189,7 +215,11 @@ describe("L staff-guided office onboarding", () => {
     );
     expect(none.briefing.kind).toBe("no-staff");
     expect(none.briefing.staff).toHaveLength(0);
-    expect(none.briefing.packageSummary).toMatch(/without inventing an aide/i);
+    expect(none.briefing.role).toBe("briefing");
+    expect(none.briefing.recommendationStatus).toBe("none");
+    expect(none.briefing.executedDelegation).toBe(false);
+    expect(none.briefing.packageSummary).not.toMatch(/inventing an aide/i);
+    expect(none.briefing.packageLabel).toMatch(/No staff are recorded/i);
 
     const hired = hireOfficeStaff(
       opened.world,
@@ -209,6 +239,13 @@ describe("L staff-guided office onboarding", () => {
       true,
     );
     expect(staffed.briefing.openingIsNotAdoption).toMatch(/does not adopt/i);
+    expect(staffed.briefing.packageSummary).toMatch(
+      /not a recommended amendment package/i,
+    );
+    expect(staffed.briefing.items[0]?.access.status).toBe("known");
+    if (staffed.briefing.items[0]?.access.status === "known") {
+      expect(staffed.briefing.items[0].access.basis).toBe("public-record");
+    }
 
     const item = staffed.briefing.items[0];
     expect(item).toBeTruthy();
@@ -245,22 +282,22 @@ describe("L staff-guided office onboarding", () => {
       member.personId,
       member.seat.organizationId,
     );
-    const filing = hired.world.history.events.find(
-      (record) =>
-        record.type === "legislation.measure-introduced" &&
-        record.involvedEntityIds.includes(opened.assignment.measureId),
-    );
-    expect(filing).toBeTruthy();
-    const informed = recordEventKnowledge(hired.world, {
-      stableKey: "l-onboard:staff-unknown-filing",
-      personId: hired.staffPersonId,
-      eventId: filing!.id,
-      learnedAt: hired.world.currentDate,
-      believedSummary: "Staff have not established what was filed.",
-      accuracy: "unknown",
-      confidence: "low",
-      source: { kind: "public-record", reference: "office filing file" },
-    });
+    let informed = hired.world;
+    for (const [index, event] of filingEvents(
+      hired.world,
+      opened.assignment.measureId,
+    ).entries()) {
+      informed = recordEventKnowledge(informed, {
+        stableKey: `l-onboard:staff-unknown-filing:${index}`,
+        personId: hired.staffPersonId,
+        eventId: event.id,
+        learnedAt: hired.world.currentDate,
+        believedSummary: "Staff have not established what was filed.",
+        accuracy: "unknown",
+        confidence: "low",
+        source: { kind: "public-record", reference: "office filing file" },
+      });
+    }
     const briefing = projectOfficeOnboarding(
       informed,
       member.personId,
@@ -269,6 +306,162 @@ describe("L staff-guided office onboarding", () => {
     expect(briefing.items.length).toBeGreaterThan(0);
     expect(briefing.items.every((item) => item.known === false)).toBe(true);
     expect(briefing.items[0]?.unknownReason).toMatch(/unknown/i);
+  });
+
+  it("does not treat missing events or private records as known", () => {
+    const member = wonLegislativeSeat("l-onboard-access");
+    const opened = openOfficeBill(member.world, member.personId);
+    const hired = hireOfficeStaff(
+      opened.world,
+      member.personId,
+      member.seat.organizationId,
+    );
+    const staffed = projectOfficeOnboarding(
+      hired.world,
+      member.personId,
+      opened.assignment.measureId,
+    );
+    const staff = staffed.briefing.staff;
+    const missing = resolveStaffEventAccess(
+      hired.world,
+      staff,
+      null,
+      "canonical text",
+    );
+    expect(missing).toMatchObject({ status: "unavailable" });
+
+    const filing = hired.world.history.events.find(
+      (record) =>
+        record.type === "legislation.measure-introduced" &&
+        record.involvedEntityIds.includes(opened.assignment.measureId),
+    )!;
+    expect(filing.visibility).toBe("public");
+    const publicAccess = resolveStaffEventAccess(
+      hired.world,
+      staff,
+      filing,
+      "filed purpose",
+    );
+    expect(publicAccess).toEqual({
+      status: "known",
+      basis: "public-record",
+      summary: "filed purpose",
+    });
+
+    const privateEvent = { ...filing, visibility: "private" as const };
+    const privateAccess = resolveStaffEventAccess(
+      hired.world,
+      staff,
+      privateEvent,
+      "secret text",
+    );
+    expect(privateAccess.status).toBe("unavailable");
+    if (privateAccess.status === "unavailable") {
+      expect(privateAccess.reason).toMatch(/not public/i);
+    }
+
+    const privateWorld = {
+      ...hired.world,
+      history: {
+        ...hired.world.history,
+        events: hired.world.history.events.map((record) =>
+          record.involvedEntityIds.includes(opened.assignment.measureId) &&
+          (record.type === "legislation.measure-introduced" ||
+            record.type === "legislation.provision-filed")
+            ? { ...record, visibility: "private" as const }
+            : record,
+        ),
+      },
+    };
+    const privateBriefing = projectOfficeOnboarding(
+      privateWorld,
+      member.personId,
+      opened.assignment.measureId,
+    ).briefing;
+    expect(privateBriefing.items.every((item) => !item.known)).toBe(true);
+
+    const stripped = {
+      ...hired.world,
+      history: {
+        ...hired.world.history,
+        events: hired.world.history.events.filter(
+          (record) =>
+            record.type !== "legislation.measure-introduced" &&
+            record.type !== "legislation.provision-filed",
+        ),
+      },
+    };
+    const withoutRecords = projectOfficeOnboarding(
+      stripped,
+      member.personId,
+      opened.assignment.measureId,
+    );
+    expect(withoutRecords.briefing.items.length).toBeGreaterThan(0);
+    expect(withoutRecords.briefing.items.every((item) => !item.known)).toBe(
+      true,
+    );
+  });
+
+  it("uses recorded partial or incorrect knowledge instead of inventing a full account", () => {
+    const member = wonLegislativeSeat("l-onboard-partial");
+    const opened = openOfficeBill(member.world, member.personId);
+    const hired = hireOfficeStaff(
+      opened.world,
+      member.personId,
+      member.seat.organizationId,
+    );
+    let partial = hired.world;
+    for (const [index, event] of filingEvents(
+      hired.world,
+      opened.assignment.measureId,
+    ).entries()) {
+      partial = recordEventKnowledge(partial, {
+        stableKey: `l-onboard:staff-partial-filing:${index}`,
+        personId: hired.staffPersonId,
+        eventId: event.id,
+        learnedAt: hired.world.currentDate,
+        believedSummary: "Staff know only that a bill was filed.",
+        accuracy: "partial",
+        confidence: "medium",
+        source: { kind: "public-record", reference: "office filing file" },
+      });
+    }
+    const partialBriefing = projectOfficeOnboarding(
+      partial,
+      member.personId,
+      opened.assignment.measureId,
+    ).briefing;
+    expect(partialBriefing.items[0]?.known).toBe(true);
+    expect(partialBriefing.items[0]?.summary).toBe(
+      "Staff know only that a bill was filed.",
+    );
+    if (partialBriefing.items[0]?.access.status === "known") {
+      expect(partialBriefing.items[0].access.basis).toBe("recorded-knowledge");
+    }
+
+    let incorrect = hired.world;
+    for (const [index, event] of filingEvents(
+      hired.world,
+      opened.assignment.measureId,
+    ).entries()) {
+      incorrect = recordEventKnowledge(incorrect, {
+        stableKey: `l-onboard:staff-wrong-filing:${index}`,
+        personId: hired.staffPersonId,
+        eventId: event.id,
+        learnedAt: hired.world.currentDate,
+        believedSummary: "Staff think the bill funds a different program.",
+        accuracy: "inaccurate",
+        confidence: "low",
+        source: { kind: "public-record", reference: "office filing file" },
+      });
+    }
+    const wrong = projectOfficeOnboarding(
+      incorrect,
+      member.personId,
+      opened.assignment.measureId,
+    ).briefing;
+    expect(wrong.items[0]?.known).toBe(false);
+    expect(wrong.items[0]?.unknownReason).toMatch(/incorrect/i);
   });
 
   it("keeps two lives isolated across save and reopen", () => {
