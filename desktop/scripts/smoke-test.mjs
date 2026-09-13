@@ -19,6 +19,7 @@ import os from "node:os";
 import path from "node:path";
 import { gameLaunchEnvironment } from "./game-launch-environment.mjs";
 import { isDeepStrictEqual } from "node:util";
+import { readDrawnAppearance } from "./drawn-appearance-proof.mjs";
 import {
   readSavedRecords,
   savedIdentity,
@@ -74,12 +75,14 @@ async function launch() {
 
 let identity;
 let savedInterface;
+let drawnAppearance;
 const review = process.env.OCD_EXPECT_ART_PREVIEW === "1";
 const databaseName = review
   ? "political-life-worlds-art-preview"
   : "political-life-worlds";
 
 async function assertVisiblePerson(page, expected) {
+  let proof;
   check(
     "surface: normal play screen is visible",
     await page.getByTestId("play-screen").isVisible(),
@@ -114,8 +117,18 @@ async function assertVisiblePerson(page, expected) {
           String(expected.appearance.catalogGeneration) &&
         (await figure.getAttribute("data-complete")) === "true",
     );
+    proof = await readDrawnAppearance(
+      figure,
+      expected,
+      process.env.OCD_EXPECT_MATERIALS === "1",
+    );
+    check(
+      "surface: decoded drawn assets and material match actual saved identity",
+      true,
+    );
   }
   await page.getByTestId("person-workspace-close").click();
+  return proof;
 }
 
 // ---- Session 1: launch, create, keep --------------------------------------
@@ -190,7 +203,7 @@ async function assertVisiblePerson(page, expected) {
   );
   // Close the save flyout before independently inspecting the normal person surface.
   await page.getByTestId("shell-nav-cluster").click();
-  await assertVisiblePerson(page, identity);
+  drawnAppearance = await assertVisiblePerson(page, identity);
   check(
     "offline: no request left the packaged origin",
     foreign.length === 0,
@@ -276,7 +289,11 @@ async function assertVisiblePerson(page, expected) {
     "reload: complete stored interface preserved",
     isDeepStrictEqual(savedInterface, records.interfaces),
   );
-  await assertVisiblePerson(page, identity);
+  const reopenedDrawnAppearance = await assertVisiblePerson(page, identity);
+  check(
+    "reload: drawn asset IDs and native material SVG hashes preserved",
+    isDeepStrictEqual(drawnAppearance, reopenedDrawnAppearance),
+  );
   check(
     "offline: no request left the packaged origin on relaunch",
     foreign.length === 0,

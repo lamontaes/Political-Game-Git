@@ -101,6 +101,7 @@ jobs:
         working-directory: desktop
         env:
           OCD_EXPECT_ART_PREVIEW: ${{ matrix.profile == 'internal-art-review' && '1' || '' }}
+          OCD_EXPECT_MATERIALS: ${{ matrix.profile == 'internal-art-review' && '1' || '' }}
         # Unpacked-.app proof on the runner (the DMG contains this same
         # bundle). Production also exercises window chrome via --shell.
         # The internal-art-review job proves the labelled candidate

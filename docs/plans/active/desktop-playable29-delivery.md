@@ -1,5 +1,16 @@
 # Desktop PLAYABLE29 delivery
 
+## Prepared material proof
+
+The material follow-on must be composed with B's catalog-generation-5 return,
+not applied to the earlier safety-only package. The existing Mac review smoke
+requires a genuinely saved material, decoded layers, every marked layer's complete
+parameters equal to `appearance.material`, and unchanged asset IDs/native SVG
+SHA256 across clean quit/Continue. Blob URLs are deliberately not identity.
+Discriminating controls reject wrong person/seed, missing/undecoded layers,
+loading state, changed palette/features/version and missing SVG identity.
+This is packaged decoding/continuity evidence, not human visual acceptance.
+
 Use A's next accepted useful frozen composition, not the old #228 package.
 Initial preparation is clean source a50b005016269cd8b28833c4fe119f676f8e9c0e;
 A remains sole root/main integrator. Existing controller, durable close,
