@@ -31,7 +31,12 @@ describe("storefront surfaces read actual available records", () => {
       priors: [],
     });
     const id = created.playerPersonId;
-    const filed = fileForOffice(openOrdinaryLife(created.world, id), id);
+    const filed = fileForOffice(
+      openOrdinaryLife(created.world, id),
+      id,
+      null,
+      "us-ky-general-assembly-v1:house",
+    );
     expect(
       projectLocationSurfaces(
         filed,
