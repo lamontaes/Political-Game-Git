@@ -26,18 +26,39 @@ found in the scoped current-source and all-ref recovery pass.
 
 ## Verification state
 
-Final frozen-source checks are pending. Earlier focused regression verification
-passed 65 tests before the final linked-unit adapter changes. Later serial runs
-encountered host-pressure timeouts in unchanged direct campaign/election tests as
-well as national tests. Early typechecks and targeted lint passed before the last
-edits; these are historical evidence, not final-head claims.
+Implementation/proof SHA: `d073daeebf9197b7ae30a5e0cef8d3029cd77c54`,
+clean `codex/systems30-n`. The later completion receipt changes documentation
+only; no runtime or test source is changed after this proof.
 
-Two browser attempts failed: the first fixture used unavailable dependency URLs;
-the corrected module entry subsequently timed out during severe shared-host
-memory pressure and source-identity drift. A fresh frozen-source pointer/keyboard
-proof is required. Feature-fixture reachability, ordinary-player reachability,
-installed delivery and human visual acceptance are separate; none is inferred
-from historical automation.
+| Check actually run                                                                                                          | Result and exact source                                                                                                                                                                                 |
+| --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm exec vitest -- run src/simulation/national-elections.test.ts --maxWorkers=1 --no-file-parallelism --testTimeout=60000` | 9 passed, including expired-term display, on implementation/proof SHA. The execution-only timeout accommodates shared-host pressure; no committed timeout or assertion weakening.                       |
+| Identified Playwright `tests/e2e/national-election.spec.ts`, `s30-n-leaf-r6`, port 5377, isolated cache/artifacts           | 1 passed on implementation/proof SHA. Expected/served checkout, branch, HEAD and source digest match; pointer and keyboard activation, read-only World assertion, native 1440×900 and 960×720 captures. |
+| Scoped ESLint and Prettier across changed TS/TSX and documentation                                                          | Passed on implementation/proof SHA.                                                                                                                                                                     |
+| `npm run build` including `npm run typecheck`                                                                               | Passed on implementation/proof SHA; stamped production client `d073dae`, tree `9f6ace7b11d2`.                                                                                                           |
+| `npm run release:check -- --base origin/main --head HEAD`                                                                   | Passed on implementation/proof SHA against upstream 68f66166; declaration added, no version/ledger edits.                                                                                               |
+| `npm run validate:art`                                                                                                      | Passed on 9c67b479 (only fixture viewport and result-view/test changes afterward; no art source change).                                                                                                |
+| `npm run inventory:art` and `npm run qa:art`                                                                                | Passed on 1748f1cb; inventory up to date (1886 items) with inherited duplicate-hash warnings; QA/contact sheets regenerated without source change.                                                      |
+| Root receiver patch and whitespace                                                                                          | `git apply --check` and `git diff --check` passed.                                                                                                                                                      |
+
+Machine receipts/logs: `/private/tmp/s30-n-receipts/`; final native browser evidence,
+report and provenance: `/private/tmp/s30-n-browser/s30-n-leaf-r6/`.
+Captures were inspected: no clipping/overlap at either tested viewport, native
+controls and focus are visible. This is a feature-fixture proof; A's ordinary
+root mount, installed delivery and human visual acceptance are **pending**.
+The full repository validation aggregate was not run on this owner return.
+No unresolved focused-test or known domain failure remains; the producer/input
+boundaries above remain intentionally unavailable.
+
+Historical runs remain historical: an early 65-test regression pass preceded the
+linked-unit changes; subsequent default-timeout runs failed during shared-host
+memory pressure, including unchanged campaign/election tests. The first browser
+fixture failed on unavailable dependency URLs; later attempts exposed source drift
+and a missing React refresh preamble. The fixture now uses the installed plugin's
+preamble and an explicit native viewport; final frozen-source proof passed. One
+stale typecheck was cancelled and one build failed on the `.ts` JSX fixture entry;
+the entry is now `.tsx`, and the final build passed. None of those failed/cancelled
+runs is claimed as current-head acceptance.
 
 Architecture impact and LEARN are recorded in the task-specific audit addendum:
 raw totals cannot stand in for a lawfully resolved state certificate, immutable
