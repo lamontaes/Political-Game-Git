@@ -8,17 +8,38 @@ import {
   menuBesideAnchor,
 } from "./overlay-focus";
 
+function control(testId: string, disabled = false) {
+  return {
+    dataset: { testid: testId },
+    tabIndex: 0,
+    hasAttribute: (name: string) => name === "disabled" && disabled,
+    getAttribute: (name: string) =>
+      name === "aria-disabled" ? null : name === "data-testid" ? testId : null,
+  } as unknown as HTMLElement;
+}
+
+function tree(nodes: readonly HTMLElement[]): ParentNode {
+  const byTestId = (selector: string) => {
+    const match = /data-testid="([^"]+)"/.exec(selector);
+    if (!match) return nodes;
+    return nodes.filter((node) => node.dataset.testid === match[1]);
+  };
+  return {
+    querySelectorAll: (selector: string) =>
+      (selector.includes("data-testid=")
+        ? byTestId(selector)
+        : nodes) as unknown as NodeListOf<HTMLElement>,
+    querySelector: (selector: string) => byTestId(selector)[0] ?? null,
+  } as unknown as ParentNode;
+}
+
 describe("overlay focus and placement", () => {
   it("selects the first enabled control, skipping a disabled Talk", () => {
-    document.body.innerHTML = `
-      <div id="menu">
-        <button disabled data-testid="action-talk">Talk</button>
-        <button data-testid="action-inspect">Inspect</button>
-      </div>
-    `;
-    expect(
-      firstEnabledControl(document.getElementById("menu"))?.dataset.testid,
-    ).toBe("action-inspect");
+    const talk = control("action-talk", true);
+    const inspect = control("action-inspect");
+    expect(firstEnabledControl(tree([talk, inspect]))?.dataset.testid).toBe(
+      "action-inspect",
+    );
   });
 
   it("places the menu to the right of its subject and clamps to the viewport", () => {
@@ -51,12 +72,13 @@ describe("overlay focus and placement", () => {
   });
 
   it("returns the still-mounted person, else the shell cluster", () => {
-    document.body.innerHTML = `
-      <button data-testid="shell-nav-cluster">Menu</button>
-      <button data-testid="scene-person-p-1">Ada</button>
-    `;
-    expect(findInvokerControl("p-1")?.dataset.testid).toBe("scene-person-p-1");
-    expect(findInvokerControl("missing")?.dataset.testid).toBe(
+    const person = control("scene-person-p-1");
+    const cluster = control("shell-nav-cluster");
+    const root = tree([cluster, person]);
+    expect(findInvokerControl("p-1", root)?.dataset.testid).toBe(
+      "scene-person-p-1",
+    );
+    expect(findInvokerControl("missing", root)?.dataset.testid).toBe(
       "shell-nav-cluster",
     );
     expect(FOCUS_FALLBACK_SELECTOR).toContain("shell-nav-cluster");

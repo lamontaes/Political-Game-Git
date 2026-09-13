@@ -131,7 +131,9 @@ export function SavedAppearanceControls(
     ? wearableChoicesIn(preview.characters)
     : NORMAL_APPEARANCE_LIBRARY;
   const familyLabels = catalogFamilyLabels(
-    [...library.components.values()].map((component) => component.family),
+    [...library.components.values()].map(
+      (component) => component.definition.family,
+    ),
   );
   return (
     <details
