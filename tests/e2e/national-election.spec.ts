@@ -4,6 +4,7 @@ import { test, expect } from "@playwright/test";
 test("national supplied-results view separates stages and activates controls by pointer and keyboard", async ({
   page,
 }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
   await page.route("**/__s30_n_fixture", (route) =>
     route.fulfill({
       contentType: "text/html",
