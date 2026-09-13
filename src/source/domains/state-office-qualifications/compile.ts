@@ -24,6 +24,7 @@
 
 import { readFileSync } from "node:fs";
 import { isAbsolute, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   corpusCanonicalDigest,
   extractEnactedText,
@@ -163,7 +164,7 @@ const FIELD_BY_MATRIX_NAME: Readonly<
 };
 
 function repoRoot(): string {
-  return resolve(new URL("../../../..", import.meta.url).pathname);
+  return fileURLToPath(new URL("../../../..", import.meta.url));
 }
 
 function readRepositoryFile(path: string): Buffer {

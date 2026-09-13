@@ -14,6 +14,7 @@
 
 import { readFileSync, realpathSync } from "node:fs";
 import { isAbsolute, resolve, sep } from "node:path";
+import { fileURLToPath } from "node:url";
 import { SourceCapabilityError } from "./errors";
 import { sha256Hex } from "./hashing";
 import type { ArtifactLock, RawArtifact } from "./artifact";
@@ -120,7 +121,7 @@ function readableForProduction(
 
 function repoRoot(): string {
   // core/ -> source/ -> src/ -> repository root
-  return resolve(new URL("../../..", import.meta.url).pathname);
+  return fileURLToPath(new URL("../../..", import.meta.url));
 }
 
 function insideRepo(relativeOrAbsolute: string): string {
