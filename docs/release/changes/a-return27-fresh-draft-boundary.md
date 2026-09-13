@@ -16,3 +16,7 @@ generation, production, old-slot and replay byte-identity assertions.
 Receive B's corrected version/corpus closure and mount its caller-dependent
 proof with the A-owned initializer. Verify the actual TitleScreen open-saves
 test ID rather than relying on CSS-transformed labels or guessed ID names.
+
+Final B cad73430 closure retained as ancestry; its byte-identical caller proof
+is mounted in A e2e only with the verified initializer, not run on an unmounted
+feature leaf. Generated reports are refreshed before freezing this receiver.

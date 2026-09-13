@@ -83,6 +83,13 @@ activation and retry the failed cases against an identified frozen successor.
 Only A's regenerable dist directories were removed (738MB/707MB); evidence,
 live play, owners and saves were untouched. No large new staging is needed.
 
+The two failed cases retried on 8e29c88c passed 2/2 in 45.5 seconds, with actual
+Advanced keyboard activation and unchanged generation/identity assertions.
+Receive final B cad73430b96a666f1360ea884deb13aa2030750e; its exact caller
+proof is mounted in e2e only alongside A's initializer. Original bytes match
+758ac1d1d318f85f2ef6c10361c381a989c91b9e. Existing root replay and load paths
+bypass candidate setup adaptation. Full exact combined visual proof follows.
+
 Never run fixture-writing unit suites in an identified live play tree. Test in
 the isolated receiver, freeze its source, and only then identify browser proof.
 Generated prose packets are derived composition, not an ownership conflict;
