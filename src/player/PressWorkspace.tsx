@@ -30,6 +30,16 @@ import {
   type World,
 } from "../simulation";
 import { PressInterviewPanel } from "./PressInterviewPanel";
+import {
+  composePressRequestPitch,
+  composeReporterQuestion,
+  PRESS_REQUEST_INTENT_COPY,
+  PRESS_REQUEST_INTENTS,
+  PRESS_REQUEST_STANCE_COPY,
+  PRESS_REQUEST_STANCES,
+  type PressRequestIntent,
+  type PressRequestStance,
+} from "../presentation/press-request";
 
 /** Normal saved-world consumer; arrangements and adviser content remain domain-owned. */
 export function PressWorkspace({
@@ -44,8 +54,10 @@ export function PressWorkspace({
   const [selected, setSelected] = useState<EntityId | null>(null);
   const [basisId, setBasisId] = useState("");
   const [reporterRoleId, setReporterRoleId] = useState("");
-  const [pitch, setPitch] = useState("");
-  const [question, setQuestion] = useState("");
+  const [intent, setIntent] = useState<PressRequestIntent>("request-exchange");
+  const [stance, setStance] = useState<PressRequestStance>(
+    "report-what-is-recorded",
+  );
   const [channel, setChannel] = useState<PressInterviewChannel>("written");
   const [terms, setTerms] = useState<PressRecordTerms>("on-record");
   const [attribution, setAttribution] = useState("");
@@ -71,6 +83,21 @@ export function PressWorkspace({
         })
       : [];
   const reporter = reporters.find((item) => item.workRoleId === reporterRoleId);
+  const pitch = topic
+    ? composePressRequestPitch({
+        subjectSummary: topic.summary,
+        intent,
+        stance,
+        channel,
+        terms,
+      })
+    : { ok: false as const, reason: "Choose a public development." };
+  const reporterQuestion = topic
+    ? composeReporterQuestion({
+        subjectSummary: topic.summary,
+        terms,
+      })
+    : { ok: false as const, reason: "Choose a public development." };
   const requests = world.history.events.filter(
     (event) =>
       event.type === "press.interview-requested" &&
@@ -113,10 +140,10 @@ export function PressWorkspace({
               No current journalism role is recorded in this life.
               <button
                 type="button"
-                data-testid="press-establish-reporter"
+                data-testid="press-seek-reporter"
                 onClick={() => change(() => seekCivicPressContact(world).world)}
               >
-                Establish an authored civic reporter
+                Look for a reporter covering public affairs
               </button>
             </p>
           ) : null}
@@ -125,6 +152,7 @@ export function PressWorkspace({
               event.preventDefault();
               if (!topic || !reporter) return;
               change(() => {
+                if (!pitch.ok || !reporterQuestion.ok) return world;
                 const result = recordPressRequest(world, {
                   stableKey: `press-request:${controlledPersonId}:${world.actionSequence}`,
                   reporterPersonId: reporter.personId,
@@ -134,8 +162,8 @@ export function PressWorkspace({
                   terms,
                   backgroundAttribution:
                     terms === "on-background" ? attribution : null,
-                  pitch,
-                  primaryQuestion: question,
+                  pitch: pitch.statement,
+                  primaryQuestion: reporterQuestion.statement,
                   questionBasisEventIds: [topic.eventId],
                 });
                 setRequestNotice(
@@ -223,29 +251,87 @@ export function PressWorkspace({
                 />
               </label>
             ) : null}
-            <label>
-              Your pitch
-              <textarea
-                required
-                value={pitch}
-                onChange={(event) => setPitch(event.target.value)}
-              />
-            </label>
-            <label>
-              Proposed question
-              <textarea
-                required
-                value={question}
-                onChange={(event) => setQuestion(event.target.value)}
-              />
-            </label>
+            <fieldset>
+              <legend>What you are asking for</legend>
+              {PRESS_REQUEST_INTENTS.map((choice) => (
+                <label key={choice}>
+                  <input
+                    type="radio"
+                    name="press-request-intent"
+                    checked={intent === choice}
+                    onChange={() => setIntent(choice)}
+                  />
+                  {PRESS_REQUEST_INTENT_COPY[choice].label}
+                </label>
+              ))}
+            </fieldset>
+            <fieldset>
+              <legend>Stance on the record</legend>
+              {PRESS_REQUEST_STANCES.map((choice) => (
+                <label key={choice}>
+                  <input
+                    type="radio"
+                    name="press-request-stance"
+                    checked={stance === choice}
+                    onChange={() => setStance(choice)}
+                  />
+                  {PRESS_REQUEST_STANCE_COPY[choice].label}
+                </label>
+              ))}
+            </fieldset>
+            {pitch.ok ? (
+              <blockquote data-testid="press-request-preview">
+                {pitch.statement}
+              </blockquote>
+            ) : (
+              <p role="status">{pitch.reason}</p>
+            )}
+            {reporterQuestion.ok ? (
+              <blockquote data-testid="press-reporter-question-preview">
+                {reporterQuestion.statement}
+              </blockquote>
+            ) : (
+              <p role="status">{reporterQuestion.reason}</p>
+            )}
             <button
               type="submit"
               disabled={
-                !reporter || !topic || !pitch.trim() || !question.trim()
+                !reporter || !topic || !pitch.ok || !reporterQuestion.ok
               }
             >
               Send request
+            </button>
+            <button
+              type="button"
+              data-testid="press-reporter-initiative"
+              disabled={
+                !reporter || !topic || !reporterQuestion.ok || !pitch.ok
+              }
+              onClick={() => {
+                if (!topic || !reporter || !pitch.ok || !reporterQuestion.ok)
+                  return;
+                change(() => {
+                  const result = recordPressRequest(world, {
+                    stableKey: `press-inquiry:${controlledPersonId}:${world.actionSequence}`,
+                    reporterPersonId: reporter.personId,
+                    reporterWorkRoleId: reporter.workRoleId,
+                    jurisdictionId: topic.jurisdictionId,
+                    channel,
+                    terms,
+                    backgroundAttribution:
+                      terms === "on-background" ? attribution : null,
+                    pitch: `The reporter asked for comment on “${topic.summary}”.`,
+                    primaryQuestion: reporterQuestion.statement,
+                    questionBasisEventIds: [topic.eventId],
+                  });
+                  setRequestNotice(
+                    "The reporter’s question is recorded. Acceptance is still pending.",
+                  );
+                  return result.world;
+                });
+              }}
+            >
+              Receive this reporter’s question
             </button>
           </form>
         </details>

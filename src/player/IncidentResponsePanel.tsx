@@ -11,7 +11,9 @@ import {
   requestIncidentResources,
   decideIncidentResourceRequest,
   recordKnownIncidentForCurrentOffice,
+  publishIncidentEvent,
 } from "../simulation/incident-response";
+import { publishPublicEvent } from "../simulation/public-information";
 import type { World, EntityId } from "../simulation/types";
 
 /** Feature-local Work panel. The root owner supplies the existing World writer;
@@ -103,6 +105,22 @@ export function IncidentResponsePanel({
           ))}
         </select>
       </label>
+      {view.publicOnsets.map((onset) => (
+        <article key={`public:${onset.id}`}>
+          <h3>Already-public occurrence</h3>
+          <p>{onset.summary}</p>
+          <button
+            type="button"
+            onClick={() =>
+              act(() =>
+                publishIncidentEvent(world, onset.id, { publishPublicEvent }),
+              )
+            }
+          >
+            Record the already-public occurrence
+          </button>
+        </article>
+      ))}
       {view.reports.map((report) => (
         <article key={report.id}>
           <h3>Available report</h3>

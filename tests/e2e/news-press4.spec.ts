@@ -16,12 +16,12 @@ test("keyboard route preserves condensed intent and exact confirmed wording", as
     "not a refusal",
   );
   await page.getByRole("button", { name: /Add context/u }).click();
-  await page
-    .getByLabel("Follow-up being answered")
-    .fill("Which details are not yet decided?");
-  await page
-    .getByLabel("Consequential wording")
-    .fill("No final vote has occurred.");
+  await expect(page.getByLabel("Reporter question being answered")).toHaveValue(
+    "Which details are not yet decided?",
+  );
+  const expected =
+    "The proposal was discussed at a public briefing. That recorded fact does not establish an outcome that has not happened.";
+  await expect(page.getByTestId("press-answer-preview")).toHaveText(expected);
   await page.getByRole("button", { name: "Review exact wording" }).click();
 
   await expect(page.locator("body")).toHaveAttribute(
@@ -32,15 +32,13 @@ test("keyboard route preserves condensed intent and exact confirmed wording", as
     "data-drafted-intent",
     "add-context",
   );
-  await expect(page.getByTestId("press-exact-wording")).toHaveText(
-    "No final vote has occurred.",
-  );
+  await expect(page.getByTestId("press-exact-wording")).toHaveText(expected);
   await page
     .getByRole("button", { name: "Confirm this exact wording" })
     .press("Space");
   await expect(page.locator("body")).toHaveAttribute(
     "data-confirmed-wording",
-    "No final vote has occurred.",
+    expected,
   );
 });
 

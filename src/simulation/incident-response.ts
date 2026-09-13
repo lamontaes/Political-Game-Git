@@ -649,13 +649,27 @@ export function publishIncidentEvent(
 
 export function incidentResponseView(w: World) {
   if (w.control.kind !== "person")
-    return { reports: [], work: [], history: [], awaiting: [] };
+    return {
+      reports: [],
+      work: [],
+      history: [],
+      awaiting: [],
+      publicOnsets: [],
+    };
   const p = w.control.personId;
   return {
     reports: w.history.events.filter(
       (e) => e.type === "incident.response.report" && knows(w, p, e),
     ),
     awaiting: knownIncidentsAwaitingReport(w),
+    publicOnsets: w.history.incidents.flatMap((incident) => {
+      const onset = w.history.events.find(
+        (e) => e.id === incident.onsetEventId,
+      );
+      if (!onset || onset.visibility !== "public" || !knows(w, p, onset))
+        return [];
+      return [onset];
+    }),
     work: w.history.workItems.filter(
       (i) =>
         i.focus.kind === "other" &&
