@@ -60,8 +60,6 @@ async function freshBrowser(page: Page) {
  */
 async function beginAdultLifeIn(page: Page, place: string) {
   await startLife(page, {
-    place: "Lexington",
-    state: "Kentucky",
     age: 34,
     place,
   });

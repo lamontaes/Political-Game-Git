@@ -343,8 +343,6 @@ for (const place of ["Lexington, Kentucky", "Carson City, Nevada"]) {
   }) => {
     await page.goto("/?seed=ui-converge4-economics");
     await startLife(page, {
-      place: "Lexington",
-      state: "Kentucky",
       age: 38,
       place,
       route: "normal",

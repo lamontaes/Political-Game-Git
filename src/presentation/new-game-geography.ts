@@ -255,6 +255,9 @@ export function reloadCreatedGeographyLife(
   created: CreatedGeographyLife,
 ): CreatedGeographyLife {
   const setup = decodeReplayDescriptor(created.replay);
+  if (!setup) {
+    throw new Error("Reload lost the encoded setup.");
+  }
   if (setup.placeKey !== created.geography.selectedLocalityKey) {
     throw new Error("Reload substituted a different place.");
   }

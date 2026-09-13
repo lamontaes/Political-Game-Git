@@ -210,9 +210,9 @@ describe("Ordinary-control journeys in named states", () => {
         );
       }
       const reloaded = deserializeWorld(created.serialized);
-      expect(reloaded.jurisdictions[0]?.id).toBe(
-        created.geography.resolvedJurisdictionId,
-      );
+      expect(
+        reloaded.jurisdictions[created.geography.resolvedJurisdictionId]?.id,
+      ).toBe(created.geography.resolvedJurisdictionId);
       expect(
         explicitNewGameSetup({
           placeKey: place.key,
