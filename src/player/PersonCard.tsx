@@ -102,6 +102,7 @@ export function PersonCard({
   });
 
   const facts = expanded ? dossier.details : dossier.details.slice(0, 3);
+  const self = dossier.personId === playerId;
   const testId =
     mode === "overlay" && !expanded ? "quick-dossier" : "full-dossier";
   const role =
@@ -120,7 +121,9 @@ export function PersonCard({
       data-expanded={expanded ? "true" : "false"}
     >
       <header className="pg-person-card-head">
-        <p className="pg-kicker">{expanded ? "Person" : "Your read"}</p>
+        <p className="pg-kicker">
+          {self ? "You" : expanded ? "Person" : "Your read"}
+        </p>
         {onClose ? (
           <button
             ref={closeRef}
@@ -165,11 +168,13 @@ export function PersonCard({
           ) : null}
           {dossier.presentNow ? (
             <p className="pg-right-now" data-testid="person-card-present">
-              In the room now.
+              {self ? "You are in this room." : "In the room now."}
             </p>
           ) : (
             <p className="game-note" data-testid="person-card-presence-note">
-              A pin or a card is a reference, not proof they are here.
+              {self
+                ? "This card is your own record, not proof of where you stand."
+                : "A pin or a card is a reference, not proof they are here."}
             </p>
           )}
           {dossier.rightNow ? (
@@ -199,7 +204,7 @@ export function PersonCard({
             className="game-note"
             data-testid={expanded ? "dossier-facts-empty" : "quick-facts-empty"}
           >
-            Nothing about them is written down yet.
+            Nothing about {self ? "you" : "them"} is written down yet.
           </p>
         ) : null}
         {expanded && dossier.notKnown.length > 0 ? (
@@ -283,7 +288,7 @@ export function PersonCard({
           )}
 
       <div className="pg-dossier-actions">
-        {onTalk ? (
+        {onTalk && !self ? (
           <button
             type="button"
             className="ui-action ui-action--primary"
@@ -314,7 +319,7 @@ export function PersonCard({
           </button>
         ) : null}
       </div>
-      {talkUnavailable ? (
+      {talkUnavailable && !self ? (
         <p className="game-note" data-testid="dossier-talk-unavailable">
           {talkUnavailable}
         </p>

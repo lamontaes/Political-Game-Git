@@ -3,7 +3,7 @@ import {
   canJoinOrdinaryGroup,
   joinOrdinaryGroup,
 } from "../../presentation/ordinary-community";
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { personName, describePersonContext } from "../../simulation";
 import type {
   EntityId,
@@ -46,7 +46,6 @@ export function LifeScenePanel({
   onContinue,
   onTalkTo,
   returnFocusTo = null,
-  onFocusReturned,
   transitionHandlers,
 }: {
   world: World;
@@ -66,11 +65,10 @@ export function LifeScenePanel({
   const [problem, setProblem] = useState<string | null>(null);
   const [outcome, setOutcome] = useState<string | null>(null);
   const talkToRef = useRef<HTMLElement>(null);
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!returnFocusTo) return;
     talkToRef.current?.focus();
-    onFocusReturned?.();
-  }, [returnFocusTo, onFocusReturned]);
+  }, [returnFocusTo]);
   const identity = projectOpeningLife(world, playerPersonId);
   const scene = currentOpeningLifeScene(world, playerPersonId);
   const reflection = lifeReflectionOffer(world, playerPersonId);

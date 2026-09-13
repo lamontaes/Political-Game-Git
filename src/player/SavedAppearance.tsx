@@ -18,6 +18,7 @@ import {
 import { gameBuildProfile } from "../presentation/build-profile";
 import { PRODUCTION_CHARACTER_LIBRARY } from "../presentation/visual-integration";
 import type { CharacterComponentLibrary } from "../presentation/character-components";
+import { catalogFamilyLabels } from "../presentation/catalog-family-label";
 import {
   PersonAppearanceControls,
   type PersonAppearanceControlsProps,
@@ -122,13 +123,18 @@ export function SavedAppearanceControls(
   if (!ownsAppearance)
     return (
       <p data-testid="appearance-read-only">
-        Appearance is read-only. You can change only your own wardrobe from
-        Personal.
+        This is not you. Only your own appearance and wardrobe can be changed,
+        from Personal.
       </p>
     );
   const library = preview
     ? wearableChoicesIn(preview.characters)
     : NORMAL_APPEARANCE_LIBRARY;
+  const familyLabels = catalogFamilyLabels(
+    [...library.components.values()].map(
+      (component) => component.definition.family,
+    ),
+  );
   return (
     <details
       className="pg-personal-section"
@@ -148,6 +154,7 @@ export function SavedAppearanceControls(
           {...props}
           library={library}
           poseFamily="standing-neutral"
+          familyLabels={familyLabels}
         />
       ) : (
         <p>

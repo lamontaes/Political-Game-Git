@@ -147,6 +147,10 @@ import { selectedDocketKey } from "../presentation/legislation-docket-selection"
 import { measureById } from "../simulation";
 import { measureGate } from "../simulation/legislation";
 import { ConversationStarters, SceneConversation } from "./SceneConversation";
+import {
+  InvokerFocusReturn,
+  PersonSceneActionMenu,
+} from "./PersonSceneActionMenu";
 import type { ConversationAddressee } from "../presentation/run-b-conversation";
 import type { ConversationSubjectKey } from "../presentation/run-b-conversation-progress";
 import { openConversationWith } from "../presentation/person-conversation-entry";
@@ -2021,6 +2025,10 @@ function PlayingScreen({
    * on screen; this is the request, cleared as soon as it is honored.
    */
   const [returnFocusTo, setReturnFocusTo] = useState<EntityId | null>(null);
+  const [returnFocusPrefer, setReturnFocusPrefer] = useState<"scene" | "panel">(
+    "scene",
+  );
+  const clearReturnFocus = useCallback(() => setReturnFocusTo(null), []);
   const [continuingLifeShown, setContinuingLifeShown] = useState(false);
 
   const projectedMoment = useMemo(
@@ -2447,13 +2455,18 @@ function PlayingScreen({
    * over the scene, so the workspace closes and the room comes forward.
    */
   const talkTo = useCallback(
-    (personId: EntityId, subject?: ConversationSubjectKey) => {
+    (
+      personId: EntityId,
+      subject?: ConversationSubjectKey,
+      invoker: "scene" | "panel" = "scene",
+    ) => {
       const entry = openConversationWith(
         session.world,
         session.personId,
         personId,
       );
       if (entry.kind === "unavailable") return;
+      setReturnFocusPrefer(invoker);
       setConversation({
         subject: subject ?? entry.subject,
         addressee: personId,
@@ -2490,6 +2503,11 @@ function PlayingScreen({
           data-scene-id={sceneId ?? ""}
           data-scene-purpose={playScene.purpose}
         >
+          <InvokerFocusReturn
+            personId={conversation ? null : returnFocusTo}
+            prefer={returnFocusPrefer}
+            onDone={clearReturnFocus}
+          />
           {/*
         THE ROOM IS THE SURFACE.
 
@@ -2549,7 +2567,7 @@ function PlayingScreen({
                   onWorldChange={onWorldChange}
                 />
               }
-              onTalkTo={(personId) => talkTo(personId)}
+              onTalkTo={(personId) => talkTo(personId, undefined, "panel")}
               returnFocusTo={returnFocusTo}
               onFocusReturned={() => setReturnFocusTo(null)}
               foreground={
@@ -2582,90 +2600,37 @@ function PlayingScreen({
         surface that has forgotten who was chosen.
       */}
           {actionPerson ? (
-            <div
-              className="pg-action-menu civic-glass"
-              role="menu"
-              aria-label={`${actionPerson.name} actions`}
-              data-testid="person-action-menu"
-              data-person-id={actionPerson.personId}
-            >
-              <p className="pg-action-menu-name">{actionPerson.name}</p>
-              <button
-                type="button"
-                role="menuitem"
-                data-testid="action-inspect"
-                onClick={() =>
-                  dispatch({
-                    type: "open-quick-dossier",
-                    personId: actionPerson.personId,
-                  })
-                }
-              >
-                Inspect
-                <small>What you make of them</small>
-              </button>
-              {/*
-                Say why, rather than only refusing.
-
-                The entry was computed here purely to decide `disabled` and its
-                reason was thrown away, so a player met a greyed-out control
-                with nothing to read — and the reason exists, is specific, and
-                is the only thing that makes the refusal make sense. It is
-                rendered beside the control and bound to it with
-                `aria-describedby`, so somebody on a screen reader hears the
-                refusal when they reach the button rather than discovering an
-                unexplained dead end.
-              */}
-              <button
-                type="button"
-                role="menuitem"
-                data-testid="action-talk"
-                disabled={talkEntry?.kind === "unavailable"}
-                aria-describedby={
-                  talkEntry?.kind === "unavailable"
-                    ? "pg-action-talk-reason"
-                    : undefined
-                }
-                onClick={() => talkTo(actionPerson.personId)}
-              >
-                Talk
-                <small>Say something to them</small>
-              </button>
-              {talkEntry?.kind === "unavailable" ? (
-                <p
-                  className="pg-action-menu-reason"
-                  id="pg-action-talk-reason"
-                  data-testid="action-talk-reason"
-                >
-                  {talkEntry.reason}
-                </p>
-              ) : null}
-              <button
-                type="button"
-                role="menuitem"
-                data-testid="action-pin"
-                onClick={() =>
-                  dispatch({
-                    type: "toggle-pin",
-                    ref: { kind: "person", id: actionPerson.personId },
-                  })
-                }
-              >
-                {isPinned(shell, { kind: "person", id: actionPerson.personId })
-                  ? "Unpin"
-                  : "Pin"}
-              </button>
-              <button
-                type="button"
-                role="menuitem"
-                data-testid="action-record"
-                onClick={() =>
-                  openEntity({ kind: "person", id: actionPerson.personId })
-                }
-              >
-                Full record
-              </button>
-            </div>
+            <PersonSceneActionMenu
+              personId={actionPerson.personId}
+              name={actionPerson.name}
+              isSelf={actionPerson.personId === session.personId}
+              talk={{
+                disabled: talkEntry?.kind === "unavailable",
+                ...(talkEntry?.kind === "unavailable"
+                  ? { reason: talkEntry.reason }
+                  : {}),
+              }}
+              pinned={isPinned(shell, {
+                kind: "person",
+                id: actionPerson.personId,
+              })}
+              onInspect={() =>
+                dispatch({
+                  type: "open-quick-dossier",
+                  personId: actionPerson.personId,
+                })
+              }
+              onTalk={() => talkTo(actionPerson.personId)}
+              onPin={() =>
+                dispatch({
+                  type: "toggle-pin",
+                  ref: { kind: "person", id: actionPerson.personId },
+                })
+              }
+              onRecord={() =>
+                openEntity({ kind: "person", id: actionPerson.personId })
+              }
+            />
           ) : null}
 
           {selectedDossier ? (

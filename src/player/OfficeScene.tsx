@@ -106,7 +106,7 @@ function PersonActionMenu({
 }: PersonActionMenuProps) {
   const inspectRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     inspectRef.current?.focus();
   }, []);
 
