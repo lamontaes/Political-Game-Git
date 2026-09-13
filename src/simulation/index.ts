@@ -10,6 +10,7 @@ export * from "./campaign-compliance";
 export * from "./campaign-compliance-rules";
 export * from "./candidate-qualification";
 export * from "./office-qualification-rules";
+export * from "./office-workflow";
 /**
  * Campaign operations are named one by one on purpose.
  *

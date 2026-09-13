@@ -82,6 +82,9 @@ export type EntityKind =
   | "organization-participation"
   | "organization-participation-state"
   | "organization-profile"
+  | "office-briefing-inspection"
+  | "office-vote-instruction"
+  | "office-workflow-preference"
   | "person"
   | "person-death"
   | "person-functional-capacity"
@@ -3528,6 +3531,21 @@ export interface HistoryStore {
   readonly legislativeAmendments?: readonly LegislativeAmendmentRecord[];
   readonly legislativeProvisions?: readonly LegislativeProvisionRecord[];
   readonly legislativeDraftLineages?: readonly LegislativeDraftLineageRecord[];
+  /**
+   * Player office workflow preferences. Optional on old saves. Bound to a
+   * person and an office work relationship, never a browser store.
+   */
+  readonly officeWorkflowPreferences?: readonly OfficeWorkflowPreferenceRecord[];
+  /**
+   * Standing vote instructions for one measure version. Optional on old
+   * saves. Not a recorded floor vote.
+   */
+  readonly officeVoteInstructions?: readonly OfficeVoteInstructionRecord[];
+  /**
+   * Inspection of a staff briefing item. Optional on old saves. Opening a
+   * recommendation is not adoption.
+   */
+  readonly officeBriefingInspections?: readonly OfficeBriefingInspectionRecord[];
   readonly legislativeCommitments?: readonly LegislativeCommitmentRecord[];
   readonly legislativeNegotiations?: readonly LegislativeNegotiationRecord[];
   readonly legislativeVotes?: readonly LegislativeVoteRecord[];
@@ -3826,6 +3844,65 @@ export interface LegislativeEnactmentRecord {
    */
   readonly effectiveAt: IsoDate | null;
   readonly outcomeEventId: EntityId;
+}
+
+/**
+ * How this office handles votes. A preference is a scheduling policy, not a
+ * staffer's legal proxy vote and not a recorded floor disposition.
+ */
+export type OfficeVotingWorkflowMode =
+  "review-batch" | "prior-instructions-with-exceptions" | "handle-individually";
+
+/**
+ * How this office handles constituent casework. Adjustable and bound to the
+ * office relationship, not a global agent default.
+ */
+export type OfficeCaseworkWorkflowMode =
+  | "player-handles-all"
+  | "staff-routine-player-exceptions"
+  | "staff-handles-and-briefs";
+
+export interface OfficeWorkflowPreferenceRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly officeRelationshipId: EntityId;
+  readonly votingMode: OfficeVotingWorkflowMode;
+  readonly caseworkMode: OfficeCaseworkWorkflowMode;
+  readonly recordedAt: IsoDate;
+  readonly supersedesPreferenceId: EntityId | null;
+}
+
+export type OfficeVoteInstructionDisposition =
+  "yea" | "nay" | "present-not-voting";
+
+export interface OfficeVoteInstructionRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly officeRelationshipId: EntityId;
+  readonly chamberKey: string;
+  readonly measureId: EntityId;
+  /** Canonical fingerprint of the measure text and procedural frontier. */
+  readonly measureTextVersion: string;
+  readonly disposition: OfficeVoteInstructionDisposition;
+  readonly recordedAt: IsoDate;
+}
+
+export type OfficeBriefingItemKind = "amendment" | "filed-section";
+
+export interface OfficeBriefingInspectionRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly officeRelationshipId: EntityId;
+  readonly measureId: EntityId;
+  readonly itemKind: OfficeBriefingItemKind;
+  readonly itemId: EntityId;
+  readonly inspectedAt: IsoDate;
 }
 
 // ---------------------------------------------------------------------------

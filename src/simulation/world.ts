@@ -1557,6 +1557,18 @@ function validateHistoryIntegrity(world: World): void {
     "legislative draft lineage",
   );
   assertSequenceOrdered(
+    history.officeWorkflowPreferences ?? [],
+    "office workflow preference",
+  );
+  assertSequenceOrdered(
+    history.officeVoteInstructions ?? [],
+    "office vote instruction",
+  );
+  assertSequenceOrdered(
+    history.officeBriefingInspections ?? [],
+    "office briefing inspection",
+  );
+  assertSequenceOrdered(
     history.legislativeCommitments ?? [],
     "legislative commitment",
   );
@@ -1624,6 +1636,76 @@ function validateHistoryIntegrity(world: World): void {
       );
     }
   }
+  const workRelationshipIds = new Set(
+    history.workRelationships.map((record) => record.id),
+  );
+  for (const record of history.officeWorkflowPreferences ?? []) {
+    assertUniqueId(ids, record.id);
+    if (!world.people[record.personId]) {
+      throw new Error(
+        `Office workflow preference names a missing person: ${record.id}`,
+      );
+    }
+    if (!workRelationshipIds.has(record.officeRelationshipId)) {
+      throw new Error(
+        `Office workflow preference names a missing office: ${record.id}`,
+      );
+    }
+    if (
+      record.id !==
+      createStableId(
+        "office-workflow-preference",
+        `${world.id}:${record.stableKey}`,
+      )
+    ) {
+      throw new Error(
+        `Office workflow preference ID does not match its stable key: ${record.id}`,
+      );
+    }
+  }
+  for (const record of history.officeVoteInstructions ?? []) {
+    assertUniqueId(ids, record.id);
+    if (!world.people[record.personId]) {
+      throw new Error(
+        `Office vote instruction names a missing person: ${record.id}`,
+      );
+    }
+    if (!workRelationshipIds.has(record.officeRelationshipId)) {
+      throw new Error(
+        `Office vote instruction names a missing office: ${record.id}`,
+      );
+    }
+    if (
+      record.id !==
+      createStableId(
+        "office-vote-instruction",
+        `${world.id}:${record.stableKey}`,
+      )
+    ) {
+      throw new Error(
+        `Office vote instruction ID does not match its stable key: ${record.id}`,
+      );
+    }
+  }
+  for (const record of history.officeBriefingInspections ?? []) {
+    assertUniqueId(ids, record.id);
+    if (!world.people[record.personId]) {
+      throw new Error(
+        `Office briefing inspection names a missing person: ${record.id}`,
+      );
+    }
+    if (
+      record.id !==
+      createStableId(
+        "office-briefing-inspection",
+        `${world.id}:${record.stableKey}`,
+      )
+    ) {
+      throw new Error(
+        `Office briefing inspection ID does not match its stable key: ${record.id}`,
+      );
+    }
+  }
   assertPersonnelIntegrity(world, ids);
   assertUniqueStableKeys(history.events, "event");
   assertUniqueStableKeys(history.memories, "memory");
@@ -1664,6 +1746,18 @@ function validateHistoryIntegrity(world: World): void {
   assertUniqueStableKeys(
     history.legislativeDraftLineages ?? [],
     "legislative draft lineage",
+  );
+  assertUniqueStableKeys(
+    history.officeWorkflowPreferences ?? [],
+    "office workflow preference",
+  );
+  assertUniqueStableKeys(
+    history.officeVoteInstructions ?? [],
+    "office vote instruction",
+  );
+  assertUniqueStableKeys(
+    history.officeBriefingInspections ?? [],
+    "office briefing inspection",
   );
   assertUniqueStableKeys(
     history.legislativeCommitments ?? [],
