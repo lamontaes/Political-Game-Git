@@ -7,7 +7,12 @@ test("childhood choices commit through pointer and keyboard activation", async (
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/");
-  await startLife(page, { age: 7, childhood: true });
+  await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
+    age: 7,
+    childhood: true,
+  });
   await enterLife(page);
   for (const activation of ["pointer", "Enter", "Space"] as const) {
     const prose = page.getByTestId("story-prose");

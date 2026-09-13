@@ -42,7 +42,12 @@ async function freshBrowser(page: Page) {
 }
 
 async function beginOrdinaryLife(page: Page) {
-  await startLife(page, { age: 34, household: "shares-a-home" });
+  await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
+    age: 34,
+    household: "shares-a-home",
+  });
   await expect(page.getByTestId("play-screen")).toBeVisible();
   await enterLife(page);
 }

@@ -26,7 +26,12 @@ async function freshBrowser(page: Page): Promise<void> {
 }
 
 async function beginOrdinaryLife(page: Page): Promise<void> {
-  await startLife(page, { age: 34, household: "shares-a-home" });
+  await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
+    age: 34,
+    household: "shares-a-home",
+  });
   await expect(page.getByTestId("play-screen")).toBeVisible();
   await enterLife(page);
 }

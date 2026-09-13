@@ -11,7 +11,12 @@ import {
   createAuthoredMunicipalPublicSession,
 } from "../../src/presentation/municipal-workspace";
 import "../../src/styles.css";
-const placeKey = new URLSearchParams(location.search).get("place") ?? "5114968";
+const placeKey = new URLSearchParams(location.search).get("place");
+if (!placeKey) {
+  throw new Error(
+    "This municipal proof needs ?place=<life place key>. No city is assumed.",
+  );
+}
 function initial() {
   const saved = sessionStorage.getItem(`municipal-proof:${placeKey}`);
   if (saved) return deserializeWorld(saved);

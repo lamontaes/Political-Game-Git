@@ -24,6 +24,7 @@ test("UI9-04, UI9-02: a government pins, and Personal has two real destinations"
     route: "custom",
     household: "lives-alone",
     place: "Lexington",
+    state: "Kentucky",
   });
   await enterLife(page);
 
@@ -88,7 +89,7 @@ test("UI9-06, UI9-07: a child is told why a walk is refused, and what a walk cos
   await page.goto("/?seed=ui9-child-walk");
   // A blank optional name is accepted: the owner left it blank and expects the
   // game to name the character.
-  await startLife(page, { age: 10, place: "Lexington" });
+  await startLife(page, { age: 10, place: "Lexington", state: "Kentucky" });
   await enterLife(page);
   /*
    * PT3: there is no "Life scenes" menu entry any more — it was a second copy
