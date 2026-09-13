@@ -1,4 +1,6 @@
 import {
+  compareSimulationMoments,
+  nationalElectionRules,
   nationalAllocation,
   nationalCountProposal,
   nationalOutcome,
@@ -63,6 +65,11 @@ export function projectNationalElectionResults(
   const outcome = (office: "president" | "vice-president") => {
     const chosen = nationalOutcome(world, electionId, office);
     const holder = nationalOfficeHolder(world, office);
+    const termEnded =
+      compareSimulationMoments(
+        world.currentMoment,
+        nationalElectionRules(election.cycle).endsAt,
+      ) >= 0;
     return {
       chosenName: chosen ? personName(world.people[chosen.personId]!) : null,
       possessionName: holder
@@ -72,9 +79,11 @@ export function projectNationalElectionResults(
         ? "Awaiting congressional count"
         : !chosen
           ? `Awaiting ${office === "president" ? "House state-delegation" : "Senate individual-member"} contingent choice`
-          : !holder || holder.plan.electionId !== electionId
-            ? "Chosen; office entry pending"
-            : "In office",
+          : termEnded
+            ? "Chosen; term period ended"
+            : !holder || holder.plan.electionId !== electionId
+              ? "Chosen; office entry pending"
+              : "In office",
     };
   };
   return {

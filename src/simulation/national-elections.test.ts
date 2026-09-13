@@ -506,6 +506,9 @@ describe("National electoral resolution (supplied fictional results)", () => {
     expect(ended.currentDate).toBe("2033-01-20");
     expect(nationalOfficeHolder(ended, "president")).toBeNull();
     expect(
+      projectNationalElectionResults(ended, electionId).president.state,
+    ).toBe("Chosen; term period ended");
+    expect(
       ended.history.workStatuses.findLast(
         (state) => state.workRelationshipId === holder.state.workRelationshipId,
       )?.status,
