@@ -6,6 +6,18 @@ Refetched upstream on 2026-09-13: `68f661665ded130c0154edb408be2a11342b78c3`.
 The paused detached source checkout and its two modified evidence images were
 preserved. No shared PlayerGame or opening-officeholder source was edited.
 
+## Publication state
+
+Local-only return. Normal push of `codex/systems30-n` to the configured public
+`lamontaes/Political-Game-Git` destination was rejected by automatic approval
+review. A second direct review after checking the connected owner/admin account,
+exact six task commits/text-only payload and credential patterns was also rejected:
+trusted user content did not explicitly authorize public exposure of this source
+payload. No push, PR, alternate transfer or indirect publication occurred.
+Explicit user approval of the reviewed branch/public destination is the remaining
+publication gate. A may inspect the local return; no alternate publication is
+requested from another owner.
+
 ## Receiver and current capability
 
 | Boundary                            | Current implementation and remaining input                                                                                                                                                                                                                                                                  |
