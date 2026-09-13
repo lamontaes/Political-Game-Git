@@ -3,6 +3,10 @@ import type { Page } from "@playwright/test";
 import { expect, test } from "./fixtures";
 import { enterLife, goTo, saveLife, startLife } from "./support/creator";
 
+// The complete creator/read/Back/Keep/reopen journey shares one test budget.
+// Retain every assertion and native activation under a bounded 90-second limit.
+test.setTimeout(90_000);
+
 async function savedWorldPayload(page: Page): Promise<string> {
   return page.evaluate(async () => {
     const database = await new Promise<IDBDatabase>((resolve, reject) => {

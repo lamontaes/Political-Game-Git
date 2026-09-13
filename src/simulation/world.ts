@@ -138,6 +138,10 @@ import {
   legislationHistoryRecords,
 } from "./legislation";
 import { assertLegislationIntegrity } from "./legislation-integrity";
+import {
+  assertPersonnelIntegrity,
+  personnelHistoryRecords,
+} from "./civil-personnel-integrity";
 import { assertLegislativePoliticsIntegrity } from "./legislative-politics-integrity";
 import { legislativePoliticsHistoryRecords } from "./legislative-politics";
 import {
@@ -1459,6 +1463,7 @@ function validateHistoryIntegrity(world: World): void {
     ...draftLineageHistoryRecords(world),
     ...futureTransitionHistoryRecords(world),
     ...publicInformationHistoryRecords(world),
+    ...personnelHistoryRecords(world),
     ...(history.districtResidenceIntervals ?? []),
     ...history.events,
     ...history.memories,
@@ -1600,6 +1605,7 @@ function validateHistoryIntegrity(world: World): void {
       );
     }
   }
+  assertPersonnelIntegrity(world, ids);
   assertUniqueStableKeys(history.events, "event");
   assertUniqueStableKeys(history.memories, "memory");
   assertUniqueStableKeys(history.knowledge, "knowledge");
