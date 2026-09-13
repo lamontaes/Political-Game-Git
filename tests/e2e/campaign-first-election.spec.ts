@@ -2,6 +2,7 @@ import { fileCandidacy } from "./support/campaign";
 import { expect, test, type Page } from "./fixtures";
 
 import {
+  KENTUCKY_LEXINGTON_REGRESSION,
   enterLife,
   expectNoDestination,
   goTo,
@@ -59,9 +60,13 @@ async function freshBrowser(page: Page) {
  * shared one every browser test uses, so this file does not carry its own copy.
  */
 async function beginAdultLifeIn(page: Page, place: string) {
+  const kentuckyHometown =
+    place === "Kentucky" || place === "Lexington"
+      ? KENTUCKY_LEXINGTON_REGRESSION
+      : { place };
   await startLife(page, {
     age: 34,
-    place,
+    ...kentuckyHometown,
   });
   await expect(page.getByTestId("play-screen")).toBeVisible();
   await enterLife(page);

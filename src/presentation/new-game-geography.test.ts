@@ -92,6 +92,15 @@ describe("New-game geography is chosen, not inherited", () => {
     });
     expect(
       resolveExplicitCreatorHometown({
+        place: "Auburn, Alabama",
+      }),
+    ).toMatchObject({
+      usps: "AL",
+      statewide: false,
+      townMatch: "Auburn",
+    });
+    expect(
+      resolveExplicitCreatorHometown({
         state: "Nebraska",
         statewide: true,
       }),

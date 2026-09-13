@@ -3,13 +3,7 @@ import {
   seedComparisonJson,
   seedComparisonMarkdown,
 } from "../devtools";
-import {
-  DEFAULT_NEW_GAME_SETUP,
-  type NewGameDepth,
-  type NewGameHousehold,
-  type NewGameSetup,
-  type NewGameStartingLife,
-} from "../presentation/new-game";
+import { parseCompareSeedOptions } from "./compare-seeds-options";
 
 /**
  * Generates several lives from different seeds and reports where they actually
@@ -33,109 +27,7 @@ import {
  *   --format markdown|json
  */
 
-const DEFAULT_SEEDS = [
-  "compare-seed-one",
-  "compare-seed-two",
-  "compare-seed-three",
-] as const;
-
-interface Options {
-  readonly seeds: readonly string[];
-  readonly setup: Omit<NewGameSetup, "seed">;
-  readonly format: "markdown" | "json";
-}
-
-function parseOptions(argv: readonly string[]): Options {
-  let seeds: readonly string[] = DEFAULT_SEEDS;
-  let setup: Omit<NewGameSetup, "seed"> | null = null;
-  let format: "markdown" | "json" = "markdown";
-
-  for (let index = 0; index < argv.length; index += 1) {
-    const flag = argv[index];
-    const value = argv[index + 1];
-    switch (flag) {
-      case "--seeds":
-        if (!value) throw new Error("--seeds needs a comma-separated list.");
-        seeds = value
-          .split(",")
-          .map((entry) => entry.trim())
-          .filter((entry) => entry.length > 0);
-        index += 1;
-        break;
-      case "--place":
-        if (!value) throw new Error("--place needs a life place key.");
-        setup = { ...(setup ?? DEFAULT_NEW_GAME_SETUP), placeKey: value };
-        index += 1;
-        break;
-      case "--age": {
-        const parsed = Number(value);
-        if (!Number.isSafeInteger(parsed)) {
-          throw new Error("--age must be an integer.");
-        }
-        setup = { ...(setup ?? DEFAULT_NEW_GAME_SETUP), startAge: parsed };
-        index += 1;
-        break;
-      }
-      case "--depth":
-        if (
-          value !== "play-formative-years" &&
-          value !== "summarize-earlier-life"
-        ) {
-          throw new Error(
-            "--depth must be play-formative-years or summarize-earlier-life.",
-          );
-        }
-        setup = {
-          ...(setup ?? DEFAULT_NEW_GAME_SETUP),
-          depth: value satisfies NewGameDepth,
-        };
-        index += 1;
-        break;
-      case "--starting-life":
-        if (
-          value !== "ordinary-life" &&
-          value !== "legislative-office" &&
-          value !== "state-agency-director"
-        ) {
-          throw new Error(
-            "--starting-life must be ordinary-life, legislative-office or state-agency-director.",
-          );
-        }
-        setup = {
-          ...(setup ?? DEFAULT_NEW_GAME_SETUP),
-          startingLife: value satisfies NewGameStartingLife,
-        };
-        index += 1;
-        break;
-      case "--household":
-        if (value !== "lives-alone" && value !== "shares-a-home") {
-          throw new Error("--household must be lives-alone or shares-a-home.");
-        }
-        setup = {
-          ...(setup ?? DEFAULT_NEW_GAME_SETUP),
-          household: value satisfies NewGameHousehold,
-        };
-        index += 1;
-        break;
-      case "--format":
-        if (value !== "markdown" && value !== "json") {
-          throw new Error("--format must be markdown or json.");
-        }
-        format = value;
-        index += 1;
-        break;
-      default:
-        throw new Error(`Unrecognized option: ${String(flag)}`);
-    }
-  }
-
-  if (!setup?.placeKey.trim()) {
-    throw new Error("--place <key> is required. Lexington is not assumed.");
-  }
-  return { seeds, setup, format };
-}
-
-const options = parseOptions(process.argv.slice(2));
+const options = parseCompareSeedOptions(process.argv.slice(2));
 const comparison = compareSeeds({
   seeds: options.seeds,
   setup: options.setup,
