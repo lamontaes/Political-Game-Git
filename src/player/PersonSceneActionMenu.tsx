@@ -23,9 +23,12 @@ export function InvokerFocusReturn({
 }) {
   useLayoutEffect(() => {
     if (!personId) return;
-    const invoker = findInvokerControl(personId, document, prefer);
-    invoker?.focus();
-    onDone();
+    const id = personId;
+    const kind = prefer;
+    queueMicrotask(() => {
+      findInvokerControl(id, document, kind)?.focus();
+      onDone();
+    });
   }, [personId, prefer, onDone]);
   return null;
 }

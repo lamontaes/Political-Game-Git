@@ -127,6 +127,7 @@ export function SceneConversation({
       if (event.key !== "Escape") return;
       if (browsingSurfaceOpen()) return;
       const target = event.target;
+      if (target instanceof Node && boxRef.current?.contains(target)) return;
       if (
         target instanceof Element &&
         target.closest(".pg-workspace, .pg-nav, .pg-action-menu")

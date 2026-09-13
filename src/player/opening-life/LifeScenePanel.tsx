@@ -46,7 +46,6 @@ export function LifeScenePanel({
   onContinue,
   onTalkTo,
   returnFocusTo = null,
-  onFocusReturned,
   transitionHandlers,
 }: {
   world: World;
@@ -69,8 +68,7 @@ export function LifeScenePanel({
   useLayoutEffect(() => {
     if (!returnFocusTo) return;
     talkToRef.current?.focus();
-    onFocusReturned?.();
-  }, [returnFocusTo, onFocusReturned]);
+  }, [returnFocusTo]);
   const identity = projectOpeningLife(world, playerPersonId);
   const scene = currentOpeningLifeScene(world, playerPersonId);
   const reflection = lifeReflectionOffer(world, playerPersonId);
