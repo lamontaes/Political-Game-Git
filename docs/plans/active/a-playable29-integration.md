@@ -27,3 +27,20 @@ Independent R/H clearance and human visual acceptance are not inferred from
 owner tests. X #229 has frozen 88cb3a73 but no recorded full validation or R
 review yet; review its net separately without replaying the original textarea
 repair or claiming ordinary-entry/News binding. No giant all-return gate.
+
+First safety publication #234 receives frozen B4f6dabd3 and A's two-site adapter.
+Source a50b0050 passed 45 focused tests and all seven browser cases (1.3 minutes):
+new marked replay equality, old absent/1/2/3 replay and save identity, production
+default generation2, and actual complete defaults/edits/two independent reopens.
+Relocation exposed a DOM option typing error; f9bbeb39 adds an explicit
+HTMLOptionElement guard to the proof only. No assertion/runtime change.
+Formatting/lint and all three art gates passed. Final type/build checks remain.
+
+The initial wide-worker full unit run was stopped with exit143 after resource
+timeouts in unchanged tests. It is interrupted/red, not a completed aggregate.
+Direct coverage measurements in both trees match 641 files/77,035 literals;
+the first suspected coverage drift was not confirmed. A restarted the exact
+frozen a50b0050 unit run with maxWorkers2, without timeout or assertion changes.
+H received the published source through its existing Visual QA Testing task;
+its independent baseline report on old0fb confirms invalid-edit, apartment and
+menu-focus defects plus two-save continuity. New fixes are not yet old5250.

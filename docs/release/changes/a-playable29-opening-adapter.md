@@ -11,3 +11,6 @@ version bump or artwork promotion. Mount B's unchanged caller proof only in
 the A composed browser suite. Narrow option elements explicitly in its DOM
 evaluation so the relocated proof passes current whole-repository typechecking;
 assertions and interaction sequence are unchanged.
+
+Record the architecture dispositions and actual failed/passed verification
+history; no aggregate or human acceptance is fabricated from selective proof.

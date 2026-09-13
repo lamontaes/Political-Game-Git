@@ -1,5 +1,22 @@
 # Architecture Integrity Audit
 
+## PLAYABLE29 A — complete-outfit adapter (2026-09-13)
+
+Confirmed compatible: saved identity seed/version and old absent or pinned
+replay descriptors are preserved; loaded Worlds never invoke fresh appearance
+initialization. Simulation holds validated data only and gains no renderer or
+domain rule. Existing canonical World/autosave and shell compatibility remain.
+
+Corrected now: B validates the entire proposed fit before one World callback;
+explicit incompatible body edits require replacement preview and confirmation.
+A uses only the supplied marker-gated adapter at the two existing opening
+sites, so newly marked replay links reproduce the same persisted recipe.
+
+Deferred: six distinct new morphologies/native materials, C focus/dialogue,
+G apartment calibration, independent H visual acceptance and Desktop's actual
+installed artifact each retain their separate owner and exact-source receipt.
+No art approval, political/domain engine or release authority is inferred.
+
 ## NEXT24 E — Deliberate office discovery audit (2026-09-12)
 
 The browser is a pure projection over the existing declared candidacy provider,
