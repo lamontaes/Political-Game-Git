@@ -68,11 +68,12 @@ test("normal candidate complete defaults, actual edits and separate saved lives"
     for (const kind of ["top", "bottom"]) {
       const select = page.getByRole("combobox", { name: kind, exact: true });
       const current = await select.inputValue();
-      const choices = await select
-        .locator("option")
-        .evaluateAll((es) =>
-          es.filter((e) => e.value && !e.disabled).map((e) => e.value),
-        );
+      const choices = await select.locator("option").evaluateAll((es) =>
+        es
+          .filter((e): e is HTMLOptionElement => e instanceof HTMLOptionElement)
+          .filter((e) => e.value && !e.disabled)
+          .map((e) => e.value),
+      );
       const next = choices.find((v) => v !== current);
       expect(next).toBeTruthy();
       if (kind === "top") await select.selectOption(next!);
