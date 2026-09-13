@@ -1239,3 +1239,11 @@ or second consent engine.
 ## G return28 completed-activity scene context — 2026-09-12
 
 Confirmed compatible: the opening and later play projections share exact source-backed municipal venue resolution, preserving canonical completion-at-current-instant, access, non-travel and released-art gates. Unknown opening art cannot erase actual completed activity presence; narrative text cannot create venue identity. Corrected now: shared Carson City binding regression. Deferred through concrete input: normal physical press venue declaration with legitimate access and explicit in-person use; generic room art, a typed label and spoken channel supply no such authority. No simulation writer, geography, attendance, source art or candidate acceptance rule is changed.
+
+### DELIVERY28 CIVIL current receiver check — 2026-09-13
+
+Composed preserved #223 with main 2d154752 in an isolated checkout. Additive
+creator registration retains newer title/place/appearance and preview logic.
+Actor/employer/source-date/class/agreement/knowledge contracts are unchanged.
+Scoped refusal/persistence tests and actual creator browser proof passed. No
+new rule or record family was introduced; newer prose reports were retained.

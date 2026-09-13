@@ -1,8 +1,8 @@
 diff --git a/src/player/PlayerGame.tsx b/src/player/PlayerGame.tsx
-index da080d54..8936168c 100644
+index 30f1836e..75327f3a 100644
 --- a/src/player/PlayerGame.tsx
 +++ b/src/player/PlayerGame.tsx
-@@ -149,6 +149,10 @@ import {
+@@ -163,6 +163,10 @@ import {
    type ShellState,
  } from "../presentation/shell-navigation";
  import { useShell } from "./useShell";
@@ -13,7 +13,7 @@ index da080d54..8936168c 100644
  import { ShellNav, type ShellDestination } from "./ShellNav";
  import { ShellPinRail } from "./ShellPinRail";
  import { FullDossier, QuickDossier } from "./ShellDossier";
-@@ -844,6 +848,9 @@ function SetupScreen({
+@@ -896,6 +900,9 @@ function SetupScreen({
    const officeAvailable =
      place?.capabilities.legislativeScenarioKey !== null &&
      setup.startAge >= LEGISLATIVE_OFFICE_MINIMUM_AGE;
@@ -23,7 +23,7 @@ index da080d54..8936168c 100644
    const genderStated = setup.gender && setup.gender !== "unstated";
    // The compact summaries the finished steps collapse to.
    const summaryText: Partial<Record<CreatorStep, string>> = {
-@@ -862,7 +869,11 @@ function SetupScreen({
+@@ -914,7 +921,11 @@ function SetupScreen({
            setup.household === "shares-a-home" ? "Shares a home" : "Lives alone",
            setup.startingLife === "legislative-office"
              ? "Legislative staff"
@@ -36,7 +36,7 @@ index da080d54..8936168c 100644
          ].join(" · ")
        : "",
      whoAreYou:
-@@ -1184,8 +1195,13 @@ function SetupScreen({
+@@ -1236,8 +1247,13 @@ function SetupScreen({
                            ...now,
                            placeKey: candidate.key,
                            startingLife:
@@ -52,7 +52,7 @@ index da080d54..8936168c 100644
                                ? "ordinary-life"
                                : now.startingLife,
                          }));
-@@ -1382,6 +1398,32 @@ function SetupScreen({
+@@ -1457,6 +1473,32 @@ function SetupScreen({
                authority to decide cases.
              </small>
            </button>

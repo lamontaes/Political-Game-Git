@@ -90,3 +90,48 @@ full-suite pass. Original worker separately reports its prior serial suite at
 passing with permission. Those are original-head proofs, not current-main
 composition or human visual acceptance. Compact Day-overlay interception
 remains assigned to UI-core. No other fresh CIVIL failure remains.
+
+## DELIVERY28 current-main reconciliation
+
+Current main on entry: `2d154752aa38c9b94227b53ecfffb2db58081f9a`, containing
+merged #227 and its newer title/place/appearance and preview-start caller.
+Frozen isolated composition: `5bdf68c8855913af82c4f65bbc0d0caab65b09f9`, parents
+current main and preserved #223 `151422197495a0e61ace9c4d6480d0cd9a5772da`.
+The feature branch carries this tested composition without merging main.
+
+The updated current-registration patch is the exact additive PlayerGame delta
+against that main. It preserves newer beginLife preview/replay logic,
+appearance, title and place controls. Feature dependencies remain those listed
+above; no personnel engine was reconstructed. Newer main's generated prose
+reports are retained and both architecture audit records preserved.
+
+Fresh scoped verification: 50 tests in 7 files passed, covering source import,
+creator/replay, ordinary dates, wrong authority/state/class/date and agreement
+refusals, known/tagged evidence, deterministic accepted/declined NPC answers
+and exact save integrity. Typecheck and lint passed. Browser run
+`delivery28-civil-current`, port 4298, passed all 3 tests with frozen identity
+(49.5 seconds): newer Custom MN creator -> January refusal -> ordinary days ->
+reinstatement -> actual NPC answer -> save/reopen, plus structured notice
+preview and pointer/keyboard discipline/filing controls. Structured-action
+component scenarios are explicitly authored; the ordinary start does not
+invent a misconduct record to make discipline available.
+
+The first production build failed with ENOSPC. Only disposable CIVIL dist
+outputs were removed; partial checkout-copy files were preserved in
+/private/tmp/delivery28-civil-partial-copy before the branch copy was retried.
+Original artwork and other owners' work remained untouched.
+
+Human visual acceptance and final current-main merge remain with A. This run
+proved desktop at 1440x1000; it did not clear the historical compact Day-overlay
+finding. No new root/Day defect was observed in the supported desktop route.
+
+LEARN: freeze proof source during browser identity checks, write receipts in
+the separate feature checkout, and check disk capacity before copying large
+receiver compositions. Never treat a disk failure as a passing build.
+
+Production build passed on retry and stamped proof revision 5bdf68c with
+production profile. All three required art gates passed; the proof checkout
+remained clean after generated QA. Release:check, changed-document formatting
+and git diff --check passed. No new full-suite run is claimed for DELIVERY28.
+The delivery successor changes only documentation relative to the tested
+composition; src/scripts/tests/package files match the frozen proof exactly.
