@@ -103,7 +103,15 @@ describe("dev:identified lifecycle and CLI forwarding", () => {
     const port = await unusedPort();
     const child = spawnOwned(
       process.execPath,
-      [SCRIPT_PATH, "--port", port.toString(), "--mode", "test-proof-mode"],
+      [
+        SCRIPT_PATH,
+        "--port",
+        port.toString(),
+        "--mode",
+        "test-proof-mode",
+        "--seed",
+        "review /?& fixture",
+      ],
       {
         cwd: REPO_ROOT,
         stdio: ["pipe", "pipe", "pipe"],
@@ -135,6 +143,14 @@ describe("dev:identified lifecycle and CLI forwarding", () => {
     expect(output).toContain("Host: 127.0.0.1");
     expect(output).toContain(`Requested Port: ${port}`);
     expect(output).toContain("Launcher PID:");
+    const play = `Play: http://127.0.0.1:${port}/\n`;
+    const candidate = `Candidate-art Play (separate saves): http://127.0.0.1:${port}/?art-preview=candidate\n`;
+    const review = `Review tools (developer fixtures): http://127.0.0.1:${port}/review.html?seed=review%20%2F%3F%26%20fixture\n`;
+    expect(output).toContain(play);
+    expect(output).toContain(candidate);
+    expect(output).toContain(review);
+    expect(output.indexOf(play)).toBeLessThan(output.indexOf(candidate));
+    expect(output.indexOf(candidate)).toBeLessThan(output.indexOf(review));
     // Printed by Vite, not by the launcher, so it can arrive after the bind.
     expect(await waitForOutput(() => output, "test-proof-mode")).toBe(true);
 
@@ -174,6 +190,9 @@ describe("dev:identified lifecycle and CLI forwarding", () => {
 
     expect(output).toContain("Host: 127.0.0.1");
     expect(output).toContain(`Requested Port: ${port}`);
+    expect(output).toContain(
+      `Review tools (developer fixtures): http://127.0.0.1:${port}/review.html?seed=dev-lab2-review`,
+    );
 
     child.kill("SIGTERM");
     const isClosed = await waitForPort(port, false, 5000);
@@ -274,11 +293,33 @@ describe("dev:identified lifecycle and CLI forwarding", () => {
       child.on("exit", (code) => resolve(code));
     });
 
+    expect(dummyServer.listening).toBe(true);
     await new Promise<void>((resolve) => {
       dummyServer.close(() => resolve());
     });
 
     expect(exitCode).not.toBe(0);
     expect(output).toContain(`Port ${port} is already in use`);
+  });
+
+  it("refuses a non-loopback host before printing destinations or starting Vite", async () => {
+    const child = spawnOwned(
+      process.execPath,
+      [SCRIPT_PATH, "--host=0.0.0.0"],
+      {
+        cwd: REPO_ROOT,
+        stdio: ["pipe", "pipe", "pipe"],
+      },
+    );
+    let output = "";
+    child.stdout!.on("data", (data) => (output += data.toString()));
+    child.stderr!.on("data", (data) => (output += data.toString()));
+    const code = await new Promise<number | null>((resolve) =>
+      child.once("exit", resolve),
+    );
+    expect(code).not.toBe(0);
+    expect(output).toContain("requires a loopback host");
+    expect(output).not.toContain("Play:");
+    expect(output).not.toContain("Owned Vite PID:");
   });
 });
