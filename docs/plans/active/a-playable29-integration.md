@@ -67,3 +67,9 @@ LEARN: a receiver's cadence needs its explicit merge-base file list when it has
 no upstream. An empty automatic cadence is not evidence of no net changes.
 Preserve exact original failing transcripts and independently verified later
 passes; do not turn a timeout hypothesis into acceptance.
+
+Receiver cdf729e242a3efc4f6921d054ce97956313237b4 passed fresh type checking
+and collected26 browser cases without executing them. Then receive landed
+launcher main03962bea through normal merge d8d0bb6a, preserving the exact newer
+main player/art/simulation/launcher bytes. Refresh metadata after each source
+receive; collection is not pointer/keyboard play or final aggregate acceptance.
