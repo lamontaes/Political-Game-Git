@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { chooseContentDock, figureHeadroom } from "./scene-framing";
+import {
+  chooseContentDock,
+  conversationSafeMaxHeight,
+  figureHeadroom,
+} from "./scene-framing";
 
 const VIEWPORT = { width: 1440, height: 900 };
 const PANEL = { width: 672, height: 500 };
@@ -58,5 +62,18 @@ describe("PT3 — framing around the people in the room", () => {
     ];
     const placement = chooseContentDock(both, VIEWPORT, PANEL, INSETS);
     expect(placement.maxWidth).toBeNull();
+  });
+
+  it("keeps conversation in the lower band below faces at both desktop sizes", () => {
+    const mid = [{ left: 495, right: 850, top: 12, bottom: 880 }];
+    const tall = conversationSafeMaxHeight(mid, VIEWPORT);
+    expect(tall).toBeLessThan(VIEWPORT.height - 12 - (880 - 12) * 0.36);
+    expect(tall).toBeGreaterThanOrEqual(168);
+    const compact = conversationSafeMaxHeight(
+      [{ left: 459, right: 743, top: 12, bottom: 700 }],
+      { width: 1200, height: 720 },
+    );
+    expect(compact).toBeGreaterThanOrEqual(168);
+    expect(compact).toBeLessThan(720);
   });
 });

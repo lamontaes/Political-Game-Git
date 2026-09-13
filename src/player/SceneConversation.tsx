@@ -1,10 +1,11 @@
 import "./scene-conversation.css";
 import {
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
-  type KeyboardEvent,
+  type KeyboardEvent as ReactKeyboardEvent,
 } from "react";
 
 import {
@@ -34,6 +35,7 @@ import type {
   World,
 } from "../simulation";
 import { PersonPortrait } from "./PersonPortrait";
+import { browsingSurfaceOpen, firstEnabledControl } from "./overlay-focus";
 
 /**
  * The conversation, as one box in the room.
@@ -94,6 +96,12 @@ export function SceneConversation({
    */
   const boxRef = useRef<HTMLElement>(null);
   const wasHistory = useRef(false);
+  useLayoutEffect(() => {
+    const box = boxRef.current;
+    if (!box) return;
+    if (box.contains(document.activeElement)) return;
+    firstEnabledControl(box)?.focus();
+  }, []);
   useEffect(() => {
     const box = boxRef.current;
     if (!box) return;
@@ -108,6 +116,28 @@ export function SceneConversation({
         ?.focus();
     wasHistory.current = inHistory;
   }, [historyPage]);
+  useEffect(() => {
+    function onDocumentKey(event: KeyboardEvent) {
+      if (event.key !== "Escape") return;
+      if (browsingSurfaceOpen()) return;
+      const target = event.target;
+      if (
+        target instanceof Element &&
+        target.closest(".pg-workspace, .pg-nav, .pg-action-menu")
+      ) {
+        return;
+      }
+      if (historyPage !== null) {
+        event.stopPropagation();
+        setHistoryPage(null);
+        return;
+      }
+      event.stopPropagation();
+      onBack();
+    }
+    document.addEventListener("keydown", onDocumentKey);
+    return () => document.removeEventListener("keydown", onDocumentKey);
+  }, [historyPage, onBack]);
 
   const view = useMemo(
     () =>
@@ -136,7 +166,7 @@ export function SceneConversation({
     [world, playerPersonId, subject, facing],
   );
 
-  const onKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+  const onKeyDown = (event: ReactKeyboardEvent<HTMLElement>) => {
     if (event.key !== "Escape") return;
     event.stopPropagation();
     if (historyPage !== null) setHistoryPage(null);
@@ -154,6 +184,7 @@ export function SceneConversation({
         data-testid="scene-conversation"
         data-state="ended"
         aria-label="Conversation"
+        ref={boxRef}
         onKeyDown={onKeyDown}
       >
         <p className="pg-talk-line" data-testid="conversation-closed">

@@ -30,6 +30,7 @@ import { useRasterTier } from "./useRasterTier";
 import { useSceneCoverTransform } from "./useSceneTransform";
 import {
   chooseContentDock,
+  conversationSafeMaxHeight,
   figureHeadroom,
   type ContentPlacement,
   type ScreenFigure,
@@ -185,10 +186,27 @@ export function SceneBackdrop({
     dock: "center",
     maxWidth: null,
   });
+  const [conversationMaxHeight, setConversationMaxHeight] = useState<
+    number | null
+  >(null);
   useLayoutEffect(() => {
     const content = contentRef.current;
     const panel = content?.firstElementChild;
     if (!content || !panel) return;
+    const talking = panel.classList.contains("pg-talk");
+    if (talking) {
+      const maxHeight = conversationSafeMaxHeight(figures, covering.viewport);
+      setPlacement((current) =>
+        current.dock === "center" && current.maxWidth === null
+          ? current
+          : { dock: "center", maxWidth: null },
+      );
+      setConversationMaxHeight((current) =>
+        current === maxHeight ? current : maxHeight,
+      );
+      return;
+    }
+    setConversationMaxHeight((current) => (current === null ? current : null));
     /*
      * Decided at the panel's own nominal width, not the width a previous
      * decision narrowed it to, so the answer cannot feed back on itself.
@@ -463,13 +481,19 @@ export function SceneBackdrop({
         className="scene-backdrop-content"
         ref={contentRef}
         data-dock={placement.dock}
+        data-content={conversationMaxHeight === null ? "panel" : "conversation"}
         data-testid="scene-backdrop-content"
         style={
-          placement.maxWidth === null
-            ? undefined
-            : ({
-                "--pg-dock-width": `${placement.maxWidth}px`,
-              } as CSSProperties)
+          {
+            ...(placement.maxWidth === null
+              ? {}
+              : { "--pg-dock-width": `${placement.maxWidth}px` }),
+            ...(conversationMaxHeight === null
+              ? {}
+              : {
+                  "--pg-conversation-max-height": `${conversationMaxHeight}px`,
+                }),
+          } as CSSProperties
         }
       >
         {children}

@@ -3,7 +3,7 @@ import {
   canJoinOrdinaryGroup,
   joinOrdinaryGroup,
 } from "../../presentation/ordinary-community";
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { personName, describePersonContext } from "../../simulation";
 import type {
   EntityId,
@@ -66,8 +66,14 @@ export function LifeScenePanel({
   const [problem, setProblem] = useState<string | null>(null);
   const [outcome, setOutcome] = useState<string | null>(null);
   const talkToRef = useRef<HTMLElement>(null);
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!returnFocusTo) return;
+    if (
+      document.querySelector(`[data-testid="scene-person-${returnFocusTo}"]`)
+    ) {
+      onFocusReturned?.();
+      return;
+    }
     talkToRef.current?.focus();
     onFocusReturned?.();
   }, [returnFocusTo, onFocusReturned]);
