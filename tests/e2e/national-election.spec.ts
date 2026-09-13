@@ -7,8 +7,12 @@ test("national supplied-results view separates stages and activates controls by 
   await page.route("**/__s30_n_fixture", (route) =>
     route.fulfill({
       contentType: "text/html",
-      body: `<!doctype html><html><head><meta name="viewport" content="width=device-width, initial-scale=1"></head><body><p>Supplied fictional results fixture — S30-N browser proof</p><div id="root"></div><script type="module">
-import '/tests/e2e/national-election-browser-entry.tsx';
+      body: `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"></head><body><p>Supplied fictional results fixture — S30-N browser proof</p><div id="root"></div><script type="module">
+import { injectIntoGlobalHook } from '/@react-refresh';
+injectIntoGlobalHook(window);
+window.$RefreshReg$ = () => {};
+window.$RefreshSig$ = () => (type) => type;
+await import('/tests/e2e/national-election-browser-entry.tsx');
 </script></body></html>`,
     }),
   );
