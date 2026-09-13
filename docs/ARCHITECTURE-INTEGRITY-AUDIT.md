@@ -1213,3 +1213,48 @@ or second consent engine.
   No old scene ramp/body width is inherited; seated certainty is not fabricated.
 - Stable source bytes and original G ancestry retained. Root/main integration is
   A-owned; this isolated branch is an attributable leaf return.
+
+## RECOVERY25 CIVIL Creator and Structured-Evidence Audit — 2026-09-12
+
+This audit reconciles reviewed PR #178 at
+`49bccb3a06114d4d23c847deefb45ab548371d13` with current main at
+`cc83c628707be429839c53c536181ceb65647735`. It rechecks the public-personnel
+slice against D-023, D-026, D-029, D-033, D-035, D-047 and D-074 without
+reopening the accepted Stage 6 baseline.
+
+| Concern                              | Disposition     | Evidence and rationale                                                                                                                                                                                                                                                                              |
+| ------------------------------------ | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Donor authority and dates            | Preserved       | The donor merge retains the reviewed source projection, 2026-09-06 procedure boundary, exact authority/class/agreement refusals and 2026-01-05 Custom Start. The repaired generated-TypeScript projection and bare-JSON import-graph guard remain intact.                                           |
+| Creator composition                  | Additive        | The current creator union retains ordinary, legislative and judicial entries and adds the mutually exclusive state-agency token. Its questionnaire reuses ordinary life; the feature initializer runs only after the ordinary World build and only for the guarded Custom route.                    |
+| Evidence and knowledge               | Fail-closed     | Consequential forms cannot author allegations. They select an existing, dated, employee-related and cause-tagged canonical event that the controlled authority directly participated in or accurately knows. With no qualifying episode, the action is honestly unavailable.                        |
+| Personnel and employment ownership   | Preserved       | Generated notes and notice text adapt the selected canonical event into the existing #178 action payload. All employment remains in LIFE work relationships and all procedure state remains in the single personnel record family; no parallel system or schema was added.                          |
+| Counterpart autonomy and persistence | Preserved       | Appeal, commissioner-settlement and reinstatement answers still occur through #178's deterministic NPC decision writers on receipt. Existing integrity and snapshot paths retain exact person/employer keys and reject tampered outcomes.                                                           |
+| Time                                 | Canonical reuse | The normal browser route begins on 2026-01-05, proves the refusal, advances through ordinary Day controls, then exercises the available post-2026-09-06 route. No start-date selector or time shortcut was added.                                                                                   |
+| UI ownership                         | Bounded         | `PlayerGame` receives only the current creator registration and availability/reset adapter. `CivilPersonnelPanel` remains feature-local. The existing compact Day overlay can intercept the time-passage control; desktop proof is complete and compact proof remains a UI-core acceptance blocker. |
+
+LEARN: when a consequential form needs narrative evidence, derive its prose
+from a selected canonical event and preserve the existing domain command. A
+free-text convenience field can otherwise become an unreviewed fact writer.
+
+## PRESS-REACH13 Normal Reachability Audit — 2026-09-11
+
+This audit covers the missing journalism-role and public-pitch path in front of
+the accepted PRESS4/PRODUCERS6 loop. It does not add a publisher, News search
+or second consent engine.
+
+| Concern          | Disposition          | Evidence and rationale                                                                                                                                                                                                                                                                                                                                      |
+| ---------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Population       | Canonical generation | `seekCivicPressContact` prefers a living, available current journalist. Otherwise it creates a new person through `createCharacterHistoryContextPerson` and employs only that person via `createOrganization` / `createWorkRelationship`. Existing family and colleagues are not reassigned. Dead, unavailable and expired journalism roles are not reused. |
+| Knowledge        | Fail-closed          | Eligibility accepts a public, non-future civic basis. The request may convey that basis as `told-by` knowledge. Private, future and missing events stay ineligible.                                                                                                                                                                                         |
+| Consent          | Fail-closed          | Reporter decisions remain autonomous and durable: accept, defer for unfinished assigned work, or decline. Arrangement requires an accepted response. Adviser preparation stays optional.                                                                                                                                                                    |
+| Time and work    | Canonical reuse      | Prepared interviews still create the existing work item. Unprepared interviews skip it and allow drafting after arrangement.                                                                                                                                                                                                                                |
+| Publication      | Single path          | Off-record still has no story writer. On-record/background still call `publishPublicEvent`.                                                                                                                                                                                                                                                                 |
+| UI/ENV ownership | Preserved            | `PlayerGame` is untouched. `PressWorkspace` and `PressInterviewPanel` remain the existing consumers.                                                                                                                                                                                                                                                        |
+
+### DELIVERY28 CIVIL current receiver check — 2026-09-13
+
+Composed preserved #223 with main 2d154752 in an isolated checkout. Additive
+creator registration retains newer title/place/appearance and preview logic.
+Actor/employer/source-date/class/agreement/knowledge contracts are unchanged.
+Scoped refusal/persistence tests and actual creator browser proof passed. No
+new rule or record family was introduced; newer prose reports were retained.

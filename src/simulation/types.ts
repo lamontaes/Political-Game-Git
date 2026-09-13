@@ -85,6 +85,7 @@ export type EntityKind =
   | "person"
   | "person-death"
   | "person-functional-capacity"
+  | "personnel-record"
   | "personal-value"
   | "personality-tendency"
   | "personality-tendency-definition"
@@ -3252,6 +3253,161 @@ export interface PublicationRecord {
   readonly correctionNote: string | null;
 }
 
+// ---------------------------------------------------------------------------
+// Public personnel — sourced procedure steps over LIFE work relationships
+// ---------------------------------------------------------------------------
+
+/** A power a transcribed procedure assigns; never inferred from a title. */
+export type PersonnelPower = "appointing-authority" | "commissioner-settlement";
+
+export type PersonnelAuthorityBasis =
+  | { readonly kind: "statute"; readonly procedureKey: string }
+  | { readonly kind: "authored-charter"; readonly note: string };
+
+export type PersonnelCivilClass =
+  "classified" | "unclassified" | "exempt" | "partially-exempt" | "unknown";
+
+export type PersonnelJustCauseGround =
+  | "consistent-failure-to-perform"
+  | "substandard-performance"
+  | "insubordination"
+  | "serious-policy-violation";
+
+interface PersonnelRecordBase {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  /** Ordinary event that anchors knowledge, Work and due items. */
+  readonly eventId: EntityId;
+  readonly jurisdictionKey: string;
+}
+
+export interface PersonnelAuthorityDesignationRecord extends PersonnelRecordBase {
+  readonly kind: "authority-designation";
+  readonly organizationId: EntityId;
+  readonly roleKind: OrganizationParticipationRoleKind;
+  readonly power: PersonnelPower;
+  readonly scope: "employing-organization" | "jurisdiction";
+  readonly basis: PersonnelAuthorityBasis;
+}
+
+/** An authorized position. Civil class and labor coverage stay separate. */
+export interface PersonnelPositionRecord extends PersonnelRecordBase {
+  readonly kind: "position";
+  readonly organizationId: EntityId;
+  readonly title: string;
+  readonly classKey: string;
+  readonly civilClass: PersonnelCivilClass;
+  readonly bargainingCoverage: "covered" | "excluded" | "unknown";
+  readonly agreementCoverage: "covered" | "not-covered" | "unknown";
+  readonly basis: { readonly kind: "authored-charter"; readonly note: string };
+}
+
+export interface PersonnelIncumbencyRecord extends PersonnelRecordBase {
+  readonly kind: "incumbency";
+  readonly positionId: EntityId;
+  readonly workRelationshipId: EntityId;
+  readonly personId: EntityId;
+  readonly tenure: "probationary" | "permanent" | "unknown";
+  readonly basis:
+    | { readonly kind: "authored-scenario"; readonly note: string }
+    | {
+        readonly kind: "reinstatement";
+        readonly offerId: EntityId;
+        readonly responseId: EntityId;
+      };
+}
+
+export interface PersonnelInformalResolutionRecord extends PersonnelRecordBase {
+  readonly kind: "informal-resolution";
+  readonly incumbencyId: EntityId;
+  readonly actorPersonId: EntityId;
+  readonly designationId: EntityId;
+  readonly scheduledActivityId: EntityId;
+  readonly note: string;
+}
+
+export interface PersonnelDisciplinaryActionRecord extends PersonnelRecordBase {
+  readonly kind: "disciplinary-action";
+  readonly incumbencyId: EntityId;
+  readonly actorPersonId: EntityId;
+  readonly designationId: EntityId;
+  readonly informalResolutionId: EntityId;
+  readonly action: "reprimand" | "discharge";
+  readonly ground: PersonnelJustCauseGround;
+  readonly reasons: string;
+  readonly effectiveOn: IsoDate;
+  readonly noticeEvidenceId: EntityId;
+  readonly appealDeadline: IsoDate | null;
+  readonly commissionerFilingDeadline: IsoDate | null;
+  readonly endedWorkStatusId: EntityId | null;
+  readonly workItemId: EntityId | null;
+}
+
+export interface PersonnelCommissionerFilingRecord extends PersonnelRecordBase {
+  readonly kind: "commissioner-filing";
+  readonly actionId: EntityId;
+  readonly actorPersonId: EntityId;
+  /** The designation the filer held; any current appointing authority may file. */
+  readonly designationId: EntityId;
+  readonly timely: boolean;
+}
+
+export interface PersonnelAppealRecord extends PersonnelRecordBase {
+  readonly kind: "appeal";
+  readonly actionId: EntityId;
+  readonly personId: EntityId;
+  readonly forum: "mn-bureau-of-mediation-services";
+  readonly statement: string;
+  /** The discharged employee's durable decision trace. */
+  readonly decisionTraceId: EntityId;
+}
+
+export interface PersonnelSettlementDecisionRecord extends PersonnelRecordBase {
+  readonly kind: "settlement-decision";
+  readonly appealId: EntityId;
+  readonly actorPersonId: EntityId;
+  readonly designationId: EntityId;
+  readonly decision: "settlement-directed" | "settlement-not-directed";
+  readonly reasons: string;
+  /** The office holder's durable decision trace. */
+  readonly decisionTraceId: EntityId;
+}
+
+export interface PersonnelReinstatementOfferRecord extends PersonnelRecordBase {
+  readonly kind: "reinstatement-offer";
+  readonly positionId: EntityId;
+  readonly personId: EntityId;
+  readonly actorPersonId: EntityId;
+  readonly designationId: EntityId;
+  readonly formerIncumbencyId: EntityId;
+  readonly probation: "required" | "not-required";
+}
+
+export interface PersonnelOfferResponseRecord extends PersonnelRecordBase {
+  readonly kind: "offer-response";
+  readonly offerId: EntityId;
+  readonly personId: EntityId;
+  /** Given on receipt of the offer. */
+  readonly response: "accepted" | "declined";
+  /** The person's own durable decision trace. */
+  readonly decisionTraceId: EntityId;
+  readonly workRelationshipId: EntityId | null;
+}
+
+export type PersonnelRecord =
+  | PersonnelAuthorityDesignationRecord
+  | PersonnelPositionRecord
+  | PersonnelIncumbencyRecord
+  | PersonnelInformalResolutionRecord
+  | PersonnelDisciplinaryActionRecord
+  | PersonnelCommissionerFilingRecord
+  | PersonnelAppealRecord
+  | PersonnelSettlementDecisionRecord
+  | PersonnelReinstatementOfferRecord
+  | PersonnelOfferResponseRecord;
+
 export interface HistoryStore {
   readonly nextSequence: number;
   readonly organizations: readonly Organization[];
@@ -3338,6 +3494,8 @@ export interface HistoryStore {
   readonly legislativeVotes?: readonly LegislativeVoteRecord[];
   readonly executiveDispositions?: readonly ExecutiveDispositionRecord[];
   readonly legislativeEnactments?: readonly LegislativeEnactmentRecord[];
+  /** Optional so pre-CIVIL-AUTHORITY13 snapshots remain structurally readable. */
+  readonly personnelRecords?: readonly PersonnelRecord[];
   readonly futureDueItems: readonly FutureDueItem[];
   readonly futureDueItemStates: readonly FutureDueItemStateRecord[];
   readonly events: readonly HistoricalEvent[];
