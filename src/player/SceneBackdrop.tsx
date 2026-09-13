@@ -18,7 +18,10 @@ import {
   type DynamicSurfaceProjection,
 } from "../presentation/surface-projection";
 import { SceneSurfaceLayer } from "./SceneSurfaceLayer";
-import { PRODUCTION_VISUAL_LIBRARY } from "../presentation/visual-integration";
+import {
+  PRODUCTION_VISUAL_LIBRARY,
+  type RuntimeVisualLibrary,
+} from "../presentation/visual-integration";
 import {
   releasedSceneOccluders,
   scenePlateClips,
@@ -57,6 +60,7 @@ const DOCK_RIGHT_INSET = 20;
  */
 export function SceneBackdrop({
   sceneId,
+  visualLibrary = PRODUCTION_VISUAL_LIBRARY,
   people = [],
   surfaces = EMPTY_SURFACE_PROJECTION,
   onSelectPerson,
@@ -64,6 +68,8 @@ export function SceneBackdrop({
   children,
 }: {
   readonly sceneId: string | null;
+  /** Explicit review library; normal callers retain released-only defaults. */
+  readonly visualLibrary?: RuntimeVisualLibrary;
   /**
    * What this world can honestly put on the room's declared surfaces.
    *
@@ -101,7 +107,7 @@ export function SceneBackdrop({
   const viewportRef = useRef<HTMLDivElement>(null);
   const scene = sceneId ? (SCENE_REGISTRY.scenes.get(sceneId) ?? null) : null;
   const environment = scene?.raster
-    ? PRODUCTION_VISUAL_LIBRARY.get(scene.raster.assetId)
+    ? visualLibrary.get(scene.raster.assetId)
     : undefined;
 
   // Unconditional, like every other consumer of these hooks: a section with no
@@ -203,7 +209,7 @@ export function SceneBackdrop({
     // size without changing any prop here, and the guard above keeps a stable
     // answer from re-rendering.
   });
-  const occluders = releasedSceneOccluders(scene);
+  const occluders = releasedSceneOccluders(scene, visualLibrary);
   const plateClips = scenePlateClips(scene);
   const bindings = useMemo(
     () =>

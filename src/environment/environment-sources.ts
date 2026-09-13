@@ -144,6 +144,18 @@ export const ENVIRONMENT_SOURCES: readonly EnvironmentSourceRecord[] = [
     note: "One released plate serves title and completed public-meeting context. UI #144 normal Day pointer/keyboard and Save/Continue proof is recorded at 517dfa3 and retained in the later combined UI. This donor alone does not own the root. MUNI's additional callback is separately being verified; baked audience figures remain anonymous decor.",
   },
   {
+    sourceId: "env_campaign_storefront_5504x3072_v1",
+    label: "A campaign storefront field office (candidate)",
+    path: "art/families/campaign-storefront/env_campaign_storefront_v1.png",
+    disposition: "candidate-preview-only",
+    sceneId: "campaign-storefront-production",
+    remainingStep:
+      "Same-source owner visual acceptance, floor-plane review and release approval. #212's release flag had no recorded acceptance; original bytes/history retained.",
+    owedBy: "the owner",
+    openRequestIds: [],
+    note: "Two deterministic downscales from IMG_5205, exact Drive ID 1omryvYo8QYASr96guWI7XeQkJ6hdTKCu. Actual canonical campaign-call-desk activity resolves this plate only in isolated development candidate mode. Stable scene ID does not imply release. Native detail unverified; rights unknown.",
+  },
+  {
     sourceId: "env_shared_workroom_office_v1",
     label: "A shared staff workroom",
     path: "art/families/shared-workroom-office/env_shared_workroom_office_v1.png",
@@ -206,6 +218,30 @@ export const ENVIRONMENT_SOURCES: readonly EnvironmentSourceRecord[] = [
     openRequestIds: [],
     note: "APPROVED ART, FULLY CARRIED, HELD AT THE GATE. This lane derived its two runtime tiers as deterministic downscales, authored its anchors, occluders and slots against the plate, and registered it. It stays UNRELEASED. Its recovered geometry is visual-estimate evidence, without a calibrated floor, measured body width or alpha furniture mask; human visual acceptance is pending. The departure from its earlier 'no tier until a consumer exists' constraint is recorded in the manifest entry rather than quietly taken.",
   },
+  {
+    sourceId: "env_park_community_pavilion_candidate_5504x3072_v1",
+    label: "A park community pavilion shelter (candidate)",
+    path: "art/families/park-community-pavilion/env_park_community_pavilion_v1.png",
+    disposition: "carried-not-released",
+    sceneId: "park-community-pavilion-candidate",
+    remainingStep:
+      "Owner acceptance and human visual review, plus an exterior location activity producer in normal play.",
+    owedBy: "the owner, and then a gameplay owner",
+    openRequestIds: [],
+    note: "CANDIDATE ART, FULLY CARRIED, HELD AT THE GATE. Derived as two deterministic Lanczos-3 downscales. Registered as candidate fixture art under candidate isolation pending human visual review. Preserves AX-92B1 candidate intake invariants.",
+  },
+  {
+    sourceId: "env_executive_office_candidate_5504x3072_v1",
+    label: "An executive private study (candidate)",
+    path: "art/families/executive-private-office/env_executive_office_v1.png",
+    disposition: "carried-not-released",
+    sceneId: "executive-office-candidate",
+    remainingStep:
+      "Owner visual acceptance and formal style-family sign-off, plus executive workplace activity integration.",
+    owedBy: "the owner, and then an executive gameplay owner",
+    openRequestIds: ["env-executive-office-4k-master"],
+    note: "CANDIDATE ART, FULLY CARRIED, HELD AT THE GATE. Answers open request env-executive-office-4k-master and replaces the 1672px master. Derived as two deterministic Lanczos-3 downscales from swept 5504x3072 master IMG_5189.JPG. Authored and registered as candidate fixture art under candidate isolation pending human visual review.",
+  },
 
   /* --- Approved, mechanically blocked ------------------------------------ */
   {
@@ -247,13 +283,13 @@ export const ENVIRONMENT_SOURCES: readonly EnvironmentSourceRecord[] = [
     note: "#131 intake ran it to `production` disposition mechanically; that is an intake verdict about the bytes, not owner acceptance of the art. Its baked furniture is extensive — roughly a dozen picnic tables — so modular people could not stand on the slab without contending with them. Rights status is unknown and stays unknown.",
   },
   {
-    sourceId: "env_press_briefing_room_5504x3072_01",
+    sourceId: "env_press_briefing_room_candidate_v1",
     label: "A press or announcement room (candidate)",
     path: "art/references/candidates/recent-drive-sweep/source-images/IMG_5202.JPG",
     disposition: "candidate-preview-only",
-    sceneId: null,
+    sceneId: "press-briefing-room-candidate",
     remainingStep:
-      "Owner acceptance plus the D-070 floor-plane gate, as above. It ALSO needs a canonical press event: nothing in this game says a briefing exists, is scheduled or is attendable.",
+      "Authored candidate composition at ?view=location-review. Owner acceptance and D-070 floor-plane gate remain pending; no canonical briefing activity/location producer exists. Existing press interviews are not a briefing-room association.",
     owedBy: "the owner, and then a campaign or executive owner",
     openRequestIds: [],
     note: "IT IS NOT THE HEARING ROOM, and the intake pass says so explicitly. It must not be substituted for `civic-hearing-room-production` or the committee fixture. Very little open floor survives between its thirty stacking chairs and the riser.",
@@ -268,7 +304,7 @@ export const ENVIRONMENT_SOURCES: readonly EnvironmentSourceRecord[] = [
       "Owner acceptance. Mechanically it is the strongest unaccepted candidate in the bank: it is the only one that answers a standing asset request outright.",
     owedBy: "the owner",
     openRequestIds: ["env-executive-office-4k-master"],
-    note: "Classified NEW_PRODUCTION_SOURCE_CANDIDATE by the drive sweep and never carried further. At 5504px it clears the master minimum the banked 1672px executive master fails. Acceptance would still need scene authoring and the executive owner’s exact workplace consumer.",
+    note: "Classified NEW_PRODUCTION_SOURCE_CANDIDATE by the drive sweep. Replaces the banked 1672px master below the 4608px minimum. Derived into runtime candidate tiers and authored as candidate fixture 'executive-office-candidate' under candidate isolation; owner visual acceptance and style-family sign-off remain pending.",
   },
   {
     sourceId: "IMG_5190.JPG",

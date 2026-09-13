@@ -20,6 +20,26 @@
     "meetsTransparencyReq": null
   },
   {
+    "file": "families/campaign-storefront/env_campaign_storefront_runtime_2x_v1.png",
+    "metadata": {
+      "width": 2752,
+      "height": 1536,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "families/campaign-storefront/env_campaign_storefront_v1.png",
+    "metadata": {
+      "width": 1376,
+      "height": 768,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
     "file": "families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_runtime_2048_v1.png",
     "metadata": {
       "width": 2048,
@@ -110,6 +130,26 @@
     "meetsTransparencyReq": null
   },
   {
+    "file": "families/executive-private-office/env_executive_office_runtime_2x_v1.png",
+    "metadata": {
+      "width": 2752,
+      "height": 1536,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "families/executive-private-office/env_executive_office_v1.png",
+    "metadata": {
+      "width": 1376,
+      "height": 768,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
     "file": "families/legislative-chamber/env_legislative_chamber_floor_runtime_2x_v1.png",
     "metadata": {
       "width": 2816,
@@ -125,6 +165,46 @@
       "width": 1408,
       "height": 768,
       "aspectRatio": "11:6",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "families/park-community-pavilion/env_park_community_pavilion_runtime_2x_v1.png",
+    "metadata": {
+      "width": 2752,
+      "height": 1536,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "families/park-community-pavilion/env_park_community_pavilion_v1.png",
+    "metadata": {
+      "width": 1376,
+      "height": 768,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "families/press-briefing-room/env_press_briefing_room_candidate_v1-1376.png",
+    "metadata": {
+      "width": 1376,
+      "height": 768,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "families/press-briefing-room/env_press_briefing_room_candidate_v1-2752.png",
+    "metadata": {
+      "width": 2752,
+      "height": 1536,
+      "aspectRatio": "43:24",
       "hasTransparency": "none"
     },
     "meetsTransparencyReq": null
@@ -1445,6 +1525,66 @@
       "width": 830,
       "height": 1704,
       "aspectRatio": "415:852",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/people-coherence/pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_matched_v1_collar_front.png",
+    "metadata": {
+      "width": 336,
+      "height": 385,
+      "aspectRatio": "48:55",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/people-coherence/pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_matched_v1.png",
+    "metadata": {
+      "width": 336,
+      "height": 385,
+      "aspectRatio": "48:55",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/people-coherence/pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_neckline_v1.png",
+    "metadata": {
+      "width": 336,
+      "height": 385,
+      "aspectRatio": "48:55",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/people-coherence/pv4_wave_a_male_top_white_button_up_shirt_v1_matched_v1_collar_front.png",
+    "metadata": {
+      "width": 334,
+      "height": 385,
+      "aspectRatio": "334:385",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/people-coherence/pv4_wave_a_male_top_white_button_up_shirt_v1_matched_v1.png",
+    "metadata": {
+      "width": 334,
+      "height": 385,
+      "aspectRatio": "334:385",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/people-coherence/pv4_wave_a_male_top_white_button_up_shirt_v1_neckline_v1.png",
+    "metadata": {
+      "width": 334,
+      "height": 385,
+      "aspectRatio": "334:385",
       "hasTransparency": "confirmed"
     },
     "meetsTransparencyReq": null

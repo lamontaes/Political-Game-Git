@@ -141,6 +141,8 @@ export interface NewGameSetup {
   readonly appearanceRecipeVersion?: string;
   /** Absent keeps every replay written before the distinct-name repair. */
   readonly givenNameGenerationVersion?: GivenNameGenerationVersion;
+  /** Explicit creation lineage, preserved in replays; absent keeps historical defaults. */
+  readonly appearanceCatalogGeneration?: number;
 }
 
 export interface NewGame {
@@ -344,6 +346,9 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     appearanceRecipeVersion:
       setup.appearanceRecipeVersion ?? LEGACY_APPEARANCE_RECIPE_VERSION,
     givenNameGenerationVersion: setup.givenNameGenerationVersion,
+    ...(setup.appearanceCatalogGeneration === undefined
+      ? {}
+      : { appearanceCatalogGeneration: setup.appearanceCatalogGeneration }),
   });
   const office =
     setup.startingLife === "judicial-office-practice"

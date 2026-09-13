@@ -1,3 +1,5 @@
+import { projectLocationSurfaces } from "../presentation/location-surfaces";
+import { locationReviewVisuals } from "../presentation/location-art-review";
 import { PressWorkspace } from "./PressWorkspace";
 import {
   SavedAppearanceProvider,
@@ -99,6 +101,8 @@ import {
   artPreviewLibraries,
   artPreviewMode,
   previewDatabaseName,
+  setupForArtPreview,
+  type ArtPreviewMode,
 } from "../presentation/art-preview";
 import { gameBuildProfile } from "../presentation/build-profile";
 import { SceneBackdrop } from "./SceneBackdrop";
@@ -610,6 +614,7 @@ export function PlayerGame() {
           <SetupScreen
             seed={sessionSeed.seed}
             seedOrigin={sessionSeed.origin}
+            previewMode={previewMode}
             initialSetup={screen.draft}
             onBack={() => setScreen({ kind: "title" })}
             onBegin={(setup) => {
@@ -770,6 +775,7 @@ type CreatorStep =
 function SetupScreen({
   seed,
   seedOrigin,
+  previewMode,
   initialSetup,
   onBack,
   onBegin,
@@ -777,6 +783,7 @@ function SetupScreen({
 }: {
   readonly seed: string;
   readonly seedOrigin: "fresh" | "replay";
+  readonly previewMode: ArtPreviewMode;
   readonly initialSetup?: NewGameSetup;
   readonly onBack: () => void;
   readonly onBegin: (setup: NewGameSetup) => void;
@@ -820,11 +827,14 @@ function SetupScreen({
         candidate.stateJurisdictionKey === location.stateJurisdictionKey,
     ) ?? null;
   const [setup, setSetup] = useState<NewGameSetup>(
-    initialSetup ?? {
-      ...DEFAULT_NEW_GAME_SETUP,
-      seed,
-      placeKey: "",
-    },
+    () =>
+      // Only a newly allocated creator draft enters the candidate generation.
+      // Existing drafts, replay descriptors and loaded Worlds retain their pins.
+      initialSetup ??
+      setupForArtPreview(
+        { ...DEFAULT_NEW_GAME_SETUP, seed, placeKey: "" },
+        previewMode,
+      ),
   );
   /**
    * What the age field currently shows, which is not always a number.
@@ -1974,9 +1984,19 @@ function PlayingScreen({
     [session.world, session.personId],
   );
 
+  const sceneVisuals = useMemo(
+    () => locationReviewVisuals(Boolean(artPreview) && import.meta.env.DEV),
+    [artPreview],
+  );
+
   const playScene = useMemo(() => {
     if (!continuingLifeShown)
-      return resolveOpeningPlaySceneContext(session.world, session.personId);
+      return resolveOpeningPlaySceneContext(
+        session.world,
+        session.personId,
+        undefined,
+        sceneVisuals,
+      );
     const activity = completedActivityHere(session.world, session.personId);
     const venue =
       activity && municipalVenueForActivity(session.world, activity.id);
@@ -2007,18 +2027,37 @@ function PlayingScreen({
       session.world,
       session.personId,
       projectedMoment.scene,
+      undefined,
+      sceneVisuals,
     );
-  }, [session.world, session.personId, projectedMoment, continuingLifeShown]);
+  }, [
+    session.world,
+    session.personId,
+    projectedMoment,
+    continuingLifeShown,
+    sceneVisuals,
+  ]);
 
   const sceneId = playScene.sceneId;
 
   const surfaceProjection = useMemo(
     () =>
-      projectDynamicSurfaces(session.world, {
-        jurisdictionId: capabilities.legislativeJurisdictionId,
-        measureId: assignment?.measureId ?? null,
-      }),
-    [session.world, capabilities.legislativeJurisdictionId, assignment],
+      projectLocationSurfaces(
+        session.world,
+        session.personId,
+        sceneId,
+        projectDynamicSurfaces(session.world, {
+          jurisdictionId: capabilities.legislativeJurisdictionId,
+          measureId: assignment?.measureId ?? null,
+        }),
+      ),
+    [
+      session.world,
+      session.personId,
+      sceneId,
+      capabilities.legislativeJurisdictionId,
+      assignment,
+    ],
   );
 
   const moment = useMemo(
@@ -2042,9 +2081,7 @@ function PlayingScreen({
     () =>
       planLifeScenePeople(
         session.world,
-        completedActivityHere(session.world, session.personId)
-          ? []
-          : moment.scene.presentPeople,
+        moment.scene.presentPeople,
         sceneId,
         undefined,
         {
@@ -2427,6 +2464,7 @@ function PlayingScreen({
           ) : null}
           <SceneBackdrop
             sceneId={sceneId}
+            visualLibrary={sceneVisuals}
             people={scenePeople}
             surfaces={surfaceProjection}
             /*

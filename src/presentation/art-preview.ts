@@ -1,3 +1,4 @@
+import type { NewGameSetup } from "./new-game";
 import type { PoseArtIndex } from "./pose-families";
 import type { CharacterComponentLibrary } from "./character-components";
 import type { RuntimeVisualLibrary } from "./visual-integration";
@@ -234,4 +235,22 @@ export function artPreviewBanner(mode: ArtPreviewMode): string | null {
   return gameBuildProfile() === "internal-art-review"
     ? INTERNAL_ART_REVIEW_LABEL
     : ART_PREVIEW_LABEL;
+}
+
+/** Fresh setup initialization ONLY. Unpinned legacy replays and loaded Worlds must bypass this helper. Existing explicit pins win. */
+export function setupForArtPreview<T extends NewGameSetup>(
+  setup: T,
+  mode: ArtPreviewMode,
+): T {
+  if (
+    mode !== "candidate-review" ||
+    setup.appearanceRecipeVersion !== "appearance-recipe-v2" ||
+    setup.appearanceCatalogGeneration !== undefined
+  )
+    return setup;
+  return {
+    ...setup,
+    appearanceCatalogGeneration:
+      PEOPLE_VISUAL4_CHARACTER_LIBRARY.catalogGeneration,
+  };
 }

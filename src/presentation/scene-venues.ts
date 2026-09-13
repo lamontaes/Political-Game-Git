@@ -13,6 +13,9 @@ import {
   LEGISLATIVE_CHAMBER_SCENE_ID,
   PRODUCTION_OFFICE_SCENE_ID,
   PUBLIC_MEETING_ROOM_SCENE_ID,
+  CAMPAIGN_STOREFRONT_SCENE_ID,
+  PARK_COMMUNITY_PAVILION_SCENE_ID,
+  EXECUTIVE_OFFICE_SCENE_ID,
   SCENE_REGISTRY,
   type SceneRegistry,
 } from "./scene-registry";
@@ -100,21 +103,21 @@ export const SCENE_VENUES: readonly SceneVenue[] = [
     locationKey: "executive-office",
     sceneId: null,
     reason:
-      "No executive room is released. The banked executive master is 1672px wide, below the 4608px environment master minimum, so it cannot be carried into the runtime. The 5504px candidate that would replace it is unapproved. See asset request 'env-executive-office-4k-master'.",
+      "No executive room is released in production. The swept 5504x3072 master IMG_5189.JPG is authored as candidate fixture 'executive-office-candidate' (answering 'env-executive-office-4k-master'), but remains unreleased pending human visual acceptance.",
     isJourney: false,
   },
   {
     locationKey: "campaign-call-desk",
-    sceneId: null,
+    sceneId: CAMPAIGN_STOREFRONT_SCENE_ID,
     reason:
-      "No campaign room is released. Calling voters from a desk is a real canonical activity with no picture of it; the two 5504px field-office candidates in the drive sweep are unapproved. See asset request 'env-campaign-storefront'.",
+      "Calling voters from a phone bank desk happens in the campaign storefront field office. The unreleased candidate provides standing anchors and dynamic slots for campaign literature and call targets.",
     isJourney: false,
   },
   {
     locationKey: "campaign-office",
-    sceneId: null,
+    sceneId: CAMPAIGN_STOREFRONT_SCENE_ID,
     reason:
-      "Same gap as the call desk. The shared workroom is NOT substituted: a campaign storefront is not a legislative staff room, and lending one to the other is how a room stops meaning anything.",
+      "Campaign operations, strategy planning, and staff management happen in the campaign storefront field office. The unreleased candidate provides organizer-standing anchor and dynamic slots for strategy and goals.",
     isJourney: false,
   },
   {
@@ -319,6 +322,7 @@ export function scenesNoVenueReaches(
 export const VENUE_REACHABLE_SCENE_IDS: readonly string[] = [
   PUBLIC_MEETING_ROOM_SCENE_ID,
   PRODUCTION_OFFICE_SCENE_ID,
+  CAMPAIGN_STOREFRONT_SCENE_ID,
 ];
 
 /**
@@ -328,6 +332,7 @@ export const VENUE_REACHABLE_SCENE_IDS: readonly string[] = [
  */
 export const VENUE_WITH_PRODUCTION_ACTIVITY: readonly string[] = [
   PUBLIC_MEETING_ROOM_SCENE_ID,
+  CAMPAIGN_STOREFRONT_SCENE_ID,
 ];
 
 /**
@@ -336,6 +341,10 @@ export const VENUE_WITH_PRODUCTION_ACTIVITY: readonly string[] = [
  */
 export const VENUE_DELIBERATELY_UNREACHED: ReadonlyMap<string, string> =
   new Map([
+    [
+      "press-briefing-room-candidate",
+      "Existing press interviews do not establish a canonical briefing-room venue. Candidate composition only; acceptance and a location producer remain pending.",
+    ],
     [
       COURTROOM_SCENE_ID,
       "The current JUD-WORK2 consumer establishes office preparation only, not a source-confirmed courtroom kind. Its location key cannot admit this unreleased plate.",
@@ -351,5 +360,13 @@ export const VENUE_DELIBERATELY_UNREACHED: ReadonlyMap<string, string> =
     [
       DOMESTIC_ORDINARY_SCENE_ID,
       "Home art supplies residence context only when no later established place or completed travel contradicts it. A quiet calendar does not prove physical presence at home.",
+    ],
+    [
+      PARK_COMMUNITY_PAVILION_SCENE_ID,
+      "Candidate scene. The park community pavilion is candidate-isolated pending human visual acceptance and an exterior location producer in normal play.",
+    ],
+    [
+      EXECUTIVE_OFFICE_SCENE_ID,
+      "Candidate scene. The executive private study is candidate-isolated pending human visual acceptance and formal owner sign-off.",
     ],
   ]);
