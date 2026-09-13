@@ -163,9 +163,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "shared-workroom-office-production",
@@ -323,10 +321,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts",
-          "sprite-exceeds-footprint"
-        ]
+        "diagnostics": ["body-declares-no-contacts", "sprite-exceeds-footprint"]
       },
       {
         "sceneId": "shared-workroom-office-production",
@@ -628,10 +623,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts",
-          "sprite-exceeds-footprint"
-        ]
+        "diagnostics": ["body-declares-no-contacts", "sprite-exceeds-footprint"]
       },
       {
         "sceneId": "civic-community-meeting-title",
@@ -1933,9 +1925,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "residence-apartment-living-canonical-03",
@@ -2235,9 +2225,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -2537,9 +2525,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -2721,9 +2707,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "civic-community-meeting-room",
@@ -5687,9 +5671,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "office-council-staff-fixture",
@@ -5847,9 +5829,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "office-council-staff-fixture",
@@ -5987,10 +5967,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "required-slot-empty",
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["required-slot-empty", "body-declares-no-contacts"]
       },
       {
         "sceneId": "shared-workroom-office-production",
@@ -6168,9 +6145,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "shared-workroom-office-production",
@@ -6348,10 +6323,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts",
-          "sprite-exceeds-footprint"
-        ]
+        "diagnostics": ["body-declares-no-contacts", "sprite-exceeds-footprint"]
       },
       {
         "sceneId": "shared-workroom-office-production",
@@ -6693,10 +6665,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts",
-          "sprite-exceeds-footprint"
-        ]
+        "diagnostics": ["body-declares-no-contacts", "sprite-exceeds-footprint"]
       },
       {
         "sceneId": "civic-community-meeting-title",
@@ -8158,9 +8127,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "residence-apartment-living-canonical-03",
@@ -8500,9 +8467,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -8842,9 +8807,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -9046,9 +9009,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "civic-community-meeting-room",
@@ -12392,9 +12353,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "office-council-staff-fixture",
@@ -12572,9 +12531,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "office-council-staff-fixture",
@@ -12732,10 +12689,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "required-slot-empty",
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["required-slot-empty", "body-declares-no-contacts"]
       },
       {
         "sceneId": "shared-workroom-office-production",
@@ -12853,9 +12807,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "shared-workroom-office-production",
@@ -12973,10 +12925,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts",
-          "sprite-exceeds-footprint"
-        ]
+        "diagnostics": ["body-declares-no-contacts", "sprite-exceeds-footprint"]
       },
       {
         "sceneId": "shared-workroom-office-production",
@@ -13198,10 +13147,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts",
-          "sprite-exceeds-footprint"
-        ]
+        "diagnostics": ["body-declares-no-contacts", "sprite-exceeds-footprint"]
       },
       {
         "sceneId": "civic-community-meeting-title",
@@ -14183,9 +14129,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "residence-apartment-living-canonical-03",
@@ -14405,9 +14349,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -14627,9 +14569,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -14771,9 +14711,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "civic-community-meeting-room",
@@ -16977,9 +16915,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "office-council-staff-fixture",
@@ -17097,9 +17033,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "office-council-staff-fixture",
@@ -17197,10 +17131,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "required-slot-empty",
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["required-slot-empty", "body-declares-no-contacts"]
       },
       {
         "sceneId": "shared-workroom-office-production",
@@ -17358,9 +17289,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "shared-workroom-office-production",
@@ -17518,10 +17447,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts",
-          "sprite-exceeds-footprint"
-        ]
+        "diagnostics": ["body-declares-no-contacts", "sprite-exceeds-footprint"]
       },
       {
         "sceneId": "shared-workroom-office-production",
@@ -17823,10 +17749,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts",
-          "sprite-exceeds-footprint"
-        ]
+        "diagnostics": ["body-declares-no-contacts", "sprite-exceeds-footprint"]
       },
       {
         "sceneId": "civic-community-meeting-title",
@@ -19128,9 +19051,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "residence-apartment-living-canonical-03",
@@ -19430,9 +19351,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -19732,9 +19651,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -19916,9 +19833,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "civic-community-meeting-room",
@@ -22882,9 +22797,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "office-council-staff-fixture",
@@ -23042,9 +22955,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "office-council-staff-fixture",
@@ -23182,10 +23093,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "required-slot-empty",
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["required-slot-empty", "body-declares-no-contacts"]
       }
     ],
     "remainingAssetNeeds": [
@@ -23498,9 +23406,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "sprite-exceeds-footprint"
-        ]
+        "diagnostics": ["sprite-exceeds-footprint"]
       },
       {
         "sceneId": "shared-workroom-office-production",
@@ -23663,9 +23569,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "sprite-exceeds-footprint"
-        ]
+        "diagnostics": ["sprite-exceeds-footprint"]
       },
       {
         "sceneId": "civic-community-meeting-title",
@@ -27610,9 +27514,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "sprite-exceeds-footprint"
-        ]
+        "diagnostics": ["sprite-exceeds-footprint"]
       },
       {
         "sceneId": "shared-workroom-office-production",
@@ -27775,9 +27677,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "sprite-exceeds-footprint"
-        ]
+        "diagnostics": ["sprite-exceeds-footprint"]
       },
       {
         "sceneId": "civic-community-meeting-title",
@@ -31682,9 +31582,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "sprite-exceeds-footprint"
-        ]
+        "diagnostics": ["sprite-exceeds-footprint"]
       },
       {
         "sceneId": "shared-workroom-office-production",
@@ -31827,9 +31725,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "sprite-exceeds-footprint"
-        ]
+        "diagnostics": ["sprite-exceeds-footprint"]
       },
       {
         "sceneId": "civic-community-meeting-title",
@@ -35334,9 +35230,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "sprite-exceeds-footprint"
-        ]
+        "diagnostics": ["sprite-exceeds-footprint"]
       },
       {
         "sceneId": "shared-workroom-office-production",
@@ -35519,9 +35413,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "sprite-exceeds-footprint"
-        ]
+        "diagnostics": ["sprite-exceeds-footprint"]
       },
       {
         "sceneId": "civic-community-meeting-title",
