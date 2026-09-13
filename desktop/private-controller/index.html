@@ -23,6 +23,19 @@
         <button id="cancel" hidden>Cancel</button>
       </section>
 
+      <section class="preferences" aria-label="Update preference">
+        <label
+          ><input id="automatic" type="checkbox" /> Automatically check and
+          stage compatible updates</label
+        >
+        <p>
+          Default: 20 seconds after startup, then at most once every six hours.
+          Uncheck for persisted manual-only updates. Play never starts a check.
+          A staged update waits for normal game close and Finish Update &amp;
+          Play.
+        </p>
+      </section>
+
       <section class="project" aria-labelledby="project-heading">
         <div>
           <h2 id="project-heading">Update source</h2>
@@ -36,8 +49,12 @@
         <p id="status" role="status">
           The last verified build is ready to play.
         </p>
-        <pre id="log" aria-label="Update progress">
-Play never waits for an update. Update fetches accepted main, builds it in a clean separate workspace, launches a health check, and only then changes the Play pointer.</pre>
+        <details>
+          <summary>Update status and compiled build</summary>
+          <pre id="build-status" aria-label="Installed build status"></pre>
+          <pre id="log" aria-label="Update progress">
+Play never starts or waits for an update. Update checks accepted main and compatibility, builds in a separate workspace and launches a disposable health check. A verified candidate is staged; Finish Update &amp; Play changes the pointer only after normal game close.</pre>
+        </details>
       </section>
     </main>
     <script src="renderer.mjs" type="module"></script>

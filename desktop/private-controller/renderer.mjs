@@ -1,4 +1,5 @@
 /* global document, window */
+import { controllerControls } from "./controller-view.mjs";
 
 const byId = (id) => document.getElementById(id);
 const identity = byId("identity");
@@ -10,6 +11,8 @@ const update = byId("update");
 const finish = byId("finish");
 const cancel = byId("cancel");
 const choose = byId("choose");
+const automatic = byId("automatic");
+const buildStatus = byId("build-status");
 
 function append(message) {
   if (!message) return;
@@ -18,19 +21,32 @@ function append(message) {
 }
 
 function render(state) {
-  if (!state?.ready) {
-    identity.textContent = "No verified playable build is available.";
-    play.disabled = true;
-  } else {
-    identity.textContent = `${state.current.version} · ${state.current.revision.slice(0, 12)} · internal art review · arm64`;
-    play.disabled = state.busy;
-  }
+  const actual = state?.installed?.identity;
+  identity.textContent = actual
+    ? `${actual.version} · build ${actual.revision.slice(0, 12)}${actual.dirty ? " (dirty)" : ""} · internal art review · arm64`
+    : "No readable installed build identity.";
+  const controls = controllerControls(state);
+  play.disabled = controls.playDisabled;
   repository.textContent =
     state?.repositoryPath ?? "Choose the Political Game folder.";
-  update.disabled = Boolean(state?.busy);
-  choose.disabled = Boolean(state?.busy);
-  cancel.hidden = !state?.busy;
-  finish.hidden = !state?.pending;
+  update.disabled = controls.updateDisabled;
+  choose.disabled = controls.chooseDisabled;
+  cancel.hidden = controls.cancelHidden;
+  finish.hidden = controls.finishHidden;
+  finish.disabled = controls.finishDisabled;
+  automatic.checked = state?.updatePolicy?.mode === "automatic";
+  buildStatus.textContent = [
+    actual
+      ? `Installed compiled source: ${actual.revision}\nClient tree: ${actual.clientTreeSha256}\nProfile/channel: ${actual.profile} / ${actual.channel}\nComposition: ${actual.composition}`
+      : "Installed identity unavailable.",
+    `Pointer source: ${state?.current?.revision ?? "none"}`,
+    `Controller source: ${state?.controllerIdentity?.controllerSourceRevision ?? "not stamped"}${state?.controllerIdentity?.controllerSourceDirty ? " (dirty)" : ""}\nController tree: ${state?.controllerIdentity?.controllerTreeSha256 ?? "not stamped"}`,
+    `Last update check: ${state?.updatePolicy?.lastAttemptAt ?? "not yet checked"} (${state?.updatePolicy?.lastOutcome ?? "none"})`,
+    state?.installed?.problem,
+  ]
+    .filter(Boolean)
+    .join("\n\n");
+  if (state?.installed?.problem) status.textContent = state.installed.problem;
   if (state?.pending) {
     status.textContent = `Verified update ${state.pending.revision.slice(0, 12)} is ready. Close the game before activating it.`;
   }
@@ -62,6 +78,13 @@ cancel.addEventListener("click", () =>
 );
 choose.addEventListener("click", () =>
   action(() => window.ocdController.chooseRepository()),
+);
+automatic.addEventListener("change", () =>
+  action(() =>
+    window.ocdController.setUpdateMode(
+      automatic.checked ? "automatic" : "manual",
+    ),
+  ),
 );
 
 window.ocdController.onEvent((event) => {

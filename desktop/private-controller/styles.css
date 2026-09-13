@@ -103,7 +103,7 @@ button:disabled {
 }
 
 pre {
-  height: 250px;
+  max-height: 180px;
   margin: 0;
   overflow: auto;
   white-space: pre-wrap;
@@ -117,4 +117,23 @@ pre {
     SFMono-Regular,
     Menlo,
     monospace;
+}
+
+.preferences {
+  margin-bottom: 20px;
+}
+
+.preferences p {
+  color: #526159;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+summary {
+  cursor: pointer;
+  padding: 8px 0;
+}
+
+#build-status {
+  margin-bottom: 10px;
 }

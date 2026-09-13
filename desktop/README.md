@@ -42,9 +42,30 @@ run Git or npm. The controller defaults to the known project location and has a
 folder picker fallback. Update accepts only the configured GitHub repository's
 `origin/main`, builds it in a clean versioned worktree, verifies revision,
 profile and architecture, launches the packaged game through the smoke harness,
-then atomically moves the Play pointer. Network loss, cancellation, build or
+then stages a pending candidate. **Finish Update & Play** rechecks its compiled
+compatibility and changes the pointer only after the running game has closed
+through its existing normal durable-save guard. Network loss, cancellation, build or
 health failure, an unrelated/forked target, or a running game leave the prior
 verified build active. It never swaps code beneath a running game.
+
+Automatic discovery/staging defaults to a background check 20 seconds after
+controller startup, then at most once per six hours. The visible checkbox
+persists manual-only mode; opting out cancels an in-flight automatic check.
+Play never starts or waits for discovery, dependencies or validation, and a
+ready Play stays enabled while the worker is busy. Status details read the
+actual installed resources stamp, not a repository checkout or pointer label.
+They also name the controller's independently stamped source and packaged
+controller-tree digest; its bootstrap game can legitimately be an older frozen
+build and is never relabelled with the controller source.
+
+Initial compatibility admission conservatively fingerprints the existing World
+integrity/types and save/interface reader-writers at the exact installed and
+accepted source revisions. Changed surfaces require a verified migration before
+automatic admission; equal semver or schema alone is insufficient. This is not
+a content-pack loader or save-format migration. Unsupported future contracts
+are refused. Malformed/future existing controller state is preserved rather
+than overwritten by bootstrap installation. A failed activation open restores
+the prior Play pointer.
 
 Packaging consumes `dist/client` only when that tree's compile-time
 provenance matches this checkout (source revision, dirty flag, and
@@ -149,7 +170,7 @@ the canonical version and exist only for throwaway artifacts.
 
 The private controller is a developer-only local delivery for the owner's
 existing repository and toolchain. Its command execution lives in the
-controller process, behind six fixed IPC actions; the gameplay renderer and
+controller process, behind seven fixed IPC actions; the gameplay renderer and
 ordinary packaged client still have no preload, IPC, filesystem, repository,
 credential, or process surface. No repository token is stored or packaged.
 Public signed in-place updating remains a separate external service boundary.

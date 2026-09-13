@@ -1,4 +1,4 @@
-/* global process */
+/* global process, setTimeout, clearTimeout */
 
 import { spawn } from "node:child_process";
 import {
@@ -15,7 +15,6 @@ import {
 import path from "node:path";
 
 import {
-  activatePendingBuild,
   assessUpdateTarget,
   buildRecord,
   cleanControllerState,
@@ -23,6 +22,11 @@ import {
   repositoryIsExpected,
   withPendingBuild,
 } from "./private-update.mjs";
+import {
+  COMPATIBILITY_PATHS,
+  compatibilityRefusal,
+  sourceCompatibility,
+} from "./update-compatibility.mjs";
 
 const EXPECTED_PACKAGE_NAME = "political-life-rpg";
 const TARGET_REF = "refs/remotes/origin/main";
@@ -75,14 +79,31 @@ async function run(command, commandArgs, options = {}) {
       stdio: ["ignore", "pipe", "pipe"],
     });
     activeChild = child;
+    let timedOut = false;
+    const timer = options.timeoutMs
+      ? setTimeout(() => {
+          timedOut = true;
+          child.kill("SIGTERM");
+        }, options.timeoutMs)
+      : null;
     child.stdout.setEncoding("utf8");
     child.stderr.setEncoding("utf8");
     child.stdout.on("data", (chunk) => emit("log", chunk.trimEnd()));
     child.stderr.on("data", (chunk) => emit("log", chunk.trimEnd()));
-    child.on("error", reject);
+    child.on("error", (error) => {
+      clearTimeout(timer);
+      reject(error);
+    });
     child.on("exit", (code, signal) => {
+      clearTimeout(timer);
       activeChild = null;
       if (cancelled) return reject(new Error("Update cancelled."));
+      if (timedOut)
+        return reject(
+          new Error(
+            `${options.label ?? command} timed out; no candidate was accepted.`,
+          ),
+        );
       if (code === 0) return resolve();
       reject(
         new Error(
@@ -118,7 +139,7 @@ async function capture(command, commandArgs, options = {}) {
       else reject(new Error(`${options.label ?? command} failed.`));
     });
   });
-  return output.trim();
+  return options.raw ? output : output.trim();
 }
 
 function readState(statePath) {
@@ -136,15 +157,6 @@ function writeState(statePath, state) {
     mode: 0o600,
   });
   renameSync(temporary, statePath);
-}
-
-async function runningApplication(appPath) {
-  if (!appPath) return false;
-  const executable = path.join(appPath, "Contents", "MacOS", "Our Civic Duty");
-  const output = await capture("/bin/ps", ["-axo", "command="], {
-    label: "Checking whether the game is running",
-  });
-  return output.split("\n").some((line) => line.startsWith(executable));
 }
 
 async function verifyRepository(candidate) {
@@ -212,8 +224,10 @@ async function main() {
       await run("/usr/bin/git", ["fetch", "--quiet", "origin", "main"], {
         cwd: repositoryPath,
         label: "Fetching accepted main",
+        timeoutMs: 20 * 1000,
       });
     } catch (error) {
+      if (cancelled) throw error;
       return fail(
         `Offline: ${error.message} The current verified build is still ready to play.`,
         "offline",
@@ -242,7 +256,10 @@ async function main() {
       currentIsAncestor,
     });
     if (assessment.action === "none") {
-      writeState(statePath, { ...state, repositoryPath });
+      const latest = readState(statePath);
+      if (!latest || latest.current.revision !== state.current.revision)
+        throw new Error("The active installation changed while checking.");
+      writeState(statePath, { ...latest, repositoryPath });
       return emit("complete", "This is already the current accepted build.", {
         outcome: "up-to-date",
       });
@@ -256,7 +273,66 @@ async function main() {
       );
     }
 
+    const readContract = async (revision) => {
+      const sources = new Map();
+      for (const filename of COMPATIBILITY_PATHS)
+        sources.set(
+          filename,
+          await capture("/usr/bin/git", ["show", `${revision}:${filename}`], {
+            cwd: repositoryPath,
+            label: "Reading exact save compatibility source",
+            raw: true,
+          }),
+        );
+      return sourceCompatibility(revision, (filename) => sources.get(filename));
+    };
+    const installedIdentity = JSON.parse(
+      readFileSync(
+        path.join(
+          state.current.appPath,
+          "Contents",
+          "Resources",
+          "build-identity.json",
+        ),
+        "utf8",
+      ),
+    );
+    if (
+      installedIdentity.revision !== state.current.revision ||
+      installedIdentity.dirty !== false ||
+      installedIdentity.profile !== "internal-art-review" ||
+      installedIdentity.channel !== "internal" ||
+      installedIdentity.distribution !== "direct"
+    )
+      return fail(
+        "The actual installed bundle identity is not the verified private source/profile. Nothing was staged.",
+        "installed-identity-mismatch",
+      );
+    const currentContract = await readContract(state.current.revision);
+    const targetContract = await readContract(targetRevision);
+    if (
+      installedIdentity.compatibility &&
+      (installedIdentity.compatibility.sourceRevision !==
+        state.current.revision ||
+        compatibilityRefusal(currentContract, installedIdentity.compatibility))
+    )
+      return fail(
+        "The installed application carries an unsupported or mismatched future compatibility contract. It was preserved; no update was staged.",
+        "unsupported-installed-compatibility",
+      );
+    const refusal = compatibilityRefusal(currentContract, targetContract);
+    if (refusal)
+      return fail(
+        "This accepted source changes a save/interface integrity surface without a verified migration. Refusing automatic staging; the current executable and saves are unchanged.",
+        refusal,
+      );
+
     const paths = controllerPaths(dataRoot, targetRevision);
+    if (existsSync(paths.appPath))
+      return fail(
+        "An installed version already exists at this source. It has been preserved, not overwritten or rebuilt.",
+        "existing-version-preserved",
+      );
     await removeOwnedStaging(paths, repositoryPath);
     mkdirSync(paths.stagingRoot, { recursive: true });
     writeFileSync(
@@ -328,6 +404,13 @@ async function main() {
     );
     if (identity.revision !== targetRevision)
       throw new Error("The application identity does not match accepted main.");
+    if (
+      identity.compatibility?.sourceRevision !== targetRevision ||
+      compatibilityRefusal(targetContract, identity.compatibility)
+    )
+      throw new Error(
+        "The packaged save compatibility identity does not match the accepted source.",
+      );
     const executable = path.join(
       builtApp,
       "Contents",
@@ -358,7 +441,10 @@ async function main() {
       recursive: true,
       verbatimSymlinks: true,
     });
-    rmSync(paths.appPath, { recursive: true, force: true });
+    if (existsSync(paths.appPath))
+      throw new Error(
+        "The installed version appeared during staging; it was not overwritten.",
+      );
     renameSync(temporaryApp, paths.appPath);
     const record = buildRecord(
       identity,
@@ -366,26 +452,29 @@ async function main() {
       architecture,
       new Date().toISOString(),
     );
-    let next = withPendingBuild(state, record, repositoryPath);
-    if (!(await runningApplication(state.current.appPath))) {
-      next = activatePendingBuild(next);
-      writeState(statePath, next);
-      emit(
-        "complete",
-        "Update installed. Play now opens the new verified build.",
-        {
-          outcome: "activated",
-          revision: record.revision,
-        },
+    if (cancelled) throw new Error("Update cancelled.");
+    const latest = readState(statePath);
+    if (
+      !latest ||
+      latest.current.revision !== state.current.revision ||
+      latest.pending
+    )
+      throw new Error(
+        "The active installation changed during staging. No Play pointer was replaced.",
       );
-    } else {
-      writeState(statePath, next);
-      emit(
-        "complete",
-        "Update verified and ready. Close the running game, then choose Finish Update & Play.",
-        { outcome: "pending-safe-close", revision: record.revision },
-      );
-    }
+    writeState(statePath, {
+      ...withPendingBuild(latest, record, repositoryPath),
+      compatibilityProof: {
+        version: 1,
+        current: currentContract,
+        pending: targetContract,
+      },
+    });
+    emit(
+      "complete",
+      "Update verified and ready. Close the game normally, then choose Finish Update & Play. Play still opens the current build.",
+      { outcome: "pending-safe-close", revision: record.revision },
+    );
   } catch (error) {
     if (cancelled)
       return fail(

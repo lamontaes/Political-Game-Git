@@ -1,4 +1,4 @@
-/* global process */
+/* global process, setTimeout, clearTimeout */
 
 import { execFile, spawn } from "node:child_process";
 import {
@@ -18,7 +18,12 @@ import {
   activatePendingBuild,
   buildRecord,
   cleanControllerState,
+  automaticCheckDue,
+  AUTOMATIC_STARTUP_DELAY_MS,
+  setUpdateMode,
 } from "./private-update.mjs";
+import { inspectInstalledBuild } from "./controller-status.mjs";
+import { compatibilityRefusal } from "./update-compatibility.mjs";
 
 const { app, BrowserWindow, dialog, ipcMain, session, shell } = electron;
 const execFileAsync = promisify(execFile);
@@ -36,8 +41,17 @@ const dataRoot = process.env.OCD_CONTROLLER_DATA_ROOT
   ? path.resolve(process.env.OCD_CONTROLLER_DATA_ROOT)
   : path.join(app.getPath("appData"), "Our Civic Duty Private");
 const statePath = path.join(dataRoot, "state.json");
+app.setPath("userData", path.join(dataRoot, "controller-profile"));
+const ownsController = app.requestSingleInstanceLock();
+if (!ownsController) app.quit();
+app.on("second-instance", () => {
+  mainWindow?.show();
+  mainWindow?.focus();
+});
 let mainWindow = null;
 let updateChild = null;
+let updateOrigin = null;
+let automaticTimer = null;
 
 function atomicWriteState(state) {
   mkdirSync(dataRoot, { recursive: true });
@@ -68,6 +82,10 @@ function readIdentity(appPath) {
 function installBootstrapIfNeeded() {
   const existing = readState();
   if (existing) return existing;
+  if (existsSync(statePath))
+    throw new Error(
+      "The existing controller state is unsupported or unreadable. It has been preserved; no installation pointer was replaced.",
+    );
   if (!existsSync(bootstrapApp))
     throw new Error(
       "The controller does not contain its verified initial game.",
@@ -101,20 +119,35 @@ function installBootstrapIfNeeded() {
     pending: null,
     previous: null,
   };
-  atomicWriteState(state);
-  return state;
+  const cleaned = cleanControllerState(state);
+  atomicWriteState(cleaned);
+  return cleaned;
 }
 
 function publicState() {
   const state = readState();
   if (!state) return { ready: false, busy: updateChild !== null };
+  const installed = inspectInstalledBuild(state.current);
   return {
-    ready: existsSync(state.current.appPath),
+    ready: installed.ready,
     busy: updateChild !== null,
     repositoryPath: state.repositoryPath,
     current: state.current,
     pending: state.pending,
+    updatePolicy: state.updatePolicy,
+    installed,
+    controllerIdentity: readControllerIdentity(),
   };
+}
+
+function readControllerIdentity() {
+  try {
+    return JSON.parse(
+      readFileSync(path.join(resourcesRoot, "controller-build.json"), "utf8"),
+    );
+  } catch {
+    return null;
+  }
 }
 
 function sendEvent(value) {
@@ -165,10 +198,11 @@ ipcMain.handle("controller:choose-repository", async () => {
 
 ipcMain.handle("controller:play", async () => {
   const state = readState();
-  if (!state || !existsSync(state.current.appPath))
+  const installed = inspectInstalledBuild(state?.current);
+  if (!installed.ready)
     return {
       ok: false,
-      message: "The current verified application is missing.",
+      message: installed.problem,
     };
   const problem = await shell.openPath(state.current.appPath);
   return problem
@@ -177,8 +211,32 @@ ipcMain.handle("controller:play", async () => {
 });
 
 ipcMain.handle("controller:finish-update", async () => {
+  if (updateChild)
+    return {
+      ok: false,
+      message:
+        "Wait for staging to settle or cancel it; Play still opens the current build.",
+    };
   const state = readState();
   if (!state?.pending) return { ok: false, message: "No update is waiting." };
+  const installed = inspectInstalledBuild(state.pending);
+  if (!installed.ready)
+    return { ok: false, message: `Update refused: ${installed.problem}` };
+  const proof = state.compatibilityProof;
+  const refusal =
+    proof?.version !== 1 ||
+    proof.current?.sourceRevision !== state.current.revision ||
+    proof.pending?.sourceRevision !== state.pending.revision ||
+    installed.identity.compatibility?.sourceRevision !==
+      state.pending.revision ||
+    compatibilityRefusal(proof.current, proof.pending) ||
+    compatibilityRefusal(proof.pending, installed.identity.compatibility);
+  if (refusal)
+    return {
+      ok: false,
+      message:
+        "Update refused: no supported, source-bound save/interface compatibility proof. The staged and current bundles are preserved.",
+    };
   if (await applicationIsRunning(state.current.appPath)) {
     return {
       ok: false,
@@ -189,8 +247,13 @@ ipcMain.handle("controller:finish-update", async () => {
   const next = activatePendingBuild(state);
   atomicWriteState(next);
   const problem = await shell.openPath(next.current.appPath);
+  if (problem) atomicWriteState(state);
   return problem
-    ? { ok: false, message: problem, state: publicState() }
+    ? {
+        ok: false,
+        message: `The new build could not open: ${problem}. The prior Play pointer was restored.`,
+        state: publicState(),
+      }
     : {
         ok: true,
         message: "The verified update is active and opening now.",
@@ -198,7 +261,7 @@ ipcMain.handle("controller:finish-update", async () => {
       };
 });
 
-ipcMain.handle("controller:update", () => {
+function startUpdate(origin = "manual") {
   if (updateChild)
     return { ok: false, message: "An update is already running." };
   const state = readState();
@@ -207,6 +270,20 @@ ipcMain.handle("controller:update", () => {
       ok: false,
       message: "Choose the Political Game repository first.",
     };
+  if (state.pending)
+    return {
+      ok: false,
+      message:
+        "A verified update is already waiting. Finish it after the game closes before checking again.",
+    };
+  atomicWriteState({
+    ...state,
+    updatePolicy: {
+      ...state.updatePolicy,
+      lastAttemptAt: new Date().toISOString(),
+      lastOutcome: "checking",
+    },
+  });
   const child = spawn(
     process.execPath,
     [workerPath, "--data-root", dataRoot, "--repo", state.repositoryPath],
@@ -216,7 +293,17 @@ ipcMain.handle("controller:update", () => {
     },
   );
   updateChild = child;
+  updateOrigin = origin;
+  sendEvent({
+    kind: "started",
+    message:
+      origin === "automatic"
+        ? "Automatically checking accepted main in the background. Play remains available."
+        : "Update started. Play remains available.",
+    state: publicState(),
+  });
   let pending = "";
+  let outcome = "failed";
   const consume = (chunk) => {
     pending += String(chunk);
     const lines = pending.split("\n");
@@ -224,7 +311,10 @@ ipcMain.handle("controller:update", () => {
     for (const line of lines) {
       if (!line) continue;
       try {
-        sendEvent(JSON.parse(line));
+        const event = JSON.parse(line);
+        if (event.outcome || event.reason)
+          outcome = event.outcome ?? event.reason;
+        sendEvent(event);
       } catch {
         sendEvent({ kind: "log", message: line });
       }
@@ -235,9 +325,16 @@ ipcMain.handle("controller:update", () => {
   child.on("error", (error) => {
     sendEvent({ kind: "error", message: error.message });
   });
-  child.on("exit", (code, signal) => {
+  child.on("close", (code, signal) => {
     if (pending) consume("\n");
     updateChild = null;
+    updateOrigin = null;
+    const latest = readState();
+    if (latest)
+      atomicWriteState({
+        ...latest,
+        updatePolicy: { ...latest.updatePolicy, lastOutcome: outcome },
+      });
     sendEvent({
       kind: code === 0 ? "settled" : "error",
       message:
@@ -248,6 +345,26 @@ ipcMain.handle("controller:update", () => {
     });
   });
   return { ok: true, message: "Update started." };
+}
+
+ipcMain.handle("controller:update", () => startUpdate("manual"));
+
+ipcMain.handle("controller:update-mode", (_event, mode) => {
+  const state = readState();
+  if (!state) return { ok: false, message: "No supported controller state." };
+  if (mode !== "automatic" && mode !== "manual")
+    return { ok: false, message: "Unsupported update preference." };
+  atomicWriteState(setUpdateMode(state, mode));
+  if (mode === "manual" && updateOrigin === "automatic")
+    updateChild?.kill("SIGTERM");
+  return {
+    ok: true,
+    message:
+      mode === "automatic"
+        ? "Automatic checks enabled: after startup, then at most once every six hours. Play never starts a check."
+        : "Manual updates selected and saved. Automatic discovery/staging is off.",
+    state: publicState(),
+  };
 });
 
 ipcMain.handle("controller:cancel", () => {
@@ -283,6 +400,7 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+  if (!ownsController) return;
   try {
     installBootstrapIfNeeded();
   } catch (error) {
@@ -298,9 +416,15 @@ app.whenReady().then(() => {
     (_webContents, _permission, callback) => callback(false),
   );
   createWindow();
+  automaticTimer = setTimeout(function check() {
+    const state = readState();
+    if (!updateChild && automaticCheckDue(state)) startUpdate("automatic");
+    automaticTimer = setTimeout(check, 60 * 1000);
+  }, AUTOMATIC_STARTUP_DELAY_MS);
 });
 
 app.on("window-all-closed", () => {
+  clearTimeout(automaticTimer);
   if (updateChild) updateChild.kill("SIGTERM");
   app.quit();
 });
