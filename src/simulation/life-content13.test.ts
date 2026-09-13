@@ -523,14 +523,75 @@ describe("a favour is leaned on only after the covered shift was worked", () => 
     const venue = sceneVenueForLocationKey(COVERED_SHIFT_LOCATION_KEY);
     expect(venue?.sceneId).toBeNull();
     expect(venue?.reason).toMatch(/No released workplace interior/i);
-    const offer = venueActivities(agreed, fixture.playerId).find(
+    // Employment and a booking do not establish the person's current place.
+    // Keep this unsupported origin unchanged, including across a kept boundary.
+    const snapshot = serializeWorld(agreed);
+    const unknownOrigin = deserializeWorld(snapshot);
+    expect(
+      venueActivities(unknownOrigin, fixture.playerId).find(
+        (entry) => entry.activity.id === shift.id,
+      )?.refusal,
+    ).toMatch(/current location is not recorded/i);
+    expect(
+      performVenueActivity(unknownOrigin, fixture.playerId, shift.id),
+    ).toBe(unknownOrigin);
+    expect(serializeWorld(unknownOrigin)).toBe(snapshot);
+    const retried = deserializeWorld(serializeWorld(unknownOrigin));
+    expect(performVenueActivity(retried, fixture.playerId, shift.id)).toBe(
+      retried,
+    );
+    expect(serializeWorld(retried)).toBe(snapshot);
+
+    // This positive fixture starts at the workplace already. It does not
+    // invent a commute, distance, fare or arrival from an unknown origin.
+    const atWorkplace = recordWorldEvent(agreed, {
+      stableKey: "test:covered-shift:already-at-workplace",
+      type: "life.scene.opened",
+      occurredAt: agreed.currentDate,
+      recordedAt: agreed.currentDate,
+      jurisdictionId: shift.location.jurisdictionId,
+      involvedEntityIds: [fixture.playerId, shift.id],
+      participants: [
+        {
+          personId: fixture.playerId,
+          role: "presence:participant",
+          detail: "Already at the workplace in this fixture.",
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "private",
+      tags: ["provenance:test-fixture"],
+      summary: "The fixture starts at the recorded workplace.",
+      context: {
+        location: {
+          jurisdictionId: shift.location.jurisdictionId,
+          label: shift.location.label,
+          setting: "workplace",
+        },
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    expect(atWorkplace.currentMoment).toEqual(agreed.currentMoment);
+    const offer = venueActivities(atWorkplace, fixture.playerId).find(
       (entry) => entry.activity.id === shift.id,
     );
     expect(offer?.refusal).toBeNull();
 
-    const reloaded = deserializeWorld(serializeWorld(agreed));
+    const reloaded = deserializeWorld(serializeWorld(atWorkplace));
     const worked = performVenueActivity(reloaded, fixture.playerId, shift.id);
     expect(scheduledActivityState(worked, shift.id).status).toBe("completed");
+    expect(performVenueActivity(worked, fixture.playerId, shift.id)).toBe(
+      worked,
+    );
+    expect(
+      worked.history.events.filter(
+        (event) => event.type === "life.scene.arrived",
+      ),
+    ).toHaveLength(0);
   });
 
   it("offers no follow-up when the player agreed but the shift was never booked or worked", () => {
