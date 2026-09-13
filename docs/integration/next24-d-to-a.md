@@ -94,3 +94,42 @@ Complete receipt: `docs/plans/completed/next24-d-personal-route.md`.
 Human acceptance is still pending; reviewed outcome screenshots are readable,
 and the reused expanded institution browser remains dense. No main merge was
 performed and no combined-route correctness defect is currently identified.
+
+## DELIVERY28 — additional current-main net, not another root
+
+Refreshed main: `2d154752aa38c9b94227b53ecfffb2db58081f9a` (#227).
+A already authored the newer composed receiver
+`42b76858f1cf0f4fd862dcf3baf67e97f030f3fd`, including D's Personal/identity
+mount and idempotent portable migration. Preserve that root's exact
+PersonalWorkspace props. The mount above is unchanged; do not replace this
+newer composition with an older donor or mount it again.
+
+D's only additional source net is
+`9c4c8331b333641ad707f56902c6fca20bc581ad` atop A's frozen receiver:
+the life-content13 Places fixture and its plan. No production, root, migration,
+clock, art or outcome-presentation file changes. The former positive fixture
+had no recorded current location. The repair proves missing-origin refusal,
+unchanged serialized World and retry across reload, then gives the positive
+case an explicit already-at-workplace record. Completion retries are unchanged;
+no arrival is invented. A explicitly assigned this fixture to D.
+
+The exact source net is published as
+`docs/integration/delivery28-d-fixture.patch` on the authorized #221 branch,
+without publishing A's unlanded root as D source. Apply only this patch or receive
+9c4c8331 ancestry if already composing b219. Never replay #204/#205. Reverse
+apply-check against frozen 9c4c8331 passed.
+
+Prior checks on that exact source: 64 focused tests, typecheck, lint, art
+validation/inventory/QA passed (1,886 inventory items; existing duplicate-hash
+warnings). Baseline reproduction was 20 passed / one failed, with the truthful
+missing-location refusal. The first sparse typecheck failed for omitted source
+data; the complete retry passed. An environment restart removed temporary
+worktrees and interrupted browser run befaed04; it is not claimed passed.
+The frozen Git source survives and is recovered in
+`/private/tmp/pg-delivery28-d-recovered`. Final fresh proof is recorded in
+`docs/plans/completed/delivery28-d-current-main.md`.
+
+No main merge, installed-delivery claim, independent review clearance or human
+visual acceptance is made by this return. #221's b219 repository check passed;
+its unmounted hosted browser checks failed. They are not relabeled green or
+weakened. A owns final current composition, publication and landing.
