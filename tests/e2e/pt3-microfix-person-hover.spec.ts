@@ -58,7 +58,7 @@ test("person hover stays transparent while pointer and keyboard activation work"
   await expect(page.getByTestId("person-action-menu")).toBeVisible();
 });
 
-test("an ordinary creator button keeps the intended green hover", async ({
+test("a creator control keeps the front-door hover, not the old green form", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
@@ -72,5 +72,6 @@ test("an ordinary creator button keeps the intended green hover", async ({
   const begin = page.getByTestId("begin");
   await expect(begin).toBeEnabled();
   await begin.hover();
-  await expect(begin).toHaveCSS("background-color", "rgb(36, 89, 77)");
+  await expect(begin).toHaveCSS("color", "rgb(224, 195, 122)");
+  await expect(begin).toHaveCSS("background-color", "rgba(16, 22, 33, 0.88)");
 });

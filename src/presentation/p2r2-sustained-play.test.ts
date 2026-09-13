@@ -14,7 +14,8 @@ import {
 } from "../simulation";
 import type { EntityId, World } from "../simulation";
 import { chooseAdultOption, letAdultTimePass } from "./adult-life";
-import { fileForOffice } from "./campaign-projection";
+
+import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import {
   chooseStoryOption,
   letStoryTimePass,

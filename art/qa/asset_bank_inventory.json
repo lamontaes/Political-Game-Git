@@ -53,12 +53,15 @@
     ],
     "registeredFamilies": [
       "apartment-ordinary",
+      "campaign-storefront",
       "civic-community-meeting",
       "civic-hearing-room",
       "council-staff-office",
       "courtroom",
       "executive-private-office",
       "legislative-chamber",
+      "park-community-pavilion",
+      "press-briefing-room",
       "shared-workroom-office"
     ],
     "declaredAwaitingBytes": 7
@@ -328,6 +331,7 @@
       "priority": "P0",
       "blocks": "current-gameplay",
       "consumingAnchors": [
+        "executive-office-candidate:executive-consultation-standing",
         "legislative-chamber-production:well-floor-standing",
         "residence-apartment-living-canonical-03:living-room-floor-standing",
         "residence-apartment-living-ordinary-02:living-room-floor-standing",
@@ -344,11 +348,18 @@
       "priority": "P1",
       "blocks": "current-gameplay",
       "consumingAnchors": [
+        "campaign-storefront-production:phone-bank-standing",
         "civic-community-meeting-room:stage-left-standing",
         "civic-community-meeting-title:stage-left-standing",
         "civic-hearing-room-production:hearing-floor-standing",
         "courtroom-empty-production:gallery-aisle-standing",
         "courtroom-empty-production:well-floor-standing",
+        "executive-office-candidate:executive-consultation-standing",
+        "executive-office-candidate:visitor-left-seated",
+        "executive-office-candidate:visitor-right-seated",
+        "park-community-pavilion-candidate:pavilion-pad-standing",
+        "park-community-pavilion-candidate:pavilion-perimeter-standing",
+        "press-briefing-room-candidate:stage-side-standing",
         "residence-apartment-living-canonical-03:entry-side-standing",
         "residence-apartment-living-ordinary-02:entry-side-standing",
         "shared-workroom-office-production:near-table-standing"
@@ -363,11 +374,14 @@
       "priority": "P1",
       "blocks": "current-gameplay",
       "consumingAnchors": [
+        "campaign-storefront-production:organizer-standing",
         "civic-community-meeting-room:podium-speaker",
         "civic-community-meeting-title:podium-speaker",
         "civic-hearing-room-production:witness-lectern-standing",
         "courtroom-empty-production:counsel-table-left-standing",
-        "legislative-chamber-production:rostrum-lectern-standing"
+        "legislative-chamber-production:rostrum-lectern-standing",
+        "park-community-pavilion-candidate:pavilion-pad-standing",
+        "press-briefing-room-candidate:lectern-speaker"
       ],
       "missingBodyFamilies": ["dev-g2-broad", "dev-g2-slim"],
       "controlPlate": "art/pose-control-plates/standing-podium-or-lectern__front.svg",

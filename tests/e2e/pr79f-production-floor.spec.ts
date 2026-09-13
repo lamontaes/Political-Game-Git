@@ -1,3 +1,4 @@
+import { fileCandidacy } from "./support/campaign";
 import { expect, test, type Page } from "./fixtures";
 
 import {
@@ -89,7 +90,7 @@ test("a winner reaches real bargaining from normal play, and keeps it through a 
   await expect(page.getByTestId("office-section")).toHaveCount(0);
 
   await openCampaign(page);
-  await page.getByTestId("file-candidacy").click();
+  await fileCandidacy(page);
   await page.getByTestId("campaign-fundraising").click();
   for (let day = 0; day < 3; day += 1) {
     await page.getByTestId("pass-day").click();

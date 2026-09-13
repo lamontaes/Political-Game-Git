@@ -44,6 +44,13 @@ describe("normal legislative publication composition", () => {
     const published = publishLegislativeTransition(opened.world, acted);
     const model = projectPublicInformationPanel(published);
     expect(model.items.length).toBeGreaterThan(0);
+    expect(model.outlets).toEqual([
+      {
+        outletKey: "civic-ledger",
+        outletName: "Civic Ledger",
+        storyCount: model.items.length,
+      },
+    ]);
     expect(
       model.items.every((item) =>
         acted.history.legislativeActions?.some(

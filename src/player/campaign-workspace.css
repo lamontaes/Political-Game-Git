@@ -1,0 +1,90 @@
+.game-campaign-strategy,
+.game-campaign-strategy-report {
+  display: grid;
+  gap: 0.8rem;
+  margin: 1rem 0;
+  border: 1px solid rgba(205, 174, 98, 0.46);
+  border-radius: 0.65rem;
+  padding: 1rem;
+  background: rgba(13, 24, 38, 0.72);
+}
+
+.game-campaign-strategy h3,
+.game-campaign-strategy-report h3,
+.game-campaign-strategy p,
+.game-campaign-strategy-report p,
+.game-campaign-strategy ul {
+  margin: 0;
+}
+
+.game-campaign-strategy fieldset {
+  display: grid;
+  gap: 0.5rem;
+  min-width: 0;
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+.game-campaign-strategy legend {
+  margin-bottom: 0.35rem;
+  color: #f4d68a;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.game-campaign-strategy label {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.6rem;
+  align-items: start;
+  border: 1px solid rgba(200, 212, 223, 0.18);
+  border-radius: 0.45rem;
+  padding: 0.65rem 0.7rem;
+  cursor: pointer;
+}
+
+.game-campaign-strategy label:has(input:checked) {
+  border-color: rgba(224, 189, 103, 0.88);
+  background: rgba(44, 58, 76, 0.72);
+}
+
+.game-campaign-strategy label:has(input:focus-visible) {
+  outline: 2px solid #f4d68a;
+  outline-offset: 2px;
+}
+
+.game-campaign-strategy label:has(input:disabled) {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+.game-campaign-strategy input {
+  margin-top: 0.17rem;
+  accent-color: #d8b45d;
+}
+
+.game-campaign-strategy label span,
+.game-campaign-strategy label small {
+  display: block;
+}
+
+.game-campaign-strategy label small {
+  margin-top: 0.25rem;
+  color: rgba(225, 232, 238, 0.76);
+  line-height: 1.4;
+}
+
+.game-campaign-strategy > button {
+  justify-self: start;
+}
+
+@media (max-width: 720px) {
+  .game-campaign-strategy,
+  .game-campaign-strategy-report {
+    padding: 0.8rem;
+  }
+}

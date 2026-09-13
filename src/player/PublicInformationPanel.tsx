@@ -7,12 +7,20 @@ import type {
 } from "../presentation/public-information-adapters";
 import type { CivicGlossaryEntry } from "../presentation/civic-glossary";
 import { filterPublishedNewsItems } from "./public-information-search";
+import {
+  itemsForPublicInformationView,
+  relevanceReasons,
+  type PublicInformationView,
+} from "./public-information-views";
 import "./public-information-panel.css";
 
 export interface PublicInformationPanelProps {
   readonly model: PublicInformationPanelModel;
   readonly onClose: () => void;
   readonly onOpenPerson: (personId: EntityId) => void;
+  readonly viewerPersonId: EntityId | null;
+  readonly followedOutletKeys: readonly string[];
+  readonly onToggleOutletFollow: (outletKey: string) => void;
 }
 
 /** Feature-local newspaper/digest surface for UI-core registration. */
@@ -20,11 +28,15 @@ export function PublicInformationPanel({
   model,
   onClose,
   onOpenPerson,
+  viewerPersonId,
+  followedOutletKeys,
+  onToggleOutletFollow,
 }: PublicInformationPanelProps) {
   const [activeConcept, setActiveConcept] = useState<CivicGlossaryEntry | null>(
     null,
   );
   const [searchQuery, setSearchQuery] = useState("");
+  const [view, setView] = useState<PublicInformationView>({ kind: "for-you" });
   const panelCloseRef = useRef<HTMLButtonElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const conceptCloseRef = useRef<HTMLButtonElement>(null);
@@ -32,11 +44,34 @@ export function PublicInformationPanel({
   const returnConceptFocusRef = useRef(false);
 
   const trimmedQuery = searchQuery.trim();
+  const viewItems = useMemo(
+    () =>
+      itemsForPublicInformationView(
+        model.items,
+        view,
+        viewerPersonId,
+        followedOutletKeys,
+      ),
+    [model.items, view, viewerPersonId, followedOutletKeys],
+  );
   const filteredItems = useMemo(
-    () => filterPublishedNewsItems(model.items, searchQuery),
-    [model.items, searchQuery],
+    () => filterPublishedNewsItems(viewItems, searchQuery),
+    [viewItems, searchQuery],
   );
   const hasActiveSearch = trimmedQuery.length > 0;
+  const selectedOutlet =
+    view.kind === "outlet"
+      ? (model.outlets.find((outlet) => outlet.outletKey === view.outletKey) ??
+        null)
+      : null;
+
+  useEffect(() => {
+    if (view.kind !== "outlet") return;
+    if (model.outlets.some((outlet) => outlet.outletKey === view.outletKey)) {
+      return;
+    }
+    setView({ kind: "all" });
+  }, [model.outlets, view]);
 
   useEffect(() => {
     panelCloseRef.current?.focus();
@@ -98,6 +133,71 @@ export function PublicInformationPanel({
         </p>
       ) : (
         <>
+          <nav className="public-information-views" aria-label="News views">
+            <button
+              type="button"
+              aria-pressed={view.kind === "for-you"}
+              data-testid="news-view-for-you"
+              onClick={() => setView({ kind: "for-you" })}
+            >
+              For You
+            </button>
+            <button
+              type="button"
+              aria-pressed={view.kind === "all"}
+              data-testid="news-view-all"
+              onClick={() => setView({ kind: "all" })}
+            >
+              All
+            </button>
+            {model.outlets.map((outlet) => (
+              <button
+                key={outlet.outletKey}
+                type="button"
+                aria-pressed={
+                  view.kind === "outlet" && view.outletKey === outlet.outletKey
+                }
+                data-testid={`news-view-outlet-${outlet.outletKey}`}
+                onClick={() =>
+                  setView({ kind: "outlet", outletKey: outlet.outletKey })
+                }
+              >
+                {outlet.outletName}
+              </button>
+            ))}
+          </nav>
+
+          {selectedOutlet ? (
+            <section
+              className="public-information-masthead"
+              aria-labelledby="public-information-outlet-title"
+              data-testid="public-information-outlet-view"
+            >
+              <div>
+                <p>Outlet</p>
+                <h3 id="public-information-outlet-title">
+                  {selectedOutlet.outletName}
+                </h3>
+                <span>
+                  {selectedOutlet.storyCount} published{" "}
+                  {selectedOutlet.storyCount === 1 ? "story" : "stories"}
+                </span>
+              </div>
+              <button
+                type="button"
+                aria-pressed={followedOutletKeys.includes(
+                  selectedOutlet.outletKey,
+                )}
+                data-testid="news-outlet-follow"
+                onClick={() => onToggleOutletFollow(selectedOutlet.outletKey)}
+              >
+                {followedOutletKeys.includes(selectedOutlet.outletKey)
+                  ? "Unfollow"
+                  : "Follow"}
+              </button>
+            </section>
+          ) : null}
+
           <div className="public-information-search">
             <label htmlFor="public-information-search-input">
               Search published news
@@ -139,20 +239,40 @@ export function PublicInformationPanel({
                 aria-live="polite"
               >
                 {hasActiveSearch
-                  ? `Showing ${filteredItems.length} of ${model.items.length} published stories.`
-                  : `${model.items.length} published ${
-                      model.items.length === 1 ? "story" : "stories"
+                  ? `Showing ${filteredItems.length} of ${viewItems.length} published stories.`
+                  : `${viewItems.length} published ${
+                      viewItems.length === 1 ? "story" : "stories"
                     }.`}
               </p>
             )}
           </div>
 
-          {hasActiveSearch && filteredItems.length === 0 ? null : (
+          {!hasActiveSearch &&
+          view.kind === "for-you" &&
+          viewItems.length === 0 ? (
+            <p
+              className="public-information-no-match"
+              data-testid="public-information-for-you-empty"
+            >
+              No published stories are linked directly to you yet. Following an
+              outlet adds its published stories here; All always keeps the full
+              public record available.
+            </p>
+          ) : hasActiveSearch && filteredItems.length === 0 ? null : (
             <ol className="public-information-editions">
               {filteredItems.map((item) => (
                 <li key={item.publicationId}>
                   <PublicInformationArticle
                     item={item}
+                    relevance={
+                      view.kind === "for-you"
+                        ? relevanceReasons(
+                            item,
+                            viewerPersonId,
+                            followedOutletKeys,
+                          )
+                        : []
+                    }
                     onOpenConcept={(entry, trigger) => {
                       conceptTriggerRef.current = trigger;
                       setActiveConcept(entry);
@@ -199,10 +319,12 @@ export function PublicInformationPanel({
 
 function PublicInformationArticle({
   item,
+  relevance,
   onOpenConcept,
   onOpenPerson,
 }: {
   readonly item: PublicInformationPanelItem;
+  readonly relevance: readonly string[];
   readonly onOpenConcept: (
     entry: CivicGlossaryEntry,
     trigger: HTMLButtonElement,
@@ -224,6 +346,15 @@ function PublicInformationArticle({
         <h3>{item.headline}</h3>
       </header>
       <p>{item.body}</p>
+
+      {relevance.length > 0 ? (
+        <p
+          className="public-information-relevance"
+          data-testid="news-relevance"
+        >
+          {relevance.join(" ")}
+        </p>
+      ) : null}
 
       {item.civicReferences.length > 0 ? (
         <div

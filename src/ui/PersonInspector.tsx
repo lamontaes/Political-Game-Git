@@ -2,6 +2,7 @@ import {
   ageOnDate,
   derivePersonAppearance,
   factsForPerson,
+  LEGACY_APPEARANCE_RECIPE_VERSION,
   memoriesForPerson,
   personName,
   relationshipHistory,
@@ -68,7 +69,8 @@ export function PersonInspector({
   const jurisdiction = world.jurisdictions[person.homeJurisdictionId];
   const age = ageOnDate(person.birthDate, world.currentDate);
   const appearanceSeed =
-    person.appearance?.seed ?? derivePersonAppearance(person.id).seed;
+    person.appearance?.seed ??
+    derivePersonAppearance(person.id, LEGACY_APPEARANCE_RECIPE_VERSION).seed;
 
   return (
     <section className="panel inspector-panel" aria-labelledby="person-title">

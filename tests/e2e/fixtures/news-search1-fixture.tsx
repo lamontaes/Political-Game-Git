@@ -94,6 +94,9 @@ function render(): void {
   root.render(
     <PublicInformationPanel
       model={currentModel}
+      viewerPersonId={game.playerPersonId}
+      followedOutletKeys={[]}
+      onToggleOutletFollow={() => {}}
       onClose={() => {
         document.body.dataset.panelClosed = "true";
       }}

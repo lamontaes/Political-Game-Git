@@ -1,3 +1,4 @@
+import { fileCandidacy } from "./support/campaign";
 import { expect, test, type Page } from "./fixtures";
 
 import { enterLife, openElsewhere, startLife } from "./support/creator";
@@ -270,7 +271,7 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     await enterLife(page);
     await openElsewhere(page, "work");
 
-    await page.getByTestId("file-candidacy").click();
+    await fileCandidacy(page);
     await page.getByTestId("campaign-fundraising").click();
     await expect(page.getByTestId("campaign-treasury")).toBeVisible();
     await page.getByTestId("pass-day").click();
@@ -293,7 +294,7 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     await startLife(page, { age: 34, place: "Lexington", gender: "male" });
     await enterLife(page);
     await openElsewhere(page, "work");
-    await page.getByTestId("file-candidacy").click();
+    await fileCandidacy(page);
 
     // Three sessions fit before the already-posted evening meeting. A fourth
     // does not; that is allowed exhaustion, and every disabled action says why.
@@ -352,7 +353,7 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     await startLife(page, { age: 34, place: "Lexington", gender: "male" });
     await enterLife(page);
     await openElsewhere(page, "work");
-    await page.getByTestId("file-candidacy").click();
+    await fileCandidacy(page);
     const opponentLine = (
       await page.getByTestId("campaign-opponents").innerText()
     ).trim();

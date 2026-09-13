@@ -1,0 +1,41 @@
+{
+  "assetId": "env_press_briefing_room_candidate_v1",
+  "master": {
+    "hashAfter": "ff4d65e2e0d420d37f55e51ac50958ed70a7973b777f71377da1838593624b80",
+    "hashBefore": "ff4d65e2e0d420d37f55e51ac50958ed70a7973b777f71377da1838593624b80",
+    "height": 3072,
+    "nativeDetailWidth": null,
+    "path": "art/references/candidates/recent-drive-sweep/source-images/IMG_5202.JPG",
+    "unmodified": true,
+    "width": 5504
+  },
+  "skipped": [],
+  "tiers": [
+    {
+      "byteLength": 1692622,
+      "derivation": "deterministic-downscale",
+      "hash": "f36ddf9b0161e182711c3496adbc5e678a5864e382322b0a1b9d1a96fa00e4f8",
+      "height": 768,
+      "path": "art/families/press-briefing-room/env_press_briefing_room_candidate_v1-1376.png",
+      "scaleFromMaster": 0.25,
+      "width": 1376
+    },
+    {
+      "byteLength": 5323796,
+      "derivation": "deterministic-downscale",
+      "hash": "9ba4ba3e5eea2dddcbdc70a15b4a3a4f3c87fea6553c32e528d29f835e2986a5",
+      "height": 1536,
+      "path": "art/families/press-briefing-room/env_press_briefing_room_candidate_v1-2752.png",
+      "scaleFromMaster": 0.5,
+      "width": 2752
+    }
+  ],
+  "warnings": [
+    {
+      "code": "native-detail-unverified",
+      "message": "Detail behind 'env_press_briefing_room_candidate_v1' is unverified, so every tier is planned as a plain downscale of pixels nobody has vouched for. Verify the master's lineage before this ladder is treated as production fidelity."
+    }
+  ],
+  "sourceHash": "e16e1b0b0c5cd93a6254ac1b1145f5439351a4e6b8530d739844bd62e973d065",
+  "normalization": "pureimage JPEG decode to unscaled temporary PNG; master.hashBefore/hashAfter identify that normalized buffer, not the original JPEG"
+}

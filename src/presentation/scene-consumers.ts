@@ -8,6 +8,9 @@ import {
   OFFICE_FIXTURE_SCENE_ID,
   PRODUCTION_OFFICE_SCENE_ID,
   PUBLIC_MEETING_ROOM_SCENE_ID,
+  CAMPAIGN_STOREFRONT_SCENE_ID,
+  PARK_COMMUNITY_PAVILION_SCENE_ID,
+  EXECUTIVE_OFFICE_SCENE_ID,
   SCENE_REGISTRY,
   TITLE_TABLEAU_SCENE_ID,
   type SceneRegistry,
@@ -242,13 +245,13 @@ export const SCENE_CONSUMERS: readonly SceneConsumerDeclaration[] = [
     label: "An executive's private study",
     runtimeComponent: "none",
     canonicalGate:
-      "A source-confirmed executive workplace and a released scene. The transferred executive lane owns capability and activity integration.",
-    sceneId: null,
+      "Candidate preview surface. A source-confirmed executive workplace and released production scene remain needed for gameplay.",
+    sceneId: EXECUTIVE_OFFICE_SCENE_ID,
     wiredThrough: null,
     openRequestIds: ["env-executive-office-4k-master"],
     blockedSeam:
-      "The executive owner must provide the actual workplace/activity context; ENV must not infer a private study from an executive role.",
-    note: "The 1672px master is below the environment master minimum. The larger candidate remains unaccepted and cannot substitute for released art, regardless of executive gameplay availability.",
+      "Owner visual acceptance of candidate IMG_5189.JPG and executive owner workplace activity integration.",
+    note: "CANDIDATE FIXTURE. Authored against swept 5504x3072 master IMG_5189.JPG and registered as candidate fixture 'executive-office-candidate' answering request 'env-executive-office-4k-master'. Kept candidate-isolated pending human visual acceptance.",
   },
   {
     consumerId: "courtroom",
@@ -266,14 +269,41 @@ export const SCENE_CONSUMERS: readonly SceneConsumerDeclaration[] = [
   {
     consumerId: "campaign-field-office",
     label: "A campaign office",
-    runtimeComponent: "none",
-    canonicalGate: "No campaign surface exists in the player runtime yet.",
-    sceneId: null,
-    wiredThrough: null,
-    openRequestIds: ["env-campaign-storefront"],
+    runtimeComponent: "src/player/PlayerGame.tsx",
+    canonicalGate:
+      "A completed activity with participant evidence at canonical location `campaign-office` or `campaign-call-desk`.",
+    sceneId: CAMPAIGN_STOREFRONT_SCENE_ID,
+    wiredThrough: "src/presentation/scene-venues.ts",
+    openRequestIds: [],
     blockedSeam:
-      "A campaign surface in the player runtime. The campaign ACTIVITIES exist and are located — `campaign-office`, `campaign-call-desk`, `campaign-doors` are canonical location keys — so the venue table already has three campaign entries waiting on a room.",
-    note: "The room half is nearer than this entry used to say. Two 5504x3072 field-office candidates, IMG_5190 and IMG_5207, sit unaccepted in the drive sweep and answer this request; what is missing is owner acceptance, not a picture. `campaign-doors` is a separate and harder gap: canvassing is outdoors, and every registered scene in this game is an interior.",
+      "Same-source visual/floor-plane acceptance and release approval; candidate route is reviewable.",
+    note: "Unreleased candidate engineering, stable scene ID campaign-storefront-production. Existing canonical campaign actions resolve it only through isolated development candidate mode. Normal production remains an honest fallback.",
+  },
+  {
+    consumerId: "park-community-pavilion",
+    label: "A community park pavilion shelter",
+    runtimeComponent: "src/ui/LocationCompositionReview.tsx",
+    canonicalGate:
+      "Candidate preview surface. Normal-play reachability is isolated pending human visual acceptance.",
+    sceneId: PARK_COMMUNITY_PAVILION_SCENE_ID,
+    wiredThrough: null,
+    openRequestIds: [],
+    blockedSeam:
+      "Human visual acceptance and an exterior location activity producer in normal play.",
+    note: "Candidate composition at ?view=location-review. Preserves AX-92B1 intake invariants. The scene is authored and registered under candidate isolation, deliberately unreached by canonical venue keys.",
+  },
+  {
+    consumerId: "press-briefing-room-review",
+    label: "A press briefing room candidate composition",
+    runtimeComponent: "src/ui/LocationCompositionReview.tsx",
+    canonicalGate:
+      "Development review only; no canonical briefing-room producer.",
+    sceneId: "press-briefing-room-candidate",
+    wiredThrough: null,
+    openRequestIds: [],
+    blockedSeam:
+      "Owner visual/floor-plane acceptance and a source-grounded canonical briefing activity/location producer.",
+    note: "Existing exact-ID IMG_5202 source, deterministic tiers and shared compositor. No invented briefing or attendance history; not a hearing room or school.",
   },
 ];
 

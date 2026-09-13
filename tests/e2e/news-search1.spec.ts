@@ -1,5 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
+import type { PublicInformationPanelModel } from "../../src/presentation/public-information-adapters";
 import type { NewsSearch1LiveSnapshot } from "./fixtures/news-search1-harness";
 
 async function liveSnapshot(page: Page) {
@@ -134,36 +135,15 @@ test("an updated supplied model re-filters under the active query without mutati
   const search = page.getByTestId("public-information-search-input");
   const beforeModelChange = await liveSnapshot(page);
 
+  await page.getByTestId("news-view-all").click();
   await search.fill("downtown");
   await expect(page.locator(".public-information-article")).toHaveCount(1);
 
   await page.evaluate(() => {
     const harness = window.newsSearch1Harness!;
-    const model = JSON.parse(harness.snapshot().model) as {
-      digest: { outletName: string; asOf: string };
-      items: Array<{
-        publicationId: string;
-        sourceEventId: string;
-        sourceRecordIds: string[];
-        kind: string;
-        outletName: string;
-        jurisdictionId: string | null;
-        jurisdictionName: string | null;
-        eventTime: string;
-        publicationTime: string;
-        headline: string;
-        body: string;
-        people: Array<{ kind: "person"; personId: string; label: string }>;
-        corrections: Array<{
-          publicationId: string;
-          publishedAt: string;
-          headline: string;
-          body: string;
-          note: string;
-        }>;
-        civicReferences: unknown[];
-      }>;
-    };
+    const model = JSON.parse(
+      harness.snapshot().model,
+    ) as PublicInformationPanelModel;
     const downtownStory = model.items.find((item) =>
       item.body.includes("downtown"),
     );
@@ -181,8 +161,13 @@ test("an updated supplied model re-filters under the active query without mutati
       civicReferences: [],
     };
     harness.replaceModel({
-      digest: model.digest,
+      ...model,
       items: [...model.items, appended],
+      outlets: model.outlets.map((outlet) =>
+        outlet.outletKey === appended.outletKey
+          ? { ...outlet, storyCount: outlet.storyCount + 1 }
+          : outlet,
+      ),
     });
   });
 

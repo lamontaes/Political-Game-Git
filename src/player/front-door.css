@@ -1,0 +1,352 @@
+/*
+ * Front door: title and creator over the ambient tableau.
+ *
+ * The compact upper-left replacement area and the cycling room stay. This file
+ * pays for readability locally — a restrained left scrim and per-control
+ * backing — instead of restoring the rejected light card or a full-bleed slab.
+ * Display type is serif; controls, fields and secondary copy use a system
+ * sans that is already licensed on the machine. No webfont files are shipped.
+ */
+
+.front-door {
+  --front-door-ink: #f5ebd4;
+  --front-door-ink-dim: #e8d9b4;
+  --front-door-muted: #c8b997;
+  --front-door-brass: #e0c37a;
+  --front-door-focus: #f6c75a;
+  --front-door-display:
+    Palatino, "Palatino Linotype", "Book Antiqua", Georgia, "Times New Roman",
+    serif;
+  --front-door-read:
+    ui-sans-serif, system-ui, "Segoe UI", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
+}
+
+/*
+ * The light full-plate wash in player.css was for dark type on a frost card.
+ * Ivory type needs the opposite: a faint darkening, heavier on the menu side.
+ */
+.title-tableau--art.front-door .title-tableau-stage::after {
+  background: linear-gradient(
+    90deg,
+    rgb(8 13 21 / 0.22) 0%,
+    rgb(8 13 21 / 0.06) 34%,
+    rgb(8 13 21 / 0.02) 58%,
+    rgb(8 13 21 / 0.08) 100%
+  );
+}
+
+.title-tableau--art.front-door .title-tableau-content::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: min(34rem, 48%);
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(
+    90deg,
+    rgb(8 13 21 / 0.72) 0%,
+    rgb(8 13 21 / 0.38) 52%,
+    transparent 100%
+  );
+}
+
+.title-tableau--art.front-door .title-tableau-content > *:not(.pg-version) {
+  position: relative;
+  z-index: 1;
+}
+
+@media (width <= 52rem) {
+  .title-tableau--art.front-door .title-tableau-content:has(.game-title) {
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .title-tableau--art.front-door .title-tableau-content::before {
+    inset: auto 0 0;
+    width: 100%;
+    height: min(62%, 30rem);
+    background: linear-gradient(
+      0deg,
+      rgb(8 13 21 / 0.82) 0%,
+      rgb(8 13 21 / 0.38) 62%,
+      transparent 100%
+    );
+  }
+}
+
+.title-tableau--art.front-door .game-title {
+  width: min(24rem, 100%);
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  backdrop-filter: none;
+  box-shadow: none;
+  color: var(--front-door-ink);
+  font-family: var(--front-door-read);
+  text-shadow: 0 1px 10px rgb(8 13 21 / 0.72);
+}
+
+.title-tableau--art.front-door .game-title h1 {
+  max-width: none;
+  margin: 0 0 1.15rem;
+  padding: 0.2rem 0.55rem 0.35rem 0.15rem;
+  color: var(--front-door-ink);
+  background: linear-gradient(
+    90deg,
+    rgb(8 13 21 / 0.48) 0%,
+    rgb(8 13 21 / 0.12) 72%,
+    transparent 100%
+  );
+  font-family: var(--front-door-display);
+  font-size: clamp(1.85rem, 2.5vw, 2.55rem);
+  font-weight: 600;
+  letter-spacing: 0.012em;
+  line-height: 1.12;
+}
+
+.title-tableau--art.front-door .game-title-actions {
+  gap: 0.2rem;
+  max-width: none;
+}
+
+.title-tableau--art.front-door .game-title button {
+  align-items: flex-start;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.55rem 0.75rem;
+  border: 0;
+  border-radius: 0;
+  background: linear-gradient(
+    90deg,
+    rgb(8 13 21 / 0.7) 0%,
+    rgb(8 13 21 / 0.22) 78%,
+    transparent 100%
+  );
+  color: var(--front-door-ink);
+  font-family: var(--front-door-read);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  text-shadow: 0 1px 8px rgb(8 13 21 / 0.85);
+}
+
+.title-tableau--art.front-door .game-title-actions button {
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.title-tableau--art.front-door .game-title button small {
+  max-width: 100%;
+  color: var(--front-door-ink-dim);
+  font-weight: 500;
+  font-size: 0.8rem;
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+  text-transform: none;
+  overflow-wrap: anywhere;
+  opacity: 1;
+}
+
+.title-tableau--art.front-door
+  .game-title
+  button:is(:hover, :focus-visible):not(:disabled) {
+  color: var(--front-door-brass);
+  background: linear-gradient(
+    90deg,
+    rgb(16 22 33 / 0.62) 0%,
+    rgb(16 22 33 / 0.12) 80%,
+    transparent 100%
+  );
+  box-shadow: inset 2px 0 currentColor;
+}
+
+.title-tableau--art.front-door .game-title button:focus-visible,
+.title-tableau--art.front-door .game-title input:focus-visible,
+.title-tableau--art.front-door .game-title summary:focus-visible {
+  outline: 2px solid var(--front-door-focus);
+  outline-offset: 3px;
+}
+
+.title-tableau--art.front-door .game-title button:disabled {
+  cursor: not-allowed;
+  opacity: 1;
+  color: rgb(245 235 212 / 0.68);
+  background: linear-gradient(
+    90deg,
+    rgb(8 13 21 / 0.28) 0%,
+    rgb(8 13 21 / 0.04) 78%,
+    transparent 100%
+  );
+}
+
+.title-tableau--art.front-door .game-title button:disabled small {
+  color: rgb(200 185 151 / 0.78);
+}
+
+.title-tableau--art.front-door .game-title button.is-chosen {
+  color: var(--front-door-brass);
+  box-shadow: inset 2px 0 currentColor;
+}
+
+.title-tableau--art.front-door .game-creator button {
+  background: rgb(8 13 21 / 0.78);
+}
+
+.title-tableau--art.front-door .game-creator button small {
+  color: var(--front-door-ink);
+  opacity: 1;
+}
+
+.title-tableau--art.front-door
+  .game-creator
+  button:is(:hover, :focus-visible):not(:disabled) {
+  color: var(--front-door-brass);
+  background: rgb(16 22 33 / 0.88);
+  box-shadow: inset 2px 0 currentColor;
+}
+
+.title-tableau--art.front-door .game-creator {
+  width: min(24rem, 100%);
+  max-height: calc(100dvh - 4rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.title-tableau--art.front-door .game-creator h2 {
+  margin: 0.15rem 0 0.65rem;
+  padding: 0.15rem 0.55rem 0.25rem 0.15rem;
+  color: var(--front-door-ink);
+  background: rgb(8 13 21 / 0.62);
+  font-family: var(--front-door-display);
+  font-size: 1.28rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  text-transform: none;
+}
+
+.title-tableau--art.front-door .game-creator h3 {
+  margin: 1rem 0 0.35rem;
+  color: var(--front-door-muted);
+  font-family: var(--front-door-read);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.title-tableau--art.front-door .game-creator .game-choices {
+  grid-template-columns: 1fr;
+}
+
+.title-tableau--art.front-door .game-creator .game-choices.game-choices-inline {
+  display: flex;
+  flex-wrap: wrap;
+  grid-template-columns: none;
+}
+
+.title-tableau--art.front-door
+  .game-creator
+  .game-choices.game-choices-inline
+  button {
+  width: auto;
+}
+
+.title-tableau--art.front-door .game-creator .game-fields {
+  grid-template-columns: 1fr;
+}
+
+.title-tableau--art.front-door .game-creator legend,
+.title-tableau--art.front-door .game-creator .game-search,
+.title-tableau--art.front-door .game-creator .game-fields label,
+.title-tableau--art.front-door .game-creator .game-disclosure > summary {
+  color: var(--front-door-ink-dim);
+  font-family: var(--front-door-read);
+  font-weight: 600;
+}
+
+.title-tableau--art.front-door .game-creator .game-fields input,
+.title-tableau--art.front-door .game-creator input[type="text"],
+.title-tableau--art.front-door .game-creator input[type="number"],
+.title-tableau--art.front-door .game-creator input[type="search"] {
+  background: rgb(8 13 21 / 0.62);
+  border: 1px solid rgb(245 235 212 / 0.28);
+  border-radius: 0;
+  color: var(--front-door-ink);
+  font-family: var(--front-door-read);
+  font-weight: 500;
+}
+
+.title-tableau--art.front-door .creator-summary {
+  color: var(--front-door-ink);
+  border-bottom-color: rgb(245 235 212 / 0.22);
+  background: linear-gradient(
+    90deg,
+    rgb(8 13 21 / 0.55) 0%,
+    rgb(8 13 21 / 0.08) 80%,
+    transparent 100%
+  );
+  text-transform: none;
+  letter-spacing: 0.01em;
+  font-weight: 500;
+}
+
+.title-tableau--art.front-door .creator-summary-value {
+  overflow-wrap: anywhere;
+}
+
+.title-tableau--art.front-door .creator-summary-edit {
+  color: var(--front-door-muted);
+}
+
+.title-tableau--art.front-door .game-hint,
+.title-tableau--art.front-door .game-note,
+.title-tableau--art.front-door .game-band,
+.title-tableau--art.front-door .game-dev,
+.title-tableau--art.front-door .creator-place-name {
+  color: var(--front-door-ink-dim);
+}
+
+.title-tableau--art.front-door .game-scene {
+  color: var(--front-door-ink);
+  font-family: var(--front-door-read);
+}
+
+.title-tableau--art.front-door .game-problem {
+  background: rgb(58 32 8 / 0.62);
+  border-left-color: var(--front-door-focus);
+  color: var(--front-door-ink);
+}
+
+.title-tableau--art.front-door .game-setup-actions {
+  gap: 0.45rem;
+}
+
+.title-tableau--art.front-door .game-setup-actions button {
+  width: auto;
+  flex: 1 1 8rem;
+}
+
+.title-tableau--art.front-door .game-title code {
+  color: var(--front-door-ink);
+}
+
+.front-door .pg-version {
+  color: rgb(245 235 212 / 0.78);
+  text-shadow: 0 1px 6px rgb(8 13 21 / 0.9);
+  letter-spacing: 0.1em;
+  font-family: var(--front-door-read);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .title-tableau--art.front-door .title-tableau-content::before,
+  .title-tableau--art.front-door .game-title h1,
+  .title-tableau--art.front-door .game-title button {
+    transition: none;
+  }
+}

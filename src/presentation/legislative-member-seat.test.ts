@@ -15,11 +15,8 @@ import {
 } from "../simulation";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
-import {
-  fileForOffice,
-  projectCampaign,
-  spendAnAfternoon,
-} from "./campaign-projection";
+import { projectCampaign, spendAnAfternoon } from "./campaign-projection";
+import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import {
   applyLegislativeCommand,
   openLegislativeWork,

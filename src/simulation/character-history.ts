@@ -56,7 +56,10 @@ import {
   recordRelationshipInteraction,
 } from "./records";
 import { drawCanonicalName } from "./people";
-import { derivePersonAppearance } from "./person-appearance";
+import {
+  appearanceLineageFromPeople,
+  derivePersonAppearance,
+} from "./person-appearance";
 import { generatePersonIdentity } from "./person-identity";
 import { SeededRng } from "./rng";
 import { recordWorldEvent, assertWorldIntegrity, advanceWorld } from "./world";
@@ -476,6 +479,7 @@ export function createCharacterHistoryContextPerson(
       provenance,
     },
   ];
+  const lineage = appearanceLineageFromPeople(Object.values(world.people));
   const person: Person = {
     id,
     generationKey: `life-context-v1:${input.stableKey}`,
@@ -501,8 +505,17 @@ export function createCharacterHistoryContextPerson(
      * same person every time. No seed is chosen here, no demographic is
      * asserted, and nobody is rerolled: an appearance is a stable handle for a
      * renderer, not a claim about who this person is.
+     *
+     * The recipe follows the PEOPLE already in the world rather than a moving
+     * default or "production means v2". A life created under v1 keeps a v1
+     * household; a life declared under v2 keeps a v2 household. Mixed stamps
+     * fail closed to the default recipe.
      */
-    appearance: derivePersonAppearance(id),
+    appearance: derivePersonAppearance(
+      id,
+      lineage.recipeVersion,
+      lineage.catalogGeneration,
+    ),
     establishedFacts: facts,
   };
   const next: World = {

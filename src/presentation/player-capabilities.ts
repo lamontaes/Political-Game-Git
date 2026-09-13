@@ -119,16 +119,21 @@ export function resolvePlayerCapabilities(world: World): PlayerCapabilities {
   // Where they live decides the ballot, so this reads the home jurisdiction
   // rather than the workplace the legislative surface cares about.
   const pastOrPresentCampaign = campaignForCandidate(world, personId);
-  const candidacy = candidacyEligibility(world, {
-    personId,
-    jurisdictionId: person.homeJurisdictionId,
-    officeKey:
-      candidacyPackForJurisdiction(person.homeJurisdictionId)?.offices[0]
-        ?.officeKey ?? "",
-    alreadyACandidate: false,
-  });
+  const options =
+    candidacyPackForJurisdiction(person.homeJurisdictionId)?.offices ?? [];
+  const candidacies = (options.length ? options : [{ officeKey: "" }]).map(
+    (option) =>
+      candidacyEligibility(world, {
+        personId,
+        jurisdictionId: person.homeJurisdictionId,
+        officeKey: option.officeKey,
+        alreadyACandidate: false,
+      }),
+  );
   const campaign =
-    !formativeYears && (candidacy.eligible || pastOrPresentCampaign !== null);
+    !formativeYears &&
+    (candidacies.some((entry) => entry.eligible) ||
+      pastOrPresentCampaign !== null);
 
   const withheld: WithheldCapability[] = [];
   if (!campaign) {
@@ -136,7 +141,7 @@ export function resolvePlayerCapabilities(world: World): PlayerCapabilities {
       surface: "campaign",
       reason: formativeYears
         ? "Running for something is a long way off yet."
-        : (candidacy.blocks[0]?.reason ??
+        : (candidacies.flatMap((entry) => entry.blocks)[0]?.reason ??
           "There is nothing here the game can honestly put on a ballot."),
     });
   }

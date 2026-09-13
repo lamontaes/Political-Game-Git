@@ -292,6 +292,27 @@ export const LIFE_CONTENT_92C_KERNELS: readonly KernelProvenance[] = [
     track: "E",
     isKernel: true,
   },
+  {
+    kernelId: "rel.encounter.shift-breakroom",
+    episodeKey: "work.where-you-stand-there",
+    stageKey: "calibration-chart",
+    track: "C",
+    isKernel: true,
+  },
+  {
+    kernelId: "rel.encounter.bus-stop-regular",
+    episodeKey: "growing-up.a-friend-over-years",
+    stageKey: "dropped-pass",
+    track: "C",
+    isKernel: true,
+  },
+  {
+    kernelId: "rel.encounter.campaign-canvass-partner",
+    episodeKey: "political.what-your-name-is-for",
+    stageKey: "between-doors",
+    track: "C",
+    isKernel: true,
+  },
 ];
 
 /* -------------------------------------------------------------------------- */
@@ -939,62 +960,66 @@ const SHIFT_ASKED_FOR: EpisodeFamily = {
     {
       key: "called-in",
       requires: [
+        // The request names the person the work records say directs this
+        // job, and nobody else. RETURN14 D: a colleague is not a supervisor.
         {
-          kind: "withheld",
-          reason:
-            "Missing canonical supervisor shift request and coursework/evening conflict.",
+          kind: "fact",
+          fact: "work.supervisor-shift-requested",
+          counterpartRole: "supervisor",
         },
+        { kind: "role", role: "supervisor" },
         hasWork,
         inTraining,
         ...aged(17, 26),
       ],
       lines: [
-        "Your supervisor has asked you to pick up a shift you weren't scheduled for.",
-        "It's the evening you'd put aside for the coursework you have due.",
+        "{role:supervisor} asks whether you can pick up an extra evening shift, one you weren't scheduled for.",
+        "You're enrolled in a course, and an evening at work is an evening not spent on it.",
       ],
       stakes: "notable",
       tensions: [
         tension(
           ["security-stability", "achievement-ambition"],
           [1, 1],
-          "The shift and the coursework want the same evening.",
+          "An extra shift and the course want the same evening.",
         ),
       ],
       mayLeadTo: [],
       options: [
         {
           key: "take-the-shift",
-          label: "Take the shift",
-          description: "Say yes to the extra shift.",
+          label: "Take the extra shift",
+          description: "Agree to take the shift.",
           nudges: [
             nudge("security-stability", 0.35),
             nudge("achievement-ambition", -0.25),
           ],
           aftermath: "goodwill",
-          memory: "You took the shift your supervisor asked you to pick up.",
+          memory: "You told {role:supervisor} you would take the extra shift.",
         },
         {
           key: "turn-it-down",
-          label: "Turn it down",
-          description: "Tell your supervisor you can't take it.",
+          label: "Turn the shift down",
+          description: "Say you can't take it.",
           nudges: [
             nudge("achievement-ambition", 0.35),
             nudge("security-stability", -0.25),
           ],
           aftermath: "grievance",
-          memory: "You turned down the extra shift.",
+          memory:
+            "You told {role:supervisor} you couldn't take the extra shift.",
         },
         {
           key: "offer-another",
-          label: "Offer to work another one",
-          description:
-            "Say that evening is taken and offer to work another one.",
+          label: "Offer a different shift",
+          description: "Propose working another shift instead.",
           nudges: [
             nudge("decision-style", 0.3),
             nudge("security-stability", 0.2),
           ],
           aftermath: null,
-          memory: "You asked your supervisor for a different shift instead.",
+          memory:
+            "You told {role:supervisor} you'd work a different shift instead.",
         },
       ],
     },
@@ -1066,9 +1091,9 @@ const SHIFT_ASKED_FOR: EpisodeFamily = {
       key: "it-came-back-round",
       requires: [
         {
-          kind: "withheld",
-          reason:
-            "Missing current coverage need/rota and performed earlier shift help; choosing yes is not performance.",
+          kind: "fact",
+          fact: "work.own-shift-coverage-needed",
+          counterpartRole: "colleague",
         },
         {
           kind: "after-choice",
@@ -1084,8 +1109,8 @@ const SHIFT_ASKED_FOR: EpisodeFamily = {
         { kind: "role", role: "colleague" },
       ],
       lines: [
-        "You need a shift covered, and {role:colleague} is on the rota that day.",
-        "Some months ago you took their shift when they asked.",
+        "You need someone to cover one of your shifts.",
+        "More than four months ago, {role:colleague} asked you to work one of theirs, and you did.",
       ],
       stakes: "ordinary",
       tensions: [
@@ -1099,37 +1124,37 @@ const SHIFT_ASKED_FOR: EpisodeFamily = {
       options: [
         {
           key: "ask-and-bring-it-up",
-          label: "Ask and bring it up",
+          label: "Ask and name the favour",
           description:
-            "You ask {role:colleague} to cover the shift and mention the one you took for them.",
+            "Ask {role:colleague} to cover it and bring up the shift you worked for them.",
           nudges: [nudge("decision-style", 0.35), nudge("personal-ties", -0.2)],
           aftermath: "obligation",
           memory:
-            "You asked {role:colleague} to cover the shift and brought up the one you took for them.",
+            "You asked {role:colleague} to cover your shift and reminded them you'd worked theirs.",
         },
         {
           key: "ask-without-bringing-it-up",
-          label: "Ask without bringing it up",
+          label: "Just ask",
           description:
-            "You ask {role:colleague} to cover the shift and leave the earlier one out of it.",
+            "Ask {role:colleague} to cover it without mentioning that shift.",
           nudges: [
             nudge("personal-ties", 0.3),
             nudge("privacy-preference", 0.2),
           ],
           aftermath: null,
           memory:
-            "You asked {role:colleague} to cover the shift and didn't mention the one you took for them.",
+            "You asked {role:colleague} to cover your shift and didn't bring up the one you'd worked for them.",
         },
         {
           key: "do-not-ask",
-          label: "Don't ask {role:colleague}",
-          description: "You don't ask them to cover the shift.",
+          label: "Don't ask",
+          description: "Leave {role:colleague} out of it.",
           nudges: [
             nudge("privacy-preference", 0.35),
             nudge("security-stability", -0.2),
           ],
           aftermath: null,
-          memory: "You didn't ask {role:colleague} to cover the shift.",
+          memory: "You needed a shift covered and didn't ask {role:colleague}.",
         },
       ],
     },
@@ -1298,8 +1323,9 @@ const THE_LONG_WAY_IN: EpisodeFamily = {
         {
           kind: "withheld",
           reason:
-            "Missing canonical transit mode, journey/timetable and shift conflict.",
+            "Missing canonical transit mode, journey/timetable and shift end; a job plus an enrollment is not a commute or a clash (RETURN14 D).",
         },
+        { kind: "fact", fact: "school.commute-schedule-conflict" },
         inTraining,
         hasWork,
         ...aged(17, 26),
@@ -1646,6 +1672,230 @@ const WATER_CAME_UP: EpisodeFamily = {
   ],
 };
 
+/**
+ * A break at work that happens to be shared with a colleague.
+ *
+ * Authored as a new encounter rather than a claim about the past: it needs only
+ * the work relationship and a colleague bound from the same employer, and it
+ * writes nothing beyond the ordinary record of the choice. Nothing in it says
+ * how long either of them has worked there.
+ */
+const BREAKROOM_ENCOUNTER: EpisodeFamily = {
+  key: "work.a-break-in-the-breakroom",
+  family: "work",
+  authority: RESEARCH_AUTHORITY,
+  roles: ["colleague"],
+  stages: [
+    {
+      key: "calibration-chart",
+      requires: [hasWork, { kind: "role", role: "colleague" }, ...aged(18, 30)],
+      lines: [
+        "You're on break at the same time as {role:colleague}, and they're looking at a printed chart from work.",
+        "You can't read it from where you're sitting.",
+      ],
+      stakes: "ordinary",
+      tensions: [
+        tension(
+          ["personal-ties", "privacy-preference"],
+          [1, 1],
+          "Asking starts a conversation; leaving it leaves them their break.",
+        ),
+      ],
+      mayLeadTo: [],
+      options: [
+        {
+          key: "ask-how-it-works",
+          label: "Ask about it",
+          description: "Ask {role:colleague} how the chart works.",
+          nudges: [
+            nudge("achievement-ambition", 0.25),
+            nudge("personal-ties", 0.2),
+          ],
+          aftermath: null,
+          memory:
+            "You asked {role:colleague} how the chart they were looking at worked.",
+        },
+        {
+          key: "stay-quiet",
+          label: "Leave it",
+          description: "Leave {role:colleague} to their break and take yours.",
+          nudges: [nudge("privacy-preference", 0.3)],
+          aftermath: null,
+          memory:
+            "You left {role:colleague} alone with the chart and took your break.",
+        },
+        {
+          key: "offer-to-look",
+          label: "Ask to look together",
+          description:
+            "Ask {role:colleague} whether you can look at it together.",
+          nudges: [nudge("decision-style", 0.25), nudge("personal-ties", 0.25)],
+          aftermath: null,
+          memory:
+            "You asked {role:colleague} whether the two of you could look at the chart together.",
+        },
+      ],
+    },
+  ],
+  exits: [
+    {
+      key: "left-the-job",
+      when: [{ kind: "without-capability", capability: "paid-work" }],
+      reason: "The work relationship these are about has ended.",
+    },
+  ],
+};
+
+/**
+ * The same person at the same stop — once the world records a journey.
+ *
+ * Withheld: the world models no transit mode, route, stop or timetable, so a
+ * shared morning bus is a claim with nothing behind it. The first version
+ * gated this on a commute circumstance written from a job plus an enrollment,
+ * which RETURN14 section D names as the defect. The reviewed copy is kept for
+ * the day a journey is a record.
+ */
+const BUS_STOP_REGULAR: EpisodeFamily = {
+  key: "companionship.the-person-at-the-stop",
+  family: "companionship",
+  authority: RESEARCH_AUTHORITY,
+  roles: ["familiar"],
+  stages: [
+    {
+      key: "dropped-pass",
+      requires: [
+        {
+          kind: "withheld",
+          reason:
+            "Missing a recorded transit journey, stop and shared routine with this person; no transit mode or timetable is modeled.",
+        },
+        { kind: "role", role: "familiar" },
+        ...aged(16, 40),
+      ],
+      lines: [
+        "At the stop this morning, {role:familiar} is pulling their gloves on when something slips loose and lands by their feet.",
+        "You can't tell what it is, or whether they've noticed.",
+      ],
+      stakes: "ordinary",
+      tensions: [
+        tension(
+          ["personal-ties", "privacy-preference"],
+          [1, 1],
+          "Helping is a small kindness, and it means starting a conversation.",
+        ),
+      ],
+      mayLeadTo: [],
+      options: [
+        {
+          key: "pick-up-hand-back",
+          label: "Pick it up",
+          description: "Pick it up and hand it back.",
+          nudges: [nudge("care-obligation", 0.3), nudge("personal-ties", 0.2)],
+          aftermath: "goodwill",
+          memory:
+            "You picked up what {role:familiar} dropped at the bus stop and handed it back.",
+        },
+        {
+          key: "point-it-out",
+          label: "Say something",
+          description: "Tell them they dropped something.",
+          nudges: [nudge("decision-style", 0.25)],
+          aftermath: null,
+          memory:
+            "You told {role:familiar} they'd dropped something at the bus stop.",
+        },
+        {
+          key: "pretend-not-to-see",
+          label: "Look away",
+          description: "Look away and leave it where it fell.",
+          nudges: [nudge("privacy-preference", 0.35)],
+          aftermath: null,
+          memory:
+            "You saw {role:familiar} drop something at the bus stop and looked away.",
+        },
+      ],
+    },
+  ],
+  exits: [],
+};
+
+/**
+ * Paired to knock on doors with somebody else from the same political group.
+ *
+ * The partner is somebody in that same political organization — a
+ * `political.co-participant` whose counterpart is the bound community member —
+ * never a work colleague, and nothing is said about what the group campaigns
+ * for or what either of them believes.
+ */
+const CAMPAIGN_CANVASS_PARTNER: EpisodeFamily = {
+  key: "civic.the-doors-you-were-paired-for",
+  family: "civic",
+  authority: RESEARCH_AUTHORITY,
+  roles: ["community-member"],
+  stages: [
+    {
+      key: "between-doors",
+      requires: [
+        { kind: "fact", fact: "political.participation" },
+        {
+          kind: "fact",
+          fact: "political.co-participant",
+          counterpartRole: "community-member",
+        },
+        { kind: "role", role: "community-member" },
+        ...aged(18, 35),
+      ],
+      lines: [
+        "The group is knocking on doors today, and you've been paired with {role:community-member}.",
+        "You're walking between two doors on your list.",
+      ],
+      stakes: "ordinary",
+      tensions: [
+        tension(
+          ["civic-order", "personal-ties"],
+          [1, 1],
+          "Asking why they are there might tell you something, and it might start an argument.",
+        ),
+      ],
+      mayLeadTo: [],
+      options: [
+        {
+          key: "engage-debate-walk",
+          label: "Ask why",
+          description:
+            "Start a conversation about why each of you is doing this.",
+          nudges: [nudge("civic-order", 0.3), nudge("personal-ties", 0.2)],
+          aftermath: null,
+          memory:
+            "You asked {role:community-member} why they were doing this, and told them why you were.",
+        },
+        {
+          key: "keep-it-practical",
+          label: "Keep to the list",
+          description: "Stay on the doors and keep walking.",
+          nudges: [nudge("decision-style", 0.3)],
+          aftermath: null,
+          memory:
+            "You kept to the list with {role:community-member} and didn't ask why they were there.",
+        },
+        {
+          key: "ask-to-switch-partner",
+          label: "Ask for a new partner",
+          description: "Ask the group to pair you with somebody else.",
+          nudges: [
+            nudge("privacy-preference", 0.25),
+            nudge("personal-ties", -0.2),
+          ],
+          aftermath: null,
+          memory:
+            "You asked the group to pair you with somebody other than {role:community-member}.",
+        },
+      ],
+    },
+  ],
+  exits: [],
+};
+
 /* -------------------------------------------------------------------------- */
 /* The wave                                                                    */
 /* -------------------------------------------------------------------------- */
@@ -1675,6 +1925,27 @@ export const LIFE_CONTENT_92C_CIVIC_STAGES: readonly EpisodeStage[] = [
   ...WATER_CAME_UP.stages,
 ].map((stage) => ({ ...stage, authority: RESEARCH_AUTHORITY }));
 
+/**
+ * LIFE-CONTENT13's three relationship encounters, hosted the same way.
+ *
+ * Each is one moment with no answer-dependent continuation of its own, so it
+ * joins the accepted family that already binds the same person and domain —
+ * work standing (a colleague), the political family (somebody in the same
+ * group) and the friend-over-years family (a familiar) — rather than standing
+ * up a one-stage family that is a folder, not a thread.
+ */
+export const LIFE_CONTENT_92C_WORK_STAGES: readonly EpisodeStage[] = [
+  ...BREAKROOM_ENCOUNTER.stages,
+].map((stage) => ({ ...stage, authority: RESEARCH_AUTHORITY }));
+
+export const LIFE_CONTENT_92C_POLITICAL_STAGES: readonly EpisodeStage[] = [
+  ...CAMPAIGN_CANVASS_PARTNER.stages,
+].map((stage) => ({ ...stage, authority: RESEARCH_AUTHORITY }));
+
+export const LIFE_CONTENT_92C_COMPANIONSHIP_STAGES: readonly EpisodeStage[] = [
+  ...BUS_STOP_REGULAR.stages,
+].map((stage) => ({ ...stage, authority: RESEARCH_AUTHORITY }));
+
 /** New causal families whose reviewed 92C stages genuinely turn on answers. */
 export const LIFE_CONTENT_92C_FAMILIES: readonly EpisodeFamily[] = [
   FRIEND_YOU_NAMED,
@@ -1699,7 +1970,30 @@ const LIFE_CONTENT_92C_HOSTED_STAGES: readonly {
     episodeKey: "civic.the-thing-nobody-else-turned-up-for",
     stages: LIFE_CONTENT_92C_CIVIC_STAGES,
   },
+  {
+    episodeKey: "work.where-you-stand-there",
+    stages: LIFE_CONTENT_92C_WORK_STAGES,
+  },
+  {
+    episodeKey: "political.what-your-name-is-for",
+    stages: LIFE_CONTENT_92C_POLITICAL_STAGES,
+  },
+  {
+    episodeKey: "growing-up.a-friend-over-years",
+    stages: LIFE_CONTENT_92C_COMPANIONSHIP_STAGES,
+  },
 ];
+
+/**
+ * LIFE-CONTENT13 stages still awaiting an independent prose review.
+ *
+ * Empty: the breakroom, bus-stop and canvass encounters now carry reviewed
+ * packets, outputs and PASS verdicts under prose-review/92c-wave-1. Kept as a
+ * named seam so a later encounter can ship its gameplay ahead of review
+ * without weakening the tracing test for everything else.
+ */
+export const LIFE_CONTENT_92C_PROSE_PENDING_STAGES: ReadonlySet<string> =
+  new Set<string>();
 
 /** Every stage in the wave, for the tests and the coverage report. */
 export function lifeContent92cStages(): readonly {

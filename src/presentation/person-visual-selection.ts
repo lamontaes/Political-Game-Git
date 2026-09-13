@@ -2,6 +2,7 @@ import type { Person, PersonAppearance, World } from "../simulation/types";
 import {
   componentsAtGeneration,
   projectCharacterLayers,
+  resolveAppearanceCatalogGeneration,
   resolveCharacterRecipe,
   type CharacterComponentLibrary,
   type CharacterRecipe,
@@ -45,17 +46,10 @@ function generationFor(
   appearance: PersonAppearance,
   library: CharacterComponentLibrary,
 ): number {
-  const generation = appearance.catalogGeneration ?? 1;
-  if (
-    !Number.isSafeInteger(generation) ||
-    generation < 1 ||
-    generation > library.catalogGeneration
-  ) {
-    throw new Error(
-      `Person appearance catalog pin ${generation} is unavailable.`,
-    );
-  }
-  return generation;
+  return resolveAppearanceCatalogGeneration(
+    appearance,
+    library.catalogGeneration,
+  );
 }
 
 function recipeFor(

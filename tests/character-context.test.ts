@@ -617,10 +617,20 @@ describe("A line never disagrees with the line beside it", () => {
             option.memory,
           ]),
         ].join(" ");
-        for (const match of text.matchAll(/\{[a-z]+:([a-z-]+)\}/g)) {
+        for (const match of text.matchAll(/\{([a-z]+):([a-z-]+)\}/g)) {
+          // `{detail:x}` names one of the family's own authored alternatives,
+          // not a person, and answers to the same rule: the family has to
+          // declare it, so no line can reach for something nobody wrote.
+          if (match[1] === "detail") {
+            expect(
+              Object.keys(family.details ?? {}).includes(match[2]!),
+              `${family.key}/${stage.key} names the detail ${match[2]} the family does not author`,
+            ).toBe(true);
+            continue;
+          }
           expect(
-            declared.has(match[1]!) || required.has(match[1]!),
-            `${family.key}/${stage.key} names ${match[1]} without declaring or requiring it`,
+            declared.has(match[2]!) || required.has(match[2]!),
+            `${family.key}/${stage.key} names ${match[2]} without declaring or requiring it`,
           ).toBe(true);
         }
       }

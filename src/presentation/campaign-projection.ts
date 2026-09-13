@@ -27,6 +27,7 @@ import {
 } from "../simulation";
 import type {
   CampaignActionKind,
+  CampaignActionStrategyRecord,
   CampaignRecord,
   CampaignStatus,
   CandidateTally,
@@ -147,15 +148,18 @@ function quantityPercent(value: {
 /**
  * The offer to run.
  *
- * Only one chamber-level office is offered even where a pack establishes two
- * chambers. Numbered district identity is bound at filing from an explicit
- * Gazetteer record; it is not inferred from the first office or a centroid.
+ * Only a caller-selected established office is resolved. Numbered district
+ * identity is bound at filing from an explicit Gazetteer record.
  */
 function offeredOffice(
-  world: World,
   jurisdictionId: EntityId,
+  officeKey: string,
 ): ElectiveOfficeOption | null {
-  return candidacyPackForJurisdiction(jurisdictionId)?.offices[0] ?? null;
+  return (
+    candidacyPackForJurisdiction(jurisdictionId)?.offices.find(
+      (option) => option.officeKey === officeKey,
+    ) ?? null
+  );
 }
 
 /** Nothing gets booked past the evening; a campaign is not a night shift. */
@@ -215,6 +219,7 @@ function planFor(
   kind: CampaignActionKind,
   jurisdictionId: EntityId,
   slot: { readonly startMinute: number; readonly endMinute: number },
+  geographyLabel?: string,
 ) {
   const date = world.currentDate;
   const local = (minuteOfDay: number) =>
@@ -229,7 +234,7 @@ function planFor(
       ? {
           locationKey: "campaign-call-desk",
           label: "The campaign's call desk",
-          title: "An afternoon on the phones",
+          title: "A fundraising session",
           summary:
             "Asking people who might give for something the campaign cannot do without.",
         }
@@ -237,9 +242,9 @@ function planFor(
         ? {
             locationKey: "campaign-doors",
             label: "Somebody's street",
-            title: "An afternoon on the doors",
+            title: "A session on the doors",
             summary:
-              "Knocking, and talking to whoever opens. Slow, and the only thing that changes minds.",
+              "Knocking, listening, and talking to whoever opens. One way to learn what people are hearing.",
           }
         : {
             locationKey: "campaign-office",
@@ -253,7 +258,9 @@ function planFor(
     end: local(slot.endMinute),
     location: {
       locationKey: detail.locationKey,
-      label: detail.label,
+      label: geographyLabel
+        ? `${detail.label} — ${geographyLabel}`
+        : detail.label,
       jurisdictionId,
     },
     title: detail.title,
@@ -274,6 +281,7 @@ export function advertisingBuyFor(treasury: MoneyAmount): MoneyAmount {
 export function projectCampaign(
   world: World,
   personId: EntityId,
+  selectedOfficeKey: string | null = null,
 ): CampaignView {
   const person = world.people[personId];
   if (!person) throw new Error("This character is not in the world.");
@@ -282,12 +290,19 @@ export function projectCampaign(
   const placeName = place?.displayName ?? null;
   const existing = campaignForCandidate(world, personId);
 
-  if (!existing) return notYetFiled(world, personId, candidateName, placeName);
+  if (!existing)
+    return notYetFiled(
+      world,
+      personId,
+      candidateName,
+      placeName,
+      selectedOfficeKey,
+    );
 
   const campaign = existing;
   const state = campaignState(world, campaign.id);
   const contest = requireElectionContest(world, campaign.contestId);
-  const option = offeredOffice(world, campaign.jurisdictionId);
+  const option = offeredOffice(campaign.jurisdictionId, campaign.officeKey);
   const treasury = campaignTreasuryPosition(world, campaign)?.liquidBalance ?? {
     minorUnits: 0,
     currency: campaign.treasuryCurrency,
@@ -344,16 +359,27 @@ function notYetFiled(
   personId: EntityId,
   candidateName: string,
   placeName: string | null,
+  selectedOfficeKey: string | null,
 ): CampaignView {
   const person = world.people[personId]!;
   const jurisdictionId = person.homeJurisdictionId;
-  const option = offeredOffice(world, jurisdictionId);
-  const eligibility = candidacyEligibility(world, {
-    personId,
-    jurisdictionId,
-    officeKey: option?.officeKey ?? "",
-    alreadyACandidate: activeCampaignForCandidate(world, personId) !== null,
-  });
+  const options = candidacyPackForJurisdiction(jurisdictionId)?.offices ?? [];
+  const option = selectedOfficeKey
+    ? offeredOffice(jurisdictionId, selectedOfficeKey)
+    : null;
+  const assessments = (
+    selectedOfficeKey
+      ? [selectedOfficeKey]
+      : options.map((item) => item.officeKey)
+  ).map((officeKey) =>
+    candidacyEligibility(world, {
+      personId,
+      jurisdictionId,
+      officeKey,
+      alreadyACandidate: activeCampaignForCandidate(world, personId) !== null,
+    }),
+  );
+  const eligible = assessments.some((assessment) => assessment.eligible);
   const emptyTreasury: MoneyAmount = {
     minorUnits: 0,
     currency: CAMPAIGN_CURRENCY,
@@ -362,9 +388,15 @@ function notYetFiled(
     unavailableReason: null as string | null,
     candidateName,
     placeName,
-    officeTitle: option?.office.title ?? null,
-    officeAuthority: option ? officeAuthority(option) : null,
-    openQuestions: option ? [...option.unresolvedGaps] : [],
+    officeTitle:
+      option?.office.title ??
+      (options.map((item) => item.office.title).join(" or ") || null),
+    officeAuthority: option
+      ? officeAuthority(option)
+      : [...new Set(options.map(officeAuthority))].join(" ") || null,
+    openQuestions: option
+      ? [...option.unresolvedGaps]
+      : [...new Set(options.flatMap((item) => item.unresolvedGaps))],
     campaignId: null,
     committeeName: null,
     opponentNames: [] as readonly string[],
@@ -377,12 +409,22 @@ function notYetFiled(
     tallies: [] as readonly CampaignTallyLine[],
     afterword: null,
   };
-  if (!eligibility.eligible) {
+  if (!eligible) {
     return {
       ...base,
       phase: "unavailable",
-      unavailableReason: eligibility.blocks
-        .map((block) => block.reason)
+      unavailableReason: (assessments.length
+        ? assessments
+        : [
+            candidacyEligibility(world, {
+              personId,
+              jurisdictionId,
+              officeKey: "",
+              alreadyACandidate: false,
+            }),
+          ]
+      )
+        .flatMap((assessment) => assessment.blocks.map((block) => block.reason))
         .join(" "),
     };
   }
@@ -410,9 +452,9 @@ function offersFor(
       kind,
       label:
         kind === "fundraising"
-          ? "Spend the afternoon on the phones"
+          ? "Spend a session on the phones"
           : kind === "outreach"
-            ? "Spend the afternoon on the doors"
+            ? "Spend a session on the doors"
             : "Place an advertising buy",
       cost:
         kind === "advertising"
@@ -523,11 +565,14 @@ export function fileForOffice(
   world: World,
   personId: EntityId,
   districtBinding: DistrictSeatBinding | null = null,
+  officeKey: string | null = null,
 ): World {
   const person = world.people[personId];
   if (!person) throw new Error("This character is not in the world.");
   const jurisdictionId = person.homeJurisdictionId;
-  const option = offeredOffice(world, jurisdictionId);
+  if (!officeKey)
+    throw new Error("Choose an established office before filing.");
+  const option = offeredOffice(jurisdictionId, officeKey);
   if (!option) {
     throw new Error("There is no office here the game has read the rules for.");
   }
@@ -598,6 +643,65 @@ export function spendAnAfternoon(
   // Booking and doing are one step for the player, so a session that turns out
   // not to be doable must not leave a dead entry behind on the calendar. The
   // booking is discarded and the original world handed back untouched.
+  if (performed === scheduled.world) return world;
+  return performed;
+}
+
+export interface PlannedCampaignActionInput {
+  readonly kind: CampaignActionKind;
+  readonly spend: MoneyAmount | null;
+  readonly strategy: CampaignActionStrategyRecord;
+}
+
+/**
+ * Commits one explicit strategy choice through the campaign's existing action
+ * writer. The caller supplies the already-projected structured choice rather
+ * than free text, and this boundary rechecks the committee's current funds.
+ */
+export function spendPlannedCampaignAction(
+  world: World,
+  personId: EntityId,
+  input: PlannedCampaignActionInput,
+): World {
+  const campaign = activeCampaignForCandidate(world, personId);
+  if (!campaign) throw new Error("There is no active campaign to plan for.");
+  const treasury = campaignTreasuryPosition(world, campaign)?.liquidBalance ?? {
+    minorUnits: 0,
+    currency: campaign.treasuryCurrency,
+  };
+  if (
+    input.kind === "advertising" &&
+    (!input.spend ||
+      input.spend.currency !== treasury.currency ||
+      input.spend.minorUnits > treasury.minorUnits)
+  ) {
+    throw new Error(
+      "The committee no longer has enough money for that buy. Review the plan again.",
+    );
+  }
+  if (input.kind !== "advertising" && input.spend !== null) {
+    throw new Error("This campaign action does not spend committee money.");
+  }
+  const slot = freeSlotToday(world, personId, input.kind);
+  if (!slot) {
+    throw new Error(
+      "The rest of today is already spoken for. Get on with the day and pick this up tomorrow.",
+    );
+  }
+  const scheduled = scheduleCampaignAction(world, {
+    campaignId: campaign.id,
+    kind: input.kind,
+    plan: planFor(
+      world,
+      input.kind,
+      campaign.jurisdictionId,
+      slot,
+      input.strategy.geographyLabel,
+    ),
+    spend: input.spend,
+    strategy: input.strategy,
+  });
+  const performed = performCampaignAction(scheduled.world, scheduled.action.id);
   if (performed === scheduled.world) return world;
   return performed;
 }

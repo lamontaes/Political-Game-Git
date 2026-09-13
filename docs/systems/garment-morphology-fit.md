@@ -387,3 +387,37 @@ measured. That measurement now exists —
 [Arm and Sleeve Measurement](./arm-and-sleeve-measurement.md) — and it
 reports the upper arm fused on every body in the repository, so no sleeve
 transform is derived from it yet.
+
+## Raster-only candidate repairs (PEOPLE/B)
+
+A later generation may declare `supersedes_asset_id` for an older component.
+The revision must retain **all** other component metadata (family, kind, canvas,
+origin, attachment, pose/facing/body compatibility and draw order). A library
+refuses mismatched metadata, missing/non-older predecessors and competing
+successors. Only a released eligible revision displaces its predecessor, and
+only for people pinned at or beyond that revision's generation. Unreleased
+production candidates cannot displace drawn art. The candidate review lift is
+still isolated from production membership.
+
+This is a raster-only revision, not pose admission or a change of identity.
+Existing signatures and source files remain immutable. The two generation-3
+neckline alpha masks reuse the same fit profiles; their outer raster spans are
+unchanged. Interior neckline accuracy is separately verified in complete
+compositions, since a silhouette metric cannot detect opaque collar lining.
+The head/body shading mismatch and source hair volume remain art limitations,
+not corrected anatomy or human-approved coherent art.
+
+### Matched render pieces
+
+A top may declare `render_piece_ids`; each referenced component declares
+`render_piece_of`. Pieces share the owner's family, catalog generation, canvas,
+origin, pose/body compatibility and fit profile. Only their integer draw order
+and source-preserving alpha differ. They never enter wardrobe choice lists.
+Resolution emits them in the same slot and the existing projection/renderer
+handles their normal image layers. Reciprocal references, identical attachment
+metadata and release status are required; nested pieces are forbidden.
+
+A later raster revision may add these validated pieces, without changing its
+identity or attachment metadata. Older generations resolve the original single
+raster. This is a matched artwork contract, not authorization for new painted
+surfaces, arbitrary fit relaxation or automatic visual approval.

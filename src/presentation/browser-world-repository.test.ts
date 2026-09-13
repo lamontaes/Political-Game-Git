@@ -267,9 +267,10 @@ class FakeStorageControl {
  */
 class FakeIndexedDbFactory {
   readonly records = new Map<string, unknown>();
+  readonly interfaceRecords = new Map<string, unknown>();
   readonly control = new FakeStorageControl();
   readonly #lock = new FakeTransactionLock();
-  #hasStore = false;
+  readonly #created = new Set<string>();
 
   asFactory(): IDBFactory {
     return { open: () => this.#open() } as unknown as IDBFactory;
@@ -279,18 +280,26 @@ class FakeIndexedDbFactory {
     this.records.set(saveId, structuredClone(value));
   }
 
+  #storeMap(name: string): Map<string, unknown> {
+    if (name === "interface") return this.interfaceRecords;
+    return this.records;
+  }
+
   #open(): IDBOpenDBRequest {
-    const objectStoreNames = { contains: () => this.#hasStore };
+    const created = this.#created;
+    const objectStoreNames = {
+      contains: (name: string) => created.has(name),
+    };
     const database = {
       objectStoreNames,
       onversionchange: null,
-      createObjectStore: () => {
-        this.#hasStore = true;
+      createObjectStore: (name: string) => {
+        created.add(name);
         return {} as IDBObjectStore;
       },
-      transaction: () =>
+      transaction: (name: string) =>
         new FakeTransaction(
-          this.records,
+          this.#storeMap(name),
           this.control,
           this.#lock,
         ) as unknown as IDBTransaction,
@@ -312,7 +321,9 @@ class FakeIndexedDbFactory {
       onblocked: null,
     };
     queueMicrotask(() => {
-      if (!this.#hasStore) request.onupgradeneeded?.();
+      if (!created.has("worlds") || !created.has("interface")) {
+        request.onupgradeneeded?.();
+      }
       request.onsuccess?.();
     });
     return request as unknown as IDBOpenDBRequest;
@@ -1734,5 +1745,46 @@ describe("Read-only developer snapshots", () => {
     expect(JSON.stringify([...factory.records])).toBe(before);
     await store.remove(id);
     expect(await inspector.inspectSnapshot(id)).toBeNull();
+  });
+});
+
+describe("MORNING23 durable appearance migration", () => {
+  it("migrates two old lives separately and persists pins on save without corrupting original reads", async () => {
+    const unpinned = await import("./fixtures/morning23-old-unpinned.json");
+    const pinned = await import("./fixtures/morning23-old-gen2.json");
+    const { store, factory } = storeWith();
+    const originals = [unpinned.default, pinned.default].map((f) =>
+      deserializeWorld(f.payload),
+    );
+    const slots = originals.map((w) => store.newSaveId(w));
+    for (let i = 0; i < originals.length; i++) {
+      const old = originals[i]!;
+      const world: World = {
+        ...old,
+        control: { kind: "person", personId: old.personOrder[0]! },
+      };
+      // Imported old payload enters the same validated record seam as storage.
+      const record = createBrowserWorldRecord(
+        world,
+        "2026-05-01T10:00:00.000Z",
+        "2026-05-01T10:00:00.000Z",
+        slots[i]!,
+      );
+      factory.setRaw(slots[i]!, record);
+      expect(readStoredRecord(record).kind).toBe("healthy");
+      const loaded = (await store.load(slots[i]!))!;
+      expect(
+        (factory.records.get(slots[i]!) as { payload: string }).payload,
+      ).toBe(record.payload);
+      expect(
+        loaded.people[loaded.personOrder[0]!]!.appearance?.catalogGeneration,
+      ).toBe(2);
+      expect((await store.save(loaded, slots[i]!)).status).toBe("saved");
+      const stored = factory.records.get(slots[i]!) as { payload: string };
+      expect(deserializeWorld(stored.payload)).toEqual(loaded);
+      expect(await store.load(slots[i]!)).toEqual(loaded);
+    }
+    expect(slots[0]).not.toBe(slots[1]);
+    expect((await store.list()).saves).toHaveLength(2);
   });
 });

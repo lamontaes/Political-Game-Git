@@ -39,11 +39,11 @@ the runtime uses.
 
 ### Production libraries
 
-- placements measured: 116
-- placements where some layer drew: 108
+- placements measured: 160
+- placements where some layer drew: 152
 - of those, COMPLETE recipes (compositor reported nothing): 0
-- partial draws (drew, but a slot or pose was reported): 108
-- by output class: {"production-fixture":108,"refused":8}
+- partial draws (drew, but a slot or pose was reported): 152
+- by output class: {"production-fixture":152,"refused":8}
 - feet off the declared contact line by more than 0.5% of the plate: 0
 - figures escaping the plate: 20
 - unfitted components not landing on their declared anchor: 0
@@ -52,16 +52,16 @@ Fitted figure height spans 16.1% to 135.6% of the plate.
 
 ### Candidate review libraries (development preview only)
 
-- placements measured: 116
-- placements where some layer drew: 80
+- placements measured: 160
+- placements where some layer drew: 108
 - of those, COMPLETE recipes (compositor reported nothing): 12
-- partial draws (drew, but a slot or pose was reported): 68
-- by output class: {"candidate-review":80,"refused":36}
+- partial draws (drew, but a slot or pose was reported): 96
+- by output class: {"candidate-review":108,"refused":52}
 - feet off the declared contact line by more than 0.5% of the plate: 0
 - figures escaping the plate: 20
 - unfitted components not landing on their declared anchor: 0
 
-Fitted figure height spans 41.6% to 135.6% of the plate.
+Fitted figure height spans 27.4% to 135.6% of the plate.
 
 ## Rooms that declare no floor calibration
 
@@ -69,11 +69,15 @@ A room without a standard body width has no measurement to size a body
 against. That is a missing measurement, and the fix is to measure it —
 not to copy an estimate out of this report into the scene data.
 
+- `campaign-storefront-production`
 - `civic-community-meeting-room`
 - `civic-community-meeting-title`
 - `civic-hearing-room-production`
 - `courtroom-empty-production`
+- `executive-office-candidate`
 - `legislative-chamber-production`
+- `park-community-pavilion-candidate`
+- `press-briefing-room-candidate`
 - `residence-apartment-living-canonical-03`
 - `residence-apartment-living-ordinary-02`
 
@@ -86,6 +90,8 @@ this list says what the pipeline will actually reject, in its own words.
 - facing-not-permitted-at-anchor: Anchor 'counsel-chair-left' permits facings away; pose 'seated-at-desk' faces 'front'.
 - facing-not-permitted-at-anchor: Anchor 'left-task-chair' permits facings away; pose 'seated-at-desk' faces 'front'.
 - facing-not-permitted-at-anchor: Anchor 'left-task-chair' permits facings away; pose 'seated-guest-neutral' faces 'front'.
+- pose-not-permitted-at-anchor: Anchor 'visitor-left-seated' offers a seat plane, so it needs a seated pose; 'standing-listening' is standing.
+- pose-not-permitted-at-anchor: Anchor 'visitor-right-seated' offers a seat plane, so it needs a seated pose; 'standing-listening' is standing.
 - required-slot-empty: Required slot 'bottom' cannot resolve because no body resolved for pose 'seated-at-desk'.
 - required-slot-empty: Required slot 'bottom' cannot resolve because no body resolved for pose 'seated-guest-neutral'.
 - required-slot-empty: Required slot 'footwear' cannot resolve because no body resolved for pose 'seated-at-desk'.

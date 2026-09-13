@@ -10,6 +10,7 @@ import {
   campaignById,
   campaignForContest,
   campaignState,
+  campaignTreasuryPosition,
   campaigns,
   requireCampaign,
 } from "./campaign-queries";
@@ -40,7 +41,7 @@ import {
   recordWorkStatus,
 } from "./life";
 import { LIFE_TRANSITION_HANDLERS } from "./life-callbacks";
-import { workStatusHistory } from "./life-queries";
+import { workStatusAt, workStatusHistory } from "./life-queries";
 import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
@@ -65,6 +66,7 @@ import type {
   CampaignActionKind,
   CampaignActionRecord,
   CampaignActionResultRecord,
+  CampaignActionStrategyRecord,
   CampaignCandidateSupportScope,
   CampaignRecord,
   CampaignStateRecord,
@@ -179,6 +181,8 @@ export interface ScheduleCampaignActionInput {
   readonly plan: CampaignActivityPlan;
   /** Required for an advertising buy, forbidden for anything else. */
   readonly spend: MoneyAmount | null;
+  /** Optional explicit approval context for the bounded strategy interaction. */
+  readonly strategy?: CampaignActionStrategyRecord | null;
 }
 
 export interface ScheduledCampaignActionResult {
@@ -859,17 +863,59 @@ export function scheduleCampaignAction(
     throw new Error("Campaign work has to happen before election day.");
   }
 
+  const activeStaff = campaign.staffWorkRelationshipIds.flatMap(
+    (workRelationshipId) => {
+      const work = world.history.workRelationships.find(
+        (candidate) => candidate.id === workRelationshipId,
+      );
+      return work && workStatusAt(world, work.id)?.status === "active"
+        ? [work.personId]
+        : [];
+    },
+  );
+  if (input.strategy) {
+    const strategy = input.strategy;
+    if (
+      strategy.proposerPersonId !== null &&
+      !activeStaff.includes(strategy.proposerPersonId)
+    ) {
+      throw new Error(
+        "The staff member who made this proposal is no longer available. Review the plan again.",
+      );
+    }
+    if (
+      strategy.geographyKey.trim().length === 0 ||
+      strategy.geographyLabel.trim().length === 0 ||
+      strategy.approvedSpendCeiling.minorUnits < 0 ||
+      !Number.isSafeInteger(strategy.approvedSpendCeiling.minorUnits) ||
+      strategy.approvedSpendCeiling.currency !== campaign.treasuryCurrency ||
+      (input.kind === "advertising" &&
+        strategy.approvedSpendCeiling.minorUnits !==
+          (input.spend?.minorUnits ?? 0)) ||
+      (input.kind !== "advertising" &&
+        strategy.approvedSpendCeiling.minorUnits !== 0)
+    ) {
+      throw new Error("The approved campaign strategy is invalid.");
+    }
+    if (strategy.geographyKind === "jurisdiction") {
+      if (strategy.geographyKey !== `jurisdiction:${campaign.jurisdictionId}`) {
+        throw new Error("The approved geography does not match this campaign.");
+      }
+    } else {
+      const binding = contest.office.districtBinding ?? null;
+      const expected = binding
+        ? `district:${binding.vintage}:${binding.chamber}:${binding.geoid}`
+        : null;
+      if (strategy.geographyKey !== expected) {
+        throw new Error("The approved district does not match this campaign.");
+      }
+    }
+  }
+
   const ordinal = campaignActions(world, campaign.id).length;
   const stableKey = `${campaign.stableKey}:action:${input.kind}:${ordinal}`;
   const participants = canonicalIds(
-    [
-      campaign.candidatePersonId,
-      ...campaign.staffWorkRelationshipIds.map(
-        (id) =>
-          world.history.workRelationships.find((work) => work.id === id)!
-            .personId,
-      ),
-    ],
+    [campaign.candidatePersonId, ...activeStaff],
     "Campaign activity participants",
   );
   let next = createScheduledActivity(world, {
@@ -895,6 +941,14 @@ export function scheduleCampaignAction(
     kind: input.kind,
     scheduledActivityId: activityId,
     plannedSpend: input.spend ? { ...input.spend } : null,
+    strategy: input.strategy
+      ? {
+          ...input.strategy,
+          approvedSpendCeiling: {
+            ...input.strategy.approvedSpendCeiling,
+          },
+        }
+      : null,
     createdAt: next.currentDate,
   };
   next = {
@@ -938,7 +992,10 @@ function requestedGainBasisPoints(
     1,
     simulationMinutesBetween(timing.start, timing.end),
   );
-  const workers = 1 + campaign.staffWorkRelationshipIds.length;
+  const activity = world.history.scheduledActivities.find(
+    (candidate) => candidate.id === action.scheduledActivityId,
+  );
+  const workers = Math.max(1, activity?.participantPersonIds.length ?? 1);
   const base =
     action.kind === "outreach"
       ? Math.floor((minutes * workers * 3) / 2)
@@ -1241,6 +1298,18 @@ export function performCampaignAction(world: World, actionId: EntityId): World {
   ) {
     return world;
   }
+  if (action.kind === "advertising") {
+    const available = campaignTreasuryPosition(world, campaign)?.liquidBalance;
+    if (
+      !available ||
+      available.currency !== action.plannedSpend!.currency ||
+      available.minorUnits < action.plannedSpend!.minorUnits
+    ) {
+      throw new Error(
+        "The committee cannot overdraw its account; it no longer has enough money for the approved buy. Review the plan again.",
+      );
+    }
+  }
 
   let next = performScheduledActivity(
     world,
@@ -1255,12 +1324,15 @@ export function performCampaignAction(world: World, actionId: EntityId): World {
   const money = actionMoney(next, campaign, action, completionEventId);
   next = money.world;
 
-  const outcomeSummary =
+  const baseOutcomeSummary =
     action.kind === "fundraising"
       ? `The committee spent the session on the phones and took in ${moneyLabel(money.raisedAmount!)}.`
       : action.kind === "advertising"
         ? `The committee placed an advertising buy worth ${moneyLabel(money.spentAmount!)}.`
         : "The campaign spent the session knocking on doors and talking to people who answered.";
+  const outcomeSummary = action.strategy
+    ? `${baseOutcomeSummary} The approved geography was ${action.strategy.geographyLabel}.`
+    : baseOutcomeSummary;
   next = recordWorldEvent(next, {
     stableKey: `${action.stableKey}:outcome-event`,
     type: `campaign.${action.kind}-completed`,
@@ -1299,9 +1371,10 @@ export function performCampaignAction(world: World, actionId: EntityId): World {
       },
       socialContext: "Campaign work, on the same clock as the rest of the day.",
       pressure: "There are only so many days left before the election.",
-      choice:
-        action.kind === "fundraising"
-          ? "Spend the afternoon asking people for money."
+      choice: action.strategy
+        ? `Approve ${action.kind} for ${action.strategy.geographyLabel} with a ${moneyLabel(action.strategy.approvedSpendCeiling)} committee spending ceiling.`
+        : action.kind === "fundraising"
+          ? "Spend the session asking people for money."
           : action.kind === "advertising"
             ? "Spend the committee's money reaching people nobody had time to meet."
             : "Spend the afternoon meeting people instead.",

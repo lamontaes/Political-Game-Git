@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { DISTINCT_GIVEN_NAME_GENERATION_VERSION } from "../simulation";
 import { createNewGameWorld } from "./new-game";
 import type { NewGameSetup } from "./new-game";
 import {
@@ -87,6 +88,43 @@ describe("What makes one new game a different new game", () => {
     ];
     const seeds = new Set(variants.map(worldSeedFor));
     expect(seeds.size).toBe(variants.length);
+  });
+
+  it("forks fresh given names without changing a replay that predates the fork", () => {
+    const fresh: NewGameSetup = {
+      ...BASE,
+      givenNameGenerationVersion: DISTINCT_GIVEN_NAME_GENERATION_VERSION,
+    };
+    // Like the appearance recipe, this is a generation/replay version rather
+    // than a player-authored fact, so it does not move the canonical world id.
+    expect(worldSeedFor(fresh)).toBe(worldSeedFor(BASE));
+    expect(decodeReplayDescriptor(encodeReplayDescriptor(fresh))).toEqual(
+      fresh,
+    );
+
+    const legacy = createNewGameWorld(BASE);
+    const replayed = createNewGameWorld(
+      decodeReplayDescriptor(encodeReplayDescriptor(BASE))!,
+    );
+    expect(
+      replayed.world.personOrder.map(
+        (personId) => replayed.world.people[personId]!.givenName,
+      ),
+    ).toEqual(
+      legacy.world.personOrder.map(
+        (personId) => legacy.world.people[personId]!.givenName,
+      ),
+    );
+    const generated = createNewGameWorld(fresh);
+    expect(
+      generated.world.personOrder.map(
+        (personId) => generated.world.people[personId]!.givenName,
+      ),
+    ).not.toEqual(
+      legacy.world.personOrder.map(
+        (personId) => legacy.world.people[personId]!.givenName,
+      ),
+    );
   });
 
   it("reproduces the same world from the same setup", () => {

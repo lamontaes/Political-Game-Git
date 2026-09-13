@@ -33,7 +33,12 @@ import type { EntityId } from "../simulation";
  * cannot be opened — the shell then keeps its defaults, which is a working game.
  */
 
-const RECORD_VERSION = 2;
+export const SHELL_RECORD_VERSION = 3;
+export const SHELL_RECORD_VERSIONS: readonly number[] = [
+  1,
+  2,
+  SHELL_RECORD_VERSION,
+];
 
 const PIN_SIZES: readonly PinSize[] = ["tiny", "normal", "expanded"];
 /**
@@ -105,13 +110,27 @@ function readPins(value: unknown): readonly ShellPin[] {
 function readPreferences(value: unknown): ShellPreferences {
   if (!isRecord(value)) return DEFAULT_PREFERENCES;
   const peopleView =
-    value.peopleView === "list" || value.peopleView === "categories"
+    value.peopleView === "list" ||
+    value.peopleView === "categories" ||
+    value.peopleView === "web"
       ? value.peopleView
       : DEFAULT_PREFERENCES.peopleView;
   const defaultPinSize = PIN_SIZES.includes(value.defaultPinSize as PinSize)
     ? (value.defaultPinSize as PinSize)
     : DEFAULT_PREFERENCES.defaultPinSize;
-  return { peopleView, defaultPinSize };
+  const followedNewsOutletKeys = Array.isArray(value.followedNewsOutletKeys)
+    ? [
+        ...new Set(
+          value.followedNewsOutletKeys
+            .filter(
+              (entry): entry is string =>
+                typeof entry === "string" && entry.trim().length > 0,
+            )
+            .map((entry) => entry.trim()),
+        ),
+      ]
+    : [];
+  return { peopleView, defaultPinSize, followedNewsOutletKeys };
 }
 
 /**
@@ -124,12 +143,27 @@ function readPreferences(value: unknown): ShellPreferences {
  */
 export function readStoredShellState(value: unknown): StoredShellState | null {
   if (!isRecord(value)) return null;
-  if (value.version !== 1 && value.version !== RECORD_VERSION) return null;
+  if (!SHELL_RECORD_VERSIONS.includes(value.version as number)) return null;
   return {
     journal: readJournal(value.journal),
     personWardrobes: readWardrobes(value.personWardrobes),
     pins: readPins(value.pins),
     preferences: readPreferences(value.preferences),
+  };
+}
+
+/** One validated wire codec for shell writes and portable transfers. */
+export function encodeStoredShellState(
+  saveId: EntityId,
+  state: StoredShellState,
+) {
+  return {
+    saveId,
+    version: SHELL_RECORD_VERSION,
+    journal: readJournal(state.journal),
+    personWardrobes: readWardrobes(state.personWardrobes),
+    pins: readPins(state.pins).map((pin) => ({ ref: pin.ref, size: pin.size })),
+    preferences: readPreferences(state.preferences),
   };
 }
 
@@ -281,20 +315,7 @@ export class BrowserShellStateStore {
     if (!database) return false;
     try {
       await transact(database, "readwrite", (store) =>
-        store.put({
-          saveId,
-          version: RECORD_VERSION,
-          journal: state.journal ?? EMPTY_JOURNAL,
-          personWardrobes: readWardrobes(state.personWardrobes),
-          pins: state.pins.map((pin) => ({
-            ref: { kind: pin.ref.kind, id: pin.ref.id },
-            size: pin.size,
-          })),
-          preferences: {
-            peopleView: state.preferences.peopleView,
-            defaultPinSize: state.preferences.defaultPinSize,
-          },
-        }),
+        store.put(encodeStoredShellState(saveId, state)),
       );
       return true;
     } catch {

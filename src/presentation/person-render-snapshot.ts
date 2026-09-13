@@ -1,5 +1,6 @@
 import type { PersonAppearance } from "../simulation/person-appearance";
 import {
+  resolveAppearanceCatalogGeneration,
   resolveCharacterRecipe,
   type CharacterComponentLibrary,
   type CharacterRecipe,
@@ -51,7 +52,10 @@ export function createPersonRenderSnapshot(options: {
             wardrobe,
             poseFamily,
             // Legacy appearances stay pinned to the original generation.
-            catalogGeneration: appearance.catalogGeneration ?? 1,
+            catalogGeneration: resolveAppearanceCatalogGeneration(
+              appearance,
+              library.catalogGeneration,
+            ),
             unresolvableRequiredSlots,
           },
           library,

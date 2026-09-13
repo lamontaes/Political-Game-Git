@@ -15,6 +15,8 @@ export interface OpeningLifeFlowProps {
   readonly alreadyIntroduced: boolean;
   readonly onWorldChange: (world: World) => void;
   readonly continuingLife: ReactNode;
+  /** Keeps the root's room/presence projection aligned with this foreground. */
+  readonly onContinuingChange?: (continuing: boolean) => void;
   /**
    * The conversation box, while the player is talking to somebody.
    *
@@ -74,6 +76,7 @@ export function OpeningLifeFlow(props: OpeningLifeFlowProps) {
               openNextLifeScene(props.world, props.playerPersonId),
             );
             setContinuing(false);
+            props.onContinuingChange?.(false);
           }}
         >
           Return to your day
@@ -85,7 +88,10 @@ export function OpeningLifeFlow(props: OpeningLifeFlowProps) {
       world={props.world}
       playerPersonId={props.playerPersonId}
       onWorldChange={props.onWorldChange}
-      onContinue={() => setContinuing(true)}
+      onContinue={() => {
+        setContinuing(true);
+        props.onContinuingChange?.(true);
+      }}
       onTalkTo={props.onTalkTo}
       returnFocusTo={props.returnFocusTo ?? null}
       {...(props.onFocusReturned

@@ -3136,6 +3136,22 @@ export interface CampaignStateRecord {
  */
 export type CampaignActionKind = "fundraising" | "outreach" | "advertising";
 
+/**
+ * The explicit plan a candidate approved before a campaign action.
+ *
+ * Optional on the action record so pre-strategy saves and their completed
+ * purchases remain valid. A null proposer means the candidate planned alone;
+ * a person id must name campaign staff at commitment time.
+ */
+export interface CampaignActionStrategyRecord {
+  readonly proposerPersonId: EntityId | null;
+  readonly proposedActionKind: CampaignActionKind;
+  readonly geographyKey: string;
+  readonly geographyLabel: string;
+  readonly geographyKind: "jurisdiction" | "district";
+  readonly approvedSpendCeiling: MoneyAmount;
+}
+
 export interface CampaignActionRecord {
   readonly id: EntityId;
   readonly stableKey: string;
@@ -3145,6 +3161,8 @@ export interface CampaignActionRecord {
   readonly scheduledActivityId: EntityId;
   /** Committed when the action is scheduled. Null where it costs only time. */
   readonly plannedSpend: MoneyAmount | null;
+  /** Present only for actions approved through the strategy interaction. */
+  readonly strategy?: CampaignActionStrategyRecord | null;
   readonly createdAt: IsoDate;
 }
 

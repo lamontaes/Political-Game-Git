@@ -27,6 +27,12 @@ export default defineConfig({
     rolldownOptions: { input: { app: "index.html", review: "review.html" } },
   },
   test: {
-    exclude: [...configDefaults.exclude, "tests/e2e/**"],
+    exclude: [
+      ...configDefaults.exclude,
+      "tests/e2e/**",
+      // The desktop shell has its own Node test runner (`cd desktop && npm test`).
+      // Those files use `node:test`, not Vitest.
+      "desktop/**",
+    ],
   },
 });

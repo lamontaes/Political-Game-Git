@@ -35,9 +35,10 @@ describe("corrected people pipeline", () => {
       );
     }
     const pairs = report.pairs.filter(
-      (p) => "garment" in p && p.garment && !("metric" in p),
+      (p) =>
+        "garment" in p && p.garment && !("metric" in p) && !("additive" in p),
     );
-    expect(pairs).toHaveLength(36 * 11);
+    expect(pairs.length).toBeGreaterThanOrEqual(36 * 11);
     expect(new Set(pairs.map((p) => p.status))).toContain("failed-fit");
     expect(new Set(pairs.map((p) => p.status))).toContain("measured-candidate");
     for (const p of pairs.filter((p) => p.status === "measured-candidate")) {

@@ -1,3 +1,4 @@
+import type { NewGameSetup } from "./new-game";
 import type { PoseArtIndex } from "./pose-families";
 import type { CharacterComponentLibrary } from "./character-components";
 import type { RuntimeVisualLibrary } from "./visual-integration";
@@ -7,6 +8,7 @@ import {
   PEOPLE_VISUAL4_VISUAL_LIBRARY,
 } from "./people-visual4-review";
 import { DEFAULT_DATABASE_NAME } from "./browser-world-repository";
+import { gameBuildProfile, type GameBuildProfile } from "./build-profile";
 import { ageOnDate, makeIsoDate } from "../simulation/dates";
 
 /**
@@ -58,6 +60,9 @@ export const ART_PREVIEW_VALUE = "candidate";
 export const ART_PREVIEW_LABEL =
   "Development art preview — unreleased candidate art, not approved";
 
+export const INTERNAL_ART_REVIEW_LABEL =
+  "Internal art review — unreleased candidate art, not approved";
+
 export interface ArtPreviewLibraries {
   readonly characters: CharacterComponentLibrary;
   readonly visuals: RuntimeVisualLibrary;
@@ -71,11 +76,27 @@ export interface ArtPreviewLibraries {
  * a build mode, and so the one place that consults `import.meta.env.DEV` is the
  * caller in the shell.
  */
+export function candidatePreviewAllowed(
+  development: boolean,
+  profile: GameBuildProfile = "production",
+): boolean {
+  return development || profile === "internal-art-review";
+}
+
 export function artPreviewMode(
   search: string,
-  development: boolean,
+  options:
+    | {
+        readonly development: boolean;
+        readonly profile?: GameBuildProfile;
+      }
+    | boolean,
 ): ArtPreviewMode {
-  if (!development) return "production";
+  const normalized =
+    typeof options === "boolean" ? { development: options } : options;
+  const profile = normalized.profile ?? gameBuildProfile();
+  if (profile === "internal-art-review") return "candidate-review";
+  if (!normalized.development) return "production";
   const requested = new URLSearchParams(search).get(ART_PREVIEW_PARAMETER);
   return requested === ART_PREVIEW_VALUE ? "candidate-review" : "production";
 }
@@ -117,7 +138,6 @@ export function artPreviewMode(
  * the same library, so the gallery can no longer disagree with the game about
  * what the bank contains. The separation that matters is untouched — this is
  * still development-only, still outside every catalog generation, still in its
- * own IndexedDB database, and still nothing a shipped build can select.
  */
 export function artPreviewLibraries(
   mode: ArtPreviewMode,
@@ -208,4 +228,29 @@ export function previewDatabaseName(
   base: string = DEFAULT_DATABASE_NAME,
 ): string {
   return mode === "candidate-review" ? `${base}-art-preview` : base;
+}
+
+export function artPreviewBanner(mode: ArtPreviewMode): string | null {
+  if (mode !== "candidate-review") return null;
+  return gameBuildProfile() === "internal-art-review"
+    ? INTERNAL_ART_REVIEW_LABEL
+    : ART_PREVIEW_LABEL;
+}
+
+/** Fresh setup initialization ONLY. Unpinned legacy replays and loaded Worlds must bypass this helper. Existing explicit pins win. */
+export function setupForArtPreview<T extends NewGameSetup>(
+  setup: T,
+  mode: ArtPreviewMode,
+): T {
+  if (
+    mode !== "candidate-review" ||
+    setup.appearanceRecipeVersion !== "appearance-recipe-v2" ||
+    setup.appearanceCatalogGeneration !== undefined
+  )
+    return setup;
+  return {
+    ...setup,
+    appearanceCatalogGeneration:
+      PEOPLE_VISUAL4_CHARACTER_LIBRARY.catalogGeneration,
+  };
 }

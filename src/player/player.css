@@ -6358,6 +6358,13 @@
   color: #16233a;
 }
 
+.creator-place-attribution {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.82em;
+  color: #3a4a63;
+}
+
 .game-creator-next {
   margin-top: 0.9rem;
 }

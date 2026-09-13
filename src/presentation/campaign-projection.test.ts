@@ -21,11 +21,8 @@ import {
   passOrdinaryDays,
 } from "./ordinary-life";
 import { resolvePlayerCapabilities } from "./player-capabilities";
-import {
-  fileForOffice,
-  projectCampaign,
-  spendAnAfternoon,
-} from "./campaign-projection";
+import { projectCampaign, spendAnAfternoon } from "./campaign-projection";
+import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 
 function adultLife(seed: string, placeKey: string) {
   return adultLifeInPlace(seed, requireLifePlace(placeKey));
@@ -103,7 +100,11 @@ describe("what the game will and will not offer", () => {
 
   it("retains the accepted wording for a known chamber count", () => {
     const life = adultLife("offer-alaska", "alaska");
-    const view = projectCampaign(life.world, life.personId);
+    const view = projectCampaign(
+      life.world,
+      life.personId,
+      "us-ak-legislature-v1:house",
+    );
     const pack = candidacyPacks().find(
       (candidate) => candidate.jurisdictionKey === "US-AK",
     )!;

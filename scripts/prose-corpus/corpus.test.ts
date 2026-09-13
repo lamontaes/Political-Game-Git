@@ -194,24 +194,28 @@ describe("PR #119 withholding is preserved, never fabricated", () => {
     (record) => record.reachability === "WITHHELD_BY_GROUNDING",
   );
 
-  it("classifies the eight still-withheld 92C stages as withheld", () => {
+  it("classifies the still-withheld 92C stages as withheld", () => {
     const stages = new Set(
       withheld
         .filter((record) => record.bank === "episode")
         .map((record) => record.stableKey.split("/")[1]),
     );
     for (const stage of [
-      "called-in",
-      "it-came-back-round",
       "pooled-tips",
       "what-you-said-stuck",
       "the-commute",
       "the-family-shop",
       "the-third-weekend",
       "sandbag-line",
+      // LIFE-CONTENT13: the bus-stop encounter has no transit record to rest on.
+      "dropped-pass",
     ]) {
       expect(stages).toContain(stage);
     }
+    // called-in and it-came-back-round left this list because each now rests
+    // on a recorded circumstance a player can really reach — a bound
+    // supervisor's request, a covered shift that was actually worked. Their
+    // negative controls live in src/simulation/life-content13.test.ts.
   });
 
   it("carries the bank's own reason and never calls one reachable", () => {

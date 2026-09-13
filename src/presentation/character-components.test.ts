@@ -6,7 +6,10 @@ import { describe, expect, it } from "vitest";
 
 import fixtureCatalog from "../../art/fixtures/valid_character_catalog.json";
 import fixtureManifest from "../../art/fixtures/valid_character_manifest.json";
-import { derivePersonAppearance } from "../simulation/person-appearance";
+import {
+  COHERENT_APPEARANCE_RECIPE_VERSION,
+  derivePersonAppearance,
+} from "../simulation/person-appearance";
 import { createDemoWorld } from "../simulation/demo";
 import type { PersonAppearance } from "../simulation/types";
 import {
@@ -640,16 +643,28 @@ describe("Modular character component contract", () => {
           { appearance, poseFamily: "seated-at-desk" },
           grownLibrary,
         );
-        expect(current.catalogGeneration).toBe(2);
+        expect(current.catalogGeneration).toBe(1);
+        expect(current.identity).toEqual(established.identity);
+
+        const next = resolveCharacterRecipe(
+          {
+            appearance: derivePersonAppearance(
+              `person_fixture_${index}`,
+              COHERENT_APPEARANCE_RECIPE_VERSION,
+            ),
+            poseFamily: "seated-at-desk",
+          },
+          grownLibrary,
+        );
+        expect(next.catalogGeneration).toBe(2);
         if (
-          JSON.stringify(current.identity) !==
-          JSON.stringify(established.identity)
+          JSON.stringify(next.identity) !== JSON.stringify(established.identity)
         ) {
           changedAtCurrent = true;
         }
       }
-      // The pin is what protects identity: an unpinned resolve at the new
-      // generation legitimately sees the new families.
+      // A v1 appearance stays on frozen generation 1. A v2 appearance follows
+      // the grown catalog so new people can receive the new families.
       expect(changedAtCurrent).toBe(true);
     });
 

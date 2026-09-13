@@ -23,6 +23,9 @@ import {
   PRODUCTION_OFFICE_SCENE_ID,
   PUBLIC_MEETING_ROOM_SCENE_ID,
   TITLE_TABLEAU_SCENE_ID,
+  CAMPAIGN_STOREFRONT_SCENE_ID,
+  PARK_COMMUNITY_PAVILION_SCENE_ID,
+  EXECUTIVE_OFFICE_SCENE_ID,
   registerScene,
   requireScene,
   requireSceneAnchor,
@@ -31,6 +34,9 @@ import {
 import { OFFICE_VISUAL_SCENE } from "./visual-integration";
 import { CIVIC_COMMUNITY_MEETING_ROOM_SCENE } from "../environment/scenes/civic-community-meeting-room-production";
 import { COURTROOM_EMPTY_PRODUCTION_SCENE } from "../environment/scenes/courtroom-empty-production";
+import { CAMPAIGN_STOREFRONT_PRODUCTION_SCENE } from "../environment/scenes/campaign-storefront-production";
+import { PARK_COMMUNITY_PAVILION_CANDIDATE_SCENE } from "../environment/scenes/park-community-pavilion-production";
+import { EXECUTIVE_OFFICE_CANDIDATE_SCENE } from "../environment/scenes/executive-office-production";
 
 describe("scene registry", () => {
   it("registers every shipped scene from a validated EnvironmentSceneSpec", () => {
@@ -43,6 +49,9 @@ describe("scene registry", () => {
       RESIDENCE_APARTMENT_LIVING_ORDINARY_02_SCENE,
       CIVIC_COMMUNITY_MEETING_ROOM_SCENE,
       COURTROOM_EMPTY_PRODUCTION_SCENE,
+      CAMPAIGN_STOREFRONT_PRODUCTION_SCENE,
+      PARK_COMMUNITY_PAVILION_CANDIDATE_SCENE,
+      EXECUTIVE_OFFICE_CANDIDATE_SCENE,
       OFFICE_COUNCIL_STAFF_FIXTURE_SCENE,
       COMMITTEE_ROOM_FIXTURE_SCENE,
     ]) {
@@ -62,6 +71,10 @@ describe("scene registry", () => {
         PRODUCTION_OFFICE_SCENE_ID,
         PUBLIC_MEETING_ROOM_SCENE_ID,
         COURTROOM_SCENE_ID,
+        CAMPAIGN_STOREFRONT_SCENE_ID,
+        PARK_COMMUNITY_PAVILION_SCENE_ID,
+        "press-briefing-room-candidate",
+        EXECUTIVE_OFFICE_SCENE_ID,
       ].sort(),
     );
   });
@@ -88,6 +101,7 @@ describe("scene registry", () => {
         DOMESTIC_ORDINARY_SCENE_ID,
         PUBLIC_MEETING_ROOM_SCENE_ID,
         COURTROOM_SCENE_ID,
+        CAMPAIGN_STOREFRONT_SCENE_ID,
       ].sort(),
     );
     for (const scene of production) {
@@ -96,6 +110,8 @@ describe("scene registry", () => {
     for (const sceneId of [
       OFFICE_FIXTURE_SCENE_ID,
       COMMITTEE_FIXTURE_SCENE_ID,
+      PARK_COMMUNITY_PAVILION_SCENE_ID,
+      EXECUTIVE_OFFICE_SCENE_ID,
     ]) {
       expect(
         requireScene(SCENE_REGISTRY, sceneId).presentationStatus,

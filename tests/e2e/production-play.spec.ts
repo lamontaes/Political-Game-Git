@@ -154,11 +154,9 @@ test.describe("Opening the game opens a game", () => {
 
   test("gives three cold boots three different people", async ({ page }) => {
     // Three full cold boots - clear storage, reload, and the whole creator
-    // walk - each time. The composition this exercises has grown well past
-    // what the default 30s budget assumed; this reproduces as a timeout at a
-    // different stage on each attempt (creator-change-state, then
-    // creator-stage-whoareyou), which is a capacity ceiling, not a logic
-    // fault at either stage.
+    // walk, including an explicit hometown, each time. The composition this
+    // exercises has grown beyond the default 30s budget; a timeout can land at
+    // different creator stages even when no individual stage is at fault.
     test.setTimeout(90_000);
     const names: string[] = [];
     for (let attempt = 0; attempt < 3; attempt += 1) {

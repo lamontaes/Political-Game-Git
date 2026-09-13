@@ -3,6 +3,9 @@ import type { Page } from "@playwright/test";
 import { expect, test } from "./fixtures";
 import { enterLife, goTo, saveLife, startLife } from "./support/creator";
 
+// Preserve A's bounded budget for the complete creator/read/Back/Keep/reopen route.
+test.setTimeout(90_000);
+
 async function savedWorldPayload(page: Page): Promise<string> {
   return page.evaluate(async () => {
     const database = await new Promise<IDBDatabase>((resolve, reject) => {
@@ -159,6 +162,88 @@ test("Politics Budget route keeps an unmatched place unavailable instead of borr
   );
   await expect(page.getByTestId("economic-context-panel")).toHaveCount(0);
   await expect(page.getByText("Lexington, Kentucky")).toHaveCount(0);
+  await saveLife(page);
+  expect(await savedWorldPayload(page)).toBe(before);
+});
+
+test("normal pending conversation survives Politics Budget Back and saved reopen", async ({
+  page,
+}, testInfo) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/?seed=delivery28-budget-pending-0");
+  await startLife(page, {
+    age: 38,
+    place: "Lexington, Kentucky",
+    route: "normal",
+  });
+  await enterLife(page);
+  await goTo(page, "elsewhere-people");
+  await page.getByTestId("conversation-start-household-obligation").click();
+  const conversation = page.getByRole("region", {
+    name: /^Conversation with /,
+  });
+  await expect(conversation).toBeVisible();
+  // Match DOM text, as toHaveText does; CSS can render the topic in capitals.
+  const name = (await conversation
+    .getByTestId("talk-name")
+    .textContent())!.trim();
+  const topic = (await conversation
+    .getByTestId("conversation-topic")
+    .textContent())!.trim();
+  const line = (await conversation
+    .getByTestId("conversation-beat")
+    .textContent())!.trim();
+  const choices = (await conversation
+    .getByTestId("conversation-intents")
+    .textContent())!.trim();
+  await expect(conversation.getByTestId("talk-listen")).toBeVisible();
+  await saveLife(page);
+  const before = await savedWorldPayload(page);
+  const currentDate = JSON.parse(before).world.currentDate as string;
+
+  await goTo(page, "nav-politics-budget");
+  await expect(page.getByTestId("budget-economy-workspace")).toContainText(
+    currentDate,
+  );
+  await expect(page.getByTestId("budget-economy-workspace")).toContainText(
+    "Lexington, Kentucky",
+  );
+  await page.screenshot({
+    path: testInfo.outputPath("budget-pending-conversation.png"),
+  });
+  await page.getByTestId("politics-workspace-back").press("Enter");
+  await expect(conversation).toBeVisible();
+  await expect(conversation.getByTestId("talk-name")).toHaveText(name);
+  await expect(conversation.getByTestId("conversation-topic")).toHaveText(
+    topic,
+  );
+  await expect(conversation.getByTestId("conversation-beat")).toHaveText(line);
+  await expect(conversation.getByTestId("conversation-intents")).toHaveText(
+    choices,
+  );
+  await expect(conversation.getByTestId("talk-listen")).toBeVisible();
+  await saveLife(page);
+  expect(await savedWorldPayload(page)).toBe(before);
+
+  await continueSavedLife(page);
+  await goTo(page, "elsewhere-people");
+  await page.getByTestId("conversation-start-household-obligation").click();
+  await expect(conversation).toBeVisible();
+  await expect(conversation.getByTestId("talk-name")).toHaveText(name);
+  await expect(conversation.getByTestId("conversation-topic")).toHaveText(
+    topic,
+  );
+  await expect(conversation.getByTestId("conversation-beat")).toHaveText(line);
+  await expect(conversation.getByTestId("conversation-intents")).toHaveText(
+    choices,
+  );
+  await expect(conversation.getByTestId("talk-listen")).toBeVisible();
+  await page.screenshot({
+    path: testInfo.outputPath("conversation-after-reopen.png"),
+  });
+  await goTo(page, "nav-politics-budget");
+  await page.getByTestId("politics-workspace-back").click();
+  await expect(conversation.getByTestId("conversation-beat")).toHaveText(line);
   await saveLife(page);
   expect(await savedWorldPayload(page)).toBe(before);
 });

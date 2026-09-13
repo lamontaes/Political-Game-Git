@@ -687,6 +687,29 @@
       }
     },
     {
+      "asset_id": "pv4_wave_a_male_top_brown_fur_hood_parka_v1_crossbody",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_top_brown_fur_hood_parka_v1.png",
+      "hash": "4dc0f94eb0645fb4347b97e17ca06fb9ebcee4dc8f4a6bb1e0991c3aac95b5d6",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-male-top-brown-fur-hood-parka-v1-crossbody",
+        "layer": 35,
+        "canvas": { "width": 355, "height": 450 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.4988584474885845, "y": 0.1476147614761476 },
+        "compatible_body_families": [
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
       "asset_id": "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1",
       "asset_type": "character-component-candidate",
       "fixed_or_modular": "modular",
@@ -712,6 +735,29 @@
       }
     },
     {
+      "asset_id": "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_crossbody",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1.png",
+      "hash": "b051b3b47edc3b651d1f55a1d0dff0ffcb35ea62d52284a0668c88755d1ba789",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-male-top-burgundy-long-sleeve-polo-v1-crossbody",
+        "layer": 35,
+        "canvas": { "width": 336, "height": 385 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5, "y": 0.06334371754932502 },
+        "compatible_body_families": [
+          "wave-a-older-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
       "asset_id": "pv4_wave_a_male_top_charcoal_blazer_v1",
       "asset_type": "character-component-candidate",
       "fixed_or_modular": "modular",
@@ -730,6 +776,30 @@
         "origin": { "x": 0.5, "y": 0.05205205205205205 },
         "compatible_body_families": [
           "wave-a-average-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_top_charcoal_blazer_v1_crossbody",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_top_charcoal_blazer_v1.png",
+      "hash": "91038ac7a5db649baac47b0d71d5a9a0a227eaaa8fa1b6368dabb82944f3eacf",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-male-top-charcoal-blazer-v1-crossbody",
+        "layer": 35,
+        "canvas": { "width": 322, "height": 385 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5, "y": 0.05205205205205205 },
+        "compatible_body_families": [
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-older-woman-standing-neutral-front-b-v1-pv4"
         ],
         "compatible_pose_families": ["standing-neutral"]
       }
@@ -805,6 +875,29 @@
           "wave-a-average-man-standing-neutral-front-a-v1-pv4",
           "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
           "wave-a-skinny-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_top_gray_long_sleeve_tee_v1_crossbody",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_top_gray_long_sleeve_tee_v1.png",
+      "hash": "775299b1badd3af7c2d0442f0147408db8506a1671a9ca28d11bdcc6ef58e9f6",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-male-top-gray-long-sleeve-tee-v1-crossbody",
+        "layer": 35,
+        "canvas": { "width": 352, "height": 385 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5, "y": 0.035164835164835165 },
+        "compatible_body_families": [
+          "wave-a-older-woman-standing-neutral-front-b-v1-pv4"
         ],
         "compatible_pose_families": ["standing-neutral"]
       }
@@ -910,6 +1003,29 @@
       }
     },
     {
+      "asset_id": "pv4_wave_a_male_top_plaid_overshirt_v1_crossbody",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_top_plaid_overshirt_v1.png",
+      "hash": "cb2d669af13aa51fa60279f1d0ddb94098854f9cc5fb17007013e1e55cd98918",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-male-top-plaid-overshirt-v1-crossbody",
+        "layer": 35,
+        "canvas": { "width": 334, "height": 385 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5, "y": 0.0595959595959596 },
+        "compatible_body_families": [
+          "wave-a-older-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
       "asset_id": "pv4_wave_a_male_top_tan_utility_shirt_v1",
       "asset_type": "character-component-candidate",
       "fixed_or_modular": "modular",
@@ -930,6 +1046,29 @@
           "wave-a-average-man-standing-neutral-front-a-v1-pv4",
           "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
           "wave-a-skinny-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_top_tan_utility_shirt_v1_crossbody",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_top_tan_utility_shirt_v1.png",
+      "hash": "f2296bc965fa6348d7c4238d4d6629cac41d97418f7e51071c756a4477ffec71",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-male-top-tan-utility-shirt-v1-crossbody",
+        "layer": 35,
+        "canvas": { "width": 334, "height": 385 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5005740528128588, "y": 0.061691542288557215 },
+        "compatible_body_families": [
+          "wave-a-older-woman-standing-neutral-front-b-v1-pv4"
         ],
         "compatible_pose_families": ["standing-neutral"]
       }
@@ -1053,6 +1192,29 @@
       }
     },
     {
+      "asset_id": "pv4_wave_a_female_top_cream_cardigan_v1_crossbody",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_female_top_cream_cardigan_v1.png",
+      "hash": "3a84ac913708437472d37c302fc852354796c2ca70005a5eff75c0e86b6e6734",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-female-top-cream-cardigan-v1-crossbody",
+        "layer": 35,
+        "canvas": { "width": 362, "height": 365 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5, "y": 0.06218144750254842 },
+        "compatible_body_families": [
+          "wave-a-older-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
       "asset_id": "pv4_wave_a_female_top_gray_short_sleeve_tee_v1",
       "asset_type": "character-component-candidate",
       "fixed_or_modular": "modular",
@@ -1101,6 +1263,29 @@
       }
     },
     {
+      "asset_id": "pv4_wave_a_female_top_mustard_cable_sweater_v1_crossbody",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_female_top_mustard_cable_sweater_v1.png",
+      "hash": "9c2fed9f27e9ea35f779a117d74661773b0ebfa0433645a32705bc76ec15adf6",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-female-top-mustard-cable-sweater-v1-crossbody",
+        "layer": 35,
+        "canvas": { "width": 371, "height": 365 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5, "y": 0.05042016806722689 },
+        "compatible_body_families": [
+          "wave-a-older-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
       "asset_id": "pv4_wave_a_female_top_navy_zip_hoodie_v1",
       "asset_type": "character-component-candidate",
       "fixed_or_modular": "modular",
@@ -1120,6 +1305,29 @@
         "compatible_body_families": [
           "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
           "wave-a-average-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_female_top_navy_zip_hoodie_v1_crossbody",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_female_top_navy_zip_hoodie_v1.png",
+      "hash": "1407723145dd488de8fae6b94a81e836e26134517d00bf5d40d2970726875158",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-female-top-navy-zip-hoodie-v1-crossbody",
+        "layer": 35,
+        "canvas": { "width": 344, "height": 365 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5, "y": 0.09910802775024777 },
+        "compatible_body_families": [
+          "wave-a-older-woman-standing-neutral-front-b-v1-pv4"
         ],
         "compatible_pose_families": ["standing-neutral"]
       }
@@ -1237,6 +1445,30 @@
         "canvas": { "width": 348, "height": 365 },
         "attaches_to": "torso",
         "origin": { "x": 0.5, "y": 0.06692913385826772 },
+        "compatible_body_families": [
+          "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_female_top_burgundy_short_sleeve_polo_v1_armmasked",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_female_top_burgundy_short_sleeve_polo_v1_armmasked.png",
+      "hash": "4641d8b1fd36aa6eeb0e695b600f11a1be0060da573fd9e855e7c6c521d22ea8",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-female-top-burgundy-short-sleeve-polo-v1-armmasked",
+        "layer": 35,
+        "canvas": { "width": 355, "height": 365 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5, "y": 0.06666666666666667 },
         "compatible_body_families": [
           "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
           "wave-a-average-woman-standing-neutral-front-b-v1-pv4"

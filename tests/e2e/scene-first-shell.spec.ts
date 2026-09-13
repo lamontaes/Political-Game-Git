@@ -133,7 +133,7 @@ test.describe("A life is played in the room, not on a card", () => {
     // Their full record is one step from here, and Back returns to the room.
     await menu.getByTestId("action-record").click();
     await expect(page.getByTestId("person-workspace")).toBeVisible();
-    await page.getByTestId("person-workspace-close").click();
+    await page.getByTestId("person-workspace-back").click();
 
     // The same person, reached with no pointer at all.
     await person.focus();

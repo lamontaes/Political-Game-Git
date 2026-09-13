@@ -413,6 +413,20 @@
       "acceptance": "Unapproved candidate; production membership absent."
     },
     {
+      "asset_id": "pv4_wave_a_male_top_brown_fur_hood_parka_v1_crossbody",
+      "source": {
+        "shared_pixels_of": "pv4_wave_a_male_top_brown_fur_hood_parka_v1",
+        "role": "candidate-only-cross-body-warp",
+        "admission": "Not production; owner visual acceptance still required.",
+        "shared_final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_top_brown_fur_hood_parka_v1.png",
+        "hash": "4dc0f94eb0645fb4347b97e17ca06fb9ebcee4dc8f4a6bb1e0991c3aac95b5d6"
+      },
+      "derivation": "Same game-space pixels as the named source component; new family for additive cross-body membership only.",
+      "upscale_lineage": "Unknown unless declared in the original source evidence; existing pixel dimensions are not a native-resolution claim.",
+      "rights_status": "Unknown; source bank provenance retained, no reuse approval inferred.",
+      "acceptance": "Unapproved candidate-only alias; production membership absent. Original affine component is unchanged."
+    },
+    {
       "asset_id": "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1",
       "source": {
         "path": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_burgundy_long_sleeve_polo_v1.png",
@@ -426,6 +440,20 @@
       "acceptance": "Unapproved candidate; production membership absent."
     },
     {
+      "asset_id": "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_crossbody",
+      "source": {
+        "shared_pixels_of": "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1",
+        "role": "candidate-only-cross-body-warp",
+        "admission": "Not production; owner visual acceptance still required.",
+        "shared_final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1.png",
+        "hash": "b051b3b47edc3b651d1f55a1d0dff0ffcb35ea62d52284a0668c88755d1ba789"
+      },
+      "derivation": "Same game-space pixels as the named source component; new family for additive cross-body membership only.",
+      "upscale_lineage": "Unknown unless declared in the original source evidence; existing pixel dimensions are not a native-resolution claim.",
+      "rights_status": "Unknown; source bank provenance retained, no reuse approval inferred.",
+      "acceptance": "Unapproved candidate-only alias; production membership absent. Original affine component is unchanged."
+    },
+    {
       "asset_id": "pv4_wave_a_male_top_charcoal_blazer_v1",
       "source": {
         "path": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_charcoal_blazer_v1.png",
@@ -437,6 +465,20 @@
       "upscale_lineage": "Unknown unless declared in the original source evidence; existing pixel dimensions are not a native-resolution claim.",
       "rights_status": "Unknown; source bank provenance retained, no reuse approval inferred.",
       "acceptance": "Unapproved candidate; production membership absent."
+    },
+    {
+      "asset_id": "pv4_wave_a_male_top_charcoal_blazer_v1_crossbody",
+      "source": {
+        "shared_pixels_of": "pv4_wave_a_male_top_charcoal_blazer_v1",
+        "role": "candidate-only-cross-body-warp",
+        "admission": "Not production; owner visual acceptance still required.",
+        "shared_final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_top_charcoal_blazer_v1.png",
+        "hash": "91038ac7a5db649baac47b0d71d5a9a0a227eaaa8fa1b6368dabb82944f3eacf"
+      },
+      "derivation": "Same game-space pixels as the named source component; new family for additive cross-body membership only.",
+      "upscale_lineage": "Unknown unless declared in the original source evidence; existing pixel dimensions are not a native-resolution claim.",
+      "rights_status": "Unknown; source bank provenance retained, no reuse approval inferred.",
+      "acceptance": "Unapproved candidate-only alias; production membership absent. Original affine component is unchanged."
     },
     {
       "asset_id": "pv4_wave_a_male_top_charcoal_puffer_vest_layered_v1",
@@ -476,6 +518,20 @@
       "upscale_lineage": "Unknown unless declared in the original source evidence; existing pixel dimensions are not a native-resolution claim.",
       "rights_status": "Unknown; source bank provenance retained, no reuse approval inferred.",
       "acceptance": "Unapproved candidate; production membership absent."
+    },
+    {
+      "asset_id": "pv4_wave_a_male_top_gray_long_sleeve_tee_v1_crossbody",
+      "source": {
+        "shared_pixels_of": "pv4_wave_a_male_top_gray_long_sleeve_tee_v1",
+        "role": "candidate-only-cross-body-warp",
+        "admission": "Not production; owner visual acceptance still required.",
+        "shared_final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_top_gray_long_sleeve_tee_v1.png",
+        "hash": "775299b1badd3af7c2d0442f0147408db8506a1671a9ca28d11bdcc6ef58e9f6"
+      },
+      "derivation": "Same game-space pixels as the named source component; new family for additive cross-body membership only.",
+      "upscale_lineage": "Unknown unless declared in the original source evidence; existing pixel dimensions are not a native-resolution claim.",
+      "rights_status": "Unknown; source bank provenance retained, no reuse approval inferred.",
+      "acceptance": "Unapproved candidate-only alias; production membership absent. Original affine component is unchanged."
     },
     {
       "asset_id": "pv4_wave_a_male_top_green_cable_sweater_v1",
@@ -530,6 +586,20 @@
       "acceptance": "Unapproved candidate; production membership absent."
     },
     {
+      "asset_id": "pv4_wave_a_male_top_plaid_overshirt_v1_crossbody",
+      "source": {
+        "shared_pixels_of": "pv4_wave_a_male_top_plaid_overshirt_v1",
+        "role": "candidate-only-cross-body-warp",
+        "admission": "Not production; owner visual acceptance still required.",
+        "shared_final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_top_plaid_overshirt_v1.png",
+        "hash": "cb2d669af13aa51fa60279f1d0ddb94098854f9cc5fb17007013e1e55cd98918"
+      },
+      "derivation": "Same game-space pixels as the named source component; new family for additive cross-body membership only.",
+      "upscale_lineage": "Unknown unless declared in the original source evidence; existing pixel dimensions are not a native-resolution claim.",
+      "rights_status": "Unknown; source bank provenance retained, no reuse approval inferred.",
+      "acceptance": "Unapproved candidate-only alias; production membership absent. Original affine component is unchanged."
+    },
+    {
       "asset_id": "pv4_wave_a_male_top_tan_utility_shirt_v1",
       "source": {
         "path": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_tan_utility_shirt_v1.png",
@@ -541,6 +611,20 @@
       "upscale_lineage": "Unknown unless declared in the original source evidence; existing pixel dimensions are not a native-resolution claim.",
       "rights_status": "Unknown; source bank provenance retained, no reuse approval inferred.",
       "acceptance": "Unapproved candidate; production membership absent."
+    },
+    {
+      "asset_id": "pv4_wave_a_male_top_tan_utility_shirt_v1_crossbody",
+      "source": {
+        "shared_pixels_of": "pv4_wave_a_male_top_tan_utility_shirt_v1",
+        "role": "candidate-only-cross-body-warp",
+        "admission": "Not production; owner visual acceptance still required.",
+        "shared_final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_top_tan_utility_shirt_v1.png",
+        "hash": "f2296bc965fa6348d7c4238d4d6629cac41d97418f7e51071c756a4477ffec71"
+      },
+      "derivation": "Same game-space pixels as the named source component; new family for additive cross-body membership only.",
+      "upscale_lineage": "Unknown unless declared in the original source evidence; existing pixel dimensions are not a native-resolution claim.",
+      "rights_status": "Unknown; source bank provenance retained, no reuse approval inferred.",
+      "acceptance": "Unapproved candidate-only alias; production membership absent. Original affine component is unchanged."
     },
     {
       "asset_id": "pv4_wave_a_male_top_white_button_up_shirt_v1",
@@ -608,6 +692,20 @@
       "acceptance": "Unapproved candidate; production membership absent."
     },
     {
+      "asset_id": "pv4_wave_a_female_top_cream_cardigan_v1_crossbody",
+      "source": {
+        "shared_pixels_of": "pv4_wave_a_female_top_cream_cardigan_v1",
+        "role": "candidate-only-cross-body-warp",
+        "admission": "Not production; owner visual acceptance still required.",
+        "shared_final_path": "art/generated/candidates/people-visual4/pv4_wave_a_female_top_cream_cardigan_v1.png",
+        "hash": "3a84ac913708437472d37c302fc852354796c2ca70005a5eff75c0e86b6e6734"
+      },
+      "derivation": "Same game-space pixels as the named source component; new family for additive cross-body membership only.",
+      "upscale_lineage": "Unknown unless declared in the original source evidence; existing pixel dimensions are not a native-resolution claim.",
+      "rights_status": "Unknown; source bank provenance retained, no reuse approval inferred.",
+      "acceptance": "Unapproved candidate-only alias; production membership absent. Original affine component is unchanged."
+    },
+    {
       "asset_id": "pv4_wave_a_female_top_gray_short_sleeve_tee_v1",
       "source": {
         "path": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_gray_short_sleeve_tee_v1.png",
@@ -634,6 +732,20 @@
       "acceptance": "Unapproved candidate; production membership absent."
     },
     {
+      "asset_id": "pv4_wave_a_female_top_mustard_cable_sweater_v1_crossbody",
+      "source": {
+        "shared_pixels_of": "pv4_wave_a_female_top_mustard_cable_sweater_v1",
+        "role": "candidate-only-cross-body-warp",
+        "admission": "Not production; owner visual acceptance still required.",
+        "shared_final_path": "art/generated/candidates/people-visual4/pv4_wave_a_female_top_mustard_cable_sweater_v1.png",
+        "hash": "9c2fed9f27e9ea35f779a117d74661773b0ebfa0433645a32705bc76ec15adf6"
+      },
+      "derivation": "Same game-space pixels as the named source component; new family for additive cross-body membership only.",
+      "upscale_lineage": "Unknown unless declared in the original source evidence; existing pixel dimensions are not a native-resolution claim.",
+      "rights_status": "Unknown; source bank provenance retained, no reuse approval inferred.",
+      "acceptance": "Unapproved candidate-only alias; production membership absent. Original affine component is unchanged."
+    },
+    {
       "asset_id": "pv4_wave_a_female_top_navy_zip_hoodie_v1",
       "source": {
         "path": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_navy_zip_hoodie_v1.png",
@@ -645,6 +757,20 @@
       "upscale_lineage": "Unknown unless declared in the original source evidence; existing pixel dimensions are not a native-resolution claim.",
       "rights_status": "Unknown; source bank provenance retained, no reuse approval inferred.",
       "acceptance": "Unapproved candidate; production membership absent."
+    },
+    {
+      "asset_id": "pv4_wave_a_female_top_navy_zip_hoodie_v1_crossbody",
+      "source": {
+        "shared_pixels_of": "pv4_wave_a_female_top_navy_zip_hoodie_v1",
+        "role": "candidate-only-cross-body-warp",
+        "admission": "Not production; owner visual acceptance still required.",
+        "shared_final_path": "art/generated/candidates/people-visual4/pv4_wave_a_female_top_navy_zip_hoodie_v1.png",
+        "hash": "1407723145dd488de8fae6b94a81e836e26134517d00bf5d40d2970726875158"
+      },
+      "derivation": "Same game-space pixels as the named source component; new family for additive cross-body membership only.",
+      "upscale_lineage": "Unknown unless declared in the original source evidence; existing pixel dimensions are not a native-resolution claim.",
+      "rights_status": "Unknown; source bank provenance retained, no reuse approval inferred.",
+      "acceptance": "Unapproved candidate-only alias; production membership absent. Original affine component is unchanged."
     },
     {
       "asset_id": "pv4_wave_a_female_top_olive_button_up_shirt_v1",
@@ -705,6 +831,21 @@
         "sha256": "d53f4fe3473cd7e4c418c3c57cfa04ac7e009c5db68be342ca582b223a00e247",
         "attachment_authoring": "art/manifest/people_visual4_top_attachments.json",
         "uniform_source_height": 365
+      },
+      "derivation": "Source crop, uniform reduction and explicit attachment authoring. No generated or enlarged pixels.",
+      "upscale_lineage": "Unknown unless declared in the original source evidence; existing pixel dimensions are not a native-resolution claim.",
+      "rights_status": "Unknown; source bank provenance retained, no reuse approval inferred.",
+      "acceptance": "Unapproved candidate; production membership absent."
+    },
+    {
+      "asset_id": "pv4_wave_a_female_top_burgundy_short_sleeve_polo_v1_armmasked",
+      "source": {
+        "path": "art/generated/candidates/people-visual4-masked/wave_a_female_top_burgundy_short_sleeve_polo_v1_armmasked.png",
+        "sha256": "a8f4303c6c2c8ff3ce3d53a842f6db1ac34b4ddaf04ad6a418d9f3779eb450cc",
+        "attachment_authoring": "art/manifest/people_visual4_top_attachments.json",
+        "uniform_source_height": 365,
+        "masked_from": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_burgundy_short_sleeve_polo_v1.png",
+        "role": "candidate-only-arm-masked-polo"
       },
       "derivation": "Source crop, uniform reduction and explicit attachment authoring. No generated or enlarged pixels.",
       "upscale_lineage": "Unknown unless declared in the original source evidence; existing pixel dimensions are not a native-resolution claim.",
@@ -4740,6 +4881,49 @@
     },
     {
       "body": "wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+      "garment": "pv4_wave_a_male_top_brown_fur_hood_parka_v1_crossbody",
+      "source_reference": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "reference_control": false,
+      "transform": {
+        "kind": "bounded-warp",
+        "scaleY": 1,
+        "translateY": 0,
+        "controlPoints": [
+          { "at": 0, "scaleX": 1.116667, "offsetX": 0 },
+          { "at": 0.218015, "scaleX": 1.116667, "offsetX": 0 },
+          { "at": 0.755615, "scaleX": 1.089783, "offsetX": 0 },
+          { "at": 0.902815, "scaleX": 1.084112, "offsetX": 0 },
+          { "at": 1, "scaleX": 1.084112, "offsetX": 0 }
+        ]
+      },
+      "measurement": {
+        "status": "measured",
+        "statusReason": null,
+        "mode": "edge-match",
+        "fromRow": 197,
+        "toRow": 505,
+        "overhangPx": 18.82,
+        "overhangAtRow": 460,
+        "undercoveragePx": 3.81,
+        "undercoverageAtRow": 505,
+        "worstPx": 8.01,
+        "worstAtRow": 496,
+        "worstFractionOfBodySpan": 0.0231,
+        "rowsCompared": 309,
+        "rowsInWindow": 309
+      },
+      "status": "measured-candidate",
+      "additive": true,
+      "refusal": null,
+      "source_constraints": [
+        "Fur hood and opaque inner lining need explicit neck/head occlusion handling.",
+        "Coat length must retain its own style; do not force this hem to a shirt hem.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "acceptance": "Candidate-only bounded-warp pairing; the original affine component is unchanged. Not human visual approval."
+    },
+    {
+      "body": "wave_a_fat_man_standing_neutral_front_a_v1_pv4",
       "garment": "pv4_wave_a_male_top_brown_fur_hood_parka_v1",
       "source_reference": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
       "reference_control": false,
@@ -5149,6 +5333,47 @@
     },
     {
       "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "garment": "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_crossbody",
+      "source_reference": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "reference_control": false,
+      "transform": {
+        "kind": "bounded-warp",
+        "scaleY": 1,
+        "translateY": 0,
+        "controlPoints": [
+          { "at": 0, "scaleX": 1.029167, "offsetX": 0 },
+          { "at": 0.145629, "scaleX": 1.029167, "offsetX": 0 },
+          { "at": 0.773993, "scaleX": 1.092879, "offsetX": 0 },
+          { "at": 0.946045, "scaleX": 1.152648, "offsetX": 0 },
+          { "at": 1, "scaleX": 1.152648, "offsetX": 0 }
+        ]
+      },
+      "measurement": {
+        "status": "measured",
+        "statusReason": null,
+        "mode": "edge-match",
+        "fromRow": 197,
+        "toRow": 490,
+        "overhangPx": 14.66,
+        "overhangAtRow": 317,
+        "undercoveragePx": 5.52,
+        "undercoverageAtRow": 197,
+        "worstPx": 8.69,
+        "worstAtRow": 322,
+        "worstFractionOfBodySpan": 0.0298,
+        "rowsCompared": 294,
+        "rowsInWindow": 294
+      },
+      "status": "measured-candidate",
+      "additive": true,
+      "refusal": null,
+      "source_constraints": [
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "acceptance": "Candidate-only bounded-warp pairing; the original affine component is unchanged. Not human visual approval."
+    },
+    {
+      "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
       "garment": "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1",
       "source_reference": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
       "reference_control": false,
@@ -5412,6 +5637,49 @@
     },
     {
       "body": "wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+      "garment": "pv4_wave_a_male_top_charcoal_blazer_v1_crossbody",
+      "source_reference": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "reference_control": false,
+      "transform": {
+        "kind": "bounded-warp",
+        "scaleY": 1,
+        "translateY": 0,
+        "controlPoints": [
+          { "at": 0, "scaleX": 1.116667, "offsetX": 0 },
+          { "at": 0.134338, "scaleX": 1.116667, "offsetX": 0 },
+          { "at": 0.762701, "scaleX": 1.089783, "offsetX": 0 },
+          { "at": 0.934753, "scaleX": 1.084112, "offsetX": 0 },
+          { "at": 1, "scaleX": 1.084112, "offsetX": 0 }
+        ]
+      },
+      "measurement": {
+        "status": "measured",
+        "statusReason": null,
+        "mode": "edge-match",
+        "fromRow": 197,
+        "toRow": 505,
+        "overhangPx": 4.81,
+        "overhangAtRow": 206,
+        "undercoveragePx": 13.33,
+        "undercoverageAtRow": 505,
+        "worstPx": 5.91,
+        "worstAtRow": 505,
+        "worstFractionOfBodySpan": 0.018,
+        "rowsCompared": 309,
+        "rowsInWindow": 309
+      },
+      "status": "measured-candidate",
+      "additive": true,
+      "refusal": null,
+      "source_constraints": [
+        "Opaque V-shaped inner lining is not transparent skin or a separately selectable undershirt.",
+        "Front split and lapels must not be scored as tight body-edge conformity.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "acceptance": "Candidate-only bounded-warp pairing; the original affine component is unchanged. Not human visual approval."
+    },
+    {
+      "body": "wave_a_fat_man_standing_neutral_front_a_v1_pv4",
       "garment": "pv4_wave_a_male_top_charcoal_blazer_v1",
       "source_reference": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
       "reference_control": false,
@@ -5483,6 +5751,49 @@
         "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
       ],
       "acceptance": "Not human visual approval; self-pair is a diagnostic control only."
+    },
+    {
+      "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "garment": "pv4_wave_a_male_top_charcoal_blazer_v1_crossbody",
+      "source_reference": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "reference_control": false,
+      "transform": {
+        "kind": "bounded-warp",
+        "scaleY": 1,
+        "translateY": 0,
+        "controlPoints": [
+          { "at": 0, "scaleX": 1.029167, "offsetX": 0 },
+          { "at": 0.134338, "scaleX": 1.029167, "offsetX": 0 },
+          { "at": 0.762701, "scaleX": 1.092879, "offsetX": 0 },
+          { "at": 0.934753, "scaleX": 1.152648, "offsetX": 0 },
+          { "at": 1, "scaleX": 1.152648, "offsetX": 0 }
+        ]
+      },
+      "measurement": {
+        "status": "measured",
+        "statusReason": null,
+        "mode": "edge-match",
+        "fromRow": 197,
+        "toRow": 490,
+        "overhangPx": 8.28,
+        "overhangAtRow": 293,
+        "undercoveragePx": 6.42,
+        "undercoverageAtRow": 197,
+        "worstPx": 9.36,
+        "worstAtRow": 490,
+        "worstFractionOfBodySpan": 0.0291,
+        "rowsCompared": 294,
+        "rowsInWindow": 294
+      },
+      "status": "measured-candidate",
+      "additive": true,
+      "refusal": null,
+      "source_constraints": [
+        "Opaque V-shaped inner lining is not transparent skin or a separately selectable undershirt.",
+        "Front split and lapels must not be scored as tight body-edge conformity.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "acceptance": "Candidate-only bounded-warp pairing; the original affine component is unchanged. Not human visual approval."
     },
     {
       "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
@@ -6504,6 +6815,48 @@
         "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
       ],
       "acceptance": "Not human visual approval; self-pair is a diagnostic control only."
+    },
+    {
+      "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "garment": "pv4_wave_a_male_top_gray_long_sleeve_tee_v1_crossbody",
+      "source_reference": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "reference_control": false,
+      "transform": {
+        "kind": "bounded-warp",
+        "scaleY": 1,
+        "translateY": 0,
+        "controlPoints": [
+          { "at": 0, "scaleX": 1.029167, "offsetX": 0 },
+          { "at": 0.117451, "scaleX": 1.029167, "offsetX": 0 },
+          { "at": 0.745814, "scaleX": 1.092879, "offsetX": 0 },
+          { "at": 0.917866, "scaleX": 1.152648, "offsetX": 0 },
+          { "at": 1, "scaleX": 1.152648, "offsetX": 0 }
+        ]
+      },
+      "measurement": {
+        "status": "measured",
+        "statusReason": null,
+        "mode": "edge-match",
+        "fromRow": 197,
+        "toRow": 490,
+        "overhangPx": 21.56,
+        "overhangAtRow": 322,
+        "undercoveragePx": 0,
+        "undercoverageAtRow": -1,
+        "worstPx": 8.51,
+        "worstAtRow": 333,
+        "worstFractionOfBodySpan": 0.029,
+        "rowsCompared": 294,
+        "rowsInWindow": 294
+      },
+      "status": "measured-candidate",
+      "additive": true,
+      "refusal": null,
+      "source_constraints": [
+        "Opaque crew-neck interior must not erase the selected neck when composed.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "acceptance": "Candidate-only bounded-warp pairing; the original affine component is unchanged. Not human visual approval."
     },
     {
       "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
@@ -7856,6 +8209,49 @@
     },
     {
       "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "garment": "pv4_wave_a_male_top_plaid_overshirt_v1_crossbody",
+      "source_reference": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "reference_control": false,
+      "transform": {
+        "kind": "bounded-warp",
+        "scaleY": 1,
+        "translateY": 0,
+        "controlPoints": [
+          { "at": 0, "scaleX": 1.029167, "offsetX": 0 },
+          { "at": 0.141882, "scaleX": 1.029167, "offsetX": 0 },
+          { "at": 0.770245, "scaleX": 1.092879, "offsetX": 0 },
+          { "at": 0.942297, "scaleX": 1.152648, "offsetX": 0 },
+          { "at": 1, "scaleX": 1.152648, "offsetX": 0 }
+        ]
+      },
+      "measurement": {
+        "status": "measured",
+        "statusReason": null,
+        "mode": "edge-match",
+        "fromRow": 197,
+        "toRow": 490,
+        "overhangPx": 12.6,
+        "overhangAtRow": 318,
+        "undercoveragePx": 13.72,
+        "undercoverageAtRow": 197,
+        "worstPx": 8.64,
+        "worstAtRow": 322,
+        "worstFractionOfBodySpan": 0.0293,
+        "rowsCompared": 294,
+        "rowsInWindow": 294
+      },
+      "status": "measured-candidate",
+      "additive": true,
+      "refusal": null,
+      "source_constraints": [
+        "Gray undershirt is baked in and cannot be selected independently.",
+        "Central open-hem gap is intentional garment construction.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "acceptance": "Candidate-only bounded-warp pairing; the original affine component is unchanged. Not human visual approval."
+    },
+    {
+      "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
       "garment": "pv4_wave_a_male_top_plaid_overshirt_v1",
       "source_reference": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
       "reference_control": false,
@@ -8188,6 +8584,47 @@
         "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
       ],
       "acceptance": "Not human visual approval; self-pair is a diagnostic control only."
+    },
+    {
+      "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "garment": "pv4_wave_a_male_top_tan_utility_shirt_v1_crossbody",
+      "source_reference": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "reference_control": false,
+      "transform": {
+        "kind": "bounded-warp",
+        "scaleY": 1,
+        "translateY": 0,
+        "controlPoints": [
+          { "at": 0, "scaleX": 1.029167, "offsetX": 0 },
+          { "at": 0.143977, "scaleX": 1.029167, "offsetX": 0 },
+          { "at": 0.772341, "scaleX": 1.092879, "offsetX": 0 },
+          { "at": 0.944393, "scaleX": 1.152648, "offsetX": 0 },
+          { "at": 1, "scaleX": 1.152648, "offsetX": 0 }
+        ]
+      },
+      "measurement": {
+        "status": "measured",
+        "statusReason": null,
+        "mode": "edge-match",
+        "fromRow": 197,
+        "toRow": 490,
+        "overhangPx": 12.83,
+        "overhangAtRow": 320,
+        "undercoveragePx": 16,
+        "undercoverageAtRow": 197,
+        "worstPx": 8.55,
+        "worstAtRow": 318,
+        "worstFractionOfBodySpan": 0.0291,
+        "rowsCompared": 294,
+        "rowsInWindow": 294
+      },
+      "status": "measured-candidate",
+      "additive": true,
+      "refusal": null,
+      "source_constraints": [
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "acceptance": "Candidate-only bounded-warp pairing; the original affine component is unchanged. Not human visual approval."
     },
     {
       "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
@@ -9899,6 +10336,49 @@
     },
     {
       "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "garment": "pv4_wave_a_female_top_cream_cardigan_v1_crossbody",
+      "source_reference": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "reference_control": false,
+      "transform": {
+        "kind": "bounded-warp",
+        "scaleY": 1,
+        "translateY": 0,
+        "controlPoints": [
+          { "at": 0, "scaleX": 1.112613, "offsetX": 0 },
+          { "at": 0.130565, "scaleX": 1.112613, "offsetX": 0 },
+          { "at": 0.727606, "scaleX": 1.014368, "offsetX": 0 },
+          { "at": 0.909086, "scaleX": 0.986667, "offsetX": 0 },
+          { "at": 1, "scaleX": 0.986667, "offsetX": 0 }
+        ]
+      },
+      "measurement": {
+        "status": "measured",
+        "statusReason": null,
+        "mode": "edge-match",
+        "fromRow": 197,
+        "toRow": 490,
+        "overhangPx": 17.2,
+        "overhangAtRow": 206,
+        "undercoveragePx": 8.39,
+        "undercoverageAtRow": 487,
+        "worstPx": 6.96,
+        "worstAtRow": 234,
+        "worstFractionOfBodySpan": 0.0256,
+        "rowsCompared": 294,
+        "rowsInWindow": 294
+      },
+      "status": "measured-candidate",
+      "additive": true,
+      "refusal": null,
+      "source_constraints": [
+        "Opaque V-neck interior needs explicit neck/undershirt handling.",
+        "Chest and waist shaping is baked; inspect exact body morphology.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "acceptance": "Candidate-only bounded-warp pairing; the original affine component is unchanged. Not human visual approval."
+    },
+    {
+      "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
       "garment": "pv4_wave_a_female_top_cream_cardigan_v1",
       "source_reference": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
       "reference_control": false,
@@ -10589,6 +11069,49 @@
     },
     {
       "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "garment": "pv4_wave_a_female_top_mustard_cable_sweater_v1_crossbody",
+      "source_reference": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "reference_control": false,
+      "transform": {
+        "kind": "bounded-warp",
+        "scaleY": 1,
+        "translateY": 0,
+        "controlPoints": [
+          { "at": 0, "scaleX": 1.112613, "offsetX": 0 },
+          { "at": 0.118804, "scaleX": 1.112613, "offsetX": 0 },
+          { "at": 0.715845, "scaleX": 1.014368, "offsetX": 0 },
+          { "at": 0.897324, "scaleX": 0.986667, "offsetX": 0 },
+          { "at": 1, "scaleX": 0.986667, "offsetX": 0 }
+        ]
+      },
+      "measurement": {
+        "status": "measured",
+        "statusReason": null,
+        "mode": "edge-match",
+        "fromRow": 197,
+        "toRow": 490,
+        "overhangPx": 19.82,
+        "overhangAtRow": 209,
+        "undercoveragePx": 4.93,
+        "undercoverageAtRow": 487,
+        "worstPx": 7.82,
+        "worstAtRow": 234,
+        "worstFractionOfBodySpan": 0.0287,
+        "rowsCompared": 294,
+        "rowsInWindow": 294
+      },
+      "status": "measured-candidate",
+      "additive": true,
+      "refusal": null,
+      "source_constraints": [
+        "Chest and waist shaping is baked; inspect exact body morphology.",
+        "Opaque crew-neck interior requires neck overlap inspection.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "acceptance": "Candidate-only bounded-warp pairing; the original affine component is unchanged. Not human visual approval."
+    },
+    {
+      "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
       "garment": "pv4_wave_a_female_top_mustard_cable_sweater_v1",
       "source_reference": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
       "reference_control": false,
@@ -10931,6 +11454,49 @@
         "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
       ],
       "acceptance": "Not human visual approval; self-pair is a diagnostic control only."
+    },
+    {
+      "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "garment": "pv4_wave_a_female_top_navy_zip_hoodie_v1_crossbody",
+      "source_reference": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "reference_control": false,
+      "transform": {
+        "kind": "bounded-warp",
+        "scaleY": 1,
+        "translateY": 0,
+        "controlPoints": [
+          { "at": 0, "scaleX": 1.112613, "offsetX": 0 },
+          { "at": 0.167492, "scaleX": 1.112613, "offsetX": 0 },
+          { "at": 0.764533, "scaleX": 1.014368, "offsetX": 0 },
+          { "at": 0.946012, "scaleX": 0.986667, "offsetX": 0 },
+          { "at": 1, "scaleX": 0.986667, "offsetX": 0 }
+        ]
+      },
+      "measurement": {
+        "status": "measured",
+        "statusReason": null,
+        "mode": "edge-match",
+        "fromRow": 197,
+        "toRow": 490,
+        "overhangPx": 10.44,
+        "overhangAtRow": 218,
+        "undercoveragePx": 19.24,
+        "undercoverageAtRow": 484,
+        "worstPx": 7.44,
+        "worstAtRow": 238,
+        "worstFractionOfBodySpan": 0.0271,
+        "rowsCompared": 294,
+        "rowsInWindow": 294
+      },
+      "status": "measured-candidate",
+      "additive": true,
+      "refusal": null,
+      "source_constraints": [
+        "Hood and opaque lining are baked with front garment; head/back-hair occlusion must be authored.",
+        "Chest and waist shaping is baked; inspect exact body morphology.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "acceptance": "Candidate-only bounded-warp pairing; the original affine component is unchanged. Not human visual approval."
     },
     {
       "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
@@ -12799,6 +13365,360 @@
         "Standing collar and opaque lining need neck overlap inspection.",
         "Chest and waist shaping is baked; inspect exact body morphology.",
         "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "acceptance": "Not human visual approval; self-pair is a diagnostic control only."
+    },
+    {
+      "body": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "garment": "pv4_wave_a_female_top_burgundy_short_sleeve_polo_v1_armmasked",
+      "source_reference": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "reference_control": false,
+      "transform": {
+        "kind": "affine",
+        "scaleX": 0.96198,
+        "scaleY": 1.073134,
+        "translateX": 0,
+        "translateY": 0.005098516000000004
+      },
+      "measurement": {
+        "status": "measured",
+        "statusReason": null,
+        "mode": "edge-match",
+        "fromRow": 194,
+        "toRow": 502,
+        "overhangPx": 8.83,
+        "overhangAtRow": 501,
+        "undercoveragePx": 20.47,
+        "undercoverageAtRow": 194,
+        "worstPx": 20.38,
+        "worstAtRow": 502,
+        "worstFractionOfBodySpan": 0.0666,
+        "rowsCompared": 309,
+        "rowsInWindow": 309
+      },
+      "status": "failed-fit",
+      "refusal": null,
+      "source_constraints": [
+        "Painted light-skin forearms are baked into this source below both short sleeves and end at cut wrists.",
+        "Exclude unmasked use as a complexion-independent garment. Author arm masks or declare exact compatible body, complexion and pose before using.",
+        "Short sleeves require exact shoulder/upper-arm alignment.",
+        "Arm-masked additive candidate: baked forearms cleared. Candidate-only; not production admission."
+      ],
+      "acceptance": "Not human visual approval; self-pair is a diagnostic control only."
+    },
+    {
+      "body": "wave_a_average_woman_seated_front_neutral_v1_pv4",
+      "garment": "pv4_wave_a_female_top_burgundy_short_sleeve_polo_v1_armmasked",
+      "status": "pose-incompatible",
+      "reason": "Standing garment source is not silently relabeled or warped to a seated pose."
+    },
+    {
+      "body": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "garment": "pv4_wave_a_female_top_burgundy_short_sleeve_polo_v1_armmasked",
+      "source_reference": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "reference_control": true,
+      "transform": {
+        "kind": "affine",
+        "scaleX": 1,
+        "scaleY": 1,
+        "translateX": 0,
+        "translateY": 0
+      },
+      "measurement": {
+        "status": "measured",
+        "statusReason": null,
+        "mode": "edge-match",
+        "fromRow": 186,
+        "toRow": 470,
+        "overhangPx": 8.5,
+        "overhangAtRow": 264,
+        "undercoveragePx": 13.5,
+        "undercoverageAtRow": 470,
+        "worstPx": 0,
+        "worstAtRow": -1,
+        "worstFractionOfBodySpan": 0,
+        "rowsCompared": 285,
+        "rowsInWindow": 285
+      },
+      "status": "measured-candidate",
+      "refusal": null,
+      "source_constraints": [
+        "Painted light-skin forearms are baked into this source below both short sleeves and end at cut wrists.",
+        "Exclude unmasked use as a complexion-independent garment. Author arm masks or declare exact compatible body, complexion and pose before using.",
+        "Short sleeves require exact shoulder/upper-arm alignment.",
+        "Arm-masked additive candidate: baked forearms cleared. Candidate-only; not production admission."
+      ],
+      "acceptance": "Not human visual approval; self-pair is a diagnostic control only."
+    },
+    {
+      "body": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+      "garment": "pv4_wave_a_female_top_burgundy_short_sleeve_polo_v1_armmasked",
+      "source_reference": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "reference_control": false,
+      "transform": {
+        "kind": "affine",
+        "scaleX": 0.980899,
+        "scaleY": 1,
+        "translateX": 0,
+        "translateY": 0
+      },
+      "measurement": {
+        "status": "measured",
+        "statusReason": null,
+        "mode": "edge-match",
+        "fromRow": 186,
+        "toRow": 470,
+        "overhangPx": 5.72,
+        "overhangAtRow": 280,
+        "undercoveragePx": 10.5,
+        "undercoverageAtRow": 186,
+        "worstPx": 6.06,
+        "worstAtRow": 468,
+        "worstFractionOfBodySpan": 0.018,
+        "rowsCompared": 285,
+        "rowsInWindow": 285
+      },
+      "status": "measured-candidate",
+      "refusal": null,
+      "source_constraints": [
+        "Painted light-skin forearms are baked into this source below both short sleeves and end at cut wrists.",
+        "Exclude unmasked use as a complexion-independent garment. Author arm masks or declare exact compatible body, complexion and pose before using.",
+        "Short sleeves require exact shoulder/upper-arm alignment.",
+        "Arm-masked additive candidate: baked forearms cleared. Candidate-only; not production admission."
+      ],
+      "acceptance": "Not human visual approval; self-pair is a diagnostic control only."
+    },
+    {
+      "body": "wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+      "garment": "pv4_wave_a_female_top_burgundy_short_sleeve_polo_v1_armmasked",
+      "source_reference": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "reference_control": false,
+      "transform": {
+        "kind": "affine",
+        "scaleX": 1.058437,
+        "scaleY": 1.06831,
+        "translateX": 0,
+        "translateY": 0.0062239399999999764
+      },
+      "measurement": {
+        "status": "measured",
+        "statusReason": null,
+        "mode": "edge-match",
+        "fromRow": 197,
+        "toRow": 505,
+        "overhangPx": 12.76,
+        "overhangAtRow": 503,
+        "undercoveragePx": 24.39,
+        "undercoverageAtRow": 197,
+        "worstPx": 25.98,
+        "worstAtRow": 315,
+        "worstFractionOfBodySpan": 0.0775,
+        "rowsCompared": 309,
+        "rowsInWindow": 309
+      },
+      "status": "failed-fit",
+      "refusal": null,
+      "source_constraints": [
+        "Painted light-skin forearms are baked into this source below both short sleeves and end at cut wrists.",
+        "Exclude unmasked use as a complexion-independent garment. Author arm masks or declare exact compatible body, complexion and pose before using.",
+        "Short sleeves require exact shoulder/upper-arm alignment.",
+        "Arm-masked additive candidate: baked forearms cleared. Candidate-only; not production admission."
+      ],
+      "acceptance": "Not human visual approval; self-pair is a diagnostic control only."
+    },
+    {
+      "body": "wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+      "garment": "pv4_wave_a_female_top_burgundy_short_sleeve_polo_v1_armmasked",
+      "source_reference": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "reference_control": false,
+      "transform": {
+        "kind": "affine",
+        "scaleX": 1.153686,
+        "scaleY": 1.023675,
+        "translateX": 0,
+        "translateY": 0.0043844500000000085
+      },
+      "measurement": {
+        "status": "measured",
+        "statusReason": null,
+        "mode": "edge-match",
+        "fromRow": 197,
+        "toRow": 490,
+        "overhangPx": 16.63,
+        "overhangAtRow": 255,
+        "undercoveragePx": 20.68,
+        "undercoverageAtRow": 488,
+        "worstPx": 11.25,
+        "worstAtRow": 242,
+        "worstFractionOfBodySpan": 0.04,
+        "rowsCompared": 294,
+        "rowsInWindow": 294
+      },
+      "status": "failed-fit",
+      "refusal": null,
+      "source_constraints": [
+        "Painted light-skin forearms are baked into this source below both short sleeves and end at cut wrists.",
+        "Exclude unmasked use as a complexion-independent garment. Author arm masks or declare exact compatible body, complexion and pose before using.",
+        "Short sleeves require exact shoulder/upper-arm alignment.",
+        "Arm-masked additive candidate: baked forearms cleared. Candidate-only; not production admission."
+      ],
+      "acceptance": "Not human visual approval; self-pair is a diagnostic control only."
+    },
+    {
+      "body": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "garment": "pv4_wave_a_female_top_burgundy_short_sleeve_polo_v1_armmasked",
+      "source_reference": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "reference_control": false,
+      "transform": {
+        "kind": "affine",
+        "scaleX": 1.047749,
+        "scaleY": 1.023675,
+        "translateX": 0,
+        "translateY": 0.0043844500000000085
+      },
+      "measurement": {
+        "status": "measured",
+        "statusReason": null,
+        "mode": "edge-match",
+        "fromRow": 197,
+        "toRow": 490,
+        "overhangPx": 6.45,
+        "overhangAtRow": 293,
+        "undercoveragePx": 14.51,
+        "undercoverageAtRow": 197,
+        "worstPx": 12.2,
+        "worstAtRow": 490,
+        "worstFractionOfBodySpan": 0.0337,
+        "rowsCompared": 294,
+        "rowsInWindow": 294
+      },
+      "status": "failed-fit",
+      "refusal": null,
+      "source_constraints": [
+        "Painted light-skin forearms are baked into this source below both short sleeves and end at cut wrists.",
+        "Exclude unmasked use as a complexion-independent garment. Author arm masks or declare exact compatible body, complexion and pose before using.",
+        "Short sleeves require exact shoulder/upper-arm alignment.",
+        "Arm-masked additive candidate: baked forearms cleared. Candidate-only; not production admission."
+      ],
+      "acceptance": "Not human visual approval; self-pair is a diagnostic control only."
+    },
+    {
+      "body": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+      "garment": "pv4_wave_a_female_top_burgundy_short_sleeve_polo_v1_armmasked",
+      "source_reference": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "reference_control": false,
+      "transform": {
+        "kind": "affine",
+        "scaleX": 0.912825,
+        "scaleY": 1.093191,
+        "translateX": 0,
+        "translateY": 0.0035770340000000067
+      },
+      "measurement": {
+        "status": "measured",
+        "statusReason": null,
+        "mode": "edge-match",
+        "fromRow": 197,
+        "toRow": 514,
+        "overhangPx": 11.2,
+        "overhangAtRow": 510,
+        "undercoveragePx": 21.61,
+        "undercoverageAtRow": 197,
+        "worstPx": 21.96,
+        "worstAtRow": 513,
+        "worstFractionOfBodySpan": 0.0741,
+        "rowsCompared": 318,
+        "rowsInWindow": 318
+      },
+      "status": "failed-fit",
+      "refusal": null,
+      "source_constraints": [
+        "Painted light-skin forearms are baked into this source below both short sleeves and end at cut wrists.",
+        "Exclude unmasked use as a complexion-independent garment. Author arm masks or declare exact compatible body, complexion and pose before using.",
+        "Short sleeves require exact shoulder/upper-arm alignment.",
+        "Arm-masked additive candidate: baked forearms cleared. Candidate-only; not production admission."
+      ],
+      "acceptance": "Not human visual approval; self-pair is a diagnostic control only."
+    },
+    {
+      "body": "wave_a_skinny_woman_seated_front_neutral_v1_pv4",
+      "garment": "pv4_wave_a_female_top_burgundy_short_sleeve_polo_v1_armmasked",
+      "status": "pose-incompatible",
+      "reason": "Standing garment source is not silently relabeled or warped to a seated pose."
+    },
+    {
+      "body": "wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+      "garment": "pv4_wave_a_female_top_burgundy_short_sleeve_polo_v1_armmasked",
+      "source_reference": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "reference_control": false,
+      "transform": {
+        "kind": "affine",
+        "scaleX": 0.933108,
+        "scaleY": 1.064085,
+        "translateX": 0,
+        "translateY": 0.0043337900000000075
+      },
+      "measurement": {
+        "status": "measured",
+        "statusReason": null,
+        "mode": "edge-match",
+        "fromRow": 195,
+        "toRow": 499,
+        "overhangPx": 13.97,
+        "overhangAtRow": 277,
+        "undercoveragePx": 14.49,
+        "undercoverageAtRow": 195,
+        "worstPx": 13.53,
+        "worstAtRow": 444,
+        "worstFractionOfBodySpan": 0.0442,
+        "rowsCompared": 305,
+        "rowsInWindow": 305
+      },
+      "status": "failed-fit",
+      "refusal": null,
+      "source_constraints": [
+        "Painted light-skin forearms are baked into this source below both short sleeves and end at cut wrists.",
+        "Exclude unmasked use as a complexion-independent garment. Author arm masks or declare exact compatible body, complexion and pose before using.",
+        "Short sleeves require exact shoulder/upper-arm alignment.",
+        "Arm-masked additive candidate: baked forearms cleared. Candidate-only; not production admission."
+      ],
+      "acceptance": "Not human visual approval; self-pair is a diagnostic control only."
+    },
+    {
+      "body": "wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+      "garment": "pv4_wave_a_female_top_burgundy_short_sleeve_polo_v1_armmasked",
+      "source_reference": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "reference_control": false,
+      "transform": {
+        "kind": "affine",
+        "scaleX": 0.87741,
+        "scaleY": 1.064085,
+        "translateX": 0,
+        "translateY": 0.0043337900000000075
+      },
+      "measurement": {
+        "status": "measured",
+        "statusReason": null,
+        "mode": "edge-match",
+        "fromRow": 195,
+        "toRow": 499,
+        "overhangPx": 10.72,
+        "overhangAtRow": 437,
+        "undercoveragePx": 19.31,
+        "undercoverageAtRow": 195,
+        "worstPx": 19.43,
+        "worstAtRow": 499,
+        "worstFractionOfBodySpan": 0.067,
+        "rowsCompared": 305,
+        "rowsInWindow": 305
+      },
+      "status": "failed-fit",
+      "refusal": null,
+      "source_constraints": [
+        "Painted light-skin forearms are baked into this source below both short sleeves and end at cut wrists.",
+        "Exclude unmasked use as a complexion-independent garment. Author arm masks or declare exact compatible body, complexion and pose before using.",
+        "Short sleeves require exact shoulder/upper-arm alignment.",
+        "Arm-masked additive candidate: baked forearms cleared. Candidate-only; not production admission."
       ],
       "acceptance": "Not human visual approval; self-pair is a diagnostic control only."
     },

@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "npm run typecheck && node scripts/clean-build.mjs && vite build && node scripts/prepare-sites-build.mjs",
+    "build": "npm run typecheck && node scripts/clean-build.mjs && vite build && node scripts/prepare-sites-build.mjs && node scripts/stamp-client-provenance.mjs",
     "preview": "vite preview",
     "demo": "node --import tsx src/cli/demo.ts",
     "source:acquire": "node --import tsx scripts/source/acquire.ts",
@@ -89,6 +89,10 @@
     "fixture:municipal-governance": "node --import tsx scripts/source/municipal-governance-fixture.ts",
     "export:municipal-governments": "node --import tsx scripts/source/export-municipal-governments.ts",
     "check:municipal-generated": "node --import tsx scripts/source/export-municipal-governments.ts --check && node --import tsx scripts/source/export-municipal-capacity.ts --check",
+    "derive:visual4-arm-mask": "node --import tsx scripts/art-asset-factory/cli-people-visual4-arm-mask.ts",
+    "measure:visual4-tone": "node --import tsx scripts/art-asset-factory/cli-people-visual4-tone.ts",
+    "measure:appearance-v2": "PG_CAPTURE_EVIDENCE=1 vitest run scripts/dev-lab/appearance-recipe-v2-proof.test.ts",
+    "measure:visual4-wardrobe": "node --import tsx scripts/art-asset-factory/cli-people-visual4-wardrobe.ts",
     "derive:people-visual4": "node --import tsx scripts/art-asset-factory/people-visual4.ts"
   },
   "dependencies": {

@@ -11,13 +11,15 @@ import type { LifePlace } from "../simulation";
  *
  * The copy cleanup that removed `placeContextLines` (capability and
  * "exact place" commentary) must not delete this helper. Name and county are
- * the useful summary; they are not that commentary.
+ * they are not that commentary. Population is joined separately when a matching
+ * sourced observation exists; this helper still never invents a headcount.
  */
 export interface PlaceStartFact {
-  readonly kind: "name" | "county";
+  readonly kind: "name" | "county" | "population";
   readonly text: string;
   readonly geography?: string;
   readonly asOf?: string;
+  readonly attribution?: string;
 }
 
 function titleCaseCounty(name: string): string {

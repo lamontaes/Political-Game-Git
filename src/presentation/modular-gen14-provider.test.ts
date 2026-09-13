@@ -10,7 +10,11 @@ import {
   PRODUCTION_CHARACTER_LIBRARY,
 } from "./visual-integration";
 import { resolveCharacterRecipe } from "./character-components";
-import { derivePersonAppearance } from "../simulation/person-appearance";
+import {
+  COHERENT_APPEARANCE_RECIPE_VERSION,
+  LEGACY_APPEARANCE_RECIPE_VERSION,
+  derivePersonAppearance,
+} from "../simulation/person-appearance";
 
 /**
  * The life candidate path composes from the fitted provider, and keeps doing so.
@@ -83,19 +87,19 @@ describe("which bodies a seeded person can be given", () => {
     expect(failures).toEqual([]);
   });
 
-  /*
-   * Variety is the point of a combinatorial system, and one body for everybody
-   * is the failure this work exists to fix. The older lift offered two bodies
-   * for every person in the game; this asserts the floor is meaningfully above
-   * that, without pinning an exact number that new art should be free to raise.
-   */
-  it("spreads those people across several bodies and heads", () => {
+  function spread(version: string): {
+    readonly bodies: number;
+    readonly heads: number;
+  } {
     const bodies = new Set<string>();
     const heads = new Set<string>();
     for (let index = 0; index < 96; index += 1) {
       const recipe = resolveCharacterRecipe(
         {
-          appearance: derivePersonAppearance(`gen14-regression-${index}`),
+          appearance: derivePersonAppearance(
+            `gen14-regression-${index}`,
+            version,
+          ),
           poseFamily: "standing-neutral",
           unresolvableRequiredSlots: "diagnose",
         },
@@ -106,8 +110,47 @@ describe("which bodies a seeded person can be given", () => {
         if (component.kind === "head") heads.add(component.assetId);
       }
     }
-    expect(bodies.size).toBeGreaterThanOrEqual(5);
-    expect(heads.size).toBeGreaterThanOrEqual(5);
+    return { bodies: bodies.size, heads: heads.size };
+  }
+
+  /*
+   * Variety is the point of a combinatorial system, and one body for everybody
+   * is the failure this work exists to fix. The older lift offered two bodies
+   * for every person in the game; this asserts the floor is meaningfully above
+   * that, without pinning an exact number that new art should be free to raise.
+   *
+   * This is a property of the LIFT, so it is measured on the unconstrained draw
+   * — appearance recipe v1, which filters on nothing but declared compatibility.
+   * The provider offers five dressable bodies and nine heads here; if the wire
+   * came loose and the older two-body lift were reached again, this fails.
+   */
+  it("spreads those people across several bodies and heads", () => {
+    const measured = spread(LEGACY_APPEARANCE_RECIPE_VERSION);
+    expect(measured.bodies).toBeGreaterThanOrEqual(5);
+    expect(measured.heads).toBeGreaterThanOrEqual(5);
+  });
+
+  /*
+   * And what a life started now does with that same bank.
+   *
+   * Appearance recipe v2 keeps a face in the same measured skin as the body
+   * carrying it, and that narrows the faces a given body can draw: every body
+   * stays in play, the heads drop to the two that measure into the dressable
+   * bodies' tone range. That is a stated property of the art — nine banked
+   * heads clustered darker than five dressable bodies — and not a policy knob;
+   * `appearance-recipe-v2.test.ts` carries the tolerance sweep behind it and
+   * the control that v1 people keep resolving to v1 components.
+   *
+   * Asserted here so the narrowing stays visible at the provider boundary, and
+   * so more heads measured into that range raise it rather than break it.
+   */
+  it("keeps every body but fewer faces under the coherent recipe", () => {
+    const measured = spread(COHERENT_APPEARANCE_RECIPE_VERSION);
+    expect(measured.bodies).toBeGreaterThanOrEqual(5);
+    expect(measured.heads).toBeGreaterThanOrEqual(2);
+    expect(measured.heads).toBeLessThan(
+      spread(LEGACY_APPEARANCE_RECIPE_VERSION).heads,
+    );
   });
 
   /*

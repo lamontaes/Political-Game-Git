@@ -1,0 +1,130 @@
+{
+  "schema": "people-visual4-tone-v1",
+  "note": "Median opaque colour of a bare-skin band on each raster. A measurement of paint, not a demographic classification, and no claim about any person.",
+  "sampleWindows": {
+    "body": { "x0": 0.4, "x1": 0.47, "y0": 0.62, "y1": 0.7 },
+    "head": { "x0": 0.4, "x1": 0.6, "y0": 0.45, "y1": 0.6 }
+  },
+  "tones": [
+    {
+      "family": "pv4-ocd_head_adult_light_long_older_v1",
+      "kind": "head",
+      "rgb": { "r": 179, "g": 136, "b": 119 },
+      "sampledPixels": 621
+    },
+    {
+      "family": "pv4-ocd_head_adult_light_oval_young_fem_v1",
+      "kind": "head",
+      "rgb": { "r": 203, "g": 162, "b": 144 },
+      "sampledPixels": 621
+    },
+    {
+      "family": "pv4-ocd_head_adult_light_oval_young_v1",
+      "kind": "head",
+      "rgb": { "r": 213, "g": 177, "b": 159 },
+      "sampledPixels": 648
+    },
+    {
+      "family": "pv4-ocd_head_adult_light_square_older_lined_v1",
+      "kind": "head",
+      "rgb": { "r": 172, "g": 126, "b": 107 },
+      "sampledPixels": 675
+    },
+    {
+      "family": "pv4-ocd_head_adult_light_square_older_masc_v1",
+      "kind": "head",
+      "rgb": { "r": 180, "g": 136, "b": 116 },
+      "sampledPixels": 675
+    },
+    {
+      "family": "pv4-ocd_head_adult_olive_oval_adult_v1",
+      "kind": "head",
+      "rgb": { "r": 171, "g": 128, "b": 98 },
+      "sampledPixels": 594
+    },
+    {
+      "family": "pv4-ocd_head_adult_tan_oval_adult_fem_v1",
+      "kind": "head",
+      "rgb": { "r": 173, "g": 125, "b": 96 },
+      "sampledPixels": 648
+    },
+    {
+      "family": "pv4-ocd_head_adult_tan_round_young_v1",
+      "kind": "head",
+      "rgb": { "r": 190, "g": 140, "b": 115 },
+      "sampledPixels": 648
+    },
+    {
+      "family": "pv4-ocd_head_adult_tan_square_adult_masc_v1",
+      "kind": "head",
+      "rgb": { "r": 169, "g": 122, "b": 100 },
+      "sampledPixels": 621
+    },
+    {
+      "family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "kind": "body",
+      "rgb": { "r": 224, "g": 169, "b": 137 },
+      "sampledPixels": 2681
+    },
+    {
+      "family": "wave-a-average-woman-seated-front-neutral-v1-pv4",
+      "kind": "body",
+      "rgb": { "r": 181, "g": 137, "b": 119 },
+      "sampledPixels": 2027
+    },
+    {
+      "family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "body",
+      "rgb": { "r": 208, "g": 160, "b": 139 },
+      "sampledPixels": 2671
+    },
+    {
+      "family": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "body",
+      "rgb": { "r": 208, "g": 160, "b": 139 },
+      "sampledPixels": 2723
+    },
+    {
+      "family": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+      "kind": "body",
+      "rgb": { "r": 221, "g": 171, "b": 139 },
+      "sampledPixels": 2754
+    },
+    {
+      "family": "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "body",
+      "rgb": { "r": 196, "g": 148, "b": 127 },
+      "sampledPixels": 2751
+    },
+    {
+      "family": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "body",
+      "rgb": { "r": 198, "g": 149, "b": 127 },
+      "sampledPixels": 2772
+    },
+    {
+      "family": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+      "kind": "body",
+      "rgb": { "r": 224, "g": 173, "b": 141 },
+      "sampledPixels": 2673
+    },
+    {
+      "family": "wave-a-skinny-woman-seated-front-neutral-v1-pv4",
+      "kind": "body",
+      "rgb": { "r": 183, "g": 131, "b": 110 },
+      "sampledPixels": 2226
+    },
+    {
+      "family": "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "body",
+      "rgb": { "r": 205, "g": 150, "b": 124 },
+      "sampledPixels": 2758
+    },
+    {
+      "family": "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "body",
+      "rgb": { "r": 210, "g": 155, "b": 127 },
+      "sampledPixels": 2772
+    }
+  ]
+}

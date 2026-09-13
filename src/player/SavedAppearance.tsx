@@ -1,15 +1,21 @@
+import { WardrobeFigure } from "./WardrobeFigure";
 import {
   createPersonRenderSnapshot,
   type PersonRenderSnapshot,
 } from "../presentation/person-render-snapshot";
 import { resolvePersonWardrobeContext } from "../presentation/person-visual-selection";
-import { derivePersonAppearance, type World } from "../simulation";
+import {
+  derivePersonAppearance,
+  LEGACY_APPEARANCE_RECIPE_VERSION,
+  type World,
+} from "../simulation";
 import { createContext, useContext } from "react";
 import type { PersonWardrobePreference } from "../presentation/person-visual-selection";
 import {
   artPreviewLibraries,
   artPreviewMode,
 } from "../presentation/art-preview";
+import { gameBuildProfile } from "../presentation/build-profile";
 import { PRODUCTION_CHARACTER_LIBRARY } from "../presentation/visual-integration";
 import type { CharacterComponentLibrary } from "../presentation/character-components";
 import {
@@ -49,7 +55,9 @@ export function savedRenderSnapshots(
         : undefined;
       snapshots[personId] = createPersonRenderSnapshot({
         personId,
-        appearance: person.appearance ?? derivePersonAppearance(personId),
+        appearance:
+          person.appearance ??
+          derivePersonAppearance(personId, LEGACY_APPEARANCE_RECIPE_VERSION),
         wardrobe,
         library: PRODUCTION_CHARACTER_LIBRARY,
       });
@@ -100,9 +108,24 @@ export function SavedAppearanceControls(
   const preview = artPreviewLibraries(
     artPreviewMode(
       typeof window === "undefined" ? "" : window.location.search,
-      import.meta.env.DEV,
+      {
+        development: import.meta.env.DEV,
+        profile: gameBuildProfile(),
+      },
     ),
   );
+  // Normal play owns only the controlled person's wardrobe. Developer proof
+  // routes use PersonAppearanceControls directly and retain their test subjects.
+  const ownsAppearance =
+    props.world.control.kind === "person" &&
+    props.world.control.personId === props.personId;
+  if (!ownsAppearance)
+    return (
+      <p data-testid="appearance-read-only">
+        Appearance is read-only. You can change only your own wardrobe from
+        Personal.
+      </p>
+    );
   const library = preview
     ? wearableChoicesIn(preview.characters)
     : NORMAL_APPEARANCE_LIBRARY;
@@ -113,6 +136,13 @@ export function SavedAppearanceControls(
       data-appearance-catalog={preview ? "candidate-review" : "production"}
     >
       <summary>Appearance and wardrobe</summary>
+      {preview && props.world.people[props.personId]?.appearance ? (
+        <WardrobeFigure
+          person={props.world.people[props.personId]!}
+          libraries={preview}
+          preference={props.preference}
+        />
+      ) : null}
       {library.components.size ? (
         <PersonAppearanceControls
           {...props}

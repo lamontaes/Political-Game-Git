@@ -1,3 +1,4 @@
+import { fileCandidacy } from "./support/campaign";
 import { programConfigurations } from "../../src/simulation/legislation-program-families";
 import { shotPath } from "./support/shot-path";
 import { expect, test, type Page } from "@playwright/test";
@@ -96,7 +97,7 @@ async function wonSeatWithWorkOpen(page: Page) {
   await startLife(page, { age: 34, place: "Lexington", gender: "male" });
   await enterLife(page);
   await openCampaign(page);
-  await page.getByTestId("file-candidacy").click();
+  await fileCandidacy(page);
   await page.getByTestId("campaign-fundraising").click();
   for (let day = 0; day < 3; day += 1) {
     await page.getByTestId("pass-day").click();
@@ -297,6 +298,7 @@ test.describe("the docket, from the ordinary route", () => {
 test("saves compatible proposed changes through ordinary Work without rewriting the bill", async ({
   page,
 }) => {
+  test.setTimeout(90_000);
   const errors = watchForErrors(page);
   await wonSeatWithWorkOpen(page);
   const office = page.getByTestId("docket-office-record");

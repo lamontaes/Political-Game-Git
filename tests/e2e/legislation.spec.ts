@@ -384,7 +384,10 @@ test.describe("Moving a bill through a legislature", () => {
     await page.goto("/?view=office-fixture");
     await page.getByTestId("navigation-cluster").click();
     await expect(page.getByTestId("nav-legislation")).toBeVisible();
-    await page.getByTestId("nav-legislation").click();
+    await Promise.all([
+      page.waitForURL(/[?&]view=legislation(?:&|$)/, { waitUntil: "load" }),
+      page.getByTestId("nav-legislation").click(),
+    ]);
     await expect(page.getByTestId("legislation-workspace")).toBeVisible();
   });
 });

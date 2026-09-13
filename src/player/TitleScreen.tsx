@@ -44,6 +44,10 @@ import { TitleTableau } from "./TitleTableau";
  * those three into it rather than choosing a winner. The graphics decisions
  * above stay this lane's; the words below are the narrative lane's.
  *
+ * Readability of this screen and the creator that shares its room lives in
+ * `front-door.css`. That file is the title lane's, imported last from the
+ * application root so it can beat shell tokens that only exist inside play.
+ *
  * PACKET 77 — WHAT THE SECOND PLAYTEST CHANGED HERE.
  *
  * The human saw art behind a menu that covered it. Three repairs, and each one
@@ -243,7 +247,7 @@ export function TitleScreen({
             it is a room (Task A). The environment-description prose — "a hall …
             with nobody in it" — is gone, and the scene stands on its own.
           */}
-      <h1>Our Civic Duty</h1>
+      <h1 className="front-door-wordmark">Our Civic Duty</h1>
       <div className="game-title-actions">
         <button type="button" data-testid="new-game" onClick={onNewGame}>
           New game

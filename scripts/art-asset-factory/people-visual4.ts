@@ -6,6 +6,7 @@ import path from "node:path";
 import * as PImage from "pureimage";
 import bodyAuthoring from "../../art/manifest/people_visual4_body_authoring.json";
 import topAuthoring from "../../art/manifest/people_visual4_top_attachments.json";
+import { ARM_MASK_OUTPUT, ARM_MASK_SOURCE } from "./people-visual4-arm-mask";
 import { hashArtFile } from "./content-hash";
 import { readPng, cropBitmap, opaqueBounds } from "./pg-modular-intake";
 import { resampleLanczos } from "./resample";
@@ -21,6 +22,7 @@ import {
 } from "./garment-fit-measure";
 import {
   deriveAffineFit,
+  deriveBoundedWarpFit,
   GARMENT_FIT_DEFAULT_BOUNDS,
   type GarmentFitBankData,
   type GarmentFitTransform,
@@ -96,6 +98,37 @@ async function emit(
     file: absolute(file),
     definition: { ...definition, catalog_generation: 1 },
   } satisfies FitSubject;
+}
+function emitShared(
+  id: string,
+  sourceId: string,
+  definition: CharacterComponentCandidateDefinition,
+  source: Record<string, unknown>,
+) {
+  const original = records.find((record) => record.asset_id === sourceId);
+  if (!original?.final_path)
+    throw new Error(`Missing shared source ${sourceId}`);
+  records.push({
+    ...original,
+    asset_id: id,
+    candidate_component: definition,
+  });
+  evidence.push({
+    asset_id: id,
+    source: {
+      ...source,
+      shared_final_path: original.final_path,
+      hash: original.hash,
+    },
+    derivation:
+      "Same game-space pixels as the named source component; new family for additive cross-body membership only.",
+    upscale_lineage:
+      "Unknown unless declared in the original source evidence; existing pixel dimensions are not a native-resolution claim.",
+    rights_status:
+      "Unknown; source bank provenance retained, no reuse approval inferred.",
+    acceptance:
+      "Unapproved candidate-only alias; production membership absent. Original affine component is unchanged.",
+  });
 }
 async function outputJson(p: string, value: unknown) {
   const content = await format(JSON.stringify(value), { parser: "json" });
@@ -307,7 +340,13 @@ async function garment(
     reference.rows,
   );
   const accepted: string[] = [];
+  const extraAccepted: string[] = [];
   const fits: {
+    target_body_family: string;
+    pose_family: string;
+    transform: GarmentFitTransform;
+  }[] = [];
+  const extraFits: {
     target_body_family: string;
     pose_family: string;
     transform: GarmentFitTransform;
@@ -343,6 +382,8 @@ async function garment(
     };
     let transform: GarmentFitTransform = { kind: "direct" };
     let refusal: string | null = null;
+    const sourceFitRows: Record<string, number> = { ...sourceRef.rows };
+    const targetFitRows: Record<string, number> = { ...targetRef.rows };
     try {
       const mapRow = (sourceY: number) => {
         for (let i = 1; i < correspondence.points.length; i++) {
@@ -358,8 +399,6 @@ async function garment(
         return null;
       };
       const targetHem = mapRow(authoredHem);
-      const sourceFitRows: Record<string, number> = { ...sourceRef.rows };
-      const targetFitRows: Record<string, number> = { ...targetRef.rows };
       if (kind === "bottom") {
         delete sourceFitRows.shoulder;
         delete targetFitRows.shoulder;
@@ -419,7 +458,11 @@ async function garment(
         GARMENT_FIT_DEFAULT_BOUNDS.maxEdgeErrorFraction &&
       !refusal;
     // Known source-content constraints are independent of a silhouette metric.
-    const blocked = source.includes("female_top_burgundy_short_sleeve_polo");
+    // The unmasked burgundy polo still paints baked forearms; the additive
+    // arm-masked candidate is a different source and is measured normally.
+    const blocked =
+      source.includes("female_top_burgundy_short_sleeve_polo") &&
+      !source.includes("armmasked");
     if (within && !blocked) {
       accepted.push(b.subject.definition.family);
       fits.push({
@@ -427,6 +470,66 @@ async function garment(
         pose_family: "standing-neutral",
         transform,
       });
+    } else if (!within && !blocked && measurement?.status === "measured") {
+      try {
+        const derivedWarp = deriveBoundedWarpFit(
+          { ...sourceRef, rows: sourceFitRows },
+          { ...targetRef, rows: targetFitRows },
+          kind,
+          extent,
+        ).transform;
+        const projectedWarp = projectForMeasurement(
+          b.subject,
+          subject,
+          "standing-neutral",
+          derivedWarp,
+        );
+        const warpMeasurement = measureEdgeError(
+          projectedWarp,
+          raster,
+          readRasterSpans(b.subject.file),
+          canvas,
+          metricFor(
+            kind,
+            targetRef,
+            {
+              topY: projectedWarp.top,
+              bottomY: projectedWarp.top + projectedWarp.height,
+            },
+            960,
+          ),
+          ease,
+          correspondence,
+        );
+        if (
+          warpMeasurement.status === "measured" &&
+          warpMeasurement.worstFractionOfBodySpan <=
+            GARMENT_FIT_DEFAULT_BOUNDS.maxEdgeErrorFraction
+        ) {
+          extraAccepted.push(b.subject.definition.family);
+          extraFits.push({
+            target_body_family: b.subject.definition.family,
+            pose_family: "standing-neutral",
+            transform: derivedWarp,
+          });
+          pairs.push({
+            body: b.subject.assetId,
+            garment: `${id}_crossbody`,
+            source_reference: reference.subject.assetId,
+            reference_control: b === reference,
+            transform: derivedWarp,
+            measurement: warpMeasurement,
+            status: "measured-candidate",
+            additive: true,
+            refusal: null,
+            source_constraints: exclusions,
+            acceptance:
+              "Candidate-only bounded-warp pairing; the original affine component is unchanged. Not human visual approval.",
+          });
+        }
+      } catch {
+        /* Warp derivation can refuse a pairing; the affine failure already stands. */
+      }
     }
     pairs.push({
       body: b.subject.assetId,
@@ -462,6 +565,32 @@ async function garment(
       "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
     profiles: fits,
   });
+  if (extraAccepted.length > 0) {
+    const aliasId = `${id}_crossbody`;
+    emitShared(
+      aliasId,
+      id,
+      {
+        ...definition,
+        family: aliasId.replaceAll("_", "-"),
+        compatible_body_families: extraAccepted,
+      },
+      {
+        shared_pixels_of: id,
+        role: "candidate-only-cross-body-warp",
+        admission: "Not production; owner visual acceptance still required.",
+      },
+    );
+    profiles.push({
+      component_family: aliasId.replaceAll("_", "-"),
+      kind,
+      classification: "bounded-warp-reusable",
+      authored_for_body_family: reference.subject.definition.family,
+      basis:
+        "Bounded warp recovered pairings the affine step refused at the same 3% bound; original component membership is unchanged.",
+      profiles: extraFits,
+    });
+  }
 }
 for (const a of topAuthoring.assets) {
   const source = a.source.repository_path;
@@ -486,6 +615,35 @@ for (const a of topAuthoring.assets) {
       uniform_source_height: height,
     },
     a.hem_reference.y_px,
+  );
+}
+{
+  const polo = topAuthoring.assets.find((asset) =>
+    asset.asset_id.includes("burgundy_short_sleeve_polo"),
+  )!;
+  const masked = await readPng(absolute(ARM_MASK_OUTPUT));
+  const bounds = opaqueBounds(masked, 8)!;
+  const origin = {
+    x: (polo.collar_attachment.x_px - bounds.x) / bounds.width,
+    y: (polo.collar_attachment.y_px - bounds.y) / bounds.height,
+  };
+  await garment(
+    ARM_MASK_OUTPUT,
+    "top",
+    femaleControl,
+    365,
+    origin,
+    [
+      ...polo.visual_exclusions_or_uncertainty,
+      "Arm-masked additive candidate: baked forearms cleared. Candidate-only; not production admission.",
+    ],
+    {
+      attachment_authoring: "art/manifest/people_visual4_top_attachments.json",
+      uniform_source_height: 365,
+      masked_from: ARM_MASK_SOURCE,
+      role: "candidate-only-arm-masked-polo",
+    },
+    polo.hem_reference.y_px,
   );
 }
 for (const a of bottomAuthoring.assets) {

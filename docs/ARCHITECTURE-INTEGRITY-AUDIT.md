@@ -1,5 +1,24 @@
 # Architecture Integrity Audit
 
+## NEXT24 E — Deliberate office discovery audit (2026-09-12)
+
+The browser is a pure projection over the existing declared candidacy provider,
+eligibility resolver, contests and player-owned contact history. No office,
+qualification, district membership, electorate, calendar or treasury engine is
+added. Timing comes only from recorded contests; the inherited filing scenario
+schedule is explicitly distinguished from sourced election timing. Selection is
+transient UI state, not a campaign writer. Filing requires the selected stable
+office key and reuses the existing writer's current eligibility refusal.
+
+Existing campaign projection uses its stored office key, so browsing cannot
+redirect authority, money, opponents, contest or results. District discovery
+uses the same explicit office coordinate. Legacy test scenarios deliberately
+choose their intended office through a fixture adapter, not production policy.
+No shared root or common dialogue surface is changed.
+
+LEARN: source authority must follow the saved office identity even after the
+discovery list gains alternatives; a UI selection is not a migration directive.
+
 This audit is permanent development governance. Run it at every major stage boundary and whenever a new architecture rule, failure pattern, or invariant could affect completed work. Earlier stages are not grandfathered.
 
 The audit does not authorize a broad rewrite. For every plausibly affected implementation, record one disposition:
@@ -1141,6 +1160,23 @@ LEARN: a normal producer should save each person's decision before it creates
 downstream work. Request identity plus separate affirmative response records
 makes consent auditable without inventing agreement in a scheduling adapter.
 
+## MORNING23 E First Staff-Strategy Audit — 2026-09-12
+
+| Concern                 | Disposition | Evidence and rationale                                                                                                                                                                                                                                         |
+| ----------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Campaign ownership      | Preserved   | The interaction calls the existing campaign schedule/perform writers and stores only optional context on their action record. No second campaign, result, calendar or treasury is created.                                                                     |
+| Staff identity          | Fail-closed | A proposal uses only the campaign's current active staff work relationships. No relative or ordinary acquaintance becomes staff; a departed proposer invalidates the stale proposal.                                                                           |
+| Money separation        | Preserved   | Spending choices are exact committee-money ceilings. Scheduling validates currency and ceiling, and execution rechecks the campaign organization's live position before the existing transfer writer runs. Personal and household positions are never queried. |
+| Geography               | Bounded     | The adapter exposes only the campaign jurisdiction or the contest's explicit district binding. It creates no precincts, boundaries, geographic effects or inferred residence.                                                                                  |
+| Imperfect information   | Preserved   | Proposal context reads only the player-safe campaign projection: committee balance, remaining days and existence/date of the field memo. Canonical support remains outside the simulation barrel and is not used by the adapter.                               |
+| Choice and presentation | Preserved   | The player may accept or change the attributed proposal through exact radio choices. The feature supplies a typed subject/read-model/action adapter and edits no `SceneConversation`, `PlayerGame` or shared root.                                             |
+| Persistence             | Compatible  | Strategy context is optional on campaign actions, so prior actions remain valid. New context and the derived report survive the existing serializer; integrity rejects malformed staff, geography, currency or ceiling combinations.                           |
+| Stage scope             | Bounded     | No staff recruitment, broad strategist simulator, media market, electorate or geographic-effects engine, new office-selection flow, campaign budget subsystem or guaranteed result is added.                                                                   |
+
+LEARN: advice attribution must be revalidated at commitment, just like money.
+Persist the chosen context on the canonical action so later reports can explain
+the decision without turning a transient UI selection into a second truth store.
+
 ## PRESS-REACH13 Normal Reachability Audit — 2026-09-11
 
 This audit covers the missing journalism-role and public-pitch path in front of
@@ -1155,3 +1191,25 @@ or second consent engine.
 | Time and work    | Canonical reuse      | Prepared interviews still create the existing work item. Unprepared interviews skip it and allow drafting after arrangement.                                                                                                                                                                                                                                |
 | Publication      | Single path          | Off-record still has no story writer. On-record/background still call `publishPublicEvent`.                                                                                                                                                                                                                                                                 |
 | UI/ENV ownership | Preserved            | `PlayerGame` is untouched. `PressWorkspace` and `PressInterviewPanel` remain the existing consumers.                                                                                                                                                                                                                                                        |
+
+## POST-HANDOFF26 G location follow-through — 2026-09-12
+
+- Reuses scene spec/registry, tier derivation, shared backdrop, candidate person
+  provider and canonical completed-activity resolver. No simulation/domain edit,
+  second clock, location store, attendance writer or parallel person renderer.
+- The finite development library promotes no persistent record. Production
+  callers keep released-only defaults; the root passes the candidate library
+  only under the existing development art-preview gate and its isolated
+  World/interface database. The separate review route is DEV-only.
+- Candidate engineering is not human acceptance. Storefront promotion in the
+  retained historical source lacked same-source acceptance; it is now pending.
+  Unknown rights/native detail stay unknown/unverified. Press/pavilion remain
+  unbound to normal venue producers; no school or hearing-room substitution.
+- Existing activity participant filtering remains the presence authority. The
+  root no longer discards already-filtered participants before composition.
+  Current campaign phone-session producer lists only the player, who is the
+  viewpoint; its aftermath correctly paints no household people.
+- Visual-estimate contact/footprint/silhouette data stays explicit and uncalibrated.
+  No old scene ramp/body width is inherited; seated certainty is not fabricated.
+- Stable source bytes and original G ancestry retained. Root/main integration is
+  A-owned; this isolated branch is an attributable leaf return.

@@ -64,6 +64,10 @@ describe("environment production-authoring queue", () => {
         // what the art depicts; the asset itself remains UNRELEASED, because
         // no canonical court proceeding exists for a life to attend.
         "courtroom",
+        // Authored candidate families remain separate from released plates.
+        "campaign-storefront",
+        "park-community-pavilion",
+        "press-briefing-room",
       ]),
     );
     for (const candidate of request.candidates) {

@@ -12,7 +12,10 @@ import {
   PRODUCTION_POSE_REGISTRY,
   PRODUCTION_VISUAL_LIBRARY,
 } from "./visual-integration";
-import { derivePersonAppearance } from "../simulation";
+import {
+  derivePersonAppearance,
+  LEGACY_APPEARANCE_RECIPE_VERSION,
+} from "../simulation";
 import type {
   CharacterComponentLibrary,
   CharacterWardrobeContext,
@@ -176,7 +179,9 @@ function resolveSavedWardrobe(
     readonly preview?: LifeSceneArtPreview;
   },
 ): CharacterWardrobeContext {
-  const appearance = person.appearance ?? derivePersonAppearance(person.id);
+  const appearance =
+    person.appearance ??
+    derivePersonAppearance(person.id, LEGACY_APPEARANCE_RECIPE_VERSION);
   const libraries = librariesFor(preview);
   // Use the compositor's resolved pose, including its permitted-pose fallback.
   const probe = composeSceneCharacter({
@@ -379,7 +384,9 @@ function releasedLayers(
   }
   try {
     const record = world.people[person.id];
-    const appearance = record?.appearance ?? derivePersonAppearance(person.id);
+    const appearance =
+      record?.appearance ??
+      derivePersonAppearance(person.id, LEGACY_APPEARANCE_RECIPE_VERSION);
     const presentation = composeSceneCharacter({
       /*
        * A shared render snapshot is bound to the library that produced it, and

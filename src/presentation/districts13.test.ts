@@ -7,11 +7,8 @@ import {
   districtIdentityByRecordId,
   districtMembershipFromCanonicalHome,
 } from "../districts/query";
-import {
-  fileForOffice,
-  projectCampaign,
-  spendAnAfternoon,
-} from "./campaign-projection";
+import { projectCampaign, spendAnAfternoon } from "./campaign-projection";
+import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import { resolveActiveMemberSeat } from "./legislative-member-seat";
 import {
   currentDesiredDistrict,
@@ -118,6 +115,7 @@ describe("DISTRICTS13 residence, filing, and fiscal consumer", () => {
     const rows = offeredDistricts(
       alaska.world,
       alaska.world.people[alaska.personId]!.homeJurisdictionId,
+      "us-ak-legislature-v1:house",
     );
     expect(rows.length).toBe(40);
     expect(rows.every((row) => row.stateUsps === "AK")).toBe(true);
@@ -133,6 +131,7 @@ describe("DISTRICTS13 residence, filing, and fiscal consumer", () => {
     const kyRows = offeredDistricts(
       ky.world,
       ky.world.people[ky.playerPersonId]!.homeJurisdictionId,
+      "us-ky-general-assembly-v1:house",
     );
     expect(kyRows.length).toBeGreaterThan(1);
     expect(kyRows.every((row) => row.stateUsps === "KY")).toBe(true);

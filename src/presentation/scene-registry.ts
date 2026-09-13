@@ -1,3 +1,4 @@
+import { PRESS_BRIEFING_ROOM_CANDIDATE_SCENE } from "../environment/scenes/press-briefing-room-candidate";
 import {
   validateEnvironmentSceneSpec,
   type Anchor,
@@ -23,6 +24,9 @@ import {
   RESIDENCE_APARTMENT_LIVING_ORDINARY_02_SCENE,
 } from "../environment/scenes/residence-apartment-living-production";
 import { SHARED_WORKROOM_OFFICE_PRODUCTION_SCENE } from "../environment/scenes/shared-workroom-office-production";
+import { CAMPAIGN_STOREFRONT_PRODUCTION_SCENE } from "../environment/scenes/campaign-storefront-production";
+import { PARK_COMMUNITY_PAVILION_CANDIDATE_SCENE } from "../environment/scenes/park-community-pavilion-production";
+import { EXECUTIVE_OFFICE_CANDIDATE_SCENE } from "../environment/scenes/executive-office-production";
 import { createRasterTierLadder, type RasterTierLadder } from "./raster-tiers";
 import type {
   SceneCameraPolicy,
@@ -318,6 +322,10 @@ export const SCENE_REGISTRY: SceneRegistry = createSceneRegistry([
   RESIDENCE_APARTMENT_LIVING_ORDINARY_02_SCENE,
   CIVIC_COMMUNITY_MEETING_ROOM_SCENE,
   COURTROOM_EMPTY_PRODUCTION_SCENE,
+  CAMPAIGN_STOREFRONT_PRODUCTION_SCENE,
+  PARK_COMMUNITY_PAVILION_CANDIDATE_SCENE,
+  EXECUTIVE_OFFICE_CANDIDATE_SCENE,
+  PRESS_BRIEFING_ROOM_CANDIDATE_SCENE,
   OFFICE_COUNCIL_STAFF_FIXTURE_SCENE,
   COMMITTEE_ROOM_FIXTURE_SCENE,
 ]);
@@ -329,6 +337,25 @@ export const SCENE_REGISTRY: SceneRegistry = createSceneRegistry([
 export const PRODUCTION_OFFICE_SCENE_ID = "shared-workroom-office-production";
 export const OFFICE_FIXTURE_SCENE_ID = "office-council-staff-fixture";
 export const COMMITTEE_FIXTURE_SCENE_ID = "committee-room-fixture";
+
+/**
+ * An executive private study. Registered as candidate fixture art,
+ * candidate-isolated pending human visual acceptance.
+ */
+export const EXECUTIVE_OFFICE_SCENE_ID = "executive-office-candidate";
+
+/**
+ * A campaign storefront field office. Registered with production art derived
+ * from the swept master.
+ */
+export const CAMPAIGN_STOREFRONT_SCENE_ID = "campaign-storefront-production";
+
+/**
+ * A community park pavilion shelter. Registered as candidate fixture art,
+ * candidate-isolated pending human visual acceptance.
+ */
+export const PARK_COMMUNITY_PAVILION_SCENE_ID =
+  "park-community-pavilion-candidate";
 
 /** The neutral public room the title screen composes against. */
 export const TITLE_TABLEAU_SCENE_ID = "civic-community-meeting-title";
@@ -360,3 +387,5 @@ export const DOMESTIC_SCENE_IDS: readonly string[] = [
   DOMESTIC_CANONICAL_SCENE_ID,
   DOMESTIC_ORDINARY_SCENE_ID,
 ];
+
+export const PRESS_BRIEFING_ROOM_SCENE_ID = "press-briefing-room-candidate";

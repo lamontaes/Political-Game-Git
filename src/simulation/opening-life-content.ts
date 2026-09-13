@@ -620,6 +620,120 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
     ],
     5,
   ),
+  scene(
+    "early.community.curious-neighbor",
+    [5, 7],
+    "neighborhood",
+    "guardian",
+    "A neighbor working in the front yard leans on the fence and asks what grade you are in and what your name is. {person} is beside you.",
+    [
+      {
+        key: "answer-politely",
+        label: "Give your first name and grade",
+        aftermath:
+          "You tell the neighbor your first name and grade, then step back beside {person}.",
+        approach: "direct",
+      },
+      {
+        key: "wave-say-nothing",
+        label: "Wave and stay quiet",
+        aftermath: "You wave at the neighbor and stay beside {person}.",
+      },
+      {
+        key: "let-adult-answer",
+        label: "Let the adult answer",
+        aftermath: "You stay quiet and let {person} speak to the neighbor.",
+        approach: "listen",
+      },
+    ],
+    5,
+  ),
+  scene(
+    "early.family.packing-boxes",
+    [5, 7],
+    "home",
+    "guardian",
+    "Cardboard boxes are stacked in the living room. Some of your things are in a crate and some are in a bag marked for donation. {person} is sorting the last shelf.",
+    [
+      {
+        key: "cling-old-toy",
+        label: "Keep a toy from the donation pile",
+        aftermath:
+          "You take a worn toy out of the donation bag and hold onto it.",
+        approach: "direct",
+      },
+      {
+        key: "help-label",
+        label: "Help write labels on the boxes",
+        aftermath: "You help {person} write labels on the boxes.",
+      },
+      {
+        key: "stay-out-way",
+        label: "Stay out of the way",
+        aftermath: "You sit in the corner and stay out of the way.",
+      },
+    ],
+    10,
+  ),
+  scene(
+    "adult.trans.college-vs-work",
+    [17, 19],
+    "home",
+    "guardian",
+    "Further study and full-time work are both open to you right now. {person} asks what you are leaning toward.",
+    [
+      {
+        key: "lean-study",
+        label: "Say you want to keep studying",
+        aftermath: "You tell {person} you want to keep studying.",
+        approach: "direct",
+      },
+      {
+        key: "lean-work",
+        label: "Say you want to start working",
+        aftermath: "You tell {person} you want to start working full time.",
+        approach: "direct",
+      },
+      {
+        key: "ask-time",
+        label: "Ask for more time to decide",
+        aftermath: "You ask {person} for more time before deciding.",
+        approach: "ask",
+      },
+    ],
+    15,
+  ),
+  scene(
+    "adult.trans.drop-class-keep-job",
+    [18, 23],
+    "home",
+    "housemate",
+    "Your supervisor has asked you to work a shift at the same time as one of your booked class sessions. {person} asks what you are going to do.",
+    [
+      {
+        key: "keep-lab",
+        label: "Keep the class, turn down the shift",
+        aftermath:
+          "You tell {person} you will keep the class and turn down the shift.",
+        approach: "direct",
+      },
+      {
+        key: "change-shifts",
+        label: "Take the shift, miss the class",
+        aftermath:
+          "You tell {person} you will take the shift and miss the class.",
+        approach: "direct",
+      },
+      {
+        key: "ask-supervisor",
+        label: "Ask your supervisor for another shift",
+        aftermath:
+          "You tell {person} you will ask your supervisor for a different shift first.",
+        approach: "ask",
+      },
+    ],
+    15,
+  ),
 ];
 
 /** Authored continuations require the actual earlier choice, never a inferred outcome. */
@@ -1002,6 +1116,77 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
       },
     ],
   },
+  "early.community.curious-neighbor": {
+    afterChoice: "answer-politely",
+    premise: "The neighbor asks whether you like your teacher this year.",
+    choices: [
+      {
+        key: "say-yes",
+        label: "Say you like your teacher",
+        aftermath: "You tell the neighbor you like your teacher.",
+      },
+      {
+        key: "say-not-really",
+        label: "Say not really",
+        aftermath: "You tell the neighbor you do not really like your teacher.",
+      },
+      {
+        key: "shrug",
+        label: "Shrug",
+        aftermath: "You shrug and stay beside {person}.",
+      },
+    ],
+  },
+  "early.family.packing-boxes": {
+    afterChoice: "cling-old-toy",
+    premise:
+      "{person} kneels beside you and asks whether the toy still fits in the crate.",
+    choices: [
+      {
+        key: "put-in-crate",
+        label: "Put it in the crate",
+        aftermath: "You put the toy in the crate.",
+      },
+      {
+        key: "keep-holding",
+        label: "Keep holding it",
+        aftermath: "You keep holding the toy.",
+      },
+    ],
+  },
+  "adult.trans.college-vs-work": {
+    afterChoice: "lean-study",
+    premise: "{person} asks which program you are looking at first.",
+    choices: [
+      {
+        key: "certificate",
+        label: "Mention the certificate path",
+        aftermath: "You mention the certificate path.",
+      },
+      {
+        key: "unsure-yet",
+        label: "Say you are still comparing options",
+        aftermath: "You say you are still comparing options.",
+      },
+    ],
+  },
+  "adult.trans.drop-class-keep-job": {
+    afterChoice: "keep-lab",
+    premise:
+      "You said you would keep the class. {person} asks whether you have told your supervisor yet.",
+    choices: [
+      {
+        key: "tell-them",
+        label: "Say you will tell them today",
+        aftermath: "You tell {person} you will tell your supervisor today.",
+      },
+      {
+        key: "not-yet",
+        label: "Say you have not told them yet",
+        aftermath: "You tell {person} you have not told your supervisor yet.",
+      },
+    ],
+  },
 };
 
 /**
@@ -1018,6 +1203,13 @@ export const OPENING_SCENE_TIME_WINDOWS: Readonly<
   "early.home.closet-fear": [19 * 60, 24 * 60],
   "early.home.food-refusal": [17 * 60, 20 * 60 + 30],
 };
+
+/** Opening kernels that require a circumstance writer; not offered in a bare world. */
+export const OPENING_LIFE_PREMISE_GATED_KEYS = new Set([
+  "early.family.packing-boxes",
+  "adult.trans.college-vs-work",
+  "adult.trans.drop-class-keep-job",
+]);
 
 /** Retain accepted 92C stages; only genuinely additional kernels enter this bank. */
 export const OPENING_LIFE_ADDITIONS = OPENING_LIFE_SCENES.filter(
@@ -1057,6 +1249,19 @@ export const OPENING_LIFE_FAMILIES: readonly EpisodeFamily[] =
         ? [{ kind: "fact" as const, fact: "school.enrolled" as const }]
         : []),
     ];
+    // The circumstance that makes the scene possible gates the moment only.
+    // Answering the moment closes the circumstance — that is what closing it
+    // means — so requiring the same fact again on the continuation would make
+    // the continuation unreachable. The continuation already requires the
+    // saved answer to the moment, which is the stronger claim anyway.
+    const circumstance: readonly EpisodeRequirement[] =
+      scene.key === "early.family.packing-boxes"
+        ? [{ kind: "fact", fact: "household.move-preparation" }]
+        : scene.key === "adult.trans.college-vs-work"
+          ? [{ kind: "fact", fact: "life.education-work-crossroad" }]
+          : scene.key === "adult.trans.drop-class-keep-job"
+            ? [{ kind: "fact", fact: "work.class-schedule-conflict" }]
+            : [];
     return {
       key: `opening.${scene.key}`,
       ...(scene.recurrence ? { recurrence: scene.recurrence } : {}),
@@ -1071,7 +1276,7 @@ export const OPENING_LIFE_FAMILIES: readonly EpisodeFamily[] =
       stages: [
         {
           key: "moment",
-          requires: requirements,
+          requires: [...requirements, ...circumstance],
           recordSceneContext: true,
           // `{who}` introduces the person with how the record relates them
           // to the player ("Sierra Tucker, who you live with"). Authored only
@@ -1094,35 +1299,41 @@ export const OPENING_LIFE_FAMILIES: readonly EpisodeFamily[] =
             aftermath: null,
           })),
         },
-        {
-          key: "follow-through",
-          requires: [
-            ...requirements,
-            {
-              kind: "after-choice",
-              stage: "moment",
-              option: OPENING_LIFE_FOLLOWUPS[scene.key]!.afterChoice,
-            },
-          ],
-          recordSceneContext: true,
-          lines: [
-            OPENING_LIFE_FOLLOWUPS[scene.key]!.premise.replaceAll(
-              "{person}",
-              slot,
-            ),
-          ],
-          stakes: "ordinary",
-          tensions: [],
-          mayLeadTo: [],
-          options: OPENING_LIFE_FOLLOWUPS[scene.key]!.choices.map((choice) => ({
-            key: choice.key,
-            label: choice.label,
-            description: "5 minutes",
-            memory: choice.aftermath.replaceAll("{person}", slot),
-            nudges: [],
-            aftermath: null,
-          })),
-        },
+        ...(OPENING_LIFE_FOLLOWUPS[scene.key]
+          ? [
+              {
+                key: "follow-through",
+                requires: [
+                  ...requirements,
+                  {
+                    kind: "after-choice" as const,
+                    stage: "moment",
+                    option: OPENING_LIFE_FOLLOWUPS[scene.key]!.afterChoice,
+                  },
+                ],
+                recordSceneContext: true,
+                lines: [
+                  OPENING_LIFE_FOLLOWUPS[scene.key]!.premise.replaceAll(
+                    "{person}",
+                    slot,
+                  ),
+                ],
+                stakes: "ordinary" as const,
+                tensions: [],
+                mayLeadTo: [],
+                options: OPENING_LIFE_FOLLOWUPS[scene.key]!.choices.map(
+                  (choice) => ({
+                    key: choice.key,
+                    label: choice.label.replaceAll("{person}", slot),
+                    description: "5 minutes",
+                    memory: choice.aftermath.replaceAll("{person}", slot),
+                    nudges: [],
+                    aftermath: null,
+                  }),
+                ),
+              },
+            ]
+          : []),
       ],
     };
   });

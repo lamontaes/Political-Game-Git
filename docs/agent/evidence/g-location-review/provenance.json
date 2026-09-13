@@ -1,0 +1,45 @@
+{
+  "expectedIdentity": {
+    "workspace": "/private/tmp/pg-post-handoff26-g",
+    "head": "1533a55e0c9b442f40aa1052d4d383bea7ab52ce",
+    "branch": "codex/post-handoff26-g",
+    "dirty": true,
+    "sourceDigest": "fc599740219c0e9e4cbaf053cbc62a1ad2ba12781d472f45c6b9ba7152c86fc8"
+  },
+  "served": {
+    "workspace": "/private/tmp/pg-post-handoff26-g",
+    "head": "1533a55e0c9b442f40aa1052d4d383bea7ab52ce",
+    "branch": "codex/post-handoff26-g",
+    "dirty": true,
+    "sourceDigest": "fc599740219c0e9e4cbaf053cbc62a1ad2ba12781d472f45c6b9ba7152c86fc8",
+    "pid": 64905,
+    "runId": "g-location-centered"
+  },
+  "baseURL": "http://127.0.0.1:5269",
+  "projects": [
+    {
+      "name": "chromium",
+      "use": {
+        "baseURL": "http://127.0.0.1:5269",
+        "trace": "retain-on-failure",
+        "screenshot": "only-on-failure",
+        "video": "off",
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.7922.34 Safari/537.36",
+        "screen": {
+          "width": 1920,
+          "height": 1080
+        },
+        "deviceScaleFactor": 1,
+        "isMobile": false,
+        "hasTouch": false,
+        "defaultBrowserType": "chromium",
+        "channel": "chrome"
+      }
+    }
+  ],
+  "seedPolicy": "Each test retains its original control seed; actual URL/world seed is captured by review proof."
+}

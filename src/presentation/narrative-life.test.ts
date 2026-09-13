@@ -241,6 +241,9 @@ describe("There is enough authored content to play with", () => {
               "age",
               "place",
               "role",
+              // PT3: which of this family's own authored alternatives the
+              // instance drew — what got broken, rather than "something".
+              "detail",
               // Packet 72: who somebody is, and how to refer to them without
               // the sentence disagreeing with itself.
               "who",
@@ -334,8 +337,19 @@ describe("Play-proof 1 — a childhood thread returns and turns on an earlier ch
     );
     expect(opening, "the opening beat never came up").toBeDefined();
     expect(later, "the follow-up beat never came up").toBeDefined();
-    // The same person, months later, on the same thread.
-    expect(later!.people).toEqual(opening!.people);
+    /*
+     * The same person, months later, on the same thread.
+     *
+     * The opening now also names the adult the player could tell — the option
+     * used to say "a grown-up at home" and name nobody — so its cast is the
+     * larger one. The follow-up is still about the person it was about: every
+     * one of its people was in the room at the opening, and there is somebody
+     * in it.
+     */
+    expect(later!.people.length).toBeGreaterThan(0);
+    for (const person of later!.people) {
+      expect(opening!.people).toContain(person);
+    }
     expect(later!.date > opening!.date).toBe(true);
     expect(later!.index).toBeGreaterThan(opening!.index);
   });

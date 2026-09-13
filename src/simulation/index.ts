@@ -66,6 +66,7 @@ export * from "./incidents";
 export * from "./life";
 export * from "./life-eligibility";
 export * from "./life-places";
+export * from "./place-demography";
 export * from "./life-queries";
 export * from "./life-sources";
 export * from "./decisions";

@@ -7,6 +7,7 @@ import {
   recordDesiredDistrict,
 } from "../presentation/district-selection";
 import type { EntityId, World } from "../simulation";
+import { candidacyPackForJurisdiction } from "../simulation";
 
 export interface DistrictResidencePanelProps {
   readonly world: World;
@@ -25,13 +26,18 @@ export function DistrictResidencePanel({
   onWorldChange,
 }: DistrictResidencePanelProps) {
   const person = world.people[personId];
+  const offices = person
+    ? (candidacyPackForJurisdiction(person.homeJurisdictionId)?.offices ?? [])
+    : [];
+  const [officeKey, setOfficeKey] = useState<string | null>(null);
   const districts = useMemo(
-    () => (person ? offeredDistricts(world, person.homeJurisdictionId) : []),
-    [person, world],
+    () =>
+      person
+        ? offeredDistricts(world, person.homeJurisdictionId, officeKey)
+        : [],
+    [person, world, officeKey],
   );
-  const [selected, setSelected] = useState<string | null>(
-    districts[0]?.recordId ?? null,
-  );
+  const [selected, setSelected] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const identity = districts.find((row) => row.recordId === selected) ?? null;
 
@@ -55,6 +61,23 @@ export function DistrictResidencePanel({
   return (
     <section data-testid="district-residence-panel">
       <h2>District seat</h2>
+      <label>
+        Established office
+        <select
+          value={officeKey ?? ""}
+          onChange={(event) => {
+            setOfficeKey(event.target.value || null);
+            setSelected(null);
+          }}
+        >
+          <option value="">Choose an office</option>
+          {offices.map((office) => (
+            <option key={office.officeKey} value={office.officeKey}>
+              {office.office.title}
+            </option>
+          ))}
+        </select>
+      </label>
       <p>
         Published Gazetteer identities only. Choosing a numbered district is not
         proof that this character's home lies in it. An interior point is not a
@@ -74,6 +97,7 @@ export function DistrictResidencePanel({
               value={selected ?? ""}
               onChange={(event) => setSelected(event.target.value)}
             >
+              <option value="">Choose a district</option>
               {districts.map((row) => (
                 <option key={row.recordId} value={row.recordId}>
                   {row.sourceName ?? row.recordId}
@@ -105,7 +129,12 @@ export function DistrictResidencePanel({
             onClick={() => {
               if (!identity) return;
               run(() =>
-                fileForOffice(world, personId, bindingForDistrict(identity)),
+                fileForOffice(
+                  world,
+                  personId,
+                  bindingForDistrict(identity),
+                  officeKey,
+                ),
               );
             }}
           >

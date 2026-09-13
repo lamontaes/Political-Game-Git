@@ -169,8 +169,6 @@ test.describe("people, and who was chosen", () => {
       /* Name, record and interaction target all follow the selection. */
       await expect(dossier).toHaveAttribute("data-person-id", person.id);
       await expect(page.getByTestId("dossier-name")).toHaveText(person.name);
-      await page.getByTestId("person-workspace-back").click();
-      await expect(page.getByTestId("people-overlay")).toBeVisible();
     }
 
     await open(first!);
@@ -226,7 +224,7 @@ test.describe("people, and who was chosen", () => {
          * control started it, so the record closes and the room comes forward
          * with that person as the one being spoken to.
          */
-        await expect(page.getByTestId("person-workspace")).toHaveCount(0);
+        await expect(page.getByTestId("people-overlay")).toHaveCount(0);
         const conversation = page.getByRole("region", {
           name: /^Conversation with /,
         });
@@ -242,7 +240,6 @@ test.describe("people, and who was chosen", () => {
       await expect(
         page.getByTestId("dossier-talk-unavailable"),
       ).not.toBeEmpty();
-      await page.getByTestId("person-workspace-back").click();
     }
     expect(opened).toBe(true);
   });
@@ -594,8 +591,6 @@ test.describe("the click, back and escape contract", () => {
       0,
     );
     await expect(page.getByTestId("full-dossier")).toBeVisible();
-
-    await page.keyboard.press("Escape");
     await expect(page.getByTestId("people-overlay")).toBeVisible();
 
     await page.keyboard.press("Escape");

@@ -1,0 +1,59 @@
+{
+  "schema": "character-candidate-registry-v1",
+  "release_status": "candidate-only",
+  "production_pixels_released": false,
+  "assets": [
+    {
+      "asset_id": "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_neckline_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-coherence/pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_neckline_v1.png",
+      "hash": "60a8959cb1f45e5e6897575f8a6afece1af066dcc219a6c44c087851d8874498",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-male-top-burgundy-long-sleeve-polo-v1",
+        "layer": 35,
+        "canvas": { "width": 336, "height": 385 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5, "y": 0.06334371754932502 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"],
+        "supersedes_asset_id": "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1"
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_top_white_button_up_shirt_v1_neckline_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-coherence/pv4_wave_a_male_top_white_button_up_shirt_v1_neckline_v1.png",
+      "hash": "5284e3f1ca7806a38f714087ac7eb3a12d074ff5d9f9d30c2f769d1c831f5f5d",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-male-top-white-button-up-shirt-v1",
+        "layer": 35,
+        "canvas": { "width": 334, "height": 385 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5005767012687428, "y": 0.05911823647294589 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"],
+        "supersedes_asset_id": "pv4_wave_a_male_top_white_button_up_shirt_v1"
+      }
+    }
+  ]
+}
