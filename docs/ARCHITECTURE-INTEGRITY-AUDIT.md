@@ -1217,3 +1217,7 @@ or second consent engine.
 ## G return28 completed-activity scene context — 2026-09-12
 
 Confirmed compatible: the opening and later play projections share exact source-backed municipal venue resolution, preserving canonical completion-at-current-instant, access, non-travel and released-art gates. Unknown opening art cannot erase actual completed activity presence; narrative text cannot create venue identity. Corrected now: shared Carson City binding regression. Deferred through concrete input: normal physical press venue declaration with legitimate access and explicit in-person use; generic room art, a typed label and spoken channel supply no such authority. No simulation writer, geography, attendance, source art or candidate acceptance rule is changed.
+
+## P29-G supported apartment calibration
+
+Compatible: canonical-03 standing scale is authored image-space visual-estimate from its actual plate, not physical precision. Existing contact/depth composition and camera each apply once. Calibrated layer bounds drive framing without resizing B's art. Foreground/rear furniture ordering uses explicit authored silhouettes, preserving open floor. Ordinary-02's unknown calibration and production safeguards remain. No simulation, presence/access, source artwork, catalog generation, C layout or unsupported press dependency is altered. Independent owner visual acceptance is pending.

@@ -1,0 +1,5 @@
+# P29-G apartment calibration
+
+Continue existing G branch and preserve Carson repair. Inspect current registered apartment, reproduce candidate ordinary start at 1440x900 and 1200x720, author image-coordinate floor/depth/scale and furniture silhouette only for the supported room. Preserve B-owned character geometry/materials, C dialogue, World presence and candidate gates. Share frozen independently useful net delta with A; no press dependency or whole-library gate. Verify actual bounds, aspect/contact, occlusion and normal selection; run required art and focused architecture/static checks.
+
+Delivered: canonical-03 image-space visual-estimate calibration, actual composed-layer framing bounds and table/leg silhouettes. Preserved unsupported second room and G Carson repair. Existing focused68 plus new contact/depth2 tests pass; lint/typecheck/build and required art validation/inventory/QA pass. Preliminary visible evidence retained with truthful source provenance. Final clean-head browser/static receipts and exact publication state are recorded in the PR; owner visual acceptance and installed delivery remain separate.

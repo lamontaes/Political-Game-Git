@@ -1,0 +1,100 @@
+{
+  "scene": "residence-apartment-living-canonical-03",
+  "camera": "width: 1376px; height: 768px; transform: translate3d(-86px, 0px, 0px) scale(1.17188);",
+  "people": [
+    {
+      "id": "scene-person-person_32ce599031437e7a",
+      "diagnostics": "",
+      "box": {
+        "x": 547.328125,
+        "y": 391.703125,
+        "width": 217.6875,
+        "height": 436.703125,
+        "top": 391.703125,
+        "right": 765.015625,
+        "bottom": 828.40625,
+        "left": 547.328125
+      },
+      "layers": [
+        {
+          "src": "/art/generated/candidates/people-visual4/wave_a_average_woman_standing_neutral_front_a_v1_pv4.png",
+          "box": {
+            "x": 547.328125,
+            "y": 420.25,
+            "width": 217.6875,
+            "height": 408.140625,
+            "top": 420.25,
+            "right": 765.015625,
+            "bottom": 828.390625,
+            "left": 547.328125
+          }
+        },
+        {
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_khaki_shorts_v1.png",
+          "box": {
+            "x": 596.78125,
+            "y": 586.5,
+            "width": 119.4375,
+            "height": 135.046875,
+            "top": 586.5,
+            "right": 716.21875,
+            "bottom": 721.546875,
+            "left": 596.78125
+          }
+        },
+        {
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_female_top_burgundy_short_sleeve_polo_v1_armmasked.png",
+          "box": {
+            "x": 580.703125,
+            "y": 478.46875,
+            "width": 150.921875,
+            "height": 155.171875,
+            "top": 478.46875,
+            "right": 731.625,
+            "bottom": 633.640625,
+            "left": 580.703125
+          }
+        },
+        {
+          "src": "/art/generated/candidates/people-visual4/pv4_ocd_head_adult_light_oval_young_fem_v1.png",
+          "box": {
+            "x": 631.71875,
+            "y": 418.484375,
+            "width": 48.890625,
+            "height": 74.8125,
+            "top": 418.484375,
+            "right": 680.609375,
+            "bottom": 493.296875,
+            "left": 631.71875
+          }
+        },
+        {
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_woman_standing_neutral_front_a_v1_pv4.png",
+          "box": {
+            "x": 547.328125,
+            "y": 420.25,
+            "width": 217.6875,
+            "height": 408.140625,
+            "top": 420.25,
+            "right": 765.015625,
+            "bottom": 828.390625,
+            "left": 547.328125
+          }
+        },
+        {
+          "src": "/art/generated/candidates/people-visual4-hair/pv4_hair_58_light_oval_young_fem_v1_front.png",
+          "box": {
+            "x": 608.328125,
+            "y": 391.703125,
+            "width": 102.890625,
+            "height": 102.453125,
+            "top": 391.703125,
+            "right": 711.21875,
+            "bottom": 494.15625,
+            "left": 608.328125
+          }
+        }
+      ]
+    }
+  ]
+}
