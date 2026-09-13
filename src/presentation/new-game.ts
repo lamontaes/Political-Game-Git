@@ -11,12 +11,15 @@ import {
   lifePlaceByKey,
   questionnaireLength,
   requireLifePlace,
+  resolveStartingBirthday,
+  startingBirthdayFieldProblem,
   stableHash,
 } from "../simulation";
 import type {
   EntityId,
   GivenNameGenerationVersion,
   GenderIdentityKey,
+  IsoDate,
   LifePlace,
   PronounSetKey,
   SetupAnswerRecord,
@@ -114,6 +117,16 @@ export interface NewGameSetup {
    * anything to be inferred from.
    */
   readonly gender?: GenderIdentityKey;
+  /**
+   * Birthday month (1–12) and day, when the player named them.
+   *
+   * Optional so encoded setups from before this field existed keep the seeded
+   * anniversary and the same world. Named together they derive one canonical
+   * date of birth against the place's simulation start; they are not a second
+   * age clock.
+   */
+  readonly birthMonth?: number;
+  readonly birthDay?: number;
   /**
    * Which pronouns the game uses about them.
    *
@@ -216,6 +229,33 @@ export function newGameSetupProblems(
       field: "startAge",
       message: `Choose a starting age between ${MINIMUM_START_AGE} and ${MAXIMUM_START_AGE}.`,
     });
+  }
+  const birthdayFields = startingBirthdayFieldProblem(
+    setup.birthMonth,
+    setup.birthDay,
+  );
+  if (birthdayFields) {
+    problems.push({
+      field: setup.birthMonth === undefined ? "birthDay" : "birthMonth",
+      message: birthdayFields,
+    });
+  } else if (setup.birthMonth !== undefined && setup.birthDay !== undefined) {
+    const currentDate = place?.context.initialMoment.date as
+      IsoDate | undefined;
+    if (currentDate) {
+      const resolved = resolveStartingBirthday({
+        currentDate,
+        startAge: setup.startAge,
+        birthMonth: setup.birthMonth,
+        birthDay: setup.birthDay,
+      });
+      if (!resolved.ok) {
+        problems.push({
+          field: "birthMonth",
+          message: resolved.message,
+        });
+      }
+    }
   }
   if (
     setup.startingLife === "judicial-office-practice" &&
@@ -335,6 +375,9 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     personalitySeed: setup.seed,
     place,
     age: setup.startAge,
+    ...(setup.birthMonth === undefined || setup.birthDay === undefined
+      ? {}
+      : { birthMonth: setup.birthMonth, birthDay: setup.birthDay }),
     givenName: setup.givenName,
     familyName: setup.familyName,
     // Only a stated gender reaches the world. "Rather not say" is recorded as
