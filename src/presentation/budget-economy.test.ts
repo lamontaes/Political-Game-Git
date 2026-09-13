@@ -53,7 +53,12 @@ function seatedFiscalReader(): {
     questionnaire: "skipped",
   });
   let world = openOrdinaryLife(built.world, built.playerPersonId);
-  world = fileForOffice(world, built.playerPersonId);
+  world = fileForOffice(
+    world,
+    built.playerPersonId,
+    null,
+    "us-ky-general-assembly-v1:house",
+  );
   world = spendAnAfternoon(world, built.playerPersonId, "fundraising");
   for (let index = 0; index < 3; index += 1) {
     world = passOrdinaryDays(world);
