@@ -167,7 +167,7 @@ function measureFocusId(
   if (item.focus.kind !== "legislative-material") return null;
   const prefix = "executive-work:measure:";
   return item.focus.targetKey.startsWith(prefix)
-    ? item.focus.targetKey.slice(prefix.length)
+    ? (item.focus.targetKey.slice(prefix.length) as EntityId)
     : null;
 }
 

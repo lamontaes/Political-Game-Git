@@ -19,6 +19,8 @@ import {
   personHasActiveAssignedWork,
 } from "./time-work";
 import { recordWorldEvent } from "./world";
+import { resolveExecutiveOffice } from "./executive-work-context";
+import { receiveExecutiveWork } from "./executive-work";
 import type { EntityId, HistoricalEvent, World } from "./types";
 
 export interface IncidentResponsePorts {
@@ -160,6 +162,56 @@ function teach(w: World, e: HistoricalEvent, people: EntityId[]) {
       source: { kind: "direct" },
     });
   return w;
+}
+
+/** Bind EXEC inbox only for the actual controlled office in this jurisdiction. */
+export function receiveExecutiveWorkIfCurrentOffice(
+  world: World,
+  eventId: EntityId,
+  title: string,
+  summary: string,
+): World {
+  const office = resolveExecutiveOffice(world);
+  if (!office) return world;
+  const event = world.history.events.find((entry) => entry.id === eventId);
+  if (!event || event.jurisdictionId !== office.jurisdictionId) return world;
+  return receiveExecutiveWork(world, eventId, title, summary);
+}
+
+export function knownIncidentsAwaitingReport(w: World) {
+  if (w.control.kind !== "person") return [];
+  const personId = w.control.personId;
+  return w.history.incidents.flatMap((incident) => {
+    const onset = w.history.events.find((e) => e.id === incident.onsetEventId);
+    if (!onset || !knows(w, personId, onset)) return [];
+    const key = `incident-response:report:${onset.id}:${personId}:${personId}`;
+    if (w.history.events.some((e) => e.stableKey === key)) return [];
+    return [
+      {
+        incidentId: incident.id,
+        onsetEventId: onset.id,
+        jurisdictionId: onset.jurisdictionId,
+        summary: onset.summary,
+      },
+    ];
+  });
+}
+
+/** Explicit producer: records a known onset as an office report. Does not create
+ * an incident. EXEC inbox is attached only when the current office matches. */
+export function recordKnownIncidentForCurrentOffice(
+  w: World,
+  sourceEventId: EntityId,
+): World {
+  const source = known(w, sourceEventId);
+  if (!w.history.incidents.some((i) => i.onsetEventId === source.id))
+    throw new Error("A canonical incident occurrence is required.");
+  const personId = actor(w);
+  const key = `incident-response:report:${source.id}:${personId}:${personId}`;
+  if (w.history.events.some((e) => e.stableKey === key)) return w;
+  return reportIncident(w, sourceEventId, personId, source.summary, {
+    receiveExecutiveWork: receiveExecutiveWorkIfCurrentOffice,
+  });
 }
 
 /** A report is an explicit communication by a person who already knows its
@@ -597,12 +649,13 @@ export function publishIncidentEvent(
 
 export function incidentResponseView(w: World) {
   if (w.control.kind !== "person")
-    return { reports: [], work: [], history: [] };
+    return { reports: [], work: [], history: [], awaiting: [] };
   const p = w.control.personId;
   return {
     reports: w.history.events.filter(
       (e) => e.type === "incident.response.report" && knows(w, p, e),
     ),
+    awaiting: knownIncidentsAwaitingReport(w),
     work: w.history.workItems.filter(
       (i) =>
         i.focus.kind === "other" &&
