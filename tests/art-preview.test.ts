@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import {
   ART_PREVIEW_PARAMETER,
@@ -14,6 +14,7 @@ import {
   planLifeScenePeople,
 } from "../src/presentation/life-scene-people";
 import { resolveLifeScene } from "../src/presentation/life-scene";
+import { SCENE_REGISTRY } from "../src/presentation/scene-registry";
 import { resolvePersonPortrait } from "../src/presentation/person-visual";
 import { createNewGameWorld } from "../src/presentation/new-game";
 import { PRODUCTION_CHARACTER_LIBRARY } from "../src/presentation/visual-integration";
@@ -63,6 +64,25 @@ function householdOf(world: World, playerId: EntityId): ScenePerson[] {
 }
 
 const PREVIEW = artPreviewLibraries("candidate-review")!;
+
+/** Retain the missing-calibration negative control after apartments are authored. */
+function inUncalibratedScene<T>(sceneId: string, run: () => T): T {
+  const scene = SCENE_REGISTRY.scenes.get(sceneId)!;
+  expect(scene.floorCalibration).not.toBeNull();
+  const get = SCENE_REGISTRY.scenes.get.bind(SCENE_REGISTRY.scenes);
+  const spy = vi
+    .spyOn(SCENE_REGISTRY.scenes, "get")
+    .mockImplementation((id) =>
+      id === sceneId
+        ? { ...scene, floorCalibration: null, standardBodyWidthPercent: null }
+        : get(id),
+    );
+  try {
+    return run();
+  } finally {
+    spy.mockRestore();
+  }
+}
 
 describe("the development art preview is opt-in and development-only", () => {
   it("is off for an ordinary address", () => {
@@ -414,13 +434,15 @@ describe("a previewed figure still reports what is wrong with it", () => {
   it("keeps the compositor's diagnostics on a person who DID draw", () => {
     const { world, playerPersonId } = aWorld(34, "art-preview-diagnostics");
     const sceneId = resolveLifeScene(world, playerPersonId).sceneId;
-    const drawn = planLifeScenePeople(
-      world,
-      householdOf(world, playerPersonId),
-      sceneId,
-      undefined,
-      { wardrobeByPersonId: {}, artPreview: PREVIEW },
-    ).find((person) => person.hasArt);
+    const drawn = inUncalibratedScene(sceneId!, () =>
+      planLifeScenePeople(
+        world,
+        householdOf(world, playerPersonId),
+        sceneId,
+        undefined,
+        { wardrobeByPersonId: {}, artPreview: PREVIEW },
+      ).find((person) => person.hasArt),
+    );
 
     expect(drawn).toBeDefined();
     /*
@@ -428,7 +450,8 @@ describe("a previewed figure still reports what is wrong with it", () => {
      * on the way to refusing, so the moment a figure actually drew they went
      * missing — and a figure composed against a room with no floor calibration
      * came back looking like an unqualified success. The residence scenes
-     * declare no calibration, so this must say so.
+     * now declare calibration; the scoped negative control removes it, so
+     * this must still say so rather than losing the original regression guard.
      */
     expect(drawn!.artDiagnostics ?? []).toContain(
       "scene-declares-no-floor-calibration",
@@ -540,13 +563,15 @@ describe("a complete, drawn composition still carries its diagnostics", () => {
   it("reports them on the person the room actually drew", () => {
     const { world, playerPersonId } = aWorld(34, "u3-drawn-diagnostics");
     const sceneId = resolveLifeScene(world, playerPersonId).sceneId;
-    const drawn = planLifeScenePeople(
-      world,
-      householdOf(world, playerPersonId),
-      sceneId,
-      undefined,
-      { wardrobeByPersonId: {}, artPreview: PREVIEW },
-    ).find((person) => person.hasArt);
+    const drawn = inUncalibratedScene(sceneId!, () =>
+      planLifeScenePeople(
+        world,
+        householdOf(world, playerPersonId),
+        sceneId,
+        undefined,
+        { wardrobeByPersonId: {}, artPreview: PREVIEW },
+      ).find((person) => person.hasArt),
+    );
 
     expect(drawn).toBeDefined();
     expect(drawn!.artRefusal ?? "").toBe("");
