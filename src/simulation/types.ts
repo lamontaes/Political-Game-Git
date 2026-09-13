@@ -373,6 +373,13 @@ export interface PersonIdentity {
 export interface PersonAppearance {
   readonly seed: string;
   readonly recipeVersion: string;
+  /** P29: confirmed complete outfit, atomically saved with its identity. Absent retains legacy wardrobe behavior. */
+  readonly outfit?: {
+    readonly version: "complete-outfit-v1";
+    readonly families: Readonly<
+      Partial<Record<"top" | "bottom" | "footwear", string>>
+    >;
+  };
   /** Explicit player choice within the pinned catalog; absent preserves seeded identity. */
   readonly selection?: {
     readonly bodyFamily: string;
