@@ -7,6 +7,11 @@ import "../../../src/player/player.css";
 function DepthFixture() {
   const [visible, setVisible] = useState(false);
   const hall = new URLSearchParams(location.search).get("scene") === "hall";
+  const apartment02 =
+    new URLSearchParams(location.search).get("scene") === "apartment02";
+  const apartment =
+    new URLSearchParams(location.search).get("scene") === "apartment" ||
+    apartment02;
   const red =
     "data:image/svg+xml," +
     encodeURIComponent(
@@ -15,7 +20,13 @@ function DepthFixture() {
   return (
     <SceneBackdrop
       sceneId={
-        hall ? "civic-community-meeting-room" : "office-council-staff-fixture"
+        apartment
+          ? apartment02
+            ? "residence-apartment-living-ordinary-02"
+            : "residence-apartment-living-canonical-03"
+          : hall
+            ? "civic-community-meeting-room"
+            : "office-council-staff-fixture"
       }
       people={
         visible
@@ -24,20 +35,48 @@ function DepthFixture() {
                 personId: "depth-control",
                 name: "Depth fixture",
                 relationship: null,
-                anchorId: hall ? "podium-speaker" : "primary-desk-chair",
+                anchorId: apartment
+                  ? "entry-side-standing"
+                  : hall
+                    ? "podium-speaker"
+                    : "primary-desk-chair",
                 seated: true,
-                leftPercent: hall ? 29 : 55,
-                topPercent: hall ? 15 : 35,
-                widthPercent: 10,
-                heightPercent: hall ? 80 : 60,
+                leftPercent: apartment
+                  ? apartment02
+                    ? 43
+                    : 45
+                  : hall
+                    ? 29
+                    : 55,
+                topPercent: apartment
+                  ? apartment02
+                    ? 43
+                    : 45
+                  : hall
+                    ? 15
+                    : 35,
+                widthPercent: apartment ? 5 : 10,
+                heightPercent: apartment ? 35 : hall ? 80 : 60,
                 hasArt: true,
                 layers: [
                   {
                     url: red,
-                    leftPercent: hall ? 29 : 55,
-                    topPercent: hall ? 15 : 35,
-                    widthPercent: 10,
-                    heightPercent: hall ? 80 : 60,
+                    leftPercent: apartment
+                      ? apartment02
+                        ? 43
+                        : 45
+                      : hall
+                        ? 29
+                        : 55,
+                    topPercent: apartment
+                      ? apartment02
+                        ? 43
+                        : 45
+                      : hall
+                        ? 15
+                        : 35,
+                    widthPercent: apartment ? 5 : 10,
+                    heightPercent: apartment ? 35 : hall ? 80 : 60,
                   },
                 ],
                 presence: "Rendering control",

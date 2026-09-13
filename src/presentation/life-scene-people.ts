@@ -532,7 +532,7 @@ export function planLifeScenePeople(
      * cropped figure is still a thing a reviewer should be told about.
      */
     const topPercent = anchor.contactFloorYPercent - heightPercent;
-    const overflowPercent = Math.max(0, -topPercent);
+    let overflowPercent = Math.max(0, -topPercent);
     let personWardrobe = wardrobe;
     let wardrobeRefusal: string | undefined;
     if (
@@ -591,6 +591,32 @@ export function planLifeScenePeople(
             heightPercent,
           })
         : drawing.layers;
+    // Calibrated layers already carry the compositor's sole contact and one
+    // depth scale. Their actual union is the selectable/framing box; a second
+    // footprint-derived box must not resize or falsely crop that composition.
+    const calibratedBounds =
+      layers.length > 0 &&
+      scene.floorCalibration &&
+      scene.standardBodyWidthPercent !== null
+        ? {
+            leftPercent: Math.min(...layers.map((layer) => layer.leftPercent)),
+            topPercent: Math.min(...layers.map((layer) => layer.topPercent)),
+            widthPercent:
+              Math.max(
+                ...layers.map(
+                  (layer) => layer.leftPercent + layer.widthPercent,
+                ),
+              ) - Math.min(...layers.map((layer) => layer.leftPercent)),
+            heightPercent:
+              Math.max(
+                ...layers.map(
+                  (layer) => layer.topPercent + layer.heightPercent,
+                ),
+              ) - Math.min(...layers.map((layer) => layer.topPercent)),
+          }
+        : null;
+    if (calibratedBounds)
+      overflowPercent = Math.max(0, -calibratedBounds.topPercent);
     return {
       personId: person.personId,
       name: person.name,
@@ -601,6 +627,7 @@ export function planLifeScenePeople(
       topPercent,
       widthPercent,
       heightPercent,
+      ...(calibratedBounds ?? {}),
       layers,
       hasArt: layers.length > 0,
       presence: person.relationship

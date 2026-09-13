@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { planLifeScenePeople } from "../src/presentation/life-scene-people";
 import {
@@ -161,8 +161,27 @@ describe("The generated people stand in the room", () => {
 it("keeps uncalibrated named presence distinct from real art", () => {
   const { world } = aWorld();
   const scene = SCENE_REGISTRY.scenes.get(DOMESTIC_CANONICAL_SCENE_ID)!;
-  expect(scene.floorCalibration).toBeNull();
-  const placed = planLifeScenePeople(world, scenePeople(2), scene.sceneId);
-  expect(placed).toHaveLength(2);
-  expect(placed.every((person) => !person.hasArt)).toBe(true);
+  // The apartment is now authored. Keep the original uncalibrated refusal
+  // control explicitly, without changing the registry or production behavior.
+  expect(scene.floorCalibration).not.toBeNull();
+  const get = SCENE_REGISTRY.scenes.get.bind(SCENE_REGISTRY.scenes);
+  const spy = vi
+    .spyOn(SCENE_REGISTRY.scenes, "get")
+    .mockImplementation((id) =>
+      id === scene.sceneId
+        ? { ...scene, floorCalibration: null, standardBodyWidthPercent: null }
+        : get(id),
+    );
+  try {
+    const placed = planLifeScenePeople(world, scenePeople(2), scene.sceneId);
+    expect(placed).toHaveLength(2);
+    expect(placed.every((person) => !person.hasArt)).toBe(true);
+    expect(
+      placed.every(
+        (person) => person.artRefusal === "scene-declares-no-floor-calibration",
+      ),
+    ).toBe(true);
+  } finally {
+    spy.mockRestore();
+  }
 });
