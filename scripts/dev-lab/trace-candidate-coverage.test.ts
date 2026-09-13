@@ -1,4 +1,5 @@
-import { writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
+import { dirname } from "node:path";
 
 import { describe, expect, it } from "vitest";
 
@@ -234,6 +235,7 @@ describe("candidate art coverage for canonical people", () => {
     }
     say(RULE);
 
+    mkdirSync(dirname(REPORT), { recursive: true });
     writeFileSync(REPORT, `${lines.join("\n")}\n`);
 
     // A trace, not a gate: it must run, and its report is the deliverable.
