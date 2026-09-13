@@ -1,3 +1,5 @@
+import { initializeFreshCandidateOutfits } from "./complete-outfit";
+import type { World } from "../simulation/types";
 import type { NewGameSetup } from "./new-game";
 import type { PoseArtIndex } from "./pose-families";
 import type { CharacterComponentLibrary } from "./character-components";
@@ -252,5 +254,18 @@ export function setupForArtPreview<T extends NewGameSetup>(
     ...setup,
     appearanceCatalogGeneration:
       PEOPLE_VISUAL4_CHARACTER_LIBRARY.catalogGeneration,
+    appearanceOutfitVersion: "complete-outfit-v1",
   };
+}
+
+/** A opening adapter; marked new descriptors reproduce, old replay/load stays exact. */
+export function prepareCandidateOpeningWorld(
+  world: World,
+  setup: NewGameSetup,
+  mode: ArtPreviewMode,
+): World {
+  return mode === "candidate-review" &&
+    setup.appearanceOutfitVersion === "complete-outfit-v1"
+    ? initializeFreshCandidateOutfits(world, PEOPLE_VISUAL4_CHARACTER_LIBRARY)
+    : world;
 }

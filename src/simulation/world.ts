@@ -1155,6 +1155,25 @@ function validateInitialEntities(
         person.appearance.recipeVersion,
         "Person appearance recipe version",
       );
+      const outfit = person.appearance.outfit;
+      if (
+        outfit !== undefined &&
+        (outfit === null ||
+          outfit.version !== "complete-outfit-v1" ||
+          !outfit.families ||
+          typeof outfit.families !== "object" ||
+          Array.isArray(outfit.families) ||
+          Object.keys(outfit).some(
+            (key) => !["version", "families"].includes(key),
+          ) ||
+          Object.entries(outfit.families).some(
+            ([kind, family]) =>
+              !["top", "bottom", "footwear"].includes(kind) ||
+              typeof family !== "string" ||
+              !family.trim(),
+          ))
+      )
+        throw new Error("Unsupported or malformed saved complete outfit.");
       const catalogGeneration = person.appearance.catalogGeneration;
       if (
         catalogGeneration !== undefined &&

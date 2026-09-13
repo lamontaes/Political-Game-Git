@@ -1,3 +1,4 @@
+import { resolveCompleteOutfit } from "./complete-outfit";
 import type { Person, PersonAppearance, World } from "../simulation/types";
 import {
   componentsAtGeneration,
@@ -57,9 +58,11 @@ function recipeFor(
   context: PersonVisualSelectionContext,
   wardrobe?: CharacterWardrobeContext,
 ): CharacterRecipe {
+  const proposedAppearance = { ...appearance };
+  if (wardrobe) delete proposedAppearance.outfit;
   return resolveCharacterRecipe(
     {
-      appearance,
+      appearance: proposedAppearance,
       poseFamily: context.poseFamily,
       catalogGeneration: generationFor(appearance, context.library),
       // Identity authoring can expose a partial supplied library. Actual
@@ -276,6 +279,19 @@ export function resolvePersonWardrobeContext(
   preference: PersonWardrobePreference,
   context: PersonVisualSelectionContext,
 ): CharacterWardrobeContext {
+  if (person.appearance?.outfit) {
+    const resolved = resolveCompleteOutfit({
+      appearance: person.appearance,
+      ...context,
+    });
+    if (!resolved.ok) throw new Error(resolved.message);
+    return {
+      id: "complete-outfit-v1",
+      families: Object.fromEntries(
+        Object.entries(resolved.families).map(([k, v]) => [k, [v]]),
+      ),
+    };
+  }
   if (!preference || preference.personId !== person.id)
     throw new Error(
       "Wardrobe preference must belong to the canonical person being rendered.",
