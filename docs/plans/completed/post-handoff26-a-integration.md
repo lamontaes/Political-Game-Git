@@ -1,5 +1,28 @@
 # POST-HANDOFF26 A integration
 
+## Completed minimum checkpoint
+
+Core delivered by PR #219: main 215b3e90, source c0b0ba33, current clean play
+source on 5198. The exact receipt is
+`docs/plans/completed/next24-a-core-proof-repair.md`. #213 banked first at
+172b2369; #211's exact 6272545b and #217's exact 18813173 are contained in
+current main with authored history preserved. #215's existing News was adapted
+once, not rebuilt. Old/new B continuity is included only through published net
+4b134310, retaining A's Personal/self and NPC-read-only precedence.
+
+E's completed 6bdb41c2 is preserved in separately published PR #220; it is not
+claimed in core main. Desktop retains its active owner and 231a1d3e source:
+generated-anchor/corpus gate and exact installed update/full-interface proof
+remain pending. D's c5e3b548 and new PEOPLE/B's ef94d8f2 remain upload-blocked;
+no denied source history was republished. G #212 is isolated because its derived
+IMG_5205 release disposition conflicts with its original awaiting-acceptance
+record; #214 stays independently unreleased. C's card/Web seams are already
+integrated; remaining structured-message source is an owner-scoped follow-on.
+
+This completes the minimum core milestone, not all follow-on deliveries or
+human visual approval. Continuation ownership remains A, using the active
+ready-returns plan below. The original iteration log remains historical.
+
 ## Authority and preserved state
 
 - Continue the existing A owner under CURRENT CONTINUATION, SHARED CONTRACT,
@@ -7,8 +30,9 @@
 - Sole shared-root/main integrator; use this isolated successor worktree.
 - Preserve the root's two user-authored PNG changes, port 5188, saves, all
   originals, active owner worktrees, and frozen PR #213 source.
-- Frozen checkpoint: `f2dded2895aba1f55b741d55986a576f1e556b81` on
-  `codex/morning23-a-landing`; its required exact-head CI is still running.
+- Frozen predecessor: `f2dded2895aba1f55b741d55986a576f1e556b81` on
+  `codex/morning23-a-landing`; #213 is banked at 172b2369. Its exact push CI
+  passed; the duplicate PR-event failures remain separately disclosed.
   Do not recreate #144 or relabel historical `8caa4216` proof.
 
 ## Small useful increment

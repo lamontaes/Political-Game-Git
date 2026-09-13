@@ -30,9 +30,12 @@ export {
 export function offeredDistricts(
   world: World,
   jurisdictionId: EntityId,
+  selectedOfficeKey: string | null = null,
 ): readonly DistrictIdentity[] {
   const pack = candidacyPackForJurisdiction(jurisdictionId);
-  const officeKey = pack?.offices[0]?.officeKey;
+  const officeKey = pack?.offices.find(
+    (office) => office.officeKey === selectedOfficeKey,
+  )?.officeKey;
   if (!pack || !officeKey) return [];
   const chamberKey = officeKey.split(":").at(-1) ?? "";
   const chamber = gazetteerChamberForOfficeChamberKey(chamberKey);
