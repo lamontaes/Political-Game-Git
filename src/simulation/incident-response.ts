@@ -16,6 +16,7 @@ import {
   workItemState,
   scheduledActivityState,
   performScheduledActivity,
+  personHasActiveAssignedWork,
 } from "./time-work";
 import { recordWorldEvent } from "./world";
 import type { EntityId, HistoricalEvent, World } from "./types";
@@ -285,12 +286,7 @@ export function decideIncidentResponse(
     throw new Error(
       "Staff must have active work in the same organization and jurisdiction.",
     );
-  if (
-    w.history.workItems.some((i) => {
-      const s = workItemState(w, i.id);
-      return s?.status === "active" && s.assignedPersonIds.includes(staffId);
-    })
-  )
+  if (personHasActiveAssignedWork(w, staffId))
     throw new Error(
       "Staff already has active work; capacity cannot be duplicated.",
     );
