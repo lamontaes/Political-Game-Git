@@ -166,3 +166,61 @@ queued public checks, separately authorized dependency remediation, and the
 owner's broader gameplay/desktop acceptance. Exact final source/remote/PR and
 clean/dirty state are included in the publication return and canonical Drive
 handoff. No cleanup, held material publication or public release.
+
+### Final composition: retained red and generated metadata repair
+
+Public follow-up [draft PR #241](https://github.com/lamontaes/Political-Game-Git/pull/241)
+first froze `be3adfb615bd231008fc8187b00927973f21ea6b`. Its complete
+`npm run validate` receipt is `/private/tmp/p31-ops-be3adfb6/validate.json`:
+start `2026-09-13T22:03:30.456Z`, end `2026-09-13T22:18:12.232Z`, exit 1,
+881.94 seconds, identical before/after source fingerprint `97140a149692`.
+Full format, lint, typecheck and actual-range release check passed. The unit
+stage returned 4 failed files / 345 passed, 5 failed tests / 4741 passed /
+6 skipped, 766.92 seconds. Four of those skipped cases did not execute because
+the cross-branch fixture's startup sanity check failed; this is failed setup,
+not successful exclusion. Two ordinary skips were retained unchanged.
+
+The three anchor CLI failures reached a final `check` returning 1; the migration
+and anchor operations themselves succeeded in disposable copies. The exact
+symlink-bundle error was `coverage-report.md` byte drift. The corpus comparison
+expected 643 scanned files / 77109 literals against committed 642 / 77082.
+A subsequent read-only production `corpus:prose -- check` confirms the same
+coverage-only drift, with no history refusal. The separate people-visual4-review
+case hit its unchanged 5000 ms deadline. Its cause is not established; no art,
+renderer, fixture expectation or timeout change is part of this repair.
+
+A explicitly assigned OPS only branch-local generated inventory metadata after
+the aggregate exited. The existing `npm run corpus:prose` operation produced
+zero hard errors, 2644 templates, 265 warnings and 6563 unclassified candidates.
+Only `coverage-report.md`, `coverage-candidates.json` and the review packet's
+source stamp changed. Counts and excluded test/error summaries now reflect the
+existing source; unclassified candidate identity, text, verdict and reason are
+unchanged, with only source line coordinates updated. No source, classifier,
+anchor, ledger, checkpoint, semantic ID or player prose change. The trio hashes
+in `/private/tmp/p31-ops-be3adfb6/prose-trio-before.sha256` still match exactly.
+
+Before/operation/after receipts are under `/private/tmp/p31-ops-corpus-before`,
+`/private/tmp/p31-ops-corpus-generate` and `/private/tmp/p31-ops-corpus-after`.
+The generator operation is not a test certificate. The fresh after-check passes:
+7 artifacts byte-identical, review packet identical except its declared source
+stamp. The original red aggregate remains red. Recheck the affected CLI/count
+cases and unchanged people-review case, run source validate/fiscal/replay stages
+that the red aggregate never reached, and require a real final aggregate before
+claiming readiness. S's waiting narrow verification was released immediately
+when the first OPS aggregate ended; another full run needs its own clear window.
+
+Handoff checkpoint recorded before this generated-metadata commit:
+2026-09-13 22:20 UTC; OPS successor, assigned Codex / GPT-5.6 Sol / High /
+Standard; absolute workspace as above; branch `codex/p31-ops-spaced-source-path`;
+local/source and remote `origin/codex/p31-ops-spaced-source-path` both `be3adfb6`.
+Dirty tracked files: the three generated metadata files and this plan.
+Untracked files: none. PR #241 open/draft; normal cloud jobs queued. Dev server:
+none, port/PID none. Screenshots: none. Human/owner play acceptance: not performed.
+Exact next authorized action: commit and normally publish the inspected metadata
+repair, verify source readiness and affected tests, then complete the final
+aggregate in a separate clear window and return its actual result to A.
+
+Additional LEARN: source integration can leave a stale coverage report even when
+the prose/history pair is sound. Ordinary disposable-bundle and cross-branch
+guards correctly fail closed on byte drift. Use the existing generator and
+byte-check instead of writing counts, weakening the guards or modifying history.
