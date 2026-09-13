@@ -237,7 +237,7 @@ export function artPreviewBanner(mode: ArtPreviewMode): string | null {
     : ART_PREVIEW_LABEL;
 }
 
-/** New candidate lives may use the current review generation; existing replay pins win. */
+/** Fresh setup initialization ONLY. Unpinned legacy replays and loaded Worlds must bypass this helper. Existing explicit pins win. */
 export function setupForArtPreview<T extends NewGameSetup>(
   setup: T,
   mode: ArtPreviewMode,

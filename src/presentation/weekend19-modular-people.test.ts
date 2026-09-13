@@ -69,27 +69,25 @@ describe("WEEKEND19 B: frozen generation 1 and additive candidates", () => {
     }
   });
 
-  it("lets a new v2 life use later membership without moving v1", () => {
-    const legacy = resolveAt(
-      "weekend19-new-life",
-      DEFAULT_APPEARANCE_RECIPE_VERSION,
-    );
-    const next = resolveAt(
+  it("keeps historical unpinned v2 on generation2 with the same actual components", () => {
+    const unpinned = resolveAt(
       "weekend19-new-life",
       COHERENT_APPEARANCE_RECIPE_VERSION,
     );
-    expect(legacy.catalogGeneration).toBe(CANDIDATE_REVIEW_GENERATION);
-    expect(next.catalogGeneration).toBe(LIBRARY.catalogGeneration);
-    if (LIBRARY.catalogGeneration > CANDIDATE_REVIEW_GENERATION) {
-      const newFamilies = [...LIBRARY.components.values()].filter(
-        (component) =>
-          component.definition.catalog_generation >
-            CANDIDATE_REVIEW_GENERATION &&
-          (component.definition.kind === "top" ||
-            component.definition.kind === "bottom"),
-      );
-      expect(newFamilies.length).toBeGreaterThan(0);
-    }
+    const frozen = resolveAt(
+      "weekend19-new-life",
+      COHERENT_APPEARANCE_RECIPE_VERSION,
+      2,
+    );
+    expect(unpinned.catalogGeneration).toBe(2);
+    expect(unpinned.identity).toEqual(frozen.identity);
+    expect(unpinned.context.components).toEqual(frozen.context.components);
+    expect(
+      unpinned.context.components.every(
+        (c) =>
+          LIBRARY.components.get(c.assetId)!.definition.catalog_generation <= 2,
+      ),
+    ).toBe(true);
   });
 
   it("registers the arm-masked polo as a labelled candidate, not a production overwrite", () => {
