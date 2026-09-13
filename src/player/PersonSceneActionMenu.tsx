@@ -55,15 +55,10 @@ export function PersonSceneActionMenu({
   const [placement, setPlacement] = useState<{
     readonly left: number;
     readonly top: number;
-  } | null>(null);
+  }>({ left: 8, top: 8 });
 
   useLayoutEffect(() => {
     const menu = menuRef.current;
-    const first = menu?.querySelector<HTMLButtonElement>(
-      "button:not(:disabled)",
-    );
-    first?.focus();
-
     const place = () => {
       if (!menu) return;
       const anchor = document.querySelector<HTMLElement>(
@@ -95,6 +90,9 @@ export function PersonSceneActionMenu({
       );
     };
     place();
+    queueMicrotask(() => {
+      menu?.querySelector<HTMLButtonElement>("button:not(:disabled)")?.focus();
+    });
     window.addEventListener("resize", place);
     return () => window.removeEventListener("resize", place);
   }, [personId]);
@@ -108,14 +106,12 @@ export function PersonSceneActionMenu({
       data-testid="person-action-menu"
       data-person-id={personId}
       style={
-        placement
-          ? ({
-              left: `${placement.left}px`,
-              top: `${placement.top}px`,
-              right: "auto",
-              bottom: "auto",
-            } satisfies CSSProperties)
-          : ({ visibility: "hidden" } satisfies CSSProperties)
+        {
+          left: `${placement.left}px`,
+          top: `${placement.top}px`,
+          right: "auto",
+          bottom: "auto",
+        } satisfies CSSProperties
       }
     >
       <p className="pg-action-menu-name">{name}</p>
