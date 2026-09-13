@@ -54,8 +54,8 @@ Fitted figure height spans 16.1% to 135.6% of the plate.
 
 - placements measured: 160
 - placements where some layer drew: 108
-- of those, COMPLETE recipes (compositor reported nothing): 12
-- partial draws (drew, but a slot or pose was reported): 96
+- of those, COMPLETE recipes (compositor reported nothing): 28
+- partial draws (drew, but a slot or pose was reported): 80
 - by output class: {"candidate-review":108,"refused":52}
 - feet off the declared contact line by more than 0.5% of the plate: 0
 - figures escaping the plate: 20
@@ -78,8 +78,6 @@ not to copy an estimate out of this report into the scene data.
 - `legislative-chamber-production`
 - `park-community-pavilion-candidate`
 - `press-briefing-room-candidate`
-- `residence-apartment-living-canonical-03`
-- `residence-apartment-living-ordinary-02`
 
 ## Exact remaining asset needs
 
