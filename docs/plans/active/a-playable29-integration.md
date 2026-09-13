@@ -91,3 +91,24 @@ LEARN: preserve explicit negative test fixtures when authoring removes the old
 missing-data premise; use the existing report capture command and then the
 existing whole-format gate before banking generated evidence. Verify the full
 prepared authoring tree before packaging, not a leaf commit lacking its parents.
+
+#235 is now merged: source 71ee4de7d495ccf30dcf93ed2e125e0e79888da7,
+accepted main 68f661665ded130c0154edb408be2a11342b78c3. Its own affected
+tests/browser/static/build/art checks and unchanged-domain proof reuse are
+recorded in the PR; no exact-G full green aggregate is inferred from C's run.
+Frozen clean public room player 5256 is separate from local material 5254.
+
+Corrected full C f47d1794 completed with 347 files passed / one failed;
+4,745 tests passed / one failed / two existing skips, 641.93 seconds. The
+unchanged civil-personnel browser import-graph case exceeded the existing
+5,000ms limit under concurrency; no bare-import assertion failure was reported.
+Do not call that aggregate green. Final current C receives accepted main and
+Desktop's safe archive-only 2f6 donor, NOT the later native-material smoke gate.
+Rerun the complete suite with one worker and unchanged timeouts/assertions.
+
+B's read-only publication scope enumerates 390 exact delta paths and hashes
+(332 art payloads, construction inputs, registrations and supporting metadata).
+A verified all retained path hashes against ed20 with zero mismatches. The
+art-free four-file schema patch applies to current C but is not applied or
+presented as a playable material replacement. Existing permission request is
+the sole route; no public attempt, bank-wide hold or asset-stripping workaround.

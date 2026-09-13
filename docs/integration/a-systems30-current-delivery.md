@@ -55,3 +55,27 @@ The geometric candidate finish is not painted-reference human acceptance.
 National expansion and optional art do not gate the public safety/room/focus
 increments. The shared root remains d241d543 with its two pre-existing pose
 proof PNG changes untouched.
+
+## Current public room and focus sequence
+
+#235 landed normally from 71ee4de7d495ccf30dcf93ed2e125e0e79888da7 at main
+68f661665ded130c0154edb408be2a11342b78c3. Its frozen public room player is
+http://127.0.0.1:5256/?art-preview=candidate, dirty false, digest
+71bd32157eaeebbdfec9809e9142d32429e010e5b296ac3ec9d19e5e8be0dc50.
+It contains safety/room calibration, not C focus or V/B native materials.
+
+Corrected full C f47d1794 passed 347 files / 4,745 tests with one unchanged
+browser import-graph test timing out at its existing five-second limit and two
+existing skips. That aggregate remains red. Final C receives current main and
+Desktop's independently safe ZIP-only workflow donor, not its later material
+smoke gate. A is rerunning the whole suite with one worker and unchanged
+timeouts/assertions before the final focus landing receipt.
+
+Material permission scope: B's affected-files.json/tsv in
+/private/tmp/p29-publication-scope lists every exact 4f6dabd3 to ed20def7 path
+and hash; 390 paths, 332 art payloads, zero independently verified retained-hash
+mismatches. Six retained reference sources predate the delta and remain unchanged.
+The compiler geometry, family/embedded registry and coherent pack metadata stay
+with the material permission review. The code-only four-file schema patch is
+unapplied and not a playable replacement. This is technical scope accounting,
+not legal clearance, a whole-bank hold or public-distribution permission.
