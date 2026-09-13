@@ -14,17 +14,19 @@ import { findInvokerControl, menuBesideAnchor } from "./overlay-focus";
  */
 export function InvokerFocusReturn({
   personId,
+  prefer = "scene",
   onDone,
 }: {
   readonly personId: string | null;
+  readonly prefer?: "scene" | "panel";
   readonly onDone: () => void;
 }) {
   useLayoutEffect(() => {
     if (!personId) return;
-    const invoker = findInvokerControl(personId);
+    const invoker = findInvokerControl(personId, document, prefer);
     invoker?.focus();
     onDone();
-  }, [personId, onDone]);
+  }, [personId, prefer, onDone]);
   return null;
 }
 

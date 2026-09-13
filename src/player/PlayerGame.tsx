@@ -1981,6 +1981,9 @@ function PlayingScreen({
    * on screen; this is the request, cleared as soon as it is honored.
    */
   const [returnFocusTo, setReturnFocusTo] = useState<EntityId | null>(null);
+  const [returnFocusPrefer, setReturnFocusPrefer] = useState<"scene" | "panel">(
+    "scene",
+  );
   const clearReturnFocus = useCallback(() => setReturnFocusTo(null), []);
   const [continuingLifeShown, setContinuingLifeShown] = useState(false);
 
@@ -2400,13 +2403,18 @@ function PlayingScreen({
    * over the scene, so the workspace closes and the room comes forward.
    */
   const talkTo = useCallback(
-    (personId: EntityId, subject?: ConversationSubjectKey) => {
+    (
+      personId: EntityId,
+      subject?: ConversationSubjectKey,
+      invoker: "scene" | "panel" = "scene",
+    ) => {
       const entry = openConversationWith(
         session.world,
         session.personId,
         personId,
       );
       if (entry.kind === "unavailable") return;
+      setReturnFocusPrefer(invoker);
       setConversation({
         subject: subject ?? entry.subject,
         addressee: personId,
@@ -2445,6 +2453,7 @@ function PlayingScreen({
         >
           <InvokerFocusReturn
             personId={conversation ? null : returnFocusTo}
+            prefer={returnFocusPrefer}
             onDone={clearReturnFocus}
           />
           {/*
@@ -2506,7 +2515,7 @@ function PlayingScreen({
                   onWorldChange={onWorldChange}
                 />
               }
-              onTalkTo={(personId) => talkTo(personId)}
+              onTalkTo={(personId) => talkTo(personId, undefined, "panel")}
               returnFocusTo={returnFocusTo}
               onFocusReturned={() => setReturnFocusTo(null)}
               foreground={

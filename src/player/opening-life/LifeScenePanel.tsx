@@ -68,12 +68,6 @@ export function LifeScenePanel({
   const talkToRef = useRef<HTMLElement>(null);
   useLayoutEffect(() => {
     if (!returnFocusTo) return;
-    if (
-      document.querySelector(`[data-testid="scene-person-${returnFocusTo}"]`)
-    ) {
-      onFocusReturned?.();
-      return;
-    }
     talkToRef.current?.focus();
     onFocusReturned?.();
   }, [returnFocusTo, onFocusReturned]);

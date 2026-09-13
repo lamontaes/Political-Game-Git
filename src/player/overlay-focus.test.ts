@@ -73,10 +73,14 @@ describe("overlay focus and placement", () => {
 
   it("returns the still-mounted person, else the shell cluster", () => {
     const person = control("scene-person-p-1");
+    const panel = control("life-talk-p-1");
     const cluster = control("shell-nav-cluster");
-    const root = tree([cluster, person]);
+    const root = tree([cluster, person, panel]);
     expect(findInvokerControl("p-1", root)?.dataset.testid).toBe(
       "scene-person-p-1",
+    );
+    expect(findInvokerControl("p-1", root, "panel")?.dataset.testid).toBe(
+      "life-talk-p-1",
     );
     expect(findInvokerControl("missing", root)?.dataset.testid).toBe(
       "shell-nav-cluster",

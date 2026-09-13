@@ -7034,7 +7034,6 @@
 
 .life-shell .scene-backdrop-content[data-content="conversation"] > .pg-talk {
   width: min(46rem, 100%);
-  max-height: var(--pg-conversation-max-height, 46vh);
 }
 
 /* --- People standing in the room --------------------------------------- */

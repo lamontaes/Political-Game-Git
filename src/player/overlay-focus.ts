@@ -84,11 +84,13 @@ export function browsingSurfaceOpen(root: ParentNode = document): boolean {
   return Boolean(root.querySelector(".pg-workspace"));
 }
 
-export function invokerSelector(personId: string): readonly string[] {
-  return [
-    `[data-testid="scene-person-${personId}"]`,
-    `[data-testid="life-talk-${personId}"]`,
-  ];
+export function invokerSelector(
+  personId: string,
+  prefer: "scene" | "panel" = "scene",
+): readonly string[] {
+  const scene = `[data-testid="scene-person-${personId}"]`;
+  const panel = `[data-testid="life-talk-${personId}"]`;
+  return prefer === "panel" ? [panel, scene] : [scene, panel];
 }
 
 export const FOCUS_FALLBACK_SELECTOR = '[data-testid="shell-nav-cluster"]';
@@ -96,8 +98,9 @@ export const FOCUS_FALLBACK_SELECTOR = '[data-testid="shell-nav-cluster"]';
 export function findInvokerControl(
   personId: string,
   root: ParentNode = document,
+  prefer: "scene" | "panel" = "scene",
 ): HTMLElement | null {
-  for (const selector of invokerSelector(personId)) {
+  for (const selector of invokerSelector(personId, prefer)) {
     const node = root.querySelector<HTMLElement>(selector);
     if (node && !node.hasAttribute("disabled")) return node;
   }
@@ -107,8 +110,9 @@ export function findInvokerControl(
 export function focusInvokerOrFallback(
   personId: string,
   root: ParentNode = document,
+  prefer: "scene" | "panel" = "scene",
 ): HTMLElement | null {
-  const node = findInvokerControl(personId, root);
+  const node = findInvokerControl(personId, root, prefer);
   node?.focus();
   return node;
 }
