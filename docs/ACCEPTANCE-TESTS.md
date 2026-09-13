@@ -8,6 +8,22 @@
 
 ## Automated Now
 
+### CAMPAIGN-OFFICE-001 — Discovery is read-only and deliberate
+
+Established offices are grouped by provider government level with current
+canonical eligibility. No radio is preselected and filing requires an explicit
+office key. Missing timing/connections stay unestablished; selecting an office
+does not write history, schedule an election or move money. Unknown/unsupported
+office keys refuse. District discovery likewise requires the chosen office.
+
+### CAMPAIGN-OFFICE-002 — Existing campaign identity wins over browsing
+
+Selecting an alternative after filing does not replace the chosen office,
+opponents, treasury or contest. The normal browser route chooses the supported
+Senate alternative by keyboard and commits by pointer, then browses the House
+and saves/reloads without changing those records. Filing rechecks current
+eligibility and refuses a second active campaign.
+
 The current semantic suite is under `src/simulation/*.test.ts`,
 `src/persistence/*.test.ts`, and `src/presentation/*.test.ts` and runs in
 Vitest's Node environment. Run A browser proof is under `tests/e2e/` and runs
@@ -1277,6 +1293,38 @@ Given a long-running save, a player can trace how important people, places, part
 ### LATER-017 — Workload changes with responsibility and political intensity
 
 Given increased responsibility or political intensity, the player faces more competing consequential demands and delegation decisions, not merely more routine clicks.
+
+### CAMPAIGN-STRATEGY-001 — Proposal source and choices are explicit
+
+Given an active campaign with current campaign staff, the strategy subject names
+that actual active worker as the proposer. Given no active staff, it identifies
+an honest solo plan and does not infer a staff role from family, household or
+ordinary acquaintance. The player chooses an exact supported action, the
+represented campaign jurisdiction or bound contest district, and an explicit
+committee spending ceiling through structured controls rather than free text.
+
+### CAMPAIGN-STRATEGY-002 — Commitment consumes canonical time and money
+
+Approving a strategy schedules and performs the existing campaign action. An
+advertising choice spends exactly the selected committee amount; non-spending
+actions approve a zero ceiling. Commitment and execution recheck the committee
+treasury, never use a personal balance, and refuse insufficient funds without a
+partial calendar or campaign-action write.
+
+### CAMPAIGN-STRATEGY-003 — Staff and plan changes fail closed
+
+A proposal whose named staff member has departed cannot be committed. A spending
+choice that is no longer in the current proposal after the treasury changes is
+also refused. The player may choose a different supported priority than the
+proposal without the game overriding that choice.
+
+### CAMPAIGN-STRATEGY-004 — Outcome and reload remain explainable
+
+After the action, the report shows the proposal attribution, chosen priority,
+represented geography, approved ceiling, actual spend when any, canonical
+outcome sentence and the campaign's fallible observed feedback. The strategy
+context and report round-trip through the existing World serializer, while old
+campaign actions without strategy context remain valid.
 
 ### LATER-018 — Losing an election does not end the character's life
 

@@ -9,7 +9,8 @@ import {
 import { projectPersonalRecord } from "./personal-record";
 import { projectPlayerCalendar } from "./player-calendar";
 import { filterDirectory, projectPeopleDirectory } from "./people-directory";
-import { fileForOffice } from "./campaign-projection";
+
+import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import { openConversationWith } from "./person-conversation-entry";
 import { CANONICAL_VERSION, PATCH_NOTE_SECTIONS } from "./release-identity";
 import type { EntityId } from "../simulation";

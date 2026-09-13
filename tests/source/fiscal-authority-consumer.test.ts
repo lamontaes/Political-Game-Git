@@ -20,10 +20,10 @@ import {
   type World,
 } from "../../src/simulation";
 import {
-  fileForOffice,
   projectCampaign,
   spendAnAfternoon,
 } from "../../src/presentation/campaign-projection";
+import { fileForOffice } from "../fixtures/campaign-fixture";
 import { openFiscalAuthorityWork } from "../../src/presentation/fiscal-authority-work";
 import {
   LEGISLATIVE_FISCAL_PROPOSAL_INTEGRATION,

@@ -345,7 +345,13 @@ function runCampaign(
   afternoons: number,
 ): { world: World; transcript: CampaignTranscript } {
   const lines: string[] = [];
-  let current = fileForOffice(openOrdinaryLife(world, personId), personId);
+  // These transcript lanes deliberately exercise the established House scenario.
+  let current = fileForOffice(
+    openOrdinaryLife(world, personId),
+    personId,
+    null,
+    "us-ky-general-assembly-v1:house",
+  );
   const campaign = campaignForCandidate(current, personId);
   if (!campaign) {
     return {

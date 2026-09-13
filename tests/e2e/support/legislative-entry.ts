@@ -7,6 +7,13 @@ import type { World } from "../../../src/simulation";
 export async function reachMemberOffice(page: Page) {
   // PT3: running for office lives in Work, beside the day's time control.
   await goTo(page, "elsewhere-work");
+  // E's office browser requires a deliberate choice; preserve the original
+  // House scenario rather than relying on the former implicit default.
+  const house = page
+    .getByTestId("campaign-office-browser")
+    .locator('input[value="us-ky-general-assembly-v1:house"]');
+  await house.press("Space");
+  await expect(house).toBeChecked();
   await expect(page.getByTestId("file-candidacy")).toBeEnabled();
   await page.getByTestId("file-candidacy").press("Enter");
   await page.getByTestId("campaign-fundraising").click();
