@@ -2,7 +2,7 @@
   "counts": {
     "INVENTORIED": 2457,
     "INTENTIONALLY_NON_PLAYER_FACING": 5871,
-    "DIAGNOSTIC_OR_TEST": 5228,
+    "DIAGNOSTIC_OR_TEST": 5230,
     "NEEDS_CLASSIFICATION": 6558
   },
   "needsClassification": [
@@ -12505,7 +12505,7 @@
     {
       "sourcePath": "src/presentation/play-scene-context.ts",
       "enclosingSymbol": "resolvePlaySceneContext",
-      "line": 179,
+      "line": 188,
       "text": "A released school plate is bound to this location key.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12513,7 +12513,7 @@
     {
       "sourcePath": "src/presentation/play-scene-context.ts",
       "enclosingSymbol": "resolvePlaySceneContext",
-      "line": 181,
+      "line": 190,
       "text": "No school plate is released; household art is not substituted.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16641,7 +16641,7 @@
     {
       "sourcePath": "src/presentation/scene-venues.ts",
       "enclosingSymbol": "resolveActivityVenueScene",
-      "line": 246,
+      "line": 247,
       "text": "The venue has no released production plate.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16649,7 +16649,7 @@
     {
       "sourcePath": "src/presentation/scene-venues.ts",
       "enclosingSymbol": "VENUE_DELIBERATELY_UNREACHED",
-      "line": 353,
+      "line": 356,
       "text": "Existing press interviews do not establish a canonical briefing-room venue. Candidate composition only; acceptance and a location producer remain pending.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16657,7 +16657,7 @@
     {
       "sourcePath": "src/presentation/scene-venues.ts",
       "enclosingSymbol": "VENUE_DELIBERATELY_UNREACHED",
-      "line": 357,
+      "line": 360,
       "text": "The current JUD-WORK2 consumer establishes office preparation only, not a source-confirmed courtroom kind. Its location key cannot admit this unreleased plate.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16665,7 +16665,7 @@
     {
       "sourcePath": "src/presentation/scene-venues.ts",
       "enclosingSymbol": "VENUE_DELIBERATELY_UNREACHED",
-      "line": 361,
+      "line": 364,
       "text": "Committee hearings are canonical, but they are scheduled as future due items rather than as located activities, so they carry no location key for this table to map. The room is ready; the hearing needs a location before it has one.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16673,7 +16673,7 @@
     {
       "sourcePath": "src/presentation/scene-venues.ts",
       "enclosingSymbol": "VENUE_DELIBERATELY_UNREACHED",
-      "line": 365,
+      "line": 368,
       "text": "Floor votes are canonical and, like committee hearings, carry no located activity. Same room-is-ready, same missing location.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16681,7 +16681,7 @@
     {
       "sourcePath": "src/presentation/scene-venues.ts",
       "enclosingSymbol": "VENUE_DELIBERATELY_UNREACHED",
-      "line": 369,
+      "line": 372,
       "text": "Home art supplies residence context only when no later established place or completed travel contradicts it. A quiet calendar does not prove physical presence at home.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16689,7 +16689,7 @@
     {
       "sourcePath": "src/presentation/scene-venues.ts",
       "enclosingSymbol": "VENUE_DELIBERATELY_UNREACHED",
-      "line": 373,
+      "line": 376,
       "text": "Candidate scene. The park community pavilion is candidate-isolated pending human visual acceptance and an exterior location producer in normal play.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16697,7 +16697,7 @@
     {
       "sourcePath": "src/presentation/scene-venues.ts",
       "enclosingSymbol": "VENUE_DELIBERATELY_UNREACHED",
-      "line": 377,
+      "line": 380,
       "text": "Candidate scene. The executive private study is candidate-isolated pending human visual acceptance and formal owner sign-off.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -55263,6 +55263,12 @@
       "count": 23
     },
     {
+      "sourcePath": "src/presentation/new-game-identity.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 14
+    },
+    {
       "sourcePath": "src/presentation/narrative-life.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -55278,13 +55284,7 @@
       "sourcePath": "src/presentation/municipal-public-work.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 14
-    },
-    {
-      "sourcePath": "src/presentation/new-game-identity.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 14
+      "count": 16
     },
     {
       "sourcePath": "src/presentation/morning23-catalog-continuity.test.ts",

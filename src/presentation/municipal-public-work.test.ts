@@ -11,7 +11,11 @@ import {
   createScheduledActivity,
 } from "../simulation/time-work";
 import { recordOrganizationParticipationState } from "../simulation/life";
-import { deserializeWorld, serializeWorld } from "../simulation";
+import {
+  advanceWorldMinutes,
+  deserializeWorld,
+  serializeWorld,
+} from "../simulation";
 import {
   attendMunicipalPublicMeeting,
   installMunicipalGovernment,
@@ -22,6 +26,8 @@ import {
 } from "../simulation/municipal-public-work";
 import { municipalVenueForActivity } from "./municipal-venue";
 import bindings from "./municipal-venue-bindings.json";
+import { resolveOpeningPlaySceneContext } from "./play-scene-context";
+import { resolveVenueScene } from "./scene-venues";
 import { prepareMunicipalMeetingNotes } from "./municipal-workspace";
 
 function context(governmentKey: string, placeKey: string, seriesKey: string) {
@@ -104,6 +110,41 @@ describe("explicit municipal venue candidates", () => {
       ).toBeNull();
     },
   );
+});
+
+describe("shared completed municipal scene binding", () => {
+  it("shows the source-backed Carson venue during the opening without granting attendance", () => {
+    const input = context("us-nv-carson-city", "3209700", "regular");
+    expect(
+      resolveVenueScene(input.world, input.personId).activityId,
+    ).toBeNull();
+    const attended = attendMunicipalPublicMeeting(
+      input.world,
+      input.governmentKey,
+      input.meeting.id,
+    ).world;
+    const frozen = serializeWorld(attended);
+    const venue = resolveVenueScene(attended, input.personId);
+    expect(venue.sceneId).toBe("civic-community-meeting-room");
+    const opening = resolveOpeningPlaySceneContext(attended, input.personId);
+    expect(opening.purpose).toBe("activity");
+    expect(opening.sceneId).toBe(venue.sceneId);
+    expect(opening.locationKey).toBe("municipal:us-nv-carson-city:regular");
+    expect(opening.placeLabel).toContain("Crowell");
+    expect(serializeWorld(attended)).toBe(frozen);
+    const later = advanceWorldMinutes(attended, 1);
+    expect(resolveVenueScene(later, input.personId).activityId).toBeNull();
+    const noAnchor = {
+      ...attended,
+      history: {
+        ...attended.history,
+        scheduledActivities: attended.history.scheduledActivities.map((row) =>
+          row.id === venue.activityId ? { ...row, sourceEntityIds: [] } : row,
+        ),
+      },
+    };
+    expect(resolveVenueScene(noAnchor, input.personId).sceneId).toBeNull();
+  });
 });
 
 describe("municipal public work shares saved canonical state", () => {

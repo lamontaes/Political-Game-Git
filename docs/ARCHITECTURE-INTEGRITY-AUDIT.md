@@ -1235,3 +1235,7 @@ or second consent engine.
   No old scene ramp/body width is inherited; seated certainty is not fabricated.
 - Stable source bytes and original G ancestry retained. Root/main integration is
   A-owned; this isolated branch is an attributable leaf return.
+
+## G return28 completed-activity scene context — 2026-09-12
+
+Confirmed compatible: the opening and later play projections share exact source-backed municipal venue resolution, preserving canonical completion-at-current-instant, access, non-travel and released-art gates. Unknown opening art cannot erase actual completed activity presence; narrative text cannot create venue identity. Corrected now: shared Carson City binding regression. Deferred through concrete input: normal physical press venue declaration with legitimate access and explicit in-person use; generic room art, a typed label and spoken channel supply no such authority. No simulation writer, geography, attendance, source art or candidate acceptance rule is changed.

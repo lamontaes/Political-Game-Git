@@ -35,3 +35,15 @@ installed owner controller. Full combined validation and landing remain next.
 
 LEARN: resolve adapters against the newest root, never substitute a donor's
 whole root or a historical fixture import to remove a merge conflict.
+
+Combined 42b76858 full suite: 342 files passed, one failed; 4,729 tests
+passed, one failed, two skipped. The single life-content13 Places fixture
+omits a recorded current location. D owns its narrow fixture precondition
+and negative control; the runtime unknown-origin journey refusal remains.
+Static/source/build and mandatory art checks passed on that source.
+
+Receive corrected G #225 33320225: use the canonical municipal activity
+venue and shared current-scene context without root replacement, fabricated
+travel, audience or press access. Preserve both audit histories and the
+current explicit House keyboard fixture; regenerate only derived prose.
+Normal press physical venue input and human visual acceptance remain absent.
