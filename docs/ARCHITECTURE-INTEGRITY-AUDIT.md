@@ -1251,3 +1251,5 @@ creator registration retains newer title/place/appearance and preview logic.
 Actor/employer/source-date/class/agreement/knowledge contracts are unchanged.
 Scoped refusal/persistence tests and actual creator browser proof passed. No
 new rule or record family was introduced; newer prose reports were retained.
+
+P29-G exact905px continuation: ordinary-02 independently calibrated from its closer-camera plate, after the unchanged normal chooser reproduced904.609px height and below-viewport feet. It does not inherit canonical-03's scale; its authored15% entry clearance accommodates calibrated14.4% width while global safeguards remain. Existing two household variants now compose full standing bodies/contact and correct table depth. Other unsupported scene/pose and press rules stay intact; no World or B/C semantic change.

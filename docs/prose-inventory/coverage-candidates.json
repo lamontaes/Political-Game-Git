@@ -1,7 +1,7 @@
 {
   "counts": {
     "INVENTORIED": 2457,
-    "INTENTIONALLY_NON_PLAYER_FACING": 5877,
+    "INTENTIONALLY_NON_PLAYER_FACING": 5883,
     "DIAGNOSTIC_OR_TEST": 5239,
     "NEEDS_CLASSIFICATION": 6558
   },
@@ -56118,7 +56118,7 @@
       "sourcePath": "src/environment/scenes/residence-apartment-living-production.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "Scene-authoring and environment-spec machinery. Its strings are validation messages and asset identifiers for the art pipeline, never scene prose — baked art carries no simulation-owned text.",
-      "count": 21
+      "count": 27
     },
     {
       "sourcePath": "src/environment/scenes/press-briefing-room-candidate.ts",

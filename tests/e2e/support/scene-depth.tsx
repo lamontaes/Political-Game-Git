@@ -7,8 +7,11 @@ import "../../../src/player/player.css";
 function DepthFixture() {
   const [visible, setVisible] = useState(false);
   const hall = new URLSearchParams(location.search).get("scene") === "hall";
+  const apartment02 =
+    new URLSearchParams(location.search).get("scene") === "apartment02";
   const apartment =
-    new URLSearchParams(location.search).get("scene") === "apartment";
+    new URLSearchParams(location.search).get("scene") === "apartment" ||
+    apartment02;
   const red =
     "data:image/svg+xml," +
     encodeURIComponent(
@@ -18,7 +21,9 @@ function DepthFixture() {
     <SceneBackdrop
       sceneId={
         apartment
-          ? "residence-apartment-living-canonical-03"
+          ? apartment02
+            ? "residence-apartment-living-ordinary-02"
+            : "residence-apartment-living-canonical-03"
           : hall
             ? "civic-community-meeting-room"
             : "office-council-staff-fixture"
@@ -36,16 +41,40 @@ function DepthFixture() {
                     ? "podium-speaker"
                     : "primary-desk-chair",
                 seated: true,
-                leftPercent: apartment ? 45 : hall ? 29 : 55,
-                topPercent: apartment ? 45 : hall ? 15 : 35,
+                leftPercent: apartment
+                  ? apartment02
+                    ? 43
+                    : 45
+                  : hall
+                    ? 29
+                    : 55,
+                topPercent: apartment
+                  ? apartment02
+                    ? 43
+                    : 45
+                  : hall
+                    ? 15
+                    : 35,
                 widthPercent: apartment ? 5 : 10,
                 heightPercent: apartment ? 35 : hall ? 80 : 60,
                 hasArt: true,
                 layers: [
                   {
                     url: red,
-                    leftPercent: apartment ? 45 : hall ? 29 : 55,
-                    topPercent: apartment ? 45 : hall ? 15 : 35,
+                    leftPercent: apartment
+                      ? apartment02
+                        ? 43
+                        : 45
+                      : hall
+                        ? 29
+                        : 55,
+                    topPercent: apartment
+                      ? apartment02
+                        ? 43
+                        : 45
+                      : hall
+                        ? 15
+                        : 35,
                     widthPercent: apartment ? 5 : 10,
                     heightPercent: apartment ? 35 : hall ? 80 : 60,
                   },

@@ -1,0 +1,45 @@
+{
+  "expectedIdentity": {
+    "workspace": "/private/tmp/pg-playable29-g",
+    "head": "dd4a0117949821b0c9f8fcd80176f6de25c2509e",
+    "branch": "codex/playable29-g",
+    "dirty": true,
+    "sourceDigest": "e6aae6bce6529a153f2bd58202103b6f10a1c04c781fcdb67d66be393fe53448"
+  },
+  "served": {
+    "workspace": "/private/tmp/pg-playable29-g",
+    "head": "dd4a0117949821b0c9f8fcd80176f6de25c2509e",
+    "branch": "codex/playable29-g",
+    "dirty": true,
+    "sourceDigest": "e6aae6bce6529a153f2bd58202103b6f10a1c04c781fcdb67d66be393fe53448",
+    "pid": 77066,
+    "runId": "g-p29-second-before"
+  },
+  "baseURL": "http://127.0.0.1:5275",
+  "projects": [
+    {
+      "name": "chromium",
+      "use": {
+        "baseURL": "http://127.0.0.1:5275",
+        "trace": "retain-on-failure",
+        "screenshot": "only-on-failure",
+        "video": "off",
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.7922.34 Safari/537.36",
+        "screen": {
+          "width": 1920,
+          "height": 1080
+        },
+        "deviceScaleFactor": 1,
+        "isMobile": false,
+        "hasTouch": false,
+        "defaultBrowserType": "chromium",
+        "channel": "chrome"
+      }
+    }
+  ],
+  "seedPolicy": "Each test retains its original control seed; actual URL/world seed is captured by review proof."
+}
