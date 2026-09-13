@@ -8,7 +8,7 @@ test("national supplied-results view separates stages and activates controls by 
     route.fulfill({
       contentType: "text/html",
       body: `<!doctype html><html><head><meta name="viewport" content="width=device-width, initial-scale=1"></head><body><p>Supplied fictional results fixture — S30-N browser proof</p><div id="root"></div><script type="module">
-import '/tests/e2e/national-election-browser-entry.ts';
+import '/tests/e2e/national-election-browser-entry.tsx';
 </script></body></html>`,
     }),
   );
