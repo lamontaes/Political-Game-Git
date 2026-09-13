@@ -99,6 +99,7 @@ import {
   artPreviewLibraries,
   artPreviewMode,
   previewDatabaseName,
+  setupForArtPreview,
 } from "../presentation/art-preview";
 import { gameBuildProfile } from "../presentation/build-profile";
 import { SceneBackdrop } from "./SceneBackdrop";
@@ -566,7 +567,8 @@ export function PlayerGame() {
     return <OptionsScreen onBack={() => setScreen({ kind: "title" })} />;
   }
 
-  function beginLife(setup: NewGameSetup) {
+  function beginLife(input: NewGameSetup) {
+    const setup = setupForArtPreview(input, previewMode);
     setScreen({
       kind: "transition",
       setup,

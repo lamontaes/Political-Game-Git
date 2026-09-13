@@ -1,0 +1,117 @@
+{
+  "schema": "character-candidate-registry-v1",
+  "release_status": "candidate-only",
+  "production_pixels_released": false,
+  "assets": [
+    {
+      "asset_id": "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_matched_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-coherence/pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_matched_v1.png",
+      "hash": "8e7cf2873d5ca9cd3bf17e49d28a89f24ca3a1b151b607860770ed0a33fc2e05",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-male-top-burgundy-long-sleeve-polo-v1",
+        "layer": 35,
+        "canvas": { "width": 336, "height": 385 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5, "y": 0.06334371754932502 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"],
+        "supersedes_asset_id": "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_neckline_v1",
+        "render_piece_ids": [
+          "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_matched_v1_collar_front"
+        ]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_matched_v1_collar_front",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-coherence/pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_matched_v1_collar_front.png",
+      "hash": "f3a4be2170b79257297879f7e9cb650f61ffa141a87995cc8c5e4853c038d476",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-male-top-burgundy-long-sleeve-polo-v1",
+        "layer": 43,
+        "canvas": { "width": 336, "height": 385 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5, "y": 0.06334371754932502 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"],
+        "render_piece_of": "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_matched_v1"
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_top_white_button_up_shirt_v1_matched_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-coherence/pv4_wave_a_male_top_white_button_up_shirt_v1_matched_v1.png",
+      "hash": "50fdf82747c27d6b562ba034a1e08acc844b40a50824f4bee627128207948cef",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-male-top-white-button-up-shirt-v1",
+        "layer": 35,
+        "canvas": { "width": 334, "height": 385 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5005767012687428, "y": 0.05911823647294589 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"],
+        "supersedes_asset_id": "pv4_wave_a_male_top_white_button_up_shirt_v1_neckline_v1",
+        "render_piece_ids": [
+          "pv4_wave_a_male_top_white_button_up_shirt_v1_matched_v1_collar_front"
+        ]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_top_white_button_up_shirt_v1_matched_v1_collar_front",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-coherence/pv4_wave_a_male_top_white_button_up_shirt_v1_matched_v1_collar_front.png",
+      "hash": "f72b0d1da6b08374625e2f8d245673025d296a44b07903380653cbd0c88e4c28",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-male-top-white-button-up-shirt-v1",
+        "layer": 43,
+        "canvas": { "width": 334, "height": 385 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5005767012687428, "y": 0.05911823647294589 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"],
+        "render_piece_of": "pv4_wave_a_male_top_white_button_up_shirt_v1_matched_v1"
+      }
+    }
+  ]
+}

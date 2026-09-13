@@ -126,8 +126,10 @@ describe("MORNING23 saved catalog continuity", () => {
     expect(
       lifted.records.find((r) => r.asset_id === "future-body")!.component!
         .catalog_generation,
-    ).toBe(3);
-    expect(lifted.catalog.generations.slice(0, 2)).toEqual(frozen.generations);
+    ).toBe(frozen.catalog_generation + 1);
+    expect(
+      lifted.catalog.generations.slice(0, frozen.generations.length),
+    ).toEqual(frozen.generations);
   });
   it("leaves v1, missing appearances and existing explicit choices unchanged", () => {
     const world = deserializeWorld(oldUnpinned.payload);

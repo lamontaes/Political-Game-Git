@@ -31,6 +31,29 @@ Keep the existing desktop artifact attached; no new installer or public release.
 
 ## LEARN
 
+## First landed increment
+
+#220 landed normally at main `06a775ea03af8b2d330c7cbe1372a4f011ea3c6d`,
+source `d43b6d47b501eac340a2ec5b28661c3c629e11c3`. Both exact-head repository
+CI jobs passed. Fifteen changed campaign/normal News browser tests passed with
+identity guards; 168 focused tests passed. Required static/source/build/art
+commands passed. Local full suite had a clone setup failure and one shard
+inventory failure (4635 passed, six skipped); unchanged isolated retry passed
+8/8. Broad browser CI remains red on Carson City scene binding; internal-review
+package smoke remains red on intro-versus-continuing name formatting. These
+are not an aggregate-green or an installed-current-main claim.
+
+## Frozen B receipt
+
+Receive #226 `640f946be91effa813a1d60f533d6127b694ef93`, preserving generations
+1–3 and one logical wardrobe choice per coordinated shirt. Apply only the
+documented candidate-creation root seam. Private visual evidence remains
+private; no human art approval is inferred. Actual attached controller readback
+still points to installed `6e227fb2a2a1d7d6b54173aaae1ed05f79892d78`, not current
+main; the retrievable d5 package remains a distinct delivered artifact.
+
+## LEARN
+
 Never run fixture-writing unit suites in an identified live play tree. Test in
 the isolated receiver, freeze its source, and only then identify browser proof.
 Generated prose packets are derived composition, not an ownership conflict;
