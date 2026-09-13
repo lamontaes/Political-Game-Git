@@ -1250,3 +1250,11 @@ or second consent engine.
 | Time and work    | Canonical reuse      | Prepared interviews still create the existing work item. Unprepared interviews skip it and allow drafting after arrangement.                                                                                                                                                                                                                                |
 | Publication      | Single path          | Off-record still has no story writer. On-record/background still call `publishPublicEvent`.                                                                                                                                                                                                                                                                 |
 | UI/ENV ownership | Preserved            | `PlayerGame` is untouched. `PressWorkspace` and `PressInterviewPanel` remain the existing consumers.                                                                                                                                                                                                                                                        |
+
+### DELIVERY28 CIVIL current receiver check — 2026-09-13
+
+Composed preserved #223 with main 2d154752 in an isolated checkout. Additive
+creator registration retains newer title/place/appearance and preview logic.
+Actor/employer/source-date/class/agreement/knowledge contracts are unchanged.
+Scoped refusal/persistence tests and actual creator browser proof passed. No
+new rule or record family was introduced; newer prose reports were retained.
