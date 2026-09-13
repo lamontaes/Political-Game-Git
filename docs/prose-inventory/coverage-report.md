@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2457 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5795 |
-| DIAGNOSTIC_OR_TEST | 5112 |
-| **NEEDS_CLASSIFICATION** | **6374** |
+| INTENTIONALLY_NON_PLAYER_FACING | 5798 |
+| DIAGNOSTIC_OR_TEST | 5139 |
+| **NEEDS_CLASSIFICATION** | **6385** |
 
-Scanned 626 files holding 75301 string
+Scanned 630 files holding 75492 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -40,7 +40,7 @@ literals in total; the table counts only those that read like a sentence.
 | 199 | `src/simulation/legislation-service-families.ts` |
 | 126 | `src/simulation/legislation.ts` |
 | 117 | `src/simulation/opening-life-content.ts` |
-| 111 | `src/player/PlayerGame.tsx` |
+| 114 | `src/player/PlayerGame.tsx` |
 | 87 | `src/simulation/policy.ts` |
 | 76 | `src/presentation/legislative-bargaining.ts` |
 | 76 | `src/simulation/life-paths2.ts` |
@@ -123,6 +123,7 @@ literals in total; the table counts only those that read like a sentence.
 | 18 | `src/simulation/records.ts` |
 | 17 | `src/content/adapters/conversation-subjects.ts` |
 | 17 | `src/player/ConversationStrip.tsx` |
+| 17 | `src/player/EconomicContextPanel.tsx` |
 | 17 | `src/player/MeasurePaperWorkspace.tsx` |
 | 17 | `src/presentation/legislation-estimate-action.ts` |
 | 17 | `src/simulation/executive-governing-kernels.ts` |
@@ -139,7 +140,6 @@ literals in total; the table counts only those that read like a sentence.
 | 15 | `src/presentation/legislation-docket.ts` |
 | 15 | `src/presentation/personal-record.ts` |
 | 15 | `src/simulation/narrative-threads.ts` |
-| 14 | `src/player/EconomicContextPanel.tsx` |
 | 14 | `src/player/LifePathsPanel.tsx` |
 | 14 | `src/presentation/legislation-analysis.ts` |
 | 14 | `src/presentation/legislative-member-seat.ts` |
@@ -282,10 +282,12 @@ literals in total; the table counts only those that read like a sentence.
 | 3 | `src/simulation/policy-decision.ts` |
 | 3 | `src/ui/WorldControls.tsx` |
 | 2 | `src/fiscal-authority/query.ts` |
+| 2 | `src/player/BudgetEconomyWorkspace.tsx` |
 | 2 | `src/player/IncidentResponsePanel.tsx` |
 | 2 | `src/player/PersonalRoutinePanel.tsx` |
 | 2 | `src/player/WardrobeFigure.tsx` |
 | 2 | `src/player/public-information-views.ts` |
+| 2 | `src/presentation/budget-economy.ts` |
 | 2 | `src/presentation/campaign-projection.ts` |
 | 2 | `src/presentation/character-proof.ts` |
 | 2 | `src/presentation/legislation-docket-selection.ts` |
@@ -308,6 +310,7 @@ literals in total; the table counts only those that read like a sentence.
 | 1 | `src/player/SceneSurfaceLayer.tsx` |
 | 1 | `src/presentation/SocialInvitationPanel.tsx` |
 | 1 | `src/presentation/adult-life.ts` |
+| 1 | `src/presentation/economic-context-bindings.ts` |
 | 1 | `src/presentation/legislation-projection.ts` |
 | 1 | `src/presentation/legislative-session-window.ts` |
 | 1 | `src/presentation/opening-life.ts` |

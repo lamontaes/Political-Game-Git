@@ -183,6 +183,7 @@ import {
   SaveImportControl,
   SaveTransferControls,
 } from "./SaveTransferControls";
+import { BudgetEconomyWorkspace } from "./BudgetEconomyWorkspace";
 
 /**
  * The game.
@@ -2230,6 +2231,14 @@ function PlayingScreen({
       group: "world",
     });
     entries.push({
+      surface: "politics",
+      label: "Budget & economy",
+      hint: "Public budget records and dated economic context",
+      testid: "nav-politics-budget",
+      open: openSurface === "politics",
+      group: "politics",
+    });
+    entries.push({
       surface: "journal",
       label: "Journal",
       hint: "Chapters, and what is still open",
@@ -3083,6 +3092,26 @@ function renderWorkspace({
           />
         </>,
       );
+
+    case "politics": {
+      const homeJurisdictionId =
+        session.world.people[session.personId]?.homeJurisdictionId;
+      return frame(
+        "Politics",
+        "politics-workspace",
+        homeJurisdictionId ? (
+          <BudgetEconomyWorkspace
+            world={session.world}
+            jurisdictionId={homeJurisdictionId}
+          />
+        ) : (
+          <p className="game-note" role="status">
+            This life has no home jurisdiction to inspect.
+          </p>
+        ),
+        "Budget & economy",
+      );
+    }
 
     case "journal":
       return frame(
