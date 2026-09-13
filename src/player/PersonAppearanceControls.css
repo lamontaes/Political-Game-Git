@@ -26,6 +26,20 @@
   overflow-wrap: anywhere;
 }
 
+.wardrobe-figure {
+  display: grid;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.wardrobe-figure-stage {
+  position: relative;
+  width: 100%;
+  max-width: min(100%, 24rem);
+  aspect-ratio: 300 / 560;
+  min-height: 12rem;
+}
+
 /* Developer composition preview contains the viewport-fixed shared backdrop. */
 .people-visual4-scene-preview .scene-backdrop {
   position: relative;

@@ -397,8 +397,6 @@
 
 .pg-action-menu {
   position: fixed;
-  right: 19rem;
-  bottom: 6rem;
   z-index: 42;
   min-width: 13rem;
   padding: 0.35rem;
@@ -847,8 +845,7 @@
     width: min(58rem, 86vw);
   }
 
-  .pg-quick-dossier,
-  .pg-action-menu {
+  .pg-quick-dossier {
     right: 16rem;
   }
 }
@@ -863,10 +860,6 @@
   .pg-quick-dossier {
     right: 1rem;
     width: min(21rem, 46vw);
-  }
-
-  .pg-action-menu {
-    right: 1rem;
   }
 
   .pg-pin[data-size="expanded"] {

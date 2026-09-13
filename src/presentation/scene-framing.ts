@@ -127,3 +127,34 @@ export function chooseContentDock(
   if (left < centre) return { dock: "left", maxWidth: null };
   return centred;
 }
+
+/**
+ * How tall the conversation may be while staying in the lower scene safe area.
+ *
+ * Faces stay clear: the band from each figure's top down through the upper
+ * third is treated as the head. The box sits bottom-centre in what remains.
+ * Compact talk already fits this band at 1440×900 and 1200×720; this is a
+ * ceiling, not a request to scroll.
+ */
+export function conversationSafeMaxHeight(
+  figures: readonly ScreenFigure[],
+  viewport: { readonly width: number; readonly height: number },
+  faceFraction = 0.36,
+  bottomInset = 16,
+  minimum = 168,
+): number {
+  if (viewport.height <= 0) return minimum;
+  const faceBottom =
+    figures.length === 0
+      ? Math.round(viewport.height * 0.42)
+      : Math.max(
+          ...figures.map(
+            (figure) =>
+              figure.top + (figure.bottom - figure.top) * faceFraction,
+          ),
+        );
+  return Math.max(
+    minimum,
+    Math.floor(viewport.height - Math.max(0, faceBottom) - bottomInset),
+  );
+}
