@@ -17,17 +17,15 @@ async function wardrobe(page: Page) {
   await expect(page.getByTestId("wardrobe-full-body")).toBeVisible();
 }
 async function identity(page: Page) {
-  return page
-    .getByTestId("wardrobe-full-body")
-    .evaluate((el) => ({
-      seed: el.getAttribute("data-appearance-seed"),
-      generation: el.getAttribute("data-catalog-generation"),
-      parts: Array.from(el.querySelectorAll("img")).map((i) => ({
-        id: i.dataset.assetId,
-        kind: i.dataset.kind,
-        src: i.getAttribute("src"),
-      })),
-    }));
+  return page.getByTestId("wardrobe-full-body").evaluate((el) => ({
+    seed: el.getAttribute("data-appearance-seed"),
+    generation: el.getAttribute("data-catalog-generation"),
+    parts: Array.from(el.querySelectorAll("img")).map((i) => ({
+      id: i.dataset.assetId,
+      kind: i.dataset.kind,
+      src: i.getAttribute("src"),
+    })),
+  }));
 }
 const top = (page: Page) =>
   page.getByRole("combobox", { name: "top", exact: true });
@@ -88,9 +86,7 @@ test("fresh candidate creates two independent lives, swaps and reopens actual ma
   expect(expected[0]!.seed).not.toBe(expected[1]!.seed);
   for (const n of [1, 2]) {
     await page.goto("/?art-preview=candidate");
-    await page
-      .getByRole("button", { name: "SAVED GAMES", exact: true })
-      .click();
+    await page.getByTestId("saved-games").click();
     await page
       .getByTestId("save-entry")
       .filter({ hasText: `Fresh${n} Review` })
