@@ -19,3 +19,7 @@ Route portable caller-proofs outside Vitest: they use Playwright and are
 executed after mounting in tests/e2e. The actual mounted pointer/keyboard and
 save assertions remain required and passed; this is runner routing, not a
 disabled test or substituted unit proof.
+
+Make the existing diagnostic trace create its own ignored report directory in
+fresh isolated worktrees, rather than depend on a previous browser run. Test
+assertions and production coverage are unchanged.
