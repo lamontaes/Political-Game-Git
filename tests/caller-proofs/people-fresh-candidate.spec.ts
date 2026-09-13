@@ -86,7 +86,7 @@ test("fresh candidate creates two independent lives, swaps and reopens actual ma
   expect(expected[0]!.seed).not.toBe(expected[1]!.seed);
   for (const n of [1, 2]) {
     await page.goto("/?art-preview=candidate");
-    await page.getByTestId("saved-games").click();
+    await page.getByTestId("open-saves").click();
     await page
       .getByTestId("save-entry")
       .filter({ hasText: `Fresh${n} Review` })
