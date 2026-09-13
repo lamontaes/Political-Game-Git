@@ -1,3 +1,4 @@
+import { LocationCompositionReview } from "./ui/LocationCompositionReview";
 import { DeveloperReviewHub } from "./ui/DeveloperReviewHub";
 import { LegislationDevRoute } from "./player/LegislationWorkspace";
 import { MeasureFloorView } from "./player/MeasureFloorView";
@@ -31,6 +32,8 @@ import { ScenePresentationProofView } from "./ui/ScenePresentationProofView";
  */
 export function App() {
   const view = new URLSearchParams(window.location.search).get("view");
+  if (import.meta.env.DEV && view === "location-review")
+    return <LocationCompositionReview />;
   if (view === "review") return <DeveloperReviewHub />;
   if (view === "developer") return <DeveloperViewer />;
   if (view === "causal-trace") return <CausalTraceView />;

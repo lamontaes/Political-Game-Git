@@ -90,13 +90,19 @@ describe("the environment source ledger", () => {
    * A CANDIDATE IS NEVER RELEASED BY THIS FILE. Rights and style-family status
    * stay where the intake left them, and no ledger row may promote one.
    */
-  it("gives every candidate an owner and never a scene", () => {
+  it("gives every candidate an owner and never a production release", () => {
     const candidates = ENVIRONMENT_SOURCES.filter(
       (source) => source.disposition === "candidate-preview-only",
     );
     expect(candidates.length).toBeGreaterThanOrEqual(6);
     for (const candidate of candidates) {
-      expect(candidate.sceneId, candidate.sourceId).toBeNull();
+      const asset = environmentAsset(candidate.sourceId.split(":")[0]!);
+      if (asset)
+        expect(asset.runtime_release_status, candidate.sourceId).toBe(
+          "unreleased",
+        );
+      if (candidate.sceneId)
+        expect(SCENE_REGISTRY.scenes.has(candidate.sceneId)).toBe(true);
       expect(candidate.owedBy, candidate.sourceId).toContain("owner");
       expect(candidate.remainingStep, candidate.sourceId).not.toBeNull();
     }

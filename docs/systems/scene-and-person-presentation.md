@@ -340,3 +340,28 @@ stored content until that write succeeds. V1 and missing appearances are
 unchanged. New production-world creation pins v2 at creation; callers may pass
 an explicit newer generation. Render snapshots remain ephemeral and do not own
 migration. This is nondiegetic metadata, never a new history event.
+
+### G location candidate compositions
+
+`?view=location-review` is development-only engineering review, using the same
+`SceneBackdrop`, raster-tier camera, candidate person provider and plate-space
+occlusion path as play. Synthetic staging has no attendance, clock or saves.
+Storefront, pavilion and press room remain unreleased. Existing exact-ID
+18E-R1A/AX-92B1 source classifications are preserved; the storefront's historical
+unsupported release flag is corrected without deleting its source or commits.
+The stable `campaign-storefront-production` ID does not grant release eligibility.
+
+The actual campaign-call-desk producer is the fundraising phone-session action.
+`?art-preview=candidate` passes a finite location review library through the
+existing canonical completed-activity resolver and backdrop, in the preview's
+separate database. Production defaults remain released-only. Participant evidence
+filters scene people before placement; only actual attendees may be drawn after
+an activity. The current phone-session producer records the player alone, so no
+household member is staged in that room.
+
+The press room is a candidate review, not a canonical briefing. Existing press
+interviews use their own planned location keys and do not establish a briefing
+room. No press/pavilion location key was invented to make the art reachable.
+Contacts, footprints and silhouettes are visual estimates; no physical sizes,
+calibrated floor or accepted seated pair are claimed. Human floor-plane/visual
+acceptance and B's whole-person coherence remain separate from engineering proof.

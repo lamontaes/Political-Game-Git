@@ -29,8 +29,6 @@ Distinguish main source, identified browser build, installed desktop identity,
 CI aggregates and pending human visual acceptance in the final receipt.
 Keep the existing desktop artifact attached; no new installer or public release.
 
-## LEARN
-
 ## First landed increment
 
 #220 landed normally at main `06a775ea03af8b2d330c7cbe1372a4f011ea3c6d`,
