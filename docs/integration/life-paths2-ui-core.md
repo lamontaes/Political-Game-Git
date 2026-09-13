@@ -11,8 +11,9 @@ has been notified of the registry hunk. Apply or adapt it once in the owning
 integration branch; do not create a second pay loop.
 
 Expected player path: ordinary day → Education and work → choose supported path
-→ schedule → attend; then interrupt/return/leave or review progression. Recruitment
-uses the known-person selector, terms, offer response, start, assignment and end.
+→ for study, schedule and attend; for ordinary work, Perform work or skip time
+through the authored window. Interrupt/return/leave and review progression remain.
+Recruitment uses the known-person selector, terms, offer response, start, assignment and end.
 Money is posted by canonical future transitions, including when the player uses
 another calendar surface after leaving this panel.
 

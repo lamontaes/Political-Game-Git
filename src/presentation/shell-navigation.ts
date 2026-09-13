@@ -58,6 +58,7 @@ export type ShellSurface =
   | "calendar"
   | "personal"
   | "work"
+  | "politics"
   | "news"
   | "places"
   | "municipal"

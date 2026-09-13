@@ -68,6 +68,10 @@ export * from "./life-eligibility";
 export * from "./life-places";
 export * from "./place-demography";
 export * from "./life-queries";
+export {
+  migrateLegacyStudyProgression,
+  periodizedStudyPath,
+} from "./education-study-progression";
 export * from "./life-sources";
 export * from "./decisions";
 export * from "./economy";

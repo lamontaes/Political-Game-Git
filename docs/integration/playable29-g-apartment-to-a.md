@@ -1,6 +1,6 @@
 # P29-G: supported apartment scale, contact and furniture depth
 
-Continue existing G and retain Carson33320225. The inspected apartment seams on named main2d154752 and A's0fb3bc8a receiver are identical. No PlayerGame/root adapter is required. G changes the existing canonical-03 scene authoring and the calibrated-layer bounds returned by planLifeScenePeople; B's body/garment/mask/material generation and C's dialogue/CSS are unchanged.
+Continue existing G and retain Carson33320225. The inspected apartment seams on named main2d154752 and A's0fb3bc8a receiver are identical. A’s receiver subsequently landed as main efb227f2948d68030571674662a973e560a32539 (#230), and its unchanged G seams are preserved in the final frozen composition. No PlayerGame/root adapter is required. G changes the existing canonical-03 scene authoring and the calibrated-layer bounds returned by planLifeScenePeople; B's body/garment/mask/material generation and C's dialogue/CSS are unchanged.
 
 ## Actual finding and repair
 

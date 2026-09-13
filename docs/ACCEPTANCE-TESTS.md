@@ -1,5 +1,15 @@
 # Acceptance Tests
 
+NEXT24 D regression: Personal's controlled-person routine mount must work
+without office capability. Pointer and keyboard can accept ordinary work,
+enroll/interupt/resume period study, Attend after journey disclosure, and Keep/
+reopen the same life. Actual 09:00–13:00 work earns one payable shift; completed
+travel precedes arrival and attendance. Longer skips stop at later protected
+commitments; tuition refusal and cancellation cannot invent pay or arrival.
+Inactive study dates do not count toward a credential. See
+`tests/e2e/next24-personal-routine.spec.ts` and
+`src/presentation/next24-routine-route.test.ts`.
+
 ## Status Vocabulary
 
 - **AUTOMATED NOW** — executable in the current repository and required to pass.
@@ -1806,6 +1816,22 @@ Lexington and Louisville assign proposal to the Mayor with the sourced 60-day
 lead time. Bowling Green assigns preparation/proposal to the City Manager with
 the sourced 30-day lead time. Preparation, proposal, amendment, adoption,
 fiscal year, deadlines, and balance constraints remain separate fields.
+
+### RECOVERY25-BUDGET — Politics exposes truthful Budget and economy graphs
+
+The normal player menu contains a Politics group with a reachable Budget &
+economy workspace. The workspace binds the saved person's exact home
+jurisdiction and current simulation date to the registered economic provider;
+an unmatched place receives no Lexington, county, metro, or state fallback.
+
+Available graphs visibly retain geography, geography level, units, period, and
+record class and provide a keyboard-accessible exact-value table. Only exact
+aggregate unsegmented World fiscal metric states may appear as simulated
+history; proposal segments, future periods, missing histories, and missing
+values are not converted into budget facts. Ordinary readers and authorized
+officeholders can inspect the same public surface, while all existing operative
+fiscal actions keep their separate authority checks. Opening, Back/navigation,
+save/reload, and disclosure interaction do not mutate World or advance time.
 
 ### MGOV-008 — Consolidation stays relational
 

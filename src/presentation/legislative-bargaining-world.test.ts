@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 
 import {
   activeWorkRelationshipsAt,
+  advanceWorld,
+  createCampaignElectionTransitionRegistry,
   currentMeasureProvisions,
   deserializeWorld,
   measureAmendments,
@@ -70,7 +72,7 @@ function playUntilDecided(seed: string, sessions: number) {
   const life = filedLife(seed);
   let world = spendAnAfternoon(life.world, life.personId, "fundraising");
   for (let index = 0; index < sessions; index += 1) {
-    world = passOrdinaryDays(world);
+    world = advanceWorld(world, 1, createCampaignElectionTransitionRegistry());
     world = spendAnAfternoon(world, life.personId, "outreach");
   }
   for (
@@ -78,7 +80,7 @@ function playUntilDecided(seed: string, sessions: number) {
     day < 60 && projectCampaign(world, life.personId).phase === "active";
     day += 1
   ) {
-    world = passOrdinaryDays(world);
+    world = advanceWorld(world, 1, createCampaignElectionTransitionRegistry());
   }
   return { world, personId: life.personId };
 }

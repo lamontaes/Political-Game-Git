@@ -9,7 +9,13 @@ import {
   educationOptionReason,
   pendingEducationOffers,
   respondToEducationOffer,
+  studyDefinition,
 } from "../education/study-provider";
+import { pathForRelationship } from "../simulation/life-paths2";
+import {
+  studyEnrollmentProgressLabel,
+  studyProgramCostLabel,
+} from "./education-study-display";
 export interface EducationOptionsPanelProps {
   world: World;
   onWorldChange: (world: World) => void;
@@ -67,6 +73,23 @@ export function EducationOptionsPanel({
   return (
     <section aria-label="Real education options">
       <h3>Find a school or college</h3>
+      {world.control.kind === "person" &&
+        world.history.educationEnrollments
+          .filter(
+            (e) =>
+              world.control.kind === "person" &&
+              e.personId === world.control.personId &&
+              e.programKind.startsWith("postsecondary:edu-path7-"),
+          )
+          .map((e) => {
+            const path = pathForRelationship(world, e.id);
+            if (!path) return null;
+            return (
+              <p key={e.id}>
+                {path.title}: {studyEnrollmentProgressLabel(world, e.id, path)}
+              </p>
+            );
+          })}
       {world.history.educationEnrollments
         .filter(
           (e) =>
@@ -199,7 +222,7 @@ export function EducationOptionsPanel({
                     <>
                       <p>
                         {educationOptionReason(world, institution, c) ??
-                          "Game-authored option: eight two-hour sessions, at least seven days apart; $25 per attended session. Completion records noncredit study, never a degree or license."}
+                          `Game-authored option: ${studyProgramCostLabel(studyDefinition(institution, c))} Completion records noncredit study, never a degree or license.`}
                       </p>
                       <button
                         type="button"
@@ -238,9 +261,9 @@ export function EducationOptionsPanel({
         <section key={offer.id} aria-label="Study offer">
           <h4>Review noncredit study offer</h4>
           <p>
-            Game-authored terms: eight two-hour sessions, at least seven days
-            apart, $25 charged per attended session. No academic degree or
-            professional license. Accept today or request fresh terms later.
+            Game-authored terms: one study period of about 49 days, $200 tuition
+            due at period end. No academic degree or professional license.
+            Accept today or request fresh terms later.
           </p>
           <button
             type="button"
