@@ -97,10 +97,16 @@ export function SceneConversation({
   const boxRef = useRef<HTMLElement>(null);
   const wasHistory = useRef(false);
   useLayoutEffect(() => {
-    const box = boxRef.current;
-    if (!box) return;
-    if (box.contains(document.activeElement)) return;
-    firstEnabledControl(box)?.focus();
+    const focusTalk = () => {
+      const box = boxRef.current;
+      if (!box) return;
+      const intent = box.querySelector<HTMLElement>(
+        '[data-testid="conversation-intents"] button:not([disabled])',
+      );
+      (intent ?? firstEnabledControl(box))?.focus();
+    };
+    focusTalk();
+    queueMicrotask(focusTalk);
   }, []);
   useEffect(() => {
     const box = boxRef.current;
