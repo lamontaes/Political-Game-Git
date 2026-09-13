@@ -1,0 +1,19 @@
+{
+  "scene": "residence-apartment-living-ordinary-02",
+  "camera": "width: 1376px; height: 768px; transform: translate3d(-86px, 62px, 0px) scale(1.17188);",
+  "people": [
+    {
+      "diagnostics": "scene-declares-no-floor-calibration figure-taller-than-space-above-contact-line: 5.5% of the plate is above the top edge, so this figure is cropped at the head.",
+      "box": {
+        "x": 494.5,
+        "y": 12.375,
+        "width": 354.75,
+        "height": 904.609375,
+        "top": 12.375,
+        "right": 849.25,
+        "bottom": 916.984375,
+        "left": 494.5
+      }
+    }
+  ]
+}
