@@ -25,7 +25,7 @@ import {
  *   node --import tsx src/cli/compare-seeds.ts [options]
  *
  *   --seeds a,b,c            seeds to compare (default three fixed seeds)
- *   --place <key>            life place key
+ *   --place <key>            life place key (required)
  *   --age <n>                starting age
  *   --depth play-formative-years|summarize-earlier-life
  *   --starting-life ordinary-life|legislative-office|state-agency-director
@@ -47,7 +47,7 @@ interface Options {
 
 function parseOptions(argv: readonly string[]): Options {
   let seeds: readonly string[] = DEFAULT_SEEDS;
-  let setup: Omit<NewGameSetup, "seed"> = DEFAULT_NEW_GAME_SETUP;
+  let setup: Omit<NewGameSetup, "seed"> | null = null;
   let format: "markdown" | "json" = "markdown";
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -64,7 +64,7 @@ function parseOptions(argv: readonly string[]): Options {
         break;
       case "--place":
         if (!value) throw new Error("--place needs a life place key.");
-        setup = { ...setup, placeKey: value };
+        setup = { ...(setup ?? DEFAULT_NEW_GAME_SETUP), placeKey: value };
         index += 1;
         break;
       case "--age": {
@@ -72,7 +72,7 @@ function parseOptions(argv: readonly string[]): Options {
         if (!Number.isSafeInteger(parsed)) {
           throw new Error("--age must be an integer.");
         }
-        setup = { ...setup, startAge: parsed };
+        setup = { ...(setup ?? DEFAULT_NEW_GAME_SETUP), startAge: parsed };
         index += 1;
         break;
       }
@@ -85,7 +85,10 @@ function parseOptions(argv: readonly string[]): Options {
             "--depth must be play-formative-years or summarize-earlier-life.",
           );
         }
-        setup = { ...setup, depth: value satisfies NewGameDepth };
+        setup = {
+          ...(setup ?? DEFAULT_NEW_GAME_SETUP),
+          depth: value satisfies NewGameDepth,
+        };
         index += 1;
         break;
       case "--starting-life":
@@ -98,14 +101,20 @@ function parseOptions(argv: readonly string[]): Options {
             "--starting-life must be ordinary-life, legislative-office or state-agency-director.",
           );
         }
-        setup = { ...setup, startingLife: value satisfies NewGameStartingLife };
+        setup = {
+          ...(setup ?? DEFAULT_NEW_GAME_SETUP),
+          startingLife: value satisfies NewGameStartingLife,
+        };
         index += 1;
         break;
       case "--household":
         if (value !== "lives-alone" && value !== "shares-a-home") {
           throw new Error("--household must be lives-alone or shares-a-home.");
         }
-        setup = { ...setup, household: value satisfies NewGameHousehold };
+        setup = {
+          ...(setup ?? DEFAULT_NEW_GAME_SETUP),
+          household: value satisfies NewGameHousehold,
+        };
         index += 1;
         break;
       case "--format":
@@ -120,6 +129,9 @@ function parseOptions(argv: readonly string[]): Options {
     }
   }
 
+  if (!setup?.placeKey.trim()) {
+    throw new Error("--place <key> is required. Lexington is not assumed.");
+  }
   return { seeds, setup, format };
 }
 

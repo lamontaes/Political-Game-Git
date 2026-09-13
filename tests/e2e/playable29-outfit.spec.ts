@@ -34,6 +34,8 @@ test("normal candidate complete defaults, actual edits and separate saved lives"
   for (const n of [1, 2]) {
     await page.goto(`/?seed=p29-outfit-${n}&art-preview=candidate`);
     await startLife(page, {
+      place: "Lexington",
+      state: "Kentucky",
       age: 34,
       route: "normal",
       givenName: `Outfit${n}`,

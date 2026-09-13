@@ -1,6 +1,6 @@
 import { expect, type Page } from "@playwright/test";
 
-import { lifePlaceStateIdentities } from "../../../src/simulation";
+import { resolveExplicitCreatorHometown } from "../../../src/presentation/new-game-geography";
 
 /**
  * Walking the character creator the way a player does.
@@ -19,7 +19,10 @@ export interface CreatorLife {
   readonly age: number;
   readonly givenName?: string;
   readonly familyName?: string;
-  /** Matched against the locality buttons. Defaults to Lexington. */
+  /**
+   * Matched against the locality buttons. Required unless this is an explicit
+   * statewide custom/office start. Lexington is never inferred.
+   */
   readonly place?: string;
   /** What to type into the town search, when it differs from `place`. */
   readonly placeQuery?: string;
@@ -28,7 +31,7 @@ export interface CreatorLife {
    * town now (PT3-CREATOR B), and no creator route offers a county.
    */
   readonly placeScope?: "state" | "county" | "locality";
-  /** Canonical state name. Inferred from `place` when omitted. */
+  /** Canonical state name. Required unless `place` already names "Town, State". */
   readonly state?: string;
   /** Custom-only: choose the authored statewide place rather than a hometown. */
   readonly statewide?: boolean;
@@ -52,24 +55,16 @@ export interface CreatorLife {
   readonly gender?: string;
 }
 
+/** Named Kentucky regression hometown. Callers must opt in; it is not inferred. */
+export const KENTUCKY_LEXINGTON_REGRESSION = {
+  state: "Kentucky",
+  place: "Lexington",
+} as const;
+
 /** Opens the creator and stops at the first stage. */
 export async function openCreator(page: Page): Promise<void> {
   await page.getByTestId("new-game").click();
   await expect(page.getByTestId("setup-screen")).toBeVisible();
-}
-
-function namedState(name: string) {
-  return lifePlaceStateIdentities().find(
-    (state) => state.name.toLowerCase() === name.trim().toLowerCase(),
-  );
-}
-
-function inferredStateName(place: string): string {
-  const direct = namedState(place);
-  if (direct) return direct.name;
-  const afterComma = place.split(",")[1]?.trim();
-  if (afterComma && namedState(afterComma)) return namedState(afterComma)!.name;
-  return "Kentucky";
 }
 
 /** State, then a town in that state. Statewide is a custom-only control. */
@@ -79,48 +74,33 @@ export async function chooseCreatorLocation(
   custom: boolean,
 ): Promise<void> {
   await expect(page.getByTestId("creator-stage-place")).toBeVisible();
-  // An office start needs a place with a staffed legislature on record, which
-  // is the state rather than a town; everything else starts in a town.
-  const requested = life.place ?? (life.office ? "Kentucky" : "Lexington");
-  const stateName = life.state ?? inferredStateName(requested);
-  const state = namedState(stateName);
-  if (!state) throw new Error(`No canonical state named ${stateName}.`);
+  const hometown = resolveExplicitCreatorHometown({
+    place: life.place,
+    state: life.state,
+    placeQuery: life.placeQuery,
+    statewide: life.statewide,
+    office: life.office && custom ? true : life.office,
+    placeScope: life.placeScope,
+  });
 
-  await page.getByTestId("state-search").fill(state.name);
-  await page.getByTestId(`state-${state.usps}`).click();
+  await page.getByTestId("state-search").fill(hometown.stateName);
+  await page.getByTestId(`state-${hometown.usps}`).click();
   await expect(page.getByTestId("creator-change-state")).toBeVisible();
 
-  if (life.placeScope === "county")
-    throw new Error("The creator offers no county start; choose a town.");
-  const statewide =
-    life.statewide === true ||
-    life.placeScope === "state" ||
-    (Boolean(namedState(requested)) && (custom || life.office === true));
-  if (statewide) {
+  if (hometown.statewide) {
+    if (!custom) {
+      throw new Error("Statewide start is a custom-only control.");
+    }
     await page.getByTestId("place-statewide-choice").click();
     await page.getByTestId("creator-continue-place").click();
     return;
   }
 
-  /*
-   * A state named as the place, on a normal start, means "a town there": the
-   * creator no longer takes a state as a hometown. Kentucky keeps Lexington,
-   * which every older spec meant by it; any other state takes the first town
-   * its own search lists, which is deterministic for a given corpus.
-   */
-  const stateOnly = Boolean(namedState(requested));
-  const locality = stateOnly
-    ? state.name === "Kentucky"
-      ? "Lexington"
-      : null
-    : requested;
-  // The town's own name, without the ", State" a caller may have added.
-  const town = locality?.split(",")[0]?.trim() ?? null;
+  await page.getByTestId("place-search").fill(hometown.townQuery ?? "");
   await page
-    .getByTestId("place-search")
-    .fill(life.placeQuery ?? (town ? town.slice(0, 8) : "a"));
-  const choices = page.getByTestId("place-choices").getByRole("button");
-  await (town ? choices.filter({ hasText: new RegExp(town, "i") }) : choices)
+    .getByTestId("place-choices")
+    .getByRole("button")
+    .filter({ hasText: new RegExp(hometown.townMatch ?? "^$", "i") })
     .first()
     .click();
   await page.getByTestId("creator-continue-place").click();
@@ -344,10 +324,13 @@ export async function chooseStateThenTown(
   townQuery: string,
   town: RegExp,
 ): Promise<void> {
-  const state = namedState(stateName);
-  if (!state) throw new Error(`No canonical state named ${stateName}.`);
-  await page.getByTestId("state-search").fill(state.name);
-  await page.getByTestId(`state-${state.usps}`).click();
+  const hometown = resolveExplicitCreatorHometown({
+    state: stateName,
+    place: townQuery,
+    placeQuery: townQuery,
+  });
+  await page.getByTestId("state-search").fill(hometown.stateName);
+  await page.getByTestId(`state-${hometown.usps}`).click();
   await page.getByTestId("place-search").fill(townQuery);
   await page
     .getByTestId("place-choices")

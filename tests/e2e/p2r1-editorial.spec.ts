@@ -8,6 +8,8 @@ test("P2R1 retained adult choices activate by pointer and keyboard on the player
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/");
   await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
     age: 34,
     route: "custom",
     household: "shares-a-home",
@@ -63,7 +65,12 @@ test("P2R1 preserves and reloads the old age-32 calibrated fixture when its next
   // until it is reached rather than by counting to four — which also holds the
   // other half of the contract shut, that quiet time is still there to reach.
   await page.goto("/?seed=p2r1-editorial-quiet");
-  await startLife(page, { age: 32, calibration: "short" });
+  await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
+    age: 32,
+    calibration: "short",
+  });
   for (let asked = 0; asked < 60; asked += 1) {
     if ((await page.getByTestId("questionnaire-screen").count()) === 0) break;
     await page

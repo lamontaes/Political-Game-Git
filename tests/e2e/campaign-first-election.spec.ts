@@ -59,7 +59,10 @@ async function freshBrowser(page: Page) {
  * shared one every browser test uses, so this file does not carry its own copy.
  */
 async function beginAdultLifeIn(page: Page, place: string) {
-  await startLife(page, { age: 34, place });
+  await startLife(page, {
+    age: 34,
+    place,
+  });
   await expect(page.getByTestId("play-screen")).toBeVisible();
   await enterLife(page);
   await openCampaign(page);
@@ -402,7 +405,12 @@ test.describe("P85D integration through ordinary player controls", () => {
       const errors = watchForErrors(page);
       await freshBrowser(page);
       await page.goto("/?seed=p85c-owner-clock");
-      await startLife(page, { age: 34, place: "Lexington", gender: "male" });
+      await startLife(page, {
+        age: 34,
+        place: "Lexington",
+        state: "Kentucky",
+        gender: "male",
+      });
       await enterLife(page);
       await openCampaign(page);
       await fileCandidacy(page);
@@ -432,7 +440,12 @@ test.describe("P85D integration through ordinary player controls", () => {
     const errors = watchForErrors(page);
     await freshBrowser(page);
     await page.goto("/?seed=p85c-owner-0");
-    await startLife(page, { age: 34, place: "Lexington", gender: "male" });
+    await startLife(page, {
+      age: 34,
+      place: "Lexington",
+      state: "Kentucky",
+      gender: "male",
+    });
     await enterLife(page);
     await openCampaign(page);
     await fileCandidacy(page);

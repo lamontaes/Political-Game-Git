@@ -17,7 +17,12 @@ test("normal completed legislative action publishes News with person Back and un
   page,
 }, info) => {
   await page.goto("/?seed=ui-connect2-news");
-  await startLife(page, { age: 38, route: "normal" });
+  await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
+    age: 38,
+    route: "normal",
+  });
   await enterLife(page);
   await goTo(page, "nav-news");
   await expect(page.getByTestId("public-information-empty")).toBeVisible();
@@ -87,7 +92,12 @@ test("legislative staff can preview but cannot file or publish a member bill", a
   page,
 }) => {
   await page.goto("/?seed=ui-connect2-news");
-  await startLife(page, { age: 38, route: "custom", office: true });
+  await startLife(page, {
+    place: "Kentucky",
+    age: 38,
+    route: "custom",
+    office: true,
+  });
   await enterLife(page);
   await save(page);
   const before = await savedWorld(page);
@@ -109,7 +119,12 @@ test("opening the normal press request form creates no request or consent", asyn
   page,
 }) => {
   await page.goto("/?seed=ui-news-producers-read");
-  await startLife(page, { age: 34, route: "normal" });
+  await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
+    age: 34,
+    route: "normal",
+  });
   await enterLife(page);
   await save(page);
   const before = await savedWorld(page);
@@ -159,7 +174,12 @@ test("the office names the bill being worked on and who has it next", async ({
    * table says exactly that when you try, and it is right.
    */
   await page.goto("/?seed=ui-connect2-news");
-  await startLife(page, { age: 38, route: "normal" });
+  await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
+    age: 38,
+    route: "normal",
+  });
   await enterLife(page);
   await reachMemberOffice(page);
 

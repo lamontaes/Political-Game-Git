@@ -38,6 +38,8 @@ test("fresh candidate creates two independent lives, swaps and reopens actual ma
   for (const n of [1, 2]) {
     await page.goto(`/?seed=people-fresh-${n}&art-preview=candidate`);
     await startLife(page, {
+      place: "Lexington",
+      state: "Kentucky",
       age: 34,
       household: "shares-a-home",
       givenName: `Fresh${n}`,

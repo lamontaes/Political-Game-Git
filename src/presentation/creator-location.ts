@@ -10,7 +10,7 @@ import type { NewGameSetup, NewGameStartKind } from "./new-game";
  *
  * `DEFAULT_NEW_GAME_SETUP.placeKey` remains `kentucky` so old callers, replays
  * and saved worlds keep their explicit location. A fresh Normal start must not
- * inherit that as a hidden selection.
+ * inherit that as a hidden selection, nor the first listed town.
  */
 export interface CreatorLocationDraft {
   readonly stateJurisdictionKey: string | null;

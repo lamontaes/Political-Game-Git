@@ -14,6 +14,7 @@ test("pinned government A, dropdown B, and external pin C all control inspection
     route: "custom",
     household: "lives-alone",
     place: "Lexington",
+    state: "Kentucky",
   });
   await enterLife(page);
   await goTo(page, "nav-municipal");
