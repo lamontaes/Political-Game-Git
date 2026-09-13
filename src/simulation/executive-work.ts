@@ -15,6 +15,7 @@ import {
   workItemState,
   scheduledActivityState,
   performScheduledActivity,
+  personHasActiveAssignedWork,
 } from "./time-work";
 import { recordEvidenceDiscovery } from "./evidence";
 import {
@@ -395,6 +396,11 @@ export function actOnExecutiveWork(
         ).find((w) => w.personId === personId);
         if (!worker)
           return refused(world, "The staff engagement is no longer active.");
+        if (personHasActiveAssignedWork(next, personId))
+          return refused(
+            world,
+            "Staff already has active work; capacity cannot be duplicated.",
+          );
         next = createWorkItem(next, {
           ...step.input,
           stableKey: key,

@@ -10,6 +10,7 @@ import {
   deliverIncidentResources,
   requestIncidentResources,
   decideIncidentResourceRequest,
+  recordKnownIncidentForCurrentOffice,
 } from "../simulation/incident-response";
 import type { World, EntityId } from "../simulation/types";
 
@@ -69,9 +70,25 @@ export function IncidentResponsePanel({
         Review known reports, arrange response work and follow through on
         existing commitments.
       </p>
-      {!view.reports.length && (
+      {!view.reports.length && !view.awaiting.length && (
         <p>No incident reports are known to this character.</p>
       )}
+      {view.awaiting.map((item) => (
+        <article key={item.onsetEventId}>
+          <h3>Known incident</h3>
+          <p>{item.summary}</p>
+          <button
+            type="button"
+            onClick={() =>
+              act(() =>
+                recordKnownIncidentForCurrentOffice(world, item.onsetEventId),
+              )
+            }
+          >
+            Record this known incident for office review
+          </button>
+        </article>
+      ))}
       <label>
         Staff member{" "}
         <select

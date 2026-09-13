@@ -11,6 +11,8 @@ import {
   money,
   addDays,
   resourcePositionAt,
+  occurIncident,
+  evaluateIncident,
 } from "./index";
 import {
   requestIncidentResources,
@@ -23,7 +25,13 @@ import {
   requestIncidentInformation,
   inspectPublishedIncident,
   publishIncidentEvent,
+  recordKnownIncidentForCurrentOffice,
+  receiveExecutiveWorkIfCurrentOffice,
+  knownIncidentsAwaitingReport,
+  reportIncident,
 } from "./incident-response";
+import { resolveExecutiveOffice } from "./executive-work-context";
+import { officeWorld } from "../../tests/fixtures/executive-work-world";
 import type { World } from "./types";
 const provenance = {
   kind: "authored" as const,
@@ -311,5 +319,93 @@ describe("incident response consumer", () => {
     expect(serializeWorld(deserializeWorld(serializeWorld(w)))).toBe(
       serializeWorld(w),
     );
+  });
+});
+
+describe("incident EXEC inbox adapter", () => {
+  it("routes a known incident into the current office inbox without inventing one", () => {
+    let world = officeWorld();
+    const office = resolveExecutiveOffice(world)!;
+    const incidentsBefore = world.history.incidents.length;
+    const definitionId = Object.values(world.incidentCatalog.definitions).find(
+      (d) => d.occurrenceMode === "actor-initiated",
+    )!.id;
+    const share = { numerator: 1, denominator: 1, unit: "rate:share" as const };
+    const evaluation = evaluateIncident(world, {
+      definitionId,
+      evaluationKey: "exec-inbox",
+      scope: { jurisdictionId: office.jurisdictionId, segmentKey: null },
+      evaluatedAt: world.currentDate,
+      cutoff: {
+        asOfDate: world.currentDate,
+        historySequenceExclusive: world.history.nextSequence,
+      },
+      exposure: share,
+      vulnerability: share,
+      resilience: share,
+      consequences: [],
+    });
+    world = occurIncident(world, {
+      stableKey: "exec-inbox-incident",
+      evaluation,
+      actorPersonId: office.personId,
+      summary:
+        "A fictional civic response exercise was initiated; no physical damage is claimed.",
+      visibility: "private",
+    });
+    const onset = world.history.incidents.at(-1)!.onsetEventId;
+    world = recordEventKnowledge(world, {
+      stableKey: "exec-inbox-notice",
+      personId: office.personId,
+      eventId: onset,
+      learnedAt: world.currentDate,
+      believedSummary: world.history.events.find((e) => e.id === onset)!
+        .summary,
+      accuracy: "accurate",
+      confidence: "high",
+      source: { kind: "direct" },
+    });
+    expect(world.history.incidents).toHaveLength(incidentsBefore + 1);
+    expect(knownIncidentsAwaitingReport(world)).toHaveLength(1);
+    const observer = { ...world, control: { kind: "observer" as const } };
+    expect(
+      receiveExecutiveWorkIfCurrentOffice(
+        observer,
+        onset,
+        "Incident report",
+        "Observer control is not an executive office.",
+      ),
+    ).toBe(observer);
+    const before = serializeWorld(world);
+    const viewed = incidentResponseView(world);
+    expect(viewed.awaiting).toHaveLength(1);
+    expect(serializeWorld(world)).toBe(before);
+    world = recordKnownIncidentForCurrentOffice(world, onset);
+    expect(world.history.incidents).toHaveLength(incidentsBefore + 1);
+    const report = world.history.events.find(
+      (e) => e.type === "incident.response.report",
+    )!;
+    expect(
+      world.history.workItems.some(
+        (item) =>
+          item.stableKey.startsWith("executive-inbox:") &&
+          item.sourceEntityIds.includes(report.id),
+      ),
+    ).toBe(true);
+    expect(knownIncidentsAwaitingReport(world)).toHaveLength(0);
+    const again = recordKnownIncidentForCurrentOffice(world, onset);
+    expect(again).toBe(world);
+    const outsider = {
+      ...world,
+      control: { kind: "person" as const, personId: world.personOrder[2]! },
+    };
+    expect(() =>
+      reportIncident(
+        outsider,
+        onset,
+        outsider.control.personId,
+        report.summary,
+      ),
+    ).toThrow(/not yet known/);
   });
 });
