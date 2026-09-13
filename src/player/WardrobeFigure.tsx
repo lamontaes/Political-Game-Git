@@ -1,3 +1,4 @@
+import { resolveCompleteOutfit } from "../presentation/complete-outfit";
 import { useState } from "react";
 import type { Person, PersonAppearance } from "../simulation/types";
 import type { ArtPreviewLibraries } from "../presentation/art-preview";
@@ -19,12 +20,25 @@ export function WardrobeFigure({
   readonly preference?: PersonWardrobePreference;
 }) {
   const [pose, setPose] = useState("standing-neutral");
+  const supportedPoses = ["standing-neutral", "seated-guest-neutral"].filter(
+    (poseFamily) =>
+      person.appearance &&
+      resolveCompleteOutfit({
+        appearance: person.appearance,
+        families: person.appearance.outfit?.families ?? preference?.families,
+        library: libraries.characters,
+        poseFamily,
+      }).ok,
+  );
+  const effectivePose = supportedPoses.includes(pose)
+    ? pose
+    : (supportedPoses[0] ?? "standing-neutral");
   let content;
   try {
     const wardrobe = preference
       ? resolvePersonWardrobeContext(person, preference, {
           library: libraries.characters,
-          poseFamily: pose,
+          poseFamily: effectivePose,
         })
       : undefined;
     const plan = buildCharacterRenderPlan({
@@ -39,7 +53,7 @@ export function WardrobeFigure({
         xPercent: 50,
         yPercent: 52,
         scale: 1,
-        poseFamily: pose,
+        poseFamily: effectivePose,
         depth: 1,
         bodyWidthPercent: 70,
       },
@@ -56,12 +70,15 @@ export function WardrobeFigure({
         <ModularCharacter plan={plan} testId="wardrobe-full-body" />
       </div>
     ) : (
-      <p role="status">This outfit has no complete fit for {pose}.</p>
+      <p role="status">
+        This outfit needs compatible clothing before it can be previewed.
+      </p>
     );
   } catch (error) {
     content = (
-      <p role="status">
-        {error instanceof Error ? error.message : String(error)}
+      <p role="status" data-diagnostic={String(error)}>
+        This saved outfit is unavailable. Use the recovery choice below to
+        preview compatible clothing.
       </p>
     );
   }
@@ -75,11 +92,18 @@ export function WardrobeFigure({
         Outfit view{" "}
         <select
           aria-label="Outfit view"
-          value={pose}
+          value={effectivePose}
           onChange={(e) => setPose(e.target.value)}
         >
-          <option value="standing-neutral">Standing</option>
-          <option value="seated-guest-neutral">Seated fit check</option>
+          <option
+            value="standing-neutral"
+            disabled={!supportedPoses.includes("standing-neutral")}
+          >
+            Standing
+          </option>
+          {supportedPoses.includes("seated-guest-neutral") ? (
+            <option value="seated-guest-neutral">Seated</option>
+          ) : null}
         </select>
       </label>
       {content}

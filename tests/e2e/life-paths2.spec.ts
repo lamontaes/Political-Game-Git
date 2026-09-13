@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-test("LIFE-PATHS2 pointer, keyboard, session, interruption and reload proof", async ({
+test("LIFE-PATHS2 pointer, keyboard, period, interruption and reload proof", async ({
   page,
 }) => {
   await page.goto("/life-paths2-proof.html");
@@ -17,26 +17,12 @@ test("LIFE-PATHS2 pointer, keyboard, session, interruption and reload proof", as
       .getByRole("region", { name: "Education and work", exact: true })
       .locator(":scope > [role=status]"),
   ).toContainText("You enrolled");
-  await page
-    .getByRole("button", { name: "Schedule next session", exact: true })
-    .focus();
-  await page.keyboard.press("Enter");
   await expect(
-    page
-      .getByRole("region", { name: "Education and work", exact: true })
-      .locator(":scope > [role=status]"),
-  ).toContainText("calendar");
-  await page
-    .getByRole("button", {
-      name: "Attend College office administration certificate",
-      exact: true,
-    })
-    .click();
+    page.getByText(/In progress\. Year 1, period 1 of 1\./),
+  ).toBeVisible();
   await expect(
-    page
-      .getByRole("region", { name: "Education and work", exact: true })
-      .locator(":scope > [role=status]"),
-  ).toContainText("complete");
+    page.getByRole("button", { name: "Schedule next session", exact: true }),
+  ).toHaveCount(0);
   await page.getByRole("button", { name: "Interrupt", exact: true }).focus();
   await page.keyboard.press("Space");
   await expect(
@@ -46,7 +32,7 @@ test("LIFE-PATHS2 pointer, keyboard, session, interruption and reload proof", as
   ).toContainText("interrupted");
   await page.reload();
   await expect(
-    page.getByText("Interrupted. 1 attended sessions.", { exact: true }),
+    page.getByText(/Interrupted\. Year 1, period 1 of 1\./),
   ).toBeVisible();
   await page.getByRole("button", { name: "Return", exact: true }).click();
   await expect(

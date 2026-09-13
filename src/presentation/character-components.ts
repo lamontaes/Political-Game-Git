@@ -2010,6 +2010,24 @@ export function resolveCharacterRecipe(
   library: CharacterComponentLibrary,
 ): CharacterRecipe {
   const { appearance, poseFamily } = request;
+  // A confirmed outfit is canonical with the identity. Old shell preferences
+  // cannot override half of a newer atomic appearance transaction.
+  if (appearance.outfit) {
+    if (appearance.outfit.version !== "complete-outfit-v1")
+      throw new Error("Unsupported saved outfit version.");
+    request = {
+      ...request,
+      wardrobe: {
+        id: "complete-outfit-v1",
+        families: Object.fromEntries(
+          Object.entries(appearance.outfit.families).map(([kind, family]) => [
+            kind,
+            [family],
+          ]),
+        ),
+      },
+    };
+  }
   if (
     !isNonEmptyString(appearance.seed) ||
     !isNonEmptyString(appearance.recipeVersion)

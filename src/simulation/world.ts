@@ -138,8 +138,15 @@ import {
   legislationHistoryRecords,
 } from "./legislation";
 import { assertLegislationIntegrity } from "./legislation-integrity";
+import {
+  assertPersonnelIntegrity,
+  personnelHistoryRecords,
+} from "./civil-personnel-integrity";
 import { assertLegislativePoliticsIntegrity } from "./legislative-politics-integrity";
-import { legislativePoliticsHistoryRecords } from "./legislative-politics";
+import {
+  legislativePoliticsHistoryRecords,
+  legislativePoliticsEntityExists,
+} from "./legislative-politics";
 import {
   assertDraftLineageIntegrity,
   draftLineageHistoryRecords,
@@ -579,6 +586,7 @@ export function recordWorldEvent(
       !electionContestEntityExists(world, entityId) &&
       !campaignEntityExists(world, entityId) &&
       !legislationEntityExists(world, entityId) &&
+      !legislativePoliticsEntityExists(world, entityId) &&
       !publicInformationEntityExists(world, entityId)
     ) {
       throw new Error(
@@ -637,6 +645,18 @@ export function recordWorldEvent(
         `Historical event references an unavailable incident entity: ${entityId}`,
       );
     }
+    if (
+      legislativePoliticsEntityExists(world, entityId) &&
+      !legislativePoliticsReferenceAvailableAt(
+        world,
+        entityId,
+        occurredAt,
+        world.history.nextSequence,
+      )
+    )
+      throw new Error(
+        `Historical event references an unavailable legislative politics entity: ${entityId}`,
+      );
     if (
       policySemanticsEntityExists(world, entityId) &&
       !policySemanticsEntityAvailableAt(
@@ -1151,6 +1171,25 @@ function validateInitialEntities(
         person.appearance.recipeVersion,
         "Person appearance recipe version",
       );
+      const outfit = person.appearance.outfit;
+      if (
+        outfit !== undefined &&
+        (outfit === null ||
+          outfit.version !== "complete-outfit-v1" ||
+          !outfit.families ||
+          typeof outfit.families !== "object" ||
+          Array.isArray(outfit.families) ||
+          Object.keys(outfit).some(
+            (key) => !["version", "families"].includes(key),
+          ) ||
+          Object.entries(outfit.families).some(
+            ([kind, family]) =>
+              !["top", "bottom", "footwear"].includes(kind) ||
+              typeof family !== "string" ||
+              !family.trim(),
+          ))
+      )
+        throw new Error("Unsupported or malformed saved complete outfit.");
       const catalogGeneration = person.appearance.catalogGeneration;
       if (
         catalogGeneration !== undefined &&
@@ -1459,6 +1498,7 @@ function validateHistoryIntegrity(world: World): void {
     ...draftLineageHistoryRecords(world),
     ...futureTransitionHistoryRecords(world),
     ...publicInformationHistoryRecords(world),
+    ...personnelHistoryRecords(world),
     ...(history.districtResidenceIntervals ?? []),
     ...history.events,
     ...history.memories,
@@ -1600,6 +1640,7 @@ function validateHistoryIntegrity(world: World): void {
       );
     }
   }
+  assertPersonnelIntegrity(world, ids);
   assertUniqueStableKeys(history.events, "event");
   assertUniqueStableKeys(history.memories, "memory");
   assertUniqueStableKeys(history.knowledge, "knowledge");
@@ -1729,6 +1770,7 @@ function validateHistoryIntegrity(world: World): void {
         !electionContestEntityExists(world, involvedId) &&
         !campaignEntityExists(world, involvedId) &&
         !legislationEntityExists(world, involvedId) &&
+        !legislativePoliticsEntityExists(world, involvedId) &&
         !publicInformationEntityExists(world, involvedId)
       ) {
         throw new Error(
@@ -1787,6 +1829,18 @@ function validateHistoryIntegrity(world: World): void {
           `Historical event references an unavailable incident entity: ${event.id}`,
         );
       }
+      if (
+        legislativePoliticsEntityExists(world, involvedId) &&
+        !legislativePoliticsReferenceAvailableAt(
+          world,
+          involvedId,
+          event.occurredAt,
+          event.sequence,
+        )
+      )
+        throw new Error(
+          `Historical event references an unavailable legislative politics entity: ${event.id}`,
+        );
       if (
         policySemanticsEntityExists(world, involvedId) &&
         !policySemanticsEntityAvailableAt(
@@ -3239,4 +3293,27 @@ function clonePerson(person: Person): Person {
       generatedFacts: person.details.generatedFacts.map(cloneFact),
     },
   };
+}
+
+/** Canonical references must precede the event in both date and append order. */
+function legislativePoliticsReferenceAvailableAt(
+  world: World,
+  id: EntityId,
+  date: IsoDate,
+  sequence: number,
+): boolean {
+  const record = [
+    ...(world.history.legislativeProvisions ?? []),
+    ...(world.history.legislativeCommitments ?? []),
+    ...(world.history.legislativeNegotiations ?? []),
+  ].find((r) => r.id === id);
+  return (
+    !!record &&
+    record.sequence < sequence &&
+    ("recordedAt" in record
+      ? record.recordedAt
+      : "statedAt" in record
+        ? record.statedAt
+        : record.occurredAt) <= date
+  );
 }

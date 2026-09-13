@@ -1,4 +1,4 @@
-import sourceData from "./civil-personnel-sources.json";
+import { CIVIL_PERSONNEL_SOURCE_PROJECTION } from "./civil-personnel-sources.generated";
 import { makeIsoDate } from "./dates";
 import { evaluateLifeEligibility } from "./life-eligibility";
 import {
@@ -7,6 +7,12 @@ import {
   workStatusAt,
 } from "./life-queries";
 import { createWorkItem, canPersonAccess, workItemState } from "./time-work";
+import {
+  assessMinnesotaDiscipline,
+  assessMinnesotaReinstatement,
+  personnelProcedure,
+  procedureApplicability,
+} from "./civil-personnel-actions";
 import { recordWorldEvent } from "./world";
 import type { EntityId, LifeEligibilityProvider, World } from "./types";
 import {
@@ -15,10 +21,10 @@ import {
   type PersonnelClassContext,
   type PersonnelAction,
   type PersonnelActionAssessment,
-  type PersonnelSourceProjection,
+  type PersonnelProcedureKey,
 } from "./civil-personnel-contract";
 
-const sources = sourceData as PersonnelSourceProjection;
+const sources = CIVIL_PERSONNEL_SOURCE_PROJECTION;
 export const CIVIL_PERSONNEL_SOURCE_PIN = sources.corpusSha256;
 const prefix = "civil-personnel";
 
@@ -50,12 +56,12 @@ export function queryPersonnelProtections(
       missing.push(
         "This profile does not establish applicability to this employer level.",
       );
-    if (observation?.state === "known") {
-      if (date !== observation.observedOn)
-        missing.push(
-          `Source observed on ${observation.observedOn}; applicability on ${date} is not established.`,
-        );
-    }
+    // Current publisher text answers its observation date and later dates in
+    // the simulation, never an earlier one (the accepted qualification rule).
+    if (observation?.state === "known" && date < observation.observedOn)
+      missing.push(
+        `Source observed on ${observation.observedOn}; applicability on ${date} is not established.`,
+      );
     if (
       field === "classificationDistinction" &&
       context.civilClass === "unknown"
@@ -139,14 +145,111 @@ const dependentFields: Record<PersonnelAction, readonly CivilPersonnelField[]> =
     "prepare-recruitment": [],
     "prepare-personnel-review": [],
     appoint: ["classificationDistinction", "appointmentProtection"],
+    reinstate: ["classificationDistinction"],
     "complete-probation": ["appointmentProtection"],
     discipline: ["removalProtection"],
     remove: ["removalProtection"],
     "file-review": ["appealBody"],
+    "decide-settlement": ["appealBody"],
     "decide-review": ["appealBody"],
   };
 
-/** Field-local blockers; an unrelated bargaining gap never blocks private preparation. */
+/** Class-level gaps that no canonical binding can close in this build. */
+function classGaps(
+  context: PersonnelClassContext,
+  date: string,
+  action: PersonnelAction,
+): string[] {
+  const gaps: string[] = [];
+  const procedures = (keys: readonly PersonnelProcedureKey[]) => {
+    for (const key of keys) {
+      const applicability = procedureApplicability(key, makeIsoDate(date));
+      if (applicability.state === "UNKNOWN") gaps.push(applicability.reason);
+    }
+  };
+  if (context.jurisdictionKey === "US-FEDERAL") {
+    gaps.push(
+      "Federal adverse actions need 5 U.S.C. § 7511 coverage, OPM regulations and the acting agency official, none of which is acquired.",
+    );
+    return gaps;
+  }
+  if (context.jurisdictionKey === "US-AK") {
+    if (context.civilClass === "exempt")
+      gaps.push(personnelProcedure("ak-exempt").statement);
+    else if (context.civilClass === "partially-exempt")
+      gaps.push(personnelProcedure("ak-partially-exempt").statement);
+    else
+      gaps.push(
+        action === "appoint" || action === "reinstate"
+          ? "Alaska classified appointments follow personnel rules that are not acquired."
+          : `${personnelProcedure("ak-discipline-rules").statement} No qualifying dismissal can be recorded, so the hearing request cannot arise.`,
+      );
+    return gaps;
+  }
+  if (context.jurisdictionKey !== "US-MN") {
+    gaps.push(
+      `No personnel procedure is compiled for ${context.jurisdictionKey}.`,
+    );
+    return gaps;
+  }
+  if (context.employerLevel !== "state")
+    gaps.push(
+      "Chapter 43A procedures reach state civil service, not this employer level.",
+    );
+  if (context.civilClass !== "classified")
+    gaps.push(
+      context.civilClass === "unknown"
+        ? "The employee's civil-service class is not established."
+        : `The compiled procedures reach classified positions; this one is ${context.civilClass}.`,
+    );
+  switch (action) {
+    case "appoint":
+      gaps.push(
+        "Classified selection needs the commissioner's qualifications, the finalist-pool procedure and pay plans, which are not acquired. Direct reinstatement is the supported appointment.",
+      );
+      break;
+    case "reinstate":
+      procedures(["mn-reinstatement"]);
+      break;
+    case "complete-probation":
+      gaps.push(
+        `${personnelProcedure("mn-probation").citation.citation} bounds probation between 30 days and two years of full-time-equivalent service; the length that applies is set by a plan or agreement that is not acquired.`,
+      );
+      break;
+    case "discipline":
+    case "remove":
+    case "file-review":
+    case "decide-settlement":
+      procedures(
+        action === "decide-settlement"
+          ? ["mn-commissioner-settlement"]
+          : ["mn-just-cause", "mn-just-cause-grounds", "mn-discipline-notice"],
+      );
+      if (context.tenure === "probationary")
+        gaps.push(personnelProcedure("mn-probationary-grievance").statement);
+      else if (context.tenure !== "permanent")
+        gaps.push("The employee's permanent status is not established.");
+      if (context.collectiveAgreement === "covered")
+        gaps.push(personnelProcedure("mn-agreement-procedures").statement);
+      else if (context.collectiveAgreement !== "not-covered")
+        gaps.push(
+          "Whether a collective bargaining agreement covers the employee is not established.",
+        );
+      break;
+    case "decide-review":
+      gaps.push(personnelProcedure("mn-arbitration").statement);
+      break;
+    default:
+      break;
+  }
+  return gaps;
+}
+
+/**
+ * Field-local, class-level assessment. `available` means a compiled procedure
+ * reaches this class on this date; `requires` lists the canonical facts the
+ * writer still checks. It is never permission by itself.
+ */
 export function assessPersonnelAction(
   context: PersonnelClassContext,
   date: string,
@@ -157,40 +260,41 @@ export function assessPersonnelAction(
       action,
       status: "blocked",
       missing: ["Unsupported personnel action."],
+      requires: [],
     };
-  const query = queryPersonnelProtections(context, date);
-  const missing = [...query.civilService, ...query.laborBargaining]
-    .filter((row) => dependentFields[action].includes(row.field))
-    .flatMap((row) => row.missing);
-  if (dependentFields[action].length)
-    missing.push(
-      "The observation date is not an operative-date instrument; legal applicability must be established for this action.",
-    );
-  if (action === "appoint")
-    missing.push(
-      "The actual appointing authority and position-specific selection, qualification and preference rules are not supplied by this corpus.",
-      "A vacancy, authorized compensation terms and the person's consent are separate prerequisites.",
-    );
-  if (action === "complete-probation")
-    missing.push(
-      "The applicable appointment's probation terms, elapsed service and authorized completion decision are required.",
-    );
-  if (action === "discipline" || action === "remove")
-    missing.push(
-      "An actual decision-maker's authority, supported grounds and completed notice/response procedure are required.",
-    );
-  if (action === "file-review")
-    missing.push(
-      "A qualifying canonical notice/decision, its service date and the applicable filing procedure are required.",
-    );
-  if (action === "decide-review")
-    missing.push(
-      "A properly constituted reviewing authority, completed review and supported remedy are required.",
-    );
+  if (action === "prepare-recruitment" || action === "prepare-personnel-review")
+    return { action, status: "available", missing: [], requires: [] };
+  const missing = classGaps(context, date, action);
+  const requires: Partial<Record<PersonnelAction, readonly string[]>> = {
+    reinstate: [
+      "An appointing authority designated for the employer.",
+      "A vacant position in the job class.",
+      "Former permanent or probationary service in the class within four years.",
+      "The person's own acceptance.",
+    ],
+    discipline: [
+      "The employer's designated appointing authority.",
+      "A recorded informal resolution attempt.",
+      "One of the named just-cause grounds and specific reasons.",
+    ],
+    remove: [
+      "The employer's designated appointing authority.",
+      "A recorded informal resolution attempt.",
+      "One of the named just-cause grounds and specific reasons.",
+    ],
+    "file-review": [
+      "A recorded discharge and an appeal inside 30 calendar days.",
+    ],
+    "decide-settlement": [
+      "A filed appeal.",
+      "The single holder of the commissioner's statutory office.",
+    ],
+  };
   return {
     action,
     status: missing.length ? "blocked" : "available",
     missing: [...new Set(missing)],
+    requires: missing.length ? [] : (requires[action] ?? []),
   };
 }
 
@@ -411,60 +515,71 @@ export function personnelWorkItems(world: World) {
     .filter(
       (item) =>
         item.focus.kind === "other" &&
-        item.focus.targetKey.startsWith(`${prefix}:`) &&
+        // Preparation only; procedure obligations are shown with their matter.
+        item.focus.targetKey.startsWith(`${prefix}:prepare-`) &&
         canPersonAccess(item.access, actor),
     )
     .map((item) => ({ item, state: workItemState(world, item.id) }));
 }
 
-/** Concrete LIFE adapter. Caller must bind real employer/class evidence; missing binding refuses. */
-export function publicEmploymentPermissionProvider(
-  resolveContext: (
-    world: World,
-    employeeId: EntityId,
-    contextIds: readonly EntityId[],
-  ) => PersonnelClassContext | null,
-): LifeEligibilityProvider {
+/**
+ * Concrete LIFE/EXEC adapter over canonical records. It answers only for the
+ * requesting actor's own authority on the exact record named; a class context,
+ * title or relationship is never enough.
+ */
+export function publicEmploymentPermissionProvider(): LifeEligibilityProvider {
   return {
     evaluate(world, request) {
-      const action = request.actionKey.slice(
-        "work:public-".length,
-      ) as PersonnelAction;
-      if (
-        !request.actionKey.startsWith("work:public-") ||
-        !Object.hasOwn(dependentFields, action)
-      )
-        return {
-          status: "blocked",
-          reasons: [
-            {
-              key: "context:public-personnel-action",
-              explanation:
-                "This personnel adapter does not authorize that action.",
-            },
-          ],
-        };
-      const context = resolveContext(
-        world,
-        request.actorPersonId,
-        request.contextEntityIds,
-      );
-      const assessment = context
-        ? assessPersonnelAction(context, request.asOfDate, action)
-        : null;
-      if (assessment?.status === "available")
-        return { status: "allowed", reasons: [] };
-      return {
-        status: "blocked",
+      const blocked = (explanation: string) => ({
+        status: "blocked" as const,
         reasons: [
-          {
-            key: "context:public-personnel-evidence",
-            explanation:
-              assessment?.missing.join(" ") ??
-              "Actual employer, employee class and jurisdiction are not bound.",
-          },
-        ],
-      };
+          { key: "context:public-personnel-evidence" as const, explanation },
+        ] as const,
+      });
+      const [first, second] = request.contextEntityIds;
+      if (request.asOfDate !== world.currentDate)
+        return blocked(
+          "Personnel authority is evaluated only at the current date.",
+        );
+      switch (request.actionKey) {
+        case "work:public-discipline":
+        case "work:public-remove": {
+          if (!first) return blocked("Name the employee's position record.");
+          const assessment = assessMinnesotaDiscipline(
+            world,
+            request.actorPersonId,
+            first,
+            "discipline",
+          );
+          return assessment.available
+            ? { status: "allowed", reasons: [] }
+            : blocked(assessment.reason);
+        }
+        case "work:public-reinstate": {
+          if (!first || !second)
+            return blocked("Name the position and the person.");
+          const assessment = assessMinnesotaReinstatement(
+            world,
+            request.actorPersonId,
+            first,
+            second,
+          );
+          return assessment.available
+            ? { status: "allowed", reasons: [] }
+            : blocked(assessment.reason);
+        }
+        default:
+          return {
+            status: "blocked",
+            reasons: [
+              {
+                key: "context:public-personnel-action",
+                explanation:
+                  "This personnel adapter does not authorize that action.",
+              },
+            ],
+          };
+      }
     },
   };
 }

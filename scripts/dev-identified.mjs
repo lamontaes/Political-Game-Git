@@ -98,10 +98,15 @@ console.log(`Commit: ${runCmd("git rev-parse HEAD")}`);
 console.log(`Host: ${host}`);
 console.log(`Requested Port: ${port}`);
 console.log(`Launcher PID: ${process.pid}\n`);
+const origin = `http://${host === "::1" ? "[::1]" : host}:${port}`;
+console.log(`Play: ${origin}/`);
 console.log(
-  `Review: http://${host}:${port}/review.html?seed=${encodeURIComponent(seed)}`,
+  `Candidate-art Play (separate saves): ${origin}/?art-preview=candidate`,
 );
-console.log(`Identity: http://${host}:${port}/__dev/identity`);
+console.log(
+  `Review tools (developer fixtures): ${origin}/review.html?seed=${encodeURIComponent(seed)}`,
+);
+console.log(`Identity: ${origin}/__dev/identity`);
 
 const viteArgs = [
   "--host",

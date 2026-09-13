@@ -1,3 +1,4 @@
+import { resolveCompleteOutfit } from "./complete-outfit";
 import {
   recipeFromSnapshot,
   type PersonRenderSnapshot,
@@ -213,6 +214,11 @@ export function resolvePersonCharacterRecipe(
   unresolvableRequiredSlots?: "throw" | "diagnose",
   wardrobe?: CharacterWardrobeContext,
 ): CharacterRecipe {
+  if (appearance.outfit) {
+    const result = resolveCompleteOutfit({ appearance, poseFamily, library });
+    if (!result.ok) throw new Error(result.message);
+    return result.recipe;
+  }
   return resolveCharacterRecipe(
     {
       appearance,

@@ -1751,7 +1751,7 @@
         "anchorKind": "seat",
         "bodyFamily": "dev-adult",
         "poseFamily": null,
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": null,
         "fittedHeightPercent": null,
         "contactResidualPercent": null,
@@ -1766,8 +1766,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "required-slot-empty",
-          "pose-art-missing-for-body-family",
-          "scene-declares-no-floor-calibration"
+          "pose-art-missing-for-body-family"
         ]
       },
       {
@@ -1776,9 +1775,9 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "dev-adult",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 4.0626,
+          "value": 54.8452,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -1926,11 +1925,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration",
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "residence-apartment-living-canonical-03",
@@ -1938,14 +1933,14 @@
         "anchorKind": "seat",
         "bodyFamily": "dev-adult",
         "poseFamily": "seated-at-desk",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 3.2698,
+          "value": 33.1066,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 48.375,
+          "value": 36.2813,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -2071,8 +2066,6 @@
         "diagnostics": [
           "required-slot-empty",
           "preferred-pose-substituted",
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration",
           "body-declares-no-contacts"
         ]
       },
@@ -2082,14 +2075,14 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "dev-adult",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 4.0626,
+          "value": 41.1339,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 63.9625,
+          "value": 47.9719,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -2232,11 +2225,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration",
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -2244,14 +2233,14 @@
         "anchorKind": "seat",
         "bodyFamily": "dev-adult",
         "poseFamily": "seated-at-desk",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 3.2698,
+          "value": 52.5179,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 53.75,
+          "value": 47.9615,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -2377,8 +2366,6 @@
         "diagnostics": [
           "required-slot-empty",
           "preferred-pose-substituted",
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration",
           "body-declares-no-contacts"
         ]
       },
@@ -2388,9 +2375,9 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "dev-adult",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 4.0626,
+          "value": 73.1269,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -2538,11 +2525,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration",
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -2550,7 +2533,7 @@
         "anchorKind": "seat",
         "bodyFamily": "dev-adult",
         "poseFamily": null,
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": null,
         "fittedHeightPercent": null,
         "contactResidualPercent": null,
@@ -2565,8 +2548,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "required-slot-empty",
-          "pose-art-missing-for-body-family",
-          "scene-declares-no-floor-calibration"
+          "pose-art-missing-for-body-family"
         ]
       },
       {
@@ -2575,14 +2557,14 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "dev-adult",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 4.0626,
+          "value": 58.5015,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 59.3938,
+          "value": 54.825,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -2725,11 +2707,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration",
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "civic-community-meeting-room",
@@ -7955,7 +7933,7 @@
         "anchorKind": "seat",
         "bodyFamily": "dev-adult",
         "poseFamily": null,
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": null,
         "fittedHeightPercent": null,
         "contactResidualPercent": null,
@@ -7970,8 +7948,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "required-slot-empty",
-          "pose-art-missing-for-body-family",
-          "scene-declares-no-floor-calibration"
+          "pose-art-missing-for-body-family"
         ]
       },
       {
@@ -7980,9 +7957,9 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "dev-adult",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 4.0626,
+          "value": 54.8452,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -8150,11 +8127,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration",
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "residence-apartment-living-canonical-03",
@@ -8162,14 +8135,14 @@
         "anchorKind": "seat",
         "bodyFamily": "dev-adult",
         "poseFamily": "seated-at-desk",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 3.2698,
+          "value": 33.1066,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 48.375,
+          "value": 36.2813,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -8315,8 +8288,6 @@
         "diagnostics": [
           "required-slot-empty",
           "preferred-pose-substituted",
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration",
           "body-declares-no-contacts"
         ]
       },
@@ -8326,14 +8297,14 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "dev-adult",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 4.0626,
+          "value": 41.1339,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 63.9625,
+          "value": 47.9719,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -8496,11 +8467,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration",
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -8508,14 +8475,14 @@
         "anchorKind": "seat",
         "bodyFamily": "dev-adult",
         "poseFamily": "seated-at-desk",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 3.2698,
+          "value": 52.5179,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 53.75,
+          "value": 47.9615,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -8661,8 +8628,6 @@
         "diagnostics": [
           "required-slot-empty",
           "preferred-pose-substituted",
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration",
           "body-declares-no-contacts"
         ]
       },
@@ -8672,9 +8637,9 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "dev-adult",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 4.0626,
+          "value": 73.1269,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -8842,11 +8807,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration",
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -8854,7 +8815,7 @@
         "anchorKind": "seat",
         "bodyFamily": "dev-adult",
         "poseFamily": null,
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": null,
         "fittedHeightPercent": null,
         "contactResidualPercent": null,
@@ -8869,8 +8830,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "required-slot-empty",
-          "pose-art-missing-for-body-family",
-          "scene-declares-no-floor-calibration"
+          "pose-art-missing-for-body-family"
         ]
       },
       {
@@ -8879,14 +8839,14 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "dev-adult",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 4.0626,
+          "value": 58.5015,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 59.3938,
+          "value": 54.825,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -9049,11 +9009,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration",
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "civic-community-meeting-room",
@@ -14039,7 +13995,7 @@
         "anchorKind": "seat",
         "bodyFamily": "dev-adult",
         "poseFamily": null,
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": null,
         "fittedHeightPercent": null,
         "contactResidualPercent": null,
@@ -14054,8 +14010,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "required-slot-empty",
-          "pose-art-missing-for-body-family",
-          "scene-declares-no-floor-calibration"
+          "pose-art-missing-for-body-family"
         ]
       },
       {
@@ -14064,9 +14019,9 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "dev-adult",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 4.0626,
+          "value": 54.8452,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -14174,11 +14129,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration",
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "residence-apartment-living-canonical-03",
@@ -14186,14 +14137,14 @@
         "anchorKind": "seat",
         "bodyFamily": "dev-adult",
         "poseFamily": "seated-at-desk",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 3.2698,
+          "value": 33.1066,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 48.375,
+          "value": 36.2813,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -14279,8 +14230,6 @@
         "diagnostics": [
           "required-slot-empty",
           "preferred-pose-substituted",
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration",
           "body-declares-no-contacts"
         ]
       },
@@ -14290,14 +14239,14 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "dev-adult",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 4.0626,
+          "value": 41.1339,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 63.9625,
+          "value": 47.9719,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -14400,11 +14349,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration",
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -14412,14 +14357,14 @@
         "anchorKind": "seat",
         "bodyFamily": "dev-adult",
         "poseFamily": "seated-at-desk",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 3.2698,
+          "value": 52.5179,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 53.75,
+          "value": 47.9615,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -14505,8 +14450,6 @@
         "diagnostics": [
           "required-slot-empty",
           "preferred-pose-substituted",
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration",
           "body-declares-no-contacts"
         ]
       },
@@ -14516,9 +14459,9 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "dev-adult",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 4.0626,
+          "value": 73.1269,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -14626,11 +14569,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration",
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -14638,7 +14577,7 @@
         "anchorKind": "seat",
         "bodyFamily": "dev-adult",
         "poseFamily": null,
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": null,
         "fittedHeightPercent": null,
         "contactResidualPercent": null,
@@ -14653,8 +14592,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "required-slot-empty",
-          "pose-art-missing-for-body-family",
-          "scene-declares-no-floor-calibration"
+          "pose-art-missing-for-body-family"
         ]
       },
       {
@@ -14663,14 +14601,14 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "dev-adult",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 4.0626,
+          "value": 58.5015,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 59.3938,
+          "value": 54.825,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -14773,11 +14711,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration",
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "civic-community-meeting-room",
@@ -18943,7 +18877,7 @@
         "anchorKind": "seat",
         "bodyFamily": "dev-adult",
         "poseFamily": null,
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": null,
         "fittedHeightPercent": null,
         "contactResidualPercent": null,
@@ -18958,8 +18892,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "required-slot-empty",
-          "pose-art-missing-for-body-family",
-          "scene-declares-no-floor-calibration"
+          "pose-art-missing-for-body-family"
         ]
       },
       {
@@ -18968,9 +18901,9 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "dev-adult",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 4.0626,
+          "value": 54.8452,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -19118,11 +19051,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration",
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "residence-apartment-living-canonical-03",
@@ -19130,14 +19059,14 @@
         "anchorKind": "seat",
         "bodyFamily": "dev-adult",
         "poseFamily": "seated-at-desk",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 3.2698,
+          "value": 33.1066,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 48.375,
+          "value": 36.2813,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -19263,8 +19192,6 @@
         "diagnostics": [
           "required-slot-empty",
           "preferred-pose-substituted",
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration",
           "body-declares-no-contacts"
         ]
       },
@@ -19274,14 +19201,14 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "dev-adult",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 4.0626,
+          "value": 41.1339,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 63.9625,
+          "value": 47.9719,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -19424,11 +19351,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration",
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -19436,14 +19359,14 @@
         "anchorKind": "seat",
         "bodyFamily": "dev-adult",
         "poseFamily": "seated-at-desk",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 3.2698,
+          "value": 52.5179,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 53.75,
+          "value": 47.9615,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -19569,8 +19492,6 @@
         "diagnostics": [
           "required-slot-empty",
           "preferred-pose-substituted",
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration",
           "body-declares-no-contacts"
         ]
       },
@@ -19580,9 +19501,9 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "dev-adult",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 4.0626,
+          "value": 73.1269,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -19730,11 +19651,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration",
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -19742,7 +19659,7 @@
         "anchorKind": "seat",
         "bodyFamily": "dev-adult",
         "poseFamily": null,
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": null,
         "fittedHeightPercent": null,
         "contactResidualPercent": null,
@@ -19757,8 +19674,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "required-slot-empty",
-          "pose-art-missing-for-body-family",
-          "scene-declares-no-floor-calibration"
+          "pose-art-missing-for-body-family"
         ]
       },
       {
@@ -19767,14 +19683,14 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "dev-adult",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 4.0626,
+          "value": 58.5015,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 59.3938,
+          "value": 54.825,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -19917,11 +19833,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration",
-          "body-declares-no-contacts"
-        ]
+        "diagnostics": ["body-declares-no-contacts"]
       },
       {
         "sceneId": "civic-community-meeting-room",
@@ -23209,9 +23121,7 @@
       "executive-office-candidate",
       "legislative-chamber-production",
       "park-community-pavilion-candidate",
-      "press-briefing-room-candidate",
-      "residence-apartment-living-canonical-03",
-      "residence-apartment-living-ordinary-02"
+      "press-briefing-room-candidate"
     ]
   },
   "candidate": {
@@ -24541,7 +24451,7 @@
         "anchorKind": "seat",
         "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
         "poseFamily": null,
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": null,
         "fittedHeightPercent": null,
         "contactResidualPercent": null,
@@ -24556,8 +24466,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "required-slot-empty",
-          "pose-art-missing-for-body-family",
-          "scene-declares-no-floor-calibration"
+          "pose-art-missing-for-body-family"
         ]
       },
       {
@@ -24566,9 +24475,9 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 3.6015,
+          "value": 48.6207,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -24584,7 +24493,7 @@
         },
         "cropped": false,
         "artClass": "candidate-review",
-        "completeRecipe": false,
+        "completeRecipe": true,
         "layers": [
           {
             "assetId": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
@@ -24696,10 +24605,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration"
-        ]
+        "diagnostics": []
       },
       {
         "sceneId": "residence-apartment-living-canonical-03",
@@ -24707,7 +24613,7 @@
         "anchorKind": "seat",
         "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
         "poseFamily": null,
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": null,
         "fittedHeightPercent": null,
         "contactResidualPercent": null,
@@ -24723,8 +24629,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "pose-art-missing-for-body-family",
-          "pose-art-missing-for-body-family",
-          "scene-declares-no-floor-calibration"
+          "pose-art-missing-for-body-family"
         ]
       },
       {
@@ -24733,14 +24638,14 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 3.6015,
+          "value": 36.4655,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 63.9625,
+          "value": 47.9719,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -24751,7 +24656,7 @@
         },
         "cropped": false,
         "artClass": "candidate-review",
-        "completeRecipe": false,
+        "completeRecipe": true,
         "layers": [
           {
             "assetId": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
@@ -24863,10 +24768,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration"
-        ]
+        "diagnostics": []
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -24874,7 +24776,7 @@
         "anchorKind": "seat",
         "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
         "poseFamily": null,
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": null,
         "fittedHeightPercent": null,
         "contactResidualPercent": null,
@@ -24890,8 +24792,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "pose-art-missing-for-body-family",
-          "pose-art-missing-for-body-family",
-          "scene-declares-no-floor-calibration"
+          "pose-art-missing-for-body-family"
         ]
       },
       {
@@ -24900,9 +24801,9 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 3.6015,
+          "value": 64.8275,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -24918,7 +24819,7 @@
         },
         "cropped": true,
         "artClass": "candidate-review",
-        "completeRecipe": false,
+        "completeRecipe": true,
         "layers": [
           {
             "assetId": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
@@ -25030,10 +24931,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration"
-        ]
+        "diagnostics": []
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -25041,7 +24939,7 @@
         "anchorKind": "seat",
         "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
         "poseFamily": null,
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": null,
         "fittedHeightPercent": null,
         "contactResidualPercent": null,
@@ -25056,8 +24954,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "required-slot-empty",
-          "pose-art-missing-for-body-family",
-          "scene-declares-no-floor-calibration"
+          "pose-art-missing-for-body-family"
         ]
       },
       {
@@ -25066,14 +24963,14 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 3.6015,
+          "value": 51.862,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 59.3937,
+          "value": 54.825,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -25084,7 +24981,7 @@
         },
         "cropped": false,
         "artClass": "candidate-review",
-        "completeRecipe": false,
+        "completeRecipe": true,
         "layers": [
           {
             "assetId": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
@@ -25196,10 +25093,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration"
-        ]
+        "diagnostics": []
       },
       {
         "sceneId": "civic-community-meeting-room",
@@ -28665,7 +28559,7 @@
         "anchorKind": "seat",
         "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
         "poseFamily": null,
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": null,
         "fittedHeightPercent": null,
         "contactResidualPercent": null,
@@ -28680,8 +28574,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "required-slot-empty",
-          "pose-art-missing-for-body-family",
-          "scene-declares-no-floor-calibration"
+          "pose-art-missing-for-body-family"
         ]
       },
       {
@@ -28690,9 +28583,9 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 3.5804,
+          "value": 48.3353,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -28708,7 +28601,7 @@
         },
         "cropped": false,
         "artClass": "candidate-review",
-        "completeRecipe": false,
+        "completeRecipe": true,
         "layers": [
           {
             "assetId": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
@@ -28820,10 +28713,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration"
-        ]
+        "diagnostics": []
       },
       {
         "sceneId": "residence-apartment-living-canonical-03",
@@ -28831,7 +28721,7 @@
         "anchorKind": "seat",
         "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
         "poseFamily": null,
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": null,
         "fittedHeightPercent": null,
         "contactResidualPercent": null,
@@ -28847,8 +28737,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "pose-art-missing-for-body-family",
-          "pose-art-missing-for-body-family",
-          "scene-declares-no-floor-calibration"
+          "pose-art-missing-for-body-family"
         ]
       },
       {
@@ -28857,14 +28746,14 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 3.5804,
+          "value": 36.2515,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 63.9625,
+          "value": 47.9719,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -28875,7 +28764,7 @@
         },
         "cropped": false,
         "artClass": "candidate-review",
-        "completeRecipe": false,
+        "completeRecipe": true,
         "layers": [
           {
             "assetId": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
@@ -28987,10 +28876,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration"
-        ]
+        "diagnostics": []
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -28998,7 +28884,7 @@
         "anchorKind": "seat",
         "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
         "poseFamily": null,
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": null,
         "fittedHeightPercent": null,
         "contactResidualPercent": null,
@@ -29014,8 +28900,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "pose-art-missing-for-body-family",
-          "pose-art-missing-for-body-family",
-          "scene-declares-no-floor-calibration"
+          "pose-art-missing-for-body-family"
         ]
       },
       {
@@ -29024,9 +28909,9 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 3.5804,
+          "value": 64.4471,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -29042,7 +28927,7 @@
         },
         "cropped": true,
         "artClass": "candidate-review",
-        "completeRecipe": false,
+        "completeRecipe": true,
         "layers": [
           {
             "assetId": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
@@ -29154,10 +29039,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration"
-        ]
+        "diagnostics": []
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -29165,7 +29047,7 @@
         "anchorKind": "seat",
         "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
         "poseFamily": null,
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": null,
         "fittedHeightPercent": null,
         "contactResidualPercent": null,
@@ -29180,8 +29062,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "required-slot-empty",
-          "pose-art-missing-for-body-family",
-          "scene-declares-no-floor-calibration"
+          "pose-art-missing-for-body-family"
         ]
       },
       {
@@ -29190,14 +29071,14 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 3.5804,
+          "value": 51.5577,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 59.3937,
+          "value": 54.825,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -29208,7 +29089,7 @@
         },
         "cropped": false,
         "artClass": "candidate-review",
-        "completeRecipe": false,
+        "completeRecipe": true,
         "layers": [
           {
             "assetId": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
@@ -29320,10 +29201,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration"
-        ]
+        "diagnostics": []
       },
       {
         "sceneId": "civic-community-meeting-room",
@@ -32609,7 +32487,7 @@
         "anchorKind": "seat",
         "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
         "poseFamily": null,
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": null,
         "fittedHeightPercent": null,
         "contactResidualPercent": null,
@@ -32624,8 +32502,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "required-slot-empty",
-          "pose-art-missing-for-body-family",
-          "scene-declares-no-floor-calibration"
+          "pose-art-missing-for-body-family"
         ]
       },
       {
@@ -32634,9 +32511,9 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 3.3594,
+          "value": 45.3516,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -32652,7 +32529,7 @@
         },
         "cropped": false,
         "artClass": "candidate-review",
-        "completeRecipe": false,
+        "completeRecipe": true,
         "layers": [
           {
             "assetId": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
@@ -32744,10 +32621,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration"
-        ]
+        "diagnostics": []
       },
       {
         "sceneId": "residence-apartment-living-canonical-03",
@@ -32755,7 +32629,7 @@
         "anchorKind": "seat",
         "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
         "poseFamily": null,
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": null,
         "fittedHeightPercent": null,
         "contactResidualPercent": null,
@@ -32771,8 +32645,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "pose-art-missing-for-body-family",
-          "pose-art-missing-for-body-family",
-          "scene-declares-no-floor-calibration"
+          "pose-art-missing-for-body-family"
         ]
       },
       {
@@ -32781,14 +32654,14 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 3.3594,
+          "value": 34.0137,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 63.9625,
+          "value": 47.9719,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -32799,7 +32672,7 @@
         },
         "cropped": false,
         "artClass": "candidate-review",
-        "completeRecipe": false,
+        "completeRecipe": true,
         "layers": [
           {
             "assetId": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
@@ -32891,10 +32764,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration"
-        ]
+        "diagnostics": []
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -32902,7 +32772,7 @@
         "anchorKind": "seat",
         "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
         "poseFamily": null,
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": null,
         "fittedHeightPercent": null,
         "contactResidualPercent": null,
@@ -32918,8 +32788,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "pose-art-missing-for-body-family",
-          "pose-art-missing-for-body-family",
-          "scene-declares-no-floor-calibration"
+          "pose-art-missing-for-body-family"
         ]
       },
       {
@@ -32928,9 +32797,9 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 3.3594,
+          "value": 60.4688,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -32946,7 +32815,7 @@
         },
         "cropped": true,
         "artClass": "candidate-review",
-        "completeRecipe": false,
+        "completeRecipe": true,
         "layers": [
           {
             "assetId": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
@@ -33038,10 +32907,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration"
-        ]
+        "diagnostics": []
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -33049,7 +32915,7 @@
         "anchorKind": "seat",
         "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
         "poseFamily": null,
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": null,
         "fittedHeightPercent": null,
         "contactResidualPercent": null,
@@ -33064,8 +32930,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "required-slot-empty",
-          "pose-art-missing-for-body-family",
-          "scene-declares-no-floor-calibration"
+          "pose-art-missing-for-body-family"
         ]
       },
       {
@@ -33074,14 +32939,14 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 3.3594,
+          "value": 48.375,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 59.3937,
+          "value": 54.825,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -33092,7 +32957,7 @@
         },
         "cropped": false,
         "artClass": "candidate-review",
-        "completeRecipe": false,
+        "completeRecipe": true,
         "layers": [
           {
             "assetId": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
@@ -33184,10 +33049,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration"
-        ]
+        "diagnostics": []
       },
       {
         "sceneId": "civic-community-meeting-room",
@@ -36553,7 +36415,7 @@
         "anchorKind": "seat",
         "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
         "poseFamily": null,
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": null,
         "fittedHeightPercent": null,
         "contactResidualPercent": null,
@@ -36568,8 +36430,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "required-slot-empty",
-          "pose-art-missing-for-body-family",
-          "scene-declares-no-floor-calibration"
+          "pose-art-missing-for-body-family"
         ]
       },
       {
@@ -36578,9 +36439,9 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 3.5384,
+          "value": 47.7684,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -36596,7 +36457,7 @@
         },
         "cropped": false,
         "artClass": "candidate-review",
-        "completeRecipe": false,
+        "completeRecipe": true,
         "layers": [
           {
             "assetId": "pv4_hair_41_light_square_older_masc_v1_back",
@@ -36728,10 +36589,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration"
-        ]
+        "diagnostics": []
       },
       {
         "sceneId": "residence-apartment-living-canonical-03",
@@ -36739,7 +36597,7 @@
         "anchorKind": "seat",
         "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
         "poseFamily": null,
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": null,
         "fittedHeightPercent": null,
         "contactResidualPercent": null,
@@ -36755,8 +36613,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "pose-art-missing-for-body-family",
-          "pose-art-missing-for-body-family",
-          "scene-declares-no-floor-calibration"
+          "pose-art-missing-for-body-family"
         ]
       },
       {
@@ -36765,14 +36622,14 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 3.5384,
+          "value": 35.8263,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 63.9625,
+          "value": 47.9719,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -36783,7 +36640,7 @@
         },
         "cropped": false,
         "artClass": "candidate-review",
-        "completeRecipe": false,
+        "completeRecipe": true,
         "layers": [
           {
             "assetId": "pv4_hair_41_light_square_older_masc_v1_back",
@@ -36915,10 +36772,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration"
-        ]
+        "diagnostics": []
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -36926,7 +36780,7 @@
         "anchorKind": "seat",
         "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
         "poseFamily": null,
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": null,
         "fittedHeightPercent": null,
         "contactResidualPercent": null,
@@ -36942,8 +36796,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "pose-art-missing-for-body-family",
-          "pose-art-missing-for-body-family",
-          "scene-declares-no-floor-calibration"
+          "pose-art-missing-for-body-family"
         ]
       },
       {
@@ -36952,9 +36805,9 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 3.5384,
+          "value": 63.6912,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -36970,7 +36823,7 @@
         },
         "cropped": true,
         "artClass": "candidate-review",
-        "completeRecipe": false,
+        "completeRecipe": true,
         "layers": [
           {
             "assetId": "pv4_hair_41_light_square_older_masc_v1_back",
@@ -37102,10 +36955,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration"
-        ]
+        "diagnostics": []
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -37113,7 +36963,7 @@
         "anchorKind": "seat",
         "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
         "poseFamily": null,
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": null,
         "fittedHeightPercent": null,
         "contactResidualPercent": null,
@@ -37128,8 +36978,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "required-slot-empty",
-          "pose-art-missing-for-body-family",
-          "scene-declares-no-floor-calibration"
+          "pose-art-missing-for-body-family"
         ]
       },
       {
@@ -37138,14 +36987,14 @@
         "anchorKind": "floor-standing",
         "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
         "poseFamily": "standing-neutral",
-        "floorCalibrated": false,
+        "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 3.5384,
+          "value": 50.953,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 59.3937,
+          "value": 54.825,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -37156,7 +37005,7 @@
         },
         "cropped": false,
         "artClass": "candidate-review",
-        "completeRecipe": false,
+        "completeRecipe": true,
         "layers": [
           {
             "assetId": "pv4_hair_41_light_square_older_masc_v1_back",
@@ -37288,10 +37137,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": [
-          "scene-declares-no-floor-calibration",
-          "scene-declares-no-floor-calibration"
-        ]
+        "diagnostics": []
       },
       {
         "sceneId": "civic-community-meeting-room",
@@ -39744,9 +39590,7 @@
       "executive-office-candidate",
       "legislative-chamber-production",
       "park-community-pavilion-candidate",
-      "press-briefing-room-candidate",
-      "residence-apartment-living-canonical-03",
-      "residence-apartment-living-ordinary-02"
+      "press-briefing-room-candidate"
     ]
   },
   "ratios": {

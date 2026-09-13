@@ -1,0 +1,25 @@
+---
+id: a-playable29-opening-adapter
+impact: none
+---
+
+Apply B's version-marked candidate opening adapter at the two existing root
+opening call sites. Old absent/pinned replay descriptors return the original
+World; loaded saves bypass initialization. New marked replay descriptors
+reproduce the complete fresh outfit. No wholesale root replacement, release
+version bump or artwork promotion. Mount B's unchanged caller proof only in
+the A composed browser suite. Narrow option elements explicitly in its DOM
+evaluation so the relocated proof passes current whole-repository typechecking;
+assertions and interaction sequence are unchanged.
+
+Record the architecture dispositions and actual failed/passed verification
+history; no aggregate or human acceptance is fabricated from selective proof.
+
+Route portable caller-proofs outside Vitest: they use Playwright and are
+executed after mounting in tests/e2e. The actual mounted pointer/keyboard and
+save assertions remain required and passed; this is runner routing, not a
+disabled test or substituted unit proof.
+
+Make the existing diagnostic trace create its own ignored report directory in
+fresh isolated worktrees, rather than depend on a previous browser run. Test
+assertions and production coverage are unchanged.

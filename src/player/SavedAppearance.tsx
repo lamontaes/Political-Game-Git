@@ -147,6 +147,19 @@ export function SavedAppearanceControls(
         <PersonAppearanceControls
           {...props}
           library={library}
+          renderPreview={
+            preview
+              ? (appearance) => (
+                  <WardrobeFigure
+                    person={{
+                      ...props.world.people[props.personId]!,
+                      appearance,
+                    }}
+                    libraries={preview}
+                  />
+                )
+              : undefined
+          }
           poseFamily="standing-neutral"
         />
       ) : (
