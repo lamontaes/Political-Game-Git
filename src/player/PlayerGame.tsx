@@ -102,6 +102,7 @@ import {
   artPreviewMode,
   previewDatabaseName,
   setupForArtPreview,
+  type ArtPreviewMode,
 } from "../presentation/art-preview";
 import { gameBuildProfile } from "../presentation/build-profile";
 import { SceneBackdrop } from "./SceneBackdrop";
@@ -569,8 +570,7 @@ export function PlayerGame() {
     return <OptionsScreen onBack={() => setScreen({ kind: "title" })} />;
   }
 
-  function beginLife(input: NewGameSetup) {
-    const setup = setupForArtPreview(input, previewMode);
+  function beginLife(setup: NewGameSetup) {
     setScreen({
       kind: "transition",
       setup,
@@ -614,6 +614,7 @@ export function PlayerGame() {
           <SetupScreen
             seed={sessionSeed.seed}
             seedOrigin={sessionSeed.origin}
+            previewMode={previewMode}
             initialSetup={screen.draft}
             onBack={() => setScreen({ kind: "title" })}
             onBegin={(setup) => {
@@ -774,6 +775,7 @@ type CreatorStep =
 function SetupScreen({
   seed,
   seedOrigin,
+  previewMode,
   initialSetup,
   onBack,
   onBegin,
@@ -781,6 +783,7 @@ function SetupScreen({
 }: {
   readonly seed: string;
   readonly seedOrigin: "fresh" | "replay";
+  readonly previewMode: ArtPreviewMode;
   readonly initialSetup?: NewGameSetup;
   readonly onBack: () => void;
   readonly onBegin: (setup: NewGameSetup) => void;
@@ -824,11 +827,14 @@ function SetupScreen({
         candidate.stateJurisdictionKey === location.stateJurisdictionKey,
     ) ?? null;
   const [setup, setSetup] = useState<NewGameSetup>(
-    initialSetup ?? {
-      ...DEFAULT_NEW_GAME_SETUP,
-      seed,
-      placeKey: "",
-    },
+    () =>
+      // Only a newly allocated creator draft enters the candidate generation.
+      // Existing drafts, replay descriptors and loaded Worlds retain their pins.
+      initialSetup ??
+      setupForArtPreview(
+        { ...DEFAULT_NEW_GAME_SETUP, seed, placeKey: "" },
+        previewMode,
+      ),
   );
   /**
    * What the age field currently shows, which is not always a number.
