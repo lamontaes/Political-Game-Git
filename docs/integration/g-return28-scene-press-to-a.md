@@ -1,6 +1,6 @@
 # G return28: shared scene repair and physical press-venue dependency
 
-Continue existing #225, preserving 62010fb6 and #212/#214 ancestry. Reconciled current main 06a775ea03af8b2d330c7cbe1372a4f011ea3c6d (#220). A remains shared-root/main integrator. No root adapter is required for this repair: existing PlayerGame calls the shared opening/play projection. All room art, tiers, geometry, candidate isolation and existing composition evidence remain unchanged.
+Continue existing #225, preserving 62010fb6 and #212/#214 ancestry. Reconciled current main 06a775ea03af8b2d330c7cbe1372a4f011ea3c6d (#220), then preserved A’s desktop recovery #228 at af516110ad43941210038debae6cd87105d7f674 without conflicts or desktop edits. A remains shared-root/main integrator. No root adapter is required for this repair: existing PlayerGame calls the shared opening/play projection. All room art, tiers, geometry, candidate isolation and existing composition evidence remain unchanged.
 
 ## Demonstrated shared scene failure
 
