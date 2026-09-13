@@ -47,3 +47,13 @@ venue and shared current-scene context without root replacement, fabricated
 travel, audience or press access. Preserve both audit histories and the
 current explicit House keyboard fixture; regenerate only derived prose.
 Normal press physical venue input and human visual acceptance remain absent.
+
+Restart recovered exact 9f16ab58 from preserved Git; root stayed detached
+d241d543 with its two existing PNG edits. Interrupted checks are not passes.
+The recovered full suite passed 4,723 tests, failed four corpus/CLI assertions
+and one cross-branch setup (340 files passed, three failed; six skipped).
+Every failure traced to coverage-report total 76,902 versus live 76,911 after
+the fixture addition. Regenerate through corpus tooling; preserve canonical
+anchor trio byte-for-byte. The repaired D location/control test passed.
+Budget98f8f65b supplies only the additional pending-conversation and zero
+regressions; current root is unchanged. Full repaired rerun remains required.

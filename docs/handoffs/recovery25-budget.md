@@ -1,5 +1,8 @@
 # RECOVERY25 Budget → A
 
+Latest continuation: [DELIVERY28 current-main integration](../integration/delivery28-budget-to-a.md).
+The checkpoints below are preserved historical RECOVERY25 evidence.
+
 Receiver: A, task `01a095e9-50d7-7923-9fb8-012c8964431f`
 (`Finish MORNING23 A landing UI`). A retains shared-root integration and main merge.
 

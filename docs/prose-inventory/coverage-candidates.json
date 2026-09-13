@@ -2,7 +2,7 @@
   "counts": {
     "INVENTORIED": 2457,
     "INTENTIONALLY_NON_PLAYER_FACING": 5871,
-    "DIAGNOSTIC_OR_TEST": 5230,
+    "DIAGNOSTIC_OR_TEST": 5235,
     "NEEDS_CLASSIFICATION": 6558
   },
   "needsClassification": [
@@ -53682,7 +53682,7 @@
       "sourcePath": "src/simulation/life-content13.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 37
+      "count": 39
     },
     {
       "sourcePath": "src/simulation/life-content-92c.ts",
@@ -55746,7 +55746,7 @@
       "sourcePath": "src/presentation/economic-context-panel.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 22
+      "count": 25
     },
     {
       "sourcePath": "src/presentation/economic-context-browser.ts",

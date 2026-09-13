@@ -102,5 +102,7 @@ describe("EconomicGraph sparse and exact records", () => {
       "125 EUR minor units",
     );
     expect(graphMarkup([null], "USD minor units")).not.toContain("<circle");
+    expect(graphMarkup([0], "USD minor units")).toContain("0 USD minor units");
+    expect(graphMarkup([0], "USD minor units")).toContain("<circle");
   });
 });
