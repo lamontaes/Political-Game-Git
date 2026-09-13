@@ -164,40 +164,70 @@ export function composePressAnswer(input: {
   readonly knownFacts: readonly string[];
   readonly primaryQuestion: string;
   readonly followUpQuestion: string;
+  readonly correctingEvidence?: readonly string[];
 }):
   | { readonly ok: true; readonly statement: string }
   | {
       readonly ok: false;
       readonly reason: string;
     } {
-  const followUp = input.followUpQuestion.trim();
+  const followUp =
+    input.followUpQuestion.trim() || input.primaryQuestion.trim();
   if (!followUp)
     return {
       ok: false,
       reason: "No reporter question is recorded to answer.",
     };
-  const fact = input.knownFacts.map((entry) => entry.trim()).find(Boolean);
-  const ground = fact || input.primaryQuestion.trim();
-  if (!ground)
-    return {
-      ok: false,
-      reason:
-        "No recorded fact or reporter question is available for an answer.",
-    };
+  const facts = uniqueRecordedStatements(input.knownFacts);
+  const linked = uniqueRecordedStatements(
+    input.correctingEvidence ?? [],
+  ).filter((entry) => facts.includes(entry));
   if (input.intent === "add-context") {
+    const fact = facts[0];
+    if (!fact)
+      return {
+        ok: true,
+        statement: `Asked “${followUp}”, the source will not add claims that are not already recorded.`,
+      };
     return {
       ok: true,
-      statement: `${ground} That recorded fact does not establish an outcome that has not happened.`,
+      statement: `${fact} That recorded fact does not establish an outcome that has not happened.`,
     };
   }
   if (input.intent === "challenge-premise") {
+    const correction = linked[0];
+    if (!correction)
+      return {
+        ok: true,
+        statement: `The source does not accept that “${followUp}” is established by the record now in hand.`,
+      };
     return {
       ok: true,
-      statement: `The question “${followUp}” assumes more than the record shows. What is established is: ${ground}`,
+      statement: `The source challenges the premise of “${followUp}”, citing the recorded fact: ${correction}`,
     };
   }
+  const fact = facts[0];
+  if (!fact)
+    return {
+      ok: true,
+      statement: `Asked “${followUp}”, the source answers without treating that question as an established fact.`,
+    };
   return {
     ok: true,
-    statement: `Asked “${followUp}”, the source answers from the record: ${ground}`,
+    statement: `Asked “${followUp}”, the source answers from the record: ${fact}`,
   };
+}
+
+function uniqueRecordedStatements(
+  entries: readonly string[] | undefined,
+): string[] {
+  const seen = new Set<string>();
+  const statements: string[] = [];
+  for (const entry of entries ?? []) {
+    const text = entry.trim();
+    if (!text || seen.has(text)) continue;
+    seen.add(text);
+    statements.push(text);
+  }
+  return statements;
 }

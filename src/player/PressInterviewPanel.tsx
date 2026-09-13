@@ -69,6 +69,7 @@ export function PressInterviewPanel({
   const [followUpQuestion, setFollowUpQuestion] = useState(
     view.likelyFollowUps[0] ?? view.primaryQuestion,
   );
+  const [correctingEvidence, setCorrectingEvidence] = useState("");
   const reporterQuestions = [
     ...new Set(
       [...view.likelyFollowUps, view.primaryQuestion].filter((entry) =>
@@ -76,11 +77,17 @@ export function PressInterviewPanel({
       ),
     ),
   ];
+  const linkedCorrection =
+    intent === "challenge-premise" &&
+    view.knownFacts.includes(correctingEvidence)
+      ? correctingEvidence
+      : "";
   const answer = composePressAnswer({
     intent,
     knownFacts: view.knownFacts,
     primaryQuestion: view.primaryQuestion,
     followUpQuestion,
+    correctingEvidence: linkedCorrection ? [linkedCorrection] : [],
   });
   const [activeConcept, setActiveConcept] = useState<CivicGlossaryEntry | null>(
     null,
@@ -277,6 +284,25 @@ export function PressInterviewPanel({
               ))}
             </select>
           </label>
+          {intent === "challenge-premise" && view.knownFacts.length > 0 ? (
+            <label>
+              Recorded correction
+              <select
+                data-testid="press-correcting-evidence"
+                value={linkedCorrection}
+                onChange={(event) =>
+                  setCorrectingEvidence(event.currentTarget.value)
+                }
+              >
+                <option value="">No correcting record cited</option>
+                {view.knownFacts.map((fact) => (
+                  <option key={fact} value={fact}>
+                    {fact}
+                  </option>
+                ))}
+              </select>
+            </label>
+          ) : null}
           {answer.ok ? (
             <blockquote data-testid="press-answer-preview">
               {answer.statement}
