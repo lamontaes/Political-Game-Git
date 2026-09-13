@@ -17,7 +17,10 @@ import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import os from "node:os";
 import path from "node:path";
-import { gameLaunchEnvironment } from "./game-launch-environment.mjs";
+import {
+  gameLaunchEnvironment,
+  isPackagedRenderRequest,
+} from "./game-launch-environment.mjs";
 import { isDeepStrictEqual } from "node:util";
 import { readDrawnAppearance } from "./drawn-appearance-proof.mjs";
 import {
@@ -67,7 +70,7 @@ async function launch() {
   const page = await app.firstWindow();
   const foreign = [];
   page.on("request", (request) => {
-    if (!request.url().startsWith("app://game/")) foreign.push(request.url());
+    if (!isPackagedRenderRequest(request.url())) foreign.push(request.url());
   });
   await page.waitForLoadState("domcontentloaded");
   return { app, page, foreign };
