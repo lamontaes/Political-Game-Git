@@ -1,5 +1,5 @@
 import { readSavedLegislativeWorld } from "./support/legislative-entry";
-import { test, expect } from "./fixtures";
+import { test, expect, type Page } from "./fixtures";
 import {
   startLife,
   enterLife,
@@ -7,7 +7,12 @@ import {
   saveLife,
 } from "./support/creator";
 
-test("normal dated education offer, attendance, interruption and repeated saving", async ({
+async function passDays(page: Page, days: number) {
+  const button = page.getByTestId("pass-day");
+  for (let i = 0; i < days; i++) await button.click();
+}
+
+test("normal dated education offer, period progression, interruption and repeated saving", async ({
   page,
 }) => {
   await page.goto("/?seed=ui-edu-path7-normal");
@@ -25,21 +30,13 @@ test("normal dated education offer, attendance, interruption and repeated saving
     name: /Bluegrass Community and Technical College.*156392/,
   });
   await expect(institution).toBeVisible();
-  await institution
-    .locator("..")
-    .getByRole("checkbox", { name: "Compare" })
-    .check();
-  await expect(education.getByRole("table")).toContainText(
-    "Bluegrass Community and Technical College",
-  );
   await institution.click();
-  const request = education.getByRole("button", {
-    name: "Request Workforce Education study offer",
-    exact: true,
-  });
-  await expect(request).toBeEnabled();
-  await request.focus();
-  await page.keyboard.press("Enter");
+  await education
+    .getByRole("button", {
+      name: "Request Workforce Education study offer",
+      exact: true,
+    })
+    .click();
   await education
     .getByRole("button", { name: "Accept study offer", exact: true })
     .click();
@@ -49,77 +46,11 @@ test("normal dated education offer, attendance, interruption and repeated saving
       exact: true,
     }),
   });
-  await expect(study).toContainText("0 attended sessions");
-  await study
-    .getByRole("button", { name: "Schedule next session", exact: true })
-    .press("Enter");
+  await expect(study).toContainText("period 1 of 1");
   await expect(
-    page
-      .getByRole("region", { name: "Education and work", exact: true })
-      .locator(":scope > [role=status]"),
-  ).toContainText("You already have a commitment at that time.");
-  await expect(study).toContainText("0 attended sessions");
-  await expect(
-    study.getByRole("button", {
-      name: "Attend Workforce Education — noncredit study",
-      exact: true,
-    }),
+    study.getByRole("button", { name: "Schedule next session", exact: true }),
   ).toHaveCount(0);
-  await openElsewhere(page, "day");
-  await page
-    .getByTestId("venue-activities")
-    .getByRole("button", { name: "Carry out activity", exact: true })
-    .first()
-    .click();
-  await expect(
-    page
-      .getByTestId("ordinary-section")
-      .getByTestId("venue-activity-completed"),
-  ).toBeVisible();
-  await openElsewhere(page, "work");
-  const paths = page.getByRole("region", {
-    name: "Education and work",
-    exact: true,
-  });
-  await paths
-    .getByRole("button", { name: "Accept Shop assistant", exact: true })
-    .click();
-  const job = page
-    .locator("article")
-    .filter({
-      has: page.getByRole("heading", { name: "Shop assistant", exact: true }),
-    })
-    .filter({
-      has: page.getByRole("button", {
-        name: "Schedule next session",
-        exact: true,
-      }),
-    });
-  await job
-    .getByRole("button", { name: "Schedule next session", exact: true })
-    .click();
-  await job
-    .getByRole("button", { name: "Attend Shop assistant", exact: true })
-    .click();
-  await expect(paths.locator(":scope > [role=status]")).toContainText(
-    "complete",
-  );
-  await paths
-    .getByRole("button", { name: "Continue one day", exact: true })
-    .click();
-  await expect(paths.locator(":scope > [role=status]")).toContainText(
-    "One day passed.",
-  );
-  await study
-    .getByRole("button", { name: "Schedule next session", exact: true })
-    .click();
-  await study
-    .getByRole("button", {
-      name: "Attend Workforce Education — noncredit study",
-      exact: true,
-    })
-    .click();
-  await expect(study).toContainText("1 attended sessions");
+  await passDays(page, 20);
   await study
     .getByRole("button", { name: "Interrupt", exact: true })
     .press("Space");
@@ -129,49 +60,20 @@ test("normal dated education offer, attendance, interruption and repeated saving
   await page.getByTestId("continue").click();
   await enterLife(page);
   await openElsewhere(page, "work");
-  await expect(study).toContainText("Interrupted. 1 attended sessions");
+  await expect(study).toContainText("Interrupted");
   await test.info().attach("saved-study-world.json", {
     body: JSON.stringify(await readSavedLegislativeWorld(page)),
     contentType: "application/json",
   });
   await study.getByRole("button", { name: "Return", exact: true }).click();
-  await study
-    .getByRole("button", { name: "Schedule next session", exact: true })
-    .click();
-  await study
-    .getByRole("button", {
-      name: "Attend Workforce Education — noncredit study",
-      exact: true,
-    })
-    .press("Enter");
-  await expect(paths.locator(":scope > [role=status]")).toContainText(
-    "Another calendar commitment must be resolved first.",
-  );
-  await expect(study).toContainText("1 attended sessions");
-  const invitations = page.getByRole("region", {
-    name: "Invitations",
-    exact: true,
-  });
-  await invitations
-    .getByRole("button", {
-      name: "Decline invitation: Something on Saturday",
-      exact: true,
-    })
-    .press("Enter");
-  await expect(invitations).toHaveCount(0);
-  await study
-    .getByRole("button", {
-      name: "Attend Workforce Education — noncredit study",
-      exact: true,
-    })
-    .press("Enter");
-  await expect(study).toContainText("2 attended sessions");
+  await expect(study).toContainText("period 1 of 1");
+  await expect(study).toContainText("Next tuition due");
   await saveLife(page);
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
   await openElsewhere(page, "work");
-  await expect(study).toContainText("2 attended sessions");
+  await expect(study).toContainText("period 1 of 1");
 });
 
 test("normal invitation pointer refusal preserves time and survives saving", async ({

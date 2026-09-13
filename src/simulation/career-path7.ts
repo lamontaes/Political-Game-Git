@@ -21,6 +21,7 @@ import {
   pathForRelationship,
   scheduleLifePathSession,
   performLifePathSession,
+  performLifePathWork,
   changeLifePathStatus,
   LIFE_PATHS2_HANDLERS,
 } from "./life-paths2";
@@ -311,7 +312,7 @@ export function completeCareerTask(
   id: EntityId,
   p: CareerProvider,
   activityId: EntityId,
-  deliverable: string,
+  deliverable = "",
   handlers: FutureTransitionHandlerRegistry = LIFE_PATHS2_HANDLERS,
 ): LifePathResult {
   const r = owned(w, id, p);
@@ -321,37 +322,70 @@ export function completeCareerTask(
       e.involvedEntityIds.includes(id) &&
       e.involvedEntityIds.includes(activityId),
   );
-  if (
-    !r ||
-    !planned ||
-    deliverable.trim().length < 10 ||
-    deliverable.length > 2000
-  )
+  const text = deliverable.trim();
+  if (text.length > 0 && (text.length < 10 || deliverable.length > 2000))
     return result(
       w,
       false,
-      "Describe the work you are submitting (10–2,000 characters).",
+      "A written submission, if offered, must be 10–2,000 characters.",
     );
+  if (!r || !planned)
+    return result(w, false, "This responsibility is not scheduled for you.");
   const reason = careerEligibility(w, p);
   if (reason) return result(w, false, reason);
   const performed = performLifePathSession(w, activityId, handlers);
   if (!performed.ok) return performed;
-  let n = event(
-    performed.world,
-    "deliverable",
-    [r.personId, id, activityId],
-    deliverable.trim(),
-  );
+  let n = performed.world;
+  if (text.length > 0)
+    n = event(n, "deliverable", [r.personId, id, activityId], text);
   n = event(
     n,
     "work-record",
     [r.personId, id, activityId],
-    `Your completed responsibility and submission are retained in your work record. ${planned.summary}`,
+    text.length > 0
+      ? `Your completed responsibility and submission are retained in your work record. ${planned.summary}`
+      : `Completed shift recorded. No written submission was required. ${planned.summary}`,
   );
   return result(
     n,
     true,
-    "Your work and submission are recorded. The completed shift is payable on the following day.",
+    "Your work is recorded. The completed shift is payable on the following day.",
+  );
+}
+
+export function performCareerWork(
+  w: World,
+  id: EntityId,
+  p: CareerProvider,
+  handlers: FutureTransitionHandlerRegistry = LIFE_PATHS2_HANDLERS,
+): LifePathResult {
+  const r = owned(w, id, p);
+  if (!r || workStatusAt(w, id)?.status !== "active")
+    return result(w, false, "This work is not active for you.");
+  const reason = careerEligibility(w, p);
+  if (reason) return result(w, false, reason);
+  const performed = performLifePathWork(w, id, handlers);
+  if (!performed.ok) return performed;
+  const activity = performed.world.history.scheduledActivities.find(
+    (a) =>
+      a.sourceEntityIds.includes(id) &&
+      performed.world.history.events.some(
+        (e) =>
+          e.type === "life-paths2.work-session" &&
+          e.involvedEntityIds.includes(a.id) &&
+          e.involvedEntityIds.includes(id),
+      ),
+  );
+  const n = event(
+    performed.world,
+    "work-record",
+    [r.personId, id, ...(activity ? [activity.id] : [])],
+    "Completed shift recorded. No written submission was required.",
+  );
+  return result(
+    n,
+    true,
+    "Your work is recorded. The completed shift is payable on the following day.",
   );
 }
 export function acceptCareerResponsibilities(
@@ -362,7 +396,7 @@ export function acceptCareerResponsibilities(
   const r = owned(w, id, p);
   const work = w.history.events.filter(
     (e) =>
-      e.type === "career-path7.work-record" && e.involvedEntityIds.includes(id),
+      e.type === "life-paths2.work-session" && e.involvedEntityIds.includes(id),
   );
   if (
     !r ||

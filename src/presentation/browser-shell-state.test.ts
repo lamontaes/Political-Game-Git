@@ -8,7 +8,17 @@ import {
 import { DEFAULT_PREFERENCES, refKey } from "./shell-navigation";
 import type { ShellRef } from "./shell-navigation";
 import type { EntityId } from "../simulation";
-import { createDemoWorld, serializeWorld, type World } from "../simulation";
+import {
+  cancelFutureDueItem,
+  createDemoWorld,
+  createResourcePosition,
+  money,
+  recordWorldEvent,
+  serializeWorld,
+  type World,
+} from "../simulation";
+import { enterLifePath } from "../simulation/life-paths2";
+import { migrateLegacyStudyProgression } from "../simulation/education-study-progression";
 import {
   createBrowserWorldRecord,
   type BrowserSaveStore,
@@ -160,7 +170,7 @@ describe("portable transfer uses the shell's v3 codec", () => {
     },
   };
 
-  function fixture() {
+  function fixture(world = playerWorld()) {
     const database = new FakeDatabase();
     database.stores.set(
       "interface",
@@ -170,7 +180,7 @@ describe("portable transfer uses the shell's v3 codec", () => {
       [
         SLOT,
         createBrowserWorldRecord(
-          playerWorld(),
+          world,
           "2026-09-12T00:00:00.000Z",
           undefined,
           SLOT,
@@ -246,6 +256,94 @@ describe("portable transfer uses the shell's v3 codec", () => {
       originalInterface,
     );
     expect(serializeWorld(playerWorld())).toBe(originalWorld);
+  });
+
+  it("migrates legacy study only in a new imported slot while retaining interface v3 and old history", async () => {
+    let world = createResourcePosition(playerWorld(), {
+      stableKey: "portable-legacy-study:funds",
+      owner: { kind: "person", personId: playerWorld().personOrder[0]! },
+      openedAt: playerWorld().currentDate,
+      openingBalance: money(5_000_000, "USD"),
+      provenance: { kind: "authored", note: "Portable legacy-study fixture." },
+    });
+    world = enterLifePath(world, "college-associate").world;
+    const enrollment = world.history.educationEnrollments.at(-1)!;
+    expect(enrollment).toBeDefined();
+    world = cancelFutureDueItem(world, {
+      stableKey: "portable-legacy-study:remove-period-due",
+      dueItemId: world.history.futureDueItems.at(-1)!.id,
+      effectiveAt: world.currentDate,
+      reasonKey: "migration:test-fixture",
+      context: "This legacy fixture predates period due items.",
+    });
+    for (let session = 1; session <= 24; session++) {
+      world = recordWorldEvent(world, {
+        stableKey: `portable-legacy-study:session:${session}`,
+        type: "life-paths2.study-session",
+        occurredAt: world.currentDate,
+        recordedAt: world.currentDate,
+        jurisdictionId: null,
+        involvedEntityIds: [world.personOrder[0]!, enrollment.id],
+        participants: [
+          {
+            personId: world.personOrder[0]!,
+            role: "agency:student",
+            detail: "Legacy study session",
+          },
+        ],
+        personFactConstraints: [],
+        visibility: "private",
+        tags: ["education", "legacy-study-session"],
+        summary: "A preserved legacy study session.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+    }
+    const expected = migrateLegacyStudyProgression(world);
+    expect(serializeWorld(expected)).not.toBe(serializeWorld(world));
+    expect(serializeWorld(migrateLegacyStudyProgression(expected))).toBe(
+      serializeWorld(expected),
+    );
+    const { database, records, store } = fixture(world);
+    const original = records.get(SLOT)!.payload;
+    const originalInterface = structuredClone(
+      database.stores.get("interface")!.get(SLOT),
+    );
+    const exported = await exportPortableSave(store, SLOT);
+    if (exported.status !== "ok") throw new Error(exported.reason);
+    const imported = await importPortableSave(store, exported.bundle);
+    if (imported.status !== "imported") throw new Error(imported.reason);
+    expect(imported.saveId).not.toBe(SLOT);
+    expect(records.get(imported.saveId)!.payload).toBe(
+      serializeWorld(expected),
+    );
+    expect(records.get(SLOT)!.payload).toBe(original);
+    expect(database.stores.get("interface")!.get(SLOT)).toEqual(
+      originalInterface,
+    );
+    const reopened = await new BrowserShellStateStore({
+      indexedDB: store.indexedDB,
+      databaseName: store.databaseName,
+    }).read(imported.saveId);
+    expect(reopened).toEqual(readStoredShellState(state));
+    expect(expected.history.educationEnrollments).toEqual(
+      world.history.educationEnrollments,
+    );
+    expect(
+      expected.history.events.filter(
+        (event) => event.type === "life-paths2.study-session",
+      ),
+    ).toEqual(
+      world.history.events.filter(
+        (event) => event.type === "life-paths2.study-session",
+      ),
+    );
   });
 
   it("refuses future records on export and at import's mutation boundary, leaving all records unchanged", async () => {

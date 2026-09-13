@@ -79,6 +79,13 @@ export const SCENE_VENUES: readonly SceneVenue[] = [
     isJourney: false,
   },
   {
+    locationKey: "ordinary-life:to-meeting-room",
+    sceneId: null,
+    reason:
+      "The game-authored journey to the posted local meeting, not arrival or attendance.",
+    isJourney: true,
+  },
+  {
     locationKey: "ordinary-life:meeting-room",
     sceneId: PUBLIC_MEETING_ROOM_SCENE_ID,
     reason:

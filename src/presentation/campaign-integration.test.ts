@@ -3,7 +3,9 @@ import { describe, expect, it } from "vitest";
 import {
   EPISODE_FAMILIES,
   activeWorkRelationshipsAt,
+  advanceWorld,
   campaignForCandidate,
+  createCampaignElectionTransitionRegistry,
   deserializeWorld,
   electionContestResult,
   eligibleEpisodeBeats,
@@ -12,7 +14,7 @@ import {
   type World,
 } from "../simulation";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
-import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
+import { openOrdinaryLife } from "./ordinary-life";
 import { projectCampaign, spendAnAfternoon } from "./campaign-projection";
 import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import {
@@ -118,7 +120,11 @@ describe("a state office does not move its winner's home", () => {
     const earlier = life.world.history;
     let world = spendAnAfternoon(life.world, life.personId, "fundraising");
     for (let day = 0; day < 3; day += 1) {
-      world = passOrdinaryDays(world);
+      world = advanceWorld(
+        world,
+        1,
+        createCampaignElectionTransitionRegistry(),
+      );
       world = spendAnAfternoon(world, life.personId, "outreach");
     }
     for (
@@ -126,7 +132,11 @@ describe("a state office does not move its winner's home", () => {
       day < 35 && projectCampaign(world, life.personId).phase === "active";
       day += 1
     ) {
-      world = passOrdinaryDays(world);
+      world = advanceWorld(
+        world,
+        1,
+        createCampaignElectionTransitionRegistry(),
+      );
     }
     expect(projectCampaign(world, life.personId).phase).toBe("won");
     world = deserializeWorld(serializeWorld(world));

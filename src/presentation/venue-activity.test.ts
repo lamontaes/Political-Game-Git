@@ -1,10 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { createNewGameWorld } from "./new-game";
-import { openOrdinaryLife } from "./ordinary-life";
+import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 import { performVenueActivity, venueActivities } from "./venue-activity";
 import { completedActivityHere, resolveVenueScene } from "./scene-venues";
 import {
   deserializeWorld,
+  cancelScheduledActivity,
+  recordWorldEvent,
   serializeWorld,
   simulationMinutesBetween,
   scheduledActivityState,
@@ -24,8 +26,48 @@ function life() {
     questionnaire: "skipped",
     priors: [],
   });
+  const initial = openOrdinaryLife(created.world, created.playerPersonId);
+  const journey = initial.history.scheduledActivities.find(
+    (a) => a.location.locationKey === "ordinary-life:to-meeting-room",
+  )!;
+  const opened = passOrdinaryDays(cancelScheduledActivity(initial, journey.id));
+  const activity = opened.history.scheduledActivities.find(
+    (candidate) =>
+      candidate.location.locationKey === "ordinary-life:meeting-room",
+  )!;
+  const world = recordWorldEvent(opened, {
+    stableKey: `venue-test:${activity.id}:already-there`,
+    type: "life.scene.arrived",
+    occurredAt: opened.currentDate,
+    recordedAt: opened.currentDate,
+    jurisdictionId: activity.location.jurisdictionId,
+    involvedEntityIds: [created.playerPersonId, activity.id],
+    participants: [
+      {
+        personId: created.playerPersonId,
+        role: "presence:participant",
+        detail: "Already at the public meeting room",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: ["venue-test", "place:ordinary-life:meeting-room"],
+    summary: "Already at the public meeting room.",
+    context: {
+      location: {
+        jurisdictionId: activity.location.jurisdictionId,
+        label: activity.location.label,
+        setting: "public meeting room",
+      },
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
   return {
-    world: openOrdinaryLife(created.world, created.playerPersonId),
+    world,
     personId: created.playerPersonId,
   };
 }

@@ -178,6 +178,7 @@ import {
   WorkspaceFrame,
 } from "./ShellWorkspaces";
 import { PlayerVersion } from "./PlayerVersion";
+import { PersonalRoutinePanel } from "./PersonalRoutinePanel";
 import {
   SaveImportControl,
   SaveTransferControls,
@@ -3013,12 +3014,23 @@ function renderWorkspace({
       return frame(
         view.section === "finances" ? "Money and property" : "Who you are",
         "personal-workspace",
-        <PersonalWorkspace
-          world={session.world}
-          personId={session.personId}
-          {...(view.section ? { section: view.section } : {})}
-          onOpenPerson={openPerson}
-        />,
+        <>
+          {view.section !== "finances" && (
+            <PersonalRoutinePanel
+              world={session.world}
+              personId={session.personId}
+              onWorldChange={onWorldChange}
+              onOpenEntity={openEntity}
+              onTogglePin={togglePin}
+            />
+          )}
+          <PersonalWorkspace
+            world={session.world}
+            personId={session.personId}
+            {...(view.section ? { section: view.section } : {})}
+            onOpenPerson={openPerson}
+          />
+        </>,
       );
 
     case "places":

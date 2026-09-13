@@ -1,4 +1,5 @@
 import delta from "../fixtures/opening-conversation-delta.json";
+import journeyDelta from "../fixtures/next24-journey-conversation-delta.json";
 import type { ordinaryConversationReplayRecords } from "./ordinary-conversation-replay";
 
 /** Undo only the inspected, source-accounted OPENING delta before comparing
@@ -9,7 +10,9 @@ export function acceptedMainComparableReplay(
   input: ReturnType<typeof ordinaryConversationReplayRecords>,
 ) {
   const result = structuredClone(input);
-  for (const change of delta.changes) {
+  // Reverse the fully inspected journey identity delta first. No prose,
+  // unknown leaf, or missing reference can be normalized away.
+  for (const change of [...journeyDelta.changes, ...delta.changes]) {
     let parent: unknown = result;
     for (const key of change.path.slice(0, -1)) {
       if (parent === null || typeof parent !== "object" || !(key in parent))

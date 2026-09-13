@@ -3,6 +3,10 @@ import type { EducationInstitution, EducationCapability } from "./types";
 import { institutionDateReason } from "./catalog";
 import type { World, EntityId } from "../simulation/types";
 import type { LifePathDefinition } from "../simulation/life-paths2-catalog";
+import {
+  bootstrapStudyPeriodProgression,
+  studyUsesPeriodModel,
+} from "../simulation/education-study-progression";
 import { lifePathEntryReason } from "../simulation/life-paths2";
 import {
   createOrganization,
@@ -36,13 +40,18 @@ export function studyDefinition(
     credential: `Completed noncredit ${capability.label.trim().toLowerCase()} study (game-authored record; no degree or license)`,
     prerequisiteProgram: null,
     minimumAge: 18,
-    sessionMinutes: 120,
-    sessionStartMinute: 1080,
-    minimumGapDays: 7,
-    requiredSessions: 8,
+    sessionMinutes: 0,
+    sessionStartMinute: 0,
+    minimumGapDays: 0,
+    requiredSessions: null,
     minimumElapsedDays: 49,
-    sessionCostMinor: 2500,
+    sessionCostMinor: 0,
     sessionPayMinor: 0,
+    progressionModel: "periods",
+    academicYears: 1,
+    periodsPerYear: 1,
+    daysPerPeriod: 49,
+    periodCostMinor: 20000,
     volunteerSupported: false,
     timeDemand: {
       expectedWeekly: { minimumHours: 2, maximumHours: 2 },
@@ -265,7 +274,7 @@ export function respondToEducationOffer(
     next,
     "offer-accepted",
     [offer.id, enrollment.id],
-    "You accepted the noncredit study terms. Attendance and charges require performing a scheduled session.",
+    "You accepted the noncredit study terms. Tuition is due when the study period ends.",
   );
   next = recordEvidenceArtifact(next, {
     stableKey: `edu-path7:accepted:${enrollment.id}`,
@@ -277,9 +286,13 @@ export function respondToEducationOffer(
     description: JSON.stringify(terms),
     provenance,
   });
+  if (studyUsesPeriodModel(terms.path))
+    next = bootstrapStudyPeriodProgression(next, enrollment.id, terms.path);
   return {
     ok: true as const,
     world: next,
-    message: "Enrolled. Schedule a session to begin studying.",
+    message: studyUsesPeriodModel(terms.path)
+      ? "Enrolled. Study advances by period as time passes."
+      : "Enrolled. Schedule a session to begin studying.",
   };
 }
