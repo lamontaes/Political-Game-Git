@@ -67,6 +67,29 @@ Existing G visual evidence remains historical, not a new-source play claim.
 
 ## LEARN
 
+#228's independent test-only Desktop repair landed normally at main
+af516110ad43941210038debae6cd87105d7f674, donor
+28e9dd281cce02debaf4aeb537cd1d8bc524ebb6. Exact clean donor's 44 Node tests
+passed; the existing controller and runtime remain unchanged. Actual current
+package/transfer/update receipt is Desktop-owned and separate.
+
+The full frozen visual9313 unit run passed 4670 tests, skipped two and failed
+one precise stale WEEKEND19 unpinned-v2 expectation. B owns its corrected test.
+The fresh-only root draft adapter bypasses initial drafts, replay and load paths.
+Frozen dd3945a6's 17 browser cases passed 15: the first fresh case read empty
+innerText from a closed disclosure and one wardrobe screenshot hit ENOSPC.
+Those are not a green aggregate. Correct the read with actual disclosure
+activation and retry the failed cases against an identified frozen successor.
+Only A's regenerable dist directories were removed (738MB/707MB); evidence,
+live play, owners and saves were untouched. No large new staging is needed.
+
+The two failed cases retried on 8e29c88c passed 2/2 in 45.5 seconds, with actual
+Advanced keyboard activation and unchanged generation/identity assertions.
+Receive final B cad73430b96a666f1360ea884deb13aa2030750e; its exact caller
+proof is mounted in e2e only alongside A's initializer. Original bytes match
+758ac1d1d318f85f2ef6c10361c381a989c91b9e. Existing root replay and load paths
+bypass candidate setup adaptation. Full exact combined visual proof follows.
+
 Never run fixture-writing unit suites in an identified live play tree. Test in
 the isolated receiver, freeze its source, and only then identify browser proof.
 Generated prose packets are derived composition, not an ownership conflict;

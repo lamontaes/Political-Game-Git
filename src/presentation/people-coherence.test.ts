@@ -156,8 +156,10 @@ describe("explicit new-life review lineage", () => {
     expect(setupForArtPreview(setup, "production")).toBe(setup);
     const old = { ...setup, appearanceRecipeVersion: undefined };
     expect(setupForArtPreview(old, "candidate-review")).toBe(old);
-    const pinned = { ...setup, appearanceCatalogGeneration: 2 };
-    expect(setupForArtPreview(pinned, "candidate-review")).toBe(pinned);
+    for (const generation of [1, 2, 3, 4]) {
+      const pinned = { ...setup, appearanceCatalogGeneration: generation };
+      expect(setupForArtPreview(pinned, "candidate-review")).toBe(pinned);
+    }
   });
   it("pins a new preview and replays that exact creation lineage without changing world identity", () => {
     const reviewed = setupForArtPreview(setup, "candidate-review");
@@ -168,8 +170,40 @@ describe("explicit new-life review lineage", () => {
     const decoded = decodeReplayDescriptor(encodeReplayDescriptor(reviewed))!;
     expect(decoded.appearanceCatalogGeneration).toBe(library.catalogGeneration);
     const game = createNewGameWorld(decoded);
-    for (const p of Object.values(game.world.people))
+
+    for (const p of Object.values(game.world.people)) {
       expect(p.appearance!.catalogGeneration).toBe(library.catalogGeneration);
+    }
+    // Exercise a real supported wardrobe choice using the freshly created person's pin.
+    const appearance = {
+      ...game.world.people[game.playerPersonId]!.appearance!,
+      selection: {
+        bodyFamily: "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+        headFamily: "pv4-ocd_head_adult_light_oval_young_v1",
+        hairFamily: null,
+      },
+    };
+    const resolved = resolveCharacterRecipe(
+      {
+        appearance,
+        poseFamily: "standing-neutral",
+        wardrobe: {
+          id: "fresh-proof",
+          families: {
+            top: ["pv4-wave-a-male-top-burgundy-long-sleeve-polo-v1"],
+          },
+        },
+      },
+      library,
+    );
+    expect(
+      resolved.context.components
+        .filter((c) => c.kind === "top")
+        .map((c) => c.assetId),
+    ).toEqual([
+      "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_matched_v1",
+      "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_matched_v1_collar_front",
+    ]);
     const old = decodeReplayDescriptor(encodeReplayDescriptor(setup))!;
     expect(old.appearanceCatalogGeneration).toBeUndefined();
   });

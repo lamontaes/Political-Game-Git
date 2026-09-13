@@ -19,5 +19,19 @@ add only its documented group/surface/home-jurisdiction read-only mount.
 Budget browser/static verification and civil #223 remain pending. B's corrected
 fresh-draft boundary and G's independent scene repair remain owner returns.
 
+Budget's six focused files passed 39 tests after a test-only explicit House
+office key repair (production filing remains fail-closed). Earlier ENOSPC
+attempts and the 30-second browser timeout are retained as failures. The same
+full native route/read/Back/save assertions passed 3/3 in 23.2 seconds on
+27b8eb9c, run a-return27-budget-27b8eb9c (5244), with a bounded 90-second
+complete-journey budget. Civil's 39 focused tests and 3 actual creator/procedure/
+time/reopen browser cases passed on that source (29.4 seconds, 5244).
+
+Compose final visual ff5c9fa6 (B cad73430 and G62010fb6) with D/Budget/Civil.
+Root, portable and canonical anchor inputs auto-merge unchanged except their
+documented adapters; only three derived prose reports require regeneration.
+Desktop's completed #228 delivery is banked without relabelling the older
+installed owner controller. Full combined validation and landing remain next.
+
 LEARN: resolve adapters against the newest root, never substitute a donor's
 whole root or a historical fixture import to remove a merge conflict.

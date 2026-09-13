@@ -18,6 +18,12 @@ import { createRequire } from "node:module";
 import os from "node:os";
 import path from "node:path";
 import { gameLaunchEnvironment } from "./game-launch-environment.mjs";
+import { isDeepStrictEqual } from "node:util";
+import {
+  readSavedRecords,
+  savedIdentity,
+  sameSavedIdentity,
+} from "./saved-identity-proof.mjs";
 
 const require = createRequire(
   path.join(
@@ -67,27 +73,49 @@ async function launch() {
 }
 
 let identity;
+let savedInterface;
+const review = process.env.OCD_EXPECT_ART_PREVIEW === "1";
+const databaseName = review
+  ? "political-life-worlds-art-preview"
+  : "political-life-worlds";
 
-/**
- * The identity block, read only once it has settled: three non-empty
- * lines, identical across two consecutive reads. A freshly begun life
- * renders its household line a beat after the name, and capturing the
- * half-rendered block is a harness race, not a game defect.
- */
-async function stableIdentity(page) {
-  let last = null;
-  for (let i = 0; i < 40; i += 1) {
-    const text = (await page.getByTestId("play-screen").innerText())
-      .split("\n")
-      .slice(0, 3)
-      .join("\n");
-    const settled =
-      text.split("\n").filter((l) => l.trim() !== "").length === 3;
-    if (settled && text === last) return text;
-    last = text;
-    await new Promise((r) => setTimeout(r, 250));
+async function assertVisiblePerson(page, expected) {
+  check(
+    "surface: normal play screen is visible",
+    await page.getByTestId("play-screen").isVisible(),
+  );
+  check(
+    "surface: review/production banner boundary",
+    (await page.getByTestId("art-preview-banner").count()) === (review ? 1 : 0),
+  );
+  await page.getByTestId("shell-nav-cluster").click();
+  await page.getByTestId("nav-personal-group").click();
+  await page.getByTestId("nav-personal").click();
+  await page.getByTestId("personal-appearance").click();
+  const card = page.getByTestId("full-dossier");
+  await card.waitFor();
+  check(
+    "surface: Personal opens the saved controlled person",
+    (await card.getAttribute("data-person-id")) === expected.personId,
+  );
+  if (review) {
+    await page
+      .getByTestId("saved-appearance-controls")
+      .getByText("Appearance and wardrobe", { exact: true })
+      .click();
+    const figure = page.getByTestId("wardrobe-full-body");
+    await figure.waitFor();
+    check(
+      "surface: candidate body uses saved person/appearance/catalog",
+      (await figure.getAttribute("data-person-id")) === expected.personId &&
+        (await figure.getAttribute("data-appearance-seed")) ===
+          expected.appearance.seed &&
+        (await figure.getAttribute("data-catalog-generation")) ===
+          String(expected.appearance.catalogGeneration) &&
+        (await figure.getAttribute("data-complete")) === "true",
+    );
   }
-  return last;
+  await page.getByTestId("person-workspace-close").click();
 }
 
 // ---- Session 1: launch, create, keep --------------------------------------
@@ -140,7 +168,6 @@ async function stableIdentity(page) {
   if (screenshot) {
     await page.screenshot({ path: path.resolve(screenshot), fullPage: true });
   }
-  identity = await stableIdentity(page);
   await page.getByTestId("shell-nav-cluster").click();
   await page.getByTestId("shell-nav-flyout").waitFor();
   await page.getByTestId("keep-world").click();
@@ -151,7 +178,19 @@ async function stableIdentity(page) {
   // the later durability acknowledgement. Do not race app.close against the
   // repository write or Playwright may collide with the legitimate close guard.
   await page.getByText("Saved.", { exact: true }).waitFor({ timeout: 15000 });
-  check("save: life kept", true, identity.split("\n")[0]);
+  const records = await readSavedRecords(page, databaseName);
+  if (records.worlds.length !== 1)
+    throw new Error("Expected exactly one persisted kept life.");
+  identity = savedIdentity(records.worlds[0]);
+  savedInterface = records.interfaces;
+  check(
+    "save: life kept with persisted identity",
+    true,
+    JSON.stringify(identity),
+  );
+  // Close the save flyout before independently inspecting the normal person surface.
+  await page.getByTestId("shell-nav-cluster").click();
+  await assertVisiblePerson(page, identity);
   check(
     "offline: no request left the packaged origin",
     foreign.length === 0,
@@ -224,21 +263,20 @@ async function stableIdentity(page) {
   check("reload: Continue offered after relaunch", continueEnabled);
   await continueButton.click();
   await page.getByTestId("play-screen").waitFor();
-  const back = await stableIdentity(page);
-  // On a GPU-less CI runner the household member's name can render later
-  // than the harness watches in session 1, so the continued block may be
-  // a superset of the kept one. Same life means: every line that DID
-  // render when keeping is still the leading content after continuing.
-  const keptLines = identity.split("\n").filter((l) => l.trim() !== "");
-  const backLines = back.split("\n");
-  const samePrefix =
-    keptLines.length >= 2 &&
-    keptLines.every((line, i) => backLines[i] === line);
+  const records = await readSavedRecords(page, databaseName);
+  if (records.worlds.length !== 1)
+    throw new Error("Continue changed the independent save-slot count.");
+  const back = savedIdentity(records.worlds[0]);
   check(
     "reload: the same life continues",
-    back === identity || samePrefix,
+    sameSavedIdentity(identity, back),
     JSON.stringify({ kept: identity, continued: back }),
   );
+  check(
+    "reload: complete stored interface preserved",
+    isDeepStrictEqual(savedInterface, records.interfaces),
+  );
+  await assertVisiblePerson(page, identity);
   check(
     "offline: no request left the packaged origin on relaunch",
     foreign.length === 0,
