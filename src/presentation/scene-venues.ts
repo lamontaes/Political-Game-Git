@@ -1,3 +1,4 @@
+import { municipalVenueForActivity } from "./municipal-venue";
 import {
   canPersonAccess,
   compareSimulationMoments,
@@ -261,7 +262,9 @@ export function resolveVenueScene(
       activityId: null,
       reason: "No completed attendance at this instant.",
     };
-  const venue = sceneVenueForLocationKey(activity.location.locationKey);
+  const venue =
+    municipalVenueForActivity(world, activity.id) ??
+    sceneVenueForLocationKey(activity.location.locationKey);
   if (!venue)
     return {
       sceneId: null,

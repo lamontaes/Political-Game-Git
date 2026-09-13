@@ -70,6 +70,14 @@ test("ordinary campaign action paints the storefront only in isolated candidate 
   await enterLife(page);
   await openElsewhere(page, "work");
   await expect(page.getByTestId("file-candidacy")).toBeVisible();
+  await expect(page.getByTestId("file-candidacy")).toBeDisabled();
+  const office = page
+    .getByTestId("campaign-office-browser")
+    .locator('input[value="us-ky-general-assembly-v1:house"]');
+  await office.focus();
+  await office.press("Space");
+  await expect(office).toBeChecked();
+  await expect(page.getByTestId("file-candidacy")).toBeEnabled();
   await page.getByTestId("file-candidacy").click();
   await expect(page.getByTestId("campaign-fundraising")).toBeEnabled();
   await page.getByTestId("campaign-fundraising").focus();
