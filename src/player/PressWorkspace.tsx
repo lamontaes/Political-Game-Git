@@ -33,6 +33,8 @@ import { PressInterviewPanel } from "./PressInterviewPanel";
 import {
   composePressRequestPitch,
   composeReporterQuestion,
+  plannedPressArrangementPlace,
+  projectPressBackgroundAttributions,
   PRESS_REQUEST_INTENT_COPY,
   PRESS_REQUEST_INTENTS,
   PRESS_REQUEST_STANCE_COPY,
@@ -83,6 +85,15 @@ export function PressWorkspace({
         })
       : [];
   const reporter = reporters.find((item) => item.workRoleId === reporterRoleId);
+  const attributions = controlledPersonId
+    ? projectPressBackgroundAttributions(world, controlledPersonId)
+    : [];
+  const selectedAttribution =
+    terms === "on-background"
+      ? attributions.includes(attribution)
+        ? attribution
+        : (attributions[0] ?? "")
+      : null;
   const pitch = topic
     ? composePressRequestPitch({
         subjectSummary: topic.summary,
@@ -90,6 +101,7 @@ export function PressWorkspace({
         stance,
         channel,
         terms,
+        backgroundAttribution: selectedAttribution,
       })
     : { ok: false as const, reason: "Choose a public development." };
   const reporterQuestion = topic
@@ -161,7 +173,7 @@ export function PressWorkspace({
                   channel,
                   terms,
                   backgroundAttribution:
-                    terms === "on-background" ? attribution : null,
+                    terms === "on-background" ? selectedAttribution : null,
                   pitch: pitch.statement,
                   primaryQuestion: reporterQuestion.statement,
                   questionBasisEventIds: [topic.eventId],
@@ -242,14 +254,27 @@ export function PressWorkspace({
               </select>
             </label>
             {terms === "on-background" ? (
-              <label>
-                Proposed attribution
-                <input
-                  required
-                  value={attribution}
-                  onChange={(event) => setAttribution(event.target.value)}
-                />
-              </label>
+              attributions.length ? (
+                <label>
+                  Proposed attribution
+                  <select
+                    data-testid="press-attribution-select"
+                    value={selectedAttribution ?? ""}
+                    onChange={(event) => setAttribution(event.target.value)}
+                  >
+                    {attributions.map((choice) => (
+                      <option key={choice} value={choice}>
+                        {choice}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              ) : (
+                <p role="status">
+                  On-background terms need a recorded work title. None is
+                  available in this life.
+                </p>
+              )
             ) : null}
             <fieldset>
               <legend>What you are asking for</legend>
@@ -319,7 +344,7 @@ export function PressWorkspace({
                     channel,
                     terms,
                     backgroundAttribution:
-                      terms === "on-background" ? attribution : null,
+                      terms === "on-background" ? selectedAttribution : null,
                     pitch: `The reporter asked for comment on “${topic.summary}”.`,
                     primaryQuestion: reporterQuestion.statement,
                     questionBasisEventIds: [topic.eventId],
@@ -467,7 +492,6 @@ function PressRequestActions({
   const [delay, setDelay] = useState(60);
   const [duration, setDuration] = useState(30);
   const [preparation, setPreparation] = useState(30);
-  const [place, setPlace] = useState("");
   const replies = world.history.events.filter((event) =>
     event.tags.includes(`press.request-event:${request.id}`),
   );
@@ -493,6 +517,12 @@ function PressRequestActions({
   );
   const end = addSimulationMinutes(start, validTiming ? duration : 1);
   const allowed = reporterReply?.context.choice === "accepted";
+  const requestChannel = PRESS_INTERVIEW_CHANNELS.find(
+    (value) => value === request.context.choice,
+  );
+  const arrangementPlace = requestChannel
+    ? plannedPressArrangementPlace(requestChannel)
+    : null;
   return (
     <li data-testid="press-saved-request">
       <strong>{request.context.motivation}</strong>
@@ -588,13 +618,17 @@ function PressRequestActions({
               onChange={(event) => setPreparation(Number(event.target.value))}
             />
           </label>
-          <label>
-            Planned meeting place
-            <input
-              value={place}
-              onChange={(event) => setPlace(event.target.value)}
-            />
-          </label>
+          {arrangementPlace ? (
+            <p data-testid="press-arrangement-place">
+              Planned meeting place: {arrangementPlace.label}. This names the
+              arranged channel and does not establish a room or anyone’s
+              arrival.
+            </p>
+          ) : (
+            <p role="status">
+              The recorded request has no arranged channel to meet through.
+            </p>
+          )}
           <p>
             Proposed start: {start.date} at{" "}
             {String(Math.floor(start.minuteOfDay / 60)).padStart(2, "0")}:
@@ -605,7 +639,7 @@ function PressRequestActions({
             type="button"
             data-testid="press-arrange-exchange"
             disabled={
-              !place.trim() ||
+              !arrangementPlace ||
               ![delay, duration].every(Number.isSafeInteger) ||
               delay < 0 ||
               duration < 1 ||
@@ -614,6 +648,7 @@ function PressRequestActions({
             }
             onClick={() =>
               onChange(() => {
+                if (!arrangementPlace) return world;
                 const prepared = adviserReply?.context.choice === "accepted";
                 const result = arrangeAcceptedPressInterview(world, {
                   stableKey: `${request.id}:arrangement`,
@@ -625,7 +660,7 @@ function PressRequestActions({
                   preparationMinutes: prepared ? preparation : 0,
                   location: {
                     locationKey: `press-planned:${request.id}`,
-                    label: place.trim(),
+                    label: arrangementPlace.label,
                   },
                 });
                 onSelect(result.activityId);

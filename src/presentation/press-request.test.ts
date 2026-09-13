@@ -3,6 +3,8 @@ import {
   composePressAnswer,
   composePressRequestPitch,
   composeReporterQuestion,
+  composeBackgroundAttribution,
+  plannedPressArrangementPlace,
 } from "./press-request";
 
 describe("ordinary press structured statements", () => {
@@ -22,12 +24,22 @@ describe("ordinary press structured statements", () => {
       stance: "refuse-speculation",
       channel: "spoken",
       terms: "on-background",
+      backgroundAttribution: "a State Representative",
     });
     expect(pitch).toEqual({
       ok: true,
       statement:
-        "The source offers a statement without adding unrecorded claims about “The council published the hearing notice.” on on-background spoken terms and will not speculate beyond the recorded file.",
+        "The source offers a statement without adding unrecorded claims about “The council published the hearing notice.” on on-background spoken terms to be attributed as “a State Representative” and will not speculate beyond the recorded file.",
     });
+    expect(
+      composePressRequestPitch({
+        subjectSummary: "The council published the hearing notice.",
+        intent: "offer-statement",
+        stance: "refuse-speculation",
+        channel: "spoken",
+        terms: "on-background",
+      }).ok,
+    ).toBe(false);
   });
 
   it("keeps the reporter question owned by the reporter", () => {
@@ -56,5 +68,26 @@ describe("ordinary press structured statements", () => {
       "The hearing ended without a final vote.",
     );
     expect(composed.statement).not.toContain("I feel");
+  });
+
+  it("composes attribution and arrangement labels from recorded titles and channel", () => {
+    expect(composeBackgroundAttribution("")).toEqual({
+      ok: false,
+      reason: "No recorded office or work title is available to attribute.",
+    });
+    expect(composeBackgroundAttribution("State Representative")).toEqual({
+      ok: true,
+      statement: "a State Representative",
+    });
+    expect(composeBackgroundAttribution("an office aide")).toEqual({
+      ok: true,
+      statement: "an office aide",
+    });
+    expect(plannedPressArrangementPlace("written")).toEqual({
+      label: "Written correspondence",
+    });
+    expect(plannedPressArrangementPlace("spoken")).toEqual({
+      label: "Spoken exchange",
+    });
   });
 });

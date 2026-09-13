@@ -63,7 +63,9 @@ test("ordinary News press route establishes a reporter, records the NPC decision
   await request.getByText("Arrange the accepted exchange").click();
   await request.getByLabel("Minutes from now").fill("0");
   await request.getByLabel("Exchange minutes").fill("20");
-  await request.getByLabel("Planned meeting place").fill("Office press room");
+  await expect(request.getByTestId("press-arrangement-place")).toContainText(
+    /Written correspondence|Spoken exchange/,
+  );
   await request.getByTestId("press-arrange-exchange").click();
 
   const panel = page.getByTestId("press-interview-panel");

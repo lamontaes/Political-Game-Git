@@ -1,4 +1,10 @@
-import type { PressRecordTerms, PressResponseIntent } from "../simulation";
+import { activeWorkRelationshipsAt } from "../simulation/life-queries";
+import type {
+  PressInterviewChannel,
+  PressRecordTerms,
+  PressResponseIntent,
+} from "../simulation/press-interviews";
+import type { EntityId, World } from "../simulation/types";
 
 export const PRESS_REQUEST_INTENTS = [
   "request-exchange",
@@ -49,12 +55,57 @@ export const PRESS_REQUEST_STANCE_COPY: Readonly<
   },
 };
 
+export const PRESS_ARRANGEMENT_PLACE_COPY: Readonly<
+  Record<PressInterviewChannel, { readonly label: string }>
+> = {
+  written: { label: "Written correspondence" },
+  spoken: { label: "Spoken exchange" },
+};
+
+export function plannedPressArrangementPlace(channel: PressInterviewChannel): {
+  readonly label: string;
+} {
+  return PRESS_ARRANGEMENT_PLACE_COPY[channel];
+}
+
+export function composeBackgroundAttribution(
+  roleTitle: string,
+):
+  | { readonly ok: true; readonly statement: string }
+  | { readonly ok: false; readonly reason: string } {
+  const title = roleTitle.trim();
+  if (!title)
+    return {
+      ok: false,
+      reason: "No recorded office or work title is available to attribute.",
+    };
+  if (/^(a|an|the)\s/i.test(title)) return { ok: true, statement: title };
+  const article = /^[aeiou]/i.test(title) ? "an" : "a";
+  return { ok: true, statement: `${article} ${title}` };
+}
+
+export function projectPressBackgroundAttributions(
+  world: World,
+  personId: EntityId,
+): readonly string[] {
+  const seen = new Set<string>();
+  const statements: string[] = [];
+  for (const { role } of activeWorkRelationshipsAt(world, personId)) {
+    const composed = composeBackgroundAttribution(role.title);
+    if (!composed.ok || seen.has(composed.statement)) continue;
+    seen.add(composed.statement);
+    statements.push(composed.statement);
+  }
+  return statements;
+}
+
 export function composePressRequestPitch(input: {
   readonly subjectSummary: string;
   readonly intent: PressRequestIntent;
   readonly stance: PressRequestStance;
   readonly channel: string;
   readonly terms: PressRecordTerms;
+  readonly backgroundAttribution?: string | null;
 }):
   | { readonly ok: true; readonly statement: string }
   | {
@@ -67,11 +118,22 @@ export function composePressRequestPitch(input: {
       ok: false,
       reason: "No public development is selected for this press request.",
     };
+  const attribution = input.backgroundAttribution?.trim() ?? "";
+  if (input.terms === "on-background" && !attribution)
+    return {
+      ok: false,
+      reason:
+        "On-background terms require a recorded work title for attribution.",
+    };
   const intent = PRESS_REQUEST_INTENT_COPY[input.intent];
   const stance = PRESS_REQUEST_STANCE_COPY[input.stance];
+  const attributionClause =
+    input.terms === "on-background"
+      ? ` to be attributed as “${attribution}”`
+      : "";
   return {
     ok: true,
-    statement: `The source ${intent.clause} about “${subject}” on ${input.terms} ${input.channel} terms and ${stance.clause}.`,
+    statement: `The source ${intent.clause} about “${subject}” on ${input.terms} ${input.channel} terms${attributionClause} and ${stance.clause}.`,
   };
 }
 
