@@ -77,7 +77,8 @@ export function lifeContextFor(setup: NewGameSetup): SetupLifeContext {
   return setupLifeContext({
     startAge: setup.startAge,
     startingLife:
-      setup.startingLife === "judicial-office-practice"
+      setup.startingLife === "judicial-office-practice" ||
+      setup.startingLife === "state-agency-director"
         ? "ordinary-life"
         : setup.startingLife,
     household: setup.household,

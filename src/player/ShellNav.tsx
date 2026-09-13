@@ -91,17 +91,19 @@ export interface ShellDestination {
 /**
  * The menu's headings, in the order they are read.
  *
- * Twelve destinations in one column made "the day", "the room" and "life
+ * A long ungrouped destination column made "the day", "the room" and "life
  * scenes" read as three names for one place and hid the real ones among them.
  * Grouped, the column says what kind of thing each entry is before the player
  * reads its name: what to do with the time, the people and places of the
  * world, the character's own record, and the game itself.
  */
-export type ShellDestinationGroup = "now" | "world" | "you" | "game";
+export type ShellDestinationGroup =
+  "now" | "world" | "politics" | "you" | "game";
 
 const GROUP_HEADINGS: Readonly<Record<ShellDestinationGroup, string>> = {
   now: "Your time",
   world: "People and places",
+  politics: "Politics",
   you: "You",
   game: "Game",
 };
@@ -109,6 +111,7 @@ const GROUP_HEADINGS: Readonly<Record<ShellDestinationGroup, string>> = {
 const GROUP_ORDER: readonly ShellDestinationGroup[] = [
   "now",
   "world",
+  "politics",
   "you",
   "game",
 ];

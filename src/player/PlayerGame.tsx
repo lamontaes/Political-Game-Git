@@ -163,6 +163,10 @@ import {
   type ShellState,
 } from "../presentation/shell-navigation";
 import { useShell } from "./useShell";
+import {
+  stateAgencyStartAvailableFor,
+  STATE_AGENCY_START_MINIMUM_AGE,
+} from "../simulation/civil-personnel-start";
 import { ShellNav, type ShellDestination } from "./ShellNav";
 import { ShellPinRail } from "./ShellPinRail";
 import { FullDossier, QuickDossier } from "./ShellDossier";
@@ -179,10 +183,12 @@ import {
   WorkspaceFrame,
 } from "./ShellWorkspaces";
 import { PlayerVersion } from "./PlayerVersion";
+import { PersonalRoutinePanel } from "./PersonalRoutinePanel";
 import {
   SaveImportControl,
   SaveTransferControls,
 } from "./SaveTransferControls";
+import { BudgetEconomyWorkspace } from "./BudgetEconomyWorkspace";
 
 /**
  * The game.
@@ -896,6 +902,9 @@ function SetupScreen({
   const officeAvailable =
     place?.capabilities.legislativeScenarioKey !== null &&
     setup.startAge >= LEGISLATIVE_OFFICE_MINIMUM_AGE;
+  const stateAgencyAvailable =
+    setup.startAge >= STATE_AGENCY_START_MINIMUM_AGE &&
+    stateAgencyStartAvailableFor(place?.stateJurisdictionKey ?? null);
   const genderStated = setup.gender && setup.gender !== "unstated";
   // The compact summaries the finished steps collapse to.
   const summaryText: Partial<Record<CreatorStep, string>> = {
@@ -914,7 +923,11 @@ function SetupScreen({
           setup.household === "shares-a-home" ? "Shares a home" : "Lives alone",
           setup.startingLife === "legislative-office"
             ? "Legislative staff"
-            : "Everyday life",
+            : setup.startingLife === "judicial-office-practice"
+              ? "Judicial office practice"
+              : setup.startingLife === "state-agency-director"
+                ? "State agency director"
+                : "Everyday life",
         ].join(" · ")
       : "",
     whoAreYou:
@@ -1236,8 +1249,13 @@ function SetupScreen({
                           ...now,
                           placeKey: candidate.key,
                           startingLife:
-                            candidate.capabilities.legislativeScenarioKey ===
-                            null
+                            (now.startingLife === "legislative-office" &&
+                              candidate.capabilities.legislativeScenarioKey ===
+                                null) ||
+                            (now.startingLife === "state-agency-director" &&
+                              !stateAgencyStartAvailableFor(
+                                candidate.stateJurisdictionKey,
+                              ))
                               ? "ordinary-life"
                               : now.startingLife,
                         }));
@@ -1455,6 +1473,32 @@ function SetupScreen({
               Fictional workplace and working relationships, for ages 25 and
               older. This start grants no election, appointment, legal term or
               authority to decide cases.
+            </small>
+          </button>
+          <button
+            type="button"
+            data-testid="state-agency-start"
+            disabled={!stateAgencyAvailable}
+            className={
+              setup.startingLife === "state-agency-director"
+                ? "is-chosen"
+                : undefined
+            }
+            onClick={() =>
+              setSetup((now) => ({
+                ...now,
+                startingLife: "state-agency-director",
+                depth: "summarize-earlier-life",
+              }))
+            }
+          >
+            State agency director
+            <small>
+              {stateAgencyStartAvailableFor(place?.stateJurisdictionKey ?? null)
+                ? setup.startAge < STATE_AGENCY_START_MINIMUM_AGE
+                  ? `Available for characters ${STATE_AGENCY_START_MINIMUM_AGE} and older.`
+                  : "A fictional state agency with existing staff. Its charter makes you the appointing authority; personnel procedures apply only where acquired law supports them."
+                : "Available only in a state whose personnel procedures the game has compiled."}
             </small>
           </button>
           <h3>At home</h3>
@@ -2233,6 +2277,14 @@ function PlayingScreen({
       testid: "nav-news",
       open: openSurface === "news",
       group: "world",
+    });
+    entries.push({
+      surface: "politics",
+      label: "Budget & economy",
+      hint: "Public budget records and dated economic context",
+      testid: "nav-politics-budget",
+      open: openSurface === "politics",
+      group: "politics",
     });
     entries.push({
       surface: "journal",
@@ -3019,12 +3071,23 @@ function renderWorkspace({
       return frame(
         view.section === "finances" ? "Money and property" : "Who you are",
         "personal-workspace",
-        <PersonalWorkspace
-          world={session.world}
-          personId={session.personId}
-          {...(view.section ? { section: view.section } : {})}
-          onOpenPerson={openPerson}
-        />,
+        <>
+          {view.section !== "finances" && (
+            <PersonalRoutinePanel
+              world={session.world}
+              personId={session.personId}
+              onWorldChange={onWorldChange}
+              onOpenEntity={openEntity}
+              onTogglePin={togglePin}
+            />
+          )}
+          <PersonalWorkspace
+            world={session.world}
+            personId={session.personId}
+            {...(view.section ? { section: view.section } : {})}
+            onOpenPerson={openPerson}
+          />
+        </>,
       );
 
     case "places":
@@ -3077,6 +3140,26 @@ function renderWorkspace({
           />
         </>,
       );
+
+    case "politics": {
+      const homeJurisdictionId =
+        session.world.people[session.personId]?.homeJurisdictionId;
+      return frame(
+        "Politics",
+        "politics-workspace",
+        homeJurisdictionId ? (
+          <BudgetEconomyWorkspace
+            world={session.world}
+            jurisdictionId={homeJurisdictionId}
+          />
+        ) : (
+          <p className="game-note" role="status">
+            This life has no home jurisdiction to inspect.
+          </p>
+        ),
+        "Budget & economy",
+      );
+    }
 
     case "journal":
       return frame(

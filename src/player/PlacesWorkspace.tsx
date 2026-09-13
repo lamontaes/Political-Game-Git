@@ -14,7 +14,10 @@ import {
   type PlacesOfferView,
 } from "../presentation/player-places";
 import { walkOpeningNeighborhood } from "../presentation/life-scene-flow";
-import { performVenueActivity } from "../presentation/venue-activity";
+import {
+  declineVenueActivity,
+  performVenueActivity,
+} from "../presentation/venue-activity";
 
 /** Entity references UI-core passes through `openEntity` / `togglePin`. */
 export type PlacesEntityRef =
@@ -124,7 +127,14 @@ export function PlacesWorkspace({
       return;
     }
     if (fresh.activityId) {
-      commit(() => performVenueActivity(world, personId, fresh.activityId!));
+      commit(() =>
+        performVenueActivity(
+          world,
+          personId,
+          fresh.activityId!,
+          transitionHandlers,
+        ),
+      );
       return;
     }
     if (fresh.governmentKey && fresh.meetingId) {
@@ -142,6 +152,13 @@ export function PlacesWorkspace({
     }
     setOutcome(null);
     setProblem("That offer is not supported.");
+  }
+
+  function declineOffer(offer: PlacesOfferView) {
+    if (!offer.declineActivityId) return;
+    commit(() =>
+      declineVenueActivity(world, personId, offer.declineActivityId!),
+    );
   }
 
   return (
@@ -212,15 +229,27 @@ export function PlacesWorkspace({
                     </p>
                   ) : null}
                 </div>
-                <button
-                  type="button"
-                  disabled={offer.unavailable !== null}
-                  aria-label={`${actionLabel(offer)}: ${offer.title}`}
-                  data-testid={`places-offer-${offer.id}-action`}
-                  onClick={() => runOffer(offer)}
-                >
-                  {actionLabel(offer)}
-                </button>
+                <div>
+                  <button
+                    type="button"
+                    disabled={offer.unavailable !== null}
+                    aria-label={`${actionLabel(offer)}: ${offer.title}`}
+                    data-testid={`places-offer-${offer.id}-action`}
+                    onClick={() => runOffer(offer)}
+                  >
+                    {actionLabel(offer)}
+                  </button>
+                  {offer.declineActivityId ? (
+                    <button
+                      type="button"
+                      aria-label={`Decline: ${offer.title}`}
+                      data-testid={`places-offer-${offer.id}-decline`}
+                      onClick={() => declineOffer(offer)}
+                    >
+                      Decline
+                    </button>
+                  ) : null}
+                </div>
               </li>
             ))}
           </ul>

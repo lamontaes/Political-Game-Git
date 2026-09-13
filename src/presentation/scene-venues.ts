@@ -1,3 +1,4 @@
+import { municipalVenueForActivity } from "./municipal-venue";
 import {
   canPersonAccess,
   compareSimulationMoments,
@@ -77,6 +78,13 @@ export const SCENE_VENUES: readonly SceneVenue[] = [
     reason:
       "This is ordinary paid work recorded on the player's calendar. No released workplace interior is bound to it, so the activity remains playable without borrowing another institution's room.",
     isJourney: false,
+  },
+  {
+    locationKey: "ordinary-life:to-meeting-room",
+    sceneId: null,
+    reason:
+      "The game-authored journey to the posted local meeting, not arrival or attendance.",
+    isJourney: true,
   },
   {
     locationKey: "ordinary-life:meeting-room",
@@ -261,7 +269,9 @@ export function resolveVenueScene(
       activityId: null,
       reason: "No completed attendance at this instant.",
     };
-  const venue = sceneVenueForLocationKey(activity.location.locationKey);
+  const venue =
+    municipalVenueForActivity(world, activity.id) ??
+    sceneVenueForLocationKey(activity.location.locationKey);
   if (!venue)
     return {
       sceneId: null,

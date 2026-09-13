@@ -8,6 +8,7 @@ import {
   money,
   serializeWorld,
   deserializeWorld,
+  advanceWorld,
 } from "../simulation/index";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { educationEnrollmentStateAt } from "../simulation/life-queries";
@@ -16,15 +17,16 @@ import {
   pendingEducationOffers,
   respondToEducationOffer,
   educationOptionReason,
+  studyDefinition,
 } from "./study-provider";
 import {
-  scheduleLifePathSession,
-  performLifePathSession,
   changeLifePathStatus,
   hasLifePathCredential,
   pathForRelationship,
   enterLifePath,
+  LIFE_PATHS2_HANDLERS,
 } from "../simulation/life-paths2";
+import { completedStudyPeriods } from "../simulation/education-study-progression";
 import type { EducationInstitution } from "./types";
 import type { World } from "../simulation/types";
 // Semantic fixture only; authentic source vectors are tested separately through locked production.
@@ -101,7 +103,7 @@ const balance = (w: World) =>
     money(0, "USD").currency,
   )!.liquidBalance.minorUnits;
 describe("EDU canonical LIFE composition", () => {
-  it("keeps request, choice, attendance, fees, interruption, reload and earned completion separate", () => {
+  it("keeps request, choice, period progression, fees, interruption, reload and earned completion separate", () => {
     let w = fixture();
     const start = balance(w);
     w = applyForEducation(w, institution, "NONCRDT1").world;
@@ -114,26 +116,14 @@ describe("EDU canonical LIFE composition", () => {
     expect(hasLifePathCredential(w, e.personId, e.programKind)).toBe(false);
     expect(respondToEducationOffer(w, offer.id, true).ok).toBe(false);
     w = deserializeWorld(serializeWorld(w));
-    expect(pathForRelationship(w, e.id)?.sessionCostMinor).toBe(2500);
-    w = scheduleLifePathSession(w, e.id).world;
-    w = performLifePathSession(
-      w,
-      w.history.scheduledActivities.at(-1)!.id,
-    ).world;
-    expect(balance(w)).toBe(start - 2500);
+    expect(pathForRelationship(w, e.id)?.periodCostMinor).toBe(20000);
+    w = advanceWorld(w, 30, LIFE_PATHS2_HANDLERS);
+    expect(completedStudyPeriods(w, e.id)).toBe(0);
     w = changeLifePathStatus(w, e.id, "pause").world;
-    expect(scheduleLifePathSession(w, e.id).ok).toBe(false);
     w = deserializeWorld(serializeWorld(w));
     w = changeLifePathStatus(w, e.id, "return").world;
-    for (let i = 1; i < 8; i++) {
-      w = scheduleLifePathSession(w, e.id).world;
-      const r = performLifePathSession(
-        w,
-        w.history.scheduledActivities.at(-1)!.id,
-      );
-      expect(r.ok).toBe(true);
-      w = r.world;
-    }
+    w = advanceWorld(w, 49, LIFE_PATHS2_HANDLERS);
+    expect(completedStudyPeriods(w, e.id)).toBe(1);
     expect(educationEnrollmentStateAt(w, e.id)?.status).toBe("completed");
     expect(hasLifePathCredential(w, e.personId, e.programKind)).toBe(true);
     expect(balance(w)).toBe(start - 20000);
@@ -195,8 +185,8 @@ describe("saved accepted terms controls", () => {
     ).world;
     const enrollment = w.history.educationEnrollments.at(-1)!;
     const saved = deserializeWorld(serializeWorld(w));
-    expect(pathForRelationship(saved, enrollment.id)?.sessionCostMinor).toBe(
-      2500,
+    expect(pathForRelationship(saved, enrollment.id)?.periodCostMinor).toBe(
+      20000,
     );
     const artifacts = saved.history.evidenceArtifacts.map((a) =>
       a.evidenceKind === "education:accepted-study-terms-v1"
@@ -213,16 +203,10 @@ describe("saved accepted terms controls", () => {
       ...saved,
       history: { ...saved.history, evidenceArtifacts: artifacts },
     };
-    expect(scheduleLifePathSession(unsupported, enrollment.id).ok).toBe(false);
-    expect(scheduleLifePathSession(unsupported, enrollment.id).world).toBe(
-      unsupported,
-    );
+    const after = advanceWorld(unsupported, 60, LIFE_PATHS2_HANDLERS);
+    expect(completedStudyPeriods(after, enrollment.id)).toBe(0);
     expect(
-      hasLifePathCredential(
-        unsupported,
-        enrollment.personId,
-        enrollment.programKind,
-      ),
+      hasLifePathCredential(after, enrollment.personId, enrollment.programKind),
     ).toBe(false);
   });
   it("refuses another actor and a duplicate concurrent enrollment", () => {
@@ -239,5 +223,23 @@ describe("saved accepted terms controls", () => {
     expect(
       respondToEducationOffer(w, pendingEducationOffers(w)[0]!.id, true).ok,
     ).toBe(false);
+  });
+  it("keeps legacy session terms playable when saved before period simplification", () => {
+    const legacyPath = {
+      ...studyDefinition(institution, institution.capabilities[0]!),
+      progressionModel: undefined,
+      sessionMinutes: 120,
+      sessionStartMinute: 1080,
+      minimumGapDays: 7,
+      requiredSessions: 8,
+      minimumElapsedDays: 49,
+      sessionCostMinor: 2500,
+      periodCostMinor: undefined,
+      academicYears: undefined,
+      periodsPerYear: undefined,
+      daysPerPeriod: undefined,
+    };
+    expect(legacyPath.requiredSessions).toBe(8);
+    expect(legacyPath.sessionCostMinor).toBe(2500);
   });
 });

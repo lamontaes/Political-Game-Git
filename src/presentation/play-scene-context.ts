@@ -43,8 +43,8 @@ import {
  * membership, and it refuses to paint a home as a school.
  *
  * A owns the PlayerGame mount. Call `resolvePlaySceneContext` instead of
- * `resolveLifeScene` for the play surface; keep municipal activity handling
- * in the root if that path stays there.
+ * `resolveLifeScene` for the play surface. Canonical completed municipal
+ * activities share the venue projection even while the introduction is visible.
  */
 
 export const SCHOOL_CORRIDOR_LOCATION_KEY = "formative:school-corridor";
@@ -111,6 +111,15 @@ export function resolveOpeningPlaySceneContext(
         ]
       : [];
   });
+  const activityVenue = resolveVenueScene(world, personId, scenes, library);
+  if (activityVenue.activityId !== null)
+    return contextFromActivity(
+      world,
+      personId,
+      { presentPeople },
+      activityVenue,
+    );
+
   if (setting === "neighborhood" || setting === null)
     return {
       purpose: "unspecified",
@@ -198,7 +207,7 @@ export function resolvePlaySceneContext(
 function contextFromActivity(
   world: World,
   personId: EntityId,
-  scene: ContextScene,
+  scene: Pick<ContextScene, "presentPeople">,
   venue: VenueResolution,
 ): PlaySceneContext {
   const activity = completedActivityHere(world, personId, venue.activityId!);

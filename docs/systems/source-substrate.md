@@ -315,3 +315,10 @@ class/date limitation queries and private canonical personnel preparation
 Work; it does not establish operative dates, appointing authority or an actual
 legal personnel journey. See the precise [CIVIL-WORK7 handoff](../handoffs/civil-work7.md)
 for delivered APIs, interface pins and the outstanding dependent actions.
+
+CIVIL-AUTHORITY13 adds reviewed procedure transcriptions to that same
+projection, again without touching the domain. Each procedure's excerpts and
+numeric terms are re-found in the rights-scoped enacted text on every
+compilation, so Minnesota's § 43A.02 definitions, which lie outside the pinned
+region, cannot be cited. The consumer contract is in
+[Public personnel](public-personnel.md).
