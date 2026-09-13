@@ -101,6 +101,7 @@ import {
   artPreviewLibraries,
   artPreviewMode,
   previewDatabaseName,
+  prepareCandidateOpeningWorld,
   setupForArtPreview,
   type ArtPreviewMode,
 } from "../presentation/art-preview";
@@ -318,7 +319,12 @@ export function PlayerGame() {
     try {
       const game =
         createOpeningLifeController(replaySetup).finishTransition().game!;
-      startPlaying(game.world, game.playerPersonId, replaySetup.seed, null);
+      startPlaying(
+        prepareCandidateOpeningWorld(game.world, replaySetup, previewMode),
+        game.playerPersonId,
+        replaySetup.seed,
+        null,
+      );
     } catch (error) {
       setProblem(
         error instanceof Error
@@ -593,7 +599,11 @@ export function PlayerGame() {
               try {
                 const game = screen.controller.finishTransition().game!;
                 startPlaying(
-                  game.world,
+                  prepareCandidateOpeningWorld(
+                    game.world,
+                    screen.setup,
+                    previewMode,
+                  ),
                   game.playerPersonId,
                   screen.setup.seed,
                   null,
