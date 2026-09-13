@@ -13,7 +13,11 @@ import {
 import { openOrdinaryLife } from "./ordinary-life";
 import { createNewGameWorld, type NewGameSetup } from "./new-game";
 import { resolveLifeScene } from "./life-scene";
-import { PUBLIC_MEETING_ROOM_SCENE_ID, SCENE_REGISTRY } from "./scene-registry";
+import {
+  CAMPAIGN_STOREFRONT_SCENE_ID,
+  PUBLIC_MEETING_ROOM_SCENE_ID,
+  SCENE_REGISTRY,
+} from "./scene-registry";
 import {
   resolveVenueScene,
   SCENE_VENUES,
@@ -93,11 +97,16 @@ describe("the venue table", () => {
    */
   it("reports the canonical places that have no room, rather than substituting one", () => {
     const roomless = venuesWithoutRooms().map((venue) => venue.locationKey);
-    expect(roomless).toContain("campaign-office");
+    expect(roomless).not.toContain("campaign-office");
     expect(roomless).toContain("executive-office");
     expect(roomless).toContain("campaign-doors");
-    // The one that must NOT be borrowed for the campaign office.
-    expect(sceneVenueForLocationKey("campaign-office")?.sceneId).toBeNull();
+    // Campaign office resolves its own dedicated campaign storefront scene.
+    expect(sceneVenueForLocationKey("campaign-office")?.sceneId).toBe(
+      CAMPAIGN_STOREFRONT_SCENE_ID,
+    );
+    expect(sceneVenueForLocationKey("campaign-call-desk")?.sceneId).toBe(
+      CAMPAIGN_STOREFRONT_SCENE_ID,
+    );
   });
 
   it("names the production rooms no canonical location reaches", () => {

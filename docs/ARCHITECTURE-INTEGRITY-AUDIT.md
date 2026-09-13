@@ -1191,3 +1191,29 @@ or second consent engine.
 | Time and work    | Canonical reuse      | Prepared interviews still create the existing work item. Unprepared interviews skip it and allow drafting after arrangement.                                                                                                                                                                                                                                |
 | Publication      | Single path          | Off-record still has no story writer. On-record/background still call `publishPublicEvent`.                                                                                                                                                                                                                                                                 |
 | UI/ENV ownership | Preserved            | `PlayerGame` is untouched. `PressWorkspace` and `PressInterviewPanel` remain the existing consumers.                                                                                                                                                                                                                                                        |
+
+## POST-HANDOFF26 G location follow-through — 2026-09-12
+
+- Reuses scene spec/registry, tier derivation, shared backdrop, candidate person
+  provider and canonical completed-activity resolver. No simulation/domain edit,
+  second clock, location store, attendance writer or parallel person renderer.
+- The finite development library promotes no persistent record. Production
+  callers keep released-only defaults; the root passes the candidate library
+  only under the existing development art-preview gate and its isolated
+  World/interface database. The separate review route is DEV-only.
+- Candidate engineering is not human acceptance. Storefront promotion in the
+  retained historical source lacked same-source acceptance; it is now pending.
+  Unknown rights/native detail stay unknown/unverified. Press/pavilion remain
+  unbound to normal venue producers; no school or hearing-room substitution.
+- Existing activity participant filtering remains the presence authority. The
+  root no longer discards already-filtered participants before composition.
+  Current campaign phone-session producer lists only the player, who is the
+  viewpoint; its aftermath correctly paints no household people.
+- Visual-estimate contact/footprint/silhouette data stays explicit and uncalibrated.
+  No old scene ramp/body width is inherited; seated certainty is not fabricated.
+- Stable source bytes and original G ancestry retained. Root/main integration is
+  A-owned; this isolated branch is an attributable leaf return.
+
+## G return28 completed-activity scene context — 2026-09-12
+
+Confirmed compatible: the opening and later play projections share exact source-backed municipal venue resolution, preserving canonical completion-at-current-instant, access, non-travel and released-art gates. Unknown opening art cannot erase actual completed activity presence; narrative text cannot create venue identity. Corrected now: shared Carson City binding regression. Deferred through concrete input: normal physical press venue declaration with legitimate access and explicit in-person use; generic room art, a typed label and spoken channel supply no such authority. No simulation writer, geography, attendance, source art or candidate acceptance rule is changed.

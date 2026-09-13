@@ -1,5 +1,5 @@
 {
-  "totalItems": 1872,
+  "totalItems": 1880,
   "items": [
     {
       "filePath": "families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png",
@@ -8,6 +8,14 @@
     {
       "filePath": "families/apartment-ordinary/env_residence_apartment_living_ordinary_02_v1.png",
       "hash": "8d0863e1c8423e6cb61682cbf025e1590f7bd5bf4fd964864b05d79f8e8838fe"
+    },
+    {
+      "filePath": "families/campaign-storefront/env_campaign_storefront_runtime_2x_v1.png",
+      "hash": "8ed3362367898887a638b78caf95e55600f98dcaf9aa154d197a0035fc467663"
+    },
+    {
+      "filePath": "families/campaign-storefront/env_campaign_storefront_v1.png",
+      "hash": "35a37c8a6526a86eb569be61383558c1b90369abb9c185d21a7d5765d52edfc0"
     },
     {
       "filePath": "families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_runtime_2048_v1.png",
@@ -46,12 +54,36 @@
       "hash": "482887a6dc4da8d3879f542c0f6eafa2e39f995ad6c14bcc050f0231bcc8cbc4"
     },
     {
+      "filePath": "families/executive-private-office/env_executive_office_runtime_2x_v1.png",
+      "hash": "71f7043510a374d2d27936a058c170729de6d4ba6924682c1090b44868ccfe6b"
+    },
+    {
+      "filePath": "families/executive-private-office/env_executive_office_v1.png",
+      "hash": "1f77a0b5f908cd43a4aa99d56df42e000fc8514a26ded64c178f032ece55e4b6"
+    },
+    {
       "filePath": "families/legislative-chamber/env_legislative_chamber_floor_runtime_2x_v1.png",
       "hash": "184a68b7a82a3fef6e0167cde0ceb3b373484253ddd6185265c89e254a52c493"
     },
     {
       "filePath": "families/legislative-chamber/env_legislative_chamber_floor_v1.png",
       "hash": "ed0d0b9cdf433fbaea959967645568cdebda5d46aec8d6b62c8e6cd0c6ff8728"
+    },
+    {
+      "filePath": "families/park-community-pavilion/env_park_community_pavilion_runtime_2x_v1.png",
+      "hash": "228fd1dcf898c13277c0efc301f3347d0baab8a5d49076a6cb0a769aac242dbc"
+    },
+    {
+      "filePath": "families/park-community-pavilion/env_park_community_pavilion_v1.png",
+      "hash": "d785b09e41f02a41b625a2fccda9f840dadc5f56cf3fd3f388350aeec6f4f813"
+    },
+    {
+      "filePath": "families/press-briefing-room/env_press_briefing_room_candidate_v1-1376.png",
+      "hash": "f36ddf9b0161e182711c3496adbc5e678a5864e382322b0a1b9d1a96fa00e4f8"
+    },
+    {
+      "filePath": "families/press-briefing-room/env_press_briefing_room_candidate_v1-2752.png",
+      "hash": "9ba4ba3e5eea2dddcbdc70a15b4a3a4f3c87fea6553c32e528d29f835e2986a5"
     },
     {
       "filePath": "families/shared-workroom-office/env_shared_workroom_office_runtime_2x_v1.png",

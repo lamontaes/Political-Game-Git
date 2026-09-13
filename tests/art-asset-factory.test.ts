@@ -842,6 +842,10 @@ describe("Packet 76 approved runtime art", () => {
       // clears it outright and is held back because no canonical court
       // proceeding exists for a life to attend.
       "courtroom",
+      // Authored candidate families do not imply released plates.
+      "campaign-storefront",
+      "park-community-pavilion",
+      "press-briefing-room",
     ]);
   });
 
