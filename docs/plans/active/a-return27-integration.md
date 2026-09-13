@@ -50,6 +50,21 @@ private; no human art approval is inferred. Actual attached controller readback
 still points to installed `6e227fb2a2a1d7d6b54173aaae1ed05f79892d78`, not current
 main; the retrievable d5 package remains a distinct delivered artifact.
 
+## Visual receiver checkpoint
+
+Frozen source `71cf2564caa3b62a4621f3b02e8ba006377e56ff`, published #227,
+passed all 11 G/B browser journeys (59.8 seconds), run
+`a-return27-visual-71cf2564` on identified port 5241. Seventy-seven affected
+tests passed before one stale G office fixture failed; the test-only explicit
+office adapter then passed the repaired case. Candidate gates and identity
+assertions remain intact. Art validation/inventory/QA and corpus check passed.
+
+G subsequently published `62010fb60ef5e1f53189bc6c580caba274d8e2ba`, preserving
+6c7 and main22. Location runtime/assets/root adapter are unchanged; consume its
+family-list and generated-report closure as ancestry, without replaying desktop
+or E. Regenerate combined reports rather than replacing newer E anchor bindings.
+Existing G visual evidence remains historical, not a new-source play claim.
+
 ## LEARN
 
 Never run fixture-writing unit suites in an identified live play tree. Test in
