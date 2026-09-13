@@ -265,17 +265,18 @@ function projectStaffBriefing(
         "Opening a recommendation does not adopt it or change the bill.",
     };
   }
+  const measureId = input.measureId;
   const inspections = officeBriefingInspections(world).filter(
     (record) =>
       record.personId === input.playerPersonId &&
       record.officeRelationshipId === input.seat.relationshipId &&
-      record.measureId === input.measureId,
+      record.measureId === measureId,
   );
   const inspected = (kind: "amendment" | "filed-section", itemId: EntityId) =>
     inspections.some(
       (record) => record.itemKind === kind && record.itemId === itemId,
     );
-  const amendments = measureAmendments(world, input.measureId);
+  const amendments = measureAmendments(world, measureId);
   const items: OfficeBriefingItem[] = amendments.map((amendment) => {
     const known = staffKnowAmendment(world, input.staff, amendment.id);
     return {
@@ -296,12 +297,12 @@ function projectStaffBriefing(
     const introduction = world.history.events.find(
       (record) =>
         record.type === "legislation.measure-introduced" &&
-        record.involvedEntityIds.includes(input.measureId),
+        record.involvedEntityIds.includes(measureId),
     );
     const knownFromStaff = introduction
       ? staffKnowEvent(world, input.staff, introduction.id)
       : true;
-    for (const section of currentMeasureProvisions(world, input.measureId)) {
+    for (const section of currentMeasureProvisions(world, measureId)) {
       items.push({
         kind: "filed-section",
         itemId: section.id,

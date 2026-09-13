@@ -42,25 +42,37 @@ export function newOnboardingLife(seed: string) {
 }
 
 export function wonLegislativeSeat(seed: string) {
-  const life = newOnboardingLife(seed);
-  let world = fileForOffice(life.world, life.personId);
-  world = spendAnAfternoon(world, life.personId, "fundraising");
-  for (let index = 0; index < 3; index += 1) {
-    world = advanceWorld(world, 1, createCampaignElectionTransitionRegistry());
-    world = spendAnAfternoon(world, life.personId, "outreach");
+  for (let attempt = 0; attempt < 12; attempt += 1) {
+    const life = newOnboardingLife(
+      attempt === 0 ? seed : `${seed}:retry-${attempt}`,
+    );
+    let world = fileForOffice(life.world, life.personId);
+    world = spendAnAfternoon(world, life.personId, "fundraising");
+    for (let index = 0; index < 3; index += 1) {
+      world = advanceWorld(
+        world,
+        1,
+        createCampaignElectionTransitionRegistry(),
+      );
+      world = spendAnAfternoon(world, life.personId, "outreach");
+    }
+    for (
+      let day = 0;
+      day < 60 && projectCampaign(world, life.personId).phase === "active";
+      day += 1
+    ) {
+      world = advanceWorld(
+        world,
+        1,
+        createCampaignElectionTransitionRegistry(),
+      );
+    }
+    const membership = resolveActiveMemberSeat(world, life.personId);
+    if (membership.kind === "seated") {
+      return { world, personId: life.personId, seat: membership.seat };
+    }
   }
-  for (
-    let day = 0;
-    day < 60 && projectCampaign(world, life.personId).phase === "active";
-    day += 1
-  ) {
-    world = advanceWorld(world, 1, createCampaignElectionTransitionRegistry());
-  }
-  const membership = resolveActiveMemberSeat(world, life.personId);
-  if (membership.kind !== "seated") {
-    throw new Error(membership.reason);
-  }
-  return { world, personId: life.personId, seat: membership.seat };
+  throw new Error(`No seed produced a seated member from ${seed}.`);
 }
 
 export function openOfficeBill(world: World, personId: EntityId) {

@@ -259,7 +259,7 @@ describe("L staff-guided office onboarding", () => {
       believedSummary: "Staff have not established what was filed.",
       accuracy: "unknown",
       confidence: "low",
-      source: { kind: "direct" },
+      source: { kind: "public-record", reference: "office filing file" },
     });
     const briefing = projectOfficeOnboarding(
       informed,
