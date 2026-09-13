@@ -53,8 +53,10 @@ test("fresh candidate draft pins before replay encoding; replay and saved life r
   test.setTimeout(90000);
   await page.goto("/?seed=a-fresh-candidate&art-preview=candidate");
   await fillCreator(page, { age: 34 });
+  await page.getByTestId("setup-advanced").locator("summary").press("Enter");
+  await expect(page.getByTestId("setup-replay-link")).toBeVisible();
   const replay = (
-    await page.getByTestId("setup-replay-link").innerText()
+    (await page.getByTestId("setup-replay-link").textContent()) ?? ""
   ).trim();
   expect(
     readReplaySetup(new URL(replay, "http://localhost").search)
@@ -126,8 +128,10 @@ test("fresh production draft does not mount generation four", async ({
   test.setTimeout(90000);
   await page.goto("/?seed=a-fresh-production");
   await fillCreator(page, { age: 34 });
+  await page.getByTestId("setup-advanced").locator("summary").press("Enter");
+  await expect(page.getByTestId("setup-replay-link")).toBeVisible();
   const replay = (
-    await page.getByTestId("setup-replay-link").innerText()
+    (await page.getByTestId("setup-replay-link").textContent()) ?? ""
   ).trim();
   expect(
     readReplaySetup(new URL(replay, "http://localhost").search)
