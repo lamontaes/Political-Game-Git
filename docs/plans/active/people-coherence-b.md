@@ -117,3 +117,22 @@ review hair20 volume, room contact, missing top pairings and the second skinny
 bottom separately. No source painting, pose expansion or art approval occurred.
 LEARN: native select menus need native events after disclosure expansion; DOM
 option presence alone does not establish an open, operable control.
+
+## CURRENT RETURN: finite #226 completion
+
+Resume clean640f946b; preserve collar pixels/generations. Main06a775ea merged
+before final corpus generation to retain current source and issued anchors.
+Fix stale WEEKEND19 version assertions with separate historical unpinned,
+explicit-pin, fresh candidate and ordinary controls. Provide A a fresh-only
+setup caller; replay and loaded-world entry points bypass it. Then package the
+six mapped morphology references, target style, actual poses and existing
+placement/intake metadata for a vendor-neutral owner trial. No fitting or art
+creation is assigned.
+
+### CURRENT RETURN verification and LEARN
+
+The final-source corpus was regenerated through `corpus:prose`; `corpus:prose -- check` passed. The issued anchor ledger was not edited. Nine focused corpus/version files passed all 179 tests. Typecheck, lint, release check and all three art commands passed. Historical unpinned v2 resolves generation2; explicit pins remain explicit. Fresh-candidate coverage asserts the actual coordinated shirt pieces, not only a generation tag.
+
+The caller handoff initializes only a new SetupScreen draft through setupForArtPreview. Existing drafts, direct replay setup and loaded Worlds bypass it. The four browser replay controls (absent,2,3,4) passed with actual shirt IDs. The isolated two-life proof's first reopen attempt exposed a test locator error (uppercase presentation versus semantic Saved games control); it was corrected to the existing saved-games test ID. Disk exhaustion interrupted the first retry; that evidence is retained separately.
+
+LEARN: freeze source before regenerating the corpus; assert historical defaults separately from explicitly fresh candidates; use existing semantic test IDs rather than CSS-transformed button text. This return does not change or approve the collar artwork. The owner reference pack copies existing sources/templates with hashes and coordinate metadata; it adds no renderer, fitting pipeline or generated art.

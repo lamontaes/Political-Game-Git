@@ -12,3 +12,7 @@ Also format the sanctioned combined figure measurement report.
 The actual Advanced disclosure is keyboard-opened before reading its replay
 address; hidden innerText is not mistaken for a missing runtime pin. Keep all
 generation, production, old-slot and replay byte-identity assertions.
+
+Receive B's corrected version/corpus closure and mount its caller-dependent
+proof with the A-owned initializer. Verify the actual TitleScreen open-saves
+test ID rather than relying on CSS-transformed labels or guessed ID names.
