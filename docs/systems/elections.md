@@ -190,3 +190,16 @@ Columbia. That corpus is source authority for later systems to consume; it is
 not wired into any contest, candidacy or player-facing surface, and it must not
 be until an independent audit clears its gate. See [Where the municipal-election
 rule packs come from](./municipal-election-rule-sources.md).
+
+## S30-N national boundary — source-current extension
+
+The earlier implementation narrative above describes the direct legislative
+campaign lane. It is not a presidential resolver. The separate
+[national electoral boundary](./national-elections.md) now resolves supplied
+canonical state/district results through dated allocation, certification,
+explicit ballots/count and distinct presidential/VP outcomes, then consumes
+qualified term entry/expiry through the existing schedule/clock/work systems.
+It supplies a results component and preserves the current campaign owner.
+Presidential campaign admission, complete result production, canonical congressional
+membership and normal player mounts remain the exact named integration gaps;
+no fixture result is counted as a completed presidential campaign.

@@ -1,3 +1,7 @@
+import {
+  nationalEntityExists,
+  nationalEntityAvailableAt,
+} from "./national-elections";
 import { makeIsoDate, simulationMomentAtLocalTime } from "./dates";
 import { createStableId } from "./ids";
 import {
@@ -735,6 +739,8 @@ function canonicalEntityAvailable(
   if (vitalityEntityExists(world, id)) {
     return vitalityEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
   }
+  if (nationalEntityExists(world, id))
+    return nationalEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
   if (electionContestEntityExists(world, id)) {
     return electionContestEntityAvailableAt(
       world,

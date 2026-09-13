@@ -1264,3 +1264,31 @@ creator registration retains newer title/place/appearance and preview logic.
 Actor/employer/source-date/class/agreement/knowledge contracts are unchanged.
 Scoped refusal/persistence tests and actual creator browser proof passed. No
 new rule or record family was introduced; newer prose reports were retained.
+
+## S30-N — national electoral boundary (2026-09-13)
+
+Confirmed compatible: accepted simulation semantics, direct campaign arithmetic,
+qualification owner, stable people, seeded identity and absent-field legacy Worlds.
+National records reuse the contiguous history/snapshot, existing due-item calendar,
+canonical jurisdiction, organization/work and zoned minute clock boundaries.
+
+Corrected now: known presidential keys refuse the generic highest-popular-vote
+scheduler/evaluator/resolver; linked national units refuse its seeded placeholder.
+Raw totals, lawful certification winner, appointment, actual ballots/count,
+contingent choice, planned term, qualification/oath and possession are distinct.
+DC's electoral appointment does not grant a House delegation vote. Election-day
+and count-day consumers retain date granularity; qualified term possession has
+an explicit minute boundary. Immutable derived rule data prevents repeated timezone
+conversion per elector during snapshot integrity replay.
+
+Deferred with named inputs: presidential campaign/ballot-access owner supplies
+admitted tickets/all-unit results; state authority supplies certification/ballots;
+congressional producer supplies canonical membership and lawful choice lists;
+qualification receiver supplies actual oath/eligibility disposition. Excluded
+appointments, contested resolution and succession require their own source-backed
+rules. A supplies the minimal ordinary results/opening-holder reader mount.
+No installed delivery or human acceptance follows from fixture/browser proof.
+
+LEARN: raw source vote counts cannot stand in for a state-resolved winner (Maine),
+or for electoral ballots, a congressional outcome or possession. The smallest
+durable controls are record discriminants, refusal tests and source/version checks.

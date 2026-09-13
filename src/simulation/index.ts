@@ -140,3 +140,12 @@ export * from "./vitality-catalog";
 export type * from "./types";
 export * from "./world";
 export * from "./world-metrics";
+
+export * from "./national-election-types";
+export * from "./national-election-rules";
+export * from "./national-elections";
+export * from "./national-election-consumer";
+
+export * from "./national-election-geography";
+
+export * from "./national-election-offices";

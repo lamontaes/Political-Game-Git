@@ -1,3 +1,7 @@
+import {
+  NATIONAL_ELECTION_HANDLERS,
+  linkedNationalUnitTransition,
+} from "./national-election-consumer";
 import { composeExecutiveWorkHandlers } from "./executive-work";
 import { LIFE_PATHS2_HANDLERS } from "./life-paths2";
 import { requireCandidacyPack } from "./candidacy-packs";
@@ -1738,6 +1742,8 @@ export function campaignElectionTransitionHandler(
   world: World,
   dueItem: FutureDueItem,
 ): FutureTransitionHandlerResult {
+  const national = linkedNationalUnitTransition(world, dueItem);
+  if (national) return national;
   const contestId = dueItem.entityIds[0];
   const campaign = contestId ? campaignForContest(world, contestId) : null;
   if (!campaign || campaignState(world, campaign.id).status !== "active") {
@@ -1784,6 +1790,7 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
   // same day, and time refuses to step over a due item it has no handler for.
   return composeExecutiveWorkHandlers(
     composeFutureTransitionHandlerRegistries(
+      NATIONAL_ELECTION_HANDLERS,
       LIFE_PATHS2_HANDLERS,
       createFutureTransitionHandlerRegistry([
         [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
