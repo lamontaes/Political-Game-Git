@@ -1,4 +1,17 @@
 import { acceptedEducationPath } from "./education-study-terms";
+import {
+  bootstrapStudyPeriodProgression,
+  cancelStudyPeriodDues,
+  enrollmentStudyModel,
+  registerStudyPathResolver,
+  scheduleStudyPeriodDue,
+  studyProgressSummary,
+  studyUsesPeriodModel,
+  completedStudyPeriods,
+  educationStudyPeriodDueHandler,
+  EDUCATION_STUDY_PERIOD_DUE_KEY,
+  periodizedStudyPath,
+} from "./education-study-progression";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import { activeCampaignForCandidate } from "./campaign-queries";
 import {
@@ -39,6 +52,7 @@ import {
   cancelScheduledActivity,
 } from "./time-work";
 import {
+  composeFutureTransitionHandlerRegistries,
   createFutureTransitionHandlerRegistry,
   scheduleFutureDueItem,
 } from "./future-transitions";
@@ -53,6 +67,8 @@ import type {
   SimulationMoment,
   FutureTransitionHandlerRegistry,
   LifeEligibilityProvider,
+  RoutineTimeHook,
+  RoutineWindow,
 } from "./types";
 
 const authored = {
@@ -196,8 +212,10 @@ export function pathForRelationship(
   const enrollment = world.history.educationEnrollments.find(
     (e) => e.id === id,
   );
-  if (enrollment?.programKind.startsWith("postsecondary:edu-path7-"))
-    return acceptedEducationPath(world, id);
+  if (enrollment?.programKind.startsWith("postsecondary:edu-path7-")) {
+    const accepted = acceptedEducationPath(world, id);
+    return accepted ? periodizedStudyPath(accepted) : undefined;
+  }
   if (enrollment)
     return LIFE_PATHS2_CATALOG.find(
       (p) => p.kind === "study" && p.program === enrollment.programKind,
@@ -244,6 +262,7 @@ export function enterLifePath(world: World, pathId: string): LifePathResult {
     );
   const org = ensureOrganization(world, path);
   let next = org.world;
+  let studyEnrollmentId: EntityId | null = null;
   if (path.kind === "study") {
     next = createEducationEnrollment(next, {
       stableKey: key(next, path.id),
@@ -254,12 +273,15 @@ export function enterLifePath(world: World, pathId: string): LifePathResult {
       contextKind: "program:life-paths2-v1",
       provenance: authored,
     });
+    studyEnrollmentId = next.history.educationEnrollments.at(-1)!.id;
     next = event(
       next,
       "enrolled",
-      [actor, next.history.educationEnrollments.at(-1)!.id],
+      [actor, studyEnrollmentId],
       `You enrolled in ${path.title}.`,
     );
+    if (studyUsesPeriodModel(path))
+      next = bootstrapStudyPeriodProgression(next, studyEnrollmentId, path);
   } else
     next = createPathWork(
       next,
@@ -269,10 +291,17 @@ export function enterLifePath(world: World, pathId: string): LifePathResult {
       path.sessionPayMinor,
       false,
     );
+  const periodStudy =
+    path.kind === "study" &&
+    studyEnrollmentId &&
+    studyUsesPeriodModel(path) &&
+    enrollmentStudyModel(next, studyEnrollmentId, path) === "periods";
   return done(
     next,
     path.kind === "study"
-      ? "You enrolled. Schedule a study session to begin."
+      ? periodStudy
+        ? "You enrolled. Study advances by academic period as time passes; tuition is due at each period end."
+        : "You enrolled. Schedule a study session to begin."
       : path.sessionPayMinor > 0
         ? "You accepted the work. Pay follows completed shifts."
         : "You accepted the volunteer work. This engagement is unpaid.",
@@ -390,6 +419,11 @@ export function scheduleLifePathSession(
     !relationshipActive(world, id)
   )
     return fail(world, "This path is not active for you.");
+  if (path.kind === "study" && studyUsesPeriodModel(path))
+    return fail(
+      world,
+      "This program advances by study period; there is no session to schedule.",
+    );
   if (
     world.history.scheduledActivities.some(
       (a) =>
@@ -424,11 +458,24 @@ export function scheduleLifePathSession(
     throw e;
   }
 }
-export function performLifePathSession(
+function lifePathSessionAlreadyRecorded(
   world: World,
   activityId: EntityId,
-  handlers: FutureTransitionHandlerRegistry = LIFE_PATHS2_HANDLERS,
-): LifePathResult {
+): boolean {
+  return world.history.events.some(
+    (e) =>
+      (e.type === `${prefix}work-session` ||
+        e.type === `${prefix}study-session`) &&
+      e.involvedEntityIds.includes(activityId),
+  );
+}
+
+/** Canonical pay/history writers after a life-path session interval completes. */
+export function applyLifePathSessionCompletion(
+  world: World,
+  activityId: EntityId,
+): World {
+  if (lifePathSessionAlreadyRecorded(world, activityId)) return world;
   const activity = world.history.scheduledActivities.find(
     (a) => a.id === activityId,
   );
@@ -436,38 +483,30 @@ export function performLifePathSession(
     (ref) => !!pathForRelationship(world, ref),
   );
   const path = id ? pathForRelationship(world, id) : undefined;
-  if (
-    !activity ||
-    !id ||
-    !path ||
-    relationshipActor(world, id) !== controlled(world) ||
-    !relationshipActive(world, id)
-  )
-    return fail(world, "This session is no longer available.");
-  if (scheduledActivityState(world, activityId).status !== "scheduled")
-    return fail(world, "This session has already ended.");
-  const actor = controlled(world);
-  const funded =
-    path.sessionCostMinor > 0
-      ? ensureLifePathPersonalPosition(world, actor, money(0, "USD").currency)
-      : world;
-  if (
-    path.sessionCostMinor > 0 &&
-    (resourcePositionAt(
-      funded,
-      { kind: "person", personId: actor },
-      money(0, "USD").currency,
-    )?.liquidBalance.minorUnits ?? 0) < path.sessionCostMinor
-  )
-    return fail(world, "You do not have enough money for this session.");
-  let next = performScheduledActivity(funded, activityId, handlers);
-  if (next === funded)
-    return fail(world, "Another calendar commitment must be resolved first.");
+  if (!activity || !id || !path) return world;
+  const actor = relationshipActor(world, id);
+  if (!actor) return world;
+  let next = world;
   if (path.kind === "study") {
     if (path.sessionCostMinor > 0) {
       const enrollment = next.history.educationEnrollments.find(
         (e) => e.id === id,
-      )!;
+      );
+      if (!enrollment) return world;
+      const funded = ensureLifePathPersonalPosition(
+        next,
+        actor,
+        money(0, "USD").currency,
+      );
+      if (
+        (resourcePositionAt(
+          funded,
+          { kind: "person", personId: actor },
+          money(0, "USD").currency,
+        )?.liquidBalance.minorUnits ?? 0) < path.sessionCostMinor
+      )
+        return world;
+      next = funded;
       next = createResourceFlow(next, {
         stableKey: key(next, "tuition"),
         source: { kind: "person", personId: actor },
@@ -529,197 +568,426 @@ export function performLifePathSession(
         `You completed ${path.credential}.`,
       );
     }
-  } else {
-    next = event(
-      next,
-      "work-session",
-      [actor, id, activityId],
-      `You completed a shift as ${path.title}.`,
-    );
-    const flow = next.history.resourceFlows.find(
-      (f) =>
-        f.basisReference.kind === "work" &&
-        f.basisReference.workRelationshipId === id,
-    );
-    if (flow)
-      next = scheduleFutureDueItem(next, {
-        stableKey: key(next, "pay-due"),
-        dueAt: addDays(next.currentDate, 1),
-        transitionKey: "life-paths2:pay",
-        entityIds: [id, flow.id, next.history.events.at(-1)!.id].sort(),
-        jurisdictionId: null,
-        provenance: {
-          kind: "authored",
-          note: "Fictional employer pays the day after a completed shift.",
-        },
-      });
-    const sessions = next.history.events.filter(
-      (e) =>
-        e.type === `${prefix}work-session` && e.involvedEntityIds.includes(id),
-    ).length;
-    if (sessions === 10) {
-      const role = workRoleAt(next, id)!;
-      next = recordWorkRole(next, {
-        stableKey: key(next, "progression"),
-        workRelationshipId: id,
-        effectiveAt: next.currentDate,
-        title: `Experienced ${path.title.toLowerCase()}`,
-        occupationClassification: role.occupationClassification,
-        locationJurisdictionId: role.locationJurisdictionId,
-        timeDemand: role.timeDemand,
-        provenance: authored,
-        supersedesRoleId: role.id,
-      });
-    }
+    return next;
   }
+  next = event(
+    next,
+    "work-session",
+    [actor, id, activityId],
+    `You completed a shift as ${path.title}.`,
+  );
+  const flow = next.history.resourceFlows.find(
+    (f) =>
+      f.basisReference.kind === "work" &&
+      f.basisReference.workRelationshipId === id,
+  );
+  if (flow)
+    next = scheduleFutureDueItem(next, {
+      stableKey: key(next, "pay-due"),
+      dueAt: addDays(next.currentDate, 1),
+      transitionKey: "life-paths2:pay",
+      entityIds: [id, flow.id, next.history.events.at(-1)!.id].sort(),
+      jurisdictionId: null,
+      provenance: {
+        kind: "authored",
+        note: "Fictional employer pays the day after a completed shift.",
+      },
+    });
+  const sessions = next.history.events.filter(
+    (e) =>
+      e.type === `${prefix}work-session` && e.involvedEntityIds.includes(id),
+  ).length;
+  if (sessions === 10) {
+    const role = workRoleAt(next, id)!;
+    next = recordWorkRole(next, {
+      stableKey: key(next, "progression"),
+      workRelationshipId: id,
+      effectiveAt: next.currentDate,
+      title: `Experienced ${path.title.toLowerCase()}`,
+      occupationClassification: role.occupationClassification,
+      locationJurisdictionId: role.locationJurisdictionId,
+      timeDemand: role.timeDemand,
+      provenance: authored,
+      supersedesRoleId: role.id,
+    });
+  }
+  return next;
+}
+
+export function performLifePathSession(
+  world: World,
+  activityId: EntityId,
+  handlers: FutureTransitionHandlerRegistry = LIFE_PATHS2_HANDLERS,
+): LifePathResult {
+  const activity = world.history.scheduledActivities.find(
+    (a) => a.id === activityId,
+  );
+  const id = activity?.sourceEntityIds.find(
+    (ref) => !!pathForRelationship(world, ref),
+  );
+  const path = id ? pathForRelationship(world, id) : undefined;
+  if (
+    !activity ||
+    !id ||
+    !path ||
+    relationshipActor(world, id) !== controlled(world) ||
+    !relationshipActive(world, id)
+  )
+    return fail(world, "This session is no longer available.");
+  if (scheduledActivityState(world, activityId).status !== "scheduled")
+    return fail(world, "This session has already ended.");
+  const actor = controlled(world);
+  const funded =
+    path.sessionCostMinor > 0
+      ? ensureLifePathPersonalPosition(world, actor, money(0, "USD").currency)
+      : world;
+  if (
+    path.sessionCostMinor > 0 &&
+    (resourcePositionAt(
+      funded,
+      { kind: "person", personId: actor },
+      money(0, "USD").currency,
+    )?.liquidBalance.minorUnits ?? 0) < path.sessionCostMinor
+  )
+    return fail(world, "You do not have enough money for this session.");
+  let next = performScheduledActivity(funded, activityId, handlers);
+  if (next === funded)
+    return fail(world, "Another calendar commitment must be resolved first.");
+  next = applyLifePathSessionCompletion(next, activityId);
   return done(next, "The session is complete.");
 }
-export const LIFE_PATHS2_HANDLERS = createFutureTransitionHandlerRegistry([
+export function performLifePathWork(
+  world: World,
+  id: EntityId,
+  handlers: FutureTransitionHandlerRegistry = LIFE_PATHS2_HANDLERS,
+): LifePathResult {
+  const path = pathForRelationship(world, id);
+  if (
+    !path ||
+    path.kind !== "work" ||
+    relationshipActor(world, id) !== controlled(world) ||
+    !relationshipActive(world, id)
+  )
+    return fail(world, "This work is not active for you.");
+  let next = world;
+  const scheduled = next.history.scheduledActivities.find(
+    (a) =>
+      a.sourceEntityIds.includes(id) &&
+      scheduledActivityState(next, a.id).status === "scheduled",
+  );
+  if (!scheduled) {
+    const prepared = scheduleLifePathSession(next, id);
+    if (!prepared.ok) return prepared;
+    next = prepared.world;
+  }
+  const activity = next.history.scheduledActivities.find(
+    (a) =>
+      a.sourceEntityIds.includes(id) &&
+      scheduledActivityState(next, a.id).status === "scheduled",
+  );
+  if (!activity) return fail(next, "This session is no longer available.");
+  return performLifePathSession(next, activity.id, handlers);
+}
+
+function personalWorkWindow(
+  world: World,
+  id: EntityId,
+): { start: SimulationMoment; end: SimulationMoment } | null {
+  const path = pathForRelationship(world, id);
+  if (
+    !path ||
+    path.kind !== "work" ||
+    path.scope !== "personal" ||
+    !relationshipActive(world, id)
+  )
+    return null;
+  const completedToday = world.history.events.some(
+    (e) =>
+      e.type === `${prefix}work-session` &&
+      e.involvedEntityIds.includes(id) &&
+      e.occurredAt === world.currentDate,
+  );
+  const todayStart = simulationMomentAtLocalTime({
+    ...world.currentMoment,
+    date: world.currentDate,
+    minuteOfDay: path.sessionStartMinute,
+  });
+  const todayEnd = addSimulationMinutes(todayStart, path.sessionMinutes);
+  const scheduled = world.history.scheduledActivities.find(
+    (a) =>
+      a.sourceEntityIds.includes(id) &&
+      scheduledActivityState(world, a.id).status === "scheduled",
+  );
+  if (scheduled) {
+    const state = scheduledActivityState(world, scheduled.id);
+    return { start: state.start, end: state.end };
+  }
+  if (
+    !completedToday &&
+    compareSimulationMoments(world.currentMoment, todayStart) <= 0
+  )
+    return { start: todayStart, end: todayEnd };
+  return nextLifePathSession(world, id);
+}
+
+function lifePathActivityRelationship(
+  world: World,
+  activityId: EntityId,
+): EntityId | undefined {
+  const activity = world.history.scheduledActivities.find(
+    (a) => a.id === activityId,
+  );
+  return activity?.sourceEntityIds.find(
+    (ref) => !!pathForRelationship(world, ref),
+  );
+}
+
+function createLifePathRoutineHook(): RoutineTimeHook {
+  return {
+    isAutoResolvableActivity(world, activityId) {
+      const id = lifePathActivityRelationship(world, activityId);
+      const path = id ? pathForRelationship(world, id) : undefined;
+      if (!id || !path || path.kind !== "work" || path.scope !== "personal")
+        return false;
+      if (world.control.kind !== "person") return false;
+      return (
+        relationshipActor(world, id) === world.control.personId &&
+        relationshipActive(world, id)
+      );
+    },
+    projectWindows(world, target) {
+      if (world.control.kind !== "person") return [];
+      const actor = world.control.personId;
+      const windows: RoutineWindow[] = [];
+      for (const work of world.history.workRelationships) {
+        if (work.personId !== actor) continue;
+        const timing = personalWorkWindow(world, work.id);
+        const path = pathForRelationship(world, work.id);
+        if (!timing || !path) continue;
+        if (compareSimulationMoments(timing.end, world.currentMoment) <= 0)
+          continue;
+        if (compareSimulationMoments(timing.start, target) >= 0) continue;
+        windows.push({
+          relationshipId: work.id,
+          kind: "work",
+          start: timing.start,
+          end: timing.end,
+          autoResolvable: true,
+        });
+      }
+      return windows.sort(
+        (left, right) =>
+          compareSimulationMoments(left.end, right.end) ||
+          left.relationshipId.localeCompare(right.relationshipId),
+      );
+    },
+    ensureScheduled(world, slot) {
+      const existing = world.history.scheduledActivities.find(
+        (a) =>
+          a.sourceEntityIds.includes(slot.relationshipId) &&
+          scheduledActivityState(world, a.id).status === "scheduled",
+      );
+      if (existing) return world;
+      const path = pathForRelationship(world, slot.relationshipId);
+      const actor = relationshipActor(world, slot.relationshipId);
+      if (!path || !actor) return world;
+      const start =
+        compareSimulationMoments(slot.start, world.currentMoment) < 0
+          ? world.currentMoment
+          : slot.start;
+      if (compareSimulationMoments(start, slot.end) >= 0) return world;
+      try {
+        return createScheduledActivity(world, {
+          stableKey: key(world, `session:${slot.relationshipId}`),
+          title: path.title,
+          summary: path.responsibility,
+          kind: "confirmed",
+          start,
+          end: slot.end,
+          participantPersonIds: [actor],
+          responsiblePersonId: actor,
+          location: {
+            locationKey: `life-paths2:${path.id}`,
+            label: path.organizationName,
+            jurisdictionId: null,
+          },
+          sourceEntityIds: [slot.relationshipId],
+          flexibility: { kind: "fixed" },
+          access: { kind: "private", personIds: [actor] },
+        });
+      } catch (e) {
+        if (e instanceof Error && e.message.includes("conflicts")) return world;
+        throw e;
+      }
+    },
+    afterActivityCompleted(world, activityId) {
+      return applyLifePathSessionCompletion(world, activityId);
+    },
+  };
+}
+
+const LIFE_PATHS2_CORE_HANDLERS = createFutureTransitionHandlerRegistry(
   [
-    "life-paths2:delegated-pay",
-    (world, due) => {
-      const assignment = world.history.events.find(
-        (e) =>
-          due.entityIds.includes(e.id) &&
-          e.type === `${prefix}delegated-assignment`,
-      );
-      const item = world.history.workItems.find((i) =>
-        assignment?.involvedEntityIds.includes(i.id),
-      );
-      const work = world.history.workRelationships.find((w) =>
-        due.entityIds.includes(w.id),
-      );
-      const flow = world.history.resourceFlows.find((f) =>
-        due.entityIds.includes(f.id),
-      );
-      if (!item || !work || !flow)
-        throw new Error("Delegated pay evidence is missing.");
-      const state = workItemState(world, item.id);
-      if (
-        state.status !== "ready-for-review" &&
-        workStatusAt(world, work.id)?.status !== "active"
-      )
-        return {
-          world,
-          status: "cancelled",
-          reasonKey: "life-paths2:departure",
-          context: "Unfinished work ended with the engagement.",
-          outcomeEventId: null,
-        };
-      if (
-        state.status !== "ready-for-review" ||
-        state.recordedAt.date >= world.currentDate
-      ) {
-        const next = scheduleFutureDueItem(world, {
-          stableKey: `${due.stableKey}:continue`,
-          dueAt: addDays(world.currentDate, 1),
-          transitionKey: due.transitionKey,
-          entityIds: due.entityIds,
-          jurisdictionId: null,
-          provenance: due.provenance,
+    [
+      "life-paths2:delegated-pay",
+      (world, due) => {
+        const assignment = world.history.events.find(
+          (e) =>
+            due.entityIds.includes(e.id) &&
+            e.type === `${prefix}delegated-assignment`,
+        );
+        const item = world.history.workItems.find((i) =>
+          assignment?.involvedEntityIds.includes(i.id),
+        );
+        const work = world.history.workRelationships.find((w) =>
+          due.entityIds.includes(w.id),
+        );
+        const flow = world.history.resourceFlows.find((f) =>
+          due.entityIds.includes(f.id),
+        );
+        if (!item || !work || !flow)
+          throw new Error("Delegated pay evidence is missing.");
+        const state = workItemState(world, item.id);
+        if (
+          state.status !== "ready-for-review" &&
+          workStatusAt(world, work.id)?.status !== "active"
+        )
+          return {
+            world,
+            status: "cancelled",
+            reasonKey: "life-paths2:departure",
+            context: "Unfinished work ended with the engagement.",
+            outcomeEventId: null,
+          };
+        if (
+          state.status !== "ready-for-review" ||
+          state.recordedAt.date >= world.currentDate
+        ) {
+          const next = scheduleFutureDueItem(world, {
+            stableKey: `${due.stableKey}:continue`,
+            dueAt: addDays(world.currentDate, 1),
+            transitionKey: due.transitionKey,
+            entityIds: due.entityIds,
+            jurisdictionId: null,
+            provenance: due.provenance,
+          });
+          return {
+            world: next,
+            status: "resolved",
+            reasonKey: null,
+            context: "Pay awaits completion and the next pay date.",
+            outcomeEventId: null,
+          };
+        }
+        const terms = resourceFlowTermsAt(world, flow.id)!;
+        const source = flow.source;
+        let funded =
+          source.kind === "person"
+            ? ensureLifePathPersonalPosition(
+                world,
+                source.personId,
+                terms.amount.currency,
+              )
+            : world;
+        if (flow.recipient.kind === "person")
+          funded = ensureLifePathPersonalPosition(
+            funded,
+            flow.recipient.personId,
+            terms.amount.currency,
+          );
+        const funds =
+          resourcePositionAt(funded, source, terms.amount.currency)
+            ?.liquidBalance.minorUnits ?? 0;
+        const paid = funds >= terms.amount.minorUnits;
+        const next = recordResourceTransferOutcome(funded, {
+          stableKey: `${due.stableKey}:settled`,
+          resourceFlowId: flow.id,
+          periodStartsAt: state.recordedAt.date,
+          periodEndsAt: state.recordedAt.date,
+          occurredAt: world.currentDate,
+          status: paid ? "completed" : "missed",
+          attemptedAmount: terms.amount,
+          transferredAmount: paid
+            ? terms.amount
+            : money(0, terms.amount.currency),
+          reasonKind: paid ? null : "custom:insufficient-funds",
+          note: "Completed delegated assignment, paid from the actual hiring account.",
+          provenance: authored,
         });
         return {
           world: next,
           status: "resolved",
           reasonKey: null,
-          context: "Pay awaits completion and the next pay date.",
+          context: paid
+            ? "Assignment paid."
+            : "Payment missed: insufficient funds.",
           outcomeEventId: null,
         };
-      }
-      const terms = resourceFlowTermsAt(world, flow.id)!;
-      const source = flow.source;
-      let funded =
-        source.kind === "person"
-          ? ensureLifePathPersonalPosition(
-              world,
-              source.personId,
-              terms.amount.currency,
-            )
-          : world;
-      if (flow.recipient.kind === "person")
-        funded = ensureLifePathPersonalPosition(
-          funded,
-          flow.recipient.personId,
-          terms.amount.currency,
+      },
+    ],
+    [
+      "life-paths2:pay",
+      (world, due) => {
+        const flow = world.history.resourceFlows.find((f) =>
+          due.entityIds.includes(f.id),
         );
-      const funds =
-        resourcePositionAt(funded, source, terms.amount.currency)?.liquidBalance
-          .minorUnits ?? 0;
-      const paid = funds >= terms.amount.minorUnits;
-      const next = recordResourceTransferOutcome(funded, {
-        stableKey: `${due.stableKey}:settled`,
-        resourceFlowId: flow.id,
-        periodStartsAt: state.recordedAt.date,
-        periodEndsAt: state.recordedAt.date,
-        occurredAt: world.currentDate,
-        status: paid ? "completed" : "missed",
-        attemptedAmount: terms.amount,
-        transferredAmount: paid
-          ? terms.amount
-          : money(0, terms.amount.currency),
-        reasonKind: paid ? null : "custom:insufficient-funds",
-        note: "Completed delegated assignment, paid from the actual hiring account.",
-        provenance: authored,
-      });
-      return {
-        world: next,
-        status: "resolved",
-        reasonKey: null,
-        context: paid
-          ? "Assignment paid."
-          : "Payment missed: insufficient funds.",
-        outcomeEventId: null,
-      };
-    },
+        const worked = world.history.events.find(
+          (e) =>
+            due.entityIds.includes(e.id) && e.type === `${prefix}work-session`,
+        );
+        if (!flow || !worked)
+          throw new Error("Payable work evidence is missing.");
+        const terms = resourceFlowTermsAt(world, flow.id, {
+          asOfDate: worked.occurredAt,
+          historySequenceExclusive: worked.sequence + 1,
+        });
+        if (!terms) throw new Error("Earned pay terms are missing.");
+        const funded =
+          flow.recipient.kind === "person"
+            ? ensureLifePathPersonalPosition(
+                world,
+                flow.recipient.personId,
+                terms.amount.currency,
+              )
+            : world;
+        const next = recordResourceTransferOutcome(funded, {
+          stableKey: `${due.stableKey}:paid`,
+          resourceFlowId: flow.id,
+          periodStartsAt: worked.occurredAt,
+          periodEndsAt: worked.occurredAt,
+          occurredAt: world.currentDate,
+          status: "completed",
+          attemptedAmount: terms.amount,
+          transferredAmount: terms.amount,
+          reasonKind: null,
+          note: "Payment for the completed shift; advertised pay alone never posts money.",
+          provenance: authored,
+        });
+        return {
+          world: next,
+          status: "resolved",
+          reasonKey: null,
+          context: "Completed shift paid.",
+          outcomeEventId: null,
+        };
+      },
+    ],
   ],
-  [
-    "life-paths2:pay",
-    (world, due) => {
-      const flow = world.history.resourceFlows.find((f) =>
-        due.entityIds.includes(f.id),
-      );
-      const worked = world.history.events.find(
-        (e) =>
-          due.entityIds.includes(e.id) && e.type === `${prefix}work-session`,
-      );
-      if (!flow || !worked)
-        throw new Error("Payable work evidence is missing.");
-      const terms = resourceFlowTermsAt(world, flow.id, {
-        asOfDate: worked.occurredAt,
-        historySequenceExclusive: worked.sequence + 1,
-      });
-      if (!terms) throw new Error("Earned pay terms are missing.");
-      const funded =
-        flow.recipient.kind === "person"
-          ? ensureLifePathPersonalPosition(
-              world,
-              flow.recipient.personId,
-              terms.amount.currency,
-            )
-          : world;
-      const next = recordResourceTransferOutcome(funded, {
-        stableKey: `${due.stableKey}:paid`,
-        resourceFlowId: flow.id,
-        periodStartsAt: worked.occurredAt,
-        periodEndsAt: worked.occurredAt,
-        occurredAt: world.currentDate,
-        status: "completed",
-        attemptedAmount: terms.amount,
-        transferredAmount: terms.amount,
-        reasonKind: null,
-        note: "Payment for the completed shift; advertised pay alone never posts money.",
-        provenance: authored,
-      });
-      return {
-        world: next,
-        status: "resolved",
-        reasonKey: null,
-        context: "Completed shift paid.",
-        outcomeEventId: null,
-      };
-    },
-  ],
-]);
+  createLifePathRoutineHook(),
+);
+
+export const LIFE_PATHS2_HANDLERS = composeFutureTransitionHandlerRegistries(
+  createFutureTransitionHandlerRegistry([
+    [EDUCATION_STUDY_PERIOD_DUE_KEY, educationStudyPeriodDueHandler],
+  ]),
+  LIFE_PATHS2_CORE_HANDLERS,
+);
+
+registerStudyPathResolver((world, enrollmentId) =>
+  pathForRelationship(world, enrollmentId),
+);
+
+export { enrollmentStudyModel, studyProgressSummary, completedStudyPeriods };
 export function changeLifePathStatus(
   world: World,
   id: EntityId,
@@ -751,6 +1019,19 @@ export function changeLifePathStatus(
     if (scheduledActivityState(next, a.id).status === "scheduled")
       next = cancelScheduledActivity(next, a.id);
   if (path.kind === "study") {
+    if (
+      enrollmentStudyModel(next, id, path) === "periods" &&
+      studyUsesPeriodModel(path)
+    ) {
+      if (action === "pause" || action === "leave")
+        next = cancelStudyPeriodDues(next, id);
+      if (action === "return") {
+        const completed = completedStudyPeriods(next, id);
+        const total = (path.academicYears ?? 0) * (path.periodsPerYear ?? 2);
+        if (completed < total)
+          next = scheduleStudyPeriodDue(next, id, path, completed + 1);
+      }
+    }
     const previous = educationEnrollmentStateAt(next, id)!;
     next = recordEducationEnrollmentState(next, {
       stableKey: key(next, action),

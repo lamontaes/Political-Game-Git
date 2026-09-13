@@ -365,8 +365,8 @@ export function openOrdinaryLifeRecords(
     summary:
       "A local meeting on the published calendar. Anyone may attend; nobody has asked you to.",
     kind: "tentative",
-    start: momentAt(world, 18, 30),
-    end: momentAt(world, 19, 45),
+    start: momentAt(world, 18, 30, addDays(world.currentDate, 1)),
+    end: momentAt(world, 19, 45, addDays(world.currentDate, 1)),
     participantPersonIds: [personId],
     responsiblePersonId: personId,
     location: {
@@ -380,6 +380,28 @@ export function openOrdinaryLifeRecords(
   });
   const meeting = next.history.scheduledActivities.at(-1);
   if (!meeting) throw new Error("The public meeting was not recorded.");
+
+  // A bounded game-authored journey, not measured geography or a fare quote.
+  // Existing saves retain their original meeting; only new notices get this leg.
+  next = createScheduledActivity(next, {
+    stableKey: `${PUBLIC_MEETING_KEY}:journey`,
+    title: "Journey to the public meeting",
+    summary:
+      "A game-authored 20-minute local journey included in Attend. Travel cost is not represented; no fare is charged.",
+    kind: "travel",
+    start: momentAt(world, 18, 10, addDays(world.currentDate, 1)),
+    end: momentAt(world, 18, 30, addDays(world.currentDate, 1)),
+    participantPersonIds: [personId],
+    responsiblePersonId: personId,
+    location: {
+      locationKey: "ordinary-life:to-meeting-room",
+      label: "On the way to the public meeting",
+      jurisdictionId: jurisdictionId ?? person.homeJurisdictionId,
+    },
+    sourceEntityIds: [meeting.id],
+    flexibility: { kind: "fixed" },
+    access: { kind: "private", personIds: [personId] },
+  });
 
   next = createWorkItem(next, {
     stableKey: HOUSEHOLD_ERRANDS_KEY,
@@ -1263,9 +1285,14 @@ function nextSaturday(from: IsoDate): IsoDate {
   return addDays(from, (6 - day + 7) % 7 || 7);
 }
 
-function momentAt(world: World, hour: number, minute: number) {
+function momentAt(
+  world: World,
+  hour: number,
+  minute: number,
+  date = world.currentDate,
+) {
   return makeSimulationMoment({
-    date: world.currentDate,
+    date,
     minuteOfDay: hour * 60 + minute,
     timeZone: world.currentMoment.timeZone,
     utcOffsetMinutes: world.currentMoment.utcOffsetMinutes,

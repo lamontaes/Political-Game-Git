@@ -1,0 +1,127 @@
+import { expect, test } from "./fixtures";
+import type { Page } from "@playwright/test";
+import { enterLife, fillCreator, goTo } from "./support/creator";
+
+/**
+ * CIVIL-AUTHORITY13 normal route: the real creator, the real Custom Start,
+ * ordinary time passing through the player's own controls, the mounted Work
+ * panel, and the save/continue route. No diagnostic fixture or test mount.
+ */
+async function personnel(page: Page) {
+  await goTo(page, "elsewhere-work");
+  const panel = page
+    .getByTestId("personal-work-section")
+    .getByRole("region", { name: "Personnel matters" });
+  await expect(panel).toBeVisible();
+  return panel;
+}
+
+async function passTimeUntilSeptember(page: Page) {
+  for (let turn = 0; turn < 60; turn += 1) {
+    const panel = await personnel(page);
+    const meeting = panel
+      .getByRole("article", { name: /, Records specialist$/ })
+      .getByRole("button", { name: /Hold an informal resolution/ });
+    const refusal = panel
+      .getByRole("article", { name: /, Records specialist$/ })
+      .getByText(/observed in current text on 2026-09-06/)
+      .first();
+    if ((await refusal.count()) === 0) return;
+    await expect(meeting).toBeDisabled();
+    await goTo(page, "elsewhere-day");
+    const quiet = page.getByTestId("story-let-time-pass");
+    if (await quiet.isVisible().catch(() => false)) await quiet.click();
+    else await page.getByTestId("pass-day").click();
+  }
+  throw new Error("Ordinary time did not reach the observation date.");
+}
+
+test("state agency Custom Start reaches only supported personnel steps, then saves and continues", async ({
+  page,
+}) => {
+  test.setTimeout(240_000);
+  await page.goto("/?seed=civil-authority13-normal-route");
+  await fillCreator(page, {
+    age: 40,
+    route: "custom",
+    place: "Minneapolis.*Minnesota",
+    placeQuery: "Minneapolis",
+    placeScope: "locality",
+  });
+  await page.getByTestId("creator-summary-background").click();
+  const start = page.getByTestId("state-agency-start");
+  await expect(start).toBeEnabled();
+  await start.click();
+  await page.getByTestId("creator-continue-background").click();
+  await page.getByTestId("whoareyou-play").click();
+  await page.getByTestId("begin").click();
+  await enterLife(page);
+
+  // January: the agency exists, and nothing is applied before the law's
+  // observation date. Unsupported powers are named, not hidden.
+  let panel = await personnel(page);
+  await expect(
+    panel.getByRole("article", { name: /, Records specialist$/ }),
+  ).toContainText("observed in current text on 2026-09-06");
+  const vacancy = panel.getByRole("article", {
+    name: "Vacant Records specialist position",
+  });
+  await expect(
+    vacancy.getByRole("button", { name: "Fill by competitive selection" }),
+  ).toBeDisabled();
+
+  await passTimeUntilSeptember(page);
+  panel = await personnel(page);
+  await expect(
+    panel.getByRole("article", { name: /\(represented\)$/ }),
+  ).toContainText("collective bargaining agreement governs");
+  await expect(
+    panel
+      .getByRole("article", { name: /\(new\)$/ })
+      .getByRole("button", { name: "Complete probation" }),
+  ).toBeDisabled();
+
+  const employee = panel.getByRole("article", {
+    name: /, Records specialist$/,
+  });
+  await employee
+    .getByRole("textbox", { name: "Meeting note" })
+    .fill("Went over the missed retention deadlines.");
+  await employee
+    .getByRole("button", { name: /Hold an informal resolution/ })
+    .click();
+  await employee
+    .getByRole("combobox", { name: "Action" })
+    .selectOption("discharge");
+  await employee
+    .getByRole("textbox", { name: "Specific reasons" })
+    .fill("Missed four retention deadlines after written reminders.");
+  await employee
+    .getByRole("button", { name: "Issue a reprimand or discharge" })
+    .focus();
+  await page.keyboard.press("Enter");
+  const action = panel.getByRole("article", { name: /^Discharge of / });
+  await expect(action).toContainText("Appeal deadline:");
+  await action
+    .getByRole("button", { name: "File the notice with the commissioner" })
+    .click();
+  await expect(action).toContainText("Filed with the commissioner");
+  const heading = await action.getAttribute("aria-label");
+
+  await goTo(page, "keep-world");
+  await expect(page.getByText("Saved.", { exact: true })).toBeVisible();
+  await page.reload();
+  await page.getByTestId("continue").click();
+  await enterLife(page);
+  panel = await personnel(page);
+  const restored = panel.getByRole("article", { name: heading! });
+  await expect(restored).toContainText("Filed with the commissioner");
+  // The discharge vacated a second specialist position; every vacancy still
+  // names competitive selection as unavailable.
+  const selection = panel
+    .getByRole("article", { name: "Vacant Records specialist position" })
+    .getByRole("button", { name: "Fill by competitive selection" });
+  await expect(selection).toHaveCount(2);
+  for (const button of await selection.all())
+    await expect(button).toBeDisabled();
+});

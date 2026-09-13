@@ -12,7 +12,6 @@ import {
   acceptLifePathCounteroffer,
   activateLifePathRecruit,
   changeLifePathStatus,
-  completedStudySessions,
   delegateLifePathWork,
   departLifePathRecruit,
   enterLifePath,
@@ -21,6 +20,7 @@ import {
   lifePathEntryReason,
   pathForRelationship,
   performLifePathSession,
+  performLifePathWork,
   progressLifePathWork,
   recruitLifePathPerson,
   scheduleLifePathSession,
@@ -38,6 +38,12 @@ import {
   advanceWorldMinutes,
 } from "../simulation/time-work";
 import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
+import { studyUsesPeriodModel } from "../simulation/education-study-progression";
+import {
+  studyEnrollmentProgressLabel,
+  studyProgramCostLabel,
+  studyUsesPeriodUi,
+} from "./education-study-display";
 
 /** Feature-local adapter. UI-CORE owns opening/closing this panel and the World. */
 export interface LifePathsPanelProps {
@@ -46,12 +52,14 @@ export interface LifePathsPanelProps {
   readonly transitionHandlers?: FutureTransitionHandlerRegistry;
   /** False when the surface mounting this already carries the same title. */
   readonly headed?: boolean;
+  readonly showTimeControl?: boolean;
 }
 export function LifePathsPanel({
   world,
   onWorldChange,
   transitionHandlers,
   headed = true,
+  showTimeControl = true,
 }: LifePathsPanelProps) {
   const [notice, setNotice] = useState("");
   const [person, setPerson] = useState<EntityId | "">("");
@@ -119,19 +127,31 @@ export function LifePathsPanel({
             <p>{path.organizationName}</p>
             <p>{path.responsibility}</p>
             <p>
-              {path.sessionMinutes / 60} hours per session.{" "}
-              {path.sessionCostMinor > 0
-                ? `You pay $${path.sessionCostMinor / 100} after each attended session.`
-                : path.sessionPayMinor > 0
-                  ? `The employer pays $${path.sessionPayMinor / 100} the day after each completed shift.`
-                  : "This is unpaid volunteer work."}
+              {path.kind === "study" && studyUsesPeriodModel(path)
+                ? studyProgramCostLabel(path)
+                : path.sessionMinutes > 0
+                  ? `${path.sessionMinutes / 60} hours per session. ${
+                      path.sessionCostMinor > 0
+                        ? `You pay $${path.sessionCostMinor / 100} after each attended session.`
+                        : path.sessionPayMinor > 0
+                          ? `The employer pays $${path.sessionPayMinor / 100} the day after each completed shift.`
+                          : "This is unpaid volunteer work."
+                    }`
+                  : path.sessionPayMinor > 0
+                    ? `The employer pays $${path.sessionPayMinor / 100} the day after each completed shift.`
+                    : "This is unpaid volunteer work."}
             </p>
-            {path.requiredSessions && (
-              <p>
-                {path.requiredSessions} sessions, at least {path.minimumGapDays}{" "}
-                days apart, lead to {path.credential}.
-              </p>
+            {path.kind === "study" && path.credential && (
+              <p>Completing leads to: {path.credential}.</p>
             )}
+            {path.requiredSessions &&
+              path.kind === "study" &&
+              !studyUsesPeriodModel(path) && (
+                <p>
+                  {path.requiredSessions} sessions, at least{" "}
+                  {path.minimumGapDays} days apart (legacy session model).
+                </p>
+              )}
             {reason && <p>{reason}</p>}
             <button
               disabled={!!reason}
@@ -142,22 +162,24 @@ export function LifePathsPanel({
           </article>
         );
       })}
-      <button
-        onClick={() => {
-          const next = advanceWorldMinutes(world, 1440, handlers);
-          act(
-            next === world
-              ? {
-                  ok: false,
-                  world,
-                  message: "A calendar commitment must be resolved first.",
-                }
-              : { ok: true, world: next, message: "One day passed." },
-          );
-        }}
-      >
-        Continue one day
-      </button>
+      {showTimeControl ? (
+        <button
+          onClick={() => {
+            const next = advanceWorldMinutes(world, 1440, handlers);
+            act(
+              next === world
+                ? {
+                    ok: false,
+                    world,
+                    message: "A calendar commitment must be resolved first.",
+                  }
+                : { ok: true, world: next, message: "One day passed." },
+            );
+          }}
+        >
+          Continue one day
+        </button>
+      ) : null}
       <h3>Your paths</h3>
       {mine.map((record) => {
         const path = pathForRelationship(world, record.id)!;
@@ -178,10 +200,9 @@ export function LifePathsPanel({
                 : path.title}
             </h4>
             <p>
-              {status === "temporarily-inactive" ? "Interrupted" : status}.{" "}
               {path.kind === "study"
-                ? `${completedStudySessions(world, record.id)} attended sessions.`
-                : ""}
+                ? studyEnrollmentProgressLabel(world, record.id, path)
+                : `${status === "temporarily-inactive" ? "Interrupted" : status}.`}
             </p>
             {path.kind === "work" && status === "active" && (
               <button
@@ -195,11 +216,25 @@ export function LifePathsPanel({
             )}
             {status === "active" && (
               <>
-                <button
-                  onClick={() => act(scheduleLifePathSession(world, record.id))}
-                >
-                  Schedule next session
-                </button>
+                {path.kind === "study" ? (
+                  studyUsesPeriodUi(world, record.id, path) ? null : (
+                    <button
+                      onClick={() =>
+                        act(scheduleLifePathSession(world, record.id))
+                      }
+                    >
+                      Schedule next session
+                    </button>
+                  )
+                ) : (
+                  <button
+                    onClick={() =>
+                      act(performLifePathWork(world, record.id, handlers))
+                    }
+                  >
+                    Perform work
+                  </button>
+                )}
                 <button
                   onClick={() =>
                     act(changeLifePathStatus(world, record.id, "pause"))
