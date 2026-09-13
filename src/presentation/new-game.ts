@@ -151,6 +151,8 @@ export interface NewGameSetup {
   readonly givenNameGenerationVersion?: GivenNameGenerationVersion;
   /** Explicit creation lineage, preserved in replays; absent keeps historical defaults. */
   readonly appearanceCatalogGeneration?: number;
+  /** Explicit fresh-candidate complete-recipe initialization; absent replays keep old behavior. */
+  readonly appearanceOutfitVersion?: "complete-outfit-v1";
 }
 
 export interface NewGame {

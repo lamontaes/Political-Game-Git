@@ -205,6 +205,9 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
   const givenNameGenerationVersion = setup.givenNameGenerationVersion;
   const appearanceCatalogGeneration = setup.appearanceCatalogGeneration;
   const extras = {
+    ...(setup.appearanceOutfitVersion === undefined
+      ? {}
+      : { appearanceOutfitVersion: setup.appearanceOutfitVersion }),
     ...(appearanceRecipeVersion === undefined
       ? {}
       : { appearanceRecipeVersion }),
@@ -311,7 +314,15 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
       appearanceCatalogGeneration < 1)
   )
     return null;
+  if (
+    record.appearanceOutfitVersion !== undefined &&
+    record.appearanceOutfitVersion !== "complete-outfit-v1"
+  )
+    return null;
   const base: NewGameSetup = {
+    ...(record.appearanceOutfitVersion === undefined
+      ? {}
+      : { appearanceOutfitVersion: record.appearanceOutfitVersion }),
     ...(appearanceCatalogGeneration === undefined
       ? {}
       : { appearanceCatalogGeneration }),

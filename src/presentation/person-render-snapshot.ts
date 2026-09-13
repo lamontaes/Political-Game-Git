@@ -1,3 +1,4 @@
+import { resolveCompleteOutfit } from "./complete-outfit";
 import type { PersonAppearance } from "../simulation/person-appearance";
 import {
   resolveAppearanceCatalogGeneration,
@@ -46,20 +47,29 @@ export function createPersonRenderSnapshot(options: {
     recipeForPose(poseFamily: string) {
       let recipe = recipes.get(poseFamily);
       if (!recipe) {
-        recipe = resolveCharacterRecipe(
-          {
+        if (appearance.outfit) {
+          const result = resolveCompleteOutfit({
             appearance,
-            wardrobe,
             poseFamily,
-            // Legacy appearances stay pinned to the original generation.
-            catalogGeneration: resolveAppearanceCatalogGeneration(
+            library,
+          });
+          if (!result.ok) throw new Error(result.message);
+          recipe = result.recipe;
+        } else
+          recipe = resolveCharacterRecipe(
+            {
               appearance,
-              library.catalogGeneration,
-            ),
-            unresolvableRequiredSlots,
-          },
-          library,
-        );
+              wardrobe,
+              poseFamily,
+              // Legacy appearances stay pinned to the original generation.
+              catalogGeneration: resolveAppearanceCatalogGeneration(
+                appearance,
+                library.catalogGeneration,
+              ),
+              unresolvableRequiredSlots,
+            },
+            library,
+          );
         freeze(recipe);
         recipes.set(poseFamily, recipe);
       }

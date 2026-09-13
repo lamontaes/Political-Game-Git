@@ -30,6 +30,9 @@ export default defineConfig({
     exclude: [
       ...configDefaults.exclude,
       "tests/e2e/**",
+      // Portable Playwright adapters run only after A mounts them in tests/e2e.
+      // They are browser proofs, not Vitest modules; mounted proofs remain required.
+      "tests/caller-proofs/**",
       // The desktop shell has its own Node test runner (`cd desktop && npm test`).
       // Those files use `node:test`, not Vitest.
       "desktop/**",

@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2457 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5871 |
-| DIAGNOSTIC_OR_TEST | 5235 |
-| **NEEDS_CLASSIFICATION** | **6558** |
+| INTENTIONALLY_NON_PLAYER_FACING | 5875 |
+| DIAGNOSTIC_OR_TEST | 5242 |
+| **NEEDS_CLASSIFICATION** | **6563** |
 
-Scanned 638 files holding 76915 string
+Scanned 641 files holding 77035 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -209,6 +209,7 @@ literals in total; the table counts only those that read like a sentence.
 | 8 | `src/ui/DeveloperViewer.tsx` |
 | 8 | `src/ui/PersonInspector.tsx` |
 | 8 | `src/ui/PoseContactProof.tsx` |
+| 7 | `src/player/PersonAppearanceControls.tsx` |
 | 7 | `src/player/QuickDossier.tsx` |
 | 7 | `src/player/education-study-display.ts` |
 | 7 | `src/presentation/candidate-review.ts` |
@@ -223,7 +224,6 @@ literals in total; the table counts only those that read like a sentence.
 | 7 | `src/simulation/judicial-office-start.ts` |
 | 6 | `src/player/CareerPathsPanel.tsx` |
 | 6 | `src/player/ModularCharacter.tsx` |
-| 6 | `src/player/PersonAppearanceControls.tsx` |
 | 6 | `src/player/SceneBackdrop.tsx` |
 | 6 | `src/player/TitleTableau.tsx` |
 | 6 | `src/player/VenueActivityPanel.tsx` |
@@ -255,6 +255,7 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/persistence/sqlite-world-repository.ts` |
 | 4 | `src/player/ExecutiveWorkWorkspace.tsx` |
 | 4 | `src/player/TitleScreen.tsx` |
+| 4 | `src/presentation/complete-outfit.ts` |
 | 4 | `src/presentation/executive-work.ts` |
 | 4 | `src/presentation/life-story.ts` |
 | 4 | `src/presentation/place-hometown-population.ts` |

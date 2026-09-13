@@ -1,4 +1,4 @@
-# A routine adapter
+# A routine adapter — completed #230
 
 Receive frozen D b219a486 without replacing newer root or scene code. Preserve
 the current explicit-office fixtures and union the journey binding. Mount the
@@ -57,3 +57,24 @@ the fixture addition. Regenerate through corpus tooling; preserve canonical
 anchor trio byte-for-byte. The repaired D location/control test passed.
 Budget98f8f65b supplies only the additional pending-conversation and zero
 regressions; current root is unchanged. Full repaired rerun remains required.
+
+Completed: #230 landed at main efb227f2948d68030571674662a973e560a32539
+from tested source 0fb3bc8a1919796e4c5ad041dc42a6303400ae70. The repaired
+full suite passed 343 files and 4,731 tests, with two existing skips. The
+initial browser run passed 15 and failed five before page creation because
+the pinned ffmpeg runtime was missing. Restoring that runtime without source
+changes and rerunning those same five passed 5/5. All 20 changed cases are
+verified across those runs; the initial run is not relabelled aggregate green.
+Formatting, lint, types, release, corpus/source/fiscal/replay/education/municipal,
+production build, demo and mandatory art checks passed. The frozen clean source
+remains available at port 5250, candidate profile. Desktop's retrievable 9f16ab58
+archive is separately identified and has identical runtime files; it is not
+the main merge SHA, a PLAYABLE29 graphics artifact or proof of user installation.
+
+PLAYABLE29 appearance transaction, interaction/focus, apartment calibration and
+versioned materials are the next owner returns, not defects silently claimed
+fixed here. Normal press venue input and human visual acceptance remain absent.
+
+LEARN: generated live coverage must be regenerated after fixture additions;
+restore a missing pinned browser runtime rather than weaken assertions, and
+retain the failed run separately from its exact-source selective retry.
