@@ -1530,6 +1530,66 @@
     "meetsTransparencyReq": null
   },
   {
+    "file": "generated/candidates/people-coherence/pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_matched_v1_collar_front.png",
+    "metadata": {
+      "width": 336,
+      "height": 385,
+      "aspectRatio": "48:55",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/people-coherence/pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_matched_v1.png",
+    "metadata": {
+      "width": 336,
+      "height": 385,
+      "aspectRatio": "48:55",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/people-coherence/pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_neckline_v1.png",
+    "metadata": {
+      "width": 336,
+      "height": 385,
+      "aspectRatio": "48:55",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/people-coherence/pv4_wave_a_male_top_white_button_up_shirt_v1_matched_v1_collar_front.png",
+    "metadata": {
+      "width": 334,
+      "height": 385,
+      "aspectRatio": "334:385",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/people-coherence/pv4_wave_a_male_top_white_button_up_shirt_v1_matched_v1.png",
+    "metadata": {
+      "width": 334,
+      "height": 385,
+      "aspectRatio": "334:385",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "generated/candidates/people-coherence/pv4_wave_a_male_top_white_button_up_shirt_v1_neckline_v1.png",
+    "metadata": {
+      "width": 334,
+      "height": 385,
+      "aspectRatio": "334:385",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
     "file": "generated/candidates/people-visual4-hair/pv4_hair_01_light_long_older_v1_front.png",
     "metadata": {
       "width": 160,

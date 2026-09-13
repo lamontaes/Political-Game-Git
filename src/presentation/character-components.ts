@@ -143,6 +143,11 @@ export interface CharacterComponentDefinition {
   readonly family: string;
   /** Append-only catalog lineage generation in which this component appeared. */
   readonly catalog_generation: number;
+  /** Later-generation raster-only revision; all other attachment/identity metadata must match. */
+  readonly supersedes_asset_id?: string;
+  /** Coordinated same-canvas garment pieces, never independent wardrobe choices. */
+  readonly render_piece_ids?: readonly string[];
+  readonly render_piece_of?: string;
   /** Integer draw order within one character; higher draws in front. */
   readonly layer: number;
   readonly canvas: CharacterCanvas;
@@ -622,6 +627,79 @@ function validateBodyContacts(
   }
 }
 
+function rasterRevisionErrors(
+  components: ReadonlyMap<string, CharacterComponent>,
+): string[] {
+  const errors: string[] = [];
+  const successors = new Set<string>();
+  const normalized = (definition: CharacterComponentDefinition) => {
+    const copy: Record<string, unknown> = { ...definition };
+    delete copy.catalog_generation;
+    delete copy.supersedes_asset_id;
+    delete copy.render_piece_ids;
+    return canonicalJson(copy);
+  };
+  for (const component of components.values()) {
+    const previousId = component.definition.supersedes_asset_id;
+    if (previousId === undefined) continue;
+    const previous = components.get(previousId);
+    if (
+      !previous ||
+      previous.definition.catalog_generation >=
+        component.definition.catalog_generation ||
+      normalized(previous.definition) !== normalized(component.definition)
+    )
+      errors.push(
+        `Invalid raster revision '${component.assetId}' of '${previousId}': an older component with identical identity/attachment metadata is required.`,
+      );
+    if (successors.has(previousId))
+      errors.push(`Conflicting raster revisions of '${previousId}'.`);
+    successors.add(previousId);
+  }
+  for (const owner of components.values()) {
+    const ids = owner.definition.render_piece_ids ?? [];
+    if (new Set(ids).size !== ids.length)
+      errors.push(`Duplicate render pieces on '${owner.assetId}'.`);
+    for (const id of ids) {
+      const piece = components.get(id);
+      const comparable = (d: CharacterComponentDefinition) => {
+        const copy: Record<string, unknown> = { ...d };
+        for (const key of [
+          "layer",
+          "render_piece_ids",
+          "render_piece_of",
+          "supersedes_asset_id",
+        ])
+          delete copy[key];
+        return canonicalJson(copy);
+      };
+      if (
+        !piece ||
+        owner.definition.kind !== "top" ||
+        owner.definition.render_piece_of ||
+        piece.definition.render_piece_of !== owner.assetId ||
+        piece.definition.render_piece_ids ||
+        piece.definition.supersedes_asset_id ||
+        !isFiniteInteger(piece.definition.layer) ||
+        piece.definition.layer <= owner.definition.layer ||
+        comparable(piece.definition) !== comparable(owner.definition) ||
+        piece.released !== owner.released
+      )
+        errors.push(
+          `Invalid coordinated render piece '${id}' on '${owner.assetId}'.`,
+        );
+    }
+    if (
+      owner.definition.render_piece_of &&
+      !components
+        .get(owner.definition.render_piece_of)
+        ?.definition.render_piece_ids?.includes(owner.assetId)
+    )
+      errors.push(`Orphan render piece '${owner.assetId}'.`);
+  }
+  return errors;
+}
+
 export function createCharacterComponentLibrary(
   records: readonly CharacterComponentManifestRecord[],
   catalog: CharacterCatalogData,
@@ -638,6 +716,8 @@ export function createCharacterComponentLibrary(
       fixture: record.availability === "development-fixture",
     });
   }
+  const revisionErrors = rasterRevisionErrors(components);
+  if (revisionErrors.length) throw new Error(revisionErrors.join("\n"));
   return {
     catalogGeneration: catalog.catalog_generation,
     slots: catalog.slots,
@@ -1177,6 +1257,8 @@ export function validateCharacterComponentLibrary(
       }
     }
   }
+
+  errors.push(...rasterRevisionErrors(byId));
 
   // Complexion is a property of the head family, so identity can fix a
   // complexion by choosing a head and the body must then agree.
@@ -1825,12 +1907,23 @@ export function componentsAtGeneration(
   const inGeneration = [...library.components.values()].filter(
     (component) => component.definition.catalog_generation <= generation,
   );
-  const productionKinds = new Set(
+  const superseded = new Set(
     inGeneration
+      .filter((c) => c.released && c.definition.supersedes_asset_id)
+      .map((c) => c.definition.supersedes_asset_id!),
+  );
+  const current = inGeneration.filter(
+    (component) =>
+      !superseded.has(component.assetId) &&
+      !component.definition.render_piece_of &&
+      (!component.definition.supersedes_asset_id || component.released),
+  );
+  const productionKinds = new Set(
+    current
       .filter((component) => !component.fixture && component.released)
       .map((component) => component.definition.kind),
   );
-  return inGeneration
+  return current
     .filter(
       (component) =>
         !component.fixture || !productionKinds.has(component.definition.kind),
@@ -2451,6 +2544,15 @@ export function resolveCharacterRecipe(
           : {}),
       };
       resolved.push(entry);
+      for (const id of chosen.definition.render_piece_ids ?? []) {
+        const piece = library.components.get(id)!;
+        resolved.push({
+          ...entry,
+          assetId: id,
+          layer: piece.definition.layer,
+          released: piece.released,
+        });
+      }
       if (chosen.definition.paired_with) {
         const back = library.components.get(chosen.definition.paired_with);
         if (back) {

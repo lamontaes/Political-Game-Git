@@ -1,0 +1,59 @@
+{
+  "schema": "people-matched-collar-v1",
+  "evidence": [
+    {
+      "source_asset_id": "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_neckline_v1",
+      "source_path": "art/generated/candidates/people-coherence/pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_neckline_v1.png",
+      "source_sha256": "60a8959cb1f45e5e6897575f8a6afece1af066dcc219a6c44c087851d8874498",
+      "owner_asset_id": "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_matched_v1",
+      "front_asset_id": "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_matched_v1_collar_front",
+      "source_canvas": { "width": 336, "height": 385 },
+      "front_partition": { "left": 108, "right": 227, "top": 25, "bottom": 82 },
+      "coordinate_class": "game-authored visual-estimate",
+      "behind_layer": 35,
+      "head_layer": 40,
+      "front_layer": 43,
+      "template": {
+        "bodies": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "poses": ["standing-neutral"],
+        "view": "front",
+        "attachment": "torso",
+        "origin": { "x": 0.5, "y": 0.06334371754932502 }
+      },
+      "geometry": "Exact source canvas/origin and existing per-body fit; intentional cloth ease unchanged. Alpha partition is disjoint and lossless relative to neckline-v1. No painted anatomy or hidden surfaces supplied.",
+      "rights_status": "Unknown; original source lineage preserved",
+      "acceptance": "Candidate only, no automatic art approval"
+    },
+    {
+      "source_asset_id": "pv4_wave_a_male_top_white_button_up_shirt_v1_neckline_v1",
+      "source_path": "art/generated/candidates/people-coherence/pv4_wave_a_male_top_white_button_up_shirt_v1_neckline_v1.png",
+      "source_sha256": "5284e3f1ca7806a38f714087ac7eb3a12d074ff5d9f9d30c2f769d1c831f5f5d",
+      "owner_asset_id": "pv4_wave_a_male_top_white_button_up_shirt_v1_matched_v1",
+      "front_asset_id": "pv4_wave_a_male_top_white_button_up_shirt_v1_matched_v1_collar_front",
+      "source_canvas": { "width": 334, "height": 385 },
+      "front_partition": { "left": 108, "right": 227, "top": 25, "bottom": 82 },
+      "coordinate_class": "game-authored visual-estimate",
+      "behind_layer": 35,
+      "head_layer": 40,
+      "front_layer": 43,
+      "template": {
+        "bodies": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "poses": ["standing-neutral"],
+        "view": "front",
+        "attachment": "torso",
+        "origin": { "x": 0.5005767012687428, "y": 0.05911823647294589 }
+      },
+      "geometry": "Exact source canvas/origin and existing per-body fit; intentional cloth ease unchanged. Alpha partition is disjoint and lossless relative to neckline-v1. No painted anatomy or hidden surfaces supplied.",
+      "rights_status": "Unknown; original source lineage preserved",
+      "acceptance": "Candidate only, no automatic art approval"
+    }
+  ]
+}

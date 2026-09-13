@@ -203,6 +203,7 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
   const path = setup.questionnaire ?? "skipped";
   const appearanceRecipeVersion = setup.appearanceRecipeVersion;
   const givenNameGenerationVersion = setup.givenNameGenerationVersion;
+  const appearanceCatalogGeneration = setup.appearanceCatalogGeneration;
   const extras = {
     ...(appearanceRecipeVersion === undefined
       ? {}
@@ -210,6 +211,9 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
     ...(givenNameGenerationVersion === undefined
       ? {}
       : { givenNameGenerationVersion }),
+    ...(appearanceCatalogGeneration === undefined
+      ? {}
+      : { appearanceCatalogGeneration }),
   };
   if (path === "skipped" && answers.length === 0) {
     return JSON.stringify({ ...world, ...extras });
@@ -298,7 +302,18 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   ) {
     return null;
   }
+  const appearanceCatalogGeneration = record.appearanceCatalogGeneration;
+  if (
+    appearanceCatalogGeneration !== undefined &&
+    (typeof appearanceCatalogGeneration !== "number" ||
+      !Number.isSafeInteger(appearanceCatalogGeneration) ||
+      appearanceCatalogGeneration < 1)
+  )
+    return null;
   const base: NewGameSetup = {
+    ...(appearanceCatalogGeneration === undefined
+      ? {}
+      : { appearanceCatalogGeneration }),
     seed: record.seed,
     placeKey: record.placeKey,
     startAge: record.startAge as number,

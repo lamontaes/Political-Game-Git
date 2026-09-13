@@ -1,0 +1,58 @@
+{
+  "schema": "people-coherence-neckline-v1",
+  "evidence": [
+    {
+      "asset_id": "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_neckline_v1",
+      "source_asset_id": "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1",
+      "source_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1.png",
+      "source_sha256": "b051b3b47edc3b651d1f55a1d0dff0ffcb35ea62d52284a0668c88755d1ba789",
+      "source_canvas": { "width": 336, "height": 385 },
+      "alpha_mask_polygon": [
+        [129, 24],
+        [144, 23],
+        [167, 23],
+        [188, 24],
+        [204, 26],
+        [199, 38],
+        [189, 50],
+        [179, 60],
+        [170, 72],
+        [160, 59],
+        [147, 51],
+        [137, 40]
+      ],
+      "alpha_samples_per_pixel": 16,
+      "changed_pixels": 2132,
+      "coordinate_class": "game-authored visual-estimate",
+      "basis": "Inner back lining bounded by the visible collar seam and front opening. Source RGB and outer silhouette preserved. Inspect complete composition, not merely self-reference edge error.",
+      "rights_status": "Unknown; inherited source lineage remains authoritative.",
+      "acceptance": "Unreleased candidate; no owner visual approval."
+    },
+    {
+      "asset_id": "pv4_wave_a_male_top_white_button_up_shirt_v1_neckline_v1",
+      "source_asset_id": "pv4_wave_a_male_top_white_button_up_shirt_v1",
+      "source_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_top_white_button_up_shirt_v1.png",
+      "source_sha256": "3c380e68550356e016a32a9663788dd4456795824c252dfe52ab002e37e52693",
+      "source_canvas": { "width": 334, "height": 385 },
+      "alpha_mask_polygon": [
+        [134, 25],
+        [151, 24],
+        [172, 24],
+        [196, 26],
+        [190, 38],
+        [181, 46],
+        [172, 58],
+        [165, 73],
+        [159, 58],
+        [148, 47],
+        [140, 36]
+      ],
+      "alpha_samples_per_pixel": 16,
+      "changed_pixels": 1535,
+      "coordinate_class": "game-authored visual-estimate",
+      "basis": "Inner back lining bounded by the visible collar seam and front opening. Source RGB and outer silhouette preserved. Inspect complete composition, not merely self-reference edge error.",
+      "rights_status": "Unknown; inherited source lineage remains authoritative.",
+      "acceptance": "Unreleased candidate; no owner visual approval."
+    }
+  ]
+}
