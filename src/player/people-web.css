@@ -82,6 +82,27 @@
   stroke-width: 1.5;
 }
 
+.pg-relationship-web-portrait {
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.pg-relationship-web-portrait .person-portrait {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.pg-relationship-web-portrait .person-portrait-mark {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.pg-relationship-web-portrait figcaption {
+  display: none;
+}
+
 .pg-relationship-web-node[data-focus="true"] circle {
   stroke: var(--pg-brass);
   stroke-width: 2.5;

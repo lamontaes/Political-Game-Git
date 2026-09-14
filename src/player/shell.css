@@ -787,8 +787,13 @@
 
 .pg-calendar-entry {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
+}
+
+.pg-calendar-entry .game-choices {
+  flex: 1 1 100%;
 }
 
 .pg-calendar-open {

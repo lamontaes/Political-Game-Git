@@ -427,26 +427,19 @@ test.describe("A life happens in the room the records put it in", () => {
   }) => {
     await freshBrowser(page);
     await startLife(page, { place: "Lexington", state: "Kentucky", age: 36 });
-    // PT3: the intro is two beats and then the scene; the life moment is
-    // reached the way a player reaches it.
     await enterLife(page);
     const room = await page
       .getByTestId("scene-backdrop")
       .getAttribute("data-scene-id");
-    const who = page.getByTestId("story-who");
-    const moment = await who.innerText();
 
     await goTo(page, "keep-world");
     await expectNoDestination(page, "keep-world");
     await page.reload();
     await page.getByTestId("continue").click();
 
-    // A saved life has been introduced already, so it opens on its moment:
-    // the room's scene, with the continuing life one step in.
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await expect(page.getByTestId("opening-life-panel")).toHaveCount(0);
     await enterLife(page);
-    await expect(who).toHaveText(moment);
     await expect(page.getByTestId("scene-backdrop")).toHaveAttribute(
       "data-scene-id",
       room ?? "",

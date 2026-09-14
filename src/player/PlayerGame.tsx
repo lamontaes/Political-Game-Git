@@ -2087,9 +2087,8 @@ function PlayingScreen({
    * on screen; this is the request, cleared as soon as it is honored.
    */
   const [returnFocusTo, setReturnFocusTo] = useState<EntityId | null>(null);
-  const continuingLifeShown = Boolean(
-    completedActivityHere(session.world, session.personId),
-  );
+  const [pendingLifeOpen, setPendingLifeOpen] = useState(false);
+  const continuingLifeShown = pendingLifeOpen;
   useContentViewportCss();
   const actionMenuRef = useRef<HTMLDivElement>(null);
 
@@ -2625,6 +2624,21 @@ function PlayingScreen({
               onTalkTo={(personId) => talkTo(personId)}
               returnFocusTo={returnFocusTo}
               onFocusReturned={() => setReturnFocusTo(null)}
+              pendingAvailable={
+                projectedMoment.scene.kind !== "ordinary-stretch" ||
+                projectedMoment.openThreads.length > 0 ||
+                Boolean(completedActivityHere(session.world, session.personId))
+              }
+              pendingOpen={pendingLifeOpen}
+              onOpenPending={() => setPendingLifeOpen(true)}
+              onClosePending={() => setPendingLifeOpen(false)}
+              pendingLife={
+                <StoryView
+                  session={session}
+                  moment={moment}
+                  onWorldChange={onWorldChange}
+                />
+              }
               foreground={
                 conversation && view.surface === "scene" ? (
                   <SceneConversation

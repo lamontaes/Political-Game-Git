@@ -1,10 +1,13 @@
-import { type ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import type {
   EntityId,
   World,
   FutureTransitionHandlerRegistry,
 } from "../../simulation";
-import { currentOpeningLifeScene } from "../../presentation/life-scene-flow";
+import {
+  currentOpeningLifeScene,
+  openNextLifeScene,
+} from "../../presentation/life-scene-flow";
 import { LifeScenePanel } from "./LifeScenePanel";
 
 /** Typed root integration seam. The caller keeps its navigation, save store and scene. */
@@ -17,6 +20,12 @@ export interface OpeningLifeFlowProps {
   readonly returnFocusTo?: EntityId | null;
   readonly onFocusReturned?: () => void;
   readonly transitionHandlers?: FutureTransitionHandlerRegistry;
+  /** Story/situation surface, opened on demand rather than as an idle card. */
+  readonly pendingLife?: ReactNode;
+  readonly pendingAvailable?: boolean;
+  readonly pendingOpen?: boolean;
+  readonly onOpenPending?: () => void;
+  readonly onClosePending?: () => void;
 }
 
 /**
@@ -25,9 +34,64 @@ export interface OpeningLifeFlowProps {
  * Household/world facts live on Personal, on demand.
  */
 export function OpeningLifeFlow(props: OpeningLifeFlowProps) {
-  if (props.foreground) return <>{props.foreground}</>;
   const scene = currentOpeningLifeScene(props.world, props.playerPersonId);
-  if (!scene) return null;
+  useEffect(() => {
+    if (props.foreground) return;
+    if (scene) return;
+    try {
+      const next = openNextLifeScene(props.world, props.playerPersonId);
+      if (next !== props.world) props.onWorldChange(next);
+    } catch {
+      // Only the controlling player can open this scene.
+    }
+  }, [
+    props.world,
+    props.playerPersonId,
+    props.foreground,
+    scene,
+    props.onWorldChange,
+  ]);
+
+  if (props.foreground) return <>{props.foreground}</>;
+  if (props.pendingOpen && props.pendingLife) {
+    return (
+      <div className="pg-opening-pending" data-testid="pending-life-surface">
+        {props.pendingLife}
+        {props.onClosePending ? (
+          <button
+            type="button"
+            className="ui-action"
+            data-testid="pending-life-return"
+            onClick={props.onClosePending}
+          >
+            Return to the room
+          </button>
+        ) : null}
+      </div>
+    );
+  }
+  if (!scene) {
+    return (
+      <section
+        className="life-moment pg-opening-flow"
+        data-testid="opening-life-scene"
+      >
+        <p className="game-note" data-testid="life-scene-quiet">
+          Nothing here needs a choice right now.
+        </p>
+        {props.pendingAvailable && props.onOpenPending ? (
+          <button
+            type="button"
+            className="ui-action"
+            data-testid="pending-life-open"
+            onClick={props.onOpenPending}
+          >
+            Open the pending decision
+          </button>
+        ) : null}
+      </section>
+    );
+  }
   return (
     <LifeScenePanel
       world={props.world}
