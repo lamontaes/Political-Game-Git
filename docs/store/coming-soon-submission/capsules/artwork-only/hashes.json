@@ -1,0 +1,50 @@
+[
+  {
+    "file": "header_capsule_920x430_artwork_only.png",
+    "bytes": 800521,
+    "sha256": "b8be0f4556797baa04ab42c036ef66804bd13c7eba6cf13bde2513f30a77a4ec",
+    "file_cmd": "PNG image data, 920 x 430, 8-bit/color RGB, non-interlaced"
+  },
+  {
+    "file": "library_capsule_600x900_artwork_only.png",
+    "bytes": 742744,
+    "sha256": "e3f4052fb9ca998c8a3e1edf5e5dc262ab737e2b5e431ff2322c74d354c66860",
+    "file_cmd": "PNG image data, 600 x 900, 8-bit/color RGB, non-interlaced"
+  },
+  {
+    "file": "library_header_920x430_artwork_only.png",
+    "bytes": 674968,
+    "sha256": "1b23f1e6a1babf6e16a75abbc25ff6c011ddb124e784e765136ff6652eec4921",
+    "file_cmd": "PNG image data, 920 x 430, 8-bit/color RGB, non-interlaced"
+  },
+  {
+    "file": "library_hero_3840x1240_artwork_only.png",
+    "bytes": 10157159,
+    "sha256": "79b6366420ca91991d324efa25da7c24ea1fc10c8a13a68f6c992a60b4bb1c5b",
+    "file_cmd": "PNG image data, 3840 x 1240, 8-bit/color RGB, non-interlaced"
+  },
+  {
+    "file": "main_capsule_1232x706_artwork_only.png",
+    "bytes": 1293551,
+    "sha256": "4e7cd273430cb4d4942acd564fe97a0058cd993aa6237b2f54e5ae677dcdb2e1",
+    "file_cmd": "PNG image data, 1232 x 706, 8-bit/color RGB, non-interlaced"
+  },
+  {
+    "file": "page_background_1438x810_artwork_only.png",
+    "bytes": 1292813,
+    "sha256": "986e84c3d34cdc3cfbaea690bc3995eba0f372a62e4ddc5215c8185b22157e28",
+    "file_cmd": "PNG image data, 1438 x 810, 8-bit/color RGB, non-interlaced"
+  },
+  {
+    "file": "small_capsule_462x174_artwork_only.png",
+    "bytes": 181455,
+    "sha256": "8fcf575bee7fff4ee7bc00fbb740b45015f9c68c8975aad6c9ae04baf2140a4c",
+    "file_cmd": "PNG image data, 462 x 174, 8-bit/color RGB, non-interlaced"
+  },
+  {
+    "file": "vertical_capsule_748x896_artwork_only.png",
+    "bytes": 950722,
+    "sha256": "a533019542df9747cecf31320382384e3fefa586b1819e5a0c97d5597fd220cd",
+    "file_cmd": "PNG image data, 748 x 896, 8-bit/color RGB, non-interlaced"
+  }
+]
