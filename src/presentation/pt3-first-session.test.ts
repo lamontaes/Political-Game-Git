@@ -182,7 +182,7 @@ describe("a decision is recorded, and kept only by what the player then does", (
         keeps: "Make time to learn something",
         records: null,
       },
-      { choiceKey: "later", minutes: 5, keeps: null, records: null },
+      { choiceKey: "later", minutes: 0, keeps: null, records: null },
     ]);
     world = chooseOpeningLifeScene(world, life.personId, scene.eventId, "read");
     expect(goalStatus(world, life.personId, "learning")).toBe("completed");
@@ -204,6 +204,7 @@ describe("a decision is recorded, and kept only by what the player then does", (
     );
     world = openNextLifeScene(world, life.personId);
     scene = currentOpeningLifeScene(world, life.personId)!;
+    const beforePuttingItOff = world.currentMoment;
     world = chooseOpeningLifeScene(
       world,
       life.personId,
@@ -211,6 +212,7 @@ describe("a decision is recorded, and kept only by what the player then does", (
       "later",
     );
     expect(goalStatus(world, life.personId, "learning")).toBe("active");
+    expect(world.currentMoment).toEqual(beforePuttingItOff);
   });
 
   it("gives the three plan choices three different recorded outcomes", () => {
