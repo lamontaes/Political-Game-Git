@@ -116,6 +116,34 @@ describe("A life can start anywhere in the country", () => {
     expect(kentucky.some((place) => place.key === "kentucky")).toBe(false);
   });
 
+  it("orders eligible hometowns alphabetically before applying the result limit", () => {
+    const options = {
+      stateJurisdictionKey: "US-KY",
+      scope: "locality" as const,
+    };
+    const page = searchLifePlaces("", 12, options);
+    const twoPages = searchLifePlaces("", 24, options);
+    expect(page.length).toBe(12);
+    expect(twoPages.slice(0, 12)).toEqual(page);
+    const names = twoPages.map((place) => place.displayName);
+    expect(names).toEqual(
+      [...names].sort((left, right) =>
+        left.localeCompare(right, "en", { sensitivity: "base" }),
+      ),
+    );
+    expect(
+      page[0]!.displayName.localeCompare("Lexington, Kentucky", "en"),
+    ).toBe(-1);
+    expect(page.some((place) => place.key === "lexington-fayette")).toBe(false);
+
+    const lexington = searchLifePlaces("Lexington", 20, options).find(
+      (place) => place.key === "lexington-fayette",
+    );
+    expect(lexington?.displayName).toBe("Lexington, Kentucky");
+    expect(lexington?.formalName).toBe("Lexington-Fayette, Kentucky");
+    expect(lifePlaceByKey("lexington-fayette")?.key).toBe("lexington-fayette");
+  });
+
   it("reaches the source only through the generated export, never src/source", () => {
     // The one-way seam, as a file check: the browser-safe modules that carry
     // national places must not IMPORT the Node-only substrate. Only import and

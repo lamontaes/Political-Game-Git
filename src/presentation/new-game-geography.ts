@@ -70,6 +70,8 @@ export interface ExplicitNewGameInput {
   readonly worldOrigin?: GeographyWorldOrigin;
   readonly startKind?: NewGameSetup["startKind"];
   readonly startAge?: NewGameSetup["startAge"];
+  readonly birthMonth?: NewGameSetup["birthMonth"];
+  readonly birthDay?: NewGameSetup["birthDay"];
   readonly depth?: NewGameSetup["depth"];
   readonly startingLife?: NewGameSetup["startingLife"];
   readonly household?: NewGameSetup["household"];
@@ -188,6 +190,9 @@ export function explicitNewGameSetup(
     ...DEFAULT_NEW_GAME_SETUP,
     startKind: input.startKind ?? "normal",
     startAge: input.startAge ?? DEFAULT_NEW_GAME_SETUP.startAge,
+    ...(input.birthMonth === undefined || input.birthDay === undefined
+      ? {}
+      : { birthMonth: input.birthMonth, birthDay: input.birthDay }),
     depth: input.depth ?? DEFAULT_NEW_GAME_SETUP.depth,
     startingLife: input.startingLife ?? "ordinary-life",
     household: input.household ?? DEFAULT_NEW_GAME_SETUP.household,

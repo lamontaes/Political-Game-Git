@@ -546,7 +546,7 @@ export interface LifePlaceSearchOptions {
   readonly scope?: LifePlaceScope;
 }
 
-function authoredLocalityMatches(
+function authoredPlaceMatchesQuery(
   place: LifePlace,
   needle: string,
   stateKey: string | undefined,
@@ -565,24 +565,23 @@ function authoredLocalityMatches(
   );
 }
 
-function comparePlaceDisplayNames(left: LifePlace, right: LifePlace): number {
+function compareLifePlaceSearchOrder(
+  left: LifePlace,
+  right: LifePlace,
+): number {
   const byName = left.displayName.localeCompare(right.displayName, "en", {
     sensitivity: "base",
   });
   if (byName !== 0) return byName;
-  const byState = (left.withinName ?? "").localeCompare(
-    right.withinName ?? "",
-    "en",
-    { sensitivity: "base" },
-  );
-  if (byState !== 0) return byState;
-  return left.key.localeCompare(right.key);
+  return left.key.localeCompare(right.key, "en");
 }
 
 /**
- * Places matching a search, merged and ordered by player-facing name before
- * the result limit. Authored and corpus rows for the same GEOID stay one
- * place. Lexington is not moved to the front of an empty state list.
+ * Places matching a search, merged from authored rows and the national corpus.
+ *
+ * Eligible rows are filtered, deduplicated, and ordered by player-facing name
+ * before `limit` is applied. Authored hometowns such as Lexington are not
+ * pinned to the front of a truncated page.
  *
  * A state filter is identity-based. An empty query with a state selected lists
  * that state's localities rather than recommending a default hometown.
@@ -599,50 +598,46 @@ export function searchLifePlaces(
   if (!stateKey && needle.length === 0) return [];
 
   const authoredGeoids = authoredSourceGeoidSet();
-  const results: LifePlace[] = [];
   const seen = new Set<string>();
+  const matches: LifePlace[] = [];
   const take = (place: LifePlace) => {
+    if (options?.scope && place.scope !== options.scope) return;
+    if (stateKey && place.stateJurisdictionKey !== stateKey) return;
     if (seen.has(place.key)) return;
     seen.add(place.key);
-    results.push(place);
+    matches.push(place);
   };
 
   for (const place of allPlaces()) {
-    if (options?.scope && place.scope !== options.scope) continue;
-    if (!authoredLocalityMatches(place, needle, stateKey)) continue;
-    take(place);
+    if (authoredPlaceMatchesQuery(place, needle, stateKey)) take(place);
   }
-  if (options?.scope === "state") {
-    return [...results].sort(comparePlaceDisplayNames).slice(0, limit);
+  if (options?.scope !== "state") {
+    const rows = usps
+      ? (nationwideRowsByUsps().get(usps) ?? [])
+      : nationwideRows();
+    for (const row of rows) {
+      if (authoredGeoids.has(row[0])) continue;
+      if (usps) {
+        if (!localityLabelMatches(row[1], needle)) continue;
+      } else {
+        const haystack =
+          `${row[1]} ${stateName(row[2])} ${row[2]}`.toLowerCase();
+        if (!haystack.includes(needle)) continue;
+      }
+      take(synthesizeNationwidePlace(row));
+    }
+    /*
+     * Counties answer to the same filters as everything above. UI144's county
+     * rows arrived after the state filter was written, and composed together a
+     * town search inside Alabama listed Kentucky's counties.
+     */
+    for (const place of nationwideCounties().values()) {
+      if (placeMatches(place, needle)) take(place);
+    }
   }
 
-  const rows = usps
-    ? (nationwideRowsByUsps().get(usps) ?? [])
-    : nationwideRows();
-  for (const row of rows) {
-    if (authoredGeoids.has(row[0])) continue;
-    if (usps) {
-      if (!localityLabelMatches(row[1], needle)) continue;
-    } else {
-      const haystack = `${row[1]} ${stateName(row[2])} ${row[2]}`.toLowerCase();
-      if (!haystack.includes(needle)) continue;
-    }
-    const place = synthesizeNationwidePlace(row);
-    if (options?.scope && place.scope !== options.scope) continue;
-    take(place);
-  }
-  /*
-   * Counties answer to the same filters as everything above. UI144's county
-   * rows arrived after the state filter was written, and composed together a
-   * town search inside Alabama listed Kentucky's counties.
-   */
-  for (const place of nationwideCounties().values()) {
-    if (options?.scope && place.scope !== options.scope) continue;
-    if (stateKey && place.stateJurisdictionKey !== stateKey) continue;
-    if (!placeMatches(place, needle)) continue;
-    take(place);
-  }
-  return results.sort(comparePlaceDisplayNames).slice(0, limit);
+  matches.sort(compareLifePlaceSearchOrder);
+  return matches.slice(0, limit);
 }
 
 const OUTSTANDING_DEPENDENCY =
