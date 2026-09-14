@@ -60,7 +60,10 @@ export function CreatorAppearanceStep({
   }
 
   return (
-    <section data-testid="creator-stage-appearance">
+    <section
+      className="creator-stage-panel"
+      data-testid="creator-stage-appearance"
+    >
       <h2>How you look</h2>
       <p className="game-note">
         Optional. Changing clothes here does not start the life or change who

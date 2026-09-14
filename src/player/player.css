@@ -6296,20 +6296,22 @@
   animation: creator-stage-in 220ms ease both;
 }
 
-.title-tableau--art .game-creator [data-testid="creator-stage-appearance"] {
+.game-creator .creator-stage-panel {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0.4rem 0 0.75rem;
   padding: 0.75rem 0.85rem;
-  background: rgb(8 13 21 / 0.88);
-  color: #f4ece0;
+  border: 1px solid rgba(224, 195, 122, 0.38);
   border-radius: 3px;
+  background: rgb(8 13 21 / 0.92);
+  color: #f5ebd4;
 }
 
-.title-tableau--art .game-creator [data-testid="creator-stage-appearance"] h2,
-.title-tableau--art
-  .game-creator
-  [data-testid="creator-stage-appearance"]
-  .game-note {
-  color: #f4ece0;
-  background: transparent;
+.game-creator .creator-stage-panel h2,
+.game-creator .creator-stage-panel .game-note {
+  margin: 0;
+  color: #f5ebd4;
+  background: none;
 }
 
 .title-tableau--art .game-creator h3 {
