@@ -1,10 +1,9 @@
-import { passOrdinaryDays } from "./ordinary-life";
+import { ORDINARY_DAY_START_MINUTE, passOrdinaryDays } from "./ordinary-life";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
 import {
   activeEducationEnrollmentsAt,
   adaptiveSelectionSeed,
   addDays,
-  ORDINARY_DAY_START_MINUTE,
   ageOnDate,
   availableLifeSituations,
   createOrganization,

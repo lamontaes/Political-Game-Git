@@ -66,3 +66,11 @@ additions with the existing shared registry lazily, preserving its due/routine
 hooks. No shared factory is copied. Favor preflight also respects projected
 accepted work windows; the combined saved mid-shift regression proves no
 simultaneous proofreading/pay and one wage settlement after actual work.
+
+Supplemental direct source replay PASS:10 dialogue lines+Leave0; illustrative
+meeting60once after reload, terminalrepeat rejected. Ordinary paid-work/favor
+route: saved10:00shift blocks favor with identicalWorld; work completes13:00,
+favor13:20; next-day one new USD72 settlement; saved terminal status retained.
+The evidence is `single-charge.json`, supplemental to queued Vitest/browser.
+Fresh TypeScript caught and corrected the morning constant import to its existing
+`ordinary-life.ts` export; no new morning constant or clock is introduced.

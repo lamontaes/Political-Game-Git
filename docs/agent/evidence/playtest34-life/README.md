@@ -44,3 +44,12 @@ illustrative authored60-minute meeting. Reading an actual book remains15minutes,
 read-more5, stop-reading0. Accepted work, travel, tuition/grace and interruption
 regressions must be run against this candidate before delivery. Browser evidence
 and exact frozen SHA are recorded in the owning plan when available.
+
+Direct source replay at the final candidate also passed
+`single-charge.json`: ten dialogue lines plus Leave0minutes; the illustrative
+meeting remains scheduled after leaving, survives reload, then completes60minutes
+once. Duplicate performance after reload is rejected. In ordinary accepted Shop
+assistant work, a saved10:00mid-shift favor attempt returns the identical World;
+actual work completes13:00, proofreading completes13:20, and the next-day due
+settlement pays USD72 once. This replay is supplemental direct source evidence;
+it does not replace the queued worker/browser suites.
