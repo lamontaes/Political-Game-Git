@@ -58,6 +58,12 @@ export async function openCreator(page: Page): Promise<void> {
   await expect(page.getByTestId("setup-screen")).toBeVisible();
 }
 
+/** Explicit Kentucky town for ordinary-route proofs. Do not omit these. */
+export const KENTUCKY_REGRESSION_HOMETOWN = {
+  state: "Kentucky",
+  place: "Lexington",
+} as const;
+
 function namedState(name: string) {
   return lifePlaceStateIdentities().find(
     (state) => state.name.toLowerCase() === name.trim().toLowerCase(),

@@ -1,5 +1,10 @@
 import { expect, test } from "./fixtures";
-import { enterLife, goTo, startLife } from "./support/creator";
+import {
+  enterLife,
+  goTo,
+  startLife,
+  KENTUCKY_REGRESSION_HOMETOWN,
+} from "./support/creator";
 import { reachMemberOffice } from "./support/legislative-entry";
 
 test("ordinary Work office route mounts office onboarding after a won seat", async ({
@@ -7,7 +12,11 @@ test("ordinary Work office route mounts office onboarding after a won seat", asy
 }) => {
   test.setTimeout(180_000);
   await page.goto("/?seed=l-onboard-ordinary-mount");
-  await startLife(page, { age: 38, route: "normal" });
+  await startLife(page, {
+    age: 38,
+    route: "normal",
+    ...KENTUCKY_REGRESSION_HOMETOWN,
+  });
   await enterLife(page);
   await reachMemberOffice(page);
   await goTo(page, "elsewhere-work");

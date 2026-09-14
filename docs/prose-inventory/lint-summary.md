@@ -22,7 +22,7 @@ defect than the one it was aimed at.
 
 ## Repetition
 
-- 2701 templates, 2530 distinct texts.
+- 2699 templates, 2528 distinct texts.
 - 38 exact duplicate groups.
 - 47 normalized duplicate groups.
 - 23 near-duplicate clusters (Jaccard ≥ 0.72).

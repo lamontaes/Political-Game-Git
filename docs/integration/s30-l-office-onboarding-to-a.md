@@ -1,55 +1,45 @@
 # S30-L office onboarding → A
 
-Feature owner: L (`cursor/staff-office-onboarding-28c4`, P31-L repair of
-`8cf65b2b`). A owns the final shared-root merge. This branch already mounts
-the workspace on the ordinary legislative office route so A can receive the
-current adapter rather than a conceptual snippet.
+Feature owner: L (`cursor/staff-office-onboarding-28c4`, REST37-L). A owns
+the final shared-root merge. This branch already mounts the workspace on the
+ordinary legislative office route.
 
 ## Player change
 
-A seated member opening Work → Your office sees How this office works. They
-choose one of three voting workflows and one of three casework workflows,
-then commit with Record this office workflow. Trying a radio spends no time
-or money and does not save. A standing instruction is a separate deliberate
-action and is refused until a workflow is recorded. Staff text is a briefing
-of known public or recorded items, not a recommended package and not executed
-delegation. Opening the surface does not vote or finish casework.
+A seated member opening Work → Your office stages voting and casework radios,
+then commits with Record. A standing instruction binds the current bill
+**text** (provisions and amendments), not a calendar step. Staff brief
+attributed public or recorded accounts bound to origin event ids. Private and
+missing records stay unavailable. Opening does not vote or finish casework.
+`executedDelegation` remains false.
 
-## Current-root mount (already applied on this branch)
+## Current-root mount (already applied)
 
-In `src/player/PlayerGame.tsx`, `legislativeOffice` mounts:
+`OfficeOnboardingWorkspace` in `legislativeOffice` after the orientation
+paragraph. Draft radios reset on world/person/office identity, not only
+preference id.
 
-```tsx
-import { OfficeOnboardingWorkspace } from "./OfficeOnboardingWorkspace";
+Ordinary-route proof: `tests/e2e/office-onboarding-ordinary.spec.ts` uses
+`KENTUCKY_REGRESSION_HOMETOWN` and `reachMemberOffice`.
 
-<OfficeOnboardingWorkspace
-  world={session.world}
-  playerPersonId={session.personId}
-  selectedMeasureId={workingBill?.measureId ?? assignment?.measureId ?? null}
-  onWorldChange={onLegislativeChange}
-/>;
-```
+## L ↔ S consumer
 
-after the first orientation paragraph and before the docket. No other root
-navigation, schema, or legislative-authority change is required.
-`OfficeOnboardingWorkspace` imports its own CSS. Old saves omit the optional
-history arrays and remain valid.
+`applyLegislativeStep` consumes `applyArmedOfficeInstructionsToDispositions`
+`openLegislativeWork` seats the live member onto the matching chamber body
+so the overlay matches a canonical `personId`. Stale text blocks the write.
+See `docs/integration/s30-l-s-vote-instruction.md`.
 
-Ordinary-route proof: `tests/e2e/office-onboarding-ordinary.spec.ts` reaches
-a won seat through `reachMemberOffice` and asserts `#office-onboarding`.
-Fixture interaction proof remains `tests/e2e/office-onboarding.spec.ts`.
+## Named remaining gaps
 
-## L ↔ S seam
-
-S should import `evaluateOfficeVoteInstruction` from
-`src/presentation/office-vote-instruction.ts` before any floor vote or
-amendment transition that claims to follow a standing instruction. An `armed`
-result is permission to consider the instruction, not a vote. See
-`docs/integration/s30-l-s-vote-instruction.md`.
-
-## Named remaining gap
-
-Automatic execution of an armed instruction is not claimed. Casework
-execution and a skill-ranked recommendation engine are not claimed. L
-records and evaluates; S writes the canonical legislative transition when it
-is legally available.
+- Ordinary production seating (`employInLegislativeOffice`) does not hire
+  `employment:legislative-staff` onto `ActiveMemberSeat.organizationId`, so
+  the ordinary Work route is an honest **no-staff** office. Do not invent an
+  aide. A real staff producer belongs on the chamber/member organization after
+  seating.
+- Casework execution and a skill-ranked amendment package remain unfinished
+  consumers. Preferences do not complete them.
+- Automatic vote execution beyond overlaying the live member's recorded
+  disposition on S's existing docket floor/amendment/concurrence write is
+  not claimed. Family-room bargaining (`legislative-bargaining-actions.ts`)
+  still lacks that overlay; the adapter to call is
+  `applyArmedOfficeInstructionsToDispositions`.

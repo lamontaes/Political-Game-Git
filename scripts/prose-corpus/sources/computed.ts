@@ -571,7 +571,7 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
       {
         key: "staff-event-access",
         description:
-          "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
       },
     ],
   },

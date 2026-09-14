@@ -11,16 +11,22 @@ import {
   recordOfficeBriefingInspection,
   recordOfficeVoteInstruction,
   recordOfficeWorkflowPreference,
+  recordFiledProvision,
+  createWorkRelationship,
   type EntityId,
   type World,
 } from "../simulation";
 import { applyLegislativeCommand } from "./legislation-world";
 import { resolveActiveMemberSeat } from "./legislative-member-seat";
 import {
+  officeOnboardingDraftResetKey,
   projectOfficeOnboarding,
   resolveStaffEventAccess,
 } from "./office-onboarding";
-import { evaluateOfficeVoteInstruction } from "./office-vote-instruction";
+import {
+  applyArmedOfficeInstructionsToDispositions,
+  evaluateOfficeVoteInstruction,
+} from "./office-vote-instruction";
 import {
   hireOfficeStaff,
   openOfficeBill,
@@ -153,7 +159,7 @@ describe("L staff-guided office onboarding", () => {
     ).toBe("no-active-seat");
   });
 
-  it("refuses a standing instruction after the measure changes, without casting a vote", () => {
+  it("keeps a standing instruction after a procedural step that does not change the text", () => {
     const member = wonLegislativeSeat("l-onboard-changed");
     const opened = openOfficeBill(member.world, member.personId);
     const preferred = recordDefaultPreference(opened.world, member.personId);
@@ -180,29 +186,261 @@ describe("L staff-guided office onboarding", () => {
       opened.assignment,
       { kind: "take-step", step: "request-referral" },
     );
-    expect(
-      measureTextVersion(stepped.world, opened.assignment.measureId),
-    ).not.toBe(
+    expect(measureTextVersion(stepped.world, opened.assignment.measureId)).toBe(
       measureTextVersion(instructed.world, opened.assignment.measureId),
     );
-    const refused = evaluateOfficeVoteInstruction(stepped.world, {
+    const stillArmed = evaluateOfficeVoteInstruction(stepped.world, {
       actorPersonId: member.personId,
       officeRelationshipId: preferred.seat.relationshipId,
       chamberKey: preferred.seat.chamberKey,
       measureId: opened.assignment.measureId,
     });
-    expect(refused).toMatchObject({ kind: "refused", code: "measure-changed" });
+    expect(stillArmed.kind).toBe("armed");
+    if (stillArmed.kind === "armed") {
+      expect(stillArmed.proceduralStage.lastActionKind).not.toBe(
+        instructed.world.history.legislativeActions?.at(-1)?.kind ?? null,
+      );
+    }
     expect((stepped.world.history.legislativeVotes ?? []).length).toBe(
       votesBefore,
     );
+    const overlay = applyArmedOfficeInstructionsToDispositions(stepped.world, {
+      measureId: opened.assignment.measureId,
+      chamberKey: preferred.seat.chamberKey,
+      dispositions: [
+        {
+          memberKey: "player-seat",
+          personId: member.personId,
+          disposition: "nay",
+        },
+      ],
+    });
+    expect(overlay.kind).toBe("ready");
+    if (overlay.kind === "ready") {
+      expect(overlay.dispositions[0]?.disposition).toBe("yea");
+      expect(overlay.appliedPersonIds).toEqual([member.personId]);
+    }
+
+    const toFloor: readonly {
+      readonly kind: "take-step";
+      readonly step:
+        | "request-referral"
+        | "request-committee-hearing"
+        | "move-committee-report"
+        | "request-calendar-placement";
+    }[] = [
+      { kind: "take-step", step: "request-referral" },
+      { kind: "take-step", step: "request-committee-hearing" },
+      { kind: "take-step", step: "move-committee-report" },
+      { kind: "take-step", step: "request-calendar-placement" },
+    ];
+    let floorWorld = instructed.world;
+    for (const command of toFloor) {
+      floorWorld = applyLegislativeCommand(
+        floorWorld,
+        opened.assignment,
+        command,
+      ).world;
+    }
+    const votesBeforeFloor = (floorWorld.history.legislativeVotes ?? []).length;
+    const amended = applyLegislativeCommand(floorWorld, opened.assignment, {
+      kind: "take-step",
+      step: "offer-amendment",
+    });
+    const playerDisposition = (amended.world.history.legislativeVotes ?? [])
+      .at(-1)
+      ?.dispositions.find((entry) => entry.personId === member.personId);
+    expect(playerDisposition?.disposition).toBe("yea");
+    expect(
+      (amended.world.history.legislativeVotes ?? []).length,
+    ).toBeGreaterThan(votesBeforeFloor);
+
+    const funding = recordFiledProvision(floorWorld, {
+      stableKey: `office-onboarding:${opened.assignment.measureId}:stale-funding`,
+      measureId: opened.assignment.measureId,
+      provisionKey: "office-onboarding-stale-funding",
+      sectionNumber: 2,
+      heading: "Funding",
+      text: "A later filing added a funding section after the instruction.",
+      beneficiary: {
+        kind: "general-application",
+        appliesToLabel: "everyone the Act reaches",
+      },
+      applicationScope: {
+        jurisdictionId: instructed.world.history.legislativeMeasures!.find(
+          (record) => record.id === opened.assignment.measureId,
+        )!.jurisdictionId,
+        segmentKey: null,
+      },
+    });
+    const votesBeforeBlocked = (funding.history.legislativeVotes ?? []).length;
+    expect(() =>
+      applyLegislativeCommand(funding, opened.assignment, {
+        kind: "take-step",
+        step: "offer-amendment",
+      }),
+    ).toThrow(/bill has changed/i);
+    expect((funding.history.legislativeVotes ?? []).length).toBe(
+      votesBeforeBlocked,
+    );
+  });
+
+  it("refuses a standing instruction after the bill text changes, without casting a vote", () => {
+    const member = wonLegislativeSeat("l-onboard-text");
+    const opened = openOfficeBill(member.world, member.personId);
+    const preferred = recordDefaultPreference(opened.world, member.personId);
+    const instructed = recordOfficeVoteInstruction(preferred.world, {
+      personId: member.personId,
+      officeRelationshipId: preferred.seat.relationshipId,
+      chamberKey: preferred.seat.chamberKey,
+      measureId: opened.assignment.measureId,
+      disposition: "yea",
+    });
+    expect(instructed.kind).toBe("recorded");
+    if (instructed.kind !== "recorded") throw new Error(instructed.reason);
+    const votesBefore = (instructed.world.history.legislativeVotes ?? [])
+      .length;
+    const measure = instructed.world.history.legislativeMeasures!.find(
+      (record) => record.id === opened.assignment.measureId,
+    )!;
+    const rewritten = recordFiledProvision(instructed.world, {
+      stableKey: `office-onboarding:${measure.stableKey}:funding-sources`,
+      measureId: measure.id,
+      provisionKey: "office-onboarding-funding-sources",
+      sectionNumber: 2,
+      heading: "Funding sources",
+      text: "A later filing added a funding section.",
+      beneficiary: {
+        kind: "general-application",
+        appliesToLabel: "everyone the Act reaches",
+      },
+      applicationScope: {
+        jurisdictionId: measure.jurisdictionId,
+        segmentKey: null,
+      },
+    });
+    expect(measureTextVersion(rewritten, measure.id)).not.toBe(
+      measureTextVersion(instructed.world, measure.id),
+    );
+    const refused = evaluateOfficeVoteInstruction(rewritten, {
+      actorPersonId: member.personId,
+      officeRelationshipId: preferred.seat.relationshipId,
+      chamberKey: preferred.seat.chamberKey,
+      measureId: measure.id,
+    });
+    expect(refused).toMatchObject({ kind: "refused", code: "measure-changed" });
+    expect((rewritten.history.legislativeVotes ?? []).length).toBe(votesBefore);
+    const blocked = applyArmedOfficeInstructionsToDispositions(rewritten, {
+      measureId: measure.id,
+      chamberKey: preferred.seat.chamberKey,
+      dispositions: [
+        {
+          memberKey: "player-seat",
+          personId: member.personId,
+          disposition: "yea",
+        },
+      ],
+    });
+    expect(blocked.kind).toBe("blocked");
+    expect((rewritten.history.legislativeVotes ?? []).length).toBe(votesBefore);
     expect(
       currentOfficeVoteInstruction(
-        stepped.world,
+        rewritten,
         member.personId,
         preferred.seat.relationshipId,
-        opened.assignment.measureId,
+        measure.id,
       )?.disposition,
     ).toBe("yea");
+  });
+
+  it("resets unrecorded drafts by world, person, and office identity", () => {
+    const member = wonLegislativeSeat("l-onboard-draft");
+    const first = officeOnboardingDraftResetKey(
+      member.world.id,
+      member.personId,
+      member.seat.relationshipId,
+      null,
+    );
+    const otherOffice = officeOnboardingDraftResetKey(
+      member.world.id,
+      member.personId,
+      "work-relationship_other-office" as EntityId,
+      null,
+    );
+    expect(first).not.toBe(otherOffice);
+    expect(
+      evaluateOfficeVoteInstruction(member.world, {
+        actorPersonId: member.personId,
+        officeRelationshipId: "work-relationship_other-office" as EntityId,
+        chamberKey: member.seat.chamberKey,
+        measureId: "legislative-measure_missing" as EntityId,
+      }).code,
+    ).toBe("office-mismatch");
+  });
+
+  it("records a second-office inspection of the same item", () => {
+    const member = wonLegislativeSeat("l-onboard-inspect-term");
+    const opened = openOfficeBill(member.world, member.personId);
+    const hired = hireOfficeStaff(
+      opened.world,
+      member.personId,
+      member.seat.organizationId,
+    );
+    const briefing = projectOfficeOnboarding(
+      hired.world,
+      member.personId,
+      opened.assignment.measureId,
+    ).briefing;
+    const item = briefing.items[0]!;
+    const first = recordOfficeBriefingInspection(hired.world, {
+      personId: member.personId,
+      officeRelationshipId: member.seat.relationshipId,
+      measureId: opened.assignment.measureId,
+      itemKind: item.kind,
+      itemId: item.itemId,
+    });
+    expect(first.kind).toBe("recorded");
+    if (first.kind !== "recorded") throw new Error(first.reason);
+    const secondJob = createWorkRelationship(first.world, {
+      stableKey: "l-onboard:second-office",
+      personId: member.personId,
+      organizationId: member.seat.organizationId,
+      startedAt: first.world.currentDate,
+      kind: "employment:legislative-member",
+      compensation: "paid",
+      authority: "shared",
+      dependency: "partly-dependent",
+      economicRisk: "organization-borne",
+      provenance: { kind: "authored", note: "L second-office inspection." },
+      initialRole: {
+        title: "Member",
+        occupationClassification: null,
+        locationJurisdictionId: member.seat.governingJurisdictionId,
+        timeDemand: {
+          expectedWeekly: { minimumHours: 20, maximumHours: 40 },
+          attention: "high",
+          concurrency: "partly-concurrent",
+          scheduleRigidity: "mixed",
+          interruptibility: "limited",
+          locationJurisdictionId: member.seat.governingJurisdictionId,
+        },
+      },
+    });
+    const secondRelationshipId = secondJob.history.workRelationships.find(
+      (entry) => entry.stableKey === "l-onboard:second-office",
+    )!.id;
+    const second = recordOfficeBriefingInspection(secondJob, {
+      personId: member.personId,
+      officeRelationshipId: secondRelationshipId,
+      measureId: opened.assignment.measureId,
+      itemKind: item.kind,
+      itemId: item.itemId,
+    });
+    expect(second.kind).toBe("recorded");
+    if (second.kind !== "recorded") throw new Error(second.reason);
+    expect(second.world.history.officeBriefingInspections ?? []).toHaveLength(
+      2,
+    );
   });
 
   it("briefs from actual staff and still works when none are recorded", () => {
@@ -242,7 +480,8 @@ describe("L staff-guided office onboarding", () => {
     expect(staffed.briefing.packageSummary).toMatch(
       /not a recommended amendment package/i,
     );
-    expect(staffed.briefing.items[0]?.access.status).toBe("known");
+    expect(staffed.briefing.items[0]?.originEventId).toBeTruthy();
+    expect(staffed.briefing.items[0]?.canonicalRecordId).toBeTruthy();
     if (staffed.briefing.items[0]?.access.status === "known") {
       expect(staffed.briefing.items[0].access.basis).toBe("public-record");
     }
@@ -304,8 +543,14 @@ describe("L staff-guided office onboarding", () => {
       opened.assignment.measureId,
     ).briefing;
     expect(briefing.items.length).toBeGreaterThan(0);
-    expect(briefing.items.every((item) => item.known === false)).toBe(true);
-    expect(briefing.items[0]?.unknownReason).toMatch(/unknown/i);
+    expect(briefing.items.every((item) => item.known)).toBe(true);
+    expect(briefing.items[0]?.summary).toBe(
+      "Staff have not established what was filed.",
+    );
+    if (briefing.items[0]?.access.status === "known") {
+      expect(briefing.items[0].access.basis).toBe("staff-account");
+    }
+    expect(JSON.stringify(briefing)).not.toMatch(/incorrect/i);
   });
 
   it("does not treat missing events or private records as known", () => {
@@ -346,6 +591,9 @@ describe("L staff-guided office onboarding", () => {
       status: "known",
       basis: "public-record",
       summary: "filed purpose",
+      attributedPersonId: null,
+      originEventId: filing.id,
+      publicRecordOnFile: true,
     });
 
     const privateEvent = { ...filing, visibility: "private" as const };
@@ -400,6 +648,78 @@ describe("L staff-guided office onboarding", () => {
     expect(withoutRecords.briefing.items.every((item) => !item.known)).toBe(
       true,
     );
+
+    const measure = hired.world.history.legislativeMeasures!.find(
+      (record) => record.id === opened.assignment.measureId,
+    )!;
+    const withFunding = recordFiledProvision(hired.world, {
+      stableKey: `office-onboarding:${measure.stableKey}:funding`,
+      measureId: measure.id,
+      provisionKey: "office-onboarding-funding",
+      sectionNumber: 2,
+      heading: "Funding",
+      text: "The original funding section.",
+      beneficiary: {
+        kind: "general-application",
+        appliesToLabel: "everyone the Act reaches",
+      },
+      applicationScope: {
+        jurisdictionId: measure.jurisdictionId,
+        segmentKey: null,
+      },
+    });
+    const withSources = recordFiledProvision(withFunding, {
+      stableKey: `office-onboarding:${measure.stableKey}:funding-sources`,
+      measureId: measure.id,
+      provisionKey: "office-onboarding-funding-sources",
+      sectionNumber: 3,
+      heading: "Funding sources",
+      text: "A later filing listed funding sources.",
+      beneficiary: {
+        kind: "general-application",
+        appliesToLabel: "everyone the Act reaches",
+      },
+      applicationScope: {
+        jurisdictionId: measure.jurisdictionId,
+        segmentKey: null,
+      },
+    });
+    const fundingProvision = (
+      withSources.history.legislativeProvisions ?? []
+    ).find((record) => record.provisionKey === "office-onboarding-funding");
+    const sourcesProvision = (
+      withSources.history.legislativeProvisions ?? []
+    ).find(
+      (record) => record.provisionKey === "office-onboarding-funding-sources",
+    );
+    expect(fundingProvision?.eventId).toBeTruthy();
+    expect(sourcesProvision?.eventId).toBeTruthy();
+    const mixedVisibility = {
+      ...withSources,
+      history: {
+        ...withSources.history,
+        events: withSources.history.events.map((record) =>
+          record.id === fundingProvision?.eventId
+            ? { ...record, visibility: "private" as const }
+            : record,
+        ),
+      },
+    };
+    const mixedBriefing = projectOfficeOnboarding(
+      mixedVisibility,
+      member.personId,
+      opened.assignment.measureId,
+    ).briefing;
+    const fundingItem = mixedBriefing.items.find(
+      (item) => item.canonicalRecordId === fundingProvision?.id,
+    );
+    const sourcesItem = mixedBriefing.items.find(
+      (item) => item.canonicalRecordId === sourcesProvision?.id,
+    );
+    expect(fundingItem?.access.status).toBe("unavailable");
+    expect(fundingItem?.originEventId).toBe(fundingProvision?.eventId);
+    expect(sourcesItem?.access.status).toBe("known");
+    expect(sourcesItem?.originEventId).toBe(sourcesProvision?.eventId);
   });
 
   it("uses recorded partial or incorrect knowledge instead of inventing a full account", () => {
@@ -436,7 +756,7 @@ describe("L staff-guided office onboarding", () => {
       "Staff know only that a bill was filed.",
     );
     if (partialBriefing.items[0]?.access.status === "known") {
-      expect(partialBriefing.items[0].access.basis).toBe("recorded-knowledge");
+      expect(partialBriefing.items[0].access.basis).toBe("staff-account");
     }
 
     let incorrect = hired.world;
@@ -460,8 +780,11 @@ describe("L staff-guided office onboarding", () => {
       member.personId,
       opened.assignment.measureId,
     ).briefing;
-    expect(wrong.items[0]?.known).toBe(false);
-    expect(wrong.items[0]?.unknownReason).toMatch(/incorrect/i);
+    expect(wrong.items[0]?.known).toBe(true);
+    expect(wrong.items[0]?.summary).toBe(
+      "Staff think the bill funds a different program.",
+    );
+    expect(JSON.stringify(wrong)).not.toMatch(/incorrect/i);
   });
 
   it("keeps two lives isolated across save and reopen", () => {

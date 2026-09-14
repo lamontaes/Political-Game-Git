@@ -103,8 +103,11 @@ export interface OfficeStaffMember {
 export type OfficeBriefingAccess =
   | {
       readonly status: "known";
-      readonly basis: "public-record" | "recorded-knowledge";
+      readonly basis: "public-record" | "staff-account";
       readonly summary: string;
+      readonly attributedPersonId: EntityId | null;
+      readonly originEventId: EntityId;
+      readonly publicRecordOnFile: boolean;
     }
   | {
       readonly status: "unavailable";
@@ -115,6 +118,8 @@ export type OfficeBriefingAccess =
 export interface OfficeBriefingItem {
   readonly kind: "amendment" | "filed-section";
   readonly itemId: EntityId;
+  readonly canonicalRecordId: EntityId;
+  readonly originEventId: EntityId | null;
   readonly heading: string;
   readonly summary: string;
   readonly inspected: boolean;
@@ -231,6 +236,19 @@ export function projectOfficeOnboarding(
   };
 }
 
+export function officeOnboardingDraftResetKey(
+  worldId: EntityId,
+  playerPersonId: EntityId,
+  officeRelationshipId: EntityId | null,
+  preferenceId: EntityId | null,
+): string {
+  return `${worldId}:${playerPersonId}:${officeRelationshipId ?? "unseated"}:${preferenceId ?? "none"}`;
+}
+
+/**
+ * Staff employed at this member's organization. Ordinary production seating
+ * does not hire aides onto that organization; a no-staff office is valid.
+ */
 export function listOfficeStaff(
   world: World,
   seat: ActiveMemberSeat,
@@ -299,46 +317,44 @@ function projectStaffBriefing(
     );
   const amendments = measureAmendments(world, measureId);
   const items: OfficeBriefingItem[] = amendments.map((amendment) => {
-    const event = world.history.events.find((record) =>
-      record.involvedEntityIds.includes(amendment.id),
-    );
+    const originEventId = originEventIdForAmendment(world, amendment.id);
+    const event = originEventId
+      ? (world.history.events.find((record) => record.id === originEventId) ??
+        null)
+      : null;
     const access = resolveStaffEventAccess(
       world,
       input.staff,
-      event ?? null,
+      event,
       amendment.description,
     );
     return briefingItem(
       "amendment",
       amendment.id,
+      amendment.id,
+      originEventId,
       amendment.offeredByLabel,
       access,
       inspected("amendment", amendment.id),
     );
   });
   if (items.length === 0) {
-    const introduction = world.history.events.find(
-      (record) =>
-        record.type === "legislation.measure-introduced" &&
-        record.involvedEntityIds.includes(measureId),
-    );
     for (const section of currentMeasureProvisions(world, measureId)) {
-      const filing = world.history.events.find(
-        (record) =>
-          record.type === "legislation.provision-filed" &&
-          record.involvedEntityIds.includes(measureId) &&
-          record.summary.includes(section.heading),
-      );
+      const event =
+        world.history.events.find((record) => record.id === section.eventId) ??
+        null;
       const access = resolveStaffEventAccess(
         world,
         input.staff,
-        filing ?? introduction ?? null,
+        event,
         section.text,
       );
       items.push(
         briefingItem(
           "filed-section",
           section.id,
+          section.id,
+          section.eventId,
           `Section ${section.sectionNumber}. ${section.heading}`,
           access,
           inspected("filed-section", section.id),
@@ -369,6 +385,8 @@ function projectStaffBriefing(
 function briefingItem(
   kind: "amendment" | "filed-section",
   itemId: EntityId,
+  canonicalRecordId: EntityId,
+  originEventId: EntityId | null,
   heading: string,
   access: OfficeBriefingAccess,
   inspected: boolean,
@@ -377,6 +395,8 @@ function briefingItem(
   return {
     kind,
     itemId,
+    canonicalRecordId,
+    originEventId,
     heading,
     summary:
       access.status === "known"
@@ -389,10 +409,21 @@ function briefingItem(
   };
 }
 
+function originEventIdForAmendment(
+  world: World,
+  amendmentId: EntityId,
+): EntityId | null {
+  return (
+    (world.history.legislativeActions ?? []).find(
+      (action) => action.amendmentId === amendmentId,
+    )?.eventId ?? null
+  );
+}
+
 /**
  * Staff may brief a public filing without a private knowledge row. Missing
- * events, private records, and recorded unknown/incorrect knowledge do not
- * become known by absence.
+ * events and private records do not become known by absence. Recorded staff
+ * accounts are attributed; hidden accuracy is not a player verdict.
  */
 export function resolveStaffEventAccess(
   world: World,
@@ -408,40 +439,21 @@ export function resolveStaffEventAccess(
     };
   }
   const staffIds = new Set(staff.map((member) => member.personId));
-  const knowledge = world.history.knowledge.filter(
-    (record) => record.eventId === event.id && staffIds.has(record.personId),
-  );
+  const knowledge = world.history.knowledge
+    .filter(
+      (record) => record.eventId === event.id && staffIds.has(record.personId),
+    )
+    .slice()
+    .sort((left, right) => right.sequence - left.sequence);
   if (knowledge.length > 0) {
-    const ranked = [...knowledge].sort(
-      (left, right) =>
-        rankAccuracy(right.accuracy) - rankAccuracy(left.accuracy),
-    );
-    const best = ranked[0]!;
-    if (best.accuracy === "accurate") {
-      return {
-        status: "known",
-        basis: "recorded-knowledge",
-        summary: canonicalSummary,
-      };
-    }
-    if (best.accuracy === "partial") {
-      return {
-        status: "known",
-        basis: "recorded-knowledge",
-        summary: best.believedSummary,
-      };
-    }
-    if (best.accuracy === "inaccurate") {
-      return {
-        status: "unavailable",
-        reason: "Staff's recorded account of this item is incorrect.",
-        believedSummary: best.believedSummary,
-      };
-    }
+    const latest = knowledge[0]!;
     return {
-      status: "unavailable",
-      reason: "Staff knowledge of this record is unknown.",
-      believedSummary: best.believedSummary,
+      status: "known",
+      basis: "staff-account",
+      summary: latest.believedSummary,
+      attributedPersonId: latest.personId,
+      originEventId: event.id,
+      publicRecordOnFile: event.visibility === "public",
     };
   }
   if (event.visibility === "public") {
@@ -449,6 +461,9 @@ export function resolveStaffEventAccess(
       status: "known",
       basis: "public-record",
       summary: canonicalSummary,
+      attributedPersonId: null,
+      originEventId: event.id,
+      publicRecordOnFile: true,
     };
   }
   return {
@@ -457,15 +472,6 @@ export function resolveStaffEventAccess(
       "This record is not public, and no staff knowledge of it is recorded.",
     believedSummary: null,
   };
-}
-
-function rankAccuracy(
-  accuracy: "accurate" | "partial" | "inaccurate" | "unknown",
-) {
-  if (accuracy === "accurate") return 3;
-  if (accuracy === "partial") return 2;
-  if (accuracy === "inaccurate") return 1;
-  return 0;
 }
 
 function emptyBriefing(

@@ -23,7 +23,7 @@ declare is reported as undeclared rather than filled in from a guess.
 | `governing/municipal-work-and-session` | 7 | 0 | 0 | activity-evidence, work-standing |
 | `governing/municipal-workspace` | 75 | 0 | 0 | — |
 | `legislative/measure-briefing` | 93 | 0 | 0 | measure |
-| `legislative/office-onboarding-briefing` | 30 | 0 | 0 | — |
+| `legislative/office-onboarding-briefing` | 28 | 0 | 0 | — |
 | `legislative/office-onboarding-workspace` | 5 | 0 | 0 | candidacy, work-standing |
 | `legislative/office-vote-instruction` | 10 | 0 | 0 | candidacy |
 | `legislative/office-workflow-writes` | 12 | 0 | 0 | candidacy, work-standing |

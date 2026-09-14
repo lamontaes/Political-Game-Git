@@ -37,7 +37,12 @@ import {
   committeeHearingTransitionHandler,
 } from "../simulation/legislation";
 import { addDays, daysBetween } from "../simulation/dates";
-import type { World } from "../simulation/types";
+import type {
+  EntityId,
+  LegislativeVoteDisposition,
+  World,
+} from "../simulation/types";
+import { applyArmedOfficeInstructionsToDispositions } from "./office-vote-instruction";
 
 /**
  * Carries out the step a player chose.
@@ -58,6 +63,23 @@ const HEARING_HANDLERS = createFutureTransitionHandlerRegistry([
 export interface StepResult {
   readonly world: World;
   readonly message: string;
+}
+
+function dispositionsHonoringOfficeInstructions(
+  world: World,
+  measureId: EntityId,
+  chamberKey: string,
+  dispositions: readonly LegislativeVoteDisposition[],
+): readonly LegislativeVoteDisposition[] {
+  const overlay = applyArmedOfficeInstructionsToDispositions(world, {
+    measureId,
+    chamberKey,
+    dispositions,
+  });
+  if (overlay.kind === "blocked") {
+    throw new Error(overlay.reason);
+  }
+  return overlay.dispositions;
 }
 
 function counts(scenario: LegislativeProcedureContext, key: string) {
@@ -148,9 +170,14 @@ export function applyLegislativeStep(
         description:
           "Narrow the pilot so it starts in the counties already served.",
         offeredByLabel: "Floor sponsor",
-        dispositions: dispositionsFromCounts(
-          body.members,
-          counts(scenario, votePlanKeyForAmendment(chamberKey)),
+        dispositions: dispositionsHonoringOfficeInstructions(
+          world,
+          measureId,
+          chamberKey,
+          dispositionsFromCounts(
+            body.members,
+            counts(scenario, votePlanKeyForAmendment(chamberKey)),
+          ),
         ),
         presentMembers: body.members.length,
         electedMembers: body.members.length,
@@ -187,9 +214,14 @@ export function applyLegislativeStep(
       const next = takeFloorVote(world, {
         stableKey: key(`floor:${chamberKey}:${stage.stageKey}`),
         measureId,
-        dispositions: dispositionsFromCounts(
-          body.members,
-          counts(scenario, votePlanKeyForFloor(chamberKey, stage.stageKey)),
+        dispositions: dispositionsHonoringOfficeInstructions(
+          world,
+          measureId,
+          chamberKey,
+          dispositionsFromCounts(
+            body.members,
+            counts(scenario, votePlanKeyForFloor(chamberKey, stage.stageKey)),
+          ),
         ),
         presentMembers: body.members.length,
         electedMembers: body.members.length,
@@ -244,9 +276,14 @@ export function applyLegislativeStep(
       const next = recordConcurrenceVote(world, {
         stableKey: key(`concurrence:${chamberKey}`),
         measureId,
-        dispositions: dispositionsFromCounts(
-          body.members,
-          counts(scenario, votePlanKeyForConcurrence(chamberKey)),
+        dispositions: dispositionsHonoringOfficeInstructions(
+          world,
+          measureId,
+          chamberKey,
+          dispositionsFromCounts(
+            body.members,
+            counts(scenario, votePlanKeyForConcurrence(chamberKey)),
+          ),
         ),
         presentMembers: body.members.length,
         electedMembers: body.members.length,

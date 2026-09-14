@@ -13,7 +13,9 @@ import type { ActiveMemberSeat } from "./legislative-member-seat";
 import {
   currentOfficeVoteInstruction,
   currentOfficeWorkflowPreference,
+  measureProceduralStage,
   measureTextVersion,
+  type LegislativeVoteDisposition,
   type OfficeVoteInstructionRecord,
 } from "../simulation";
 import type { EntityId, World } from "../simulation";
@@ -34,6 +36,7 @@ export type OfficeVoteInstructionEvaluation =
       readonly kind: "armed";
       readonly instruction: OfficeVoteInstructionRecord;
       readonly seat: ActiveMemberSeat;
+      readonly proceduralStage: ReturnType<typeof measureProceduralStage>;
     }
   | {
       readonly kind: "refused";
@@ -149,5 +152,79 @@ export function evaluateOfficeVoteInstruction(
         "The bill has changed since this instruction was recorded. Decide again on the current text.",
     };
   }
-  return { kind: "armed", instruction, seat };
+  return {
+    kind: "armed",
+    instruction,
+    seat,
+    proceduralStage: measureProceduralStage(world, measure.id),
+  };
+}
+
+export type ApplyOfficeInstructionsToVoteResult =
+  | {
+      readonly kind: "ready";
+      readonly dispositions: readonly LegislativeVoteDisposition[];
+      readonly appliedPersonIds: readonly EntityId[];
+    }
+  | {
+      readonly kind: "blocked";
+      readonly code: OfficeVoteInstructionRefusalCode;
+      readonly reason: string;
+    };
+
+/**
+ * S consumer: overlay an armed standing instruction onto the live member's
+ * recorded disposition, or refuse to write if that instruction no longer
+ * matches this bill text or office. A stored preference is not a vote.
+ */
+export function applyArmedOfficeInstructionsToDispositions(
+  world: World,
+  input: {
+    readonly measureId: EntityId;
+    readonly chamberKey: string;
+    readonly dispositions: readonly LegislativeVoteDisposition[];
+  },
+): ApplyOfficeInstructionsToVoteResult {
+  const appliedPersonIds: EntityId[] = [];
+  const next: LegislativeVoteDisposition[] = [];
+  for (const entry of input.dispositions) {
+    if (!entry.personId) {
+      next.push(entry);
+      continue;
+    }
+    const membership = resolveActiveMemberSeat(world, entry.personId);
+    if (
+      membership.kind !== "seated" ||
+      membership.seat.chamberKey !== input.chamberKey
+    ) {
+      next.push(entry);
+      continue;
+    }
+    const evaluation = evaluateOfficeVoteInstruction(world, {
+      actorPersonId: entry.personId,
+      officeRelationshipId: membership.seat.relationshipId,
+      chamberKey: membership.seat.chamberKey,
+      measureId: input.measureId,
+    });
+    if (
+      evaluation.kind === "refused" &&
+      evaluation.code === "measure-changed"
+    ) {
+      return {
+        kind: "blocked",
+        code: evaluation.code,
+        reason: evaluation.reason,
+      };
+    }
+    if (evaluation.kind !== "armed") {
+      next.push(entry);
+      continue;
+    }
+    appliedPersonIds.push(entry.personId);
+    next.push({
+      ...entry,
+      disposition: evaluation.instruction.disposition,
+    });
+  }
+  return { kind: "ready", dispositions: next, appliedPersonIds };
 }

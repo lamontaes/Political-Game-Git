@@ -15,6 +15,7 @@ import {
   OFFICE_CASEWORK_CHOICES,
   OFFICE_INSTRUCTION_CHOICES,
   OFFICE_VOTING_CHOICES,
+  officeOnboardingDraftResetKey,
   projectOfficeOnboarding,
 } from "../presentation/office-onboarding";
 import "./office-onboarding.css";
@@ -47,10 +48,24 @@ export function OfficeOnboardingWorkspace({
       projection.preference?.caseworkMode ?? null,
     );
 
+  const draftResetKey = officeOnboardingDraftResetKey(
+    world.id,
+    playerPersonId,
+    projection.membership.kind === "seated"
+      ? projection.membership.seat.relationshipId
+      : null,
+    projection.preference?.id ?? null,
+  );
+
   useEffect(() => {
     setStagedVoting(projection.preference?.votingMode ?? null);
     setStagedCasework(projection.preference?.caseworkMode ?? null);
-  }, [projection.preference?.id]);
+    setError(null);
+  }, [
+    draftResetKey,
+    projection.preference?.votingMode,
+    projection.preference?.caseworkMode,
+  ]);
 
   if (projection.membership.kind === "unseated") {
     return (
@@ -222,8 +237,9 @@ export function OfficeOnboardingWorkspace({
             Standing instruction for {projection.measureDesignation}
           </legend>
           <p>
-            Bound to this bill as it now reads. A later amendment or step voids
-            it. This instruction is not a recorded vote.
+            Bound to this bill as it now reads. A later amendment or filed
+            section voids it. A referral or calendar step does not. This
+            instruction is not a recorded vote.
           </p>
           {OFFICE_INSTRUCTION_CHOICES.map((choice) => (
             <button
@@ -290,6 +306,8 @@ export function OfficeOnboardingWorkspace({
                   className="ui-action"
                   data-testid={`office-briefing-item-${item.itemId}`}
                   data-access-status={item.access.status}
+                  data-origin-event-id={item.originEventId ?? ""}
+                  data-canonical-record-id={item.canonicalRecordId}
                   aria-expanded={openItemId === item.itemId}
                   onClick={() => inspectItem(item.itemId, item.kind)}
                 >

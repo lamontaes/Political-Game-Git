@@ -1,12 +1,12 @@
 {
-  "digest": "47943d859ff7555e",
+  "digest": "099fb90b973dce72",
   "counts": {
-    "total": 2701,
+    "total": 2699,
     "byDomain": {
       "campaign": 23,
       "conversation": 197,
       "governing": 187,
-      "legislative": 150,
+      "legislative": 148,
       "life": 1674,
       "narration": 75,
       "ordinary": 4,
@@ -24,19 +24,19 @@
       "option-witnessed": 54,
       "prompt": 74,
       "scene-line": 219,
-      "status": 429,
+      "status": 427,
       "thread-recap": 32
     },
     "byReachability": {
       "CURRENTLY_UNREACHABLE": 42,
       "DEV_FIXTURE_ONLY": 106,
       "LEGACY_OR_WITHDRAWN": 90,
-      "PLAYER_REACHABLE": 2037,
+      "PLAYER_REACHABLE": 2035,
       "UNKNOWN": 68,
       "WITHHELD_BY_GROUNDING": 358
     },
     "byRealization": {
-      "static": 2178,
+      "static": 2176,
       "templated": 523
     }
   },
@@ -18199,7 +18199,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -18212,7 +18212,7 @@
         "computed"
       ],
       "textRevision": "215f93b69c35",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:OFFICE_CASEWORK_CHOICES-0002#text",
@@ -18236,7 +18236,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -18249,7 +18249,7 @@
         "computed"
       ],
       "textRevision": "408cd09f5481",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:OFFICE_CASEWORK_CHOICES-0003#text",
@@ -18273,7 +18273,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -18286,7 +18286,7 @@
         "computed"
       ],
       "textRevision": "40eb8c4fcb9d",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:OFFICE_CASEWORK_CHOICES-0004#text",
@@ -18310,7 +18310,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -18323,7 +18323,7 @@
         "computed"
       ],
       "textRevision": "2b6578687b4d",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:OFFICE_CASEWORK_CHOICES-0005#text",
@@ -18347,7 +18347,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -18360,7 +18360,7 @@
         "computed"
       ],
       "textRevision": "ed1c345cc2ad",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:OFFICE_CASEWORK_CHOICES-0006#text",
@@ -18384,7 +18384,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -18397,7 +18397,7 @@
         "computed"
       ],
       "textRevision": "76c99761129d",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:OFFICE_INSTRUCTION_CHOICES-0001#text",
@@ -18421,7 +18421,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -18434,7 +18434,7 @@
         "computed"
       ],
       "textRevision": "e03513f0c7bf",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:OFFICE_INSTRUCTION_CHOICES-0002#text",
@@ -18458,7 +18458,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -18471,7 +18471,7 @@
         "computed"
       ],
       "textRevision": "5dd8a07e96e0",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:OFFICE_INSTRUCTION_CHOICES-0003#text",
@@ -18495,7 +18495,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -18508,7 +18508,7 @@
         "computed"
       ],
       "textRevision": "964ab21b8925",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:OFFICE_VOTING_CHOICES-0001#text",
@@ -18532,7 +18532,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -18545,7 +18545,7 @@
         "computed"
       ],
       "textRevision": "8675233d0af8",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:OFFICE_VOTING_CHOICES-0002#text",
@@ -18569,7 +18569,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -18582,7 +18582,7 @@
         "computed"
       ],
       "textRevision": "de8dbcfc5caf",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:OFFICE_VOTING_CHOICES-0003#text",
@@ -18606,7 +18606,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -18619,7 +18619,7 @@
         "computed"
       ],
       "textRevision": "90de0fca896b",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:OFFICE_VOTING_CHOICES-0004#text",
@@ -18643,7 +18643,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -18656,7 +18656,7 @@
         "computed"
       ],
       "textRevision": "b7891fec88c6",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:OFFICE_VOTING_CHOICES-0005#text",
@@ -18680,7 +18680,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -18693,7 +18693,7 @@
         "computed"
       ],
       "textRevision": "038f60d21218",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:OFFICE_VOTING_CHOICES-0006#text",
@@ -18717,7 +18717,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -18730,7 +18730,7 @@
         "computed"
       ],
       "textRevision": "e8e21c0e4fb4",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:emptyBriefing-0001#text",
@@ -18754,7 +18754,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -18767,7 +18767,7 @@
         "computed"
       ],
       "textRevision": "8408cd19ee63",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:emptyBriefing-0002#text",
@@ -18791,7 +18791,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -18804,7 +18804,7 @@
         "computed"
       ],
       "textRevision": "fdf4b6222eab",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:emptyBriefing-0003#text",
@@ -18828,7 +18828,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -18841,7 +18841,7 @@
         "computed"
       ],
       "textRevision": "76268e00d34e",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:emptyBriefing-0004#text",
@@ -18865,7 +18865,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -18878,7 +18878,7 @@
         "computed"
       ],
       "textRevision": "4c1575b4681f",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:emptyBriefing-0005#text",
@@ -18902,7 +18902,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -18915,7 +18915,7 @@
         "computed"
       ],
       "textRevision": "6efc36173235",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:projectStaffBriefing-0001#text",
@@ -18941,7 +18941,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -18954,7 +18954,7 @@
         "computed"
       ],
       "textRevision": "dfe00e781888",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:projectStaffBriefing-0002#text",
@@ -18978,7 +18978,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -18991,7 +18991,7 @@
         "computed"
       ],
       "textRevision": "39b6df0facb1",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:projectStaffBriefing-0003#text",
@@ -19015,7 +19015,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -19028,7 +19028,7 @@
         "computed"
       ],
       "textRevision": "fdf4b6222eab",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:projectStaffBriefing-0004#text",
@@ -19052,7 +19052,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -19065,7 +19065,7 @@
         "computed"
       ],
       "textRevision": "fdf4b6222eab",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:projectStaffBriefing-0005#text",
@@ -19092,7 +19092,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -19105,7 +19105,7 @@
         "computed"
       ],
       "textRevision": "6f5a7fe12d2f",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:projectStaffBriefing-0006#text",
@@ -19131,7 +19131,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -19144,7 +19144,7 @@
         "computed"
       ],
       "textRevision": "f9f8c32e6481",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:resolveStaffEventAccess-0001#text",
@@ -19168,7 +19168,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -19181,81 +19181,7 @@
         "computed"
       ],
       "textRevision": "c22a5067a25f",
-      "contextRevision": "941c6e97e834"
-    },
-    {
-      "id": "prose:legislative:office-onboarding-briefing:resolveStaffEventAccess-0002#text",
-      "domain": "legislative",
-      "bank": "office-onboarding-briefing",
-      "stableKey": "resolveStaffEventAccess-0002",
-      "field": "text",
-      "surface": "status",
-      "sourcePath": "src/presentation/office-onboarding.ts",
-      "sourceSymbol": "resolveStaffEventAccess",
-      "text": "Staff knowledge of this record is unknown.",
-      "realization": "static",
-      "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
-      "grounding": [
-        {
-          "key": "active-member-seat",
-          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
-          "kind": "requirement"
-        },
-        {
-          "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "resolveStaffEventAccess",
-        "anchor": "resolveStaffEventAccess-0002"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "d2652a81f374",
-      "contextRevision": "941c6e97e834"
-    },
-    {
-      "id": "prose:legislative:office-onboarding-briefing:resolveStaffEventAccess-0003#text",
-      "domain": "legislative",
-      "bank": "office-onboarding-briefing",
-      "stableKey": "resolveStaffEventAccess-0003",
-      "field": "text",
-      "surface": "status",
-      "sourcePath": "src/presentation/office-onboarding.ts",
-      "sourceSymbol": "resolveStaffEventAccess",
-      "text": "Staff's recorded account of this item is incorrect.",
-      "realization": "static",
-      "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
-      "grounding": [
-        {
-          "key": "active-member-seat",
-          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
-          "kind": "requirement"
-        },
-        {
-          "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "resolveStaffEventAccess",
-        "anchor": "resolveStaffEventAccess-0003"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "500a421662c3",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-briefing:resolveStaffEventAccess-0004#text",
@@ -19279,7 +19205,7 @@
         },
         {
           "key": "staff-event-access",
-          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "description": "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
           "kind": "requirement"
         }
       ],
@@ -19292,7 +19218,7 @@
         "computed"
       ],
       "textRevision": "08b16d829675",
-      "contextRevision": "941c6e97e834"
+      "contextRevision": "a93f914c5fbd"
     },
     {
       "id": "prose:legislative:office-onboarding-workspace:OfficeOnboardingWorkspace-0001#text",

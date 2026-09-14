@@ -105,8 +105,8 @@ export function currentOfficeVoteInstruction(
 }
 
 /**
- * The exact bill text and last recorded procedural step this instruction
- * talks about. A later provision, amendment, or action is a different bill.
+ * The exact bill text this instruction talks about. A later provision or
+ * amendment is a different bill. A calendar or referral step is not.
  */
 export function measureTextVersion(world: World, measureId: EntityId): string {
   requireMeasure(world, measureId);
@@ -117,13 +117,26 @@ export function measureTextVersion(world: World, measureId: EntityId): string {
     id: record.id,
     status: record.status,
   }));
-  const lastAction = measureActions(world, measureId).at(-1);
   return canonicalJson({
     provisions,
     amendments,
+  });
+}
+
+/** The last recorded procedural step, separate from the bill's text. */
+export function measureProceduralStage(
+  world: World,
+  measureId: EntityId,
+): {
+  readonly lastActionId: EntityId | null;
+  readonly lastActionKind: string | null;
+} {
+  requireMeasure(world, measureId);
+  const lastAction = measureActions(world, measureId).at(-1);
+  return {
     lastActionId: lastAction?.id ?? null,
     lastActionKind: lastAction?.kind ?? null,
-  });
+  };
 }
 
 export type OfficeWorkflowWriteResult =
@@ -325,7 +338,7 @@ export function recordOfficeBriefingInspection(
       record.itemId === input.itemId,
   );
   if (already) return { kind: "recorded", world };
-  const stableKey = `office-briefing-inspection:${input.personId}:${input.itemKind}:${input.itemId}`;
+  const stableKey = `office-briefing-inspection:${input.personId}:${input.officeRelationshipId}:${input.measureId}:${input.itemKind}:${input.itemId}`;
   if (
     officeBriefingInspections(world).some(
       (record) => record.stableKey === stableKey,
