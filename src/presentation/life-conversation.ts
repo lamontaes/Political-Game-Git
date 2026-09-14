@@ -2,6 +2,7 @@ import {
   activeOrdinaryGoal,
   completeOrdinaryGoal,
 } from "../simulation/life-personality";
+import { lifeActivityHandlers } from "./life-time-handlers";
 import { currentOpeningLifeScene } from "./life-scene-flow";
 import {
   ageOnDate,
@@ -11,6 +12,7 @@ import {
   recordWorldEvent,
   advanceWorldMinutes,
   kinshipRelationshipsAt,
+  simulationMinutesBetween,
 } from "../simulation";
 import { LIFE_MIND_IDS } from "../simulation/life-mind-content";
 import {
@@ -26,6 +28,7 @@ import type {
 /** Ordinary spoken exchanges use the global event/knowledge history. */
 export const LIFE_TALK_INTENTS = {
   greet: "Say hello",
+  scene: "Talk about what is happening here",
   activity: "Ask what they would like to do",
   explain: "Ask why",
   suggestGame: "Suggest playing a game together",
@@ -96,7 +99,7 @@ export function projectLifeConversation(
   const previousIntent = previous?.tags
     .find((tag) => tag.startsWith("life.talk:"))
     ?.slice(10);
-  const intents: LifeTalkIntent[] = ["greet", "activity", "share"];
+  const intents: LifeTalkIntent[] = ["greet", "scene", "activity", "share"];
   if (previousIntent === "activity")
     intents.push("suggestGame", "suggestQuiet");
   if (
@@ -147,6 +150,11 @@ export function projectLifeConversation(
     )
     .at(-1);
   if (
+    !history.some(
+      (event) =>
+        event.tags.includes(`scene:${currentSceneId}`) &&
+        event.tags.includes("life.talk:spendTime"),
+    ) &&
     latestProposal &&
     ((adults &&
       !kin &&
@@ -213,7 +221,20 @@ function replyFor(
   const history = turns(world, playerPersonId, personId);
   const previous = history.at(-1);
   const child =
+    ageOnDate(world.people[personId]!.birthDate, world.currentDate) < 13;
+  const youngPlayer =
     ageOnDate(world.people[playerPersonId]!.birthDate, world.currentDate) < 13;
+  const relation = describePersonContext(
+    world,
+    playerPersonId,
+    personId,
+  )?.relationship;
+  const parent = [
+    "your mom",
+    "your dad",
+    "your parent",
+    "your guardian",
+  ].includes(relation ?? "");
   const approach = latestPersonalityTendency(
     world,
     personId,
@@ -224,6 +245,28 @@ function replyFor(
     latestPersonalValue(world, personId, LIFE_MIND_IDS.privacy)?.orientation ===
     "embraces";
   switch (intent) {
+    case "scene": {
+      const scene = currentOpeningLifeScene(world, playerPersonId)!;
+      if (scene.definition.key === "early.home.broken-mug")
+        return parent
+          ? "Tell me what happened. Leave the pieces alone; I will help with those."
+          : "We should ask for help with the broken pieces.";
+      if (scene.definition.key === "early.home.bedtime-delay")
+        return parent
+          ? "It is bedtime. Put the toy away, please."
+          : "It is time to put the toy away.";
+      if (scene.definition.key === "early.home.food-refusal")
+        return parent
+          ? "Would you try one bite? You can tell me if you do not like it."
+          : "You do not have to pretend you like it.";
+      if (scene.definition.key === "young.home.ask-about-childhood")
+        return "What would you like to know about school?";
+      if (scene.definition.key === "early.community.curious-neighbor")
+        return "Do you like your teacher?";
+      // The only established topic is the scene's saved premise, not a new
+      // worry or a fabricated past exchange attributed to this person.
+      return "What would you like to do?";
+    }
     case "date":
       return willingToDate(world, personId)
         ? "Yes. I'd like that. We could sit and talk for a while."
@@ -239,10 +282,20 @@ function replyFor(
     case "spendTime":
       return "I'm glad we took some time together.";
     case "greet":
+      if (parent && youngPlayer)
+        return history.length
+          ? "Hi, sweetheart. What is it?"
+          : "Hi, sweetheart.";
       return history.length
         ? "Hi again."
         : `Hi, ${world.people[playerPersonId]!.givenName}.`;
     case "activity":
+      if (parent && youngPlayer)
+        return leisure === "explore"
+          ? "We could try a new game. Would you like that?"
+          : leisure === "company"
+            ? "We could play together. You can choose the game."
+            : "How about a game we both know?";
       if (leisure === "explore")
         return child
           ? "Can we try a new game?"
@@ -255,6 +308,8 @@ function replyFor(
         ? "Can we play a game we both know?"
         : "I'd rather do something familiar. We don't have to make a big plan.";
     case "share":
+      if (parent && youngPlayer)
+        return "Of course. What do you want to tell me?";
       if (privatePerson)
         return child
           ? "Not right now. Can we talk about something else?"
@@ -323,16 +378,18 @@ export function commitLifeConversation(
     !view.intents.some((option) => option.key === input.intent)
   )
     throw new Error("This conversation choice is no longer available.");
-  const advanced = advanceWorldMinutes(
-    world,
-    input.intent === "spendTime" ? 30 : 2,
-    input.transitionHandlers,
-  );
-  if (advanced === world) return world;
+  const minutes = input.intent === "spendTime" ? 30 : 0;
+  const advanced = minutes
+    ? advanceWorldMinutes(
+        world,
+        minutes,
+        lifeActivityHandlers(input.transitionHandlers),
+      )
+    : world;
   if (
-    advanced.history.events
-      .slice(world.history.events.length)
-      .some((event) => event.type !== "simulation.minutes-advanced")
+    minutes &&
+    simulationMinutesBetween(world.currentMoment, advanced.currentMoment) !==
+      minutes
   )
     return advanced;
   const reply = replyFor(world, view.context, input.intent);
@@ -340,8 +397,8 @@ export function commitLifeConversation(
   let next = recordWorldEvent(advanced, {
     stableKey,
     type: "life.conversation",
-    occurredAt: world.currentDate,
-    recordedAt: world.currentDate,
+    occurredAt: advanced.currentDate,
+    recordedAt: advanced.currentDate,
     jurisdictionId: world.people[input.playerPersonId]!.homeJurisdictionId,
     involvedEntityIds: currentOpeningLifeScene(world, input.playerPersonId)!
       .presentPersonIds,
@@ -396,7 +453,7 @@ export function commitLifeConversation(
       stableKey: `${stableKey}:heard:${personId}`,
       personId,
       eventId: event.id,
-      learnedAt: world.currentDate,
+      learnedAt: advanced.currentDate,
       believedSummary: event.summary,
       accuracy: "accurate",
       confidence: "high",

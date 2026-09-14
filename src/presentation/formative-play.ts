@@ -1,9 +1,8 @@
+import { passOrdinaryDays } from "./ordinary-life";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
 import {
-  LIFE_TRANSITION_HANDLERS,
   activeEducationEnrollmentsAt,
   adaptiveSelectionSeed,
-  advanceWorld,
   ageOnDate,
   availableLifeSituations,
   createOrganization,
@@ -237,11 +236,20 @@ export interface ChooseFormativeOptionInput {
   readonly withPersonId: EntityId | null;
 }
 
-/** Records the choice, then lets the intervening time pass. */
+/** Records the answer without advancing the surrounding life. */
 export function chooseFormativeOption(
   world: World,
   input: ChooseFormativeOptionInput,
 ): World {
+  if (
+    world.history.events.some(
+      (event) =>
+        event.occurredAt === world.currentDate &&
+        event.involvedEntityIds.includes(input.personId) &&
+        event.tags.includes(input.situationKey),
+    )
+  )
+    throw new Error("This formative choice has already been recorded today.");
   const interval = formativeIntervalAt(world, input.personId);
   if (!interval) {
     throw new Error("These are no longer the formative years.");
@@ -295,7 +303,7 @@ export function chooseFormativeOption(
   if (result.status === "blocked") {
     return result.world;
   }
-  return advanceToNextMoment(result.world, input.personId, interval);
+  return result.world;
 }
 
 /**
@@ -393,10 +401,7 @@ function advanceToNextMoment(
   // With the handler registry, because a life that reaches adulthood may
   // already be carrying a scheduled callback, and time refuses to step over a
   // due item it has no handler for rather than silently losing it.
-  return refreshLifeCircumstances(
-    advanceWorld(world, days, LIFE_TRANSITION_HANDLERS),
-    personId,
-  );
+  return refreshLifeCircumstances(passOrdinaryDays(world, days), personId);
 }
 
 function daysBetween(from: string, to: string): number {

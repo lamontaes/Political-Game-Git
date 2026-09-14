@@ -1,3 +1,5 @@
+import { lifeRequestDetails } from "./life-request-details";
+import { describePersonContext } from "./person-context";
 import {
   hasActiveHouseholdWeek,
   lifeOpportunitiesFor,
@@ -2794,7 +2796,7 @@ export function availableAdultSituations(
     if (!situation.available(context)) return false;
     if (situation.companion === null) return true;
     return resolveAdultSituationCompanion(context, situation) !== null;
-  });
+  }).map((situation) => bindRequestSituation(context, situation));
 }
 
 /**
@@ -2836,4 +2838,109 @@ export function adultLifeSituations(
 ): readonly AvailableLifeSituation[] {
   const context = buildAdultLifeContext(world, input.personId, input.asOfDate);
   return availableAdultSituations(context).map(toAvailableLifeSituation);
+}
+
+/** Terms are read from the saved asking event by both scene and generic writer. */
+export function bindRequestSituation(
+  context: AdultLifeContext,
+  situation: AdultSituation,
+): AdultSituation {
+  if (!situation.opportunity) return situation;
+  const request = lifeOpportunitiesFor(
+    context.world,
+    context.personId,
+    context.asOfDate,
+  ).find((entry) => entry.kind === situation.opportunity);
+  const event = context.world.history.events.find(
+    (entry) => entry.id === request?.eventId,
+  );
+  if (!event || !request?.counterpartPersonId) return situation;
+  const details = lifeRequestDetails(event);
+  const person = describePersonContext(
+    context.world,
+    context.personId,
+    request.counterpartPersonId,
+  )!;
+  const who = person.relationship
+    ? `${person.name}, ${person.relationship}`
+    : person.name;
+  if (!details) return { ...situation, prose: `${who}: ${event.summary}` };
+  const prose = `${who}: “${details.opening}”`;
+  if (situation.key === "adult.friend-favour")
+    return {
+      ...situation,
+      prose: `${prose} Proofreading takes ${details.minutes} minutes; answering takes no time.`,
+      options: situation.options.map((option) => ({
+        ...option,
+        label:
+          option.key === "do-it"
+            ? `Agree to ${details.task}`
+            : option.key === "conditions"
+              ? `Agree: ${details.condition}`
+              : "Decline the proofreading request",
+        description:
+          option.key === "decline"
+            ? "Tell them you cannot help with this invitation."
+            : "Record the agreement; carry out the proofreading separately.",
+        memory:
+          option.key === "decline"
+            ? `You declined ${person.name}'s request to ${details.task}.`
+            : `You agreed to ${details.task} for ${person.name}${option.key === "conditions" ? `, with the condition: ${details.condition}` : ""}.`,
+        witnessed:
+          option.key === "decline"
+            ? "They declined to proofread the invitation."
+            : `They agreed to ${details.task}${option.key === "conditions" ? `, with the condition: ${details.condition}` : ""}.`,
+        // An agreement carries an expectation; goodwill awaits actual performance.
+        relationalChange: option.key === "decline" ? "strained" : "maintained",
+        aftermath: option.key === "decline" ? "grievance" : "obligation",
+      })),
+    };
+  if (situation.key === "adult.friend-in-difficulty")
+    return {
+      ...situation,
+      prose,
+      options: situation.options.map((option) => ({
+        ...option,
+        label:
+          option.key === "keep-it"
+            ? "Agree to keep this conversation private"
+            : option.key === "push-them"
+              ? "Ask them to tell the picnic guests"
+              : "Say you cannot help with the picnic",
+        memory:
+          option.key === "keep-it"
+            ? `You agreed to keep ${person.name}'s picnic conversation private.`
+            : option.key === "push-them"
+              ? `You asked ${person.name} to tell the picnic guests they can no longer organize it.`
+              : `You told ${person.name} you cannot help with the picnic.`,
+        witnessed:
+          option.key === "keep-it"
+            ? `They agreed to keep ${person.name}'s picnic conversation private.`
+            : option.key === "push-them"
+              ? `They asked ${person.name} to tell the picnic guests.`
+              : `They told ${person.name} they cannot help with the picnic.`,
+      })),
+    };
+  if (situation.key === "adult.household-quiet-evening")
+    return {
+      ...situation,
+      prose,
+      options: situation.options.map((option) => ({
+        ...option,
+        label:
+          option.key === "spend-it-together"
+            ? "Agree to sit and talk this evening"
+            : "Decline; keep the evening to yourself",
+        memory:
+          option.key === "spend-it-together"
+            ? `You agreed to sit and talk with ${person.name} this evening.`
+            : `You declined ${person.name}'s invitation to sit and talk this evening.`,
+        witnessed:
+          option.key === "spend-it-together"
+            ? "They agreed to sit and talk this evening."
+            : "They declined the invitation.",
+        aftermath: option.key === "spend-it-together" ? "obligation" : null,
+      })),
+    };
+  return { ...situation, prose };
 }

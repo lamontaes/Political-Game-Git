@@ -1,3 +1,5 @@
+import { LifeFavorPanel } from "../LifeFavorPanel";
+import { openingChoiceMinutes } from "../../simulation/opening-life-content";
 import { projectOpeningLife } from "../../presentation/opening-life";
 import {
   canJoinOrdinaryGroup,
@@ -157,6 +159,12 @@ export function LifeScenePanel({
           {outcome}
         </p>
       ) : null}
+      <LifeFavorPanel
+        world={world}
+        personId={playerPersonId}
+        onWorldChange={onWorldChange}
+        transitionHandlers={transitionHandlers}
+      />
       {aftermath ? <p data-testid="life-scene-aftermath">{aftermath}</p> : null}
       {scene ? (
         <>
@@ -164,7 +172,8 @@ export function LifeScenePanel({
             {scene.prose}
           </p>
           <p className="game-note" data-testid="life-scene-minutes">
-            Whatever you choose here takes {scene.definition.minutes} minutes.
+            Talking and reading a line take no time. Activity durations are
+            shown on their choices.
           </p>
           <div
             className="game-choices"
@@ -190,6 +199,9 @@ export function LifeScenePanel({
                 }
               >
                 {choice.label}
+                {openingChoiceMinutes(scene.definition, choice)
+                  ? ` · ${openingChoiceMinutes(scene.definition, choice)} minutes`
+                  : ""}
               </button>
             ))}
           </div>

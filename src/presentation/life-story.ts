@@ -1,14 +1,18 @@
-import { OPENING_LIFE_ADDITIONS } from "../simulation/opening-life-content";
-import { scheduleAgreedCoverShift } from "../simulation/life-circumstances";
-import { advanceWorldMinutes } from "../simulation/time-work";
 import {
+  OPENING_LIFE_ADDITIONS,
+  OPENING_LIFE_FOLLOWUPS,
+  openingChoiceMinutes,
+} from "../simulation/opening-life-content";
+import { scheduleAgreedCoverShift } from "../simulation/life-circumstances";
+import {
+  advanceWorldMinutes,
+  simulationMinutesBetween,
   describePersonContext,
   introducePerson,
   EPISODE_FAMILIES,
   createCampaignElectionTransitionRegistry,
   adaptiveSelectionSeed,
   addDays,
-  advanceWorld,
   ageOnDate,
   eligibleEpisodeBeats,
   formativeIntervalAt,
@@ -688,13 +692,6 @@ export interface ChooseStoryOptionInput {
   readonly optionKey: string;
 }
 
-/** How far the clock moves after a composed beat, by how much it asked. */
-const EPISODE_STEP_DAYS = {
-  ordinary: 34,
-  notable: 71,
-  pressing: 128,
-} as const;
-
 /**
  * Records the choice through whichever writer owns that kind of moment.
  *
@@ -713,22 +710,31 @@ export function chooseStoryOption(
       const ordinaryScene = OPENING_LIFE_ADDITIONS.find(
         (entry) => `opening.${entry.key}` === scene.beat.episodeKey,
       );
-      const ordinaryMinutes = ordinaryScene
+      const ordinaryDefinition = ordinaryScene
         ? scene.beat.stageKey === "follow-through"
-          ? 5
-          : ordinaryScene.minutes
+          ? {
+              ...ordinaryScene,
+              minutes: 5,
+              choices: OPENING_LIFE_FOLLOWUPS[ordinaryScene.key]?.choices ?? [],
+            }
+          : ordinaryScene
         : undefined;
-      if (ordinaryMinutes !== undefined) {
+      const ordinaryChoice = ordinaryDefinition?.choices.find(
+        (choice) => choice.key === input.optionKey,
+      );
+      const minutes =
+        ordinaryDefinition && ordinaryChoice
+          ? openingChoiceMinutes(ordinaryDefinition, ordinaryChoice)
+          : 0;
+      if (minutes) {
         const probe = advanceWorldMinutes(
           world,
-          ordinaryMinutes,
+          minutes,
           createCampaignElectionTransitionRegistry(),
         );
-        if (probe === world) return world;
         if (
-          probe.history.events
-            .slice(world.history.events.length)
-            .some((event) => event.type !== "simulation.minutes-advanced")
+          simulationMinutesBetween(world.currentMoment, probe.currentMoment) !==
+          minutes
         )
           return probe;
       }
@@ -750,17 +756,13 @@ export function chooseStoryOption(
         // commitment without pretending the shift was completed.
         return scheduleAgreedCoverShift(played.world, input.personId);
       }
-      if (ordinaryMinutes !== undefined)
-        return advanceWorldMinutes(
-          played.world,
-          ordinaryMinutes,
-          createCampaignElectionTransitionRegistry(),
-        );
-      return advanceWorld(
-        played.world,
-        EPISODE_STEP_DAYS[scene.beat.stakes],
-        createCampaignElectionTransitionRegistry(),
-      );
+      return minutes
+        ? advanceWorldMinutes(
+            played.world,
+            minutes,
+            createCampaignElectionTransitionRegistry(),
+          )
+        : played.world;
     }
     case "formative":
       return chooseFormativeOption(world, {

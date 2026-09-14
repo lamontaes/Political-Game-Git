@@ -1484,6 +1484,8 @@ const COMMIT_CONTRACTS: Readonly<
     pressure: () => null,
     choice: choiceWriter("life talk", {
       greet: ({ addresseeName }) => `The player greeted ${addresseeName}.`,
+      scene: ({ addresseeName }) =>
+        `The player asked ${addresseeName} about the current scene.`,
       activity: ({ addresseeName }) =>
         `The player asked ${addresseeName} what they would like to do.`,
       explain: ({ addresseeName }) => `The player asked ${addresseeName} why.`,

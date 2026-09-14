@@ -1,0 +1,454 @@
+SURFACE: Ordinary life scene, direct conversation, choices, and follow-through records.
+OUTPUT REQUEST: Render the supplied saved requests and choices; agreement is not performance.
+CHARACTER: The player; use second person.
+KNOWN WORLD FACTS:
+- The event writer explicitly authors the picnic invitation, its two paragraphs, twenty-minute proofreading task, and wording-only condition. The requester directly asked the player.
+- Agreement records the expectation; it does not perform proofreading. The requester heard and accepted the wording-only limit, and said they will contact the guests themselves.
+- Performance completed the twenty-minute activity; the player sent wording feedback and kept the condition. No journey, pay or skill reward is established.
+- Unperformed saved agreement due follow-through: the same requester chose to raise it again; the player had agreed but had not completed proofreading.
+- The household writer directly authors an invitation to sit and talk at home this evening. The confidence writer directly authors the requester agreeing to organize a picnic, needing to withdraw, not having told the guests, and asking for privacy. These are separate saved requesting events.
+- Family dialogue is an explicitly authored direct exchange in the supplied scene. Speakers, ages, pronouns, kinship/authority records and actually replied lines are below. The brother is a child; the mom is an adult responsible for the player. Lines take zero minutes.
+- UNKNOWN / DO NOT ASSUME: physical location of the favor conversation, transport channel, actual picnic date, guest identities, result of guests being contacted, outcome of privacy after this exchange, global family membership based on surnames.
+
+CANONICAL PACKET:
+{
+  "seed": "setup-v3:9512a942258df24b:{\"v\":3,\"seed\":\"p34-life-lexington-fayette\",\"placeKey\":\"lexington-fayette\",\"startAge\":35,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null,\"startKind\":\"custom\"}",
+  "player": "person_0556490fb7a12eab",
+  "request": "event_21b96146dc85dd0e",
+  "requester": {
+    "personId": "person_7253b5d19f7a0cd8",
+    "name": "Mila Delgado",
+    "shortName": "Mila",
+    "pronouns": {
+      "key": "she-her",
+      "subject": "she",
+      "object": "her",
+      "possessive": "her",
+      "possessivePronoun": "hers",
+      "reflexive": "herself",
+      "pluralVerb": false
+    },
+    "relationship": "your mom",
+    "basis": "A lineal:parent-child kinship record; birth dates decide which of them is which.",
+    "anchors": [
+      {
+        "store": "kinshipRelationships",
+        "recordId": "kinship_8d3f2ec5fc02e0df",
+        "stableKey": "production:earlier-life:kinship",
+        "at": "1990-11-13",
+        "sequence": 17,
+        "role": "context",
+        "note": "The kinship record."
+      }
+    ]
+  },
+  "terms": {
+    "version": 1,
+    "task": "proofread the two-paragraph picnic invitation",
+    "opening": "Could you look over my invitation to the family picnic? Just two paragraphs. I want to make sure the wording is clear.",
+    "condition": "Wording only; I will not contact the guests",
+    "minutes": 20
+  },
+  "scene": {
+    "key": "adult.friend-favour",
+    "opportunity": "favour-request",
+    "companion": "other-household",
+    "stakes": "notable",
+    "prose": "Mila Delgado, your mom: \u201cCould you look over my invitation to the family picnic? Just two paragraphs. I want to make sure the wording is clear.\u201d Proofreading takes 20 minutes; answering takes no time.",
+    "tensions": [
+      {
+        "between": [
+          "personal-ties",
+          "privacy-preference"
+        ],
+        "poles": [
+          1,
+          1
+        ],
+        "note": "Helping, against what helping puts your name to."
+      }
+    ],
+    "options": [
+      {
+        "key": "do-it",
+        "label": "Agree to proofread the two-paragraph picnic invitation",
+        "description": "Record the agreement; carry out the proofreading separately.",
+        "memory": "You agreed to proofread the two-paragraph picnic invitation for Mila Delgado.",
+        "witnessed": "They agreed to proofread the two-paragraph picnic invitation.",
+        "stance": "engaged",
+        "relationalChange": "maintained",
+        "interactionKind": "support:friendship",
+        "nudges": [
+          {
+            "dimension": "personal-ties",
+            "magnitude": 0.5
+          },
+          {
+            "dimension": "care-obligation",
+            "magnitude": 0.3
+          }
+        ],
+        "aftermath": "obligation"
+      },
+      {
+        "key": "conditions",
+        "label": "Agree: Wording only; I will not contact the guests",
+        "description": "Record the agreement; carry out the proofreading separately.",
+        "memory": "You agreed to proofread the two-paragraph picnic invitation for Mila Delgado, with the condition: Wording only; I will not contact the guests.",
+        "witnessed": "They agreed to proofread the two-paragraph picnic invitation, with the condition: Wording only; I will not contact the guests.",
+        "stance": "engaged",
+        "relationalChange": "maintained",
+        "interactionKind": "exchange:friendship",
+        "nudges": [
+          {
+            "dimension": "decision-style",
+            "magnitude": 0.45
+          },
+          {
+            "dimension": "privacy-preference",
+            "magnitude": 0.2
+          }
+        ],
+        "aftermath": "obligation"
+      },
+      {
+        "key": "decline",
+        "label": "Decline the proofreading request",
+        "description": "Tell them you cannot help with this invitation.",
+        "memory": "You declined Mila Delgado's request to proofread the two-paragraph picnic invitation.",
+        "witnessed": "They declined to proofread the invitation.",
+        "stance": "engaged",
+        "relationalChange": "strained",
+        "interactionKind": "experience:friendship",
+        "nudges": [
+          {
+            "dimension": "personal-ties",
+            "magnitude": -0.4
+          },
+          {
+            "dimension": "privacy-preference",
+            "magnitude": 0.35
+          }
+        ],
+        "aftermath": "grievance"
+      }
+    ]
+  },
+  "otherScenes": [
+    {
+      "key": "adult.household-quiet-evening",
+      "prose": "Imani Wallace, who you live with: \u201cI will be home this evening. Would you like to sit and talk?\u201d",
+      "options": [
+        {
+          "key": "spend-it-together",
+          "label": "Agree to sit and talk this evening"
+        },
+        {
+          "key": "keep-it-yours",
+          "label": "Decline; keep the evening to yourself"
+        }
+      ]
+    },
+    {
+      "key": "adult.friend-in-difficulty",
+      "prose": "Mila Delgado, your mom: \u201cI agreed to organize the family picnic, and now I need to back out. I have not told the guests. Please keep this between us for now.\u201d",
+      "options": [
+        {
+          "key": "keep-it",
+          "label": "Agree to keep this conversation private"
+        },
+        {
+          "key": "push-them",
+          "label": "Ask them to tell the picnic guests"
+        },
+        {
+          "key": "step-back",
+          "label": "Say you cannot help with the picnic"
+        }
+      ]
+    }
+  ],
+  "agreement": {
+    "id": "event_98d82312690773e8",
+    "stableKey": "life-favor:event_21b96146dc85dd0e:response",
+    "sequence": 120,
+    "type": "life.favour-response",
+    "occurredAt": "2026-01-05",
+    "recordedAt": "2026-01-05",
+    "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+    "involvedEntityIds": [
+      "person_0556490fb7a12eab",
+      "person_7253b5d19f7a0cd8"
+    ],
+    "participants": [
+      {
+        "personId": "person_0556490fb7a12eab",
+        "role": "agency:actor",
+        "detail": "Made the proofreading commitment"
+      },
+      {
+        "personId": "person_7253b5d19f7a0cd8",
+        "role": "presence:participant",
+        "detail": "Heard the answer"
+      }
+    ],
+    "personFactConstraints": [],
+    "visibility": "private",
+    "tags": [
+      "favour.conditions",
+      "life.favour-request:event_21b96146dc85dd0e",
+      "life.request.v1:{\"version\":1,\"task\":\"proofread the two-paragraph picnic invitation\",\"opening\":\"Could you look over my invitation to the family picnic? Just two paragraphs. I want to make sure the wording is clear.\",\"condition\":\"Wording only; I will not contact the guests\",\"minutes\":20}",
+      "origin-choice:event_99ec4efc6107ce18"
+    ],
+    "summary": "You agreed to proofread the two-paragraph picnic invitation for Mila Delgado. Condition: Wording only; I will not contact the guests. The proofreading has not been done.",
+    "context": {
+      "location": {
+        "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+        "label": "Nearby",
+        "setting": null
+      },
+      "socialContext": "adult.friend-favour",
+      "pressure": "proofread the two-paragraph picnic invitation",
+      "choice": "Agree: Wording only; I will not contact the guests",
+      "motivation": null,
+      "immediateReaction": "Okay. Just the wording; I will contact the guests myself."
+    }
+  },
+  "agreementMinutes": 0,
+  "performance": {
+    "id": "event_08f14b69585b1a8d",
+    "stableKey": "life-favor:event_21b96146dc85dd0e:performance:outcome",
+    "sequence": 128,
+    "type": "life.favour-performed",
+    "occurredAt": "2026-01-05",
+    "recordedAt": "2026-01-05",
+    "jurisdictionId": null,
+    "involvedEntityIds": [
+      "person_0556490fb7a12eab",
+      "person_7253b5d19f7a0cd8",
+      "scheduled-activity_6108d9f35ad44032"
+    ],
+    "participants": [
+      {
+        "personId": "person_0556490fb7a12eab",
+        "role": "agency:actor",
+        "detail": "Finished proofreading and sent wording feedback"
+      },
+      {
+        "personId": "person_7253b5d19f7a0cd8",
+        "role": "coordination:counterpart",
+        "detail": "Received the feedback; not physical presence"
+      }
+    ],
+    "personFactConstraints": [],
+    "visibility": "private",
+    "tags": [
+      "activity:scheduled-activity_6108d9f35ad44032",
+      "life.favour-request:event_21b96146dc85dd0e",
+      "life.request.v1:{\"version\":1,\"task\":\"proofread the two-paragraph picnic invitation\",\"opening\":\"Could you look over my invitation to the family picnic? Just two paragraphs. I want to make sure the wording is clear.\",\"condition\":\"Wording only; I will not contact the guests\",\"minutes\":20}"
+    ],
+    "summary": "You proofread Mila Delgado's two-paragraph picnic invitation and sent the wording feedback. You kept the agreed limit: Wording only; I will not contact the guests.",
+    "context": {
+      "location": null,
+      "socialContext": "adult.friend-favour",
+      "pressure": "proofread the two-paragraph picnic invitation",
+      "choice": "Carry out the proofreading",
+      "motivation": null,
+      "immediateReaction": null
+    }
+  },
+  "performanceMinutes": 20,
+  "performanceCount": 1,
+  "repeatAfterReloadSameWorld": true,
+  "unperformedCallback": [
+    {
+      "id": "event_ee9c3a32eb683f20",
+      "stableKey": "life-favor:event_21b96146dc85dd0e:response:callback:returned:event",
+      "sequence": 133,
+      "type": "life.earlier-choice-returned",
+      "occurredAt": "2026-04-11",
+      "recordedAt": "2026-04-11",
+      "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+      "involvedEntityIds": [
+        "person_0556490fb7a12eab",
+        "person_7253b5d19f7a0cd8"
+      ],
+      "participants": [
+        {
+          "personId": "person_0556490fb7a12eab",
+          "role": "focus:subject",
+          "detail": "The person it came back to"
+        },
+        {
+          "personId": "person_7253b5d19f7a0cd8",
+          "role": "presence:participant",
+          "detail": "Raised the earlier matter"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "limited",
+      "tags": [
+        "adult.friend-favour",
+        "life.callback",
+        "life.favour-request:event_21b96146dc85dd0e",
+        "life.request.v1:{\"version\":1,\"task\":\"proofread the two-paragraph picnic invitation\",\"opening\":\"Could you look over my invitation to the family picnic? Just two paragraphs. I want to make sure the wording is clear.\",\"condition\":\"Wording only; I will not contact the guests\",\"minutes\":20}",
+        "origin:event_98d82312690773e8"
+      ],
+      "summary": "Mila Delgado brings up the request to proofread the two-paragraph picnic invitation again. You agreed, but have not finished the proofreading.",
+      "context": {
+        "location": null,
+        "socialContext": "adult.friend-favour",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    }
+  ],
+  "performedDue": [
+    {
+      "id": "future-due-item-state_d0252f3506f701c3",
+      "stableKey": "life-favor:event_21b96146dc85dd0e:response:callback:state:scheduled",
+      "sequence": 122,
+      "dueItemId": "future-due-item_5f6fc72a567b7ef5",
+      "effectiveAt": "2026-01-05",
+      "status": "scheduled",
+      "reasonKey": null,
+      "context": null,
+      "outcomeEventId": null,
+      "supersedesStateId": null
+    },
+    {
+      "id": "future-due-item-state_2cc89e1211425d4d",
+      "stableKey": "life-favor:event_21b96146dc85dd0e:response:callback:state:cancelled:2026-04-11",
+      "sequence": 143,
+      "dueItemId": "future-due-item_5f6fc72a567b7ef5",
+      "effectiveAt": "2026-04-11",
+      "status": "cancelled",
+      "reasonKey": "life:attention-moved",
+      "context": "It was still there to be raised, and the person who could have raised it did not.",
+      "outcomeEventId": null,
+      "supersedesStateId": "future-due-item-state_d0252f3506f701c3"
+    }
+  ],
+  "family": [
+    {
+      "age": 6,
+      "person": {
+        "personId": "person_29aa1a7475fae154",
+        "name": "Jason Wolf",
+        "shortName": "Jason",
+        "pronouns": {
+          "key": "he-him",
+          "subject": "he",
+          "object": "him",
+          "possessive": "his",
+          "possessivePronoun": "his",
+          "reflexive": "himself",
+          "pluralVerb": false
+        },
+        "relationship": "your older brother",
+        "basis": "A collateral:sibling kinship record.",
+        "anchors": [
+          {
+            "store": "kinshipRelationships",
+            "recordId": "kinship_b0fb32b64b736bb1",
+            "stableKey": "production:initial-life:kinship:sibling",
+            "at": "2019-10-13",
+            "sequence": 11,
+            "role": "context",
+            "note": "The kinship record."
+          }
+        ]
+      },
+      "scene": "Your sleeve catches a mug. It falls and breaks. Wesley Wolf asks what happened.",
+      "sceneKey": "early.home.broken-mug",
+      "exchanges": [
+        {
+          "intent": "greet",
+          "line": "Damian Wolf: Say hello. Jason Wolf: Hi, Damian.",
+          "reply": "Hi, Damian.",
+          "elapsed": 0
+        },
+        {
+          "intent": "scene",
+          "line": "Damian Wolf: Talk about what is happening here. Jason Wolf: We should ask for help with the broken pieces.",
+          "reply": "We should ask for help with the broken pieces.",
+          "elapsed": 0
+        },
+        {
+          "intent": "activity",
+          "line": "Damian Wolf: Ask what they would like to do. Jason Wolf: Can we try a new game?",
+          "reply": "Can we try a new game?",
+          "elapsed": 0
+        },
+        {
+          "intent": "explain",
+          "line": "Damian Wolf: Ask why. Jason Wolf: I want to try something I haven't done before.",
+          "reply": "I want to try something I haven't done before.",
+          "elapsed": 0
+        }
+      ],
+      "reloadedRelation": "your older brother"
+    },
+    {
+      "age": 10,
+      "person": {
+        "personId": "person_46841427be002550",
+        "name": "Erin Wilcox",
+        "shortName": "Erin",
+        "pronouns": {
+          "key": "she-her",
+          "subject": "she",
+          "object": "her",
+          "possessive": "her",
+          "possessivePronoun": "hers",
+          "reflexive": "herself",
+          "pluralVerb": false
+        },
+        "relationship": "your mom",
+        "basis": "A parental:primary authority record over the player, held by this person.",
+        "anchors": [
+          {
+            "store": "childAuthorities",
+            "recordId": "child-authority_425d1019e99888a6",
+            "stableKey": "production:initial-life:authority:guardian",
+            "at": "2015-08-16",
+            "sequence": 8,
+            "role": "context",
+            "note": "The authority record that makes them the adult responsible."
+          }
+        ]
+      },
+      "scene": "You're at home, and the next fifteen minutes are yours.",
+      "sceneKey": "young.home.choose-activity",
+      "exchanges": [
+        {
+          "intent": "greet",
+          "line": "Dean Wilcox: Say hello. Erin Wilcox: Hi, sweetheart.",
+          "reply": "Hi, sweetheart.",
+          "elapsed": 0
+        },
+        {
+          "intent": "scene",
+          "line": "Dean Wilcox: Talk about what is happening here. Erin Wilcox: What would you like to do?",
+          "reply": "What would you like to do?",
+          "elapsed": 0
+        },
+        {
+          "intent": "activity",
+          "line": "Dean Wilcox: Ask what they would like to do. Erin Wilcox: We could play together. You can choose the game.",
+          "reply": "We could play together. You can choose the game.",
+          "elapsed": 0
+        },
+        {
+          "intent": "explain",
+          "line": "Dean Wilcox: Ask why. Erin Wilcox: I want to spend time with you.",
+          "reply": "I want to spend time with you.",
+          "elapsed": 0
+        }
+      ],
+      "reloadedRelation": "your mom"
+    }
+  ]
+}
