@@ -1,6 +1,7 @@
 import { projectLocationSurfaces } from "../presentation/location-surfaces";
 import { locationReviewVisuals } from "../presentation/location-art-review";
 import { PressWorkspace } from "./PressWorkspace";
+import { birthdayProblemForSetup } from "../presentation/new-game-birthday";
 import {
   SavedAppearanceProvider,
   SavedRenderSnapshotsProvider,
@@ -894,6 +895,7 @@ function SetupScreen({
   const reopen = (step: CreatorStep) => setCurrent(step);
 
   const problems = newGameSetupProblems(committed);
+  const birthdayProblem = birthdayProblemForSetup(committed);
   const place = selectedCreatorPlace(location);
   const placeListOpen = creatorPlaceListOpen(location.placeKey, replacingPlace);
 
@@ -1170,10 +1172,12 @@ function SetupScreen({
             </div>
           </fieldset>
 
+          {birthdayProblem ? <p role="alert">{birthdayProblem}</p> : null}
           <button
             type="button"
             className="game-creator-next"
             data-testid="creator-continue-character"
+            disabled={birthdayProblem !== null}
             onClick={() => advanceTo("place")}
           >
             Next
