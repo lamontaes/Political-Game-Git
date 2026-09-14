@@ -25,6 +25,7 @@ import {
 import { serializeWorld, deserializeWorld } from "./serialization";
 import { assertWorldIntegrity, advanceWorld } from "./world";
 import { advanceWorldMinutes } from "./time-work";
+import { workStatusAt } from "./life";
 import {
   scheduleNationalCount,
   planNationalOfficeTerm,
@@ -438,13 +439,33 @@ describe("National electoral resolution (supplied fictional results)", () => {
     );
     expect(deserializeWorld(serializeWorld(next))).toEqual(next);
   });
-  it("the actual schedule counts supplied ballots; noon qualification enters real canonical work and expiration closes it", () => {
-    const { world, electionId, a, av, b, bv } = setup();
+  it("the actual schedule seats rival officeholders independently and expires only their own work at noon", () => {
+    const { world: fixtureWorld, electionId, a, av, b, bv } = setup();
+    const world: World = {
+      ...fixtureWorld,
+      control: { kind: "person", personId: a },
+    };
+    const playerWork = world.history.workRelationships.filter(
+      (work) => work.personId === a,
+    );
+    expect(playerWork.length).toBeGreaterThan(0);
+    const playerWorkIds = new Set(playerWork.map((work) => work.id));
+    const playerStatuses = world.history.workStatuses.filter((status) =>
+      playerWorkIds.has(status.workRelationshipId),
+    );
+    const originalControl = world.control;
     let next = scheduleNationalCount(world, electionId);
-    next = ballots(results(next, electionId, a, b), electionId, a, av, b, bv);
+    next = ballots(
+      results(next, electionId, a, b, () => b),
+      electionId,
+      a,
+      av,
+      b,
+      bv,
+    );
     next = advanceWorld(next, 18, createCampaignElectionTransitionRegistry());
     expect(next.currentDate).toBe("2029-01-06");
-    expect(nationalOutcome(next, electionId, "president")?.personId).toBe(a);
+    expect(nationalOutcome(next, electionId, "president")?.personId).toBe(b);
     next = planNationalOfficeTerm(next, {
       stableKey: "presidential-term",
       electionId,
@@ -467,7 +488,7 @@ describe("National electoral resolution (supplied fictional results)", () => {
         stableKey: "early-oath",
         electionId,
         planId,
-        personId: a,
+        personId: b,
         disposition: "qualified-and-sworn",
         authorityNote: "Fixture qualification and oath disposition.",
         provenance,
@@ -483,28 +504,89 @@ describe("National electoral resolution (supplied fictional results)", () => {
       stableKey: "oath",
       electionId,
       planId,
-      personId: a,
+      personId: b,
       disposition: "qualified-and-sworn",
       authorityNote:
         "Supplied canonical qualification and actually recorded oath disposition.",
       provenance,
     });
     const holder = nationalOfficeHolder(next, "president")!;
-    expect(holder.plan.personId).toBe(a);
+    expect(holder.plan.personId).toBe(b);
     expect(
       next.history.workRelationships.some(
         (work) =>
-          work.id === holder.state.workRelationshipId && work.personId === a,
+          work.id === holder.state.workRelationshipId && work.personId === b,
       ),
     ).toBe(true);
+    expect(nationalOfficeHolder(next, "vice-president")).toBeNull();
+    expect(nationalOutcome(next, electionId, "vice-president")?.personId).toBe(
+      bv,
+    );
+    next = planNationalOfficeTerm(next, {
+      stableKey: "vice-presidential-term",
+      electionId,
+      office: "vice-president",
+      qualificationNote: "Separate supplied vice-presidential qualification.",
+      workTimeDemand: holder.plan.workTimeDemand,
+      provenance,
+    });
+    const vicePlanId = nationalRecords(next).at(-1)!.id;
+    expect(nationalOfficeHolder(next, "vice-president")).toBeNull();
+    next = qualifyNationalOfficeEntry(next, {
+      stableKey: "vice-presidential-oath",
+      electionId,
+      planId: vicePlanId,
+      personId: bv,
+      disposition: "qualified-and-sworn",
+      authorityNote: "Separate actually recorded vice-presidential oath.",
+      provenance,
+    });
+    const viceHolder = nationalOfficeHolder(next, "vice-president")!;
+    expect(viceHolder.plan.personId).toBe(bv);
+    expect(
+      next.history.workRelationships.find(
+        (work) => work.id === viceHolder.state.workRelationshipId,
+      )?.kind,
+    ).toBe("employment:vice-presidential-officeholder");
+    expect(next.control).toEqual(originalControl);
+    expect(
+      next.history.workRelationships.filter((work) =>
+        playerWorkIds.has(work.id),
+      ),
+    ).toEqual(playerWork);
+    expect(
+      next.history.workStatuses.filter((status) =>
+        playerWorkIds.has(status.workRelationshipId),
+      ),
+    ).toEqual(playerStatuses);
     expect(deserializeWorld(serializeWorld(next))).toEqual(next);
-    const ended = advanceWorld(
+    // Authored fixture positioning avoids a four-year wait; the final minute
+    // must still flow through the actual shared clock and expiry consumer.
+    next = at(next, "2033-01-20", 719);
+    expect(nationalOfficeHolder(next, "president")?.plan.personId).toBe(b);
+    expect(nationalOfficeHolder(next, "vice-president")?.plan.personId).toBe(
+      bv,
+    );
+    expect(workStatusAt(next, holder.state.workRelationshipId!)?.status).toBe(
+      "active",
+    );
+    const ended = advanceWorldMinutes(
       next,
-      1461,
+      1,
       createCampaignElectionTransitionRegistry(),
     );
     expect(ended.currentDate).toBe("2033-01-20");
     expect(nationalOfficeHolder(ended, "president")).toBeNull();
+    expect(nationalOfficeHolder(ended, "vice-president")).toBeNull();
+    expect(
+      workStatusAt(ended, viceHolder.state.workRelationshipId!)?.status,
+    ).toBe("ended");
+    expect(
+      ended.history.workStatuses.filter((status) =>
+        playerWorkIds.has(status.workRelationshipId),
+      ),
+    ).toEqual(playerStatuses);
+    expect(ended.control).toEqual(originalControl);
     expect(
       projectNationalElectionResults(ended, electionId).president.state,
     ).toBe("Chosen; term period ended");
