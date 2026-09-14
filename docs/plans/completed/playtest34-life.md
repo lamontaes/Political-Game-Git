@@ -90,3 +90,39 @@ real creator; replay reports carry the entire selected setup frame. A seed alone
 or a constructor default is insufficient evidence of an ordinary player route.
 
 Updated receipt consumed (modified2026-09-14 03:16UTC): C#245 ec966f/bdf actual free-line patch reconciled in owned dialogue path, no consequence write dropped. Isolated source replay reproduces the Mom newgame refusal on that exact C dialogue module with identical ordinary creator facts. Saved proposal terms and exact response links repair it; both explicit Accept and the existing Suggest game response honor the pending newgame. Privacy can withdraw with a concrete reason. Actual30min performance once, ten extra lines0, decline/cancel/reload terminal guards, protected appointment overlap0. Typed caller adapter preserves S additions through quiet story waits; A owns final root wiring and C's discoverability. New assembled game packet passed deterministic and independent grounding; bounded tests await B release.
+
+## Completed implementation and bounded reception
+
+Implementation complete; draft PR #247 is reviewable. Runtime froze at
+8f3fc8a15cd77def8d893f4714686db322789a56. Published first-session test corrections
+froze at 6de4757ada166dbeb75dc9331709a1e6fe91e019; planning/Later0 retain their
+goal/consequence writes while Read5 remains an actual activity.
+
+Actual source receipts: core/#24437PASS at c2bbc9c3; unaffected related105PASS;
+corrected long-life82PASS and full lint/types/format/release at def933cf. This is
+224 eventual passes across14suites, not one latest-SHA full-suite claim.
+Deterministic and separate packet-only prose grounding passed. Receiver9dac3e44
+cleanly certified focused plan/read test, types/scoped lint/format/release,
+production build and validate:art/inventory:art/qa:art. Initial generated-QA drift
+and failed broad/first Mom browser receipts remain distinguished.
+
+Actual assembled pointer/keyboard acceptance: named conditional favor1200PASS at
+9dac3e44 (agreement0, saved requester/condition, performance20once and terminal
+reload); MomnewgamePASS40.3s at clean2b8237a1 (proposal/accept0, reload, game30once,
+no repeated action). Only nav-helper scene entry changed for the Mom rerun.
+Agent inspected both favor images and Mom performance image; no owned text/control
+defect found in those routes. Owner human visual/prose acceptance remains pending.
+No main merge or public release is claimed. Remaining broad/direct-call suites
+are not represented as passed and are not gates for this bounded repair.
+
+Evidence: docs/agent/evidence/playtest34-life/README.md and verification.md,
+with exact canonical examples, saved output and receipt metadata. Original #244
+workspace and original two modified PNGs remain untouched. No education,
+ordinary-life scheduler, shared root, geometry or art source changes by LIFE.
+
+LEARN: a declared free plan choice must assert the whole moment unchanged and
+retain the active goal; its follow-through must independently assert the actual
+reading duration. The first-session regression now encodes that distinction.
+A received runtime/test-only commits and exact browser metadata; A alone owns
+root/navigation reception. New covered-shift/adult-consumer defects require an
+actual scene/control receipt before a bounded owned-leaf repair.

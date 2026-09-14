@@ -1,57 +1,56 @@
 # PLAYTEST34 LIFE ordinary examples
 
-`ordinary-play.json` is assembled by the checked-in ordinary replay command,
-using normal character creation, ordinary-life producers, real saved events,
-choices, performance and JSON reload. No World/history injection establishes
-these examples. Lexington content retains its existing placeholder status.
+These examples use normal character creation, ordinary producers, actual saved
+requests, choices, performance and JSON reload. Their full creator frames and
+canonical identities are recorded in the adjacent replay outputs. Lexington
+retains its existing placeholder status.
 
-Raymond Kemp, age35, receives this saved request from **Samantha Kemp, your mom**:
-“Could you look over my invitation to the family picnic? Just two paragraphs.
-I want to make sure the wording is clear.” Agreeing with **“Wording only; I will
-not contact the guests”** records a commitment without advancing09:10. Reload
-keeps the request/person/condition. Explicit proofreading finishes09:30, sends
-wording feedback and records one performance interaction. Reload/repeat returns
-the same World without another reward. The20-minute interval is authored for
-this particular activity, not a universal favor duration.
+**Mom proposes a game.** In ordinary child start `p34-mom-game-3`, Elena Parsons,
+your mom, says: “We could try a new game. Would you like that?” Agreeing replies:
+“Yes, let's try a new game together. We haven't started yet.” Both lines take
+zero minutes. Reload preserves Elena, the new-game topic and the agreement.
+“Spend 30 minutes: try a new game together” performs that game once. A repeat
+cannot perform it again. Decline or cancellation takes zero minutes. A genuine
+new privacy need explains withdrawal; accepting an unrelated player suggestion
+still uses the NPC's independent willingness.
 
-An unperformed agreement returns through the existing due evaluator: **Samantha
-Kemp brings up the request to proofread the two-paragraph picnic invitation
-again. You agreed, but have not finished the proofreading.** The completed path
-is terminally dispatched too; this ordinary NPC lets it rest. Completion is
-never inferred merely from agreement, and a callback is never forced to punish
-every answer.
+`game-baseline-c245.json` reproduces the contradictory proposal/refusal against
+C#245's actual zero-minute dialogue source, using the identical normal creator
+facts. This is a source reproduction, not a claim to have decoded the original
+video. `game-proposal.json` records the repaired assembled route.
 
-The favor start also provides **Noor Yates, who you live with**:
-“I will be home this evening. Would you like to sit and talk?” The private
-confidence from Neil Goodwin, your mom, in the separate `p34-life-confidence` ordinary start names the actual difficulty organizing the picnic and asks
-for privacy. The choices answer those saved terms, without claiming the evening
-or private undertaking has already happened.
+**A concrete favor and follow-up.** Raymond Kemp, age 35, receives this saved
+request from Samantha Kemp, your mom: “Could you look over my invitation to the
+family picnic? Just two paragraphs. I want to make sure the wording is clear.”
+Agreeing with “Wording only; I will not contact the guests” records the commitment
+without advancing 09:10. Reload keeps the requester, task and condition. Explicit
+proofreading finishes at 09:30 and records one performance. Reload/repeat returns
+the same World without another reward. This particular activity owns 20 minutes.
 
-For Dean Wilcox, age10, canonical authority identifies **Erin Wilcox, your mom**.
-Her reply is “We could play together. You can choose the game.” Asked why, she
-says “I want to spend time with you.” For Damian Wolf, age6, canonical kinship
-identifies **Jason Wolf, your older brother**. During the broken-mug scene he
-says “We should ask for help with the broken pieces.” These dialogue lines
-cost0minutes. Reload retains each actual family relation.
+On the unperformed path, the existing due evaluator returns: “Samantha Kemp
+brings up the request to proofread the two-paragraph picnic invitation again.
+You agreed, but have not finished the proofreading.” The completed path is also
+terminally dispatched; this ordinary NPC lets it rest. Agreement alone is never
+recorded as completed work, and follow-up is not forced punishment.
 
-`fact-packet.md` and `candidate.md` contain the exact assembled claim inputs.
-Deterministic `prose:eval ground` and a separate packet-only grounding reviewer
-both passed; `verify-review` accepted the reviewer verdict. This is grounding
-acceptance, not owner prose or visual acceptance.
+**Other ordinary speech.** Noor Yates, who you live with, asks: “I will be home
+this evening. Would you like to sit and talk?” A separate ordinary confidence
+start names the actual picnic-organizing difficulty and asks for privacy. These
+answers retain their saved terms without claiming the undertaking is performed.
+Erin Wilcox, canonically Dean's mom, speaks as an adult to her ten-year-old:
+“We could play together. You can choose the game.” During Damian's broken-mug
+scene, his older brother Jason says: “We should ask for help with the broken
+pieces.” Dialogue and history browsing take zero minutes.
 
-Automated timing proof distinguishes ten free dialogue lines from one
-illustrative authored60-minute meeting. Reading an actual book remains15minutes,
-read-more5, stop-reading0. Accepted work, travel, tuition/grace and interruption
-regressions must be run against this candidate before delivery. Browser evidence
-and exact frozen SHA are recorded in the owning plan when available.
+**Single-charge proof.** Ten dialogue lines plus Leave take zero minutes. A
+separate authored meeting survives reload and completes 60 minutes once;
+duplicate performance is rejected. A saved 10:00 paid-shift favor attempt returns
+the identical World. Actual work completes at 13:00, proofreading at 13:20, and
+the next-day settlement pays its one new USD 72 wage. Actual reading remains
+15 minutes, read-more five, and stop-reading zero.
 
-Direct source replay at the final candidate also passed
-`single-charge.json`: ten dialogue lines plus Leave0minutes; the illustrative
-meeting remains scheduled after leaving, survives reload, then completes60minutes
-once. Duplicate performance after reload is rejected. In ordinary accepted Shop
-assistant work, a saved10:00mid-shift favor attempt returns the identical World;
-actual work completes13:00, proofreading completes13:20, and the next-day due
-settlement pays USD72 once. This replay is supplemental direct source evidence;
-it does not replace the queued worker/browser suites.
-
-The 06:14→06:38 game contradiction is reproduced against C#245's actual zero-minute dialogue module in `game-baseline-c245.json`. The identical ordinary creator in `game-proposal.json` yields Elena Parsons, your mom: new-game proposal0 → same-game agreement0 → reload → game30 once. Decline/cancel0, saved terminal response and repeat rejection are captured. No fabricated intervening circumstance or unrelated willingness reroll.
+See [exact regression receipts](verification.md), `ordinary-play.json` and
+`single-charge.json` for commands and saved outputs. `fact-packet.md`,
+`candidate.md` and `grounding-review.txt` retain the deterministic and independent
+packet-only grounding evidence. Grounding and automated checks do not supply
+owner prose or human visual acceptance.

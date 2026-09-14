@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 3,
+  "stage": "life-related",
+  "kind": "check",
+  "command": "npm run test -- src/presentation/opening-repair6.test.ts src/presentation/opening-life-agency.test.ts src/presentation/opening-life-boundaries.test.ts src/presentation/opening-life-scenes.test.ts src/presentation/formative-context.test.ts src/presentation/adaptive-life.test.ts src/presentation/narrative-life.test.ts src/simulation/life-opportunities.test.ts src/simulation/pennywise-adaptive-life.test.ts src/presentation/campaign-integration.test.ts --maxWorkers=1",
+  "startedAt": "2026-09-14T03:40:56.700Z",
+  "finishedAt": "2026-09-14T03:41:40.840Z",
+  "durationMs": 44344,
+  "branchBefore": "codex/playtest34-life",
+  "branch": "codex/playtest34-life",
+  "headShaBefore": "c2bbc9c3f63ab02ec7fcc29e66c1309ba8d32c81",
+  "headSha": "c2bbc9c3f63ab02ec7fcc29e66c1309ba8d32c81",
+  "upstreamRef": "refs/remotes/origin/main",
+  "upstreamSha": "f22fd314e72bec0440044026ccdfd99e7a67600d",
+  "dirtyTrackedCountBefore": 0,
+  "dirtyTrackedCountAfter": 0,
+  "sourceIdentityVersion": "ocd-source-identity-v1",
+  "sourceExcludePaths": [],
+  "sourceFingerprintBefore": "cb0cfa532a83fcfb3148c2187ba9aac2593b7e03a178a73e41b437948e4d9fff",
+  "sourceFingerprintAfter": "cb0cfa532a83fcfb3148c2187ba9aac2593b7e03a178a73e41b437948e4d9fff",
+  "sourceChangedAcrossRun": false,
+  "exitCode": 1,
+  "signal": null,
+  "commandSucceeded": false,
+  "certifiesSource": false,
+  "certificationBlockers": [
+    "command did not succeed (exitCode=1, signal=null)"
+  ],
+  "logPath": "/private/tmp/p34-life-receipts/life-related.log"
+}
