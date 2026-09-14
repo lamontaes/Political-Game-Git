@@ -1098,7 +1098,8 @@ function SetupScreen({
                   const text = event.target.value;
                   setSetup((now) => {
                     if (text.trim() === "") {
-                      const { birthMonth: _unused, ...rest } = now;
+                      const rest = { ...now };
+                      delete rest.birthMonth;
                       return rest;
                     }
                     const parsed = Number(text);
@@ -1120,7 +1121,8 @@ function SetupScreen({
                   const text = event.target.value;
                   setSetup((now) => {
                     if (text.trim() === "") {
-                      const { birthDay: _unused, ...rest } = now;
+                      const rest = { ...now };
+                      delete rest.birthDay;
                       return rest;
                     }
                     const parsed = Number(text);
