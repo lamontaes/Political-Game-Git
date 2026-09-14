@@ -1,0 +1,252 @@
+{
+  "sourceCommit": "0f81acb6fa430c540a61a884cf4ff4ca850307f0",
+  "version": 1,
+  "paths": [
+    {
+      "id": "college-office-certificate",
+      "version": 1,
+      "kind": "study",
+      "scope": "personal",
+      "organizationName": "Civic Learning College (fictional)",
+      "title": "College office administration certificate",
+      "responsibility": "Study records, correspondence and office administration.",
+      "program": "postsecondary:office-certificate",
+      "credential": "Office administration certificate",
+      "prerequisiteProgram": null,
+      "minimumAge": 18,
+      "sessionMinutes": 180,
+      "sessionStartMinute": 1080,
+      "minimumGapDays": 7,
+      "requiredSessions": 24,
+      "minimumElapsedDays": 161,
+      "sessionCostMinor": 2500,
+      "sessionPayMinor": 0,
+      "volunteerSupported": false,
+      "progressionModel": "periods",
+      "academicYears": 1,
+      "periodsPerYear": 1,
+      "daysPerPeriod": 161,
+      "periodCostMinor": 60000,
+      "timeDemand": {
+        "expectedWeekly": {
+          "minimumHours": 3,
+          "maximumHours": 3
+        },
+        "attention": "moderate",
+        "concurrency": "mostly-exclusive",
+        "scheduleRigidity": "rigid",
+        "interruptibility": "limited",
+        "locationJurisdictionId": null
+      },
+      "provenance": {
+        "kind": "authored",
+        "note": "LIFE-PATHS2 v1 fictional opportunity and terms. Durations, fees and pay are game design, not empirical or legal claims."
+      }
+    },
+    {
+      "id": "college-associate",
+      "version": 1,
+      "kind": "study",
+      "scope": "personal",
+      "organizationName": "Civic Learning College (fictional)",
+      "title": "Associate degree in public administration",
+      "responsibility": "Study public records, administration and research methods.",
+      "program": "postsecondary:public-administration-associate",
+      "credential": "Associate degree in public administration",
+      "prerequisiteProgram": null,
+      "minimumAge": 18,
+      "sessionMinutes": 240,
+      "sessionStartMinute": 540,
+      "minimumGapDays": 7,
+      "requiredSessions": 96,
+      "minimumElapsedDays": 665,
+      "sessionCostMinor": 4000,
+      "sessionPayMinor": 0,
+      "volunteerSupported": false,
+      "progressionModel": "periods",
+      "academicYears": 2,
+      "periodsPerYear": 2,
+      "daysPerPeriod": 166,
+      "periodCostMinor": 96000,
+      "timeDemand": {
+        "expectedWeekly": {
+          "minimumHours": 4,
+          "maximumHours": 4
+        },
+        "attention": "moderate",
+        "concurrency": "mostly-exclusive",
+        "scheduleRigidity": "rigid",
+        "interruptibility": "limited",
+        "locationJurisdictionId": null
+      },
+      "provenance": {
+        "kind": "authored",
+        "note": "LIFE-PATHS2 v1 fictional opportunity and terms. Durations, fees and pay are game design, not empirical or legal claims."
+      }
+    },
+    {
+      "id": "college-bachelors",
+      "version": 1,
+      "kind": "study",
+      "scope": "personal",
+      "organizationName": "Civic Learning College (fictional)",
+      "title": "Bachelor's degree",
+      "responsibility": "Study across four academic years with periodic tuition and civic coursework.",
+      "program": "postsecondary:bachelors-degree",
+      "credential": "Bachelor's degree",
+      "prerequisiteProgram": null,
+      "minimumAge": 18,
+      "sessionMinutes": 0,
+      "sessionStartMinute": 0,
+      "minimumGapDays": 0,
+      "requiredSessions": null,
+      "minimumElapsedDays": 1460,
+      "sessionCostMinor": 0,
+      "sessionPayMinor": 0,
+      "volunteerSupported": false,
+      "progressionModel": "periods",
+      "academicYears": 4,
+      "periodsPerYear": 2,
+      "daysPerPeriod": 182,
+      "periodCostMinor": 500000,
+      "timeDemand": {
+        "expectedWeekly": {
+          "minimumHours": 30,
+          "maximumHours": 30
+        },
+        "attention": "moderate",
+        "concurrency": "mostly-exclusive",
+        "scheduleRigidity": "rigid",
+        "interruptibility": "limited",
+        "locationJurisdictionId": null
+      },
+      "provenance": {
+        "kind": "authored",
+        "note": "LIFE-PATHS2 v1 fictional opportunity and terms. Durations, fees and pay are game design, not empirical or legal claims."
+      }
+    },
+    {
+      "id": "college-graduate",
+      "version": 1,
+      "kind": "study",
+      "scope": "personal",
+      "organizationName": "Civic Learning College (fictional)",
+      "title": "Graduate degree",
+      "responsibility": "Complete two additional years of graduate study after a bachelor's.",
+      "program": "postsecondary:graduate-degree",
+      "credential": "Graduate degree",
+      "prerequisiteProgram": "postsecondary:bachelors-degree",
+      "minimumAge": 18,
+      "sessionMinutes": 0,
+      "sessionStartMinute": 0,
+      "minimumGapDays": 0,
+      "requiredSessions": null,
+      "minimumElapsedDays": 730,
+      "sessionCostMinor": 0,
+      "sessionPayMinor": 0,
+      "volunteerSupported": false,
+      "progressionModel": "periods",
+      "academicYears": 2,
+      "periodsPerYear": 2,
+      "daysPerPeriod": 182,
+      "periodCostMinor": 600000,
+      "timeDemand": {
+        "expectedWeekly": {
+          "minimumHours": 25,
+          "maximumHours": 25
+        },
+        "attention": "moderate",
+        "concurrency": "mostly-exclusive",
+        "scheduleRigidity": "rigid",
+        "interruptibility": "limited",
+        "locationJurisdictionId": null
+      },
+      "provenance": {
+        "kind": "authored",
+        "note": "LIFE-PATHS2 v1 fictional opportunity and terms. Durations, fees and pay are game design, not empirical or legal claims."
+      }
+    },
+    {
+      "id": "law-school",
+      "version": 1,
+      "kind": "study",
+      "scope": "personal",
+      "organizationName": "Civic Learning College (fictional)",
+      "title": "Law school (J.D.)",
+      "responsibility": "Complete three years of law school. Bar exam and admission remain separate milestones.",
+      "program": "postsecondary:law-school-jd",
+      "credential": "Juris Doctor (J.D.)",
+      "prerequisiteProgram": "postsecondary:bachelors-degree",
+      "minimumAge": 18,
+      "sessionMinutes": 0,
+      "sessionStartMinute": 0,
+      "minimumGapDays": 0,
+      "requiredSessions": null,
+      "minimumElapsedDays": 1095,
+      "sessionCostMinor": 0,
+      "sessionPayMinor": 0,
+      "volunteerSupported": false,
+      "progressionModel": "periods",
+      "academicYears": 3,
+      "periodsPerYear": 2,
+      "daysPerPeriod": 182,
+      "periodCostMinor": 750000,
+      "timeDemand": {
+        "expectedWeekly": {
+          "minimumHours": 35,
+          "maximumHours": 35
+        },
+        "attention": "moderate",
+        "concurrency": "mostly-exclusive",
+        "scheduleRigidity": "rigid",
+        "interruptibility": "limited",
+        "locationJurisdictionId": null
+      },
+      "provenance": {
+        "kind": "authored",
+        "note": "LIFE-PATHS2 v1 fictional opportunity and terms. Durations, fees and pay are game design, not empirical or legal claims."
+      }
+    },
+    {
+      "id": "trade-training",
+      "version": 1,
+      "kind": "study",
+      "scope": "personal",
+      "organizationName": "Community Skills Cooperative (fictional)",
+      "title": "Repair workshop certificate",
+      "responsibility": "Practice safe workshop procedures and supervised equipment repair.",
+      "program": "training:repair-certificate",
+      "credential": "Repair workshop certificate",
+      "prerequisiteProgram": null,
+      "minimumAge": 18,
+      "sessionMinutes": 240,
+      "sessionStartMinute": 540,
+      "minimumGapDays": 7,
+      "requiredSessions": 12,
+      "minimumElapsedDays": 77,
+      "sessionCostMinor": 1500,
+      "sessionPayMinor": 0,
+      "volunteerSupported": false,
+      "progressionModel": "periods",
+      "academicYears": 1,
+      "periodsPerYear": 1,
+      "daysPerPeriod": 77,
+      "periodCostMinor": 18000,
+      "timeDemand": {
+        "expectedWeekly": {
+          "minimumHours": 4,
+          "maximumHours": 4
+        },
+        "attention": "moderate",
+        "concurrency": "mostly-exclusive",
+        "scheduleRigidity": "rigid",
+        "interruptibility": "limited",
+        "locationJurisdictionId": null
+      },
+      "provenance": {
+        "kind": "authored",
+        "note": "LIFE-PATHS2 v1 fictional opportunity and terms. Durations, fees and pay are game design, not empirical or legal claims."
+      }
+    }
+  ]
+}

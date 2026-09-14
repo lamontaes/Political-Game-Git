@@ -90,7 +90,7 @@ test.describe("People surfaces have an obvious way out", () => {
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await freshBrowser(page);
-    await startLife(page, { age: 10 });
+    await startLife(page, { place: "Lexington", state: "Kentucky", age: 10 });
     await enterLife(page);
 
     const momentBefore = await page.getByTestId("story-prose").innerText();

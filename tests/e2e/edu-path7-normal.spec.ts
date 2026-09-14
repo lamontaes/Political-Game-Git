@@ -16,7 +16,13 @@ test("normal dated education offer, period progression, interruption and repeate
   page,
 }) => {
   await page.goto("/?seed=ui-edu-path7-normal");
-  await startLife(page, { age: 35, route: "custom", household: "lives-alone" });
+  await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
+    age: 35,
+    route: "custom",
+    household: "lives-alone",
+  });
   await enterLife(page);
   await openElsewhere(page, "work");
   const education = page.getByRole("region", {
@@ -80,7 +86,13 @@ test("normal invitation pointer refusal preserves time and survives saving", asy
   page,
 }) => {
   await page.goto("/?seed=ui-invitation-pointer");
-  await startLife(page, { age: 35, route: "custom", household: "lives-alone" });
+  await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
+    age: 35,
+    route: "custom",
+    household: "lives-alone",
+  });
   await enterLife(page);
   await saveLife(page);
   const before = await readSavedLegislativeWorld(page);

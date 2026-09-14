@@ -19,8 +19,8 @@ import type { EnvironmentSceneSpec } from "../environment-scene-spec";
  * room stands for is a canonical world fact bound at runtime, never a property
  * of the file. Nothing here reads socioeconomic standing off the furniture.
  *
- * NEITHER ROOM IS CALIBRATED FOR PEOPLE, and that is a refusal rather than an
- * oversight — see `explicit_unknowns` on each.
+ * Both normal household variants have independently authored image-space
+ * standing calibration (P29-G), not surveyed room dimensions.
  */
 
 const DOMESTIC_CAMERA = {
@@ -60,6 +60,15 @@ export const RESIDENCE_APARTMENT_LIVING_CANONICAL_03_SCENE: EnvironmentSceneSpec
     units: "plate-percent",
 
     plate: { width: 1376, height: 768 },
+    // Authored composition coordinates, not surveyed room dimensions. At the
+    // foreground sole line an adult canvas paints 13.5% of plate width; the
+    // entry depth paints 75% of that. Checked against this plate's door,
+    // sofa and coffee table with actual supported standing bodies.
+    floor_calibration: {
+      near: { floor_y_percent: 92, scale: 1 },
+      far: { floor_y_percent: 82, scale: 0.75 },
+    },
+    standard_body_width_percent: 13.5,
     camera_policy: DOMESTIC_CAMERA,
     /** At 1.5 the plate keeps x 112..1264; at 2.4 it keeps 573 rows from y 195. */
     safe_area: { x: 112, y: 195, width: 1152, height: 573 },
@@ -125,7 +134,7 @@ export const RESIDENCE_APARTMENT_LIVING_CANONICAL_03_SCENE: EnvironmentSceneSpec
         type: "standing-person",
         kind: "floor-standing",
         x_percent: 46,
-        z_order: 4,
+        z_order: 6,
         footprint_percent: 20,
         allowed_pose_families: ["standing-neutral", "standing-conversational"],
         permitted_facings: ["front"],
@@ -151,10 +160,55 @@ export const RESIDENCE_APARTMENT_LIVING_CANONICAL_03_SCENE: EnvironmentSceneSpec
         type: "furniture-foreground",
         z_order: 5,
         region_percent: {
-          x_percent: 41,
-          y_percent: 60,
-          width_percent: 18,
-          height_percent: 14,
+          x_percent: 39.5,
+          y_percent: 59,
+          width_percent: 19.5,
+          height_percent: 7.5,
+        },
+        plate_clip: {
+          confidence: "visual-estimate",
+          method_note:
+            "P29-G authored tabletop/apron silhouette from canonical-03 runtime plate; coordinates are image percentages, not physical measurements.",
+          points: [
+            { x: 43, y: 59.4 },
+            { x: 56, y: 59.4 },
+            { x: 58.9, y: 63.4 },
+            { x: 58.7, y: 66.1 },
+            { x: 39.6, y: 66.1 },
+            { x: 39.5, y: 63.5 },
+          ],
+        },
+      },
+      {
+        id: "coffee-table-left-leg",
+        type: "furniture-foreground",
+        z_order: 5,
+        plate_clip: {
+          confidence: "visual-estimate",
+          method_note:
+            "Authored visible left front leg from canonical-03; preserves the open space beneath the tabletop.",
+          points: [
+            { x: 40, y: 65.8 },
+            { x: 41, y: 65.8 },
+            { x: 41, y: 73.7 },
+            { x: 40.1, y: 73.7 },
+          ],
+        },
+      },
+      {
+        id: "coffee-table-right-leg",
+        type: "furniture-foreground",
+        z_order: 5,
+        plate_clip: {
+          confidence: "visual-estimate",
+          method_note:
+            "Authored visible right front leg from canonical-03; not a solid rectangle across the floor.",
+          points: [
+            { x: 57.6, y: 65.8 },
+            { x: 58.5, y: 65.8 },
+            { x: 58.5, y: 73.7 },
+            { x: 57.7, y: 73.7 },
+          ],
         },
       },
     ],
@@ -221,7 +275,13 @@ export const RESIDENCE_APARTMENT_LIVING_CANONICAL_03_SCENE: EnvironmentSceneSpec
       },
     ],
 
-    explicit_unknowns: [...DOMESTIC_UNKNOWNS],
+    explicit_unknowns: [
+      "P29-G standing calibration is authored image-space visual-estimate, not surveyed dimensions or inferred body height in metres. Only canonical-03 standing is calibrated; no newly accepted seated family is asserted.",
+      "Foreground floor anchor paints in front of the coffee table; lower-depth anchors use its authored silhouette, not its coarse rectangular debug bounds.",
+      ...DOMESTIC_UNKNOWNS.slice(1).filter(
+        (note) => !note.startsWith("The coffee-table"),
+      ),
+    ],
   };
 
 /**
@@ -240,6 +300,15 @@ export const RESIDENCE_APARTMENT_LIVING_ORDINARY_02_SCENE: EnvironmentSceneSpec 
     units: "plate-percent",
 
     plate: { width: 1376, height: 768 },
+    // Independently authored from ordinary-02's closer camera, large doorway
+    // and table front/legs. An adult near the foreground floor occupies about
+    // 65% of plate height including the supported head/hair. This is image-space
+    // staging, not a surveyed height or calibration borrowed from canonical-03.
+    floor_calibration: {
+      near: { floor_y_percent: 95, scale: 1 },
+      far: { floor_y_percent: 82, scale: 0.8 },
+    },
+    standard_body_width_percent: 18,
     camera_policy: DOMESTIC_CAMERA,
     safe_area: { x: 112, y: 195, width: 1152, height: 573 },
     essential_content_area: { x: 200, y: 260, width: 1064, height: 508 },
@@ -303,7 +372,7 @@ export const RESIDENCE_APARTMENT_LIVING_ORDINARY_02_SCENE: EnvironmentSceneSpec 
         type: "standing-person",
         kind: "floor-standing",
         x_percent: 47,
-        z_order: 5,
+        z_order: 7,
         footprint_percent: 22,
         allowed_pose_families: ["standing-neutral", "standing-conversational"],
         permitted_facings: ["front"],
@@ -316,7 +385,9 @@ export const RESIDENCE_APARTMENT_LIVING_ORDINARY_02_SCENE: EnvironmentSceneSpec 
         kind: "floor-standing",
         x_percent: 88,
         z_order: 2,
-        footprint_percent: 13,
+        // Authored doorway-side clearance accommodates the 14.4%-wide
+        // calibrated standing canvas without relaxing global footprint checks.
+        footprint_percent: 15,
         allowed_pose_families: ["standing-neutral", "standing-listening"],
         permitted_facings: ["front"],
         floor_contact: { floor_y_percent: 82, max_foot_spread_percent: 8 },
@@ -329,10 +400,56 @@ export const RESIDENCE_APARTMENT_LIVING_ORDINARY_02_SCENE: EnvironmentSceneSpec 
         type: "furniture-foreground",
         z_order: 6,
         region_percent: {
-          x_percent: 33,
-          y_percent: 66,
-          width_percent: 20,
-          height_percent: 24,
+          x_percent: 34,
+          y_percent: 63,
+          width_percent: 17,
+          height_percent: 15,
+        },
+        plate_clip: {
+          confidence: "visual-estimate",
+          method_note:
+            "P29-G authored ordinary-02 tabletop/apron silhouette from its runtime plate; image coordinates, not physical measurements.",
+          points: [
+            { x: 42.5, y: 63.5 },
+            { x: 50.5, y: 63.7 },
+            { x: 47.1, y: 74.9 },
+            { x: 47, y: 77 },
+            { x: 34.6, y: 75.8 },
+            { x: 34.4, y: 74.4 },
+            { x: 34.4, y: 73.5 },
+          ],
+        },
+      },
+      {
+        id: "coffee-table-left-leg",
+        type: "furniture-foreground",
+        z_order: 6,
+        plate_clip: {
+          confidence: "visual-estimate",
+          method_note:
+            "Authored ordinary-02 visible left front leg; under-table floor is not a solid occluder.",
+          points: [
+            { x: 34.8, y: 75.7 },
+            { x: 35.7, y: 75.8 },
+            { x: 35.7, y: 87.9 },
+            { x: 34.8, y: 87.9 },
+          ],
+        },
+      },
+      {
+        id: "coffee-table-right-leg",
+        type: "furniture-foreground",
+        z_order: 6,
+        plate_clip: {
+          confidence: "visual-estimate",
+          method_note:
+            "Authored ordinary-02 visible right front leg; keeps the gap between the legs open.",
+          points: [
+            { x: 45.8, y: 76.9 },
+            { x: 46.9, y: 77 },
+            { x: 46.9, y: 88.4 },
+            { x: 45.8, y: 88.4 },
+          ],
         },
       },
     ],
@@ -399,5 +516,11 @@ export const RESIDENCE_APARTMENT_LIVING_ORDINARY_02_SCENE: EnvironmentSceneSpec 
       },
     ],
 
-    explicit_unknowns: [...DOMESTIC_UNKNOWNS],
+    explicit_unknowns: [
+      "P29-G ordinary-02 standing calibration is authored image-space visual-estimate from its own plate, not surveyed dimensions or physical human height. It is independent of canonical-03; no newly accepted seated family is asserted.",
+      "The foreground floor spot paints in front of its table. Rear-depth occlusion uses the actual tabletop and separate leg silhouettes, retaining open floor beneath.",
+      ...DOMESTIC_UNKNOWNS.slice(1).filter(
+        (note) => !note.startsWith("The coffee-table"),
+      ),
+    ],
   };

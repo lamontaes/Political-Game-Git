@@ -42,7 +42,11 @@ async function walkToWhoAreYou(page: Page) {
   await page.getByTestId("creator-continue-character").click();
   await expect(page.getByTestId("creator-stage-place")).toBeVisible();
   await expect(page.getByTestId("place-context")).toHaveCount(0);
-  await chooseCreatorLocation(page, { age: 10, place: "Lexington" }, false);
+  await chooseCreatorLocation(
+    page,
+    { age: 10, place: "Lexington", state: "Kentucky" },
+    false,
+  );
   await expect(page.getByTestId("creator-stage-whoareyou")).toBeVisible();
 }
 

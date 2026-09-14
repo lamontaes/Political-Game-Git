@@ -94,7 +94,12 @@ async function liveUntilDecided(page: Page, maxDays = 45) {
 async function wonSeatWithWorkOpen(page: Page) {
   await freshBrowser(page);
   await page.goto("/?seed=p85c-owner-0");
-  await startLife(page, { age: 34, place: "Lexington", gender: "male" });
+  await startLife(page, {
+    age: 34,
+    place: "Lexington",
+    state: "Kentucky",
+    gender: "male",
+  });
   await enterLife(page);
   await openCampaign(page);
   await fileCandidacy(page);

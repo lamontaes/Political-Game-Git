@@ -111,6 +111,8 @@ export function describeRoutineOutcome(
       event.involvedEntityIds.includes(personId) &&
       (event.type === "life.scene.arrived" ||
         event.type === "life-paths2.credential" ||
+        event.type === "life-paths2.tuition-grace-opened" ||
+        event.type === "life-paths2.tuition-paused" ||
         event.type === "life-paths2.study-period")
     )
       lines.push(event.summary);

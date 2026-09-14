@@ -8,6 +8,7 @@ import {
 } from "../simulation";
 import { projectConversationObserverTrace } from "./observer-trace";
 import { compareSeeds } from "./seed-comparison";
+import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
 import {
   buildTraceExport,
   traceExportJson,
@@ -155,12 +156,14 @@ describe("inspection does not mutate canonical state", () => {
   it("leaves each compared world unchanged while comparing seeds", () => {
     const comparison = compareSeeds({
       seeds: ["read-only-seed-one", "read-only-seed-two"],
+      setup: DEFAULT_NEW_GAME_SETUP,
     });
     // The comparison reports each world's own content id; recomputing it from
     // a fresh generation of the same seed has to agree, which it cannot if
     // summarizing had written anything.
     const repeat = compareSeeds({
       seeds: ["read-only-seed-one", "read-only-seed-two"],
+      setup: DEFAULT_NEW_GAME_SETUP,
     });
     expect(canonicalJson(repeat)).toBe(canonicalJson(comparison));
   });

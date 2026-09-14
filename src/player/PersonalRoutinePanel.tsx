@@ -69,6 +69,9 @@ export function PersonalRoutinePanel({
       );
     }
   };
+  const tuitionDeadline = nextPeriod?.stableKey.startsWith(
+    "life-paths2.study-grace-deadline:",
+  );
   return (
     <details data-testid="personal-routine">
       <summary>Jobs, study and outings</summary>
@@ -107,9 +110,11 @@ export function PersonalRoutinePanel({
       {nextPeriod && nextPeriod.dueAt > world.currentDate ? (
         <>
           <p>
-            The next accepted study period ends {nextPeriod.dueAt}. Continuing
-            resolves established ordinary work and tuition, but stops for
-            protected commitments.
+            {tuitionDeadline
+              ? "The disclosed tuition grace deadline is "
+              : "The next accepted study period ends "}
+            {nextPeriod.dueAt}. Continuing resolves established ordinary work
+            and tuition, but stops for protected commitments.
           </p>
           <button
             type="button"
@@ -117,7 +122,9 @@ export function PersonalRoutinePanel({
               pass(daysBetween(world.currentDate, nextPeriod.dueAt))
             }
           >
-            Continue to next study period
+            {tuitionDeadline
+              ? "Continue to tuition deadline"
+              : "Continue to next study period"}
           </button>
         </>
       ) : null}

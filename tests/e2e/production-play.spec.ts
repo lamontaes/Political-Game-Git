@@ -48,7 +48,8 @@ async function freshBrowser(page: Page) {
 
 interface LifeSetup {
   readonly age: number;
-  readonly place?: string;
+  readonly place: string;
+  readonly state?: string;
   readonly office?: boolean;
   /** Pins who is at home, so a test that needs a housemate is not left to the
    * generator's coin flip (a normal start may come out solo). */
@@ -66,7 +67,8 @@ interface LifeSetup {
 async function startLife(page: Page, setup: LifeSetup) {
   await walkCreator(page, {
     age: setup.age,
-    ...(setup.place === undefined ? {} : { place: setup.place }),
+    place: setup.place,
+    state: setup.state,
     ...(setup.office === undefined ? {} : { office: setup.office }),
     ...(setup.household === undefined ? {} : { household: setup.household }),
   });
@@ -143,7 +145,7 @@ test.describe("Opening the game opens a game", () => {
     await freshBrowser(page);
     await expect(page.getByTestId("title-screen")).toBeVisible();
 
-    await startLife(page, { age: 9 });
+    await startLife(page, { place: "Lexington", state: "Kentucky", age: 9 });
     // A nine-year-old gets the story surface and has no office. The growing-up
     // years and adult life are one surface now, so the assertion is that the
     // life is being told rather than that a particular band's view is mounted.
@@ -161,7 +163,7 @@ test.describe("Opening the game opens a game", () => {
     const names: string[] = [];
     for (let attempt = 0; attempt < 3; attempt += 1) {
       await freshBrowser(page);
-      await startLife(page, { age: 30 });
+      await startLife(page, { place: "Lexington", state: "Kentucky", age: 30 });
       names.push(
         (await page.getByTestId("play-screen").innerText()).slice(0, 400),
       );
@@ -175,7 +177,7 @@ test.describe("Opening the game opens a game", () => {
     await freshBrowser(page);
     // fillCreator already answers "Who are you?" (discover through play by
     // default) and leaves Begin enabled, so there is no separate skip to press.
-    await fillCreator(page, { age: 24, place: "Nebraska" });
+    await fillCreator(page, { age: 24, place: "Lincoln", state: "Nebraska" });
 
     // The link describes the setup on screen, which is the whole point: a bare
     // seed could not rebuild a configured world.
@@ -209,7 +211,7 @@ test.describe("A new life is not a renamed fixture", () => {
     page,
   }) => {
     await freshBrowser(page);
-    await startLife(page, { age: 8 });
+    await startLife(page, { place: "Lexington", state: "Kentucky", age: 8 });
 
     const screen = await page.getByTestId("play-screen").innerText();
     expect(screen).not.toMatch(DEVELOPER_WORDS);
@@ -221,7 +223,7 @@ test.describe("A new life is not a renamed fixture", () => {
     page,
   }) => {
     await freshBrowser(page);
-    await startLife(page, { age: 41 });
+    await startLife(page, { place: "Lexington", state: "Kentucky", age: 41 });
 
     // Ordinary education/work is reachable without granting institutional powers.
     await openElsewhere(page, "work");
@@ -265,7 +267,7 @@ test.describe("A life is kept, and comes back", () => {
     page,
   }) => {
     await freshBrowser(page);
-    await startLife(page, { age: 27 });
+    await startLife(page, { place: "Lexington", state: "Kentucky", age: 27 });
     await enterLife(page);
     const before = await page.getByTestId("story-who").innerText();
 
@@ -284,11 +286,11 @@ test.describe("A life is kept, and comes back", () => {
 
   test("keeps two lives apart in the saved games list", async ({ page }) => {
     await freshBrowser(page);
-    await startLife(page, { age: 22, place: "Kentucky" });
+    await startLife(page, { age: 22, place: "Lexington", state: "Kentucky" });
     await keepAndWait(page);
     await goTo(page, "leave-game");
 
-    await startLife(page, { age: 55, place: "Alaska" });
+    await startLife(page, { age: 55, place: "Anchorage", state: "Alaska" });
     await keepAndWait(page);
     await goTo(page, "leave-game");
 
@@ -298,7 +300,7 @@ test.describe("A life is kept, and comes back", () => {
 
   test("deletes a save and does not bring it back", async ({ page }) => {
     await freshBrowser(page);
-    await startLife(page, { age: 31 });
+    await startLife(page, { place: "Lexington", state: "Kentucky", age: 31 });
     await keepAndWait(page);
     await goTo(page, "leave-game");
 
@@ -318,7 +320,7 @@ test.describe("A life is kept, and comes back", () => {
 
   test("keeps healthy saves visible beside a damaged one", async ({ page }) => {
     await freshBrowser(page);
-    await startLife(page, { age: 29 });
+    await startLife(page, { place: "Lexington", state: "Kentucky", age: 29 });
     await keepAndWait(page);
     await goTo(page, "leave-game");
 
@@ -388,7 +390,7 @@ test.describe("What is written to disk is a player's world", () => {
     page,
   }) => {
     await freshBrowser(page);
-    await startLife(page, { age: 7 });
+    await startLife(page, { place: "Lexington", state: "Kentucky", age: 7 });
     await keepAndWait(page);
 
     const records = await storedRecords(page);
@@ -411,7 +413,7 @@ test.describe("What is written to disk is a player's world", () => {
     page,
   }) => {
     await freshBrowser(page);
-    await startLife(page, { age: 9 });
+    await startLife(page, { place: "Lexington", state: "Kentucky", age: 9 });
     await keepAndWait(page);
 
     // Act, then leave immediately: the autosave for this revision is still in
@@ -434,7 +436,7 @@ test.describe("What the world records, it keeps", () => {
     page,
   }) => {
     await freshBrowser(page);
-    await startLife(page, { age: 9 });
+    await startLife(page, { place: "Lexington", state: "Kentucky", age: 9 });
     await expect(page.getByTestId("story-section")).toBeVisible();
 
     await page.getByTestId("story-options").getByRole("button").first().click();
@@ -466,7 +468,12 @@ test.describe("What the world records, it keeps", () => {
     await freshBrowser(page);
     // A shared home, so there is somebody to hold the kitchen conversation with;
     // a normal start (Task E) generates the household and may be solo.
-    await startLife(page, { age: 36, household: "shares-a-home" });
+    await startLife(page, {
+      place: "Lexington",
+      state: "Kentucky",
+      age: 36,
+      household: "shares-a-home",
+    });
     await openElsewhere(page, "people");
     // A day now offers more than one conversation, so everything below is
     // scoped to the kitchen one rather than to whichever the page drew first.
@@ -554,7 +561,7 @@ test("initial Keep becomes repeatable Save on the same slot across changes and r
   page,
 }) => {
   await freshBrowser(page);
-  await startLife(page, { age: 9 });
+  await startLife(page, { place: "Lexington", state: "Kentucky", age: 9 });
   const read = () =>
     page.evaluate(async () => {
       const db = await new Promise<IDBDatabase>((resolve, reject) => {
@@ -609,7 +616,7 @@ test("two normal browser tabs refuse an older World without overwriting the newe
   context,
 }) => {
   await freshBrowser(page);
-  await startLife(page, { age: 9 });
+  await startLife(page, { place: "Lexington", state: "Kentucky", age: 9 });
   await saveLife(page);
   const initial = await savedWorlds(page);
   const other = await context.newPage();

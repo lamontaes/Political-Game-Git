@@ -150,7 +150,10 @@ import {
   personnelHistoryRecords,
 } from "./civil-personnel-integrity";
 import { assertLegislativePoliticsIntegrity } from "./legislative-politics-integrity";
-import { legislativePoliticsHistoryRecords } from "./legislative-politics";
+import {
+  legislativePoliticsHistoryRecords,
+  legislativePoliticsEntityExists,
+} from "./legislative-politics";
 import {
   assertDraftLineageIntegrity,
   draftLineageHistoryRecords,
@@ -591,6 +594,7 @@ export function recordWorldEvent(
       !nationalEntityExists(world, entityId) &&
       !campaignEntityExists(world, entityId) &&
       !legislationEntityExists(world, entityId) &&
+      !legislativePoliticsEntityExists(world, entityId) &&
       !publicInformationEntityExists(world, entityId)
     ) {
       throw new Error(
@@ -649,6 +653,18 @@ export function recordWorldEvent(
         `Historical event references an unavailable incident entity: ${entityId}`,
       );
     }
+    if (
+      legislativePoliticsEntityExists(world, entityId) &&
+      !legislativePoliticsReferenceAvailableAt(
+        world,
+        entityId,
+        occurredAt,
+        world.history.nextSequence,
+      )
+    )
+      throw new Error(
+        `Historical event references an unavailable legislative politics entity: ${entityId}`,
+      );
     if (
       policySemanticsEntityExists(world, entityId) &&
       !policySemanticsEntityAvailableAt(
@@ -1775,6 +1791,7 @@ function validateHistoryIntegrity(world: World): void {
         !nationalEntityExists(world, involvedId) &&
         !campaignEntityExists(world, involvedId) &&
         !legislationEntityExists(world, involvedId) &&
+        !legislativePoliticsEntityExists(world, involvedId) &&
         !publicInformationEntityExists(world, involvedId)
       ) {
         throw new Error(
@@ -1833,6 +1850,18 @@ function validateHistoryIntegrity(world: World): void {
           `Historical event references an unavailable incident entity: ${event.id}`,
         );
       }
+      if (
+        legislativePoliticsEntityExists(world, involvedId) &&
+        !legislativePoliticsReferenceAvailableAt(
+          world,
+          involvedId,
+          event.occurredAt,
+          event.sequence,
+        )
+      )
+        throw new Error(
+          `Historical event references an unavailable legislative politics entity: ${event.id}`,
+        );
       if (
         policySemanticsEntityExists(world, involvedId) &&
         !policySemanticsEntityAvailableAt(
@@ -3295,4 +3324,27 @@ function clonePerson(person: Person): Person {
       generatedFacts: person.details.generatedFacts.map(cloneFact),
     },
   };
+}
+
+/** Canonical references must precede the event in both date and append order. */
+function legislativePoliticsReferenceAvailableAt(
+  world: World,
+  id: EntityId,
+  date: IsoDate,
+  sequence: number,
+): boolean {
+  const record = [
+    ...(world.history.legislativeProvisions ?? []),
+    ...(world.history.legislativeCommitments ?? []),
+    ...(world.history.legislativeNegotiations ?? []),
+  ].find((r) => r.id === id);
+  return (
+    !!record &&
+    record.sequence < sequence &&
+    ("recordedAt" in record
+      ? record.recordedAt
+      : "statedAt" in record
+        ? record.statedAt
+        : record.occurredAt) <= date
+  );
 }

@@ -1,5 +1,32 @@
 # Architecture Integrity Audit
 
+## DIRECTOR33 D — accepted study funding continuation
+
+Confirmed compatible: existing canonical World/date/minute clock, ordinary work
+windows, day-after-shift wages, period tuition/credential writers, serialization,
+stable IDs and append-only history remain the owners. Accepted terms use existing
+private evidence; no global World schema, codec, loan, clock or scheduler added.
+Base v1 authored study compatibility is immutable and external v1 acceptance is
+preserved. New ordinary and noncredit acceptance freezes terms with disclosed
+editable authored grace; no official college policy is inferred from directories.
+
+Corrected now: mutable catalog lookup no longer reprices an enrollment;
+unsupported saved terms block honestly; failed/partial transfers no longer count
+as paid periods. The same future handler records the grace warning and study-only
+pause. Explicit funded settlement preserves enrollment and cancels its deadline;
+old due replay cannot charge a later period. A voluntary interruption cannot renew
+tuition grace. Aggregate work/care/study is a read-only range, not a capacity score.
+
+Deferred: FOUNDATION's future pack resolver must compose accepted-first/base-save
+reading, not replace it with current-pack-only definitions. Broader sustained
+warning-first workload effects need their own bounded contract; no surprise odds,
+dismissal, fatigue constants or policy engine are introduced here. A owns main,
+the Personal root and integration; independent human visual acceptance remains.
+
+LEARN: a saved agreement is authority for future costs; a later offer is not a
+migration. A failed transfer is not a paid period, and a canceled deadline is
+still evidence of the original disclosed grace.
+
 ## PLAYABLE29 A — complete-outfit adapter (2026-09-13)
 
 Confirmed compatible: saved identity seed/version and old absent or pinned
@@ -1257,6 +1284,10 @@ or second consent engine.
 
 Confirmed compatible: the opening and later play projections share exact source-backed municipal venue resolution, preserving canonical completion-at-current-instant, access, non-travel and released-art gates. Unknown opening art cannot erase actual completed activity presence; narrative text cannot create venue identity. Corrected now: shared Carson City binding regression. Deferred through concrete input: normal physical press venue declaration with legitimate access and explicit in-person use; generic room art, a typed label and spoken channel supply no such authority. No simulation writer, geography, attendance, source art or candidate acceptance rule is changed.
 
+## P29-G supported apartment calibration
+
+Compatible: canonical-03 standing scale is authored image-space visual-estimate from its actual plate, not physical precision. Existing contact/depth composition and camera each apply once. Calibrated layer bounds drive framing without resizing B's art. Foreground/rear furniture ordering uses explicit authored silhouettes, preserving open floor. Ordinary-02's unknown calibration and production safeguards remain. No simulation, presence/access, source artwork, catalog generation, C layout or unsupported press dependency is altered. Independent owner visual acceptance is pending.
+
 ### DELIVERY28 CIVIL current receiver check — 2026-09-13
 
 Composed preserved #223 with main 2d154752 in an isolated checkout. Additive
@@ -1292,3 +1323,4 @@ No installed delivery or human acceptance follows from fixture/browser proof.
 LEARN: raw source vote counts cannot stand in for a state-resolved winner (Maine),
 or for electoral ballots, a congressional outcome or possession. The smallest
 durable controls are record discriminants, refusal tests and source/version checks.
+P29-G exact905px continuation: ordinary-02 independently calibrated from its closer-camera plate, after the unchanged normal chooser reproduced904.609px height and below-viewport feet. It does not inherit canonical-03's scale; its authored15% entry clearance accommodates calibrated14.4% width while global safeguards remain. Existing two household variants now compose full standing bodies/contact and correct table depth. Other unsupported scene/pose and press rules stay intact; no World or B/C semantic change.

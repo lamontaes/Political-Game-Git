@@ -1,0 +1,5 @@
+# P29-G exact905px room follow-through
+
+The first useful calibration was published independently as #232/dd4a0117. Before calling H1 closed, resolve the exact905px variant: ordinary normal seedpeople-fresh-2 selects ordinary-02 with904.609px reserved height and crop/uncalibrated diagnostics. Author that existing plate's own floor/depth/standing scale and table silhouettes, preserving the first-room delta and Carson. Prove normal chooser, full body/contact/aspect, furniture ordering and actual person activation at both desktop sizes. No B/C changes, art generation, occupants or press hold. A receives both independent leaf commits on the same PR.
+
+Delivered own-plate18% canvas/95%-82% floor/1-.8 depth calibration and table/leg silhouettes, foregroundz7/table6, authored entry clearance15%. Exact before904.609px, after582.313/465.844px full standing body and sole within2px. Both existing normal household alternatives plus Carson passed7 preliminary browser cases;72 focused tests and required art commands passed. Final clean-head static/browser and publication receipt is in#232. No universal calibration, B/C pen or press attendance scope.

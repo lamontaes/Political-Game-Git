@@ -103,6 +103,41 @@ const balance = (w: World) =>
     money(0, "USD").currency,
   )!.liquidBalance.minorUnits;
 describe("EDU canonical LIFE composition", () => {
+  it("keeps lightweight parallel saved offers available after reload and elapsed time, with immutable accepted funding/grace", () => {
+    let w = applyForEducation(fixture(), institution, "NONCRDT1").world;
+    const first = pendingEducationOffers(w)[0]!;
+    expect(applyForEducation(w, institution, "NONCRDT1").world).toBe(w);
+    w = applyForEducation(
+      w,
+      {
+        ...institution,
+        id: "ipeds-unit:888888",
+        officialId: "888888",
+        name: "Second synthetic institution",
+      },
+      "NONCRDT1",
+    ).world;
+    expect(pendingEducationOffers(w)).toHaveLength(2);
+    w = advanceWorld(
+      deserializeWorld(serializeWorld(w)),
+      3,
+      LIFE_PATHS2_HANDLERS,
+    );
+    const accepted = respondToEducationOffer(w, first.id, true, {
+      tuitionGraceDays: 45,
+    });
+    expect(accepted.ok).toBe(true);
+    w = accepted.world;
+    expect(pendingEducationOffers(w)).toHaveLength(1);
+    const path = pathForRelationship(
+      w,
+      w.history.educationEnrollments.at(-1)!.id,
+    )!;
+    expect(path.tuitionGraceDays).toBe(45);
+    expect(path.periodCostMinor).toBe(20000);
+    expect(balance(w)).toBe(100000);
+    expect(deserializeWorld(serializeWorld(w))).toEqual(w);
+  });
   it("keeps request, choice, period progression, fees, interruption, reload and earned completion separate", () => {
     let w = fixture();
     const start = balance(w);
@@ -189,7 +224,10 @@ describe("saved accepted terms controls", () => {
       20000,
     );
     const artifacts = saved.history.evidenceArtifacts.map((a) =>
-      a.evidenceKind === "education:accepted-study-terms-v1"
+      [
+        "education:accepted-study-terms-v1",
+        "education:accepted-study-terms-v2",
+      ].includes(a.evidenceKind)
         ? {
             ...a,
             description: JSON.stringify({
