@@ -1,4 +1,8 @@
 import { acceptedEducationPath } from "../simulation/education-study-terms";
+import {
+  parseEducationTerms,
+  DEFAULT_AUTHORED_TUITION_GRACE_DAYS,
+} from "../simulation/education-study-terms";
 import { loadEducationCatalog } from "../education/catalog-load";
 import { useEffect, useMemo, useState } from "react";
 import type { World } from "../simulation/types";
@@ -66,6 +70,7 @@ export function EducationOptionsPanel({
     [availableCatalog, query, kind, offset],
   );
   const institution = availableCatalog.find((r) => r.id === selected);
+  const [grace, setGrace] = useState<Record<string, string>>({});
   const act = (result: { ok: boolean; world: World; message: string }) => {
     setMessage(result.message);
     if (result.ok) onWorldChange(result.world);
@@ -257,28 +262,84 @@ export function EducationOptionsPanel({
           </details>
         </section>
       )}
-      {pendingEducationOffers(world).map((offer) => (
-        <section key={offer.id} aria-label="Study offer">
-          <h4>Review noncredit study offer</h4>
-          <p>
-            Game-authored terms: one study period of about 49 days, $200 tuition
-            due at period end. No academic degree or professional license.
-            Accept today or request fresh terms later.
-          </p>
-          <button
-            type="button"
-            onClick={() => act(respondToEducationOffer(world, offer.id, true))}
-          >
-            Accept study offer
-          </button>
-          <button
-            type="button"
-            onClick={() => act(respondToEducationOffer(world, offer.id, false))}
-          >
-            Decline study offer
-          </button>
-        </section>
-      ))}
+      {pendingEducationOffers(world).map((offer) => {
+        const terms = parseEducationTerms(offer.description);
+        return (
+          <section key={offer.id} aria-label="Study offer">
+            <h4>Review noncredit study offer</h4>
+            <p>
+              {terms ? (
+                <>
+                  Offered by {terms.path.organizationName}:{" "}
+                  {studyProgramCostLabel(terms.path)} Completion leads to{" "}
+                  {terms.path.credential}. Tuition is due at period end from
+                  available personal cash. No automatic loan or free tuition.{" "}
+                  {terms.version === 1
+                    ? "Legacy offer: accept today or request current terms."
+                    : "These saved terms remain available until accepted or declined; applications need no written response."}
+                </>
+              ) : (
+                "Saved offer terms are unavailable; do not substitute today's catalog."
+              )}
+            </p>
+            {terms?.version === 2 ? (
+              <>
+                <label>
+                  Tuition grace days for offer from{" "}
+                  {terms.path.organizationName}{" "}
+                  <input
+                    type="number"
+                    min="0"
+                    step="1"
+                    value={
+                      grace[offer.id] ??
+                      String(
+                        terms.path.tuitionGraceDays ??
+                          DEFAULT_AUTHORED_TUITION_GRACE_DAYS,
+                      )
+                    }
+                    onChange={(e) =>
+                      setGrace({ ...grace, [offer.id]: e.target.value })
+                    }
+                  />
+                </label>
+                <p>
+                  This editable, game-authored grace starts if tuition cannot be
+                  funded at period end. At the disclosed deadline, only study
+                  pauses; work and the World continue. Accepting freezes these
+                  terms for this enrollment.
+                </p>
+              </>
+            ) : null}
+            <button
+              type="button"
+              disabled={!terms}
+              onClick={() =>
+                act(
+                  respondToEducationOffer(world, offer.id, true, {
+                    tuitionGraceDays:
+                      grace[offer.id] === undefined
+                        ? terms?.path.tuitionGraceDays
+                        : (grace[offer.id] ?? "").trim() === ""
+                          ? NaN
+                          : Number(grace[offer.id]),
+                  }),
+                )
+              }
+            >
+              Accept study offer
+            </button>
+            <button
+              type="button"
+              onClick={() =>
+                act(respondToEducationOffer(world, offer.id, false))
+              }
+            >
+              Decline study offer
+            </button>
+          </section>
+        );
+      })}
       <p role="status">{message}</p>
     </section>
   );

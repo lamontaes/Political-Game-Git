@@ -34,6 +34,31 @@ The Personal routine leaf can continue to the next accepted period using this
 same clock. A protected commitment interrupts it; unfunded tuition remains
 blocked without a credential, lender or fabricated transfer.
 
+### Accepted study terms and tuition continuation
+
+New authored study acceptance records versioned private evidence against the
+canonical agreement event. Price, period duration, credential, available-personal-
+cash funding and editable authored grace (default 30 simulated days) are frozen
+per enrollment. The legacy v1 authored catalog has an immutable compatibility
+snapshot; old externally accepted v1 evidence stays authoritative. Unknown or
+malformed terms block progression rather than taking a current offer.
+
+The existing `education:study-period-due` handler also resolves disclosed tuition
+grace deadlines on the same World clock. A shortfall creates no payment, loan or
+credential. At deadline, study becomes temporarily inactive; work/pay continue.
+Explicit available-cash settlement retains the enrollment and cancels its open
+grace item. Replaying an earlier period/deadline never charges the next period.
+Voluntary interruption does not renew an already-open tuition grace. Completed
+transfer outcomes alone count as paid study periods; failed/partial attempts do
+not count as completed periods. Old terms do not receive retroactive grace.
+
+The Personal leaf distinguishes academic ends from tuition deadlines and reads
+actual appended outcomes. Its aggregate adds accepted active study ranges to
+canonical work/care/commitment ranges. A qualitative multiple-commitment warning
+offers existing interruption/leave choices; reading creates no fatigue, penalty
+or dismissal. Sustained overload consequences remain a separate, warning-first
+follow-through, not an invented threshold or sanction in this slice.
+
 ## UI
 
 Menus and read-only projections do not perform work. `CareerPathsPanel` and

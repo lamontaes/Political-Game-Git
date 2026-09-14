@@ -1,5 +1,32 @@
 # Architecture Integrity Audit
 
+## DIRECTOR33 D — accepted study funding continuation
+
+Confirmed compatible: existing canonical World/date/minute clock, ordinary work
+windows, day-after-shift wages, period tuition/credential writers, serialization,
+stable IDs and append-only history remain the owners. Accepted terms use existing
+private evidence; no global World schema, codec, loan, clock or scheduler added.
+Base v1 authored study compatibility is immutable and external v1 acceptance is
+preserved. New ordinary and noncredit acceptance freezes terms with disclosed
+editable authored grace; no official college policy is inferred from directories.
+
+Corrected now: mutable catalog lookup no longer reprices an enrollment;
+unsupported saved terms block honestly; failed/partial transfers no longer count
+as paid periods. The same future handler records the grace warning and study-only
+pause. Explicit funded settlement preserves enrollment and cancels its deadline;
+old due replay cannot charge a later period. A voluntary interruption cannot renew
+tuition grace. Aggregate work/care/study is a read-only range, not a capacity score.
+
+Deferred: FOUNDATION's future pack resolver must compose accepted-first/base-save
+reading, not replace it with current-pack-only definitions. Broader sustained
+warning-first workload effects need their own bounded contract; no surprise odds,
+dismissal, fatigue constants or policy engine are introduced here. A owns main,
+the Personal root and integration; independent human visual acceptance remains.
+
+LEARN: a saved agreement is authority for future costs; a later offer is not a
+migration. A failed transfer is not a paid period, and a canceled deadline is
+still evidence of the original disclosed grace.
+
 ## PLAYABLE29 A — complete-outfit adapter (2026-09-13)
 
 Confirmed compatible: saved identity seed/version and old absent or pinned

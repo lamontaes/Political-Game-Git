@@ -3,6 +3,8 @@ import {
   studyProgressSummary,
   studyUsesPeriodModel,
   totalStudyPeriods,
+  studyTuitionStatus,
+  minimumStudyElapsedDays,
 } from "../simulation/education-study-progression";
 import { educationEnrollmentStateAt } from "../simulation/life-queries";
 import { enrollmentStudyModel } from "../simulation/life-paths2";
@@ -17,7 +19,8 @@ export function studyProgramCostLabel(path: LifePathDefinition): string {
     const total = totalStudyPeriods(path) * (path.periodCostMinor ?? 0);
     const years = path.academicYears ?? 0;
     const per = path.periodCostMinor ?? 0;
-    return `${years} academic year${years === 1 ? "" : "s"}, ${totalStudyPeriods(path)} periods, ${dollars(per)} per period (${dollars(total)} total, game-authored).`;
+    const periods = totalStudyPeriods(path);
+    return `${years} academic year${years === 1 ? "" : "s"}, ${periods} period${periods === 1 ? "" : "s"}, at least ${minimumStudyElapsedDays(path)} simulated days, ${dollars(per)} per period (${dollars(total)} total, game-authored).`;
   }
   if (path.requiredSessions && path.sessionCostMinor > 0)
     return `${path.requiredSessions} sessions at ${dollars(path.sessionCostMinor)} each (${dollars(path.requiredSessions * path.sessionCostMinor)} total, game-authored).`;
@@ -37,10 +40,14 @@ export function studyEnrollmentProgressLabel(
         ? "Interrupted"
         : status === "completed"
           ? "Completed"
-          : "In progress";
-    const due = progress.nextDueDate
-      ? ` Next tuition due ${progress.nextDueDate} (${dollars(progress.periodCostMinor)}).`
-      : "";
+          : status === "withdrawn"
+            ? "Withdrawn"
+            : "In progress";
+    const tuition = studyTuitionStatus(world, enrollmentId, path);
+    const due =
+      progress.nextDueDate && status === "active" && !tuition
+        ? ` Next tuition due ${progress.nextDueDate} (${dollars(progress.periodCostMinor)}).`
+        : "";
     return `${label}. Year ${progress.academicYear}, period ${progress.periodInYear} of ${progress.total}.${due}`;
   }
   const sessions = progress.completed;
