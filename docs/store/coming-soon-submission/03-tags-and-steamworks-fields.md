@@ -31,15 +31,15 @@ Do **not** apply: Multiplayer, Co-op, Action, Shooter, Dating Sim, Cute, Anime, 
 
 ## Basic Info draft
 
-| Field | Draft | Blocker |
-| --- | --- | --- |
-| Type | Game | |
-| Name | Our Civic Duty | |
-| Release date display | To be announced | Owner |
-| Early Access | Unchecked unless owner chooses EA | Owner |
-| Adult only sexual content | Unchecked (see content survey) | Owner confirm |
-| Supported OS | Unknown until owner names launch platforms | Owner. Desktop packaging currently documents Mac and Windows; Linux/Steam Deck not promised |
-| Controller | Unchecked | P21-05 |
-| Languages | English (text) | Localization is not claimed |
-| Website / social | None in this packet | Owner |
-| AI disclosure | Pre-generated yes; live-generated no | See `04-ai-content-disclosure.md` |
+| Field                     | Draft                                      | Blocker                                                                                     |
+| ------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------- |
+| Type                      | Game                                       |                                                                                             |
+| Name                      | Our Civic Duty                             |                                                                                             |
+| Release date display      | Leave blank until the owner sets it        | Owner — do not invent                                                                       |
+| Early Access              | Unchecked unless owner chooses EA          | Owner                                                                                       |
+| Adult only sexual content | Unchecked (see content survey)             | Owner confirm                                                                               |
+| Supported OS              | Unknown until owner names launch platforms | Owner. Desktop packaging currently documents Mac and Windows; Linux/Steam Deck not promised |
+| Controller                | Unchecked                                  | P21-05                                                                                      |
+| Languages                 | English (text)                             | Localization is not claimed                                                                 |
+| Website / social          | None in this packet                        | Owner                                                                                       |
+| AI disclosure             | Pre-generated yes; live-generated no       | See `04-ai-content-disclosure.md`                                                           |

@@ -6,18 +6,18 @@ This is a **draft for the owner to confirm in Steamworks**. It is not a rating c
 
 Draft from current play plus the Game Constitution, not from every hypothetical future system.
 
-| Topic | Draft | Notes |
-| --- | --- | --- |
-| Violence | Mild / infrequent, non-interactive as gameplay | No combat system. News, history, or civic events may mention crime, death, or public violence as facts. Constitution §17 allows grounded extraordinary events later; do not describe a war game |
-| Blood / gore | None in current art and play | Do not upload gory screenshots |
-| Language | Mild possible | Ordinary American dialogue; no profanity system. Owner may later allow stronger language |
-| Sexual content | None as a system | D21-30: sensitive life events are human experiences, not minigames; optional filters are planned, not claimed as shipped |
-| Nudity | None intended | Modular people are clothed; do not ship nude assets |
-| Alcohol / tobacco / drugs | Incidental at most | No addiction simulator (D21-30) |
-| Gambling | None | |
-| Horror | None | |
-| Discrimination as a mechanic | None | Political disagreement is issue-specific (D33-02), not a hate-speech toy |
-| User-generated live AI | None | |
+| Topic                        | Draft                                          | Notes                                                                                                                                                                                           |
+| ---------------------------- | ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Violence                     | Mild / infrequent, non-interactive as gameplay | No combat system. News, history, or civic events may mention crime, death, or public violence as facts. Constitution §17 allows grounded extraordinary events later; do not describe a war game |
+| Blood / gore                 | None in current art and play                   | Do not upload gory screenshots                                                                                                                                                                  |
+| Language                     | Mild possible                                  | Ordinary American dialogue; no profanity system. Owner may later allow stronger language                                                                                                        |
+| Sexual content               | None as a system                               | D21-30: sensitive life events are human experiences, not minigames; optional filters are planned, not claimed as shipped                                                                        |
+| Nudity                       | None intended                                  | Modular people are clothed; do not ship nude assets                                                                                                                                             |
+| Alcohol / tobacco / drugs    | Incidental at most                             | No addiction simulator (D21-30)                                                                                                                                                                 |
+| Gambling                     | None                                           |                                                                                                                                                                                                 |
+| Horror                       | None                                           |                                                                                                                                                                                                 |
+| Discrimination as a mechanic | None                                           | Political disagreement is issue-specific (D33-02), not a hate-speech toy                                                                                                                        |
+| User-generated live AI       | None                                           |                                                                                                                                                                                                 |
 
 ## 2) Mature content
 
@@ -35,6 +35,5 @@ The game uses real place names and sourced institutional rules. It generates fic
 
 ## Owner must still confirm
 
-- Whether Coming Soon should describe only the current identified Play or the intended first public milestone (copy currently does both, labeled).
 - Whether any PLAYTEST34 dialogue should be treated as containing strong language.
 - Legal name for the Steamworks partner account.

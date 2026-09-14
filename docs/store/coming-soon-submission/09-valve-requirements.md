@@ -28,7 +28,7 @@ Retrieved pages (not partner-login confidential extras):
 - Screenshots = gameplay only.
 - Description detailed and coherent; **no links to other websites** in that section.
 
-This packet’s long description labels planned scope and forbids 50-state / unlimited-mod / finished-pose claims.
+This packet’s long description separates current play, planned breadth, and actual JSON-pack capability.
 
 ## Product-build review (later; not this packet)
 
@@ -38,12 +38,12 @@ This packet’s long description labels planned scope and forbids 50-state / unl
 
 ## This packet vs those gates
 
-| Gate | Packet state |
-| --- | --- |
-| Written description | Ready to paste |
-| Tags | Proposed |
-| AI survey | Draft |
-| Capsule pixels with title | Blocked on owner wordmark |
-| Five gameplay screenshots | Blocked on A capture of identified Play |
-| Trailer | Absent; optional |
-| Mark ready for review / Post as Coming Soon | Forbidden in this session |
+| Gate                                        | Packet state                                             |
+| ------------------------------------------- | -------------------------------------------------------- |
+| Written description                         | Ready to paste (`01-store-copy.md`)                      |
+| Tags                                        | Proposed (`03-tags-and-steamworks-fields.md`)            |
+| AI survey                                   | Corrected draft (`04-ai-content-disclosure.md`)          |
+| Capsule pixels with title                   | Ready (`capsules/titled/`)                               |
+| Five gameplay screenshots                   | Waiting on A compiled33 PNGs (`07-gameplay-captures.md`) |
+| Trailer                                     | Absent; optional                                         |
+| Mark ready for review / Post as Coming Soon | Forbidden in this session                                |

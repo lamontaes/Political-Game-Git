@@ -1,56 +1,45 @@
 # Store copy (English)
 
-Language: American English. No links in the description (Valve review rule). No awards, review scores, or “coming soon” marketing on capsules.
+Language: American English. No links in the description (Valve review rule). No awards, review scores, or extra marketing lines on capsules.
 
-Product name: **Our Civic Duty**  
-Developer / publisher fields: **owner decision** (see `08-missing-owner-decisions.md`).
+Product name: **Our Civic Duty**
+
+Developer / publisher names belong on the account checklist, not in this paste.
 
 ## Short description (Steamworks field)
 
-Plain text. Measured **233 characters** including spaces (under the 300-character partner-editor cap; leaves localization headroom).
+Plain text. Measured **204 characters** including spaces (under the 300-character cap).
 
 ```
-Our Civic Duty is a whole-life civic RPG set in real American places. Live family, work, and school on one shared clock, then enter politics if you choose. Supported institutions follow sourced rules; unknown powers stay unavailable.
+Live a whole American life on one clock, then step into politics if you choose. Our Civic Duty is a civic RPG set in real places, where supported governments follow sourced rules and the rest stay closed.
 ```
 
 ## About This Game (long description)
 
-Paste into Steamworks as rich text. Planned launch scope is labeled. Current-build limits are not hidden.
+Paste into Steamworks as rich text. Current play, planned breadth, and what you can actually add with a pack are separate on purpose.
 
 ```
-Our Civic Duty is a persistent whole-life role-playing simulation. You live in a real American place, on one shared clock, among people who keep going whether or not you hold office. Politics is a possible life, not a required opening.
+Our Civic Duty is a political life you can actually live. You grow up in a real American place, among people who keep their own days, on one shared clock. Family, work, school, money, and the hours in a day come first. Office is a path you can take, not a campaign the game starts for you.
 
-You choose where you are from, begin, and a household and world are generated around that start. Family, school, work, money, and time constrain what you can do today. Conversation and reading do not spend the clock; actual activities do, once, for a disclosed interval. The game remembers specific people, favors, offices, and public records.
+You say where you are from and when you were born. A household and a town assemble around that start. Kentucky is one supported setting, not a hometown stamped onto every new life. Conversation and reading cost no time. Real activities take the time they take, once, and the game remembers the people, favors, offices, and public records that follow.
 
-Government is not a single national dashboard. Where a jurisdiction’s rules have been compiled from sources, those rules bind. Where they have not, the power is unavailable rather than invented. Kentucky is one supported scenario, not the default hometown for every new life.
+Government is local, particular, and unfinished in the honest sense. Where a legislature or office has compiled rules, those rules bind. Where they have not, the power is closed rather than invented. You do not get a national dashboard that pretends every chamber in the country is ready.
 
-[h2]What you can do[/h2]
+[h2]What you can play now[/h2]
 [list]
-[*] Live an ordinary life first: home, family, work, and study, with saves you can reopen.
-[*] Talk, meet, and keep small named favors with people you actually know.
-[*] Follow news and public records that come from the same world, not a separate story deck.
-[*] Seek office and use the institutions the current save actually supports.
+[*] Live at home, talk with people you actually know, and keep small named favors.
+[*] Choose clothes and a look from the wardrobe the current build supports.
+[*] Follow People, Calendar, News, and public records in the same saved life.
+[*] Study, work, and handle money on the same clock as everything else.
+[*] Seek office and use the institutions that life actually supports.
+[*] Load a supported JSON content pack from Options: authored encounters in that same world, refused cleanly if a dependency is missing.
 [/list]
 
-[h2]What this page is not promising[/h2]
-[list]
-[*] Not a complete fifty-state government simulator. Coverage is uneven and grows with compiled sources.
-[*] Not a finished portrait of every pose, body, or outfit. Appearance is in progress and is not human-approved as final art.
-[*] Not unlimited community scripting. External content packs are a planned extension seam, not a Workshop or a second game engine.
-[*] Not a combat game, a war operations game, or a stock-trading game.
-[*] Judicial play is not part of the first public milestone.
-[/list]
+[h2]What a pack can do — and what it cannot[/h2]
+A supported pack extends the life you already have. It is not Steam Workshop, not a second engine, and not a promise that players can script anything. Broader community creation remains planned.
 
-[h2]Intended first public milestone[/h2]
-The owner’s stated first public target is the ability to affect local, state, or national government through legislation as a legislator or executive, in supported places, without requiring every planned political system to be finished first. Coming Soon is a store presence. A finished saleable build is a later, separate review.
+[h2]Where the first public game is headed[/h2]
+The first public milestone is the power to affect local, state, or national government through legislation, as a legislator or an executive, in places the game actually supports. Courts are not part of that first public milestone. Coming Soon is this store page. A finished saleable build is a later review.
 
-Supported platforms, price, release-date wording, and Early Access versus full release remain owner/account decisions and are not asserted here.
+Coverage will stay uneven while more places are compiled. Character appearance is still being painted. This is not a combat game, a war-operations game, or a stock-trading game.
 ```
-
-## Recurring-sale / capsule marketing line (do not put on capsules)
-
-Valve forbids extra marketing copy on base capsules. If a later Artwork Override is authorized, keep it to one short content phrase, localized, time-limited. None is proposed now.
-
-## Trailer copy (optional; no trailer file in this packet)
-
-If A later supplies a genuine identified-build capture: “Our Civic Duty — live first, then govern where the rules are real.” Do not cut concept art, watermarks, or developer chrome into the store trailer.

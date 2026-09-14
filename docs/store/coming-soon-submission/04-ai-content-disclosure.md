@@ -2,12 +2,12 @@
 
 Source: [Steamworks Content Survey](https://partner.steamgames.com/doc/gettingstarted/contentsurvey), retrieved 2026-09-14.
 
-Valve distinguishes:
+Valve asks about **player-consumed** content (artwork, sound, narrative, localization, and similar), not about efficiency tools that never ship.
 
-- **Pre-Generated:** ships with the game; created with AI tools during development.
-- **Live-Generated:** created while the game is running.
+- **Pre-Generated:** created with AI tools during development and shipped for players to see or hear.
+- **Live-Generated:** created with AI tools while the game is running.
 
-Procedural assembly of approved assets is **not** live AI. Development-time helpers that never ship a model call are not live AI.
+Deterministic composition of shipped assets (scene assembly, wardrobe layering, seeded households, JSON pack loading) is not live AI.
 
 ## Recommended answers
 
@@ -15,29 +15,34 @@ Procedural assembly of approved assets is **not** live AI. Development-time help
 
 **Does the product include live-generated AI content?** No.
 
-**Guardrails for live AI:** Not applicable. The simulation does not call a language model, image model, or network generative service at runtime. Player-facing copy is authored. Character appearance is composed from a catalog. D21-11 forbids a runtime language-model dependency for play.
+**Guardrails for live AI:** Not applicable. Shipped play does not call a language model, image model, or network generative service. There is no player prompt-to-image and no chatbot NPC.
 
 ## Pre-generated disclosure text (paste)
 
 ```
-Some environment plates and character art that ship with the game were produced with generative image tools during development (recorded in the asset provenance ledger as Gemini and as an owner asset-factory pipeline that also names Scenario/Gemini; several generator versions are honestly “not-recorded”). Those images were then measured, masked, downscaled, and composed by deterministic project tools. Rights on AI-origin rasters remain recorded as unknown unless a later owner license decision changes that.
+Some artwork players see was produced with generative image tools during development, then measured, masked, downscaled, and composed by the game’s ordinary deterministic pipeline. That includes environment plates and character art recorded in the project provenance ledger.
 
-Player-facing prose, rules, and institutional data are not live-generated. Some development-time writing and research used large language models; shipped play does not call a model. Music will not use AI-generated scores (owner decision D21-07). No live generative AI, no player prompt-to-image, and no chatbot NPC.
+Some player-facing narrative (dialogue and related authored prose) was drafted with development-time language-model assistance and ships as static text. The running game does not call a model to write or rewrite that text.
+
+No AI-generated music is included. Localization is English text only in this packet; no AI localization is claimed. Rights on AI-origin image files remain unresolved in the provenance ledger and are not declared cleared here.
 ```
 
-## Internal evidence (not for the store page)
+## Internal notes (not for the store page)
 
-From `art/manifest/provenance.json` at main `f22fd314`:
+Evidence at public main `f22fd314`, `art/manifest/provenance.json`:
 
 - 80 entries `reference_type: ai-generated`
 - 46 entries `procedural-dev-fixture` (owned; not AI)
-- AI `generator_tool` values: Gemini (4); owner asset factory Scenario/Gemini pipeline (60 combined wordings); `not-recorded` (16)
+- Recorded `generator_tool` strings: Gemini; an owner asset-factory pipeline that also names Scenario/Gemini; and `not-recorded` on some rows
 - AI-origin `rights_license_status`: unknown (80)
+- Several `generated_model_version` values are `not-recorded`
 
-Board note: an original filename mentioning Seedream 4.5 is not itself a generation receipt. Do not assert Seedream as a shipping generator unless provenance says so.
+Do not invent a vendor history, a model version, or a cleared-rights statement. A filename that mentions Seedream 4.5 is not a generation receipt; do not list Seedream as a shipping generator.
 
-## What not to tell Valve
+Player prose: civic-prose authoring is a development-time process; production rendering has no model call (`docs/ARCHITECTURE-INTEGRITY-AUDIT.md`; `scripts/prose-eval`). Treat LLM-assisted authored lines as pre-generated narrative, not live generation.
 
-- Do not describe the JSON content-pack loader as live AI.
-- Do not describe seeded world generation as generative AI.
-- Do not claim all art is hand-painted.
+D21-07: no AI-generated music. D21-11 is about not forcing the player to type speeches; it is not the live-AI rule. Live-AI “no” rests on the actual runtime: no model call in play.
+
+Do not describe the JSON content-pack loader, seeded world generation, or wardrobe compositing as live AI.
+
+Do not claim all art is hand-painted.

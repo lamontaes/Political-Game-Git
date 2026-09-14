@@ -1,25 +1,29 @@
-# Missing owner / account / asset decisions
+# Remaining account / owner approval checklist
 
-Only items that block a Valve-ready Coming Soon **upload**. The written packet is otherwise complete.
+STORE copy, titled capsules, and AI-survey draft are finished in this packet. Nothing here invents a price, a release date, or a Steam upload.
 
-1. **Steamworks partner identity** — legal entity vs individual, bank/tax, who is Developer and Publisher on the page. This packet did not create an account or pay the Steam Direct fee.
+Only items that still need an account holder or A:
 
-2. **App existence / App ID / onboarding state** — unknown in the board chat. Ask once: is there already an app in Steamworks, and has the $100 fee been paid? The 30-day first-release wait and the 2-week Coming Soon visibility rule apply to **release**, not to preparing this folder.
+1. **Steamworks partner identity** — legal entity vs individual, bank/tax, Developer and Publisher names. This packet did not create an account or pay the Steam Direct fee.
 
-3. **Coming Soon vs Early Access vs full release** for the first public page.
+2. **App ID / onboarding / fee** — unknown in the board chat. Ask once: does an app already exist, and is the $100 fee paid? The 30-day first-release wait and the two-week Coming Soon rule apply to **release**, not to this folder.
 
-4. **Release-date display** (TBA, season, day).
+3. **Coming Soon vs Early Access vs full release** for the first public page. Coming Soon is today’s page target; it is not a substitute for later choosing Early Access or a full release.
 
-5. **Price** (and whether Coming Soon shows a price).
+4. **Release-date display** (TBA, season, or a day). Do not invent one here.
 
-6. **Launch platforms** to tick: Mac, Windows, Linux, Steam Deck. Desktop packaging currently describes Mac and Windows installers; Steam Deck/controller are undecided (P21-05).
+5. **Price** (and whether Coming Soon shows a price). Do not invent one here.
 
-7. **Capsule wordmark** — authorize a readable “Our Civic Duty” title on header/small/main/vertical/library capsules. Artwork-only downscales exist; they fail Valve’s readable-title rule until this is done. Library logo (transparent 1280 and/or 720) and 256/184 icons are the same decision. D34-05’s rejected in-game badge is not this store wordmark.
+6. **Launch platforms** to tick: Mac, Windows, Linux, Steam Deck. Desktop packaging currently describes Mac and Windows; Linux/Deck/controller remain undecided (P21-05).
 
-8. **Public people art** — production compositor vs candidate painted people on the store. Recommend production-only for Coming Soon.
+7. **Confirm content-survey ticks** in `05-content-survey-draft.md` (violence, language, no adult sexual content) and the AI answers in `04-ai-content-disclosure.md`.
 
-9. **Confirm content-survey ticks** in `05-content-survey-draft.md` (violence, language, no adult sexual content).
+8. **A: five compiled33 gameplay PNGs** plus `screenshots/manifest.txt`, per `07-gameplay-captures.md`. Not received in this session.
 
-10. **Trailer** — none captured; optional for Coming Soon, recommended by Valve.
+9. **Optional trailer** — none captured; Valve recommends one, Coming Soon does not require it.
 
-A can supply item 7’s pixels only after item 7 is decided; A can supply screenshots (request `07`) without the other account items.
+10. **Exact rights question (not a verdict):** AI-origin capsule source plates are `rights_license_status: unknown` in `art/manifest/provenance.json`. Owner decides whether those files may be uploaded.
+
+Do **not** wait on a new wordmark, a new image generator, or a rewritten packet. Capsule titles are already composited from the in-game wordmark.
+
+Mark ready for review / Post as Coming Soon remains forbidden until the owner authorizes a real Steamworks paste.

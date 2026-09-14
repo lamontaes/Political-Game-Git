@@ -1,0 +1,80 @@
+[
+  {
+    "file": "ocd_header_capsule_920x430.png",
+    "bytes": 547594,
+    "sha256": "76b2e811a2921591cf204c1804d61e4c126efb16aaa5436da945a31155559c58",
+    "size": "920x430",
+    "source": "header_capsule_920x430_artwork_only.png"
+  },
+  {
+    "file": "ocd_small_capsule_462x174.png",
+    "bytes": 129804,
+    "sha256": "1c16358d2cc242d9dd71fca5fefdfa902e1fbe77195fafe00f25b2457bbaf176",
+    "size": "462x174",
+    "source": "small_capsule_462x174_artwork_only.png"
+  },
+  {
+    "file": "ocd_main_capsule_1232x706.png",
+    "bytes": 948913,
+    "sha256": "9571e309552faa15e4712b0f0b2dfdf8ed44803a7c3a4e7365f98a8895d59a5e",
+    "size": "1232x706",
+    "source": "main_capsule_1232x706_artwork_only.png"
+  },
+  {
+    "file": "ocd_vertical_capsule_748x896.png",
+    "bytes": 712760,
+    "sha256": "28c8c669f93f3288994cb6fe9d1ef39b3821a205d0e402602c4fbf7a9e28fe76",
+    "size": "748x896",
+    "source": "vertical_capsule_748x896_artwork_only.png"
+  },
+  {
+    "file": "ocd_library_capsule_600x900.png",
+    "bytes": 569794,
+    "sha256": "1d620355fed9f387d807e0818ba3501202cd19c6989a2c797c847ea038181c8e",
+    "size": "600x900",
+    "source": "library_capsule_600x900_artwork_only.png"
+  },
+  {
+    "file": "ocd_library_header_920x430.png",
+    "bytes": 535134,
+    "sha256": "d67db81450f3dc759cda92f4e16a14a1aae1ba29402aabe4288486f124c3761e",
+    "size": "920x430",
+    "source": "library_header_920x430_artwork_only.png"
+  },
+  {
+    "file": "ocd_page_background_1438x810.png",
+    "bytes": 855104,
+    "sha256": "a86a93490a2965fdd9ab9f0552d329520b01431b36ba90cb098f08116887e01b",
+    "size": "1438x810",
+    "source": "page_background_1438x810_artwork_only.png"
+  },
+  {
+    "file": "library_hero_3840x1240_artwork_only.png",
+    "bytes": 10157159,
+    "sha256": "79b6366420ca91991d324efa25da7c24ea1fc10c8a13a68f6c992a60b4bb1c5b",
+    "size": "3840x1240",
+    "source": "library_hero_3840x1240_artwork_only.png",
+    "note": "library hero must contain no text; upload the artwork-only file as ocd_library_hero_3840x1240.png"
+  },
+  {
+    "file": "ocd_library_logo_1280x720.png",
+    "bytes": 60660,
+    "sha256": "bbd9d72435f2864bbb8b90dde9c40059a2dc128cff5b8208efa4ece717323465",
+    "size": "1280x720",
+    "source": "front-door wordmark on transparent field"
+  },
+  {
+    "file": "ocd_shortcut_icon_256x256.png",
+    "bytes": 86096,
+    "sha256": "bfd1e8b37ab225639f751fba80321666a55a23865586e8673861a4e7537f4c19",
+    "size": "256x256",
+    "source": "header artwork crop + wordmark"
+  },
+  {
+    "file": "ocd_app_icon_184x184.jpg",
+    "bytes": 11180,
+    "sha256": "6aa7e464631cc06ca6e35d6b32ddb95917c1572ff142a6aa8834d58c06f0d0f9",
+    "size": "184x184",
+    "source": "header artwork crop + wordmark"
+  }
+]

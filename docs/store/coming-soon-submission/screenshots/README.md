@@ -1,5 +1,5 @@
 # Screenshots
 
-Empty until A captures genuine gameplay from identified build `2b8237a19dd1eceaa43ba96eb186327e0b224349` at `http://127.0.0.1:5275/` without candidate-art preview.
+Empty until A deposits genuine compiled33 (or named successor) gameplay PNGs.
 
-Instructions: `../07-screenshot-capture-request-for-A.md`.
+Do not use Play 2b / port 5275. Instructions: `../07-gameplay-captures.md`.
