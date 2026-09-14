@@ -1,6 +1,7 @@
 import {
   layoutRelationshipWeb,
   projectRelationshipWeb,
+  recordedIntroductionHighlight,
   type LaidOutNode,
 } from "../presentation/relationship-web";
 import {
@@ -9,15 +10,8 @@ import {
 } from "../presentation/people-directory";
 import type { PersonCategory } from "../presentation/people-directory";
 import type { EntityId, World } from "../simulation";
+import { PersonPortrait } from "./PersonPortrait";
 import "./people-web.css";
-
-/**
- * The default People drawing: known connections around the selected person.
- *
- * Positions come from a deterministic layout, not a physics engine. Search dims
- * unmatched nodes instead of rearranging them. The rest of the known people
- * remain available through expansion and through the list alternative.
- */
 
 export function PeopleRelationshipWeb({
   world,
@@ -44,6 +38,10 @@ export function PeopleRelationshipWeb({
   );
   matches.add(playerId);
   const nodeById = new Map(layout.nodes.map((node) => [node.personId, node]));
+  const introduction = recordedIntroductionHighlight(world, playerId, focusId);
+  const categoryIds = new Set(
+    filterDirectory(directory, category, "").map((row) => row.personId),
+  );
 
   return (
     <svg
@@ -57,11 +55,14 @@ export function PeopleRelationshipWeb({
         const from = nodeById.get(edge.fromId);
         const to = nodeById.get(edge.toId);
         if (!from || !to) return null;
+        const introEdge =
+          introduction.has(edge.fromId) && introduction.has(edge.toId);
         return (
           <line
             key={`${edge.fromId}:${edge.toId}:${edge.kind}`}
             className="pg-relationship-web-edge"
             data-kind={edge.kind}
+            data-introduction={introEdge ? "true" : "false"}
             x1={from.x}
             y1={from.y}
             x2={to.x}
@@ -74,9 +75,12 @@ export function PeopleRelationshipWeb({
       {layout.nodes.map((node) => (
         <WebNode
           key={node.personId}
+          world={world}
           node={node}
           matched={query.trim().length === 0 || matches.has(node.personId)}
           focused={node.personId === focusId}
+          inCategory={category === "all" || categoryIds.has(node.personId)}
+          introduction={introduction.has(node.personId)}
           onSelect={onSelect}
         />
       ))}
@@ -85,23 +89,32 @@ export function PeopleRelationshipWeb({
 }
 
 function WebNode({
+  world,
   node,
   matched,
   focused,
+  inCategory,
+  introduction,
   onSelect,
 }: {
+  readonly world: World;
   readonly node: LaidOutNode;
   readonly matched: boolean;
   readonly focused: boolean;
+  readonly inCategory: boolean;
+  readonly introduction: boolean;
   readonly onSelect: (personId: EntityId) => void;
 }) {
   const label = node.isPlayer ? "You" : node.name;
+  const size = focused ? 36 : 28;
   return (
     <g
       className="pg-relationship-web-node"
       transform={`translate(${node.x} ${node.y})`}
       data-focus={focused ? "true" : "false"}
       data-match={matched ? "true" : "false"}
+      data-category={inCategory ? "true" : "false"}
+      data-introduction={introduction ? "true" : "false"}
       data-testid={`people-web-node-${node.personId}`}
     >
       <title>
@@ -110,7 +123,8 @@ function WebNode({
           : `${node.name}${node.relationship ? ` — ${node.relationship}` : ""}`}
       </title>
       <circle
-        r={focused ? 16 : 12}
+        r={size / 2 + 2}
+        className="pg-relationship-web-ring"
         role="button"
         tabIndex={0}
         aria-label={label}
@@ -122,7 +136,15 @@ function WebNode({
           }
         }}
       />
-      <text x={0} y={28} textAnchor="middle">
+      <foreignObject x={-size / 2} y={-size / 2} width={size} height={size}>
+        <div
+          xmlns="http://www.w3.org/1999/xhtml"
+          className="pg-relationship-web-portrait"
+        >
+          <PersonPortrait world={world} personId={node.personId} size="small" />
+        </div>
+      </foreignObject>
+      <text x={0} y={size / 2 + 14} textAnchor="middle">
         {label.length > 18 ? `${label.slice(0, 16)}…` : label}
       </text>
     </g>

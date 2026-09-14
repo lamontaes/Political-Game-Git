@@ -1,5 +1,10 @@
 import { test, expect, type Page } from "./fixtures";
-import { enterLife, saveLife, chooseCreatorLocation } from "./support/creator";
+import {
+  enterLife,
+  saveLife,
+  chooseCreatorLocation,
+  finishAppearance,
+} from "./support/creator";
 import { readReplaySetup } from "../../src/presentation/new-game-identity";
 
 async function payloads(page: Page) {
@@ -73,12 +78,12 @@ test("birthday validates through actual creator keyboard/pointer controls and pe
   await page.getByTestId("new-game").click();
   await page.getByTestId("start-normal").click();
   await page.getByTestId("start-age").fill("22");
-  await page.getByTestId("start-birth-month").fill("2");
-  await page.getByTestId("start-birth-day").fill("30");
-  await expect(page.getByTestId("creator-continue-character")).toBeDisabled();
-  await page.getByTestId("start-birth-day").fill("28");
-  await page.getByTestId("start-birth-month").focus();
-  await page.keyboard.press("ArrowUp");
+  await page.getByTestId("start-birth-month").selectOption("2");
+  await expect(
+    page.getByTestId("start-birth-day").locator("option[value='30']"),
+  ).toHaveCount(0);
+  await page.getByTestId("start-birth-day").selectOption("28");
+  await page.getByTestId("start-birth-month").selectOption("3");
   await expect(page.getByTestId("start-birth-month")).toHaveValue("3");
   await page.getByTestId("creator-continue-character").focus();
   await page.keyboard.press("Enter");
@@ -88,6 +93,7 @@ test("birthday validates through actual creator keyboard/pointer controls and pe
     false,
   );
   await page.getByTestId("whoareyou-play").click();
+  await finishAppearance(page);
   await page.getByTestId("setup-advanced").locator("summary").press("Enter");
   const replay = (await page
     .getByTestId("setup-replay-link")

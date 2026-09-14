@@ -130,7 +130,21 @@ function readPreferences(value: unknown): ShellPreferences {
         ),
       ]
     : [];
-  return { peopleView, defaultPinSize, followedNewsOutletKeys };
+  const dateDisplayOrder =
+    value.dateDisplayOrder === "mdy" || value.dateDisplayOrder === "dmy"
+      ? value.dateDisplayOrder
+      : DEFAULT_PREFERENCES.dateDisplayOrder;
+  const calendarView =
+    value.calendarView === "month" || value.calendarView === "week"
+      ? value.calendarView
+      : DEFAULT_PREFERENCES.calendarView;
+  return {
+    peopleView,
+    defaultPinSize,
+    followedNewsOutletKeys,
+    dateDisplayOrder,
+    calendarView,
+  };
 }
 
 /**

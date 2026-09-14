@@ -1,6 +1,10 @@
 import { expect, test, type Page } from "./fixtures";
 
-import { chooseStateThenTown, openCreator } from "./support/creator";
+import {
+  chooseStateThenTown,
+  finishAppearance,
+  openCreator,
+} from "./support/creator";
 
 async function freshBrowser(page: Page) {
   await page.goto("/");
@@ -78,6 +82,7 @@ for (const viewport of [
     await chooseKentucky(page);
     await page.getByTestId("creator-continue-place").click();
     await page.getByTestId("whoareyou-play").click();
+    await finishAppearance(page);
     await expect(page.getByTestId("begin")).toBeEnabled();
     await expectFooterInsideViewport(page, viewport);
   });

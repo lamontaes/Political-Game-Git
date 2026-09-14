@@ -167,6 +167,8 @@ describe("portable transfer uses the shell's v3 codec", () => {
       peopleView: "web",
       defaultPinSize: "tiny",
       followedNewsOutletKeys: ["outlet-one", "outlet-two"],
+      dateDisplayOrder: "mdy",
+      calendarView: "month",
     },
   };
 
@@ -424,6 +426,8 @@ describe("the shell's own store", () => {
       peopleView: "list",
       defaultPinSize: "tiny",
       followedNewsOutletKeys: [],
+      dateDisplayOrder: "mdy",
+      calendarView: "month",
     });
   });
 

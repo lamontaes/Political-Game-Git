@@ -106,11 +106,17 @@ export async function chooseCreatorLocation(
   await page.getByTestId("creator-continue-place").click();
 }
 
+/** Optional wardrobe preview after Who are you; does not start a life. */
+export async function finishAppearance(page: Page): Promise<void> {
+  await expect(page.getByTestId("creator-stage-appearance")).toBeVisible();
+  await page.getByTestId("creator-continue-appearance").click();
+}
+
 /**
  * Opens the creator and answers every step, stopping with Begin enabled.
  *
  * The post-#87 flow is: route → character → place → (background, on the custom
- * route only) → who-are-you → begin. Who is at home, whether the character
+ * route only) → who-are-you → appearance → begin. Who is at home, whether the character
  * already works, and how much of the early life is played are the generator's
  * to decide on a normal start (Task E), so a test that pins any of them takes
  * the custom route automatically.
@@ -164,6 +170,7 @@ export async function fillCreator(
           : "whoareyou-answer",
     )
     .click();
+  await finishAppearance(page);
   await expect(page.getByTestId("begin")).toBeEnabled();
 }
 

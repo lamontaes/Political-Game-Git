@@ -308,7 +308,7 @@ export function MunicipalWorkspace({
                     {person.roleLabel}
                     {person.seatLabel ? ` (${person.seatLabel})` : null}
                     {!person.represented
-                      ? " — not represented in this save"
+                      ? " — no person record is attached"
                       : null}
                   </li>
                 ))}

@@ -586,11 +586,17 @@ function compareLifePlaceSearchOrder(
  * A state filter is identity-based. An empty query with a state selected lists
  * that state's localities rather than recommending a default hometown.
  */
-export function searchLifePlaces(
+export interface LifePlaceSearchPage {
+  readonly places: readonly LifePlace[];
+  readonly total: number;
+  readonly offset: number;
+  readonly limit: number;
+}
+
+function collectLifePlaceMatches(
   query: string,
-  limit = 20,
   options?: LifePlaceSearchOptions,
-): readonly LifePlace[] {
+): LifePlace[] {
   const needle = query.trim().toLowerCase();
   const stateKey = options?.stateJurisdictionKey;
   const usps = stateKey ? uspsFromStateJurisdictionKey(stateKey) : null;
@@ -637,7 +643,33 @@ export function searchLifePlaces(
   }
 
   matches.sort(compareLifePlaceSearchOrder);
-  return matches.slice(0, limit);
+  return matches;
+}
+
+export function searchLifePlaces(
+  query: string,
+  limit = 20,
+  options?: LifePlaceSearchOptions,
+): readonly LifePlace[] {
+  return collectLifePlaceMatches(query, options).slice(0, limit);
+}
+
+export function lifePlaceSearchPage(
+  query: string,
+  options?: LifePlaceSearchOptions & {
+    readonly limit?: number;
+    readonly offset?: number;
+  },
+): LifePlaceSearchPage {
+  const limit = options?.limit ?? 20;
+  const offset = Math.max(0, options?.offset ?? 0);
+  const matches = collectLifePlaceMatches(query, options);
+  return {
+    places: matches.slice(offset, offset + limit),
+    total: matches.length,
+    offset,
+    limit,
+  };
 }
 
 const OUTSTANDING_DEPENDENCY =

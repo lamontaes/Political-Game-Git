@@ -349,6 +349,18 @@ export function projectRelationshipWeb(
   };
 }
 
+export function recordedIntroductionHighlight(
+  world: World,
+  playerId: EntityId,
+  focusId: EntityId,
+): ReadonlySet<EntityId> {
+  if (playerId === focusId) return new Set();
+  const shared = relationshipHistory(world, playerId, focusId);
+  if (shared.length === 0) return new Set();
+  const earliest = shared[0]!;
+  return new Set(earliest.personIds);
+}
+
 export function neighborsOf(
   web: RelationshipWeb,
   personId: EntityId,

@@ -287,7 +287,20 @@
 }
 
 .pg-pin[data-size="tiny"] {
-  padding: 0.35rem 0.4rem;
+  gap: 0.35rem;
+  min-width: 2.2rem;
+  max-width: 2.6rem;
+  padding: 0.22rem;
+}
+
+.pg-pin[data-size="tiny"] .pg-pin-copy {
+  display: none;
+}
+
+.pg-pin[data-size="tiny"] .pg-pin-monogram {
+  width: 1.35rem;
+  height: 1.35rem;
+  font-size: 0.58rem;
 }
 
 .pg-pin[data-size="expanded"] {
@@ -1063,7 +1076,7 @@
 }
 @keyframes pg-life-start {
   from {
-    opacity: 0;
+    opacity: 1;
   }
   to {
     opacity: 1;
@@ -1249,4 +1262,78 @@
 .pg-work-section > h3:focus-visible {
   outline: 2px solid var(--pg-brass);
   outline-offset: 3px;
+}
+
+.pg-calendar-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.6rem 0;
+}
+
+.pg-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.2rem;
+  margin: 0.4rem 0 1.1rem;
+}
+
+.pg-calendar-weekday {
+  padding: 0.2rem 0;
+  color: var(--pg-ivory-dim);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.pg-calendar-cell {
+  display: flex;
+  min-height: 4.2rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  padding: 0.35rem;
+  border: 1px solid var(--pg-hairline);
+  border-radius: 2px;
+  background: rgba(11, 19, 32, 0.42);
+  color: var(--pg-ivory);
+  font: inherit;
+  text-align: left;
+}
+
+.pg-calendar-cell[data-in-month="false"] {
+  opacity: 0.42;
+}
+
+.pg-calendar-cell[data-today="true"] {
+  border-color: var(--pg-brass);
+}
+
+.pg-calendar-cell small {
+  display: block;
+  overflow: hidden;
+  max-width: 100%;
+  color: var(--pg-ivory-dim);
+  font-size: 0.68rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pg-workspace .game-campaign {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.pg-workspace .game-campaign h2,
+.pg-workspace .game-campaign-authority,
+.pg-workspace .game-campaign-log,
+.pg-workspace .game-campaign-tallies {
+  color: var(--pg-ivory);
+}
+
+.pg-workspace .game-campaign-memo {
+  background: rgba(11, 19, 32, 0.72);
+  color: var(--pg-ivory);
 }

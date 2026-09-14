@@ -1,6 +1,10 @@
 import { expect, test, type Page } from "./fixtures";
 
-import { chooseStateThenTown, startLife } from "./support/creator";
+import {
+  chooseStateThenTown,
+  finishAppearance,
+  startLife,
+} from "./support/creator";
 
 async function freshBrowser(page: Page) {
   await page.goto("/");
@@ -70,6 +74,7 @@ test("a creator control keeps the front-door hover, not the old green form", asy
   await chooseStateThenTown(page, "Kentucky", "Lexingto", /Lexington/i);
   await page.getByTestId("creator-continue-place").click();
   await page.getByTestId("whoareyou-play").click();
+  await finishAppearance(page);
   const begin = page.getByTestId("begin");
   await expect(begin).toBeEnabled();
   await begin.hover();

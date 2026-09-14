@@ -1,3 +1,28 @@
+.game-campaign {
+  color: #f4ece0;
+}
+
+.game-campaign h2 {
+  color: #d7c48a;
+}
+
+.game-campaign-authority,
+.game-campaign-gaps,
+.game-campaign-log,
+.game-campaign-tallies {
+  color: rgba(244, 236, 224, 0.82);
+}
+
+.game-campaign-memo {
+  background: rgba(13, 24, 38, 0.88);
+  color: #f4ece0;
+  border-left-color: rgba(215, 196, 138, 0.7);
+}
+
+.game-campaign-memo small {
+  color: rgba(244, 236, 224, 0.72);
+}
+
 .game-campaign-strategy,
 .game-campaign-strategy-report {
   display: grid;

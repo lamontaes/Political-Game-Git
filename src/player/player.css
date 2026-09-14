@@ -4637,6 +4637,31 @@
   flex-direction: row;
 }
 
+.creator-name-row,
+.creator-birthday-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0.45rem;
+}
+
+.creator-name-row input,
+.creator-birthday-row select {
+  min-width: 10rem;
+  flex: 1 1 10rem;
+}
+
+.creator-birthday {
+  margin: 0.8rem 0 0;
+  border: 1px solid rgba(22, 35, 58, 0.18);
+  padding: 0.7rem 0.85rem;
+}
+
+.creator-birthday legend {
+  padding: 0 0.35rem;
+  font-size: 0.82rem;
+}
+
 .game-title-actions button,
 .game-choices button {
   display: flex;
@@ -6269,6 +6294,24 @@
 .title-tableau--art .game-creator section {
   margin: 0.6rem 0 0;
   animation: creator-stage-in 220ms ease both;
+}
+
+.game-creator .creator-stage-panel {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0.4rem 0 0.75rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid rgba(224, 195, 122, 0.38);
+  border-radius: 3px;
+  background: rgb(8 13 21 / 0.92);
+  color: #f5ebd4;
+}
+
+.game-creator .creator-stage-panel h2,
+.game-creator .creator-stage-panel .game-note {
+  margin: 0;
+  color: #f5ebd4;
+  background: none;
 }
 
 .title-tableau--art .game-creator h3 {

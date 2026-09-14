@@ -153,7 +153,7 @@ export function CampaignWorkspace({
   if (view.phase === "unavailable" && offices.length === 0) {
     return (
       <section className="game-campaign" data-testid="campaign-section">
-        <h2>Standing for something</h2>
+        <h2>Campaign</h2>
         <p className="game-note" data-testid="campaign-unavailable">
           {view.unavailableReason}
         </p>
@@ -163,7 +163,7 @@ export function CampaignWorkspace({
 
   return (
     <section className="game-campaign" data-testid="campaign-section">
-      <h2>Standing for something</h2>
+      <h2>Campaign</h2>
 
       {offices.length ? (
         <section
@@ -379,7 +379,7 @@ export function CampaignWorkspace({
                 }
                 onClick={commitStrategy}
               >
-                Approve and carry out this plan
+                Carry out this afternoon&rsquo;s work
               </button>
             </section>
           ) : null}
@@ -403,7 +403,7 @@ export function CampaignWorkspace({
             </section>
           ) : null}
 
-          {view.offers.length > 0 ? (
+          {view.offers.length > 0 && !strategy ? (
             <div className="game-choices" data-testid="campaign-offers">
               {view.offers.map((offer) => (
                 <button
