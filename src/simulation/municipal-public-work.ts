@@ -55,6 +55,7 @@ import {
 } from "./time-work";
 import { assertWorldIntegrity, recordWorldEvent } from "./world";
 import { addSimulationMinutes } from "./dates";
+import { introduceMeasure } from "./legislation";
 import type {
   EntityId,
   IsoDate,
@@ -1234,6 +1235,180 @@ export function performMunicipalMeetingNotes(
       return no(error.message);
     throw error;
   }
+}
+
+/**
+ * A seated member appoints the professional manager the instruments name.
+ *
+ * This is the strongest ordinary local governing write currently supported
+ * without inventing ordinance procedure. Charlottesville Charter § 5(e) and
+ * Carson City Charter § 3.020(1) already compile the appointment. Ordinance
+ * introduction and floor votes stay closed wherever
+ * {@link municipalRulePackFor} still names a missing clause.
+ */
+export function appointMunicipalManager(
+  world: World,
+  input: {
+    readonly governmentKey: string;
+    readonly appointeePersonId: EntityId;
+    readonly seatLabel?: string;
+  },
+): MunicipalVisitResult {
+  const no = (reason: string): MunicipalVisitResult => ({
+    ok: false,
+    world,
+    reason,
+  });
+  if (world.control.kind !== "person") return no("Person control is required.");
+  const actorId = world.control.personId;
+  const authority = municipalActionAuthority(world, {
+    governmentKey: input.governmentKey,
+    personId: actorId,
+    residentPlaceGeoid: null,
+    action: "appoint-the-manager",
+  });
+  if (!authority.ok) return no(authority.reason);
+  if (!world.people[input.appointeePersonId])
+    return no("The named appointee is not a person in this world.");
+  const existingManager = municipalSeats(world, input.governmentKey).find(
+    (seat) => seat.role === "professional-manager",
+  );
+  if (existingManager) {
+    return no(
+      existingManager.personId === input.appointeePersonId
+        ? "This manager appointment is already recorded."
+        : "This government already has a recorded professional manager.",
+    );
+  }
+  if (
+    municipalSeats(world, input.governmentKey).some(
+      (seat) => seat.personId === input.appointeePersonId,
+    )
+  ) {
+    return no(
+      "This person already holds a recorded seat in this government, so the manager office cannot reuse that membership.",
+    );
+  }
+  const government = municipalGovernmentByKey(input.governmentKey);
+  if (!government) return no("No municipal government is compiled.");
+  const reading = primaryReading(government);
+  const title = reading.manager?.title ?? "professional manager";
+  const next = seatMunicipalMember(world, {
+    governmentKey: input.governmentKey,
+    personId: input.appointeePersonId,
+    startedAt: world.currentDate,
+    role: "professional-manager",
+    seatLabel: input.seatLabel ?? title,
+  });
+  const organization = municipalOrganizationFor(next, input.governmentKey);
+  const jurisdictionId = world.people[actorId]?.homeJurisdictionId ?? null;
+  const recorded = recordWorldEvent(next, {
+    stableKey: `municipal-manager-appointed:${input.governmentKey}`,
+    type: "municipal.manager-appointed",
+    occurredAt: next.currentDate,
+    recordedAt: next.currentDate,
+    jurisdictionId,
+    involvedEntityIds: [
+      actorId,
+      input.appointeePersonId,
+      ...(organization ? [organization.id] : []),
+    ],
+    participants: [
+      {
+        personId: actorId,
+        role: "agency:appointing-member",
+        detail: `Appointed the ${title} under the compiled appointment power.`,
+      },
+      {
+        personId: input.appointeePersonId,
+        role: "agency:appointee",
+        detail: title,
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: ["municipal", `government:${input.governmentKey}`],
+    summary: `${reading.bodyName ?? reading.displayName} appointed its ${title}. ${authority.basis}`,
+    context: {
+      location: {
+        jurisdictionId,
+        label: reading.displayName,
+        setting: null,
+      },
+      socialContext: "A recorded municipal appointment, not an ordinance.",
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  return { ok: true, world: recorded };
+}
+
+/**
+ * File an ordinance through the shared legislative measure family, or refuse
+ * with the exact compiled gap. No substitute procedure is invented.
+ */
+export function introduceMunicipalOrdinance(
+  world: World,
+  input: {
+    readonly governmentKey: string;
+    readonly designation: string;
+    readonly shortTitle: string;
+    readonly summary: string;
+  },
+): MunicipalVisitResult {
+  const no = (reason: string): MunicipalVisitResult => ({
+    ok: false,
+    world,
+    reason,
+  });
+  if (world.control.kind !== "person") return no("Person control is required.");
+  const personId = world.control.personId;
+  const authority = municipalActionAuthority(world, {
+    governmentKey: input.governmentKey,
+    personId,
+    residentPlaceGeoid: null,
+    action: "introduce-ordinance",
+  });
+  if (!authority.ok) return no(authority.reason);
+  const government = municipalGovernmentByKey(input.governmentKey);
+  if (!government) return no("No municipal government is compiled.");
+  const rules = municipalRulePackFor(government);
+  if (!rules.ok) {
+    return no(
+      `${primaryReading(government).displayName} cannot carry an ordinance here yet: ${rules.missing
+        .map((entry) => `${entry.field} — ${entry.reason}`)
+        .join(" ")}`,
+    );
+  }
+  const jurisdictionId = world.people[personId]?.homeJurisdictionId;
+  if (!jurisdictionId || !world.jurisdictions[jurisdictionId]) {
+    return no("This government has no canonical jurisdiction for a measure.");
+  }
+  const stableKey = municipalMeasureKey(input.governmentKey, input.designation);
+  if (
+    (world.history.legislativeMeasures ?? []).some(
+      (measure) => measure.stableKey === stableKey,
+    )
+  ) {
+    return no("This ordinance designation is already recorded.");
+  }
+  return {
+    ok: true,
+    world: introduceMeasure(world, {
+      stableKey,
+      jurisdictionId,
+      rulePackId: rules.pack.packId,
+      designation: input.designation,
+      shortTitle: input.shortTitle,
+      summary: input.summary,
+      origin: "member-introduction",
+      subjectClass: "general-policy",
+      originChamberKey: "council",
+      sponsorPersonId: personId,
+    }),
+  };
 }
 
 // ---------------------------------------------------------------------------
