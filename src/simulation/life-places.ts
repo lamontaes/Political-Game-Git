@@ -546,12 +546,42 @@ export interface LifePlaceSearchOptions {
   readonly scope?: LifePlaceScope;
 }
 
+function authoredPlaceMatchesQuery(
+  place: LifePlace,
+  needle: string,
+  stateKey: string | undefined,
+): boolean {
+  if (stateKey && place.stateJurisdictionKey !== stateKey) return false;
+  if (!stateKey) return placeMatches(place, needle);
+  const localName = place.withinName
+    ? place.displayName.replace(
+        new RegExp(`,\\s*${place.withinName}$`, "i"),
+        "",
+      )
+    : place.displayName;
+  return (
+    localityLabelMatches(localName, needle) ||
+    localityLabelMatches(place.formalName ?? "", needle)
+  );
+}
+
+function compareLifePlaceSearchOrder(
+  left: LifePlace,
+  right: LifePlace,
+): number {
+  const byName = left.displayName.localeCompare(right.displayName, "en", {
+    sensitivity: "base",
+  });
+  if (byName !== 0) return byName;
+  return left.key.localeCompare(right.key, "en");
+}
+
 /**
- * Places matching a search, authored ones first and then the national corpus.
+ * Places matching a search, merged from authored rows and the national corpus.
  *
- * The corpus scan is linear and bounded by `limit`, so a keystroke reads at
- * most a few results out of the thirty thousand rather than materializing them
- * all. This is the search the setup screen runs.
+ * Eligible rows are filtered, deduplicated, and ordered by player-facing name
+ * before `limit` is applied. Authored hometowns such as Lexington are not
+ * pinned to the front of a truncated page.
  *
  * A state filter is identity-based. An empty query with a state selected lists
  * that state's localities rather than recommending a default hometown.
@@ -568,50 +598,46 @@ export function searchLifePlaces(
   if (!stateKey && needle.length === 0) return [];
 
   const authoredGeoids = authoredSourceGeoidSet();
-  const authored = allPlaces().filter((place) => {
-    if (stateKey && place.stateJurisdictionKey !== stateKey) return false;
-    if (options?.scope && place.scope !== options.scope) return false;
-    if (!stateKey) return placeMatches(place, needle);
-    const localName = place.withinName
-      ? place.displayName.replace(
-          new RegExp(`,\\s*${place.withinName}$`, "i"),
-          "",
-        )
-      : place.displayName;
-    return (
-      localityLabelMatches(localName, needle) ||
-      localityLabelMatches(place.formalName ?? "", needle)
-    );
-  });
-  const results: LifePlace[] = [...authored];
-  if (options?.scope === "state") return results.slice(0, limit);
+  const seen = new Set<string>();
+  const matches: LifePlace[] = [];
+  const take = (place: LifePlace) => {
+    if (options?.scope && place.scope !== options.scope) return;
+    if (stateKey && place.stateJurisdictionKey !== stateKey) return;
+    if (seen.has(place.key)) return;
+    seen.add(place.key);
+    matches.push(place);
+  };
 
-  const rows = usps
-    ? (nationwideRowsByUsps().get(usps) ?? [])
-    : nationwideRows();
-  for (const row of rows) {
-    if (results.length >= limit) break;
-    if (authoredGeoids.has(row[0])) continue;
-    if (usps) {
-      if (!localityLabelMatches(row[1], needle)) continue;
-    } else {
-      const haystack = `${row[1]} ${stateName(row[2])} ${row[2]}`.toLowerCase();
-      if (!haystack.includes(needle)) continue;
+  for (const place of allPlaces()) {
+    if (authoredPlaceMatchesQuery(place, needle, stateKey)) take(place);
+  }
+  if (options?.scope !== "state") {
+    const rows = usps
+      ? (nationwideRowsByUsps().get(usps) ?? [])
+      : nationwideRows();
+    for (const row of rows) {
+      if (authoredGeoids.has(row[0])) continue;
+      if (usps) {
+        if (!localityLabelMatches(row[1], needle)) continue;
+      } else {
+        const haystack =
+          `${row[1]} ${stateName(row[2])} ${row[2]}`.toLowerCase();
+        if (!haystack.includes(needle)) continue;
+      }
+      take(synthesizeNationwidePlace(row));
     }
-    results.push(synthesizeNationwidePlace(row));
+    /*
+     * Counties answer to the same filters as everything above. UI144's county
+     * rows arrived after the state filter was written, and composed together a
+     * town search inside Alabama listed Kentucky's counties.
+     */
+    for (const place of nationwideCounties().values()) {
+      if (placeMatches(place, needle)) take(place);
+    }
   }
-  /*
-   * Counties answer to the same filters as everything above. UI144's county
-   * rows arrived after the state filter was written, and composed together a
-   * town search inside Alabama listed Kentucky's counties.
-   */
-  for (const place of nationwideCounties().values()) {
-    if (results.length >= limit) break;
-    if (options?.scope && place.scope !== options.scope) continue;
-    if (stateKey && place.stateJurisdictionKey !== stateKey) continue;
-    if (placeMatches(place, needle)) results.push(place);
-  }
-  return results.slice(0, limit);
+
+  matches.sort(compareLifePlaceSearchOrder);
+  return matches.slice(0, limit);
 }
 
 const OUTSTANDING_DEPENDENCY =
