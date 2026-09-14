@@ -15,19 +15,26 @@ art is required or promoted.
 
 ## Actual entry
 
-Ordinary supported executive entry seats the recorded winner of a contest whose
-office key matches an accepted executive-authority pack. The election outcome
-event is the term identity. Custom Start
+Ordinary supported executive occupancy consumes a recorded winner of a contest
+whose office key matches an accepted executive-authority pack. The election
+outcome event is provenance, not the office start. Dated start/end and a
+recorded qualification must exist as existing work and future-due records
+before the office is held. Custom Start
 (`initializeExecutiveOfficePremiseForReview`) remains a separate authored
 premise and is not an election.
 
-`applyExecutivePlayTransition` is the A / FABLE-UI seam: it seats that winner,
-routes presentment into the existing inbox, and publishes public sign/veto and
-executive election results through NEWS. Bind incident inbox with
+`applyExecutivePlayTransition` is the A / FABLE-UI seam: it routes presentment
+into the existing inbox for a currently held office and publishes public
+sign/veto and executive election results through NEWS. Bind incident inbox with
 `executiveIncidentPorts()`; private events and unheld offices grant nothing.
+`planElectedExecutiveOfficeTerm` / `recordElectedExecutiveQualification` and
+`executivePlayHandlers()` are the dated-term adapter. Do not use the result
+date, House/Senate January-first dates, or national presidential noon as a
+governor start.
 
-Campaign candidacy packs still list legislative seats only. Adding a governor
-to the ordinary ballot is N's missing producer, not a Custom Start shortcut.
+Campaign candidacy packs still list legislative seats only. Ordinary governor
+candidacy and a sourced Kentucky gubernatorial dated-term producer remain N's
+missing producers. A supplied-result test is not a completed campaign.
 
 Review fixture: `/tests/fixtures/executive-work.html`. It is not ordinary-player
 reachability.

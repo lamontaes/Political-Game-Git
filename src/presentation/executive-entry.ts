@@ -1,10 +1,22 @@
 import { receiveExecutiveWorkIfCurrentOffice } from "../simulation/incident-response";
 import { publishPublicEvent } from "../simulation/public-information";
-import { synchronizeExecutiveInbox } from "../simulation/executive-work";
-import { EXECUTIVE_NORMAL_ENTRY } from "../simulation/executive-work-entry";
+import {
+  composeExecutiveWorkHandlers,
+  synchronizeExecutiveInbox,
+} from "../simulation/executive-work";
+import {
+  EXECUTIVE_NORMAL_ENTRY,
+  planElectedExecutiveOfficeTerm,
+  recordElectedExecutiveQualification,
+} from "../simulation/executive-work-entry";
 import { resolveExecutiveOffice } from "../simulation/executive-work-context";
 import { publishExecutivePublicOutcomes } from "./publish-executive-transition";
-import type { World } from "../simulation/types";
+import type {
+  FutureTransitionHandlerRegistry,
+  World,
+} from "../simulation/types";
+
+export { planElectedExecutiveOfficeTerm, recordElectedExecutiveQualification };
 
 /**
  * Feature-local adapter for A / FABLE-UI. Mount ordinary Work against this
@@ -41,13 +53,24 @@ export function executiveIncidentPorts() {
 }
 
 /**
- * Ordinary play seam: seat a recorded executive winner, route inbox work, and
- * publish legitimate public outcomes. Custom Start is unchanged.
+ * Ordinary play clock composition. Dated elected-term entry/expiry ride the
+ * existing executive registry; this is not a second election engine.
+ */
+export function executivePlayHandlers(
+  existing?: FutureTransitionHandlerRegistry,
+) {
+  return composeExecutiveWorkHandlers(existing);
+}
+
+/**
+ * Ordinary play seam: route inbox work for a currently held office and publish
+ * legitimate public outcomes. A result is not occupancy. Custom Start is
+ * unchanged.
  */
 export function applyExecutivePlayTransition(
   before: World,
   after: World,
 ): World {
-  const seated = synchronizeExecutiveInbox(after);
-  return publishExecutivePublicOutcomes(before, seated);
+  const routed = synchronizeExecutiveInbox(after);
+  return publishExecutivePublicOutcomes(before, routed);
 }

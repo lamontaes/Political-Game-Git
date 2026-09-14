@@ -10,7 +10,11 @@ import {
   scheduleElectionContest,
 } from "./election-contests";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
-import { initializeExecutiveOfficePremiseForReview } from "./executive-work-entry";
+import {
+  initializeExecutiveOfficePremiseForReview,
+  planElectedExecutiveOfficeTerm,
+  recordElectedExecutiveQualification,
+} from "./executive-work-entry";
 import { resolveExecutiveOffice } from "./executive-work-context";
 import {
   receiveExecutiveWork,
@@ -27,13 +31,23 @@ import {
   projectPublicInformationDigest,
   publishPublicEvent,
 } from "./public-information";
-import { applyExecutivePlayTransition } from "../presentation/executive-entry";
+import {
+  applyExecutivePlayTransition,
+  executivePlayHandlers,
+} from "../presentation/executive-entry";
+import { deserializeWorld, serializeWorld } from "./serialization";
 import { advanceWorld } from "./world";
 import type { World } from "./types";
 
 const contestHandlers = createFutureTransitionHandlerRegistry([
   [ELECTION_CONTEST_TRANSITION_KEY, electionContestTransitionHandler],
 ]);
+
+const RECORDED_TERM_NOTE =
+  "Recorded consumer-proof term boundaries for this executive consumer. Not sourced Kentucky gubernatorial commencement or duration, not House/Senate January-first dates, and not national presidential noon.";
+
+const RECORDED_QUALIFICATION_NOTE =
+  "Recorded consumer-proof qualification for dated term entry. Not sourced Kentucky governor eligibility and not inferred from winning.";
 
 function kentuckyWorld(seed: string): World {
   const jurisdiction = stateJurisdictionForKey("US-KY")!;
@@ -75,7 +89,7 @@ function runGovernorContest(world: World): World {
     provenance: {
       method: "authored",
       sourceEntityIds: [],
-      note: "Supported executive contest for ordinary office entry.",
+      note: "Supplied recorded executive contest result for consumer proof; not an ordinary gubernatorial campaign producer.",
     },
   });
   next = advanceWorld(next, 1, contestHandlers);
@@ -103,6 +117,44 @@ function withControl(
   personId: World["personOrder"][number],
 ): World {
   return { ...world, control: { kind: "person", personId } };
+}
+
+function daysBetween(from: World["currentDate"], to: World["currentDate"]) {
+  let days = 0;
+  let cursor = from;
+  while (cursor < to) {
+    cursor = addDays(cursor, 1);
+    days += 1;
+  }
+  return days;
+}
+
+function connectRecordedTerm(
+  world: World,
+  options: { qualify?: boolean } = {},
+) {
+  const contest = world.history.electionContests!.at(-1)!;
+  const result = world.history.electionContestResults!.at(-1)!;
+  const outcome = world.history.events.find(
+    (event) => event.id === result.outcomeEventId,
+  )!;
+  const startsAt = addDays(world.currentDate, 4);
+  const endsAt = addDays(startsAt, 5);
+  expect(startsAt).not.toBe(outcome.occurredAt);
+  let next = planElectedExecutiveOfficeTerm(world, {
+    contestId: contest.id,
+    startsAt,
+    endsAt,
+    termNote: RECORDED_TERM_NOTE,
+  });
+  if (options.qualify !== false) {
+    next = recordElectedExecutiveQualification(next, {
+      contestId: contest.id,
+      personId: result.winnerPersonId,
+      qualificationNote: RECORDED_QUALIFICATION_NOTE,
+    });
+  }
+  return { world: next, startsAt, endsAt, contest, result, outcome };
 }
 
 function occurKnownIncident(world: World, visibility: "public" | "private") {
@@ -142,36 +194,30 @@ function occurKnownIncident(world: World, visibility: "public" | "private") {
 }
 
 describe("ordinary elected executive entry", () => {
-  it("seats the recorded winner using the contest result, not Custom Start", () => {
+  it("does not treat a recorded result as occupancy and keeps Custom Start distinct", () => {
     const resolved = runGovernorContest(kentuckyWorld("exec-elected-winner"));
     const result = resolved.history.electionContestResults!.at(-1)!;
-    const seated = synchronizeExecutiveInbox(
+    const afterResult = synchronizeExecutiveInbox(
       withControl(resolved, result.winnerPersonId),
     );
-    const office = resolveExecutiveOffice(seated)!;
-    expect(office.origin).toBe("elected-term");
-    expect(office.entry.type).toBe("election.contest-resolved");
-    expect(office.pack.office.officeKey).toBe("us-ky-governor");
-    expect(office.entry.tags).not.toContain("executive.custom-start");
+    expect(resolveExecutiveOffice(afterResult)).toBeNull();
     expect(
-      seated.history.events.some(
+      afterResult.history.events.some(
         (event) => event.type === "executive.custom-start",
       ),
     ).toBe(false);
-  });
 
-  it("keeps Custom Start distinct from winning office", () => {
-    const world = initializeExecutiveOfficePremiseForReview(
+    const custom = initializeExecutiveOfficePremiseForReview(
       kentuckyWorld("exec-custom-start-distinct"),
       EXECUTIVE_AUTHORITY_RULE_PACKS.find(
         (pack) => pack.jurisdictionKey === "US-KY",
       )!.packId,
       "2026-02-05",
     );
-    const office = resolveExecutiveOffice(world)!;
+    const office = resolveExecutiveOffice(custom)!;
     expect(office.origin).toBe("custom-start");
     expect(office.entry.type).toBe("executive.custom-start");
-    expect(world.history.electionContestResults ?? []).toEqual([]);
+    expect(custom.history.electionContestResults ?? []).toEqual([]);
   });
 
   it("refuses unheld power and a contest that is not a supported executive office", () => {
@@ -214,15 +260,20 @@ describe("ordinary elected executive entry", () => {
     const loserId = resolved.personOrder.find(
       (id) => id !== result.winnerPersonId,
     )!;
-    const seated = synchronizeExecutiveInbox(
+    const connected = connectRecordedTerm(
       withControl(resolved, result.winnerPersonId),
+    ).world;
+    const entered = advanceWorld(
+      connected,
+      daysBetween(connected.currentDate, addDays(connected.currentDate, 4)),
+      executivePlayHandlers(),
     );
-    expect(resolveExecutiveOffice(seated)?.personId).toBe(
+    expect(resolveExecutiveOffice(entered)?.personId).toBe(
       result.winnerPersonId,
     );
-    const loserWorld = withControl(seated, loserId);
+    const loserWorld = withControl(entered, loserId);
     expect(resolveExecutiveOffice(loserWorld)).toBeNull();
-    const publicEvent = seated.history.events.find(
+    const publicEvent = entered.history.events.find(
       (event) => event.type === "election.contest-resolved",
     )!;
     expect(
@@ -235,7 +286,7 @@ describe("ordinary elected executive entry", () => {
     ).toBe(loserWorld);
   });
 
-  it("connects a public election outcome to News and keeps private incidents unpublished", () => {
+  it("connects a public election outcome to News without treating the result as possession", () => {
     const before = kentuckyWorld("exec-public-news");
     const resolved = runGovernorContest(before);
     const result = resolved.history.electionContestResults!.at(-1)!;
@@ -243,12 +294,17 @@ describe("ordinary elected executive entry", () => {
       before,
       withControl(resolved, result.winnerPersonId),
     );
-    const office = resolveExecutiveOffice(next)!;
-    expect(office.origin).toBe("elected-term");
-    const digest = projectPublicInformationDigest(next, office.jurisdictionId);
-    expect(
-      digest.items.some((item) => item.sourceEventId === office.entry.id),
-    ).toBe(true);
+    expect(resolveExecutiveOffice(next)).toBeNull();
+    const outcome = next.history.events.find(
+      (event) => event.type === "election.contest-resolved",
+    )!;
+    const digest = projectPublicInformationDigest(
+      next,
+      outcome.jurisdictionId!,
+    );
+    expect(digest.items.some((item) => item.sourceEventId === outcome.id)).toBe(
+      true,
+    );
 
     const privateWorld = occurKnownIncident(next, "private");
     const onset = privateWorld.history.incidents.at(-1)!.onsetEventId;
@@ -257,25 +313,101 @@ describe("ordinary elected executive entry", () => {
     ).toThrow(/already-public/);
   });
 
-  it("routes a known public report into the held office inbox", () => {
-    const resolved = runGovernorContest(kentuckyWorld("exec-inbox-report"));
+  it("grants active-term access after recorded dates and keeps it on reload", () => {
+    const resolved = runGovernorContest(kentuckyWorld("exec-term-access"));
     const result = resolved.history.electionContestResults!.at(-1)!;
-    let world = synchronizeExecutiveInbox(
+    const connected = connectRecordedTerm(
       withControl(resolved, result.winnerPersonId),
     );
-    const office = resolveExecutiveOffice(world)!;
-    world = occurKnownIncident(world, "public");
-    const onset = world.history.incidents.at(-1)!.onsetEventId;
-    world = recordKnownIncidentForCurrentOffice(world, onset);
-    const report = world.history.events.find(
+    expect(resolveExecutiveOffice(connected.world)).toBeNull();
+    const entered = advanceWorld(
+      connected.world,
+      daysBetween(connected.world.currentDate, connected.startsAt),
+      executivePlayHandlers(),
+    );
+    const office = resolveExecutiveOffice(entered)!;
+    expect(office.origin).toBe("elected-term");
+    expect(office.entry.type).toBe("election.contest-resolved");
+    expect(office.pack.office.officeKey).toBe("us-ky-governor");
+    expect(office.relationship.startedAt).toBe(connected.startsAt);
+    expect(office.relationship.startedAt).not.toBe(
+      connected.outcome.occurredAt,
+    );
+    expect(office.entry.tags).not.toContain("executive.custom-start");
+    const restored = deserializeWorld(serializeWorld(entered));
+    const reloaded = resolveExecutiveOffice(restored)!;
+    expect(reloaded.origin).toBe("elected-term");
+    expect(reloaded.relationship.id).toBe(office.relationship.id);
+    expect(reloaded.endsAt).toBe(connected.endsAt);
+
+    const withReport = occurKnownIncident(restored, "public");
+    const onset = withReport.history.incidents.at(-1)!.onsetEventId;
+    const inboxWorld = recordKnownIncidentForCurrentOffice(withReport, onset);
+    const report = inboxWorld.history.events.find(
       (event) => event.type === "incident.response.report",
     )!;
     expect(
-      world.history.workItems.some(
+      inboxWorld.history.workItems.some(
         (item) =>
           item.stableKey ===
           `executive-inbox:${office.relationship.id}:${report.id}`,
       ),
     ).toBe(true);
+  });
+
+  it("refuses before the recorded start and after the recorded end", () => {
+    const resolved = runGovernorContest(kentuckyWorld("exec-term-refusal"));
+    const result = resolved.history.electionContestResults!.at(-1)!;
+    const winnerWorld = withControl(resolved, result.winnerPersonId);
+    expect(() =>
+      planElectedExecutiveOfficeTerm(winnerWorld, {
+        contestId: winnerWorld.history.electionContests!.at(-1)!.id,
+        startsAt: winnerWorld.history.events.find(
+          (event) => event.id === result.outcomeEventId,
+        )!.occurredAt,
+        endsAt: addDays(winnerWorld.currentDate, 10),
+        termNote: RECORDED_TERM_NOTE,
+      }),
+    ).toThrow(/provenance, not the office start/);
+
+    const unqualified = connectRecordedTerm(winnerWorld, { qualify: false });
+    const throughStartUnqualified = advanceWorld(
+      unqualified.world,
+      daysBetween(unqualified.world.currentDate, unqualified.startsAt),
+      executivePlayHandlers(),
+    );
+    expect(resolveExecutiveOffice(throughStartUnqualified)).toBeNull();
+
+    const connected = connectRecordedTerm(winnerWorld);
+    expect(resolveExecutiveOffice(connected.world)).toBeNull();
+    expect(() =>
+      receiveExecutiveWork(
+        connected.world,
+        connected.outcome.id,
+        "Inbox",
+        connected.outcome.summary,
+      ),
+    ).toThrow(/No current executive office/);
+
+    const entered = advanceWorld(
+      connected.world,
+      daysBetween(connected.world.currentDate, connected.startsAt),
+      executivePlayHandlers(),
+    );
+    expect(resolveExecutiveOffice(entered)?.origin).toBe("elected-term");
+    const expired = advanceWorld(
+      entered,
+      daysBetween(entered.currentDate, connected.endsAt),
+      executivePlayHandlers(),
+    );
+    expect(resolveExecutiveOffice(expired)).toBeNull();
+    expect(() =>
+      receiveExecutiveWork(
+        expired,
+        connected.outcome.id,
+        "Inbox",
+        connected.outcome.summary,
+      ),
+    ).toThrow(/No current executive office/);
   });
 });
