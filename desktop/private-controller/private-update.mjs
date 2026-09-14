@@ -25,6 +25,9 @@ export function cleanUpdatePolicy(value) {
         : null,
     lastOutcome:
       typeof value?.lastOutcome === "string" ? value.lastOutcome : null,
+    lastTargetRevision: validateRevision(value?.lastTargetRevision)
+      ? value.lastTargetRevision
+      : null,
   };
 }
 
@@ -141,6 +144,10 @@ export function cleanControllerState(value) {
     previous,
     updatePolicy: cleanUpdatePolicy(value.updatePolicy),
     compatibilityProof: value.compatibilityProof ?? null,
+    rollbackProof: value.rollbackProof ?? null,
+    blockedRevision: validateRevision(value.blockedRevision)
+      ? value.blockedRevision
+      : null,
   };
 }
 
@@ -165,6 +172,31 @@ export function activatePendingBuild(state) {
     previous: state.current,
     pending: null,
     compatibilityProof: null,
+    rollbackProof: state.compatibilityProof
+      ? {
+          version: 1,
+          previous: state.compatibilityProof.current,
+          current: state.compatibilityProof.pending,
+        }
+      : null,
+  };
+}
+
+export function restorePreviousBuild(state) {
+  if (!state?.previous || state.pending)
+    throw new Error("No unambiguous last-good rollback is available.");
+  return {
+    ...state,
+    current: state.previous,
+    previous: null,
+    pending: null,
+    compatibilityProof: null,
+    rollbackProof: null,
+    blockedRevision: state.current.revision,
+    updatePolicy: {
+      ...cleanUpdatePolicy(state.updatePolicy),
+      lastOutcome: "rolled-back",
+    },
   };
 }
 

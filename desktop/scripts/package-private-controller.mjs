@@ -95,6 +95,8 @@ for (const name of [
   "controller-status.mjs",
   "controller-view.mjs",
   "update-compatibility.mjs",
+  "controller-activation.mjs",
+  "owned-process.mjs",
 ]) {
   const bytes = readFileSync(path.join(controllerRoot, name));
   controllerTree.update(`${name}\0${bytes.length}\0`).update(bytes);

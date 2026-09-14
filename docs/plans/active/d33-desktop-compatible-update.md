@@ -59,3 +59,39 @@ branch writer, thin isolated worktree; T has released its heavy window.
 Focused receipts and real pointer/keyboard evidence will be appended by source.
 Recurring defect: prose said Play did not wait while renderer disabled it during
 Update. Encode the actual enabled-state contract in an executable regression.
+
+## Frozen first increment and observed native tooling failure
+
+First useful delta published as draft PR #242 at
+4406bee0c01ef31d0090dc2b667b2cebfdd7c129. Exact clean-source 51 Node tests
+(zero skips), typecheck, scoped lint and incoming release range passed;
+pre-freeze art validation/inventory/QA and scoped format passed without changing
+tracked art. A acknowledged receipt; no merge, human acceptance or real install.
+
+Disposable native controller at that source actually discovered/refused a
+non-descendant accepted target, retained the 5264 game pointer, and persisted
+manual opt-out. One title-bar pointer focus restored a live screenshot matching
+the actual checkbox and on-demand identity disclosure. Controller packaged-source
+tree: 7cabe927918806834d9225235d893bf5a162a5708a176ca6eddbfff770d20b77.
+Game bootstrap remains the unchanged compiled 5264/tree063.
+
+Native tool app acquisition twice ignored a requested 30-second timeout
+(583.684 seconds; Finder 7652.308 seconds). Further keyboard/window actions
+reported noWindowsAvailable/cgWindowNotFound while the isolated controller
+process remained alive. Background screenshots initially disagreed with fresh
+AX state. Return/Space disclosure activation and Finder dialog navigation did
+not complete. These are FAILED/INCOMPLETE proof cases, not harmless timeouts or
+product crashes. No new acquisitions, wrapper rebuild, owner shutdown or real
+profile fixture use follows. A acknowledged the gaps and directed continued
+bounded rollback/activation source tests.
+
+Second increment adds a testable production activation seam, source-bound
+last-good rollback, held rolled-back source, actual discovered source receipts,
+and serialization of explicit Play/activation (background staging remains
+independent). Source tests do not establish full installed A→B or durable
+two-life native continuity. Those remain required before owner installation.
+Cancellation now signals only branded, freshly spawned controller process
+groups with SIGTERM; unowned PID objects are refused and no force-kill fallback
+or name/port-based shutdown exists. Controlled owned-Node cancellation and
+activation/rollback negative tests pass. Total focused Desktop tests: 65,
+zero skips. No full baseline suite or completed platform proof was rebuilt.

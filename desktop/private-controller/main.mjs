@@ -15,7 +15,6 @@ import { promisify } from "node:util";
 
 import electron from "electron";
 import {
-  activatePendingBuild,
   buildRecord,
   cleanControllerState,
   automaticCheckDue,
@@ -23,7 +22,7 @@ import {
   setUpdateMode,
 } from "./private-update.mjs";
 import { inspectInstalledBuild } from "./controller-status.mjs";
-import { compatibilityRefusal } from "./update-compatibility.mjs";
+import { switchVerifiedBuild } from "./controller-activation.mjs";
 
 const { app, BrowserWindow, dialog, ipcMain, session, shell } = electron;
 const execFileAsync = promisify(execFile);
@@ -52,6 +51,7 @@ let mainWindow = null;
 let updateChild = null;
 let updateOrigin = null;
 let automaticTimer = null;
+let launchBusy = false;
 
 function atomicWriteState(state) {
   mkdirSync(dataRoot, { recursive: true });
@@ -134,6 +134,8 @@ function publicState() {
     repositoryPath: state.repositoryPath,
     current: state.current,
     pending: state.pending,
+    previous: state.previous,
+    launchBusy,
     updatePolicy: state.updatePolicy,
     installed,
     controllerIdentity: readControllerIdentity(),
@@ -196,70 +198,53 @@ ipcMain.handle("controller:choose-repository", async () => {
   return publicState();
 });
 
-ipcMain.handle("controller:play", async () => {
-  const state = readState();
-  const installed = inspectInstalledBuild(state?.current);
-  if (!installed.ready)
-    return {
-      ok: false,
-      message: installed.problem,
-    };
-  const problem = await shell.openPath(state.current.appPath);
-  return problem
-    ? { ok: false, message: problem }
-    : { ok: true, message: "Opening the current verified build." };
-});
-
-ipcMain.handle("controller:finish-update", async () => {
-  if (updateChild)
+async function withLaunchLock(action) {
+  if (launchBusy)
     return {
       ok: false,
       message:
-        "Wait for staging to settle or cancel it; Play still opens the current build.",
+        "A Play/activation action is already settling; no second build was opened.",
     };
-  const state = readState();
-  if (!state?.pending) return { ok: false, message: "No update is waiting." };
-  const installed = inspectInstalledBuild(state.pending);
-  if (!installed.ready)
-    return { ok: false, message: `Update refused: ${installed.problem}` };
-  const proof = state.compatibilityProof;
-  const refusal =
-    proof?.version !== 1 ||
-    proof.current?.sourceRevision !== state.current.revision ||
-    proof.pending?.sourceRevision !== state.pending.revision ||
-    installed.identity.compatibility?.sourceRevision !==
-      state.pending.revision ||
-    compatibilityRefusal(proof.current, proof.pending) ||
-    compatibilityRefusal(proof.pending, installed.identity.compatibility);
-  if (refusal)
-    return {
-      ok: false,
-      message:
-        "Update refused: no supported, source-bound save/interface compatibility proof. The staged and current bundles are preserved.",
-    };
-  if (await applicationIsRunning(state.current.appPath)) {
-    return {
-      ok: false,
-      message:
-        "Close the running game first. Its normal save and close guard remains in control.",
-    };
+  launchBusy = true;
+  sendEvent({ kind: "state", state: publicState() });
+  try {
+    return await action();
+  } finally {
+    launchBusy = false;
+    sendEvent({ kind: "state", state: publicState() });
   }
-  const next = activatePendingBuild(state);
-  atomicWriteState(next);
-  const problem = await shell.openPath(next.current.appPath);
-  if (problem) atomicWriteState(state);
-  return problem
-    ? {
+}
+
+ipcMain.handle("controller:play", () =>
+  withLaunchLock(async () => {
+    const state = readState();
+    const installed = inspectInstalledBuild(state?.current);
+    if (!installed.ready)
+      return {
         ok: false,
-        message: `The new build could not open: ${problem}. The prior Play pointer was restored.`,
-        state: publicState(),
-      }
-    : {
-        ok: true,
-        message: "The verified update is active and opening now.",
-        state: publicState(),
+        message: installed.problem,
       };
-});
+    const problem = await shell.openPath(state.current.appPath);
+    return problem
+      ? { ok: false, message: problem }
+      : { ok: true, message: "Opening the current verified build." };
+  }),
+);
+
+function switchAction(operation) {
+  return withLaunchLock(
+    async () =>
+      await switchVerifiedBuild(readState(), operation, {
+        busy: updateChild !== null,
+        inspect: inspectInstalledBuild,
+        isRunning: applicationIsRunning,
+        writeState: atomicWriteState,
+        openPath: (appPath) => shell.openPath(appPath),
+      }),
+  ).then((result) => ({ ...result, state: publicState() }));
+}
+ipcMain.handle("controller:finish-update", () => switchAction("finish"));
+ipcMain.handle("controller:rollback", () => switchAction("rollback"));
 
 function startUpdate(origin = "manual") {
   if (updateChild)
@@ -286,7 +271,14 @@ function startUpdate(origin = "manual") {
   });
   const child = spawn(
     process.execPath,
-    [workerPath, "--data-root", dataRoot, "--repo", state.repositoryPath],
+    [
+      workerPath,
+      "--data-root",
+      dataRoot,
+      "--repo",
+      state.repositoryPath,
+      ...(origin === "automatic" ? ["--automatic"] : []),
+    ],
     {
       env: controllerEnvironment(),
       stdio: ["ignore", "pipe", "pipe"],
@@ -304,6 +296,7 @@ function startUpdate(origin = "manual") {
   });
   let pending = "";
   let outcome = "failed";
+  let targetRevision = state.updatePolicy.lastTargetRevision;
   const consume = (chunk) => {
     pending += String(chunk);
     const lines = pending.split("\n");
@@ -312,6 +305,7 @@ function startUpdate(origin = "manual") {
       if (!line) continue;
       try {
         const event = JSON.parse(line);
+        if (event.targetRevision) targetRevision = event.targetRevision;
         if (event.outcome || event.reason)
           outcome = event.outcome ?? event.reason;
         sendEvent(event);
@@ -333,7 +327,11 @@ function startUpdate(origin = "manual") {
     if (latest)
       atomicWriteState({
         ...latest,
-        updatePolicy: { ...latest.updatePolicy, lastOutcome: outcome },
+        updatePolicy: {
+          ...latest.updatePolicy,
+          lastOutcome: outcome,
+          lastTargetRevision: targetRevision,
+        },
       });
     sendEvent({
       kind: code === 0 ? "settled" : "error",

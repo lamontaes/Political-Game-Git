@@ -13,6 +13,7 @@ const cancel = byId("cancel");
 const choose = byId("choose");
 const automatic = byId("automatic");
 const buildStatus = byId("build-status");
+const rollback = byId("rollback");
 
 function append(message) {
   if (!message) return;
@@ -34,6 +35,8 @@ function render(state) {
   cancel.hidden = controls.cancelHidden;
   finish.hidden = controls.finishHidden;
   finish.disabled = controls.finishDisabled;
+  rollback.hidden = controls.rollbackHidden;
+  rollback.disabled = controls.rollbackDisabled;
   automatic.checked = state?.updatePolicy?.mode === "automatic";
   buildStatus.textContent = [
     actual
@@ -42,6 +45,7 @@ function render(state) {
     `Pointer source: ${state?.current?.revision ?? "none"}`,
     `Controller source: ${state?.controllerIdentity?.controllerSourceRevision ?? "not stamped"}${state?.controllerIdentity?.controllerSourceDirty ? " (dirty)" : ""}\nController tree: ${state?.controllerIdentity?.controllerTreeSha256 ?? "not stamped"}`,
     `Last update check: ${state?.updatePolicy?.lastAttemptAt ?? "not yet checked"} (${state?.updatePolicy?.lastOutcome ?? "none"})`,
+    `Last discovered source: ${state?.updatePolicy?.lastTargetRevision ?? "not recorded"}`,
     state?.installed?.problem,
   ]
     .filter(Boolean)
@@ -57,7 +61,15 @@ async function refresh() {
 }
 
 async function action(run) {
-  const result = await run();
+  let result;
+  try {
+    result = await run();
+  } catch (error) {
+    result = {
+      ok: false,
+      message: error instanceof Error ? error.message : String(error),
+    };
+  }
   if (result?.message) {
     status.textContent = result.message;
     append(result.message);
@@ -85,6 +97,10 @@ automatic.addEventListener("change", () =>
       automatic.checked ? "automatic" : "manual",
     ),
   ),
+);
+
+rollback.addEventListener("click", () =>
+  action(() => window.ocdController.rollback()),
 );
 
 window.ocdController.onEvent((event) => {

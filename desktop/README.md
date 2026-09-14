@@ -67,6 +67,13 @@ are refused. Malformed/future existing controller state is preserved rather
 than overwritten by bootstrap installation. A failed activation open restores
 the prior Play pointer.
 
+After a successful activation, **Restore Last-good & Play** is available on
+demand. It requires normal game close and the same source-bound compatibility
+checks. It does not rewrite saves or delete either version. A successfully
+rolled-back source is held so automatic checks cannot stage it again; only a
+newer compatible accepted source qualifies. Play and explicit activation are
+serialized against each other, not against the background update worker.
+
 Packaging consumes `dist/client` only when that tree's compile-time
 provenance matches this checkout (source revision, dirty flag, and
 content hash). Stale `dist/client` cannot be relabelled with a newer
@@ -170,7 +177,7 @@ the canonical version and exist only for throwaway artifacts.
 
 The private controller is a developer-only local delivery for the owner's
 existing repository and toolchain. Its command execution lives in the
-controller process, behind seven fixed IPC actions; the gameplay renderer and
+controller process, behind eight fixed IPC actions; the gameplay renderer and
 ordinary packaged client still have no preload, IPC, filesystem, repository,
 credential, or process surface. No repository token is stored or packaged.
 Public signed in-place updating remains a separate external service boundary.

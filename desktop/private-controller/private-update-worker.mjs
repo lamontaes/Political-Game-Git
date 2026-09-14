@@ -1,6 +1,6 @@
 /* global process, setTimeout, clearTimeout */
 
-import { spawn } from "node:child_process";
+import { spawnOwnedCommand, stopOwnedCommand } from "./owned-process.mjs";
 import {
   cpSync,
   existsSync,
@@ -39,13 +39,14 @@ const valueAfter = (name) => {
 };
 const dataRoot = valueAfter("--data-root");
 const requestedRepository = valueAfter("--repo");
+const automatic = args.includes("--automatic");
 
 let activeChild = null;
 let cancelled = false;
 for (const signal of ["SIGINT", "SIGTERM"]) {
   process.on(signal, () => {
     cancelled = true;
-    activeChild?.kill("SIGTERM");
+    stopOwnedCommand(activeChild);
   });
 }
 
@@ -73,7 +74,7 @@ async function run(command, commandArgs, options = {}) {
   if (cancelled) throw new Error("Update cancelled.");
   emit("progress", options.label ?? `${command} ${commandArgs.join(" ")}`);
   await new Promise((resolve, reject) => {
-    const child = spawn(command, commandArgs, {
+    const child = spawnOwnedCommand(command, commandArgs, {
       cwd: options.cwd,
       env: { ...process.env, ...options.env },
       stdio: ["ignore", "pipe", "pipe"],
@@ -83,7 +84,7 @@ async function run(command, commandArgs, options = {}) {
     const timer = options.timeoutMs
       ? setTimeout(() => {
           timedOut = true;
-          child.kill("SIGTERM");
+          stopOwnedCommand(child);
         }, options.timeoutMs)
       : null;
     child.stdout.setEncoding("utf8");
@@ -117,7 +118,7 @@ async function run(command, commandArgs, options = {}) {
 async function capture(command, commandArgs, options = {}) {
   let output = "";
   await new Promise((resolve, reject) => {
-    const child = spawn(command, commandArgs, {
+    const child = spawnOwnedCommand(command, commandArgs, {
       cwd: options.cwd,
       env: { ...process.env, ...options.env },
       stdio: ["ignore", "pipe", "pipe"],
@@ -239,6 +240,15 @@ async function main() {
       ["rev-parse", "--verify", `${TARGET_REF}^{commit}`],
       { cwd: repositoryPath, label: "Resolving accepted main" },
     );
+    emit("discovered", "Resolved the exact accepted source.", {
+      targetRevision,
+    });
+    if (state.blockedRevision === targetRevision)
+      return emit(
+        "complete",
+        "This source was rolled back and is held. Play opens last-good; a newer compatible accepted source is required.",
+        { outcome: "rollback-held", targetRevision },
+      );
     let currentIsAncestor = false;
     try {
       await capture(
@@ -461,6 +471,10 @@ async function main() {
     )
       throw new Error(
         "The active installation changed during staging. No Play pointer was replaced.",
+      );
+    if (automatic && latest.updatePolicy.mode !== "automatic")
+      throw new Error(
+        "Automatic staging was opted out; no candidate pointer was recorded.",
       );
     writeState(statePath, {
       ...withPendingBuild(latest, record, repositoryPath),

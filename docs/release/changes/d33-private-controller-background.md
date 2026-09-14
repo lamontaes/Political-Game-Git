@@ -10,3 +10,7 @@ background without blocking Play. Automatic checks can be turned off and that
 choice is remembered. Update status distinguishes the actual installed build
 from its release label, and a staged update waits for the game to close normally
 before it can be activated.
+
+After normal game close, the last verified build can be restored without
+rewriting saved lives. A failed activation restores the prior Play pointer, and
+a rolled-back source is held until a newer compatible build is available.

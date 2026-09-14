@@ -11,6 +11,7 @@ contextBridge.exposeInMainWorld("ocdController", {
   finishUpdate: () => ipcRenderer.invoke("controller:finish-update"),
   cancel: () => ipcRenderer.invoke("controller:cancel"),
   setUpdateMode: (mode) => ipcRenderer.invoke("controller:update-mode", mode),
+  rollback: () => ipcRenderer.invoke("controller:rollback"),
   onEvent: (listener) => {
     const wrapped = (_event, value) => listener(value);
     ipcRenderer.on("controller:event", wrapped);
