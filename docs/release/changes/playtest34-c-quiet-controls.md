@@ -10,7 +10,7 @@ in-person conversation in that room, with faces and no clock movement per line.
 Contact, Meet, and Travel stay separate: there is no remote inbox on the card,
 Meet returns you to the scene when they are actually there, and Travel names the
 recorded places and stays unavailable when no journey is authored. The calendar
-opens on upcoming and ongoing events, with History off to the side, and
-simulating an event checks whether you may attend before time moves. Advance and
-Play remain their own actions. People on the web show portraits; a list face is
+opens on upcoming and ongoing events, with History off to the side. Simulating
+an event stays unavailable unless standing preferences authorize attendance, and
+that check happens before time moves. Advance and Play remain their own actions. People on the web show portraits; a list face is
 not the same drawing.
