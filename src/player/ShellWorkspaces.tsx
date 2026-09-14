@@ -782,12 +782,16 @@ export function PersonalWorkspace({
   personId,
   section,
   onOpenPerson,
+  pendingAvailable,
+  onOpenPending,
 }: {
   readonly world: World;
   readonly personId: EntityId;
   /** Which half of this record the player asked for, when they said. */
   readonly section?: ShellSection;
   readonly onOpenPerson: (id: EntityId) => void;
+  readonly pendingAvailable?: boolean;
+  readonly onOpenPending?: () => void;
 }) {
   const record = useMemo(
     () => projectPersonalRecord(world, personId),
@@ -858,6 +862,16 @@ export function PersonalWorkspace({
           </div>
         ) : null}
       </details>
+      {pendingAvailable && onOpenPending ? (
+        <button
+          type="button"
+          className="ui-action"
+          data-testid="pending-life-open"
+          onClick={onOpenPending}
+        >
+          Open the pending decision
+        </button>
+      ) : null}
 
       <section className="pg-personal-section">
         <h3>Appearance</h3>

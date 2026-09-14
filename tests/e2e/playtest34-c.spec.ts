@@ -65,6 +65,7 @@ test.describe("PLAYTEST34 C quiet rest and primary controls", () => {
     });
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await expect(page.getByTestId("opening-life-panel")).toHaveCount(0);
+    await expect(page.getByTestId("pending-life-open")).toHaveCount(0);
     await expect(
       page.getByRole("button", { name: "Continue your life" }),
     ).toHaveCount(0);
@@ -104,7 +105,14 @@ test.describe("PLAYTEST34 C quiet rest and primary controls", () => {
     await expect(page.getByTestId("personal-workspace")).toBeVisible();
     await page.getByTestId("life-introduction").locator("summary").click();
     await expect(page.getByTestId("life-grounding")).toBeVisible();
-    await page.getByTestId("personal-workspace-close").click();
+    const pending = page.getByTestId("pending-life-open");
+    if ((await pending.count()) > 0) {
+      await pending.click();
+      await expect(page.getByTestId("pending-life-surface")).toBeVisible();
+      await page.getByTestId("pending-life-return").click();
+    } else {
+      await page.getByTestId("personal-workspace-close").click();
+    }
 
     await goTo(page, "elsewhere-people");
     await expect(page.getByTestId("people-search")).toBeVisible();

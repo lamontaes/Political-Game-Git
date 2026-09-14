@@ -2089,6 +2089,10 @@ function PlayingScreen({
   const [returnFocusTo, setReturnFocusTo] = useState<EntityId | null>(null);
   const [pendingLifeOpen, setPendingLifeOpen] = useState(false);
   const continuingLifeShown = pendingLifeOpen;
+  const openPendingLife = () => {
+    setPendingLifeOpen(true);
+    dispatch({ type: "go-to-scene" });
+  };
   useContentViewportCss();
   const actionMenuRef = useRef<HTMLDivElement>(null);
 
@@ -2096,6 +2100,10 @@ function PlayingScreen({
     () => projectStoryMoment(session.world, session.personId),
     [session.world, session.personId],
   );
+  const pendingAvailable =
+    projectedMoment.scene.kind !== "ordinary-stretch" ||
+    projectedMoment.openThreads.length > 0 ||
+    Boolean(completedActivityHere(session.world, session.personId));
 
   const sceneVisuals = useMemo(
     () => locationReviewVisuals(Boolean(artPreview) && import.meta.env.DEV),
@@ -2624,13 +2632,7 @@ function PlayingScreen({
               onTalkTo={(personId) => talkTo(personId)}
               returnFocusTo={returnFocusTo}
               onFocusReturned={() => setReturnFocusTo(null)}
-              pendingAvailable={
-                projectedMoment.scene.kind !== "ordinary-stretch" ||
-                projectedMoment.openThreads.length > 0 ||
-                Boolean(completedActivityHere(session.world, session.personId))
-              }
               pendingOpen={pendingLifeOpen}
-              onOpenPending={() => setPendingLifeOpen(true)}
               onClosePending={() => setPendingLifeOpen(false)}
               pendingLife={
                 <StoryView
@@ -3193,6 +3195,8 @@ function renderWorkspace({
             personId={session.personId}
             {...(view.section ? { section: view.section } : {})}
             onOpenPerson={openPerson}
+            pendingAvailable={pendingAvailable}
+            onOpenPending={openPendingLife}
           />
         </>,
       );
