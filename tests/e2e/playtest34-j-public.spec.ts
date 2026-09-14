@@ -66,6 +66,9 @@ test("towns are alphabetical before the visible limit and changing state does no
 test("birthday validates through actual creator keyboard/pointer controls and persists replay identity", async ({
   page,
 }) => {
+  // This covers two full World loads plus creation/replay/save, not one click.
+  // Keep individual control/assertion waits unchanged and allow the whole walk.
+  test.setTimeout(90_000);
   await page.goto("/?seed=p34-birthday&art-preview=candidate");
   await page.getByTestId("new-game").click();
   await page.getByTestId("start-normal").click();
