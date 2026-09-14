@@ -15,6 +15,7 @@ import { PlacesWorkspace } from "./PlacesWorkspace";
 import { municipalVenueForActivity } from "../presentation/municipal-venue";
 import { resolveActivityVenueScene } from "../presentation/scene-venues";
 import { publishLegislativeTransition } from "../presentation/publish-legislative-transition";
+import { applyExecutivePlayTransition } from "../presentation/executive-entry";
 import { PublicInformationPanel } from "./PublicInformationPanel";
 import { projectPublicInformationPanel } from "../presentation/public-information-adapters";
 import { LifeStartTransition } from "./LifeStartTransition";
@@ -30,7 +31,6 @@ import { JudicialOfficeWork } from "./JudicialOfficeWork";
 import { judicialOfficeContexts } from "../simulation/judicial-office-work";
 import { ExecutiveWorkWorkspace } from "./ExecutiveWorkWorkspace";
 import { resolveExecutiveOffice } from "../simulation/executive-work-context";
-import { synchronizeExecutiveInbox } from "../simulation/executive-work";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import {
   useCallback,
@@ -718,7 +718,8 @@ export function PlayerGame() {
               // empty week until they reloaded.
               {
                 ...current,
-                world: synchronizeExecutiveInbox(
+                world: applyExecutivePlayTransition(
+                  current.world,
                   openOrdinaryLife(world, current.personId),
                 ),
               }
@@ -3480,9 +3481,7 @@ function renderWorkspace({
           body: (
             <ExecutiveWorkWorkspace
               world={session.world}
-              onWorldChange={(next) =>
-                onWorldChange(synchronizeExecutiveInbox(next))
-              }
+              onWorldChange={onWorldChange}
               onClose={close}
               handlers={createCampaignElectionTransitionRegistry()}
             />

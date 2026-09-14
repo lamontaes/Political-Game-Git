@@ -13,19 +13,24 @@ unrelated handlers; never replace the registry with just executive handlers.
 The released shared workroom is compatible with the work panel; no new governor
 art is required or promoted.
 
-## Actual entry blocker
+## Actual entry
 
-QUAL-COMPLIANCE1 confirmed that its current qualification consumer supports
-Alaska legislative seats only, and has no executive office predicates. Therefore
-`EXECUTIVE_NORMAL_ENTRY.available` is false. Do not offer the review initializer
-in normal setup. `initializeExecutiveOfficePremiseForReview` establishes synthetic
-canonical records solely for multi-context proof. It is not an elected career,
-a legally verified office entry, or a grant-all-powers switch.
+Ordinary supported executive entry seats the recorded winner of a contest whose
+office key matches an accepted executive-authority pack. The election outcome
+event is the term identity. Custom Start
+(`initializeExecutiveOfficePremiseForReview`) remains a separate authored
+premise and is not an election.
 
-Named remaining owners: QUAL-COMPLIANCE1 supplies executive qualification/entry
-support; UI-CORE-RELEASE registers the normal Work/creator routes when supported.
-Review fixture: `/tests/fixtures/executive-work.html`. It exercises the actual
-feature panel and transitions, but is explicitly not ordinary-player reachability.
+`applyExecutivePlayTransition` is the A / FABLE-UI seam: it seats that winner,
+routes presentment into the existing inbox, and publishes public sign/veto and
+executive election results through NEWS. Bind incident inbox with
+`executiveIncidentPorts()`; private events and unheld offices grant nothing.
+
+Campaign candidacy packs still list legislative seats only. Adding a governor
+to the ordinary ballot is N's missing producer, not a Custom Start shortcut.
+
+Review fixture: `/tests/fixtures/executive-work.html`. It is not ordinary-player
+reachability.
 
 ## Source producer contract
 

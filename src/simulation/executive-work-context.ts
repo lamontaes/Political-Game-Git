@@ -2,6 +2,7 @@ import { activeLifePathWorkers } from "./life-paths2-workers";
 import { isPersonAliveAt } from "./vitality-integrity";
 /** EXEC-WORK2: read canonical office/work/evidence, never caller authority. */
 import { EXECUTIVE_AUTHORITY_RULE_PACKS } from "./executive-authority-rule-packs";
+import { electionContestById } from "./election-contests";
 import {
   activeWorkRelationshipsAt,
   currentLifeCutoff,
@@ -28,6 +29,8 @@ import type { EntityId, World } from "./types";
 
 export const EXECUTIVE_TERM_END = "executive-work:term-end" as const;
 export const EXECUTIVE_ENTRY = "executive.custom-start";
+export const EXECUTIVE_ELECTION_RESULT = "election.contest-resolved";
+export type ExecutiveOfficeOrigin = "custom-start" | "elected-term";
 
 export function resolveExecutiveOffice(world: World) {
   if (world.control.kind !== "person") return null;
@@ -46,11 +49,12 @@ export function resolveExecutiveOffice(world: World) {
       const entry = world.history.events.find((e) => e.id === entryId);
       if (
         !entry ||
-        entry.type !== EXECUTIVE_ENTRY ||
         !entry.involvedEntityIds.includes(personId) ||
         entry.occurredAt !== relationship.startedAt
       )
         return [];
+      const origin = originForEntry(world, personId, entry);
+      if (!origin) return [];
       const profile = organizationProfileAt(
         world,
         relationship.organizationId,
@@ -70,18 +74,31 @@ export function resolveExecutiveOffice(world: World) {
         profile?.locationJurisdictionId !== jurisdiction.id
       )
         return [];
+      if (
+        origin === "elected-term" &&
+        !electedTermMatchesPack(world, entry, pack.office.officeKey)
+      )
+        return [];
       const term = world.history.futureDueItems.find(
         (d) =>
           d.transitionKey === EXECUTIVE_TERM_END &&
           d.entityIds.includes(relationship.id) &&
           d.entityIds.includes(entry.id),
       );
-      if (
-        !term ||
-        term.dueAt <= world.currentDate ||
-        term.jurisdictionId !== jurisdiction.id
-      )
+      if (origin === "custom-start") {
+        if (
+          !term ||
+          term.dueAt <= world.currentDate ||
+          term.jurisdictionId !== jurisdiction.id
+        )
+          return [];
+      } else if (
+        term &&
+        (term.dueAt <= world.currentDate ||
+          term.jurisdictionId !== jurisdiction.id)
+      ) {
         return [];
+      }
       return [
         {
           personId,
@@ -89,14 +106,42 @@ export function resolveExecutiveOffice(world: World) {
           role,
           entry,
           pack,
+          origin,
           jurisdictionId: jurisdiction.id,
           organizationId: relationship.organizationId,
-          endsAt: term.dueAt,
+          endsAt: term?.dueAt ?? null,
         },
       ];
     },
   );
   return offices.length === 1 ? offices[0]! : null;
+}
+
+function originForEntry(
+  world: World,
+  personId: EntityId,
+  entry: World["history"]["events"][number],
+): ExecutiveOfficeOrigin | null {
+  if (entry.type === EXECUTIVE_ENTRY) return "custom-start";
+  if (entry.type !== EXECUTIVE_ELECTION_RESULT) return null;
+  const result = (world.history.electionContestResults ?? []).find(
+    (record) => record.outcomeEventId === entry.id,
+  );
+  if (!result || result.winnerPersonId !== personId) return null;
+  return "elected-term";
+}
+
+function electedTermMatchesPack(
+  world: World,
+  entry: World["history"]["events"][number],
+  officeKey: string,
+): boolean {
+  const result = (world.history.electionContestResults ?? []).find(
+    (record) => record.outcomeEventId === entry.id,
+  );
+  if (!result) return false;
+  const contest = electionContestById(world, result.contestId);
+  return contest?.office.officeKey === officeKey;
 }
 
 /** Stable role classification is capability, not a name/title match. Staffing

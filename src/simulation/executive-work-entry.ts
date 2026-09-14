@@ -1,7 +1,14 @@
-/** Review-only canonical premise for testing the consumer. Normal Custom Start
- * entry remains unavailable: QUAL-COMPLIANCE1 has no executive qualifications.
- * This initializer is not registered in player setup and asserts no election. */
-import { executiveRulePackById } from "./executive-authority-rule-packs";
+/** Custom Start remains an authored office premise and is never an election.
+ * Ordinary entry seats a recorded winner of a supported executive office using
+ * N's contest result as the term identity. */
+import {
+  executiveRulePackById,
+  executiveRulePackForOfficeKey,
+} from "./executive-authority-rule-packs";
+import {
+  electionContestById,
+  electionContestResult,
+} from "./election-contests";
 import { stateJurisdictionForKey } from "./life-places";
 import {
   createOrganization,
@@ -20,7 +27,7 @@ import {
   EXECUTIVE_TERM_END,
   resolveExecutiveOffice,
 } from "./executive-work-context";
-import type { FutureTransitionHandler, World } from "./types";
+import type { EntityId, FutureTransitionHandler, World } from "./types";
 
 export function initializeExecutiveOfficePremiseForReview(
   world: World,
@@ -172,9 +179,153 @@ export const EXECUTIVE_TERM_HANDLERS = createFutureTransitionHandlerRegistry([
   [EXECUTIVE_TERM_END, executiveTermEndHandler],
 ]);
 
+/**
+ * Seats the recorded winner of a supported executive contest.
+ *
+ * The contest result is the term identity. This does not invent an appointment
+ * and does not reuse Custom Start. Filing that contest on the campaign ballot
+ * remains N's candidacy producer where the pack still lists only legislative
+ * seats.
+ */
+export function enterElectedExecutiveOffice(
+  world: World,
+  contestId: EntityId,
+): World {
+  const result = electionContestResult(world, contestId);
+  if (!result) {
+    throw new Error("No recorded election result stands behind this office.");
+  }
+  const contest = electionContestById(world, contestId);
+  if (!contest) {
+    throw new Error("The contest behind this result is missing.");
+  }
+  const pack = executiveRulePackForOfficeKey(contest.office.officeKey);
+  if (!pack) {
+    throw new Error(
+      "That office is not one the accepted executive authority packs establish.",
+    );
+  }
+  const jurisdiction = stateJurisdictionForKey(pack.jurisdictionKey);
+  if (!jurisdiction) {
+    throw new Error(
+      "This office has no supported governing jurisdiction in this World.",
+    );
+  }
+  if (contest.jurisdictionId !== jurisdiction.id) {
+    throw new Error(
+      "The contest was not run in the jurisdiction this office governs.",
+    );
+  }
+  const winnerId = result.winnerPersonId;
+  const outcome = world.history.events.find(
+    (e) => e.id === result.outcomeEventId,
+  );
+  if (!outcome || outcome.type !== "election.contest-resolved") {
+    throw new Error("The recorded election result names no public outcome.");
+  }
+  if (
+    resolveExecutiveOffice({
+      ...world,
+      control: { kind: "person", personId: winnerId },
+    })
+  ) {
+    return world;
+  }
+  if (
+    world.history.workRelationships.some(
+      (relationship) =>
+        relationship.stableKey === `${contest.stableKey}:executive-seat`,
+    )
+  ) {
+    return world;
+  }
+  let next = world.jurisdictions[jurisdiction.id]
+    ? world
+    : {
+        ...world,
+        jurisdictions: {
+          ...world.jurisdictions,
+          [jurisdiction.id]: jurisdiction,
+        },
+        jurisdictionOrder: [...world.jurisdictionOrder, jurisdiction.id],
+      };
+  const bodyKey = `executive-office:${pack.packId}`;
+  const existing = next.history.organizations.find(
+    (organization) => organization.stableKey === bodyKey,
+  );
+  if (!existing) {
+    next = createOrganization(next, {
+      stableKey: bodyKey,
+      formedAt: outcome.occurredAt,
+      provenance: { kind: "simulated-event", eventId: outcome.id },
+      initialProfile: {
+        name: pack.office.title,
+        classification: `service:${pack.office.officeKey}`,
+        locationJurisdictionId: jurisdiction.id,
+      },
+    });
+  }
+  const organizationId =
+    existing?.id ??
+    next.history.organizations.find(
+      (organization) => organization.stableKey === bodyKey,
+    )!.id;
+  next = createWorkRelationship(next, {
+    stableKey: `${contest.stableKey}:executive-seat`,
+    personId: winnerId,
+    organizationId,
+    startedAt: outcome.occurredAt,
+    kind: "employment:executive-office",
+    compensation: "paid",
+    authority: "directs-others",
+    dependency: "independent",
+    economicRisk: "organization-borne",
+    provenance: { kind: "simulated-event", eventId: outcome.id },
+    initialRole: {
+      title: pack.office.title,
+      occupationClassification: `service:${pack.office.officeKey}`,
+      locationJurisdictionId: jurisdiction.id,
+      timeDemand: {
+        expectedWeekly: { minimumHours: 35, maximumHours: 45 },
+        attention: "high",
+        concurrency: "mostly-exclusive",
+        scheduleRigidity: "mixed",
+        interruptibility: "limited",
+        locationJurisdictionId: jurisdiction.id,
+      },
+    },
+  });
+  return next;
+}
+
+/** Idempotent consumer of N contest results for supported executive offices. */
+export function synchronizeElectedExecutiveOffices(world: World): World {
+  let next = world;
+  for (const result of world.history.electionContestResults ?? []) {
+    const contest = electionContestById(next, result.contestId);
+    if (!contest) continue;
+    if (!executiveRulePackForOfficeKey(contest.office.officeKey)) continue;
+    if (
+      next.history.workRelationships.some(
+        (relationship) =>
+          relationship.stableKey === `${contest.stableKey}:executive-seat`,
+      )
+    )
+      continue;
+    try {
+      next = enterElectedExecutiveOffice(next, result.contestId);
+    } catch {
+      continue;
+    }
+  }
+  return next;
+}
+
 export const EXECUTIVE_NORMAL_ENTRY = {
-  available: false,
+  available: true,
   reason:
-    "Executive-office qualification and role-entry rules are not yet connected to Custom Start.",
-  owner: "QUAL-COMPLIANCE1 / UI-CORE-RELEASE",
+    "A recorded election result for a supported executive office seats the winner into that office. Custom Start remains a separate authored premise and is not an election.",
+  owner: "REST37-X / N office identity",
+  missingProducer:
+    "Campaign candidacy packs still offer legislative seats only; N owns adding a supported executive office to the ordinary ballot.",
 } as const;
