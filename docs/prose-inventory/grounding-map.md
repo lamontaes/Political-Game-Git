@@ -16,7 +16,7 @@ declare is reported as undeclared rather than filled in from a guess.
 | `conversation/commit-contract` | 106 | 0 | 0 | — |
 | `conversation/conversation-subject` | 67 | 0 | 0 | — |
 | `conversation/conversation-turn` | 24 | 0 | 0 | — |
-| `governing/municipal-attendance-and-work` | 37 | 0 | 0 | activity-evidence, work-standing |
+| `governing/municipal-attendance-and-work` | 40 | 0 | 0 | activity-evidence, work-standing |
 | `governing/municipal-authority-refusals` | 19 | 0 | 0 | — |
 | `governing/municipal-institution-record` | 2 | 0 | 0 | activity-evidence |
 | `governing/municipal-law-projection` | 47 | 0 | 0 | — |

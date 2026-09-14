@@ -17,6 +17,8 @@ import {
 import {
   installMunicipalGovernment,
   attendMunicipalPublicMeeting,
+  appointMunicipalManager,
+  introduceMunicipalOrdinance,
   municipalActionAuthority,
   municipalMeetings,
   municipalSeats,
@@ -25,6 +27,7 @@ import {
   scheduleMunicipalMeeting,
   seatMunicipalMember,
 } from "./municipal-public-work";
+import { deserializeWorld, serializeWorld } from "./serialization";
 import { rulePackById } from "./legislature-rule-packs";
 import type { EntityId, World } from "./types";
 
@@ -386,5 +389,109 @@ describe("a public meeting is a real appointment", () => {
       }).roles,
     ).toEqual(["resident"]);
     expect(municipalSeats(next, governmentKey)).toHaveLength(0);
+  }, 60000);
+});
+
+describe("the strongest compiled local governing route", () => {
+  it("lets a citizen attend and a member appoint the manager, then refuses outsider, duplicate, and reload repeats", () => {
+    const { world, governmentKey, jurisdictionId, people } =
+      cityWorld("5114968");
+    const government = municipalGovernmentByKey(governmentKey)!;
+    const resident = people[0]!;
+    const member = people[1]!;
+    const appointee = people[10]!;
+    const seated = seatWholeBody(world, governmentKey, people);
+    const start = { ...world.currentMoment, minuteOfDay: 19 * 60 };
+    const scheduled = scheduleMunicipalMeeting(seated, {
+      governmentKey,
+      seriesKey: "stated-meeting",
+      start,
+      end: { ...start, minuteOfDay: 21 * 60 },
+      participantPersonIds: [resident],
+      responsiblePersonId: resident,
+      jurisdictionId,
+    });
+    const meeting = municipalMeetings(scheduled, governmentKey)[0]!;
+    const attended = attendMunicipalPublicMeeting(
+      scheduled,
+      governmentKey,
+      meeting.id,
+    );
+    expect(attended.ok).toBe(true);
+    expect(
+      attended.world.history.events.some(
+        (event) => event.type === "municipal.public-meeting-attended",
+      ),
+    ).toBe(true);
+    expect(
+      municipalStanding(attended.world, {
+        governmentKey,
+        personId: resident,
+        residentPlaceGeoid: government.placeGeoid,
+      }).roles,
+    ).toEqual(["resident"]);
+
+    const memberWorld = {
+      ...attended.world,
+      control: { kind: "person" as const, personId: member },
+    };
+    const outsider = appointMunicipalManager(attended.world, {
+      governmentKey,
+      appointeePersonId: appointee,
+    });
+    expect(outsider.ok).toBe(false);
+    if (!outsider.ok) {
+      expect(outsider.reason).toMatch(/does not put you on it|Only members/);
+      expect(outsider.world).toBe(attended.world);
+    }
+
+    const appointed = appointMunicipalManager(memberWorld, {
+      governmentKey,
+      appointeePersonId: appointee,
+    });
+    expect(appointed.ok).toBe(true);
+    const managerSeat = municipalSeats(appointed.world, governmentKey).find(
+      (seat) => seat.role === "professional-manager",
+    );
+    expect(managerSeat?.personId).toBe(appointee);
+    expect(
+      appointed.world.history.events.some(
+        (event) => event.type === "municipal.manager-appointed",
+      ),
+    ).toBe(true);
+
+    const duplicate = appointMunicipalManager(appointed.world, {
+      governmentKey,
+      appointeePersonId: people[11]!,
+    });
+    expect(duplicate.ok).toBe(false);
+    if (!duplicate.ok) {
+      expect(duplicate.reason).toMatch(
+        /already has a recorded professional manager/,
+      );
+      expect(duplicate.world).toBe(appointed.world);
+    }
+
+    const reloaded = deserializeWorld(serializeWorld(appointed.world));
+    const afterReload = appointMunicipalManager(reloaded, {
+      governmentKey,
+      appointeePersonId: people[11]!,
+    });
+    expect(afterReload.ok).toBe(false);
+    if (!afterReload.ok) expect(afterReload.world).toBe(reloaded);
+
+    const ordinance = introduceMunicipalOrdinance(memberWorld, {
+      governmentKey,
+      designation: "Ord. 1",
+      shortTitle: "Authored test ordinance",
+      summary: "Must not invent missing procedure.",
+    });
+    expect(ordinance.ok).toBe(false);
+    if (!ordinance.ok) {
+      expect(ordinance.reason).toMatch(/introduction/);
+      expect(ordinance.reason).toMatch(/readings/);
+      expect(ordinance.reason).toMatch(/what happens after adoption/);
+      expect(ordinance.world).toBe(memberWorld);
+    }
   }, 60000);
 });

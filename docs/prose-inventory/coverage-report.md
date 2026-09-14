@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 2457 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5907 |
-| DIAGNOSTIC_OR_TEST | 5279 |
-| **NEEDS_CLASSIFICATION** | **6595** |
+| INVENTORIED | 2464 |
+| INTENTIONALLY_NON_PLAYER_FACING | 5908 |
+| DIAGNOSTIC_OR_TEST | 5309 |
+| **NEEDS_CLASSIFICATION** | **6615** |
 
-Scanned 646 files holding 77489 string
+Scanned 652 files holding 77677 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -40,7 +40,7 @@ literals in total; the table counts only those that read like a sentence.
 | 214 | `src/simulation/executive-authority-rule-packs.ts` |
 | 199 | `src/simulation/legislation-service-families.ts` |
 | 126 | `src/simulation/legislation.ts` |
-| 119 | `src/player/PlayerGame.tsx` |
+| 120 | `src/player/PlayerGame.tsx` |
 | 117 | `src/simulation/civil-personnel-actions.ts` |
 | 117 | `src/simulation/opening-life-content.ts` |
 | 87 | `src/simulation/policy.ts` |
@@ -181,6 +181,7 @@ literals in total; the table counts only those that read like a sentence.
 | 10 | `src/presentation/person-dossier.ts` |
 | 10 | `src/presentation/production-world.ts` |
 | 10 | `src/presentation/shell-navigation.ts` |
+| 10 | `src/simulation/municipal-public-work.ts` |
 | 10 | `src/simulation/office-qualification-rules.ts` |
 | 10 | `src/simulation/press-reach.ts` |
 | 10 | `src/simulation/setup-questionnaire-bank.ts` |
@@ -222,6 +223,7 @@ literals in total; the table counts only those that read like a sentence.
 | 7 | `src/simulation/candidate-qualification.ts` |
 | 7 | `src/simulation/executive-work-entry.ts` |
 | 7 | `src/simulation/judicial-office-start.ts` |
+| 7 | `src/simulation/starting-birthday.ts` |
 | 6 | `src/player/CareerPathsPanel.tsx` |
 | 6 | `src/player/ModularCharacter.tsx` |
 | 6 | `src/player/PersonalRoutinePanel.tsx` |
@@ -297,6 +299,7 @@ literals in total; the table counts only those that read like a sentence.
 | 2 | `src/presentation/character-proof.ts` |
 | 2 | `src/presentation/legislation-docket-selection.ts` |
 | 2 | `src/presentation/location-surfaces.ts` |
+| 2 | `src/presentation/municipal-governing.ts` |
 | 2 | `src/presentation/people-directory.ts` |
 | 2 | `src/presentation/play-scene-context.ts` |
 | 2 | `src/presentation/scene-proof.ts` |
