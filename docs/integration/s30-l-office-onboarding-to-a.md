@@ -24,10 +24,11 @@ Ordinary-route proof: `tests/e2e/office-onboarding-ordinary.spec.ts` uses
 
 ## L ↔ S consumer
 
-`applyLegislativeStep` consumes `applyArmedOfficeInstructionsToDispositions`
-`openLegislativeWork` seats the live member onto the matching chamber body
-so the overlay matches a canonical `personId`. Stale text blocks the write.
-See `docs/integration/s30-l-s-vote-instruction.md`.
+`applyLegislativeStep` and `legislative-bargaining-actions.ts` consume
+`dispositionsHonoringOfficeInstructions`. `openLegislativeWork` seats the live
+member onto the matching chamber body so the overlay matches a canonical
+`personId`. Stale text blocks the write. See
+`docs/integration/s30-l-s-vote-instruction.md`.
 
 ## Named remaining gaps
 
@@ -39,7 +40,4 @@ See `docs/integration/s30-l-s-vote-instruction.md`.
 - Casework execution and a skill-ranked amendment package remain unfinished
   consumers. Preferences do not complete them.
 - Automatic vote execution beyond overlaying the live member's recorded
-  disposition on S's existing docket floor/amendment/concurrence write is
-  not claimed. Family-room bargaining (`legislative-bargaining-actions.ts`)
-  still lacks that overlay; the adapter to call is
-  `applyArmedOfficeInstructionsToDispositions`.
+  disposition on S's existing floor writes is not claimed.

@@ -228,3 +228,22 @@ export function applyArmedOfficeInstructionsToDispositions(
   }
   return { kind: "ready", dispositions: next, appliedPersonIds };
 }
+
+/**
+ * Same current-bill / current-office overlay `applyLegislativeStep` uses.
+ * Throws the evaluation reason without writing when the text no longer matches.
+ */
+export function dispositionsHonoringOfficeInstructions(
+  world: World,
+  input: {
+    readonly measureId: EntityId;
+    readonly chamberKey: string;
+    readonly dispositions: readonly LegislativeVoteDisposition[];
+  },
+): readonly LegislativeVoteDisposition[] {
+  const overlay = applyArmedOfficeInstructionsToDispositions(world, input);
+  if (overlay.kind === "blocked") {
+    throw new Error(overlay.reason);
+  }
+  return overlay.dispositions;
+}

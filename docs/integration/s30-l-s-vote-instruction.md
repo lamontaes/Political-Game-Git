@@ -22,17 +22,18 @@ L must not call those writers.
 
 ## Consumer (wired)
 
-`applyLegislativeStep` overlays an armed instruction onto the live member's
-floor, amendment, and concurrence dispositions through
-`applyArmedOfficeInstructionsToDispositions`. `openLegislativeWork` now seats
-that live member onto the matching chamber body so the overlay has a
-canonical `personId` to match; the filing sponsor remains linked on the
-origin floor. If the bill text no longer matches, the step throws the
-evaluation reason and writes nothing. An armed result is still not itself a
-vote; the canonical vote record is S's write.
+`applyLegislativeStep` and the bargaining floor writers
+(`offerNegotiatedAmendment`, `takeNegotiatedFloorVote`) overlay through
+`dispositionsHonoringOfficeInstructions`. `openLegislativeWork` seats the live
+member onto the matching chamber body so the docket overlay has a canonical
+`personId`; bargaining already seats the player. If the bill text no longer
+matches, the write throws the evaluation reason and returns nothing. An armed
+result is still not itself a vote; the canonical vote record is S's write.
 
 A stored workflow preference is never executed delegation and never a proxy
 vote. `review-batch` and `handle-individually` do not overlay.
+
+Opening the office must not execute an armed instruction.
 
 ## Function
 
@@ -45,13 +46,6 @@ chamberKey, measureId })`
 - `refused` with a stable `code`, including `measure-changed`,
   `no-active-seat`, `office-mismatch`, `no-preference`,
   `mode-forbids-standing-instruction`, `instruction-missing`.
-
-Opening the office must not execute an armed instruction.
-
-`legislative-bargaining-actions.ts` still writes floor and amendment votes
-from derived member decisions without this overlay. That path should call
-`applyArmedOfficeInstructionsToDispositions` before `takeFloorVote` /
-`offerFloorAmendment`; L does not own those writers.
 
 ## Persistence / old saves
 

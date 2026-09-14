@@ -23,6 +23,7 @@ import {
 import { type LegislativeBargainingSeat } from "./legislative-bargaining-brief";
 import type { LegislativeBargainingProgress } from "./run-b-conversation-progress";
 import { resolveActiveMemberSeat } from "./legislative-member-seat";
+import { dispositionsHonoringOfficeInstructions } from "./office-vote-instruction";
 
 /**
  * The write boundary re-establishes the authority it is about to act on.
@@ -218,11 +219,15 @@ export function offerNegotiatedAmendment(
     description: `Add ${facts.requestedDescriptionSubject} of not more than ${amountLabel} for ${facts.requestedBeneficiaryLabel}.`,
     offeredByPersonId: seat.playerPersonId,
     offeredByLabel: "Floor sponsor",
-    dispositions: blendDispositions(
-      body.members,
-      countsFor(scenario.votePlan, votePlanKeyForAmendment(chamberKey)),
-      derived.byPerson,
-    ),
+    dispositions: dispositionsHonoringOfficeInstructions(derived.world, {
+      measureId: seat.measureId,
+      chamberKey,
+      dispositions: blendDispositions(
+        body.members,
+        countsFor(scenario.votePlan, votePlanKeyForAmendment(chamberKey)),
+        derived.byPerson,
+      ),
+    }),
     presentMembers: body.members.length,
     electedMembers: body.members.length,
     provenance: {
@@ -313,14 +318,18 @@ export function takeNegotiatedFloorVote(
       `floor:${chamberKey}:${stage.stageKey}`,
     ),
     measureId: seat.measureId,
-    dispositions: blendDispositions(
-      body.members,
-      countsFor(
-        scenario.votePlan,
-        votePlanKeyForFloor(chamberKey, stage.stageKey),
+    dispositions: dispositionsHonoringOfficeInstructions(derived.world, {
+      measureId: seat.measureId,
+      chamberKey,
+      dispositions: blendDispositions(
+        body.members,
+        countsFor(
+          scenario.votePlan,
+          votePlanKeyForFloor(chamberKey, stage.stageKey),
+        ),
+        derived.byPerson,
       ),
-      derived.byPerson,
-    ),
+    }),
     presentMembers: body.members.length,
     electedMembers: body.members.length,
     provenance: {
