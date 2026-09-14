@@ -33,6 +33,8 @@ for (const viewport of [
     await page.setViewportSize(viewport);
     await page.goto(`/?seed=d33-tuition-${viewport.width}`);
     await startLife(page, {
+      place: "Lexington",
+      state: "Kentucky",
       age: 35,
       route: "custom",
       household: "lives-alone",
@@ -165,6 +167,8 @@ for (const viewport of [
     await page.setViewportSize(viewport);
     await page.goto(`/?seed=next24-personal-${viewport.width}`);
     await startLife(page, {
+      place: "Lexington",
+      state: "Kentucky",
       age: 35,
       route: "custom",
       household: "lives-alone",

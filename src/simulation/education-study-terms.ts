@@ -2,7 +2,7 @@ import type { World, EntityId } from "./types";
 import type { LifePathDefinition } from "./life-paths2-catalog";
 import { studyUsesPeriodModel } from "./education-study-progression";
 import { recordEvidenceArtifact } from "./evidence";
-import legacyTerms from "./legacy-education-terms-v1.json";
+import legacyTerms from "./legacy-education-terms-v1.json" with { type: "json" };
 /** Versioned accepted terms stored in ordinary canonical evidence artifacts. */
 export interface AcceptedEducationTerms {
   readonly version: 1 | 2;
