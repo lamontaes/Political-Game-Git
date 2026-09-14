@@ -100,14 +100,13 @@ export function ensureAuthoredPublicMeeting(
   seriesKey: string,
 ) {
   const view = projectMunicipalGoverning(world, governmentKey);
-  if (!view || !view.attendance.ok)
-    return {
-      ok: false as const,
-      world,
-      reason: view?.attendance.ok
-        ? "Person control is required."
-        : (view?.attendance.reason ?? "No compiled government."),
-    };
+  if (!view || !view.attendance.ok) {
+    const reason =
+      view && !view.attendance.ok
+        ? view.attendance.reason
+        : "No compiled government.";
+    return { ok: false as const, world, reason };
+  }
   const existing = municipalMeetings(world, governmentKey).find(
     (meeting) =>
       meeting.stableKey.startsWith(
