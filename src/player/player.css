@@ -6296,6 +6296,22 @@
   animation: creator-stage-in 220ms ease both;
 }
 
+.title-tableau--art .game-creator [data-testid="creator-stage-appearance"] {
+  padding: 0.75rem 0.85rem;
+  background: rgb(8 13 21 / 0.88);
+  color: #f4ece0;
+  border-radius: 3px;
+}
+
+.title-tableau--art .game-creator [data-testid="creator-stage-appearance"] h2,
+.title-tableau--art
+  .game-creator
+  [data-testid="creator-stage-appearance"]
+  .game-note {
+  color: #f4ece0;
+  background: transparent;
+}
+
 .title-tableau--art .game-creator h3 {
   margin: 1.1rem 0 0.4rem;
   font-size: 0.82rem;
