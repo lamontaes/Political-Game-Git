@@ -53,3 +53,5 @@ assistant work, a saved10:00mid-shift favor attempt returns the identical World;
 actual work completes13:00, proofreading completes13:20, and the next-day due
 settlement pays USD72 once. This replay is supplemental direct source evidence;
 it does not replace the queued worker/browser suites.
+
+The 06:14→06:38 game contradiction is reproduced against C#245's actual zero-minute dialogue module in `game-baseline-c245.json`. The identical ordinary creator in `game-proposal.json` yields Elena Parsons, your mom: new-game proposal0 → same-game agreement0 → reload → game30 once. Decline/cancel0, saved terminal response and repeat rejection are captured. No fabricated intervening circumstance or unrelated willingness reroll.

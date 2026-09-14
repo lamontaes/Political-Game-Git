@@ -1,4 +1,5 @@
 import { ORDINARY_DAY_START_MINUTE, passOrdinaryDays } from "./ordinary-life";
+import type { OrdinaryLifeDayAdvance } from "./life-time-handlers";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
 import {
   activeEducationEnrollmentsAt,
@@ -371,16 +372,21 @@ function openTeenEmployer(
  * Lets a stretch of ordinary time go by without manufacturing an event for it.
  * Most years of a life are like this, and the record should be allowed to say so.
  */
-export function letTimePass(world: World, personId: EntityId): World {
+export function letTimePass(
+  world: World,
+  personId: EntityId,
+  advanceDays: OrdinaryLifeDayAdvance = passOrdinaryDays,
+): World {
   const interval = formativeIntervalAt(world, personId);
   if (!interval) throw new Error("These are no longer the formative years.");
-  return advanceToNextMoment(world, personId, interval);
+  return advanceToNextMoment(world, personId, interval, advanceDays);
 }
 
 function advanceToNextMoment(
   world: World,
   personId: EntityId,
   interval: FormativeInterval,
+  advanceDays: OrdinaryLifeDayAdvance,
 ): World {
   const person = world.people[personId];
   if (!person) throw new Error("This character is not in the world.");
@@ -409,7 +415,7 @@ function advanceToNextMoment(
   for (let remaining = days; remaining > 0;) {
     const chunk = Math.min(31, remaining);
     const targetDate = addDays(advanced.currentDate, chunk);
-    const next = passOrdinaryDays(advanced, chunk);
+    const next = advanceDays(advanced, chunk);
     advanced = next;
     if (
       next.currentDate < targetDate ||

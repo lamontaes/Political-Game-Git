@@ -1505,6 +1505,12 @@ const COMMIT_CONTRACTS: Readonly<
         `The player asked ${addresseeName} if this should be a date.`,
       spendTime: ({ addresseeName }) =>
         `The player spent time with ${addresseeName}.`,
+      acceptProposal: ({ addresseeName }) =>
+        `The player accepted ${addresseeName}'s proposed activity.`,
+      declineProposal: ({ addresseeName }) =>
+        `The player declined ${addresseeName}'s proposed activity.`,
+      cancelProposal: ({ addresseeName }) =>
+        `The player cancelled the activity agreed with ${addresseeName}.`,
     }),
   },
 };

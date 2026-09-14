@@ -10,6 +10,77 @@ async function stepInside(page: Page) {
   await intro.getByRole("button", { name: "Step inside" }).click();
   await expect(page.getByTestId("opening-life-scene")).toBeVisible();
 }
+test("Mom proposes a new game → accepts the same saved proposal → 30 minutes once", async ({
+  page,
+}, info) => {
+  test.setTimeout(180000);
+  await page.goto("/?seed=p34-mom-game-3");
+  await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
+    age: 10,
+    route: "custom",
+    household: "shares-a-home",
+    childhood: true,
+  });
+  await stepInside(page);
+  await page.locator('[data-testid^="life-talk-"]').first().click();
+  const conversation = page.getByTestId("conversation-life-talk");
+  await conversation
+    .getByRole("button", {
+      name: "Ask what they would like to do",
+      exact: true,
+    })
+    .click();
+  await expect(conversation.getByTestId("talk-reply")).toContainText(
+    "try a new game",
+  );
+  const before = await save(page);
+  const offer = before.history.events.find((e) =>
+    e.tags.some((tag) => tag.startsWith("life.proposal.v1:")),
+  )!;
+  await conversation
+    .getByRole("button", {
+      name: "Agree to try a new game together",
+      exact: true,
+    })
+    .press("Enter");
+  await expect(conversation.getByTestId("talk-reply")).toContainText(
+    "Yes, let's try a new game",
+  );
+  const agreed = await save(page);
+  expect(agreed.currentMoment).toEqual(before.currentMoment);
+  await page.reload();
+  await page.getByTestId("continue").click();
+  await page.locator('[data-testid^="life-talk-"]').first().click();
+  await conversation
+    .getByRole("button", {
+      name: "Spend 30 minutes: try a new game together",
+      exact: true,
+    })
+    .press("Space");
+  await expect(conversation.getByTestId("talk-reply")).toContainText(
+    "took time to try a new game",
+  );
+  const done = await save(page);
+  expect(
+    simulationMinutesBetween(agreed.currentMoment, done.currentMoment),
+  ).toBe(30);
+  expect(
+    done.history.events.filter(
+      (e) =>
+        e.tags.includes("life.proposal.performed") &&
+        e.tags.includes(`life.proposal:${offer.id}`),
+    ),
+  ).toHaveLength(1);
+  await expect(
+    conversation.getByRole("button", {
+      name: "Spend 30 minutes: try a new game together",
+      exact: true,
+    }),
+  ).toHaveCount(0);
+  await page.screenshot({ path: info.outputPath("mom-game-performed.png") });
+});
 async function save(page: Page) {
   await saveLife(page);
   await page.keyboard.press("Escape");

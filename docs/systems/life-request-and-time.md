@@ -54,3 +54,5 @@ node --import tsx scripts/life-proofs/playtest34-life.ts /private/tmp/life-proof
 Fixture intervals are illustrative authored test values, not universal life or
 meeting durations. Automated browser proof is technical evidence; owner visual
 and narrative acceptance remains a separate gate.
+
+Ordinary NPC activity offers are persisted as versioned terms on the actual conversation event, including actor, supported activity, duration and condition. Responses reference that exact offer. A still-valid offer is not a new willingness evaluation; a changed active privacy need yields a specific withdrawal reason. Agreement and cancellation are free; the disclosed existing30-minute company action is performed once per scene. Optional OrdinaryLifeDayAdvance and transitionHandlers caller seams carry the composed S clock through story waits and actual opening activities. They default to the existing clock and never introduce another scheduler.

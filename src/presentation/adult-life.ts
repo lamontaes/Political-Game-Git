@@ -1,4 +1,5 @@
 import { passOrdinaryDays } from "./ordinary-life";
+import type { OrdinaryLifeDayAdvance } from "./life-time-handlers";
 import { bindRequestSituation } from "../simulation/adult-situations";
 import { recordFavorAgreement } from "../simulation/life-favors";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
@@ -455,8 +456,12 @@ export function chooseAdultOption(
  * somebody made. Without this a player who chose to wait was choosing to end
  * their own game, which is what the audit reproduced.
  */
-export function letAdultTimePass(world: World, days = QUIET_STEP_DAYS): World {
-  const advanced = passOrdinaryDays(world, Math.max(1, Math.trunc(days)));
+export function letAdultTimePass(
+  world: World,
+  days = QUIET_STEP_DAYS,
+  advanceDays: OrdinaryLifeDayAdvance = passOrdinaryDays,
+): World {
+  const advanced = advanceDays(world, Math.max(1, Math.trunc(days)));
   // Whose stretch it was is a fact about the world, not an argument the caller
   // has to remember to pass. An observer world has nobody waiting on anything,
   // so nothing is written for one.

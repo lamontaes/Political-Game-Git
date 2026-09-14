@@ -26,3 +26,13 @@ Dean Wilcox: Say hello. Erin Wilcox: Hi, sweetheart.
 Dean Wilcox: Talk about what is happening here. Erin Wilcox: What would you like to do?
 Dean Wilcox: Ask what they would like to do. Erin Wilcox: We could play together. You can choose the game.
 Dean Wilcox: Ask why. Erin Wilcox: I want to spend time with you.
+
+Elena Parsons, your mom: “We could try a new game. Would you like that?”
+Agree to try a new game together
+Decline to try a new game together
+Elena: “Yes, let's try a new game together. We haven't started yet.”
+Spend 30 minutes: try a new game together
+Cancel the agreed activity
+Elena: “I'm glad we took time to try a new game together.”
+Decline: “All right. We can leave that activity for another time.”
+Cancel: “All right. We won't start that activity.”

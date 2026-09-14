@@ -2,6 +2,8 @@ import { enterLifePath } from "../simulation/life-paths2";
 import { describe, expect, it } from "vitest";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { openOrdinaryLife } from "./ordinary-life";
+import { letStoryTimePass } from "./life-story";
+import { projectLifeConversation } from "./life-conversation";
 import {
   chooseAdultOption,
   projectAdultLife,
@@ -338,6 +340,163 @@ describe("PLAYTEST34 canonical request → choice → performance → saved foll
 });
 
 describe("PLAYTEST34 line-level time and family speech", () => {
+  it("a saved appointment interrupting the proposed half hour leaves the game pending; cancellation charges nothing", () => {
+    const { world, personId } = life("p34-mom-game-3", 10);
+    const mom = currentOpeningLifeScene(world, personId)!.presentPersonIds.find(
+      (id) => id !== personId,
+    )!;
+    const agreed = line(
+      line(world, personId, mom, "activity"),
+      personId,
+      mom,
+      "acceptProposal",
+    );
+    const busy = createScheduledActivity(agreed, {
+      stableKey: "p34:game-interruption",
+      title: "Illustrative protected appointment",
+      summary: "A test appointment starts inside the proposed half hour.",
+      kind: "confirmed",
+      start: addSimulationMinutes(agreed.currentMoment, 10),
+      end: addSimulationMinutes(agreed.currentMoment, 40),
+      participantPersonIds: [personId],
+      responsiblePersonId: personId,
+      location: {
+        locationKey: "p34:game-interruption",
+        label: "Test appointment",
+        jurisdictionId: null,
+      },
+      sourceEntityIds: [],
+      flexibility: { kind: "fixed" },
+      access: { kind: "private", personIds: [personId] },
+    });
+    const loaded = deserializeWorld(serializeWorld(busy));
+    expect(() => line(loaded, personId, mom, "spendTime")).toThrow(/overlaps/);
+    expect(
+      projectLifeConversation(loaded, personId, mom)!.proposal!.status,
+    ).toBe("accepted");
+    expect(loaded.currentMoment).toEqual(world.currentMoment);
+    const cancelled = line(loaded, personId, mom, "cancelProposal");
+    expect(cancelled.currentMoment).toEqual(world.currentMoment);
+    expect(
+      cancelled.history.events.some((e) =>
+        e.tags.includes("life.proposal.performed"),
+      ),
+    ).toBe(false);
+  });
+
+  it.each(["acceptProposal", "suggestGame"])(
+    "Mom's own new-game proposal survives reload and %s without an unrelated refusal",
+    (intent) => {
+      const { world, personId } = life("p34-mom-game-3", 10);
+      const mom = currentOpeningLifeScene(
+        world,
+        personId,
+      )!.presentPersonIds.find((id) => id !== personId)!;
+      const proposed = line(world, personId, mom, "activity");
+      const offered = projectLifeConversation(proposed, personId, mom)!;
+      expect(offered.person.relationship).toBe("your mom");
+      expect(offered.proposal!.terms.activity).toBe("new-game");
+      expect(offered.transcript.at(-1)!.reply).toContain("try a new game");
+      const explained = line(
+        deserializeWorld(serializeWorld(proposed)),
+        personId,
+        mom,
+        "explain",
+      );
+      const agreed = line(explained, personId, mom, intent);
+      const agreement = projectLifeConversation(agreed, personId, mom)!;
+      expect(agreement.proposal!.request.id).toBe(offered.proposal!.request.id);
+      expect(agreement.proposal!.status).toBe("accepted");
+      expect(agreement.transcript.at(-1)!.reply).toContain(
+        "Yes, let's try a new game",
+      );
+      expect(agreed.currentMoment).toEqual(world.currentMoment);
+      let saved = deserializeWorld(serializeWorld(agreed));
+      for (let n = 0; n < 10; n++)
+        saved = line(saved, personId, mom, n % 2 ? "remember" : "acknowledge");
+      expect(saved.currentMoment).toEqual(world.currentMoment);
+      const performed = line(saved, personId, mom, "spendTime");
+      expect(
+        simulationMinutesBetween(world.currentMoment, performed.currentMoment),
+      ).toBe(30);
+      expect(
+        projectLifeConversation(performed, personId, mom)!.proposal!.status,
+      ).toBe("performed");
+      expect(
+        performed.history.events.filter((event) =>
+          event.tags.includes("life.proposal.performed"),
+        ),
+      ).toHaveLength(1);
+      expect(() =>
+        line(
+          deserializeWorld(serializeWorld(performed)),
+          personId,
+          mom,
+          "spendTime",
+        ),
+      ).toThrow();
+      expect(performed.history.resourceOutcomes).toEqual(
+        world.history.resourceOutcomes,
+      );
+      assertWorldIntegrity(performed);
+    },
+  );
+
+  it.each(["declineProposal", "cancelProposal"])(
+    "%s closes the actual saved game proposal for zero time",
+    (intent) => {
+      const { world, personId } = life("p34-mom-game-3", 10);
+      const mom = currentOpeningLifeScene(
+        world,
+        personId,
+      )!.presentPersonIds.find((id) => id !== personId)!;
+      let proposed = line(world, personId, mom, "activity");
+      if (intent === "cancelProposal")
+        proposed = line(proposed, personId, mom, "acceptProposal");
+      const closed = line(
+        deserializeWorld(serializeWorld(proposed)),
+        personId,
+        mom,
+        intent,
+      );
+      const saved = deserializeWorld(serializeWorld(closed));
+      expect(saved.currentMoment).toEqual(world.currentMoment);
+      const view = projectLifeConversation(saved, personId, mom)!;
+      expect(view.proposal!.status).toBe(
+        intent === "cancelProposal" ? "cancelled" : "declined",
+      );
+      expect(
+        view.intents.some(
+          (i) => i.key === "spendTime" || i.key === "acceptProposal",
+        ),
+      ).toBe(false);
+      expect(() => line(saved, personId, mom, intent)).toThrow();
+      expect(
+        saved.history.events.filter((e) =>
+          e.tags.includes("life.proposal.performed"),
+        ),
+      ).toHaveLength(0);
+    },
+  );
+
+  it("an interrupted explicit childhood wait stops the whole caller-owned clock request", () => {
+    const { world, personId } = life("p34-family-meeting", 10);
+    const requests: number[] = [];
+    const waited = letStoryTimePass(world, personId, (current, days) => {
+      requests.push(days);
+      return advanceWorldMinutes(
+        current,
+        10,
+        createCampaignElectionTransitionRegistry(),
+      );
+    });
+    expect(requests).toHaveLength(1);
+    expect(requests[0]).toBeLessThanOrEqual(31);
+    expect(
+      simulationMinutesBetween(world.currentMoment, waited.currentMoment),
+    ).toBe(10);
+  });
+
   it("ten dialogue lines and history/topic browsing cost zero; one authored test meeting owns 60 minutes once", () => {
     const { world: initial, personId } = life("p34-family-meeting", 10);
     const scene = currentOpeningLifeScene(initial, personId)!;

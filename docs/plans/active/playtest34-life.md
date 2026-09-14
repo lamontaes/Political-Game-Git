@@ -88,3 +88,5 @@ packet-only grounding review PASS after these claim changes.
 LEARN mechanism: fixture helpers explicitly resolve adult/child depth like the
 real creator; replay reports carry the entire selected setup frame. A seed alone
 or a constructor default is insufficient evidence of an ordinary player route.
+
+Updated receipt consumed (modified2026-09-14 03:16UTC): C#245 ec966f/bdf actual free-line patch reconciled in owned dialogue path, no consequence write dropped. Isolated source replay reproduces the Mom newgame refusal on that exact C dialogue module with identical ordinary creator facts. Saved proposal terms and exact response links repair it; both explicit Accept and the existing Suggest game response honor the pending newgame. Privacy can withdraw with a concrete reason. Actual30min performance once, ten extra lines0, decline/cancel/reload terminal guards, protected appointment overlap0. Typed caller adapter preserves S additions through quiet story waits; A owns final root wiring and C's discoverability. New assembled game packet passed deterministic and independent grounding; bounded tests await B release.

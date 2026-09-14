@@ -5,12 +5,15 @@ import {
 } from "../simulation/opening-life-content";
 import { scheduleAgreedCoverShift } from "../simulation/life-circumstances";
 import {
+  lifeActivityHandlers,
+  type OrdinaryLifeDayAdvance,
+} from "./life-time-handlers";
+import {
   advanceWorldMinutes,
   simulationMinutesBetween,
   describePersonContext,
   introducePerson,
   EPISODE_FAMILIES,
-  createCampaignElectionTransitionRegistry,
   adaptiveSelectionSeed,
   addDays,
   ageOnDate,
@@ -35,6 +38,7 @@ import {
   type SituationCandidate,
   type SituationSelectionReason,
   type World,
+  type FutureTransitionHandlerRegistry,
 } from "../simulation";
 import {
   chooseAdultOption,
@@ -687,6 +691,8 @@ function stakesOfKey(key: SelectableSituationKey) {
 /* -------------------------------------------------------------------------- */
 
 export interface ChooseStoryOptionInput {
+  readonly advanceDays?: OrdinaryLifeDayAdvance;
+  readonly transitionHandlers?: FutureTransitionHandlerRegistry;
   readonly personId: EntityId;
   readonly scene: StoryScene;
   readonly optionKey: string;
@@ -730,7 +736,7 @@ export function chooseStoryOption(
         const probe = advanceWorldMinutes(
           world,
           minutes,
-          createCampaignElectionTransitionRegistry(),
+          lifeActivityHandlers(input.transitionHandlers),
         );
         if (
           simulationMinutesBetween(world.currentMoment, probe.currentMoment) !==
@@ -760,7 +766,7 @@ export function chooseStoryOption(
         ? advanceWorldMinutes(
             played.world,
             minutes,
-            createCampaignElectionTransitionRegistry(),
+            lifeActivityHandlers(input.transitionHandlers),
           )
         : played.world;
     }
@@ -778,7 +784,7 @@ export function chooseStoryOption(
         optionKey: input.optionKey,
       });
     case "ordinary-stretch":
-      return letStoryTimePass(world, input.personId);
+      return letStoryTimePass(world, input.personId, input.advanceDays);
   }
 }
 
@@ -811,11 +817,15 @@ export function quietStepDays(from: IsoDate): number {
  * knows to stop on band boundaries and on the eighteenth birthday rather than
  * stepping over either. Afterwards it is a plain advance.
  */
-export function letStoryTimePass(world: World, personId: EntityId): World {
+export function letStoryTimePass(
+  world: World,
+  personId: EntityId,
+  advanceDays?: OrdinaryLifeDayAdvance,
+): World {
   if (formativeIntervalAt(world, personId) !== null) {
-    return letTimePass(world, personId);
+    return letTimePass(world, personId, advanceDays);
   }
-  return letAdultTimePass(world, quietStepDays(world.currentDate));
+  return letAdultTimePass(world, quietStepDays(world.currentDate), advanceDays);
 }
 
 /** The date a quiet adult stretch would reach, for tests that need it. */

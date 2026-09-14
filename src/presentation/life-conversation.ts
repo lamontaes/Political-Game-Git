@@ -3,6 +3,12 @@ import {
   completeOrdinaryGoal,
 } from "../simulation/life-personality";
 import { lifeActivityHandlers } from "./life-time-handlers";
+import {
+  currentTalkProposal,
+  talkProposalTag,
+  PROPOSAL_LINK,
+  type TalkProposalTerms,
+} from "./life-talk-proposals";
 import { currentOpeningLifeScene } from "./life-scene-flow";
 import {
   ageOnDate,
@@ -13,6 +19,9 @@ import {
   advanceWorldMinutes,
   kinshipRelationshipsAt,
   simulationMinutesBetween,
+  controlledCommitmentsBlockingMinuteAdvance,
+  addSimulationMinutes,
+  compareSimulationMoments,
 } from "../simulation";
 import { LIFE_MIND_IDS } from "../simulation/life-mind-content";
 import {
@@ -39,6 +48,9 @@ export const LIFE_TALK_INTENTS = {
   leave: "Say goodbye",
   date: "Ask if they would like this to be a date",
   spendTime: "Spend half an hour together",
+  acceptProposal: "Accept their proposed activity",
+  declineProposal: "Decline their proposed activity",
+  cancelProposal: "Cancel the agreed activity",
 } as const;
 export type LifeTalkIntent = keyof typeof LIFE_TALK_INTENTS;
 
@@ -139,6 +151,15 @@ export function projectLifeConversation(
     world,
     playerPersonId,
   )!.eventId;
+  const proposal = currentTalkProposal(
+    world,
+    playerPersonId,
+    personId,
+    currentSceneId,
+  );
+  if (proposal?.status === "proposed")
+    intents.push("acceptProposal", "declineProposal");
+  if (proposal?.status === "accepted") intents.push("cancelProposal");
   const latestProposal = history
     .filter(
       (event) =>
@@ -155,12 +176,14 @@ export function projectLifeConversation(
         event.tags.includes(`scene:${currentSceneId}`) &&
         event.tags.includes("life.talk:spendTime"),
     ) &&
-    latestProposal &&
-    ((adults &&
-      !kin &&
-      !care &&
-      latestProposal.tags.includes("life.answer:date-accepted")) ||
-      latestProposal.tags.includes("life.answer:company-accepted"))
+    (proposal?.status === "accepted" ||
+      (!proposal &&
+        latestProposal &&
+        ((adults &&
+          !kin &&
+          !care &&
+          latestProposal.tags.includes("life.answer:date-accepted")) ||
+          latestProposal.tags.includes("life.answer:company-accepted"))))
   )
     intents.push("spendTime");
   intents.push("leave");
@@ -168,7 +191,18 @@ export function projectLifeConversation(
     context,
     person: describePersonContext(world, playerPersonId, personId)!,
     revision: world.history.nextSequence,
-    intents: intents.map((key) => ({ key, label: LIFE_TALK_INTENTS[key] })),
+    proposal,
+    intents: intents.map((key) => ({
+      key,
+      label:
+        proposal && key === "acceptProposal"
+          ? `Agree to ${proposal.label}`
+          : proposal && key === "declineProposal"
+            ? `Decline to ${proposal.label}`
+            : proposal && key === "spendTime"
+              ? `Spend 30 minutes: ${proposal.label}`
+              : LIFE_TALK_INTENTS[key],
+    })),
     transcript: history.map((event) => ({
       eventId: event.id,
       date: event.occurredAt,
@@ -241,6 +275,21 @@ function replyFor(
     LIFE_MIND_IDS.conversation,
   )?.expressionKey;
   const leisure = activityPreference(world, personId);
+  const proposal = currentTalkProposal(
+    world,
+    playerPersonId,
+    personId,
+    currentOpeningLifeScene(world, playerPersonId)!.eventId,
+  );
+  const matchesProposal =
+    proposal?.status === "proposed" &&
+    (intent === "acceptProposal" ||
+      (intent === "suggestGame" && proposal.terms.activity !== "quiet") ||
+      (intent === "suggestQuiet" && proposal.terms.activity === "quiet"));
+  if (matchesProposal)
+    return activeOrdinaryGoal(world, personId, "privacy")
+      ? "I need some privacy now. I cannot do that activity with you right now."
+      : `Yes, let's ${proposal.label.replace("you both", "we both")}. We haven't started yet.`;
   const privatePerson =
     latestPersonalValue(world, personId, LIFE_MIND_IDS.privacy)?.orientation ===
     "embraces";
@@ -280,7 +329,15 @@ function replyFor(
         ? "Yes. Let's sit and talk for a while."
         : "I'd rather not sit and talk right now. Thanks for asking.";
     case "spendTime":
-      return "I'm glad we took some time together.";
+      return proposal
+        ? `I'm glad we took time to ${proposal.label.replace("you both", "we both")}.`
+        : "I'm glad we took some time together.";
+    case "acceptProposal":
+      return "That proposal is no longer open.";
+    case "declineProposal":
+      return "All right. We can leave that activity for another time.";
+    case "cancelProposal":
+      return "All right. We won't start that activity.";
     case "greet":
       if (parent && youngPlayer)
         return history.length
@@ -290,6 +347,8 @@ function replyFor(
         ? "Hi again."
         : `Hi, ${world.people[playerPersonId]!.givenName}.`;
     case "activity":
+      if (activeOrdinaryGoal(world, personId, "privacy"))
+        return "I need some privacy right now. Let's leave activities for another time.";
       if (parent && youngPlayer)
         return leisure === "explore"
           ? "We could try a new game. Would you like that?"
@@ -299,14 +358,14 @@ function replyFor(
       if (leisure === "explore")
         return child
           ? "Can we try a new game?"
-          : "I'd like to try something new. What did you have in mind?";
+          : "We could try a new game. Would you like that?";
       if (leisure === "company")
         return child
-          ? "Let's do something together."
-          : "I'd like some company. We could spend a little time together.";
+          ? "Let's play a game together."
+          : "I'd like some company. We could sit and talk together.";
       return child
         ? "Can we play a game we both know?"
-        : "I'd rather do something familiar. We don't have to make a big plan.";
+        : "How about a game we both know?";
     case "share":
       if (parent && youngPlayer)
         return "Of course. What do you want to tell me?";
@@ -379,12 +438,28 @@ export function commitLifeConversation(
   )
     throw new Error("This conversation choice is no longer available.");
   const minutes = input.intent === "spendTime" ? 30 : 0;
+  const handlers = minutes
+    ? lifeActivityHandlers(input.transitionHandlers)
+    : undefined;
+  if (minutes) {
+    const end = addSimulationMinutes(world.currentMoment, minutes);
+    if (
+      controlledCommitmentsBlockingMinuteAdvance(world, minutes).length ||
+      handlers?.routine
+        ?.projectWindows(world, end)
+        .some(
+          (slot) =>
+            slot.kind === "work" &&
+            compareSimulationMoments(slot.start, end) < 0 &&
+            compareSimulationMoments(world.currentMoment, slot.end) < 0,
+        )
+    )
+      throw new Error(
+        "The half hour overlaps your scheduled activity or work. No time has passed; the agreed activity is still pending.",
+      );
+  }
   const advanced = minutes
-    ? advanceWorldMinutes(
-        world,
-        minutes,
-        lifeActivityHandlers(input.transitionHandlers),
-      )
+    ? advanceWorldMinutes(world, minutes, handlers)
     : world;
   if (
     minutes &&
@@ -393,6 +468,75 @@ export function commitLifeConversation(
   )
     return advanced;
   const reply = replyFor(world, view.context, input.intent);
+  const proposal = view.proposal;
+  const matchingOffer =
+    proposal?.status === "proposed" &&
+    (input.intent === "acceptProposal" ||
+      (input.intent === "suggestGame" && proposal.terms.activity !== "quiet") ||
+      (input.intent === "suggestQuiet" && proposal.terms.activity === "quiet"));
+  const accepted = matchingOffer
+    ? !activeOrdinaryGoal(world, input.personId, "privacy")
+    : (input.intent === "suggestGame" || input.intent === "suggestQuiet") &&
+      acceptsActivity(world, input.personId, input.intent);
+  const responseStatus = matchingOffer
+    ? accepted
+      ? "accepted"
+      : "declined"
+    : proposal && input.intent === "declineProposal"
+      ? "declined"
+      : proposal && ["cancelProposal", "leave"].includes(input.intent)
+        ? "cancelled"
+        : proposal && input.intent === "spendTime"
+          ? "performed"
+          : null;
+  const newOffer =
+    (input.intent === "activity" &&
+      !activeOrdinaryGoal(world, input.personId, "privacy")) ||
+    (!matchingOffer && accepted);
+  const leisure = activityPreference(world, input.personId);
+  const terms: TalkProposalTerms | null = newOffer
+    ? {
+        actorPersonId: input.personId,
+        activity:
+          input.intent === "suggestGame"
+            ? "game"
+            : input.intent === "suggestQuiet"
+              ? "quiet"
+              : leisure === "explore"
+                ? "new-game"
+                : leisure === "company"
+                  ? ageOnDate(
+                      world.people[input.playerPersonId]!.birthDate,
+                      world.currentDate,
+                    ) < 13 ||
+                    ageOnDate(
+                      world.people[input.personId]!.birthDate,
+                      world.currentDate,
+                    ) < 13
+                    ? "game"
+                    : "quiet"
+                  : "familiar-game",
+        minutes: 30,
+        condition: null,
+      }
+    : null;
+  const answer =
+    input.intent === "suggestGame" ||
+    input.intent === "suggestQuiet" ||
+    input.intent === "acceptProposal"
+      ? accepted
+        ? "company-accepted"
+        : "company-declined"
+      : input.intent === "date"
+        ? willingToDate(world, input.personId)
+          ? "date-accepted"
+          : "date-declined"
+        : input.intent === "activity"
+          ? leisure
+          : latestPersonalValue(world, input.personId, LIFE_MIND_IDS.privacy)
+                ?.orientation === "embraces"
+            ? "private"
+            : "open";
   const stableKey = `opening-life:talk:${input.playerPersonId}:${input.personId}:${input.revision}`;
   let next = recordWorldEvent(advanced, {
     stableKey,
@@ -430,7 +574,19 @@ export function commitLifeConversation(
       `life.talk:${input.intent}`,
       `scene:${currentOpeningLifeScene(world, input.playerPersonId)!.eventId}`,
       `moment:${JSON.stringify(advanced.currentMoment)}`,
-      `life.answer:${input.intent === "suggestGame" || input.intent === "suggestQuiet" ? (acceptsActivity(world, input.personId, input.intent) ? "company-accepted" : "company-declined") : input.intent === "date" ? (willingToDate(world, input.personId) ? "date-accepted" : "date-declined") : input.intent === "activity" ? activityPreference(world, input.personId) : latestPersonalValue(world, input.personId, LIFE_MIND_IDS.privacy)?.orientation === "embraces" ? "private" : "open"}`,
+      `life.answer:${answer}`,
+      ...(terms
+        ? [
+            talkProposalTag(terms),
+            ...(!matchingOffer && accepted ? ["life.proposal.accepted"] : []),
+          ]
+        : []),
+      ...(proposal && responseStatus
+        ? [
+            `${PROPOSAL_LINK}${proposal.request.id}`,
+            `life.proposal.${responseStatus}`,
+          ]
+        : []),
     ],
     summary: `${personName(world.people[input.playerPersonId]!)}: ${LIFE_TALK_INTENTS[input.intent]}. ${personName(world.people[input.personId]!)}: ${reply}`,
     context: {
@@ -441,7 +597,7 @@ export function commitLifeConversation(
       },
       socialContext: "A direct ordinary conversation",
       pressure: null,
-      choice: LIFE_TALK_INTENTS[input.intent],
+      choice: view.intents.find((option) => option.key === input.intent)!.label,
       motivation: null,
       immediateReaction: reply,
     },
