@@ -43,6 +43,8 @@ import {
   deserializeWorld,
   simulationMinutesBetween,
   addSimulationMinutes,
+  recordGoalState,
+  createMindProvenance,
   type World,
   type EntityId,
 } from "../simulation";
@@ -340,6 +342,46 @@ describe("PLAYTEST34 canonical request → choice → performance → saved foll
 });
 
 describe("PLAYTEST34 line-level time and family speech", () => {
+  it("a genuinely changed privacy need explains withdrawal instead of forcing NPC agreement", () => {
+    const { world, personId } = life("p34-mom-game-3", 10);
+    const mom = currentOpeningLifeScene(world, personId)!.presentPersonIds.find(
+      (id) => id !== personId,
+    )!;
+    const proposed = line(world, personId, mom, "activity");
+    const changed = recordGoalState(proposed, {
+      stableKey: "p34:changed-privacy",
+      personId: mom,
+      goalKey: "opening-life:privacy",
+      recordedAt: world.currentDate,
+      objective: "Have some privacy now.",
+      domain: "life:ordinary",
+      scope: "personal",
+      priority: "moderate",
+      status: "active",
+      targetEntityId: null,
+      deadline: null,
+      outcome: null,
+      provenance: createMindProvenance("authored", {
+        note: "Explicit test-only intervening privacy need, not an inferred motive.",
+      }),
+      replacesGoalId: null,
+      supersedesGoalStateId: null,
+    });
+    const refused = line(
+      deserializeWorld(serializeWorld(changed)),
+      personId,
+      mom,
+      "acceptProposal",
+    );
+    const view = projectLifeConversation(refused, personId, mom)!;
+    expect(view.transcript.at(-1)!.reply).toContain("I need some privacy now");
+    expect(view.proposal!.status).toBe("declined");
+    expect(refused.currentMoment).toEqual(world.currentMoment);
+    expect(view.intents.some((intent) => intent.key === "spendTime")).toBe(
+      false,
+    );
+  });
+
   it("a saved appointment interrupting the proposed half hour leaves the game pending; cancellation charges nothing", () => {
     const { world, personId } = life("p34-mom-game-3", 10);
     const mom = currentOpeningLifeScene(world, personId)!.presentPersonIds.find(
