@@ -93,7 +93,7 @@ export function projectLifeBiography(
 function collectPassages(
   world: World,
   personId: EntityId,
-): readonly BiographyPassage[] {
+): BiographyPassage[] {
   const person = world.people[personId]!;
   const name = personName(person);
   const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
