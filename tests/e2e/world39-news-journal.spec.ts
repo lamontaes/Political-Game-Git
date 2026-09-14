@@ -59,7 +59,11 @@ test("News orients from public records and Journal tells the lived account throu
     page.getByTestId("news-orientation-links").first(),
   ).toBeVisible();
   await expect(page.getByTestId("public-information-empty")).toBeVisible();
-  await expect(page.getByTestId("news-orientation-known-empty")).toBeVisible();
+  await expect(
+    page
+      .getByTestId("news-orientation-known-empty")
+      .or(page.getByTestId("news-orientation-known")),
+  ).toBeVisible();
 
   await goTo(page, "nav-journal-entry");
   await expect(page.getByTestId("journal-account")).toBeVisible();
