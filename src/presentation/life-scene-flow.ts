@@ -1,3 +1,4 @@
+import { lifeActivityHandlers } from "./life-time-handlers";
 import { travelToPlace, type PlaceTravelProvider } from "./place-travel";
 import {
   activeOrdinaryGoal,
@@ -16,6 +17,7 @@ import {
   recordEventKnowledge,
   advanceWorldMinutes,
   stableHash,
+  simulationMinutesBetween,
   personName,
 } from "../simulation";
 import type {
@@ -25,6 +27,7 @@ import type {
 } from "../simulation";
 
 import {
+  openingChoiceMinutes,
   OPENING_LIFE_SCENES,
   OPENING_LIFE_ADDITIONS,
   OPENING_LIFE_FAMILIES,
@@ -396,12 +399,17 @@ export function chooseOpeningLifeScene(
   const choice = scene?.choices.find((entry) => entry.key === choiceKey);
   if (!scene || scene.eventId !== eventId || !choice)
     throw new Error("That scene choice is no longer available.");
-  const probe = advanceWorldMinutes(world, scene.definition.minutes, handlers);
-  if (probe === world) return world;
+  const minutes = openingChoiceMinutes(scene.definition, choice);
+  // Reached time, not the presence of due events, tells us whether an activity
+  // completed. Free choices still record their consequences.
+  const activityHandlers = minutes ? lifeActivityHandlers(handlers) : handlers;
+  const probe = minutes
+    ? advanceWorldMinutes(world, minutes, activityHandlers)
+    : world;
   if (
-    probe.history.events
-      .slice(world.history.events.length)
-      .some((event) => event.type !== "simulation.minutes-advanced")
+    minutes &&
+    simulationMinutesBetween(world.currentMoment, probe.currentMoment) !==
+      minutes
   )
     return probe;
   const beat = eligibleEpisodeBeats({
@@ -420,11 +428,9 @@ export function chooseOpeningLifeScene(
     optionKey: choiceKey,
     families: OPENING_LIFE_FAMILIES,
   });
-  const advanced = advanceWorldMinutes(
-    played.world,
-    scene.definition.minutes,
-    handlers,
-  );
+  const advanced = minutes
+    ? advanceWorldMinutes(played.world, minutes, activityHandlers)
+    : played.world;
   const aftermath = choice.aftermath.replaceAll(
     "{person}",
     scene.counterpartPersonId
@@ -563,7 +569,7 @@ export function openingSceneChoiceEffects(
         : null;
     return {
       choiceKey: choice.key,
-      minutes: scene.definition.minutes,
+      minutes: openingChoiceMinutes(scene.definition, choice),
       keeps:
         completes && activeOrdinaryGoal(world, personId, completes)
           ? ORDINARY_LIFE_GOALS[completes]
@@ -769,7 +775,13 @@ export function walkOpeningNeighborhood(
       },
     };
   };
-  const next = travelToPlace(world, personId, destination, provider, handlers);
+  const next = travelToPlace(
+    world,
+    personId,
+    destination,
+    provider,
+    lifeActivityHandlers(handlers),
+  );
   return next.history.events
     .slice(world.history.events.length)
     .some(

@@ -11,6 +11,7 @@ export interface LifeSceneChoice {
   readonly key: string;
   readonly label: string;
   readonly aftermath: string;
+  readonly elapsedMinutes?: number;
   readonly approach?: "ask" | "listen" | "direct";
 }
 export type LifeSceneSetting = "home" | "school" | "neighborhood";
@@ -29,6 +30,32 @@ const SOURCE =
   "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view";
 /** The reviewed packets, outputs and verdicts behind the PT3 first-session copy. */
 const PT3_FIRST_SESSION_SOURCE = "prose-review/pt3-first-session";
+
+/** Only these choices actually perform a sustained activity. Conversational
+ * choices inside a game/reading/meeting do not complete that whole activity. */
+const PERFORMED_OPENING_CHOICES: Readonly<Record<string, readonly string[]>> = {
+  "young.home.choose-activity": ["read", "rest", "draw", "add"],
+  "adult.home.free-time": ["read", "rest", "draw"],
+  "adult.home.plan-week": ["read"],
+  "early.family.packing-boxes": ["help-label"],
+  "early.peer.sidewalk-game": ["give-in-play", "trial"],
+  "early.peer.roughhouse-line": ["brush-off-tough", "return"],
+  "early.home.bedtime-delay": ["continue"],
+};
+export function openingChoiceMinutes(
+  definition: LifeSceneDefinition,
+  choice: LifeSceneChoice,
+): number {
+  const isReadMore =
+    definition.key === "adult.home.free-time" && choice.key === "more";
+  if (isReadMore) return 5;
+  return (
+    choice.elapsedMinutes ??
+    (PERFORMED_OPENING_CHOICES[definition.key]?.includes(choice.key)
+      ? definition.minutes
+      : 0)
+  );
+}
 
 function scene(
   key: string,
@@ -1293,7 +1320,9 @@ export const OPENING_LIFE_FAMILIES: readonly EpisodeFamily[] =
           options: scene.choices.map((choice) => ({
             key: choice.key,
             label: choice.label.replaceAll("{person}", slot),
-            description: `${scene.minutes} minutes`,
+            description: openingChoiceMinutes(scene, choice)
+              ? `${openingChoiceMinutes(scene, choice)} minutes`
+              : "No time passes",
             memory: choice.aftermath.replaceAll("{person}", slot),
             nudges: [],
             aftermath: null,
@@ -1325,7 +1354,12 @@ export const OPENING_LIFE_FAMILIES: readonly EpisodeFamily[] =
                   (choice) => ({
                     key: choice.key,
                     label: choice.label.replaceAll("{person}", slot),
-                    description: "5 minutes",
+                    description: openingChoiceMinutes(
+                      { ...scene, minutes: 5 },
+                      choice,
+                    )
+                      ? `${openingChoiceMinutes({ ...scene, minutes: 5 }, choice)} minutes`
+                      : "No time passes",
                     memory: choice.aftermath.replaceAll("{person}", slot),
                     nudges: [],
                     aftermath: null,

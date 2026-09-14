@@ -1,3 +1,9 @@
+import {
+  lifeRequestDetailsTag,
+  type LifeRequestDetails,
+} from "./life-request-details";
+import { personName } from "./people";
+import { ageOnDate } from "./dates";
 import { formativeIntervalAt } from "./character-history";
 import { addDays, makeIsoDate, makeSimulationMoment } from "./dates";
 import {
@@ -671,9 +677,16 @@ function eligibleOpportunities(
           askerPersonId: householdCompanionId,
           jurisdictionId,
           type: "life.household-evening-proposed",
-          summary:
-            "The evening was left free at home, and the person they live with said they would be in for it.",
-          detail: "Said they would be in",
+          summary: `${personName(world.people[householdCompanionId]!)} said they would be home this evening and invited them to sit and talk.`,
+          detail: "Invited them to sit and talk this evening",
+          details: {
+            version: 1,
+            task: "sit and talk at home this evening",
+            opening:
+              "I will be home this evening. Would you like to sit and talk?",
+            condition: null,
+            minutes: 120,
+          },
           believed:
             "The evening is free at home and the other person will be in.",
           // A particular evening, and it is tonight. Without the date this is
@@ -735,11 +748,17 @@ function eligibleOpportunities(
           askerPersonId: familiarId,
           jurisdictionId,
           type: "life.favour-requested",
-          summary:
-            "Somebody they already know asked them for a hand with one specific thing, and said it mattered to them.",
-          detail: "Asked for a hand with one thing",
-          believed:
-            "They have been asked for a hand with one specific thing, and told it matters to the person asking.",
+          summary: `${personName(world.people[familiarId]!)} asked for help proofreading a two-paragraph invitation to a family picnic.`,
+          detail: "Asked for help proofreading the picnic invitation",
+          details: {
+            version: 1,
+            task: "proofread the two-paragraph picnic invitation",
+            opening:
+              "Could you look over my invitation to the family picnic? Just two paragraphs. I want to make sure the wording is clear.",
+            condition: "Wording only; I will not contact the guests",
+            minutes: 20,
+          },
+          believed: `${personName(world.people[familiarId]!)} asked them to proofread the picnic invitation, a 20-minute authored activity.`,
           occasion: null,
         }),
     });
@@ -754,11 +773,17 @@ function eligibleOpportunities(
           askerPersonId: familiarId,
           jurisdictionId,
           type: "life.confidence-disclosed",
-          summary:
-            "Somebody they know told them what they had got themselves into, and told nobody else.",
-          detail: "Told them, and nobody else",
-          believed:
-            "They know what this person has got into, and they are the only one who was told.",
+          summary: `${personName(world.people[familiarId]!)} privately said they had agreed to organize a family picnic and were unsure how to tell the guests they could no longer do it.`,
+          detail: "Privately disclosed difficulty organizing the family picnic",
+          details: {
+            version: 1,
+            task: "tell the picnic guests they can no longer organize it",
+            opening:
+              "I agreed to organize the family picnic, and now I need to back out. I have not told the guests. Please keep this between us for now.",
+            condition: "Keep this conversation private",
+            minutes: null,
+          },
+          believed: `${personName(world.people[familiarId]!)} told them privately about needing to withdraw from organizing the family picnic.`,
           occasion: null,
         }),
     });
@@ -894,6 +919,7 @@ interface AskInput {
   readonly summary: string;
   readonly detail: string;
   readonly believed: string;
+  readonly details?: LifeRequestDetails;
   readonly occasion: {
     readonly title: string;
     readonly summary: string;
@@ -941,7 +967,10 @@ function writeAsk(world: World, input: AskInput): World {
     // Between the two of them. Nobody else is recorded as having heard it,
     // and the game is not going to claim it knows that somebody did.
     visibility: "private",
-    tags: [lifeOpportunityTag(input.kind)],
+    tags: [
+      lifeOpportunityTag(input.kind),
+      ...(input.details ? [lifeRequestDetailsTag(input.details)] : []),
+    ],
     summary: input.summary,
     context: {
       location: input.jurisdictionId
@@ -1214,10 +1243,16 @@ function familiarPersonIds(
     (candidate) =>
       candidate !== personId &&
       !household.has(candidate) &&
+      ageOnDate(world.people[candidate]!.birthDate, world.currentDate) >= 18 &&
       reachable.has(candidate),
   );
   if (connected.length > 0) return connected;
-  return world.personOrder.filter((candidate) => familiar.has(candidate));
+  return world.personOrder.filter(
+    (candidate) =>
+      candidate !== personId &&
+      familiar.has(candidate) &&
+      ageOnDate(world.people[candidate]!.birthDate, world.currentDate) >= 18,
+  );
 }
 
 function colleagueIds(

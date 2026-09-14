@@ -466,7 +466,7 @@ export function SceneConversation({
                     } this too.`
                   : "Nobody else hears this."}
                 {subject === "life-talk"
-                  ? " Each exchange takes 2 minutes; spending time together takes 30."
+                  ? " Dialogue and reading dialogue take no time; spending half an hour together takes 30 minutes."
                   : ""}
               </span>
               {privateReason ? (

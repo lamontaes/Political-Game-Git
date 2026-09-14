@@ -1,11 +1,13 @@
+import { passOrdinaryDays } from "./ordinary-life";
+import type { OrdinaryLifeDayAdvance } from "./life-time-handlers";
+import { bindRequestSituation } from "../simulation/adult-situations";
+import { recordFavorAgreement } from "../simulation/life-favors";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
 import {
-  createCampaignElectionTransitionRegistry,
   adaptiveSelectionSeed,
   applyCharacterHistoryPlan,
   addDays,
   adultSituation,
-  advanceWorld,
   ageOnDate,
   availableAdultSituations,
   buildAdultLifeContext,
@@ -84,39 +86,6 @@ export interface AdultLife {
   readonly quietNote: string | null;
 }
 
-/**
- * How far the clock moves between adult moments.
- *
- * Authored presentation pacing. It is not a claim that anything happens to
- * anybody this often: the research classifies almost every one of these
- * families as having no defensible arrival rate, so the game does not sample
- * one. What this decides is how much of a life passes between the moments the
- * player is shown, which is a design question and is labelled as one.
- */
-const STEP_DAYS: Readonly<Record<LifeStakesTier, number>> = {
-  ordinary: 12,
-  notable: 26,
-  pressing: 41,
-};
-
-/**
- * How far the clock may be carried to reach something the world already owes.
- *
- * The authored steps above decide how much of a life passes between the moments
- * the player is shown. They are a pacing choice, and on their own they can park
- * a life two days short of its own election and then show it a scene about the
- * shopping — which is what the audit reproduced on the story-choice route,
- * while the longer quiet step reached the same election without trouble.
- *
- * So an adult step will not stop short of the world's next due item when that
- * item falls inside the widest step this surface already takes. Nothing is
- * resolved here and no outcome is decided here: the advance runs with the same
- * handler registry it always ran with, and all this does is decline to stop
- * just before a date the world had already written down for itself. It is the
- * rule time already follows — a due item is never stepped over — read forwards.
- */
-const STEP_REACH_DAYS = 41;
-
 /** A quiet stretch, when the player asks for one. */
 export const QUIET_STEP_DAYS = 21;
 
@@ -178,7 +147,10 @@ export function projectAdultLife(world: World, personId: EntityId): AdultLife {
   }
 
   const context = buildAdultLifeContext(world, personId);
-  const situation = adultSituation(selected.key);
+  const baseSituation = adultSituation(selected.key);
+  const situation = baseSituation
+    ? bindRequestSituation(context, baseSituation)
+    : undefined;
   const companionId = situation
     ? resolveAdultSituationCompanion(context, situation)
     : null;
@@ -280,6 +252,7 @@ function eligibleCandidates(
       // eventually, because ordinary life is repetitive and pretending
       // otherwise is what leaves an adult with nothing to do after a month.
       if (situation.stakes !== "ordinary") return false;
+      if (playedOn.get(situation.key) === context.asOfDate) return false;
       if (history.length - seenAt >= ORDINARY_REPEAT_GAP) return true;
       // Or because enough of the life has gone past. Beats and days are both
       // ways of saying "a while ago", and a player who waits rather than
@@ -359,7 +332,10 @@ function adultMoments(
       (memory) =>
         memory.personId === personId &&
         memory.relevanceTags.some(
-          (tag) => tag.startsWith("adult.") || tag === "life.callback",
+          (tag) =>
+            tag.startsWith("adult.") ||
+            tag === "life.callback" ||
+            tag === "life.favour-performed",
         ),
     )
     .map((memory) => ({
@@ -396,7 +372,11 @@ export function chooseAdultOption(
   if (!isAdultSituationKey(input.situationKey)) {
     throw new Error("That is not an adult situation.");
   }
-  const situation = adultSituation(input.situationKey);
+  const context = buildAdultLifeContext(world, input.personId);
+  const baseSituation = adultSituation(input.situationKey);
+  const situation = baseSituation
+    ? bindRequestSituation(context, baseSituation)
+    : undefined;
   const option = situation?.options.find(
     (candidate) => candidate.key === input.optionKey,
   );
@@ -408,13 +388,14 @@ export function chooseAdultOption(
 
   const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
   const jurisdictionId = place?.context.jurisdiction.id ?? null;
-  const context = buildAdultLifeContext(world, input.personId);
   // Validate the pre-offer World before option-specific writes can create
   // records which would falsely serve as evidence for their own premise.
   if (
-    !availableAdultSituations(context).some(
-      (candidate) => candidate.key === situation.key,
-    )
+    !eligibleCandidates(
+      context,
+      playedAdultKeys(world, input.personId),
+      playedAdultDates(world, input.personId),
+    ).some((candidate) => candidate.key === situation.key)
   ) {
     throw new Error(
       "This adult situation is not available in the current world.",
@@ -441,30 +422,28 @@ export function chooseAdultOption(
   // situation was selected is in scope — `scheduleAftermath` cannot see the
   // selector's reason or the stakes tier, because they are not in its input
   // type and are not passed.
-  const withAftermath = scheduleAftermath({
-    world: result.world,
-    personId: input.personId,
-    situationKey: input.situationKey,
-    optionKey: input.optionKey,
-    aftermath: option.aftermath,
-    counterpartPersonId: companionId,
-    occurredAt: world.currentDate,
-    eventId: result.eventId,
-    stableKey,
-  });
+  const withAftermath =
+    input.situationKey === "adult.friend-favour"
+      ? recordFavorAgreement(
+          result.world,
+          world,
+          input.personId,
+          input.optionKey,
+          result.eventId,
+        )
+      : scheduleAftermath({
+          world: result.world,
+          personId: input.personId,
+          situationKey: input.situationKey,
+          optionKey: input.optionKey,
+          aftermath: option.aftermath,
+          counterpartPersonId: companionId,
+          occurredAt: world.currentDate,
+          eventId: result.eventId,
+          stableKey,
+        });
 
-  // Time first, then whatever the world has come to owe this life. The order
-  // is the point: the opportunity write happens after the clock has moved, so
-  // it is a consequence of a transition the player took rather than something
-  // the choice screen conjured for itself.
-  return refreshLifeOpportunities(
-    advanceWorld(
-      withAftermath,
-      stepReaching(withAftermath, STEP_DAYS[situation.stakes]),
-      createCampaignElectionTransitionRegistry(),
-    ),
-    input.personId,
-  );
+  return refreshLifeOpportunities(withAftermath, input.personId);
 }
 
 /**
@@ -477,12 +456,12 @@ export function chooseAdultOption(
  * somebody made. Without this a player who chose to wait was choosing to end
  * their own game, which is what the audit reproduced.
  */
-export function letAdultTimePass(world: World, days = QUIET_STEP_DAYS): World {
-  const advanced = advanceWorld(
-    world,
-    stepReaching(world, Math.max(1, Math.trunc(days))),
-    createCampaignElectionTransitionRegistry(),
-  );
+export function letAdultTimePass(
+  world: World,
+  days = QUIET_STEP_DAYS,
+  advanceDays: OrdinaryLifeDayAdvance = passOrdinaryDays,
+): World {
+  const advanced = advanceDays(world, Math.max(1, Math.trunc(days)));
   // Whose stretch it was is a fact about the world, not an argument the caller
   // has to remember to pass. An observer world has nobody waiting on anything,
   // so nothing is written for one.
@@ -492,28 +471,6 @@ export function letAdultTimePass(world: World, days = QUIET_STEP_DAYS): World {
         advanced.control.personId,
       )
     : advanced;
-}
-
-/**
- * The authored step, or the day the world's next obligation falls due.
- *
- * Only forwards, only within `STEP_REACH_DAYS`, and only to a date the world
- * had already scheduled for itself. A world with nothing due takes the authored
- * step unchanged, which is almost every step.
- */
-function stepReaching(world: World, authored: number): number {
-  let reach = authored;
-  for (const item of world.history.futureDueItems) {
-    const days = daysBetween(world.currentDate, item.dueAt);
-    if (days > reach && days <= STEP_REACH_DAYS) reach = days;
-  }
-  return reach;
-}
-
-function daysBetween(from: string, to: string): number {
-  const start = Date.parse(`${from}T00:00:00Z`);
-  const end = Date.parse(`${to}T00:00:00Z`);
-  return Math.round((end - start) / 86_400_000);
 }
 
 /**
@@ -630,5 +587,6 @@ export function nextAdultMomentDate(
   world: World,
   stakes: LifeStakesTier,
 ): string {
-  return addDays(world.currentDate, STEP_DAYS[stakes]);
+  void stakes;
+  return world.currentDate;
 }
