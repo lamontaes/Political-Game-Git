@@ -6,6 +6,10 @@ import {
 import type { EntityId, World } from "../simulation/types";
 import type { CivicGlossaryEntry } from "./civic-glossary";
 import { civicGlossaryEntry } from "./civic-glossary";
+import {
+  projectNewsOrientation,
+  type NewsOrientation,
+} from "./news-orientation";
 
 export interface PublicInformationPanelItem extends PublicInformationDigestItem {
   readonly civicReferences: readonly CivicGlossaryEntry[];
@@ -23,13 +27,21 @@ export interface PublicInformationPanelModel {
   readonly items: readonly PublicInformationPanelItem[];
   /** Derived only from canonical publication records represented above. */
   readonly outlets: readonly PublicInformationPanelOutlet[];
+  /** Public orientation assembled without writing publications. */
+  readonly orientation: NewsOrientation;
 }
 
 export function projectPublicInformationPanel(
   world: World,
   jurisdictionId?: EntityId | null,
+  viewerPersonId?: EntityId | null,
 ): PublicInformationPanelModel {
   const digest = projectPublicInformationDigest(world, jurisdictionId);
+  const orientation = projectNewsOrientation(
+    world,
+    viewerPersonId ?? null,
+    jurisdictionId,
+  );
   const outlets = new Map<string, PublicInformationPanelOutlet>();
   for (const item of digest.items) {
     const existing = outlets.get(item.outletKey);
@@ -41,6 +53,7 @@ export function projectPublicInformationPanel(
   }
   return {
     digest,
+    orientation,
     outlets: [...outlets.values()],
     items: digest.items.map((item) => ({
       ...item,

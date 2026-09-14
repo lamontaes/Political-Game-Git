@@ -161,3 +161,60 @@
     position: static;
   }
 }
+
+.news-orientation {
+  margin: 0 0 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--run-a-line);
+}
+
+.news-orientation h3 {
+  margin: 0.85rem 0 0.35rem;
+}
+
+.news-orientation-as-of,
+.news-orientation-article > header p {
+  margin: 0;
+  color: var(--run-a-muted);
+  font-size: 0.78rem;
+}
+
+.news-orientation-article {
+  margin: 0.7rem 0;
+}
+
+.news-orientation-article h4 {
+  margin: 0.2rem 0 0.35rem;
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.25;
+}
+
+.news-orientation-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.45rem 0 0;
+}
+
+.news-orientation-links button,
+.news-orientation-links span {
+  min-height: 2.25rem;
+  padding: 0.25rem 0.55rem;
+  border: 1px solid var(--run-a-line);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 4%);
+}
+
+.journal-account-aspect {
+  display: inline-block;
+  margin-right: 0.4rem;
+  color: var(--run-a-muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.journal-account ol,
+.journal-exact-record ol {
+  padding-left: 1.2rem;
+}

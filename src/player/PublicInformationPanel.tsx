@@ -6,6 +6,7 @@ import type {
   PublicInformationPanelModel,
 } from "../presentation/public-information-adapters";
 import type { CivicGlossaryEntry } from "../presentation/civic-glossary";
+import type { NewsOrientationItem } from "../presentation/news-orientation";
 import { filterPublishedNewsItems } from "./public-information-search";
 import {
   itemsForPublicInformationView,
@@ -126,6 +127,11 @@ export function PublicInformationPanel({
           <span aria-hidden="true">×</span>
         </button>
       </header>
+
+      <NewsOrientationSection
+        orientation={model.orientation}
+        onOpenPerson={onOpenPerson}
+      />
 
       {model.items.length === 0 ? (
         <p data-testid="public-information-empty">
@@ -314,6 +320,111 @@ export function PublicInformationPanel({
         </aside>
       ) : null}
     </section>
+  );
+}
+
+function NewsOrientationSection({
+  orientation,
+  onOpenPerson,
+}: {
+  readonly orientation: PublicInformationPanelModel["orientation"];
+  readonly onOpenPerson: (personId: EntityId) => void;
+}) {
+  return (
+    <section
+      className="news-orientation"
+      aria-labelledby="news-orientation-title"
+      data-testid="news-orientation"
+    >
+      <h3 id="news-orientation-title">Around this place</h3>
+      <p className="news-orientation-as-of">
+        Assembled {orientation.asOf}
+        {orientation.placeName ? ` · ${orientation.placeName}` : ""}. Reading
+        does not publish a story or create the event it reports.
+      </p>
+      {orientation.publicWorld.emptyReason ? (
+        <p data-testid="news-orientation-public-empty">
+          {orientation.publicWorld.emptyReason}
+        </p>
+      ) : (
+        <ol data-testid="news-orientation-public">
+          {orientation.publicWorld.items.map((item) => (
+            <li key={item.key}>
+              <NewsOrientationArticle item={item} onOpenPerson={onOpenPerson} />
+            </li>
+          ))}
+        </ol>
+      )}
+
+      <h3 id="news-orientation-known-title">
+        Known to you from the public record
+      </h3>
+      {orientation.viewerAccessible.emptyReason ? (
+        <p data-testid="news-orientation-known-empty">
+          {orientation.viewerAccessible.emptyReason}
+        </p>
+      ) : (
+        <ol data-testid="news-orientation-known">
+          {orientation.viewerAccessible.items.map((item) => (
+            <li key={`known:${item.key}`}>
+              <NewsOrientationArticle item={item} onOpenPerson={onOpenPerson} />
+            </li>
+          ))}
+        </ol>
+      )}
+    </section>
+  );
+}
+
+function NewsOrientationArticle({
+  item,
+  onOpenPerson,
+}: {
+  readonly item: NewsOrientationItem;
+  readonly onOpenPerson: (personId: EntityId) => void;
+}) {
+  return (
+    <article
+      className="news-orientation-article"
+      data-testid="news-orientation-item"
+      data-orientation-kind={item.kind}
+      data-orientation-key={item.key}
+    >
+      <header>
+        <p>
+          {item.kind.replace("-", " ")} · {item.asOf}
+        </p>
+        <h4>{item.headline}</h4>
+      </header>
+      <p data-testid="news-orientation-recap">{item.recap}</p>
+      {item.links.length > 0 ? (
+        <p
+          className="news-orientation-links"
+          data-testid="news-orientation-links"
+        >
+          {item.links.map((link) =>
+            link.kind === "person" ? (
+              <button
+                key={`${link.kind}:${link.id}`}
+                type="button"
+                data-person-id={link.id}
+                onClick={() => onOpenPerson(link.id as EntityId)}
+              >
+                {link.label}
+              </button>
+            ) : (
+              <span
+                key={`${link.kind}:${link.id}`}
+                data-record-kind={link.kind}
+                data-record-id={link.id}
+              >
+                {link.label}
+              </span>
+            ),
+          )}
+        </p>
+      ) : null}
+    </article>
   );
 }
 
