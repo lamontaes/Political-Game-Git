@@ -151,14 +151,14 @@ describe("a decision is recorded, and kept only by what the player then does", (
     expect(scene.definition.key).toBe("adult.home.plan-week");
     // The life starts with one plan of its own; clear the slate for "learning".
     const learningBefore = goalStatus(world, life.personId, "learning");
-    const before = world.currentMoment.minuteOfDay;
+    const before = world.currentMoment;
     world = chooseOpeningLifeScene(
       world,
       life.personId,
       scene.eventId,
       "learning",
     );
-    expect(world.currentMoment.minuteOfDay - before).toBe(5);
+    expect(world.currentMoment).toEqual(before);
     expect(goalStatus(world, life.personId, "learning")).toBe("active");
     if (learningBefore !== "active")
       expect(
@@ -184,7 +184,9 @@ describe("a decision is recorded, and kept only by what the player then does", (
       },
       { choiceKey: "later", minutes: 0, keeps: null, records: null },
     ]);
+    const beforeReading = world.currentMoment.minuteOfDay;
     world = chooseOpeningLifeScene(world, life.personId, scene.eventId, "read");
+    expect(world.currentMoment.minuteOfDay - beforeReading).toBe(5);
     expect(goalStatus(world, life.personId, "learning")).toBe("completed");
     const saved = serializeWorld(world);
     const loaded = deserializeWorld(saved);
