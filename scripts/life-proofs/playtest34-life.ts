@@ -22,6 +22,7 @@ import {
 } from "../../src/simulation/adult-situations";
 import {
   describePersonContext,
+  personName,
   createCampaignElectionTransitionRegistry,
   serializeWorld,
   deserializeWorld,
@@ -34,6 +35,8 @@ function adult() {
     ...DEFAULT_NEW_GAME_SETUP,
     startKind: "custom",
     startAge: 35,
+    depth: "summarize-earlier-life",
+    questionnaire: "skipped",
     placeKey: "lexington-fayette",
     household: "shares-a-home",
     seed: "p34-life-lexington-fayette",
@@ -123,12 +126,67 @@ const family = [6, 10].map((age) => {
     )?.relationship,
   };
 });
+const confidenceGame = createNewGameWorld({
+  ...DEFAULT_NEW_GAME_SETUP,
+  startKind: "custom",
+  startAge: 35,
+  depth: "summarize-earlier-life",
+  questionnaire: "skipped",
+  placeKey: "lexington-fayette",
+  household: "shares-a-home",
+  seed: "p34-life-confidence",
+});
+const confidenceWorld = openOrdinaryLife(
+  confidenceGame.world,
+  confidenceGame.playerPersonId,
+);
+const confidenceScene = availableAdultSituations(
+  buildAdultLifeContext(confidenceWorld, confidenceGame.playerPersonId),
+).find((s) => s.key === "adult.friend-in-difficulty")!;
+const confidenceRequest = confidenceWorld.history.events.find(
+  (e) =>
+    e.type === "life.confidence-disclosed" &&
+    e.involvedEntityIds.includes(confidenceGame.playerPersonId),
+)!;
+const confidenceAsker = confidenceRequest.participants.find(
+  (p) => p.role === "agency:asked",
+)!.personId;
 const report = {
+  setup: {
+    route: "custom",
+    age: 35,
+    depth: "summarize-earlier-life",
+    household: "shares-a-home",
+    state: "Kentucky",
+    place: "Lexington",
+    questionnaire: "skipped",
+  },
+  playerName: personName(world.people[personId]!),
+  confidence: {
+    seed: "p34-life-confidence",
+    request: confidenceRequest,
+    requester: describePersonContext(
+      confidenceWorld,
+      confidenceGame.playerPersonId,
+      confidenceAsker,
+    ),
+    scene: confidenceScene.prose,
+    options: confidenceScene.options.map((o) => ({
+      key: o.key,
+      label: o.label,
+    })),
+  },
   seed: world.seed,
   player: personId,
   request: entry.request.id,
   requester: describePersonContext(world, personId, entry.counterpartId),
   terms: entry.details,
+  originalRequest: entry.request,
+  householdRequests: world.history.events.filter(
+    (e) =>
+      e.type === "life.household-evening-proposed" &&
+      e.involvedEntityIds.includes(personId),
+  ),
   scene: scenes.find((s) => s.key === "adult.friend-favour"),
   otherScenes: scenes
     .filter((s) =>

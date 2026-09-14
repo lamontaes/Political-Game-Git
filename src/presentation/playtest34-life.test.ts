@@ -55,6 +55,8 @@ function life(
     startKind: "custom",
     seed,
     startAge: age,
+    depth: age >= 18 ? "summarize-earlier-life" : "play-formative-years",
+    questionnaire: "skipped",
     placeKey,
     household: "shares-a-home",
   });
@@ -310,27 +312,27 @@ describe("PLAYTEST34 canonical request → choice → performance → saved foll
     ).toHaveLength(0);
   });
 
-  it("retains concrete confidence and household context from the producer after reload", () => {
-    const { world, personId } = life();
+  it.each([
+    { seed: "p34-life-confidence", kind: "confidence-disclosed" },
+    { seed: "p34-life-lexington-fayette", kind: "household-evening" },
+  ])("retains producer context for $kind after reload", ({ seed, kind }) => {
+    const { world, personId } = life(seed);
     const loaded = deserializeWorld(serializeWorld(world));
-    const requests = lifeOpportunitiesFor(loaded, personId).filter((e) =>
-      ["confidence-disclosed", "household-evening"].includes(e.kind),
+    const request = lifeOpportunitiesFor(loaded, personId).find(
+      (e) => e.kind === kind,
+    )!;
+    expect(request).toBeDefined();
+    const event = loaded.history.events.find((e) => e.id === request.eventId)!;
+    const details = lifeRequestDetails(event)!;
+    expect(details).not.toBeNull();
+    const scene = availableAdultSituations(
+      buildAdultLifeContext(loaded, personId),
+    ).find((s) => s.opportunity === request.kind)!;
+    expect(scene).toBeDefined();
+    expect(scene.prose).toContain(details.opening);
+    expect(scene.prose).toContain(
+      loaded.people[request.counterpartPersonId!]!.givenName,
     );
-    expect(requests).toHaveLength(2);
-    for (const request of requests) {
-      const event = loaded.history.events.find(
-        (e) => e.id === request.eventId,
-      )!;
-      const details = lifeRequestDetails(event)!;
-      expect(details).not.toBeNull();
-      const scene = availableAdultSituations(
-        buildAdultLifeContext(loaded, personId),
-      ).find((s) => s.opportunity === request.kind)!;
-      expect(scene.prose).toContain(details.opening);
-      expect(scene.prose).toContain(
-        loaded.people[request.counterpartPersonId!]!.givenName,
-      );
-    }
     expect(serializeWorld(loaded)).toBe(serializeWorld(world));
   });
 });

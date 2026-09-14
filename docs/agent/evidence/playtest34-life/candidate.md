@@ -1,16 +1,16 @@
 result: SAFE_RENDER
-prose: Mila Delgado, your mom: “Could you look over my invitation to the family picnic? Just two paragraphs. I want to make sure the wording is clear.” Proofreading takes 20 minutes; answering takes no time.
+prose: Samantha Kemp, your mom: “Could you look over my invitation to the family picnic? Just two paragraphs. I want to make sure the wording is clear.” Proofreading takes 20 minutes; answering takes no time.
 Agree to proofread the two-paragraph picnic invitation
 Agree: Wording only; I will not contact the guests
 Decline the proofreading request
-You agreed to proofread the two-paragraph picnic invitation for Mila Delgado. Condition: Wording only; I will not contact the guests. The proofreading has not been done.
+You agreed to proofread the two-paragraph picnic invitation for Samantha Kemp. Condition: Wording only; I will not contact the guests. The proofreading has not been done.
 Okay. Just the wording; I will contact the guests myself.
-You proofread Mila Delgado's two-paragraph picnic invitation and sent the wording feedback. You kept the agreed limit: Wording only; I will not contact the guests.
-Mila Delgado brings up the request to proofread the two-paragraph picnic invitation again. You agreed, but have not finished the proofreading.
-Imani Wallace, who you live with: “I will be home this evening. Would you like to sit and talk?”
+You proofread Samantha Kemp's two-paragraph picnic invitation and sent the wording feedback. You kept the agreed limit: Wording only; I will not contact the guests.
+Samantha Kemp brings up the request to proofread the two-paragraph picnic invitation again. You agreed, but have not finished the proofreading.
+Noor Yates, who you live with: “I will be home this evening. Would you like to sit and talk?”
 Agree to sit and talk this evening
 Decline; keep the evening to yourself
-Mila Delgado, your mom: “I agreed to organize the family picnic, and now I need to back out. I have not told the guests. Please keep this between us for now.”
+Neil Goodwin, your mom: “I agreed to organize the family picnic, and now I need to back out. I have not told the guests. Please keep this between us for now.”
 Agree to keep this conversation private
 Ask them to tell the picnic guests
 Say you cannot help with the picnic

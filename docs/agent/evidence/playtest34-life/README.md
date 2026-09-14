@@ -5,7 +5,7 @@ using normal character creation, ordinary-life producers, real saved events,
 choices, performance and JSON reload. No World/history injection establishes
 these examples. Lexington content retains its existing placeholder status.
 
-Paul Delgado, age35, receives this saved request from **Mila Delgado, your mom**:
+Raymond Kemp, age35, receives this saved request from **Samantha Kemp, your mom**:
 “Could you look over my invitation to the family picnic? Just two paragraphs.
 I want to make sure the wording is clear.” Agreeing with **“Wording only; I will
 not contact the guests”** records a commitment without advancing09:10. Reload
@@ -14,16 +14,16 @@ wording feedback and records one performance interaction. Reload/repeat returns
 the same World without another reward. The20-minute interval is authored for
 this particular activity, not a universal favor duration.
 
-An unperformed agreement returns through the existing due evaluator: **Mila
-Delgado brings up the request to proofread the two-paragraph picnic invitation
+An unperformed agreement returns through the existing due evaluator: **Samantha
+Kemp brings up the request to proofread the two-paragraph picnic invitation
 again. You agreed, but have not finished the proofreading.** The completed path
 is terminally dispatched too; this ordinary NPC lets it rest. Completion is
 never inferred merely from agreement, and a callback is never forced to punish
 every answer.
 
-The same ordinary adult World also provides **Imani Wallace, who you live with**:
+The favor start also provides **Noor Yates, who you live with**:
 “I will be home this evening. Would you like to sit and talk?” The private
-confidence from Mila names the actual difficulty organizing the picnic and asks
+confidence from Neil Goodwin, your mom, in the separate `p34-life-confidence` ordinary start names the actual difficulty organizing the picnic and asks
 for privacy. The choices answer those saved terms, without claiming the evening
 or private undertaking has already happened.
 

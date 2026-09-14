@@ -74,3 +74,17 @@ favor13:20; next-day one new USD72 settlement; saved terminal status retained.
 The evidence is `single-charge.json`, supplemental to queued Vitest/browser.
 Fresh TypeScript caught and corrected the morning constant import to its existing
 `ordinary-life.ts` export; no new morning constant or clock is introduced.
+
+Ordinary-frame correction before final proof: the adult fixture now explicitly
+matches creator custom age35 → summarize earlier life → shared home → skipped
+questions. The earlier default formative-depth constructor remains a separate
+compatibility checkpoint, not this ordinary route. Corrected canonical requester
+is Samantha Kemp, your mom; player Raymond Kemp. Confidence uses separate normal
+`p34-life-confidence` start with Neil Goodwin, canonically your mom. Household is
+Noor Yates, who you live with. The actual setup is included in the saved replay
+packet; no identity is renamed to make a role look familiar. Fresh independent
+packet-only grounding review PASS after these claim changes.
+
+LEARN mechanism: fixture helpers explicitly resolve adult/child depth like the
+real creator; replay reports carry the entire selected setup frame. A seed alone
+or a constructor default is insufficient evidence of an ordinary player route.

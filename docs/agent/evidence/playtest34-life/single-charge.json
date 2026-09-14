@@ -11,8 +11,8 @@
     "repeatAfterReload": "rejected"
   },
   "ordinaryWorkFavor": {
-    "personId": "person_0556490fb7a12eab",
-    "requestId": "event_21b96146dc85dd0e",
+    "personId": "person_2d1d951c47ea070a",
+    "requestId": "event_1a35c88ae5022eb3",
     "midShift": {
       "date": "2026-01-06",
       "minuteOfDay": 600,
@@ -33,10 +33,10 @@
       "utcOffsetMinutes": -300
     },
     "favorMinutes": 20,
-    "workSessions": ["event_6bccbb94021634d7"],
+    "workSessions": ["event_6db20c14740d505c"],
     "wages": [
       {
-        "id": "resource-transfer-outcome_9d842fa10928398d",
+        "id": "resource-transfer-outcome_91a36017e1c008ce",
         "amount": {
           "minorUnits": 7200,
           "currency": "USD"
