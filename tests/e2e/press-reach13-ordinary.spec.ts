@@ -9,6 +9,7 @@ test("ordinary News press route establishes a reporter, records the NPC decision
   test.setTimeout(180_000);
   await page.goto("/?seed=press-reach13-ordinary");
   await startLife(page, {
+    place: "Kentucky",
     age: 34,
     route: "custom",
     office: true,

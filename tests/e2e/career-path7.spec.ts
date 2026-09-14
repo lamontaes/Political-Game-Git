@@ -30,7 +30,13 @@ test("normal civilian career offer, keyboard consent, work, resignation and save
   page,
 }) => {
   await page.goto("/?seed=career-path7-normal");
-  await startLife(page, { age: 35, route: "custom", household: "lives-alone" });
+  await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
+    age: 35,
+    route: "custom",
+    household: "lives-alone",
+  });
   await enterLife(page);
   await openShellMenu(page);
   const workTab = page.getByTestId("elsewhere-work");

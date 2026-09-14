@@ -47,6 +47,8 @@ test("same Haley room composition after neckline repair", async ({
   test.setTimeout(90000);
   await page.goto("/?seed=morning23-b-play&art-preview=candidate");
   await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
     age: 34,
     household: "shares-a-home",
     givenName: "Coherence",
@@ -84,6 +86,8 @@ for (const seed of [
     test.setTimeout(90000);
     await page.goto(`/?seed=${seed}&art-preview=candidate`);
     await startLife(page, {
+      place: "Lexington",
+      state: "Kentucky",
       age: 34,
       givenName: "Normal",
       familyName: "Review",
@@ -108,6 +112,8 @@ for (const body of ["average-man", "skinny-man"])
     test.setTimeout(90000);
     await page.goto("/?seed=coherence-wardrobe&art-preview=candidate");
     await startLife(page, {
+      place: "Lexington",
+      state: "Kentucky",
       age: 34,
       household: "shares-a-home",
       givenName: "Wardrobe",

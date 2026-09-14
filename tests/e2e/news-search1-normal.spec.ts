@@ -19,7 +19,12 @@ test("normal legislative publication supports search, clear, help, person, Back,
   page,
 }, info) => {
   await page.goto("/?seed=ui-connect2-news");
-  await startLife(page, { age: 38, route: "normal" });
+  await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
+    age: 38,
+    route: "normal",
+  });
   await enterLife(page);
   await goTo(page, "nav-news");
   await expect(page.getByTestId("public-information-empty")).toBeVisible();
@@ -119,7 +124,12 @@ test("normal News search stays usable on a narrow viewport after a second public
   });
   const page = await context.newPage();
   await page.goto("/?seed=ui-connect2-news");
-  await startLife(page, { age: 38, route: "normal" });
+  await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
+    age: 38,
+    route: "normal",
+  });
   await enterLife(page);
   await publishFirstBill(page);
   await saveLife(page);
@@ -173,7 +183,12 @@ test("normal News keeps For You, outlet following, person Back, and per-life per
   page,
 }, info) => {
   await page.goto("/?seed=recovery25-news");
-  await startLife(page, { age: 38, route: "normal" });
+  await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
+    age: 38,
+    route: "normal",
+  });
   await enterLife(page);
   await publishFirstBill(page);
   await saveLife(page);
@@ -253,7 +268,12 @@ test("compact News keeps view and follow controls keyboard reachable", async ({
   });
   const page = await context.newPage();
   await page.goto("/?seed=recovery25-news-compact");
-  await startLife(page, { age: 38, route: "normal" });
+  await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
+    age: 38,
+    route: "normal",
+  });
   await enterLife(page);
   await publishFirstBill(page);
   await goTo(page, "nav-news");

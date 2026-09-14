@@ -7,7 +7,12 @@ test("ordinary Day and Work expose private personnel preparation", async ({
   page,
 }) => {
   await page.goto("/?seed=civil-work7-normal-preparation");
-  await startLife(page, { age: 35, route: "normal" });
+  await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
+    age: 35,
+    route: "normal",
+  });
   await enterLife(page);
   // UI9-01: study and jobs live in Work now, and the day links into it rather
   // than mounting a second copy of the same panels.

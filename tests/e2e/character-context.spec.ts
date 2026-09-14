@@ -58,7 +58,11 @@ async function openSetup(page: Page, age: number) {
 
 /** Picks Kentucky, then Lexington, and advances past the place step. */
 async function chooseKentucky(page: Page) {
-  await chooseCreatorLocation(page, { age: 10, place: "Lexington" }, false);
+  await chooseCreatorLocation(
+    page,
+    { age: 10, place: "Lexington", state: "Kentucky" },
+    false,
+  );
 }
 
 test.describe("A player chooses who the character is", () => {
@@ -108,6 +112,8 @@ test.describe("A ten-year-old is asked a ten-year-old's questions", () => {
     // to it.
     await freshBrowser(page);
     await walkCreator(page, {
+      place: "Lexington",
+      state: "Kentucky",
       age: 10,
       gender: "female",
       calibration: "short",
@@ -150,7 +156,12 @@ test.describe("A ten-year-old is asked a ten-year-old's questions", () => {
 
   test("asks an adult the adult opening instead", async ({ page }) => {
     await freshBrowser(page);
-    await walkCreator(page, { age: 34, calibration: "short" });
+    await walkCreator(page, {
+      place: "Lexington",
+      state: "Kentucky",
+      age: 34,
+      calibration: "short",
+    });
     await expect(page.getByTestId("questionnaire-prompt")).toContainText(
       /kitchen table/i,
     );
@@ -160,7 +171,12 @@ test.describe("A ten-year-old is asked a ten-year-old's questions", () => {
 test.describe("The page says whose life this is", () => {
   async function startLife(page: Page, age: number) {
     await freshBrowser(page);
-    await walkCreator(page, { age, gender: "female" });
+    await walkCreator(page, {
+      place: "Lexington",
+      state: "Kentucky",
+      age,
+      gender: "female",
+    });
     await expect(page.getByTestId("play-screen")).toBeVisible();
     // The generated household is introduced before the first beat now.
     await enterLife(page);

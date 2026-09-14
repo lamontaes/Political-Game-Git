@@ -151,7 +151,12 @@ test.describe("PT3 — the corridor scene on the screen", () => {
       // This walks up to forty beats, saves/reopens and reaches a later scene.
       test.setTimeout(90000);
       await freshBrowser(page, route.seed);
-      await walkCreator(page, { age: route.age, childhood: true });
+      await walkCreator(page, {
+        place: "Lexington",
+        state: "Kentucky",
+        age: route.age,
+        childhood: true,
+      });
       await enterLife(page);
 
       const beat = await playToCorridor(page);

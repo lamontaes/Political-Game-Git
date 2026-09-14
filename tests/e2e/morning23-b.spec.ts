@@ -26,6 +26,8 @@ for (const seed of [
     test.setTimeout(90000);
     await page.goto(`/?seed=${seed}&art-preview=candidate`);
     await startLife(page, {
+      place: "Lexington",
+      state: "Kentucky",
       age: 34,
       household: "shares-a-home",
       givenName: "MORNING23",

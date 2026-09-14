@@ -17,6 +17,8 @@ test("a normal route keeps offering distinct scenes over a played year", async (
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/");
   await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
     age: 34,
     route: "custom",
     household: "shares-a-home",
@@ -69,6 +71,8 @@ test("keeps the same life across a save and a reload mid-route", async ({
 }) => {
   await page.goto("/");
   await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
     age: 34,
     route: "custom",
     household: "shares-a-home",

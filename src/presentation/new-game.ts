@@ -169,9 +169,9 @@ export const LEGISLATIVE_OFFICE_MINIMUM_AGE = 21;
 
 export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   startKind: "normal",
-  // A starting point for the field, not a recommendation on the screen. The
-  // creator shows no place until the player searches for one, which is what
-  // stopped the four supported places reading as the game's four defaults.
+  // Compatibility default for old callers and encoded replays. A fresh
+  // creator uses an empty placeKey (`freshNewGameSetup`); gameplay helpers
+  // must pass `explicitNewGameSetup`. This is not a player recommendation.
   placeKey: "kentucky",
   startAge: 10,
   depth: "play-formative-years",
