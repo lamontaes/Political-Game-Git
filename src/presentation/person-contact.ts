@@ -8,12 +8,14 @@ import {
 /**
  * Supported Talk / Contact / Meet / Travel, explained from records.
  * Pins and dossiers are not presence. No omniscient location tracker.
+ * These are four different capabilities, not four labels on one talk writer.
  */
 
 export interface PersonContactAction {
   readonly available: boolean;
   readonly label: string;
   readonly reason: string;
+  readonly kind: "talk" | "contact" | "meet" | "travel";
 }
 
 export interface PersonContact {
@@ -37,15 +39,38 @@ export function projectPersonContact(
       personId,
     ) === true;
   const talkEntry = openConversationWith(world, playerPersonId, personId);
-  const talkAvailable = talkEntry.kind === "available";
+  const conversationReady = talkEntry.kind === "available";
+  const talkAvailable = presentNow && conversationReady;
   const talkReason =
     talkEntry.kind === "unavailable"
       ? talkEntry.reason
       : presentNow
-        ? `${name} is here.`
-        : `You can start a conversation that already exists with ${name}. That is not proof they are in the room.`;
+        ? `${name} is here. Talk starts the conversation in this room.`
+        : `${name} is not in this room. Talk is in-person, not a remote message.`;
+
+  const contactAvailable = false;
+  const contactReason = presentNow
+    ? `${name} is in the room. Contact would be a remote reach; there is no separate phone, mail, or inbox writer on this card.`
+    : `No phone, mail, or remote address is on record for ${name}. An established scene conversation is not a way to reach them from elsewhere.`;
+
+  const meetAvailable = presentNow;
+  const meetReason = presentNow
+    ? `${name} is in the room. Meet returns you to that scene without starting the conversation.`
+    : `A card or pin is not proof ${name} is here. The game does not track an unknown location.`;
 
   const playerPlace = openingLifeLocation(world, playerPersonId);
+  const theirPlace = openingLifeLocation(world, personId);
+  let travelAvailable = false;
+  let travelReason: string;
+  if (!theirPlace) {
+    travelReason = `No recorded location for ${name}. A pin or a card is not a destination.`;
+  } else if (!playerPlace) {
+    travelReason = `Your current place is not recorded, so there is no authored journey to ${theirPlace.label}.`;
+  } else if (playerPlace.locationKey === theirPlace.locationKey) {
+    travelReason = `You and ${name} are both recorded at ${playerPlace.label}. Travel is not a separate action from meeting them here.`;
+  } else {
+    travelReason = `No authored journey connects ${playerPlace.label} to ${theirPlace.label}, where ${name} was last recorded. Travel stays unavailable rather than inventing a route.`;
+  }
 
   return {
     personId,
@@ -54,27 +79,25 @@ export function projectPersonContact(
       available: talkAvailable,
       label: "Talk",
       reason: talkReason,
+      kind: "talk",
     },
     contact: {
-      available: talkAvailable,
+      available: contactAvailable,
       label: "Contact",
-      reason: talkAvailable
-        ? `Reach ${name} through an established conversation. This does not invent a phone, address, or location.`
-        : `No established way to contact ${name} is on record here.`,
+      reason: contactReason,
+      kind: "contact",
     },
     meet: {
-      available: presentNow && talkAvailable,
+      available: meetAvailable,
       label: "Meet",
-      reason: presentNow
-        ? `${name} is in the room now.`
-        : `A card or pin is not proof ${name} is here. The game does not track an unknown location.`,
+      reason: meetReason,
+      kind: "meet",
     },
     travel: {
-      available: false,
+      available: travelAvailable,
       label: "Travel",
-      reason: playerPlace
-        ? `Your recorded place is ${playerPlace.label}. There is no authored journey that takes you to ${name} from a pin or a card.`
-        : `No recorded journey reaches ${name}. Presence is not inferred from a saved reference.`,
+      reason: travelReason,
+      kind: "travel",
     },
   };
 }

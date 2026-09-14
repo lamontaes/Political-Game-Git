@@ -36,6 +36,11 @@
   margin: 0.35rem 0 0.7rem;
 }
 
+.pg-relationship-web-frame {
+  position: relative;
+  width: 100%;
+}
+
 .pg-relationship-web {
   width: 100%;
   height: min(26rem, 48vh);
@@ -90,6 +95,14 @@
   fill: var(--run-a-ink);
   font-size: 0.7rem;
   pointer-events: none;
+}
+
+.pg-relationship-web-portrait {
+  position: absolute;
+  width: 2.4rem;
+  transform: translate(-50%, -110%);
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 .pg-people-list-alt[hidden] {

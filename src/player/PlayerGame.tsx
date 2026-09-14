@@ -10,10 +10,7 @@ import {
 } from "./SavedAppearance";
 import { createOpeningLifeController } from "../presentation/opening-life";
 import { OpeningLifeFlow } from "./opening-life/OpeningLifeFlow";
-import {
-  useClampedMenu,
-  useContentViewportCss,
-} from "./overlay-viewport";
+import { useClampedMenu, useContentViewportCss } from "./overlay-viewport";
 import { MunicipalWorkspace } from "./MunicipalWorkspace";
 import { PlacesWorkspace } from "./PlacesWorkspace";
 import { municipalVenueForActivity } from "../presentation/municipal-venue";
@@ -2764,6 +2761,7 @@ function PlayingScreen({
                 dispatch({ type: "open-quick-dossier", personId })
               }
               onTalk={() => talkTo(selectedDossier.personId)}
+              onMeet={() => dispatch({ type: "go-to-scene" })}
               talkUnavailable={
                 inspectTalkEntry?.kind === "unavailable"
                   ? inspectTalkEntry.reason
@@ -2783,9 +2781,9 @@ function PlayingScreen({
               <small>
                 {conversation.addressee === "everyone"
                   ? "Everyone here"
-                  : (session.world.people[conversation.addressee]
+                  : session.world.people[conversation.addressee]
                     ? personName(session.world.people[conversation.addressee]!)
-                    : "Someone")}
+                    : "Someone"}
               </small>
             </button>
           ) : null}
@@ -3044,6 +3042,7 @@ function renderWorkspace({
               togglePin({ kind: "person", id: dossier.personId })
             }
             onTalk={() => talkTo(dossier.personId)}
+            onMeet={() => dispatch({ type: "go-to-scene" })}
             talkUnavailable={entry.kind === "unavailable" ? entry.reason : null}
             onOpenLink={openEntity}
             onOpenPerson={(personId) =>

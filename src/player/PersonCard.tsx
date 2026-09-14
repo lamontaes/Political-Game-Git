@@ -64,6 +64,7 @@ export function PersonCard({
   onTogglePin,
   onOpenPerson,
   onTalk,
+  onMeet,
   talkUnavailable,
   onOpenLink,
 }: {
@@ -78,6 +79,7 @@ export function PersonCard({
   readonly onTogglePin: () => void;
   readonly onOpenPerson: (personId: EntityId) => void;
   readonly onTalk?: () => void;
+  readonly onMeet?: () => void;
   readonly talkUnavailable: string | null;
   readonly onOpenLink: (ref: ShellRef) => void;
 }) {
@@ -291,7 +293,7 @@ export function PersonCard({
             className="ui-action ui-action--primary"
             data-testid="dossier-talk"
             disabled={!contact.talk.available}
-            aria-describedby="person-talk-reason"
+            aria-describedby={`person-talk-reason-${dossier.personId}`}
             onClick={onTalk}
           >
             Talk
@@ -302,9 +304,8 @@ export function PersonCard({
           type="button"
           className="ui-action"
           data-testid="person-contact"
-          disabled={!contact.contact.available || !onTalk}
-          aria-describedby="person-contact-reason"
-          onClick={onTalk}
+          disabled={!contact.contact.available}
+          aria-describedby={`person-contact-reason-${dossier.personId}`}
         >
           Contact
           <small>{contact.contact.reason}</small>
@@ -313,9 +314,9 @@ export function PersonCard({
           type="button"
           className="ui-action"
           data-testid="person-meet"
-          disabled={!contact.meet.available || !onTalk}
-          aria-describedby="person-meet-reason"
-          onClick={onTalk}
+          disabled={!contact.meet.available || !onMeet}
+          aria-describedby={`person-meet-reason-${dossier.personId}`}
+          onClick={onMeet}
         >
           Meet
           <small>{contact.meet.reason}</small>
@@ -325,7 +326,7 @@ export function PersonCard({
           className="ui-action"
           data-testid="person-travel"
           disabled={!contact.travel.available}
-          aria-describedby="person-travel-reason"
+          aria-describedby={`person-travel-reason-${dossier.personId}`}
         >
           Travel
           <small>{contact.travel.reason}</small>
@@ -350,18 +351,18 @@ export function PersonCard({
           </button>
         ) : null}
       </div>
-      <p className="sr-only" id="person-talk-reason">
+      <p className="sr-only" id={`person-talk-reason-${dossier.personId}`}>
         {contact.talk.reason}
       </p>
-      <p className="sr-only" id="person-contact-reason">
+      <p className="sr-only" id={`person-contact-reason-${dossier.personId}`}>
         {contact.contact.reason}
       </p>
-      <p className="sr-only" id="person-meet-reason">
+      <p className="sr-only" id={`person-meet-reason-${dossier.personId}`}>
         {contact.meet.reason}
       </p>
       <p
         className="game-note"
-        id="person-travel-reason"
+        id={`person-travel-reason-${dossier.personId}`}
         data-testid="person-contact-reason"
       >
         {contact.travel.reason}

@@ -7012,7 +7012,10 @@
   position: fixed;
   left: 0;
   right: 0;
-  bottom: var(--pg-content-bottom, calc(1.15rem + env(safe-area-inset-bottom, 0px)));
+  bottom: var(
+    --pg-content-bottom,
+    calc(1.15rem + env(safe-area-inset-bottom, 0px))
+  );
   display: flex;
   justify-content: center;
   padding: 0 1rem 0.35rem;

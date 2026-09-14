@@ -20,10 +20,12 @@ import {
 } from "../presentation/people-directory";
 import {
   calendarEntryFor,
+  calendarEntryHorizon,
   calendarKindLabel,
   formatMinute,
   projectPlayerCalendar,
   type CalendarEntry,
+  type CalendarHorizon,
 } from "../presentation/player-calendar";
 import { projectLifeRecord } from "../presentation/life-record";
 import { projectMeasureBriefing } from "../presentation/legislation-projection";
@@ -326,6 +328,7 @@ export function PeopleWorkspace({
           }
           onOpenPerson={selectPerson}
           onTalk={() => onTalk(selectedDossier.personId)}
+          onMeet={() => dispatch({ type: "go-to-scene" })}
           talkUnavailable={
             talkEntry?.kind === "unavailable" ? talkEntry.reason : null
           }
@@ -347,12 +350,14 @@ function CalendarEntryRow({
   selected,
   onSelect,
   onTogglePin,
+  children,
 }: {
   readonly entry: CalendarEntry;
   readonly pinned: boolean;
   readonly selected: boolean;
   readonly onSelect: () => void;
   readonly onTogglePin: () => void;
+  readonly children?: ReactNode;
 }) {
   return (
     <li className="pg-calendar-entry" data-group={entry.group}>
@@ -384,6 +389,7 @@ function CalendarEntryRow({
       >
         {pinned ? "Unpin" : "Pin"}
       </button>
+      {children}
     </li>
   );
 }
@@ -409,9 +415,7 @@ export function CalendarWorkspaceSurface({
   );
   const [selectedId, setSelectedId] = useState<EntityId | null>(null);
   const [outcome, setOutcome] = useState<string | null>(null);
-  const selected = calendar.days
-    .flatMap((day) => day.entries)
-    .find((entry) => entry.activityId === selectedId);
+  const [showHistory, setShowHistory] = useState(false);
 
   function apply(
     run: () => {
@@ -424,6 +428,67 @@ export function CalendarWorkspaceSurface({
     if (result.world !== world) onWorldChange(result.world);
   }
 
+  const liveDays = calendar.days
+    .map((day) => ({
+      ...day,
+      entries: day.entries.filter(
+        (entry) => calendarEntryHorizon(entry, calendar.today) !== "history",
+      ),
+    }))
+    .filter((day) => day.entries.length > 0);
+  const historyDays = calendar.days
+    .map((day) => ({
+      ...day,
+      entries: day.entries.filter(
+        (entry) => calendarEntryHorizon(entry, calendar.today) === "history",
+      ),
+    }))
+    .filter((day) => day.entries.length > 0);
+
+  function renderDays(
+    days: typeof liveDays,
+    horizon: Exclude<CalendarHorizon, "history"> | "history",
+  ) {
+    return days.map((day) => (
+      <section
+        key={`${horizon}-${day.date}`}
+        className="pg-calendar-day"
+        data-horizon={horizon}
+      >
+        <h3>{day.date}</h3>
+        <ul>
+          {day.entries.map((entry) => {
+            const ref: ShellRef = {
+              kind: "commitment",
+              id: entry.activityId,
+            };
+            const selectedHere = selectedId === entry.activityId;
+            return (
+              <CalendarEntryRow
+                key={entry.activityId}
+                entry={entry}
+                pinned={isPinnedRef(ref)}
+                selected={selectedHere}
+                onSelect={() => setSelectedId(entry.activityId)}
+                onTogglePin={() => onTogglePin(ref)}
+              >
+                {selectedHere ? (
+                  <CalendarEventActions
+                    selected={entry}
+                    onOpen={onOpen}
+                    onApply={apply}
+                    world={world}
+                    personId={personId}
+                  />
+                ) : null}
+              </CalendarEntryRow>
+            );
+          })}
+        </ul>
+      </section>
+    ));
+  }
+
   return (
     <>
       <p className="game-band" data-testid="calendar-today">
@@ -434,9 +499,7 @@ export function CalendarWorkspaceSurface({
           type="button"
           className="ui-action"
           data-testid="calendar-simulate-day"
-          onClick={() =>
-            apply(() => simulateCalendarDays(world, personId, 1))
-          }
+          onClick={() => apply(() => simulateCalendarDays(world, personId, 1))}
         >
           Simulate a day
         </button>
@@ -444,15 +507,17 @@ export function CalendarWorkspaceSurface({
           type="button"
           className="ui-action"
           data-testid="calendar-simulate-week"
-          onClick={() =>
-            apply(() => simulateCalendarDays(world, personId, 7))
-          }
+          onClick={() => apply(() => simulateCalendarDays(world, personId, 7))}
         >
           Simulate a week
         </button>
       </div>
       {outcome ? (
-        <p className="game-note" role="status" data-testid="calendar-time-outcome">
+        <p
+          className="game-note"
+          role="status"
+          data-testid="calendar-time-outcome"
+        >
           {outcome}
         </p>
       ) : null}
@@ -461,99 +526,112 @@ export function CalendarWorkspaceSurface({
           {calendar.note}
         </p>
       ) : null}
-      {calendar.days.map((day) => (
-        <section key={day.date} className="pg-calendar-day">
-          <h3>{day.date}</h3>
-          <ul>
-            {day.entries.map((entry) => {
-              const ref: ShellRef = {
-                kind: "commitment",
-                id: entry.activityId,
-              };
-              return (
-                <CalendarEntryRow
-                  key={entry.activityId}
-                  entry={entry}
-                  pinned={isPinnedRef(ref)}
-                  selected={selectedId === entry.activityId}
-                  onSelect={() => setSelectedId(entry.activityId)}
-                  onTogglePin={() => onTogglePin(ref)}
-                />
-              );
-            })}
-          </ul>
-        </section>
-      ))}
-      {selected ? (
-        <div className="game-choices" data-testid="calendar-event-actions">
-          <p>
-            Selected: {selected.title} · {formatMinute(selected.start.minuteOfDay)}
-          </p>
+      <div data-testid="calendar-upcoming">
+        {liveDays.length === 0 ? (
+          <p className="game-note">Nothing upcoming or ongoing.</p>
+        ) : (
+          renderDays(liveDays, "upcoming")
+        )}
+      </div>
+      {historyDays.length > 0 ? (
+        <div data-testid="calendar-history">
           <button
             type="button"
-            className="ui-action"
-            data-testid="calendar-open-event"
-            onClick={() =>
-              onOpen({ kind: "commitment", id: selected.activityId })
-            }
+            className="ui-action ui-action--subtle"
+            data-testid="calendar-history-toggle"
+            aria-expanded={showHistory}
+            onClick={() => setShowHistory((value) => !value)}
           >
-            Open event record
+            {showHistory ? "Hide history" : "History"}
           </button>
-          <button
-            type="button"
-            className="ui-action"
-            data-testid="calendar-advance-event"
-            onClick={() =>
-              apply(() =>
-                advanceCalendarToActivity(world, personId, selected.activityId),
-              )
-            }
-          >
-            Advance to this event
-          </button>
-          <button
-            type="button"
-            className="ui-action"
-            data-testid="calendar-play-event"
-            onClick={() =>
-              apply(() =>
-                playCalendarActivity(world, personId, selected.activityId),
-              )
-            }
-          >
-            Play this event
-          </button>
-          <button
-            type="button"
-            className="ui-action"
-            data-testid="calendar-simulate-event"
-            onClick={() =>
-              apply(() =>
-                simulateAuthorizedCalendarActivity(
-                  world,
-                  personId,
-                  selected.activityId,
-                ),
-              )
-            }
-          >
-            Simulate authorized attendance
-          </button>
-          <button
-            type="button"
-            className="ui-action"
-            data-testid="calendar-decline-event"
-            onClick={() =>
-              apply(() =>
-                declineCalendarActivity(world, personId, selected.activityId),
-              )
-            }
-          >
-            Decline
-          </button>
+          {showHistory ? renderDays(historyDays, "history") : null}
         </div>
       ) : null}
     </>
+  );
+}
+
+function CalendarEventActions({
+  selected,
+  onOpen,
+  onApply,
+  world,
+  personId,
+}: {
+  readonly selected: CalendarEntry;
+  readonly onOpen: (ref: ShellRef) => void;
+  readonly onApply: (
+    run: () => { readonly world: World; readonly outcome: string },
+  ) => void;
+  readonly world: World;
+  readonly personId: EntityId;
+}) {
+  return (
+    <div className="game-choices" data-testid="calendar-event-actions">
+      <p>
+        Selected: {selected.title} · {formatMinute(selected.start.minuteOfDay)}
+      </p>
+      <button
+        type="button"
+        className="ui-action"
+        data-testid="calendar-open-event"
+        onClick={() => onOpen({ kind: "commitment", id: selected.activityId })}
+      >
+        Open event record
+      </button>
+      <button
+        type="button"
+        className="ui-action"
+        data-testid="calendar-advance-event"
+        onClick={() =>
+          onApply(() =>
+            advanceCalendarToActivity(world, personId, selected.activityId),
+          )
+        }
+      >
+        Advance to this event
+      </button>
+      <button
+        type="button"
+        className="ui-action"
+        data-testid="calendar-play-event"
+        onClick={() =>
+          onApply(() =>
+            playCalendarActivity(world, personId, selected.activityId),
+          )
+        }
+      >
+        Play this event
+      </button>
+      <button
+        type="button"
+        className="ui-action"
+        data-testid="calendar-simulate-event"
+        onClick={() =>
+          onApply(() =>
+            simulateAuthorizedCalendarActivity(
+              world,
+              personId,
+              selected.activityId,
+            ),
+          )
+        }
+      >
+        Simulate authorized attendance
+      </button>
+      <button
+        type="button"
+        className="ui-action"
+        data-testid="calendar-decline-event"
+        onClick={() =>
+          onApply(() =>
+            declineCalendarActivity(world, personId, selected.activityId),
+          )
+        }
+      >
+        Decline
+      </button>
+    </div>
   );
 }
 

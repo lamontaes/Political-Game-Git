@@ -98,21 +98,60 @@ export function playCalendarActivity(
   };
 }
 
+export function authorizeCalendarSimulation(
+  world: World,
+  personId: EntityId,
+  activityId: EntityId,
+): { readonly authorized: boolean; readonly reason: string } {
+  const activity = world.history.scheduledActivities.find(
+    (record) => record.id === activityId,
+  );
+  if (!activity) {
+    return {
+      authorized: false,
+      reason: "That event is not on the recorded calendar.",
+    };
+  }
+  if (!activity.participantPersonIds.includes(personId)) {
+    return {
+      authorized: false,
+      reason:
+        "You are not a participant. Simulation does not invent attendance.",
+    };
+  }
+  const venue = venueActivities(world, personId).find(
+    (candidate) => candidate.activity.id === activityId,
+  );
+  if (!venue) {
+    return {
+      authorized: false,
+      reason:
+        "This event is not a supported activity to simulate in play. Advance and Play stay distinct.",
+    };
+  }
+  if (venue.refusal) {
+    return { authorized: false, reason: venue.refusal };
+  }
+  return {
+    authorized: true,
+    reason: "Authorized to simulate attendance.",
+  };
+}
+
 export function simulateAuthorizedCalendarActivity(
   world: World,
   personId: EntityId,
   activityId: EntityId,
 ): CalendarTimeResult {
-  const advanced = advanceCalendarToActivity(world, personId, activityId);
-  const handlers = createCampaignElectionTransitionRegistry();
-  if (handlers.routine?.isAutoResolvableActivity(advanced.world, activityId)) {
-    return playCalendarActivity(advanced.world, personId, activityId);
+  const gate = authorizeCalendarSimulation(world, personId, activityId);
+  if (!gate.authorized) {
+    return {
+      world,
+      reached: world.currentMoment,
+      outcome: gate.reason,
+    };
   }
-  return {
-    world: advanced.world,
-    reached: advanced.reached,
-    outcome: `${advanced.outcome} Play attendance is still required; standing preferences did not authorize this event.`,
-  };
+  return playCalendarActivity(world, personId, activityId);
 }
 
 export function declineCalendarActivity(

@@ -9,6 +9,7 @@ import {
 } from "../presentation/people-directory";
 import type { PersonCategory } from "../presentation/people-directory";
 import type { EntityId, World } from "../simulation";
+import { PersonPortrait } from "./PersonPortrait";
 import "./people-web.css";
 
 /**
@@ -46,41 +47,60 @@ export function PeopleRelationshipWeb({
   const nodeById = new Map(layout.nodes.map((node) => [node.personId, node]));
 
   return (
-    <svg
-      className="pg-relationship-web"
-      viewBox={`0 0 ${layout.width} ${layout.height}`}
-      role="img"
-      aria-label="Relationship web"
-      data-testid="people-relationship-web"
+    <div
+      className="pg-relationship-web-frame"
+      data-testid="people-web-portraits"
     >
-      {layout.edges.map((edge) => {
-        const from = nodeById.get(edge.fromId);
-        const to = nodeById.get(edge.toId);
-        if (!from || !to) return null;
-        return (
-          <line
-            key={`${edge.fromId}:${edge.toId}:${edge.kind}`}
-            className="pg-relationship-web-edge"
-            data-kind={edge.kind}
-            x1={from.x}
-            y1={from.y}
-            x2={to.x}
-            y2={to.y}
-          >
-            <title>{edge.label}</title>
-          </line>
-        );
-      })}
+      <svg
+        className="pg-relationship-web"
+        viewBox={`0 0 ${layout.width} ${layout.height}`}
+        role="img"
+        aria-label="Relationship web"
+        data-testid="people-relationship-web"
+      >
+        {layout.edges.map((edge) => {
+          const from = nodeById.get(edge.fromId);
+          const to = nodeById.get(edge.toId);
+          if (!from || !to) return null;
+          return (
+            <line
+              key={`${edge.fromId}:${edge.toId}:${edge.kind}`}
+              className="pg-relationship-web-edge"
+              data-kind={edge.kind}
+              x1={from.x}
+              y1={from.y}
+              x2={to.x}
+              y2={to.y}
+            >
+              <title>{edge.label}</title>
+            </line>
+          );
+        })}
+        {layout.nodes.map((node) => (
+          <WebNode
+            key={node.personId}
+            node={node}
+            matched={query.trim().length === 0 || matches.has(node.personId)}
+            focused={node.personId === focusId}
+            onSelect={onSelect}
+          />
+        ))}
+      </svg>
       {layout.nodes.map((node) => (
-        <WebNode
+        <div
           key={node.personId}
-          node={node}
-          matched={query.trim().length === 0 || matches.has(node.personId)}
-          focused={node.personId === focusId}
-          onSelect={onSelect}
-        />
+          className="pg-relationship-web-portrait"
+          data-testid={`people-web-portrait-${node.personId}`}
+          style={{
+            left: `${(node.x / layout.width) * 100}%`,
+            top: `${(node.y / layout.height) * 100}%`,
+          }}
+          onClick={() => onSelect(node.personId)}
+        >
+          <PersonPortrait world={world} personId={node.personId} size="small" />
+        </div>
       ))}
-    </svg>
+    </div>
   );
 }
 

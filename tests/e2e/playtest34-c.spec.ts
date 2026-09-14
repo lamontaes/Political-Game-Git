@@ -109,10 +109,16 @@ test.describe("PLAYTEST34 C quiet rest and primary controls", () => {
     await goTo(page, "elsewhere-people");
     await expect(page.getByTestId("people-search")).toBeVisible();
     await expectFullyInContentViewport(page, "people-search");
+    await expect(page.getByTestId("people-web-portraits")).toBeVisible();
+    await page.getByTestId("people-view-list").click();
+    await expect(page.getByTestId("people-list")).toBeVisible();
+    await page.getByTestId("people-view-web").click();
+    await expect(page.getByTestId("people-web-portraits")).toBeVisible();
     await page.getByTestId("people-search").fill("a");
     await page.getByTestId("people-overlay-close").click();
 
     await goTo(page, "nav-calendar");
+    await expect(page.getByTestId("calendar-upcoming")).toBeVisible();
     await expect(page.getByTestId("calendar-simulate-day")).toBeVisible();
     await expectFullyInContentViewport(page, "calendar-simulate-day");
     await expect(page.getByTestId("calendar-simulate-week")).toBeVisible();
