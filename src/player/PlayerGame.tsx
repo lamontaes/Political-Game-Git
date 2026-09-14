@@ -2568,6 +2568,8 @@ function PlayingScreen({
     goToTheFloor,
     goToTheFloorFor,
     workHint,
+    pendingAvailable,
+    onOpenPending: openPendingLife,
   });
 
   return (
@@ -2919,6 +2921,8 @@ function renderWorkspace({
   goToTheFloor,
   goToTheFloorFor,
   workHint,
+  pendingAvailable,
+  onOpenPending,
 }: {
   readonly view: ReturnType<typeof activeView>;
   readonly session: Session;
@@ -2938,6 +2942,8 @@ function renderWorkspace({
   readonly goToTheFloor: () => void;
   readonly goToTheFloorFor: (bill: DocketBill) => void;
   readonly workHint: string;
+  readonly pendingAvailable: boolean;
+  readonly onOpenPending: () => void;
 }): ReactNode {
   if (view.surface === "scene") return null;
 
@@ -3196,7 +3202,7 @@ function renderWorkspace({
             {...(view.section ? { section: view.section } : {})}
             onOpenPerson={openPerson}
             pendingAvailable={pendingAvailable}
-            onOpenPending={openPendingLife}
+            onOpenPending={onOpenPending}
           />
         </>,
       );
