@@ -1,17 +1,21 @@
-.journal-account-aspect {
-  display: inline-block;
-  margin-right: 0.4rem;
-  color: var(--run-a-muted, #6b645c);
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+.journal-account-chapter {
+  margin: 0.8rem 0 1rem;
 }
 
-.journal-account ol,
+.journal-account-chapter h4 {
+  margin: 0 0 0.25rem;
+  color: var(--run-a-muted, #6b645c);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.journal-account-chapter p {
+  margin: 0;
+  max-width: 62ch;
+  line-height: 1.55;
+}
+
 .journal-exact-record ol {
   padding-left: 1.2rem;
-}
-
-.journal-account li {
-  margin: 0.55rem 0;
 }

@@ -29,12 +29,12 @@ declare is reported as undeclared rather than filled in from a guess.
 | `life/formative` | 177 | 0 | 0 | persistent-cast |
 | `life/introduction` | 10 | 0 | 0 | — |
 | `life/journal-reader` | 4 | 0 | 0 | — |
-| `life/life-biography` | 18 | 0 | 0 | — |
+| `life/life-biography` | 34 | 0 | 0 | — |
 | `life/opening-conversation-intents` | 11 | 0 | 0 | — |
 | `life/opening-conversation-replies` | 31 | 0 | 0 | — |
 | `narration/connective` | 43 | 0 | 0 | elapsed-time |
 | `narration/thread-recap` | 32 | 0 | 0 | — |
-| `ordinary/news-orientation` | 17 | 0 | 0 | — |
+| `ordinary/news-orientation` | 38 | 0 | 0 | — |
 | `ordinary/work-item` | 4 | 0 | 4 | — |
 | `setup/questionnaire` | 354 | 0 | 0 | — |
 | `shell/art-preview` | 2 | 0 | 0 | — |

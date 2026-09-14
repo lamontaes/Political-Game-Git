@@ -17,14 +17,19 @@ import {
   type IsoDate,
   type World,
 } from "../simulation";
+import { proseDate, proseMonthYear, proseYear } from "./prose-dates";
 
 /**
- * Chronological biographical account of one played life.
+ * Chronological account of one played life, told to the player in the second
+ * person from what the World actually holds: identity, education and work,
+ * enrollment, commitments, what was lived through, what the character
+ * privately thinks, and what they said in public.
  *
- * Sentences come from recorded identity, history, choices and outcomes.
- * Intention, agreement and performance stay labelled separately. Beliefs are
- * attributed. Unsupported emotion, cause, "You chose to" and proof-ledger
- * wording are omitted rather than invented.
+ * Intention, agreement and performance stay labelled separately on each
+ * passage so a reader can tell a plan from a result. Beliefs are attributed.
+ * Unsupported emotion, cause, "You chose to" and proof-ledger wording are
+ * omitted rather than invented. Nothing here says "recorded": the account is
+ * the life, not a description of the save.
  */
 
 export type BiographyAspect =
@@ -41,6 +46,15 @@ export interface BiographyPassage {
   readonly aspect: BiographyAspect;
   readonly sentence: string;
   readonly recordId: string;
+  /** Tie-break inside one day: the order the World wrote these down. */
+  readonly sequence: number;
+}
+
+export interface BiographyChapter {
+  readonly key: string;
+  readonly heading: string;
+  readonly year: string;
+  readonly passages: readonly BiographyPassage[];
 }
 
 export interface LifeBiography {
@@ -48,6 +62,7 @@ export interface LifeBiography {
   readonly age: number;
   readonly summary: string;
   readonly passages: readonly BiographyPassage[];
+  readonly chapters: readonly BiographyChapter[];
   readonly emptyReason: string | null;
 }
 
@@ -55,6 +70,10 @@ const LEDGER_OR_CHOSE =
   /\byou chose to\b|\byou decided to\b|\bproof[- ]ledger\b|\bstanding for membership\b|\bnot represented in this save\b|\bsource pack\b/i;
 const INVENTED_CAUSE_OR_FEELING =
   /\bbecause you (felt|were|wanted)\b|\bmade you (feel|angry|sad|happy|afraid)\b|\byou were (angry|sad|lonely|afraid|proud|ashamed)\b|\bthis (reminds|inspired|forced) you\b/i;
+
+function noLifeYet(): string {
+  return "There is no life to tell yet.";
+}
 
 export function projectLifeBiography(
   world: World,
@@ -67,14 +86,15 @@ export function projectLifeBiography(
       age: 0,
       summary: "",
       passages: [],
-      emptyReason: "No character is recorded for this journal.",
+      chapters: [],
+      emptyReason: noLifeYet(),
     };
   }
 
   const name = personName(person);
   const age = ageOnDate(person.birthDate, world.currentDate);
   const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
-  const passages = collectPassages(world, personId).sort(byDateThenKey);
+  const passages = collectPassages(world, personId).sort(byDateThenSequence);
 
   return {
     personName: name,
@@ -83,29 +103,55 @@ export function projectLifeBiography(
       ? `${name}, ${age}, in ${place.displayName}.`
       : `${name}, ${age}.`,
     passages,
-    emptyReason:
-      passages.length === 0
-        ? "No identity, history, choices or outcomes are recorded for this life yet."
-        : null,
+    chapters: groupBiographyByYear(passages, person.birthDate),
+    emptyReason: passages.length === 0 ? noLifeYet() : null,
   };
+}
+
+/**
+ * One chapter per calendar year that has something in it, oldest first. The
+ * heading carries the age the year began at for this life, so a year that
+ * holds a birthday still reads as the age the reader lived most of it at.
+ */
+export function groupBiographyByYear(
+  passages: readonly BiographyPassage[],
+  birthDate: IsoDate,
+): readonly BiographyChapter[] {
+  const chapters: BiographyChapter[] = [];
+  for (const passage of passages) {
+    const year = proseYear(passage.at);
+    const last = chapters[chapters.length - 1];
+    if (last && last.year === year) {
+      chapters[chapters.length - 1] = {
+        ...last,
+        passages: [...last.passages, passage],
+      };
+      continue;
+    }
+    const ageAtStart = ageOnDate(birthDate, passage.at);
+    chapters.push({
+      key: `year:${year}`,
+      year,
+      heading: ageAtStart > 0 ? `${year}, age ${ageAtStart}` : year,
+      passages: [passage],
+    });
+  }
+  return chapters;
 }
 
 function collectPassages(world: World, personId: EntityId): BiographyPassage[] {
   const person = world.people[personId]!;
-  const name = personName(person);
   const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
   const cutoff = currentLifeCutoff(world);
   const passages: BiographyPassage[] = [];
 
-  const identity = place
-    ? `${name} was born ${person.birthDate} and lives in ${place.displayName}.`
-    : `${name} was born ${person.birthDate}.`;
   pushPassage(passages, {
     key: `identity:${person.id}`,
     at: person.birthDate,
     aspect: "identity",
-    sentence: identity,
+    sentence: identitySentence(person.birthDate, place?.displayName ?? null),
     recordId: person.id,
+    sequence: 0,
   });
 
   for (const fact of factsForPerson(person)) {
@@ -114,22 +160,19 @@ function collectPassages(world: World, personId: EntityId): BiographyPassage[] {
         key: `fact:${fact.id}`,
         at: fact.occurredAt,
         aspect: "performance",
-        sentence: fact.field
-          ? `${name} has a recorded education fact: ${fact.institution}, ${fact.field}.`
-          : `${name} has a recorded education fact: ${fact.institution}.`,
+        sentence: educationFactSentence(fact),
         recordId: fact.id,
+        sequence: 0,
       });
     }
     if (fact.kind === "occupation") {
       pushPassage(passages, {
         key: `fact:${fact.id}`,
         at: fact.occurredAt,
-        aspect: fact.status === "ongoing" ? "performance" : "performance",
-        sentence:
-          fact.status === "ongoing"
-            ? `${name} works as ${fact.title} at ${fact.employer}.`
-            : `${name} worked as ${fact.title} at ${fact.employer}.`,
+        aspect: "performance",
+        sentence: occupationFactSentence(fact),
         recordId: fact.id,
+        sequence: 0,
       });
     }
   }
@@ -147,29 +190,53 @@ function collectPassages(world: World, personId: EntityId): BiographyPassage[] {
           ?.name ?? null)
       : null;
     const where = orgName ? ` at ${orgName}` : "";
+    const served = isElectedOrAppointedOffice(relationship.kind);
     if (status.status === "expected") {
       pushPassage(passages, {
         key: `work-intention:${relationship.id}`,
         at: relationship.recordedAt,
         aspect: "intention",
-        sentence: `${name} has recorded expected work as ${role.title}${where}, to start ${relationship.startedAt}.`,
+        sentence: workSentence(
+          "expected",
+          served,
+          role.title,
+          where,
+          relationship.startedAt,
+        ),
         recordId: relationship.id,
+        sequence: relationship.sequence,
       });
     } else if (status.status === "active") {
       pushPassage(passages, {
         key: `work-performance:${relationship.id}`,
-        at: role.effectiveAt,
+        at: relationship.startedAt,
         aspect: "performance",
-        sentence: `${name} holds the recorded role of ${role.title}${where}.`,
+        sentence: workSentence(
+          "active",
+          served,
+          role.title,
+          where,
+          relationship.startedAt,
+        ),
         recordId: relationship.id,
+        sequence: relationship.sequence,
       });
     } else if (status.status === "ended") {
+      // The status reason is the engine's explanation of the record, not
+      // something the character would write about their own life.
       pushPassage(passages, {
         key: `work-ended:${relationship.id}`,
         at: status.effectiveAt,
         aspect: "performance",
-        sentence: `The recorded ${role.title} work${where} ended on ${status.effectiveAt}${status.reason ? `: ${status.reason}` : "."}`,
+        sentence: workSentence(
+          "ended",
+          served,
+          role.title,
+          where,
+          status.effectiveAt,
+        ),
         recordId: relationship.id,
+        sequence: relationship.sequence,
       });
     }
   }
@@ -183,30 +250,33 @@ function collectPassages(world: World, personId: EntityId): BiographyPassage[] {
     if (!state) continue;
     const orgName =
       organizationProfileAt(world, enrollment.organizationId, cutoff)?.name ??
-      "a recorded school";
+      "school";
     if (state.status === "expected") {
       pushPassage(passages, {
         key: `school-agreement:${enrollment.id}`,
         at: enrollment.recordedAt,
         aspect: "agreement",
-        sentence: `${name} has a recorded expected enrollment at ${orgName}, to start ${enrollment.startedAt}.`,
+        sentence: enrollmentSentence("expected", orgName, enrollment.startedAt),
         recordId: enrollment.id,
+        sequence: enrollment.sequence,
       });
     } else if (state.status === "active") {
       pushPassage(passages, {
         key: `school-performance:${enrollment.id}`,
         at: state.effectiveAt,
         aspect: "performance",
-        sentence: `${name} is enrolled at ${orgName}.`,
+        sentence: enrollmentSentence("active", orgName, state.effectiveAt),
         recordId: enrollment.id,
+        sequence: enrollment.sequence,
       });
     } else if (state.status === "completed") {
       pushPassage(passages, {
         key: `school-completed:${enrollment.id}`,
         at: state.effectiveAt,
         aspect: "performance",
-        sentence: `${name} completed enrollment at ${orgName} on ${state.effectiveAt}.`,
+        sentence: enrollmentSentence("completed", orgName, state.effectiveAt),
         recordId: enrollment.id,
+        sequence: enrollment.sequence,
       });
     }
   }
@@ -216,8 +286,9 @@ function collectPassages(world: World, personId: EntityId): BiographyPassage[] {
       key: `commitment:${commitment.id}`,
       at: commitment.startsAt,
       aspect: "intention",
-      sentence: `${name} has a recorded commitment: ${commitment.label}.`,
+      sentence: commitmentSentence(commitment.label),
       recordId: commitment.id,
+      sequence: commitment.sequence,
     });
   }
 
@@ -234,6 +305,7 @@ function collectPassages(world: World, personId: EntityId): BiographyPassage[] {
       aspect: "experience",
       sentence,
       recordId: memory.id,
+      sequence: memory.sequence,
     });
   }
 
@@ -256,6 +328,7 @@ function collectPassages(world: World, personId: EntityId): BiographyPassage[] {
       aspect: "experience",
       sentence,
       recordId: event.id,
+      sequence: event.sequence,
     });
   }
 
@@ -273,8 +346,9 @@ function collectPassages(world: World, personId: EntityId): BiographyPassage[] {
       key: `belief:${belief.id}`,
       at: belief.formedAt,
       aspect: "belief",
-      sentence: `${name} has a recorded ${belief.position} view on ${proposition.name}.`,
+      sentence: beliefSentence(belief.position, proposition.name),
       recordId: belief.id,
+      sequence: belief.sequence,
     });
   }
 
@@ -291,8 +365,9 @@ function collectPassages(world: World, personId: EntityId): BiographyPassage[] {
       key: `position:${position.id}`,
       at: position.statedAt,
       aspect: "belief",
-      sentence: `${name} stated publicly: ${position.statement}`,
+      sentence: publicPositionSentence(position.statement),
       recordId: position.id,
+      sequence: position.sequence,
     });
   }
 
@@ -305,20 +380,180 @@ function collectPassages(world: World, personId: EntityId): BiographyPassage[] {
       key: `campaign-commitment:${commitment.id}`,
       at: commitment.madeAt,
       aspect: "agreement",
-      sentence: `${name} recorded a ${commitment.level} to ${commitment.stance} ${proposition.name}.`,
+      sentence: campaignCommitmentSentence(
+        commitment.level,
+        commitment.stance,
+        proposition.name,
+        commitment.statement,
+      ),
       recordId: commitment.id,
+      sequence: commitment.sequence,
     });
   }
 
   return passages;
 }
 
+function identitySentence(
+  birthDate: IsoDate,
+  placeName: string | null,
+): string {
+  return placeName
+    ? `You were born on ${proseDate(birthDate)}, and live in ${placeName}.`
+    : `You were born on ${proseDate(birthDate)}.`;
+}
+
+function occupationFactSentence(fact: {
+  readonly title: string;
+  readonly employer: string;
+  readonly status: "ended" | "ongoing";
+}): string {
+  return fact.status === "ongoing"
+    ? `You work as ${fact.title} at ${fact.employer}.`
+    : `You worked as ${fact.title} at ${fact.employer}.`;
+}
+
+function workSentence(
+  status: "expected" | "active" | "ended",
+  served: boolean,
+  title: string,
+  where: string,
+  at: IsoDate,
+): string {
+  switch (status) {
+    case "expected":
+      return `You are due to start as ${title}${where} on ${proseDate(at)}.`;
+    case "active":
+      return served
+        ? `You have served as ${title}${where} since ${proseMonthYear(at)}.`
+        : `You have worked as ${title}${where} since ${proseMonthYear(at)}.`;
+    case "ended":
+    default:
+      return served
+        ? `Your time as ${title}${where} ended in ${proseMonthYear(at)}.`
+        : `Your work as ${title}${where} ended in ${proseMonthYear(at)}.`;
+  }
+}
+
+function enrollmentSentence(
+  status: "expected" | "active" | "completed",
+  school: string,
+  at: IsoDate,
+): string {
+  switch (status) {
+    case "expected":
+      return `You are due to start at ${school} on ${proseDate(at)}.`;
+    case "active":
+      return `You are enrolled at ${school}.`;
+    case "completed":
+    default:
+      return `You finished at ${school} in ${proseMonthYear(at)}.`;
+  }
+}
+
+function commitmentSentence(label: string): string {
+  return `You have a standing commitment: ${label}.`;
+}
+
+function publicPositionSentence(statement: string): string {
+  return `In public you said: ${quoted(statement)}`;
+}
+
+function educationFactSentence(fact: {
+  readonly institution: string;
+  readonly field: string | null;
+  readonly credential: string | null;
+  readonly status: "attended" | "completed" | "ongoing" | "withdrew";
+}): string {
+  const { institution, field, credential } = fact;
+  switch (fact.status) {
+    case "ongoing":
+      return field
+        ? `You are studying ${field} at ${institution}.`
+        : `You attend ${institution}.`;
+    case "completed":
+      if (credential) {
+        return field
+          ? `You earned ${credential} in ${field} at ${institution}.`
+          : `You earned ${credential} at ${institution}.`;
+      }
+      return field
+        ? `You finished ${field} at ${institution}.`
+        : `You finished at ${institution}.`;
+    case "withdrew":
+      return `You left ${institution} before finishing.`;
+    case "attended":
+    default:
+      return field
+        ? `You attended ${institution}, studying ${field}.`
+        : `You attended ${institution}.`;
+  }
+}
+
+function beliefSentence(
+  position: "support" | "oppose" | "uncertain" | "conflicted",
+  propositionName: string,
+): string {
+  switch (position) {
+    case "support":
+      return `Privately, you support ${propositionName}.`;
+    case "oppose":
+      return `Privately, you oppose ${propositionName}.`;
+    case "conflicted":
+      return `Privately, you are torn over ${propositionName}.`;
+    case "uncertain":
+    default:
+      return `Privately, you are unsure about ${propositionName}.`;
+  }
+}
+
+function campaignCommitmentSentence(
+  level: "aspiration" | "conditional" | "pledge",
+  stance: "support" | "oppose" | "seek-modification" | "defer",
+  propositionName: string,
+  statement: string,
+): string {
+  const verb =
+    stance === "support"
+      ? "support"
+      : stance === "oppose"
+        ? "oppose"
+        : stance === "seek-modification"
+          ? "seek changes to"
+          : "hold off on";
+  const words = quoted(statement);
+  switch (level) {
+    case "pledge":
+      return `You pledged to ${verb} ${propositionName}: ${words}`;
+    case "conditional":
+      return `You said you would ${verb} ${propositionName} on conditions: ${words}`;
+    case "aspiration":
+    default:
+      return `You said you hoped to ${verb} ${propositionName}: ${words}`;
+  }
+}
+
+function quoted(statement: string): string {
+  const trimmed = statement.trim().replace(/^["“]|["”]$/g, "");
+  const closed = /[.?!]$/.test(trimmed) ? trimmed : `${trimmed}.`;
+  return `“${closed}”`;
+}
+
+function isElectedOrAppointedOffice(kind: string): boolean {
+  return (
+    kind === "employment:executive-office" ||
+    kind === "employment:legislative-member" ||
+    kind === "employment:judicial-office-practice"
+  );
+}
+
 function pushPassage(
   passages: BiographyPassage[],
   passage: BiographyPassage,
 ): void {
-  if (!livedSentence(passage.sentence)) return;
-  passages.push({ ...passage, sentence: livedSentence(passage.sentence)! });
+  const sentence = livedSentence(passage.sentence);
+  if (!sentence) return;
+  passages.push({ ...passage, sentence });
 }
 
 function livedSentence(raw: string): string | null {
@@ -326,17 +561,19 @@ function livedSentence(raw: string): string | null {
   if (trimmed.length < 8) return null;
   const stripped = trimmed
     .replace(/^You chose to /i, "You ")
-    .replace(/^You decided to /i, "You ");
+    .replace(/^You decided to /i, "You ")
+    .replace(/^I remember /, "You remember ");
   if (LEDGER_OR_CHOSE.test(stripped)) return null;
   if (INVENTED_CAUSE_OR_FEELING.test(stripped)) return null;
   return stripped;
 }
 
-function byDateThenKey(
+function byDateThenSequence(
   left: BiographyPassage,
   right: BiographyPassage,
 ): number {
   const byDate = left.at.localeCompare(right.at);
   if (byDate !== 0) return byDate;
+  if (left.sequence !== right.sequence) return left.sequence - right.sequence;
   return left.key.localeCompare(right.key);
 }

@@ -498,7 +498,7 @@ test.describe("The record is a journal, not a log down the page", () => {
     const text = await journal.innerText();
     // Case-insensitive: the stylesheet uppercases the journal's section
     // headings, and this test is about the words rather than the letterforms.
-    expect(text.toLowerCase()).toContain("account of this life");
+    expect(text.toLowerCase()).toContain("your life so far");
     expect(text.toLowerCase()).toContain("exact record");
     await expect(journal.getByTestId("journal-account")).toBeVisible();
     expect(text).not.toMatch(DEVELOPER_WORDS);

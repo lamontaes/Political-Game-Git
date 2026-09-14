@@ -6,7 +6,7 @@ import type { PrivateJournal } from "../presentation/shell-navigation";
 import { PrivateJournalEditor } from "./PrivateJournalEditor";
 import "./journal-reader.css";
 
-export const JOURNAL_ACCOUNT_HEADING = "Account of this life";
+export const JOURNAL_ACCOUNT_HEADING = "Your life so far";
 export const JOURNAL_RECORD_HEADING = "Exact record";
 export const JOURNAL_RECORD_EMPTY =
   "Nothing has been written down yet. It will fill up as the life goes on.";
@@ -51,21 +51,32 @@ export function JournalReader({
             {biography.emptyReason}
           </p>
         ) : (
-          <ol data-testid="journal-account-passages">
-            {biography.passages.map((passage) => (
-              <li
-                key={passage.key}
-                data-biography-aspect={passage.aspect}
-                data-record-id={passage.recordId}
+          <div data-testid="journal-account-passages">
+            {biography.chapters.map((chapter) => (
+              <section
+                key={chapter.key}
+                className="journal-account-chapter"
+                data-testid="journal-account-chapter"
+                data-year={chapter.year}
               >
-                <span className="journal-account-aspect">{passage.aspect}</span>
-                <span> {passage.at}: </span>
-                <span data-testid="journal-account-sentence">
-                  {passage.sentence}
-                </span>
-              </li>
+                <h4>{chapter.heading}</h4>
+                <p>
+                  {chapter.passages.map((passage, index) => (
+                    <span
+                      key={passage.key}
+                      data-testid="journal-account-sentence"
+                      data-biography-aspect={passage.aspect}
+                      data-record-id={passage.recordId}
+                      data-at={passage.at}
+                    >
+                      {index > 0 ? " " : ""}
+                      {passage.sentence}
+                    </span>
+                  ))}
+                </p>
+              </section>
             ))}
-          </ol>
+          </div>
         )}
       </section>
 

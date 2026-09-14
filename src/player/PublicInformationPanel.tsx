@@ -8,9 +8,12 @@ import type {
 import type { CivicGlossaryEntry } from "../presentation/civic-glossary";
 import {
   NEWS_ORIENTATION_KNOWN_TITLE,
-  NEWS_ORIENTATION_PUBLIC_TITLE,
+  NEWS_ORIENTATION_RECENT_TITLE,
+  isStandingNewsItem,
+  newsOrientationPlaceTitle,
   type NewsOrientationItem,
 } from "../presentation/news-orientation";
+import { proseDate } from "../presentation/prose-dates";
 import { filterPublishedNewsItems } from "./public-information-search";
 import {
   itemsForPublicInformationView,
@@ -139,7 +142,7 @@ export function PublicInformationPanel({
 
       {model.items.length === 0 ? (
         <p data-testid="public-information-empty">
-          No public-information items have been published in this save.
+          No stories have been published here yet.
         </p>
       ) : (
         <>
@@ -317,10 +320,6 @@ export function PublicInformationPanel({
           </header>
           <p>{activeConcept.fullDefinition}</p>
           <small>{activeConcept.sourceLabel}</small>
-          <p className="public-information-help-note">
-            Reading this explanation does not move time or change the saved
-            world.
-          </p>
         </aside>
       ) : null}
     </section>
@@ -334,13 +333,24 @@ function NewsOrientationSection({
   readonly orientation: PublicInformationPanelModel["orientation"];
   readonly onOpenPerson: (personId: EntityId) => void;
 }) {
+  // Published stories are the digest below; the orientation shows the
+  // standing public facts and the public events nobody has written up.
+  const standing = orientation.publicWorld.items.filter(isStandingNewsItem);
+  const recent = orientation.publicWorld.items.filter(
+    (item) => item.kind === "public-event",
+  );
+  const known = orientation.viewerAccessible.items.filter(
+    (item) => item.kind === "public-event",
+  );
   return (
     <section
       className="news-orientation"
       aria-labelledby="news-orientation-title"
       data-testid="news-orientation"
     >
-      <h3 id="news-orientation-title">{NEWS_ORIENTATION_PUBLIC_TITLE}</h3>
+      <h3 id="news-orientation-title">
+        {newsOrientationPlaceTitle(orientation.placeName)}
+      </h3>
       <p className="news-orientation-as-of">{orientation.assembledLine}</p>
       {orientation.publicWorld.emptyReason ? (
         <p data-testid="news-orientation-public-empty">
@@ -348,7 +358,7 @@ function NewsOrientationSection({
         </p>
       ) : (
         <ol data-testid="news-orientation-public">
-          {orientation.publicWorld.items.map((item) => (
+          {standing.map((item) => (
             <li key={item.key}>
               <NewsOrientationArticle item={item} onOpenPerson={onOpenPerson} />
             </li>
@@ -356,19 +366,45 @@ function NewsOrientationSection({
         </ol>
       )}
 
-      <h3 id="news-orientation-known-title">{NEWS_ORIENTATION_KNOWN_TITLE}</h3>
-      {orientation.viewerAccessible.emptyReason ? (
+      <h3 id="news-orientation-recent-title">
+        {NEWS_ORIENTATION_RECENT_TITLE}
+      </h3>
+      {recent.length === 0 ? (
         <p data-testid="news-orientation-known-empty">
           {orientation.viewerAccessible.emptyReason}
         </p>
       ) : (
-        <ol data-testid="news-orientation-known">
-          {orientation.viewerAccessible.items.map((item) => (
-            <li key={`known:${item.key}`}>
-              <NewsOrientationArticle item={item} onOpenPerson={onOpenPerson} />
-            </li>
-          ))}
-        </ol>
+        <>
+          <ol data-testid="news-orientation-recent">
+            {recent.map((item) => (
+              <li key={`recent:${item.key}`}>
+                <NewsOrientationArticle
+                  item={item}
+                  onOpenPerson={onOpenPerson}
+                />
+              </li>
+            ))}
+          </ol>
+          <h3 id="news-orientation-known-title">
+            {NEWS_ORIENTATION_KNOWN_TITLE}
+          </h3>
+          {known.length === 0 ? (
+            <p data-testid="news-orientation-known-empty">
+              {orientation.viewerAccessible.emptyReason}
+            </p>
+          ) : (
+            <ol data-testid="news-orientation-known">
+              {known.map((item) => (
+                <li key={`known:${item.key}`}>
+                  <NewsOrientationArticle
+                    item={item}
+                    onOpenPerson={onOpenPerson}
+                  />
+                </li>
+              ))}
+            </ol>
+          )}
+        </>
       )}
     </section>
   );
@@ -387,14 +423,15 @@ function NewsOrientationArticle({
       data-testid="news-orientation-item"
       data-orientation-kind={item.kind}
       data-orientation-key={item.key}
+      data-known-to-viewer={item.knownToViewer ? "true" : "false"}
     >
       <header>
-        <p>
-          {item.kind.replace("-", " ")} · {item.asOf}
-        </p>
+        {isStandingNewsItem(item) ? null : <p>{proseDate(item.asOf)}</p>}
         <h4>{item.headline}</h4>
       </header>
-      <p data-testid="news-orientation-recap">{item.recap}</p>
+      {item.recap !== item.headline ? (
+        <p data-testid="news-orientation-recap">{item.recap}</p>
+      ) : null}
       {item.links.length > 0 ? (
         <p
           className="news-orientation-links"

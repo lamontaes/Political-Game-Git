@@ -53,8 +53,11 @@ test("News orients from public records and Journal tells the lived account throu
   await expect(news).toBeVisible();
   await expect(page.getByTestId("news-orientation-item").first()).toBeVisible();
   const newsText = await news.innerText();
-  expect(newsText).toMatch(/Lexington|Kentucky|Governor|municipal/i);
+  expect(newsText).toMatch(/Lexington, Kentucky is governed by/);
   expect(newsText).not.toMatch(/war broke out|secret motive|you chose to/i);
+  expect(newsText).not.toMatch(
+    /\brecorded\b|in this save|No incumbent|Reading does not publish|Assembled/i,
+  );
   await expect(
     page.getByTestId("news-orientation-links").first(),
   ).toBeVisible();
@@ -70,8 +73,14 @@ test("News orients from public records and Journal tells the lived account throu
   const account = page.getByTestId("journal-account-passages");
   await expect(account).toBeVisible();
   const accountText = await account.innerText();
-  expect(accountText).toMatch(/Maya Hale was born/);
+  expect(accountText).toMatch(/You were born on/);
   expect(accountText).not.toMatch(/you chose to/i);
+  expect(accountText).not.toMatch(
+    /\brecorded\b|in this save|\d{4}-\d{2}-\d{2}/i,
+  );
+  await expect(
+    page.getByTestId("journal-account-chapter").first(),
+  ).toBeVisible();
   await expect(
     page.getByRole("region", { name: "Private notebook" }),
   ).toBeVisible();
@@ -89,10 +98,10 @@ test("News orients from public records and Journal tells the lived account throu
   await enterLife(page);
   await goTo(page, "nav-news");
   await expect(page.getByTestId("news-orientation")).toContainText(
-    /Lexington|Kentucky|Governor|municipal/i,
+    "Lexington, Kentucky is governed by",
   );
   await goTo(page, "nav-journal-entry");
   await expect(page.getByTestId("journal-account-passages")).toContainText(
-    "Maya Hale was born",
+    "You were born on",
   );
 });

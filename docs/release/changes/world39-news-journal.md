@@ -5,8 +5,8 @@ section: Changed
 title: News orients you; Journal tells the life you lived
 ---
 
-News now opens with a grounded orientation assembled from the public events,
-institutions, incumbents and publications already in this save. Reading it does
-not publish a story or invent the event it reports. The Journal's first page is
-a chronological account of the life you actually lived; your private notes and
-the exact record remain available underneath.
+News now opens with the public situation where you live: who governs the
+place, what serves it, who holds office, and what has happened in public
+lately, told plainly rather than as a list of records. The Journal's first page
+tells the life you have actually lived, year by year, in your own second
+person; your private notes and the exact record remain available underneath.

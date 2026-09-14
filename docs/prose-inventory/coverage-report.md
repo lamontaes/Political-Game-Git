@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 2496 |
+| INVENTORIED | 2536 |
 | INTENTIONALLY_NON_PLAYER_FACING | 5907 |
-| DIAGNOSTIC_OR_TEST | 5318 |
-| **NEEDS_CLASSIFICATION** | **6612** |
+| DIAGNOSTIC_OR_TEST | 5323 |
+| **NEEDS_CLASSIFICATION** | **6608** |
 
-Scanned 655 files holding 77896 string
+Scanned 656 files holding 78048 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -246,7 +246,6 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/player/LegislationWorkspace.tsx` |
 | 5 | `src/presentation/browser-world-repository-protocol.ts` |
 | 5 | `src/presentation/life-conversation.ts` |
-| 5 | `src/presentation/news-orientation.ts` |
 | 5 | `src/presentation/opening-officeholders.ts` |
 | 5 | `src/presentation/place-travel.ts` |
 | 5 | `src/simulation/causal-effects.ts` |
@@ -260,7 +259,6 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/player/TitleScreen.tsx` |
 | 4 | `src/presentation/complete-outfit.ts` |
 | 4 | `src/presentation/executive-work.ts` |
-| 4 | `src/presentation/life-biography.ts` |
 | 4 | `src/presentation/life-story.ts` |
 | 4 | `src/presentation/place-hometown-population.ts` |
 | 4 | `src/presentation/setup-questionnaire-flow.ts` |
@@ -278,6 +276,7 @@ literals in total; the table counts only those that read like a sentence.
 | 3 | `src/presentation/browser-shell-state.ts` |
 | 3 | `src/presentation/economic-context.ts` |
 | 3 | `src/presentation/legislation-composition.ts` |
+| 3 | `src/presentation/life-biography.ts` |
 | 3 | `src/presentation/life-introduction.ts` |
 | 3 | `src/presentation/production-office.ts` |
 | 3 | `src/presentation/scheduled-activity-choice.ts` |
@@ -300,6 +299,7 @@ literals in total; the table counts only those that read like a sentence.
 | 2 | `src/presentation/character-proof.ts` |
 | 2 | `src/presentation/legislation-docket-selection.ts` |
 | 2 | `src/presentation/location-surfaces.ts` |
+| 2 | `src/presentation/news-orientation.ts` |
 | 2 | `src/presentation/people-directory.ts` |
 | 2 | `src/presentation/play-scene-context.ts` |
 | 2 | `src/presentation/scene-proof.ts` |

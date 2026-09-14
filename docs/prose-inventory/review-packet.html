@@ -50,11 +50,11 @@ h2 .count { color:var(--accent); }
 </head><body><main>
 <header>
 <h1>Our Civic Duty — player-facing prose review packet</h1>
-<p>Current main <code data-provenance="head-sha">a41aed018700304b94bc722ffe327bc40c6b5a37</code> &middot; inventory digest <code>e2eb0da1b70e5875</code> &middot; generated for owner prose review</p>
+<p>Current main <code data-provenance="head-sha">ba8b69950b8b8b223e87e6cf11a7c03ad48690b2</code> &middot; inventory digest <code>be5e39763da91027</code> &middot; generated for owner prose review</p>
 <p>Every item is keyed by its stable semantic ID. Marks belong to the ID, not to a position on the page.</p>
 </header>
 <div class="summary">
-<div><b>2683</b> templates<ul><li><b>42</b> CURRENTLY_UNREACHABLE</li><li><b>106</b> DEV_FIXTURE_ONLY</li><li><b>90</b> LEGACY_OR_WITHDRAWN</li><li><b>2019</b> PLAYER_REACHABLE</li><li><b>68</b> UNKNOWN</li><li><b>358</b> WITHHELD_BY_GROUNDING</li></ul></div>
+<div><b>2720</b> templates<ul><li><b>42</b> CURRENTLY_UNREACHABLE</li><li><b>106</b> DEV_FIXTURE_ONLY</li><li><b>90</b> LEGACY_OR_WITHDRAWN</li><li><b>2056</b> PLAYER_REACHABLE</li><li><b>68</b> UNKNOWN</li><li><b>358</b> WITHHELD_BY_GROUNDING</li></ul></div>
 <div><b>265</b> review warnings<ul><li><b>38</b> and-it-scaffold</li><li><b>1</b> anonymous-actor</li><li><b>9</b> label-restated-in-description</li><li><b>28</b> rather-than-scaffold</li><li><b>10</b> third-person-player</li><li><b>179</b> vague-referent</li></ul></div>
 <div><b>0</b> hard errors</div>
 </div>
@@ -35846,7 +35846,7 @@ h2 .count { color:var(--accent); }
 </article>
 </section>
 <section class="group" data-group="status">
-<h2>status <span class="count">411</span></h2>
+<h2>status <span class="count">448</span></h2>
 <article class="item" id="prose:campaign:campaign-status:detail-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="a session on the doors" data-text-revision="85275d6e29bc" data-context-revision="15862db75231">
 <div class="top"><code class="sid">prose:campaign:campaign-status:detail-0001#text</code></div>
 <p class="prose">A session on the doors</p>
@@ -41474,9 +41474,9 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:life:journal-reader:JOURNAL_ACCOUNT_HEADING-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="account of this life" data-text-revision="9c4dd0422c31" data-context-revision="51b6bea783a6">
+<article class="item" id="prose:life:journal-reader:JOURNAL_ACCOUNT_HEADING-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="your life so far" data-text-revision="20dc48d0e7d6" data-context-revision="51b6bea783a6">
 <div class="top"><code class="sid">prose:life:journal-reader:JOURNAL_ACCOUNT_HEADING-0001#text</code></div>
-<p class="prose">Account of this life</p>
+<p class="prose">Your life so far</p>
 <dl class="meta">
 <dt>Source</dt><dd>src/player/JournalReader.tsx &middot; JOURNAL_ACCOUNT_HEADING</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The Journal nav route and the play-surface journal overlay both render this reader. Personal notes remain a separate editor; the exact record is projectLifeRecord.</dd>
@@ -41542,16 +41542,16 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:life:life-biography:collectPassages-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="the recorded {role.title} work{where} ended on {status.effectiveat}{status.reason?`:${status.reason}`:&quot;.&quot;}" data-text-revision="248ed17c5b26" data-context-revision="7718cdc860c3">
-<div class="top"><code class="sid">prose:life:life-biography:collectPassages-0001#text</code></div>
-<p class="prose">The recorded {role.title} work{where} ended on {status.effectiveAt}{status.reason?`:${status.reason}`:&quot;.&quot;}</p>
+<article class="item" id="prose:life:life-biography:beliefSentence-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="privately, you are torn over {propositionname}." data-text-revision="d12b4d7f92a4" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:beliefSentence-0001#text</code></div>
+<p class="prose">Privately, you are torn over {propositionName}.</p>
 <dl class="meta">
-<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; collectPassages</dd>
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; beliefSentence</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
 <dt>Grounded by</dt><dd>recorded-life</dd>
-<dt>Slots</dt><dd>role.title, status.effectiveAt, status.reason, where</dd>
+<dt>Slots</dt><dd>propositionName</dd>
 </dl>
-<div class="marks" data-id="prose:life:life-biography:collectPassages-0001#text">
+<div class="marks" data-id="prose:life:life-biography:beliefSentence-0001#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -41559,16 +41559,16 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:life:life-biography:collectPassages-0002#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{name} completed enrollment at {orgname} on {state.effectiveat}." data-text-revision="acbde04d5cc5" data-context-revision="7718cdc860c3">
-<div class="top"><code class="sid">prose:life:life-biography:collectPassages-0002#text</code></div>
-<p class="prose">{name} completed enrollment at {orgName} on {state.effectiveAt}.</p>
+<article class="item" id="prose:life:life-biography:beliefSentence-0002#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="privately, you are unsure about {propositionname}." data-text-revision="1de9fa462151" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:beliefSentence-0002#text</code></div>
+<p class="prose">Privately, you are unsure about {propositionName}.</p>
 <dl class="meta">
-<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; collectPassages</dd>
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; beliefSentence</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
 <dt>Grounded by</dt><dd>recorded-life</dd>
-<dt>Slots</dt><dd>name, orgName, state.effectiveAt</dd>
+<dt>Slots</dt><dd>propositionName</dd>
 </dl>
-<div class="marks" data-id="prose:life:life-biography:collectPassages-0002#text">
+<div class="marks" data-id="prose:life:life-biography:beliefSentence-0002#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -41576,16 +41576,16 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:life:life-biography:collectPassages-0003#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{name} has a recorded commitment: {commitment.label}." data-text-revision="9c5784d8e612" data-context-revision="7718cdc860c3">
-<div class="top"><code class="sid">prose:life:life-biography:collectPassages-0003#text</code></div>
-<p class="prose">{name} has a recorded commitment: {commitment.label}.</p>
+<article class="item" id="prose:life:life-biography:beliefSentence-0003#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="privately, you oppose {propositionname}." data-text-revision="43997509aaa4" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:beliefSentence-0003#text</code></div>
+<p class="prose">Privately, you oppose {propositionName}.</p>
 <dl class="meta">
-<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; collectPassages</dd>
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; beliefSentence</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
 <dt>Grounded by</dt><dd>recorded-life</dd>
-<dt>Slots</dt><dd>commitment.label, name</dd>
+<dt>Slots</dt><dd>propositionName</dd>
 </dl>
-<div class="marks" data-id="prose:life:life-biography:collectPassages-0003#text">
+<div class="marks" data-id="prose:life:life-biography:beliefSentence-0003#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -41593,16 +41593,16 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:life:life-biography:collectPassages-0004#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{name} has a recorded education fact: {fact.institution}, {fact.field}." data-text-revision="8a5b12150d45" data-context-revision="7718cdc860c3">
-<div class="top"><code class="sid">prose:life:life-biography:collectPassages-0004#text</code></div>
-<p class="prose">{name} has a recorded education fact: {fact.institution}, {fact.field}.</p>
+<article class="item" id="prose:life:life-biography:beliefSentence-0004#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="privately, you support {propositionname}." data-text-revision="68e566dfefdc" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:beliefSentence-0004#text</code></div>
+<p class="prose">Privately, you support {propositionName}.</p>
 <dl class="meta">
-<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; collectPassages</dd>
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; beliefSentence</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
 <dt>Grounded by</dt><dd>recorded-life</dd>
-<dt>Slots</dt><dd>fact.field, fact.institution, name</dd>
+<dt>Slots</dt><dd>propositionName</dd>
 </dl>
-<div class="marks" data-id="prose:life:life-biography:collectPassages-0004#text">
+<div class="marks" data-id="prose:life:life-biography:beliefSentence-0004#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -41610,16 +41610,16 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:life:life-biography:collectPassages-0005#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{name} has a recorded education fact: {fact.institution}." data-text-revision="3cc0082a951a" data-context-revision="7718cdc860c3">
-<div class="top"><code class="sid">prose:life:life-biography:collectPassages-0005#text</code></div>
-<p class="prose">{name} has a recorded education fact: {fact.institution}.</p>
+<article class="item" id="prose:life:life-biography:campaignCommitmentSentence-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you pledged to {verb} {propositionname}: {words}" data-text-revision="3312cb85d35e" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:campaignCommitmentSentence-0001#text</code></div>
+<p class="prose">You pledged to {verb} {propositionName}: {words}</p>
 <dl class="meta">
-<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; collectPassages</dd>
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; campaignCommitmentSentence</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
 <dt>Grounded by</dt><dd>recorded-life</dd>
-<dt>Slots</dt><dd>fact.institution, name</dd>
+<dt>Slots</dt><dd>propositionName, verb, words</dd>
 </dl>
-<div class="marks" data-id="prose:life:life-biography:collectPassages-0005#text">
+<div class="marks" data-id="prose:life:life-biography:campaignCommitmentSentence-0001#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -41627,16 +41627,16 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:life:life-biography:collectPassages-0006#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{name} has a recorded expected enrollment at {orgname}, to start {enrollment.startedat}." data-text-revision="10a2ed148874" data-context-revision="7718cdc860c3">
-<div class="top"><code class="sid">prose:life:life-biography:collectPassages-0006#text</code></div>
-<p class="prose">{name} has a recorded expected enrollment at {orgName}, to start {enrollment.startedAt}.</p>
+<article class="item" id="prose:life:life-biography:campaignCommitmentSentence-0002#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you said you hoped to {verb} {propositionname}: {words}" data-text-revision="9daba7d323c5" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:campaignCommitmentSentence-0002#text</code></div>
+<p class="prose">You said you hoped to {verb} {propositionName}: {words}</p>
 <dl class="meta">
-<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; collectPassages</dd>
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; campaignCommitmentSentence</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
 <dt>Grounded by</dt><dd>recorded-life</dd>
-<dt>Slots</dt><dd>enrollment.startedAt, name, orgName</dd>
+<dt>Slots</dt><dd>propositionName, verb, words</dd>
 </dl>
-<div class="marks" data-id="prose:life:life-biography:collectPassages-0006#text">
+<div class="marks" data-id="prose:life:life-biography:campaignCommitmentSentence-0002#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -41644,16 +41644,16 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:life:life-biography:collectPassages-0007#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{name} has a recorded {belief.position} view on {proposition.name}." data-text-revision="9883b24d878c" data-context-revision="7718cdc860c3">
-<div class="top"><code class="sid">prose:life:life-biography:collectPassages-0007#text</code></div>
-<p class="prose">{name} has a recorded {belief.position} view on {proposition.name}.</p>
+<article class="item" id="prose:life:life-biography:campaignCommitmentSentence-0003#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you said you would {verb} {propositionname} on conditions: {words}" data-text-revision="d8503570b620" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:campaignCommitmentSentence-0003#text</code></div>
+<p class="prose">You said you would {verb} {propositionName} on conditions: {words}</p>
 <dl class="meta">
-<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; collectPassages</dd>
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; campaignCommitmentSentence</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
 <dt>Grounded by</dt><dd>recorded-life</dd>
-<dt>Slots</dt><dd>belief.position, name, proposition.name</dd>
+<dt>Slots</dt><dd>propositionName, verb, words</dd>
 </dl>
-<div class="marks" data-id="prose:life:life-biography:collectPassages-0007#text">
+<div class="marks" data-id="prose:life:life-biography:campaignCommitmentSentence-0003#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -41661,16 +41661,16 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:life:life-biography:collectPassages-0008#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{name} has recorded expected work as {role.title}{where}, to start {relationship.startedat}." data-text-revision="5e818b08ff80" data-context-revision="7718cdc860c3">
-<div class="top"><code class="sid">prose:life:life-biography:collectPassages-0008#text</code></div>
-<p class="prose">{name} has recorded expected work as {role.title}{where}, to start {relationship.startedAt}.</p>
+<article class="item" id="prose:life:life-biography:commitmentSentence-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you have a standing commitment: {label}." data-text-revision="4b7cabea70c0" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:commitmentSentence-0001#text</code></div>
+<p class="prose">You have a standing commitment: {label}.</p>
 <dl class="meta">
-<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; collectPassages</dd>
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; commitmentSentence</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
 <dt>Grounded by</dt><dd>recorded-life</dd>
-<dt>Slots</dt><dd>name, relationship.startedAt, role.title, where</dd>
+<dt>Slots</dt><dd>label</dd>
 </dl>
-<div class="marks" data-id="prose:life:life-biography:collectPassages-0008#text">
+<div class="marks" data-id="prose:life:life-biography:commitmentSentence-0001#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -41678,16 +41678,16 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:life:life-biography:collectPassages-0009#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{name} holds the recorded role of {role.title}{where}." data-text-revision="066d333e42a2" data-context-revision="7718cdc860c3">
-<div class="top"><code class="sid">prose:life:life-biography:collectPassages-0009#text</code></div>
-<p class="prose">{name} holds the recorded role of {role.title}{where}.</p>
+<article class="item" id="prose:life:life-biography:educationFactSentence-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you are studying {field} at {institution}." data-text-revision="baa4cc860a7a" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:educationFactSentence-0001#text</code></div>
+<p class="prose">You are studying {field} at {institution}.</p>
 <dl class="meta">
-<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; collectPassages</dd>
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; educationFactSentence</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
 <dt>Grounded by</dt><dd>recorded-life</dd>
-<dt>Slots</dt><dd>name, role.title, where</dd>
+<dt>Slots</dt><dd>field, institution</dd>
 </dl>
-<div class="marks" data-id="prose:life:life-biography:collectPassages-0009#text">
+<div class="marks" data-id="prose:life:life-biography:educationFactSentence-0001#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -41695,16 +41695,16 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:life:life-biography:collectPassages-0010#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{name} is enrolled at {orgname}." data-text-revision="e2ba8fc09e40" data-context-revision="7718cdc860c3">
-<div class="top"><code class="sid">prose:life:life-biography:collectPassages-0010#text</code></div>
-<p class="prose">{name} is enrolled at {orgName}.</p>
+<article class="item" id="prose:life:life-biography:educationFactSentence-0002#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you attend {institution}." data-text-revision="0c44b563eb75" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:educationFactSentence-0002#text</code></div>
+<p class="prose">You attend {institution}.</p>
 <dl class="meta">
-<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; collectPassages</dd>
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; educationFactSentence</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
 <dt>Grounded by</dt><dd>recorded-life</dd>
-<dt>Slots</dt><dd>name, orgName</dd>
+<dt>Slots</dt><dd>institution</dd>
 </dl>
-<div class="marks" data-id="prose:life:life-biography:collectPassages-0010#text">
+<div class="marks" data-id="prose:life:life-biography:educationFactSentence-0002#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -41712,16 +41712,16 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:life:life-biography:collectPassages-0011#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{name} recorded a {commitment.level} to {commitment.stance} {proposition.name}." data-text-revision="80ac4f2e85dd" data-context-revision="7718cdc860c3">
-<div class="top"><code class="sid">prose:life:life-biography:collectPassages-0011#text</code></div>
-<p class="prose">{name} recorded a {commitment.level} to {commitment.stance} {proposition.name}.</p>
+<article class="item" id="prose:life:life-biography:educationFactSentence-0003#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you attended {institution}, studying {field}." data-text-revision="1ee6246a3ccd" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:educationFactSentence-0003#text</code></div>
+<p class="prose">You attended {institution}, studying {field}.</p>
 <dl class="meta">
-<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; collectPassages</dd>
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; educationFactSentence</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
 <dt>Grounded by</dt><dd>recorded-life</dd>
-<dt>Slots</dt><dd>commitment.level, commitment.stance, name, proposition.name</dd>
+<dt>Slots</dt><dd>field, institution</dd>
 </dl>
-<div class="marks" data-id="prose:life:life-biography:collectPassages-0011#text">
+<div class="marks" data-id="prose:life:life-biography:educationFactSentence-0003#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -41729,16 +41729,16 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:life:life-biography:collectPassages-0012#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{name} stated publicly: {position.statement}" data-text-revision="a866ea1413fa" data-context-revision="7718cdc860c3">
-<div class="top"><code class="sid">prose:life:life-biography:collectPassages-0012#text</code></div>
-<p class="prose">{name} stated publicly: {position.statement}</p>
+<article class="item" id="prose:life:life-biography:educationFactSentence-0004#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you attended {institution}." data-text-revision="ce44f87746b5" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:educationFactSentence-0004#text</code></div>
+<p class="prose">You attended {institution}.</p>
 <dl class="meta">
-<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; collectPassages</dd>
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; educationFactSentence</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
 <dt>Grounded by</dt><dd>recorded-life</dd>
-<dt>Slots</dt><dd>name, position.statement</dd>
+<dt>Slots</dt><dd>institution</dd>
 </dl>
-<div class="marks" data-id="prose:life:life-biography:collectPassages-0012#text">
+<div class="marks" data-id="prose:life:life-biography:educationFactSentence-0004#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -41746,16 +41746,16 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:life:life-biography:collectPassages-0013#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{name} worked as {fact.title} at {fact.employer}." data-text-revision="2251c95adbb1" data-context-revision="7718cdc860c3">
-<div class="top"><code class="sid">prose:life:life-biography:collectPassages-0013#text</code></div>
-<p class="prose">{name} worked as {fact.title} at {fact.employer}.</p>
+<article class="item" id="prose:life:life-biography:educationFactSentence-0005#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you earned {credential} at {institution}." data-text-revision="43d87bc23eb2" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:educationFactSentence-0005#text</code></div>
+<p class="prose">You earned {credential} at {institution}.</p>
 <dl class="meta">
-<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; collectPassages</dd>
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; educationFactSentence</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
 <dt>Grounded by</dt><dd>recorded-life</dd>
-<dt>Slots</dt><dd>fact.employer, fact.title, name</dd>
+<dt>Slots</dt><dd>credential, institution</dd>
 </dl>
-<div class="marks" data-id="prose:life:life-biography:collectPassages-0013#text">
+<div class="marks" data-id="prose:life:life-biography:educationFactSentence-0005#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -41763,16 +41763,16 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:life:life-biography:collectPassages-0014#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{name} works as {fact.title} at {fact.employer}." data-text-revision="cba4d6c1f9bf" data-context-revision="7718cdc860c3">
-<div class="top"><code class="sid">prose:life:life-biography:collectPassages-0014#text</code></div>
-<p class="prose">{name} works as {fact.title} at {fact.employer}.</p>
+<article class="item" id="prose:life:life-biography:educationFactSentence-0006#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you earned {credential} in {field} at {institution}." data-text-revision="2fc1ce193c70" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:educationFactSentence-0006#text</code></div>
+<p class="prose">You earned {credential} in {field} at {institution}.</p>
 <dl class="meta">
-<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; collectPassages</dd>
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; educationFactSentence</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
 <dt>Grounded by</dt><dd>recorded-life</dd>
-<dt>Slots</dt><dd>fact.employer, fact.title, name</dd>
+<dt>Slots</dt><dd>credential, field, institution</dd>
 </dl>
-<div class="marks" data-id="prose:life:life-biography:collectPassages-0014#text">
+<div class="marks" data-id="prose:life:life-biography:educationFactSentence-0006#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -41780,16 +41780,169 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:life:life-biography:projectLifeBiography-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="no character is recorded for this journal." data-text-revision="9c3a262318f1" data-context-revision="7718cdc860c3">
-<div class="top"><code class="sid">prose:life:life-biography:projectLifeBiography-0001#text</code></div>
-<p class="prose">No character is recorded for this journal.</p>
+<article class="item" id="prose:life:life-biography:educationFactSentence-0007#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you finished at {institution}." data-text-revision="2c41577e7eb9" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:educationFactSentence-0007#text</code></div>
+<p class="prose">You finished at {institution}.</p>
 <dl class="meta">
-<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; projectLifeBiography</dd>
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; educationFactSentence</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
+<dt>Grounded by</dt><dd>recorded-life</dd>
+<dt>Slots</dt><dd>institution</dd>
+</dl>
+<div class="marks" data-id="prose:life:life-biography:educationFactSentence-0007#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:life-biography:educationFactSentence-0008#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you finished {field} at {institution}." data-text-revision="207cc10b8dbe" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:educationFactSentence-0008#text</code></div>
+<p class="prose">You finished {field} at {institution}.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; educationFactSentence</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
+<dt>Grounded by</dt><dd>recorded-life</dd>
+<dt>Slots</dt><dd>field, institution</dd>
+</dl>
+<div class="marks" data-id="prose:life:life-biography:educationFactSentence-0008#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:life-biography:educationFactSentence-0009#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you left {institution} before finishing." data-text-revision="a47c23c6efc7" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:educationFactSentence-0009#text</code></div>
+<p class="prose">You left {institution} before finishing.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; educationFactSentence</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
+<dt>Grounded by</dt><dd>recorded-life</dd>
+<dt>Slots</dt><dd>institution</dd>
+</dl>
+<div class="marks" data-id="prose:life:life-biography:educationFactSentence-0009#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:life-biography:enrollmentSentence-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you are due to start at {school} on {prosedate(at)}." data-text-revision="5ef8580a388e" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:enrollmentSentence-0001#text</code></div>
+<p class="prose">You are due to start at {school} on {proseDate(at)}.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; enrollmentSentence</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
+<dt>Grounded by</dt><dd>recorded-life</dd>
+<dt>Slots</dt><dd>proseDate(at), school</dd>
+</dl>
+<div class="marks" data-id="prose:life:life-biography:enrollmentSentence-0001#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:life-biography:enrollmentSentence-0002#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you are enrolled at {school}." data-text-revision="9f88c017c688" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:enrollmentSentence-0002#text</code></div>
+<p class="prose">You are enrolled at {school}.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; enrollmentSentence</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
+<dt>Grounded by</dt><dd>recorded-life</dd>
+<dt>Slots</dt><dd>school</dd>
+</dl>
+<div class="marks" data-id="prose:life:life-biography:enrollmentSentence-0002#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:life-biography:enrollmentSentence-0003#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you finished at {school} in {prosemonthyear(at)}." data-text-revision="351debf61a55" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:enrollmentSentence-0003#text</code></div>
+<p class="prose">You finished at {school} in {proseMonthYear(at)}.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; enrollmentSentence</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
+<dt>Grounded by</dt><dd>recorded-life</dd>
+<dt>Slots</dt><dd>proseMonthYear(at), school</dd>
+</dl>
+<div class="marks" data-id="prose:life:life-biography:enrollmentSentence-0003#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:life-biography:groupBiographyByYear-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{year}, age {ageatstart}" data-text-revision="4a42e685c773" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:groupBiographyByYear-0001#text</code></div>
+<p class="prose">{year}, age {ageAtStart}</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; groupBiographyByYear</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
+<dt>Grounded by</dt><dd>recorded-life</dd>
+<dt>Slots</dt><dd>ageAtStart, year</dd>
+</dl>
+<div class="marks" data-id="prose:life:life-biography:groupBiographyByYear-0001#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:life-biography:identitySentence-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you were born on {prosedate(birthdate)}, and live in {placename}." data-text-revision="93bc2ad24692" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:identitySentence-0001#text</code></div>
+<p class="prose">You were born on {proseDate(birthDate)}, and live in {placeName}.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; identitySentence</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
+<dt>Grounded by</dt><dd>recorded-life</dd>
+<dt>Slots</dt><dd>placeName, proseDate(birthDate)</dd>
+</dl>
+<div class="marks" data-id="prose:life:life-biography:identitySentence-0001#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:life-biography:identitySentence-0002#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you were born on {prosedate(birthdate)}." data-text-revision="0adb57ce642c" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:identitySentence-0002#text</code></div>
+<p class="prose">You were born on {proseDate(birthDate)}.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; identitySentence</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
+<dt>Grounded by</dt><dd>recorded-life</dd>
+<dt>Slots</dt><dd>proseDate(birthDate)</dd>
+</dl>
+<div class="marks" data-id="prose:life:life-biography:identitySentence-0002#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:life-biography:noLifeYet-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="there is no life to tell yet." data-text-revision="f76ec6549ce4" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:noLifeYet-0001#text</code></div>
+<p class="prose">There is no life to tell yet.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; noLifeYet</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
 <dt>Grounded by</dt><dd>recorded-life</dd>
 
 </dl>
-<div class="marks" data-id="prose:life:life-biography:projectLifeBiography-0001#text">
+<div class="marks" data-id="prose:life:life-biography:noLifeYet-0001#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -41797,16 +41950,16 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:life:life-biography:projectLifeBiography-0002#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="no identity, history, choices or outcomes are recorded for this life yet." data-text-revision="8ae81f155aca" data-context-revision="7718cdc860c3">
-<div class="top"><code class="sid">prose:life:life-biography:projectLifeBiography-0002#text</code></div>
-<p class="prose">No identity, history, choices or outcomes are recorded for this life yet.</p>
+<article class="item" id="prose:life:life-biography:occupationFactSentence-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you work as {fact.title} at {fact.employer}." data-text-revision="c84059ceb5a3" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:occupationFactSentence-0001#text</code></div>
+<p class="prose">You work as {fact.title} at {fact.employer}.</p>
 <dl class="meta">
-<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; projectLifeBiography</dd>
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; occupationFactSentence</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
 <dt>Grounded by</dt><dd>recorded-life</dd>
-
+<dt>Slots</dt><dd>fact.employer, fact.title</dd>
 </dl>
-<div class="marks" data-id="prose:life:life-biography:projectLifeBiography-0002#text">
+<div class="marks" data-id="prose:life:life-biography:occupationFactSentence-0001#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -41814,7 +41967,24 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:life:life-biography:projectLifeBiography-0003#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{name}, {age}, in {place.displayname}." data-text-revision="7ee1a96172c7" data-context-revision="7718cdc860c3">
+<article class="item" id="prose:life:life-biography:occupationFactSentence-0002#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you worked as {fact.title} at {fact.employer}." data-text-revision="3aa1aadd65de" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:occupationFactSentence-0002#text</code></div>
+<p class="prose">You worked as {fact.title} at {fact.employer}.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; occupationFactSentence</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
+<dt>Grounded by</dt><dd>recorded-life</dd>
+<dt>Slots</dt><dd>fact.employer, fact.title</dd>
+</dl>
+<div class="marks" data-id="prose:life:life-biography:occupationFactSentence-0002#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:life-biography:projectLifeBiography-0003#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{name}, {age}, in {place.displayname}." data-text-revision="7ee1a96172c7" data-context-revision="a8143fd6083e">
 <div class="top"><code class="sid">prose:life:life-biography:projectLifeBiography-0003#text</code></div>
 <p class="prose">{name}, {age}, in {place.displayName}.</p>
 <dl class="meta">
@@ -41831,7 +42001,7 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:life:life-biography:projectLifeBiography-0004#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{name}, {age}." data-text-revision="01bb3fc885dc" data-context-revision="7718cdc860c3">
+<article class="item" id="prose:life:life-biography:projectLifeBiography-0004#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{name}, {age}." data-text-revision="01bb3fc885dc" data-context-revision="a8143fd6083e">
 <div class="top"><code class="sid">prose:life:life-biography:projectLifeBiography-0004#text</code></div>
 <p class="prose">{name}, {age}.</p>
 <dl class="meta">
@@ -41848,9 +42018,417 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:ordinary:news-orientation:NEWS_ORIENTATION_KNOWN_TITLE-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="known to you from the public record" data-text-revision="8c50d0151f55" data-context-revision="1bf9ca451594">
+<article class="item" id="prose:life:life-biography:publicPositionSentence-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="in public you said: {quoted(statement)}" data-text-revision="eacfff780d0b" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:publicPositionSentence-0001#text</code></div>
+<p class="prose">In public you said: {quoted(statement)}</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; publicPositionSentence</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
+<dt>Grounded by</dt><dd>recorded-life</dd>
+<dt>Slots</dt><dd>quoted(statement)</dd>
+</dl>
+<div class="marks" data-id="prose:life:life-biography:publicPositionSentence-0001#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:life-biography:workSentence-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you are due to start as {title}{where} on {prosedate(at)}." data-text-revision="f04dbafa697f" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:workSentence-0001#text</code></div>
+<p class="prose">You are due to start as {title}{where} on {proseDate(at)}.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; workSentence</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
+<dt>Grounded by</dt><dd>recorded-life</dd>
+<dt>Slots</dt><dd>proseDate(at), title, where</dd>
+</dl>
+<div class="marks" data-id="prose:life:life-biography:workSentence-0001#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:life-biography:workSentence-0002#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you have served as {title}{where} since {prosemonthyear(at)}." data-text-revision="5d425a0c743b" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:workSentence-0002#text</code></div>
+<p class="prose">You have served as {title}{where} since {proseMonthYear(at)}.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; workSentence</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
+<dt>Grounded by</dt><dd>recorded-life</dd>
+<dt>Slots</dt><dd>proseMonthYear(at), title, where</dd>
+</dl>
+<div class="marks" data-id="prose:life:life-biography:workSentence-0002#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:life-biography:workSentence-0003#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you have worked as {title}{where} since {prosemonthyear(at)}." data-text-revision="384fdbdcbe8e" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:workSentence-0003#text</code></div>
+<p class="prose">You have worked as {title}{where} since {proseMonthYear(at)}.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; workSentence</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
+<dt>Grounded by</dt><dd>recorded-life</dd>
+<dt>Slots</dt><dd>proseMonthYear(at), title, where</dd>
+</dl>
+<div class="marks" data-id="prose:life:life-biography:workSentence-0003#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:life-biography:workSentence-0004#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="your time as {title}{where} ended in {prosemonthyear(at)}." data-text-revision="319ea4df46da" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:workSentence-0004#text</code></div>
+<p class="prose">Your time as {title}{where} ended in {proseMonthYear(at)}.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; workSentence</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
+<dt>Grounded by</dt><dd>recorded-life</dd>
+<dt>Slots</dt><dd>proseMonthYear(at), title, where</dd>
+</dl>
+<div class="marks" data-id="prose:life:life-biography:workSentence-0004#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:life-biography:workSentence-0005#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="your work as {title}{where} ended in {prosemonthyear(at)}." data-text-revision="54dd49f31e96" data-context-revision="a8143fd6083e">
+<div class="top"><code class="sid">prose:life:life-biography:workSentence-0005#text</code></div>
+<p class="prose">Your work as {title}{where} ended in {proseMonthYear(at)}.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-biography.ts &middot; workSentence</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.</dd>
+<dt>Grounded by</dt><dd>recorded-life</dd>
+<dt>Slots</dt><dd>proseMonthYear(at), title, where</dd>
+</dl>
+<div class="marks" data-id="prose:life:life-biography:workSentence-0005#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:FORM_PHRASES-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="a commission with an appointed manager" data-text-revision="6a8838ad54e1" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:FORM_PHRASES-0001#text</code></div>
+<p class="prose">a commission with an appointed manager</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; FORM_PHRASES</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:FORM_PHRASES-0001#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:FORM_PHRASES-0002#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="a consolidated city and county government" data-text-revision="8c10743dc374" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:FORM_PHRASES-0002#text</code></div>
+<p class="prose">a consolidated city and county government</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; FORM_PHRASES</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:FORM_PHRASES-0002#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:FORM_PHRASES-0003#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="a consolidated city and county government" data-text-revision="8c10743dc374" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:FORM_PHRASES-0003#text</code></div>
+<p class="prose">a consolidated city and county government</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; FORM_PHRASES</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:FORM_PHRASES-0003#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:FORM_PHRASES-0004#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="a consolidated city and county government" data-text-revision="8c10743dc374" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:FORM_PHRASES-0004#text</code></div>
+<p class="prose">a consolidated city and county government</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; FORM_PHRASES</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:FORM_PHRASES-0004#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:FORM_PHRASES-0005#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="a council with an appointed manager" data-text-revision="deb60a7bbf23" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:FORM_PHRASES-0005#text</code></div>
+<p class="prose">a council with an appointed manager</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; FORM_PHRASES</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:FORM_PHRASES-0005#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:FORM_PHRASES-0006#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="a mayor and council" data-text-revision="cdcd56a21e2e" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:FORM_PHRASES-0006#text</code></div>
+<p class="prose">a mayor and council</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; FORM_PHRASES</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:FORM_PHRASES-0006#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:FORM_PHRASES-0007#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="an appointed city manager" data-text-revision="b49cdc197cb0" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:FORM_PHRASES-0007#text</code></div>
+<p class="prose">an appointed city manager</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; FORM_PHRASES</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:FORM_PHRASES-0007#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:FORM_PHRASES-0008#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="town meeting" data-text-revision="f29ea957175e" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:FORM_PHRASES-0008#text</code></div>
+<p class="prose">town meeting</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; FORM_PHRASES</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:FORM_PHRASES-0008#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:INSTITUTION_NOUNS-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="a civic organization" data-text-revision="fa983a7d4970" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:INSTITUTION_NOUNS-0001#text</code></div>
+<p class="prose">a civic organization</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; INSTITUTION_NOUNS</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:INSTITUTION_NOUNS-0001#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:INSTITUTION_NOUNS-0002#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="a college" data-text-revision="eda7a082c290" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:INSTITUTION_NOUNS-0002#text</code></div>
+<p class="prose">a college</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; INSTITUTION_NOUNS</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:INSTITUTION_NOUNS-0002#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:INSTITUTION_NOUNS-0003#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="a court" data-text-revision="240db79aac68" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:INSTITUTION_NOUNS-0003#text</code></div>
+<p class="prose">a court</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; INSTITUTION_NOUNS</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:INSTITUTION_NOUNS-0003#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:INSTITUTION_NOUNS-0004#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="a government office" data-text-revision="4993eaae6056" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:INSTITUTION_NOUNS-0004#text</code></div>
+<p class="prose">a government office</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; INSTITUTION_NOUNS</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:INSTITUTION_NOUNS-0004#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:INSTITUTION_NOUNS-0005#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="a library" data-text-revision="31f109ab3834" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:INSTITUTION_NOUNS-0005#text</code></div>
+<p class="prose">a library</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; INSTITUTION_NOUNS</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:INSTITUTION_NOUNS-0005#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:INSTITUTION_NOUNS-0006#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="a public body" data-text-revision="66f644c62b2f" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:INSTITUTION_NOUNS-0006#text</code></div>
+<p class="prose">a public body</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; INSTITUTION_NOUNS</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:INSTITUTION_NOUNS-0006#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:INSTITUTION_NOUNS-0007#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="a school" data-text-revision="a33c39dd2731" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:INSTITUTION_NOUNS-0007#text</code></div>
+<p class="prose">a school</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; INSTITUTION_NOUNS</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:INSTITUTION_NOUNS-0007#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:INSTITUTION_NOUNS-0008#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="a state agency" data-text-revision="5015b2835cc1" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:INSTITUTION_NOUNS-0008#text</code></div>
+<p class="prose">a state agency</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; INSTITUTION_NOUNS</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:INSTITUTION_NOUNS-0008#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:INSTITUTION_NOUNS-0009#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="a training program" data-text-revision="029c03a26108" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:INSTITUTION_NOUNS-0009#text</code></div>
+<p class="prose">a training program</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; INSTITUTION_NOUNS</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:INSTITUTION_NOUNS-0009#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:INSTITUTION_NOUNS-0010#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="the municipal government" data-text-revision="aabb482d4c4b" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:INSTITUTION_NOUNS-0010#text</code></div>
+<p class="prose">the municipal government</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; INSTITUTION_NOUNS</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:INSTITUTION_NOUNS-0010#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:NEWS_ORIENTATION_KNOWN_TITLE-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="what has reached you" data-text-revision="73e9cd9e10f9" data-context-revision="e6b0df532a2a">
 <div class="top"><code class="sid">prose:ordinary:news-orientation:NEWS_ORIENTATION_KNOWN_TITLE-0001#text</code></div>
-<p class="prose">Known to you from the public record</p>
+<p class="prose">What has reached you</p>
 <dl class="meta">
 <dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; NEWS_ORIENTATION_KNOWN_TITLE</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
@@ -41865,9 +42443,9 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:ordinary:news-orientation:NEWS_ORIENTATION_PUBLIC_TITLE-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="around this place" data-text-revision="c3ca8d25df46" data-context-revision="1bf9ca451594">
+<article class="item" id="prose:ordinary:news-orientation:NEWS_ORIENTATION_PUBLIC_TITLE-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="around here" data-text-revision="d3c379865d99" data-context-revision="e6b0df532a2a">
 <div class="top"><code class="sid">prose:ordinary:news-orientation:NEWS_ORIENTATION_PUBLIC_TITLE-0001#text</code></div>
-<p class="prose">Around this place</p>
+<p class="prose">Around here</p>
 <dl class="meta">
 <dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; NEWS_ORIENTATION_PUBLIC_TITLE</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
@@ -41882,16 +42460,67 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:ordinary:news-orientation:emptyPublicWorldReason-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="no public events, incumbents, institutions or publications are recorded for {placename} in this save." data-text-revision="37b73cfdc44d" data-context-revision="1bf9ca451594">
-<div class="top"><code class="sid">prose:ordinary:news-orientation:emptyPublicWorldReason-0001#text</code></div>
-<p class="prose">No public events, incumbents, institutions or publications are recorded for {placeName} in this save.</p>
+<article class="item" id="prose:ordinary:news-orientation:atOrganization-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text=" at {orgname}" data-text-revision="33e7a3539b7e" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:atOrganization-0001#text</code></div>
+<p class="prose"> at {orgName}</p>
 <dl class="meta">
-<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; emptyPublicWorldReason</dd>
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; atOrganization</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+<dt>Slots</dt><dd>orgName</dd>
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:atOrganization-0001#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:datelineFor-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="as of {prosedate(asof)}." data-text-revision="3e2f36d847ee" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:datelineFor-0001#text</code></div>
+<p class="prose">As of {proseDate(asOf)}.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; datelineFor</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+<dt>Slots</dt><dd>proseDate(asOf)</dd>
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:datelineFor-0001#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:datelineFor-0002#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{placename}, as of {prosedate(asof)}." data-text-revision="d12a1638c6a8" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:datelineFor-0002#text</code></div>
+<p class="prose">{placeName}, as of {proseDate(asOf)}.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; datelineFor</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+<dt>Slots</dt><dd>placeName, proseDate(asOf)</dd>
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:datelineFor-0002#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:emptyPlaceReason-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="there is nothing to report from {placename} yet." data-text-revision="bb8ed87f42c9" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:emptyPlaceReason-0001#text</code></div>
+<p class="prose">There is nothing to report from {placeName} yet.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; emptyPlaceReason</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
 <dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
 <dt>Slots</dt><dd>placeName</dd>
 </dl>
-<div class="marks" data-id="prose:ordinary:news-orientation:emptyPublicWorldReason-0001#text">
+<div class="marks" data-id="prose:ordinary:news-orientation:emptyPlaceReason-0001#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -41899,16 +42528,16 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:ordinary:news-orientation:emptyPublicWorldReason-0002#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="no public events, incumbents, institutions or publications are recorded in this save." data-text-revision="bc199a10ffd8" data-context-revision="1bf9ca451594">
-<div class="top"><code class="sid">prose:ordinary:news-orientation:emptyPublicWorldReason-0002#text</code></div>
-<p class="prose">No public events, incumbents, institutions or publications are recorded in this save.</p>
+<article class="item" id="prose:ordinary:news-orientation:emptyPlaceReason-0002#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="there is nothing to report yet." data-text-revision="509d0abcbc33" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:emptyPlaceReason-0002#text</code></div>
+<p class="prose">There is nothing to report yet.</p>
 <dl class="meta">
-<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; emptyPublicWorldReason</dd>
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; emptyPlaceReason</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
 <dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
 
 </dl>
-<div class="marks" data-id="prose:ordinary:news-orientation:emptyPublicWorldReason-0002#text">
+<div class="marks" data-id="prose:ordinary:news-orientation:emptyPlaceReason-0002#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -41916,118 +42545,16 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:ordinary:news-orientation:projectIncumbents-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="no incumbent is recorded for {office.displayname}" data-text-revision="b492efe0d851" data-context-revision="1bf9ca451594">
-<div class="top"><code class="sid">prose:ordinary:news-orientation:projectIncumbents-0001#text</code></div>
-<p class="prose">No incumbent is recorded for {office.displayName}</p>
+<article class="item" id="prose:ordinary:news-orientation:emptyViewerReason-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="no character is selected." data-text-revision="cba6fea0e0ab" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:emptyViewerReason-0001#text</code></div>
+<p class="prose">No character is selected.</p>
 <dl class="meta">
-<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; projectIncumbents</dd>
-<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
-<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
-<dt>Slots</dt><dd>office.displayName</dd>
-</dl>
-<div class="marks" data-id="prose:ordinary:news-orientation:projectIncumbents-0001#text">
-<label><input type="checkbox" data-mark="keep"> keep</label>
-<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
-<label><input type="checkbox" data-mark="cut"> cut</label>
-<span class="state" data-state="none"></span>
-<span class="noteline"></span>
-</div>
-</article>
-<article class="item" id="prose:ordinary:news-orientation:projectIncumbents-0002#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="the office of {office.displayname} is in the accepted authority records for this place. this save names no current holder." data-text-revision="6de31740eef5" data-context-revision="1bf9ca451594">
-<div class="top"><code class="sid">prose:ordinary:news-orientation:projectIncumbents-0002#text</code></div>
-<p class="prose">The office of {office.displayName} is in the accepted authority records for this place. This save names no current holder.</p>
-<dl class="meta">
-<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; projectIncumbents</dd>
-<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
-<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
-<dt>Slots</dt><dd>office.displayName</dd>
-</dl>
-<div class="marks" data-id="prose:ordinary:news-orientation:projectIncumbents-0002#text">
-<label><input type="checkbox" data-mark="keep"> keep</label>
-<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
-<label><input type="checkbox" data-mark="cut"> cut</label>
-<span class="state" data-state="none"></span>
-<span class="noteline"></span>
-</div>
-</article>
-<article class="item" id="prose:ordinary:news-orientation:projectInstitutions-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{government.displayname} is recorded for {place.displayname}.{form}{body} reading as of {reading.asof}." data-text-revision="7d10cd95cb1f" data-context-revision="1bf9ca451594">
-<div class="top"><code class="sid">prose:ordinary:news-orientation:projectInstitutions-0001#text</code></div>
-<p class="prose">{government.displayName} is recorded for {place.displayName}.{form}{body} Reading as of {reading.asOf}.</p>
-<dl class="meta">
-<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; projectInstitutions</dd>
-<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
-<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
-<dt>Slots</dt><dd>body, form, government.displayName, place.displayName, reading.asOf</dd>
-</dl>
-<div class="marks" data-id="prose:ordinary:news-orientation:projectInstitutions-0001#text">
-<label><input type="checkbox" data-mark="keep"> keep</label>
-<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
-<label><input type="checkbox" data-mark="cut"> cut</label>
-<span class="state" data-state="none"></span>
-<span class="noteline"></span>
-</div>
-</article>
-<article class="item" id="prose:ordinary:news-orientation:projectInstitutions-0002#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{government.displayname} is the recorded municipal government" data-text-revision="1466571cd44f" data-context-revision="1bf9ca451594">
-<div class="top"><code class="sid">prose:ordinary:news-orientation:projectInstitutions-0002#text</code></div>
-<p class="prose">{government.displayName} is the recorded municipal government</p>
-<dl class="meta">
-<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; projectInstitutions</dd>
-<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
-<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
-<dt>Slots</dt><dd>government.displayName</dd>
-</dl>
-<div class="marks" data-id="prose:ordinary:news-orientation:projectInstitutions-0002#text">
-<label><input type="checkbox" data-mark="keep"> keep</label>
-<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
-<label><input type="checkbox" data-mark="cut"> cut</label>
-<span class="state" data-state="none"></span>
-<span class="noteline"></span>
-</div>
-</article>
-<article class="item" id="prose:ordinary:news-orientation:projectInstitutions-0003#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{profile.name} is a recorded institution" data-text-revision="8bf297ae9bb0" data-context-revision="1bf9ca451594">
-<div class="top"><code class="sid">prose:ordinary:news-orientation:projectInstitutions-0003#text</code></div>
-<p class="prose">{profile.name} is a recorded institution</p>
-<dl class="meta">
-<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; projectInstitutions</dd>
-<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
-<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
-<dt>Slots</dt><dd>profile.name</dd>
-</dl>
-<div class="marks" data-id="prose:ordinary:news-orientation:projectInstitutions-0003#text">
-<label><input type="checkbox" data-mark="keep"> keep</label>
-<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
-<label><input type="checkbox" data-mark="cut"> cut</label>
-<span class="state" data-state="none"></span>
-<span class="noteline"></span>
-</div>
-</article>
-<article class="item" id="prose:ordinary:news-orientation:projectInstitutions-0004#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{profile.name} is recorded as {profile.classification.replace(&quot;:&quot;,&quot;,&quot;)} from {profile.effectiveat}." data-text-revision="8ef67f0ede68" data-context-revision="1bf9ca451594">
-<div class="top"><code class="sid">prose:ordinary:news-orientation:projectInstitutions-0004#text</code></div>
-<p class="prose">{profile.name} is recorded as {profile.classification.replace(&quot;:&quot;,&quot;,&quot;)} from {profile.effectiveAt}.</p>
-<dl class="meta">
-<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; projectInstitutions</dd>
-<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
-<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
-<dt>Slots</dt><dd>profile.classification.replace(&quot;:&quot;,&quot;,&quot;), profile.effectiveAt, profile.name</dd>
-</dl>
-<div class="marks" data-id="prose:ordinary:news-orientation:projectInstitutions-0004#text">
-<label><input type="checkbox" data-mark="keep"> keep</label>
-<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
-<label><input type="checkbox" data-mark="cut"> cut</label>
-<span class="state" data-state="none"></span>
-<span class="noteline"></span>
-</div>
-</article>
-<article class="item" id="prose:ordinary:news-orientation:projectNewsOrientation-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="no character is selected, so no personal public-information knowledge can be listed." data-text-revision="45c141751440" data-context-revision="1bf9ca451594">
-<div class="top"><code class="sid">prose:ordinary:news-orientation:projectNewsOrientation-0001#text</code></div>
-<p class="prose">No character is selected, so no personal public-information knowledge can be listed.</p>
-<dl class="meta">
-<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; projectNewsOrientation</dd>
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; emptyViewerReason</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
 <dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
 
 </dl>
-<div class="marks" data-id="prose:ordinary:news-orientation:projectNewsOrientation-0001#text">
+<div class="marks" data-id="prose:ordinary:news-orientation:emptyViewerReason-0001#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -42035,16 +42562,16 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:ordinary:news-orientation:projectNewsOrientation-0002#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="this character has no recorded knowledge of the public events, incumbents, institutions or publications assembled here." data-text-revision="60ed6c490ea2" data-context-revision="1bf9ca451594">
-<div class="top"><code class="sid">prose:ordinary:news-orientation:projectNewsOrientation-0002#text</code></div>
-<p class="prose">This character has no recorded knowledge of the public events, incumbents, institutions or publications assembled here.</p>
+<article class="item" id="prose:ordinary:news-orientation:emptyViewerReason-0002#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="none of this has reached you directly yet." data-text-revision="71d98c29be5d" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:emptyViewerReason-0002#text</code></div>
+<p class="prose">None of this has reached you directly yet.</p>
 <dl class="meta">
-<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; projectNewsOrientation</dd>
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; emptyViewerReason</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
 <dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
 
 </dl>
-<div class="marks" data-id="prose:ordinary:news-orientation:projectNewsOrientation-0002#text">
+<div class="marks" data-id="prose:ordinary:news-orientation:emptyViewerReason-0002#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -42052,16 +42579,16 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:ordinary:news-orientation:projectNewsOrientation-0003#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="assembled {world.currentdate} · {place.displayname}. reading does not publish a story or create the event it reports." data-text-revision="0cc5a3eeb9ee" data-context-revision="1bf9ca451594">
-<div class="top"><code class="sid">prose:ordinary:news-orientation:projectNewsOrientation-0003#text</code></div>
-<p class="prose">Assembled {world.currentDate} · {place.displayName}. Reading does not publish a story or create the event it reports.</p>
+<article class="item" id="prose:ordinary:news-orientation:emptyViewerReason-0003#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="nothing has happened in public here lately." data-text-revision="cc3638ee022f" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:emptyViewerReason-0003#text</code></div>
+<p class="prose">Nothing has happened in public here lately.</p>
 <dl class="meta">
-<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; projectNewsOrientation</dd>
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; emptyViewerReason</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
 <dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
-<dt>Slots</dt><dd>place.displayName, world.currentDate</dd>
+
 </dl>
-<div class="marks" data-id="prose:ordinary:news-orientation:projectNewsOrientation-0003#text">
+<div class="marks" data-id="prose:ordinary:news-orientation:emptyViewerReason-0003#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -42069,16 +42596,16 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:ordinary:news-orientation:projectNewsOrientation-0004#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="assembled {world.currentdate}. reading does not publish a story or create the event it reports." data-text-revision="dc4fa68ed88e" data-context-revision="1bf9ca451594">
-<div class="top"><code class="sid">prose:ordinary:news-orientation:projectNewsOrientation-0004#text</code></div>
-<p class="prose">Assembled {world.currentDate}. Reading does not publish a story or create the event it reports.</p>
+<article class="item" id="prose:ordinary:news-orientation:governmentHeadline-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{placename} is governed by {governmentname}" data-text-revision="4a9b742949f4" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:governmentHeadline-0001#text</code></div>
+<p class="prose">{placeName} is governed by {governmentName}</p>
 <dl class="meta">
-<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; projectNewsOrientation</dd>
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; governmentHeadline</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
 <dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
-<dt>Slots</dt><dd>world.currentDate</dd>
+<dt>Slots</dt><dd>governmentName, placeName</dd>
 </dl>
-<div class="marks" data-id="prose:ordinary:news-orientation:projectNewsOrientation-0004#text">
+<div class="marks" data-id="prose:ordinary:news-orientation:governmentHeadline-0001#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -42086,16 +42613,16 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:ordinary:news-orientation:projectPublicEvents-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="record {event.occurredat}" data-text-revision="533ea8ab2849" data-context-revision="1bf9ca451594">
-<div class="top"><code class="sid">prose:ordinary:news-orientation:projectPublicEvents-0001#text</code></div>
-<p class="prose">Record {event.occurredAt}</p>
+<article class="item" id="prose:ordinary:news-orientation:governmentRecap-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{governmentname} serves {placename}." data-text-revision="d6ca51676187" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:governmentRecap-0001#text</code></div>
+<p class="prose">{governmentName} serves {placeName}.</p>
 <dl class="meta">
-<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; projectPublicEvents</dd>
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; governmentRecap</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
 <dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
-<dt>Slots</dt><dd>event.occurredAt</dd>
+<dt>Slots</dt><dd>governmentName, placeName</dd>
 </dl>
-<div class="marks" data-id="prose:ordinary:news-orientation:projectPublicEvents-0001#text">
+<div class="marks" data-id="prose:ordinary:news-orientation:governmentRecap-0001#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -42103,16 +42630,16 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:ordinary:news-orientation:projectPublicEvents-0002#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{summary} named: {names.join(&quot;,&quot;)}." data-text-revision="ed72723d63e2" data-context-revision="1bf9ca451594">
-<div class="top"><code class="sid">prose:ordinary:news-orientation:projectPublicEvents-0002#text</code></div>
-<p class="prose">{summary} Named: {names.join(&quot;,&quot;)}.</p>
+<article class="item" id="prose:ordinary:news-orientation:institutionNoun-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="a public institution" data-text-revision="48f7ce485d61" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:institutionNoun-0001#text</code></div>
+<p class="prose">a public institution</p>
 <dl class="meta">
-<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; projectPublicEvents</dd>
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; institutionNoun</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
 <dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
-<dt>Slots</dt><dd>names.join(&quot;,&quot;), summary</dd>
+
 </dl>
-<div class="marks" data-id="prose:ordinary:news-orientation:projectPublicEvents-0002#text">
+<div class="marks" data-id="prose:ordinary:news-orientation:institutionNoun-0001#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -42120,16 +42647,118 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
-<article class="item" id="prose:ordinary:news-orientation:toPublicationItem-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="event {item.eventtime}" data-text-revision="9e54289133fd" data-context-revision="1bf9ca451594">
-<div class="top"><code class="sid">prose:ordinary:news-orientation:toPublicationItem-0001#text</code></div>
-<p class="prose">Event {item.eventTime}</p>
+<article class="item" id="prose:ordinary:news-orientation:institutionSentence-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{name} is {noun} in {placename}." data-text-revision="179c56bc380e" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:institutionSentence-0001#text</code></div>
+<p class="prose">{name} is {noun} in {placeName}.</p>
 <dl class="meta">
-<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; toPublicationItem</dd>
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; institutionSentence</dd>
 <dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
 <dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
-<dt>Slots</dt><dd>item.eventTime</dd>
+<dt>Slots</dt><dd>name, noun, placeName</dd>
 </dl>
-<div class="marks" data-id="prose:ordinary:news-orientation:toPublicationItem-0001#text">
+<div class="marks" data-id="prose:ordinary:news-orientation:institutionSentence-0001#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:institutionSentence-0002#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{name} is {noun}." data-text-revision="4b8de5790e0c" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:institutionSentence-0002#text</code></div>
+<p class="prose">{name} is {noun}.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; institutionSentence</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+<dt>Slots</dt><dd>name, noun</dd>
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:institutionSentence-0002#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:newsOrientationPlaceTitle-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="around {placename}" data-text-revision="1972e8f9d1f7" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:newsOrientationPlaceTitle-0001#text</code></div>
+<p class="prose">Around {placeName}</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; newsOrientationPlaceTitle</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+<dt>Slots</dt><dd>placeName</dd>
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:newsOrientationPlaceTitle-0001#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:officeholderHeadline-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{name} serves as {title}" data-text-revision="146f24d312e1" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:officeholderHeadline-0001#text</code></div>
+<p class="prose">{name} serves as {title}</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; officeholderHeadline</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+<dt>Slots</dt><dd>name, title</dd>
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:officeholderHeadline-0001#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:officeholderHeadline-0002#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{name} works as {title}" data-text-revision="4f71fdc0b05a" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:officeholderHeadline-0002#text</code></div>
+<p class="prose">{name} works as {title}</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; officeholderHeadline</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+<dt>Slots</dt><dd>name, title</dd>
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:officeholderHeadline-0002#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:officeholderRecap-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{name} has served as {title}{where} since {since}." data-text-revision="955ee59fc38b" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:officeholderRecap-0001#text</code></div>
+<p class="prose">{name} has served as {title}{where} since {since}.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; officeholderRecap</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+<dt>Slots</dt><dd>name, since, title, where</dd>
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:officeholderRecap-0001#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:ordinary:news-orientation:officeholderRecap-0002#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{name} has worked as {title}{where} since {since}." data-text-revision="02b115213e3e" data-context-revision="e6b0df532a2a">
+<div class="top"><code class="sid">prose:ordinary:news-orientation:officeholderRecap-0002#text</code></div>
+<p class="prose">{name} has worked as {title}{where} since {since}.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/news-orientation.ts &middot; officeholderRecap</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.</dd>
+<dt>Grounded by</dt><dd>public-world-records, viewer-event-knowledge</dd>
+<dt>Slots</dt><dd>name, since, title, where</dd>
+</dl>
+<div class="marks" data-id="prose:ordinary:news-orientation:officeholderRecap-0002#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>

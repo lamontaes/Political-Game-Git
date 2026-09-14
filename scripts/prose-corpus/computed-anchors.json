@@ -1011,12 +1011,156 @@
       "textRevision": "1fb1b9594055"
     },
     {
+      "anchor": "FORM_PHRASES-0001",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "FORM_PHRASES",
+      "text": "a commission with an appointed manager",
+      "occurrence": 0,
+      "textRevision": "6a8838ad54e1"
+    },
+    {
+      "anchor": "FORM_PHRASES-0002",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "FORM_PHRASES",
+      "text": "a consolidated city and county government",
+      "occurrence": 0,
+      "textRevision": "8c10743dc374"
+    },
+    {
+      "anchor": "FORM_PHRASES-0003",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "FORM_PHRASES",
+      "text": "a consolidated city and county government",
+      "occurrence": 1,
+      "textRevision": "8c10743dc374"
+    },
+    {
+      "anchor": "FORM_PHRASES-0004",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "FORM_PHRASES",
+      "text": "a consolidated city and county government",
+      "occurrence": 2,
+      "textRevision": "8c10743dc374"
+    },
+    {
+      "anchor": "FORM_PHRASES-0005",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "FORM_PHRASES",
+      "text": "a council with an appointed manager",
+      "occurrence": 0,
+      "textRevision": "deb60a7bbf23"
+    },
+    {
+      "anchor": "FORM_PHRASES-0006",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "FORM_PHRASES",
+      "text": "a mayor and council",
+      "occurrence": 0,
+      "textRevision": "cdcd56a21e2e"
+    },
+    {
+      "anchor": "FORM_PHRASES-0007",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "FORM_PHRASES",
+      "text": "an appointed city manager",
+      "occurrence": 0,
+      "textRevision": "b49cdc197cb0"
+    },
+    {
+      "anchor": "FORM_PHRASES-0008",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "FORM_PHRASES",
+      "text": "town meeting",
+      "occurrence": 0,
+      "textRevision": "f29ea957175e"
+    },
+    {
       "anchor": "GENERIC_RETURN-0001",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "GENERIC_RETURN",
       "text": "Something from a while back came up again.",
       "occurrence": 0,
       "textRevision": "05a14e8db969"
+    },
+    {
+      "anchor": "INSTITUTION_NOUNS-0001",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "INSTITUTION_NOUNS",
+      "text": "a civic organization",
+      "occurrence": 0,
+      "textRevision": "fa983a7d4970"
+    },
+    {
+      "anchor": "INSTITUTION_NOUNS-0002",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "INSTITUTION_NOUNS",
+      "text": "a college",
+      "occurrence": 0,
+      "textRevision": "eda7a082c290"
+    },
+    {
+      "anchor": "INSTITUTION_NOUNS-0003",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "INSTITUTION_NOUNS",
+      "text": "a court",
+      "occurrence": 0,
+      "textRevision": "240db79aac68"
+    },
+    {
+      "anchor": "INSTITUTION_NOUNS-0004",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "INSTITUTION_NOUNS",
+      "text": "a government office",
+      "occurrence": 0,
+      "textRevision": "4993eaae6056"
+    },
+    {
+      "anchor": "INSTITUTION_NOUNS-0005",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "INSTITUTION_NOUNS",
+      "text": "a library",
+      "occurrence": 0,
+      "textRevision": "31f109ab3834"
+    },
+    {
+      "anchor": "INSTITUTION_NOUNS-0006",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "INSTITUTION_NOUNS",
+      "text": "a public body",
+      "occurrence": 0,
+      "textRevision": "66f644c62b2f"
+    },
+    {
+      "anchor": "INSTITUTION_NOUNS-0007",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "INSTITUTION_NOUNS",
+      "text": "a school",
+      "occurrence": 0,
+      "textRevision": "a33c39dd2731"
+    },
+    {
+      "anchor": "INSTITUTION_NOUNS-0008",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "INSTITUTION_NOUNS",
+      "text": "a state agency",
+      "occurrence": 0,
+      "textRevision": "5015b2835cc1"
+    },
+    {
+      "anchor": "INSTITUTION_NOUNS-0009",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "INSTITUTION_NOUNS",
+      "text": "a training program",
+      "occurrence": 0,
+      "textRevision": "029c03a26108"
+    },
+    {
+      "anchor": "INSTITUTION_NOUNS-0010",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "INSTITUTION_NOUNS",
+      "text": "the municipal government",
+      "occurrence": 0,
+      "textRevision": "aabb482d4c4b"
     },
     {
       "anchor": "INTERNAL_ART_REVIEW_LABEL-0001",
@@ -1030,9 +1174,9 @@
       "anchor": "JOURNAL_ACCOUNT_HEADING-0001",
       "sourcePath": "src/player/JournalReader.tsx",
       "symbol": "JOURNAL_ACCOUNT_HEADING",
-      "text": "Account of this life",
+      "text": "Your life so far",
       "occurrence": 0,
-      "textRevision": "9c4dd0422c31"
+      "textRevision": "20dc48d0e7d6"
     },
     {
       "anchor": "JOURNAL_OPEN_HEADING-0001",
@@ -1694,17 +1838,17 @@
       "anchor": "NEWS_ORIENTATION_KNOWN_TITLE-0001",
       "sourcePath": "src/presentation/news-orientation.ts",
       "symbol": "NEWS_ORIENTATION_KNOWN_TITLE",
-      "text": "Known to you from the public record",
+      "text": "What has reached you",
       "occurrence": 0,
-      "textRevision": "8c50d0151f55"
+      "textRevision": "73e9cd9e10f9"
     },
     {
       "anchor": "NEWS_ORIENTATION_PUBLIC_TITLE-0001",
       "sourcePath": "src/presentation/news-orientation.ts",
       "symbol": "NEWS_ORIENTATION_PUBLIC_TITLE",
-      "text": "Around this place",
+      "text": "Around here",
       "occurrence": 0,
-      "textRevision": "c3ca8d25df46"
+      "textRevision": "d3c379865d99"
     },
     {
       "anchor": "PHASE_SENTENCES-0001",
@@ -2339,6 +2483,14 @@
       "textRevision": "c1dcfd69ba3d"
     },
     {
+      "anchor": "atOrganization-0001",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "atOrganization",
+      "text": " at {orgName}",
+      "occurrence": 0,
+      "textRevision": "33e7a3539b7e"
+    },
+    {
       "anchor": "attendMunicipalPublicMeeting-0001",
       "sourcePath": "src/simulation/municipal-public-work.ts",
       "symbol": "attendMunicipalPublicMeeting",
@@ -2563,6 +2715,38 @@
       "textRevision": "a3c69181569e"
     },
     {
+      "anchor": "beliefSentence-0001",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "beliefSentence",
+      "text": "Privately, you are torn over {propositionName}.",
+      "occurrence": 0,
+      "textRevision": "d12b4d7f92a4"
+    },
+    {
+      "anchor": "beliefSentence-0002",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "beliefSentence",
+      "text": "Privately, you are unsure about {propositionName}.",
+      "occurrence": 0,
+      "textRevision": "1de9fa462151"
+    },
+    {
+      "anchor": "beliefSentence-0003",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "beliefSentence",
+      "text": "Privately, you oppose {propositionName}.",
+      "occurrence": 0,
+      "textRevision": "43997509aaa4"
+    },
+    {
+      "anchor": "beliefSentence-0004",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "beliefSentence",
+      "text": "Privately, you support {propositionName}.",
+      "occurrence": 0,
+      "textRevision": "68e566dfefdc"
+    },
+    {
       "anchor": "buildFloorStages-0001",
       "sourcePath": "src/simulation/municipal-government.ts",
       "symbol": "buildFloorStages",
@@ -2675,116 +2859,28 @@
       "textRevision": "6eaa9e09f6b0"
     },
     {
-      "anchor": "collectPassages-0001",
+      "anchor": "campaignCommitmentSentence-0001",
       "sourcePath": "src/presentation/life-biography.ts",
-      "symbol": "collectPassages",
-      "text": "The recorded {role.title} work{where} ended on {status.effectiveAt}{status.reason?`:${status.reason}`:\".\"}",
+      "symbol": "campaignCommitmentSentence",
+      "text": "You pledged to {verb} {propositionName}: {words}",
       "occurrence": 0,
-      "textRevision": "248ed17c5b26"
+      "textRevision": "3312cb85d35e"
     },
     {
-      "anchor": "collectPassages-0002",
+      "anchor": "campaignCommitmentSentence-0002",
       "sourcePath": "src/presentation/life-biography.ts",
-      "symbol": "collectPassages",
-      "text": "{name} completed enrollment at {orgName} on {state.effectiveAt}.",
+      "symbol": "campaignCommitmentSentence",
+      "text": "You said you hoped to {verb} {propositionName}: {words}",
       "occurrence": 0,
-      "textRevision": "acbde04d5cc5"
+      "textRevision": "9daba7d323c5"
     },
     {
-      "anchor": "collectPassages-0003",
+      "anchor": "campaignCommitmentSentence-0003",
       "sourcePath": "src/presentation/life-biography.ts",
-      "symbol": "collectPassages",
-      "text": "{name} has a recorded commitment: {commitment.label}.",
+      "symbol": "campaignCommitmentSentence",
+      "text": "You said you would {verb} {propositionName} on conditions: {words}",
       "occurrence": 0,
-      "textRevision": "9c5784d8e612"
-    },
-    {
-      "anchor": "collectPassages-0004",
-      "sourcePath": "src/presentation/life-biography.ts",
-      "symbol": "collectPassages",
-      "text": "{name} has a recorded education fact: {fact.institution}, {fact.field}.",
-      "occurrence": 0,
-      "textRevision": "8a5b12150d45"
-    },
-    {
-      "anchor": "collectPassages-0005",
-      "sourcePath": "src/presentation/life-biography.ts",
-      "symbol": "collectPassages",
-      "text": "{name} has a recorded education fact: {fact.institution}.",
-      "occurrence": 0,
-      "textRevision": "3cc0082a951a"
-    },
-    {
-      "anchor": "collectPassages-0006",
-      "sourcePath": "src/presentation/life-biography.ts",
-      "symbol": "collectPassages",
-      "text": "{name} has a recorded expected enrollment at {orgName}, to start {enrollment.startedAt}.",
-      "occurrence": 0,
-      "textRevision": "10a2ed148874"
-    },
-    {
-      "anchor": "collectPassages-0007",
-      "sourcePath": "src/presentation/life-biography.ts",
-      "symbol": "collectPassages",
-      "text": "{name} has a recorded {belief.position} view on {proposition.name}.",
-      "occurrence": 0,
-      "textRevision": "9883b24d878c"
-    },
-    {
-      "anchor": "collectPassages-0008",
-      "sourcePath": "src/presentation/life-biography.ts",
-      "symbol": "collectPassages",
-      "text": "{name} has recorded expected work as {role.title}{where}, to start {relationship.startedAt}.",
-      "occurrence": 0,
-      "textRevision": "5e818b08ff80"
-    },
-    {
-      "anchor": "collectPassages-0009",
-      "sourcePath": "src/presentation/life-biography.ts",
-      "symbol": "collectPassages",
-      "text": "{name} holds the recorded role of {role.title}{where}.",
-      "occurrence": 0,
-      "textRevision": "066d333e42a2"
-    },
-    {
-      "anchor": "collectPassages-0010",
-      "sourcePath": "src/presentation/life-biography.ts",
-      "symbol": "collectPassages",
-      "text": "{name} is enrolled at {orgName}.",
-      "occurrence": 0,
-      "textRevision": "e2ba8fc09e40"
-    },
-    {
-      "anchor": "collectPassages-0011",
-      "sourcePath": "src/presentation/life-biography.ts",
-      "symbol": "collectPassages",
-      "text": "{name} recorded a {commitment.level} to {commitment.stance} {proposition.name}.",
-      "occurrence": 0,
-      "textRevision": "80ac4f2e85dd"
-    },
-    {
-      "anchor": "collectPassages-0012",
-      "sourcePath": "src/presentation/life-biography.ts",
-      "symbol": "collectPassages",
-      "text": "{name} stated publicly: {position.statement}",
-      "occurrence": 0,
-      "textRevision": "a866ea1413fa"
-    },
-    {
-      "anchor": "collectPassages-0013",
-      "sourcePath": "src/presentation/life-biography.ts",
-      "symbol": "collectPassages",
-      "text": "{name} worked as {fact.title} at {fact.employer}.",
-      "occurrence": 0,
-      "textRevision": "2251c95adbb1"
-    },
-    {
-      "anchor": "collectPassages-0014",
-      "sourcePath": "src/presentation/life-biography.ts",
-      "symbol": "collectPassages",
-      "text": "{name} works as {fact.title} at {fact.employer}.",
-      "occurrence": 0,
-      "textRevision": "cba4d6c1f9bf"
+      "textRevision": "d8503570b620"
     },
     {
       "anchor": "commitConversationTurn-0001",
@@ -2889,6 +2985,14 @@
       "text": "Ask {shortPersonName(world,conversationRole(room,\"referral-verifier\"))} to check the third referral",
       "occurrence": 0,
       "textRevision": "12e6576e81cd"
+    },
+    {
+      "anchor": "commitmentSentence-0001",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "commitmentSentence",
+      "text": "You have a standing commitment: {label}.",
+      "occurrence": 0,
+      "textRevision": "4b7cabea70c0"
     },
     {
       "anchor": "composeConnectiveNarration-0001",
@@ -3025,6 +3129,22 @@
       "text": "Game session: timing and duration are authored for this world. No real published meeting notice or agenda is asserted.",
       "occurrence": 0,
       "textRevision": "8a48bf44f074"
+    },
+    {
+      "anchor": "datelineFor-0001",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "datelineFor",
+      "text": "As of {proseDate(asOf)}.",
+      "occurrence": 0,
+      "textRevision": "3e2f36d847ee"
+    },
+    {
+      "anchor": "datelineFor-0002",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "datelineFor",
+      "text": "{placeName}, as of {proseDate(asOf)}.",
+      "occurrence": 0,
+      "textRevision": "d12a1638c6a8"
     },
     {
       "anchor": "deadlinesFor-0001",
@@ -3283,6 +3403,78 @@
       "textRevision": "77334b43988c"
     },
     {
+      "anchor": "educationFactSentence-0001",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "educationFactSentence",
+      "text": "You are studying {field} at {institution}.",
+      "occurrence": 0,
+      "textRevision": "baa4cc860a7a"
+    },
+    {
+      "anchor": "educationFactSentence-0002",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "educationFactSentence",
+      "text": "You attend {institution}.",
+      "occurrence": 0,
+      "textRevision": "0c44b563eb75"
+    },
+    {
+      "anchor": "educationFactSentence-0003",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "educationFactSentence",
+      "text": "You attended {institution}, studying {field}.",
+      "occurrence": 0,
+      "textRevision": "1ee6246a3ccd"
+    },
+    {
+      "anchor": "educationFactSentence-0004",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "educationFactSentence",
+      "text": "You attended {institution}.",
+      "occurrence": 0,
+      "textRevision": "ce44f87746b5"
+    },
+    {
+      "anchor": "educationFactSentence-0005",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "educationFactSentence",
+      "text": "You earned {credential} at {institution}.",
+      "occurrence": 0,
+      "textRevision": "43d87bc23eb2"
+    },
+    {
+      "anchor": "educationFactSentence-0006",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "educationFactSentence",
+      "text": "You earned {credential} in {field} at {institution}.",
+      "occurrence": 0,
+      "textRevision": "2fc1ce193c70"
+    },
+    {
+      "anchor": "educationFactSentence-0007",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "educationFactSentence",
+      "text": "You finished at {institution}.",
+      "occurrence": 0,
+      "textRevision": "2c41577e7eb9"
+    },
+    {
+      "anchor": "educationFactSentence-0008",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "educationFactSentence",
+      "text": "You finished {field} at {institution}.",
+      "occurrence": 0,
+      "textRevision": "207cc10b8dbe"
+    },
+    {
+      "anchor": "educationFactSentence-0009",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "educationFactSentence",
+      "text": "You left {institution} before finishing.",
+      "occurrence": 0,
+      "textRevision": "a47c23c6efc7"
+    },
+    {
       "anchor": "elapsedPhrase-0001",
       "sourcePath": "src/presentation/life-narration.ts",
       "symbol": "elapsedPhrase",
@@ -3355,20 +3547,68 @@
       "textRevision": "9ca23e47665b"
     },
     {
-      "anchor": "emptyPublicWorldReason-0001",
+      "anchor": "emptyPlaceReason-0001",
       "sourcePath": "src/presentation/news-orientation.ts",
-      "symbol": "emptyPublicWorldReason",
-      "text": "No public events, incumbents, institutions or publications are recorded for {placeName} in this save.",
+      "symbol": "emptyPlaceReason",
+      "text": "There is nothing to report from {placeName} yet.",
       "occurrence": 0,
-      "textRevision": "37b73cfdc44d"
+      "textRevision": "bb8ed87f42c9"
     },
     {
-      "anchor": "emptyPublicWorldReason-0002",
+      "anchor": "emptyPlaceReason-0002",
       "sourcePath": "src/presentation/news-orientation.ts",
-      "symbol": "emptyPublicWorldReason",
-      "text": "No public events, incumbents, institutions or publications are recorded in this save.",
+      "symbol": "emptyPlaceReason",
+      "text": "There is nothing to report yet.",
       "occurrence": 0,
-      "textRevision": "bc199a10ffd8"
+      "textRevision": "509d0abcbc33"
+    },
+    {
+      "anchor": "emptyViewerReason-0001",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "emptyViewerReason",
+      "text": "No character is selected.",
+      "occurrence": 0,
+      "textRevision": "cba6fea0e0ab"
+    },
+    {
+      "anchor": "emptyViewerReason-0002",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "emptyViewerReason",
+      "text": "None of this has reached you directly yet.",
+      "occurrence": 0,
+      "textRevision": "71d98c29be5d"
+    },
+    {
+      "anchor": "emptyViewerReason-0003",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "emptyViewerReason",
+      "text": "Nothing has happened in public here lately.",
+      "occurrence": 0,
+      "textRevision": "cc3638ee022f"
+    },
+    {
+      "anchor": "enrollmentSentence-0001",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "enrollmentSentence",
+      "text": "You are due to start at {school} on {proseDate(at)}.",
+      "occurrence": 0,
+      "textRevision": "5ef8580a388e"
+    },
+    {
+      "anchor": "enrollmentSentence-0002",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "enrollmentSentence",
+      "text": "You are enrolled at {school}.",
+      "occurrence": 0,
+      "textRevision": "9f88c017c688"
+    },
+    {
+      "anchor": "enrollmentSentence-0003",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "enrollmentSentence",
+      "text": "You finished at {school} in {proseMonthYear(at)}.",
+      "occurrence": 0,
+      "textRevision": "351debf61a55"
     },
     {
       "anchor": "executiveSource-0001",
@@ -3433,6 +3673,30 @@
       "text": "{person.familyName} for the {option.chamberName}",
       "occurrence": 0,
       "textRevision": "8e074194b004"
+    },
+    {
+      "anchor": "governmentHeadline-0001",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "governmentHeadline",
+      "text": "{placeName} is governed by {governmentName}",
+      "occurrence": 0,
+      "textRevision": "4a9b742949f4"
+    },
+    {
+      "anchor": "governmentRecap-0001",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "governmentRecap",
+      "text": "{governmentName} serves {placeName}.",
+      "occurrence": 0,
+      "textRevision": "d6ca51676187"
+    },
+    {
+      "anchor": "groupBiographyByYear-0001",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "groupBiographyByYear",
+      "text": "{year}, age {ageAtStart}",
+      "occurrence": 0,
+      "textRevision": "4a42e685c773"
     },
     {
       "anchor": "householdAbsenceLine-0001",
@@ -3507,6 +3771,22 @@
       "textRevision": "492fa26db16a"
     },
     {
+      "anchor": "identitySentence-0001",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "identitySentence",
+      "text": "You were born on {proseDate(birthDate)}, and live in {placeName}.",
+      "occurrence": 0,
+      "textRevision": "93bc2ad24692"
+    },
+    {
+      "anchor": "identitySentence-0002",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "identitySentence",
+      "text": "You were born on {proseDate(birthDate)}.",
+      "occurrence": 0,
+      "textRevision": "0adb57ce642c"
+    },
+    {
       "anchor": "importPortableSave-0001",
       "sourcePath": "src/presentation/portable-save.ts",
       "symbol": "importPortableSave",
@@ -3569,6 +3849,30 @@
       "text": "{reading.displayName} is governed by {reading.bodyName??\"abodytherecorddoesnotname\"}, read from {reading.evidence===\"enacted-text\"?\"itsownenactedlaw\":\"aresearchtranscriptionofofficialmunicipalpages\"} as of {reading.asOf}.",
       "occurrence": 0,
       "textRevision": "0e4735766c81"
+    },
+    {
+      "anchor": "institutionNoun-0001",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "institutionNoun",
+      "text": "a public institution",
+      "occurrence": 0,
+      "textRevision": "48f7ce485d61"
+    },
+    {
+      "anchor": "institutionSentence-0001",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "institutionSentence",
+      "text": "{name} is {noun} in {placeName}.",
+      "occurrence": 0,
+      "textRevision": "179c56bc380e"
+    },
+    {
+      "anchor": "institutionSentence-0002",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "institutionSentence",
+      "text": "{name} is {noun}.",
+      "occurrence": 0,
+      "textRevision": "4b8de5790e0c"
     },
     {
       "anchor": "lifeCallbackTransitionHandler-0001",
@@ -3875,6 +4179,22 @@
       "textRevision": "70ce4bbe0b04"
     },
     {
+      "anchor": "newsOrientationPlaceTitle-0001",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "newsOrientationPlaceTitle",
+      "text": "Around {placeName}",
+      "occurrence": 0,
+      "textRevision": "1972e8f9d1f7"
+    },
+    {
+      "anchor": "noLifeYet-0001",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "noLifeYet",
+      "text": "There is no life to tell yet.",
+      "occurrence": 0,
+      "textRevision": "f76ec6549ce4"
+    },
+    {
       "anchor": "obligationNoun-0001",
       "sourcePath": "src/presentation/life-narration.ts",
       "symbol": "obligationNoun",
@@ -3905,6 +4225,22 @@
       "text": "the support payment",
       "occurrence": 0,
       "textRevision": "6ca409fc44a5"
+    },
+    {
+      "anchor": "occupationFactSentence-0001",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "occupationFactSentence",
+      "text": "You work as {fact.title} at {fact.employer}.",
+      "occurrence": 0,
+      "textRevision": "c84059ceb5a3"
+    },
+    {
+      "anchor": "occupationFactSentence-0002",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "occupationFactSentence",
+      "text": "You worked as {fact.title} at {fact.employer}.",
+      "occurrence": 0,
+      "textRevision": "3aa1aadd65de"
     },
     {
       "anchor": "offersFor-0001",
@@ -3953,6 +4289,38 @@
       "text": "{option.seats.value} of them, as {option.recordedBy.packName} records it.",
       "occurrence": 0,
       "textRevision": "ff443ef0133d"
+    },
+    {
+      "anchor": "officeholderHeadline-0001",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "officeholderHeadline",
+      "text": "{name} serves as {title}",
+      "occurrence": 0,
+      "textRevision": "146f24d312e1"
+    },
+    {
+      "anchor": "officeholderHeadline-0002",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "officeholderHeadline",
+      "text": "{name} works as {title}",
+      "occurrence": 0,
+      "textRevision": "4f71fdc0b05a"
+    },
+    {
+      "anchor": "officeholderRecap-0001",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "officeholderRecap",
+      "text": "{name} has served as {title}{where} since {since}.",
+      "occurrence": 0,
+      "textRevision": "955ee59fc38b"
+    },
+    {
+      "anchor": "officeholderRecap-0002",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "symbol": "officeholderRecap",
+      "text": "{name} has worked as {title}{where} since {since}.",
+      "occurrence": 0,
+      "textRevision": "02b115213e3e"
     },
     {
       "anchor": "onFile-0001",
@@ -4843,70 +5211,6 @@
       "textRevision": "9f38e3705693"
     },
     {
-      "anchor": "projectIncumbents-0001",
-      "sourcePath": "src/presentation/news-orientation.ts",
-      "symbol": "projectIncumbents",
-      "text": "No incumbent is recorded for {office.displayName}",
-      "occurrence": 0,
-      "textRevision": "b492efe0d851"
-    },
-    {
-      "anchor": "projectIncumbents-0002",
-      "sourcePath": "src/presentation/news-orientation.ts",
-      "symbol": "projectIncumbents",
-      "text": "The office of {office.displayName} is in the accepted authority records for this place. This save names no current holder.",
-      "occurrence": 0,
-      "textRevision": "6de31740eef5"
-    },
-    {
-      "anchor": "projectInstitutions-0001",
-      "sourcePath": "src/presentation/news-orientation.ts",
-      "symbol": "projectInstitutions",
-      "text": "{government.displayName} is recorded for {place.displayName}.{form}{body} Reading as of {reading.asOf}.",
-      "occurrence": 0,
-      "textRevision": "7d10cd95cb1f"
-    },
-    {
-      "anchor": "projectInstitutions-0002",
-      "sourcePath": "src/presentation/news-orientation.ts",
-      "symbol": "projectInstitutions",
-      "text": "{government.displayName} is the recorded municipal government",
-      "occurrence": 0,
-      "textRevision": "1466571cd44f"
-    },
-    {
-      "anchor": "projectInstitutions-0003",
-      "sourcePath": "src/presentation/news-orientation.ts",
-      "symbol": "projectInstitutions",
-      "text": "{profile.name} is a recorded institution",
-      "occurrence": 0,
-      "textRevision": "8bf297ae9bb0"
-    },
-    {
-      "anchor": "projectInstitutions-0004",
-      "sourcePath": "src/presentation/news-orientation.ts",
-      "symbol": "projectInstitutions",
-      "text": "{profile.name} is recorded as {profile.classification.replace(\":\",\",\")} from {profile.effectiveAt}.",
-      "occurrence": 0,
-      "textRevision": "8ef67f0ede68"
-    },
-    {
-      "anchor": "projectLifeBiography-0001",
-      "sourcePath": "src/presentation/life-biography.ts",
-      "symbol": "projectLifeBiography",
-      "text": "No character is recorded for this journal.",
-      "occurrence": 0,
-      "textRevision": "9c3a262318f1"
-    },
-    {
-      "anchor": "projectLifeBiography-0002",
-      "sourcePath": "src/presentation/life-biography.ts",
-      "symbol": "projectLifeBiography",
-      "text": "No identity, history, choices or outcomes are recorded for this life yet.",
-      "occurrence": 0,
-      "textRevision": "8ae81f155aca"
-    },
-    {
       "anchor": "projectLifeBiography-0003",
       "sourcePath": "src/presentation/life-biography.ts",
       "symbol": "projectLifeBiography",
@@ -5003,52 +5307,12 @@
       "textRevision": "718d349175e7"
     },
     {
-      "anchor": "projectNewsOrientation-0001",
-      "sourcePath": "src/presentation/news-orientation.ts",
-      "symbol": "projectNewsOrientation",
-      "text": "No character is selected, so no personal public-information knowledge can be listed.",
+      "anchor": "publicPositionSentence-0001",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "publicPositionSentence",
+      "text": "In public you said: {quoted(statement)}",
       "occurrence": 0,
-      "textRevision": "45c141751440"
-    },
-    {
-      "anchor": "projectNewsOrientation-0002",
-      "sourcePath": "src/presentation/news-orientation.ts",
-      "symbol": "projectNewsOrientation",
-      "text": "This character has no recorded knowledge of the public events, incumbents, institutions or publications assembled here.",
-      "occurrence": 0,
-      "textRevision": "60ed6c490ea2"
-    },
-    {
-      "anchor": "projectNewsOrientation-0003",
-      "sourcePath": "src/presentation/news-orientation.ts",
-      "symbol": "projectNewsOrientation",
-      "text": "Assembled {world.currentDate} · {place.displayName}. Reading does not publish a story or create the event it reports.",
-      "occurrence": 0,
-      "textRevision": "0cc5a3eeb9ee"
-    },
-    {
-      "anchor": "projectNewsOrientation-0004",
-      "sourcePath": "src/presentation/news-orientation.ts",
-      "symbol": "projectNewsOrientation",
-      "text": "Assembled {world.currentDate}. Reading does not publish a story or create the event it reports.",
-      "occurrence": 0,
-      "textRevision": "dc4fa68ed88e"
-    },
-    {
-      "anchor": "projectPublicEvents-0001",
-      "sourcePath": "src/presentation/news-orientation.ts",
-      "symbol": "projectPublicEvents",
-      "text": "Record {event.occurredAt}",
-      "occurrence": 0,
-      "textRevision": "533ea8ab2849"
-    },
-    {
-      "anchor": "projectPublicEvents-0002",
-      "sourcePath": "src/presentation/news-orientation.ts",
-      "symbol": "projectPublicEvents",
-      "text": "{summary} Named: {names.join(\",\")}.",
-      "occurrence": 0,
-      "textRevision": "ed72723d63e2"
+      "textRevision": "eacfff780d0b"
     },
     {
       "anchor": "questionLabel-0001",
@@ -5819,14 +6083,6 @@
       "textRevision": "7aff55d123e1"
     },
     {
-      "anchor": "toPublicationItem-0001",
-      "sourcePath": "src/presentation/news-orientation.ts",
-      "symbol": "toPublicationItem",
-      "text": "Event {item.eventTime}",
-      "occurrence": 0,
-      "textRevision": "9e54289133fd"
-    },
-    {
       "anchor": "unavailable-0001",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "unavailable",
@@ -5929,6 +6185,46 @@
       "text": "{vote.tally.yea} in favor, {vote.tally.nay} against{otherPart} — {vote.requiredVotes} of {vote.denominatorValue} were needed.",
       "occurrence": 0,
       "textRevision": "eb19535c72b8"
+    },
+    {
+      "anchor": "workSentence-0001",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "workSentence",
+      "text": "You are due to start as {title}{where} on {proseDate(at)}.",
+      "occurrence": 0,
+      "textRevision": "f04dbafa697f"
+    },
+    {
+      "anchor": "workSentence-0002",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "workSentence",
+      "text": "You have served as {title}{where} since {proseMonthYear(at)}.",
+      "occurrence": 0,
+      "textRevision": "5d425a0c743b"
+    },
+    {
+      "anchor": "workSentence-0003",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "workSentence",
+      "text": "You have worked as {title}{where} since {proseMonthYear(at)}.",
+      "occurrence": 0,
+      "textRevision": "384fdbdcbe8e"
+    },
+    {
+      "anchor": "workSentence-0004",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "workSentence",
+      "text": "Your time as {title}{where} ended in {proseMonthYear(at)}.",
+      "occurrence": 0,
+      "textRevision": "319ea4df46da"
+    },
+    {
+      "anchor": "workSentence-0005",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "symbol": "workSentence",
+      "text": "Your work as {title}{where} ended in {proseMonthYear(at)}.",
+      "occurrence": 0,
+      "textRevision": "54dd49f31e96"
     },
     {
       "anchor": "writeOptionalInterface-0001",

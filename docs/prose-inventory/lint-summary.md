@@ -22,10 +22,10 @@ defect than the one it was aimed at.
 
 ## Repetition
 
-- 2683 templates, 2516 distinct texts.
-- 35 exact duplicate groups.
-- 46 normalized duplicate groups.
-- 21 near-duplicate clusters (Jaccard ≥ 0.72).
+- 2720 templates, 2551 distinct texts.
+- 36 exact duplicate groups.
+- 47 normalized duplicate groups.
+- 22 near-duplicate clusters (Jaccard ≥ 0.72).
 
 Exact duplicate text at two semantic locations is not itself a defect: each
 keeps its own ID, and two banks may legitimately both offer "Say nothing".
@@ -57,8 +57,8 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `the bill is` | 11 | 2 |
 | `the two of you` | 11 | 3 |
 | `two of you` | 11 | 3 |
+| `you said you` | 11 | 4 |
 | `is not a` | 10 | 3 |
-| `is on the` | 10 | 6 |
 
 ### Most repeated sentence openings
 
@@ -72,9 +72,9 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `the bill is` | 10 |
 | `that file is` | 9 |
 | `you asked for` | 9 |
+| `you said you` | 9 |
 | `you put the` | 8 |
 | `you took the` | 8 |
-| `you said you` | 7 |
 | `you told them` | 7 |
 | `you told you` | 7 |
 | `ask for a` | 6 |

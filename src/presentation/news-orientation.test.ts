@@ -5,6 +5,25 @@ import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { projectNewsOrientation } from "./news-orientation";
 import { projectPublicInformationPanel } from "./public-information-adapters";
 import { recordWorldEvent } from "../simulation/world";
+import { proseDate } from "./prose-dates";
+import { establishOpeningOfficeholders } from "./opening-officeholders";
+
+/** Wording that describes the save or the engine instead of the place. */
+const DATABASE_WORDING =
+  /\brecorded\b|in this save|this character|accepted authority|Reading does not|Assembled/i;
+
+function allOrientationText(
+  orientation: ReturnType<typeof projectNewsOrientation>,
+): string {
+  return [
+    orientation.assembledLine,
+    orientation.publicWorld.emptyReason ?? "",
+    orientation.viewerAccessible.emptyReason ?? "",
+    ...orientation.publicWorld.items.map(
+      (item) => `${item.headline} ${item.recap}`,
+    ),
+  ].join("\n");
+}
 
 function ordinaryLife(seed: string) {
   return createNewGameWorld({
@@ -49,12 +68,20 @@ describe("News orientation reader", () => {
     expect(
       orientation.publicWorld.items.some((item) => item.kind === "institution"),
     ).toBe(true);
+    // Offices the authority records support but the World has not filled are
+    // reported to producers, never narrated as a vacancy or given a holder.
     expect(
-      orientation.publicWorld.items.some(
-        (item) =>
-          item.kind === "incumbent" && item.headline.startsWith("No incumbent"),
+      orientation.unfilledOffices.some((office) =>
+        /Governor/.test(office.displayName),
       ),
     ).toBe(true);
+    expect(
+      orientation.publicWorld.items.some((item) => item.kind === "incumbent"),
+    ).toBe(false);
+    expect(allOrientationText(orientation)).not.toMatch(DATABASE_WORDING);
+    expect(allOrientationText(orientation)).not.toMatch(
+      /No incumbent|vacan|URBAN_COUNTY/i,
+    );
     expect(
       orientation.publicWorld.items.some((item) => item.kind === "publication"),
     ).toBe(false);
@@ -104,13 +131,17 @@ describe("News orientation reader", () => {
       withMeeting,
       created.playerPersonId,
     );
-    expect(
-      afterMeeting.publicWorld.items.some(
-        (item) =>
-          item.kind === "public-event" &&
-          item.recap.includes("scheduled public community meeting"),
-      ),
-    ).toBe(true);
+    const meeting = afterMeeting.publicWorld.items.find(
+      (item) => item.kind === "public-event",
+    );
+    expect(meeting?.recap).toBe(
+      "Residents met for the scheduled public community meeting.",
+    );
+    expect(meeting?.recap).not.toMatch(/Named:/);
+    expect(meeting?.links.some((link) => link.kind === "person")).toBe(true);
+    expect(afterMeeting.viewerAccessible.emptyReason).toBe(
+      "None of this has reached you directly yet.",
+    );
     expect(withMeeting.history.publications?.length ?? 0).toBe(publications);
   });
 
@@ -171,15 +202,14 @@ describe("News orientation reader", () => {
     ).toEqual(first);
   });
 
-  it("names a recorded legislative incumbent from actual office work", () => {
+  it("names who actually holds public office from real office work", () => {
     const created = legislativeLife("world39-news-incumbent");
     const orientation = projectNewsOrientation(
       created.world,
       created.playerPersonId,
     );
     const incumbents = orientation.publicWorld.items.filter(
-      (item) =>
-        item.kind === "incumbent" && !item.headline.startsWith("No incumbent"),
+      (item) => item.kind === "incumbent",
     );
     expect(incumbents.length).toBeGreaterThan(0);
     expect(incumbents.some((item) => item.headline.includes("Maya Hale"))).toBe(
@@ -190,20 +220,102 @@ describe("News orientation reader", () => {
         item.links.some((link) => link.kind === "person"),
       ),
     ).toBe(true);
+    expect(
+      incumbents.every((item) => /since [A-Z][a-z]+ \d{4}\.$/.test(item.recap)),
+    ).toBe(true);
+    expect(allOrientationText(orientation)).not.toMatch(DATABASE_WORDING);
   });
 
-  it("states that reading News does not publish, using the lived place", () => {
+  it("projects the opening's national officeholders instead of leaving those offices unfilled", () => {
+    const created = ordinaryLife("world39-news-opening-holders");
+    const before = projectNewsOrientation(
+      created.world,
+      created.playerPersonId,
+    );
+    expect(
+      before.unfilledOffices.some((office) =>
+        /President/.test(office.displayName),
+      ),
+    ).toBe(true);
+    const opened = establishOpeningOfficeholders(
+      created.world,
+      created.playerPersonId,
+    );
+    const after = projectNewsOrientation(opened, created.playerPersonId);
+    const president = after.publicWorld.items.find(
+      (item) =>
+        item.kind === "incumbent" &&
+        item.headline.endsWith("serves as President of the United States"),
+    );
+    expect(president).toBeDefined();
+    expect(president?.recap).toMatch(
+      /^.+ has served as President of the United States at Presidency of the United States since January \d{4}\.$/,
+    );
+    expect(president?.links.some((link) => link.kind === "person")).toBe(true);
+    expect(
+      after.unfilledOffices.some((office) =>
+        /President/.test(office.displayName),
+      ),
+    ).toBe(false);
+    expect(
+      after.publicWorld.items.some((item) => item.kind === "public-event"),
+    ).toBe(false);
+    // The office's own organization is not listed again as an institution,
+    // and nothing unlocated is placed in the lived town.
+    expect(
+      after.publicWorld.items.some(
+        (item) =>
+          item.kind === "institution" &&
+          /Presidency of the United States|Supreme Court/.test(item.headline),
+      ),
+    ).toBe(false);
+    expect(allOrientationText(after)).not.toMatch(
+      /(Presidency|Supreme Court)[^.]* in Lexington/,
+    );
+    expect(allOrientationText(after)).not.toMatch(DATABASE_WORDING);
+    expect(allOrientationText(after)).not.toMatch(/fictional/i);
+  });
+
+  it("opens with a plain dateline for the lived place and no reading guarantee", () => {
     const created = ordinaryLife("world39-news-reading-note");
+    const before = created.world.history.nextSequence;
     const orientation = projectNewsOrientation(
       created.world,
       created.playerPersonId,
     );
-    expect(orientation.assembledLine).toContain("Assembled");
-    expect(orientation.assembledLine).toContain(orientation.asOf);
-    expect(orientation.assembledLine).toContain(
-      "Reading does not publish a story or create the event it reports.",
-    );
     expect(orientation.placeName).toBeTruthy();
-    expect(orientation.assembledLine).toContain(orientation.placeName!);
+    expect(orientation.assembledLine).toBe(
+      `${orientation.placeName}, as of ${proseDate(orientation.asOf)}.`,
+    );
+    expect(orientation.assembledLine).not.toMatch(
+      /Assembled|Reading does not publish/,
+    );
+    expect(created.world.history.nextSequence).toBe(before);
+  });
+
+  it("speaks about the place, not about the save", () => {
+    const created = ordinaryLife("world39-news-wording");
+    const orientation = projectNewsOrientation(
+      created.world,
+      created.playerPersonId,
+    );
+    const government = orientation.publicWorld.items.find((item) =>
+      item.key.startsWith("institution:government:"),
+    );
+    expect(government?.headline).toBe(
+      "Lexington, Kentucky is governed by Lexington-Fayette Urban County Government",
+    );
+    expect(government?.recap).toContain("Urban County Council");
+    expect(government?.recap).not.toMatch(/Form:|Recorded body|Reading as of/);
+    const school = orientation.publicWorld.items.find(
+      (item) =>
+        item.key.startsWith("institution:org:") &&
+        item.headline.includes("School"),
+    );
+    expect(school?.recap).toMatch(/^.+ is a school in Lexington, Kentucky\.$/);
+    expect(orientation.viewerAccessible.emptyReason).toBe(
+      "Nothing has happened in public here lately.",
+    );
+    expect(allOrientationText(orientation)).not.toMatch(DATABASE_WORDING);
   });
 });

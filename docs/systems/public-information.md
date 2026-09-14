@@ -67,10 +67,18 @@ different save slots keep independent follow lists. An unfollowed outlet's
 stories remain available in All and in that outlet's view.
 
 The News reader also projects a pure **orientation** from already-recorded
-public institutions, incumbents, public events and publications. That
-projection never calls `publishPublicEvent`. Missing public facts yield a
-specific empty reason; private and limited events stay closed. Character
-knowledge of public items is listed separately from the public World lane.
+public institutions, people holding public office, public events and
+publications. That projection never calls `publishPublicEvent`. The text it
+emits is what a resident could say about the place ("Lexington, Kentucky is
+governed by Lexington-Fayette Urban County Government", "Maya Hale has served
+as State Representative since January 2024"); it never describes the save
+("recorded", "in this save") and carries no reading guarantee, which lives
+here and in tests instead. A civic office the authority records support but
+the World has not filled is exposed as `unfilledOffices` for producers and is
+neither narrated as a vacancy nor given a holder. Missing public facts yield a
+plain empty line; private and limited events stay closed. Dated public events
+this character already knows of are listed separately from the standing
+public facts, which need no knowledge record to be common knowledge.
 
 An unknown room jurisdiction stays `null` through that adapter. It selects only
 unlocated publications; it does not become an omitted filter that can pull a
