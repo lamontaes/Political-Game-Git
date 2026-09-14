@@ -38,9 +38,6 @@ async function savedWorldPayload(page: Page): Promise<string> {
 async function continueSavedLife(page: Page): Promise<void> {
   await page.goto("/");
   await page.getByTestId("continue").click();
-  await page
-    .getByRole("button", { name: "Continue your life", exact: true })
-    .click();
   await enterLife(page);
 }
 

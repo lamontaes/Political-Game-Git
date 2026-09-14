@@ -16,19 +16,26 @@
 
 .pg-talk {
   width: min(46rem, 100%);
+  max-height: min(28rem, calc(var(--pg-vv-height, 100dvh) - 7.5rem));
+  overflow: auto;
   padding: 0.7rem 1rem 0.65rem;
   color: var(--run-a-ink);
-  background: linear-gradient(180deg, rgb(18 29 46 / 93%), rgb(11 19 32 / 95%));
+  background: linear-gradient(180deg, rgb(18 29 46 / 88%), rgb(11 19 32 / 90%));
   border: 1px solid var(--run-a-line);
   border-radius: 0.9rem;
-  box-shadow: 0 1.2rem 3rem rgb(8 13 22 / 46%);
+  box-shadow: 0 1.2rem 3rem rgb(8 13 22 / 36%);
   backdrop-filter: blur(5px);
 }
 
-.pg-talk-head {
+.pg-talk-faces {
   display: flex;
-  align-items: center;
-  gap: 0.8rem;
+  align-items: flex-end;
+  gap: 0.35rem;
+}
+
+.pg-talk-faces .person-portrait:last-child {
+  outline: 2px solid var(--run-a-gold);
+  outline-offset: 2px;
 }
 
 .pg-talk-head .person-portrait figcaption {

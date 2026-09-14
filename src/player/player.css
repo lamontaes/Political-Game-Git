@@ -7012,10 +7012,14 @@
   position: fixed;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: var(--pg-content-bottom, calc(1.15rem + env(safe-area-inset-bottom, 0px)));
   display: flex;
   justify-content: center;
-  padding: 0 1rem 1.4rem;
+  padding: 0 1rem 0.35rem;
+  max-height: calc(
+    var(--pg-vv-height, 100dvh) - 5.5rem - env(safe-area-inset-top, 0px) -
+      var(--pg-vv-inset-top, 0px)
+  );
   z-index: 2;
   pointer-events: none;
 }

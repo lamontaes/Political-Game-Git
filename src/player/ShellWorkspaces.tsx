@@ -27,6 +27,7 @@ import {
 } from "../presentation/player-calendar";
 import { projectLifeRecord } from "../presentation/life-record";
 import { projectMeasureBriefing } from "../presentation/legislation-projection";
+import { projectOpeningLife } from "../presentation/opening-life";
 import { projectPersonalRecord } from "../presentation/personal-record";
 import {
   CANONICAL_VERSION,
@@ -44,6 +45,14 @@ import { projectPersonDossier } from "../presentation/person-dossier";
 import { openConversationWith } from "../presentation/person-conversation-entry";
 import { PersonCard } from "./PersonCard";
 import { PeopleRelationshipWeb } from "./PeopleRelationshipWeb";
+import { PersonPortrait } from "./PersonPortrait";
+import {
+  advanceCalendarToActivity,
+  declineCalendarActivity,
+  playCalendarActivity,
+  simulateAuthorizedCalendarActivity,
+  simulateCalendarDays,
+} from "../presentation/calendar-time-control";
 import {
   measureById,
   workPendingEntriesFor,
@@ -60,7 +69,8 @@ import {
  * rather than keeping one each. None of them is an always-on dashboard, none
  * of them invents a number, and none of them can move the clock: they are
  * projections of the world plus the controls the existing gameplay writers
- * already expose.
+ * already expose. Calendar day/week/event buttons call those writers; reading
+ * still spends no time.
  */
 
 export function WorkspaceFrame({
@@ -267,6 +277,11 @@ export function PeopleWorkspace({
                   data-testid={`people-person-${person.personId}`}
                   onClick={() => selectPerson(person.personId)}
                 >
+                  <PersonPortrait
+                    world={world}
+                    personId={person.personId}
+                    size="small"
+                  />
                   <strong>{person.name}</strong>
                   {person.relationship ? (
                     <small>{person.relationship}</small>
@@ -329,12 +344,14 @@ export function PeopleWorkspace({
 function CalendarEntryRow({
   entry,
   pinned,
-  onOpen,
+  selected,
+  onSelect,
   onTogglePin,
 }: {
   readonly entry: CalendarEntry;
   readonly pinned: boolean;
-  readonly onOpen: () => void;
+  readonly selected: boolean;
+  readonly onSelect: () => void;
   readonly onTogglePin: () => void;
 }) {
   return (
@@ -343,7 +360,10 @@ function CalendarEntryRow({
         type="button"
         className="pg-calendar-open"
         data-testid={`calendar-entry-${entry.activityId}`}
-        onClick={onOpen}
+        aria-pressed={selected}
+        onClick={() => {
+          onSelect();
+        }}
       >
         <span className="pg-calendar-time">
           {formatMinute(entry.start.minuteOfDay)}
@@ -374,28 +394,68 @@ export function CalendarWorkspaceSurface({
   isPinnedRef,
   onOpen,
   onTogglePin,
+  onWorldChange,
 }: {
   readonly world: World;
   readonly personId: EntityId;
   readonly isPinnedRef: (ref: ShellRef) => boolean;
   readonly onOpen: (ref: ShellRef) => void;
   readonly onTogglePin: (ref: ShellRef) => void;
+  readonly onWorldChange: (world: World) => void;
 }) {
   const calendar = useMemo(
     () => projectPlayerCalendar(world, personId),
     [world, personId],
   );
+  const [selectedId, setSelectedId] = useState<EntityId | null>(null);
+  const [outcome, setOutcome] = useState<string | null>(null);
+  const selected = calendar.days
+    .flatMap((day) => day.entries)
+    .find((entry) => entry.activityId === selectedId);
+
+  function apply(
+    run: () => {
+      readonly world: World;
+      readonly outcome: string;
+    },
+  ) {
+    const result = run();
+    setOutcome(result.outcome);
+    if (result.world !== world) onWorldChange(result.world);
+  }
 
   return (
     <>
       <p className="game-band" data-testid="calendar-today">
         {calendar.today.date} · {formatMinute(calendar.today.minuteOfDay)}
       </p>
-      {/*
-        Reading the calendar is a pure read. Nothing on this screen advances the
-        clock, and the line above shows the same canonical moment before and
-        after — which is the property the proof checks.
-      */}
+      <div className="game-choices" data-testid="calendar-time-controls">
+        <button
+          type="button"
+          className="ui-action"
+          data-testid="calendar-simulate-day"
+          onClick={() =>
+            apply(() => simulateCalendarDays(world, personId, 1))
+          }
+        >
+          Simulate a day
+        </button>
+        <button
+          type="button"
+          className="ui-action"
+          data-testid="calendar-simulate-week"
+          onClick={() =>
+            apply(() => simulateCalendarDays(world, personId, 7))
+          }
+        >
+          Simulate a week
+        </button>
+      </div>
+      {outcome ? (
+        <p className="game-note" role="status" data-testid="calendar-time-outcome">
+          {outcome}
+        </p>
+      ) : null}
       {calendar.note ? (
         <p className="game-note" data-testid="calendar-note">
           {calendar.note}
@@ -415,7 +475,8 @@ export function CalendarWorkspaceSurface({
                   key={entry.activityId}
                   entry={entry}
                   pinned={isPinnedRef(ref)}
-                  onOpen={() => onOpen(ref)}
+                  selected={selectedId === entry.activityId}
+                  onSelect={() => setSelectedId(entry.activityId)}
                   onTogglePin={() => onTogglePin(ref)}
                 />
               );
@@ -423,6 +484,75 @@ export function CalendarWorkspaceSurface({
           </ul>
         </section>
       ))}
+      {selected ? (
+        <div className="game-choices" data-testid="calendar-event-actions">
+          <p>
+            Selected: {selected.title} · {formatMinute(selected.start.minuteOfDay)}
+          </p>
+          <button
+            type="button"
+            className="ui-action"
+            data-testid="calendar-open-event"
+            onClick={() =>
+              onOpen({ kind: "commitment", id: selected.activityId })
+            }
+          >
+            Open event record
+          </button>
+          <button
+            type="button"
+            className="ui-action"
+            data-testid="calendar-advance-event"
+            onClick={() =>
+              apply(() =>
+                advanceCalendarToActivity(world, personId, selected.activityId),
+              )
+            }
+          >
+            Advance to this event
+          </button>
+          <button
+            type="button"
+            className="ui-action"
+            data-testid="calendar-play-event"
+            onClick={() =>
+              apply(() =>
+                playCalendarActivity(world, personId, selected.activityId),
+              )
+            }
+          >
+            Play this event
+          </button>
+          <button
+            type="button"
+            className="ui-action"
+            data-testid="calendar-simulate-event"
+            onClick={() =>
+              apply(() =>
+                simulateAuthorizedCalendarActivity(
+                  world,
+                  personId,
+                  selected.activityId,
+                ),
+              )
+            }
+          >
+            Simulate authorized attendance
+          </button>
+          <button
+            type="button"
+            className="ui-action"
+            data-testid="calendar-decline-event"
+            onClick={() =>
+              apply(() =>
+                declineCalendarActivity(world, personId, selected.activityId),
+              )
+            }
+          >
+            Decline
+          </button>
+        </div>
+      ) : null}
     </>
   );
 }
@@ -570,6 +700,10 @@ export function PersonalWorkspace({
     () => projectPersonalRecord(world, personId),
     [world, personId],
   );
+  const intro = useMemo(
+    () => projectOpeningLife(world, personId),
+    [world, personId],
+  );
   if (!record) {
     return <p className="game-note">This world has no record of you.</p>;
   }
@@ -614,6 +748,23 @@ export function PersonalWorkspace({
           {record.identity.placeName ? ` · ${record.identity.placeName}` : ""}
         </p>
       </header>
+
+      <details className="pg-personal-section" data-testid="life-introduction">
+        <summary>Household and world notes</summary>
+        <p>{intro.context}</p>
+        {intro.household.sentences.map((text) => (
+          <p key={text}>{text}</p>
+        ))}
+        {intro.household.grounding.length > 0 ? (
+          <div data-testid="life-grounding">
+            {intro.household.grounding.map((fact) => (
+              <p key={fact.basis} data-grounding={fact.kind}>
+                {fact.text}
+              </p>
+            ))}
+          </div>
+        ) : null}
+      </details>
 
       <section className="pg-personal-section">
         <h3>Appearance</h3>

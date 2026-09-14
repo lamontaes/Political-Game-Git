@@ -546,12 +546,43 @@ export interface LifePlaceSearchOptions {
   readonly scope?: LifePlaceScope;
 }
 
+function authoredLocalityMatches(
+  place: LifePlace,
+  needle: string,
+  stateKey: string | undefined,
+): boolean {
+  if (stateKey && place.stateJurisdictionKey !== stateKey) return false;
+  if (!stateKey) return placeMatches(place, needle);
+  const localName = place.withinName
+    ? place.displayName.replace(
+        new RegExp(`,\\s*${place.withinName}$`, "i"),
+        "",
+      )
+    : place.displayName;
+  return (
+    localityLabelMatches(localName, needle) ||
+    localityLabelMatches(place.formalName ?? "", needle)
+  );
+}
+
+function comparePlaceDisplayNames(left: LifePlace, right: LifePlace): number {
+  const byName = left.displayName.localeCompare(right.displayName, "en", {
+    sensitivity: "base",
+  });
+  if (byName !== 0) return byName;
+  const byState = (left.withinName ?? "").localeCompare(
+    right.withinName ?? "",
+    "en",
+    { sensitivity: "base" },
+  );
+  if (byState !== 0) return byState;
+  return left.key.localeCompare(right.key);
+}
+
 /**
- * Places matching a search, authored ones first and then the national corpus.
- *
- * The corpus scan is linear and bounded by `limit`, so a keystroke reads at
- * most a few results out of the thirty thousand rather than materializing them
- * all. This is the search the setup screen runs.
+ * Places matching a search, merged and ordered by player-facing name before
+ * the result limit. Authored and corpus rows for the same GEOID stay one
+ * place. Lexington is not moved to the front of an empty state list.
  *
  * A state filter is identity-based. An empty query with a state selected lists
  * that state's localities rather than recommending a default hometown.
@@ -568,29 +599,27 @@ export function searchLifePlaces(
   if (!stateKey && needle.length === 0) return [];
 
   const authoredGeoids = authoredSourceGeoidSet();
-  const authored = allPlaces().filter((place) => {
-    if (stateKey && place.stateJurisdictionKey !== stateKey) return false;
-    if (options?.scope && place.scope !== options.scope) return false;
-    if (!stateKey) return placeMatches(place, needle);
-    const localName = place.withinName
-      ? place.displayName.replace(
-          new RegExp(`,\\s*${place.withinName}$`, "i"),
-          "",
-        )
-      : place.displayName;
-    return (
-      localityLabelMatches(localName, needle) ||
-      localityLabelMatches(place.formalName ?? "", needle)
-    );
-  });
-  const results: LifePlace[] = [...authored];
-  if (options?.scope === "state") return results.slice(0, limit);
+  const results: LifePlace[] = [];
+  const seen = new Set<string>();
+  const take = (place: LifePlace) => {
+    if (seen.has(place.key)) return;
+    seen.add(place.key);
+    results.push(place);
+  };
+
+  for (const place of allPlaces()) {
+    if (options?.scope && place.scope !== options.scope) continue;
+    if (!authoredLocalityMatches(place, needle, stateKey)) continue;
+    take(place);
+  }
+  if (options?.scope === "state") {
+    return [...results].sort(comparePlaceDisplayNames).slice(0, limit);
+  }
 
   const rows = usps
     ? (nationwideRowsByUsps().get(usps) ?? [])
     : nationwideRows();
   for (const row of rows) {
-    if (results.length >= limit) break;
     if (authoredGeoids.has(row[0])) continue;
     if (usps) {
       if (!localityLabelMatches(row[1], needle)) continue;
@@ -598,7 +627,9 @@ export function searchLifePlaces(
       const haystack = `${row[1]} ${stateName(row[2])} ${row[2]}`.toLowerCase();
       if (!haystack.includes(needle)) continue;
     }
-    results.push(synthesizeNationwidePlace(row));
+    const place = synthesizeNationwidePlace(row);
+    if (options?.scope && place.scope !== options.scope) continue;
+    take(place);
   }
   /*
    * Counties answer to the same filters as everything above. UI144's county
@@ -606,12 +637,12 @@ export function searchLifePlaces(
    * town search inside Alabama listed Kentucky's counties.
    */
   for (const place of nationwideCounties().values()) {
-    if (results.length >= limit) break;
     if (options?.scope && place.scope !== options.scope) continue;
     if (stateKey && place.stateJurisdictionKey !== stateKey) continue;
-    if (placeMatches(place, needle)) results.push(place);
+    if (!placeMatches(place, needle)) continue;
+    take(place);
   }
-  return results.slice(0, limit);
+  return results.sort(comparePlaceDisplayNames).slice(0, limit);
 }
 
 const OUTSTANDING_DEPENDENCY =

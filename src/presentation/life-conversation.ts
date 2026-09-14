@@ -323,12 +323,11 @@ export function commitLifeConversation(
     !view.intents.some((option) => option.key === input.intent)
   )
     throw new Error("This conversation choice is no longer available.");
-  const advanced = advanceWorldMinutes(
-    world,
-    input.intent === "spendTime" ? 30 : 2,
-    input.transitionHandlers,
-  );
-  if (advanced === world) return world;
+  const advanced =
+    input.intent === "spendTime"
+      ? advanceWorldMinutes(world, 30, input.transitionHandlers)
+      : world;
+  if (input.intent === "spendTime" && advanced === world) return world;
   if (
     advanced.history.events
       .slice(world.history.events.length)
