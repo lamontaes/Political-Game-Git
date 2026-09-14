@@ -1,15 +1,15 @@
 {
-  "digest": "f00900fb1b97dbf5",
+  "digest": "e2eb0da1b70e5875",
   "counts": {
-    "total": 2644,
+    "total": 2683,
     "byDomain": {
       "campaign": 23,
       "conversation": 197,
       "governing": 187,
       "legislative": 93,
-      "life": 1674,
+      "life": 1696,
       "narration": 75,
-      "ordinary": 4,
+      "ordinary": 21,
       "setup": 354,
       "shell": 37
     },
@@ -24,20 +24,20 @@
       "option-witnessed": 54,
       "prompt": 74,
       "scene-line": 219,
-      "status": 372,
+      "status": 411,
       "thread-recap": 32
     },
     "byReachability": {
       "CURRENTLY_UNREACHABLE": 42,
       "DEV_FIXTURE_ONLY": 106,
       "LEGACY_OR_WITHDRAWN": 90,
-      "PLAYER_REACHABLE": 1980,
+      "PLAYER_REACHABLE": 2019,
       "UNKNOWN": 68,
       "WITHHELD_BY_GROUNDING": 358
     },
     "byRealization": {
-      "static": 2124,
-      "templated": 520
+      "static": 2135,
+      "templated": 548
     }
   },
   "records": [
@@ -90105,6 +90105,772 @@
       "contextRevision": "9d5250102a31"
     },
     {
+      "id": "prose:life:journal-reader:JOURNAL_ACCOUNT_HEADING-0001#text",
+      "domain": "life",
+      "bank": "journal-reader",
+      "stableKey": "JOURNAL_ACCOUNT_HEADING-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/player/JournalReader.tsx",
+      "sourceSymbol": "JOURNAL_ACCOUNT_HEADING",
+      "text": "Account of this life",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The Journal nav route and the play-surface journal overlay both render this reader. Personal notes remain a separate editor; the exact record is projectLifeRecord.",
+      "grounding": [
+        {
+          "key": "journal-account-and-record",
+          "description": "The projected LifeBiography summary/passages and the existing LifeRecord chapters, people and open items for the saved person.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "JOURNAL_ACCOUNT_HEADING",
+        "anchor": "JOURNAL_ACCOUNT_HEADING-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "9c4dd0422c31",
+      "contextRevision": "51b6bea783a6"
+    },
+    {
+      "id": "prose:life:journal-reader:JOURNAL_OPEN_HEADING-0001#text",
+      "domain": "life",
+      "bank": "journal-reader",
+      "stableKey": "JOURNAL_OPEN_HEADING-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/player/JournalReader.tsx",
+      "sourceSymbol": "JOURNAL_OPEN_HEADING",
+      "text": "Still open",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The Journal nav route and the play-surface journal overlay both render this reader. Personal notes remain a separate editor; the exact record is projectLifeRecord.",
+      "grounding": [
+        {
+          "key": "journal-account-and-record",
+          "description": "The projected LifeBiography summary/passages and the existing LifeRecord chapters, people and open items for the saved person.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "JOURNAL_OPEN_HEADING",
+        "anchor": "JOURNAL_OPEN_HEADING-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "ccde2b49c256",
+      "contextRevision": "51b6bea783a6"
+    },
+    {
+      "id": "prose:life:journal-reader:JOURNAL_RECORD_EMPTY-0001#text",
+      "domain": "life",
+      "bank": "journal-reader",
+      "stableKey": "JOURNAL_RECORD_EMPTY-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/player/JournalReader.tsx",
+      "sourceSymbol": "JOURNAL_RECORD_EMPTY",
+      "text": "Nothing has been written down yet. It will fill up as the life goes on.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The Journal nav route and the play-surface journal overlay both render this reader. Personal notes remain a separate editor; the exact record is projectLifeRecord.",
+      "grounding": [
+        {
+          "key": "journal-account-and-record",
+          "description": "The projected LifeBiography summary/passages and the existing LifeRecord chapters, people and open items for the saved person.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "JOURNAL_RECORD_EMPTY",
+        "anchor": "JOURNAL_RECORD_EMPTY-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "d81fae537e22",
+      "contextRevision": "51b6bea783a6"
+    },
+    {
+      "id": "prose:life:journal-reader:JOURNAL_RECORD_HEADING-0001#text",
+      "domain": "life",
+      "bank": "journal-reader",
+      "stableKey": "JOURNAL_RECORD_HEADING-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/player/JournalReader.tsx",
+      "sourceSymbol": "JOURNAL_RECORD_HEADING",
+      "text": "Exact record",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The Journal nav route and the play-surface journal overlay both render this reader. Personal notes remain a separate editor; the exact record is projectLifeRecord.",
+      "grounding": [
+        {
+          "key": "journal-account-and-record",
+          "description": "The projected LifeBiography summary/passages and the existing LifeRecord chapters, people and open items for the saved person.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "JOURNAL_RECORD_HEADING",
+        "anchor": "JOURNAL_RECORD_HEADING-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "87bd8e10d897",
+      "contextRevision": "51b6bea783a6"
+    },
+    {
+      "id": "prose:life:life-biography:collectPassages-0001#text",
+      "domain": "life",
+      "bank": "life-biography",
+      "stableKey": "collectPassages-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "sourceSymbol": "collectPassages",
+      "text": "The recorded {role.title} work{where} ended on {status.effectiveAt}{status.reason?`:${status.reason}`:\".\"}",
+      "realization": "templated",
+      "slots": [
+        "role.title",
+        "status.effectiveAt",
+        "status.reason",
+        "where"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.",
+      "grounding": [
+        {
+          "key": "recorded-life",
+          "description": "The person's identity, education and occupation facts, work expected/active/ended status, enrollment expected/active/completed status, life commitments, memories, choice-tagged events, attributed private beliefs, public positions, and campaign commitments actually on the save. Unsupported emotion, cause and proof-ledger wording are omitted.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "collectPassages",
+        "anchor": "collectPassages-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "248ed17c5b26",
+      "contextRevision": "7718cdc860c3"
+    },
+    {
+      "id": "prose:life:life-biography:collectPassages-0002#text",
+      "domain": "life",
+      "bank": "life-biography",
+      "stableKey": "collectPassages-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "sourceSymbol": "collectPassages",
+      "text": "{name} completed enrollment at {orgName} on {state.effectiveAt}.",
+      "realization": "templated",
+      "slots": [
+        "name",
+        "orgName",
+        "state.effectiveAt"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.",
+      "grounding": [
+        {
+          "key": "recorded-life",
+          "description": "The person's identity, education and occupation facts, work expected/active/ended status, enrollment expected/active/completed status, life commitments, memories, choice-tagged events, attributed private beliefs, public positions, and campaign commitments actually on the save. Unsupported emotion, cause and proof-ledger wording are omitted.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "collectPassages",
+        "anchor": "collectPassages-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "acbde04d5cc5",
+      "contextRevision": "7718cdc860c3"
+    },
+    {
+      "id": "prose:life:life-biography:collectPassages-0003#text",
+      "domain": "life",
+      "bank": "life-biography",
+      "stableKey": "collectPassages-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "sourceSymbol": "collectPassages",
+      "text": "{name} has a recorded commitment: {commitment.label}.",
+      "realization": "templated",
+      "slots": [
+        "commitment.label",
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.",
+      "grounding": [
+        {
+          "key": "recorded-life",
+          "description": "The person's identity, education and occupation facts, work expected/active/ended status, enrollment expected/active/completed status, life commitments, memories, choice-tagged events, attributed private beliefs, public positions, and campaign commitments actually on the save. Unsupported emotion, cause and proof-ledger wording are omitted.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "collectPassages",
+        "anchor": "collectPassages-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "9c5784d8e612",
+      "contextRevision": "7718cdc860c3"
+    },
+    {
+      "id": "prose:life:life-biography:collectPassages-0004#text",
+      "domain": "life",
+      "bank": "life-biography",
+      "stableKey": "collectPassages-0004",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "sourceSymbol": "collectPassages",
+      "text": "{name} has a recorded education fact: {fact.institution}, {fact.field}.",
+      "realization": "templated",
+      "slots": [
+        "fact.field",
+        "fact.institution",
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.",
+      "grounding": [
+        {
+          "key": "recorded-life",
+          "description": "The person's identity, education and occupation facts, work expected/active/ended status, enrollment expected/active/completed status, life commitments, memories, choice-tagged events, attributed private beliefs, public positions, and campaign commitments actually on the save. Unsupported emotion, cause and proof-ledger wording are omitted.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "collectPassages",
+        "anchor": "collectPassages-0004"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "8a5b12150d45",
+      "contextRevision": "7718cdc860c3"
+    },
+    {
+      "id": "prose:life:life-biography:collectPassages-0005#text",
+      "domain": "life",
+      "bank": "life-biography",
+      "stableKey": "collectPassages-0005",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "sourceSymbol": "collectPassages",
+      "text": "{name} has a recorded education fact: {fact.institution}.",
+      "realization": "templated",
+      "slots": [
+        "fact.institution",
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.",
+      "grounding": [
+        {
+          "key": "recorded-life",
+          "description": "The person's identity, education and occupation facts, work expected/active/ended status, enrollment expected/active/completed status, life commitments, memories, choice-tagged events, attributed private beliefs, public positions, and campaign commitments actually on the save. Unsupported emotion, cause and proof-ledger wording are omitted.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "collectPassages",
+        "anchor": "collectPassages-0005"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "3cc0082a951a",
+      "contextRevision": "7718cdc860c3"
+    },
+    {
+      "id": "prose:life:life-biography:collectPassages-0006#text",
+      "domain": "life",
+      "bank": "life-biography",
+      "stableKey": "collectPassages-0006",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "sourceSymbol": "collectPassages",
+      "text": "{name} has a recorded expected enrollment at {orgName}, to start {enrollment.startedAt}.",
+      "realization": "templated",
+      "slots": [
+        "enrollment.startedAt",
+        "name",
+        "orgName"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.",
+      "grounding": [
+        {
+          "key": "recorded-life",
+          "description": "The person's identity, education and occupation facts, work expected/active/ended status, enrollment expected/active/completed status, life commitments, memories, choice-tagged events, attributed private beliefs, public positions, and campaign commitments actually on the save. Unsupported emotion, cause and proof-ledger wording are omitted.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "collectPassages",
+        "anchor": "collectPassages-0006"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "10a2ed148874",
+      "contextRevision": "7718cdc860c3"
+    },
+    {
+      "id": "prose:life:life-biography:collectPassages-0007#text",
+      "domain": "life",
+      "bank": "life-biography",
+      "stableKey": "collectPassages-0007",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "sourceSymbol": "collectPassages",
+      "text": "{name} has a recorded {belief.position} view on {proposition.name}.",
+      "realization": "templated",
+      "slots": [
+        "belief.position",
+        "name",
+        "proposition.name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.",
+      "grounding": [
+        {
+          "key": "recorded-life",
+          "description": "The person's identity, education and occupation facts, work expected/active/ended status, enrollment expected/active/completed status, life commitments, memories, choice-tagged events, attributed private beliefs, public positions, and campaign commitments actually on the save. Unsupported emotion, cause and proof-ledger wording are omitted.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "collectPassages",
+        "anchor": "collectPassages-0007"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "9883b24d878c",
+      "contextRevision": "7718cdc860c3"
+    },
+    {
+      "id": "prose:life:life-biography:collectPassages-0008#text",
+      "domain": "life",
+      "bank": "life-biography",
+      "stableKey": "collectPassages-0008",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "sourceSymbol": "collectPassages",
+      "text": "{name} has recorded expected work as {role.title}{where}, to start {relationship.startedAt}.",
+      "realization": "templated",
+      "slots": [
+        "name",
+        "relationship.startedAt",
+        "role.title",
+        "where"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.",
+      "grounding": [
+        {
+          "key": "recorded-life",
+          "description": "The person's identity, education and occupation facts, work expected/active/ended status, enrollment expected/active/completed status, life commitments, memories, choice-tagged events, attributed private beliefs, public positions, and campaign commitments actually on the save. Unsupported emotion, cause and proof-ledger wording are omitted.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "collectPassages",
+        "anchor": "collectPassages-0008"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "5e818b08ff80",
+      "contextRevision": "7718cdc860c3"
+    },
+    {
+      "id": "prose:life:life-biography:collectPassages-0009#text",
+      "domain": "life",
+      "bank": "life-biography",
+      "stableKey": "collectPassages-0009",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "sourceSymbol": "collectPassages",
+      "text": "{name} holds the recorded role of {role.title}{where}.",
+      "realization": "templated",
+      "slots": [
+        "name",
+        "role.title",
+        "where"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.",
+      "grounding": [
+        {
+          "key": "recorded-life",
+          "description": "The person's identity, education and occupation facts, work expected/active/ended status, enrollment expected/active/completed status, life commitments, memories, choice-tagged events, attributed private beliefs, public positions, and campaign commitments actually on the save. Unsupported emotion, cause and proof-ledger wording are omitted.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "collectPassages",
+        "anchor": "collectPassages-0009"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "066d333e42a2",
+      "contextRevision": "7718cdc860c3"
+    },
+    {
+      "id": "prose:life:life-biography:collectPassages-0010#text",
+      "domain": "life",
+      "bank": "life-biography",
+      "stableKey": "collectPassages-0010",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "sourceSymbol": "collectPassages",
+      "text": "{name} is enrolled at {orgName}.",
+      "realization": "templated",
+      "slots": [
+        "name",
+        "orgName"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.",
+      "grounding": [
+        {
+          "key": "recorded-life",
+          "description": "The person's identity, education and occupation facts, work expected/active/ended status, enrollment expected/active/completed status, life commitments, memories, choice-tagged events, attributed private beliefs, public positions, and campaign commitments actually on the save. Unsupported emotion, cause and proof-ledger wording are omitted.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "collectPassages",
+        "anchor": "collectPassages-0010"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "e2ba8fc09e40",
+      "contextRevision": "7718cdc860c3"
+    },
+    {
+      "id": "prose:life:life-biography:collectPassages-0011#text",
+      "domain": "life",
+      "bank": "life-biography",
+      "stableKey": "collectPassages-0011",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "sourceSymbol": "collectPassages",
+      "text": "{name} recorded a {commitment.level} to {commitment.stance} {proposition.name}.",
+      "realization": "templated",
+      "slots": [
+        "commitment.level",
+        "commitment.stance",
+        "name",
+        "proposition.name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.",
+      "grounding": [
+        {
+          "key": "recorded-life",
+          "description": "The person's identity, education and occupation facts, work expected/active/ended status, enrollment expected/active/completed status, life commitments, memories, choice-tagged events, attributed private beliefs, public positions, and campaign commitments actually on the save. Unsupported emotion, cause and proof-ledger wording are omitted.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "collectPassages",
+        "anchor": "collectPassages-0011"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "80ac4f2e85dd",
+      "contextRevision": "7718cdc860c3"
+    },
+    {
+      "id": "prose:life:life-biography:collectPassages-0012#text",
+      "domain": "life",
+      "bank": "life-biography",
+      "stableKey": "collectPassages-0012",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "sourceSymbol": "collectPassages",
+      "text": "{name} stated publicly: {position.statement}",
+      "realization": "templated",
+      "slots": [
+        "name",
+        "position.statement"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.",
+      "grounding": [
+        {
+          "key": "recorded-life",
+          "description": "The person's identity, education and occupation facts, work expected/active/ended status, enrollment expected/active/completed status, life commitments, memories, choice-tagged events, attributed private beliefs, public positions, and campaign commitments actually on the save. Unsupported emotion, cause and proof-ledger wording are omitted.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "collectPassages",
+        "anchor": "collectPassages-0012"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "a866ea1413fa",
+      "contextRevision": "7718cdc860c3"
+    },
+    {
+      "id": "prose:life:life-biography:collectPassages-0013#text",
+      "domain": "life",
+      "bank": "life-biography",
+      "stableKey": "collectPassages-0013",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "sourceSymbol": "collectPassages",
+      "text": "{name} worked as {fact.title} at {fact.employer}.",
+      "realization": "templated",
+      "slots": [
+        "fact.employer",
+        "fact.title",
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.",
+      "grounding": [
+        {
+          "key": "recorded-life",
+          "description": "The person's identity, education and occupation facts, work expected/active/ended status, enrollment expected/active/completed status, life commitments, memories, choice-tagged events, attributed private beliefs, public positions, and campaign commitments actually on the save. Unsupported emotion, cause and proof-ledger wording are omitted.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "collectPassages",
+        "anchor": "collectPassages-0013"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "2251c95adbb1",
+      "contextRevision": "7718cdc860c3"
+    },
+    {
+      "id": "prose:life:life-biography:collectPassages-0014#text",
+      "domain": "life",
+      "bank": "life-biography",
+      "stableKey": "collectPassages-0014",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "sourceSymbol": "collectPassages",
+      "text": "{name} works as {fact.title} at {fact.employer}.",
+      "realization": "templated",
+      "slots": [
+        "fact.employer",
+        "fact.title",
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.",
+      "grounding": [
+        {
+          "key": "recorded-life",
+          "description": "The person's identity, education and occupation facts, work expected/active/ended status, enrollment expected/active/completed status, life commitments, memories, choice-tagged events, attributed private beliefs, public positions, and campaign commitments actually on the save. Unsupported emotion, cause and proof-ledger wording are omitted.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "collectPassages",
+        "anchor": "collectPassages-0014"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "cba4d6c1f9bf",
+      "contextRevision": "7718cdc860c3"
+    },
+    {
+      "id": "prose:life:life-biography:projectLifeBiography-0001#text",
+      "domain": "life",
+      "bank": "life-biography",
+      "stableKey": "projectLifeBiography-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "sourceSymbol": "projectLifeBiography",
+      "text": "No character is recorded for this journal.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.",
+      "grounding": [
+        {
+          "key": "recorded-life",
+          "description": "The person's identity, education and occupation facts, work expected/active/ended status, enrollment expected/active/completed status, life commitments, memories, choice-tagged events, attributed private beliefs, public positions, and campaign commitments actually on the save. Unsupported emotion, cause and proof-ledger wording are omitted.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectLifeBiography",
+        "anchor": "projectLifeBiography-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "9c3a262318f1",
+      "contextRevision": "7718cdc860c3"
+    },
+    {
+      "id": "prose:life:life-biography:projectLifeBiography-0002#text",
+      "domain": "life",
+      "bank": "life-biography",
+      "stableKey": "projectLifeBiography-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "sourceSymbol": "projectLifeBiography",
+      "text": "No identity, history, choices or outcomes are recorded for this life yet.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.",
+      "grounding": [
+        {
+          "key": "recorded-life",
+          "description": "The person's identity, education and occupation facts, work expected/active/ended status, enrollment expected/active/completed status, life commitments, memories, choice-tagged events, attributed private beliefs, public positions, and campaign commitments actually on the save. Unsupported emotion, cause and proof-ledger wording are omitted.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectLifeBiography",
+        "anchor": "projectLifeBiography-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "8ae81f155aca",
+      "contextRevision": "7718cdc860c3"
+    },
+    {
+      "id": "prose:life:life-biography:projectLifeBiography-0003#text",
+      "domain": "life",
+      "bank": "life-biography",
+      "stableKey": "projectLifeBiography-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "sourceSymbol": "projectLifeBiography",
+      "text": "{name}, {age}, in {place.displayName}.",
+      "realization": "templated",
+      "slots": [
+        "age",
+        "name",
+        "place.displayName"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.",
+      "grounding": [
+        {
+          "key": "recorded-life",
+          "description": "The person's identity, education and occupation facts, work expected/active/ended status, enrollment expected/active/completed status, life commitments, memories, choice-tagged events, attributed private beliefs, public positions, and campaign commitments actually on the save. Unsupported emotion, cause and proof-ledger wording are omitted.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectLifeBiography",
+        "anchor": "projectLifeBiography-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "7ee1a96172c7",
+      "contextRevision": "7718cdc860c3"
+    },
+    {
+      "id": "prose:life:life-biography:projectLifeBiography-0004#text",
+      "domain": "life",
+      "bank": "life-biography",
+      "stableKey": "projectLifeBiography-0004",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/life-biography.ts",
+      "sourceSymbol": "projectLifeBiography",
+      "text": "{name}, {age}.",
+      "realization": "templated",
+      "slots": [
+        "age",
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.",
+      "grounding": [
+        {
+          "key": "recorded-life",
+          "description": "The person's identity, education and occupation facts, work expected/active/ended status, enrollment expected/active/completed status, life commitments, memories, choice-tagged events, attributed private beliefs, public positions, and campaign commitments actually on the save. Unsupported emotion, cause and proof-ledger wording are omitted.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectLifeBiography",
+        "anchor": "projectLifeBiography-0004"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "01bb3fc885dc",
+      "contextRevision": "7718cdc860c3"
+    },
+    {
       "id": "prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0001#text",
       "domain": "life",
       "bank": "opening-conversation-intents",
@@ -94184,6 +94950,667 @@
       ],
       "textRevision": "7aff55d123e1",
       "contextRevision": "b48bf56644ff"
+    },
+    {
+      "id": "prose:ordinary:news-orientation:NEWS_ORIENTATION_KNOWN_TITLE-0001#text",
+      "domain": "ordinary",
+      "bank": "news-orientation",
+      "stableKey": "NEWS_ORIENTATION_KNOWN_TITLE-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "sourceSymbol": "NEWS_ORIENTATION_KNOWN_TITLE",
+      "text": "Known to you from the public record",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.",
+      "grounding": [
+        {
+          "key": "public-world-records",
+          "description": "Recorded municipal government identity and readings, public-institution organization profiles, active public-office work, accepted civic offices without a named holder, public historical events that resolve as publication sources, and already-written publications. Private and limited records are omitted.",
+          "kind": "requirement"
+        },
+        {
+          "key": "viewer-event-knowledge",
+          "description": "EventKnowledgeRecord rows on the viewing person for public items only. Missing knowledge is an empty lane, not invented familiarity.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "NEWS_ORIENTATION_KNOWN_TITLE",
+        "anchor": "NEWS_ORIENTATION_KNOWN_TITLE-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "8c50d0151f55",
+      "contextRevision": "1bf9ca451594"
+    },
+    {
+      "id": "prose:ordinary:news-orientation:NEWS_ORIENTATION_PUBLIC_TITLE-0001#text",
+      "domain": "ordinary",
+      "bank": "news-orientation",
+      "stableKey": "NEWS_ORIENTATION_PUBLIC_TITLE-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "sourceSymbol": "NEWS_ORIENTATION_PUBLIC_TITLE",
+      "text": "Around this place",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.",
+      "grounding": [
+        {
+          "key": "public-world-records",
+          "description": "Recorded municipal government identity and readings, public-institution organization profiles, active public-office work, accepted civic offices without a named holder, public historical events that resolve as publication sources, and already-written publications. Private and limited records are omitted.",
+          "kind": "requirement"
+        },
+        {
+          "key": "viewer-event-knowledge",
+          "description": "EventKnowledgeRecord rows on the viewing person for public items only. Missing knowledge is an empty lane, not invented familiarity.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "NEWS_ORIENTATION_PUBLIC_TITLE",
+        "anchor": "NEWS_ORIENTATION_PUBLIC_TITLE-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "c3ca8d25df46",
+      "contextRevision": "1bf9ca451594"
+    },
+    {
+      "id": "prose:ordinary:news-orientation:emptyPublicWorldReason-0001#text",
+      "domain": "ordinary",
+      "bank": "news-orientation",
+      "stableKey": "emptyPublicWorldReason-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "sourceSymbol": "emptyPublicWorldReason",
+      "text": "No public events, incumbents, institutions or publications are recorded for {placeName} in this save.",
+      "realization": "templated",
+      "slots": [
+        "placeName"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.",
+      "grounding": [
+        {
+          "key": "public-world-records",
+          "description": "Recorded municipal government identity and readings, public-institution organization profiles, active public-office work, accepted civic offices without a named holder, public historical events that resolve as publication sources, and already-written publications. Private and limited records are omitted.",
+          "kind": "requirement"
+        },
+        {
+          "key": "viewer-event-knowledge",
+          "description": "EventKnowledgeRecord rows on the viewing person for public items only. Missing knowledge is an empty lane, not invented familiarity.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "emptyPublicWorldReason",
+        "anchor": "emptyPublicWorldReason-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "37b73cfdc44d",
+      "contextRevision": "1bf9ca451594"
+    },
+    {
+      "id": "prose:ordinary:news-orientation:emptyPublicWorldReason-0002#text",
+      "domain": "ordinary",
+      "bank": "news-orientation",
+      "stableKey": "emptyPublicWorldReason-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "sourceSymbol": "emptyPublicWorldReason",
+      "text": "No public events, incumbents, institutions or publications are recorded in this save.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.",
+      "grounding": [
+        {
+          "key": "public-world-records",
+          "description": "Recorded municipal government identity and readings, public-institution organization profiles, active public-office work, accepted civic offices without a named holder, public historical events that resolve as publication sources, and already-written publications. Private and limited records are omitted.",
+          "kind": "requirement"
+        },
+        {
+          "key": "viewer-event-knowledge",
+          "description": "EventKnowledgeRecord rows on the viewing person for public items only. Missing knowledge is an empty lane, not invented familiarity.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "emptyPublicWorldReason",
+        "anchor": "emptyPublicWorldReason-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "bc199a10ffd8",
+      "contextRevision": "1bf9ca451594"
+    },
+    {
+      "id": "prose:ordinary:news-orientation:projectIncumbents-0001#text",
+      "domain": "ordinary",
+      "bank": "news-orientation",
+      "stableKey": "projectIncumbents-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "sourceSymbol": "projectIncumbents",
+      "text": "No incumbent is recorded for {office.displayName}",
+      "realization": "templated",
+      "slots": [
+        "office.displayName"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.",
+      "grounding": [
+        {
+          "key": "public-world-records",
+          "description": "Recorded municipal government identity and readings, public-institution organization profiles, active public-office work, accepted civic offices without a named holder, public historical events that resolve as publication sources, and already-written publications. Private and limited records are omitted.",
+          "kind": "requirement"
+        },
+        {
+          "key": "viewer-event-knowledge",
+          "description": "EventKnowledgeRecord rows on the viewing person for public items only. Missing knowledge is an empty lane, not invented familiarity.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectIncumbents",
+        "anchor": "projectIncumbents-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "b492efe0d851",
+      "contextRevision": "1bf9ca451594"
+    },
+    {
+      "id": "prose:ordinary:news-orientation:projectIncumbents-0002#text",
+      "domain": "ordinary",
+      "bank": "news-orientation",
+      "stableKey": "projectIncumbents-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "sourceSymbol": "projectIncumbents",
+      "text": "The office of {office.displayName} is in the accepted authority records for this place. This save names no current holder.",
+      "realization": "templated",
+      "slots": [
+        "office.displayName"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.",
+      "grounding": [
+        {
+          "key": "public-world-records",
+          "description": "Recorded municipal government identity and readings, public-institution organization profiles, active public-office work, accepted civic offices without a named holder, public historical events that resolve as publication sources, and already-written publications. Private and limited records are omitted.",
+          "kind": "requirement"
+        },
+        {
+          "key": "viewer-event-knowledge",
+          "description": "EventKnowledgeRecord rows on the viewing person for public items only. Missing knowledge is an empty lane, not invented familiarity.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectIncumbents",
+        "anchor": "projectIncumbents-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "6de31740eef5",
+      "contextRevision": "1bf9ca451594"
+    },
+    {
+      "id": "prose:ordinary:news-orientation:projectInstitutions-0001#text",
+      "domain": "ordinary",
+      "bank": "news-orientation",
+      "stableKey": "projectInstitutions-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "sourceSymbol": "projectInstitutions",
+      "text": "{government.displayName} is recorded for {place.displayName}.{form}{body} Reading as of {reading.asOf}.",
+      "realization": "templated",
+      "slots": [
+        "body",
+        "form",
+        "government.displayName",
+        "place.displayName",
+        "reading.asOf"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.",
+      "grounding": [
+        {
+          "key": "public-world-records",
+          "description": "Recorded municipal government identity and readings, public-institution organization profiles, active public-office work, accepted civic offices without a named holder, public historical events that resolve as publication sources, and already-written publications. Private and limited records are omitted.",
+          "kind": "requirement"
+        },
+        {
+          "key": "viewer-event-knowledge",
+          "description": "EventKnowledgeRecord rows on the viewing person for public items only. Missing knowledge is an empty lane, not invented familiarity.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectInstitutions",
+        "anchor": "projectInstitutions-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "7d10cd95cb1f",
+      "contextRevision": "1bf9ca451594"
+    },
+    {
+      "id": "prose:ordinary:news-orientation:projectInstitutions-0002#text",
+      "domain": "ordinary",
+      "bank": "news-orientation",
+      "stableKey": "projectInstitutions-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "sourceSymbol": "projectInstitutions",
+      "text": "{government.displayName} is the recorded municipal government",
+      "realization": "templated",
+      "slots": [
+        "government.displayName"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.",
+      "grounding": [
+        {
+          "key": "public-world-records",
+          "description": "Recorded municipal government identity and readings, public-institution organization profiles, active public-office work, accepted civic offices without a named holder, public historical events that resolve as publication sources, and already-written publications. Private and limited records are omitted.",
+          "kind": "requirement"
+        },
+        {
+          "key": "viewer-event-knowledge",
+          "description": "EventKnowledgeRecord rows on the viewing person for public items only. Missing knowledge is an empty lane, not invented familiarity.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectInstitutions",
+        "anchor": "projectInstitutions-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "1466571cd44f",
+      "contextRevision": "1bf9ca451594"
+    },
+    {
+      "id": "prose:ordinary:news-orientation:projectInstitutions-0003#text",
+      "domain": "ordinary",
+      "bank": "news-orientation",
+      "stableKey": "projectInstitutions-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "sourceSymbol": "projectInstitutions",
+      "text": "{profile.name} is a recorded institution",
+      "realization": "templated",
+      "slots": [
+        "profile.name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.",
+      "grounding": [
+        {
+          "key": "public-world-records",
+          "description": "Recorded municipal government identity and readings, public-institution organization profiles, active public-office work, accepted civic offices without a named holder, public historical events that resolve as publication sources, and already-written publications. Private and limited records are omitted.",
+          "kind": "requirement"
+        },
+        {
+          "key": "viewer-event-knowledge",
+          "description": "EventKnowledgeRecord rows on the viewing person for public items only. Missing knowledge is an empty lane, not invented familiarity.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectInstitutions",
+        "anchor": "projectInstitutions-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "8bf297ae9bb0",
+      "contextRevision": "1bf9ca451594"
+    },
+    {
+      "id": "prose:ordinary:news-orientation:projectInstitutions-0004#text",
+      "domain": "ordinary",
+      "bank": "news-orientation",
+      "stableKey": "projectInstitutions-0004",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "sourceSymbol": "projectInstitutions",
+      "text": "{profile.name} is recorded as {profile.classification.replace(\":\",\",\")} from {profile.effectiveAt}.",
+      "realization": "templated",
+      "slots": [
+        "profile.classification.replace(\":\",\",\")",
+        "profile.effectiveAt",
+        "profile.name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.",
+      "grounding": [
+        {
+          "key": "public-world-records",
+          "description": "Recorded municipal government identity and readings, public-institution organization profiles, active public-office work, accepted civic offices without a named holder, public historical events that resolve as publication sources, and already-written publications. Private and limited records are omitted.",
+          "kind": "requirement"
+        },
+        {
+          "key": "viewer-event-knowledge",
+          "description": "EventKnowledgeRecord rows on the viewing person for public items only. Missing knowledge is an empty lane, not invented familiarity.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectInstitutions",
+        "anchor": "projectInstitutions-0004"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "8ef67f0ede68",
+      "contextRevision": "1bf9ca451594"
+    },
+    {
+      "id": "prose:ordinary:news-orientation:projectNewsOrientation-0001#text",
+      "domain": "ordinary",
+      "bank": "news-orientation",
+      "stableKey": "projectNewsOrientation-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "sourceSymbol": "projectNewsOrientation",
+      "text": "No character is selected, so no personal public-information knowledge can be listed.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.",
+      "grounding": [
+        {
+          "key": "public-world-records",
+          "description": "Recorded municipal government identity and readings, public-institution organization profiles, active public-office work, accepted civic offices without a named holder, public historical events that resolve as publication sources, and already-written publications. Private and limited records are omitted.",
+          "kind": "requirement"
+        },
+        {
+          "key": "viewer-event-knowledge",
+          "description": "EventKnowledgeRecord rows on the viewing person for public items only. Missing knowledge is an empty lane, not invented familiarity.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectNewsOrientation",
+        "anchor": "projectNewsOrientation-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "45c141751440",
+      "contextRevision": "1bf9ca451594"
+    },
+    {
+      "id": "prose:ordinary:news-orientation:projectNewsOrientation-0002#text",
+      "domain": "ordinary",
+      "bank": "news-orientation",
+      "stableKey": "projectNewsOrientation-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "sourceSymbol": "projectNewsOrientation",
+      "text": "This character has no recorded knowledge of the public events, incumbents, institutions or publications assembled here.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.",
+      "grounding": [
+        {
+          "key": "public-world-records",
+          "description": "Recorded municipal government identity and readings, public-institution organization profiles, active public-office work, accepted civic offices without a named holder, public historical events that resolve as publication sources, and already-written publications. Private and limited records are omitted.",
+          "kind": "requirement"
+        },
+        {
+          "key": "viewer-event-knowledge",
+          "description": "EventKnowledgeRecord rows on the viewing person for public items only. Missing knowledge is an empty lane, not invented familiarity.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectNewsOrientation",
+        "anchor": "projectNewsOrientation-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "60ed6c490ea2",
+      "contextRevision": "1bf9ca451594"
+    },
+    {
+      "id": "prose:ordinary:news-orientation:projectNewsOrientation-0003#text",
+      "domain": "ordinary",
+      "bank": "news-orientation",
+      "stableKey": "projectNewsOrientation-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "sourceSymbol": "projectNewsOrientation",
+      "text": "Assembled {world.currentDate} · {place.displayName}. Reading does not publish a story or create the event it reports.",
+      "realization": "templated",
+      "slots": [
+        "place.displayName",
+        "world.currentDate"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.",
+      "grounding": [
+        {
+          "key": "public-world-records",
+          "description": "Recorded municipal government identity and readings, public-institution organization profiles, active public-office work, accepted civic offices without a named holder, public historical events that resolve as publication sources, and already-written publications. Private and limited records are omitted.",
+          "kind": "requirement"
+        },
+        {
+          "key": "viewer-event-knowledge",
+          "description": "EventKnowledgeRecord rows on the viewing person for public items only. Missing knowledge is an empty lane, not invented familiarity.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectNewsOrientation",
+        "anchor": "projectNewsOrientation-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "0cc5a3eeb9ee",
+      "contextRevision": "1bf9ca451594"
+    },
+    {
+      "id": "prose:ordinary:news-orientation:projectNewsOrientation-0004#text",
+      "domain": "ordinary",
+      "bank": "news-orientation",
+      "stableKey": "projectNewsOrientation-0004",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "sourceSymbol": "projectNewsOrientation",
+      "text": "Assembled {world.currentDate}. Reading does not publish a story or create the event it reports.",
+      "realization": "templated",
+      "slots": [
+        "world.currentDate"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.",
+      "grounding": [
+        {
+          "key": "public-world-records",
+          "description": "Recorded municipal government identity and readings, public-institution organization profiles, active public-office work, accepted civic offices without a named holder, public historical events that resolve as publication sources, and already-written publications. Private and limited records are omitted.",
+          "kind": "requirement"
+        },
+        {
+          "key": "viewer-event-knowledge",
+          "description": "EventKnowledgeRecord rows on the viewing person for public items only. Missing knowledge is an empty lane, not invented familiarity.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectNewsOrientation",
+        "anchor": "projectNewsOrientation-0004"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "dc4fa68ed88e",
+      "contextRevision": "1bf9ca451594"
+    },
+    {
+      "id": "prose:ordinary:news-orientation:projectPublicEvents-0001#text",
+      "domain": "ordinary",
+      "bank": "news-orientation",
+      "stableKey": "projectPublicEvents-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "sourceSymbol": "projectPublicEvents",
+      "text": "Record {event.occurredAt}",
+      "realization": "templated",
+      "slots": [
+        "event.occurredAt"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.",
+      "grounding": [
+        {
+          "key": "public-world-records",
+          "description": "Recorded municipal government identity and readings, public-institution organization profiles, active public-office work, accepted civic offices without a named holder, public historical events that resolve as publication sources, and already-written publications. Private and limited records are omitted.",
+          "kind": "requirement"
+        },
+        {
+          "key": "viewer-event-knowledge",
+          "description": "EventKnowledgeRecord rows on the viewing person for public items only. Missing knowledge is an empty lane, not invented familiarity.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectPublicEvents",
+        "anchor": "projectPublicEvents-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "533ea8ab2849",
+      "contextRevision": "1bf9ca451594"
+    },
+    {
+      "id": "prose:ordinary:news-orientation:projectPublicEvents-0002#text",
+      "domain": "ordinary",
+      "bank": "news-orientation",
+      "stableKey": "projectPublicEvents-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "sourceSymbol": "projectPublicEvents",
+      "text": "{summary} Named: {names.join(\",\")}.",
+      "realization": "templated",
+      "slots": [
+        "names.join(\",\")",
+        "summary"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.",
+      "grounding": [
+        {
+          "key": "public-world-records",
+          "description": "Recorded municipal government identity and readings, public-institution organization profiles, active public-office work, accepted civic offices without a named holder, public historical events that resolve as publication sources, and already-written publications. Private and limited records are omitted.",
+          "kind": "requirement"
+        },
+        {
+          "key": "viewer-event-knowledge",
+          "description": "EventKnowledgeRecord rows on the viewing person for public items only. Missing knowledge is an empty lane, not invented familiarity.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectPublicEvents",
+        "anchor": "projectPublicEvents-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "ed72723d63e2",
+      "contextRevision": "1bf9ca451594"
+    },
+    {
+      "id": "prose:ordinary:news-orientation:toPublicationItem-0001#text",
+      "domain": "ordinary",
+      "bank": "news-orientation",
+      "stableKey": "toPublicationItem-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/news-orientation.ts",
+      "sourceSymbol": "toPublicationItem",
+      "text": "Event {item.eventTime}",
+      "realization": "templated",
+      "slots": [
+        "item.eventTime"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.",
+      "grounding": [
+        {
+          "key": "public-world-records",
+          "description": "Recorded municipal government identity and readings, public-institution organization profiles, active public-office work, accepted civic offices without a named holder, public historical events that resolve as publication sources, and already-written publications. Private and limited records are omitted.",
+          "kind": "requirement"
+        },
+        {
+          "key": "viewer-event-knowledge",
+          "description": "EventKnowledgeRecord rows on the viewing person for public items only. Missing knowledge is an empty lane, not invented familiarity.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "toPublicationItem",
+        "anchor": "toPublicationItem-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "9e54289133fd",
+      "contextRevision": "1bf9ca451594"
     },
     {
       "id": "prose:ordinary:work-item:ordinary-life:household-errands#summary",

@@ -54,7 +54,7 @@ import {
   projectStoryMoment,
   type StoryMoment,
 } from "../presentation/life-story";
-import { projectLifeRecord } from "../presentation/life-record";
+import { JournalReader } from "./JournalReader";
 import {
   DEFAULT_NEW_GAME_SETUP,
   LEGISLATIVE_OFFICE_MINIMUM_AGE,
@@ -3192,7 +3192,11 @@ function renderWorkspace({
             onOpenPerson={openPerson}
           />
           <PublicInformationPanel
-            model={projectPublicInformationPanel(session.world)}
+            model={projectPublicInformationPanel(
+              session.world,
+              undefined,
+              session.personId,
+            )}
             onClose={back}
             onOpenPerson={openPerson}
             viewerPersonId={session.personId}
@@ -3779,58 +3783,13 @@ function JournalView({
   readonly session: Session;
   readonly onClose: () => void;
 }) {
-  const chapters = useMemo(
-    () => projectLifeRecord(session.world, session.personId),
-    [session.world, session.personId],
-  );
   return (
     <div className="game-journal" data-testid="journal">
-      <h2>{chapters.personName}</h2>
-      <p className="game-note">{chapters.summary}</p>
-
-      <h3>What has happened</h3>
-      {chapters.chapters.length === 0 ? (
-        <p className="game-note" data-testid="journal-empty">
-          Nothing has been written down yet. It will fill up as the life goes
-          on.
-        </p>
-      ) : (
-        <ol data-testid="journal-entries">
-          {chapters.chapters.map((chapter) => (
-            <li key={chapter.key}>
-              <strong>{chapter.heading}</strong>
-              <ul>
-                {chapter.entries.map((entry) => (
-                  <li key={entry.key}>{entry.sentence}</li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ol>
-      )}
-
-      {chapters.people.length > 0 ? (
-        <>
-          <h3>People</h3>
-          <ul data-testid="journal-people">
-            {chapters.people.map((person) => (
-              <li key={person.personId}>{person.sentence}</li>
-            ))}
-          </ul>
-        </>
-      ) : null}
-
-      {chapters.open.length > 0 ? (
-        <>
-          <h3>Still open</h3>
-          <ul data-testid="journal-open">
-            {chapters.open.map((entry) => (
-              <li key={entry.key}>{entry.sentence}</li>
-            ))}
-          </ul>
-        </>
-      ) : null}
-
+      <JournalReader
+        world={session.world}
+        personId={session.personId}
+        showNotes={false}
+      />
       <button type="button" onClick={onClose}>
         Close
       </button>

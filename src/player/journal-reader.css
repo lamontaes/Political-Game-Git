@@ -1,0 +1,17 @@
+.journal-account-aspect {
+  display: inline-block;
+  margin-right: 0.4rem;
+  color: var(--run-a-muted, #6b645c);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.journal-account ol,
+.journal-exact-record ol {
+  padding-left: 1.2rem;
+}
+
+.journal-account li {
+  margin: 0.55rem 0;
+}

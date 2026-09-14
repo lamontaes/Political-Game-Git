@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 2457 |
+| INVENTORIED | 2496 |
 | INTENTIONALLY_NON_PLAYER_FACING | 5907 |
-| DIAGNOSTIC_OR_TEST | 5279 |
-| **NEEDS_CLASSIFICATION** | **6595** |
+| DIAGNOSTIC_OR_TEST | 5318 |
+| **NEEDS_CLASSIFICATION** | **6612** |
 
-Scanned 646 files holding 77489 string
+Scanned 655 files holding 77896 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -40,7 +40,7 @@ literals in total; the table counts only those that read like a sentence.
 | 214 | `src/simulation/executive-authority-rule-packs.ts` |
 | 199 | `src/simulation/legislation-service-families.ts` |
 | 126 | `src/simulation/legislation.ts` |
-| 119 | `src/player/PlayerGame.tsx` |
+| 120 | `src/player/PlayerGame.tsx` |
 | 117 | `src/simulation/civil-personnel-actions.ts` |
 | 117 | `src/simulation/opening-life-content.ts` |
 | 87 | `src/simulation/policy.ts` |
@@ -222,6 +222,7 @@ literals in total; the table counts only those that read like a sentence.
 | 7 | `src/simulation/candidate-qualification.ts` |
 | 7 | `src/simulation/executive-work-entry.ts` |
 | 7 | `src/simulation/judicial-office-start.ts` |
+| 7 | `src/simulation/starting-birthday.ts` |
 | 6 | `src/player/CareerPathsPanel.tsx` |
 | 6 | `src/player/ModularCharacter.tsx` |
 | 6 | `src/player/PersonalRoutinePanel.tsx` |
@@ -245,6 +246,7 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/player/LegislationWorkspace.tsx` |
 | 5 | `src/presentation/browser-world-repository-protocol.ts` |
 | 5 | `src/presentation/life-conversation.ts` |
+| 5 | `src/presentation/news-orientation.ts` |
 | 5 | `src/presentation/opening-officeholders.ts` |
 | 5 | `src/presentation/place-travel.ts` |
 | 5 | `src/simulation/causal-effects.ts` |
@@ -258,6 +260,7 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/player/TitleScreen.tsx` |
 | 4 | `src/presentation/complete-outfit.ts` |
 | 4 | `src/presentation/executive-work.ts` |
+| 4 | `src/presentation/life-biography.ts` |
 | 4 | `src/presentation/life-story.ts` |
 | 4 | `src/presentation/place-hometown-population.ts` |
 | 4 | `src/presentation/setup-questionnaire-flow.ts` |

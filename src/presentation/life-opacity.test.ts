@@ -11,6 +11,7 @@ import {
 } from "../simulation";
 import { projectStoryMoment } from "./life-story";
 import { projectLifeRecord } from "./life-record";
+import { projectLifeBiography } from "./life-biography";
 import { openThreadRecaps } from "./life-narration";
 import { createNewGameWorld, type NewGameSetup } from "./new-game";
 
@@ -56,6 +57,8 @@ const PLAYER_SURFACES = [
   join(HERE, "life-story.ts"),
   join(HERE, "life-narration.ts"),
   join(HERE, "life-record.ts"),
+  join(HERE, "life-biography.ts"),
+  join(HERE, "news-orientation.ts"),
 ];
 
 async function sourceFiles(target: string): Promise<readonly string[]> {
@@ -161,6 +164,16 @@ describe("Nothing a player is shown says how much it matters", () => {
     ].join("\n");
     expect(shown).not.toMatch(FORECAST_WORDS);
     expect(shown).not.toMatch(/what you remember/i);
+    const biography = projectLifeBiography(
+      created.world,
+      created.playerPersonId,
+    );
+    const biographyShown = [
+      biography.summary,
+      ...biography.passages.map((passage) => passage.sentence),
+    ].join("\n");
+    expect(biographyShown).not.toMatch(FORECAST_WORDS);
+    expect(biographyShown).not.toMatch(/you chose to/i);
   });
 
   it("never names a thread's machinery in a recap", () => {

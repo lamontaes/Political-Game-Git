@@ -66,6 +66,12 @@ publication writer. Older interface records load with no followed outlets, and
 different save slots keep independent follow lists. An unfollowed outlet's
 stories remain available in All and in that outlet's view.
 
+The News reader also projects a pure **orientation** from already-recorded
+public institutions, incumbents, public events and publications. That
+projection never calls `publishPublicEvent`. Missing public facts yield a
+specific empty reason; private and limited events stay closed. Character
+knowledge of public items is listed separately from the public World lane.
+
 An unknown room jurisdiction stays `null` through that adapter. It selects only
 unlocated publications; it does not become an omitted filter that can pull a
 headline from an unrelated jurisdiction.
