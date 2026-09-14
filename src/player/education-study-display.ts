@@ -3,6 +3,7 @@ import {
   studyProgressSummary,
   studyUsesPeriodModel,
   totalStudyPeriods,
+  studyTuitionStatus,
 } from "../simulation/education-study-progression";
 import { educationEnrollmentStateAt } from "../simulation/life-queries";
 import { enrollmentStudyModel } from "../simulation/life-paths2";
@@ -37,10 +38,14 @@ export function studyEnrollmentProgressLabel(
         ? "Interrupted"
         : status === "completed"
           ? "Completed"
-          : "In progress";
-    const due = progress.nextDueDate
-      ? ` Next tuition due ${progress.nextDueDate} (${dollars(progress.periodCostMinor)}).`
-      : "";
+          : status === "withdrawn"
+            ? "Withdrawn"
+            : "In progress";
+    const tuition = studyTuitionStatus(world, enrollmentId, path);
+    const due =
+      progress.nextDueDate && status === "active" && !tuition
+        ? ` Next tuition due ${progress.nextDueDate} (${dollars(progress.periodCostMinor)}).`
+        : "";
     return `${label}. Year ${progress.academicYear}, period ${progress.periodInYear} of ${progress.total}.${due}`;
   }
   const sessions = progress.completed;

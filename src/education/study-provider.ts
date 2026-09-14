@@ -6,6 +6,8 @@ import type { LifePathDefinition } from "../simulation/life-paths2-catalog";
 import {
   bootstrapStudyPeriodProgression,
   studyUsesPeriodModel,
+  studyPeriodDueDate,
+  totalStudyPeriods,
 } from "../simulation/education-study-progression";
 import { lifePathEntryReason } from "../simulation/life-paths2";
 import {
@@ -15,10 +17,12 @@ import {
 import { recordEvidenceArtifact } from "../simulation/evidence";
 import { recordWorldEvent } from "../simulation/world";
 import {
-  EDUCATION_TERMS_KIND,
   parseEducationTerms,
+  recordAcceptedEducationTerms,
+  DEFAULT_AUTHORED_TUITION_GRACE_DAYS,
 } from "../simulation/education-study-terms";
 import type { AcceptedEducationTerms } from "../simulation/education-study-terms";
+import { addDays } from "../simulation/dates";
 const provenance = {
   kind: "authored",
   note: "EDU-PATH7 v1 simulated noncredit opportunity and terms. Source supports only institution/category; admission, schedule, fees and completion below are game-authored, not official institutional policy.",
@@ -35,7 +39,7 @@ export function studyDefinition(
     scope: "personal",
     organizationName: institution.name,
     title: `${capability.label.trim()} — noncredit study`,
-    responsibility: `Complete a supervised noncredit learning session in ${capability.label.trim().toLowerCase()}.`,
+    responsibility: `Study ${capability.label.trim().toLowerCase()} across the accepted noncredit period.`,
     program: `postsecondary:edu-path7-${capability.code.toLowerCase()}`,
     credential: `Completed noncredit ${capability.label.trim().toLowerCase()} study (game-authored record; no degree or license)`,
     prerequisiteProgram: null,
@@ -52,6 +56,7 @@ export function studyDefinition(
     periodsPerYear: 1,
     daysPerPeriod: 49,
     periodCostMinor: 20000,
+    tuitionGraceDays: DEFAULT_AUTHORED_TUITION_GRACE_DAYS,
     volunteerSupported: false,
     timeDemand: {
       expectedWeekly: { minimumHours: 2, maximumHours: 2 },
@@ -126,6 +131,21 @@ export function applyForEducation(
   if (!capability) throw new Error("Unknown capability");
   const reason = educationOptionReason(world, institution, capability);
   if (reason) return { ok: false as const, world, message: reason };
+  if (
+    pendingEducationOffers(world).some((a) => {
+      const terms = parseEducationTerms(a.description);
+      return (
+        terms?.institutionId === institution.id &&
+        terms.capabilityCode === capabilityCode
+      );
+    })
+  )
+    return {
+      ok: true as const,
+      world,
+      message:
+        "Your existing saved offer is ready to review; no duplicate application was created.",
+    };
   const actor = world.control.kind === "person" ? world.control.personId : null;
   if (!actor) throw new Error("No person");
   const stableKey = `edu-path7:institution:${institution.id}`;
@@ -154,7 +174,8 @@ export function applyForEducation(
     `You requested the game-authored noncredit study option at ${institution.name}. No attendance, degree or payment is recorded.`,
   );
   const terms: AcceptedEducationTerms = {
-    version: 1,
+    version: 2,
+    funding: "available-personal-cash",
     institutionId: institution.id,
     capabilityCode,
     sourceEvidence: institution.evidence,
@@ -162,7 +183,7 @@ export function applyForEducation(
   };
   next = recordEvidenceArtifact(next, {
     stableKey: `edu-path7:offer:${next.history.nextSequence}`,
-    evidenceKind: "education:study-offer-v1",
+    evidenceKind: "education:study-offer-v2",
     createdAt: next.currentDate,
     recordedAt: next.currentDate,
     relatedEntityIds: [next.history.events.at(-1)!.id],
@@ -182,7 +203,9 @@ export function pendingEducationOffers(world: World) {
   const actor = world.control.personId;
   return world.history.evidenceArtifacts.filter(
     (a) =>
-      a.evidenceKind === "education:study-offer-v1" &&
+      ["education:study-offer-v1", "education:study-offer-v2"].includes(
+        a.evidenceKind,
+      ) &&
       a.relatedEntityIds.some((id) =>
         world.history.events.some(
           (e) =>
@@ -201,6 +224,7 @@ export function respondToEducationOffer(
   world: World,
   offerId: EntityId,
   accept: boolean,
+  options: { tuitionGraceDays?: number } = {},
 ) {
   const offer = pendingEducationOffers(world).find((a) => a.id === offerId);
   if (!offer)
@@ -220,14 +244,51 @@ export function respondToEducationOffer(
       ),
       message: "Offer declined.",
     };
-  const terms = parseEducationTerms(offer.description);
+  const offeredTerms = parseEducationTerms(offer.description);
+  const graceDays =
+    options.tuitionGraceDays ?? offeredTerms?.path.tuitionGraceDays;
+  if (
+    offeredTerms?.version === 2 &&
+    (!Number.isSafeInteger(graceDays) || graceDays! < 0)
+  )
+    return {
+      ok: false as const,
+      world,
+      message: "Grace must be a nonnegative whole number of simulated days.",
+    };
+  const terms =
+    offeredTerms?.version === 2
+      ? {
+          ...offeredTerms,
+          path: { ...offeredTerms.path, tuitionGraceDays: graceDays },
+        }
+      : offeredTerms;
   if (!terms)
     return {
       ok: false as const,
       world,
       message: "This offer version is unavailable.",
     };
-  if (world.currentDate !== offer.createdAt)
+  if (terms.version === 2) {
+    try {
+      addDays(
+        studyPeriodDueDate(
+          world.currentDate,
+          terms.path,
+          totalStudyPeriods(terms.path),
+        ),
+        graceDays!,
+      );
+    } catch {
+      return {
+        ok: false as const,
+        world,
+        message:
+          "These terms exceed the supported calendar; no enrollment was created.",
+      };
+    }
+  }
+  if (terms.version === 1 && world.currentDate !== offer.createdAt)
     return {
       ok: false as const,
       world,
@@ -276,16 +337,7 @@ export function respondToEducationOffer(
     [offer.id, enrollment.id],
     "You accepted the noncredit study terms. Tuition is due when the study period ends.",
   );
-  next = recordEvidenceArtifact(next, {
-    stableKey: `edu-path7:accepted:${enrollment.id}`,
-    evidenceKind: EDUCATION_TERMS_KIND,
-    createdAt: next.currentDate,
-    recordedAt: next.currentDate,
-    relatedEntityIds: [next.history.events.at(-1)!.id],
-    access: "private",
-    description: JSON.stringify(terms),
-    provenance,
-  });
+  next = recordAcceptedEducationTerms(next, enrollment.id, terms);
   if (studyUsesPeriodModel(terms.path))
     next = bootstrapStudyPeriodProgression(next, enrollment.id, terms.path);
   return {

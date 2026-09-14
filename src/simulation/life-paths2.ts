@@ -1,4 +1,10 @@
-import { acceptedEducationPath } from "./education-study-terms";
+import {
+  acceptedEducationPath,
+  legacyAcceptedEducationPath,
+  recordAcceptedEducationTerms,
+  DEFAULT_AUTHORED_TUITION_GRACE_DAYS,
+  hasAcceptedEducationTermRecord,
+} from "./education-study-terms";
 import {
   bootstrapStudyPeriodProgression,
   cancelStudyPeriodDues,
@@ -11,6 +17,11 @@ import {
   educationStudyPeriodDueHandler,
   EDUCATION_STUDY_PERIOD_DUE_KEY,
   periodizedStudyPath,
+  completeStudyPeriod,
+  studyTuitionStatus,
+  cancelStudyGraceDeadlines,
+  studyPeriodDueDate,
+  totalStudyPeriods,
 } from "./education-study-progression";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import { activeCampaignForCandidate } from "./campaign-queries";
@@ -212,14 +223,14 @@ export function pathForRelationship(
   const enrollment = world.history.educationEnrollments.find(
     (e) => e.id === id,
   );
-  if (enrollment?.programKind.startsWith("postsecondary:edu-path7-")) {
-    const accepted = acceptedEducationPath(world, id);
+  if (enrollment) {
+    const accepted =
+      acceptedEducationPath(world, id) ??
+      (hasAcceptedEducationTermRecord(world, id)
+        ? undefined
+        : legacyAcceptedEducationPath(world, id));
     return accepted ? periodizedStudyPath(accepted) : undefined;
   }
-  if (enrollment)
-    return LIFE_PATHS2_CATALOG.find(
-      (p) => p.kind === "study" && p.program === enrollment.programKind,
-    );
   const work = world.history.workRelationships.find((w) => w.id === id);
   return work
     ? LIFE_PATHS2_CATALOG.find(
@@ -229,11 +240,46 @@ export function pathForRelationship(
       )
     : undefined;
 }
-export function enterLifePath(world: World, pathId: string): LifePathResult {
+export function enterLifePath(
+  world: World,
+  pathId: string,
+  options: { tuitionGraceDays?: number } = {},
+): LifePathResult {
   const actor = controlled(world),
     path = lifePathDefinition(pathId);
   const reason = lifePathEntryReason(world, actor, path);
   if (reason) return fail(world, reason);
+  const graceDays =
+    options.tuitionGraceDays ?? DEFAULT_AUTHORED_TUITION_GRACE_DAYS;
+  if (
+    path.kind === "study" &&
+    (!Number.isSafeInteger(graceDays) || graceDays < 0)
+  )
+    return fail(
+      world,
+      "Grace must be a nonnegative whole number of simulated days.",
+    );
+  const acceptedPath =
+    path.kind === "study"
+      ? { ...periodizedStudyPath(path), tuitionGraceDays: graceDays }
+      : path;
+  if (path.kind === "study") {
+    try {
+      addDays(
+        studyPeriodDueDate(
+          world.currentDate,
+          acceptedPath,
+          totalStudyPeriods(acceptedPath),
+        ),
+        graceDays,
+      );
+    } catch {
+      return fail(
+        world,
+        "These terms exceed the supported calendar; no enrollment was created.",
+      );
+    }
+  }
   const existing =
     path.kind === "study"
       ? world.history.educationEnrollments.some(
@@ -270,7 +316,7 @@ export function enterLifePath(world: World, pathId: string): LifePathResult {
       organizationId: org.id,
       startedAt: next.currentDate,
       programKind: path.program,
-      contextKind: "program:life-paths2-v1",
+      contextKind: "program:life-paths2-v2",
       provenance: authored,
     });
     studyEnrollmentId = next.history.educationEnrollments.at(-1)!.id;
@@ -280,8 +326,21 @@ export function enterLifePath(world: World, pathId: string): LifePathResult {
       [actor, studyEnrollmentId],
       `You enrolled in ${path.title}.`,
     );
-    if (studyUsesPeriodModel(path))
-      next = bootstrapStudyPeriodProgression(next, studyEnrollmentId, path);
+    next = recordAcceptedEducationTerms(next, studyEnrollmentId, {
+      version: 2,
+      origin: "authored-life-path",
+      funding: "available-personal-cash",
+      institutionId: org.id,
+      capabilityCode: path.program,
+      sourceEvidence: [],
+      path: acceptedPath,
+    });
+    if (studyUsesPeriodModel(acceptedPath))
+      next = bootstrapStudyPeriodProgression(
+        next,
+        studyEnrollmentId,
+        acceptedPath,
+      );
   } else
     next = createPathWork(
       next,
@@ -294,8 +353,8 @@ export function enterLifePath(world: World, pathId: string): LifePathResult {
   const periodStudy =
     path.kind === "study" &&
     studyEnrollmentId &&
-    studyUsesPeriodModel(path) &&
-    enrollmentStudyModel(next, studyEnrollmentId, path) === "periods";
+    studyUsesPeriodModel(acceptedPath) &&
+    enrollmentStudyModel(next, studyEnrollmentId, acceptedPath) === "periods";
   return done(
     next,
     path.kind === "study"
@@ -988,6 +1047,58 @@ registerStudyPathResolver((world, enrollmentId) =>
 );
 
 export { enrollmentStudyModel, studyProgressSummary, completedStudyPeriods };
+/** Explicit funding uses available personal cash, never a new loan or a new enrollment. */
+export function settleStudyTuition(
+  world: World,
+  enrollmentId: EntityId,
+): LifePathResult {
+  const actor = controlled(world),
+    path = pathForRelationship(world, enrollmentId);
+  if (
+    !path ||
+    path.kind !== "study" ||
+    relationshipActor(world, enrollmentId) !== actor
+  )
+    return fail(world, "This is not your available study path.");
+  const tuition = studyTuitionStatus(world, enrollmentId, path);
+  if (!tuition)
+    return fail(world, "No unsettled tuition period is available to fund.");
+  const balance =
+    resourcePositionAt(
+      world,
+      { kind: "person", personId: actor },
+      money(0, "USD").currency,
+    )?.liquidBalance.minorUnits ?? 0;
+  if (balance < tuition.amountMinor)
+    return fail(
+      world,
+      "Available personal funds do not cover this period. No loan or payment was created.",
+    );
+  let next = world;
+  if (tuition.paused) {
+    const state = educationEnrollmentStateAt(next, enrollmentId)!;
+    next = recordEducationEnrollmentState(next, {
+      stableKey: key(next, "tuition-resume"),
+      enrollmentId,
+      effectiveAt: next.currentDate,
+      status: "active",
+      contextKind: state.contextKind,
+      reason:
+        "Resuming this accepted study period with explicit available personal funding.",
+      provenance: authored,
+      supersedesStateId: state.id,
+    });
+  }
+  const before = completedStudyPeriods(next, enrollmentId, path);
+  next = completeStudyPeriod(next, enrollmentId, path);
+  if (completedStudyPeriods(next, enrollmentId, path) === before)
+    return fail(world, "This accepted period is not yet ready to settle.");
+  next = cancelStudyGraceDeadlines(next, enrollmentId);
+  return done(
+    next,
+    "You paid the accepted tuition from available personal funds. Study resumed; no second payment or loan was created.",
+  );
+}
 export function changeLifePathStatus(
   world: World,
   id: EntityId,
@@ -998,6 +1109,15 @@ export function changeLifePathStatus(
     return fail(world, "This is not your path.");
   const path = pathForRelationship(world, id);
   if (!path) return fail(world, "This path is unavailable.");
+  if (
+    action === "return" &&
+    path.kind === "study" &&
+    studyTuitionStatus(world, id, path)?.paused
+  )
+    return fail(
+      world,
+      "Study is paused for unfunded tuition. Fund the accepted period to resume; work and ordinary life continue.",
+    );
   const status =
     path.kind === "study"
       ? educationEnrollmentStateAt(world, id)?.status
@@ -1043,7 +1163,7 @@ export function changeLifePathStatus(
           : action === "pause"
             ? "temporarily-inactive"
             : "withdrawn",
-      contextKind: "program:life-paths2-v1",
+      contextKind: previous.contextKind,
       reason: action,
       provenance: authored,
       supersedesStateId: previous.id,

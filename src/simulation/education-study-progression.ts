@@ -9,7 +9,7 @@ import { recordEducationEnrollmentState } from "./life";
 import { recordWorldEvent } from "./world";
 import type { FutureDueItem } from "./types";
 import type { FutureTransitionHandler } from "./types";
-import { educationEnrollmentStateAt } from "./life-queries";
+import { educationEnrollmentStateAt, assessLifeLoadAt } from "./life-queries";
 import {
   scheduleFutureDueItem,
   cancelFutureDueItem,
@@ -22,6 +22,7 @@ import type { EntityId, IsoDate, World } from "./types";
 
 const prefix = "life-paths2.";
 const periodDueKey = "education:study-period-due" as const;
+const graceDuePrefix = `${prefix}study-grace-deadline:`;
 const authored = {
   kind: "authored" as const,
   note: "WEEKEND19-F period study progression.",
@@ -29,6 +30,27 @@ const authored = {
 
 export function studyUsesPeriodModel(path: LifePathDefinition): boolean {
   return path.progressionModel === "periods";
+}
+
+/** Add accepted active study to canonical work/care ranges, not a capacity score. */
+export function routineWeeklyLoad(world: World, personId: EntityId) {
+  const load = assessLifeLoadAt(world, personId);
+  let minimumHours = load.expectedWeekly.minimumHours,
+    maximumHours = load.expectedWeekly.maximumHours,
+    commitments = load.contributors.length;
+  for (const enrollment of world.history.educationEnrollments) {
+    if (
+      enrollment.personId !== personId ||
+      educationEnrollmentStateAt(world, enrollment.id)?.status !== "active"
+    )
+      continue;
+    const path = resolveStudyPath(world, enrollment.id);
+    if (!path) continue;
+    minimumHours += path.timeDemand.expectedWeekly.minimumHours;
+    maximumHours += path.timeDemand.expectedWeekly.maximumHours;
+    commitments += 1;
+  }
+  return { minimumHours, maximumHours, commitments };
 }
 
 /** Paused dates are preserved evidence, not attended study time. */
@@ -132,14 +154,147 @@ function paidPeriodTuitionMinor(world: World, enrollmentId: EntityId): number {
 }
 
 export function paidStudyPeriods(world: World, enrollmentId: EntityId): number {
-  return world.history.resourceTransferOutcomes.filter((o) =>
-    world.history.resourceFlows.some(
-      (f) =>
-        f.id === o.resourceFlowId &&
-        f.basisKind === "obligation:tuition" &&
-        f.stableKey.includes(`study-period:${enrollmentId}:`),
-    ),
+  return world.history.resourceTransferOutcomes.filter(
+    (o) =>
+      o.status === "completed" &&
+      world.history.resourceFlows.some(
+        (f) =>
+          f.id === o.resourceFlowId &&
+          f.basisKind === "obligation:tuition" &&
+          f.stableKey.includes(`study-period:${enrollmentId}:`),
+      ),
   ).length;
+}
+
+export function studyPeriodTuitionOutstanding(
+  world: World,
+  enrollmentId: EntityId,
+  path: LifePathDefinition,
+): number {
+  const period = completedStudyPeriods(world, enrollmentId, path) + 1;
+  if (period > totalStudyPeriods(path)) return 0;
+  return Math.max(
+    0,
+    period * (path.periodCostMinor ?? 0) -
+      completedStudySessions(world, enrollmentId) * path.sessionCostMinor -
+      paidPeriodTuitionMinor(world, enrollmentId),
+  );
+}
+
+function gracePeriod(
+  due: FutureDueItem,
+  enrollmentId: EntityId,
+): number | null {
+  const start = `${graceDuePrefix}${enrollmentId}:`;
+  if (!due.stableKey.startsWith(start)) return null;
+  const number = Number(due.stableKey.slice(start.length).split(":")[0]);
+  return Number.isSafeInteger(number) && number > 0 ? number : null;
+}
+
+/** Actual pending tuition/deadline records, not a guessed penalty or debt. */
+export function studyTuitionStatus(
+  world: World,
+  enrollmentId: EntityId,
+  path: LifePathDefinition,
+) {
+  const completed = completedStudyPeriods(world, enrollmentId, path);
+  const state = educationEnrollmentStateAt(world, enrollmentId);
+  const deadline = world.history.futureDueItems.find(
+    (due) =>
+      due.transitionKey === periodDueKey &&
+      due.entityIds.includes(enrollmentId) &&
+      gracePeriod(due, enrollmentId) === completed + 1 &&
+      futureDueItemStateAt(world, due.id, {
+        asOfDate: world.currentDate,
+        historySequenceExclusive: world.history.nextSequence,
+      })?.status === "scheduled",
+  );
+  const paused =
+    state?.status === "temporarily-inactive" &&
+    world.history.events.some(
+      (e) =>
+        e.type === `${prefix}tuition-paused` &&
+        e.involvedEntityIds.includes(enrollmentId) &&
+        e.tags.includes(`tuition-pause-state:${state.id}`),
+    );
+  const blocked = world.history.futureDueItems.some(
+    (due) =>
+      due.transitionKey === periodDueKey &&
+      due.entityIds.includes(enrollmentId) &&
+      due.stableKey.startsWith(
+        `${prefix}study-period-due:${enrollmentId}:${completed + 1}:`,
+      ) &&
+      futureDueItemStateAt(world, due.id, {
+        asOfDate: world.currentDate,
+        historySequenceExclusive: world.history.nextSequence,
+      })?.reasonKey === "education:insufficient-tuition",
+  );
+  if (
+    completed >= totalStudyPeriods(path) ||
+    (!deadline && !paused && (!blocked || state?.status !== "active"))
+  )
+    return null;
+  const amountMinor = studyPeriodTuitionOutstanding(world, enrollmentId, path);
+  if (amountMinor <= 0) return null;
+  return {
+    deadline: deadline?.dueAt ?? null,
+    paused: !!paused,
+    period: completed + 1,
+    amountMinor,
+  };
+}
+
+export function cancelStudyGraceDeadlines(
+  world: World,
+  enrollmentId: EntityId,
+): World {
+  let next = world;
+  for (const due of world.history.futureDueItems.filter((d) =>
+    d.stableKey.startsWith(`${graceDuePrefix}${enrollmentId}:`),
+  )) {
+    if (
+      futureDueItemStateAt(next, due.id, {
+        asOfDate: next.currentDate,
+        historySequenceExclusive: next.history.nextSequence,
+      })?.status === "scheduled"
+    ) {
+      next = cancelFutureDueItem(next, {
+        stableKey: `cancel:${due.stableKey}`,
+        dueItemId: due.id,
+        effectiveAt: next.currentDate,
+        reasonKey: "education:tuition-settled",
+        context:
+          "Tuition was settled explicitly; no second payment at the deadline.",
+      });
+    }
+  }
+  return next;
+}
+
+function pauseUnfundedStudy(world: World, enrollmentId: EntityId): World {
+  const state = educationEnrollmentStateAt(world, enrollmentId);
+  if (state?.status !== "active") return world;
+  let next = recordEducationEnrollmentState(world, {
+    stableKey: `${prefix}tuition-pause:${enrollmentId}:${world.history.nextSequence}`,
+    enrollmentId,
+    effectiveAt: world.currentDate,
+    status: "temporarily-inactive",
+    contextKind: state.contextKind,
+    reason:
+      "Tuition remained unfunded at its disclosed deadline. Study is paused; ordinary life continues.",
+    provenance: authored,
+    supersedesStateId: state.id,
+  });
+  next = event(
+    next,
+    "tuition-paused",
+    [enrollmentId],
+    "Tuition remained unfunded at its deadline. Study paused; work, pay and the World continue.",
+    [
+      `tuition-pause-state:${next.history.educationEnrollmentStates.at(-1)!.id}`,
+    ],
+  );
+  return next;
 }
 
 export function enrollmentStudyModel(
@@ -247,7 +402,14 @@ function hasScheduledStudyPeriodDue(
     if (
       due.transitionKey !== periodDueKey ||
       !due.entityIds.includes(enrollmentId) ||
-      !due.stableKey.includes(`:${periodNumber}:`)
+      !(
+        due.stableKey.startsWith(
+          `${prefix}study-period-due:${enrollmentId}:${periodNumber}:`,
+        ) ||
+        due.stableKey.startsWith(
+          `${graceDuePrefix}${enrollmentId}:${periodNumber}:`,
+        )
+      )
     )
       return false;
     return (
@@ -333,6 +495,7 @@ function event(
   type: string,
   ids: EntityId[],
   summary: string,
+  extraTags: readonly string[] = [],
 ): World {
   const personId =
     world.history.educationEnrollments.find((e) => ids.includes(e.id))
@@ -348,7 +511,7 @@ function event(
     participants: [{ personId, role: "agency:student", detail: summary }],
     personFactConstraints: [],
     visibility: "private",
-    tags: ["education", "study-period"],
+    tags: ["education", "study-period", ...extraTags],
     summary,
     context: {
       location: null,
@@ -496,9 +659,10 @@ export const educationStudyPeriodDueHandler: FutureTransitionHandler = (
   if (!path || !studyUsesPeriodModel(path)) {
     return {
       world,
-      status: "resolved",
-      reasonKey: null,
-      context: "Study period due ignored for unsupported saved terms.",
+      status: "blocked",
+      reasonKey: "education:unsupported-saved-terms",
+      context:
+        "Saved study terms are unavailable; no current offer replaces them.",
       outcomeEventId: null,
     };
   }
@@ -513,11 +677,90 @@ export const educationStudyPeriodDueHandler: FutureTransitionHandler = (
     };
   }
   const before = completedStudyPeriods(world, enrollmentId, path);
+  const deadlinePeriod = gracePeriod(due, enrollmentId);
+  const ordinaryPrefix = `${prefix}study-period-due:${enrollmentId}:`;
+  const duePeriod =
+    deadlinePeriod ??
+    (due.stableKey.startsWith(ordinaryPrefix)
+      ? Number(due.stableKey.slice(ordinaryPrefix.length).split(":")[0])
+      : null);
+  if (duePeriod !== null && before >= duePeriod)
+    return {
+      world,
+      status: "resolved",
+      reasonKey: null,
+      context:
+        "This tuition period was already settled; no later period is charged at its old deadline.",
+      outcomeEventId: null,
+    };
   const next = completeStudyPeriod(world, enrollmentId, path);
   const after = completedStudyPeriods(next, enrollmentId, path);
   if (after === before) {
+    if (deadlinePeriod !== null || path.tuitionGraceDays === 0) {
+      const paused = pauseUnfundedStudy(next, enrollmentId);
+      return {
+        world: paused,
+        status: "resolved",
+        reasonKey: null,
+        context: "Unfunded tuition deadline reached; study only is paused.",
+        outcomeEventId: paused.history.events.at(-1)?.id ?? null,
+      };
+    }
+    let graceWorld = next;
+    if (path.tuitionGraceDays !== undefined) {
+      if (
+        world.history.futureDueItems.some(
+          (d) =>
+            d.id !== due.id &&
+            gracePeriod(d, enrollmentId) === before + 1 &&
+            futureDueItemStateAt(world, d.id, {
+              asOfDate: world.currentDate,
+              historySequenceExclusive: world.history.nextSequence,
+            })?.status === "scheduled",
+        )
+      )
+        return {
+          world: next,
+          status: "blocked",
+          reasonKey: "education:insufficient-tuition",
+          context:
+            "Tuition remains unfunded; its existing disclosed deadline is retained.",
+          outcomeEventId: null,
+        };
+      const previousDeadline = world.history.futureDueItems
+        .filter((d) => gracePeriod(d, enrollmentId) === before + 1)
+        .sort((a, b) => a.dueAt.localeCompare(b.dueAt))[0];
+      const deadline =
+        previousDeadline?.dueAt ??
+        addDays(world.currentDate, path.tuitionGraceDays);
+      if (deadline <= world.currentDate) {
+        const paused = pauseUnfundedStudy(next, enrollmentId);
+        return {
+          world: paused,
+          status: "resolved",
+          reasonKey: null,
+          context:
+            "The original disclosed deadline is exhausted; study only is paused.",
+          outcomeEventId: paused.history.events.at(-1)?.id ?? null,
+        };
+      }
+      graceWorld = scheduleFutureDueItem(next, {
+        stableKey: `${graceDuePrefix}${enrollmentId}:${before + 1}:${world.history.nextSequence}`,
+        dueAt: deadline,
+        transitionKey: periodDueKey,
+        entityIds: [enrollmentId],
+        jurisdictionId: null,
+        provenance: authored,
+      });
+      graceWorld = event(
+        graceWorld,
+        "tuition-grace-opened",
+        [enrollmentId, graceWorld.history.futureDueItems.at(-1)!.id],
+        `Tuition is unpaid. Your accepted authored grace deadline is ${deadline}; arrange available personal funding or study pauses. Work and the World continue.`,
+      );
+    }
     return {
-      world: next,
+      world: graceWorld,
       status: "blocked",
       reasonKey: "education:insufficient-tuition",
       context: "Tuition due but liquid funds are insufficient.",

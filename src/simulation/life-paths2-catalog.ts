@@ -29,6 +29,8 @@ export interface LifePathDefinition {
   readonly periodsPerYear?: number;
   readonly daysPerPeriod?: number;
   readonly periodCostMinor?: number;
+  /** Disclosed editable authored term, frozen with this enrollment's offer. */
+  readonly tuitionGraceDays?: number;
 }
 const time = (hours: number, rigid: boolean): TimeDemandProfile => ({
   expectedWeekly: { minimumHours: hours, maximumHours: hours },
