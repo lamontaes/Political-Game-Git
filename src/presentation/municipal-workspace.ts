@@ -15,6 +15,7 @@ import {
   installMunicipalGovernment,
   scheduleMunicipalMeeting,
   municipalActionAuthority,
+  municipalGovernmentJurisdictionId,
   municipalMeetings,
   municipalMeasures,
   municipalStanding,
@@ -169,7 +170,10 @@ export function createAuthoredMunicipalPublicSession(
     return world;
   let next = installMunicipalGovernment(world, {
     governmentKey: view.government.key,
-    jurisdictionId: world.people[view.standing.personId]!.homeJurisdictionId,
+    jurisdictionId: municipalGovernmentJurisdictionId(
+      world,
+      view.government.key,
+    ),
     formedAt: world.currentDate,
   });
   let start = addSimulationMinutes(world.currentMoment, 60);
@@ -184,7 +188,10 @@ export function createAuthoredMunicipalPublicSession(
     end: addSimulationMinutes(start, 90),
     participantPersonIds: [view.standing.personId],
     responsiblePersonId: view.standing.personId,
-    jurisdictionId: world.people[view.standing.personId]!.homeJurisdictionId,
+    jurisdictionId: municipalGovernmentJurisdictionId(
+      next,
+      view.government.key,
+    ),
     occurrenceNote:
       "Game session: timing and duration are authored for this world. No real published meeting notice or agenda is asserted.",
   });

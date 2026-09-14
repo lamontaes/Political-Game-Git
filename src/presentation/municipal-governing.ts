@@ -9,6 +9,7 @@ import {
   attendMunicipalPublicMeeting,
   introduceMunicipalOrdinance,
   municipalActionAuthority,
+  municipalGovernmentJurisdictionId,
   municipalMeetings,
   municipalSeats,
   municipalStanding,
@@ -18,13 +19,19 @@ import {
 import { addSimulationMinutes } from "../simulation/dates";
 import { scheduledActivityState } from "../simulation/time-work";
 import { resolvePlayerCapabilities } from "./player-capabilities";
-import type { EntityId, World } from "../simulation/types";
+import type {
+  EntityId,
+  LegislativeVoteDisposition,
+  World,
+} from "../simulation/types";
 
 /**
  * Feature-local ordinary municipal route for A / FABLE-UI.
  *
  * Read and write through canonical World records only. UI-core owns
  * registration; this file must not be imported from the recovered Fable shell.
+ * Inspection projects existing records. It does not install a government,
+ * schedule a sitting, or grant a seat.
  */
 export function projectMunicipalGoverning(
   world: World,
@@ -50,6 +57,7 @@ export function projectMunicipalGoverning(
     displayName: reading.displayName,
     bodyName: reading.bodyName,
     evidence: reading.evidence,
+    jurisdictionId: municipalGovernmentJurisdictionId(world, government.key),
     standing,
     seats: municipalSeats(world, government.key),
     attendance: municipalActionAuthority(world, {
@@ -82,11 +90,7 @@ export function projectMunicipalGoverning(
           field: entry.field,
           reason: entry.reason,
         })),
-    meetings: municipalMeetings(world, government.key).map((meeting) => ({
-      id: meeting.id,
-      title: meeting.title,
-      status: scheduledActivityState(world, meeting.id)?.status ?? null,
-    })),
+    meetings: discoverMunicipalPublicMeetings(world, government.key),
     managerAppointment: world.history.events.find(
       (event) =>
         event.stableKey === `municipal-manager-appointed:${government.key}`,
@@ -94,18 +98,50 @@ export function projectMunicipalGoverning(
   };
 }
 
+/** Existing sittings already on the calendar. Inspection must not add one. */
+export function discoverMunicipalPublicMeetings(
+  world: World,
+  governmentKey: string,
+) {
+  return municipalMeetings(world, governmentKey).map((meeting) => ({
+    id: meeting.id,
+    title: meeting.title,
+    status: scheduledActivityState(world, meeting.id)?.status ?? null,
+  }));
+}
+
+/**
+ * Authored review convenience: one sitting in 60 minutes lasting 90 minutes.
+ *
+ * This is not ordinary meeting discovery, not a resident power, and not a
+ * charter schedule. Call it only when a review world needs an explicit
+ * game-authored occurrence.
+ */
 export function ensureAuthoredPublicMeeting(
   world: World,
   governmentKey: string,
   seriesKey: string,
 ) {
-  const view = projectMunicipalGoverning(world, governmentKey);
-  if (!view || !view.attendance.ok) {
-    const reason =
-      view && !view.attendance.ok
-        ? view.attendance.reason
-        : "No compiled government.";
-    return { ok: false as const, world, reason };
+  const government = municipalGovernmentByKey(governmentKey);
+  if (!government) {
+    return { ok: false as const, world, reason: "No compiled government." };
+  }
+  if (world.control.kind !== "person")
+    return {
+      ok: false as const,
+      world,
+      reason: "Person control is required.",
+    };
+  const personId = world.control.personId;
+  const place = resolvePlayerCapabilities(world).homePlace;
+  const attendance = municipalActionAuthority(world, {
+    governmentKey,
+    personId,
+    residentPlaceGeoid: place?.sourceGeoid ?? null,
+    action: "attend-public-meeting",
+  });
+  if (!attendance.ok) {
+    return { ok: false as const, world, reason: attendance.reason };
   }
   const existing = municipalMeetings(world, governmentKey).find(
     (meeting) =>
@@ -114,18 +150,17 @@ export function ensureAuthoredPublicMeeting(
       ) && scheduledActivityState(world, meeting.id)?.status === "scheduled",
   );
   if (existing) return { ok: true as const, world, activityId: existing.id };
-  if (world.control.kind !== "person")
-    return {
-      ok: false as const,
-      world,
-      reason: "Person control is required.",
-    };
-  const personId = world.control.personId;
+  const jurisdictionId = municipalGovernmentJurisdictionId(
+    world,
+    governmentKey,
+  );
   let next = installMunicipalGovernment(world, {
     governmentKey,
-    jurisdictionId: world.people[personId]!.homeJurisdictionId,
+    jurisdictionId,
     formedAt: world.currentDate,
   });
+  const resolvedJurisdiction =
+    municipalGovernmentJurisdictionId(next, governmentKey) ?? jurisdictionId;
   const start = addSimulationMinutes(next.currentMoment, 60);
   next = scheduleMunicipalMeeting(next, {
     governmentKey,
@@ -134,9 +169,9 @@ export function ensureAuthoredPublicMeeting(
     end: addSimulationMinutes(start, 90),
     participantPersonIds: [personId],
     responsiblePersonId: personId,
-    jurisdictionId: world.people[personId]!.homeJurisdictionId,
+    jurisdictionId: resolvedJurisdiction,
     occurrenceNote:
-      "Game session: timing and duration are authored for this world. No real published meeting notice or agenda is asserted.",
+      "Game session: timing and duration are authored for this world. No real published meeting notice or agenda is asserted. This helper is not ordinary municipal meeting discovery.",
   });
   const meeting = municipalMeetings(next, governmentKey).at(-1);
   if (!meeting)
@@ -160,8 +195,13 @@ export function appointProjectedManager(
   world: World,
   governmentKey: string,
   appointeePersonId: EntityId,
+  dispositions: readonly LegislativeVoteDisposition[],
 ) {
-  return appointMunicipalManager(world, { governmentKey, appointeePersonId });
+  return appointMunicipalManager(world, {
+    governmentKey,
+    appointeePersonId,
+    dispositions,
+  });
 }
 
 export function introduceProjectedOrdinance(
@@ -176,4 +216,19 @@ export function introduceProjectedOrdinance(
     summary:
       "Member-sponsored municipal ordinance using the compiled council pack.",
   });
+}
+
+/**
+ * The small ordinary-route mount A consumes. Recovered MunicipalWorkspace is
+ * not redesigned here; UI-core registers this adapter.
+ */
+export function mountOrdinaryMunicipalRoute() {
+  return {
+    inspect: projectMunicipalGoverning,
+    discoverPublicMeetings: discoverMunicipalPublicMeetings,
+    authorPublicMeetingForReview: ensureAuthoredPublicMeeting,
+    attendPublicMeeting: attendProjectedPublicMeeting,
+    appointManager: appointProjectedManager,
+    introduceOrdinance: introduceProjectedOrdinance,
+  };
 }

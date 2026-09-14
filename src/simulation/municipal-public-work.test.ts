@@ -20,6 +20,7 @@ import {
   appointMunicipalManager,
   introduceMunicipalOrdinance,
   municipalActionAuthority,
+  municipalGovernmentJurisdictionId,
   municipalMeetings,
   municipalSeats,
   municipalStanding,
@@ -29,7 +30,7 @@ import {
 } from "./municipal-public-work";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { rulePackById } from "./legislature-rule-packs";
-import type { EntityId, World } from "./types";
+import type { EntityId, LegislativeVoteDisposition, World } from "./types";
 
 /**
  * A life in a real city, with the city's real government installed.
@@ -94,6 +95,18 @@ function seatWholeBody(
     });
   }
   return next;
+}
+
+function councilRoll(
+  members: readonly EntityId[],
+  yeas: number,
+  nays = 0,
+): readonly LegislativeVoteDisposition[] {
+  return members.map((personId, index) => ({
+    memberKey: `council:${index + 1}`,
+    personId,
+    disposition: index < yeas ? "yea" : index < yeas + nays ? "nay" : "absent",
+  }));
 }
 
 describe("the municipal corpus reaches the game", () => {
@@ -393,7 +406,7 @@ describe("a public meeting is a real appointment", () => {
 });
 
 describe("the strongest compiled local governing route", () => {
-  it("lets a citizen attend and a member appoint the manager, then refuses outsider, duplicate, and reload repeats", () => {
+  it("lets a citizen attend and a member record a quorate council election of the manager, then refuses lone-member, no-quorum, wrong-government, duplicate, and reload repeats", () => {
     const { world, governmentKey, jurisdictionId, people } =
       cityWorld("5114968");
     const government = municipalGovernmentByKey(governmentKey)!;
@@ -401,6 +414,11 @@ describe("the strongest compiled local governing route", () => {
     const member = people[1]!;
     const appointee = people[10]!;
     const seated = seatWholeBody(world, governmentKey, people);
+    const council = municipalSeats(seated, governmentKey)
+      .filter((seat) => seat.role !== "professional-manager")
+      .map((seat) => seat.personId);
+    expect(council).toHaveLength(5);
+    const election = councilRoll(council, 3);
     const start = { ...world.currentMoment, minuteOfDay: 19 * 60 };
     const scheduled = scheduleMunicipalMeeting(seated, {
       governmentKey,
@@ -438,6 +456,7 @@ describe("the strongest compiled local governing route", () => {
     const outsider = appointMunicipalManager(attended.world, {
       governmentKey,
       appointeePersonId: appointee,
+      dispositions: election,
     });
     expect(outsider.ok).toBe(false);
     if (!outsider.ok) {
@@ -445,9 +464,75 @@ describe("the strongest compiled local governing route", () => {
       expect(outsider.world).toBe(attended.world);
     }
 
+    const loneMember = appointMunicipalManager(memberWorld, {
+      governmentKey,
+      appointeePersonId: appointee,
+      dispositions: [],
+    });
+    expect(loneMember.ok).toBe(false);
+    if (!loneMember.ok) {
+      expect(loneMember.reason).toMatch(
+        /collective decision|not that election/,
+      );
+      expect(loneMember.world).toBe(memberWorld);
+    }
+
+    const oneVote = appointMunicipalManager(memberWorld, {
+      governmentKey,
+      appointeePersonId: appointee,
+      dispositions: councilRoll(council, 1),
+    });
+    expect(oneVote.ok).toBe(false);
+    if (!oneVote.ok) {
+      expect(oneVote.reason).toMatch(/quorum|present/);
+      expect(oneVote.world).toBe(memberWorld);
+    }
+
+    const noQuorum = appointMunicipalManager(memberWorld, {
+      governmentKey,
+      appointeePersonId: appointee,
+      dispositions: councilRoll(council, 2),
+    });
+    expect(noQuorum.ok).toBe(false);
+    if (!noQuorum.ok) {
+      expect(noQuorum.reason).toMatch(/quorum/);
+      expect(noQuorum.world).toBe(memberWorld);
+    }
+
+    const carson = municipalGovernmentByKey("us-nv-carson-city")!;
+    let foreign = installMunicipalGovernment(memberWorld, {
+      governmentKey: carson.key,
+      jurisdictionId,
+      formedAt: memberWorld.currentDate,
+    });
+    foreign = seatMunicipalMember(foreign, {
+      governmentKey: carson.key,
+      personId: people[6]!,
+      startedAt: foreign.currentDate,
+      role: "member",
+      seatLabel: "Foreign seat",
+    });
+    const wrongGovernment = appointMunicipalManager(foreign, {
+      governmentKey,
+      appointeePersonId: appointee,
+      dispositions: [
+        {
+          memberKey: "foreign-1",
+          personId: people[6]!,
+          disposition: "yea",
+        },
+      ],
+    });
+    expect(wrongGovernment.ok).toBe(false);
+    if (!wrongGovernment.ok) {
+      expect(wrongGovernment.reason).toMatch(/not a vote of/);
+      expect(wrongGovernment.world).toBe(foreign);
+    }
+
     const appointed = appointMunicipalManager(memberWorld, {
       governmentKey,
       appointeePersonId: appointee,
+      dispositions: election,
     });
     expect(appointed.ok).toBe(true);
     const managerSeat = municipalSeats(appointed.world, governmentKey).find(
@@ -459,10 +544,19 @@ describe("the strongest compiled local governing route", () => {
         (event) => event.type === "municipal.manager-appointed",
       ),
     ).toBe(true);
+    expect(
+      appointed.world.history.events.find(
+        (event) => event.type === "municipal.manager-appointed",
+      )?.jurisdictionId,
+    ).toBe(jurisdictionId);
+    expect(
+      municipalGovernmentJurisdictionId(appointed.world, governmentKey),
+    ).toBe(jurisdictionId);
 
     const duplicate = appointMunicipalManager(appointed.world, {
       governmentKey,
       appointeePersonId: people[11]!,
+      dispositions: election,
     });
     expect(duplicate.ok).toBe(false);
     if (!duplicate.ok) {
@@ -476,6 +570,7 @@ describe("the strongest compiled local governing route", () => {
     const afterReload = appointMunicipalManager(reloaded, {
       governmentKey,
       appointeePersonId: people[11]!,
+      dispositions: election,
     });
     expect(afterReload.ok).toBe(false);
     if (!afterReload.ok) expect(afterReload.world).toBe(reloaded);
