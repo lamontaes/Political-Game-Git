@@ -137,7 +137,10 @@ function WebNode({
         }}
       />
       <foreignObject x={-size / 2} y={-size / 2} width={size} height={size}>
-        <div className="pg-relationship-web-portrait">
+        <div
+          xmlns="http://www.w3.org/1999/xhtml"
+          className="pg-relationship-web-portrait"
+        >
           <PersonPortrait world={world} personId={node.personId} size="small" />
         </div>
       </foreignObject>
