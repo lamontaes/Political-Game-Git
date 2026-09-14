@@ -11,10 +11,21 @@ import {
   openNextLifeScene,
 } from "./life-scene-flow";
 import {
+  authorizeCalendarSimulation,
+  playCalendarActivity,
   simulateAuthorizedCalendarActivity,
   simulateCalendarDays,
 } from "./calendar-time-control";
 import { projectPersonContact } from "./person-contact";
+import { createNewGameWorld } from "./new-game";
+import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
+import { venueActivities } from "./venue-activity";
+import {
+  cancelScheduledActivity,
+  createCampaignElectionTransitionRegistry,
+  recordWorldEvent,
+  serializeWorld,
+} from "../simulation";
 
 describe("PLAYTEST34 C contracts", () => {
   it("does not charge ordinary talk lines", () => {
@@ -117,5 +128,90 @@ describe("PLAYTEST34 C contracts", () => {
     expect(result.world).toBe(world);
     expect(result.reached).toEqual(before);
     expect(result.outcome).toMatch(/not on the recorded calendar/i);
+  });
+
+  it("leaves World and time identical when a supported venue event is not preference-authorized", () => {
+    const created = createNewGameWorld({
+      placeKey: "kentucky",
+      startAge: 34,
+      depth: "summarize-earlier-life",
+      startingLife: "ordinary-life",
+      household: "shares-a-home",
+      seed: "pt34-c-simulate-standing-pref",
+      givenName: null,
+      familyName: null,
+      questionnaire: "skipped",
+      priors: [],
+    });
+    const initial = openOrdinaryLife(created.world, created.playerPersonId);
+    const journey = initial.history.scheduledActivities.find(
+      (activity) =>
+        activity.location.locationKey === "ordinary-life:to-meeting-room",
+    )!;
+    const opened = passOrdinaryDays(
+      cancelScheduledActivity(initial, journey.id),
+    );
+    const activity = opened.history.scheduledActivities.find(
+      (candidate) =>
+        candidate.location.locationKey === "ordinary-life:meeting-room",
+    )!;
+    const world = recordWorldEvent(opened, {
+      stableKey: `pt34-c:${activity.id}:already-there`,
+      type: "life.scene.arrived",
+      occurredAt: opened.currentDate,
+      recordedAt: opened.currentDate,
+      jurisdictionId: activity.location.jurisdictionId,
+      involvedEntityIds: [created.playerPersonId, activity.id],
+      participants: [
+        {
+          personId: created.playerPersonId,
+          role: "presence:participant",
+          detail: "Already at the public meeting room",
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "private",
+      tags: ["pt34-c", "place:ordinary-life:meeting-room"],
+      summary: "Already at the public meeting room.",
+      context: {
+        location: {
+          jurisdictionId: activity.location.jurisdictionId,
+          label: activity.location.label,
+          setting: "public meeting room",
+        },
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const personId = created.playerPersonId;
+    const entry = venueActivities(world, personId).find(
+      (candidate) => candidate.activity.id === activity.id,
+    );
+    expect(entry).toBeTruthy();
+    expect(entry!.refusal).toBeNull();
+    const handlers = createCampaignElectionTransitionRegistry();
+    expect(handlers.routine?.isAutoResolvableActivity(world, activity.id)).toBe(
+      false,
+    );
+    const gate = authorizeCalendarSimulation(world, personId, activity.id);
+    expect(gate.authorized).toBe(false);
+    expect(gate.reason).toMatch(/Standing preferences did not authorize/i);
+    const snapshot = serializeWorld(world);
+    const before = world.currentMoment;
+    const simulated = simulateAuthorizedCalendarActivity(
+      world,
+      personId,
+      activity.id,
+    );
+    expect(simulated.world).toBe(world);
+    expect(simulated.reached).toEqual(before);
+    expect(serializeWorld(simulated.world)).toBe(snapshot);
+    expect(simulated.outcome).toBe(gate.reason);
+    const played = playCalendarActivity(world, personId, activity.id);
+    expect(played.world).not.toBe(world);
+    expect(played.reached).not.toEqual(before);
   });
 });

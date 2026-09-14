@@ -50,6 +50,7 @@ import { PeopleRelationshipWeb } from "./PeopleRelationshipWeb";
 import { PersonPortrait } from "./PersonPortrait";
 import {
   advanceCalendarToActivity,
+  authorizeCalendarSimulation,
   declineCalendarActivity,
   playCalendarActivity,
   simulateAuthorizedCalendarActivity,
@@ -566,6 +567,11 @@ function CalendarEventActions({
   readonly world: World;
   readonly personId: EntityId;
 }) {
+  const simulation = authorizeCalendarSimulation(
+    world,
+    personId,
+    selected.activityId,
+  );
   return (
     <div className="game-choices" data-testid="calendar-event-actions">
       <p>
@@ -607,6 +613,8 @@ function CalendarEventActions({
         type="button"
         className="ui-action"
         data-testid="calendar-simulate-event"
+        disabled={!simulation.authorized}
+        aria-describedby={`calendar-simulate-reason-${selected.activityId}`}
         onClick={() =>
           onApply(() =>
             simulateAuthorizedCalendarActivity(
@@ -618,7 +626,14 @@ function CalendarEventActions({
         }
       >
         Simulate authorized attendance
+        <small>{simulation.reason}</small>
       </button>
+      <p
+        className="sr-only"
+        id={`calendar-simulate-reason-${selected.activityId}`}
+      >
+        {simulation.reason}
+      </p>
       <button
         type="button"
         className="ui-action"

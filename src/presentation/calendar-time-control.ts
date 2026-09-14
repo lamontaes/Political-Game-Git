@@ -132,6 +132,14 @@ export function authorizeCalendarSimulation(
   if (venue.refusal) {
     return { authorized: false, reason: venue.refusal };
   }
+  const handlers = createCampaignElectionTransitionRegistry();
+  if (!handlers.routine?.isAutoResolvableActivity(world, activityId)) {
+    return {
+      authorized: false,
+      reason:
+        "Standing preferences did not authorize simulated attendance. Advance and Play stay distinct.",
+    };
+  }
   return {
     authorized: true,
     reason: "Authorized to simulate attendance.",
