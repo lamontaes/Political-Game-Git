@@ -60,7 +60,7 @@ export function projectPersonContact(
 
   const playerPlace = openingLifeLocation(world, playerPersonId);
   const theirPlace = openingLifeLocation(world, personId);
-  let travelAvailable = false;
+  const travelAvailable = false;
   let travelReason: string;
   if (!theirPlace) {
     travelReason = `No recorded location for ${name}. A pin or a card is not a destination.`;
