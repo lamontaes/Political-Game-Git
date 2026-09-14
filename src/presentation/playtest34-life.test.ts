@@ -1,3 +1,4 @@
+import { enterLifePath } from "../simulation/life-paths2";
 import { describe, expect, it } from "vitest";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { openOrdinaryLife } from "./ordinary-life";
@@ -32,7 +33,6 @@ import { lifeOpportunitiesFor } from "../simulation/life-opportunities";
 import {
   assertWorldIntegrity,
   advanceWorldMinutes,
-  enterLifePath,
   createCampaignElectionTransitionRegistry,
   createScheduledActivity,
   performScheduledActivity,

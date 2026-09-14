@@ -1,5 +1,5 @@
+import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
 import {
-  composeFutureTransitionHandlerRegistries,
   createCampaignElectionTransitionRegistry,
   type FutureTransitionHandlerRegistry,
 } from "../simulation";
