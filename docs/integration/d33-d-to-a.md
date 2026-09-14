@@ -72,3 +72,46 @@ Browser results and exact published/proof SHAs follow in a separate receipt.
 Passing automated proof is not independent human visual acceptance. Broader
 sustained warning-first workload effects are deferred, not claimed implemented;
 this slice creates no surprise fatigue, dismissal or probability constant.
+
+## Final tested route receipt
+
+Runtime/source proof: `8ffa8f47c9d655a44e03d3ecc9b707f6a83324fd`, clean
+isolated receiver above accepted main
+`94dfc1afa16d09a511d87aa5fbd508da3bda6b20`. Identified browser run
+`d33-d-current-main-corrected`, port 5222, one Chromium worker, four tests PASS
+in 3.1 minutes. Expected/served source digest match:
+`eb0544f8c47800d659cbe29f03906c3a09bd8886621ccdf31a653f8301f293de`.
+The initial `aaabe9f6` 2-pass/2-fail source remains recorded separately; no
+earlier failed attempt is relabeled as a pass.
+
+Both 1440×900 and 1200×720 ordinary pointer/keyboard cases prove:
+
+- Real accepted 09:00–13:00 work, wages on the following day, interruption and
+  return, period tuition and one credential, preserved keep/reload state.
+- Attend discloses and includes the 20-minute journey; recorded arrival precedes
+  attendance. Routine work/pay continues during the wait. No duplicate pay or
+  false arrival, and no report or lesson administration.
+- Edited 45-day accepted grace, unpaid academic end, deadline study-only pause,
+  wages while paused, explicit earned-personal-cash funding/resume, one tuition
+  transfer/credential and the same enrollment ID. Prior schooling records are
+  preserved exactly, not removed to satisfy a test count.
+
+Screenshots reviewed at both sizes: actual accepted 161-day/$600/45-day terms
+and completion are readable; unsupported-study text no longer flags unrelated
+earlier schooling. Directory density and independent human visual acceptance
+remain separate; no redesign or NPC-dressing work was performed.
+
+Latest current-main focused proof: five files, 42 tests PASS; typecheck/lint and
+PR/PUSH-range release checks PASS. Three mandatory art gates passed with existing
+duplicate-hash warnings; no art/source lineage net. Final compiler refresh:
+2,644 templates, 6,595 unclassified candidates, zero hard errors, 265 warnings.
+No sidecar/ledger/checkpoint/history changes or new computed IDs. No full-suite,
+production build, installed artifact or independent human acceptance is claimed.
+
+Published scoped return: [PR #244](https://github.com/lamontaes/Political-Game-Git/pull/244),
+`codex/d33-d-education`. A receives the branch's D-only net above the named main
+base, not a whole root or a backend-only completion. The existing
+`PersonalRoutinePanel` mount and props stay unchanged. This final receipt is a
+documentation-only successor; browser evidence belongs to exact runtime source
+`8ffa8f47`, not to a later receipt tip. No main merge, release or installation.
+The browser slot and screenshot review have ended; FOUNDATION may proceed.

@@ -49,6 +49,10 @@ Ready net: immutable v2 acceptance and known v1 compatibility, actual tuition
 grace/pause/explicit cash settlement, old-deadline guard, persistent lightweight
 parallel offers and existing Personal controls/outcome disclosure. Final focused
 42 tests/typecheck/lint pass. Art3 pass and approved allocator/corpus refresh
-preserves all anchor history. Browser four-test sequence is the remaining proof.
+preserves all anchor history. Corrected current-main source `8ffa8f47` passed
+all four ordinary browser cases at both widths; screenshot review and host slot
+ended. PR #244 is the scoped return; source and receipt remain distinguished.
 Broader sustained-load consequences are explicitly deferred; no unselected
 capacity/odds/dismissal constants. Receiver is `docs/integration/d33-d-to-a.md`.
+This bounded accepted-terms/funding/Personal route slice is complete, not a claim
+of all DIRECTOR33 systems, A's landing, installation or human acceptance.
