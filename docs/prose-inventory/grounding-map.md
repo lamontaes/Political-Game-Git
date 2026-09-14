@@ -23,6 +23,10 @@ declare is reported as undeclared rather than filled in from a guess.
 | `governing/municipal-work-and-session` | 7 | 0 | 0 | activity-evidence, work-standing |
 | `governing/municipal-workspace` | 75 | 0 | 0 | — |
 | `legislative/measure-briefing` | 93 | 0 | 0 | measure |
+| `legislative/office-onboarding-briefing` | 30 | 0 | 0 | — |
+| `legislative/office-onboarding-workspace` | 5 | 0 | 0 | candidacy, work-standing |
+| `legislative/office-vote-instruction` | 10 | 0 | 0 | candidacy |
+| `legislative/office-workflow-writes` | 12 | 0 | 0 | candidacy, work-standing |
 | `life/adult` | 384 | 287 | 0 | colleague-identity, household-kinship, persistent-cast |
 | `life/callback` | 41 | 0 | 0 | — |
 | `life/episode` | 1020 | 71 | 0 | activity-evidence, age, colleague-identity, elapsed-time, enrollment, household-kinship, incident-locality, persistent-cast, work-standing |
@@ -46,14 +50,14 @@ count is how many families' declared grounding touches each one.
 | --- | --- |
 | Age | 1 |
 | Enrollment | 1 |
-| Work standing | 3 |
+| Work standing | 5 |
 | Colleague or supervisor identity | 2 |
 | Shift or activity evidence | 4 |
 | Household and kinship | 2 |
 | Persistent cast identity | 3 |
 | Incidents and locality | 1 |
 | Time elapsed | 2 |
-| Candidacy, election and office | 1 |
+| Candidacy, election and office | 4 |
 | Legislative measure and chamber | 1 |
 
 ## Withheld scenes and the evidence each one is missing

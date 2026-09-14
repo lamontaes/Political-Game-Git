@@ -1659,6 +1659,142 @@
       "textRevision": "95f6140cbf90"
     },
     {
+      "anchor": "OFFICE_CASEWORK_CHOICES-0001",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "OFFICE_CASEWORK_CHOICES",
+      "text": "I will handle constituent work myself",
+      "occurrence": 0,
+      "textRevision": "215f93b69c35"
+    },
+    {
+      "anchor": "OFFICE_CASEWORK_CHOICES-0002",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "OFFICE_CASEWORK_CHOICES",
+      "text": "Ordinary constituent work stays with the people who already work here. Unusual or contested requests come to you.",
+      "occurrence": 0,
+      "textRevision": "408cd09f5481"
+    },
+    {
+      "anchor": "OFFICE_CASEWORK_CHOICES-0003",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "OFFICE_CASEWORK_CHOICES",
+      "text": "Staff handle routine requests; bring exceptions to me",
+      "occurrence": 0,
+      "textRevision": "40eb8c4fcb9d"
+    },
+    {
+      "anchor": "OFFICE_CASEWORK_CHOICES-0004",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "OFFICE_CASEWORK_CHOICES",
+      "text": "Staff handle the casework and brief me",
+      "occurrence": 0,
+      "textRevision": "2b6578687b4d"
+    },
+    {
+      "anchor": "OFFICE_CASEWORK_CHOICES-0005",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "OFFICE_CASEWORK_CHOICES",
+      "text": "Staff may still brief. They do not take the case unless you ask.",
+      "occurrence": 0,
+      "textRevision": "ed1c345cc2ad"
+    },
+    {
+      "anchor": "OFFICE_CASEWORK_CHOICES-0006",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "OFFICE_CASEWORK_CHOICES",
+      "text": "The office works the file and tells you what they did. You can change this later.",
+      "occurrence": 0,
+      "textRevision": "76c99761129d"
+    },
+    {
+      "anchor": "OFFICE_INSTRUCTION_CHOICES-0001",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "OFFICE_INSTRUCTION_CHOICES",
+      "text": "Be recorded present, not voting, on this text",
+      "occurrence": 0,
+      "textRevision": "e03513f0c7bf"
+    },
+    {
+      "anchor": "OFFICE_INSTRUCTION_CHOICES-0002",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "OFFICE_INSTRUCTION_CHOICES",
+      "text": "Oppose this bill as it now reads",
+      "occurrence": 0,
+      "textRevision": "5dd8a07e96e0"
+    },
+    {
+      "anchor": "OFFICE_INSTRUCTION_CHOICES-0003",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "OFFICE_INSTRUCTION_CHOICES",
+      "text": "Support this bill as it now reads",
+      "occurrence": 0,
+      "textRevision": "964ab21b8925"
+    },
+    {
+      "anchor": "OFFICE_VOTING_CHOICES-0001",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "OFFICE_VOTING_CHOICES",
+      "text": "Every question waits for your own decision. Staff may brief; they may not cast it.",
+      "occurrence": 0,
+      "textRevision": "8675233d0af8"
+    },
+    {
+      "anchor": "OFFICE_VOTING_CHOICES-0002",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "OFFICE_VOTING_CHOICES",
+      "text": "Handle each vote yourself",
+      "occurrence": 0,
+      "textRevision": "de8dbcfc5caf"
+    },
+    {
+      "anchor": "OFFICE_VOTING_CHOICES-0003",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "OFFICE_VOTING_CHOICES",
+      "text": "Hold the questions and take them up together. Nothing is recorded as a vote until that review.",
+      "occurrence": 0,
+      "textRevision": "90de0fca896b"
+    },
+    {
+      "anchor": "OFFICE_VOTING_CHOICES-0004",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "OFFICE_VOTING_CHOICES",
+      "text": "Leave instructions, then handle exceptions",
+      "occurrence": 0,
+      "textRevision": "b7891fec88c6"
+    },
+    {
+      "anchor": "OFFICE_VOTING_CHOICES-0005",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "OFFICE_VOTING_CHOICES",
+      "text": "Record how you want to vote on a bill as it now reads. If the text or the question changes, the office stops and asks you again. This is not a proxy vote.",
+      "occurrence": 0,
+      "textRevision": "038f60d21218"
+    },
+    {
+      "anchor": "OFFICE_VOTING_CHOICES-0006",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "OFFICE_VOTING_CHOICES",
+      "text": "Review votes in a batch",
+      "occurrence": 0,
+      "textRevision": "e8e21c0e4fb4"
+    },
+    {
+      "anchor": "OfficeOnboardingWorkspace-0001",
+      "sourcePath": "src/player/OfficeOnboardingWorkspace.tsx",
+      "symbol": "OfficeOnboardingWorkspace",
+      "text": "Office onboarding",
+      "occurrence": 0,
+      "textRevision": "0741caa1be12"
+    },
+    {
+      "anchor": "OfficeOnboardingWorkspace-0002",
+      "sourcePath": "src/player/OfficeOnboardingWorkspace.tsx",
+      "symbol": "OfficeOnboardingWorkspace",
+      "text": "Office onboarding",
+      "occurrence": 1,
+      "textRevision": "0741caa1be12"
+    },
+    {
       "anchor": "PHASE_SENTENCES-0001",
       "sourcePath": "src/presentation/legislation-projection.ts",
       "symbol": "PHASE_SENTENCES",
@@ -3193,6 +3329,126 @@
       "text": "{years} years later",
       "occurrence": 0,
       "textRevision": "9ca23e47665b"
+    },
+    {
+      "anchor": "emptyBriefing-0001",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "emptyBriefing",
+      "text": "No staff are recorded for this office",
+      "occurrence": 0,
+      "textRevision": "8408cd19ee63"
+    },
+    {
+      "anchor": "emptyBriefing-0002",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "emptyBriefing",
+      "text": "Opening a briefing item does not adopt it, recommend it, or change the bill.",
+      "occurrence": 0,
+      "textRevision": "fdf4b6222eab"
+    },
+    {
+      "anchor": "emptyBriefing-0003",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "emptyBriefing",
+      "text": "Staff are present but have no known items to brief on this bill.",
+      "occurrence": 0,
+      "textRevision": "76268e00d34e"
+    },
+    {
+      "anchor": "emptyBriefing-0004",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "emptyBriefing",
+      "text": "Staff have nothing to brief",
+      "occurrence": 0,
+      "textRevision": "4c1575b4681f"
+    },
+    {
+      "anchor": "emptyBriefing-0005",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "emptyBriefing",
+      "text": "You can still record how votes and casework should be handled.",
+      "occurrence": 0,
+      "textRevision": "6efc36173235"
+    },
+    {
+      "anchor": "evaluateOfficeVoteInstruction-0001",
+      "sourcePath": "src/presentation/office-vote-instruction.ts",
+      "symbol": "evaluateOfficeVoteInstruction",
+      "text": "No standing instruction is recorded for this bill.",
+      "occurrence": 0,
+      "textRevision": "67e09572c2de"
+    },
+    {
+      "anchor": "evaluateOfficeVoteInstruction-0002",
+      "sourcePath": "src/presentation/office-vote-instruction.ts",
+      "symbol": "evaluateOfficeVoteInstruction",
+      "text": "That bill is not recorded in this World.",
+      "occurrence": 0,
+      "textRevision": "686dc445943f"
+    },
+    {
+      "anchor": "evaluateOfficeVoteInstruction-0003",
+      "sourcePath": "src/presentation/office-vote-instruction.ts",
+      "symbol": "evaluateOfficeVoteInstruction",
+      "text": "The bill has changed since this instruction was recorded. Decide again on the current text.",
+      "occurrence": 0,
+      "textRevision": "af6a0fa729d0"
+    },
+    {
+      "anchor": "evaluateOfficeVoteInstruction-0004",
+      "sourcePath": "src/presentation/office-vote-instruction.ts",
+      "symbol": "evaluateOfficeVoteInstruction",
+      "text": "The instruction belongs to another actor.",
+      "occurrence": 0,
+      "textRevision": "859d53c8972d"
+    },
+    {
+      "anchor": "evaluateOfficeVoteInstruction-0005",
+      "sourcePath": "src/presentation/office-vote-instruction.ts",
+      "symbol": "evaluateOfficeVoteInstruction",
+      "text": "The instruction names a chamber this member does not sit in.",
+      "occurrence": 0,
+      "textRevision": "1d248609835f"
+    },
+    {
+      "anchor": "evaluateOfficeVoteInstruction-0006",
+      "sourcePath": "src/presentation/office-vote-instruction.ts",
+      "symbol": "evaluateOfficeVoteInstruction",
+      "text": "The saved instruction belongs to another office. A past term does not authorize this sitting.",
+      "occurrence": 0,
+      "textRevision": "b918c4fe5262"
+    },
+    {
+      "anchor": "evaluateOfficeVoteInstruction-0007",
+      "sourcePath": "src/presentation/office-vote-instruction.ts",
+      "symbol": "evaluateOfficeVoteInstruction",
+      "text": "This character holds no live legislative seat, so a saved instruction cannot stand in for a vote.",
+      "occurrence": 0,
+      "textRevision": "3024e1c759cc"
+    },
+    {
+      "anchor": "evaluateOfficeVoteInstruction-0008",
+      "sourcePath": "src/presentation/office-vote-instruction.ts",
+      "symbol": "evaluateOfficeVoteInstruction",
+      "text": "This office handles votes individually. A standing instruction is not a vote.",
+      "occurrence": 0,
+      "textRevision": "4a32090f3906"
+    },
+    {
+      "anchor": "evaluateOfficeVoteInstruction-0009",
+      "sourcePath": "src/presentation/office-vote-instruction.ts",
+      "symbol": "evaluateOfficeVoteInstruction",
+      "text": "This office has no recorded voting workflow, so nothing executes automatically.",
+      "occurrence": 0,
+      "textRevision": "96624dd619bf"
+    },
+    {
+      "anchor": "evaluateOfficeVoteInstruction-0010",
+      "sourcePath": "src/presentation/office-vote-instruction.ts",
+      "symbol": "evaluateOfficeVoteInstruction",
+      "text": "This office reviews votes in a batch. A saved instruction is not executed until that review.",
+      "occurrence": 0,
+      "textRevision": "df140bd45630"
     },
     {
       "anchor": "executiveSource-0001",
@@ -4747,6 +5003,54 @@
       "textRevision": "718d349175e7"
     },
     {
+      "anchor": "projectStaffBriefing-0001",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "projectStaffBriefing",
+      "text": "Briefing from {lead.name}",
+      "occurrence": 0,
+      "textRevision": "dfe00e781888"
+    },
+    {
+      "anchor": "projectStaffBriefing-0002",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "projectStaffBriefing",
+      "text": "Open a measure through the ordinary office docket before asking staff to brief known items.",
+      "occurrence": 0,
+      "textRevision": "39b6df0facb1"
+    },
+    {
+      "anchor": "projectStaffBriefing-0003",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "projectStaffBriefing",
+      "text": "Opening a briefing item does not adopt it, recommend it, or change the bill.",
+      "occurrence": 0,
+      "textRevision": "fdf4b6222eab"
+    },
+    {
+      "anchor": "projectStaffBriefing-0004",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "projectStaffBriefing",
+      "text": "Opening a briefing item does not adopt it, recommend it, or change the bill.",
+      "occurrence": 1,
+      "textRevision": "fdf4b6222eab"
+    },
+    {
+      "anchor": "projectStaffBriefing-0005",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "projectStaffBriefing",
+      "text": "Section {section.sectionNumber}. {section.heading}",
+      "occurrence": 0,
+      "textRevision": "6f5a7fe12d2f"
+    },
+    {
+      "anchor": "projectStaffBriefing-0006",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "projectStaffBriefing",
+      "text": "{input.staff[0]!.name} has no bill on the table",
+      "occurrence": 0,
+      "textRevision": "f9f8c32e6481"
+    },
+    {
       "anchor": "questionLabel-0001",
       "sourcePath": "src/presentation/legislation-projection.ts",
       "symbol": "questionLabel",
@@ -5043,6 +5347,102 @@
       "textRevision": "b133fc6b899b"
     },
     {
+      "anchor": "recordOfficeBriefingInspection-0001",
+      "sourcePath": "src/simulation/office-workflow.ts",
+      "symbol": "recordOfficeBriefingInspection",
+      "text": "A briefing inspection cannot name a missing person.",
+      "occurrence": 0,
+      "textRevision": "20d2401f82bb"
+    },
+    {
+      "anchor": "recordOfficeVoteInstruction-0001",
+      "sourcePath": "src/simulation/office-workflow.ts",
+      "symbol": "recordOfficeVoteInstruction",
+      "text": "A vote instruction cannot name a missing person.",
+      "occurrence": 0,
+      "textRevision": "028ed6c20ca4"
+    },
+    {
+      "anchor": "recordOfficeVoteInstruction-0002",
+      "sourcePath": "src/simulation/office-workflow.ts",
+      "symbol": "recordOfficeVoteInstruction",
+      "text": "A vote instruction must bind the person who holds this office.",
+      "occurrence": 0,
+      "textRevision": "95499ae812a5"
+    },
+    {
+      "anchor": "recordOfficeVoteInstruction-0003",
+      "sourcePath": "src/simulation/office-workflow.ts",
+      "symbol": "recordOfficeVoteInstruction",
+      "text": "Record how this office handles votes before leaving a standing instruction.",
+      "occurrence": 0,
+      "textRevision": "931253b48f00"
+    },
+    {
+      "anchor": "recordOfficeVoteInstruction-0004",
+      "sourcePath": "src/simulation/office-workflow.ts",
+      "symbol": "recordOfficeVoteInstruction",
+      "text": "That bill is not recorded in this World.",
+      "occurrence": 0,
+      "textRevision": "686dc445943f"
+    },
+    {
+      "anchor": "recordOfficeVoteInstruction-0005",
+      "sourcePath": "src/simulation/office-workflow.ts",
+      "symbol": "recordOfficeVoteInstruction",
+      "text": "That vote instruction is not a supported choice.",
+      "occurrence": 0,
+      "textRevision": "51293fa5e176"
+    },
+    {
+      "anchor": "recordOfficeVoteInstruction-0006",
+      "sourcePath": "src/simulation/office-workflow.ts",
+      "symbol": "recordOfficeVoteInstruction",
+      "text": "This office handles votes one at a time, so a standing instruction is not recorded.",
+      "occurrence": 0,
+      "textRevision": "d598b532d550"
+    },
+    {
+      "anchor": "recordOfficeWorkflowPreference-0001",
+      "sourcePath": "src/simulation/office-workflow.ts",
+      "symbol": "recordOfficeWorkflowPreference",
+      "text": "A preference cannot be recorded for a missing person.",
+      "occurrence": 0,
+      "textRevision": "b174b2b7932c"
+    },
+    {
+      "anchor": "recordOfficeWorkflowPreference-0002",
+      "sourcePath": "src/simulation/office-workflow.ts",
+      "symbol": "recordOfficeWorkflowPreference",
+      "text": "An office preference must belong to the person who holds the office.",
+      "occurrence": 0,
+      "textRevision": "e65c29d414db"
+    },
+    {
+      "anchor": "recordOfficeWorkflowPreference-0003",
+      "sourcePath": "src/simulation/office-workflow.ts",
+      "symbol": "recordOfficeWorkflowPreference",
+      "text": "No office relationship matches this preference.",
+      "occurrence": 0,
+      "textRevision": "9d0eefd02fc3"
+    },
+    {
+      "anchor": "recordOfficeWorkflowPreference-0004",
+      "sourcePath": "src/simulation/office-workflow.ts",
+      "symbol": "recordOfficeWorkflowPreference",
+      "text": "That casework workflow is not a supported choice.",
+      "occurrence": 0,
+      "textRevision": "2b43c29157aa"
+    },
+    {
+      "anchor": "recordOfficeWorkflowPreference-0005",
+      "sourcePath": "src/simulation/office-workflow.ts",
+      "symbol": "recordOfficeWorkflowPreference",
+      "text": "That voting workflow is not a supported choice.",
+      "occurrence": 0,
+      "textRevision": "a69f135c422c"
+    },
+    {
       "anchor": "recorded-0001",
       "sourcePath": "src/simulation/municipal-public-work.ts",
       "symbol": "recorded",
@@ -5321,6 +5721,62 @@
       "text": "To carry, this needs {thresholdLabel}.",
       "occurrence": 0,
       "textRevision": "2f9355f12ad6"
+    },
+    {
+      "anchor": "resolveStaffEventAccess-0001",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "resolveStaffEventAccess",
+      "text": "No established record of this item is available to brief.",
+      "occurrence": 0,
+      "textRevision": "c22a5067a25f"
+    },
+    {
+      "anchor": "resolveStaffEventAccess-0002",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "resolveStaffEventAccess",
+      "text": "Staff knowledge of this record is unknown.",
+      "occurrence": 0,
+      "textRevision": "d2652a81f374"
+    },
+    {
+      "anchor": "resolveStaffEventAccess-0003",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "resolveStaffEventAccess",
+      "text": "Staff's recorded account of this item is incorrect.",
+      "occurrence": 0,
+      "textRevision": "500a421662c3"
+    },
+    {
+      "anchor": "resolveStaffEventAccess-0004",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "symbol": "resolveStaffEventAccess",
+      "text": "This record is not public, and no staff knowledge of it is recorded.",
+      "occurrence": 0,
+      "textRevision": "08b16d829675"
+    },
+    {
+      "anchor": "saveInstruction-0001",
+      "sourcePath": "src/player/OfficeOnboardingWorkspace.tsx",
+      "symbol": "saveInstruction",
+      "text": "Open a bill through the ordinary office route before leaving an instruction.",
+      "occurrence": 0,
+      "textRevision": "e767dc5cea3d"
+    },
+    {
+      "anchor": "saveInstruction-0002",
+      "sourcePath": "src/player/OfficeOnboardingWorkspace.tsx",
+      "symbol": "saveInstruction",
+      "text": "Record how this office handles votes and casework before leaving a standing instruction.",
+      "occurrence": 0,
+      "textRevision": "8c70edc6e8d6"
+    },
+    {
+      "anchor": "savePreferences-0001",
+      "sourcePath": "src/player/OfficeOnboardingWorkspace.tsx",
+      "symbol": "savePreferences",
+      "text": "Choose a voting workflow and a casework workflow, then record them.",
+      "occurrence": 0,
+      "textRevision": "dd7c32b629de"
     },
     {
       "anchor": "scheduleMunicipalMeeting-0001",

@@ -1,12 +1,12 @@
 {
-  "digest": "f00900fb1b97dbf5",
+  "digest": "47943d859ff7555e",
   "counts": {
-    "total": 2644,
+    "total": 2701,
     "byDomain": {
       "campaign": 23,
       "conversation": 197,
       "governing": 187,
-      "legislative": 93,
+      "legislative": 150,
       "life": 1674,
       "narration": 75,
       "ordinary": 4,
@@ -24,20 +24,20 @@
       "option-witnessed": 54,
       "prompt": 74,
       "scene-line": 219,
-      "status": 372,
+      "status": 429,
       "thread-recap": 32
     },
     "byReachability": {
       "CURRENTLY_UNREACHABLE": 42,
       "DEV_FIXTURE_ONLY": 106,
       "LEGACY_OR_WITHDRAWN": 90,
-      "PLAYER_REACHABLE": 1980,
+      "PLAYER_REACHABLE": 2037,
       "UNKNOWN": 68,
       "WITHHELD_BY_GROUNDING": 358
     },
     "byRealization": {
-      "static": 2124,
-      "templated": 520
+      "static": 2178,
+      "templated": 523
     }
   },
   "records": [
@@ -18176,6 +18176,2012 @@
       ],
       "textRevision": "eb19535c72b8",
       "contextRevision": "d982bb87c470"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:OFFICE_CASEWORK_CHOICES-0001#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "OFFICE_CASEWORK_CHOICES-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "OFFICE_CASEWORK_CHOICES",
+      "text": "I will handle constituent work myself",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "OFFICE_CASEWORK_CHOICES",
+        "anchor": "OFFICE_CASEWORK_CHOICES-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "215f93b69c35",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:OFFICE_CASEWORK_CHOICES-0002#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "OFFICE_CASEWORK_CHOICES-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "OFFICE_CASEWORK_CHOICES",
+      "text": "Ordinary constituent work stays with the people who already work here. Unusual or contested requests come to you.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "OFFICE_CASEWORK_CHOICES",
+        "anchor": "OFFICE_CASEWORK_CHOICES-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "408cd09f5481",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:OFFICE_CASEWORK_CHOICES-0003#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "OFFICE_CASEWORK_CHOICES-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "OFFICE_CASEWORK_CHOICES",
+      "text": "Staff handle routine requests; bring exceptions to me",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "OFFICE_CASEWORK_CHOICES",
+        "anchor": "OFFICE_CASEWORK_CHOICES-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "40eb8c4fcb9d",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:OFFICE_CASEWORK_CHOICES-0004#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "OFFICE_CASEWORK_CHOICES-0004",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "OFFICE_CASEWORK_CHOICES",
+      "text": "Staff handle the casework and brief me",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "OFFICE_CASEWORK_CHOICES",
+        "anchor": "OFFICE_CASEWORK_CHOICES-0004"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "2b6578687b4d",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:OFFICE_CASEWORK_CHOICES-0005#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "OFFICE_CASEWORK_CHOICES-0005",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "OFFICE_CASEWORK_CHOICES",
+      "text": "Staff may still brief. They do not take the case unless you ask.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "OFFICE_CASEWORK_CHOICES",
+        "anchor": "OFFICE_CASEWORK_CHOICES-0005"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "ed1c345cc2ad",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:OFFICE_CASEWORK_CHOICES-0006#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "OFFICE_CASEWORK_CHOICES-0006",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "OFFICE_CASEWORK_CHOICES",
+      "text": "The office works the file and tells you what they did. You can change this later.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "OFFICE_CASEWORK_CHOICES",
+        "anchor": "OFFICE_CASEWORK_CHOICES-0006"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "76c99761129d",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:OFFICE_INSTRUCTION_CHOICES-0001#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "OFFICE_INSTRUCTION_CHOICES-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "OFFICE_INSTRUCTION_CHOICES",
+      "text": "Be recorded present, not voting, on this text",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "OFFICE_INSTRUCTION_CHOICES",
+        "anchor": "OFFICE_INSTRUCTION_CHOICES-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "e03513f0c7bf",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:OFFICE_INSTRUCTION_CHOICES-0002#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "OFFICE_INSTRUCTION_CHOICES-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "OFFICE_INSTRUCTION_CHOICES",
+      "text": "Oppose this bill as it now reads",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "OFFICE_INSTRUCTION_CHOICES",
+        "anchor": "OFFICE_INSTRUCTION_CHOICES-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "5dd8a07e96e0",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:OFFICE_INSTRUCTION_CHOICES-0003#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "OFFICE_INSTRUCTION_CHOICES-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "OFFICE_INSTRUCTION_CHOICES",
+      "text": "Support this bill as it now reads",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "OFFICE_INSTRUCTION_CHOICES",
+        "anchor": "OFFICE_INSTRUCTION_CHOICES-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "964ab21b8925",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:OFFICE_VOTING_CHOICES-0001#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "OFFICE_VOTING_CHOICES-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "OFFICE_VOTING_CHOICES",
+      "text": "Every question waits for your own decision. Staff may brief; they may not cast it.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "OFFICE_VOTING_CHOICES",
+        "anchor": "OFFICE_VOTING_CHOICES-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "8675233d0af8",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:OFFICE_VOTING_CHOICES-0002#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "OFFICE_VOTING_CHOICES-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "OFFICE_VOTING_CHOICES",
+      "text": "Handle each vote yourself",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "OFFICE_VOTING_CHOICES",
+        "anchor": "OFFICE_VOTING_CHOICES-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "de8dbcfc5caf",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:OFFICE_VOTING_CHOICES-0003#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "OFFICE_VOTING_CHOICES-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "OFFICE_VOTING_CHOICES",
+      "text": "Hold the questions and take them up together. Nothing is recorded as a vote until that review.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "OFFICE_VOTING_CHOICES",
+        "anchor": "OFFICE_VOTING_CHOICES-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "90de0fca896b",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:OFFICE_VOTING_CHOICES-0004#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "OFFICE_VOTING_CHOICES-0004",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "OFFICE_VOTING_CHOICES",
+      "text": "Leave instructions, then handle exceptions",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "OFFICE_VOTING_CHOICES",
+        "anchor": "OFFICE_VOTING_CHOICES-0004"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "b7891fec88c6",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:OFFICE_VOTING_CHOICES-0005#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "OFFICE_VOTING_CHOICES-0005",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "OFFICE_VOTING_CHOICES",
+      "text": "Record how you want to vote on a bill as it now reads. If the text or the question changes, the office stops and asks you again. This is not a proxy vote.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "OFFICE_VOTING_CHOICES",
+        "anchor": "OFFICE_VOTING_CHOICES-0005"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "038f60d21218",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:OFFICE_VOTING_CHOICES-0006#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "OFFICE_VOTING_CHOICES-0006",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "OFFICE_VOTING_CHOICES",
+      "text": "Review votes in a batch",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "OFFICE_VOTING_CHOICES",
+        "anchor": "OFFICE_VOTING_CHOICES-0006"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "e8e21c0e4fb4",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:emptyBriefing-0001#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "emptyBriefing-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "emptyBriefing",
+      "text": "No staff are recorded for this office",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "emptyBriefing",
+        "anchor": "emptyBriefing-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "8408cd19ee63",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:emptyBriefing-0002#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "emptyBriefing-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "emptyBriefing",
+      "text": "Opening a briefing item does not adopt it, recommend it, or change the bill.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "emptyBriefing",
+        "anchor": "emptyBriefing-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "fdf4b6222eab",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:emptyBriefing-0003#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "emptyBriefing-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "emptyBriefing",
+      "text": "Staff are present but have no known items to brief on this bill.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "emptyBriefing",
+        "anchor": "emptyBriefing-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "76268e00d34e",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:emptyBriefing-0004#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "emptyBriefing-0004",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "emptyBriefing",
+      "text": "Staff have nothing to brief",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "emptyBriefing",
+        "anchor": "emptyBriefing-0004"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "4c1575b4681f",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:emptyBriefing-0005#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "emptyBriefing-0005",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "emptyBriefing",
+      "text": "You can still record how votes and casework should be handled.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "emptyBriefing",
+        "anchor": "emptyBriefing-0005"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "6efc36173235",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:projectStaffBriefing-0001#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "projectStaffBriefing-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "projectStaffBriefing",
+      "text": "Briefing from {lead.name}",
+      "realization": "templated",
+      "slots": [
+        "lead.name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectStaffBriefing",
+        "anchor": "projectStaffBriefing-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "dfe00e781888",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:projectStaffBriefing-0002#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "projectStaffBriefing-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "projectStaffBriefing",
+      "text": "Open a measure through the ordinary office docket before asking staff to brief known items.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectStaffBriefing",
+        "anchor": "projectStaffBriefing-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "39b6df0facb1",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:projectStaffBriefing-0003#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "projectStaffBriefing-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "projectStaffBriefing",
+      "text": "Opening a briefing item does not adopt it, recommend it, or change the bill.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectStaffBriefing",
+        "anchor": "projectStaffBriefing-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "fdf4b6222eab",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:projectStaffBriefing-0004#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "projectStaffBriefing-0004",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "projectStaffBriefing",
+      "text": "Opening a briefing item does not adopt it, recommend it, or change the bill.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectStaffBriefing",
+        "anchor": "projectStaffBriefing-0004"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "fdf4b6222eab",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:projectStaffBriefing-0005#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "projectStaffBriefing-0005",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "projectStaffBriefing",
+      "text": "Section {section.sectionNumber}. {section.heading}",
+      "realization": "templated",
+      "slots": [
+        "section.heading",
+        "section.sectionNumber"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectStaffBriefing",
+        "anchor": "projectStaffBriefing-0005"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "6f5a7fe12d2f",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:projectStaffBriefing-0006#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "projectStaffBriefing-0006",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "projectStaffBriefing",
+      "text": "{input.staff[0]!.name} has no bill on the table",
+      "realization": "templated",
+      "slots": [
+        "input.staff[0]!.name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectStaffBriefing",
+        "anchor": "projectStaffBriefing-0006"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "f9f8c32e6481",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:resolveStaffEventAccess-0001#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "resolveStaffEventAccess-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "resolveStaffEventAccess",
+      "text": "No established record of this item is available to brief.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "resolveStaffEventAccess",
+        "anchor": "resolveStaffEventAccess-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "c22a5067a25f",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:resolveStaffEventAccess-0002#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "resolveStaffEventAccess-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "resolveStaffEventAccess",
+      "text": "Staff knowledge of this record is unknown.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "resolveStaffEventAccess",
+        "anchor": "resolveStaffEventAccess-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "d2652a81f374",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:resolveStaffEventAccess-0003#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "resolveStaffEventAccess-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "resolveStaffEventAccess",
+      "text": "Staff's recorded account of this item is incorrect.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "resolveStaffEventAccess",
+        "anchor": "resolveStaffEventAccess-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "500a421662c3",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-briefing:resolveStaffEventAccess-0004#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-briefing",
+      "stableKey": "resolveStaffEventAccess-0004",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-onboarding.ts",
+      "sourceSymbol": "resolveStaffEventAccess",
+      "text": "This record is not public, and no staff knowledge of it is recorded.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+      "grounding": [
+        {
+          "key": "active-member-seat",
+          "description": "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+          "kind": "requirement"
+        },
+        {
+          "key": "staff-event-access",
+          "description": "A public filing or a recorded staff knowledge row. Missing, private, unknown and inaccurate records stay unavailable.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "resolveStaffEventAccess",
+        "anchor": "resolveStaffEventAccess-0004"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "08b16d829675",
+      "contextRevision": "941c6e97e834"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-workspace:OfficeOnboardingWorkspace-0001#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-workspace",
+      "stableKey": "OfficeOnboardingWorkspace-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/player/OfficeOnboardingWorkspace.tsx",
+      "sourceSymbol": "OfficeOnboardingWorkspace",
+      "text": "Office onboarding",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The ordinary Work office route mounts this panel for a seated member. Radios stage a choice; Record commits it.",
+      "grounding": [
+        {
+          "key": "office-workflow-preference",
+          "description": "The live office relationship, recorded voting and casework modes, and whether a standing instruction is on file.",
+          "kind": "requirement"
+        },
+        {
+          "key": "office-staff-briefing",
+          "description": "Actual legislative-staff employment records and known public or recorded items on the selected measure.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "OfficeOnboardingWorkspace",
+        "anchor": "OfficeOnboardingWorkspace-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "0741caa1be12",
+      "contextRevision": "a6cd7404caef"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-workspace:OfficeOnboardingWorkspace-0002#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-workspace",
+      "stableKey": "OfficeOnboardingWorkspace-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/player/OfficeOnboardingWorkspace.tsx",
+      "sourceSymbol": "OfficeOnboardingWorkspace",
+      "text": "Office onboarding",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The ordinary Work office route mounts this panel for a seated member. Radios stage a choice; Record commits it.",
+      "grounding": [
+        {
+          "key": "office-workflow-preference",
+          "description": "The live office relationship, recorded voting and casework modes, and whether a standing instruction is on file.",
+          "kind": "requirement"
+        },
+        {
+          "key": "office-staff-briefing",
+          "description": "Actual legislative-staff employment records and known public or recorded items on the selected measure.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "OfficeOnboardingWorkspace",
+        "anchor": "OfficeOnboardingWorkspace-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "0741caa1be12",
+      "contextRevision": "a6cd7404caef"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-workspace:saveInstruction-0001#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-workspace",
+      "stableKey": "saveInstruction-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/player/OfficeOnboardingWorkspace.tsx",
+      "sourceSymbol": "saveInstruction",
+      "text": "Open a bill through the ordinary office route before leaving an instruction.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The ordinary Work office route mounts this panel for a seated member. Radios stage a choice; Record commits it.",
+      "grounding": [
+        {
+          "key": "office-workflow-preference",
+          "description": "The live office relationship, recorded voting and casework modes, and whether a standing instruction is on file.",
+          "kind": "requirement"
+        },
+        {
+          "key": "office-staff-briefing",
+          "description": "Actual legislative-staff employment records and known public or recorded items on the selected measure.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "saveInstruction",
+        "anchor": "saveInstruction-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "e767dc5cea3d",
+      "contextRevision": "a6cd7404caef"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-workspace:saveInstruction-0002#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-workspace",
+      "stableKey": "saveInstruction-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/player/OfficeOnboardingWorkspace.tsx",
+      "sourceSymbol": "saveInstruction",
+      "text": "Record how this office handles votes and casework before leaving a standing instruction.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The ordinary Work office route mounts this panel for a seated member. Radios stage a choice; Record commits it.",
+      "grounding": [
+        {
+          "key": "office-workflow-preference",
+          "description": "The live office relationship, recorded voting and casework modes, and whether a standing instruction is on file.",
+          "kind": "requirement"
+        },
+        {
+          "key": "office-staff-briefing",
+          "description": "Actual legislative-staff employment records and known public or recorded items on the selected measure.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "saveInstruction",
+        "anchor": "saveInstruction-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "8c70edc6e8d6",
+      "contextRevision": "a6cd7404caef"
+    },
+    {
+      "id": "prose:legislative:office-onboarding-workspace:savePreferences-0001#text",
+      "domain": "legislative",
+      "bank": "office-onboarding-workspace",
+      "stableKey": "savePreferences-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/player/OfficeOnboardingWorkspace.tsx",
+      "sourceSymbol": "savePreferences",
+      "text": "Choose a voting workflow and a casework workflow, then record them.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The ordinary Work office route mounts this panel for a seated member. Radios stage a choice; Record commits it.",
+      "grounding": [
+        {
+          "key": "office-workflow-preference",
+          "description": "The live office relationship, recorded voting and casework modes, and whether a standing instruction is on file.",
+          "kind": "requirement"
+        },
+        {
+          "key": "office-staff-briefing",
+          "description": "Actual legislative-staff employment records and known public or recorded items on the selected measure.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "savePreferences",
+        "anchor": "savePreferences-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "dd7c32b629de",
+      "contextRevision": "a6cd7404caef"
+    },
+    {
+      "id": "prose:legislative:office-vote-instruction:evaluateOfficeVoteInstruction-0001#text",
+      "domain": "legislative",
+      "bank": "office-vote-instruction",
+      "stableKey": "evaluateOfficeVoteInstruction-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-vote-instruction.ts",
+      "sourceSymbol": "evaluateOfficeVoteInstruction",
+      "text": "No standing instruction is recorded for this bill.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The office panel shows an armed or refused standing-instruction status. An armed result is not a vote.",
+      "grounding": [
+        {
+          "key": "office-vote-instruction",
+          "description": "The saved instruction bound to actor, office, chamber, measure and measure text version.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "evaluateOfficeVoteInstruction",
+        "anchor": "evaluateOfficeVoteInstruction-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "67e09572c2de",
+      "contextRevision": "2b6058062578"
+    },
+    {
+      "id": "prose:legislative:office-vote-instruction:evaluateOfficeVoteInstruction-0002#text",
+      "domain": "legislative",
+      "bank": "office-vote-instruction",
+      "stableKey": "evaluateOfficeVoteInstruction-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-vote-instruction.ts",
+      "sourceSymbol": "evaluateOfficeVoteInstruction",
+      "text": "That bill is not recorded in this World.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The office panel shows an armed or refused standing-instruction status. An armed result is not a vote.",
+      "grounding": [
+        {
+          "key": "office-vote-instruction",
+          "description": "The saved instruction bound to actor, office, chamber, measure and measure text version.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "evaluateOfficeVoteInstruction",
+        "anchor": "evaluateOfficeVoteInstruction-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "686dc445943f",
+      "contextRevision": "2b6058062578"
+    },
+    {
+      "id": "prose:legislative:office-vote-instruction:evaluateOfficeVoteInstruction-0003#text",
+      "domain": "legislative",
+      "bank": "office-vote-instruction",
+      "stableKey": "evaluateOfficeVoteInstruction-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-vote-instruction.ts",
+      "sourceSymbol": "evaluateOfficeVoteInstruction",
+      "text": "The bill has changed since this instruction was recorded. Decide again on the current text.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The office panel shows an armed or refused standing-instruction status. An armed result is not a vote.",
+      "grounding": [
+        {
+          "key": "office-vote-instruction",
+          "description": "The saved instruction bound to actor, office, chamber, measure and measure text version.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "evaluateOfficeVoteInstruction",
+        "anchor": "evaluateOfficeVoteInstruction-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "af6a0fa729d0",
+      "contextRevision": "2b6058062578"
+    },
+    {
+      "id": "prose:legislative:office-vote-instruction:evaluateOfficeVoteInstruction-0004#text",
+      "domain": "legislative",
+      "bank": "office-vote-instruction",
+      "stableKey": "evaluateOfficeVoteInstruction-0004",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-vote-instruction.ts",
+      "sourceSymbol": "evaluateOfficeVoteInstruction",
+      "text": "The instruction belongs to another actor.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The office panel shows an armed or refused standing-instruction status. An armed result is not a vote.",
+      "grounding": [
+        {
+          "key": "office-vote-instruction",
+          "description": "The saved instruction bound to actor, office, chamber, measure and measure text version.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "evaluateOfficeVoteInstruction",
+        "anchor": "evaluateOfficeVoteInstruction-0004"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "859d53c8972d",
+      "contextRevision": "2b6058062578"
+    },
+    {
+      "id": "prose:legislative:office-vote-instruction:evaluateOfficeVoteInstruction-0005#text",
+      "domain": "legislative",
+      "bank": "office-vote-instruction",
+      "stableKey": "evaluateOfficeVoteInstruction-0005",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-vote-instruction.ts",
+      "sourceSymbol": "evaluateOfficeVoteInstruction",
+      "text": "The instruction names a chamber this member does not sit in.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The office panel shows an armed or refused standing-instruction status. An armed result is not a vote.",
+      "grounding": [
+        {
+          "key": "office-vote-instruction",
+          "description": "The saved instruction bound to actor, office, chamber, measure and measure text version.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "evaluateOfficeVoteInstruction",
+        "anchor": "evaluateOfficeVoteInstruction-0005"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "1d248609835f",
+      "contextRevision": "2b6058062578"
+    },
+    {
+      "id": "prose:legislative:office-vote-instruction:evaluateOfficeVoteInstruction-0006#text",
+      "domain": "legislative",
+      "bank": "office-vote-instruction",
+      "stableKey": "evaluateOfficeVoteInstruction-0006",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-vote-instruction.ts",
+      "sourceSymbol": "evaluateOfficeVoteInstruction",
+      "text": "The saved instruction belongs to another office. A past term does not authorize this sitting.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The office panel shows an armed or refused standing-instruction status. An armed result is not a vote.",
+      "grounding": [
+        {
+          "key": "office-vote-instruction",
+          "description": "The saved instruction bound to actor, office, chamber, measure and measure text version.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "evaluateOfficeVoteInstruction",
+        "anchor": "evaluateOfficeVoteInstruction-0006"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "b918c4fe5262",
+      "contextRevision": "2b6058062578"
+    },
+    {
+      "id": "prose:legislative:office-vote-instruction:evaluateOfficeVoteInstruction-0007#text",
+      "domain": "legislative",
+      "bank": "office-vote-instruction",
+      "stableKey": "evaluateOfficeVoteInstruction-0007",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-vote-instruction.ts",
+      "sourceSymbol": "evaluateOfficeVoteInstruction",
+      "text": "This character holds no live legislative seat, so a saved instruction cannot stand in for a vote.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The office panel shows an armed or refused standing-instruction status. An armed result is not a vote.",
+      "grounding": [
+        {
+          "key": "office-vote-instruction",
+          "description": "The saved instruction bound to actor, office, chamber, measure and measure text version.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "evaluateOfficeVoteInstruction",
+        "anchor": "evaluateOfficeVoteInstruction-0007"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "3024e1c759cc",
+      "contextRevision": "2b6058062578"
+    },
+    {
+      "id": "prose:legislative:office-vote-instruction:evaluateOfficeVoteInstruction-0008#text",
+      "domain": "legislative",
+      "bank": "office-vote-instruction",
+      "stableKey": "evaluateOfficeVoteInstruction-0008",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-vote-instruction.ts",
+      "sourceSymbol": "evaluateOfficeVoteInstruction",
+      "text": "This office handles votes individually. A standing instruction is not a vote.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The office panel shows an armed or refused standing-instruction status. An armed result is not a vote.",
+      "grounding": [
+        {
+          "key": "office-vote-instruction",
+          "description": "The saved instruction bound to actor, office, chamber, measure and measure text version.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "evaluateOfficeVoteInstruction",
+        "anchor": "evaluateOfficeVoteInstruction-0008"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "4a32090f3906",
+      "contextRevision": "2b6058062578"
+    },
+    {
+      "id": "prose:legislative:office-vote-instruction:evaluateOfficeVoteInstruction-0009#text",
+      "domain": "legislative",
+      "bank": "office-vote-instruction",
+      "stableKey": "evaluateOfficeVoteInstruction-0009",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-vote-instruction.ts",
+      "sourceSymbol": "evaluateOfficeVoteInstruction",
+      "text": "This office has no recorded voting workflow, so nothing executes automatically.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The office panel shows an armed or refused standing-instruction status. An armed result is not a vote.",
+      "grounding": [
+        {
+          "key": "office-vote-instruction",
+          "description": "The saved instruction bound to actor, office, chamber, measure and measure text version.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "evaluateOfficeVoteInstruction",
+        "anchor": "evaluateOfficeVoteInstruction-0009"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "96624dd619bf",
+      "contextRevision": "2b6058062578"
+    },
+    {
+      "id": "prose:legislative:office-vote-instruction:evaluateOfficeVoteInstruction-0010#text",
+      "domain": "legislative",
+      "bank": "office-vote-instruction",
+      "stableKey": "evaluateOfficeVoteInstruction-0010",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/office-vote-instruction.ts",
+      "sourceSymbol": "evaluateOfficeVoteInstruction",
+      "text": "This office reviews votes in a batch. A saved instruction is not executed until that review.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The office panel shows an armed or refused standing-instruction status. An armed result is not a vote.",
+      "grounding": [
+        {
+          "key": "office-vote-instruction",
+          "description": "The saved instruction bound to actor, office, chamber, measure and measure text version.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "evaluateOfficeVoteInstruction",
+        "anchor": "evaluateOfficeVoteInstruction-0010"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "df140bd45630",
+      "contextRevision": "2b6058062578"
+    },
+    {
+      "id": "prose:legislative:office-workflow-writes:recordOfficeBriefingInspection-0001#text",
+      "domain": "legislative",
+      "bank": "office-workflow-writes",
+      "stableKey": "recordOfficeBriefingInspection-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/simulation/office-workflow.ts",
+      "sourceSymbol": "recordOfficeBriefingInspection",
+      "text": "A briefing inspection cannot name a missing person.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The office panel displays these refusals when Record or a standing instruction cannot be written.",
+      "grounding": [
+        {
+          "key": "office-workflow-write",
+          "description": "The person, live office work relationship, selected measure and current recorded preference.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recordOfficeBriefingInspection",
+        "anchor": "recordOfficeBriefingInspection-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "20d2401f82bb",
+      "contextRevision": "a9bee3352209"
+    },
+    {
+      "id": "prose:legislative:office-workflow-writes:recordOfficeVoteInstruction-0001#text",
+      "domain": "legislative",
+      "bank": "office-workflow-writes",
+      "stableKey": "recordOfficeVoteInstruction-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/simulation/office-workflow.ts",
+      "sourceSymbol": "recordOfficeVoteInstruction",
+      "text": "A vote instruction cannot name a missing person.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The office panel displays these refusals when Record or a standing instruction cannot be written.",
+      "grounding": [
+        {
+          "key": "office-workflow-write",
+          "description": "The person, live office work relationship, selected measure and current recorded preference.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recordOfficeVoteInstruction",
+        "anchor": "recordOfficeVoteInstruction-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "028ed6c20ca4",
+      "contextRevision": "a9bee3352209"
+    },
+    {
+      "id": "prose:legislative:office-workflow-writes:recordOfficeVoteInstruction-0002#text",
+      "domain": "legislative",
+      "bank": "office-workflow-writes",
+      "stableKey": "recordOfficeVoteInstruction-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/simulation/office-workflow.ts",
+      "sourceSymbol": "recordOfficeVoteInstruction",
+      "text": "A vote instruction must bind the person who holds this office.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The office panel displays these refusals when Record or a standing instruction cannot be written.",
+      "grounding": [
+        {
+          "key": "office-workflow-write",
+          "description": "The person, live office work relationship, selected measure and current recorded preference.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recordOfficeVoteInstruction",
+        "anchor": "recordOfficeVoteInstruction-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "95499ae812a5",
+      "contextRevision": "a9bee3352209"
+    },
+    {
+      "id": "prose:legislative:office-workflow-writes:recordOfficeVoteInstruction-0003#text",
+      "domain": "legislative",
+      "bank": "office-workflow-writes",
+      "stableKey": "recordOfficeVoteInstruction-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/simulation/office-workflow.ts",
+      "sourceSymbol": "recordOfficeVoteInstruction",
+      "text": "Record how this office handles votes before leaving a standing instruction.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The office panel displays these refusals when Record or a standing instruction cannot be written.",
+      "grounding": [
+        {
+          "key": "office-workflow-write",
+          "description": "The person, live office work relationship, selected measure and current recorded preference.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recordOfficeVoteInstruction",
+        "anchor": "recordOfficeVoteInstruction-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "931253b48f00",
+      "contextRevision": "a9bee3352209"
+    },
+    {
+      "id": "prose:legislative:office-workflow-writes:recordOfficeVoteInstruction-0004#text",
+      "domain": "legislative",
+      "bank": "office-workflow-writes",
+      "stableKey": "recordOfficeVoteInstruction-0004",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/simulation/office-workflow.ts",
+      "sourceSymbol": "recordOfficeVoteInstruction",
+      "text": "That bill is not recorded in this World.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The office panel displays these refusals when Record or a standing instruction cannot be written.",
+      "grounding": [
+        {
+          "key": "office-workflow-write",
+          "description": "The person, live office work relationship, selected measure and current recorded preference.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recordOfficeVoteInstruction",
+        "anchor": "recordOfficeVoteInstruction-0004"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "686dc445943f",
+      "contextRevision": "a9bee3352209"
+    },
+    {
+      "id": "prose:legislative:office-workflow-writes:recordOfficeVoteInstruction-0005#text",
+      "domain": "legislative",
+      "bank": "office-workflow-writes",
+      "stableKey": "recordOfficeVoteInstruction-0005",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/simulation/office-workflow.ts",
+      "sourceSymbol": "recordOfficeVoteInstruction",
+      "text": "That vote instruction is not a supported choice.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The office panel displays these refusals when Record or a standing instruction cannot be written.",
+      "grounding": [
+        {
+          "key": "office-workflow-write",
+          "description": "The person, live office work relationship, selected measure and current recorded preference.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recordOfficeVoteInstruction",
+        "anchor": "recordOfficeVoteInstruction-0005"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "51293fa5e176",
+      "contextRevision": "a9bee3352209"
+    },
+    {
+      "id": "prose:legislative:office-workflow-writes:recordOfficeVoteInstruction-0006#text",
+      "domain": "legislative",
+      "bank": "office-workflow-writes",
+      "stableKey": "recordOfficeVoteInstruction-0006",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/simulation/office-workflow.ts",
+      "sourceSymbol": "recordOfficeVoteInstruction",
+      "text": "This office handles votes one at a time, so a standing instruction is not recorded.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The office panel displays these refusals when Record or a standing instruction cannot be written.",
+      "grounding": [
+        {
+          "key": "office-workflow-write",
+          "description": "The person, live office work relationship, selected measure and current recorded preference.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recordOfficeVoteInstruction",
+        "anchor": "recordOfficeVoteInstruction-0006"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "d598b532d550",
+      "contextRevision": "a9bee3352209"
+    },
+    {
+      "id": "prose:legislative:office-workflow-writes:recordOfficeWorkflowPreference-0001#text",
+      "domain": "legislative",
+      "bank": "office-workflow-writes",
+      "stableKey": "recordOfficeWorkflowPreference-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/simulation/office-workflow.ts",
+      "sourceSymbol": "recordOfficeWorkflowPreference",
+      "text": "A preference cannot be recorded for a missing person.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The office panel displays these refusals when Record or a standing instruction cannot be written.",
+      "grounding": [
+        {
+          "key": "office-workflow-write",
+          "description": "The person, live office work relationship, selected measure and current recorded preference.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recordOfficeWorkflowPreference",
+        "anchor": "recordOfficeWorkflowPreference-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "b174b2b7932c",
+      "contextRevision": "a9bee3352209"
+    },
+    {
+      "id": "prose:legislative:office-workflow-writes:recordOfficeWorkflowPreference-0002#text",
+      "domain": "legislative",
+      "bank": "office-workflow-writes",
+      "stableKey": "recordOfficeWorkflowPreference-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/simulation/office-workflow.ts",
+      "sourceSymbol": "recordOfficeWorkflowPreference",
+      "text": "An office preference must belong to the person who holds the office.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The office panel displays these refusals when Record or a standing instruction cannot be written.",
+      "grounding": [
+        {
+          "key": "office-workflow-write",
+          "description": "The person, live office work relationship, selected measure and current recorded preference.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recordOfficeWorkflowPreference",
+        "anchor": "recordOfficeWorkflowPreference-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "e65c29d414db",
+      "contextRevision": "a9bee3352209"
+    },
+    {
+      "id": "prose:legislative:office-workflow-writes:recordOfficeWorkflowPreference-0003#text",
+      "domain": "legislative",
+      "bank": "office-workflow-writes",
+      "stableKey": "recordOfficeWorkflowPreference-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/simulation/office-workflow.ts",
+      "sourceSymbol": "recordOfficeWorkflowPreference",
+      "text": "No office relationship matches this preference.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The office panel displays these refusals when Record or a standing instruction cannot be written.",
+      "grounding": [
+        {
+          "key": "office-workflow-write",
+          "description": "The person, live office work relationship, selected measure and current recorded preference.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recordOfficeWorkflowPreference",
+        "anchor": "recordOfficeWorkflowPreference-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "9d0eefd02fc3",
+      "contextRevision": "a9bee3352209"
+    },
+    {
+      "id": "prose:legislative:office-workflow-writes:recordOfficeWorkflowPreference-0004#text",
+      "domain": "legislative",
+      "bank": "office-workflow-writes",
+      "stableKey": "recordOfficeWorkflowPreference-0004",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/simulation/office-workflow.ts",
+      "sourceSymbol": "recordOfficeWorkflowPreference",
+      "text": "That casework workflow is not a supported choice.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The office panel displays these refusals when Record or a standing instruction cannot be written.",
+      "grounding": [
+        {
+          "key": "office-workflow-write",
+          "description": "The person, live office work relationship, selected measure and current recorded preference.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recordOfficeWorkflowPreference",
+        "anchor": "recordOfficeWorkflowPreference-0004"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "2b43c29157aa",
+      "contextRevision": "a9bee3352209"
+    },
+    {
+      "id": "prose:legislative:office-workflow-writes:recordOfficeWorkflowPreference-0005#text",
+      "domain": "legislative",
+      "bank": "office-workflow-writes",
+      "stableKey": "recordOfficeWorkflowPreference-0005",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/simulation/office-workflow.ts",
+      "sourceSymbol": "recordOfficeWorkflowPreference",
+      "text": "That voting workflow is not a supported choice.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The office panel displays these refusals when Record or a standing instruction cannot be written.",
+      "grounding": [
+        {
+          "key": "office-workflow-write",
+          "description": "The person, live office work relationship, selected measure and current recorded preference.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recordOfficeWorkflowPreference",
+        "anchor": "recordOfficeWorkflowPreference-0005"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "a69f135c422c",
+      "contextRevision": "a9bee3352209"
     },
     {
       "id": "prose:life:adult:adult.candidacy-approach#option:ask-what-for:description",
