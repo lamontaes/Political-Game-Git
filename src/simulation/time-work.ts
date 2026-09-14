@@ -225,6 +225,19 @@ export function workItemState(
   return state;
 }
 
+/** Shared busy-staff gate: an active assignment already consumes that person. */
+export function personHasActiveAssignedWork(
+  world: World,
+  personId: EntityId,
+): boolean {
+  return world.history.workItems.some((item) => {
+    const state = latestWorkStateUnchecked(world, item.id);
+    return (
+      state?.status === "active" && state.assignedPersonIds.includes(personId)
+    );
+  });
+}
+
 function intervalsOverlap(
   leftStart: SimulationMoment,
   leftEnd: SimulationMoment,

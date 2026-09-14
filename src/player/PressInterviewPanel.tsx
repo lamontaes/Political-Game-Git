@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { civicGlossaryEntry } from "../presentation/civic-glossary";
 import type { CivicGlossaryEntry } from "../presentation/civic-glossary";
+import { composePressAnswer } from "../presentation/press-request";
 import type {
   DraftPressResponseInput,
   PressInterviewProjection,
@@ -68,7 +69,26 @@ export function PressInterviewPanel({
   const [followUpQuestion, setFollowUpQuestion] = useState(
     view.likelyFollowUps[0] ?? view.primaryQuestion,
   );
-  const [wording, setWording] = useState("");
+  const [correctingEvidence, setCorrectingEvidence] = useState("");
+  const reporterQuestions = [
+    ...new Set(
+      [...view.likelyFollowUps, view.primaryQuestion].filter((entry) =>
+        entry.trim(),
+      ),
+    ),
+  ];
+  const linkedCorrection =
+    intent === "challenge-premise" &&
+    view.knownFacts.includes(correctingEvidence)
+      ? correctingEvidence
+      : "";
+  const answer = composePressAnswer({
+    intent,
+    knownFacts: view.knownFacts,
+    primaryQuestion: view.primaryQuestion,
+    followUpQuestion,
+    correctingEvidence: linkedCorrection ? [linkedCorrection] : [],
+  });
   const [activeConcept, setActiveConcept] = useState<CivicGlossaryEntry | null>(
     null,
   );
@@ -250,32 +270,58 @@ export function PressInterviewPanel({
           </div>
 
           <label>
-            Follow-up being answered
-            <input
+            Reporter question being answered
+            <select
               value={followUpQuestion}
               onChange={(event) =>
                 setFollowUpQuestion(event.currentTarget.value)
               }
-            />
+            >
+              {reporterQuestions.map((question) => (
+                <option key={question} value={question}>
+                  {question}
+                </option>
+              ))}
+            </select>
           </label>
-          <label>
-            Consequential wording
-            <textarea
-              value={wording}
-              onChange={(event) => setWording(event.currentTarget.value)}
-            />
-          </label>
+          {intent === "challenge-premise" && view.knownFacts.length > 0 ? (
+            <label>
+              Recorded correction
+              <select
+                data-testid="press-correcting-evidence"
+                value={linkedCorrection}
+                onChange={(event) =>
+                  setCorrectingEvidence(event.currentTarget.value)
+                }
+              >
+                <option value="">No correcting record cited</option>
+                {view.knownFacts.map((fact) => (
+                  <option key={fact} value={fact}>
+                    {fact}
+                  </option>
+                ))}
+              </select>
+            </label>
+          ) : null}
+          {answer.ok ? (
+            <blockquote data-testid="press-answer-preview">
+              {answer.statement}
+            </blockquote>
+          ) : (
+            <p role="status">{answer.reason}</p>
+          )}
           <button
             type="button"
-            disabled={!followUpQuestion.trim() || !wording.trim()}
+            disabled={!answer.ok}
             onClick={() =>
+              answer.ok &&
               onDraftResponse({
                 stableKey: `press-ui:${view.activityId}:draft`,
                 activityId: view.activityId,
                 mode,
                 intent,
                 followUpQuestion: followUpQuestion.trim(),
-                proposedWording: wording.trim(),
+                proposedWording: answer.statement,
               })
             }
           >
