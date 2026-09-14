@@ -82,6 +82,36 @@
   stroke-width: 2.5;
 }
 
+.pg-relationship-web-node[data-category="false"] {
+  filter: grayscale(0.55);
+}
+
+.pg-relationship-web-node[data-introduction="true"] circle {
+  stroke: #d7c48a;
+  stroke-width: 3;
+}
+
+.pg-relationship-web-edge[data-introduction="true"] {
+  stroke: #d7c48a;
+  stroke-width: 2.4;
+}
+
+.pg-relationship-web-portrait {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.pg-relationship-web-portrait img,
+.pg-relationship-web-portrait canvas,
+.pg-relationship-web-portrait picture {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .pg-relationship-web-node[data-match="false"] {
   opacity: 0.32;
 }

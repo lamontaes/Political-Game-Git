@@ -22,9 +22,16 @@ import {
   calendarEntryFor,
   calendarKindLabel,
   formatMinute,
-  projectPlayerCalendar,
   type CalendarEntry,
 } from "../presentation/player-calendar";
+import {
+  formatDisplayDate,
+  type DateDisplayOrder,
+} from "../presentation/date-display";
+import {
+  projectCalendarGrid,
+  type CalendarGridMode,
+} from "../presentation/calendar-grid";
 import { projectLifeRecord } from "../presentation/life-record";
 import { projectMeasureBriefing } from "../presentation/legislation-projection";
 import { projectPersonalRecord } from "../presentation/personal-record";
@@ -371,41 +378,108 @@ function CalendarEntryRow({
 export function CalendarWorkspaceSurface({
   world,
   personId,
+  dateOrder,
+  calendarView,
+  onCalendarView,
   isPinnedRef,
   onOpen,
   onTogglePin,
 }: {
   readonly world: World;
   readonly personId: EntityId;
+  readonly dateOrder: DateDisplayOrder;
+  readonly calendarView: CalendarGridMode;
+  readonly onCalendarView: (view: CalendarGridMode) => void;
   readonly isPinnedRef: (ref: ShellRef) => boolean;
   readonly onOpen: (ref: ShellRef) => void;
   readonly onTogglePin: (ref: ShellRef) => void;
 }) {
-  const calendar = useMemo(
-    () => projectPlayerCalendar(world, personId),
-    [world, personId],
+  const [selectedActivityId, setSelectedActivityId] = useState<EntityId | null>(
+    null,
+  );
+  const grid = useMemo(
+    () =>
+      projectCalendarGrid(world, personId, {
+        mode: calendarView,
+        dateOrder,
+        selectedActivityId,
+      }),
+    [world, personId, calendarView, dateOrder, selectedActivityId],
   );
 
   return (
     <>
-      <p className="game-band" data-testid="calendar-today">
-        {calendar.today.date} · {formatMinute(calendar.today.minuteOfDay)}
+      <p
+        className="game-band"
+        data-testid="calendar-today"
+        data-iso-date={grid.today.date}
+      >
+        {formatDisplayDate(grid.today.date, dateOrder)} ·{" "}
+        {formatMinute(grid.today.minuteOfDay)}
       </p>
-      {/*
+      <p className="game-note">
         Reading the calendar is a pure read. Nothing on this screen advances the
-        clock, and the line above shows the same canonical moment before and
-        after — which is the property the proof checks.
-      */}
-      {calendar.note ? (
-        <p className="game-note" data-testid="calendar-note">
-          {calendar.note}
-        </p>
-      ) : null}
-      {calendar.days.map((day) => (
-        <section key={day.date} className="pg-calendar-day">
-          <h3>{day.date}</h3>
+        clock.
+      </p>
+      <div
+        className="pg-calendar-toolbar"
+        role="group"
+        aria-label="Calendar view"
+      >
+        <button
+          type="button"
+          aria-pressed={calendarView === "month"}
+          data-testid="calendar-view-month"
+          onClick={() => onCalendarView("month")}
+        >
+          Month
+        </button>
+        <button
+          type="button"
+          aria-pressed={calendarView === "week"}
+          data-testid="calendar-view-week"
+          onClick={() => onCalendarView("week")}
+        >
+          Week
+        </button>
+      </div>
+      <h3 data-testid="calendar-heading">{grid.heading}</h3>
+      <div
+        className="pg-calendar-grid"
+        data-mode={grid.mode}
+        data-testid="calendar-grid"
+      >
+        {grid.weekdayLabels.map((label) => (
+          <span key={label} className="pg-calendar-weekday">
+            {label}
+          </span>
+        ))}
+        {grid.cells.map((cell) => (
+          <button
+            key={cell.date}
+            type="button"
+            className="pg-calendar-cell"
+            data-in-month={cell.inMonth ? "true" : "false"}
+            data-today={cell.isToday ? "true" : "false"}
+            data-testid={`calendar-cell-${cell.date}`}
+            onClick={() =>
+              setSelectedActivityId(cell.entries[0]?.activityId ?? null)
+            }
+          >
+            <strong>{cell.dayNumber}</strong>
+            {cell.entries.slice(0, 2).map((entry) => (
+              <small key={entry.activityId}>{entry.title}</small>
+            ))}
+          </button>
+        ))}
+      </div>
+      <section data-testid="calendar-upcoming">
+        <h3>Upcoming</h3>
+        {grid.upcoming.length === 0 ? (
+          <p className="game-note">Nothing upcoming is on the record yet.</p>
+        ) : (
           <ul>
-            {day.entries.map((entry) => {
+            {grid.upcoming.map((entry) => {
               const ref: ShellRef = {
                 kind: "commitment",
                 id: entry.activityId,
@@ -421,8 +495,34 @@ export function CalendarWorkspaceSurface({
               );
             })}
           </ul>
-        </section>
-      ))}
+        )}
+      </section>
+      <section data-testid="calendar-history">
+        <h3>History</h3>
+        {grid.history.length === 0 ? (
+          <p className="game-note">
+            No earlier commitments are on this calendar.
+          </p>
+        ) : (
+          <ul>
+            {grid.history.map((entry) => {
+              const ref: ShellRef = {
+                kind: "commitment",
+                id: entry.activityId,
+              };
+              return (
+                <CalendarEntryRow
+                  key={entry.activityId}
+                  entry={entry}
+                  pinned={isPinnedRef(ref)}
+                  onOpen={() => onOpen(ref)}
+                  onTogglePin={() => onTogglePin(ref)}
+                />
+              );
+            })}
+          </ul>
+        )}
+      </section>
     </>
   );
 }
@@ -431,10 +531,12 @@ export function CommitmentSurface({
   world,
   personId,
   activityId,
+  dateOrder,
 }: {
   readonly world: World;
   readonly personId: EntityId;
   readonly activityId: EntityId;
+  readonly dateOrder: DateDisplayOrder;
 }) {
   const entry = useMemo(
     () => calendarEntryFor(world, personId, activityId),
@@ -450,7 +552,8 @@ export function CommitmentSurface({
   return (
     <div data-testid="commitment-detail" data-activity-id={entry.activityId}>
       <p className="game-band">
-        {entry.start.date} · {formatMinute(entry.start.minuteOfDay)} –{" "}
+        {formatDisplayDate(entry.start.date, dateOrder)} ·{" "}
+        {formatMinute(entry.start.minuteOfDay)} –{" "}
         {formatMinute(entry.end.minuteOfDay)}
       </p>
       <p className="pg-kicker" data-testid="commitment-kind">
@@ -1013,10 +1116,40 @@ export function OptionsWorkspace({
       </section>
 
       <section className="pg-personal-section">
+        <h3>Dates</h3>
+        <p className="game-note">
+          Dates are stored as year-month-day. This only changes how they are
+          shown. The United States default is month then day.
+        </p>
+        <div role="group" aria-label="Date display order">
+          {(
+            [
+              ["mdy", "Month first (September 14, 2026)"],
+              ["dmy", "Day first (14 September 2026)"],
+            ] as const
+          ).map(([order, label]) => (
+            <button
+              key={order}
+              type="button"
+              className="ui-action ui-action--rail"
+              aria-pressed={state.preferences.dateDisplayOrder === order}
+              data-testid={`option-date-order-${order}`}
+              onClick={() =>
+                dispatch({ type: "set-date-display-order", order })
+              }
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section className="pg-personal-section">
         <h3>Motion</h3>
         <p className="game-note">
-          Motion follows your system&rsquo;s reduced-motion setting, so nothing
-          here has to be switched on to make it stop.
+          Motion follows your system reduced-motion setting. Title art, the
+          start-of-life cover, and creator backgrounds do not keep moving when
+          that setting is on. This build does not add extra motion controls.
         </p>
       </section>
     </>

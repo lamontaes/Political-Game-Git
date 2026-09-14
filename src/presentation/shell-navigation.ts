@@ -1,5 +1,7 @@
 import type { PersonWardrobePreference } from "./person-visual-selection";
 import type { EntityId } from "../simulation";
+import type { DateDisplayOrder } from "./date-display";
+import type { CalendarGridMode } from "./calendar-grid";
 
 /**
  * The shared shell: what is open, how you got there, and how you get back.
@@ -103,12 +105,17 @@ export interface ShellPreferences {
   readonly defaultPinSize: PinSize;
   /** Interface-only outlet follows, scoped to this saved life. */
   readonly followedNewsOutletKeys: readonly string[];
+  /** Calendar and date labels. ISO storage is unchanged. */
+  readonly dateDisplayOrder: DateDisplayOrder;
+  readonly calendarView: CalendarGridMode;
 }
 
 export const DEFAULT_PREFERENCES: ShellPreferences = {
   peopleView: "web",
-  defaultPinSize: "normal",
+  defaultPinSize: "tiny",
   followedNewsOutletKeys: [],
+  dateDisplayOrder: "mdy",
+  calendarView: "month",
 };
 
 /** Private player writing, never simulation facts or NPC knowledge. */
@@ -204,6 +211,11 @@ export type ShellAction =
   | { readonly type: "set-people-category"; readonly category: string }
   | { readonly type: "set-people-query"; readonly query: string }
   | { readonly type: "set-default-pin-size"; readonly size: PinSize }
+  | {
+      readonly type: "set-date-display-order";
+      readonly order: DateDisplayOrder;
+    }
+  | { readonly type: "set-calendar-view"; readonly view: CalendarGridMode }
   | { readonly type: "toggle-news-outlet-follow"; readonly outletKey: string }
   /** Restores pins and preferences read back from storage. */
   | {
@@ -462,6 +474,18 @@ export function shellReducer(
         preferences: { ...state.preferences, defaultPinSize: action.size },
       };
 
+    case "set-date-display-order":
+      return {
+        ...state,
+        preferences: { ...state.preferences, dateDisplayOrder: action.order },
+      };
+
+    case "set-calendar-view":
+      return {
+        ...state,
+        preferences: { ...state.preferences, calendarView: action.view },
+      };
+
     case "toggle-news-outlet-follow": {
       const outletKey = action.outletKey.trim();
       if (!outletKey) return state;
@@ -495,7 +519,7 @@ export function shellReducer(
       return {
         ...state,
         pins: action.pins,
-        preferences: action.preferences,
+        preferences: { ...DEFAULT_PREFERENCES, ...action.preferences },
         journal: action.journal ?? EMPTY_JOURNAL,
         personWardrobes: action.personWardrobes ?? {},
       };

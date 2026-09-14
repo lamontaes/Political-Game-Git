@@ -229,7 +229,18 @@ describe("preferences", () => {
       preferences: { peopleView: "list", defaultPinSize: "tiny" },
     });
     expect(restored.preferences.peopleView).toBe("list");
+    expect(restored.preferences.dateDisplayOrder).toBe("mdy");
+    expect(restored.preferences.calendarView).toBe("month");
     expect(restored.pins).toHaveLength(1);
+  });
+
+  it("changes date display order without touching the clock", () => {
+    const next = shellReducer(INITIAL_SHELL_STATE, {
+      type: "set-date-display-order",
+      order: "dmy",
+    });
+    expect(next.preferences.dateDisplayOrder).toBe("dmy");
+    expect(next.history).toEqual(INITIAL_SHELL_STATE.history);
   });
 
   it("follows and unfollows a represented outlet without touching navigation", () => {

@@ -4637,6 +4637,31 @@
   flex-direction: row;
 }
 
+.creator-name-row,
+.creator-birthday-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0.45rem;
+}
+
+.creator-name-row input,
+.creator-birthday-row select {
+  min-width: 10rem;
+  flex: 1 1 10rem;
+}
+
+.creator-birthday {
+  margin: 0.8rem 0 0;
+  border: 1px solid rgba(22, 35, 58, 0.18);
+  padding: 0.7rem 0.85rem;
+}
+
+.creator-birthday legend {
+  padding: 0 0.35rem;
+  font-size: 0.82rem;
+}
+
 .game-title-actions button,
 .game-choices button {
   display: flex;

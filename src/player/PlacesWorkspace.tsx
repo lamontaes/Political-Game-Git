@@ -212,7 +212,8 @@ export function PlacesWorkspace({
         </h3>
         {model.offers.length === 0 ? (
           <p data-testid="places-empty">
-            Nothing reachable is recorded from here.
+            Nothing reachable is recorded from here. The game does not invent a
+            destination to fill this list.
           </p>
         ) : (
           <ul className="places-offer-list">

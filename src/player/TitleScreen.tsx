@@ -250,7 +250,7 @@ export function TitleScreen({
       <h1 className="front-door-wordmark">Our Civic Duty</h1>
       <div className="game-title-actions">
         <button type="button" data-testid="new-game" onClick={onNewGame}>
-          New game
+          New life
         </button>
         <button
           type="button"

@@ -78,7 +78,13 @@ import {
   placeStartFacts,
   type PlaceStartFact,
 } from "../presentation/place-start-summary";
+import { previewCreatorNames } from "../presentation/creator-name-preview";
+import { prospectiveCreatorPerson } from "../presentation/creator-appearance-preview";
+import { projectHometownPage } from "../presentation/creator-hometown-page";
 import { queryHometownPopulationFacts } from "../presentation/place-hometown-population";
+import type { PersonWardrobePreference } from "../presentation/person-visual-selection";
+import { CreatorBirthdayFields } from "./CreatorBirthdayFields";
+import { CreatorAppearanceStep } from "./CreatorAppearanceStep";
 import {
   openOrdinaryLife,
   passOrdinaryDays,
@@ -126,7 +132,6 @@ import {
   GENDER_IDENTITY_KEYS,
   GENDER_IDENTITY_LABELS,
   lifePlaceCoverage,
-  lifePlaceSearch,
   lifePlaceStateIdentities,
   lifePlaces,
 } from "../simulation";
@@ -148,7 +153,7 @@ import {
 import { selectedDocketKey } from "../presentation/legislation-docket-selection";
 import { measureById } from "../simulation";
 import { measureGate } from "../simulation/legislation";
-import { ConversationStarters, SceneConversation } from "./SceneConversation";
+import { SceneConversation } from "./SceneConversation";
 import type { ConversationAddressee } from "../presentation/run-b-conversation";
 import type { ConversationSubjectKey } from "../presentation/run-b-conversation-progress";
 import { openConversationWith } from "../presentation/person-conversation-entry";
@@ -229,6 +234,8 @@ interface Session {
   readonly unsavedSeed: string | null;
   /** The slot this life is kept in. A world can be kept in more than one. */
   readonly saveId: EntityId | null;
+  /** Creator wardrobe to apply after Begin without writing a hidden life. */
+  readonly initialWardrobe?: PersonWardrobePreference | null;
 }
 
 export function PlayerGame() {
@@ -384,17 +391,22 @@ export function PlayerGame() {
     return guardUnsavedWork(store, window);
   }, [store]);
 
+  const pendingWardrobe = useRef<PersonWardrobePreference | null>(null);
+
   function startPlaying(
     world: World,
     personId: EntityId,
     seed: string | null,
     saveId: EntityId | null,
   ) {
+    const wardrobe = pendingWardrobe.current;
+    pendingWardrobe.current = null;
     setSession({
       world: openOrdinaryLife(world, personId),
       personId,
       unsavedSeed: seed,
       saveId,
+      initialWardrobe: wardrobe,
     });
     setScreen({ kind: "playing" });
     setProblem(null);
@@ -634,7 +646,8 @@ export function PlayerGame() {
             previewMode={previewMode}
             initialSetup={screen.draft}
             onBack={() => setScreen({ kind: "title" })}
-            onBegin={(setup) => {
+            onBegin={(setup, wardrobe) => {
+              pendingWardrobe.current = wardrobe ?? null;
               setProblem(null);
               // The calibration runs before the world is built, because its
               // answers are part of the setup the world is built from — not
@@ -775,6 +788,7 @@ const NORMAL_CREATOR_STEPS = [
   "character",
   "place",
   "whoAreYou",
+  "appearance",
   "begin",
 ] as const;
 const CUSTOM_CREATOR_STEPS = [
@@ -783,6 +797,7 @@ const CUSTOM_CREATOR_STEPS = [
   "place",
   "background",
   "whoAreYou",
+  "appearance",
   "begin",
 ] as const;
 
@@ -803,12 +818,20 @@ function SetupScreen({
   readonly previewMode: ArtPreviewMode;
   readonly initialSetup?: NewGameSetup;
   readonly onBack: () => void;
-  readonly onBegin: (setup: NewGameSetup) => void;
+  readonly onBegin: (
+    setup: NewGameSetup,
+    wardrobe?: PersonWardrobePreference | null,
+  ) => void;
   readonly problem: string | null;
 }) {
   const coverage = lifePlaceCoverage();
   const [stateQuery, setStateQuery] = useState("");
   const [placeQuery, setPlaceQuery] = useState("");
+  const [placeOffset, setPlaceOffset] = useState(0);
+  const [nameDraw, setNameDraw] = useState(0);
+  const [wardrobe, setWardrobe] = useState<PersonWardrobePreference | null>(
+    null,
+  );
   const [replacingPlace, setReplacingPlace] = useState(false);
   const [populationFacts, setPopulationFacts] = useState<
     readonly PlaceStartFact[]
@@ -830,13 +853,13 @@ function SetupScreen({
         state.usps.toLowerCase() === needle,
     );
   }, [stateQuery]);
-  const matchingPlaces = useMemo(() => {
-    if (!location.stateJurisdictionKey) return [];
-    return lifePlaceSearch(placeQuery, 24, {
+  const hometownPage = useMemo(() => {
+    if (!location.stateJurisdictionKey) return null;
+    return projectHometownPage(placeQuery, placeOffset, {
       stateJurisdictionKey: location.stateJurisdictionKey,
       scope: "locality",
     });
-  }, [location.stateJurisdictionKey, placeQuery]);
+  }, [location.stateJurisdictionKey, placeQuery, placeOffset]);
   const statewidePlace =
     lifePlaces().find(
       (candidate) =>
@@ -949,6 +972,7 @@ function SetupScreen({
       setup.questionnaire === "skipped"
         ? "Discover through play"
         : "Answering a few questions",
+    appearance: "Look decided",
   };
   const onReady = currentIndex >= steps.indexOf("begin");
 
@@ -1037,32 +1061,93 @@ function SetupScreen({
           <div className="game-fields">
             <label>
               First name
-              <input
-                type="text"
-                value={setup.givenName ?? ""}
-                aria-describedby="creator-name-hint"
-                onChange={(event) =>
-                  setSetup((now) => ({
-                    ...now,
-                    givenName: event.target.value || null,
-                  }))
-                }
-              />
+              <span className="creator-name-row">
+                <input
+                  type="text"
+                  value={setup.givenName ?? ""}
+                  aria-describedby="creator-name-hint"
+                  data-testid="creator-given-name"
+                  onChange={(event) =>
+                    setSetup((now) => ({
+                      ...now,
+                      givenName: event.target.value || null,
+                    }))
+                  }
+                />
+                <button
+                  type="button"
+                  className="ui-action ui-action--subtle"
+                  data-testid="randomize-given-name"
+                  onClick={() => {
+                    const next = previewCreatorNames(
+                      seed,
+                      setup.gender,
+                      nameDraw + 1,
+                    );
+                    setNameDraw((value) => value + 1);
+                    setSetup((now) => ({ ...now, givenName: next.givenName }));
+                  }}
+                >
+                  Randomize
+                </button>
+              </span>
             </label>
             <label>
               Last name
-              <input
-                type="text"
-                value={setup.familyName ?? ""}
-                aria-describedby="creator-name-hint"
-                onChange={(event) =>
-                  setSetup((now) => ({
-                    ...now,
-                    familyName: event.target.value || null,
-                  }))
-                }
-              />
+              <span className="creator-name-row">
+                <input
+                  type="text"
+                  value={setup.familyName ?? ""}
+                  aria-describedby="creator-name-hint"
+                  data-testid="creator-family-name"
+                  onChange={(event) =>
+                    setSetup((now) => ({
+                      ...now,
+                      familyName: event.target.value || null,
+                    }))
+                  }
+                />
+                <button
+                  type="button"
+                  className="ui-action ui-action--subtle"
+                  data-testid="randomize-family-name"
+                  onClick={() => {
+                    const next = previewCreatorNames(
+                      seed,
+                      setup.gender,
+                      nameDraw + 1,
+                    );
+                    setNameDraw((value) => value + 1);
+                    setSetup((now) => ({
+                      ...now,
+                      familyName: next.familyName,
+                    }));
+                  }}
+                >
+                  Randomize
+                </button>
+              </span>
             </label>
+            <button
+              type="button"
+              className="ui-action ui-action--subtle"
+              data-testid="randomize-all-names"
+              onClick={() => {
+                const next = previewCreatorNames(
+                  seed,
+                  setup.gender,
+                  nameDraw + 1,
+                );
+                setNameDraw((value) => value + 1);
+                setSetup((now) => ({
+                  ...now,
+                  givenName: next.givenName,
+                  familyName: next.familyName,
+                }));
+              }}
+            >
+              Randomize both names
+            </button>
             <label>
               Starting age
               <input
@@ -1074,10 +1159,6 @@ function SetupScreen({
                 onChange={(event) => {
                   const text = event.target.value;
                   setAgeText(text);
-                  /*
-                   * Commit only a real age. An empty or half-typed field leaves
-                   * the last committed one alone rather than becoming 0.
-                   */
                   if (text.trim() === "") return;
                   const parsed = Number(text);
                   if (!Number.isFinite(parsed)) return;
@@ -1086,59 +1167,30 @@ function SetupScreen({
                 onBlur={() => setAgeText(String(setup.startAge))}
               />
             </label>
-            <label>
-              Birthday month
-              <input
-                type="number"
-                data-testid="start-birth-month"
-                min={1}
-                max={12}
-                value={setup.birthMonth ?? ""}
-                onChange={(event) => {
-                  const text = event.target.value;
-                  setSetup((now) => {
-                    if (text.trim() === "") {
-                      const rest = { ...now };
-                      delete rest.birthMonth;
-                      return rest;
-                    }
-                    const parsed = Number(text);
-                    if (!Number.isFinite(parsed)) return now;
-                    return { ...now, birthMonth: parsed };
-                  });
-                }}
-              />
-            </label>
-            <label>
-              Birthday day
-              <input
-                type="number"
-                data-testid="start-birth-day"
-                min={1}
-                max={31}
-                value={setup.birthDay ?? ""}
-                onChange={(event) => {
-                  const text = event.target.value;
-                  setSetup((now) => {
-                    if (text.trim() === "") {
-                      const rest = { ...now };
-                      delete rest.birthDay;
-                      return rest;
-                    }
-                    const parsed = Number(text);
-                    if (!Number.isFinite(parsed)) return now;
-                    return { ...now, birthDay: parsed };
-                  });
-                }}
-              />
-            </label>
           </div>
+          <CreatorBirthdayFields
+            setup={setup}
+            problem={birthdayProblem}
+            onChange={(patch) =>
+              setSetup((now) => {
+                const next = { ...now, ...patch };
+                if (patch.birthMonth === undefined && "birthMonth" in patch) {
+                  delete next.birthMonth;
+                }
+                if (patch.birthDay === undefined && "birthDay" in patch) {
+                  delete next.birthDay;
+                }
+                return next;
+              })
+            }
+          />
           <p
             className="game-hint"
             id="creator-name-hint"
             data-testid="creator-name-hint"
           >
-            Leave a name blank and the game gives you one.
+            Randomize fills a name you can see and edit. Leave a name blank and
+            the game still gives you one when you begin.
           </p>
 
           {/*
@@ -1174,7 +1226,6 @@ function SetupScreen({
             </div>
           </fieldset>
 
-          {birthdayProblem ? <p role="alert">{birthdayProblem}</p> : null}
           <button
             type="button"
             className="game-creator-next"
@@ -1260,6 +1311,7 @@ function SetupScreen({
                   placeholder="Type a city or town"
                   onChange={(event) => {
                     setPlaceQuery(event.target.value);
+                    setPlaceOffset(0);
                     if (location.placeKey) setReplacingPlace(true);
                   }}
                 />
@@ -1292,9 +1344,14 @@ function SetupScreen({
                   </button>
                 </div>
               ) : null}
-              {placeListOpen && matchingPlaces.length > 0 ? (
+              {placeListOpen &&
+              hometownPage &&
+              hometownPage.places.length > 0 ? (
                 <div className="game-choices" data-testid="place-choices">
-                  {matchingPlaces.map((candidate) => (
+                  <p className="game-note" data-testid="place-page-status">
+                    {hometownPage.status}
+                  </p>
+                  {hometownPage.places.map((candidate) => (
                     <button
                       key={candidate.key}
                       type="button"
@@ -1330,6 +1387,34 @@ function SetupScreen({
                       </small>
                     </button>
                   ))}
+                  {hometownPage.pageCount > 1 ? (
+                    <div className="creator-place-pager" role="group">
+                      <button
+                        type="button"
+                        data-testid="place-page-prev"
+                        disabled={hometownPage.page <= 1}
+                        onClick={() =>
+                          setPlaceOffset((value) =>
+                            Math.max(0, value - hometownPage.limit),
+                          )
+                        }
+                      >
+                        Previous towns
+                      </button>
+                      <button
+                        type="button"
+                        data-testid="place-page-next"
+                        disabled={hometownPage.page >= hometownPage.pageCount}
+                        onClick={() =>
+                          setPlaceOffset(
+                            hometownPage.offset + hometownPage.limit,
+                          )
+                        }
+                      >
+                        More towns
+                      </button>
+                    </div>
+                  ) : null}
                 </div>
               ) : placeListOpen && placeQuery.trim().length === 0 ? (
                 <p className="game-note" data-testid="place-prompt">
@@ -1636,7 +1721,7 @@ function SetupScreen({
                   questionnaire: "short",
                   priors: now.questionnaire === "short" ? now.priors : [],
                 }));
-                advanceTo("begin");
+                advanceTo("appearance");
               }}
             >
               Answer a Few Questions
@@ -1653,7 +1738,7 @@ function SetupScreen({
                   questionnaire: "deep",
                   priors: now.questionnaire === "deep" ? now.priors : [],
                 }));
-                advanceTo("begin");
+                advanceTo("appearance");
               }}
             >
               Explore More Questions
@@ -1671,13 +1756,47 @@ function SetupScreen({
                   questionnaire: "skipped",
                   priors: [],
                 }));
-                advanceTo("begin");
+                advanceTo("appearance");
               }}
             >
               Discover Who I Am Through Play
             </button>
           </div>
         </section>
+      ) : null}
+
+      {isCurrent("appearance") ? (
+        <>
+          {(() => {
+            const previewPerson = prospectiveCreatorPerson(committed);
+            if (!previewPerson) {
+              return (
+                <section data-testid="creator-stage-appearance">
+                  <h2>How you look</h2>
+                  <p className="game-note">
+                    Choose a hometown first. Appearance preview uses the same
+                    character who will begin this life.
+                  </p>
+                </section>
+              );
+            }
+            return (
+              <CreatorAppearanceStep
+                person={previewPerson}
+                preference={wardrobe ?? undefined}
+                onPreferenceChange={setWardrobe}
+              />
+            );
+          })()}
+          <button
+            type="button"
+            className="game-creator-next"
+            data-testid="creator-continue-appearance"
+            onClick={() => advanceTo("begin")}
+          >
+            Next
+          </button>
+        </>
       ) : null}
 
       {problems.length > 0 && onReady ? (
@@ -1691,12 +1810,21 @@ function SetupScreen({
         <button type="button" onClick={onBack}>
           Back
         </button>
+        <button
+          type="button"
+          className="ui-icon-button"
+          aria-label="Close"
+          data-testid="setup-close"
+          onClick={onBack}
+        >
+          <span aria-hidden="true">✕</span>
+        </button>
         {onReady ? (
           <button
             type="button"
             data-testid="begin"
             disabled={problems.length > 0}
-            onClick={() => onBegin(committed)}
+            onClick={() => onBegin(committed, wardrobe)}
           >
             Begin
           </button>
@@ -2055,6 +2183,15 @@ function PlayingScreen({
    * gameplay writers below are still the only things that change the world.
    */
   const [shell, dispatch] = useShell(session.world, session.saveId, shellStore);
+
+  useEffect(() => {
+    const wardrobe = session.initialWardrobe;
+    if (!wardrobe) return;
+    dispatch({
+      type: "set-person-wardrobe",
+      preference: { ...wardrobe, personId: session.personId },
+    });
+  }, [dispatch, session.initialWardrobe, session.personId]);
 
   const [assignment, setAssignment] = useState<LegislativeAssignment | null>(
     null,
@@ -3032,6 +3169,7 @@ function renderWorkspace({
           world={session.world}
           personId={session.personId}
           activityId={view.ref.id}
+          dateOrder={shell.preferences.dateDisplayOrder}
         />,
         "Calendar",
       );
@@ -3091,30 +3229,14 @@ function renderWorkspace({
       return frame(
         "People",
         "people-overlay",
-        <>
-          <PeopleWorkspace
-            world={session.world}
-            personId={session.personId}
-            state={shell}
-            dispatch={dispatch}
-            onTalk={talkTo}
-            onOpenRef={openEntity}
-          />
-          {/*
-            What this life can actually talk about, in the room it is in — as
-            ways to START a conversation. They used to be every conversation
-            drawn in full, one under another; choosing one now opens it in the
-            conversation box in the room, the same box every other route
-            opens.
-          */}
-          {!completedActivityHere(session.world, session.personId) && (
-            <ConversationStarters
-              world={session.world}
-              personId={session.personId}
-              onStart={(personId, subject) => talkTo(personId, subject)}
-            />
-          )}
-        </>,
+        <PeopleWorkspace
+          world={session.world}
+          personId={session.personId}
+          state={shell}
+          dispatch={dispatch}
+          onTalk={talkTo}
+          onOpenRef={openEntity}
+        />,
       );
 
     case "calendar":
@@ -3124,6 +3246,11 @@ function renderWorkspace({
         <CalendarWorkspaceSurface
           world={session.world}
           personId={session.personId}
+          dateOrder={shell.preferences.dateDisplayOrder}
+          calendarView={shell.preferences.calendarView}
+          onCalendarView={(view) =>
+            dispatch({ type: "set-calendar-view", view })
+          }
           isPinnedRef={pinnedRef}
           onOpen={openEntity}
           onTogglePin={togglePin}
@@ -3220,7 +3347,7 @@ function renderWorkspace({
             This life has no home jurisdiction to inspect.
           </p>
         ),
-        "Budget & economy",
+        "Public budget and offices",
       );
     }
 
@@ -3852,16 +3979,28 @@ function OptionsScreen({ onBack }: { readonly onBack: () => void }) {
     <main className="game-setup" data-testid="options-screen">
       <h1>Options</h1>
       <p className="game-note">
-        Motion in the game follows your system&rsquo;s reduced-motion setting,
-        so nothing here has to be switched on to make it stop.
+        Motion follows your system reduced-motion setting. Title art, the
+        start-of-life cover, and creator backgrounds do not keep moving when
+        that setting is on.
       </p>
       <p className="game-note">
-        There is not much else to set yet. As the game grows the settings it
-        actually needs will appear here rather than being invented in advance.
+        Date order, pin size, and how People opens are set from Options after a
+        life has begun, because they belong to that save.
       </p>
-      <button type="button" onClick={onBack}>
-        Back
-      </button>
+      <div className="game-setup-actions">
+        <button type="button" onClick={onBack}>
+          Back
+        </button>
+        <button
+          type="button"
+          className="ui-icon-button"
+          aria-label="Close"
+          data-testid="options-close"
+          onClick={onBack}
+        >
+          <span aria-hidden="true">✕</span>
+        </button>
+      </div>
     </main>
   );
 }
