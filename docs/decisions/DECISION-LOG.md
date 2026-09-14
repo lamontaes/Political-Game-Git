@@ -2242,6 +2242,18 @@ ballot access, campaign finance, districts, an actual electorate, and any office
 outside the accepted pack registry all remain unimplemented, and the elections
 document lists them rather than leaving them to be discovered.
 
+REST37-N authorized continuation (2026-09-14): the prior statement that every
+term boundary remains unimplemented is superseded only for new results naming
+exact Kentucky House/Senate keys in the sourced term-rule data. The
+[dated term contract](../systems/legislative-term-continuity.md) records the
+source and the retained authored first-election calendar limitation. Those
+results plan expected work for the actual winner; existing clock transitions
+independently check entry and end work at expiry. Undated legacy work retains
+its prior evidence and is not recertified. No other state's dates, special
+remainder terms, oath producer, national allocation/count producer or S
+legislative consumer is admitted by this continuation. The shared election
+resolver and its existing outcome arithmetic are preserved.
+
 ## D-079 — A garment is fitted to a silhouette, and a fit it does not have is a gap rather than a guess
 
 - Date: 2026-09-04

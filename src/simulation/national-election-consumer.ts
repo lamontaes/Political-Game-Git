@@ -29,6 +29,7 @@ import type {
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
+  FutureTransitionHandlerRegistry,
   World,
   ElectionContestProvenance,
   TimeDemandProfile,
@@ -137,9 +138,15 @@ export function nationalCountTransitionHandler(
     outcomeEventId: null,
   };
 }
-export const NATIONAL_ELECTION_HANDLERS = createFutureTransitionHandlerRegistry(
-  [[NATIONAL_COUNT_TRANSITION, nationalCountTransitionHandler]],
-);
+export function createNationalElectionTransitionRegistry() {
+  return createFutureTransitionHandlerRegistry([
+    [NATIONAL_COUNT_TRANSITION, nationalCountTransitionHandler],
+  ]);
+}
+/** Compatibility export, with no registry construction during cold module initialization. */
+export const NATIONAL_ELECTION_HANDLERS: FutureTransitionHandlerRegistry = {
+  get: (key) => createNationalElectionTransitionRegistry().get(key),
+};
 /** Attested qualification/oath is a named receiver input, not inferred from winning. */
 export function planNationalOfficeTerm(
   world: World,

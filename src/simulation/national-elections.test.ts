@@ -25,7 +25,7 @@ import {
 import { serializeWorld, deserializeWorld } from "./serialization";
 import { assertWorldIntegrity, advanceWorld } from "./world";
 import { advanceWorldMinutes } from "./time-work";
-import { workStatusAt } from "./life";
+import { workStatusAt } from "./life-queries";
 import {
   scheduleNationalCount,
   planNationalOfficeTerm,

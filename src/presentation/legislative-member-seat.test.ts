@@ -1,3 +1,4 @@
+import { enterSupportedTerm } from "../../tests/fixtures/recorded-legislative-term";
 import { describe, expect, it } from "vitest";
 import { resolveLegislativeFilingEntry } from "./legislative-filing-entry";
 import { fileDraftFromOffice } from "./legislation-docket";
@@ -124,7 +125,10 @@ function employedInLegislature(
     },
   });
   assertWorldIntegrity(world);
-  return { world, personId: life.personId };
+  return {
+    world,
+    personId: life.personId,
+  };
 }
 
 /** Opens the bill and walks it to the floor through the ordinary route. */
@@ -167,7 +171,10 @@ function wonSeat() {
     world = advanceWorld(world, 1, createCampaignElectionTransitionRegistry());
   }
   expect(projectCampaign(world, life.personId).phase).toBe("won");
-  return { world, personId: life.personId };
+  return {
+    world: enterSupportedTerm(world, life.personId),
+    personId: life.personId,
+  };
 }
 
 function world79r1Date(world: World): string {
@@ -398,7 +405,7 @@ describe("79R1 — a member label cannot borrow an outcome it does not have", ()
     const resolution = resolveActiveMemberSeat(world, lost.personId);
     expect(resolution.kind).toBe("unseated");
     if (resolution.kind === "unseated") {
-      expect(resolution.reason).toMatch(/did not record a win/);
+      expect(resolution.reason).toMatch(/did not record.*win/);
     }
   });
 

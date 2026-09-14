@@ -1,0 +1,19 @@
+{
+  "worldId": "world_a93e08159359fc9a",
+  "personId": "person_9fcb0bc10c8956a4",
+  "resultId": "election-contest-result_9cab39e4092be410",
+  "workId": "work-relationship_9eaf311e2c723847",
+  "termEntry": "2027-01-01",
+  "termExpiry": "2029-01-01",
+  "moment": {
+    "date": "2027-01-01",
+    "minuteOfDay": 420,
+    "timeZone": "America/New_York",
+    "utcOffsetMinutes": -300
+  },
+  "billId": "legislative-measure_062736e073ecf370",
+  "designation": "HB 401",
+  "docketKey": "legislative-docket:kentucky:bill-001",
+  "sponsorPersonId": "person_9fcb0bc10c8956a4",
+  "noResidenceChange": true
+}

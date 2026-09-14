@@ -1,3 +1,7 @@
+import {
+  enterSupportedTerm,
+  completeRecordedCampaignFixture,
+} from "../../tests/fixtures/recorded-legislative-term";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -98,7 +102,10 @@ function wonSeat(seed = "p85c-owner-0") {
   const life = newLife(seed);
   const world = runOneRace(life.world, life.personId);
   expect(projectCampaign(world, life.personId).phase).toBe("won");
-  return { world, personId: life.personId };
+  return {
+    world: enterSupportedTerm(world, life.personId),
+    personId: life.personId,
+  };
 }
 
 function openBill(world: World, personId: EntityId) {
@@ -398,9 +405,15 @@ describe("79R2 finding A — a retained chamber context cannot write after the b
     expect(entry.kind).toBe("available");
     if (entry.kind !== "available") return;
 
-    // A second ordinary campaign, won the same canonical way, leaves two
-    // active member seats the records do not choose between.
-    const ambiguous = runOneRace(passOrdinaryDays(entry.world), won.personId);
+    // A second supplied fixture result crosses its own term boundary.
+    // Unbound contests identify separate seats; no winning seed is assumed.
+    const ambiguous = enterSupportedTerm(
+      completeRecordedCampaignFixture(
+        fileForOffice(passOrdinaryDays(entry.world), won.personId),
+        won.personId,
+      ),
+      won.personId,
+    );
     expect(projectCampaign(ambiguous, won.personId).phase).toBe("won");
     const resolution = resolveActiveMemberSeat(ambiguous, won.personId);
     expect(resolution.kind).toBe("unseated");

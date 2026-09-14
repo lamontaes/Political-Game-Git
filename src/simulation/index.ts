@@ -24,6 +24,7 @@ export {
   CAMPAIGN_SUPPORT_METRIC_STABLE_KEY,
   campaignActionIsStale,
   campaignElectionTransitionHandler,
+  resolveCampaignElectionFromRecordedInput,
   createCampaignElectionTransitionRegistry,
   daysUntilElection,
   ensureCampaignOpponents,
@@ -150,3 +151,5 @@ export * from "./national-election-consumer";
 export * from "./national-election-geography";
 
 export * from "./national-election-offices";
+
+export * from "./legislative-office-terms";

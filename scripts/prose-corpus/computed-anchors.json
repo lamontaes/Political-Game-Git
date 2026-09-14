@@ -4667,6 +4667,14 @@
       "textRevision": "9f38e3705693"
     },
     {
+      "anchor": "projectCampaign-0003",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "projectCampaign",
+      "text": "{candidateName} won. The supported term begins {supportedLegislativeTermDates(contest.office.officeKey,contest.electionDate)!.startsAt}; the result itself grants no current office authority.",
+      "occurrence": 0,
+      "textRevision": "fdcd60cba88c"
+    },
+    {
       "anchor": "projectMeasureBriefing-0001",
       "sourcePath": "src/presentation/legislation-projection.ts",
       "symbol": "projectMeasureBriefing",

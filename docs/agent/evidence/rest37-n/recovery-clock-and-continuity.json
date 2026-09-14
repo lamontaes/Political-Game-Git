@@ -1,0 +1,19 @@
+{
+  "worldId": "world_709b73b4dcf2d314",
+  "spent": {
+    "date": "2026-01-05",
+    "minuteOfDay": 1215,
+    "timeZone": "America/New_York",
+    "utcOffsetMinutes": -300
+  },
+  "recovered": {
+    "date": "2026-01-06",
+    "minuteOfDay": 420,
+    "timeZone": "America/New_York",
+    "utcOffsetMinutes": -300
+  },
+  "sessions": 6,
+  "personId": "person_8ee5f76a39568f9e",
+  "homeJurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+  "noResidenceOrOccupancyChange": true
+}

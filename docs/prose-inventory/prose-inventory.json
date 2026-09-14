@@ -1,9 +1,9 @@
 {
-  "digest": "f00900fb1b97dbf5",
+  "digest": "64b4ac50f1b71dae",
   "counts": {
-    "total": 2644,
+    "total": 2645,
     "byDomain": {
-      "campaign": 23,
+      "campaign": 24,
       "conversation": 197,
       "governing": 187,
       "legislative": 93,
@@ -24,20 +24,20 @@
       "option-witnessed": 54,
       "prompt": 74,
       "scene-line": 219,
-      "status": 372,
+      "status": 373,
       "thread-recap": 32
     },
     "byReachability": {
       "CURRENTLY_UNREACHABLE": 42,
       "DEV_FIXTURE_ONLY": 106,
       "LEGACY_OR_WITHDRAWN": 90,
-      "PLAYER_REACHABLE": 1980,
+      "PLAYER_REACHABLE": 1981,
       "UNKNOWN": 68,
       "WITHHELD_BY_GROUNDING": 358
     },
     "byRealization": {
       "static": 2124,
-      "templated": 520
+      "templated": 521
     }
   },
   "records": [
@@ -791,6 +791,46 @@
         "computed"
       ],
       "textRevision": "9f38e3705693",
+      "contextRevision": "15862db75231"
+    },
+    {
+      "id": "prose:campaign:campaign-status:projectCampaign-0003#text",
+      "domain": "campaign",
+      "bank": "campaign-status",
+      "stableKey": "projectCampaign-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "sourceSymbol": "projectCampaign",
+      "text": "{candidateName} won. The supported term begins {supportedLegislativeTermDates(contest.office.officeKey,contest.electionDate)!.startsAt}; the result itself grants no current office authority.",
+      "realization": "templated",
+      "slots": [
+        "candidateName",
+        "supportedLegislativeTermDates(contest.office.officeKey,contest.electionDate)!.startsAt"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The campaign workspace shows these once a candidacy is filed (merged PR #85).",
+      "grounding": [
+        {
+          "key": "candidacy",
+          "description": "A filed candidacy, its office and its jurisdiction.",
+          "kind": "requirement"
+        },
+        {
+          "key": "campaign-treasury",
+          "description": "The campaign's recorded money and scheduled sessions.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectCampaign",
+        "anchor": "projectCampaign-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "fdcd60cba88c",
       "contextRevision": "15862db75231"
     },
     {

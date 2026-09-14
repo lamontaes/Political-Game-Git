@@ -1324,3 +1324,22 @@ LEARN: raw source vote counts cannot stand in for a state-resolved winner (Maine
 or for electoral ballots, a congressional outcome or possession. The smallest
 durable controls are record discriminants, refusal tests and source/version checks.
 P29-G exact905px continuation: ordinary-02 independently calibrated from its closer-camera plate, after the unchanged normal chooser reproduced904.609px height and below-viewport feet. It does not inherit canonical-03's scale; its authored15% entry clearance accommodates calibrated14.4% width while global safeguards remain. Existing two household variants now compose full standing bodies/contact and correct table depth. Other unsupported scene/pose and press rules stay intact; no World or B/C semantic change.
+
+## REST37-N — recovery and supported legislative term boundary (2026-09-14)
+
+| Contract                                    | Disposition            | Evidence and limit                                                                                                                                               |
+| ------------------------------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Frozen semantics and shared election engine | Preserved              | Same direct result resolver/closure, support arithmetic untouched; new recorded receiver consumes supplied inputs only.                                          |
+| Clock and office authority                  | Reconciled             | Existing expected/active/ended work plus paired future-due entry/expiry; result alone is insufficient; no new World store/schema.                                |
+| Rival and changed-office continuity         | Rechecked              | Actual result winner, independent sourced eligibility/alive check, ended pending entry refusal and action-time stale-seat refusal. Historical work is retained.  |
+| Residence and control                       | Preserved              | No movement, household relocation or controlled-person replacement is authored by these transitions.                                                             |
+| S collections and scopes                    | Preserved by adapter   | Patch against the current prepared S reader changes election evidence only; keeps its collection/scope/ambiguity functions. S consumer remains separately owned. |
+| Legacy and missingness                      | Explicit               | Old undated work is not relabelled as a sourced term. Only exact admitted KY keys receive new dated work; missing district cannot identify a chamber-wide seat.  |
+| National obligations                        | Separate               | Existing allocation/count/qualification receivers retain explicit missing producer inputs; legislative continuity supplies none of those inputs.                 |
+| Acceptance                                  | Bounded software proof | Fixture office proof is distinct from ordinary result production, installed delivery and human visual acceptance.                                                |
+
+LEARN: run the ordinary cold-import route as well as feature fixtures when a
+registry joins World integrity or clock readers. Source-certified browser runs
+must freeze all identity inputs until teardown; editing during a passing walk
+invalidates that receipt. The smallest controls are lazy registry construction,
+the ordinary route regression and the existing source-digest gate.

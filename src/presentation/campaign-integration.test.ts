@@ -1,3 +1,4 @@
+import { enterSupportedTerm } from "../../tests/fixtures/recorded-legislative-term";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -139,7 +140,10 @@ describe("a state office does not move its winner's home", () => {
       );
     }
     expect(projectCampaign(world, life.personId).phase).toBe("won");
-    world = deserializeWorld(serializeWorld(world));
+    expect(resolvePlayerCapabilities(world).legislation).toBe(false);
+    world = deserializeWorld(
+      serializeWorld(enterSupportedTerm(world, life.personId)),
+    );
     expect(world.people[life.personId]!.homeJurisdictionId).toBe(
       residence.context.jurisdiction.id,
     );
