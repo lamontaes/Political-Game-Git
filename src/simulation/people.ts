@@ -13,6 +13,7 @@ import {
   getNameCorpus,
 } from "./names-data";
 import { derivePersonAppearance } from "./person-appearance";
+import { requireStartingBirthday } from "./starting-birthday";
 import { SeededRng } from "./rng";
 import type {
   EducationFact,
@@ -548,6 +549,14 @@ export interface StartingPersonInput {
    * than filled in from the name that was just drawn.
    */
   readonly identity?: PersonIdentity;
+  /**
+   * Birthday month and day the player named, when they named both.
+   *
+   * Absent keeps the seeded anniversary so old setups and saved people keep
+   * the birth dates they already have. Both must be present together.
+   */
+  readonly birthMonth?: number;
+  readonly birthDay?: number;
 }
 
 /**
@@ -615,20 +624,36 @@ export function createStartingPerson(input: StartingPersonInput): Person {
     input.givenName?.trim() || statedGivenName || drawnGivenName;
   const familyName = input.familyName?.trim() || drawnFamilyName;
 
-  const month = rng.integer(1, 13);
-  const maxDay = daysInMonth(yearOf(input.currentDate) - input.age, month);
-  const day = rng.integer(1, maxDay + 1);
-  const currentMonth = Number(input.currentDate.slice(5, 7));
-  const currentDay = Number(input.currentDate.slice(8, 10));
-  const birthdayPassedOrToday =
-    month < currentMonth || (month === currentMonth && day <= currentDay);
-  const birthDate = birthDateForSelectedAge(
-    input.currentDate,
-    input.age,
-    yearOf(input.currentDate) - input.age - (birthdayPassedOrToday ? 0 : 1),
-    month,
-    day,
-  );
+  const namedBirthday =
+    input.birthMonth !== undefined || input.birthDay !== undefined;
+  const birthDate = namedBirthday
+    ? requireStartingBirthday({
+        currentDate: input.currentDate,
+        startAge: input.age,
+        birthMonth: input.birthMonth as number,
+        birthDay: input.birthDay as number,
+      })
+    : (() => {
+        const month = rng.integer(1, 13);
+        const maxDay = daysInMonth(
+          yearOf(input.currentDate) - input.age,
+          month,
+        );
+        const day = rng.integer(1, maxDay + 1);
+        const currentMonth = Number(input.currentDate.slice(5, 7));
+        const currentDay = Number(input.currentDate.slice(8, 10));
+        const birthdayPassedOrToday =
+          month < currentMonth || (month === currentMonth && day <= currentDay);
+        return birthDateForSelectedAge(
+          input.currentDate,
+          input.age,
+          yearOf(input.currentDate) -
+            input.age -
+            (birthdayPassedOrToday ? 0 : 1),
+          month,
+          day,
+        );
+      })();
 
   const appearance = derivePersonAppearance(
     id,
