@@ -114,6 +114,8 @@ function playAdultLife(
       situationKey: life.scene.situationKey,
       optionKey: option.key,
     });
+    // This multi-week fixture explicitly waits; an answer itself is free.
+    world = letAdultTimePass(world);
   }
   return { world, sequence };
 }

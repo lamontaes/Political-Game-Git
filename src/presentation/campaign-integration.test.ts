@@ -88,7 +88,7 @@ describe("every adult story route carries the world's pending election", () => {
         next,
         campaignForCandidate(next, life.personId)!.contestId,
       ),
-    ).toBeUndefined();
+    ).toBeNull();
     expectResolvedOnce(
       next,
       letStoryTimePass(next, life.personId),
@@ -125,7 +125,7 @@ describe("every adult story route carries the world's pending election", () => {
         next,
         campaignForCandidate(next, life.personId)!.contestId,
       ),
-    ).toBeUndefined();
+    ).toBeNull();
     expectResolvedOnce(
       next,
       letStoryTimePass(next, life.personId),

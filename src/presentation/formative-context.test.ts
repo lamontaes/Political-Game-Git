@@ -418,6 +418,8 @@ describe("Spending each band's budget inside that band", () => {
             withPersonId: scene.withPersonId,
           })
         : letTimePass(current, playerPersonId);
+      // Each counted childhood anchor includes an explicitly chosen wait.
+      if (scene) current = letTimePass(current, playerPersonId);
     }
     return anchors;
   }
@@ -428,8 +430,9 @@ describe("Spending each band's budget inside that band", () => {
     adolescence: 8,
   };
 
-  it("gives every fully lived band at least the anchors it was budgeted", () => {
-    for (const seed of ["pace-a", "pace-b", "pace-c", "pace-d", "pace-e"]) {
+  it.each(["pace-a", "pace-b", "pace-c", "pace-d", "pace-e"])(
+    "gives every fully lived band its budgeted anchors in %s",
+    (seed) => {
       const anchors = playThrough(seed);
       // Early childhood is entered part-way through by a character who starts
       // at five, so its budget is not owed in full; the two bands lived from
@@ -446,8 +449,8 @@ describe("Spending each band's budget inside that band", () => {
           atLeast: (anchors[band] ?? 0) >= minimum,
         }).toEqual({ seed, band, atLeast: true });
       }
-    }
-  });
+    },
+  );
 
   it("never lets a step cross out of the band that sized it", () => {
     const { world, playerPersonId } = child(5, "boundary");
@@ -459,14 +462,15 @@ describe("Spending each band's budget inside that band", () => {
       if ((guard += 1) > 400) throw new Error("The years never ended.");
       const projection = projectFormativeYears(current, playerPersonId);
       const scene = projection.scene;
-      const next = scene
+      const answered = scene
         ? chooseFormativeOption(current, {
             personId: playerPersonId,
             situationKey: scene.situationKey,
             optionKey: scene.options[0]!.key,
             withPersonId: scene.withPersonId,
           })
-        : letTimePass(current, playerPersonId);
+        : current;
+      const next = letTimePass(answered, playerPersonId);
       // Landing exactly on the boundary is right; landing past it is the
       // defect, because those days belonged to the next band's budget.
       expect(next.currentDate <= interval.endsAt).toBe(true);
