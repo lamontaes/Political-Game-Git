@@ -22,10 +22,10 @@ defect than the one it was aimed at.
 
 ## Repetition
 
-- 2644 templates, 2477 distinct texts.
-- 35 exact duplicate groups.
-- 44 normalized duplicate groups.
-- 20 near-duplicate clusters (Jaccard ≥ 0.72).
+- 2699 templates, 2528 distinct texts.
+- 38 exact duplicate groups.
+- 47 normalized duplicate groups.
+- 23 near-duplicate clusters (Jaccard ≥ 0.72).
 
 Exact duplicate text at two semantic locations is not itself a defect: each
 keeps its own ID, and two banks may legitimately both offer "Say nothing".
@@ -41,6 +41,7 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `out of the` | 16 | 5 |
 | `you tell you` | 16 | 1 |
 | `asked you to` | 15 | 4 |
+| `is not a` | 15 | 6 |
 | `a long time` | 14 | 4 |
 | `the player asked` | 14 | 1 |
 | `existing saves are` | 13 | 1 |
@@ -57,8 +58,7 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `the bill is` | 11 | 2 |
 | `the two of you` | 11 | 3 |
 | `two of you` | 11 | 3 |
-| `is not a` | 10 | 3 |
-| `is on the` | 10 | 6 |
+| `you want to` | 11 | 5 |
 
 ### Most repeated sentence openings
 
@@ -74,10 +74,10 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `you asked for` | 9 |
 | `you put the` | 8 |
 | `you took the` | 8 |
+| `the bill has` | 7 |
 | `you said you` | 7 |
 | `you told them` | 7 |
 | `you told you` | 7 |
 | `ask for a` | 6 |
-| `it is not` | 6 |
 
 Every finding with its exact semantic ID is in `lint-findings.json`.

@@ -61,6 +61,9 @@ export const KENTUCKY_LEXINGTON_REGRESSION = {
   place: "Lexington",
 } as const;
 
+/** Alias kept for office-onboarding ordinary-route proofs. */
+export const KENTUCKY_REGRESSION_HOMETOWN = KENTUCKY_LEXINGTON_REGRESSION;
+
 /** Opens the creator and stops at the first stage. */
 export async function openCreator(page: Page): Promise<void> {
   await page.getByTestId("new-game").click();

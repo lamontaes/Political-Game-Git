@@ -29,6 +29,7 @@ import type {
   World,
 } from "../simulation";
 import { applyLegislativeStep } from "./legislation-session";
+import { resolveActiveMemberSeat } from "./legislative-member-seat";
 
 /**
  * Legislative work, inside the player's own save.
@@ -110,7 +111,13 @@ export function openLegislativeWork(
   if (existing) {
     return {
       world,
-      assignment: assignmentFor(world, blueprint, existing.id, sponsorPersonId),
+      assignment: assignmentFor(
+        world,
+        blueprint,
+        existing.id,
+        sponsorPersonId,
+        input.playerPersonId,
+      ),
     };
   }
 
@@ -160,7 +167,13 @@ export function openLegislativeWork(
   );
   return {
     world: next,
-    assignment: assignmentFor(next, blueprint, measureId, sponsorPersonId),
+    assignment: assignmentFor(
+      next,
+      blueprint,
+      measureId,
+      sponsorPersonId,
+      input.playerPersonId,
+    ),
   };
 }
 
@@ -229,6 +242,7 @@ function assignmentFor(
   blueprint: LegislativeBlueprint,
   measureId: EntityId,
   sponsorPersonId: EntityId,
+  playerPersonId: EntityId,
 ): LegislativeAssignment {
   return {
     scenarioKey: blueprint.scenarioKey,
@@ -239,7 +253,7 @@ function assignmentFor(
     procedure: {
       pack: blueprint.pack,
       measureId,
-      bodies: seatBodies(world, blueprint, sponsorPersonId),
+      bodies: seatBodies(world, blueprint, sponsorPersonId, playerPersonId),
       committeeMemberCount:
         blueprint.pack.chambers[0]?.committees[0]?.appointedMembers ?? 7,
       votePlan: blueprint.votePlan,
@@ -252,31 +266,63 @@ function assignmentFor(
 /**
  * Seats the chambers against this world.
  *
- * Only the sponsoring member is a canonical person here, because only the
- * sponsor is somebody this world has actually met. The rest of the seats are
- * authored — a vote record needs a body, not a cast — and the vote writer
- * refuses a disposition naming somebody the world does not contain, which is
- * exactly the check that would have caught a scenario's people being voted in
- * a save they were never part of.
+ * Named people are only those this world actually contains: the live member
+ * when they sit in that chamber, and the filing sponsor on the origin floor.
+ * The remaining seats stay authored. A vote writer still refuses a disposition
+ * naming somebody the world does not contain.
  */
 function seatBodies(
   world: World,
   blueprint: LegislativeBlueprint,
   sponsorPersonId: EntityId,
+  playerPersonId: EntityId,
 ): readonly SeatedBody[] {
-  const sponsor = world.people[sponsorPersonId];
-  const linked = sponsor
-    ? [{ personId: sponsor.id, name: personName(sponsor) }]
-    : [];
-  return blueprint.pack.chambers.map((chamber, index) =>
+  const originChamberKey = blueprint.pack.chambers[0]?.chamberKey;
+  return blueprint.pack.chambers.map((chamber) =>
     seatBodyForPack(
       chamber.chamberKey,
       chamber.name,
       authoredScenarioSeatCount(blueprint.pack, chamber.chamberKey),
-      index === 0 ? linked : [],
+      linkedPeopleForChamber(world, {
+        chamberKey: chamber.chamberKey,
+        originChamberKey,
+        sponsorPersonId,
+        playerPersonId,
+      }),
       blueprint.nonpartisan,
     ),
   );
+}
+
+function linkedPeopleForChamber(
+  world: World,
+  input: {
+    readonly chamberKey: string;
+    readonly originChamberKey: string | undefined;
+    readonly sponsorPersonId: EntityId;
+    readonly playerPersonId: EntityId;
+  },
+): readonly { readonly personId: EntityId; readonly name: string }[] {
+  const linked: { personId: EntityId; name: string }[] = [];
+  const seen = new Set<EntityId>();
+  const push = (personId: EntityId) => {
+    if (seen.has(personId)) return;
+    const person = world.people[personId];
+    if (!person) return;
+    seen.add(personId);
+    linked.push({ personId: person.id, name: personName(person) });
+  };
+  const membership = resolveActiveMemberSeat(world, input.playerPersonId);
+  if (
+    membership.kind === "seated" &&
+    membership.seat.chamberKey === input.chamberKey
+  ) {
+    push(input.playerPersonId);
+  }
+  if (input.chamberKey === input.originChamberKey) {
+    push(input.sponsorPersonId);
+  }
+  return linked;
 }
 
 /** An adult old enough to be seated. No other claim is made about them. */

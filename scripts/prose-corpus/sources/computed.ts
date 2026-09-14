@@ -519,6 +519,100 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
       },
     ],
   },
+  {
+    sourcePath: "src/player/OfficeOnboardingWorkspace.tsx",
+    domain: "legislative",
+    bank: "office-onboarding-workspace",
+    symbols: [
+      "OfficeOnboardingWorkspace",
+      "savePreferences",
+      "saveInstruction",
+    ],
+    surface: "status",
+    reachability: "PLAYER_REACHABLE",
+    reachabilityReason:
+      "The ordinary Work office route mounts this panel for a seated member. Radios stage a choice; Record commits it.",
+    grounding: [
+      {
+        key: "office-workflow-preference",
+        description:
+          "The live office relationship, recorded voting and casework modes, and whether a standing instruction is on file.",
+      },
+      {
+        key: "office-staff-briefing",
+        description:
+          "Actual legislative-staff employment records and known public or recorded items on the selected measure.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/presentation/office-onboarding.ts",
+    domain: "legislative",
+    bank: "office-onboarding-briefing",
+    symbols: [
+      "OFFICE_VOTING_CHOICES",
+      "OFFICE_CASEWORK_CHOICES",
+      "OFFICE_INSTRUCTION_CHOICES",
+      "projectStaffBriefing",
+      "emptyBriefing",
+      "resolveStaffEventAccess",
+      "projectOfficeOnboarding",
+    ],
+    surface: "status",
+    reachability: "PLAYER_REACHABLE",
+    reachabilityReason:
+      "OfficeOnboardingWorkspace renders these workflow labels, briefing summaries and knowledge refusals on the seated-member office route.",
+    grounding: [
+      {
+        key: "active-member-seat",
+        description:
+          "resolveActiveMemberSeat identity: person, office relationship, chamber and organization.",
+      },
+      {
+        key: "staff-event-access",
+        description:
+          "A public filing or a recorded staff knowledge row, attributed to its origin event. Missing and private records stay unavailable; accuracy is not a player verdict.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/presentation/office-vote-instruction.ts",
+    domain: "legislative",
+    bank: "office-vote-instruction",
+    symbols: ["evaluateOfficeVoteInstruction"],
+    surface: "status",
+    reachability: "PLAYER_REACHABLE",
+    reachabilityReason:
+      "The office panel shows an armed or refused standing-instruction status. An armed result is not a vote.",
+    grounding: [
+      {
+        key: "office-vote-instruction",
+        description:
+          "The saved instruction bound to actor, office, chamber, measure and measure text version.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/simulation/office-workflow.ts",
+    domain: "legislative",
+    bank: "office-workflow-writes",
+    symbols: [
+      "recordOfficeWorkflowPreference",
+      "recordOfficeVoteInstruction",
+      "recordOfficeBriefingInspection",
+    ],
+    surface: "status",
+    reachability: "PLAYER_REACHABLE",
+    reachabilityReason:
+      "The office panel displays these refusals when Record or a standing instruction cannot be written.",
+    grounding: [
+      {
+        key: "office-workflow-write",
+        description:
+          "The person, live office work relationship, selected measure and current recorded preference.",
+      },
+    ],
+  },
 ];
 
 /** Is this literal a sentence a player reads, or machinery? */
