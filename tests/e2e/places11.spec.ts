@@ -10,7 +10,7 @@ test("child sees already-home refusal, walks nearby, and reports arrival", async
   page,
 }) => {
   await page.goto("/?seed=places11-child-walk");
-  await startLife(page, { age: 10, place: "Lexington" });
+  await startLife(page, { age: 10, place: "Lexington", state: "Kentucky" });
   await enterLife(page);
   await goTo(page, "nav-places");
 
@@ -46,7 +46,7 @@ test("child sees already-home refusal, walks nearby, and reports arrival", async
 
 test("capture Places evidence screenshots", async ({ page }) => {
   await page.goto("/?seed=places11-child-walk");
-  await startLife(page, { age: 10, place: "Lexington" });
+  await startLife(page, { age: 10, place: "Lexington", state: "Kentucky" });
   await enterLife(page);
   await goTo(page, "nav-places");
   await page.screenshot({
@@ -69,7 +69,7 @@ test("capture Places evidence screenshots", async ({ page }) => {
 
 test("Places reads preserve World across save and reload", async ({ page }) => {
   await page.goto("/?seed=places11-save");
-  await startLife(page, { age: 10, place: "Lexington" });
+  await startLife(page, { age: 10, place: "Lexington", state: "Kentucky" });
   await enterLife(page);
   await goTo(page, "nav-places");
   await page.getByTestId("places-offer-walk-neighborhood-action").click();
@@ -85,7 +85,7 @@ test("Places reads preserve World across save and reload", async ({ page }) => {
 
 test("keyboard closes Places without traveling", async ({ page }) => {
   await page.goto("/?seed=places11-keyboard");
-  await startLife(page, { age: 10, place: "Lexington" });
+  await startLife(page, { age: 10, place: "Lexington", state: "Kentucky" });
   await enterLife(page);
   await goTo(page, "nav-places");
   await page.getByTestId("places-workspace-close").click();

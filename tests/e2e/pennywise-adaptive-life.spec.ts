@@ -75,6 +75,8 @@ async function openSetup(
   household?: "lives-alone" | "shares-a-home",
 ) {
   await walkCreator(page, {
+    place: "Lexington",
+    state: "Kentucky",
     age,
     calibration: calibration === "skip" ? "skipped" : calibration,
     // Pinning who is at home takes the custom route, which is where a test that
@@ -219,7 +221,11 @@ test.describe("The calibration is a set of situations, not a quiz", () => {
     await page.getByTestId("start-normal").click();
     await page.getByTestId("start-age").fill("31");
     await page.getByTestId("creator-continue-character").click();
-    await chooseCreatorLocation(page, { age: 31, place: "Lexington" }, false);
+    await chooseCreatorLocation(
+      page,
+      { age: 31, place: "Lexington", state: "Kentucky" },
+      false,
+    );
 
     await expect(page.getByTestId("creator-stage-whoareyou")).toBeVisible();
     const answer = await page.getByTestId("whoareyou-answer").innerText();
@@ -388,7 +394,7 @@ test.describe("A life is kept, and comes back adapting the same way", () => {
     // rebuilds the game it came from — so the address is now taken from a
     // setup that is complete when it is taken.
     await freshBrowser(page);
-    await fillCreator(page, { age: 28 });
+    await fillCreator(page, { place: "Lexington", state: "Kentucky", age: 28 });
     const replay = (
       (await page.getByTestId("setup-replay-link").textContent()) ?? ""
     ).trim();

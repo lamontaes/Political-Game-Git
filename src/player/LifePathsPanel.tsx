@@ -25,6 +25,7 @@ import {
   recruitLifePathPerson,
   scheduleLifePathSession,
   settleStudyTuition,
+  hasLifePathStudyHistory,
 } from "../simulation/life-paths2";
 import type { LifePathResult } from "../simulation/life-paths2";
 import {
@@ -241,7 +242,10 @@ export function LifePathsPanel({
       <h3>Your paths</h3>
       {world.history.educationEnrollments
         .filter(
-          (e) => e.personId === actor && !pathForRelationship(world, e.id),
+          (e) =>
+            e.personId === actor &&
+            hasLifePathStudyHistory(world, e.id) &&
+            !pathForRelationship(world, e.id),
         )
         .map((e) => (
           <p key={e.id}>

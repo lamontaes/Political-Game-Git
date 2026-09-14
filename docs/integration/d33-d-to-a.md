@@ -3,6 +3,9 @@
 ## Frozen source boundary
 
 Based on current main `0f81acb6fa430c540a61a884cf4ff4ca850307f0`.
+Initial frozen source `aaabe9f683951886a1f493465afad44b8a6a15f6` was proved
+before the accepted public geography landing; the corrected isolated receiver
+includes fetched current main `94dfc1afa16d09a511d87aa5fbd508da3bda6b20`.
 Source branch `codex/d33-d-education` in the reused isolated D workspace.
 The consumed #221/#204/#205 successor is preserved, not rebuilt or reopened.
 A owns main and the Personal root; this return changes no `PlayerGame` mount,
@@ -52,6 +55,16 @@ Four ordinary browser tests at 1440×900 and 1200×720 are prepared and await th
 frozen source receipt: existing work/pay/period/Attend journey/reload plus edited
 45-day grace, unpaid study pause, wage continuation, earned-cash payment/resume.
 No World injection is used. A's browser slot has ended and D owns the next slot.
+
+Initial clean `aaabe9f6` browser run `d33-d-aaabe9f6` ended: two combined
+work/pay/study/Attend journey/reload cases pass; two new tuition cases fail only
+the final whole-history enrollment-count assertion after actual funded completion.
+Earlier schooling correctly remains in the life. Corrected assertions retain all
+old enrollment records and check the accepted ID exactly once. Visual correction
+limits unsupported study labels to this adapter's actual accepted/legacy records;
+it never flags unrelated earlier schooling or removes history. Authored duration
+now states its actual simulated-day minimum and uses singular period grammar.
+The correction/current-main browser sequence remains pending until its receipt.
 
 ## Remaining / acceptance
 

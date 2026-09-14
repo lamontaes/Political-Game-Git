@@ -13,7 +13,7 @@ test("Today links into Work instead of carrying it, and reading them costs no ti
   page,
 }) => {
   await page.goto("/?seed=pt3-owner-22");
-  await startLife(page, { age: 22, place: "Lexington" });
+  await startLife(page, { age: 22, place: "Lexington", state: "Kentucky" });
   await enterLife(page);
 
   // The menu, opened from the keyboard, is grouped and has no duplicate route

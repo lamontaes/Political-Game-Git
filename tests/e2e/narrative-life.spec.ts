@@ -73,7 +73,12 @@ function watchForErrors(page: Page): string[] {
 }
 
 async function startLife(page: Page, age: number, childhood = false) {
-  await walkCreator(page, { age, childhood });
+  await walkCreator(page, {
+    place: "Lexington",
+    state: "Kentucky",
+    age,
+    childhood,
+  });
   await expect(page.getByTestId("play-screen")).toBeVisible();
   await enterLife(page);
 }
@@ -509,7 +514,12 @@ test.describe("The calibration opens a life", () => {
     page,
   }) => {
     await freshBrowser(page);
-    await walkCreator(page, { age: 30, calibration: "deep" });
+    await walkCreator(page, {
+      place: "Lexington",
+      state: "Kentucky",
+      age: 30,
+      calibration: "deep",
+    });
 
     await expect(page.getByTestId("questionnaire-screen")).toBeVisible();
     const first = await page.getByTestId("questionnaire-prompt").innerText();
@@ -545,7 +555,12 @@ test.describe("The calibration opens a life", () => {
     // at no point is the player shown how many are left — a phase, never a
     // fraction.
     await freshBrowser(page);
-    await walkCreator(page, { age: 30, calibration: "short" });
+    await walkCreator(page, {
+      place: "Lexington",
+      state: "Kentucky",
+      age: 30,
+      calibration: "short",
+    });
 
     let asked = 0;
     for (; asked < 80; asked += 1) {

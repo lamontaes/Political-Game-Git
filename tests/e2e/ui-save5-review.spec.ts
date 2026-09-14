@@ -12,7 +12,12 @@ test("current normal scene and saved-person dossier remain available for owner r
   page,
 }, info) => {
   await page.goto("/?seed=ui-save5-owner-review");
-  await startLife(page, { age: 34, household: "shares-a-home" });
+  await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
+    age: 34,
+    household: "shares-a-home",
+  });
   await enterLife(page);
   await saveLife(page);
   await page.getByTestId("shell-nav-cluster").click();
@@ -67,7 +72,12 @@ test("the rest of the named owner visual set renders on a normal start", async (
   });
 
   await page.goto("/?seed=ui-finish8-owner-visuals");
-  await startLife(page, { age: 38, route: "normal" });
+  await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
+    age: 38,
+    route: "normal",
+  });
   await enterLife(page);
 
   await openElsewhere(page, "work");

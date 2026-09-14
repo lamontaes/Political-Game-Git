@@ -131,8 +131,12 @@ for (const viewport of [
     );
     await saveLife(page);
     const paid = await readSavedLegislativeWorld(page);
-    expect(paid.history.educationEnrollments).toHaveLength(1);
-    expect(paid.history.educationEnrollments[0]!.id).toBe(enrollment.id);
+    expect(paid.history.educationEnrollments).toEqual(
+      accepted.history.educationEnrollments,
+    );
+    expect(
+      paid.history.educationEnrollments.filter((e) => e.id === enrollment.id),
+    ).toHaveLength(1);
     const tuitionFlows = new Set(
       paid.history.resourceFlows
         .filter((f) => f.basisKind === "obligation:tuition")

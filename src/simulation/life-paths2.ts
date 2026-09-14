@@ -240,6 +240,26 @@ export function pathForRelationship(
       )
     : undefined;
 }
+/** Distinguish this adapter's study agreements from unrelated earlier schooling. */
+export function hasLifePathStudyHistory(
+  world: World,
+  enrollmentId: EntityId,
+): boolean {
+  const enrollment = world.history.educationEnrollments.find(
+    (e) => e.id === enrollmentId,
+  );
+  const initial = world.history.educationEnrollmentStates.find(
+    (s) => s.enrollmentId === enrollmentId,
+  );
+  return (
+    !!enrollment &&
+    (hasAcceptedEducationTermRecord(world, enrollmentId) ||
+      ["program:life-paths2-v1", "program:life-paths2-v2"].includes(
+        initial?.contextKind ?? "",
+      ) ||
+      enrollment.programKind.startsWith("postsecondary:edu-path7-"))
+  );
+}
 export function enterLifePath(
   world: World,
   pathId: string,

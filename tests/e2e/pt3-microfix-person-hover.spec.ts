@@ -30,7 +30,8 @@ test("person hover stays transparent while pointer and keyboard activation work"
   await freshBrowser(page);
   await startLife(page, {
     age: 34,
-    place: "Kentucky",
+    place: "Lexington",
+    state: "Kentucky",
     household: "shares-a-home",
   });
 

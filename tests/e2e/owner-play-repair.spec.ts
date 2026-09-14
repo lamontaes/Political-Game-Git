@@ -170,7 +170,12 @@ test.describe("the opening is one continuous presentation", () => {
     page,
   }) => {
     await freshBrowser(page);
-    await startLife(page, { age: 34, place: "Kentucky", gender: "male" });
+    await startLife(page, {
+      age: 34,
+      place: "Lexington",
+      state: "Kentucky",
+      gender: "male",
+    });
     await enterLife(page);
 
     const geometry = async () =>
@@ -201,7 +206,12 @@ test.describe("the life the player asked for is the life they get", () => {
   }) => {
     await freshBrowser(page);
     // Male, both names left blank — the exact owner-play input.
-    await startLife(page, { age: 34, place: "Kentucky", gender: "male" });
+    await startLife(page, {
+      age: 34,
+      place: "Lexington",
+      state: "Kentucky",
+      gender: "male",
+    });
     await expect(page.getByTestId("play-screen")).toBeVisible();
 
     // The introduction names family members, not the player. Read the
@@ -216,7 +226,12 @@ test.describe("the life the player asked for is the life they get", () => {
     page,
   }) => {
     await freshBrowser(page);
-    await startLife(page, { age: 34, place: "Kentucky", gender: "male" });
+    await startLife(page, {
+      age: 34,
+      place: "Lexington",
+      state: "Kentucky",
+      gender: "male",
+    });
     // The introduction opens on the world, then the household; the grounding
     // is the household beat's, and it still comes before the first choice.
     await page.getByTestId("introduction-continue").click();
@@ -250,7 +265,12 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     page,
   }) => {
     await freshBrowser(page);
-    await startLife(page, { age: 34, place: "Lexington", gender: "male" });
+    await startLife(page, {
+      age: 34,
+      place: "Lexington",
+      state: "Kentucky",
+      gender: "male",
+    });
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await enterLife(page);
     // PT3: running for office is in Work, not stacked under the day.
@@ -267,7 +287,12 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     page,
   }) => {
     await freshBrowser(page);
-    await startLife(page, { age: 34, place: "Lexington", gender: "male" });
+    await startLife(page, {
+      age: 34,
+      place: "Lexington",
+      state: "Kentucky",
+      gender: "male",
+    });
     await enterLife(page);
     await openElsewhere(page, "work");
 
@@ -291,7 +316,12 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     page,
   }) => {
     await freshBrowser(page);
-    await startLife(page, { age: 34, place: "Lexington", gender: "male" });
+    await startLife(page, {
+      age: 34,
+      place: "Lexington",
+      state: "Kentucky",
+      gender: "male",
+    });
     await enterLife(page);
     await openElsewhere(page, "work");
     await fileCandidacy(page);
@@ -350,7 +380,12 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
   }) => {
     test.setTimeout(60_000);
     await freshBrowser(page);
-    await startLife(page, { age: 34, place: "Lexington", gender: "male" });
+    await startLife(page, {
+      age: 34,
+      place: "Lexington",
+      state: "Kentucky",
+      gender: "male",
+    });
     await enterLife(page);
     await openElsewhere(page, "work");
     await fileCandidacy(page);

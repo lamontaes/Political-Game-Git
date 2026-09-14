@@ -149,6 +149,8 @@ test("private Journal intentions, grouped notes, real person links and history b
 }, info) => {
   await page.goto("/?seed=ui-converge4-journal");
   await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
     age: 38,
     route: "custom",
     household: "shares-a-home",
@@ -340,7 +342,11 @@ for (const place of ["Lexington, Kentucky", "Carson City, Nevada"]) {
     page,
   }) => {
     await page.goto("/?seed=ui-converge4-economics");
-    await startLife(page, { age: 38, place, route: "normal" });
+    await startLife(page, {
+      age: 38,
+      place,
+      route: "normal",
+    });
     await enterOpening(page);
     await save(page);
     const initial = await savedWorld(page);
