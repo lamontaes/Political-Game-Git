@@ -17,6 +17,7 @@ import {
   simulateCalendarDays,
 } from "./calendar-time-control";
 import { projectPersonContact } from "./person-contact";
+import { openConversationWith } from "./person-conversation-entry";
 import { createNewGameWorld } from "./new-game";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 import { venueActivities } from "./venue-activity";
@@ -107,8 +108,39 @@ describe("PLAYTEST34 C contracts", () => {
     } else {
       expect(contact.travel.reason).toMatch(/location|pin/i);
     }
-    if (playerPlace && theirPlace) {
+    if (playerPlace && theirPlace && playerPlace.label !== theirPlace.label) {
       expect(contact.travel.reason).toContain(playerPlace.label);
+      expect(contact.travel.reason).not.toMatch(/both recorded/i);
+    }
+  });
+
+  it("lets Talk follow openConversationWith outside an opening scene", () => {
+    const created = createExplicitGeographyLife({
+      placeKey: "lexington-fayette",
+      seed: "pt34-c-talk-gate",
+      startAge: 16,
+      household: "shares-a-home",
+    });
+    const world = created.game.world;
+    const playerId = created.game.playerPersonId;
+    expect(currentOpeningLifeScene(world, playerId)).toBeNull();
+    const other = Object.keys(world.people).find((id) => id !== playerId)!;
+    const entry = openConversationWith(world, playerId, other);
+    const contact = projectPersonContact(world, playerId, other);
+    expect(contact.talk.available).toBe(entry.kind === "available");
+    expect(contact.presentNow).toBe(false);
+    expect(contact.contact.available).toBe(false);
+    expect(contact.travel.available).toBe(false);
+    const playerPlace = openingLifeLocation(world, playerId);
+    const theirPlace = openingLifeLocation(world, other);
+    if (
+      playerPlace &&
+      theirPlace &&
+      playerPlace.jurisdictionId !== null &&
+      playerPlace.jurisdictionId === theirPlace.jurisdictionId &&
+      playerPlace.label !== theirPlace.label
+    ) {
+      expect(contact.travel.reason).not.toMatch(/both recorded/i);
     }
   });
 
