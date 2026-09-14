@@ -1,9 +1,9 @@
 {
   "counts": {
     "INVENTORIED": 2457,
-    "INTENTIONALLY_NON_PLAYER_FACING": 5889,
-    "DIAGNOSTIC_OR_TEST": 5252,
-    "NEEDS_CLASSIFICATION": 6563
+    "INTENTIONALLY_NON_PLAYER_FACING": 5898,
+    "DIAGNOSTIC_OR_TEST": 5317,
+    "NEEDS_CLASSIFICATION": 6596
   },
   "needsClassification": [
     {
@@ -3096,16 +3096,8 @@
     },
     {
       "sourcePath": "src/player/ExecutiveWorkWorkspace.tsx",
-      "enclosingSymbol": "act",
-      "line": 57,
-      "text": "This action cannot proceed with the current office, records, staff or schedule.",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/player/ExecutiveWorkWorkspace.tsx",
       "enclosingSymbol": "ExecutiveWorkWorkspace",
-      "line": 62,
+      "line": 112,
       "text": "planning-workspace work-pending-workspace",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3113,7 +3105,7 @@
     {
       "sourcePath": "src/player/ExecutiveWorkWorkspace.tsx",
       "enclosingSymbol": "ExecutiveWorkWorkspace",
-      "line": 63,
+      "line": 113,
       "text": "Executive work",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3121,15 +3113,15 @@
     {
       "sourcePath": "src/player/ExecutiveWorkWorkspace.tsx",
       "enclosingSymbol": "ExecutiveWorkWorkspace",
-      "line": 82,
-      "text": "This action cannot proceed with the current office, records, staff or schedule.",
+      "line": 152,
+      "text": "Recorded office statements",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/player/IncidentResponsePanel.tsx",
       "enclosingSymbol": "act",
-      "line": 62,
+      "line": 65,
       "text": "Action unavailable.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3137,7 +3129,7 @@
     {
       "sourcePath": "src/player/IncidentResponsePanel.tsx",
       "enclosingSymbol": "IncidentResponsePanel",
-      "line": 66,
+      "line": 69,
       "text": "Incident response",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5137,7 +5129,7 @@
     {
       "sourcePath": "src/player/PressInterviewPanel.tsx",
       "enclosingSymbol": "INTENT_COPY",
-      "line": 35,
+      "line": 36,
       "text": "Answer directly",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5145,7 +5137,7 @@
     {
       "sourcePath": "src/player/PressInterviewPanel.tsx",
       "enclosingSymbol": "INTENT_COPY",
-      "line": 36,
+      "line": 37,
       "text": "Respond to the question as asked.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5153,7 +5145,7 @@
     {
       "sourcePath": "src/player/PressInterviewPanel.tsx",
       "enclosingSymbol": "INTENT_COPY",
-      "line": 39,
+      "line": 40,
       "text": "Add context",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5161,7 +5153,7 @@
     {
       "sourcePath": "src/player/PressInterviewPanel.tsx",
       "enclosingSymbol": "INTENT_COPY",
-      "line": 40,
+      "line": 41,
       "text": "Answer while making an important limit or distinction explicit.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5169,7 +5161,7 @@
     {
       "sourcePath": "src/player/PressInterviewPanel.tsx",
       "enclosingSymbol": "INTENT_COPY",
-      "line": 43,
+      "line": 44,
       "text": "Challenge the premise",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5177,7 +5169,7 @@
     {
       "sourcePath": "src/player/PressInterviewPanel.tsx",
       "enclosingSymbol": "INTENT_COPY",
-      "line": 44,
+      "line": 45,
       "text": "State what is unsupported before giving the grounded answer.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5185,7 +5177,7 @@
     {
       "sourcePath": "src/player/PressInterviewPanel.tsx",
       "enclosingSymbol": "PressInterviewPanel",
-      "line": 115,
+      "line": 135,
       "text": "press-interview-panel public-information-panel civic-glass",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5193,7 +5185,7 @@
     {
       "sourcePath": "src/player/PressInterviewPanel.tsx",
       "enclosingSymbol": "PressInterviewPanel",
-      "line": 147,
+      "line": 167,
       "text": "Written questions",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5201,7 +5193,7 @@
     {
       "sourcePath": "src/player/PressInterviewPanel.tsx",
       "enclosingSymbol": "PressInterviewPanel",
-      "line": 163,
+      "line": 183,
       "text": "Close press interview",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5209,7 +5201,7 @@
     {
       "sourcePath": "src/player/PressInterviewPanel.tsx",
       "enclosingSymbol": "PressInterviewPanel",
-      "line": 176,
+      "line": 196,
       "text": "Explain {termsLabel(view.terms)}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5217,7 +5209,7 @@
     {
       "sourcePath": "src/player/PressInterviewPanel.tsx",
       "enclosingSymbol": "PressInterviewPanel",
-      "line": 217,
+      "line": 237,
       "text": "Interview presentation",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5225,7 +5217,7 @@
     {
       "sourcePath": "src/player/PressInterviewPanel.tsx",
       "enclosingSymbol": "PressInterviewPanel",
-      "line": 236,
+      "line": 256,
       "text": "Response intent",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5233,7 +5225,7 @@
     {
       "sourcePath": "src/player/PressInterviewPanel.tsx",
       "enclosingSymbol": "PressInterviewPanel",
-      "line": 359,
+      "line": 405,
       "text": "Close {activeConcept.label} explanation",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5241,7 +5233,7 @@
     {
       "sourcePath": "src/player/PressInterviewPanel.tsx",
       "enclosingSymbol": "termsLabel",
-      "line": 422,
+      "line": 468,
       "text": "On the record",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5249,7 +5241,7 @@
     {
       "sourcePath": "src/player/PressInterviewPanel.tsx",
       "enclosingSymbol": "termsLabel",
-      "line": 423,
+      "line": 469,
       "text": "On background",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5257,7 +5249,7 @@
     {
       "sourcePath": "src/player/PressInterviewPanel.tsx",
       "enclosingSymbol": "termsLabel",
-      "line": 424,
+      "line": 470,
       "text": "Off the record",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5265,7 +5257,7 @@
     {
       "sourcePath": "src/player/PressWorkspace.tsx",
       "enclosingSymbol": "PressWorkspace",
-      "line": 99,
+      "line": 138,
       "text": "Press interviews",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5273,15 +5265,31 @@
     {
       "sourcePath": "src/player/PressWorkspace.tsx",
       "enclosingSymbol": "PressWorkspace",
-      "line": 142,
+      "line": 182,
       "text": "Request recorded. Awaiting the reporter’s response.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/player/PressWorkspace.tsx",
+      "enclosingSymbol": "result",
+      "line": 348,
+      "text": "The reporter asked for comment on “{topic.summary}”.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/PressWorkspace.tsx",
       "enclosingSymbol": "PressWorkspace",
-      "line": 254,
+      "line": 353,
+      "text": "The reporter’s question is recorded. Acceptance is still pending.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/PressWorkspace.tsx",
+      "enclosingSymbol": "PressWorkspace",
+      "line": 365,
       "text": "Your press requests",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -8432,8 +8440,80 @@
     },
     {
       "sourcePath": "src/presentation/executive-work.ts",
+      "enclosingSymbol": "composeExecutiveStatement",
+      "line": 89,
+      "text": "The office signs {input.measureDesignation} as presented.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/executive-work.ts",
+      "enclosingSymbol": "composeExecutiveStatement",
+      "line": 97,
+      "text": "No recorded source-specific objection is selected for this measure.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/executive-work.ts",
+      "enclosingSymbol": "composeExecutiveStatement",
+      "line": 98,
+      "text": "No recorded source-specific instruction is selected for this work.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/executive-work.ts",
+      "enclosingSymbol": "designation",
+      "line": 104,
+      "text": " this measure",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/executive-work.ts",
+      "enclosingSymbol": "composeExecutiveStatement",
+      "line": 107,
+      "text": "The office returns{designation} with objections drawn from the recorded file: {grounds}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/executive-work.ts",
+      "enclosingSymbol": "composeExecutiveStatement",
+      "line": 112,
+      "text": "Staff instruction drawn from the recorded file: {grounds}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/executive-work.ts",
       "enclosingSymbol": "practices",
-      "line": 59,
+      "line": 231,
+      "text": "No recorded source-specific instruction is available for this work.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/executive-work.ts",
+      "enclosingSymbol": "practices",
+      "line": 234,
+      "text": "No recorded source-specific objection is available for this measure.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/executive-work.ts",
+      "enclosingSymbol": "practices",
+      "line": 237,
+      "text": "No presented measure is recorded for signature.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/executive-work.ts",
+      "enclosingSymbol": "practices",
+      "line": 248,
       "text": "Open meeting",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -8441,7 +8521,7 @@
     {
       "sourcePath": "src/presentation/executive-work.ts",
       "enclosingSymbol": "practices",
-      "line": 61,
+      "line": 250,
       "text": "Read the memo",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -8449,7 +8529,7 @@
     {
       "sourcePath": "src/presentation/executive-work.ts",
       "enclosingSymbol": "practices",
-      "line": 63,
+      "line": 252,
       "text": "Schedule follow-up in 7 days",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -8457,7 +8537,7 @@
     {
       "sourcePath": "src/presentation/executive-work.ts",
       "enclosingSymbol": "practices",
-      "line": 64,
+      "line": 253,
       "text": "Continue office work",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13003,6 +13083,182 @@
       "enclosingSymbol": "renderPoseControlPlate",
       "line": 286,
       "text": "<circle cx=\"{fixed(marker.x)}\" cy=\"{fixed(marker.y)}\" r=\"{fixed(contactRadius)}\" fill=\"none\" stroke=\"{CONTACT}\" stroke-width=\"{fixed(boneWidth)}\"/>",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/press-request.ts",
+      "enclosingSymbol": "PRESS_REQUEST_INTENT_COPY",
+      "line": 29,
+      "text": "Request an exchange",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/press-request.ts",
+      "enclosingSymbol": "PRESS_REQUEST_INTENT_COPY",
+      "line": 30,
+      "text": "asks to arrange an exchange",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/press-request.ts",
+      "enclosingSymbol": "PRESS_REQUEST_INTENT_COPY",
+      "line": 33,
+      "text": "Offer a statement",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/press-request.ts",
+      "enclosingSymbol": "PRESS_REQUEST_INTENT_COPY",
+      "line": 34,
+      "text": "offers a statement without adding unrecorded claims",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/press-request.ts",
+      "enclosingSymbol": "PRESS_REQUEST_STANCE_COPY",
+      "line": 45,
+      "text": "Stay with the recorded file",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/press-request.ts",
+      "enclosingSymbol": "PRESS_REQUEST_STANCE_COPY",
+      "line": 46,
+      "text": "will speak only to what the public record already establishes",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/press-request.ts",
+      "enclosingSymbol": "PRESS_REQUEST_STANCE_COPY",
+      "line": 49,
+      "text": "Refuse speculation",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/press-request.ts",
+      "enclosingSymbol": "PRESS_REQUEST_STANCE_COPY",
+      "line": 50,
+      "text": "will not speculate beyond the recorded file",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/press-request.ts",
+      "enclosingSymbol": "PRESS_REQUEST_STANCE_COPY",
+      "line": 53,
+      "text": "Correct an unsupported claim",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/press-request.ts",
+      "enclosingSymbol": "PRESS_REQUEST_STANCE_COPY",
+      "line": 54,
+      "text": "will separate the recorded development from unsupported claims",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/press-request.ts",
+      "enclosingSymbol": "PRESS_ARRANGEMENT_PLACE_COPY",
+      "line": 61,
+      "text": "Written correspondence",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/press-request.ts",
+      "enclosingSymbol": "PRESS_ARRANGEMENT_PLACE_COPY",
+      "line": 62,
+      "text": "Spoken exchange",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/press-request.ts",
+      "enclosingSymbol": "composeBackgroundAttribution",
+      "line": 84,
+      "text": "{article} {title}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/press-request.ts",
+      "enclosingSymbol": "attributionClause",
+      "line": 132,
+      "text": " to be attributed as “{attribution}”",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/press-request.ts",
+      "enclosingSymbol": "composePressRequestPitch",
+      "line": 136,
+      "text": "The source {intent.clause} about “{subject}” on {input.terms} {input.channel} terms{attributionClause} and {stance.clause}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/press-request.ts",
+      "enclosingSymbol": "composeReporterQuestion",
+      "line": 158,
+      "text": "What is established about “{subject}”, and what remains open, on {input.terms} terms?",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/press-request.ts",
+      "enclosingSymbol": "composePressAnswer",
+      "line": 190,
+      "text": "Asked “{followUp}”, the source will not add claims that are not already recorded.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/press-request.ts",
+      "enclosingSymbol": "composePressAnswer",
+      "line": 194,
+      "text": "{fact} That recorded fact does not establish an outcome that has not happened.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/press-request.ts",
+      "enclosingSymbol": "composePressAnswer",
+      "line": 202,
+      "text": "The source does not accept that “{followUp}” is established by the record now in hand.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/press-request.ts",
+      "enclosingSymbol": "composePressAnswer",
+      "line": 206,
+      "text": "The source challenges the premise of “{followUp}”, citing the recorded fact: {correction}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/press-request.ts",
+      "enclosingSymbol": "composePressAnswer",
+      "line": 213,
+      "text": "Asked “{followUp}”, the source answers without treating that question as an established fact.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/press-request.ts",
+      "enclosingSymbol": "composePressAnswer",
+      "line": 217,
+      "text": "Asked “{followUp}”, the source answers from the record: {fact}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -24329,7 +24585,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "actOnExecutiveWork",
-      "line": 323,
+      "line": 324,
       "text": "Choose a represented disposition explicitly.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24337,7 +24593,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "actOnExecutiveWork",
-      "line": 330,
+      "line": 331,
       "text": "The work has not reached the disposition decision.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24345,7 +24601,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "actOnExecutiveWork",
-      "line": 334,
+      "line": 335,
       "text": "This step does not request a player decision.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24353,7 +24609,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "actOnExecutiveWork",
-      "line": 352,
+      "line": 353,
       "text": "A prior review request is still pending.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24361,7 +24617,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "actOnExecutiveWork",
-      "line": 361,
+      "line": 362,
       "text": "The review would fall outside this office term.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24369,7 +24625,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "actOnExecutiveWork",
-      "line": 370,
+      "line": 371,
       "text": "Review deferred work",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24377,7 +24633,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "actOnExecutiveWork",
-      "line": 390,
+      "line": 391,
       "text": "No available staff member is bound to further review.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24385,7 +24641,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "actOnExecutiveWork",
-      "line": 397,
+      "line": 398,
       "text": "The staff engagement is no longer active.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24393,7 +24649,15 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "actOnExecutiveWork",
-      "line": 401,
+      "line": 402,
+      "text": "Staff already has active work; capacity cannot be duplicated.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-work.ts",
+      "enclosingSymbol": "actOnExecutiveWork",
+      "line": 407,
       "text": "Further staff review",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24401,7 +24665,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "actOnExecutiveWork",
-      "line": 422,
+      "line": 428,
       "text": "Deferred review for seven days.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24409,7 +24673,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "actOnExecutiveWork",
-      "line": 423,
+      "line": 429,
       "text": "Requested further staff review.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24417,7 +24681,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "actOnExecutiveWork",
-      "line": 447,
+      "line": 453,
       "text": "Further staff review is not ready.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24425,7 +24689,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "actOnExecutiveWork",
-      "line": 460,
+      "line": 466,
       "text": "An earlier commitment prevents this review.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24433,7 +24697,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "actOnExecutiveWork",
-      "line": 466,
+      "line": 472,
       "text": "Record an instruction before completing this decision.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24441,7 +24705,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "actOnExecutiveWork",
-      "line": 474,
+      "line": 480,
       "text": "The assigned staff work is not ready for review.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24449,7 +24713,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "actOnExecutiveWork",
-      "line": 481,
+      "line": 487,
       "text": "Reviewed the office work.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24457,7 +24721,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "actOnExecutiveWork",
-      "line": 495,
+      "line": 501,
       "text": "An earlier commitment prevents this meeting.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24465,7 +24729,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "actOnExecutiveWork",
-      "line": 503,
+      "line": 509,
       "text": "Write a message before returning the measure.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24473,7 +24737,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "actOnExecutiveWork",
-      "line": 508,
+      "line": 514,
       "text": "Signed by explicit player choice.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24481,7 +24745,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "actOnExecutiveWork",
-      "line": 624,
+      "line": 630,
       "text": "Office action could not be completed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24489,7 +24753,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "cycleHandlers",
-      "line": 639,
+      "line": 645,
       "text": "The originating office term is no longer active.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24497,7 +24761,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "cycleHandlers",
-      "line": 649,
+      "line": 655,
       "text": "An assigned person no longer holds the required office role.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24505,7 +24769,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "cycleHandlers",
-      "line": 662,
+      "line": 668,
       "text": "The originating office work is unavailable.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24513,7 +24777,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "next",
-      "line": 674,
+      "line": 680,
       "text": "Office follow-up",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24521,7 +24785,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "spendExecutiveWorkTime",
-      "line": 716,
+      "line": 722,
       "text": "No current executive office.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24529,7 +24793,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "spendExecutiveWorkTime",
-      "line": 720,
+      "line": 726,
       "text": "This work interval would extend beyond the office term.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24537,7 +24801,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "spendExecutiveWorkTime",
-      "line": 729,
+      "line": 735,
       "text": "A scheduled commitment prevents this work interval.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24545,7 +24809,7 @@
     {
       "sourcePath": "src/simulation/executive-work.ts",
       "enclosingSymbol": "spendExecutiveWorkTime",
-      "line": 734,
+      "line": 740,
       "text": "Work time could not advance.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24817,7 +25081,7 @@
     {
       "sourcePath": "src/simulation/incident-response.ts",
       "enclosingSymbol": "next",
-      "line": 120,
+      "line": 123,
       "text": "Participated in this response action.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24825,7 +25089,7 @@
     {
       "sourcePath": "src/simulation/incident-response.ts",
       "enclosingSymbol": "next",
-      "line": 129,
+      "line": 132,
       "text": "Design-authored response procedure; no empirical cadence or promised hazard outcome.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24833,7 +25097,7 @@
     {
       "sourcePath": "src/simulation/incident-response.ts",
       "enclosingSymbol": "reportIncident",
-      "line": 187,
+      "line": 240,
       "text": "Incident report",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24841,7 +25105,7 @@
     {
       "sourcePath": "src/simulation/incident-response.ts",
       "enclosingSymbol": "next",
-      "line": 248,
+      "line": 301,
       "text": "Requested available incident information; no response or resource approval is implied.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24849,7 +25113,7 @@
     {
       "sourcePath": "src/simulation/incident-response.ts",
       "enclosingSymbol": "decideIncidentResponse",
-      "line": 273,
+      "line": 326,
       "text": "Deferred the response briefing; no work or assistance was authorized.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24857,7 +25121,7 @@
     {
       "sourcePath": "src/simulation/incident-response.ts",
       "enclosingSymbol": "next",
-      "line": 302,
+      "line": 350,
       "text": "Commissioned a report comparing the available observations and listing unresolved information and assistance requests.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24865,7 +25129,7 @@
     {
       "sourcePath": "src/simulation/incident-response.ts",
       "enclosingSymbol": "decideIncidentResponse",
-      "line": 309,
+      "line": 357,
       "text": "Prepare incident response briefing",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24873,7 +25137,7 @@
     {
       "sourcePath": "src/simulation/incident-response.ts",
       "enclosingSymbol": "arrangeIncidentBriefing",
-      "line": 359,
+      "line": 407,
       "text": "Review incident response briefing",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24881,7 +25145,7 @@
     {
       "sourcePath": "src/simulation/incident-response.ts",
       "enclosingSymbol": "arrangeIncidentBriefing",
-      "line": 361,
+      "line": 409,
       "text": "Review the completed staff report and unresolved requests. Attendance does not establish assistance delivery.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24889,7 +25153,7 @@
     {
       "sourcePath": "src/simulation/incident-response.ts",
       "enclosingSymbol": "arrangeIncidentBriefing",
-      "line": 369,
+      "line": 417,
       "text": "Office briefing",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24897,7 +25161,7 @@
     {
       "sourcePath": "src/simulation/incident-response.ts",
       "enclosingSymbol": "attendIncidentBriefing",
-      "line": 395,
+      "line": 443,
       "text": "Reviewed available reports. Unverified impact and pending assistance remain unresolved; the briefing alone establishes neither damage nor delivery.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24905,7 +25169,7 @@
     {
       "sourcePath": "src/simulation/incident-response.ts",
       "enclosingSymbol": "requestIncidentResources",
-      "line": 429,
+      "line": 477,
       "text": "Requested the existing internal allocation; approval and delivery remain pending.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24913,7 +25177,7 @@
     {
       "sourcePath": "src/simulation/incident-response.ts",
       "enclosingSymbol": "next",
-      "line": 465,
+      "line": 513,
       "text": "Authorized the requested internal allocation; delivery remains pending.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24921,7 +25185,7 @@
     {
       "sourcePath": "src/simulation/incident-response.ts",
       "enclosingSymbol": "next",
-      "line": 466,
+      "line": 514,
       "text": "Declined the requested internal allocation.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24929,7 +25193,7 @@
     {
       "sourcePath": "src/simulation/incident-response.ts",
       "enclosingSymbol": "decideIncidentResourceRequest",
-      "line": 478,
+      "line": 526,
       "text": "Explicit internal response authorization.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24937,7 +25201,7 @@
     {
       "sourcePath": "src/simulation/incident-response.ts",
       "enclosingSymbol": "decideIncidentResourceRequest",
-      "line": 479,
+      "line": 527,
       "text": "Allocation declined.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24945,7 +25209,7 @@
     {
       "sourcePath": "src/simulation/incident-response.ts",
       "enclosingSymbol": "deliverIncidentResources",
-      "line": 579,
+      "line": 627,
       "text": "The recorded internal resource allocation was delivered. No personal loss or intervention effectiveness was inferred.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48761,7 +49025,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "createScheduledActivity",
-      "line": 271,
+      "line": 284,
       "text": "Scheduled activity stable key",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48769,7 +49033,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "createScheduledActivity",
-      "line": 272,
+      "line": 285,
       "text": "Scheduled activity title",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48777,7 +49041,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "createScheduledActivity",
-      "line": 273,
+      "line": 286,
       "text": "Scheduled activity summary",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48785,7 +49049,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "createScheduledActivity",
-      "line": 274,
+      "line": 287,
       "text": "Scheduled activity location key",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48793,7 +49057,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "createScheduledActivity",
-      "line": 275,
+      "line": 288,
       "text": "Scheduled activity location label",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48801,7 +49065,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "participantPersonIds",
-      "line": 286,
+      "line": 299,
       "text": "Scheduled activity participants",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48809,7 +49073,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "sourceEntityIds",
-      "line": 312,
+      "line": 325,
       "text": "Scheduled activity sources",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48817,7 +49081,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 482,
+      "line": 495,
       "text": "Moved {activity.title} to a valid interval",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48825,7 +49089,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 489,
+      "line": 502,
       "text": "{activity.title} was moved to another valid working interval.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48833,7 +49097,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 494,
+      "line": 507,
       "text": "Scheduled activity planning",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48841,7 +49105,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 496,
+      "line": 509,
       "text": "An explicit schedule change.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48849,7 +49113,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 498,
+      "line": 511,
       "text": "Move a flexible work block.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48857,7 +49121,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 499,
+      "line": 512,
       "text": "Resolve the office agenda without moving fixed commitments.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48865,7 +49129,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 501,
+      "line": 514,
       "text": "The flexible block now occupies the selected interval.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48873,7 +49137,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "createWorkItem",
-      "line": 538,
+      "line": 551,
       "text": "Work item stable key",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48881,7 +49145,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "createWorkItem",
-      "line": 539,
+      "line": 552,
       "text": "Work item title",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48889,7 +49153,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "createWorkItem",
-      "line": 540,
+      "line": 553,
       "text": "Work item summary",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48897,7 +49161,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "sourceEntityIds",
-      "line": 549,
+      "line": 562,
       "text": "Work item sources",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48905,7 +49169,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "assignedPersonIds",
-      "line": 556,
+      "line": 569,
       "text": "Work item assignees",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48913,7 +49177,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "waitingOnPersonIds",
-      "line": 560,
+      "line": 573,
       "text": "Work item dependencies",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48921,7 +49185,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 681,
+      "line": 694,
       "text": "Assigned {item.title}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48929,7 +49193,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 686,
+      "line": 699,
       "text": "Accepted responsibility for {item.title}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48937,7 +49201,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 692,
+      "line": 705,
       "text": "{item.title} was assigned to staff.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48945,7 +49209,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 697,
+      "line": 710,
       "text": "Legislative office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48953,7 +49217,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 698,
+      "line": 711,
       "text": "Office work assignment",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48961,7 +49225,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 701,
+      "line": 714,
       "text": "An explicit office delegation.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48969,7 +49233,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 703,
+      "line": 716,
       "text": "Delegate the bounded work item.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48977,7 +49241,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 705,
+      "line": 718,
       "text": "Allow office work to proceed while the player handles other commitments.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48985,7 +49249,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 707,
+      "line": 720,
       "text": "The assigned staff member can now work independently.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48993,7 +49257,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "advanceCanonicalMinutes",
-      "line": 1245,
+      "line": 1258,
       "text": "Simulation time advanced {minutes} minutes.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -49001,7 +49265,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "advanceCanonicalMinutes",
-      "line": 1250,
+      "line": 1263,
       "text": "Primary simulation jurisdiction",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -49009,7 +49273,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "advanceCanonicalMinutes",
-      "line": 1254,
+      "line": 1267,
       "text": "Deterministic canonical minute-level time transition.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -49017,7 +49281,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1387,
+      "line": 1400,
       "text": "Completed {item.title} for review",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -49025,7 +49289,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1392,
+      "line": 1405,
       "text": "{item.title} is ready for review.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -49033,7 +49297,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1397,
+      "line": 1410,
       "text": "Legislative office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -49041,7 +49305,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1398,
+      "line": 1411,
       "text": "Parallel staff work",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -49049,7 +49313,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1402,
+      "line": 1415,
       "text": "Staff work progressed while the controlled person was occupied elsewhere.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -49057,7 +49321,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1405,
+      "line": 1418,
       "text": "Complete an explicitly assigned office task.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -49065,7 +49329,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1407,
+      "line": 1420,
       "text": "The result is available to the controlled office for review.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -49073,7 +49337,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1479,
+      "line": 1492,
       "text": "Participated in {activity.title}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -49081,7 +49345,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1484,
+      "line": 1497,
       "text": "{activity.title} concluded.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -49089,7 +49353,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1489,
+      "line": 1502,
       "text": "Scheduled activity",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -49097,7 +49361,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1493,
+      "line": 1506,
       "text": "Commit the scheduled activity interval.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -49105,7 +49369,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1494,
+      "line": 1507,
       "text": "Carry out a meaningful in-world commitment.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -49113,7 +49377,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1495,
+      "line": 1508,
       "text": "The scheduled interval is complete.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -52855,6 +53119,18 @@
       "count": 1
     },
     {
+      "sourcePath": "src/simulation/setup-opening-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/setup-opening-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/serialization.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -53134,18 +53410,6 @@
       "sourcePath": "src/simulation/policy-semantics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateMetricScope. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/setup-opening-bank.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/setup-opening-bank.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -54034,13 +54298,13 @@
       "sourcePath": "src/simulation/incident-response.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 25
+      "count": 26
     },
     {
       "sourcePath": "src/simulation/incident-response.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 14
+      "count": 19
     },
     {
       "sourcePath": "src/simulation/incident-integrity.ts",
@@ -54463,12 +54727,6 @@
       "count": 17
     },
     {
-      "sourcePath": "src/presentation/run-b-layout.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateRunBSceneLayouts. Play fails closed rather than showing it.",
-      "count": 7
-    },
-    {
       "sourcePath": "src/simulation/civil-personnel-start.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -54535,12 +54793,6 @@
       "count": 66
     },
     {
-      "sourcePath": "src/presentation/run-b-fixture.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/simulation/causal-effects.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateMetricScope. Play fails closed rather than showing it.",
@@ -54593,12 +54845,6 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 26
-    },
-    {
-      "sourcePath": "src/presentation/run-b-fixture.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 2
     },
     {
       "sourcePath": "src/simulation/canonical-json.ts",
@@ -54707,12 +54953,6 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 22
-    },
-    {
-      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
     },
     {
       "sourcePath": "src/simulation/campaign-compliance-rules.ts",
@@ -54955,6 +55195,24 @@
       "count": 58
     },
     {
+      "sourcePath": "src/presentation/run-b-layout.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateRunBSceneLayouts. Play fails closed rather than showing it.",
+      "count": 7
+    },
+    {
+      "sourcePath": "src/presentation/run-b-fixture.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -54971,12 +55229,6 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
       "count": 11
-    },
-    {
-      "sourcePath": "src/presentation/run-a.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 27
     },
     {
       "sourcePath": "src/presentation/run-a-layout.ts",
@@ -55027,9 +55279,9 @@
       "count": 2
     },
     {
-      "sourcePath": "src/presentation/production-world.ts",
+      "sourcePath": "src/presentation/run-b-fixture.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 2
     },
     {
@@ -55045,6 +55297,12 @@
       "count": 27
     },
     {
+      "sourcePath": "src/presentation/run-a.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 27
+    },
+    {
       "sourcePath": "src/presentation/production-office.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -55055,6 +55313,18 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 19
+    },
+    {
+      "sourcePath": "src/presentation/press-request.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/presentation/press-request.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 43
     },
     {
       "sourcePath": "src/presentation/present-people-sentence.test.ts",
@@ -55108,6 +55378,12 @@
       "sourcePath": "src/presentation/player-capabilities.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/presentation/production-world.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 2
     },
     {
@@ -55339,12 +55615,6 @@
       "count": 2
     },
     {
-      "sourcePath": "src/presentation/legislative-office-context.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 3
-    },
-    {
       "sourcePath": "src/presentation/location-art-review.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -55417,12 +55687,6 @@
       "count": 19
     },
     {
-      "sourcePath": "src/presentation/legislative-member-seat.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 2
-    },
-    {
       "sourcePath": "src/presentation/life-conversation.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -55435,6 +55699,12 @@
       "count": 6
     },
     {
+      "sourcePath": "src/presentation/legislative-office-context.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 3
+    },
+    {
       "sourcePath": "src/presentation/legislative-office-context.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -55445,6 +55715,12 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 3
+    },
+    {
+      "sourcePath": "src/presentation/legislative-member-seat.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 2
     },
     {
       "sourcePath": "src/presentation/legislative-member-seat.test.ts",
@@ -55687,6 +55963,12 @@
       "count": 3
     },
     {
+      "sourcePath": "src/presentation/judicial-office.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 2
+    },
+    {
       "sourcePath": "src/presentation/guardian-conversation.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -55719,12 +56001,6 @@
     {
       "sourcePath": "src/presentation/formative-play.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/presentation/formative-play.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 7
     },
@@ -55733,6 +56009,18 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 27
+    },
+    {
+      "sourcePath": "src/presentation/fiscal-authority-query.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 11
+    },
+    {
+      "sourcePath": "src/presentation/executive-work.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 2
     },
     {
       "sourcePath": "src/presentation/fiscal-authority-work.ts",
@@ -55747,10 +56035,10 @@
       "count": 2
     },
     {
-      "sourcePath": "src/presentation/fiscal-authority-query.test.ts",
+      "sourcePath": "src/presentation/executive-work.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 11
+      "count": 17
     },
     {
       "sourcePath": "src/presentation/executive-office.test.ts",
@@ -55765,9 +56053,9 @@
       "count": 1
     },
     {
-      "sourcePath": "src/presentation/executive-work.ts",
+      "sourcePath": "src/presentation/formative-play.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
       "count": 1
     },
     {
@@ -55822,12 +56110,6 @@
       "sourcePath": "src/presentation/garment-fit.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in checkTranslate. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/presentation/judicial-office.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 2
     },
     {
@@ -55909,12 +56191,6 @@
       "count": 6
     },
     {
-      "sourcePath": "src/presentation/complete-outfit-opening.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/presentation/civil-personnel-evidence.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -55927,7 +56203,19 @@
       "count": 9
     },
     {
+      "sourcePath": "src/presentation/character-render-plan.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/presentation/character-review-framing.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/complete-outfit-opening.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 1
@@ -55940,12 +56228,6 @@
     },
     {
       "sourcePath": "src/presentation/character-proof.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/presentation/character-render-plan.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
@@ -56123,6 +56405,12 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 18
+    },
+    {
+      "sourcePath": "src/player/PressWorkspace.tsx",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 2
     },
     {
       "sourcePath": "src/persistence/sqlite-world-repository.ts",

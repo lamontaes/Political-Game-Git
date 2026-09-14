@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2457 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5889 |
-| DIAGNOSTIC_OR_TEST | 5252 |
-| **NEEDS_CLASSIFICATION** | **6563** |
+| INTENTIONALLY_NON_PLAYER_FACING | 5898 |
+| DIAGNOSTIC_OR_TEST | 5317 |
+| **NEEDS_CLASSIFICATION** | **6596** |
 
-Scanned 643 files holding 77109 string
+Scanned 646 files holding 77399 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -90,8 +90,8 @@ literals in total; the table counts only those that read like a sentence.
 | 31 | `src/simulation/people.ts` |
 | 31 | `src/simulation/politics.ts` |
 | 29 | `src/presentation/run-d-lite.ts` |
+| 29 | `src/simulation/executive-work.ts` |
 | 28 | `src/content/adapters/simulation-catalogs.ts` |
-| 28 | `src/simulation/executive-work.ts` |
 | 28 | `src/ui/MindProfile.tsx` |
 | 27 | `src/presentation/garment-fit.ts` |
 | 26 | `src/presentation/legislation-session.ts` |
@@ -107,6 +107,7 @@ literals in total; the table counts only those that read like a sentence.
 | 24 | `src/ui/ContentBrowserView.tsx` |
 | 23 | `src/presentation/title-tableau.ts` |
 | 22 | `src/player/SceneConversation.tsx` |
+| 22 | `src/presentation/press-request.ts` |
 | 21 | `src/simulation/legislation-content-contracts.ts` |
 | 20 | `src/presentation/economic-context-browser.ts` |
 | 20 | `src/presentation/legislative-bargaining-actions.ts` |
@@ -153,6 +154,7 @@ literals in total; the table counts only those that read like a sentence.
 | 13 | `src/player/OfficeScene.tsx` |
 | 13 | `src/player/WorkPendingWorkspace.tsx` |
 | 13 | `src/presentation/campaign-compliance-projection.ts` |
+| 13 | `src/presentation/executive-work.ts` |
 | 13 | `src/simulation/civil-personnel-start.ts` |
 | 13 | `src/simulation/election-contests.ts` |
 | 13 | `src/simulation/life-places.ts` |
@@ -242,6 +244,7 @@ literals in total; the table counts only those that read like a sentence.
 | 6 | `src/simulation/vitality-integrity.ts` |
 | 6 | `src/ui/ProductionOfficeProofView.tsx` |
 | 5 | `src/player/LegislationWorkspace.tsx` |
+| 5 | `src/player/PressWorkspace.tsx` |
 | 5 | `src/presentation/browser-world-repository-protocol.ts` |
 | 5 | `src/presentation/life-conversation.ts` |
 | 5 | `src/presentation/opening-officeholders.ts` |
@@ -253,10 +256,8 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/districts/query.ts` |
 | 4 | `src/education/catalog.ts` |
 | 4 | `src/persistence/sqlite-world-repository.ts` |
-| 4 | `src/player/ExecutiveWorkWorkspace.tsx` |
 | 4 | `src/player/TitleScreen.tsx` |
 | 4 | `src/presentation/complete-outfit.ts` |
-| 4 | `src/presentation/executive-work.ts` |
 | 4 | `src/presentation/life-story.ts` |
 | 4 | `src/presentation/place-hometown-population.ts` |
 | 4 | `src/presentation/setup-questionnaire-flow.ts` |
@@ -267,9 +268,9 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/simulation/resource-pressure.ts` |
 | 4 | `src/simulation/vitality-catalog.ts` |
 | 3 | `src/education/compact.ts` |
+| 3 | `src/player/ExecutiveWorkWorkspace.tsx` |
 | 3 | `src/player/JudicialOfficeWork.tsx` |
 | 3 | `src/player/PeopleRelationshipWeb.tsx` |
-| 3 | `src/player/PressWorkspace.tsx` |
 | 3 | `src/presentation/art-preview.ts` |
 | 3 | `src/presentation/browser-shell-state.ts` |
 | 3 | `src/presentation/economic-context.ts` |
