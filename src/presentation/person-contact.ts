@@ -66,7 +66,11 @@ export function projectPersonContact(
     travelReason = `No recorded location for ${name}. A pin or a card is not a destination.`;
   } else if (!playerPlace) {
     travelReason = `Your current place is not recorded, so there is no authored journey to ${theirPlace.label}.`;
-  } else if (playerPlace.locationKey === theirPlace.locationKey) {
+  } else if (
+    (playerPlace.jurisdictionId !== null &&
+      playerPlace.jurisdictionId === theirPlace.jurisdictionId) ||
+    playerPlace.label === theirPlace.label
+  ) {
     travelReason = `You and ${name} are both recorded at ${playerPlace.label}. Travel is not a separate action from meeting them here.`;
   } else {
     travelReason = `No authored journey connects ${playerPlace.label} to ${theirPlace.label}, where ${name} was last recorded. Travel stays unavailable rather than inventing a route.`;
