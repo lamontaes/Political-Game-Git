@@ -1,3 +1,7 @@
+import type {
+  NationalElection,
+  NationalElectionRecord,
+} from "./national-election-types";
 declare const entityIdBrand: unique symbol;
 declare const isoDateBrand: unique symbol;
 declare const currencyCodeBrand: unique symbol;
@@ -44,6 +48,8 @@ export type EntityKind =
   | "campaign-action"
   | "campaign-action-result"
   | "campaign-compliance-document"
+  | "national-election"
+  | "national-election-record"
   | "election-contest"
   | "election-contest-result"
   | "executive-disposition"
@@ -3512,6 +3518,8 @@ export interface HistoryStore {
    * membership, not sequenced history, and never a substitute for intervals.
    */
   readonly districtSeatIntents?: readonly DistrictSeatIntent[];
+  readonly nationalElections?: readonly NationalElection[];
+  readonly nationalElectionRecords?: readonly NationalElectionRecord[];
   readonly electionContests?: readonly ElectionContestRecord[];
   readonly electionContestResults?: readonly ElectionContestResultRecord[];
   readonly campaigns?: readonly CampaignRecord[];

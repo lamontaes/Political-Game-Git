@@ -1,3 +1,4 @@
+import { applyNationalTermTransitions } from "./national-election-consumer";
 import { workStatusAt } from "./life-queries";
 import {
   addDays,
@@ -1546,11 +1547,11 @@ function appendWorkState(world: World, state: WorkItemStateRecord): World {
 }
 
 function setCurrentMoment(world: World, moment: SimulationMoment): World {
-  return {
+  return applyNationalTermTransitions({
     ...world,
     currentDate: moment.date,
     currentMoment: cloneMoment(moment),
-  };
+  });
 }
 
 function validateFlexibility(

@@ -1,3 +1,10 @@
+import { applyNationalTermTransitions } from "./national-election-consumer";
+import {
+  assertNationalElectionIntegrity,
+  nationalHistoryRecords,
+  nationalEntityExists,
+  nationalEntityAvailableAt,
+} from "./national-elections";
 import {
   addDays,
   assertSimulationMoment,
@@ -584,6 +591,7 @@ export function recordWorldEvent(
       !timeWorkEntityExists(world, entityId) &&
       !futureTransitionEntityExists(world, entityId) &&
       !electionContestEntityExists(world, entityId) &&
+      !nationalEntityExists(world, entityId) &&
       !campaignEntityExists(world, entityId) &&
       !legislationEntityExists(world, entityId) &&
       !legislativePoliticsEntityExists(world, entityId) &&
@@ -735,6 +743,16 @@ export function recordWorldEvent(
         `Historical event references an unavailable legislative entity: ${entityId}`,
       );
     }
+    if (
+      nationalEntityExists(world, entityId) &&
+      !nationalEntityAvailableAt(
+        world,
+        entityId,
+        occurredAt,
+        world.history.nextSequence,
+      )
+    )
+      throw new Error("Event references unavailable national record.");
     if (
       electionContestEntityExists(world, entityId) &&
       !electionContestEntityAvailableAt(
@@ -906,7 +924,7 @@ export function advanceWorld(
     actionSequence: actionSequence + 1,
   };
 
-  return recordWorldEvent(advanced, {
+  return recordWorldEvent(applyNationalTermTransitions(advanced), {
     stableKey: `action:${actionSequence}:time-advanced:${world.currentDate}:${days}:${nextDate}`,
     type: "simulation.time-advanced",
     occurredAt: nextDate,
@@ -1492,6 +1510,7 @@ function validateHistoryIntegrity(world: World): void {
     ...evidenceHistoryRecords(world),
     ...timeWorkHistoryRecords(world),
     ...electionContestHistoryRecords(world),
+    ...nationalHistoryRecords(world),
     ...campaignHistoryRecords(world),
     ...legislationHistoryRecords(world),
     ...legislativePoliticsHistoryRecords(world),
@@ -1611,6 +1630,7 @@ function validateHistoryIntegrity(world: World): void {
   assertEvidenceIntegrity(world, ids);
   assertTimeWorkIntegrity(world, ids);
   assertElectionContestIntegrity(world, ids);
+  assertNationalElectionIntegrity(world, ids);
   assertCampaignIntegrity(world, ids);
   assertLegislationIntegrity(world, ids);
   assertLegislativePoliticsIntegrity(world, ids);
@@ -1768,6 +1788,7 @@ function validateHistoryIntegrity(world: World): void {
         !timeWorkEntityExists(world, involvedId) &&
         !futureTransitionEntityExists(world, involvedId) &&
         !electionContestEntityExists(world, involvedId) &&
+        !nationalEntityExists(world, involvedId) &&
         !campaignEntityExists(world, involvedId) &&
         !legislationEntityExists(world, involvedId) &&
         !legislativePoliticsEntityExists(world, involvedId) &&
@@ -1919,6 +1940,16 @@ function validateHistoryIntegrity(world: World): void {
           `Historical event references an unavailable legislative entity: ${event.id}`,
         );
       }
+      if (
+        nationalEntityExists(world, involvedId) &&
+        !nationalEntityAvailableAt(
+          world,
+          involvedId,
+          event.occurredAt,
+          event.sequence,
+        )
+      )
+        throw new Error("Event references unavailable national record.");
       if (
         electionContestEntityExists(world, involvedId) &&
         !electionContestEntityAvailableAt(

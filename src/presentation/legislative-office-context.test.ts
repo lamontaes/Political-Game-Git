@@ -1,3 +1,4 @@
+import { enterSupportedTerm } from "../../tests/fixtures/recorded-legislative-term";
 import { describe, expect, it } from "vitest";
 import {
   createLegislativeScenario,
@@ -34,7 +35,7 @@ function wonSeat() {
   )
     world = passOrdinaryDays(world);
   expect(projectCampaign(world, personId).phase).toBe("won");
-  return { world, personId };
+  return { world: enterSupportedTerm(world, personId), personId };
 }
 
 describe("legislative office orientation", () => {

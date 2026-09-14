@@ -50,11 +50,11 @@ h2 .count { color:var(--accent); }
 </head><body><main>
 <header>
 <h1>Our Civic Duty — player-facing prose review packet</h1>
-<p>Current main <code data-provenance="head-sha">aaabe9f683951886a1f493465afad44b8a6a15f6</code> &middot; inventory digest <code>f00900fb1b97dbf5</code> &middot; generated for owner prose review</p>
+<p>Current main <code data-provenance="head-sha">a5544bbda96a7e47bd862f2b4dc2dca95b90bceb</code> &middot; inventory digest <code>64b4ac50f1b71dae</code> &middot; generated for owner prose review</p>
 <p>Every item is keyed by its stable semantic ID. Marks belong to the ID, not to a position on the page.</p>
 </header>
 <div class="summary">
-<div><b>2644</b> templates<ul><li><b>42</b> CURRENTLY_UNREACHABLE</li><li><b>106</b> DEV_FIXTURE_ONLY</li><li><b>90</b> LEGACY_OR_WITHDRAWN</li><li><b>1980</b> PLAYER_REACHABLE</li><li><b>68</b> UNKNOWN</li><li><b>358</b> WITHHELD_BY_GROUNDING</li></ul></div>
+<div><b>2645</b> templates<ul><li><b>42</b> CURRENTLY_UNREACHABLE</li><li><b>106</b> DEV_FIXTURE_ONLY</li><li><b>90</b> LEGACY_OR_WITHDRAWN</li><li><b>1981</b> PLAYER_REACHABLE</li><li><b>68</b> UNKNOWN</li><li><b>358</b> WITHHELD_BY_GROUNDING</li></ul></div>
 <div><b>265</b> review warnings<ul><li><b>38</b> and-it-scaffold</li><li><b>1</b> anonymous-actor</li><li><b>9</b> label-restated-in-description</li><li><b>28</b> rather-than-scaffold</li><li><b>10</b> third-person-player</li><li><b>179</b> vague-referent</li></ul></div>
 <div><b>0</b> hard errors</div>
 </div>
@@ -35846,7 +35846,7 @@ h2 .count { color:var(--accent); }
 </article>
 </section>
 <section class="group" data-group="status">
-<h2>status <span class="count">372</span></h2>
+<h2>status <span class="count">373</span></h2>
 <article class="item" id="prose:campaign:campaign-status:detail-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="a session on the doors" data-text-revision="85275d6e29bc" data-context-revision="15862db75231">
 <div class="top"><code class="sid">prose:campaign:campaign-status:detail-0001#text</code></div>
 <p class="prose">A session on the doors</p>
@@ -36180,6 +36180,23 @@ h2 .count { color:var(--accent); }
 <dt>Slots</dt><dd>candidateName</dd>
 </dl>
 <div class="marks" data-id="prose:campaign:campaign-status:projectCampaign-0002#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:campaign:campaign-status:projectCampaign-0003#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{candidatename} won. the supported term begins {supportedlegislativetermdates(contest.office.officekey,contest.electiondate)!.startsat}; the result itself grants no current office authority." data-text-revision="fdcd60cba88c" data-context-revision="15862db75231">
+<div class="top"><code class="sid">prose:campaign:campaign-status:projectCampaign-0003#text</code></div>
+<p class="prose">{candidateName} won. The supported term begins {supportedLegislativeTermDates(contest.office.officeKey,contest.electionDate)!.startsAt}; the result itself grants no current office authority.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/campaign-projection.ts &middot; projectCampaign</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The campaign workspace shows these once a candidacy is filed (merged PR #85).</dd>
+<dt>Grounded by</dt><dd>candidacy, campaign-treasury</dd>
+<dt>Slots</dt><dd>candidateName, supportedLegislativeTermDates(contest.office.officeKey,contest.electionDate)!.startsAt</dd>
+</dl>
+<div class="marks" data-id="prose:campaign:campaign-status:projectCampaign-0003#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>

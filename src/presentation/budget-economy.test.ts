@@ -1,3 +1,4 @@
+import { enterSupportedTerm } from "../../tests/fixtures/recorded-legislative-term";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -76,7 +77,10 @@ function seatedFiscalReader(): {
       "Budget proof seed did not produce the accepted seated route.",
     );
   }
-  return { world, personId: built.playerPersonId };
+  return {
+    world: enterSupportedTerm(world, built.playerPersonId),
+    personId: built.playerPersonId,
+  };
 }
 
 function interval(startsAt: string, endsAt: string): MetricReferencePeriod {

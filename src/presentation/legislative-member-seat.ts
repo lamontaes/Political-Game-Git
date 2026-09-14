@@ -1,5 +1,7 @@
 import {
   activeWorkRelationshipsAt,
+  activeLegislativeTermEvidence,
+  LEGISLATIVE_TERM_ENTRY,
   campaignState,
   candidacyPackById,
   chamberByKey,
@@ -108,48 +110,51 @@ function reconcileSeat(
       "The member record is not the seat record an election win writes.",
     );
   }
-  const campaignStableKey = relationship.stableKey.slice(0, -":seat".length);
-  const campaign = (world.history.campaigns ?? []).find(
-    (record) => record.stableKey === campaignStableKey,
+  const hasDatedTerm = world.history.futureDueItems.some(
+    (item) =>
+      item.transitionKey === LEGISLATIVE_TERM_ENTRY &&
+      item.entityIds.includes(relationship.id),
   );
-  if (!campaign) {
-    return unseated("No campaign record stands behind this seat.");
-  }
-  if (campaign.candidatePersonId !== personId) {
-    return unseated("The campaign behind this seat was another person's.");
-  }
-
+  const term = activeLegislativeTermEvidence(world, relationship.id);
+  if (hasDatedTerm && !term)
+    return unseated(
+      "This dated office has not entered, has ended, or its winning-office evidence changed.",
+    );
+  const campaignStableKey = relationship.stableKey.slice(0, -":seat".length);
+  const campaign =
+    term?.campaign ??
+    (world.history.campaigns ?? []).find(
+      (record) => record.stableKey === campaignStableKey,
+    );
+  if (!campaign) return unseated("No campaign record stands behind this seat.");
   let status;
   try {
     status = campaignState(world, campaign.id);
   } catch {
     return unseated("The campaign behind this seat recorded no state.");
   }
-  if (status.status !== "won" || !status.electionResultId) {
-    return unseated("The campaign behind this seat did not record a win.");
-  }
-
+  if (
+    !term &&
+    (campaign.candidatePersonId !== personId || status.status !== "won")
+  )
+    return unseated(
+      "The campaign behind this legacy seat did not record this person's win.",
+    );
   const result = electionContestResult(world, campaign.contestId);
   if (
     !result ||
     result.id !== status.electionResultId ||
     result.winnerPersonId !== personId ||
     result.outcomeEventId !== provenance.eventId
-  ) {
+  )
     return unseated("The recorded election result does not support this seat.");
-  }
-
   const contest = electionContestById(world, campaign.contestId);
-  if (!contest) {
-    return unseated("The contest behind this seat is missing.");
-  }
-
+  if (!contest) return unseated("The contest behind this seat is missing.");
   const pack = candidacyPackById(campaign.candidacyPackId);
-  if (!pack) {
+  if (!pack)
     return unseated(
       "No sourced candidacy pack stands behind this seat's office.",
     );
-  }
   const governing = stateJurisdictionForKey(pack.jurisdictionKey);
   if (!governing) {
     return unseated("The seat's governing state is not established.");

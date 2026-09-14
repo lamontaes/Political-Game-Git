@@ -48,6 +48,7 @@ export function scheduleElectionContest(
   }
 
   validateOfficeRef(input.office);
+  assertNotPresidentialOffice(input.office.officeKey);
   const electionDate = makeIsoDate(input.electionDate);
   if (electionDate <= world.currentDate) {
     throw new Error(
@@ -145,6 +146,7 @@ export function evaluateDeterministicContestOutcome(
   readonly winnerPersonId: EntityId;
   readonly tallies: readonly CandidateTally[];
 } {
+  assertNotPresidentialOffice(contest.office.officeKey);
   if (contest.candidatePersonIds.length === 0) {
     throw new Error(
       `Cannot evaluate contest with no candidates: ${contest.id}`,
@@ -201,6 +203,7 @@ export function resolveElectionContest(
   input: ResolveElectionContestInput,
 ): World {
   const contest = requireElectionContest(world, input.contestId);
+  assertNotPresidentialOffice(contest.office.officeKey);
   if (electionContestStatus(world, contest.id) === "cancelled") {
     throw new Error(
       `Cannot resolve a cancelled election contest: ${contest.id}`,
@@ -924,4 +927,18 @@ function assertHistoryIdentity(
       `Record sequence must be a non-negative safe integer: ${record.id}`,
     );
   }
+}
+
+function assertNotPresidentialOffice(key: string): void {
+  if (
+    [
+      "us-president",
+      "us-federal-president",
+      "us-vice-president",
+      "us-federal-vice-president",
+    ].includes(key)
+  )
+    throw new Error(
+      "Presidential offices require the national electoral resolver, not a direct popular-vote contest.",
+    );
 }
