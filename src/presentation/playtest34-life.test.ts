@@ -231,7 +231,7 @@ describe("PLAYTEST34 canonical request → choice → performance → saved foll
         label: "Test appointment",
         jurisdictionId: null,
       },
-      sourceEntityIds: [],
+      sourceEntityIds: [entry.request.id],
       flexibility: { kind: "fixed" },
       access: { kind: "private", personIds: [personId] },
     });
@@ -412,7 +412,9 @@ describe("PLAYTEST34 line-level time and family speech", () => {
         label: "Test appointment",
         jurisdictionId: null,
       },
-      sourceEntityIds: [],
+      sourceEntityIds: [
+        projectLifeConversation(agreed, personId, mom)!.proposal!.request.id,
+      ],
       flexibility: { kind: "fixed" },
       access: { kind: "private", personIds: [personId] },
     });
@@ -444,12 +446,15 @@ describe("PLAYTEST34 line-level time and family speech", () => {
       expect(offered.person.relationship).toBe("your mom");
       expect(offered.proposal!.terms.activity).toBe("new-game");
       expect(offered.transcript.at(-1)!.reply).toContain("try a new game");
-      const explained = line(
-        deserializeWorld(serializeWorld(proposed)),
-        personId,
-        mom,
-        "explain",
-      );
+      const explained =
+        intent === "acceptProposal"
+          ? line(
+              deserializeWorld(serializeWorld(proposed)),
+              personId,
+              mom,
+              "explain",
+            )
+          : deserializeWorld(serializeWorld(proposed));
       const agreed = line(explained, personId, mom, intent);
       const agreement = projectLifeConversation(agreed, personId, mom)!;
       expect(agreement.proposal!.request.id).toBe(offered.proposal!.request.id);
