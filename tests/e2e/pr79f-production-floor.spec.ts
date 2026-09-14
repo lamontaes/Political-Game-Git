@@ -81,7 +81,12 @@ test("a winner reaches real bargaining from normal play, and keeps it through a 
   const errors = watchForErrors(page);
   await freshBrowser(page);
   await page.goto("/?seed=p85c-owner-0");
-  await startLife(page, { age: 34, place: "Lexington", gender: "male" });
+  await startLife(page, {
+    age: 34,
+    place: "Lexington",
+    state: "Kentucky",
+    gender: "male",
+  });
   await enterLife(page);
 
   // Ordinary Work is available; it grants no institutional workspace.

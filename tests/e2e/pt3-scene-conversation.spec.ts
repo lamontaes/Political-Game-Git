@@ -70,7 +70,7 @@ test("the owner's age-22 conversation is one bounded box with paged history and 
   page,
 }) => {
   await page.goto("/?seed=pt3-owner-22");
-  await startLife(page, { age: 22, place: "Lexington" });
+  await startLife(page, { age: 22, place: "Lexington", state: "Kentucky" });
   await stepIntoTheScene(page);
 
   // Choosing somebody in the scene opens the box with exactly them.
@@ -151,6 +151,8 @@ test("turning to a second classmate keeps the last exchange and says who heard i
 }) => {
   await page.goto("/?seed=pt3-school-switch");
   await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
     age: 15,
     childhood: true,
     household: "shares-a-home",
@@ -189,7 +191,7 @@ test("at the smaller 1280 x 720 window the box still needs no scrollbar", async 
 }) => {
   await page.setViewportSize({ width: 1280, height: 720 });
   await page.goto("/?seed=pt3-owner-22");
-  await startLife(page, { age: 22, place: "Lexington" });
+  await startLife(page, { age: 22, place: "Lexington", state: "Kentucky" });
   await stepIntoTheScene(page);
   await page.locator('[data-testid^="life-talk-"]').first().click();
   const box = page.getByRole("region", { name: /^Conversation with / });

@@ -93,6 +93,7 @@ export * from "./life-episodes";
 export * from "./episode-bank";
 export * from "./names-data";
 export * from "./people";
+export * from "./starting-birthday";
 export * from "./person-appearance";
 export * from "./person-context";
 export * from "./person-identity";

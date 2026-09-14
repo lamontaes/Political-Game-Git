@@ -61,7 +61,7 @@ async function startAndKeepALife(page: Page, age: number) {
   // Nothing this file asserts depends on how the creator is answered — only
   // that a life exists to give the title a room — so the shared walk takes its
   // defaults and declines the calibration.
-  await walkCreator(page, { age });
+  await walkCreator(page, { place: "Lexington", state: "Kentucky", age });
   await expect(page.getByTestId("play-screen")).toBeVisible();
   await enterLife(page);
   await goTo(page, "keep-world");

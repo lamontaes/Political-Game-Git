@@ -235,7 +235,13 @@ say "=============================================================="
 say " Play copy:  $PLAY_DIR"
 say " Source:     $SOURCE @ $SHA"
 say " Verified:    $VERIFIED_PLAY_HEAD @ $VERIFIED_PLAY_DIR"
-say " Address:    $URL"
+say " Play ($MODE art): $URL"
+if [ "$MODE" = "candidate" ]; then
+  say " Production-art Play (separate saves): http://127.0.0.1:$PORT/"
+else
+  say " Candidate-art Play (separate saves): http://127.0.0.1:$PORT/?art-preview=candidate"
+fi
+say " Review tools (developer fixtures): http://127.0.0.1:$PORT/review.html"
 say "=============================================================="
 say ""
 say "Leave this window open while you play. Close it, or press Control-C,"

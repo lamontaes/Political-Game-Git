@@ -9,7 +9,7 @@ import { startLife } from "./support/creator";
  */
 async function unsavedLife(page: Page) {
   await page.goto("/?seed=narrow-unsaved-note");
-  await startLife(page, { age: 22 });
+  await startLife(page, { place: "Lexington", state: "Kentucky", age: 22 });
   // Through the two introduction beats to the room's scene, whose own way on
   // is "Continue your life" — the control this file is about.
   const opening = page.getByTestId("opening-life-panel");

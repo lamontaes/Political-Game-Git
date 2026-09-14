@@ -1,6 +1,7 @@
 import { projectLocationSurfaces } from "../presentation/location-surfaces";
 import { locationReviewVisuals } from "../presentation/location-art-review";
 import { PressWorkspace } from "./PressWorkspace";
+import { birthdayProblemForSetup } from "../presentation/new-game-birthday";
 import {
   SavedAppearanceProvider,
   SavedRenderSnapshotsProvider,
@@ -895,6 +896,7 @@ function SetupScreen({
   const reopen = (step: CreatorStep) => setCurrent(step);
 
   const problems = newGameSetupProblems(committed);
+  const birthdayProblem = birthdayProblemForSetup(committed);
   const place = selectedCreatorPlace(location);
   const placeListOpen = creatorPlaceListOpen(location.placeKey, replacingPlace);
 
@@ -924,6 +926,9 @@ function SetupScreen({
       [setup.givenName, setup.familyName].filter(Boolean).join(" ") ||
         "A name you'll be given",
       `age ${setup.startAge}`,
+      setup.birthMonth !== undefined && setup.birthDay !== undefined
+        ? `birthday ${setup.birthMonth}/${setup.birthDay}`
+        : null,
       genderStated ? GENDER_IDENTITY_LABELS[setup.gender!] : null,
     ]
       .filter(Boolean)
@@ -1082,6 +1087,52 @@ function SetupScreen({
                 onBlur={() => setAgeText(String(setup.startAge))}
               />
             </label>
+            <label>
+              Birthday month
+              <input
+                type="number"
+                data-testid="start-birth-month"
+                min={1}
+                max={12}
+                value={setup.birthMonth ?? ""}
+                onChange={(event) => {
+                  const text = event.target.value;
+                  setSetup((now) => {
+                    if (text.trim() === "") {
+                      const rest = { ...now };
+                      delete rest.birthMonth;
+                      return rest;
+                    }
+                    const parsed = Number(text);
+                    if (!Number.isFinite(parsed)) return now;
+                    return { ...now, birthMonth: parsed };
+                  });
+                }}
+              />
+            </label>
+            <label>
+              Birthday day
+              <input
+                type="number"
+                data-testid="start-birth-day"
+                min={1}
+                max={31}
+                value={setup.birthDay ?? ""}
+                onChange={(event) => {
+                  const text = event.target.value;
+                  setSetup((now) => {
+                    if (text.trim() === "") {
+                      const rest = { ...now };
+                      delete rest.birthDay;
+                      return rest;
+                    }
+                    const parsed = Number(text);
+                    if (!Number.isFinite(parsed)) return now;
+                    return { ...now, birthDay: parsed };
+                  });
+                }}
+              />
+            </label>
           </div>
           <p
             className="game-hint"
@@ -1124,10 +1175,12 @@ function SetupScreen({
             </div>
           </fieldset>
 
+          {birthdayProblem ? <p role="alert">{birthdayProblem}</p> : null}
           <button
             type="button"
             className="game-creator-next"
             data-testid="creator-continue-character"
+            disabled={birthdayProblem !== null}
             onClick={() => advanceTo("place")}
           >
             Next
@@ -1137,7 +1190,7 @@ function SetupScreen({
 
       {isCurrent("place") ? (
         <section data-testid="creator-stage-place">
-          <h2>Where you're from</h2>
+          <h2>Where are you from?</h2>
           {location.stateJurisdictionKey ? (
             <button
               type="button"

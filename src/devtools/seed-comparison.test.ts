@@ -9,9 +9,10 @@ import {
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
 
 const SEEDS = ["dynamism-one", "dynamism-two", "dynamism-three"] as const;
+const SETUP = { ...DEFAULT_NEW_GAME_SETUP, placeKey: "kentucky" as const };
 
 describe("the multi-seed comparison harness", () => {
-  const comparison = compareSeeds({ seeds: [...SEEDS] });
+  const comparison = compareSeeds({ seeds: [...SEEDS], setup: SETUP });
 
   it("generates one world per seed through the ordinary new-game path", () => {
     expect(comparison.summaries.map((summary) => summary.seed)).toEqual([
@@ -60,7 +61,7 @@ describe("the multi-seed comparison harness", () => {
   it("reads variation from canonical records rather than from presentation", () => {
     // Every summary is produced from the world alone, so regenerating the same
     // seed reproduces it exactly.
-    const repeat = compareSeeds({ seeds: [...SEEDS] });
+    const repeat = compareSeeds({ seeds: [...SEEDS], setup: SETUP });
     expect(canonicalJson(repeat)).toBe(canonicalJson(comparison));
     expect(seedComparisonJson(repeat)).toBe(seedComparisonJson(comparison));
     expect(seedComparisonMarkdown(repeat)).toBe(
@@ -87,12 +88,18 @@ describe("the multi-seed comparison harness", () => {
   });
 
   it("refuses a comparison that cannot answer the question", () => {
-    expect(() => compareSeeds({ seeds: ["only-one"] })).toThrow(
+    expect(() => compareSeeds({ seeds: ["only-one"], setup: SETUP })).toThrow(
       "at least two seeds",
     );
-    expect(() => compareSeeds({ seeds: ["same", "same"] })).toThrow(
-      "Duplicate seed",
-    );
+    expect(() =>
+      compareSeeds({ seeds: ["same", "same"], setup: SETUP }),
+    ).toThrow("Duplicate seed");
+    expect(() =>
+      compareSeeds({
+        seeds: [...SEEDS],
+        setup: { ...SETUP, placeKey: "" },
+      }),
+    ).toThrow(/explicit place/);
   });
 
   it("writes a Markdown report that separates the two kinds of difference", () => {

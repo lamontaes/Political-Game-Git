@@ -207,7 +207,7 @@ test.describe("The title is a room with a menu on it", () => {
     // never do.
     await page.clock.install();
     await freshBrowser(page);
-    await fillCreator(page, { age: 30 });
+    await fillCreator(page, { place: "Lexington", state: "Kentucky", age: 30 });
     await page.getByTestId("setup-advanced").click();
     const replay = (
       (await page.getByTestId("setup-replay-link").textContent()) ?? ""
@@ -270,7 +270,12 @@ test.describe("The creator stands in the same world", () => {
     await expect(page.getByTestId("setup-screen")).toBeVisible();
 
     await freshBrowser(page);
-    await fillCreator(page, { age: 30, calibration: "short" });
+    await fillCreator(page, {
+      place: "Lexington",
+      state: "Kentucky",
+      age: 30,
+      calibration: "short",
+    });
     await page.getByTestId("begin").click();
     await expect(page.getByTestId("questionnaire-screen")).toBeVisible();
     await expect(page.getByTestId("title-tableau")).toHaveAttribute(
@@ -292,7 +297,13 @@ test.describe("The creator stands in the same world", () => {
 
     const seedFor = async (route: "normal" | "custom") => {
       await freshBrowser(page);
-      await fillCreator(page, { age: 30, route, calibration: "skipped" });
+      await fillCreator(page, {
+        place: "Lexington",
+        state: "Kentucky",
+        age: 30,
+        route,
+        calibration: "skipped",
+      });
       await page.getByTestId("setup-advanced").click();
       return (
         (await page.getByTestId("setup-replay-link").textContent()) ?? ""
@@ -315,7 +326,12 @@ test.describe("A life happens in the room the records put it in", () => {
     page,
   }) => {
     await freshBrowser(page);
-    await startLife(page, { age: 10, childhood: true });
+    await startLife(page, {
+      place: "Lexington",
+      state: "Kentucky",
+      age: 10,
+      childhood: true,
+    });
 
     const introduction = page.getByTestId("life-introduction");
     await expect(introduction).toBeVisible();
@@ -377,7 +393,7 @@ test.describe("A life happens in the room the records put it in", () => {
     page,
   }) => {
     await freshBrowser(page);
-    await startLife(page, { age: 36 });
+    await startLife(page, { place: "Lexington", state: "Kentucky", age: 36 });
     // PT3: the intro is two beats and then the scene; the life moment is
     // reached the way a player reaches it.
     await enterLife(page);
@@ -421,7 +437,7 @@ test.describe("A life happens in the room the records put it in", () => {
     page,
   }) => {
     await freshBrowser(page);
-    await startLife(page, { age: 36 });
+    await startLife(page, { place: "Lexington", state: "Kentucky", age: 36 });
     // PT3: the intro is two beats and then the scene; the life moment is
     // reached the way a player reaches it.
     await enterLife(page);

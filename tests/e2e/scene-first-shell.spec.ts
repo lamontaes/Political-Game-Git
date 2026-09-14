@@ -38,7 +38,7 @@ test.describe("A life is played in the room, not on a card", () => {
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await freshBrowser(page);
-    await startLife(page, { age: 10 });
+    await startLife(page, { place: "Lexington", state: "Kentucky", age: 10 });
     await enterLife(page);
 
     // The room is a released, decoded plate filling the frame.
@@ -104,7 +104,7 @@ test.describe("A life is played in the room, not on a card", () => {
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await freshBrowser(page);
-    await startLife(page, { age: 10 });
+    await startLife(page, { place: "Lexington", state: "Kentucky", age: 10 });
     await enterLife(page);
 
     const room = page.getByTestId("scene-people");
@@ -147,7 +147,7 @@ test.describe("A life is played in the room, not on a card", () => {
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await freshBrowser(page);
-    await startLife(page, { age: 10 });
+    await startLife(page, { place: "Lexington", state: "Kentucky", age: 10 });
     await enterLife(page);
 
     const before = await page.getByTestId("story-prose").innerText();

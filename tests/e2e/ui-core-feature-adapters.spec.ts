@@ -11,6 +11,8 @@ test("normal Day exposes the frozen study/work adapter and scheduled sessions re
 }) => {
   await page.goto("/?seed=ui-core-life-adapter");
   await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
     age: 35,
     route: "custom",
     household: "shares-a-home",
@@ -70,7 +72,12 @@ test("Custom judicial workplace uses the normal World, Work and save route", asy
   page,
 }) => {
   await page.goto("/?seed=ui-core-judicial-adapter");
-  await fillCreator(page, { age: 35, route: "custom" });
+  await fillCreator(page, {
+    place: "Lexington",
+    state: "Kentucky",
+    age: 35,
+    route: "custom",
+  });
   await page.getByTestId("creator-summary-background").click();
   await page.getByTestId("judicial-office-start").click();
   await page.getByTestId("creator-continue-background").click();
@@ -111,6 +118,7 @@ test("mixed person, session and measure pins preserve identity and clear workspa
   test.setTimeout(120_000);
   await page.goto("/?seed=ui-core-mixed-adapters");
   await startLife(page, {
+    place: "Kentucky",
     age: 35,
     route: "custom",
     office: true,
@@ -224,6 +232,8 @@ test("normal activity completion replaces household presence without a second cl
 }, testInfo) => {
   await page.goto("/?seed=env-normal-action");
   await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
     age: 34,
     route: "custom",
     household: "shares-a-home",
@@ -301,7 +311,12 @@ test("frozen docket uses the normal Work shell and keeps its selected document o
   page,
 }, testInfo) => {
   await page.goto("/?seed=ui-core-docket-adapter");
-  await startLife(page, { age: 35, route: "normal" });
+  await startLife(page, {
+    place: "Lexington",
+    state: "Kentucky",
+    age: 35,
+    route: "normal",
+  });
   await enterLife(page);
   await reachMemberOffice(page);
   await page.getByTestId("open-drafting-table").click();

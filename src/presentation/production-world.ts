@@ -78,6 +78,8 @@ export interface ProductionWorldInput {
   readonly familyStructureSeed?: string;
   readonly place: LifePlace;
   readonly age: number;
+  readonly birthMonth?: number;
+  readonly birthDay?: number;
   readonly givenName: string | null;
   readonly familyName: string | null;
   /**
@@ -170,6 +172,9 @@ export function buildProductionWorld(
     currentDate,
     homeJurisdictionId: jurisdiction.id,
     age: input.age,
+    ...(input.birthMonth === undefined || input.birthDay === undefined
+      ? {}
+      : { birthMonth: input.birthMonth, birthDay: input.birthDay }),
     givenName: input.givenName,
     familyName: input.familyName,
     // A life starting now is drawn under the coherent recipe, declared here

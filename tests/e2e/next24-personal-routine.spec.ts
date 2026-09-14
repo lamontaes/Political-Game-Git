@@ -26,6 +26,144 @@ for (const viewport of [
   { width: 1440, height: 900 },
   { width: 1200, height: 720 },
 ]) {
+  test(`Personal disclosed tuition deadline and earned-cash resume ${viewport.width}`, async ({
+    page,
+  }) => {
+    test.setTimeout(180_000);
+    await page.setViewportSize(viewport);
+    await page.goto(`/?seed=d33-tuition-${viewport.width}`);
+    await startLife(page, {
+      place: "Lexington",
+      state: "Kentucky",
+      age: 35,
+      route: "custom",
+      household: "lives-alone",
+    });
+    await enterLife(page);
+    let routine = await personal(page);
+    await routine
+      .getByLabel(
+        "Tuition grace days for College office administration certificate",
+        { exact: true },
+      )
+      .fill("45");
+    await routine
+      .getByRole("button", {
+        name: "Enroll in College office administration certificate",
+        exact: true,
+      })
+      .press("Enter");
+    let study = routine
+      .locator("article")
+      .filter({
+        has: page.getByRole("heading", {
+          name: "College office administration certificate",
+          exact: true,
+        }),
+      })
+      .last();
+    await expect(study).toContainText(
+      "45 simulated-day authored tuition grace",
+    );
+    await routine
+      .getByRole("button", {
+        name: "Continue to next study period",
+        exact: true,
+      })
+      .click();
+    await expect(study).toContainText("disclosed deadline");
+    await expect(routine.getByTestId("personal-routine-outcome")).toContainText(
+      "Tuition is unpaid",
+    );
+    await saveLife(page);
+    const accepted = await readSavedLegislativeWorld(page);
+    const enrollment = accepted.history.educationEnrollments.at(-1)!;
+    expect(
+      accepted.history.resourceTransferOutcomes.filter(
+        (o) => o.status === "completed",
+      ),
+    ).toHaveLength(0);
+    await page.reload();
+    await page.getByTestId("continue").click();
+    await enterLife(page);
+    routine = await personal(page);
+    study = routine
+      .locator("article")
+      .filter({
+        has: page.getByRole("heading", {
+          name: "College office administration certificate",
+          exact: true,
+        }),
+      })
+      .last();
+    await routine
+      .getByRole("button", {
+        name: "Continue to tuition deadline",
+        exact: true,
+      })
+      .press("Space");
+    await expect(study).toContainText("Study paused for unfunded tuition");
+    await expect(
+      study.getByRole("button", { name: "Return", exact: true }),
+    ).toHaveCount(0);
+    await routine
+      .getByRole("button", { name: "Accept Shop assistant", exact: true })
+      .click();
+    for (let day = 0; day < 12; day++)
+      await routine
+        .getByRole("button", {
+          name: "Continue to tomorrow morning",
+          exact: true,
+        })
+        .click();
+    await expect(routine.getByTestId("personal-routine-outcome")).toContainText(
+      "Received USD: 72.00",
+    );
+    await study
+      .getByRole("button", {
+        name: "Pay accepted tuition from personal funds and resume study",
+        exact: true,
+      })
+      .press("Enter");
+    await expect(study).toContainText("Completed");
+    await expect(routine.getByTestId("personal-routine-outcome")).toContainText(
+      "Paid USD: 600.00",
+    );
+    await saveLife(page);
+    const paid = await readSavedLegislativeWorld(page);
+    expect(paid.history.educationEnrollments).toEqual(
+      accepted.history.educationEnrollments,
+    );
+    expect(
+      paid.history.educationEnrollments.filter((e) => e.id === enrollment.id),
+    ).toHaveLength(1);
+    const tuitionFlows = new Set(
+      paid.history.resourceFlows
+        .filter((f) => f.basisKind === "obligation:tuition")
+        .map((f) => f.id),
+    );
+    expect(
+      paid.history.resourceTransferOutcomes.filter(
+        (o) => o.status === "completed" && tuitionFlows.has(o.resourceFlowId),
+      ),
+    ).toHaveLength(1);
+    expect(
+      paid.history.events.filter(
+        (e) => e.type === "life-paths2.tuition-paused",
+      ),
+    ).toHaveLength(1);
+    expect(
+      paid.history.events.filter((e) => e.type === "life-paths2.credential"),
+    ).toHaveLength(1);
+    await page.screenshot({
+      path: test.info().outputPath("personal-tuition-resumed.png"),
+    });
+    await page.reload();
+    await page.getByTestId("continue").click();
+    await enterLife(page);
+    await personal(page);
+    await expect(study).toContainText("Completed");
+  });
   test(`Personal combined work, included journey, education period and reload ${viewport.width}`, async ({
     page,
   }) => {
@@ -33,6 +171,8 @@ for (const viewport of [
     await page.setViewportSize(viewport);
     await page.goto(`/?seed=next24-personal-${viewport.width}`);
     await startLife(page, {
+      place: "Lexington",
+      state: "Kentucky",
       age: 35,
       route: "custom",
       household: "lives-alone",

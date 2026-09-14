@@ -1,8 +1,9 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { sha256Hex, toCanonicalJson } from "../../src/source/core/index";
 
-const ROOT = resolve(new URL("../..", import.meta.url).pathname);
+const ROOT = fileURLToPath(new URL("../..", import.meta.url));
 const INPUT_DIR = resolve(
   ROOT,
   "data/source/state-local-fiscal-authority/research-input",

@@ -14,7 +14,6 @@ import {
 import type { EntityId, World } from "../simulation";
 import {
   createNewGameWorld,
-  DEFAULT_NEW_GAME_SETUP,
   type NewGameSetup,
 } from "../presentation/new-game";
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
@@ -319,8 +318,8 @@ function summarizeWorld(
 
 export interface SeedComparisonRequest {
   readonly seeds: readonly string[];
-  /** Everything except the seed. Defaults to the shipped new-game defaults. */
-  readonly setup?: Omit<NewGameSetup, "seed">;
+  /** Everything except the seed. An explicit placeKey is required. */
+  readonly setup: Omit<NewGameSetup, "seed">;
 }
 
 /**
@@ -345,7 +344,12 @@ export function compareSeeds(request: SeedComparisonRequest): SeedComparison {
     seen.add(seed);
   }
 
-  const baseSetup = request.setup ?? DEFAULT_NEW_GAME_SETUP;
+  const baseSetup = request.setup;
+  if (!baseSetup.placeKey.trim()) {
+    throw new Error(
+      "Seed comparison needs an explicit place. Lexington is not assumed.",
+    );
+  }
   const summaries = request.seeds.map((seed) => {
     const setup: NewGameSetup = { ...baseSetup, seed };
     const game = createNewGameWorld(setup);

@@ -95,7 +95,7 @@ test("uses the same version placement after a normal age-22 start", async ({
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await freshBrowser(page);
-  await startLife(page, { age: 22, place: "Kentucky" });
+  await startLife(page, { age: 22, place: "Lexington", state: "Kentucky" });
   await enterLife(page);
   await expectCornerVersion(page, { width: 1440, height: 900 });
 });

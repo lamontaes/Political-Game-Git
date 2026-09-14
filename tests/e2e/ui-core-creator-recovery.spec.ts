@@ -6,6 +6,8 @@ test("questionnaire Back retains creator identity and the next unanswered questi
 }) => {
   await page.goto("/?seed=ui-transfer-draft");
   await fillCreator(page, {
+    place: "Lexington",
+    state: "Kentucky",
     age: 35,
     givenName: "Avery",
     familyName: "Cedar",
@@ -54,7 +56,12 @@ test("normal Begin crosses the presentation fade before the generated life", asy
     await page.setViewportSize({ width, height: 900 });
     await page.screenshot({ path: testInfo.outputPath(`title-${width}.png`) });
   }
-  await fillCreator(page, { age: 35, route: "normal" });
+  await fillCreator(page, {
+    place: "Lexington",
+    state: "Kentucky",
+    age: 35,
+    route: "normal",
+  });
   await page.getByTestId("begin").press("Enter");
   await expect(page.getByTestId("life-start-transition")).toBeVisible();
   await expect(page.getByTestId("play-screen")).toHaveCount(0);

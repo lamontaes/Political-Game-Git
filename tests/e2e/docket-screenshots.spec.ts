@@ -47,7 +47,12 @@ async function liveUntilDecided(page: Page, maxDays = 45) {
 test("captures the five-minute click path", async ({ page }) => {
   await freshBrowser(page);
   await page.goto("/?seed=p85c-owner-0");
-  await startLife(page, { age: 34, place: "Lexington", gender: "male" });
+  await startLife(page, {
+    age: 34,
+    place: "Lexington",
+    state: "Kentucky",
+    gender: "male",
+  });
   await enterLife(page);
   await openElsewhere(page, "work");
   await fileCandidacy(page);
