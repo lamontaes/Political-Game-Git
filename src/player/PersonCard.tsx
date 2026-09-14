@@ -12,6 +12,7 @@ import type { ShellRef } from "../presentation/shell-navigation";
 import type { EntityId, World } from "../simulation";
 import { pinKindLabel } from "./ShellPinRail";
 import { PersonPortrait } from "./PersonPortrait";
+import { projectPersonContact } from "../presentation/person-contact";
 import "./people-web.css";
 
 /**
@@ -63,6 +64,7 @@ export function PersonCard({
   onTogglePin,
   onOpenPerson,
   onTalk,
+  onMeet,
   talkUnavailable,
   onOpenLink,
 }: {
@@ -77,6 +79,7 @@ export function PersonCard({
   readonly onTogglePin: () => void;
   readonly onOpenPerson: (personId: EntityId) => void;
   readonly onTalk?: () => void;
+  readonly onMeet?: () => void;
   readonly talkUnavailable: string | null;
   readonly onOpenLink: (ref: ShellRef) => void;
 }) {
@@ -101,6 +104,7 @@ export function PersonCard({
     ];
   });
 
+  const contact = projectPersonContact(world, playerId, dossier.personId);
   const facts = expanded ? dossier.details : dossier.details.slice(0, 3);
   const testId =
     mode === "overlay" && !expanded ? "quick-dossier" : "full-dossier";
@@ -282,18 +286,51 @@ export function PersonCard({
             </div>
           )}
 
-      <div className="pg-dossier-actions">
+      <div className="pg-dossier-actions" data-testid="person-contact-actions">
         {onTalk ? (
           <button
             type="button"
             className="ui-action ui-action--primary"
             data-testid="dossier-talk"
-            disabled={talkUnavailable !== null}
+            disabled={!contact.talk.available}
+            aria-describedby={`person-talk-reason-${dossier.personId}`}
             onClick={onTalk}
           >
-            Talk to {dossier.shortName}
+            Talk
+            <small>{contact.talk.reason}</small>
           </button>
         ) : null}
+        <button
+          type="button"
+          className="ui-action"
+          data-testid="person-contact"
+          disabled={!contact.contact.available}
+          aria-describedby={`person-contact-reason-${dossier.personId}`}
+        >
+          Contact
+          <small>{contact.contact.reason}</small>
+        </button>
+        <button
+          type="button"
+          className="ui-action"
+          data-testid="person-meet"
+          disabled={!contact.meet.available || !onMeet}
+          aria-describedby={`person-meet-reason-${dossier.personId}`}
+          onClick={onMeet}
+        >
+          Meet
+          <small>{contact.meet.reason}</small>
+        </button>
+        <button
+          type="button"
+          className="ui-action"
+          data-testid="person-travel"
+          disabled={!contact.travel.available}
+          aria-describedby={`person-travel-reason-${dossier.personId}`}
+        >
+          Travel
+          <small>{contact.travel.reason}</small>
+        </button>
         <button
           type="button"
           className="ui-action"
@@ -314,6 +351,22 @@ export function PersonCard({
           </button>
         ) : null}
       </div>
+      <p className="sr-only" id={`person-talk-reason-${dossier.personId}`}>
+        {contact.talk.reason}
+      </p>
+      <p className="sr-only" id={`person-contact-reason-${dossier.personId}`}>
+        {contact.contact.reason}
+      </p>
+      <p className="sr-only" id={`person-meet-reason-${dossier.personId}`}>
+        {contact.meet.reason}
+      </p>
+      <p
+        className="game-note"
+        id={`person-travel-reason-${dossier.personId}`}
+        data-testid="person-contact-reason"
+      >
+        {contact.travel.reason}
+      </p>
       {talkUnavailable ? (
         <p className="game-note" data-testid="dossier-talk-unavailable">
           {talkUnavailable}

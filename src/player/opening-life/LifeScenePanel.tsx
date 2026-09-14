@@ -1,8 +1,3 @@
-import { projectOpeningLife } from "../../presentation/opening-life";
-import {
-  canJoinOrdinaryGroup,
-  joinOrdinaryGroup,
-} from "../../presentation/ordinary-community";
 import { useEffect, useRef, useState } from "react";
 import { personName, describePersonContext } from "../../simulation";
 import type {
@@ -13,18 +8,9 @@ import type {
 import {
   currentOpeningLifeScene,
   chooseOpeningLifeScene,
-  openingNeighborhoodWalkOffer,
-  openNextLifeScene,
-  walkOpeningNeighborhood,
 } from "../../presentation/life-scene-flow";
 import { formatMinute } from "../../presentation/player-calendar";
 import { openingLifeLocation } from "../../presentation/life-scene-flow";
-import {
-  lifeReflectionOffer,
-  chooseConversationApproach,
-  ORDINARY_LIFE_GOALS,
-  chooseOrdinaryLifeGoal,
-} from "../../simulation/life-personality";
 
 /**
  * The situation in front of the character: where, what is happening, what
@@ -43,7 +29,6 @@ export function LifeScenePanel({
   world,
   playerPersonId,
   onWorldChange,
-  onContinue,
   onTalkTo,
   returnFocusTo = null,
   onFocusReturned,
@@ -52,13 +37,7 @@ export function LifeScenePanel({
   world: World;
   playerPersonId: EntityId;
   onWorldChange: (world: World) => void;
-  onContinue: () => void;
-  /** Opens the shared conversation box with exactly this person. */
   onTalkTo: (personId: EntityId) => void;
-  /**
-   * Whose Talk-to control to focus, when the panel comes back from that
-   * person's conversation. Back with a keyboard has to land somewhere.
-   */
   returnFocusTo?: EntityId | null;
   onFocusReturned?: () => void;
   transitionHandlers?: FutureTransitionHandlerRegistry;
@@ -71,9 +50,7 @@ export function LifeScenePanel({
     talkToRef.current?.focus();
     onFocusReturned?.();
   }, [returnFocusTo, onFocusReturned]);
-  const identity = projectOpeningLife(world, playerPersonId);
   const scene = currentOpeningLifeScene(world, playerPersonId);
-  const reflection = lifeReflectionOffer(world, playerPersonId);
   const lastSceneEvent = world.history.events
     .filter(
       (event) =>
@@ -147,10 +124,6 @@ export function LifeScenePanel({
       className="life-moment pg-opening-flow"
       data-testid="opening-life-scene"
     >
-      <p data-testid="life-identity">
-        {identity.name} · Age {identity.age} · {identity.date} ·{" "}
-        {identity.place}
-      </p>
       {problem ? <p role="alert">{problem}</p> : null}
       {outcome ? (
         <p role="status" data-testid="life-scene-outcome">
@@ -236,142 +209,10 @@ export function LifeScenePanel({
           ) : null}
         </>
       ) : (
-        <>
-          {/*
-            UI9-07. With no scene open, the one thing here that is not a way to
-            leave is looking for the next situation. It opens one when the life
-            has one waiting and otherwise says so, instead of falling through to
-            a different surface under the same words.
-          */}
-          <button
-            className="ui-action"
-            type="button"
-            data-testid="life-next-scene"
-            onClick={() => {
-              const next = openNextLifeScene(world, playerPersonId);
-              if (next === world) {
-                setOutcome(null);
-                setProblem("Nothing else is waiting here right now.");
-              } else onWorldChange(next);
-            }}
-          >
-            See what happens next
-          </button>
-        </>
+        <p className="game-note" data-testid="life-scene-quiet">
+          Nothing here needs a choice right now.
+        </p>
       )}
-      {reflection?.target.kind === "personality" ? (
-        <button
-          className="ui-action"
-          type="button"
-          onClick={() =>
-            commit(() =>
-              chooseConversationApproach(
-                world,
-                playerPersonId,
-                reflection.target.kind === "personality"
-                  ? (reflection.target.expressionKey as
-                      "ask" | "listen" | "direct")
-                  : "ask",
-              ),
-            )
-          }
-        >
-          Keep using this approach in conversation
-        </button>
-      ) : null}
-      {/*
-        Both walks, each carrying its own answer.
-
-        These were two unconditional buttons, so "Walk home" was offered while
-        standing at home and refused with a message about the calendar. Now the
-        offer says whether it can be taken and why not, and a walk that cannot
-        be taken is disabled with its actual reason beside it rather than
-        pretending to be available.
-      */}
-      <div className="game-choices" data-testid="life-walks">
-        {(["neighborhood", "home"] as const).map((destination) => {
-          const offer = openingNeighborhoodWalkOffer(
-            world,
-            playerPersonId,
-            destination,
-          );
-          return (
-            <p key={destination} className="life-walk">
-              <button
-                className="ui-action"
-                type="button"
-                data-testid={`life-walk-${destination}`}
-                disabled={offer.unavailable !== null}
-                onClick={() =>
-                  commit(() =>
-                    walkOpeningNeighborhood(
-                      world,
-                      playerPersonId,
-                      destination,
-                      transitionHandlers,
-                    ),
-                  )
-                }
-              >
-                {offer.label} · {offer.minutes} minutes
-              </button>
-              {offer.unavailable ? (
-                <small data-testid={`life-walk-${destination}-reason`}>
-                  {offer.unavailable}
-                </small>
-              ) : null}
-            </p>
-          );
-        })}
-      </div>
-      {canJoinOrdinaryGroup(world, playerPersonId) ? (
-        <button
-          className="ui-action"
-          type="button"
-          onClick={() => commit(() => joinOrdinaryGroup(world, playerPersonId))}
-        >
-          Join a neighborhood walking group
-        </button>
-      ) : null}
-      <details>
-        <summary>Personal plans</summary>
-        {Object.entries(ORDINARY_LIFE_GOALS).map(([key, label]) => (
-          <button
-            className="ui-action"
-            type="button"
-            key={key}
-            onClick={() =>
-              commit(() =>
-                chooseOrdinaryLifeGoal(
-                  world,
-                  playerPersonId,
-                  key as keyof typeof ORDINARY_LIFE_GOALS,
-                ),
-              )
-            }
-          >
-            {label}
-          </button>
-        ))}
-      </details>
-      {/*
-        The one way from this moment to the rest of the life. It used to be
-        drawn twice — above the panel and again inside it when no scene was
-        open — beside a "Continue your day" that sometimes did the same thing.
-      */}
-      <div className="life-moment-foot">
-        <button
-          className="ui-action"
-          type="button"
-          aria-describedby="life-continue-hint"
-          onClick={onContinue}
-        >
-          Continue your life
-        </button>
-        <small id="life-continue-hint">
-          Step back from this moment; it stays where it is.
-        </small>
-      </div>
     </section>
   );
 }

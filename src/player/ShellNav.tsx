@@ -211,12 +211,15 @@ export function ShellNav({
           press, and nothing in the room reflows.
         */}
         <span className="pg-nav-cluster-inner" aria-hidden="true">
-          <span className="pg-nav-emblem">✦</span>
           <span className="pg-nav-copy">
             <span className="pg-nav-identity" data-testid="shell-nav-identity">
-              {playerName}
+              <span className="life-identity-name" data-testid="story-who">
+                {playerName}
+              </span>
             </span>
-            <span className="pg-nav-date">{dateLabel}</span>
+            <span className="pg-nav-date" data-testid="story-when">
+              {dateLabel}
+            </span>
             <span className="pg-nav-place">{place}</span>
           </span>
         </span>
@@ -299,25 +302,27 @@ export function ShellNav({
                   </div>
                 );
               })}
-              {canSave ? (
+              <div className="pg-nav-persist">
+                {canSave ? (
+                  <button
+                    type="button"
+                    role="menuitem"
+                    data-testid={unsaved ? "keep-world" : "save-world"}
+                    onClick={onSave}
+                  >
+                    Save
+                    {unsaved ? <small>Not saved yet</small> : null}
+                  </button>
+                ) : null}
                 <button
                   type="button"
                   role="menuitem"
-                  data-testid={unsaved ? "keep-world" : "save-world"}
-                  onClick={onSave}
+                  data-testid="leave-game"
+                  onClick={onLeave}
                 >
-                  {unsaved ? "Keep this life" : "Save this life"}
-                  {unsaved ? <small>Not saved yet</small> : null}
+                  Main menu
                 </button>
-              ) : null}
-              <button
-                type="button"
-                role="menuitem"
-                data-testid="leave-game"
-                onClick={onLeave}
-              >
-                Main menu
-              </button>
+              </div>
             </>
           ) : (
             <>

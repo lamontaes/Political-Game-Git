@@ -34,6 +34,7 @@ import type {
   World,
 } from "../simulation";
 import { PersonPortrait } from "./PersonPortrait";
+import { useClampedConversation } from "./overlay-viewport";
 
 /**
  * The conversation, as one box in the room.
@@ -108,6 +109,7 @@ export function SceneConversation({
         ?.focus();
     wasHistory.current = inHistory;
   }, [historyPage]);
+  useClampedConversation(boxRef, 72);
 
   const view = useMemo(
     () =>
@@ -246,9 +248,16 @@ export function SceneConversation({
       onKeyDown={onKeyDown}
     >
       <header className="pg-talk-head">
-        {facing !== null ? (
-          <PersonPortrait world={world} personId={facing} size="large" />
-        ) : null}
+        <div className="pg-talk-faces" data-testid="talk-faces">
+          <PersonPortrait
+            world={world}
+            personId={playerPersonId}
+            size="small"
+          />
+          {facing !== null ? (
+            <PersonPortrait world={world} personId={facing} size="large" />
+          ) : null}
+        </div>
         <div className="pg-talk-who">
           <h2 className="pg-talk-name" data-testid="talk-name">
             {name}
@@ -325,15 +334,9 @@ export function SceneConversation({
             {current && facing !== null ? (
               <HeardNote turn={current} facing={facing} facingName={name} />
             ) : null}
-            {clock ? (
-              <p
-                className="pg-talk-clock"
-                role="status"
-                data-testid="talk-clock"
-              >
-                {clock}
-              </p>
-            ) : null}
+            <p className="pg-talk-clock" role="status" data-testid="talk-clock">
+              {clock ?? "Talking does not move the clock."}
+            </p>
           </div>
 
           {trouble ? (
@@ -466,7 +469,7 @@ export function SceneConversation({
                     } this too.`
                   : "Nobody else hears this."}
                 {subject === "life-talk"
-                  ? " Each exchange takes 2 minutes; spending time together takes 30."
+                  ? " Asking and answering does not move the clock. Spending time together takes 30 minutes once."
                   : ""}
               </span>
               {privateReason ? (

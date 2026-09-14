@@ -232,9 +232,11 @@ test.describe("the life the player asked for is the life they get", () => {
       state: "Kentucky",
       gender: "male",
     });
-    // The introduction opens on the world, then the household; the grounding
-    // is the household beat's, and it still comes before the first choice.
-    await page.getByTestId("introduction-continue").click();
+    await expect(page.getByTestId("play-screen")).toBeVisible();
+    await page.getByTestId("shell-nav-cluster").click();
+    await page.getByTestId("nav-personal-group").click();
+    await page.getByTestId("nav-personal").click();
+    await page.getByTestId("life-introduction").locator("summary").click();
 
     const grounding = page.getByTestId("life-grounding");
     await expect(grounding).toBeVisible();

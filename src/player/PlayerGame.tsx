@@ -10,6 +10,7 @@ import {
 } from "./SavedAppearance";
 import { createOpeningLifeController } from "../presentation/opening-life";
 import { OpeningLifeFlow } from "./opening-life/OpeningLifeFlow";
+import { useClampedMenu, useContentViewportCss } from "./overlay-viewport";
 import { MunicipalWorkspace } from "./MunicipalWorkspace";
 import { PlacesWorkspace } from "./PlacesWorkspace";
 import { municipalVenueForActivity } from "../presentation/municipal-venue";
@@ -35,6 +36,7 @@ import { createCampaignElectionTransitionRegistry } from "../simulation/campaign
 import {
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -129,6 +131,7 @@ import {
   lifePlaceSearch,
   lifePlaceStateIdentities,
   lifePlaces,
+  personName,
 } from "../simulation";
 import type { EntityId, QuestionnairePhase, World } from "../simulation";
 import {
@@ -2084,12 +2087,23 @@ function PlayingScreen({
    * on screen; this is the request, cleared as soon as it is honored.
    */
   const [returnFocusTo, setReturnFocusTo] = useState<EntityId | null>(null);
-  const [continuingLifeShown, setContinuingLifeShown] = useState(false);
+  const [pendingLifeOpen, setPendingLifeOpen] = useState(false);
+  const continuingLifeShown = pendingLifeOpen;
+  const openPendingLife = () => {
+    setPendingLifeOpen(true);
+    dispatch({ type: "go-to-scene" });
+  };
+  useContentViewportCss();
+  const actionMenuRef = useRef<HTMLDivElement>(null);
 
   const projectedMoment = useMemo(
     () => projectStoryMoment(session.world, session.personId),
     [session.world, session.personId],
   );
+  const pendingAvailable =
+    projectedMoment.scene.kind !== "ordinary-stretch" ||
+    projectedMoment.openThreads.length > 0 ||
+    Boolean(completedActivityHere(session.world, session.personId));
 
   const sceneVisuals = useMemo(
     () => locationReviewVisuals(Boolean(artPreview) && import.meta.env.DEV),
@@ -2478,6 +2492,18 @@ function PlayingScreen({
     shell.actionMenuPersonId === null
       ? null
       : dossierFor(shell.actionMenuPersonId);
+  const [actionAnchor, setActionAnchor] = useState<HTMLElement | null>(null);
+  useLayoutEffect(() => {
+    if (!actionPerson) {
+      setActionAnchor(null);
+      return;
+    }
+    const token = document.querySelector<HTMLElement>(
+      `[data-person-id="${CSS.escape(actionPerson.personId)}"]`,
+    );
+    setActionAnchor(token);
+  }, [actionPerson]);
+  useClampedMenu(actionMenuRef, actionAnchor);
   /*
    * Asked once, and kept.
    *
@@ -2542,6 +2568,8 @@ function PlayingScreen({
     goToTheFloor,
     goToTheFloorFor,
     workHint,
+    pendingAvailable,
+    onOpenPending: openPendingLife,
   });
 
   return (
@@ -2601,22 +2629,22 @@ function PlayingScreen({
               key={session.world.id}
               world={session.world}
               playerPersonId={session.personId}
-              alreadyIntroduced={session.saveId !== null}
-              onContinuingChange={setContinuingLifeShown}
               onWorldChange={onWorldChange}
               transitionHandlers={createCampaignElectionTransitionRegistry()}
-              continuingLife={
+              onTalkTo={(personId) => talkTo(personId)}
+              returnFocusTo={returnFocusTo}
+              onFocusReturned={() => setReturnFocusTo(null)}
+              pendingOpen={pendingLifeOpen}
+              onClosePending={() => setPendingLifeOpen(false)}
+              pendingLife={
                 <StoryView
                   session={session}
                   moment={moment}
                   onWorldChange={onWorldChange}
                 />
               }
-              onTalkTo={(personId) => talkTo(personId)}
-              returnFocusTo={returnFocusTo}
-              onFocusReturned={() => setReturnFocusTo(null)}
               foreground={
-                conversation ? (
+                conversation && view.surface === "scene" ? (
                   <SceneConversation
                     key={conversation.subject}
                     world={session.world}
@@ -2628,8 +2656,6 @@ function PlayingScreen({
                     onBack={() => {
                       const facing = conversation.addressee;
                       setConversation(null);
-                      // The room focuses the control this came from, so Back
-                      // with a keyboard lands on the person again.
                       if (facing !== "everyone") setReturnFocusTo(facing);
                     }}
                     transitionHandlers={createCampaignElectionTransitionRegistry()}
@@ -2651,6 +2677,7 @@ function PlayingScreen({
               aria-label={`${actionPerson.name} actions`}
               data-testid="person-action-menu"
               data-person-id={actionPerson.personId}
+              ref={actionMenuRef}
             >
               <p className="pg-action-menu-name">{actionPerson.name}</p>
               <button
@@ -2752,12 +2779,31 @@ function PlayingScreen({
                 dispatch({ type: "open-quick-dossier", personId })
               }
               onTalk={() => talkTo(selectedDossier.personId)}
+              onMeet={() => dispatch({ type: "go-to-scene" })}
               talkUnavailable={
                 inspectTalkEntry?.kind === "unavailable"
                   ? inspectTalkEntry.reason
                   : null
               }
             />
+          ) : null}
+
+          {conversation && view.surface !== "scene" ? (
+            <button
+              type="button"
+              className="pg-talk-return civic-glass"
+              data-testid="conversation-return"
+              onClick={() => dispatch({ type: "go-to-scene" })}
+            >
+              Return to conversation
+              <small>
+                {conversation.addressee === "everyone"
+                  ? "Everyone here"
+                  : session.world.people[conversation.addressee]
+                    ? personName(session.world.people[conversation.addressee]!)
+                    : "Someone"}
+              </small>
+            </button>
           ) : null}
 
           {workspace}
@@ -2875,6 +2921,8 @@ function renderWorkspace({
   goToTheFloor,
   goToTheFloorFor,
   workHint,
+  pendingAvailable,
+  onOpenPending,
 }: {
   readonly view: ReturnType<typeof activeView>;
   readonly session: Session;
@@ -2894,6 +2942,8 @@ function renderWorkspace({
   readonly goToTheFloor: () => void;
   readonly goToTheFloorFor: (bill: DocketBill) => void;
   readonly workHint: string;
+  readonly pendingAvailable: boolean;
+  readonly onOpenPending: () => void;
 }): ReactNode {
   if (view.surface === "scene") return null;
 
@@ -3014,6 +3064,7 @@ function renderWorkspace({
               togglePin({ kind: "person", id: dossier.personId })
             }
             onTalk={() => talkTo(dossier.personId)}
+            onMeet={() => dispatch({ type: "go-to-scene" })}
             talkUnavailable={entry.kind === "unavailable" ? entry.reason : null}
             onOpenLink={openEntity}
             onOpenPerson={(personId) =>
@@ -3127,6 +3178,7 @@ function renderWorkspace({
           isPinnedRef={pinnedRef}
           onOpen={openEntity}
           onTogglePin={togglePin}
+          onWorldChange={onWorldChange}
         />,
       );
 
@@ -3149,6 +3201,8 @@ function renderWorkspace({
             personId={session.personId}
             {...(view.section ? { section: view.section } : {})}
             onOpenPerson={openPerson}
+            pendingAvailable={pendingAvailable}
+            onOpenPending={onOpenPending}
           />
         </>,
       );
