@@ -1387,6 +1387,9 @@ export function appointMunicipalManager(
     involvedEntityIds: [
       actorId,
       input.appointeePersonId,
+      ...decision.dispositions
+        .map((entry) => entry.personId)
+        .filter((id): id is EntityId => id !== null),
       ...(organization ? [organization.id] : []),
     ],
     participants: [
@@ -1404,7 +1407,7 @@ export function appointMunicipalManager(
         .filter((entry) => entry.personId && entry.personId !== actorId)
         .map((entry) => ({
           personId: entry.personId!,
-          role: "agency:voting-member",
+          role: "agency:voting-member" as const,
           detail: entry.disposition,
         })),
     ],

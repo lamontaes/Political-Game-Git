@@ -15,7 +15,6 @@ import { deserializeWorld, serializeWorld } from "../simulation";
 import type { LegislativeVoteDisposition } from "../simulation/types";
 import {
   appointProjectedManager,
-  attendProjectedPublicMeeting,
   discoverMunicipalPublicMeetings,
   ensureAuthoredPublicMeeting,
   introduceProjectedOrdinance,
