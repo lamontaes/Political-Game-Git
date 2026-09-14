@@ -191,4 +191,19 @@ describe("News orientation reader", () => {
       ),
     ).toBe(true);
   });
+
+  it("states that reading News does not publish, using the lived place", () => {
+    const created = ordinaryLife("world39-news-reading-note");
+    const orientation = projectNewsOrientation(
+      created.world,
+      created.playerPersonId,
+    );
+    expect(orientation.assembledLine).toContain("Assembled");
+    expect(orientation.assembledLine).toContain(orientation.asOf);
+    expect(orientation.assembledLine).toContain(
+      "Reading does not publish a story or create the event it reports.",
+    );
+    expect(orientation.placeName).toBeTruthy();
+    expect(orientation.assembledLine).toContain(orientation.placeName!);
+  });
 });

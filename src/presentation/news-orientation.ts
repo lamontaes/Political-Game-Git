@@ -65,9 +65,15 @@ export interface NewsOrientationLane {
   readonly emptyReason: string | null;
 }
 
+export const NEWS_ORIENTATION_PUBLIC_TITLE = "Around this place";
+export const NEWS_ORIENTATION_KNOWN_TITLE =
+  "Known to you from the public record";
+
 export interface NewsOrientation {
   readonly asOf: IsoDate;
   readonly placeName: string | null;
+  /** Chrome the News reader shows; reading this line does not write history. */
+  readonly assembledLine: string;
   readonly publicWorld: NewsOrientationLane;
   readonly viewerAccessible: NewsOrientationLane;
   readonly publications: readonly PublicInformationDigestItem[];
@@ -125,6 +131,9 @@ export function projectNewsOrientation(
   return {
     asOf: world.currentDate,
     placeName: place?.displayName ?? null,
+    assembledLine: place
+      ? `Assembled ${world.currentDate} · ${place.displayName}. Reading does not publish a story or create the event it reports.`
+      : `Assembled ${world.currentDate}. Reading does not publish a story or create the event it reports.`,
     publicWorld: {
       items: publicWorldItems,
       emptyReason:

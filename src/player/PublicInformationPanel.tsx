@@ -6,7 +6,11 @@ import type {
   PublicInformationPanelModel,
 } from "../presentation/public-information-adapters";
 import type { CivicGlossaryEntry } from "../presentation/civic-glossary";
-import type { NewsOrientationItem } from "../presentation/news-orientation";
+import {
+  NEWS_ORIENTATION_KNOWN_TITLE,
+  NEWS_ORIENTATION_PUBLIC_TITLE,
+  type NewsOrientationItem,
+} from "../presentation/news-orientation";
 import { filterPublishedNewsItems } from "./public-information-search";
 import {
   itemsForPublicInformationView,
@@ -336,12 +340,8 @@ function NewsOrientationSection({
       aria-labelledby="news-orientation-title"
       data-testid="news-orientation"
     >
-      <h3 id="news-orientation-title">Around this place</h3>
-      <p className="news-orientation-as-of">
-        Assembled {orientation.asOf}
-        {orientation.placeName ? ` · ${orientation.placeName}` : ""}. Reading
-        does not publish a story or create the event it reports.
-      </p>
+      <h3 id="news-orientation-title">{NEWS_ORIENTATION_PUBLIC_TITLE}</h3>
+      <p className="news-orientation-as-of">{orientation.assembledLine}</p>
       {orientation.publicWorld.emptyReason ? (
         <p data-testid="news-orientation-public-empty">
           {orientation.publicWorld.emptyReason}
@@ -356,9 +356,7 @@ function NewsOrientationSection({
         </ol>
       )}
 
-      <h3 id="news-orientation-known-title">
-        Known to you from the public record
-      </h3>
+      <h3 id="news-orientation-known-title">{NEWS_ORIENTATION_KNOWN_TITLE}</h3>
       {orientation.viewerAccessible.emptyReason ? (
         <p data-testid="news-orientation-known-empty">
           {orientation.viewerAccessible.emptyReason}

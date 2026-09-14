@@ -6,6 +6,13 @@ import type { PrivateJournal } from "../presentation/shell-navigation";
 import { PrivateJournalEditor } from "./PrivateJournalEditor";
 import "./journal-reader.css";
 
+export const JOURNAL_ACCOUNT_HEADING = "Account of this life";
+export const JOURNAL_RECORD_HEADING = "Exact record";
+export const JOURNAL_RECORD_EMPTY =
+  "Nothing has been written down yet. It will fill up as the life goes on.";
+export const JOURNAL_OPEN_HEADING = "Still open";
+export const JOURNAL_PEOPLE_HEADING = "People";
+
 export function JournalReader({
   journal,
   onJournalChange,
@@ -37,7 +44,7 @@ export function JournalReader({
         aria-labelledby="journal-account-title"
         data-testid="journal-account"
       >
-        <h3 id="journal-account-title">Account of this life</h3>
+        <h3 id="journal-account-title">{JOURNAL_ACCOUNT_HEADING}</h3>
         <p className="game-note">{biography.summary}</p>
         {biography.emptyReason ? (
           <p className="game-note" data-testid="journal-account-empty">
@@ -76,12 +83,11 @@ export function JournalReader({
         className="journal-exact-record"
         aria-labelledby="journal-record-title"
       >
-        <h3 id="journal-record-title">Exact record</h3>
+        <h3 id="journal-record-title">{JOURNAL_RECORD_HEADING}</h3>
         <p className="game-note">{record.summary}</p>
         {record.chapters.length === 0 ? (
           <p className="game-note" data-testid="journal-empty">
-            Nothing has been written down yet. It will fill up as the life goes
-            on.
+            {JOURNAL_RECORD_EMPTY}
           </p>
         ) : (
           <ol data-testid="journal-entries">
@@ -105,7 +111,7 @@ export function JournalReader({
 
         {record.people.length > 0 && onOpenPerson ? (
           <>
-            <h3>People</h3>
+            <h3>{JOURNAL_PEOPLE_HEADING}</h3>
             <ul data-testid="journal-people">
               {record.people.map((person) => (
                 <li key={person.personId}>
@@ -124,7 +130,7 @@ export function JournalReader({
           </>
         ) : record.people.length > 0 ? (
           <>
-            <h3>People</h3>
+            <h3>{JOURNAL_PEOPLE_HEADING}</h3>
             <ul data-testid="journal-people">
               {record.people.map((person) => (
                 <li key={person.personId}>{person.sentence}</li>
@@ -135,7 +141,7 @@ export function JournalReader({
 
         {record.open.length > 0 ? (
           <>
-            <h3>Still open</h3>
+            <h3>{JOURNAL_OPEN_HEADING}</h3>
             <ul data-testid="journal-open">
               {record.open.map((entry) => (
                 <li

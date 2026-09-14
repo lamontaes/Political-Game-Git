@@ -519,6 +519,76 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
       },
     ],
   },
+  {
+    sourcePath: "src/presentation/news-orientation.ts",
+    domain: "ordinary",
+    bank: "news-orientation",
+    symbols: [
+      "NEWS_ORIENTATION_PUBLIC_TITLE",
+      "NEWS_ORIENTATION_KNOWN_TITLE",
+      "projectNewsOrientation",
+      "emptyPublicWorldReason",
+      "projectInstitutions",
+      "projectIncumbents",
+      "projectPublicEvents",
+      "toPublicationItem",
+    ],
+    surface: "status",
+    reachability: "PLAYER_REACHABLE",
+    reachabilityReason:
+      "The News route mounts PublicInformationPanel, which displays this read-only orientation above the publication digest. Assembly never writes a publication or history event.",
+    grounding: [
+      {
+        key: "public-world-records",
+        description:
+          "Recorded municipal government identity and readings, public-institution organization profiles, active public-office work, accepted civic offices without a named holder, public historical events that resolve as publication sources, and already-written publications. Private and limited records are omitted.",
+      },
+      {
+        key: "viewer-event-knowledge",
+        description:
+          "EventKnowledgeRecord rows on the viewing person for public items only. Missing knowledge is an empty lane, not invented familiarity.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/presentation/life-biography.ts",
+    domain: "life",
+    bank: "life-biography",
+    symbols: ["projectLifeBiography", "collectPassages"],
+    surface: "status",
+    reachability: "PLAYER_REACHABLE",
+    reachabilityReason:
+      "JournalWorkspace and the play overlay JournalView both mount JournalReader, whose primary account is this chronological biography.",
+    grounding: [
+      {
+        key: "recorded-life",
+        description:
+          "The person's identity, education and occupation facts, work expected/active/ended status, enrollment expected/active/completed status, life commitments, memories, choice-tagged events, attributed private beliefs, public positions, and campaign commitments actually on the save. Unsupported emotion, cause and proof-ledger wording are omitted.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/player/JournalReader.tsx",
+    domain: "life",
+    bank: "journal-reader",
+    symbols: [
+      "JOURNAL_ACCOUNT_HEADING",
+      "JOURNAL_RECORD_HEADING",
+      "JOURNAL_RECORD_EMPTY",
+      "JOURNAL_OPEN_HEADING",
+    ],
+    surface: "status",
+    reachability: "PLAYER_REACHABLE",
+    reachabilityReason:
+      "The Journal nav route and the play-surface journal overlay both render this reader. Personal notes remain a separate editor; the exact record is projectLifeRecord.",
+    grounding: [
+      {
+        key: "journal-account-and-record",
+        description:
+          "The projected LifeBiography summary/passages and the existing LifeRecord chapters, people and open items for the saved person.",
+      },
+    ],
+  },
 ];
 
 /** Is this literal a sentence a player reads, or machinery? */
