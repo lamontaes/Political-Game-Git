@@ -80,6 +80,7 @@ export function projectExecutiveWork(world: World) {
     available: true as const,
     officeTitle: office.pack.office.title,
     endsAt: office.endsAt,
+    origin: office.origin,
     items,
   };
 }

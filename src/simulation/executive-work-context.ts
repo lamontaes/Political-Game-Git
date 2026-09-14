@@ -2,11 +2,13 @@ import { activeLifePathWorkers } from "./life-paths2-workers";
 import { isPersonAliveAt } from "./vitality-integrity";
 /** EXEC-WORK2: read canonical office/work/evidence, never caller authority. */
 import { EXECUTIVE_AUTHORITY_RULE_PACKS } from "./executive-authority-rule-packs";
+import { electionContestResult } from "./election-contests";
 import {
   activeWorkRelationshipsAt,
   currentLifeCutoff,
   organizationProfileAt,
   activePartnershipsAt,
+  workStatusAt,
 } from "./life-queries";
 import { stateJurisdictionForKey } from "./life-places";
 import { hasPersonDiscoveredEvidence } from "./evidence";
@@ -28,6 +30,13 @@ import type { EntityId, World } from "./types";
 
 export const EXECUTIVE_TERM_END = "executive-work:term-end" as const;
 export const EXECUTIVE_ENTRY = "executive.custom-start";
+export const EXECUTIVE_ELECTION_RESULT = "election.contest-resolved";
+export const EXECUTIVE_ELECTED_TERM_ENTRY =
+  "election:executive-term-entry" as const;
+export const EXECUTIVE_ELECTED_TERM_EXPIRY =
+  "election:executive-term-expiry" as const;
+export const EXECUTIVE_QUALIFICATION = "election.executive-qualification";
+export type ExecutiveOfficeOrigin = "custom-start" | "elected-term";
 
 export function resolveExecutiveOffice(world: World) {
   if (world.control.kind !== "person") return null;
@@ -44,10 +53,11 @@ export function resolveExecutiveOffice(world: World) {
         return [];
       const entryId = relationship.provenance.eventId;
       const entry = world.history.events.find((e) => e.id === entryId);
+      if (!entry || !entry.involvedEntityIds.includes(personId)) return [];
+      const origin = originForEntry(world, personId, entry);
+      if (!origin) return [];
       if (
-        !entry ||
-        entry.type !== EXECUTIVE_ENTRY ||
-        !entry.involvedEntityIds.includes(personId) ||
+        origin === "custom-start" &&
         entry.occurredAt !== relationship.startedAt
       )
         return [];
@@ -70,18 +80,34 @@ export function resolveExecutiveOffice(world: World) {
         profile?.locationJurisdictionId !== jurisdiction.id
       )
         return [];
-      const term = world.history.futureDueItems.find(
-        (d) =>
-          d.transitionKey === EXECUTIVE_TERM_END &&
-          d.entityIds.includes(relationship.id) &&
-          d.entityIds.includes(entry.id),
-      );
-      if (
-        !term ||
-        term.dueAt <= world.currentDate ||
-        term.jurisdictionId !== jurisdiction.id
-      )
-        return [];
+      let endsAt: string;
+      if (origin === "custom-start") {
+        const term = world.history.futureDueItems.find(
+          (d) =>
+            d.transitionKey === EXECUTIVE_TERM_END &&
+            d.entityIds.includes(relationship.id) &&
+            d.entityIds.includes(entry.id),
+        );
+        if (
+          !term ||
+          term.dueAt <= world.currentDate ||
+          term.jurisdictionId !== jurisdiction.id
+        )
+          return [];
+        endsAt = term.dueAt;
+      } else {
+        const evidence = activeElectedExecutiveTermEvidence(
+          world,
+          relationship.id,
+        );
+        if (
+          !evidence ||
+          evidence.contest.office.officeKey !== pack.office.officeKey ||
+          evidence.governing.id !== jurisdiction.id
+        )
+          return [];
+        endsAt = evidence.endsAt;
+      }
       return [
         {
           personId,
@@ -89,14 +115,145 @@ export function resolveExecutiveOffice(world: World) {
           role,
           entry,
           pack,
+          origin,
           jurisdictionId: jurisdiction.id,
           organizationId: relationship.organizationId,
-          endsAt: term.dueAt,
+          endsAt,
         },
       ];
     },
   );
   return offices.length === 1 ? offices[0]! : null;
+}
+
+/** Frozen dates live on expected work and future-due records; no second office store. */
+export function electedExecutiveTermForRelationship(
+  world: World,
+  relationshipId: EntityId,
+) {
+  const entry = world.history.futureDueItems.find(
+    (due) =>
+      due.transitionKey === EXECUTIVE_ELECTED_TERM_ENTRY &&
+      due.entityIds.includes(relationshipId),
+  );
+  const expiry = world.history.futureDueItems.find(
+    (due) =>
+      due.transitionKey === EXECUTIVE_ELECTED_TERM_EXPIRY &&
+      due.entityIds.includes(relationshipId),
+  );
+  const relationship = world.history.workRelationships.find(
+    (record) => record.id === relationshipId,
+  );
+  const contest = (world.history.electionContests ?? []).find((record) =>
+    entry?.entityIds.includes(record.id),
+  );
+  const result = contest ? electionContestResult(world, contest.id) : null;
+  const outcome =
+    result &&
+    world.history.events.find((event) => event.id === result.outcomeEventId);
+  const pack =
+    contest &&
+    EXECUTIVE_AUTHORITY_RULE_PACKS.find(
+      (candidate) => candidate.office.officeKey === contest.office.officeKey,
+    );
+  const governing = pack && stateJurisdictionForKey(pack.jurisdictionKey);
+  if (
+    !entry ||
+    !expiry ||
+    !relationship ||
+    !contest ||
+    !result ||
+    !outcome ||
+    !pack ||
+    !governing ||
+    relationship.kind !== "employment:executive-office" ||
+    relationship.personId !== result.winnerPersonId ||
+    relationship.startedAt !== entry.dueAt ||
+    entry.dueAt >= expiry.dueAt ||
+    relationship.provenance.kind !== "simulated-event" ||
+    relationship.provenance.eventId !== result.outcomeEventId ||
+    outcome.type !== EXECUTIVE_ELECTION_RESULT ||
+    outcome.occurredAt === relationship.startedAt ||
+    contest.electionDate >= entry.dueAt ||
+    !entry.entityIds.includes(contest.id) ||
+    !entry.entityIds.includes(result.id) ||
+    !expiry.entityIds.includes(contest.id) ||
+    !expiry.entityIds.includes(result.id) ||
+    entry.entityIds.length !== 3 ||
+    expiry.entityIds.length !== 3 ||
+    entry.jurisdictionId !== governing.id ||
+    expiry.jurisdictionId !== governing.id ||
+    contest.jurisdictionId !== governing.id
+  )
+    return null;
+  return {
+    relationship,
+    contest,
+    result,
+    outcome,
+    pack,
+    governing,
+    entry,
+    expiry,
+    startsAt: entry.dueAt,
+    endsAt: expiry.dueAt,
+  };
+}
+
+export function recordedExecutiveQualification(
+  world: World,
+  relationshipId: EntityId,
+) {
+  const term = electedExecutiveTermForRelationship(world, relationshipId);
+  if (!term) return null;
+  return (
+    world.history.events.find(
+      (event) =>
+        event.type === EXECUTIVE_QUALIFICATION &&
+        event.recordedAt <= world.currentDate &&
+        event.involvedEntityIds.includes(term.relationship.personId) &&
+        event.involvedEntityIds.includes(term.contest.id) &&
+        event.involvedEntityIds.includes(term.result.id),
+    ) ?? null
+  );
+}
+
+/** Evidence consumed by office readers; a result or plan alone grants nothing. */
+export function activeElectedExecutiveTermEvidence(
+  world: World,
+  relationshipId: EntityId,
+) {
+  const term = electedExecutiveTermForRelationship(world, relationshipId);
+  if (
+    !term ||
+    world.currentDate < term.startsAt ||
+    world.currentDate >= term.endsAt ||
+    workStatusAt(world, relationshipId)?.status !== "active" ||
+    !recordedExecutiveQualification(world, relationshipId) ||
+    !isPersonAliveAt(world, term.relationship.personId, {
+      asOfDate: world.currentDate,
+      historySequenceExclusive: world.history.nextSequence,
+    })
+  )
+    return null;
+  const entered = world.history.futureDueItemStates.some(
+    (state) => state.dueItemId === term.entry.id && state.status === "resolved",
+  );
+  return entered ? term : null;
+}
+
+function originForEntry(
+  world: World,
+  personId: EntityId,
+  entry: World["history"]["events"][number],
+): ExecutiveOfficeOrigin | null {
+  if (entry.type === EXECUTIVE_ENTRY) return "custom-start";
+  if (entry.type !== EXECUTIVE_ELECTION_RESULT) return null;
+  const result = (world.history.electionContestResults ?? []).find(
+    (record) => record.outcomeEventId === entry.id,
+  );
+  if (!result || result.winnerPersonId !== personId) return null;
+  return "elected-term";
 }
 
 /** Stable role classification is capability, not a name/title match. Staffing

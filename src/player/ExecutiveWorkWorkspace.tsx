@@ -5,6 +5,7 @@ import {
   spendExecutiveWorkTime,
   type ExecutiveWorkAction,
 } from "../simulation/executive-work";
+import { IncidentResponsePanel } from "./IncidentResponsePanel";
 import type { ExecutiveKernelId } from "../simulation/executive-governing-kernels";
 import type {
   World,
@@ -91,6 +92,7 @@ export function ExecutiveWorkWorkspace({
         </button>
       </header>
       {feedback && <p role="status">{feedback}</p>}
+      <IncidentResponsePanel world={world} onWorldChange={onWorldChange} />
       {!projection.available ? (
         <p>{projection.reason}</p>
       ) : projection.items.length === 0 ? (
