@@ -89,6 +89,9 @@ export function canonicalSetupEncoding(setup: NewGameSetup): string {
     seed: setup.seed,
     placeKey: setup.placeKey,
     startAge: setup.startAge,
+    ...(setup.birthMonth === undefined || setup.birthDay === undefined
+      ? {}
+      : { birthMonth: setup.birthMonth, birthDay: setup.birthDay }),
     depth: setup.depth,
     startingLife: setup.startingLife,
     household: setup.household,
@@ -289,6 +292,13 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   if (record.startKind !== undefined && record.startKind !== "custom") {
     return null;
   }
+  const birthMonth = record.birthMonth;
+  const birthDay = record.birthDay;
+  if (birthMonth !== undefined || birthDay !== undefined) {
+    if (!Number.isSafeInteger(birthMonth) || !Number.isSafeInteger(birthDay)) {
+      return null;
+    }
+  }
   const appearanceRecipeVersion = record.appearanceRecipeVersion;
   if (appearanceRecipeVersion !== undefined) {
     if (
@@ -329,6 +339,12 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     seed: record.seed,
     placeKey: record.placeKey,
     startAge: record.startAge as number,
+    ...(birthMonth === undefined || birthDay === undefined
+      ? {}
+      : {
+          birthMonth: birthMonth as number,
+          birthDay: birthDay as number,
+        }),
     depth: record.depth,
     startingLife: record.startingLife,
     household: record.household,

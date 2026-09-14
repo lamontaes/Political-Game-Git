@@ -923,6 +923,9 @@ function SetupScreen({
       [setup.givenName, setup.familyName].filter(Boolean).join(" ") ||
         "A name you'll be given",
       `age ${setup.startAge}`,
+      setup.birthMonth !== undefined && setup.birthDay !== undefined
+        ? `birthday ${setup.birthMonth}/${setup.birthDay}`
+        : null,
       genderStated ? GENDER_IDENTITY_LABELS[setup.gender!] : null,
     ]
       .filter(Boolean)
@@ -1081,6 +1084,50 @@ function SetupScreen({
                 onBlur={() => setAgeText(String(setup.startAge))}
               />
             </label>
+            <label>
+              Birthday month
+              <input
+                type="number"
+                data-testid="start-birth-month"
+                min={1}
+                max={12}
+                value={setup.birthMonth ?? ""}
+                onChange={(event) => {
+                  const text = event.target.value;
+                  setSetup((now) => {
+                    if (text.trim() === "") {
+                      const { birthMonth: _unused, ...rest } = now;
+                      return rest;
+                    }
+                    const parsed = Number(text);
+                    if (!Number.isFinite(parsed)) return now;
+                    return { ...now, birthMonth: parsed };
+                  });
+                }}
+              />
+            </label>
+            <label>
+              Birthday day
+              <input
+                type="number"
+                data-testid="start-birth-day"
+                min={1}
+                max={31}
+                value={setup.birthDay ?? ""}
+                onChange={(event) => {
+                  const text = event.target.value;
+                  setSetup((now) => {
+                    if (text.trim() === "") {
+                      const { birthDay: _unused, ...rest } = now;
+                      return rest;
+                    }
+                    const parsed = Number(text);
+                    if (!Number.isFinite(parsed)) return now;
+                    return { ...now, birthDay: parsed };
+                  });
+                }}
+              />
+            </label>
           </div>
           <p
             className="game-hint"
@@ -1136,7 +1183,7 @@ function SetupScreen({
 
       {isCurrent("place") ? (
         <section data-testid="creator-stage-place">
-          <h2>Where you're from</h2>
+          <h2>Where are you from?</h2>
           {location.stateJurisdictionKey ? (
             <button
               type="button"
