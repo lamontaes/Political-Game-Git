@@ -3,6 +3,8 @@ import { refreshLifeCircumstances } from "../simulation/life-circumstances";
 import {
   activeEducationEnrollmentsAt,
   adaptiveSelectionSeed,
+  addDays,
+  ORDINARY_DAY_START_MINUTE,
   ageOnDate,
   availableLifeSituations,
   createOrganization,
@@ -401,7 +403,24 @@ function advanceToNextMoment(
   // With the handler registry, because a life that reaches adulthood may
   // already be carrying a scheduled callback, and time refuses to step over a
   // due item it has no handler for rather than silently losing it.
-  return refreshLifeCircumstances(passOrdinaryDays(world, days), personId);
+  // Explicit long formative skips still use the same routine clock. Bounded
+  // requests avoid exhausting its finite daily-resolution loop; any reached
+  // interruption stops the whole request rather than being jumped around.
+  let advanced = world;
+  for (let remaining = days; remaining > 0;) {
+    const chunk = Math.min(31, remaining);
+    const targetDate = addDays(advanced.currentDate, chunk);
+    const next = passOrdinaryDays(advanced, chunk);
+    advanced = next;
+    if (
+      next.currentDate < targetDate ||
+      (next.currentDate === targetDate &&
+        next.currentMoment.minuteOfDay < ORDINARY_DAY_START_MINUTE)
+    )
+      break;
+    remaining -= chunk;
+  }
+  return refreshLifeCircumstances(advanced, personId);
 }
 
 function daysBetween(from: string, to: string): number {
