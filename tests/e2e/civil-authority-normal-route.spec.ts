@@ -1,6 +1,11 @@
 import { expect, test } from "./fixtures";
 import type { Page } from "@playwright/test";
-import { enterLife, fillCreator, goTo } from "./support/creator";
+import {
+  enterLife,
+  fillCreator,
+  finishAppearance,
+  goTo,
+} from "./support/creator";
 
 async function personnel(page: Page) {
   await goTo(page, "elsewhere-work");
@@ -50,6 +55,7 @@ test("current Custom Start reaches dated personnel work, an NPC answer, and save
   await expect(start).toHaveClass(/is-chosen/);
   await page.getByTestId("creator-continue-background").click();
   await page.getByTestId("whoareyou-play").click();
+  await finishAppearance(page);
   await page.getByTestId("begin").click();
   await enterLife(page);
 

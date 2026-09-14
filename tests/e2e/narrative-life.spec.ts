@@ -1,6 +1,7 @@
 import { expect, test, type Page } from "./fixtures";
 import {
   enterLife,
+  finishAppearance,
   openCreator,
   startLife as walkCreator,
 } from "./support/creator";
@@ -304,6 +305,7 @@ test.describe("Setting up a life reads like a game, not a form", () => {
 
     await page.getByTestId("creator-continue-place").press("Enter");
     await page.getByTestId("whoareyou-play").press("Enter");
+    await finishAppearance(page);
     await expect(page.getByTestId("begin")).toBeEnabled();
     await page.getByTestId("begin").press("Enter");
     await enterLife(page);
@@ -355,6 +357,7 @@ test.describe("Setting up a life reads like a game, not a form", () => {
 
     await page.getByTestId("creator-continue-place").press("Enter");
     await page.getByTestId("whoareyou-play").press("Enter");
+    await finishAppearance(page);
     await expect(page.getByTestId("begin")).toBeEnabled();
     await page.getByTestId("begin").press("Enter");
     await enterLife(page);

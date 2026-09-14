@@ -6,6 +6,7 @@ import {
   openCreator,
   startLife as walkCreator,
   chooseCreatorLocation,
+  finishAppearance,
 } from "./support/creator";
 
 /**
@@ -241,6 +242,7 @@ test.describe("The page says whose life this is", () => {
     await page.getByTestId("creator-continue-character").click();
     await chooseKentucky(page);
     await page.getByTestId("whoareyou-play").click();
+    await finishAppearance(page);
     await page.getByTestId("begin").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await enterLife(page);
