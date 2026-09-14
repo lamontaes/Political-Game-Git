@@ -333,13 +333,6 @@ test.describe("A life happens in the room the records put it in", () => {
       childhood: true,
     });
 
-    await startLife(page, {
-      place: "Lexington",
-      state: "Kentucky",
-      age: 10,
-      childhood: true,
-    });
-
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await expect(page.getByTestId("opening-life-panel")).toHaveCount(0);
     await expect(page.getByTestId("play-screen")).toHaveAttribute(
@@ -409,8 +402,12 @@ test.describe("A life happens in the room the records put it in", () => {
       )
       .toBeGreaterThan(0);
 
-    // THE HIERARCHY. One moment, and everything else behind a control.
-    await expect(page.getByTestId("story-section")).toBeVisible();
+    // THE HIERARCHY. The room is the moment. Systems stay behind the cluster.
+    await expect(page.getByTestId("play-screen")).toBeVisible();
+    await expect(page.getByTestId("shell-nav-cluster")).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Continue your life" }),
+    ).toHaveCount(0);
     await expect(page.getByTestId("ordinary-section")).toHaveCount(0);
     await expect(page.getByTestId("office-section")).toHaveCount(0);
     await expect(page.getByTestId("conversations")).toHaveCount(0);

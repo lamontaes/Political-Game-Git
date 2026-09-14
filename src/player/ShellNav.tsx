@@ -302,25 +302,27 @@ export function ShellNav({
                   </div>
                 );
               })}
-              {canSave ? (
+              <div className="pg-nav-persist">
+                {canSave ? (
+                  <button
+                    type="button"
+                    role="menuitem"
+                    data-testid={unsaved ? "keep-world" : "save-world"}
+                    onClick={onSave}
+                  >
+                    Save
+                    {unsaved ? <small>Not saved yet</small> : null}
+                  </button>
+                ) : null}
                 <button
                   type="button"
                   role="menuitem"
-                  data-testid={unsaved ? "keep-world" : "save-world"}
-                  onClick={onSave}
+                  data-testid="leave-game"
+                  onClick={onLeave}
                 >
-                  Save
-                  {unsaved ? <small>Not saved yet</small> : null}
+                  Main menu
                 </button>
-              ) : null}
-              <button
-                type="button"
-                role="menuitem"
-                data-testid="leave-game"
-                onClick={onLeave}
-              >
-                Main menu
-              </button>
+              </div>
             </>
           ) : (
             <>

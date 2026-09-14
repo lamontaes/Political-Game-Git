@@ -168,8 +168,11 @@
 /* The upward-opening primary stack. One submenu level, and no more. */
 .pg-nav-flyout {
   min-width: 17rem;
-  max-height: 70vh;
+  max-height: calc(
+    var(--pg-vv-height, 100dvh) - var(--pg-content-bottom) - 5.75rem
+  );
   overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 0.4rem;
   border-radius: var(--pg-radius);
   border: 1px solid var(--pg-hairline);
@@ -183,6 +186,16 @@
  * with a clear brass edge and an offset. The historically rejected near-white
  * submenu must not come back.
  */
+.pg-nav-persist {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  margin-top: 0.35rem;
+  padding-top: 0.35rem;
+  background: var(--pg-navy);
+  border-top: 1px solid var(--pg-hairline);
+}
+
 .pg-nav-flyout[data-level="submenu"] {
   background: var(--pg-slate);
   border-left: 2px solid var(--pg-brass);
