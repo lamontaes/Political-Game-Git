@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 2464 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5908 |
-| DIAGNOSTIC_OR_TEST | 5309 |
-| **NEEDS_CLASSIFICATION** | **6615** |
+| INVENTORIED | 2463 |
+| INTENTIONALLY_NON_PLAYER_FACING | 5919 |
+| DIAGNOSTIC_OR_TEST | 5310 |
+| **NEEDS_CLASSIFICATION** | **6618** |
 
-Scanned 652 files holding 77677 string
+Scanned 652 files holding 77732 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -157,6 +157,7 @@ literals in total; the table counts only those that read like a sentence.
 | 13 | `src/simulation/civil-personnel-start.ts` |
 | 13 | `src/simulation/election-contests.ts` |
 | 13 | `src/simulation/life-places.ts` |
+| 13 | `src/simulation/municipal-public-work.ts` |
 | 13 | `src/simulation/resource-integrity.ts` |
 | 12 | `src/content/adapters/ordinary-life.ts` |
 | 12 | `src/player/PermanentShell.tsx` |
@@ -181,7 +182,6 @@ literals in total; the table counts only those that read like a sentence.
 | 10 | `src/presentation/person-dossier.ts` |
 | 10 | `src/presentation/production-world.ts` |
 | 10 | `src/presentation/shell-navigation.ts` |
-| 10 | `src/simulation/municipal-public-work.ts` |
 | 10 | `src/simulation/office-qualification-rules.ts` |
 | 10 | `src/simulation/press-reach.ts` |
 | 10 | `src/simulation/setup-questionnaire-bank.ts` |

@@ -1,9 +1,9 @@
 {
   "counts": {
-    "INVENTORIED": 2464,
-    "INTENTIONALLY_NON_PLAYER_FACING": 5908,
-    "DIAGNOSTIC_OR_TEST": 5309,
-    "NEEDS_CLASSIFICATION": 6615
+    "INVENTORIED": 2463,
+    "INTENTIONALLY_NON_PLAYER_FACING": 5919,
+    "DIAGNOSTIC_OR_TEST": 5310,
+    "NEEDS_CLASSIFICATION": 6618
   },
   "needsClassification": [
     {
@@ -12144,16 +12144,16 @@
     },
     {
       "sourcePath": "src/presentation/municipal-governing.ts",
-      "enclosingSymbol": "reason",
-      "line": 107,
-      "text": "No compiled government.",
+      "enclosingSymbol": "ensureAuthoredPublicMeeting",
+      "line": 174,
+      "text": "Game session: timing and duration are authored for this world. No real published meeting notice or agenda is asserted. This helper is not ordinary municipal meeting discovery.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/presentation/municipal-governing.ts",
       "enclosingSymbol": "introduceProjectedOrdinance",
-      "line": 177,
+      "line": 217,
       "text": "Member-sponsored municipal ordinance using the compiled council pack.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -42665,7 +42665,7 @@
     {
       "sourcePath": "src/simulation/municipal-public-work.ts",
       "enclosingSymbol": "appointMunicipalManager",
-      "line": 1272,
+      "line": 1340,
       "text": "The named appointee is not a person in this world.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -42673,7 +42673,7 @@
     {
       "sourcePath": "src/simulation/municipal-public-work.ts",
       "enclosingSymbol": "appointMunicipalManager",
-      "line": 1279,
+      "line": 1347,
       "text": "This manager appointment is already recorded.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -42681,7 +42681,7 @@
     {
       "sourcePath": "src/simulation/municipal-public-work.ts",
       "enclosingSymbol": "appointMunicipalManager",
-      "line": 1280,
+      "line": 1348,
       "text": "This government already has a recorded professional manager.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -42689,7 +42689,7 @@
     {
       "sourcePath": "src/simulation/municipal-public-work.ts",
       "enclosingSymbol": "appointMunicipalManager",
-      "line": 1289,
+      "line": 1357,
       "text": "This person already holds a recorded seat in this government, so the manager office cannot reuse that membership.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -42697,7 +42697,7 @@
     {
       "sourcePath": "src/simulation/municipal-public-work.ts",
       "enclosingSymbol": "appointMunicipalManager",
-      "line": 1293,
+      "line": 1361,
       "text": "No municipal government is compiled.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -42705,15 +42705,39 @@
     {
       "sourcePath": "src/simulation/municipal-public-work.ts",
       "enclosingSymbol": "title",
-      "line": 1295,
+      "line": 1368,
       "text": "professional manager",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/simulation/municipal-public-work.ts",
+      "enclosingSymbol": "title",
+      "line": 1537,
+      "text": "professional manager",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "enclosingSymbol": "electionRule",
+      "line": 1541,
+      "text": "Election of the {title}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "enclosingSymbol": "electionRule",
+      "line": 1546,
+      "text": "The council elects the {title} at a meeting that has the quorum the instrument names.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/municipal-public-work.ts",
       "enclosingSymbol": "introduceMunicipalOrdinance",
-      "line": 1376,
+      "line": 1610,
       "text": "No municipal government is compiled.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -42721,7 +42745,7 @@
     {
       "sourcePath": "src/simulation/municipal-public-work.ts",
       "enclosingSymbol": "introduceMunicipalOrdinance",
-      "line": 1380,
+      "line": 1614,
       "text": "{primaryReading(government).displayName} cannot carry an ordinance here yet: {rules.missing.map((entry)=>`${entry.field}—${entry.reason}`).join(\"\")}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -42729,7 +42753,7 @@
     {
       "sourcePath": "src/simulation/municipal-public-work.ts",
       "enclosingSymbol": "introduceMunicipalOrdinance",
-      "line": 1387,
+      "line": 1624,
       "text": "This government has no canonical jurisdiction for a measure.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -42737,7 +42761,7 @@
     {
       "sourcePath": "src/simulation/municipal-public-work.ts",
       "enclosingSymbol": "introduceMunicipalOrdinance",
-      "line": 1395,
+      "line": 1632,
       "text": "This ordinance designation is already recorded.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -53619,6 +53643,12 @@
       "count": 6
     },
     {
+      "sourcePath": "src/simulation/policy-semantics.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertPolicySemanticsIntegrity. Play fails closed rather than showing it.",
+      "count": 6
+    },
+    {
       "sourcePath": "src/simulation/person-stress-harness.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -53661,18 +53691,6 @@
       "count": 2
     },
     {
-      "sourcePath": "src/simulation/person-appearance.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/person-identity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
       "sourcePath": "src/simulation/people.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
@@ -53709,16 +53727,10 @@
       "count": 19
     },
     {
-      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "sourcePath": "src/simulation/names-data.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 13
-    },
-    {
-      "sourcePath": "src/simulation/municipal-government.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 6
+      "count": 1
     },
     {
       "sourcePath": "src/simulation/municipal-rule-registry.test.ts",
@@ -53727,13 +53739,43 @@
       "count": 6
     },
     {
-      "sourcePath": "src/simulation/policy-semantics.ts",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertPolicySemanticsIntegrity. Play fails closed rather than showing it.",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 13
+    },
+    {
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 11
+    },
+    {
+      "sourcePath": "src/simulation/municipal-public-work.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 32
+    },
+    {
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
       "count": 6
     },
     {
       "sourcePath": "src/simulation/municipal-government.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/person-appearance.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/person-identity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 2
@@ -53752,12 +53794,6 @@
     },
     {
       "sourcePath": "src/simulation/municipal-election-rules.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 31
-    },
-    {
-      "sourcePath": "src/simulation/municipal-public-work.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 31
@@ -53796,18 +53832,6 @@
       "sourcePath": "src/simulation/municipal-public-work.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/municipal-public-work.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/names-data.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -55761,6 +55785,12 @@
       "count": 70
     },
     {
+      "sourcePath": "src/presentation/municipal-venue.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/presentation/municipal-public-work.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -55770,13 +55800,7 @@
       "sourcePath": "src/presentation/municipal-governing.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/presentation/municipal-venue.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
+      "count": 2
     },
     {
       "sourcePath": "src/presentation/morning23-catalog-continuity.test.ts",
