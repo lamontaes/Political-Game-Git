@@ -5059,6 +5059,30 @@
       "textRevision": "35bd7e2a2b83"
     },
     {
+      "anchor": "recorded-0003",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "recorded",
+      "text": "A recorded municipal appointment, not an ordinance.",
+      "occurrence": 0,
+      "textRevision": "3e14d54cc181"
+    },
+    {
+      "anchor": "recorded-0004",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "recorded",
+      "text": "Appointed the {title} under the compiled appointment power.",
+      "occurrence": 0,
+      "textRevision": "48c4b6ba5663"
+    },
+    {
+      "anchor": "recorded-0005",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "recorded",
+      "text": "{reading.bodyName??reading.displayName} appointed its {title}. {authority.basis}",
+      "occurrence": 0,
+      "textRevision": "dd8867bf83c0"
+    },
+    {
       "anchor": "replyFor-0001",
       "sourcePath": "src/presentation/life-conversation.ts",
       "symbol": "replyFor",

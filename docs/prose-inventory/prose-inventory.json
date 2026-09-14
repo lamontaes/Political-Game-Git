@@ -1,11 +1,11 @@
 {
-  "digest": "f00900fb1b97dbf5",
+  "digest": "b6b1248a63863c5b",
   "counts": {
-    "total": 2644,
+    "total": 2647,
     "byDomain": {
       "campaign": 23,
       "conversation": 197,
-      "governing": 187,
+      "governing": 190,
       "legislative": 93,
       "life": 1674,
       "narration": 75,
@@ -15,7 +15,7 @@
     },
     "bySurface": {
       "answer": 311,
-      "artifact": 169,
+      "artifact": 172,
       "callback": 41,
       "connective": 53,
       "option-description": 436,
@@ -31,13 +31,13 @@
       "CURRENTLY_UNREACHABLE": 42,
       "DEV_FIXTURE_ONLY": 106,
       "LEGACY_OR_WITHDRAWN": 90,
-      "PLAYER_REACHABLE": 1980,
+      "PLAYER_REACHABLE": 1983,
       "UNKNOWN": 68,
       "WITHHELD_BY_GROUNDING": 358
     },
     "byRealization": {
-      "static": 2124,
-      "templated": 520
+      "static": 2125,
+      "templated": 522
     }
   },
   "records": [
@@ -8900,6 +8900,138 @@
         "computed"
       ],
       "textRevision": "35bd7e2a2b83",
+      "contextRevision": "51254fe27740"
+    },
+    {
+      "id": "prose:governing:municipal-attendance-and-work:recorded-0003#text",
+      "domain": "governing",
+      "bank": "municipal-attendance-and-work",
+      "stableKey": "recorded-0003",
+      "field": "text",
+      "surface": "artifact",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "sourceSymbol": "recorded",
+      "text": "A recorded municipal appointment, not an ordinance.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The Municipal panel and existing calendar/Work surfaces show meeting descriptions, attendance history, work-session descriptions and refusals. Event-context literals in these same symbols are retained as supporting record context, not asserted to be separately rendered dialogue.",
+      "grounding": [
+        {
+          "key": "meeting-reference-scope",
+          "description": "The selected government's exact public series, evidence class and snapshot date. Source venue statements and unknown venues remain distinct from scene geometry and authored occurrence timing.",
+          "kind": "requirement"
+        },
+        {
+          "key": "performed-canonical-activity",
+          "description": "The controlled person's actual canonical calendar activity, conflict checks, completion state and attendance event. Attendance grants no office power.",
+          "kind": "requirement"
+        },
+        {
+          "key": "performed-private-member-work",
+          "description": "The exact government's current role, assigned unblocked Work, elapsed authored effort and completion history. Preparing private notes asserts neither chamber presence nor a published agenda or legislative action.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recorded",
+        "anchor": "recorded-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "3e14d54cc181",
+      "contextRevision": "51254fe27740"
+    },
+    {
+      "id": "prose:governing:municipal-attendance-and-work:recorded-0004#text",
+      "domain": "governing",
+      "bank": "municipal-attendance-and-work",
+      "stableKey": "recorded-0004",
+      "field": "text",
+      "surface": "artifact",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "sourceSymbol": "recorded",
+      "text": "Appointed the {title} under the compiled appointment power.",
+      "realization": "templated",
+      "slots": [
+        "title"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The Municipal panel and existing calendar/Work surfaces show meeting descriptions, attendance history, work-session descriptions and refusals. Event-context literals in these same symbols are retained as supporting record context, not asserted to be separately rendered dialogue.",
+      "grounding": [
+        {
+          "key": "meeting-reference-scope",
+          "description": "The selected government's exact public series, evidence class and snapshot date. Source venue statements and unknown venues remain distinct from scene geometry and authored occurrence timing.",
+          "kind": "requirement"
+        },
+        {
+          "key": "performed-canonical-activity",
+          "description": "The controlled person's actual canonical calendar activity, conflict checks, completion state and attendance event. Attendance grants no office power.",
+          "kind": "requirement"
+        },
+        {
+          "key": "performed-private-member-work",
+          "description": "The exact government's current role, assigned unblocked Work, elapsed authored effort and completion history. Preparing private notes asserts neither chamber presence nor a published agenda or legislative action.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recorded",
+        "anchor": "recorded-0004"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "48c4b6ba5663",
+      "contextRevision": "51254fe27740"
+    },
+    {
+      "id": "prose:governing:municipal-attendance-and-work:recorded-0005#text",
+      "domain": "governing",
+      "bank": "municipal-attendance-and-work",
+      "stableKey": "recorded-0005",
+      "field": "text",
+      "surface": "artifact",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "sourceSymbol": "recorded",
+      "text": "{reading.bodyName??reading.displayName} appointed its {title}. {authority.basis}",
+      "realization": "templated",
+      "slots": [
+        "authority.basis",
+        "reading.bodyName??reading.displayName",
+        "title"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The Municipal panel and existing calendar/Work surfaces show meeting descriptions, attendance history, work-session descriptions and refusals. Event-context literals in these same symbols are retained as supporting record context, not asserted to be separately rendered dialogue.",
+      "grounding": [
+        {
+          "key": "meeting-reference-scope",
+          "description": "The selected government's exact public series, evidence class and snapshot date. Source venue statements and unknown venues remain distinct from scene geometry and authored occurrence timing.",
+          "kind": "requirement"
+        },
+        {
+          "key": "performed-canonical-activity",
+          "description": "The controlled person's actual canonical calendar activity, conflict checks, completion state and attendance event. Attendance grants no office power.",
+          "kind": "requirement"
+        },
+        {
+          "key": "performed-private-member-work",
+          "description": "The exact government's current role, assigned unblocked Work, elapsed authored effort and completion history. Preparing private notes asserts neither chamber presence nor a published agenda or legislative action.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recorded",
+        "anchor": "recorded-0005"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "dd8867bf83c0",
       "contextRevision": "51254fe27740"
     },
     {
