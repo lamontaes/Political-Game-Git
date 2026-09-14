@@ -188,6 +188,11 @@ describe("PLAYTEST34 canonical request → choice → performance → saved foll
     expect(callbacks[0]!.summary).toContain(entry.details.task);
     expect(callbacks[0]!.summary).toContain("have not finished");
     expect(
+      projectAdultLife(later, personId).moments.some(
+        (moment) => moment.summary === callbacks[0]!.summary,
+      ),
+    ).toBe(true);
+    expect(
       callbacks[0]!.participants.some(
         (p) => p.personId === entry.counterpartId,
       ),
