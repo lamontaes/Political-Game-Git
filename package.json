@@ -26,6 +26,7 @@
     "coverage:state-legislatures": "node --import tsx scripts/source/state-legislature-coverage.ts",
     "coverage:nationwide-rules": "node --import tsx scripts/source/nationwide-rule-coverage.ts",
     "export:government-units": "node --import tsx scripts/source/export-government-units.ts",
+    "export:place-county-relations": "node --import tsx scripts/source/export-place-county-relations.ts",
     "export:life-places": "node --import tsx scripts/source/export-life-places.ts",
     "export:office-qualifications": "node --import tsx scripts/source/export-office-qualifications.ts",
     "export:campaign-compliance": "node --import tsx scripts/source/export-campaign-compliance.ts",

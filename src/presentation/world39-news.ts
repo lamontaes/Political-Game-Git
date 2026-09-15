@@ -173,6 +173,7 @@ const INSTITUTION_NOUNS: Readonly<Record<string, string>> = {
   "service:library": "a library",
   "service:state-agency": "a state agency",
   "service:municipal-government": "the municipal government",
+  "service:county-government": "the county government",
   "service:court-workplace": "a court",
   "service:training": "a training program",
   "sector:government": "a government office",
