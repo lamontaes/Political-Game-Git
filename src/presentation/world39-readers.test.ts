@@ -64,7 +64,15 @@ describe("WORLD39 saved-world readers", () => {
     const { world, playerPersonId } = opening("world39-populated");
     const before = serializeWorld(world);
     const model = projectWorld39News(world, playerPersonId);
-    expect(model.publications.items).toHaveLength(0);
+    // ALIVE43: a new world opens with in-progress public matters, already
+    // published. Every opening publication must be one of those recorded
+    // developments; nothing reporter-generated is invented at opening.
+    for (const item of model.publications.items) {
+      const source = world.history.events.find(
+        (entry) => entry.id === item.sourceEventId,
+      );
+      expect(source?.tags.some((tag) => tag.startsWith("matter:"))).toBe(true);
+    }
     // The two federal holders plus the home state's executive the opening
     // writer produced; its term dates are not established, so no start is shown.
     const kentucky = stateExecutiveOffice("KY")!;
@@ -124,11 +132,18 @@ describe("WORLD39 saved-world readers", () => {
     expect(model.publicEvents.some((entry) => entry.id === source.id)).toBe(
       false,
     );
-    expect(model.publications.items[0]?.sourceEventId).toBe(source.id);
-    expect(model.publications.items[0]?.publicationId).toBe(
-      published.history.publications?.[0]?.id,
+    // Opening developments share the opening date, so find this publication
+    // by its source rather than by position.
+    const item = model.publications.items.find(
+      (entry) => entry.sourceEventId === source.id,
     );
-    expect(model.publications.items[0]?.eventTime).toBe(source.occurredAt);
+    expect(item?.sourceEventId).toBe(source.id);
+    expect(item?.publicationId).toBe(
+      published.history.publications?.find(
+        (publication) => publication.sourceEventId === source.id,
+      )?.id,
+    );
+    expect(item?.eventTime).toBe(source.occurredAt);
     expect(model.learnedEventIds.has(source.id)).toBe(false);
   });
 

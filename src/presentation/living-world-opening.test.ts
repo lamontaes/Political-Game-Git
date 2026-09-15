@@ -15,6 +15,7 @@ import { DEFAULT_NEW_GAME_SETUP, createNewGameWorld } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { establishOpeningOfficeholders } from "./opening-officeholders";
 import { projectWorldOrientation } from "./living-world-orientation";
+import { projectWorld39News } from "./world39-news";
 
 function openLife(seed: string) {
   const started = performance.now();
@@ -197,6 +198,14 @@ describe("ALIVE43 W1 opening world: Congress and parties", () => {
       expect(publicPartyAffiliation(a.world, member.personId)).toBeNull();
       expect(member.caucusOrganizationId).not.toBeNull();
     }
+  });
+
+  it("does not present the federal chambers as local institutions in News", () => {
+    const congress = projectCongress(a.world)!;
+    const standing = projectWorld39News(a.world, a.playerPersonId).standing;
+    const listed = new Set(standing.map((item) => item.recordId));
+    expect(listed.has(congress.house.organizationId)).toBe(false);
+    expect(listed.has(congress.senate.organizationId)).toBe(false);
   });
 
   it("old-save control: a pre-W1 opening save shows no Congress and gains nothing on read", () => {
