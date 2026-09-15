@@ -210,6 +210,9 @@ import { ShellNav, type ShellDestination } from "./ShellNav";
 import { ShellPinRail } from "./ShellPinRail";
 import { WorldRecapPanel } from "./WorldRecapPanel";
 import { useWorldRecap } from "./useWorldRecap";
+import { WorldOrientationPanel } from "./WorldOrientationPanel";
+import { WorldOrientationEntry } from "./WorldOrientationEntry";
+import { useWorldOrientation } from "./useWorldOrientation";
 import { FullDossier, QuickDossier } from "./ShellDossier";
 import {
   CalendarWorkspaceSurface,
@@ -2216,6 +2219,14 @@ function PlayingScreen({
   const [shell, dispatch] = useShell(session.world, session.saveId, shellStore);
   /* What changed since the player last caught up; a read, never a writer. */
   const recap = useWorldRecap(session.world, session.personId, shell);
+  /*
+   * The world introduction follows a new, not-yet-saved life until it is
+   * finished or skipped. Loaded lives never see it pushed at them; it stays
+   * available from News.
+   */
+  const orientation = useWorldOrientation(session.world, session.personId);
+  const showOrientation =
+    session.unsavedSeed !== null && !shell.progress.orientationSeen;
 
   const [assignment, setAssignment] = useState<LegislativeAssignment | null>(
     null,
@@ -2870,6 +2881,16 @@ function PlayingScreen({
                       }}
                       transitionHandlers={createCampaignElectionTransitionRegistry()}
                     />
+                  ) : showOrientation ? (
+                    <WorldOrientationPanel
+                      view={orientation.view}
+                      homeStateUsps={orientation.homeStateUsps}
+                      mode="first"
+                      onClose={() => dispatch({ type: "finish-orientation" })}
+                      onOpenPerson={(personId) =>
+                        dispatch({ type: "open-quick-dossier", personId })
+                      }
+                    />
                   ) : null
                 }
               />
@@ -3423,6 +3444,11 @@ function renderWorkspace({
         "News",
         "news-workspace",
         <>
+          <WorldOrientationEntry
+            world={session.world}
+            personId={session.personId}
+            onOpenPerson={openPerson}
+          />
           <World39News
             world={session.world}
             personId={session.personId}
