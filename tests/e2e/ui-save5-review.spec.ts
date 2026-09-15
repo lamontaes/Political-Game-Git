@@ -35,7 +35,7 @@ test("current normal scene and saved-person dossier remain available for owner r
     fullPage: true,
   });
 
-  await goTo(page, "nav-personal-group");
+  await goTo(page, "nav-group-personal");
   await page.getByTestId("nav-personal").click();
   await page.getByTestId("personal-appearance").click();
   const controls = page.getByTestId("saved-appearance-controls");

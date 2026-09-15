@@ -134,7 +134,7 @@ test.describe("the corner cluster", () => {
     const flyout = page.getByTestId("shell-nav-flyout");
     await expect(flyout).toHaveAttribute("data-level", "primary");
 
-    await page.getByTestId("nav-personal-group").click();
+    await page.getByTestId("nav-group-personal").click();
     await expect(flyout).toHaveAttribute("data-level", "submenu");
     await expect(page.getByTestId("nav-personal")).toBeVisible();
 
@@ -470,7 +470,7 @@ test.describe("the deliberate workspaces", () => {
 
     const name = await page.getByTestId("story-who").textContent();
     /* Personal is the one destination with children, so it opens a submenu. */
-    await goTo(page, "nav-personal-group");
+    await goTo(page, "nav-group-personal");
     await page.getByTestId("nav-personal").click();
     await expect(page.getByTestId("personal-workspace")).toBeVisible();
 

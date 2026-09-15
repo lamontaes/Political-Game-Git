@@ -344,7 +344,7 @@ test.describe("A life happens in the room the records put it in", () => {
       /residence-apartment/,
     );
 
-    await goTo(page, "nav-personal-group");
+    await goTo(page, "nav-group-personal");
     await page.getByTestId("nav-personal").click();
     const introduction = page.getByTestId("life-introduction");
     await expect(introduction).toBeVisible();

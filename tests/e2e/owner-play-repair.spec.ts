@@ -272,7 +272,7 @@ test.describe("the life the player asked for is the life they get", () => {
     });
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await page.getByTestId("shell-nav-cluster").click();
-    await page.getByTestId("nav-personal-group").click();
+    await page.getByTestId("nav-group-personal").click();
     await page.getByTestId("nav-personal").click();
     await page.getByTestId("life-introduction").locator("summary").click();
 

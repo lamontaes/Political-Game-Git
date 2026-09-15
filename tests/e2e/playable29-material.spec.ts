@@ -4,7 +4,7 @@ import { startLife, enterLife, saveLife } from "./support/creator";
 test.use({ video: "on" });
 async function wardrobe(page: Page) {
   await page.getByTestId("shell-nav-cluster").click();
-  await page.getByTestId("nav-personal-group").click();
+  await page.getByTestId("nav-group-personal").click();
   await page.getByTestId("nav-personal").click();
   await page.getByTestId("personal-appearance").click();
   await page

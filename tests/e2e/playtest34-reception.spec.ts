@@ -59,7 +59,7 @@ async function performPackActivity(page: Page, minutes: number) {
     await page.keyboard.press("Escape");
   }
   await expect(page.getByTestId("shell-nav-flyout")).toBeHidden();
-  await goTo(page, "nav-personal-group");
+  await goTo(page, "nav-group-personal");
   await page.getByTestId("nav-personal").click();
   await page
     .getByTestId("personal-life-choices")

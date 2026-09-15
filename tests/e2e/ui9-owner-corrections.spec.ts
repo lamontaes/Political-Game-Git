@@ -56,7 +56,7 @@ test("UI9-04, UI9-02: a government pins, and Personal has two real destinations"
   await page.getByTestId("municipal-workspace-close").click();
 
   // UI9-02: the two Personal entries are different destinations.
-  await goTo(page, "nav-personal-group");
+  await goTo(page, "nav-group-personal");
   await page.getByTestId("nav-finances").click();
   await expect(page.getByTestId("personal-finances")).toHaveAttribute(
     "data-landed",
@@ -67,7 +67,7 @@ test("UI9-04, UI9-02: a government pins, and Personal has two real destinations"
   );
   await page.getByTestId("personal-workspace-close").click();
 
-  await goTo(page, "nav-personal-group");
+  await goTo(page, "nav-group-personal");
   await page.getByTestId("nav-personal").click();
   await expect(page.getByTestId("personal-finances")).not.toHaveAttribute(
     "data-landed",

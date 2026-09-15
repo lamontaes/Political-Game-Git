@@ -325,7 +325,7 @@ test("normal county selection preserves unspecified town and exact saved jurisdi
   await save(page);
   expect(await savedWorld(page)).toEqual(initial);
   await continueSaved(page);
-  await goTo(page, "nav-personal-group");
+  await goTo(page, "nav-group-personal");
   await page.getByTestId("nav-personal").click();
   await expect(page.getByTestId("personal-workspace")).toContainText(
     "Fayette County",
@@ -350,7 +350,7 @@ for (const place of ["Lexington, Kentucky", "Carson City, Nevada"]) {
     await enterOpening(page);
     await save(page);
     const initial = await savedWorld(page);
-    await goTo(page, "nav-personal-group");
+    await goTo(page, "nav-group-personal");
     await goTo(page, "nav-personal");
     const panel = page.getByTestId("economic-context-panel");
     if (place === "Lexington, Kentucky") {
@@ -379,7 +379,7 @@ for (const place of ["Lexington, Kentucky", "Carson City, Nevada"]) {
     await save(page);
     expect(await savedWorld(page)).toEqual(initial);
     await continueSaved(page);
-    await goTo(page, "nav-personal-group");
+    await goTo(page, "nav-group-personal");
     await goTo(page, "nav-personal");
     if (place === "Lexington, Kentucky") {
       await expect(panel).toContainText(initial.currentDate);
