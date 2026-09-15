@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 2457 |
+| INVENTORIED | 2458 |
 | INTENTIONALLY_NON_PLAYER_FACING | 5907 |
-| DIAGNOSTIC_OR_TEST | 5279 |
-| **NEEDS_CLASSIFICATION** | **6595** |
+| DIAGNOSTIC_OR_TEST | 5338 |
+| **NEEDS_CLASSIFICATION** | **6627** |
 
-Scanned 646 files holding 77489 string
+Scanned 653 files holding 77716 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -40,7 +40,7 @@ literals in total; the table counts only those that read like a sentence.
 | 214 | `src/simulation/executive-authority-rule-packs.ts` |
 | 199 | `src/simulation/legislation-service-families.ts` |
 | 126 | `src/simulation/legislation.ts` |
-| 119 | `src/player/PlayerGame.tsx` |
+| 120 | `src/player/PlayerGame.tsx` |
 | 117 | `src/simulation/civil-personnel-actions.ts` |
 | 117 | `src/simulation/opening-life-content.ts` |
 | 87 | `src/simulation/policy.ts` |
@@ -105,6 +105,7 @@ literals in total; the table counts only those that read like a sentence.
 | 24 | `src/presentation/civic-glossary.ts` |
 | 24 | `src/simulation/life-circumstances.ts` |
 | 24 | `src/ui/ContentBrowserView.tsx` |
+| 23 | `src/presentation/player-copy.ts` |
 | 23 | `src/presentation/title-tableau.ts` |
 | 22 | `src/player/SceneConversation.tsx` |
 | 21 | `src/simulation/legislation-content-contracts.ts` |
@@ -123,11 +124,11 @@ literals in total; the table counts only those that read like a sentence.
 | 19 | `src/simulation/world.ts` |
 | 18 | `src/content/adapters/setup-questionnaire.ts` |
 | 18 | `src/player/CalendarWorkspace.tsx` |
+| 18 | `src/player/EconomicContextPanel.tsx` |
 | 18 | `src/player/municipal-directory.ts` |
 | 18 | `src/simulation/records.ts` |
 | 17 | `src/content/adapters/conversation-subjects.ts` |
 | 17 | `src/player/ConversationStrip.tsx` |
-| 17 | `src/player/EconomicContextPanel.tsx` |
 | 17 | `src/player/MeasurePaperWorkspace.tsx` |
 | 17 | `src/presentation/legislation-estimate-action.ts` |
 | 17 | `src/simulation/executive-governing-kernels.ts` |
@@ -167,7 +168,6 @@ literals in total; the table counts only those that read like a sentence.
 | 12 | `src/simulation/quantity.ts` |
 | 12 | `src/simulation/vitality.ts` |
 | 11 | `src/content/adapters/life-situations.ts` |
-| 11 | `src/player/EducationOptionsPanel.tsx` |
 | 11 | `src/player/PublicInformationPanel.tsx` |
 | 11 | `src/presentation/life-scene-flow.ts` |
 | 11 | `src/presentation/run-b-conversation-progress.ts` |
@@ -175,10 +175,10 @@ literals in total; the table counts only those that read like a sentence.
 | 11 | `src/simulation/political-belief-formation.ts` |
 | 11 | `src/ui/SceneAuthoringProofView.tsx` |
 | 11 | `src/ui/scene-venue-exercise.ts` |
+| 10 | `src/player/EducationOptionsPanel.tsx` |
 | 10 | `src/player/MeasureFloorSurface.tsx` |
 | 10 | `src/player/PlacesWorkspace.tsx` |
 | 10 | `src/presentation/life-record.ts` |
-| 10 | `src/presentation/person-dossier.ts` |
 | 10 | `src/presentation/production-world.ts` |
 | 10 | `src/presentation/shell-navigation.ts` |
 | 10 | `src/simulation/office-qualification-rules.ts` |
@@ -190,11 +190,13 @@ literals in total; the table counts only those that read like a sentence.
 | 9 | `src/player/ShellNav.tsx` |
 | 9 | `src/presentation/fiscal-authority-work.ts` |
 | 9 | `src/presentation/new-game.ts` |
+| 9 | `src/presentation/person-dossier.ts` |
 | 9 | `src/presentation/relationship-web.ts` |
 | 9 | `src/presentation/surface-binding.ts` |
 | 9 | `src/simulation/campaign-compliance.ts` |
 | 9 | `src/ui/LocationCompositionReview.tsx` |
 | 8 | `src/player/CampaignWorkspace.tsx` |
+| 8 | `src/player/CareerPathsPanel.tsx` |
 | 8 | `src/player/PinRail.tsx` |
 | 8 | `src/player/PlayerOffice.tsx` |
 | 8 | `src/player/ShellPinRail.tsx` |
@@ -222,7 +224,7 @@ literals in total; the table counts only those that read like a sentence.
 | 7 | `src/simulation/candidate-qualification.ts` |
 | 7 | `src/simulation/executive-work-entry.ts` |
 | 7 | `src/simulation/judicial-office-start.ts` |
-| 6 | `src/player/CareerPathsPanel.tsx` |
+| 7 | `src/simulation/starting-birthday.ts` |
 | 6 | `src/player/ModularCharacter.tsx` |
 | 6 | `src/player/PersonalRoutinePanel.tsx` |
 | 6 | `src/player/SceneBackdrop.tsx` |

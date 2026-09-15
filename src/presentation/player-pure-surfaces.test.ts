@@ -7,10 +7,15 @@ import {
   establishOpeningOfficeholders,
   openingOfficeholders,
 } from "./opening-officeholders";
+import { projectLifeRecord } from "./life-record";
+import { projectLegislativeOfficeContext } from "./legislative-office-context";
 import { projectPersonDossier } from "./person-dossier";
+import { projectPublicInformationPanel } from "./public-information-adapters";
 import { forbiddenPlayerPhrasesIn } from "./player-copy";
 import { resolvePlayerCapabilities } from "./player-capabilities";
 import { PersonCard } from "../player/PersonCard";
+import { recordWorldEvent } from "../simulation";
+import { publishPublicEvent } from "../simulation/public-information";
 import type { EntityId, World } from "../simulation";
 
 /**
@@ -114,6 +119,28 @@ describe("the person card in ordinary play", () => {
     }
   });
 
+  it("names the player as the player on somebody else's card", () => {
+    const { world, personId } = newLife("evidence-seed");
+    const relative = Object.keys(world.people).find(
+      (id) => id !== personId,
+    ) as EntityId;
+    const html = visibleText(renderCard(world, personId, relative, true));
+
+    /*
+     * The connected-people row fell back to the edge's label for any node
+     * without its own relationship, and the player has none — so the player's
+     * own name appeared under the card subject's relationship, reading
+     * "Diana Marshall / your dad" on her father's card. The subject keeps the
+     * relationship; the player is "you".
+     */
+    const player = world.people[personId]!;
+    const playerName = `${player.givenName} ${player.familyName}`;
+    expect(html).toContain(playerName);
+    expect(html).not.toMatch(
+      new RegExp(`${playerName}\\s+your (?:dad|mum|mom|mother|father)`),
+    );
+  });
+
   it("renders the player's own card without narrating its bookkeeping", () => {
     const { world, personId } = newLife("player-pure-self");
     expectPlayerPure(renderCard(world, personId, personId, true), "own card");
@@ -164,6 +191,86 @@ describe("withheld capabilities explain themselves in world", () => {
       expect(
         offenders.map((entry) => `${withheld.surface}: ${entry.because}`),
       ).toEqual([]);
+    }
+  });
+});
+
+describe("the reading surfaces ordinary play offers", () => {
+  /*
+   * News, Journal and the office/bill context are the screens the contract
+   * names, and all three already read like what they are — a newspaper, a
+   * biography and a set of government documents. They are pinned here anyway.
+   * These projections are where a source note would surface if one were ever
+   * threaded through, and the cost of finding that out from the guard rather
+   * than from the owner playing the game is very low.
+   */
+  it("keeps the news reading like news", () => {
+    const { world, personId } = newLife("player-pure-news");
+    /*
+     * A fresh life has published nothing, and looping over an empty digest
+     * would have proved exactly nothing — which is what the first draft of this
+     * test did. So a public event is recorded and published first, and the
+     * digest is required to be non-empty before its copy is judged.
+     */
+    const withEvent = recordWorldEvent(world, {
+      stableKey: "player-pure:news:forum",
+      type: "civic.public-forum-held",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: null,
+      involvedEntityIds: [personId],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: ["civic"],
+      summary: "A public forum concluded at the county building.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const staffed = publishPublicEvent(withEvent, {
+      stableKey: "player-pure:news:forum-publication",
+      sourceEventId: withEvent.history.events.at(-1)!.id,
+    });
+    const model = projectPublicInformationPanel(staffed);
+    expect(model.items.length).toBeGreaterThan(0);
+    for (const item of model.items) {
+      expectPlayerPure(item.headline, "news headline");
+      expectPlayerPure(item.body, "news body");
+    }
+    for (const outlet of model.outlets)
+      expectPlayerPure(outlet.outletName, "news outlet");
+  });
+
+  it("keeps the journal reading like a biography", () => {
+    const { world, personId } = newLife("player-pure-journal");
+    const record = projectLifeRecord(world, personId);
+    expect(record.chapters.flatMap((chapter) => chapter.entries).length)
+      .toBeGreaterThan(0);
+    expectPlayerPure(record.summary, "journal summary");
+    for (const chapter of record.chapters) {
+      expectPlayerPure(chapter.heading, "journal chapter");
+      for (const entry of chapter.entries)
+        expectPlayerPure(entry.sentence, "journal entry");
+    }
+    for (const person of record.people)
+      expectPlayerPure(person.sentence, "journal person");
+  });
+
+  it("explains an office and its bills without citing its paperwork", () => {
+    const { world, personId } = newLife("player-pure-office");
+    const context = projectLegislativeOfficeContext(world, personId, null);
+    for (const [name, field] of [
+      ["term commencement", context.termCommencement],
+      ["term expiry", context.termExpiry],
+      ["committee membership", context.committeeMembership],
+    ] as const) {
+      if (field.kind === "unavailable") expectPlayerPure(field.reason, name);
     }
   });
 });

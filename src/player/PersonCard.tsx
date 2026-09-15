@@ -91,11 +91,20 @@ export function PersonCard({
     if (otherId === dossier.personId) return [];
     const node = web.nodes.find((entry) => entry.personId === otherId);
     if (!node) return [];
+    /*
+     * The player is on this web too, and reaching them through the same
+     * fallback produced a row reading "Diana Marshall — your dad" on Valerie's
+     * card: the edge's label describes the pair from the player's side, so
+     * borrowing it for the player themself reassigned Valerie's relationship to
+     * the person reading the card. Only a node carrying its own relationship
+     * may state one; the player is named as the player.
+     */
     return [
       {
         personId: otherId,
         name: node.name,
-        label: node.relationship ?? edge.label,
+        label:
+          otherId === playerId ? "you" : (node.relationship ?? edge.label),
         kind: edge.kind,
       },
     ];
