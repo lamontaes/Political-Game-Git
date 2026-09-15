@@ -208,6 +208,8 @@ import {
 } from "../simulation/civil-personnel-start";
 import { ShellNav, type ShellDestination } from "./ShellNav";
 import { ShellPinRail } from "./ShellPinRail";
+import { WorldRecapPanel } from "./WorldRecapPanel";
+import { useWorldRecap } from "./useWorldRecap";
 import { FullDossier, QuickDossier } from "./ShellDossier";
 import {
   CalendarWorkspaceSurface,
@@ -2212,6 +2214,8 @@ function PlayingScreen({
    * gameplay writers below are still the only things that change the world.
    */
   const [shell, dispatch] = useShell(session.world, session.saveId, shellStore);
+  /* What changed since the player last caught up; a read, never a writer. */
+  const recap = useWorldRecap(session.world, session.personId, shell);
 
   const [assignment, setAssignment] = useState<LegislativeAssignment | null>(
     null,
@@ -2972,6 +2976,20 @@ function PlayingScreen({
                 </button>
               </p>
             ) : null}
+            {recap ? (
+              <WorldRecapPanel
+                recap={recap}
+                onDismiss={(throughSequence) =>
+                  dispatch({ type: "acknowledge-recap", throughSequence })
+                }
+                onOpenNews={() =>
+                  dispatch({ type: "go-to-surface", surface: "news" })
+                }
+                onOpenPerson={(personId) =>
+                  dispatch({ type: "open-quick-dossier", personId })
+                }
+              />
+            ) : null}
             {session.unsavedSeed !== null ? (
               <p className="sr-only" data-testid="unsaved-note">
                 This life has not been saved yet.
@@ -3008,6 +3026,7 @@ function PlayingScreen({
                 preferences: shell.preferences,
                 journal: shell.journal,
                 personWardrobes: shell.personWardrobes,
+                progress: shell.progress,
               })
             }
             onLeave={onLeave}
