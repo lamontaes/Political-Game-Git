@@ -13,6 +13,7 @@ import {
   SeededRng,
 } from ".";
 import type { CharacterHistoryContextPersonInput } from ".";
+import type { EntityId } from "./types";
 
 describe("batched context-person writer", () => {
   const base = createNewGameWorld({
@@ -56,7 +57,10 @@ describe("batched context-person writer", () => {
   it("refuses an input the single writer refuses", () => {
     expect(() =>
       createCharacterHistoryContextPeople(base.world, [
-        { ...inputs[0]!, homeJurisdictionId: "jurisdiction_missing" },
+        {
+          ...inputs[0]!,
+          homeJurisdictionId: "jurisdiction_missing" as EntityId,
+        },
       ]),
     ).toThrow("existing home jurisdiction");
   });

@@ -456,9 +456,10 @@ export function developmentStepTransitionHandler(
           status: "resolved",
           reasonKey: "living-world:matter-started",
           context: null,
-          outcomeEventId: started.history.events.findLast((event) =>
-            event.tags.includes(`${MATTER_TAG}${matterId}`),
-          )!.id,
+          outcomeEventId: [...started.history.events]
+            .reverse()
+            .find((event) => event.tags.includes(`${MATTER_TAG}${matterId}`))!
+            .id,
         }
       : {
           world,

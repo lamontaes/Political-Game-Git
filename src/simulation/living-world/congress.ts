@@ -128,18 +128,20 @@ function currentRollEvent(
   personId: EntityId,
 ): HistoricalEvent | null {
   return (
-    world.history.events.findLast(
-      (event) =>
-        event.type === SEAT_TENURE_EVENT &&
-        event.recordedAt <= world.currentDate &&
-        event.occurredAt <= world.currentDate &&
-        event.participants.some(
-          (participant) =>
-            participant.personId === personId &&
-            participant.role === "focus:subject",
-        ) &&
-        world.currentDate < (tagValue(event, "term-end:") ?? ""),
-    ) ?? null
+    [...world.history.events]
+      .reverse()
+      .find(
+        (event) =>
+          event.type === SEAT_TENURE_EVENT &&
+          event.recordedAt <= world.currentDate &&
+          event.occurredAt <= world.currentDate &&
+          event.participants.some(
+            (participant) =>
+              participant.personId === personId &&
+              participant.role === "focus:subject",
+          ) &&
+          world.currentDate < (tagValue(event, "term-end:") ?? ""),
+      ) ?? null
   );
 }
 
