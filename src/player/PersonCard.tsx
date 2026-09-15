@@ -149,14 +149,7 @@ export function PersonCard({
             <p className="pg-dossier-relation" data-testid="dossier-relation">
               {role}
             </p>
-          ) : (
-            <p
-              className="pg-dossier-relation"
-              data-testid="dossier-relation-unknown"
-            >
-              No record establishes a relationship.
-            </p>
-          )}
+          ) : null}
           {web.nodes.find((node) => node.personId === dossier.personId)
             ?.alive === false ? (
             <p className="pg-right-now" data-testid="person-card-deceased">
@@ -167,11 +160,7 @@ export function PersonCard({
             <p className="pg-right-now" data-testid="person-card-present">
               In the room now.
             </p>
-          ) : (
-            <p className="game-note" data-testid="person-card-presence-note">
-              A pin or a card is a reference, not proof they are here.
-            </p>
-          )}
+          ) : null}
           {dossier.rightNow ? (
             <p className="pg-right-now" data-testid="dossier-right-now">
               <span className="pg-right-now-label">Right now</span>
@@ -199,15 +188,8 @@ export function PersonCard({
             className="game-note"
             data-testid={expanded ? "dossier-facts-empty" : "quick-facts-empty"}
           >
-            Nothing about them is written down yet.
+            You don't know much about them yet.
           </p>
-        ) : null}
-        {expanded && dossier.notKnown.length > 0 ? (
-          <ul className="pg-not-known" data-testid="dossier-not-known">
-            {dossier.notKnown.map((line) => (
-              <li key={line}>{line}</li>
-            ))}
-          </ul>
         ) : null}
       </div>
 
