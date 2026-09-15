@@ -95,7 +95,8 @@ async function assertVisiblePerson(page, expected) {
     (await page.getByTestId("art-preview-banner").count()) === (review ? 1 : 0),
   );
   await page.getByTestId("shell-nav-cluster").click();
-  await page.getByTestId("nav-personal-group").click();
+  // Personal holds several destinations, so the flyout shows its group button.
+  await page.getByTestId("nav-group-personal").click();
   await page.getByTestId("nav-personal").click();
   await page.getByTestId("personal-appearance").click();
   const card = page.getByTestId("full-dossier");
