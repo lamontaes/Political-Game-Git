@@ -107,6 +107,13 @@ test("a winner reaches real bargaining from normal play, and keeps it through a 
   // The win opened the office; the corner cluster still says Lexington.
   expect(await shellIdentity(page)).toContain("Lexington");
   await openElsewhere(page, "work");
+  // The election result is not office authority. Advance the ordinary shell
+  // clock until the recorded term starts, just as the composed campaign proof
+  // does, and only then expect the legislative office to exist.
+  for (let step = 0; step < 52; step += 1) {
+    if (await page.getByTestId("office-section").isVisible()) break;
+    await page.getByTestId("shell-pass-week").click();
+  }
   await expect(page.getByTestId("office-section")).toContainText(
     "Kentucky legislature",
   );
