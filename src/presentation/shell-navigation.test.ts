@@ -2,7 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import {
   DEFAULT_PREFERENCES,
+  INITIAL_INTERFACE_PROGRESS,
   INITIAL_SHELL_STATE,
+  LEGACY_INTERFACE_PROGRESS,
   activeView,
   canGoBack,
   isPinned,
@@ -354,5 +356,50 @@ describe("UI9 destinations", () => {
     // A person and a government with the same id string are different pins.
     const namesake = { kind: "person" as const, id: government.id as never };
     expect(sameRef(government, namesake)).toBe(false);
+  });
+});
+
+describe("interface progress", () => {
+  it("starts a fresh life unseen, with no frontier", () => {
+    expect(INITIAL_SHELL_STATE.progress).toEqual(INITIAL_INTERFACE_PROGRESS);
+    expect(INITIAL_SHELL_STATE.progress.orientationSeen).toBe(false);
+  });
+
+  it("finishing the introduction is idempotent and moves nothing else", () => {
+    const once = run([{ type: "finish-orientation" }]);
+    expect(once.progress.orientationSeen).toBe(true);
+    expect(once.history).toEqual(INITIAL_SHELL_STATE.history);
+    expect(shellReducer(once, { type: "finish-orientation" })).toBe(once);
+  });
+
+  it("sets the frontier only for a life that has none", () => {
+    const started = run([{ type: "start-recap-frontier", sequence: 40 }]);
+    expect(started.progress.recapFrontier).toBe(40);
+    expect(
+      shellReducer(started, { type: "start-recap-frontier", sequence: 90 }),
+    ).toBe(started);
+  });
+
+  it("never moves the frontier backwards on a stale or repeated dismissal", () => {
+    const caught = run([
+      { type: "start-recap-frontier", sequence: 40 },
+      { type: "acknowledge-recap", throughSequence: 55 },
+    ]);
+    expect(caught.progress.recapFrontier).toBe(55);
+    expect(
+      shellReducer(caught, { type: "acknowledge-recap", throughSequence: 55 }),
+    ).toBe(caught);
+    expect(
+      shellReducer(caught, { type: "acknowledge-recap", throughSequence: 41 }),
+    ).toBe(caught);
+  });
+
+  it("restores a record written before progress existed as a life already under way", () => {
+    const restored = shellReducer(INITIAL_SHELL_STATE, {
+      type: "restore",
+      pins: [],
+      preferences: DEFAULT_PREFERENCES,
+    });
+    expect(restored.progress).toEqual(LEGACY_INTERFACE_PROGRESS);
   });
 });
