@@ -2,8 +2,16 @@
  * Front door: title and creator over the ambient tableau.
  *
  * The compact upper-left replacement area and the cycling room stay. This file
- * pays for readability locally — a restrained left scrim and per-control
- * backing — instead of restoring the rejected light card or a full-bleed slab.
+ * pays for readability locally — one soft left scrim — instead of restoring the
+ * rejected light card or a full-bleed slab.
+ *
+ * DIRECTOR42 ROLE D. The fourth playtest kept rejecting "this black thing"
+ * behind the wordmark and behind each menu row. Those were per-control plates:
+ * hard-edged rectangles that faded to transparent partway across, so every row
+ * ended on a ragged vertical seam over the artwork. They are gone. The single
+ * scrim above now carries all of the contrast, which is why it is wider and
+ * deeper than it was — a gradient with no edge to object to. Nothing here
+ * lightens the type or the art to buy that contrast.
  * Display type is serif; controls, fields and secondary copy use a system
  * sans that is already licensed on the machine. No webfont files are shipped.
  */
@@ -40,13 +48,15 @@
   content: "";
   position: absolute;
   inset: 0 auto 0 0;
-  width: min(34rem, 48%);
+  width: min(44rem, 58%);
   pointer-events: none;
   z-index: 0;
   background: linear-gradient(
     90deg,
-    rgb(8 13 21 / 0.72) 0%,
-    rgb(8 13 21 / 0.38) 52%,
+    rgb(8 13 21 / 0.88) 0%,
+    rgb(8 13 21 / 0.76) 26%,
+    rgb(8 13 21 / 0.46) 58%,
+    rgb(8 13 21 / 0.16) 82%,
     transparent 100%
   );
 }
@@ -95,12 +105,7 @@
   margin: 0 0 1.15rem;
   padding: 0.2rem 0.55rem 0.35rem 0.15rem;
   color: var(--front-door-ink);
-  background: linear-gradient(
-    90deg,
-    rgb(8 13 21 / 0.48) 0%,
-    rgb(8 13 21 / 0.12) 72%,
-    transparent 100%
-  );
+  background: transparent;
   font-family: var(--front-door-display);
   font-size: clamp(1.85rem, 2.5vw, 2.55rem);
   font-weight: 600;
@@ -120,12 +125,7 @@
   padding: 0.55rem 0.75rem;
   border: 0;
   border-radius: 0;
-  background: linear-gradient(
-    90deg,
-    rgb(8 13 21 / 0.7) 0%,
-    rgb(8 13 21 / 0.22) 78%,
-    transparent 100%
-  );
+  background: transparent;
   color: var(--front-door-ink);
   font-family: var(--front-door-read);
   font-size: 0.95rem;
@@ -158,9 +158,8 @@
   color: var(--front-door-brass);
   background: linear-gradient(
     90deg,
-    rgb(16 22 33 / 0.62) 0%,
-    rgb(16 22 33 / 0.12) 80%,
-    transparent 100%
+    rgb(224 195 122 / 0.14) 0%,
+    transparent 72%
   );
   box-shadow: inset 2px 0 currentColor;
 }
@@ -176,12 +175,7 @@
   cursor: not-allowed;
   opacity: 1;
   color: rgb(245 235 212 / 0.68);
-  background: linear-gradient(
-    90deg,
-    rgb(8 13 21 / 0.28) 0%,
-    rgb(8 13 21 / 0.04) 78%,
-    transparent 100%
-  );
+  background: transparent;
 }
 
 .title-tableau--art.front-door .game-title button:disabled small {
@@ -195,6 +189,19 @@
 
 .title-tableau--art.front-door .game-creator button {
   background: rgb(8 13 21 / 0.78);
+}
+
+/*
+ * DIRECTOR42 ROLE D — a disabled creator control still looks like a control.
+ * Next is disabled until a starting age is answered, and with no plate it read
+ * as loose text floating over the room rather than a button waiting on input.
+ */
+.title-tableau--art.front-door .game-creator button:disabled {
+  cursor: not-allowed;
+  opacity: 1;
+  background: rgb(8 13 21 / 0.55);
+  color: rgb(245 235 212 / 0.55);
+  box-shadow: inset 0 0 0 1px rgb(245 235 212 / 0.12);
 }
 
 .title-tableau--art.front-door .game-creator button small {
@@ -212,16 +219,25 @@
 
 .title-tableau--art.front-door .game-creator {
   width: min(24rem, 100%);
-  max-height: calc(100dvh - 4rem);
+  /*
+   * DIRECTOR42 ROLE D — `calc(100dvh - 4rem)` was guessing at the padding its
+   * own parent uses. `.title-tableau-content` actually pads 2.88rem top and
+   * bottom, so at 1024x768 the panel was allowed 704px inside a 676px content
+   * box and the Back button fell 19px past the viewport. Measuring against the
+   * parent's content box instead of the viewport cannot drift when that
+   * padding changes.
+   */
+  max-height: 100%;
   overflow-y: auto;
   overscroll-behavior: contain;
 }
 
 .title-tableau--art.front-door .game-creator h2 {
   margin: 0.15rem 0 0.65rem;
-  padding: 0.15rem 0.55rem 0.25rem 0.15rem;
+  padding: 0.15rem 0 0.3rem;
   color: var(--front-door-ink);
-  background: rgb(8 13 21 / 0.62);
+  background: transparent;
+  border-bottom: 1px solid rgb(224 195 122 / 0.28);
   font-family: var(--front-door-display);
   font-size: 1.28rem;
   font-weight: 600;
@@ -285,12 +301,7 @@
 .title-tableau--art.front-door .creator-summary {
   color: var(--front-door-ink);
   border-bottom-color: rgb(245 235 212 / 0.22);
-  background: linear-gradient(
-    90deg,
-    rgb(8 13 21 / 0.55) 0%,
-    rgb(8 13 21 / 0.08) 80%,
-    transparent 100%
-  );
+  background: transparent;
   text-transform: none;
   letter-spacing: 0.01em;
   font-weight: 500;
@@ -348,5 +359,169 @@
   .title-tableau--art.front-door .game-title h1,
   .title-tableau--art.front-door .game-title button {
     transition: none;
+  }
+}
+
+/*
+ * DIRECTOR42 ROLE D — the creator reads as sections, not one stack of fields.
+ *
+ * The playtest asked twice for these to be "separated": name, age and birthday
+ * arrived as five identical rows with no indication that they answer different
+ * questions. `.creator-group` is the separation — a hairline and its own
+ * heading — and it is presentation only. No field moved, changed name, or
+ * changed what it commits.
+ */
+.title-tableau--art.front-door .game-creator .creator-group {
+  margin: 0 0 1.05rem;
+  padding: 0 0 0.9rem;
+  border-bottom: 1px solid rgb(245 235 212 / 0.16);
+}
+
+.title-tableau--art.front-door .game-creator .creator-group:last-of-type {
+  margin-bottom: 0.35rem;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.title-tableau--art.front-door .game-creator .creator-group-label {
+  display: block;
+  margin: 0 0 0.5rem;
+  color: var(--front-door-muted);
+  font-family: var(--front-door-read);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+/*
+ * Birthday reads as one question with two parts, so its two fields sit on one
+ * row instead of stacking into what looked like two unrelated prompts.
+ */
+.title-tableau--art.front-door .game-creator .creator-birthday-fields {
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem;
+}
+
+/*
+ * The repeated note about "HTML menus" is about the spinners: a number input
+ * paints its own stepper in the browser's chrome, which is the one part of
+ * these controls the game does not draw. Removing the stepper leaves the
+ * element exactly as it was for anything that types into it.
+ */
+.title-tableau--art.front-door .game-creator input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.title-tableau--art.front-door
+  .game-creator
+  input[type="number"]::-webkit-outer-spin-button,
+.title-tableau--art.front-door
+  .game-creator
+  input[type="number"]::-webkit-inner-spin-button {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.title-tableau--art.front-door .game-creator .game-fields input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.5rem 0.65rem;
+  letter-spacing: 0.01em;
+}
+
+.title-tableau--art.front-door .game-creator .game-fields input:focus-visible {
+  outline: 2px solid var(--front-door-focus);
+  outline-offset: 2px;
+  border-color: rgb(224 195 122 / 0.6);
+}
+
+/*
+ * Back and Next were clipping: they inherit a row layout whose children could
+ * not shrink below their content, so at the creator's width the second button
+ * ran past the panel. They wrap now, and each keeps a full-width hit area.
+ */
+.title-tableau--art.front-door .game-creator .game-setup-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.9rem;
+}
+
+.title-tableau--art.front-door .game-creator .game-setup-actions button {
+  box-sizing: border-box;
+  flex: 1 1 9rem;
+  min-width: 0;
+  width: auto;
+}
+
+.title-tableau--art.front-door .game-creator .game-creator-next {
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 0.9rem;
+}
+
+/*
+ * DIRECTOR42 ROLE D — short viewports get the same creator, tightened.
+ *
+ * Fitting 1024x768 is an acceptance viewport, and the playtest is explicit
+ * about not scrolling inside menus. The spacing below is what gives way; no
+ * control is dropped, shrunk below a comfortable target, or moved off the step.
+ */
+@media (height <= 50rem) {
+  .title-tableau--art.front-door .game-title h1 {
+    margin-bottom: 0.7rem;
+    font-size: clamp(1.6rem, 2.2vw, 2.1rem);
+  }
+
+  .title-tableau--art.front-door .game-creator h2 {
+    margin: 0.1rem 0 0.5rem;
+  }
+
+  .title-tableau--art.front-door .game-creator .creator-group {
+    margin-bottom: 0.6rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .title-tableau--art.front-door .game-creator .creator-group-label {
+    margin-bottom: 0.35rem;
+  }
+
+  .title-tableau--art.front-door .game-creator .game-fields {
+    gap: 0.5rem;
+  }
+
+  .title-tableau--art.front-door .game-creator .game-fields input {
+    min-height: 2.2rem;
+    padding: 0.35rem 0.6rem;
+  }
+
+  .title-tableau--art.front-door .game-creator .game-creator-next,
+  .title-tableau--art.front-door .game-creator .game-setup-actions {
+    margin-top: 0.6rem;
+  }
+
+  /*
+   * First and last name pair up rather than stacking. This is the change that
+   * actually buys the height — shaving every margin instead would have made
+   * the step cramped without ever fitting it.
+   */
+  .title-tableau--art.front-door
+    .game-creator
+    .creator-group-name
+    .game-fields {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .title-tableau--art.front-door .game-creator .game-fieldset {
+    margin-top: 0.5rem;
+  }
+
+  /* The developer disclosure keeps its distance without owning 40px of it. */
+  .title-tableau--art.front-door .game-creator .game-dev {
+    margin-top: 0.85rem;
   }
 }

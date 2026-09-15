@@ -865,10 +865,21 @@ function SetupScreen({
    * So the field owns its own text and the setup keeps the last age that
    * actually parsed. Nothing downstream sees a partial edit; the childhood,
    * office-eligibility and range checks keep reading a real number throughout.
-   * Blur puts the committed age back on screen, so an abandoned empty field
-   * shows what the game will actually use rather than staying blank.
+   * Blur puts the committed age back on screen once an age has actually been
+   * chosen, so an abandoned half-edit shows what the game will use.
+   *
+   * DIRECTOR42 ROLE D: a fresh creator opens with this blank. The playtest
+   * asked the game to "stop putting it at 10 automatically", and 10 was the
+   * compatibility default in DEFAULT_NEW_GAME_SETUP arriving on screen as
+   * though the game had recommended it. That default still exists and old
+   * callers and encoded replays still get it — it just stops being presented
+   * as a fresh player's answer. Because a blank field would otherwise let the
+   * unanswered 10 through on Next, `ageChosen` below gates the step, so the
+   * age a life starts with is one somebody actually typed.
    */
-  const [ageText, setAgeText] = useState(String(setup.startAge));
+  const [ageText, setAgeText] = useState(() =>
+    initialSetup ? String(initialSetup.startAge) : "",
+  );
   const custom = setup.startKind === "custom";
   const committed = withCreatorLocation(setup, location);
   const steps: readonly CreatorStep[] = custom
@@ -896,6 +907,18 @@ function SetupScreen({
 
   const problems = newGameSetupProblems(committed);
   const birthdayProblem = birthdayProblemForSetup(committed);
+  /*
+   * Whether an age has been answered at all, which is separate from whether
+   * the committed number is legal. An untouched field holds no answer, and the
+   * character step does not advance on one.
+   */
+  const ageChosen = ageText.trim() !== "";
+  const ageParsed = Number(ageText.trim());
+  const ageUsable =
+    ageChosen &&
+    Number.isSafeInteger(ageParsed) &&
+    ageParsed >= MINIMUM_START_AGE &&
+    ageParsed <= MAXIMUM_START_AGE;
   const place = selectedCreatorPlace(location);
   const placeListOpen = creatorPlaceListOpen(location.placeKey, replacingPlace);
 
@@ -1034,112 +1057,134 @@ function SetupScreen({
       {isCurrent("character") ? (
         <section data-testid="creator-stage-character">
           <h2>Your character</h2>
-          <div className="game-fields">
-            <label>
-              First name
-              <input
-                type="text"
-                value={setup.givenName ?? ""}
-                aria-describedby="creator-name-hint"
-                onChange={(event) =>
-                  setSetup((now) => ({
-                    ...now,
-                    givenName: event.target.value || null,
-                  }))
-                }
-              />
-            </label>
-            <label>
-              Last name
-              <input
-                type="text"
-                value={setup.familyName ?? ""}
-                aria-describedby="creator-name-hint"
-                onChange={(event) =>
-                  setSetup((now) => ({
-                    ...now,
-                    familyName: event.target.value || null,
-                  }))
-                }
-              />
-            </label>
-            <label>
-              Starting age
-              <input
-                type="number"
-                data-testid="start-age"
-                min={MINIMUM_START_AGE}
-                max={MAXIMUM_START_AGE}
-                value={ageText}
-                onChange={(event) => {
-                  const text = event.target.value;
-                  setAgeText(text);
-                  /*
-                   * Commit only a real age. An empty or half-typed field leaves
-                   * the last committed one alone rather than becoming 0.
-                   */
-                  if (text.trim() === "") return;
-                  const parsed = Number(text);
-                  if (!Number.isFinite(parsed)) return;
-                  setSetup((now) => ({ ...now, startAge: parsed }));
-                }}
-                onBlur={() => setAgeText(String(setup.startAge))}
-              />
-            </label>
-            <label>
-              Birthday month
-              <input
-                type="number"
-                data-testid="start-birth-month"
-                min={1}
-                max={12}
-                value={setup.birthMonth ?? ""}
-                onChange={(event) => {
-                  const text = event.target.value;
-                  setSetup((now) => {
-                    if (text.trim() === "") {
-                      const rest = { ...now };
-                      delete rest.birthMonth;
-                      return rest;
-                    }
-                    const parsed = Number(text);
-                    if (!Number.isFinite(parsed)) return now;
-                    return { ...now, birthMonth: parsed };
-                  });
-                }}
-              />
-            </label>
-            <label>
-              Birthday day
-              <input
-                type="number"
-                data-testid="start-birth-day"
-                min={1}
-                max={31}
-                value={setup.birthDay ?? ""}
-                onChange={(event) => {
-                  const text = event.target.value;
-                  setSetup((now) => {
-                    if (text.trim() === "") {
-                      const rest = { ...now };
-                      delete rest.birthDay;
-                      return rest;
-                    }
-                    const parsed = Number(text);
-                    if (!Number.isFinite(parsed)) return now;
-                    return { ...now, birthDay: parsed };
-                  });
-                }}
-              />
-            </label>
+          {/*
+                DIRECTOR42 ROLE D — these were five identical rows in one grid,
+                which the playtest twice asked to have "separated". The groups
+                below are presentation: every field keeps its own label, test
+                id and commit behaviour, and nothing was added or removed.
+              */}
+          <div className="creator-group creator-group-name">
+            <span className="creator-group-label">Name</span>
+            <div className="game-fields">
+              <label>
+                First name
+                <input
+                  type="text"
+                  value={setup.givenName ?? ""}
+                  aria-describedby="creator-name-hint"
+                  onChange={(event) =>
+                    setSetup((now) => ({
+                      ...now,
+                      givenName: event.target.value || null,
+                    }))
+                  }
+                />
+              </label>
+              <label>
+                Last name
+                <input
+                  type="text"
+                  value={setup.familyName ?? ""}
+                  aria-describedby="creator-name-hint"
+                  onChange={(event) =>
+                    setSetup((now) => ({
+                      ...now,
+                      familyName: event.target.value || null,
+                    }))
+                  }
+                />
+              </label>
+            </div>
+            <p
+              className="game-hint"
+              id="creator-name-hint"
+              data-testid="creator-name-hint"
+            >
+              Leave a name blank and the game gives you one.
+            </p>
           </div>
-          <p
-            className="game-hint"
-            id="creator-name-hint"
-            data-testid="creator-name-hint"
-          >
-            Leave a name blank and the game gives you one.
-          </p>
+
+          <div className="creator-group">
+            <span className="creator-group-label">Age and birthday</span>
+            <div className="game-fields">
+              <label>
+                Starting age
+                <input
+                  type="number"
+                  data-testid="start-age"
+                  min={MINIMUM_START_AGE}
+                  max={MAXIMUM_START_AGE}
+                  value={ageText}
+                  onChange={(event) => {
+                    const text = event.target.value;
+                    setAgeText(text);
+                    /*
+                     * Commit only a real age. An empty or half-typed field leaves
+                     * the last committed one alone rather than becoming 0.
+                     */
+                    if (text.trim() === "") return;
+                    const parsed = Number(text);
+                    if (!Number.isFinite(parsed)) return;
+                    setSetup((now) => ({ ...now, startAge: parsed }));
+                  }}
+                  onBlur={() => {
+                    // An unanswered field stays unanswered; only a half-typed
+                    // one snaps back to the age that actually committed.
+                    if (!ageChosen) return;
+                    setAgeText(String(setup.startAge));
+                  }}
+                />
+              </label>
+            </div>
+            <div className="game-fields creator-birthday-fields">
+              <label>
+                Birthday month
+                <input
+                  type="number"
+                  data-testid="start-birth-month"
+                  min={1}
+                  max={12}
+                  value={setup.birthMonth ?? ""}
+                  onChange={(event) => {
+                    const text = event.target.value;
+                    setSetup((now) => {
+                      if (text.trim() === "") {
+                        const rest = { ...now };
+                        delete rest.birthMonth;
+                        return rest;
+                      }
+                      const parsed = Number(text);
+                      if (!Number.isFinite(parsed)) return now;
+                      return { ...now, birthMonth: parsed };
+                    });
+                  }}
+                />
+              </label>
+              <label>
+                Birthday day
+                <input
+                  type="number"
+                  data-testid="start-birth-day"
+                  min={1}
+                  max={31}
+                  value={setup.birthDay ?? ""}
+                  onChange={(event) => {
+                    const text = event.target.value;
+                    setSetup((now) => {
+                      if (text.trim() === "") {
+                        const rest = { ...now };
+                        delete rest.birthDay;
+                        return rest;
+                      }
+                      const parsed = Number(text);
+                      if (!Number.isFinite(parsed)) return now;
+                      return { ...now, birthDay: parsed };
+                    });
+                  }}
+                />
+              </label>
+            </div>
+          </div>
 
           {/*
                 Gender, asked rather than decided. Guessing it from the first
@@ -1175,11 +1220,16 @@ function SetupScreen({
           </fieldset>
 
           {birthdayProblem ? <p role="alert">{birthdayProblem}</p> : null}
+          {!birthdayProblem && ageChosen && !ageUsable ? (
+            <p role="alert" data-testid="creator-age-problem">
+              Pick an age between {MINIMUM_START_AGE} and {MAXIMUM_START_AGE}.
+            </p>
+          ) : null}
           <button
             type="button"
             className="game-creator-next"
             data-testid="creator-continue-character"
-            disabled={birthdayProblem !== null}
+            disabled={birthdayProblem !== null || !ageUsable}
             onClick={() => advanceTo("place")}
           >
             Next
