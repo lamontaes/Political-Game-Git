@@ -9,12 +9,14 @@ import {
   authoredScenarioSeatCount,
   characterHistoryContextPersonId,
   createStableId,
+  defaultOriginChamber,
   drawCanonicalName,
   introduceMeasure,
   legislativeBlueprint,
   legislativeScenarioKeysForPlace,
   makeIsoDate,
   measurePosition,
+  nextMeasureDesignation,
   personName,
   seatBodyForPack,
   SeededRng,
@@ -23,6 +25,7 @@ import type {
   EntityId,
   IsoDate,
   LegislativeBlueprint,
+  LegislativeMeasureRecord,
   LegislativeProcedureContext,
   MeasureStepKey,
   SeatedBody,
@@ -73,6 +76,48 @@ export function legislativeWorkAvailableIn(
 }
 
 /**
+ * Which authored measure this world's session opened on.
+ *
+ * Two lives in the same state should not be handed the same bill because one
+ * capability key names one entry in the bank. The bank already holds several
+ * measures per legislature; the world's own seed decides which of them this
+ * life's session is carrying, once, as a pure function of facts the save
+ * already holds. Nothing is rolled when a menu opens.
+ *
+ * A world that has already filed its measure is not asked again. The filed
+ * record is the answer, and the authored entry behind it is recovered from the
+ * bill's own short title, so a save made before any of this keeps the exact
+ * measure, procedure and votes it was played with.
+ */
+export function openingMeasureContentKey(
+  world: World,
+  input: {
+    readonly scenarioKey: string;
+    readonly jurisdictionId: EntityId;
+    readonly filed?: LegislativeMeasureRecord | null;
+  },
+): string {
+  const eligible = legislativeScenarioKeysForPlace(input.jurisdictionId);
+  if (eligible.length === 0) return input.scenarioKey;
+
+  const filed = input.filed ?? null;
+  if (filed) {
+    const authored = eligible.find(
+      (key) => legislativeBlueprint(key).shortTitle === filed.shortTitle,
+    );
+    // A bill the player drafted themselves matches no authored entry. The
+    // capability key still names the right legislature, which is all the
+    // procedure needs.
+    return authored ?? input.scenarioKey;
+  }
+
+  const index = new SeededRng(world.seed)
+    .fork(`legislative-work:opening-measure:${input.jurisdictionId}`)
+    .integer(0, eligible.length);
+  return eligible[index] ?? input.scenarioKey;
+}
+
+/**
  * Puts a bill in front of the player, in their own world.
  *
  * Called again for a world that already has the measure, it returns the same
@@ -84,10 +129,10 @@ export function openLegislativeWork(
   world: World,
   input: OpenLegislativeWorkInput,
 ): { readonly world: World; readonly assignment: LegislativeAssignment } {
-  const blueprint = legislativeBlueprint(input.scenarioKey);
-  if (blueprint.context.jurisdiction.id !== input.jurisdictionId) {
+  const place = legislativeBlueprint(input.scenarioKey);
+  if (place.context.jurisdiction.id !== input.jurisdictionId) {
     throw new Error(
-      `The ${blueprint.designation} scenario does not belong to this character's legislature.`,
+      `The ${place.label} scenario does not belong to this character's legislature.`,
     );
   }
   if (!world.jurisdictions[input.jurisdictionId]) {
@@ -96,9 +141,20 @@ export function openLegislativeWork(
     );
   }
 
+  // The stable keys stay keyed to the place, not to whichever authored measure
+  // this world drew: the sponsor, the colleagues and the bill are found at the
+  // same keys a save written before this change used, and the other routes
+  // into this work look them up the same way.
   const measureStableKey = `legislative-work:${input.scenarioKey}:measure`;
   const existing = (world.history.legislativeMeasures ?? []).find(
     (record) => record.stableKey === measureStableKey,
+  );
+  const blueprint = legislativeBlueprint(
+    openingMeasureContentKey(world, {
+      scenarioKey: input.scenarioKey,
+      jurisdictionId: input.jurisdictionId,
+      filed: existing ?? null,
+    }),
   );
 
   // The member the office serves. A staffer does not sponsor bills, so the
@@ -142,11 +198,19 @@ export function openLegislativeWork(
     ],
   }).world;
 
+  // The number is this jurisdiction's, not the bank's. An authored entry says
+  // what the bill does; what it is called is decided when it is filed, by the
+  // world it is filed in.
+  const originChamberKey = defaultOriginChamber(blueprint.pack).chamberKey;
   next = introduceMeasure(next, {
     stableKey: measureStableKey,
     jurisdictionId: input.jurisdictionId,
     rulePackId: blueprint.pack.packId,
-    designation: blueprint.designation,
+    originChamberKey,
+    designation: nextMeasureDesignation(next, {
+      jurisdictionId: input.jurisdictionId,
+      originChamberKey,
+    }),
     shortTitle: blueprint.shortTitle,
     summary: blueprint.summary,
     origin: "member-introduction",

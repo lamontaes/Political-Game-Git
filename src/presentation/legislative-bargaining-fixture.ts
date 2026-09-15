@@ -19,7 +19,7 @@ import {
   bargainingScenePeople,
   bargainingSubjectFacts,
   FILED_SECTION_BRIEFS,
-  FISCAL_NOTE_SUMMARY,
+  fiscalNoteSummaryFor,
   formatPresentationTime,
   PRIOR_ADVOCATE_HISTORY_SUMMARY,
   PRIOR_GUARDIAN_HISTORY_SUMMARY,
@@ -50,6 +50,14 @@ export {
  */
 
 export const BARGAINING_SEED = "legislative-bargaining-2026";
+/**
+ * The bill this development fixture is about.
+ *
+ * A fixture literal, and only a fixture literal: the production route numbers
+ * its measure from the world it files into, and nothing here reaches it.
+ */
+export const FIXTURE_DESIGNATION = "HB 214";
+
 export const FISCAL_NOTE_EVENT_STABLE_KEY = "bargaining:hb-214:fiscal-note";
 
 /**
@@ -149,7 +157,7 @@ export function createLegislativeBargainingFixture(
     bargainingSubjectFacts({
       measureId: scenario.measureId,
       measureStableKey: "kentucky:measure",
-      designation: "HB 214",
+      designation: FIXTURE_DESIGNATION,
       shortTitle: "Transit Access Pilot",
       chamberName: house.name,
       nextStepLabel: stage.label.toLowerCase(),
@@ -253,7 +261,7 @@ function recordFiscalNote(
     personFactConstraints: [],
     visibility: "limited",
     tags: ["legislation", "legislation.fiscal-note"],
-    summary: FISCAL_NOTE_SUMMARY,
+    summary: fiscalNoteSummaryFor(FIXTURE_DESIGNATION),
     context: {
       location: {
         jurisdictionId: measure.jurisdictionId,

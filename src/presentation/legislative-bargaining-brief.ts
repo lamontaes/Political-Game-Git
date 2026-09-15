@@ -124,8 +124,16 @@ export const FILED_SECTION_BRIEFS: readonly FiledSectionBrief[] = [
   },
 ];
 
-export const FISCAL_NOTE_SUMMARY =
-  "A fiscal note on HB 214 as filed put the two-year exposure at $8,000,000, with the caveat that a named local match would sit on top of that figure rather than inside it.";
+/**
+ * The fiscal note, about the bill this world actually filed.
+ *
+ * It used to name HB 214 outright, which was true only for as long as every
+ * save was handed that one bill. A note is written about a measure, so the
+ * measure's own designation is what it names.
+ */
+export function fiscalNoteSummaryFor(designation: string): string {
+  return `A fiscal note on ${designation} as filed put the two-year exposure at $8,000,000, with the caveat that a named local match would sit on top of that figure rather than inside it.`;
+}
 
 export const PRIOR_ADVOCATE_HISTORY_SUMMARY =
   "The two carried a road-fund bill together last session and neither of them had to be chased for a vote.";

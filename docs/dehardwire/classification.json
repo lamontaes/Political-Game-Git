@@ -1,0 +1,23 @@
+{
+  "review": "DIRECTOR42 ROLE B — DEHARDWIRE",
+  "base": "f22fd314e72bec0440044026ccdfd99e7a67600d",
+  "classes": {
+    "legitimate-data-label": "Content, a label, or recorded provenance. Belongs in the game and cannot become one world's fixed gameplay instance.",
+    "dev-or-test-only-fixture": "A fixture literal that a test, a developer route or explicit scenario data may hold, and that ordinary New Game and Continue cannot reach.",
+    "production-hardcode": "A world-instance gameplay identity an ordinary player can be handed because a production module spells it out. None may remain."
+  },
+  "cases": [
+    {
+      "file": "src/simulation/legislation-scenarios.ts",
+      "literal": "*",
+      "classification": "legitimate-data-label",
+      "rationale": "The authored measure bank. Each entry's designation is content the bank has always carried, and it is now exposed to production only as `LegislativeBlueprint.authoredDesignation`, which no production path reads: the standalone developer scenario files its own bill with it, and the content index titles the entry with it. What a player's world files is numbered by `nextMeasureDesignation` from that world's own jurisdiction numbering. Guarded by src/presentation/dehardwire-measure-identity.test.ts ('the authored bank')."
+    },
+    {
+      "file": "src/simulation/judicial-gameplay-kernel-bank.ts",
+      "literal": "*",
+      "classification": "legitimate-data-label",
+      "rationale": "Recorded provenance on judicial kernel definitions — the instruments a kernel was compiled from, matched here only because a rule citation looks like a bill designation. Not a measure and not a world instance. Whether any of it should render on a player surface is ROLE C's separation question, not a dehardwire case; the citation itself stays internal."
+    }
+  ]
+}

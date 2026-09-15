@@ -52,7 +52,7 @@ function toItem(blueprint: LegislativeBlueprint): ContentItem {
     id: contentItemId(BANK_ID, blueprint.scenarioKey),
     bankId: BANK_ID,
     itemKey: blueprint.scenarioKey,
-    title: `${blueprint.designation} — ${blueprint.shortTitle}`,
+    title: `${blueprint.authoredDesignation} — ${blueprint.shortTitle}`,
     summary: blueprint.summary,
     domain: "legislation",
     family: blueprint.pack.packId,

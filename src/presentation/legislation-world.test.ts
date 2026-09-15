@@ -170,6 +170,14 @@ describe("Legislative work happens in the player's own world", () => {
     const { world, assignment } = open("notice");
     expect(assignment.measureNotice).toContain("not a real one");
     const briefing = projectMeasureBriefing(world, assignment.measureId);
-    expect(briefing.designation).toBe("HB 214");
+    // The briefing renders whatever this world numbered its bill. It used to
+    // assert "HB 214", which is exactly the expectation a fresh life must not
+    // have to satisfy, so what is checked now is that a designation exists, is
+    // the origin chamber's, and is the one on the filed record.
+    expect(briefing.designation).toMatch(/^HB \d+$/);
+    const filed = world.history.legislativeMeasures.find(
+      (record) => record.id === assignment.measureId,
+    );
+    expect(filed?.designation).toBe(briefing.designation);
   });
 });
