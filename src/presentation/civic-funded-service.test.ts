@@ -373,7 +373,7 @@ describe("funded civic service: decision -> collected public cash -> payment -> 
       expect(
         projectPersonDossier(unpublished, personId, colleagueId)!
           .lastInteraction,
-      ).toBe("Nothing between you is written down yet.");
+      ).toBe("You haven't spoken.");
       expect(
         projectPersonDossier(world, personId, colleagueId)!.lastInteraction,
       ).toMatch(/^Last on the record: /);

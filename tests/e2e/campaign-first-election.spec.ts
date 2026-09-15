@@ -501,6 +501,7 @@ test.describe("P85D integration through ordinary player controls", () => {
     // Where and when live on the corner cluster now, in its own label.
     expect(await shellIdentity(page)).toContain("Lexington");
     await openShellMenu(page);
+    await page.getByTestId("nav-group-politics").click();
     await page.getByTestId("elsewhere-work").focus();
     await page.keyboard.press("Space");
     await expect(page.getByTestId("office-section")).toContainText(

@@ -197,6 +197,9 @@ export async function openShellMenu(page: Page): Promise<void> {
 /** Opens the cluster and presses one of its destinations. */
 export async function goTo(page: Page, testid: string): Promise<void> {
   await openShellMenu(page);
+  if (testid === "elsewhere-work") {
+    await page.getByTestId("nav-group-politics").click();
+  }
   await page.getByTestId(testid).click();
 }
 
@@ -235,6 +238,9 @@ export async function openElsewhere(
   key: "day" | "people" | "work",
 ): Promise<void> {
   await openShellMenu(page);
+  if (key === "work") {
+    await page.getByTestId("nav-group-politics").click();
+  }
   const control = page.getByTestId(`elsewhere-${key}`);
   await expect(control).toBeVisible();
   if ((await control.getAttribute("aria-pressed")) === "true") {
