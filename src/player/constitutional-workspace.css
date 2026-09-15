@@ -1,0 +1,29 @@
+.constitutional-workspace {
+  max-width: 70rem;
+  color: var(--pg-text, #e6e2d7);
+  padding: 1rem;
+}
+.constitutional-workspace button {
+  margin: 0.35rem;
+  padding: 0.5rem 0.75rem;
+}
+.constitutional-workspace fieldset {
+  margin-block: 0.75rem;
+}
+.constitutional-workspace fieldset label {
+  display: inline-flex;
+  gap: 0.4rem;
+  margin-right: 1rem;
+}
+.constitutional-workspace article {
+  border-top: 1px solid currentColor;
+  margin-top: 1rem;
+}
+.constitutional-text {
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+.constitutional-workspace a {
+  color: inherit;
+  text-decoration: underline;
+}

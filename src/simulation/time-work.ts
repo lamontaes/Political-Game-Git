@@ -1,3 +1,4 @@
+import { applyNationalTermTransitions } from "./national-election-consumer";
 import { workStatusAt } from "./life-queries";
 import {
   addDays,
@@ -223,6 +224,19 @@ export function workItemState(
     throw new Error(`Missing work item or state: ${workItemId}`);
   }
   return state;
+}
+
+/** Shared busy-staff gate: an active assignment already consumes that person. */
+export function personHasActiveAssignedWork(
+  world: World,
+  personId: EntityId,
+): boolean {
+  return world.history.workItems.some((item) => {
+    const state = latestWorkStateUnchecked(world, item.id);
+    return (
+      state?.status === "active" && state.assignedPersonIds.includes(personId)
+    );
+  });
 }
 
 function intervalsOverlap(
@@ -1546,11 +1560,11 @@ function appendWorkState(world: World, state: WorkItemStateRecord): World {
 }
 
 function setCurrentMoment(world: World, moment: SimulationMoment): World {
-  return {
+  return applyNationalTermTransitions({
     ...world,
     currentDate: moment.date,
     currentMoment: cloneMoment(moment),
-  };
+  });
 }
 
 function validateFlexibility(

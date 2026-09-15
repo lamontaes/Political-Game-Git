@@ -87,6 +87,59 @@ const EXACT_TEMPORAL_REVIEWS: Readonly<Record<string, ExactTemporalReview>> = {
     basisExcerpt: "This act becomes effective upon passage and approval.",
     amendmentAnnotations: ["NRS A 2021, 932", "NRS A 2025, 2094"],
   },
+  // The current NRS 218A.200 words are the words 2025 Nev. Stat. ch. 323 § 12
+  // enacted. Section 78 makes them govern every candidacy filed after
+  // October 1, 2025; the act has no other effective-date section, and the
+  // Legislature's passed-bills list records "Effective October 1, 2025."
+  // Nothing acquired dates the four paragraphs that predate the act, so an
+  // earlier date stays unestablished rather than back-dated.
+  "nv-nrs-218a": {
+    validFrom: "2025-10-01",
+    validThrough: null,
+    basisArtifactId: "nv-2025-chapter-323-ab491",
+    basisLocator: "2025 Nev. Stat., ch. 323, §§ 12, 78",
+    basisExcerpt:
+      "the amendatory provisions of this act apply to every person who, after October 1, 2025, files a declaration of candidacy for any elected office in this State other than federal office.",
+    amendmentAnnotations: [
+      "NRS A 2025, 2092",
+      "2025 Nev. Stat., ch. 323 (AB 491), approved June 5, 2025",
+      "Nevada Legislature, 83rd Session passed bills: AB491, Chapter 323, Effective October 1, 2025.",
+    ],
+  },
+  // The Legislature's published constitution annotates this paragraph with the
+  // date its current words took effect. Earlier versions were not acquired.
+  "nj-constitution-art-4-sec-1": {
+    validFrom: "1966-12-08",
+    validThrough: null,
+    basisArtifactId: "nj-constitution-art-4-sec-1",
+    basisLocator: "publisher amendment annotation",
+    basisExcerpt:
+      "Article IV, Section I, paragraph 2 amended effective December 8, 1966.",
+    expectedArtifactText:
+      "Article IV, Section I, paragraph 2 amended effective December 8, 1966.",
+  },
+  // The page records Article CI's ratification by the people on November 5,
+  // 1974, and Amendment Art. XLVIII, IV, § 5 makes a legislative amendment part
+  // of the constitution when the voters approve it. Articles CIX, CXVII and
+  // CXIX later struck only census and districting sentences of Article CI; the
+  // residence sentences compiled here are untouched by them.
+  "ma-constitution-amend-art-101": {
+    validFrom: "1974-11-05",
+    validThrough: null,
+    basisArtifactId: "ma-constitution-amend-art-101",
+    basisLocator: "publisher ratification note; Amend. Art. XLVIII, IV, § 5",
+    basisExcerpt:
+      "The one hundred and first and one hundred and second Articles of Amendment were adopted by the General Court during the sessions 1971 and 1973, and both Articles were approved and ratified by the people on the fifth day of November, 1974.",
+    // Verified against the publisher's raw bytes, which wrap this note across
+    // lines and <em> tags; the literal reproduces that span exactly so a
+    // reformatted page fails the compile instead of silently re-dating it.
+    expectedArtifactText:
+      "The <em>one hundred and first</em> and <em>\r\n                  one hundred and\r\n                  second\r\n              </em> Articles of Amendment were adopted by the General\r\n              Court during the sessions 1971 and 1973, and both Articles were\r\n              approved and ratified by the people on the fifth day of\r\n              November, 1974.",
+    amendmentAnnotations: [
+      "Amend. Art. XLVIII, IV, § 5: a legislative amendment becomes part of the constitution if approved by a majority of the voters voting thereon.",
+      "Amend. Arts. CIX (ratified November 7, 1978), CXVII (ratified November 6, 1990) and CXIX amend only the census and districting sentences of Article CI.",
+    ],
+  },
   "oh-constitution-sec-15-4": {
     validFrom: "1953-11-03",
     validThrough: null,

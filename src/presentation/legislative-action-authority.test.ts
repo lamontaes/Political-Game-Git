@@ -1,3 +1,7 @@
+import {
+  enterSupportedTerm,
+  completeRecordedCampaignFixture,
+} from "../../tests/fixtures/recorded-legislative-term";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -98,7 +102,10 @@ function wonSeat(seed = "p85c-owner-0") {
   const life = newLife(seed);
   const world = runOneRace(life.world, life.personId);
   expect(projectCampaign(world, life.personId).phase).toBe("won");
-  return { world, personId: life.personId };
+  return {
+    world: enterSupportedTerm(world, life.personId),
+    personId: life.personId,
+  };
 }
 
 function openBill(world: World, personId: EntityId) {
@@ -384,7 +391,7 @@ describe("79R2 finding A — a retained chamber context cannot write after the b
     );
   });
 
-  it("refuses rather than picking one when a second win makes the seat ambiguous", () => {
+  it("uses the retained canonical seat when a second win makes an unscoped lookup ambiguous", () => {
     const won = wonSeat();
     const opened = openBill(won.world, won.personId);
     const onHouseFloor = walkToFloorOf(
@@ -398,26 +405,50 @@ describe("79R2 finding A — a retained chamber context cannot write after the b
     expect(entry.kind).toBe("available");
     if (entry.kind !== "available") return;
 
-    // A second ordinary campaign, won the same canonical way, leaves two
-    // active member seats the records do not choose between.
-    const ambiguous = runOneRace(passOrdinaryDays(entry.world), won.personId);
+    // A second supplied fixture result crosses its own term boundary.
+    // Unbound contests identify separate seats; no winning seed is assumed.
+    const ambiguous = enterSupportedTerm(
+      completeRecordedCampaignFixture(
+        fileForOffice(passOrdinaryDays(entry.world), won.personId),
+        won.personId,
+      ),
+      won.personId,
+    );
     expect(projectCampaign(ambiguous, won.personId).phase).toBe("won");
+    // Several valid seats remain several offices: an unscoped resolver
+    // withholds and never selects one.
     const resolution = resolveActiveMemberSeat(ambiguous, won.personId);
-    expect(resolution.kind).toBe("unseated");
-    if (resolution.kind === "unseated") {
+    expect(resolution.kind).toBe("ambiguous");
+    if (resolution.kind === "ambiguous") {
       expect(resolution.reason).toMatch(/more than one/i);
     }
 
-    expectRefusedWithoutWriting(ambiguous, () =>
-      offerNegotiatedAmendment(
-        ambiguous,
-        entry.seat,
-        entry.seat.progress,
-        "capped",
-      ),
+    // The retained sitting is not unscoped. It names the canonical seat it
+    // opened on, so the write boundary can re-resolve that exact live record
+    // without selecting an array entry or borrowing authority from the newer
+    // office.
+    const scoped = resolveActiveMemberSeat(ambiguous, won.personId, {
+      relationshipStableKey: entry.seat.memberSeatStableKey!,
+    });
+    expect(scoped.kind).toBe("seated");
+
+    const amended = offerNegotiatedAmendment(
+      ambiguous,
+      entry.seat,
+      entry.seat.progress,
+      "capped",
     );
-    expectRefusedWithoutWriting(ambiguous, () =>
-      takeNegotiatedFloorVote(ambiguous, entry.seat, entry.seat.progress),
+    expect(amended.world.history.legislativeAmendments!.length).toBeGreaterThan(
+      (ambiguous.history.legislativeAmendments ?? []).length,
+    );
+
+    const voted = takeNegotiatedFloorVote(
+      ambiguous,
+      entry.seat,
+      entry.seat.progress,
+    );
+    expect(voted.world.history.legislativeVotes!.length).toBeGreaterThan(
+      (ambiguous.history.legislativeVotes ?? []).length,
     );
   });
 

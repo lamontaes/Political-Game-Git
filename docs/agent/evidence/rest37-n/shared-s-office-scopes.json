@@ -1,0 +1,12 @@
+{
+  "preparedSBase": "51dfa409af52fb00e9d829fab085734ec319a611",
+  "currentReaderSha256": "ddf52574286fc84793a96a9de8a718d69040f5bad8d13c6386a351f720d4eaba",
+  "actualResultWinner": "person_9fcb0bc10c8956a4",
+  "supportedIndependentOffices": 2,
+  "unscopedAmbiguity": true,
+  "explicitScopesAccepted": true,
+  "endedScopeRefused": true,
+  "otherOfficePreserved": true,
+  "reload": true,
+  "controlAndResidencePreserved": true
+}

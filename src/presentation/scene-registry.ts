@@ -101,6 +101,7 @@ export interface RegisteredScene {
    * people, which is a refusal to guess rather than a default.
    */
   readonly standardBodyWidthPercent: number | null;
+  readonly standingHeightPercent?: number;
   readonly anchors: ReadonlyMap<string, RegisteredSceneAnchor>;
   /** Ascending by z-order, then by id, so paint order is deterministic. */
   readonly occluders: readonly RegisteredSceneOccluder[];
@@ -252,6 +253,9 @@ export function registerScene(spec: EnvironmentSceneSpec): RegisteredScene {
     raster,
     floorCalibration: spec.floor_calibration ?? null,
     standardBodyWidthPercent: spec.standard_body_width_percent ?? null,
+    ...(spec.standing_height_percent === undefined
+      ? {}
+      : { standingHeightPercent: spec.standing_height_percent }),
     anchors,
     occluders,
     surfaceSlots: spec.surface_slots ?? [],

@@ -917,6 +917,164 @@
       "storage": "committed"
     },
     {
+      "artifactId": "nv-2025-chapter-323-ab491",
+      "bytes": {
+        "length": 937203,
+        "sha256": "7b0b1306139c6d446d273525942153d1992e36a38da30892439d8855946bdd53"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/nv-2025-chapter-323-ab491.html",
+      "mediaType": "text/html",
+      "provider": "Nevada Legislature, Legislative Counsel Bureau",
+      "publisher": {
+        "documentationUrl": "https://www.leg.state.nv.us/Statutes/83rd2025/Stats202516.html",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 937203,
+        "retrievedAt": "2026-09-15T00:04:25.521Z",
+        "url": "https://www.leg.state.nv.us/Statutes/83rd2025/Stats202516.html"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the Nevada Legislature",
+          "instrumentKind": "statute",
+          "instrumentTitle": "2025 Statutes of Nevada, Chapter 323, Assembly Bill 491",
+          "jurisdictionKey": "US-NV",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1075,
+              "sha256": "986f66c8da9260cce99a10cbd334f1f768b378e1616c941c5c5c63dd46df05ef"
+            },
+            "regions": [
+              {
+                "beginsWith": "NRS 218A.200 is hereby amended to read as follows:",
+                "endsWith": "Meets all other qualifications for the office as required by the Constitution and laws of this State."
+              },
+              {
+                "beginsWith": "Sec. 78. 1. The amendatory provisions of this act do not apply to a person who, on October 1, 2025, holds an elected office in this State.",
+                "endsWith": "files a declaration of candidacy for any elected office in this State other than federal office."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "nj-constitution-art-4-sec-1",
+      "bytes": {
+        "length": 208558,
+        "sha256": "907a336c914d3a553bd3187d49c5fc3f31f95a1bffd47463014a8e843d856fd5"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/nj-constitution-art-4-sec-1.html",
+      "mediaType": "text/html",
+      "provider": "New Jersey Legislature, Office of Legislative Services",
+      "publisher": {
+        "documentationUrl": "https://www.njleg.state.nj.us/constitution",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 208558,
+        "retrievedAt": "2026-09-15T00:56:38.149Z",
+        "url": "https://www.njleg.state.nj.us/constitution"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of the State of New Jersey",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of New Jersey",
+          "jurisdictionKey": "US-NJ",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 689,
+              "sha256": "b0ecb7a78d772240692cf67f902ea5a9802c42fef6b436ecf3655e48d18ef54b"
+            },
+            "regions": [
+              {
+                "beginsWith": "2. No person shall be a member of the Senate who shall not have attained the age of thirty years",
+                "endsWith": "Article IV, Section I, paragraph 2 amended effective December 8, 1966."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ma-constitution-amend-art-101",
+      "bytes": {
+        "length": 458396,
+        "sha256": "cca901df192768df0c751b24b1e829f56e28082731496b7782e5e2bf94570d1d"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/ma-constitution-amend-art-101.html",
+      "mediaType": "text/html",
+      "provider": "The General Court of the Commonwealth of Massachusetts",
+      "publisher": {
+        "documentationUrl": "https://malegislature.gov/Laws/Constitution",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 458396,
+        "retrievedAt": "2026-09-15T01:06:20.019Z",
+        "url": "https://malegislature.gov/Laws/Constitution"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of the Commonwealth of Massachusetts",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the Commonwealth of Massachusetts",
+          "jurisdictionKey": "US-MA",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 3523,
+              "sha256": "8108c3392c5d51f2bd3be5925a85f05c2597496b659204f79537c282267c2042"
+            },
+            "regions": [
+              {
+                "beginsWith": "Article CI. Section 1. In the year nineteen hundred and seventy-five",
+                "endsWith": "for the choice of representatives, and of ascertaining their election, shall be prescribed by law."
+              },
+              {
+                "beginsWith": "Section 2. [Each such census of inhabitants required in section one",
+                "endsWith": "shall cease to be an inhabitant of the Commonwealth."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
       "artifactId": "oh-constitution-sec-2-1",
       "bytes": {
         "length": 14337,

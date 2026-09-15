@@ -151,6 +151,10 @@ function play(
       scene: moment.scene,
       optionKey: option.key,
     });
+    // This life-spanning walk chooses an explicit wait between moments.
+    // Reading/answering a beat does not silently own that stretch of time.
+    if (moment.scene.kind !== "ordinary-stretch")
+      world = letStoryTimePass(world, personId);
   }
   return { world, personId, beats };
 }

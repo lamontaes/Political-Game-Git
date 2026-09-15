@@ -8,6 +8,7 @@ import type {
 import type { ElectiveOfficeRef } from "./types";
 import { candidateQualificationRuleSet } from "./candidate-qualification";
 import { makeIsoDate } from "./dates";
+import { stateExecutiveCandidacyPacks } from "./nationwide-world/state-executive-candidacy-packs";
 import {
   OFFICE_QUALIFICATIONS_META,
   officeFamilyForChamberKey,
@@ -355,8 +356,19 @@ export function candidacyPacks(): readonly CandidacyPack[] {
   return CANDIDACY_PACKS;
 }
 
+/**
+ * A candidacy pack by id: an accepted legislative pack, or a state's single
+ * executive office. Executive offices are resolvable here so a filed campaign
+ * keeps its authority, but they are not listed by `candidacyPacks()`: that set
+ * still says which states have accepted legislative rules, and an executive
+ * office pack carries no sourced qualification of its own.
+ */
 export function candidacyPackById(packId: string): CandidacyPack | null {
-  return CANDIDACY_PACKS.find((pack) => pack.packId === packId) ?? null;
+  return (
+    CANDIDACY_PACKS.find((pack) => pack.packId === packId) ??
+    stateExecutiveCandidacyPacks().find((pack) => pack.packId === packId) ??
+    null
+  );
 }
 
 /**

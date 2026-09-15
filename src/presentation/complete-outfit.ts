@@ -1,3 +1,9 @@
+import {
+  preparedFamily,
+  defaultPreparedMaterial,
+  generatedPreparedMaterial,
+  validatePreparedAppearance,
+} from "./engine-people29-data";
 import type { PersonAppearance, World } from "../simulation/types";
 import { SeededRng } from "../simulation/rng";
 import {
@@ -39,6 +45,7 @@ export type OutfitResult =
 /** Single whole-outfit acceptance boundary for drawing, options and writes. Pure. */
 export function resolveCompleteOutfit(request: OutfitRequest): OutfitResult {
   try {
+    validatePreparedAppearance(request.appearance);
     const families = request.families ?? request.appearance.outfit?.families;
     const appearance = { ...request.appearance };
     delete appearance.outfit;
@@ -234,6 +241,8 @@ export function commitCompleteOutfit(
 export function initializeFreshCandidateOutfits(
   world: World,
   library: CharacterComponentLibrary,
+  initializationVersion:
+    "complete-outfit-v1" | "complete-outfit-v2" = "complete-outfit-v1",
 ): World {
   const people = { ...world.people };
   for (const id of world.personOrder) {
@@ -244,7 +253,7 @@ export function initializeFreshCandidateOutfits(
       library,
       resolveAppearanceCatalogGeneration(appearance, library.catalogGeneration),
     );
-    const bodies = [
+    let bodies = [
       ...new Set(
         available
           .filter(
@@ -256,7 +265,42 @@ export function initializeFreshCandidateOutfits(
           .map((c) => c.definition.family),
       ),
     ].sort();
-    const rng = new SeededRng(appearance.seed).fork("complete-outfit-v1");
+    const prepared = bodies.filter((body) => preparedFamily(body));
+    if (prepared.length && (appearance.catalogGeneration ?? 0) >= 5)
+      bodies = prepared;
+    const coherentDefaults = initializationVersion === "complete-outfit-v2";
+    if (coherentDefaults) {
+      const presentation =
+        person.identity?.gender === "female"
+          ? "feminine"
+          : person.identity?.gender === "male"
+            ? "masculine"
+            : undefined;
+      bodies = bodies.filter((body) => {
+        const family = preparedFamily(body);
+        return (
+          family &&
+          (!presentation || family.geometry.presentation === presentation)
+        );
+      });
+      const latest = Math.max(
+        ...available
+          .filter((c) => bodies.includes(c.definition.family))
+          .map((c) => c.definition.catalog_generation),
+      );
+      bodies = bodies.filter((body) =>
+        available.some(
+          (c) =>
+            c.definition.family === body &&
+            c.definition.catalog_generation === latest,
+        ),
+      );
+      if (!bodies.length)
+        throw new Error(
+          "No complete prepared body supports this person's recorded default. The constructor cannot substitute a different presentation.",
+        );
+    }
+    const rng = new SeededRng(appearance.seed).fork(initializationVersion);
     const start = bodies.length ? rng.integer(0, bodies.length) : 0;
     let finished = false;
     for (let i = 0; i < bodies.length && !finished; i++) {
@@ -275,14 +319,45 @@ export function initializeFreshCandidateOutfits(
       const headStart = heads.length ? rng.integer(0, heads.length) : 0;
       for (let h = 0; h < heads.length; h++) {
         const headFamily = heads[(headStart + h) % heads.length]!;
+        const prepared = preparedFamily(bodyFamily);
         const selected = {
           ...appearance,
+          ...(prepared
+            ? {
+                material: coherentDefaults
+                  ? generatedPreparedMaterial(prepared, appearance.seed)
+                  : defaultPreparedMaterial(prepared),
+              }
+            : {}),
           selection: { bodyFamily, headFamily, hairFamily: null },
         };
+        const initialFamilies: Partial<Record<OutfitKind, string>> = {};
+        if (coherentDefaults)
+          for (const kind of OUTFIT_KINDS) {
+            const choices = [
+              ...new Set(
+                available
+                  .filter(
+                    (c) =>
+                      c.definition.kind === kind &&
+                      !c.definition.render_piece_of &&
+                      c.definition.compatible_body_families?.includes(
+                        bodyFamily,
+                      ),
+                  )
+                  .map((c) => c.definition.family),
+              ),
+            ].sort();
+            if (choices.length)
+              initialFamilies[kind] = rng
+                .fork(`wardrobe:${kind}`)
+                .pick(choices);
+          }
         const result = findCompleteOutfit({
           appearance: selected,
           library,
           poseFamily: "standing-neutral",
+          ...(coherentDefaults ? { families: initialFamilies } : {}),
         });
         if (!result.ok) continue;
         const hairFamilies = [

@@ -1,0 +1,125 @@
+.ux39-calendar {
+  margin: 1rem 0;
+}
+.ux39-calendar-toolbar,
+.ux39-calendar-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+.ux39-calendar-toolbar {
+  justify-content: space-between;
+}
+.ux39-calendar-scroll {
+  overflow-x: auto;
+}
+.ux39-calendar-grid {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  color: inherit;
+}
+.ux39-calendar-grid caption {
+  text-align: left;
+  font-size: 1.15rem;
+  padding: 0.85rem 0;
+}
+.ux39-calendar-grid th {
+  font-weight: normal;
+  padding: 0.4rem 0.15rem;
+  color: var(--pg-muted, #b8b9b5);
+}
+.ux39-calendar-grid abbr {
+  text-decoration: none;
+}
+.ux39-calendar-grid td {
+  padding: 0;
+  border: 1px solid var(--pg-hairline, #485360);
+  vertical-align: top;
+}
+.ux39-calendar-date {
+  width: 100%;
+  min-height: 5.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  align-items: stretch;
+  padding: 0.4rem;
+  border: 0;
+  border-radius: 0;
+  color: inherit;
+  background: rgba(11, 19, 32, 0.32);
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+}
+.ux39-calendar-date:hover,
+.ux39-calendar-date[aria-pressed="true"] {
+  background: rgba(194, 155, 72, 0.16);
+}
+.ux39-calendar-date[aria-current="date"] {
+  box-shadow: inset 0 0 0 2px var(--pg-brass, #c29b48);
+}
+.ux39-calendar-date:focus-visible {
+  outline: 2px solid #f3d18c;
+  outline-offset: -3px;
+}
+.ux39-calendar-grid td[data-outside-month="true"] .ux39-calendar-number {
+  opacity: 0.5;
+}
+.ux39-calendar-number {
+  display: flex;
+  gap: 0.2rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.ux39-calendar-number small,
+.ux39-calendar-entry {
+  font-size: 0.68rem;
+  line-height: 1.3;
+}
+.ux39-calendar-entry {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.ux39-calendar-entry time {
+  color: var(--pg-brass, #c29b48);
+}
+.ux39-calendar-hint {
+  font-size: 0.8rem;
+}
+.ux39-calendar-date-order {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0.5rem 0;
+}
+.ux39-calendar-date-order {
+  border: 0;
+  padding: 0;
+}
+.ux39-calendar-date-order legend {
+  padding: 0;
+  margin-bottom: 0.3rem;
+}
+.ux39-calendar-date-order label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+}
+.ux39-calendar-date-order input {
+  accent-color: var(--pg-brass, #c29b48);
+}
+@media (max-width: 600px) {
+  .ux39-calendar-grid {
+    min-width: 490px;
+  }
+  .ux39-calendar-date {
+    min-height: 4.8rem;
+  }
+}

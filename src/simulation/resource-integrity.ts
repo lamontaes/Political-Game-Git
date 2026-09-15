@@ -1,3 +1,4 @@
+import { assertPublicFundingMandate } from "./public-fiscal";
 import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
 import {
@@ -779,6 +780,14 @@ function validateBasisReference(
         recordId,
         "housing tenure",
         (record) => record.startedAt,
+      );
+      return;
+    case "public-funding":
+      assertPublicFundingMandate(
+        world,
+        reference.mandate,
+        sequence,
+        makeIsoDate(date),
       );
       return;
     case "general":

@@ -1,3 +1,4 @@
+import { legislativeProcedureRefusal } from "../presentation/legislative-procedure-availability";
 import { useReviewEnvironment, useReviewStorage } from "../ui/review-context";
 import { useEffect } from "react";
 import { useMemo, useState } from "react";
@@ -10,7 +11,10 @@ import {
 import { projectMeasureBriefing } from "../presentation/legislation-projection";
 import type { MeasureBriefing } from "../presentation/legislation-projection";
 import { applyLegislativeStep } from "../presentation/legislation-session";
-import { applyLegislativeCommand } from "../presentation/legislation-world";
+import {
+  applyLegislativeCommand,
+  recordedInstitutionalStepRequiresWait,
+} from "../presentation/legislation-world";
 import type { LegislativeAssignment } from "../presentation/legislation-world";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import type { MeasureStepKey } from "../simulation/legislation";
@@ -46,15 +50,41 @@ export function LegislationWorkspace({
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const briefing = useMemo(
-    () => projectMeasureBriefing(world, assignment.measureId),
-    [world, assignment.measureId],
-  );
+  const briefing = useMemo(() => {
+    const briefing = projectMeasureBriefing(world, assignment.measureId);
+    return {
+      ...briefing,
+      options: briefing.options.map((option) => {
+        const awaitsOtherChamber = recordedInstitutionalStepRequiresWait(
+          world,
+          assignment,
+          option.actionKey,
+        );
+        const reason = legislativeProcedureRefusal(
+          world,
+          assignment.procedure,
+          option.actionKey,
+        );
+        return {
+          ...option,
+          ...(awaitsOtherChamber
+            ? {
+                playerMayAct: false,
+                label: `Wait for the other chamber: ${option.label}`,
+              }
+            : {}),
+          ...(reason ? { disabledReason: reason } : {}),
+        };
+      }),
+    };
+  }, [world, assignment]);
 
   function takeStep(step: MeasureStepKey) {
     try {
       const result = applyLegislativeCommand(world, assignment, {
-        kind: "take-step",
+        kind: recordedInstitutionalStepRequiresWait(world, assignment, step)
+          ? "await-institutional-record"
+          : "take-step",
         step,
       });
       setMessage(result.message);
@@ -68,7 +98,7 @@ export function LegislationWorkspace({
   return (
     <MeasureView
       briefing={briefing}
-      notice={assignment.measureNotice}
+      notice={assignment.recordedSittingNotice ?? assignment.measureNotice}
       placeKey={assignment.scenarioKey}
       worldSource="save"
       message={message}
@@ -339,11 +369,12 @@ function MeasureView({
                 <button
                   type="button"
                   data-testid={`legislation-step-${option.actionKey}`}
+                  disabled={Boolean(option.disabledReason)}
                   onClick={() => onStep(option.actionKey)}
                 >
                   {option.label}
                 </button>
-                <span>{option.detail}</span>
+                <span>{option.disabledReason ?? option.detail}</span>
               </li>
             ))}
           </ul>
@@ -359,11 +390,12 @@ function MeasureView({
                 <button
                   type="button"
                   data-testid={`legislation-step-${option.actionKey}`}
+                  disabled={Boolean(option.disabledReason)}
                   onClick={() => onStep(option.actionKey)}
                 >
                   {option.label}
                 </button>
-                <span>{option.detail}</span>
+                <span>{option.disabledReason ?? option.detail}</span>
               </li>
             ))}
           </ul>

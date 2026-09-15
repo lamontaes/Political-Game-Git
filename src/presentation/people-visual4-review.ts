@@ -105,7 +105,7 @@ export const PEOPLE_VISUAL4_UNDRESSABLE_BODIES = bodyCoverage.refusals;
 
 // Noncomposable candidates remain banked in the registry/evidence, not silently
 // eligible choices. An empty compatibility list is a measured refusal.
-const eligible = PEOPLE_VISUAL4_RECORDS.filter(
+export const eligible = PEOPLE_VISUAL4_RECORDS.filter(
   (r) =>
     (r.candidate_component?.kind === "body" &&
       bodyCoverage.dressable.has(r.candidate_component.family)) ||
@@ -122,7 +122,7 @@ const eligible = PEOPLE_VISUAL4_RECORDS.filter(
       ) ??
         false)),
 );
-const lifted = liftCandidatesForReview(
+export const lifted = liftCandidatesForReview(
   eligible,
   (catalog as CharacterCatalogData).slots,
   { frozenGenerations: generations.generations },

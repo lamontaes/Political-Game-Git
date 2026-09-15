@@ -289,6 +289,15 @@ export interface LegislativeProcedure {
   readonly mayoralActionWindow: Sourced<MayoralActionWindow>;
   readonly override: Sourced<string>;
   readonly effectivePublication: Sourced<string>;
+  /** Least time between introduction and passage, and its stated exception. */
+  readonly introductionToPassage: Sourced<IntroductionToPassageRule>;
+}
+
+export interface IntroductionToPassageRule {
+  /** Whole days that must fall between the day of introduction and passage. */
+  readonly minimumInterveningDays: number;
+  /** The instrument's own words for passing sooner, where it gives any. */
+  readonly sameDayException: string | null;
 }
 
 export interface FiscalYearRule {

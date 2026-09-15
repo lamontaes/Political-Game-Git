@@ -1,3 +1,23 @@
+import type { WorldContentPacks } from "./runtime-content-packs";
+
+import type { AppearanceMaterial } from "./appearance-material";
+import type {
+  NationalElection,
+  NationalElectionRecord,
+} from "./national-election-types";
+import type {
+  ConstitutionalMeasureRecord,
+  ConstitutionalActionRecord,
+  ConstitutionalRuleVersionRecord,
+} from "./constitutional-types";
+import type { PublicFundingMandate } from "./public-fiscal";
+import type {
+  TaxProposalRecord,
+  TaxPolicyRecord,
+  TaxBaseRecord,
+  TaxAssessmentRecord,
+  TaxCollectionRecord,
+} from "./tax-types";
 declare const entityIdBrand: unique symbol;
 declare const isoDateBrand: unique symbol;
 declare const currencyCodeBrand: unique symbol;
@@ -16,6 +36,14 @@ export interface SimulationMoment {
 }
 
 export type EntityKind =
+  | "constitutional-measure"
+  | "constitutional-action"
+  | "constitutional-rule-version"
+  | "tax-proposal"
+  | "tax-policy"
+  | "tax-base"
+  | "tax-assessment"
+  | "tax-collection"
   | "appraisal"
   | "belief"
   | "causal-mechanism-definition"
@@ -44,6 +72,8 @@ export type EntityKind =
   | "campaign-action"
   | "campaign-action-result"
   | "campaign-compliance-document"
+  | "national-election"
+  | "national-election-record"
   | "election-contest"
   | "election-contest-result"
   | "executive-disposition"
@@ -82,6 +112,9 @@ export type EntityKind =
   | "organization-participation"
   | "organization-participation-state"
   | "organization-profile"
+  | "office-briefing-inspection"
+  | "office-vote-instruction"
+  | "office-workflow-preference"
   | "person"
   | "person-death"
   | "person-functional-capacity"
@@ -372,6 +405,7 @@ export interface PersonIdentity {
 }
 
 export interface PersonAppearance {
+  readonly material?: AppearanceMaterial;
   readonly seed: string;
   readonly recipeVersion: string;
   /** P29: confirmed complete outfit, atomically saved with its identity. Absent retains legacy wardrobe behavior. */
@@ -2580,6 +2614,11 @@ export type ResourceCadenceNamespace =
 export type ResourceCadenceKind = `${ResourceCadenceNamespace}:${string}`;
 
 export type ResourceFlowBasisReference =
+  | {
+      readonly kind: "public-funding";
+      readonly mandate: PublicFundingMandate;
+      readonly operationKey: string;
+    }
   | { readonly kind: "work"; readonly workRelationshipId: EntityId }
   | { readonly kind: "care"; readonly careResponsibilityId: EntityId }
   | { readonly kind: "housing"; readonly housingTenureId: EntityId }
@@ -3448,6 +3487,15 @@ export type PersonnelRecord =
   | PersonnelOfferResponseRecord;
 
 export interface HistoryStore {
+  readonly constitutionalMeasures?: readonly ConstitutionalMeasureRecord[];
+  readonly constitutionalActions?: readonly ConstitutionalActionRecord[];
+  readonly constitutionalRuleVersions?: readonly ConstitutionalRuleVersionRecord[];
+  /** Optional, preserving pre-tax snapshots without fabricating money/history. */
+  readonly taxProposals?: readonly TaxProposalRecord[];
+  readonly taxPolicies?: readonly TaxPolicyRecord[];
+  readonly taxBases?: readonly TaxBaseRecord[];
+  readonly taxAssessments?: readonly TaxAssessmentRecord[];
+  readonly taxCollections?: readonly TaxCollectionRecord[];
   readonly nextSequence: number;
   readonly organizations: readonly Organization[];
   readonly organizationProfiles: readonly OrganizationProfileRecord[];
@@ -3512,6 +3560,8 @@ export interface HistoryStore {
    * membership, not sequenced history, and never a substitute for intervals.
    */
   readonly districtSeatIntents?: readonly DistrictSeatIntent[];
+  readonly nationalElections?: readonly NationalElection[];
+  readonly nationalElectionRecords?: readonly NationalElectionRecord[];
   readonly electionContests?: readonly ElectionContestRecord[];
   readonly electionContestResults?: readonly ElectionContestResultRecord[];
   readonly campaigns?: readonly CampaignRecord[];
@@ -3528,6 +3578,21 @@ export interface HistoryStore {
   readonly legislativeAmendments?: readonly LegislativeAmendmentRecord[];
   readonly legislativeProvisions?: readonly LegislativeProvisionRecord[];
   readonly legislativeDraftLineages?: readonly LegislativeDraftLineageRecord[];
+  /**
+   * Player office workflow preferences. Optional on old saves. Bound to a
+   * person and an office work relationship, never a browser store.
+   */
+  readonly officeWorkflowPreferences?: readonly OfficeWorkflowPreferenceRecord[];
+  /**
+   * Standing vote instructions for one measure version. Optional on old
+   * saves. Not a recorded floor vote.
+   */
+  readonly officeVoteInstructions?: readonly OfficeVoteInstructionRecord[];
+  /**
+   * Inspection of a staff briefing item. Optional on old saves. Opening a
+   * recommendation is not adoption.
+   */
+  readonly officeBriefingInspections?: readonly OfficeBriefingInspectionRecord[];
   readonly legislativeCommitments?: readonly LegislativeCommitmentRecord[];
   readonly legislativeNegotiations?: readonly LegislativeNegotiationRecord[];
   readonly legislativeVotes?: readonly LegislativeVoteRecord[];
@@ -3826,6 +3891,65 @@ export interface LegislativeEnactmentRecord {
    */
   readonly effectiveAt: IsoDate | null;
   readonly outcomeEventId: EntityId;
+}
+
+/**
+ * How this office handles votes. A preference is a scheduling policy, not a
+ * staffer's legal proxy vote and not a recorded floor disposition.
+ */
+export type OfficeVotingWorkflowMode =
+  "review-batch" | "prior-instructions-with-exceptions" | "handle-individually";
+
+/**
+ * How this office handles constituent casework. Adjustable and bound to the
+ * office relationship, not a global agent default.
+ */
+export type OfficeCaseworkWorkflowMode =
+  | "player-handles-all"
+  | "staff-routine-player-exceptions"
+  | "staff-handles-and-briefs";
+
+export interface OfficeWorkflowPreferenceRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly officeRelationshipId: EntityId;
+  readonly votingMode: OfficeVotingWorkflowMode;
+  readonly caseworkMode: OfficeCaseworkWorkflowMode;
+  readonly recordedAt: IsoDate;
+  readonly supersedesPreferenceId: EntityId | null;
+}
+
+export type OfficeVoteInstructionDisposition =
+  "yea" | "nay" | "present-not-voting";
+
+export interface OfficeVoteInstructionRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly officeRelationshipId: EntityId;
+  readonly chamberKey: string;
+  readonly measureId: EntityId;
+  /** Canonical fingerprint of the measure text and procedural frontier. */
+  readonly measureTextVersion: string;
+  readonly disposition: OfficeVoteInstructionDisposition;
+  readonly recordedAt: IsoDate;
+}
+
+export type OfficeBriefingItemKind = "amendment" | "filed-section";
+
+export interface OfficeBriefingInspectionRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly officeRelationshipId: EntityId;
+  readonly measureId: EntityId;
+  readonly itemKind: OfficeBriefingItemKind;
+  readonly itemId: EntityId;
+  readonly inspectedAt: IsoDate;
 }
 
 // ---------------------------------------------------------------------------
@@ -4274,6 +4398,8 @@ export interface SetupPriorStore {
 }
 
 export interface World {
+  /** Immutable validated definitions accepted for this life; absent in legacy saves. */
+  readonly contentPacks?: WorldContentPacks;
   readonly schemaVersion: 15;
   readonly generatorVersion: WorldGeneratorVersion;
   readonly id: EntityId;

@@ -1,4 +1,5 @@
 import "./MunicipalWorkspace.css";
+import { projectMunicipalGoverning } from "../presentation/municipal-governing";
 import { municipalCapacitySourceUrl } from "../simulation/municipal-capacity";
 import { municipalVenueForActivity } from "../presentation/municipal-venue";
 import type { ReactNode } from "react";
@@ -10,10 +11,19 @@ import type {
 } from "../simulation/types";
 import {
   attendMunicipalPublicMeeting,
+  municipalManagerDecisionRuleSource,
   performMunicipalMeetingNotes,
 } from "../simulation/municipal-public-work";
 import { scheduledActivityState } from "../simulation/time-work";
 import { measureActions } from "../simulation/legislation";
+import {
+  introduceProjectedOrdinance,
+  nextOrdinanceDesignation,
+  placeProjectedOrdinanceOnAgenda,
+  previewAuthoredCouncilBallots,
+  takeProjectedOrdinanceVote,
+  type OwnOrdinanceBallot,
+} from "../presentation/municipal-governing";
 import {
   createAuthoredMunicipalPublicSession,
   municipalWorkspaceFor,
@@ -35,6 +45,13 @@ function humanLabel(value: string): string {
   const words = value.toLowerCase().replace(/[_-]/g, " ");
   return words.charAt(0).toUpperCase() + words.slice(1);
 }
+
+const ORDINANCE_PHASE_LABELS: Readonly<Record<string, string>> = {
+  "awaiting-referral": "Introduced; not yet on the council agenda.",
+  "on-floor": "On the council agenda for passage.",
+  enacted: "Passed and recorded.",
+  failed: "Not passed.",
+};
 
 /** Feature-local v1 surface. UI-core owns its navigation and save callback. */
 export function MunicipalWorkspace({
@@ -72,6 +89,10 @@ export function MunicipalWorkspace({
   const [selectedKey, setSelectedKey] = useState("");
   const [userOverride, setUserOverride] = useState(false);
   const [selectedSeriesKey, setSelectedSeriesKey] = useState("");
+  const [ordinanceTitle, setOrdinanceTitle] = useState("");
+  const [ballots, setBallots] = useState<Record<string, OwnOrdinanceBallot>>(
+    {},
+  );
 
   useEffect(() => {
     const next = municipalSelectionOnExternalPin(openGovernmentKey);
@@ -89,6 +110,12 @@ export function MunicipalWorkspace({
     userOverride,
   });
   const view = municipalWorkspaceFor(world, inspectionKey || undefined);
+  const governing = view
+    ? projectMunicipalGoverning(world, view.government.key)
+    : null;
+  const managerRule = governing
+    ? municipalManagerDecisionRuleSource(governing.governmentKey)
+    : null;
   const governmentEntries = useMemo(
     () =>
       filterMunicipalGovernmentEntries(
@@ -214,7 +241,9 @@ export function MunicipalWorkspace({
       {directory}
       {!view ? (
         <p data-testid="municipal-missing-home-link">
-          {"No verified government link is available for this home's place."}
+          {
+            "Your town's own government is not in this build yet, so there is nothing to attend or work on here. The governments the game does support are listed above; reading them changes nothing about where you live."
+          }
         </p>
       ) : (
         <>
@@ -283,10 +312,276 @@ export function MunicipalWorkspace({
             ) : null}
           </section>
 
+          {governing ? (
+            <section
+              className="municipal-panel"
+              data-testid="municipal-governing"
+            >
+              <h3>Manager election</h3>
+              {governing.managerAppointment ? (
+                <p data-testid="municipal-manager-result">
+                  {governing.managerAppointment.summary}
+                </p>
+              ) : (
+                <p>
+                  No manager election is recorded for this government in this
+                  save.
+                </p>
+              )}
+              <p>
+                {governing.appointment.ok
+                  ? "Your council seat is recorded. Electing a manager also requires the council's recorded votes; this screen cannot supply other members' decisions."
+                  : governing.appointment.reason}
+              </p>
+              {managerRule ? (
+                <details>
+                  <summary>Election rule and remaining actions</summary>
+                  <p>
+                    {managerRule.label}, with the body's quorum required.{" "}
+                    {managerRule.source.sourceUrl ? (
+                      <a
+                        href={managerRule.source.sourceUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {managerRule.source.citation}
+                      </a>
+                    ) : (
+                      managerRule.source.citation
+                    )}
+                    .
+                  </p>
+                  <p>
+                    Recording a new council election through ordinary play still
+                    needs its member-decision producer.
+                  </p>
+                </details>
+              ) : null}
+            </section>
+          ) : null}
+
+          {governing &&
+          (governing.ordinanceIntroduction.ok ||
+            governing.ordinances.length > 0) ? (
+            <section
+              className="municipal-panel"
+              data-testid="municipal-ordinances"
+            >
+              <h3>Council ordinances</h3>
+              {governing.ordinanceIntroduction.ok ? (
+                <form
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    const title = ordinanceTitle.trim();
+                    if (!title) return;
+                    act(
+                      introduceProjectedOrdinance(
+                        world,
+                        governing.governmentKey,
+                        nextOrdinanceDesignation(
+                          world,
+                          governing.governmentKey,
+                        ),
+                        title,
+                      ),
+                    );
+                    setOrdinanceTitle("");
+                  }}
+                >
+                  <label>
+                    Title of a new ordinance
+                    <input
+                      type="text"
+                      value={ordinanceTitle}
+                      onChange={(event) =>
+                        setOrdinanceTitle(event.target.value)
+                      }
+                      data-testid="municipal-ordinance-title"
+                    />
+                  </label>
+                  <button type="submit" disabled={!ordinanceTitle.trim()}>
+                    Introduce ordinance
+                  </button>
+                </form>
+              ) : (
+                <p>{governing.ordinanceIntroduction.reason}</p>
+              )}
+              {governing.ordinances.length === 0 ? (
+                <p>No ordinance is before the council in this save.</p>
+              ) : (
+                <ul className="municipal-ordinance-list">
+                  {governing.ordinances.map((ordinance) => {
+                    const ballot = ballots[ordinance.measureId] ?? "yea";
+                    const preview =
+                      ordinance.phase === "on-floor"
+                        ? previewAuthoredCouncilBallots(
+                            world,
+                            governing.governmentKey,
+                            ordinance.measureId,
+                            ballot,
+                          )
+                        : null;
+                    const tooEarly =
+                      ordinance.earliestPassageOn !== null &&
+                      world.currentDate < ordinance.earliestPassageOn;
+                    return (
+                      <li
+                        key={ordinance.measureId}
+                        data-testid="municipal-ordinance"
+                      >
+                        <strong>
+                          {ordinance.designation}: {ordinance.shortTitle}
+                        </strong>
+                        <p>
+                          Introduced {ordinance.introducedAt}.{" "}
+                          {ORDINANCE_PHASE_LABELS[ordinance.phase] ??
+                            humanLabel(ordinance.phase)}
+                        </p>
+                        {ordinance.phase === "awaiting-referral" &&
+                        governing.ordinanceVote.ok ? (
+                          <button
+                            type="button"
+                            onClick={() =>
+                              act(
+                                placeProjectedOrdinanceOnAgenda(
+                                  world,
+                                  governing.governmentKey,
+                                  ordinance.measureId,
+                                ),
+                              )
+                            }
+                          >
+                            Put on the council agenda
+                          </button>
+                        ) : null}
+                        {ordinance.phase === "on-floor" ? (
+                          <div className="municipal-ordinance-vote">
+                            {ordinance.timingRule ? (
+                              <p>
+                                {ordinance.timingRule} Earliest valid passage:{" "}
+                                {ordinance.earliestPassageOn}.
+                              </p>
+                            ) : null}
+                            {preview ? (
+                              <>
+                                <fieldset>
+                                  <legend>Your vote</legend>
+                                  {(
+                                    [
+                                      ["yea", "Yea"],
+                                      ["nay", "Nay"],
+                                      [
+                                        "present-not-voting",
+                                        "Present, not voting",
+                                      ],
+                                    ] as const
+                                  ).map(([value, label]) => (
+                                    <label key={value}>
+                                      <input
+                                        type="radio"
+                                        name={`ballot-${ordinance.measureId}`}
+                                        value={value}
+                                        checked={ballot === value}
+                                        onChange={() =>
+                                          setBallots({
+                                            ...ballots,
+                                            [ordinance.measureId]: value,
+                                          })
+                                        }
+                                      />
+                                      {label}
+                                    </label>
+                                  ))}
+                                </fieldset>
+                                <details>
+                                  <summary>
+                                    Other councilors' ballots (game-authored)
+                                  </summary>
+                                  <p>{preview.note}</p>
+                                  <ul>
+                                    {preview.colleagues.map((colleague) => {
+                                      const person =
+                                        world.people[colleague.personId];
+                                      return (
+                                        <li key={colleague.personId}>
+                                          {person
+                                            ? `${person.givenName} ${person.familyName}`
+                                            : "A councilor"}
+                                          {colleague.seatLabel
+                                            ? ` (${colleague.seatLabel})`
+                                            : ""}
+                                          {": "}
+                                          {colleague.disposition === "yea"
+                                            ? "Yea"
+                                            : "Nay"}
+                                        </li>
+                                      );
+                                    })}
+                                  </ul>
+                                  <p>
+                                    If recorded now: {preview.yea} yea,{" "}
+                                    {preview.nay} nay
+                                    {preview.presentNotVoting
+                                      ? `, ${preview.presentNotVoting} present not voting`
+                                      : ""}
+                                    . {ordinance.passageRule}
+                                  </p>
+                                </details>
+                                <button
+                                  type="button"
+                                  disabled={tooEarly}
+                                  onClick={() =>
+                                    act(
+                                      takeProjectedOrdinanceVote(
+                                        world,
+                                        governing.governmentKey,
+                                        ordinance.measureId,
+                                        ballot,
+                                      ),
+                                    )
+                                  }
+                                >
+                                  Record the council vote
+                                </button>
+                                {tooEarly ? (
+                                  <p>
+                                    Not before {ordinance.earliestPassageOn}:
+                                    the council's code does not allow passage
+                                    sooner.
+                                  </p>
+                                ) : null}
+                              </>
+                            ) : (
+                              <p>Only a seated councilor votes on it.</p>
+                            )}
+                          </div>
+                        ) : null}
+                        {ordinance.enactment ? (
+                          <p data-testid="municipal-ordinance-outcome">
+                            Enacted {ordinance.enactment.resolvedAt}; in effect
+                            from{" "}
+                            {ordinance.enactment.effectiveAt ??
+                              "a date the rules read do not establish"}
+                            . {ordinance.effectiveRule}
+                          </p>
+                        ) : null}
+                        {ordinance.phase === "failed" ? (
+                          <p data-testid="municipal-ordinance-outcome">
+                            The council did not pass it.
+                          </p>
+                        ) : null}
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </section>
+          ) : null}
+
           <section className="municipal-panel" data-testid="municipal-people">
             <h3>{"Known people"}</h3>
             {knownPeople.length === 0 ? (
-              <p>{"No current officeholders are recorded in this save."}</p>
+              <p>{"Nobody who holds office here is known to you yet."}</p>
             ) : (
               <ul className="municipal-people-list">
                 {knownPeople.map((person) => (
@@ -322,14 +617,14 @@ export function MunicipalWorkspace({
           >
             <h3>{"Public meetings"}</h3>
             {view.meetings.length === 0 && (
-              <p>{"No session is recorded on this world's calendar."}</p>
+              <p>{"No public meeting is on the calendar yet."}</p>
             )}
             {view.isHomeGovernment &&
               view.availableMeetingSeries.length > 0 && (
                 <div className="municipal-authored-session">
                   <p>
                     {
-                      "Add an explicitly game-authored public session lasting 90 minutes, starting in one hour (tomorrow if this series already met today). This is not a real published notice or agenda. Closed and executive sessions are excluded."
+                      "Put a public session on the calendar: a game-authored 90-minute session starting in an hour, or tomorrow if this series already met today. Closed and executive sessions are not offered."
                     }
                   </p>
                   <label>

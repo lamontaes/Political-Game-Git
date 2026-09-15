@@ -17,7 +17,10 @@ import {
 import {
   installMunicipalGovernment,
   attendMunicipalPublicMeeting,
+  appointMunicipalManager,
+  introduceMunicipalOrdinance,
   municipalActionAuthority,
+  municipalGovernmentJurisdictionId,
   municipalMeetings,
   municipalSeats,
   municipalStanding,
@@ -25,8 +28,9 @@ import {
   scheduleMunicipalMeeting,
   seatMunicipalMember,
 } from "./municipal-public-work";
+import { deserializeWorld, serializeWorld } from "./serialization";
 import { rulePackById } from "./legislature-rule-packs";
-import type { EntityId, World } from "./types";
+import type { EntityId, LegislativeVoteDisposition, World } from "./types";
 
 /**
  * A life in a real city, with the city's real government installed.
@@ -91,6 +95,18 @@ function seatWholeBody(
     });
   }
   return next;
+}
+
+function councilRoll(
+  members: readonly EntityId[],
+  yeas: number,
+  nays = 0,
+): readonly LegislativeVoteDisposition[] {
+  return members.map((personId, index) => ({
+    memberKey: `council:${index + 1}`,
+    personId,
+    disposition: index < yeas ? "yea" : index < yeas + nays ? "nay" : "absent",
+  }));
 }
 
 describe("the municipal corpus reaches the game", () => {
@@ -197,7 +213,38 @@ describe("the municipal corpus reaches the game", () => {
 });
 
 describe("procedure is a capability", () => {
-  it.each(["us-va-charlottesville", "us-va-richmond", "us-nv-carson-city"])(
+  it("opens Charlottesville's ordinance route only on the City Code it read", () => {
+    const government = municipalGovernmentByKey("us-va-charlottesville")!;
+    const result = municipalRulePackFor(government);
+    expect(result.ok).toBe(true);
+    if (!result.ok) throw new Error(JSON.stringify(result.missing));
+    const council = result.pack.chambers[0]!;
+    expect(council.floorStages.map((stage) => stage.stageKey)).toEqual([
+      "final-passage",
+    ]);
+    expect(council.referral.floorWithoutReferral).toMatchObject({
+      kind: "known",
+      value: true,
+      source: { citation: "City Code §§ 2-97, 2-124" },
+    });
+    expect(result.pack.executive.presentmentRequired).toMatchObject({
+      kind: "known",
+      value: false,
+    });
+    expect(result.pack.executive.override.kind).toBe("not-applicable");
+    expect(result.pack.enactment.defaultEffectiveRule).toMatchObject({
+      kind: "known",
+      source: { citation: "City Code § 2-99" },
+    });
+    const procedure = primaryReading(government).procedure;
+    expect(procedure.introductionToPassage).toEqual({
+      minimumInterveningDays: 3,
+      sameDayException: "a four-fifths (⅘) vote of the city council",
+    });
+    expect(procedure.mayoralActionState).toBe("NOT_APPLICABLE");
+  });
+
+  it.each(["us-va-richmond", "us-nv-carson-city"])(
     "keeps unsupported progression closed for %s without hiding the government",
     (key) => {
       const government = municipalGovernmentByKey(key)!;
@@ -259,7 +306,7 @@ describe("a resident and a councilmember are not the same person", () => {
     expect(vote.kind).toBe("standing");
     expect(vote.reason).toMatch(/does not put you on it/);
 
-    // Sitting through the whole meeting changes nothing about the seat.
+    // A seat, not attendance, is what carries the vote the City Code sets out.
     const member = people[1]!;
     const memberVote = municipalActionAuthority(seated, {
       governmentKey,
@@ -267,8 +314,7 @@ describe("a resident and a councilmember are not the same person", () => {
       residentPlaceGeoid: government.placeGeoid,
       action: "vote-on-ordinance",
     });
-    expect(memberVote.ok).toBe(false);
-    if (!memberVote.ok) expect(memberVote.kind).toBe("evidence");
+    expect(memberVote.ok).toBe(true);
   }, 60000);
 
   it("says the room is open and still refuses to invent a right to speak", () => {
@@ -386,5 +432,197 @@ describe("a public meeting is a real appointment", () => {
       }).roles,
     ).toEqual(["resident"]);
     expect(municipalSeats(next, governmentKey)).toHaveLength(0);
+  }, 60000);
+});
+
+describe("the strongest compiled local governing route", () => {
+  it("lets a citizen attend and a member record a quorate council election of the manager, then refuses lone-member, no-quorum, wrong-government, duplicate, and reload repeats", () => {
+    const { world, governmentKey, jurisdictionId, people } =
+      cityWorld("5114968");
+    const government = municipalGovernmentByKey(governmentKey)!;
+    const resident = people[0]!;
+    const member = people[1]!;
+    const appointee = people[10]!;
+    const seated = seatWholeBody(world, governmentKey, people);
+    const council = municipalSeats(seated, governmentKey)
+      .filter((seat) => seat.role !== "professional-manager")
+      .map((seat) => seat.personId);
+    expect(council).toHaveLength(5);
+    const election = councilRoll(council, 3);
+    const start = { ...world.currentMoment, minuteOfDay: 19 * 60 };
+    const scheduled = scheduleMunicipalMeeting(seated, {
+      governmentKey,
+      seriesKey: "stated-meeting",
+      start,
+      end: { ...start, minuteOfDay: 21 * 60 },
+      participantPersonIds: [resident],
+      responsiblePersonId: resident,
+      jurisdictionId,
+    });
+    const meeting = municipalMeetings(scheduled, governmentKey)[0]!;
+    const attended = attendMunicipalPublicMeeting(
+      scheduled,
+      governmentKey,
+      meeting.id,
+    );
+    expect(attended.ok).toBe(true);
+    expect(
+      attended.world.history.events.some(
+        (event) => event.type === "municipal.public-meeting-attended",
+      ),
+    ).toBe(true);
+    expect(
+      municipalStanding(attended.world, {
+        governmentKey,
+        personId: resident,
+        residentPlaceGeoid: government.placeGeoid,
+      }).roles,
+    ).toEqual(["resident"]);
+
+    const memberWorld = {
+      ...attended.world,
+      control: { kind: "person" as const, personId: member },
+    };
+    const outsider = appointMunicipalManager(attended.world, {
+      governmentKey,
+      appointeePersonId: appointee,
+      dispositions: election,
+    });
+    expect(outsider.ok).toBe(false);
+    if (!outsider.ok) {
+      expect(outsider.reason).toMatch(/does not put you on it|Only members/);
+      expect(outsider.world).toBe(attended.world);
+    }
+
+    const loneMember = appointMunicipalManager(memberWorld, {
+      governmentKey,
+      appointeePersonId: appointee,
+      dispositions: [],
+    });
+    expect(loneMember.ok).toBe(false);
+    if (!loneMember.ok) {
+      expect(loneMember.reason).toMatch(
+        /collective decision|not that election/,
+      );
+      expect(loneMember.world).toBe(memberWorld);
+    }
+
+    const oneVote = appointMunicipalManager(memberWorld, {
+      governmentKey,
+      appointeePersonId: appointee,
+      dispositions: councilRoll(council, 1),
+    });
+    expect(oneVote.ok).toBe(false);
+    if (!oneVote.ok) {
+      expect(oneVote.reason).toMatch(/quorum|present/);
+      expect(oneVote.world).toBe(memberWorld);
+    }
+
+    const noQuorum = appointMunicipalManager(memberWorld, {
+      governmentKey,
+      appointeePersonId: appointee,
+      dispositions: councilRoll(council, 2),
+    });
+    expect(noQuorum.ok).toBe(false);
+    if (!noQuorum.ok) {
+      expect(noQuorum.reason).toMatch(/quorum/);
+      expect(noQuorum.world).toBe(memberWorld);
+    }
+
+    const carson = municipalGovernmentByKey("us-nv-carson-city")!;
+    let foreign = installMunicipalGovernment(memberWorld, {
+      governmentKey: carson.key,
+      jurisdictionId,
+      formedAt: memberWorld.currentDate,
+    });
+    foreign = seatMunicipalMember(foreign, {
+      governmentKey: carson.key,
+      personId: people[6]!,
+      startedAt: foreign.currentDate,
+      role: "member",
+      seatLabel: "Foreign seat",
+    });
+    const wrongGovernment = appointMunicipalManager(foreign, {
+      governmentKey,
+      appointeePersonId: appointee,
+      dispositions: [
+        {
+          memberKey: "foreign-1",
+          personId: people[6]!,
+          disposition: "yea",
+        },
+      ],
+    });
+    expect(wrongGovernment.ok).toBe(false);
+    if (!wrongGovernment.ok) {
+      expect(wrongGovernment.reason).toMatch(/not a vote of/);
+      expect(wrongGovernment.world).toBe(foreign);
+    }
+
+    const appointed = appointMunicipalManager(memberWorld, {
+      governmentKey,
+      appointeePersonId: appointee,
+      dispositions: election,
+    });
+    expect(appointed.ok).toBe(true);
+    const managerSeat = municipalSeats(appointed.world, governmentKey).find(
+      (seat) => seat.role === "professional-manager",
+    );
+    expect(managerSeat?.personId).toBe(appointee);
+    expect(
+      appointed.world.history.events.some(
+        (event) => event.type === "municipal.manager-appointed",
+      ),
+    ).toBe(true);
+    expect(
+      appointed.world.history.events.find(
+        (event) => event.type === "municipal.manager-appointed",
+      )?.jurisdictionId,
+    ).toBe(jurisdictionId);
+    expect(
+      municipalGovernmentJurisdictionId(appointed.world, governmentKey),
+    ).toBe(jurisdictionId);
+
+    const duplicate = appointMunicipalManager(appointed.world, {
+      governmentKey,
+      appointeePersonId: people[11]!,
+      dispositions: election,
+    });
+    expect(duplicate.ok).toBe(false);
+    if (!duplicate.ok) {
+      expect(duplicate.reason).toMatch(
+        /already has a recorded professional manager/,
+      );
+      expect(duplicate.world).toBe(appointed.world);
+    }
+
+    const reloaded = deserializeWorld(serializeWorld(appointed.world));
+    const afterReload = appointMunicipalManager(reloaded, {
+      governmentKey,
+      appointeePersonId: people[11]!,
+      dispositions: election,
+    });
+    expect(afterReload.ok).toBe(false);
+    if (!afterReload.ok) expect(afterReload.world).toBe(reloaded);
+
+    const residentOrdinance = introduceMunicipalOrdinance(attended.world, {
+      governmentKey,
+      designation: "Ord. 1",
+      shortTitle: "Resident ordinance",
+      summary: "A resident is not a councilor.",
+    });
+    expect(residentOrdinance.ok).toBe(false);
+
+    const ordinance = introduceMunicipalOrdinance(memberWorld, {
+      governmentKey,
+      designation: "Ord. 1",
+      shortTitle: "Authored test ordinance",
+      summary: "Introduced under City Code §§ 2-97 and 2-124.",
+    });
+    expect(ordinance.ok).toBe(true);
+    if (!ordinance.ok) throw new Error(ordinance.reason);
+    const measure = (ordinance.world.history.legislativeMeasures ?? []).at(-1)!;
+    expect(measure.rulePackId).toBe("us-va-charlottesville-council-v1");
+    expect(measure.sponsorPersonId).toBe(member);
   }, 60000);
 });

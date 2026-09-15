@@ -1,3 +1,5 @@
+import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
+import { legislativeWorkKey } from "./legislative-work-key";
 import {
   ALASKA_CONTEXT,
   KENTUCKY_CONTEXT,
@@ -248,6 +250,55 @@ function allPlaces(): readonly LifePlace[] {
       // so the corpus row is not offered as a second Lexington beside this one.
       sourceGeoid: "2146027",
     },
+  ];
+  const existingKeys = new Set(
+    places.map((place) => place.stateJurisdictionKey),
+  );
+  places = [
+    ...places,
+    ...LEGISLATIVE_RULE_PACKS.filter(
+      (pack) => !existingKeys.has(pack.jurisdictionKey),
+    ).map((pack): LifePlace => {
+      const state = STATES[pack.jurisdictionKey.slice(3)]!;
+      const slug = `state-${pack.jurisdictionKey.toLowerCase()}-placeholder`;
+      const id = createStableId("jurisdiction", `definition:${slug}`);
+      return {
+        key: `state:${pack.jurisdictionKey}`,
+        scope: "state",
+        stateJurisdictionKey: pack.jurisdictionKey,
+        displayName: state.name,
+        formalName: null,
+        withinName: "United States",
+        context: {
+          jurisdiction: {
+            id,
+            slug,
+            name: state.name,
+            kind: "state-placeholder",
+            parentName: "United States",
+            provenance: {
+              asOf: null,
+              source: null,
+              jurisdiction: id,
+              status: "placeholder",
+            },
+          },
+          initialMoment: {
+            date: DEMO_START_DATE,
+            minuteOfDay: 550,
+            timeZone: state.timeZone,
+            utcOffsetMinutes: state.utcOffsetMinutes,
+          },
+          creationSummary: `Seeded world in ${state.name}.`,
+          goalScope: state.name,
+          householdLocationLabel: `${state.name} home`,
+        },
+        capabilities: {
+          legislativeScenarioKey: legislativeWorkKey(pack),
+          candidacyPackId: `${pack.packId}:candidacy`,
+        },
+      };
+    }),
   ];
   return places;
 }

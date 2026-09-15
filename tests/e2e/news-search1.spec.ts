@@ -74,7 +74,7 @@ test("empty save message differs from active-search no-match state", async ({
 }) => {
   await page.goto("/tests/e2e/fixtures/news-search1-empty.html");
   await expect(page.getByTestId("public-information-empty")).toHaveText(
-    "No public-information items have been published in this save.",
+    "No stories have been published here yet.",
   );
   await expect(page.getByTestId("public-information-search-input")).toHaveCount(
     0,

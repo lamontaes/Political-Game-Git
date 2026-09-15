@@ -578,6 +578,113 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
     },
   },
   {
+    // The enacting act for the NRS 218A.200 words above. Section 12 shows the
+    // same five paragraphs as the current NRS page, paragraph 4 newly added;
+    // section 78 fixes October 1, 2025 as the boundary for candidacy filings.
+    // The act has no effective-date section of its own; the Legislature's
+    // passed-bills list records it as "Effective October 1, 2025."
+    artifactId: "nv-2025-chapter-323-ab491",
+    url: "https://www.leg.state.nv.us/Statutes/83rd2025/Stats202516.html",
+    provider: "Nevada Legislature, Legislative Counsel Bureau",
+    jurisdictionKey: "US-NV",
+    enactingBody: "the Nevada Legislature",
+    instrumentKind: "statute",
+    instrumentTitle: "2025 Statutes of Nevada, Chapter 323, Assembly Bill 491",
+    localPath:
+      "data/source/state-office-qualifications/raw/nv-2025-chapter-323-ab491.html",
+    provisions: [
+      {
+        locator: "2025 Nev. Stat., ch. 323, § 12",
+        region: {
+          beginsWith: "NRS 218A.200 is hereby amended to read as follows:",
+          endsWith:
+            "Meets all other qualifications for the office as required by the Constitution and laws of this State.",
+        },
+      },
+      {
+        locator: "2025 Nev. Stat., ch. 323, § 78",
+        region: {
+          beginsWith:
+            "Sec. 78. 1. The amendatory provisions of this act do not apply to a person who, on October 1, 2025, holds an elected office in this State.",
+          endsWith:
+            "files a declaration of candidacy for any elected office in this State other than federal office.",
+        },
+      },
+    ],
+    enacted: {
+      length: 1075,
+      sha256:
+        "986f66c8da9260cce99a10cbd334f1f768b378e1616c941c5c5c63dd46df05ef",
+    },
+  },
+  {
+    // One provision per artifact, so the publisher's amendment annotation for
+    // this paragraph dates only this paragraph.
+    artifactId: "nj-constitution-art-4-sec-1",
+    url: "https://www.njleg.state.nj.us/constitution",
+    provider: "New Jersey Legislature, Office of Legislative Services",
+    jurisdictionKey: "US-NJ",
+    enactingBody: "the people of the State of New Jersey",
+    instrumentKind: "constitution",
+    instrumentTitle: "Constitution of the State of New Jersey",
+    localPath:
+      "data/source/state-office-qualifications/raw/nj-constitution-art-4-sec-1.html",
+    provisions: [
+      {
+        locator: "N.J. Const. art. IV, § I, ¶ 2",
+        region: {
+          beginsWith:
+            "2. No person shall be a member of the Senate who shall not have attained the age of thirty years",
+          endsWith:
+            "Article IV, Section I, paragraph 2 amended effective December 8, 1966.",
+        },
+      },
+    ],
+    enacted: {
+      length: 689,
+      sha256:
+        "b0ecb7a78d772240692cf67f902ea5a9802c42fef6b436ecf3655e48d18ef54b",
+    },
+  },
+  {
+    // Amendment Article CI only. Older, superseded articles on the same page
+    // repeat the representative residence words, so the regions begin at
+    // Article CI itself and end inside each of its two sections.
+    artifactId: "ma-constitution-amend-art-101",
+    url: "https://malegislature.gov/Laws/Constitution",
+    provider: "The General Court of the Commonwealth of Massachusetts",
+    jurisdictionKey: "US-MA",
+    enactingBody: "the people of the Commonwealth of Massachusetts",
+    instrumentKind: "constitution",
+    instrumentTitle: "Constitution of the Commonwealth of Massachusetts",
+    localPath:
+      "data/source/state-office-qualifications/raw/ma-constitution-amend-art-101.html",
+    provisions: [
+      {
+        locator: "Amend. Art. CI, § 1",
+        region: {
+          beginsWith:
+            "Article CI. Section 1. In the year nineteen hundred and seventy-five",
+          endsWith:
+            "for the choice of representatives, and of ascertaining their election, shall be prescribed by law.",
+        },
+      },
+      {
+        locator: "Amend. Art. CI, § 2",
+        region: {
+          beginsWith:
+            "Section 2. [Each such census of inhabitants required in section one",
+          endsWith: "shall cease to be an inhabitant of the Commonwealth.",
+        },
+      },
+    ],
+    enacted: {
+      length: 3523,
+      sha256:
+        "8108c3392c5d51f2bd3be5925a85f05c2597496b659204f79537c282267c2042",
+    },
+  },
+  {
     artifactId: "oh-constitution-sec-2-1",
     url: "https://codes.ohio.gov/ohio-constitution/section-2.1",
     provider:

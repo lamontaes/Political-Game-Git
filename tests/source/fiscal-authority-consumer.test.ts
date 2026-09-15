@@ -24,6 +24,7 @@ import {
   spendAnAfternoon,
 } from "../../src/presentation/campaign-projection";
 import { fileForOffice } from "../fixtures/campaign-fixture";
+import { enterSupportedTerm } from "../fixtures/recorded-legislative-term";
 import { openFiscalAuthorityWork } from "../../src/presentation/fiscal-authority-work";
 import {
   LEGISLATIVE_FISCAL_PROPOSAL_INTEGRATION,
@@ -150,6 +151,8 @@ function wonKentuckySeat(): { world: World; personId: EntityId } {
     world = passOrdinaryDays(world);
   }
   expect(projectCampaign(world, life.personId).phase).toBe("won");
+  // A win records a dated term; the seat is active only once that term begins.
+  world = enterSupportedTerm(world, life.personId);
   expect(resolveActiveMemberSeat(world, life.personId).kind).toBe("seated");
   return { world, personId: life.personId };
 }
@@ -322,7 +325,9 @@ describe("source to record to Work consumer", () => {
     expect(missing.kind).toBe("refused");
     if (missing.kind !== "refused") return;
     expect(missing.reason).toMatch(
-      /current legislative seat does not govern the state named/,
+      // The seat lookup is scoped to the queried state's jurisdiction, so a
+      // Kentucky seat is refused there before the jurisdiction comparison.
+      /seat does not govern the state named|No active supported member seat matches this action's seat scope/,
     );
   });
 

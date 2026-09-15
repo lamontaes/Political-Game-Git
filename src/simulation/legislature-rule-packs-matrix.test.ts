@@ -242,14 +242,16 @@ describe("the legislative rule-pack matrix", () => {
   });
 
   it("carries every cited source through exactly, per state", () => {
-    // The two new packs are read entirely from their own state constitution on
-    // the 2026-09-05 primary-source pass; the three older packs are untouched
-    // on their 2026-09-02 reads.
+    // Preserve the original constitutional/statutory readings and separately
+    // identify the scoped SYSTEMS30 temporary-rule/date-law retrievals.
     for (const source of MINNESOTA_RULE_PACK.sources) {
       // Minnesota instruments, but not all of them constitutional: the seat
       // count is statutory and says so.
-      expect(source.citation).toMatch(/^Minn\. (Const\.|Stat\.)/);
-      expect(source.retrievedAt).toBe("2026-09-05");
+      expect(source.citation).toMatch(/^Minn\. (Const\.|Stat\.|House|Senate)/);
+      const newReading =
+        source.authority === "temporary-rules" ||
+        source.citation.includes("645.02");
+      expect(source.retrievedAt).toBe(newReading ? "2026-09-13" : "2026-09-05");
     }
     for (const source of ILLINOIS_RULE_PACK.sources) {
       expect(source.citation).toMatch(/^Ill\. Const\./);
@@ -415,11 +417,20 @@ describe("where a measure is permitted to start", () => {
       expect(illinois.source.citation).toBe("Ill. Const. art. IV, § 8");
     }
 
-    // Minnesota does not say, and silence is recorded as silence rather than as
-    // the first chamber in a list.
-    expect(
-      permittedOriginChambers(MINNESOTA_RULE_PACK, "general-policy").kind,
-    ).toBe("unknown");
+    // SYSTEMS30 reads independent House and Senate introduction rules. Their
+    // explicit permission, rather than transit order, now supplies the answer.
+    const minnesota = permittedOriginChambers(
+      MINNESOTA_RULE_PACK,
+      "general-policy",
+    );
+    expect(minnesota.kind).toBe("known");
+    if (minnesota.kind === "known") {
+      expect(minnesota.value).toStrictEqual(["house", "senate"]);
+      expect(minnesota.source.citation).toBe(
+        "Minn. House Rule 1.10; Minn. Senate Rule 3.1 (94th Legislature)",
+      );
+      expect(minnesota.source.verification).toBe("verified");
+    }
   });
 
   it("keeps Minnesota's revenue rule distinct from its general-bill rule", () => {
@@ -431,10 +442,11 @@ describe("where a measure is permitted to start", () => {
       expect(revenue.value).toStrictEqual(["house"]);
       expect(revenue.source.citation).toBe("Minn. Const. art. IV, § 18");
     }
-    // The general rule is still unresolved: the exception did not become the rule.
+    // General member introduction has its own House/Senate rule readings;
+    // the constitutional revenue restriction still applies independently.
     expect(
       permittedOriginChambers(MINNESOTA_RULE_PACK, "general-policy").kind,
-    ).toBe("unknown");
+    ).toBe("known");
 
     // And the restriction actually refuses the wrong chamber.
     expect(() =>

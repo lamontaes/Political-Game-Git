@@ -1,3 +1,4 @@
+import { enterSupportedTerm } from "../../tests/fixtures/recorded-legislative-term";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -73,7 +74,7 @@ describe("every adult story route carries the world's pending election", () => {
     );
   });
 
-  it("resolves it while an ordinary story choice advances time", () => {
+  it("a free ordinary choice leaves it pending, then explicit time dispatches it", () => {
     const life = filedLife();
     const scene = projectStoryMoment(life.world, life.personId).scene;
     expect(scene.kind).toBe("adult");
@@ -82,13 +83,24 @@ describe("every adult story route carries the world's pending election", () => {
       scene,
       optionKey: scene.options[0]!.key,
     });
-    expectResolvedOnce(life.world, next, life.personId);
+    expect(next.currentMoment).toEqual(life.world.currentMoment);
+    expect(
+      electionContestResult(
+        next,
+        campaignForCandidate(next, life.personId)!.contestId,
+      ),
+    ).toBeNull();
+    expectResolvedOnce(
+      next,
+      letStoryTimePass(next, life.personId),
+      life.personId,
+    );
     expect(next.history.events.length).toBeGreaterThan(
       life.world.history.events.length,
     );
   });
 
-  it("resolves it while a canonical episode advances time", () => {
+  it("a free canonical episode choice leaves it pending, then explicit time dispatches it", () => {
     const life = filedLife();
     const beat = eligibleEpisodeBeats({
       world: life.world,
@@ -108,7 +120,18 @@ describe("every adult story route carries the world's pending election", () => {
       },
       optionKey: beat.options[0]!.key,
     });
-    expectResolvedOnce(life.world, next, life.personId);
+    expect(next.currentMoment).toEqual(life.world.currentMoment);
+    expect(
+      electionContestResult(
+        next,
+        campaignForCandidate(next, life.personId)!.contestId,
+      ),
+    ).toBeNull();
+    expectResolvedOnce(
+      next,
+      letStoryTimePass(next, life.personId),
+      life.personId,
+    );
   });
 });
 
@@ -139,7 +162,10 @@ describe("a state office does not move its winner's home", () => {
       );
     }
     expect(projectCampaign(world, life.personId).phase).toBe("won");
-    world = deserializeWorld(serializeWorld(world));
+    expect(resolvePlayerCapabilities(world).legislation).toBe(false);
+    world = deserializeWorld(
+      serializeWorld(enterSupportedTerm(world, life.personId)),
+    );
     expect(world.people[life.personId]!.homeJurisdictionId).toBe(
       residence.context.jurisdiction.id,
     );

@@ -1,3 +1,4 @@
+import { legislativePackForWorkKey } from "./legislative-institutions";
 import { addDays, makeIsoDate, yearOf } from "./dates";
 import {
   formatMinorUnits,
@@ -187,7 +188,10 @@ const SUPPORTED_SCENARIO_KEYS: readonly string[] = [
 ];
 
 export function draftingSupportsScenario(scenarioKey: string): boolean {
-  return SUPPORTED_SCENARIO_KEYS.includes(scenarioKey);
+  return (
+    SUPPORTED_SCENARIO_KEYS.includes(scenarioKey) ||
+    legislativePackForWorkKey(scenarioKey) !== null
+  );
 }
 
 /* -------------------------------------------------------------------------- */

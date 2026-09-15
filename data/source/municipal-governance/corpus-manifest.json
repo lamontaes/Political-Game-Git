@@ -1,6 +1,6 @@
 {
   "asOf": "2026-09-08",
-  "canonicalSha256": "dab27077f2faed5926590576b2bcf81f5b88d3f2a7de34043ef31693932ef062",
+  "canonicalSha256": "21a77a8bd5d0c5c4f1e9008ca770c8c67f9dcc4d9986be4cb2ec6fcd32b924d9",
   "compiler": {
     "name": "municipal-governance",
     "version": "3.0.0"
@@ -28,6 +28,14 @@
     {
       "artifactId": "va-code-15-2-1427",
       "sha256": "0f81cd103611908a620989492f75d246b28d2fbfe7451e9bb6d8c3cecff45dff"
+    },
+    {
+      "artifactId": "va-charlottesville-city-code-ch2",
+      "sha256": "028cafbacde26c095da6592fb7117339df032fe75da8f637ffc0e2edd7b2e5a7"
+    },
+    {
+      "artifactId": "va-code-15-2-1428",
+      "sha256": "9fc0803c359a620c751fa24ac3cb88793704e4fce6ec1e0afa4124069aecff43"
     },
     {
       "artifactId": "va-code-15-2-1415",

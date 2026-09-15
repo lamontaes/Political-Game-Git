@@ -1,5 +1,8 @@
+import { lifeRequestDetails } from "./life-request-details";
+import { describePersonContext } from "./person-context";
 import {
   hasActiveHouseholdWeek,
+  householdErrandsFor,
   lifeOpportunitiesFor,
   PUBLIC_MEETING_KEY,
   type LifeOpportunityKind,
@@ -526,8 +529,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     stakes: "notable",
     // The active, accessible errands item establishes these tasks; it does
     // not establish past burden, anyone's silence or an agreed division.
-    prose:
-      "The shopping and two appointments still need to be covered. How do you want to handle them?",
+    prose: "How do you want to divide the errands?",
     tensions: [
       tension(
         "personal-ties",
@@ -543,26 +545,24 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       {
         key: "say-it",
         label: "Discuss the errands",
-        description:
-          "Talk about who will handle the shopping and two appointments.",
-        memory: "You brought up the shopping and two appointments.",
-        witnessed: "They raised who was covering the week.",
+        description: "Ask what each of you can take on.",
+        memory: "You asked how to divide the errands.",
+        witnessed: "They asked how to divide the errands.",
         stance: "engaged",
         relationalChange: "maintained",
-        interactionKind: "conflict:household",
+        interactionKind: "exchange:household",
         nudges: [
           nudge("care-obligation", -0.45),
           nudge("privacy-preference", -0.5),
           nudge("personal-ties", -0.15),
         ],
-        aftermath: "grievance",
+        aftermath: null,
       },
       {
         key: "absorb-it",
         label: "Handle the errands yourself",
-        description:
-          "Decide to do the shopping and cover the two appointments yourself.",
-        memory: "You took on the shopping and the appointments yourself.",
+        description: "Offer to handle the list yourself.",
+        memory: "You offered to handle the errands yourself.",
         witnessed: null,
         stance: "withdrawn",
         relationalChange: "maintained",
@@ -581,9 +581,9 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       {
         key: "set-it-out",
         label: "Propose a split",
-        description: "Suggest dividing the shopping and two appointments.",
-        memory: "You proposed sharing the shopping and appointments.",
-        witnessed: "They suggested splitting the week between you.",
+        description: "Suggest sharing the tasks on the list.",
+        memory: "You suggested sharing the errands.",
+        witnessed: "They suggested sharing the errands.",
         stance: "engaged",
         relationalChange: "strengthened",
         interactionKind: "exchange:household",
@@ -726,7 +726,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       {
         key: "spend-it-together",
         label: "Spend it together",
-        description: "Nothing in particular, with company.",
+        description: "Accept the invitation to sit and talk.",
         memory: "You spent the evening at home with company.",
         witnessed: "They stayed in, and the evening was an easy one.",
         stance: "engaged",
@@ -738,7 +738,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       {
         key: "keep-it-yours",
         label: "Keep the evening",
-        description: "Take the evening back for your own.",
+        description: "Say you would like the evening to yourself.",
         memory: "You spent the evening on your own.",
         witnessed: null,
         stance: "engaged",
@@ -1101,7 +1101,8 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       {
         key: "take-them",
         label: "Take the hours",
-        description: "Absorb the difference.",
+        description:
+          "Agree to the extra hour; the shift date and pay still need agreement.",
         memory: "You agreed to work the extra hours.",
         stance: "engaged",
         nudges: [
@@ -1113,8 +1114,8 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       },
       {
         key: "decline",
-        label: "Keep your week",
-        description: "Keep the week you have.",
+        label: "Decline the extra hour",
+        description: "Say you cannot add an hour to your next shift.",
         memory: "You said you would not take the extra hours.",
         stance: "engaged",
         nudges: [
@@ -1126,8 +1127,8 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       },
       {
         key: "trade",
-        label: "Take some, trade the rest",
-        description: "Give what you can and hand back what you cannot.",
+        label: "Offer part of the extra hour",
+        description: "Offer to stay for less than the requested hour.",
         memory:
           "You offered to take some of the extra hours and declined the rest.",
         stance: "engaged",
@@ -1846,7 +1847,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       {
         key: "keep-it",
         label: "Tell nobody else",
-        description: "They told you, and that is where it stops.",
+        description: "Agree not to repeat what they told you.",
         memory: "You told nobody else what they had told you.",
         witnessed: null,
         stance: "engaged",
@@ -1866,7 +1867,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       {
         key: "push-them",
         label: "Push them to sort it",
-        description: "Say you will not carry it for them.",
+        description: "Ask them to tell the people affected.",
         memory:
           "You told them you would not carry it for them, and to go and deal with it.",
         witnessed: "They told them to sort it out themselves.",
@@ -1883,7 +1884,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       {
         key: "step-back",
         label: "Keep your distance",
-        description: "This is not somewhere you can be.",
+        description: "Say you cannot help with what they have described.",
         memory:
           "You told them this was not somewhere you could be, and stepped back.",
         witnessed: "They stepped back from it.",
@@ -2218,10 +2219,10 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     options: [
       {
         key: "settle-on-it",
-        label: "Make your mind up about it",
-        description: "Decide what you actually think, for yourself.",
-        memory:
-          "You worked out what you actually thought about it, on your own, and told nobody.",
+        label: "Consider the proposal privately",
+        description:
+          "Think through the proposed evening opening without making a public comment.",
+        memory: "You considered the proposed evening opening privately.",
         stance: "engaged",
         nudges: [
           nudge("privacy-preference", 0.55),
@@ -2236,8 +2237,8 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       },
       {
         key: "leave-it-open",
-        label: "Leave it open",
-        description: "Decide it when it matters.",
+        label: "Leave your view undecided",
+        description: "Wait before deciding what you think.",
         memory: "You left your position on the issue undecided.",
         stance: "withdrawn",
         nudges: [nudge("decision-style", 0.4), nudge("risk-appetite", -0.2)],
@@ -2245,10 +2246,10 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       },
       {
         key: "against-your-side",
-        label: "Admit you disagree with your own side",
-        description: "Work out that the people you agree with are wrong here.",
-        memory:
-          "You worked out that the people you usually agree with had this one wrong, and kept that to yourself as well.",
+        label: "Note your reservations privately",
+        description:
+          "Consider your objections without making a public comment.",
+        memory: "You noted your reservations about the proposal privately.",
         stance: "engaged",
         nudges: [
           nudge("decision-style", -0.45),
@@ -2364,7 +2365,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       {
         key: "say-maybe",
         label: "Say you would think about it",
-        description: "Do not close it off.",
+        description: "Say you are willing to consider running.",
         memory: "You said you would think about running for office.",
         witnessed: "They said they would think about it.",
         stance: "engaged",
@@ -2383,7 +2384,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       {
         key: "say-no",
         label: "Rule it out now",
-        description: "Close it off, plainly.",
+        description: "Say you do not want to run for office.",
         memory: "You said no, plainly.",
         witnessed: "They said no.",
         stance: "engaged",
@@ -2397,8 +2398,8 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       },
       {
         key: "ask-what-for",
-        label: "Ask what they actually want",
-        description: "Find out whose idea this is before answering.",
+        label: "Ask whose idea it is",
+        description: "Ask who suggested that you run before answering.",
         memory: "You asked whose idea it actually was before you answered.",
         witnessed: "They asked who wanted this.",
         stance: "engaged",
@@ -2666,9 +2667,9 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     options: [
       {
         key: "go-out",
-        label: "Spend time outside",
-        description: "Spend the day outside.",
-        memory: "You spent the day outside.",
+        label: "Plan to spend time outside",
+        description: "Choose to go outside next.",
+        memory: "You decided to spend time outside.",
         stance: "engaged",
         nudges: [nudge("risk-appetite", 0.15)],
         aftermath: null,
@@ -2676,8 +2677,8 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       {
         key: "get-things-done",
         label: "Get things done",
-        description: "Work on your shopping and appointments.",
-        memory: "You spent the day on the shopping and the appointments.",
+        description: "Work on the errands on your list.",
+        memory: "You decided to work on the errands on your list.",
         stance: "engaged",
         nudges: [
           nudge("achievement-ambition", 0.25),
@@ -2687,9 +2688,9 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       },
       {
         key: "do-nothing",
-        label: "Do nothing at all",
-        description: "Waste it deliberately.",
-        memory: "You did nothing at all with it, on purpose.",
+        label: "Leave the errands for now",
+        description: "Take a break instead of starting the errands.",
+        memory: "You decided to leave the errands for now.",
         stance: "engaged",
         nudges: [nudge("privacy-preference", 0.25)],
         aftermath: null,
@@ -2716,7 +2717,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       {
         key: "say-yes",
         label: "Say you will come",
-        description: "Go, and see who is there.",
+        description: "Accept the Saturday invitation.",
         memory: "You told them you would come on Saturday.",
         witnessed: "They said they would come.",
         relationalChange: "strengthened",
@@ -2730,8 +2731,8 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       },
       {
         key: "stay-in",
-        label: "Keep the weekend",
-        description: "Keep the weekend as it is.",
+        label: "Decline the invitation",
+        description: "Say you will not attend on Saturday.",
         memory: "You told them you would not be coming on Saturday.",
         witnessed: "They said they would not be coming.",
         relationalChange: "maintained",
@@ -2794,7 +2795,7 @@ export function availableAdultSituations(
     if (!situation.available(context)) return false;
     if (situation.companion === null) return true;
     return resolveAdultSituationCompanion(context, situation) !== null;
-  });
+  }).map((situation) => bindRequestSituation(context, situation));
 }
 
 /**
@@ -2836,4 +2837,185 @@ export function adultLifeSituations(
 ): readonly AvailableLifeSituation[] {
   const context = buildAdultLifeContext(world, input.personId, input.asOfDate);
   return availableAdultSituations(context).map(toAvailableLifeSituation);
+}
+
+/** Terms are read from the saved asking event by both scene and generic writer. */
+export function bindRequestSituation(
+  context: AdultLifeContext,
+  situation: AdultSituation,
+): AdultSituation {
+  if (
+    situation.key === "adult.household-standing" ||
+    situation.key === "adult.ordinary-good-day"
+  ) {
+    const item = householdErrandsFor(context.world, context.personId);
+    if (!item) return situation;
+    return {
+      ...situation,
+      prose: `${item.summary} ${situation.key === "adult.household-standing" ? "How do you want to divide the errands?" : "What do you want to do next?"}`,
+      options: situation.options.map((option) => ({
+        ...option,
+        description:
+          option.key === "say-it"
+            ? "Ask what each of you can take on."
+            : option.key === "absorb-it"
+              ? "Offer to handle the list yourself."
+              : option.key === "set-it-out"
+                ? "Suggest sharing the tasks on the list."
+                : option.description,
+        memory:
+          option.key === "say-it"
+            ? `You asked how to divide ${item.title.toLowerCase()}.`
+            : option.key === "absorb-it"
+              ? `You offered to handle ${item.title.toLowerCase()}.`
+              : option.key === "set-it-out"
+                ? `You suggested sharing ${item.title.toLowerCase()}.`
+                : option.memory,
+      })),
+    };
+  }
+  if (!situation.opportunity) return situation;
+  const request = lifeOpportunitiesFor(
+    context.world,
+    context.personId,
+    context.asOfDate,
+  ).find((entry) => entry.kind === situation.opportunity);
+  const event = context.world.history.events.find(
+    (entry) => entry.id === request?.eventId,
+  );
+  if (!event) return situation;
+  if (!request?.counterpartPersonId)
+    return {
+      ...situation,
+      prose: event.summary,
+      options: event.tags.includes("text39:evening-opening-v1")
+        ? situation.options
+        : situation.options.map((option) => ({
+            ...option,
+            label:
+              option.key === "settle-on-it"
+                ? "Consider the item privately"
+                : option.label,
+            description:
+              option.key === "settle-on-it"
+                ? "Think about the item without making a public comment."
+                : option.description,
+            memory:
+              option.key === "settle-on-it"
+                ? "You considered the agenda item privately."
+                : option.key === "against-your-side"
+                  ? "You noted your reservations about the item privately."
+                  : option.memory,
+          })),
+    };
+  const details = lifeRequestDetails(event);
+  const person = describePersonContext(
+    context.world,
+    context.personId,
+    request.counterpartPersonId,
+  )!;
+  const who = person.relationship
+    ? `${person.name}, ${person.relationship}`
+    : person.name;
+  if (!details)
+    return {
+      ...situation,
+      prose: `${who}: ${event.summary}`,
+      options:
+        situation.key !== "adult.work-extra-hours"
+          ? situation.options
+          : situation.options.map((option) => ({
+              ...option,
+              label:
+                option.key === "take-them"
+                  ? "Agree to the requested hours"
+                  : option.key === "decline"
+                    ? "Decline the requested hours"
+                    : "Offer some of the requested hours",
+              description:
+                option.key === "take-them"
+                  ? "Say you will take the hours requested."
+                  : option.key === "decline"
+                    ? "Say you cannot take the hours requested."
+                    : "Offer to take part of the request.",
+            })),
+    };
+  const prose = `${who}: “${details.opening}”`;
+  if (situation.key === "adult.friend-favour")
+    return {
+      ...situation,
+      prose: `${prose} Proofreading takes ${details.minutes} minutes; answering takes no time.`,
+      options: situation.options.map((option) => ({
+        ...option,
+        label:
+          option.key === "do-it"
+            ? `Agree to ${details.task}`
+            : option.key === "conditions"
+              ? `Agree: ${details.condition}`
+              : "Decline the proofreading request",
+        description:
+          option.key === "decline"
+            ? "Tell them you cannot help with this invitation."
+            : "Record the agreement; carry out the proofreading separately.",
+        memory:
+          option.key === "decline"
+            ? `You declined ${person.name}'s request to ${details.task}.`
+            : `You agreed to ${details.task} for ${person.name}${option.key === "conditions" ? `, with the condition: ${details.condition}` : ""}.`,
+        witnessed:
+          option.key === "decline"
+            ? "They declined to proofread the invitation."
+            : `They agreed to ${details.task}${option.key === "conditions" ? `, with the condition: ${details.condition}` : ""}.`,
+        // An agreement carries an expectation; goodwill awaits actual performance.
+        relationalChange: option.key === "decline" ? "strained" : "maintained",
+        aftermath: option.key === "decline" ? "grievance" : "obligation",
+      })),
+    };
+  if (situation.key === "adult.friend-in-difficulty")
+    return {
+      ...situation,
+      prose,
+      options: situation.options.map((option) => ({
+        ...option,
+        label:
+          option.key === "keep-it"
+            ? "Agree to keep this conversation private"
+            : option.key === "push-them"
+              ? "Ask them to tell the picnic guests"
+              : "Say you cannot help with the picnic",
+        memory:
+          option.key === "keep-it"
+            ? `You agreed to keep ${person.name}'s picnic conversation private.`
+            : option.key === "push-them"
+              ? `You asked ${person.name} to tell the picnic guests they can no longer organize it.`
+              : `You told ${person.name} you cannot help with the picnic.`,
+        witnessed:
+          option.key === "keep-it"
+            ? `They agreed to keep ${person.name}'s picnic conversation private.`
+            : option.key === "push-them"
+              ? `They asked ${person.name} to tell the picnic guests.`
+              : `They told ${person.name} they cannot help with the picnic.`,
+      })),
+    };
+  if (situation.key === "adult.household-quiet-evening")
+    return {
+      ...situation,
+      prose,
+      options: situation.options.map((option) => ({
+        ...option,
+        label:
+          option.key === "spend-it-together"
+            ? "Agree to sit and talk this evening"
+            : "Decline; keep the evening to yourself",
+        memory:
+          option.key === "spend-it-together"
+            ? `You agreed to sit and talk with ${person.name} this evening.`
+            : `You declined ${person.name}'s invitation to sit and talk this evening.`,
+        witnessed:
+          option.key === "spend-it-together"
+            ? "They agreed to sit and talk this evening."
+            : "They declined the invitation.",
+        aftermath: option.key === "spend-it-together" ? "obligation" : null,
+      })),
+    };
+  return { ...situation, prose };
 }

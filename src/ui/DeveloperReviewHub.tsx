@@ -399,10 +399,10 @@ export function DeveloperReviewHub() {
                   </select>
                 </label>
                 <p>
-                  {seat?.kind === "unseated"
-                    ? seat.reason
+                  {seat?.kind === "seated"
+                    ? `Supported member seat: ${seat.seat.chamberKey}`
                     : seat
-                      ? `Supported member seat: ${seat.seat.chamberKey}`
+                      ? seat.reason
                       : "No person available."}
                 </p>
                 <pre>{JSON.stringify(work, null, 2)}</pre>

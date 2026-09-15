@@ -123,6 +123,7 @@ export interface CharacterRenderMarker {
 }
 
 export interface CharacterRenderPlan {
+  readonly material?: PersonAppearance["material"];
   readonly personId: string;
   readonly appearanceSeed: string;
   readonly recipeVersion: string;
@@ -270,6 +271,7 @@ export function buildCharacterRenderPlan(
   if (!projected) {
     return {
       personId,
+      ...(appearance.material ? { material: appearance.material } : {}),
       appearanceSeed: appearance.seed,
       recipeVersion: recipe.recipeVersion,
       catalogGeneration: recipe.catalogGeneration,
@@ -372,6 +374,7 @@ export function buildCharacterRenderPlan(
 
   return {
     personId,
+    ...(appearance.material ? { material: appearance.material } : {}),
     appearanceSeed: appearance.seed,
     recipeVersion: recipe.recipeVersion,
     catalogGeneration: recipe.catalogGeneration,

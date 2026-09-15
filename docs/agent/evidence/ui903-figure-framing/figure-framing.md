@@ -39,26 +39,26 @@ the runtime uses.
 
 ### Production libraries
 
-- placements measured: 160
-- placements where some layer drew: 152
+- placements measured: 164
+- placements where some layer drew: 156
 - of those, COMPLETE recipes (compositor reported nothing): 0
-- partial draws (drew, but a slot or pose was reported): 152
-- by output class: {"production-fixture":152,"refused":8}
+- partial draws (drew, but a slot or pose was reported): 156
+- by output class: {"production-fixture":156,"refused":8}
 - feet off the declared contact line by more than 0.5% of the plate: 0
-- figures escaping the plate: 20
+- figures escaping the plate: 24
 - unfitted components not landing on their declared anchor: 0
 
 Fitted figure height spans 16.1% to 135.6% of the plate.
 
 ### Candidate review libraries (development preview only)
 
-- placements measured: 160
-- placements where some layer drew: 108
-- of those, COMPLETE recipes (compositor reported nothing): 28
+- placements measured: 164
+- placements where some layer drew: 112
+- of those, COMPLETE recipes (compositor reported nothing): 32
 - partial draws (drew, but a slot or pose was reported): 80
-- by output class: {"candidate-review":108,"refused":52}
+- by output class: {"candidate-review":112,"refused":52}
 - feet off the declared contact line by more than 0.5% of the plate: 0
-- figures escaping the plate: 20
+- figures escaping the plate: 24
 - unfitted components not landing on their declared anchor: 0
 
 Fitted figure height spans 27.4% to 135.6% of the plate.
@@ -85,6 +85,7 @@ Taken from the compositor's own refusals rather than from inspection, so
 this list says what the pipeline will actually reject, in its own words.
 
 - facing-not-permitted-at-anchor: Anchor 'clerk-desk-chair' permits facings away; pose 'seated-at-desk' faces 'front'.
+- facing-not-permitted-at-anchor: Anchor 'club-chair-seated' permits facings three-quarter-right; pose 'seated-guest-neutral' faces 'front'.
 - facing-not-permitted-at-anchor: Anchor 'counsel-chair-left' permits facings away; pose 'seated-at-desk' faces 'front'.
 - facing-not-permitted-at-anchor: Anchor 'left-task-chair' permits facings away; pose 'seated-at-desk' faces 'front'.
 - facing-not-permitted-at-anchor: Anchor 'left-task-chair' permits facings away; pose 'seated-guest-neutral' faces 'front'.

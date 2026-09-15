@@ -1,14 +1,21 @@
-import { OPENING_LIFE_ADDITIONS } from "../simulation/opening-life-content";
-import { scheduleAgreedCoverShift } from "../simulation/life-circumstances";
-import { advanceWorldMinutes } from "../simulation/time-work";
 import {
+  OPENING_LIFE_ADDITIONS,
+  OPENING_LIFE_FOLLOWUPS,
+  openingChoiceMinutes,
+} from "../simulation/opening-life-content";
+import { scheduleAgreedCoverShift } from "../simulation/life-circumstances";
+import {
+  lifeActivityHandlers,
+  type OrdinaryLifeDayAdvance,
+} from "./life-time-handlers";
+import {
+  advanceWorldMinutes,
+  simulationMinutesBetween,
   describePersonContext,
   introducePerson,
   EPISODE_FAMILIES,
-  createCampaignElectionTransitionRegistry,
   adaptiveSelectionSeed,
   addDays,
-  advanceWorld,
   ageOnDate,
   eligibleEpisodeBeats,
   formativeIntervalAt,
@@ -31,6 +38,7 @@ import {
   type SituationCandidate,
   type SituationSelectionReason,
   type World,
+  type FutureTransitionHandlerRegistry,
 } from "../simulation";
 import {
   chooseAdultOption,
@@ -683,17 +691,12 @@ function stakesOfKey(key: SelectableSituationKey) {
 /* -------------------------------------------------------------------------- */
 
 export interface ChooseStoryOptionInput {
+  readonly advanceDays?: OrdinaryLifeDayAdvance;
+  readonly transitionHandlers?: FutureTransitionHandlerRegistry;
   readonly personId: EntityId;
   readonly scene: StoryScene;
   readonly optionKey: string;
 }
-
-/** How far the clock moves after a composed beat, by how much it asked. */
-const EPISODE_STEP_DAYS = {
-  ordinary: 34,
-  notable: 71,
-  pressing: 128,
-} as const;
 
 /**
  * Records the choice through whichever writer owns that kind of moment.
@@ -713,22 +716,31 @@ export function chooseStoryOption(
       const ordinaryScene = OPENING_LIFE_ADDITIONS.find(
         (entry) => `opening.${entry.key}` === scene.beat.episodeKey,
       );
-      const ordinaryMinutes = ordinaryScene
+      const ordinaryDefinition = ordinaryScene
         ? scene.beat.stageKey === "follow-through"
-          ? 5
-          : ordinaryScene.minutes
+          ? {
+              ...ordinaryScene,
+              minutes: 5,
+              choices: OPENING_LIFE_FOLLOWUPS[ordinaryScene.key]?.choices ?? [],
+            }
+          : ordinaryScene
         : undefined;
-      if (ordinaryMinutes !== undefined) {
+      const ordinaryChoice = ordinaryDefinition?.choices.find(
+        (choice) => choice.key === input.optionKey,
+      );
+      const minutes =
+        ordinaryDefinition && ordinaryChoice
+          ? openingChoiceMinutes(ordinaryDefinition, ordinaryChoice)
+          : 0;
+      if (minutes) {
         const probe = advanceWorldMinutes(
           world,
-          ordinaryMinutes,
-          createCampaignElectionTransitionRegistry(),
+          minutes,
+          lifeActivityHandlers(input.transitionHandlers),
         );
-        if (probe === world) return world;
         if (
-          probe.history.events
-            .slice(world.history.events.length)
-            .some((event) => event.type !== "simulation.minutes-advanced")
+          simulationMinutesBetween(world.currentMoment, probe.currentMoment) !==
+          minutes
         )
           return probe;
       }
@@ -750,17 +762,13 @@ export function chooseStoryOption(
         // commitment without pretending the shift was completed.
         return scheduleAgreedCoverShift(played.world, input.personId);
       }
-      if (ordinaryMinutes !== undefined)
-        return advanceWorldMinutes(
-          played.world,
-          ordinaryMinutes,
-          createCampaignElectionTransitionRegistry(),
-        );
-      return advanceWorld(
-        played.world,
-        EPISODE_STEP_DAYS[scene.beat.stakes],
-        createCampaignElectionTransitionRegistry(),
-      );
+      return minutes
+        ? advanceWorldMinutes(
+            played.world,
+            minutes,
+            lifeActivityHandlers(input.transitionHandlers),
+          )
+        : played.world;
     }
     case "formative":
       return chooseFormativeOption(world, {
@@ -776,7 +784,7 @@ export function chooseStoryOption(
         optionKey: input.optionKey,
       });
     case "ordinary-stretch":
-      return letStoryTimePass(world, input.personId);
+      return letStoryTimePass(world, input.personId, input.advanceDays);
   }
 }
 
@@ -809,11 +817,15 @@ export function quietStepDays(from: IsoDate): number {
  * knows to stop on band boundaries and on the eighteenth birthday rather than
  * stepping over either. Afterwards it is a plain advance.
  */
-export function letStoryTimePass(world: World, personId: EntityId): World {
+export function letStoryTimePass(
+  world: World,
+  personId: EntityId,
+  advanceDays?: OrdinaryLifeDayAdvance,
+): World {
   if (formativeIntervalAt(world, personId) !== null) {
-    return letTimePass(world, personId);
+    return letTimePass(world, personId, advanceDays);
   }
-  return letAdultTimePass(world, quietStepDays(world.currentDate));
+  return letAdultTimePass(world, quietStepDays(world.currentDate), advanceDays);
 }
 
 /** The date a quiet adult stretch would reach, for tests that need it. */

@@ -131,6 +131,10 @@ export interface PlacementSubject {
    * percentage of plate width.
    */
   readonly referenceWidthPercent: number;
+  /** Visible crown, in body canvas coordinates; absent retains legacy placement. */
+  readonly crownY?: number;
+  /** Visible alpha width / canvas width, when the source pack measures it. */
+  readonly visibleWidthFraction?: number;
 }
 
 export interface PlacementBox {
@@ -261,14 +265,25 @@ export function placeSubjectAtAnchor(
   }
 
   const scale = resolvePerspectiveScale(scene, anchor.contactFloorYPercent);
-  const widthPercent = subject.referenceWidthPercent * scale;
+  const soles = soleContacts(subject.contacts);
+  const visibleHeight =
+    subject.crownY !== undefined && soles
+      ? Math.max(soles.left.y, soles.right.y) - subject.crownY
+      : 0;
+  // A wide body stays wide. Transparent padding never sets an adult’s height.
+  const referenceWidth =
+    !anchor.seatContact && scene.standingHeightPercent && visibleHeight > 0
+      ? (scene.standingHeightPercent / visibleHeight) *
+        (subject.bodyCanvas.width / subject.bodyCanvas.height) *
+        (scene.plate.height / scene.plate.width)
+      : subject.referenceWidthPercent;
+  const widthPercent = referenceWidth * scale;
   const heightPercent = bodyHeightPercent(
     widthPercent,
     subject.bodyCanvas,
     scene.plate,
   );
 
-  const soles = soleContacts(subject.contacts);
   const seatedPelvis = subject.contacts?.seatedPelvis ?? null;
   const seat = anchor.seatContact;
 
@@ -384,7 +399,7 @@ export function placeSubjectAtAnchor(
 
   if (
     anchor.footprintPercent !== null &&
-    widthPercent > anchor.footprintPercent
+    widthPercent * (subject.visibleWidthFraction ?? 1) > anchor.footprintPercent
   ) {
     note(
       "sprite-exceeds-footprint",

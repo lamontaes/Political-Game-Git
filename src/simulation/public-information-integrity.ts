@@ -61,6 +61,20 @@ export function resolvePublicationSource(
     };
   }
 
+  if (event.type.startsWith("tax.")) {
+    const policy = (world.history.taxPolicies ?? []).find(
+      (row) => row.outcomeEventId === event.id,
+    );
+    if (policy && event.type === "tax.policy-recorded")
+      return { kind: "civic-event", sourceRecordIds: [policy.id] };
+    const receipt = (world.history.taxCollections ?? []).find(
+      (row) => row.outcomeEventId === event.id && row.status === "collected",
+    );
+    if (receipt && event.type === "tax.public-receipt")
+      return { kind: "civic-event", sourceRecordIds: [receipt.id] };
+    return null;
+  }
+
   if (
     UNSUPPORTED_PUBLIC_EVENT_PREFIXES.some((prefix) =>
       event.type.startsWith(prefix),
@@ -247,6 +261,8 @@ function sourceRecordSequence(world: World, id: EntityId): number | null {
     ...(world.history.legislativeMeasures ?? []),
     ...(world.history.legislativeActions ?? []),
     ...(world.history.legislativeVotes ?? []),
+    ...(world.history.taxPolicies ?? []),
+    ...(world.history.taxCollections ?? []),
   ].find((candidate) => candidate.id === id);
   return record?.sequence ?? null;
 }

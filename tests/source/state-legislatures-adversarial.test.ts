@@ -303,9 +303,11 @@ describe("state instruments: the edicts doctrine covers text, not pages", () => 
     // enforces; dropping municipal-governance would assert that enacted
     // municipal provisions carry no edict claim, which is false; dropping
     // state-local-fiscal-authority would do the same for the Alaska statutes
-    // this branch adds.
+    // this branch adds. constitutional-process declares enacted constitutions
+    // and charters, which are edicts in the same sense.
     const legalSourceDomains = new Set([
       "civil-service-labor",
+      "constitutional-process",
       "municipal-governance",
       "state-campaign-compliance",
       "state-office-qualifications",

@@ -1,7 +1,24 @@
+import { SavedTitleTableau } from "./SavedTitleTableau";
+import { CreatorAppearanceStep } from "./CreatorAppearanceStep";
+import {
+  applyCreatorAppearance,
+  type CreatorAppearanceChoice,
+} from "../presentation/creator-appearance-preview";
+import { PRODUCTION_CHARACTER_LIBRARY } from "../presentation/visual-integration";
 import { projectLocationSurfaces } from "../presentation/location-surfaces";
 import { locationReviewVisuals } from "../presentation/location-art-review";
 import { PressWorkspace } from "./PressWorkspace";
+import { ContentPackWorkspace } from "./ContentPackWorkspace";
 import { birthdayProblemForSetup } from "../presentation/new-game-birthday";
+import {
+  applyBirthdayPatch,
+  CreatorBirthdayFields,
+} from "./CreatorBirthdayFields";
+import {
+  HOMETOWN_PAGE_SIZE,
+  projectHometownPage,
+} from "../presentation/creator-hometown-page";
+import { previewCreatorNames } from "../presentation/creator-name-preview";
 import {
   SavedAppearanceProvider,
   SavedRenderSnapshotsProvider,
@@ -10,11 +27,23 @@ import {
 } from "./SavedAppearance";
 import { createOpeningLifeController } from "../presentation/opening-life";
 import { OpeningLifeFlow } from "./opening-life/OpeningLifeFlow";
+import { LifeScenePanel } from "./opening-life/LifeScenePanel";
+import { useContentViewportCss } from "./overlay-viewport";
+import { simulateCalendarDays } from "../presentation/calendar-time-control";
+import {
+  conversationExchangeTurns,
+  currentExchangeTurn,
+} from "../presentation/scene-conversation";
+import { travelTowardsPerson } from "../presentation/person-contact";
+import { interruptionHandlers } from "../presentation/interruption-policy";
 import { MunicipalWorkspace } from "./MunicipalWorkspace";
+import { World39News } from "./World39News";
+import { World39Journal } from "./World39Journal";
 import { PlacesWorkspace } from "./PlacesWorkspace";
 import { municipalVenueForActivity } from "../presentation/municipal-venue";
 import { resolveActivityVenueScene } from "../presentation/scene-venues";
 import { publishLegislativeTransition } from "../presentation/publish-legislative-transition";
+import { applyExecutivePlayTransition } from "../presentation/executive-entry";
 import { PublicInformationPanel } from "./PublicInformationPanel";
 import { projectPublicInformationPanel } from "../presentation/public-information-adapters";
 import { LifeStartTransition } from "./LifeStartTransition";
@@ -30,7 +59,6 @@ import { JudicialOfficeWork } from "./JudicialOfficeWork";
 import { judicialOfficeContexts } from "../simulation/judicial-office-work";
 import { ExecutiveWorkWorkspace } from "./ExecutiveWorkWorkspace";
 import { resolveExecutiveOffice } from "../simulation/executive-work-context";
-import { synchronizeExecutiveInbox } from "../simulation/executive-work";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import {
   useCallback,
@@ -126,9 +154,9 @@ import {
   GENDER_IDENTITY_KEYS,
   GENDER_IDENTITY_LABELS,
   lifePlaceCoverage,
-  lifePlaceSearch,
   lifePlaceStateIdentities,
   lifePlaces,
+  personName,
 } from "../simulation";
 import type { EntityId, QuestionnairePhase, World } from "../simulation";
 import {
@@ -140,15 +168,23 @@ import type { LegislativeBargainingSeat } from "../presentation/legislative-barg
 import { MeasureFloorSurface } from "./MeasureFloorSurface";
 import { CampaignWorkspace } from "./CampaignWorkspace";
 import { LegislationWorkspace } from "./LegislationWorkspace";
+import { TransitWorkspace } from "./TransitWorkspace";
+import { TaxWorkWorkspace } from "./TaxWorkWorkspace";
+import { projectTransitWork } from "../presentation/transit-work";
 import { DocketWorkspace } from "./DocketWorkspace";
+import { OfficeOnboardingWorkspace } from "./OfficeOnboardingWorkspace";
 import {
   docketBill,
   type DocketBill,
 } from "../presentation/legislation-docket";
-import { selectedDocketKey } from "../presentation/legislation-docket-selection";
+import {
+  selectedDocketKey,
+  selectDocketBill,
+} from "../presentation/legislation-docket-selection";
 import { measureById } from "../simulation";
 import { measureGate } from "../simulation/legislation";
 import { ConversationStarters, SceneConversation } from "./SceneConversation";
+import { InvokerFocusReturn } from "./PersonSceneActionMenu";
 import type { ConversationAddressee } from "../presentation/run-b-conversation";
 import type { ConversationSubjectKey } from "../presentation/run-b-conversation-progress";
 import { openConversationWith } from "../presentation/person-conversation-entry";
@@ -175,7 +211,6 @@ import { FullDossier, QuickDossier } from "./ShellDossier";
 import {
   CalendarWorkspaceSurface,
   CommitmentSurface,
-  JournalWorkspace,
   MeasureSurface,
   OptionsWorkspace,
   PatchNotesWorkspace,
@@ -190,7 +225,7 @@ import {
   SaveImportControl,
   SaveTransferControls,
 } from "./SaveTransferControls";
-import { BudgetEconomyWorkspace } from "./BudgetEconomyWorkspace";
+import { PoliticsWorkspace } from "./ConstitutionalWorkspace";
 
 /**
  * The game.
@@ -202,7 +237,11 @@ import { BudgetEconomyWorkspace } from "./BudgetEconomyWorkspace";
 
 type Screen =
   | { readonly kind: "title" }
-  | { readonly kind: "setup"; readonly draft?: NewGameSetup }
+  | {
+      readonly kind: "setup";
+      readonly draft?: NewGameSetup;
+      readonly questionnaireComplete?: boolean;
+    }
   /**
    * The calibration, between choosing a life and starting one.
    *
@@ -291,6 +330,11 @@ export function PlayerGame() {
   );
   const [screen, setScreen] = useState<Screen>({ kind: "title" });
   const [session, setSession] = useState<Session | null>(null);
+  /*
+   * The content-viewport variables are written once at the root so the title,
+   * the creator and the room all size against the same actual rectangle.
+   */
+  useContentViewportCss();
   const [saves, setSaves] = useState<readonly BrowserWorldSummary[]>([]);
   const [notice, setNotice] = useState<string | null>(null);
   const [problem, setProblem] = useState<string | null>(null);
@@ -384,14 +428,24 @@ export function PlayerGame() {
     return guardUnsavedWork(store, window);
   }, [store]);
 
+  const pendingAppearance = useRef<CreatorAppearanceChoice | null>(null);
+
   function startPlaying(
     world: World,
     personId: EntityId,
     seed: string | null,
     saveId: EntityId | null,
   ) {
+    const selected = pendingAppearance.current;
+    const prepared = applyCreatorAppearance(
+      world,
+      selected,
+      artPreviewLibraries(previewMode)?.characters ??
+        PRODUCTION_CHARACTER_LIBRARY,
+    );
+    pendingAppearance.current = null;
     setSession({
-      world: openOrdinaryLife(world, personId),
+      world: openOrdinaryLife(prepared, personId),
       personId,
       unsavedSeed: seed,
       saveId,
@@ -538,26 +592,29 @@ export function PlayerGame() {
    */
   if (screen.kind === "title") {
     return (
-      <AmbientTableau resolved={resolvedTitlePresentation(saves)}>
-        {() => (
-          <TitleScreen
-            saves={saves}
-            savesUnavailable={savesUnavailable}
-            problem={problem}
-            onNewGame={() => {
-              setProblem(null);
-              if (replaySeed === null) {
-                setSessionSeed(resolveSessionSeed("", window.crypto));
-              }
-              setScreen({ kind: "setup" });
-            }}
-            onContinue={() => void continueMostRecent()}
-            onOpenSaves={() => setScreen({ kind: "saves" })}
-            onOpenOptions={() => setScreen({ kind: "options" })}
-            onOpenPatchNotes={() => setScreen({ kind: "patch-notes" })}
-          />
-        )}
-      </AmbientTableau>
+      <SavedTitleTableau
+        summary={saves[0]}
+        store={store}
+        shellStore={shellStore}
+        previewMode={previewMode}
+      >
+        <TitleScreen
+          saves={saves}
+          savesUnavailable={savesUnavailable}
+          problem={problem}
+          onNewGame={() => {
+            setProblem(null);
+            if (replaySeed === null) {
+              setSessionSeed(resolveSessionSeed("", window.crypto));
+            }
+            setScreen({ kind: "setup" });
+          }}
+          onContinue={() => void continueMostRecent()}
+          onOpenSaves={() => setScreen({ kind: "saves" })}
+          onOpenOptions={() => setScreen({ kind: "options" })}
+          onOpenPatchNotes={() => setScreen({ kind: "patch-notes" })}
+        />
+      </SavedTitleTableau>
     );
   }
 
@@ -593,7 +650,7 @@ export function PlayerGame() {
 
   if (screen.kind === "transition") {
     return (
-      <AmbientTableau resolved={resolvedTitlePresentation(saves)}>
+      <AmbientTableau resolved={resolvedTitlePresentation(saves)} still>
         {() => (
           <LifeStartTransition
             onComplete={() => {
@@ -626,21 +683,23 @@ export function PlayerGame() {
 
   if (screen.kind === "setup") {
     return (
-      <AmbientTableau resolved={resolvedTitlePresentation(saves)}>
+      <AmbientTableau resolved={resolvedTitlePresentation(saves)} still>
         {() => (
           <SetupScreen
             seed={sessionSeed.seed}
             seedOrigin={sessionSeed.origin}
             previewMode={previewMode}
             initialSetup={screen.draft}
+            questionnaireComplete={screen.questionnaireComplete}
             onBack={() => setScreen({ kind: "title" })}
-            onBegin={(setup) => {
+            onBegin={(setup, appearance, questionsFinished) => {
+              pendingAppearance.current = appearance;
               setProblem(null);
               // The calibration runs before the world is built, because its
               // answers are part of the setup the world is built from — not
               // because the world reads them. It never does: they go into the
               // world's non-diegetic corner and nowhere near a generator.
-              if (questionnaireScreenFor(setup)) {
+              if (!questionsFinished && questionnaireScreenFor(setup)) {
                 setScreen({ kind: "questionnaire", setup });
                 return;
               }
@@ -655,7 +714,7 @@ export function PlayerGame() {
 
   if (screen.kind === "questionnaire") {
     return (
-      <AmbientTableau resolved={resolvedTitlePresentation(saves)}>
+      <AmbientTableau resolved={resolvedTitlePresentation(saves)} still>
         {() => (
           <QuestionnaireScreenView
             setup={screen.setup}
@@ -665,9 +724,19 @@ export function PlayerGame() {
                 setScreen({ kind: "questionnaire", setup: next });
                 return;
               }
-              beginLife(next);
+              setScreen({
+                kind: "setup",
+                draft: next,
+                questionnaireComplete: true,
+              });
             }}
-            onFinishEarly={() => beginLife(endQuestionnaireEarly(screen.setup))}
+            onFinishEarly={() =>
+              setScreen({
+                kind: "setup",
+                draft: endQuestionnaireEarly(screen.setup),
+                questionnaireComplete: true,
+              })
+            }
             onBack={() => setScreen({ kind: "setup", draft: screen.setup })}
           />
         )}
@@ -718,7 +787,8 @@ export function PlayerGame() {
               // empty week until they reloaded.
               {
                 ...current,
-                world: synchronizeExecutiveInbox(
+                world: applyExecutivePlayTransition(
+                  current.world,
                   openOrdinaryLife(world, current.personId),
                 ),
               }
@@ -794,6 +864,7 @@ function SetupScreen({
   seedOrigin,
   previewMode,
   initialSetup,
+  questionnaireComplete = false,
   onBack,
   onBegin,
   problem,
@@ -802,10 +873,18 @@ function SetupScreen({
   readonly seedOrigin: "fresh" | "replay";
   readonly previewMode: ArtPreviewMode;
   readonly initialSetup?: NewGameSetup;
+  readonly questionnaireComplete?: boolean;
   readonly onBack: () => void;
-  readonly onBegin: (setup: NewGameSetup) => void;
+  readonly onBegin: (
+    setup: NewGameSetup,
+    appearance: CreatorAppearanceChoice | null,
+    questionsFinished?: boolean,
+  ) => void;
   readonly problem: string | null;
 }) {
+  const [finishedQuestions, setFinishedQuestions] = useState(
+    questionnaireComplete,
+  );
   const coverage = lifePlaceCoverage();
   const [stateQuery, setStateQuery] = useState("");
   const [placeQuery, setPlaceQuery] = useState("");
@@ -830,13 +909,24 @@ function SetupScreen({
         state.usps.toLowerCase() === needle,
     );
   }, [stateQuery]);
-  const matchingPlaces = useMemo(() => {
-    if (!location.stateJurisdictionKey) return [];
-    return lifePlaceSearch(placeQuery, 24, {
+  /*
+   * One honest page of towns (UI FINISH). The same accepted search, asked for
+   * every match, then shown a page at a time with a line saying which page —
+   * a short first slice is never presented as the whole state.
+   */
+  const [placeOffset, setPlaceOffset] = useState(0);
+  useEffect(() => {
+    setPlaceOffset(0);
+  }, [location.stateJurisdictionKey, placeQuery]);
+  const placePage = useMemo(() => {
+    if (!location.stateJurisdictionKey) return null;
+    return projectHometownPage(placeQuery, placeOffset, {
       stateJurisdictionKey: location.stateJurisdictionKey,
       scope: "locality",
     });
-  }, [location.stateJurisdictionKey, placeQuery]);
+  }, [location.stateJurisdictionKey, placeQuery, placeOffset]);
+  const matchingPlaces = placePage?.places ?? [];
+  const [nameDraws, setNameDraws] = useState(0);
   const statewidePlace =
     lifePlaces().find(
       (candidate) =>
@@ -892,10 +982,23 @@ function SetupScreen({
     setCurrent((now) =>
       steps.indexOf(step) > steps.indexOf(now) ? step : now,
     );
-  const reopen = (step: CreatorStep) => setCurrent(step);
+  const reopen = (step: CreatorStep) => {
+    if (step === "whoAreYou") setFinishedQuestions(false);
+    setCurrent(step);
+  };
 
   const problems = newGameSetupProblems(committed);
   const birthdayProblem = birthdayProblemForSetup(committed);
+  /*
+   * An out-of-range age used to pass this step and surface only at Begin,
+   * three steps later. The character step now refuses it where it was typed.
+   */
+  const ageProblem =
+    Number.isFinite(setup.startAge) &&
+    setup.startAge >= MINIMUM_START_AGE &&
+    setup.startAge <= MAXIMUM_START_AGE
+      ? null
+      : `Choose a starting age between ${MINIMUM_START_AGE} and ${MAXIMUM_START_AGE}.`;
   const place = selectedCreatorPlace(location);
   const placeListOpen = creatorPlaceListOpen(location.placeKey, replacingPlace);
 
@@ -954,7 +1057,7 @@ function SetupScreen({
 
   return (
     <main
-      className="game-title game-setup game-creator"
+      className={`game-title game-setup game-creator${onReady && (finishedQuestions || !questionnaireScreenFor(committed)) ? " game-creator--appearance" : ""}`}
       data-testid="setup-screen"
     >
       <h1>Our Civic Duty</h1>
@@ -1086,60 +1189,42 @@ function SetupScreen({
                 onBlur={() => setAgeText(String(setup.startAge))}
               />
             </label>
-            <label>
-              Birthday month
-              <input
-                type="number"
-                data-testid="start-birth-month"
-                min={1}
-                max={12}
-                value={setup.birthMonth ?? ""}
-                onChange={(event) => {
-                  const text = event.target.value;
-                  setSetup((now) => {
-                    if (text.trim() === "") {
-                      const rest = { ...now };
-                      delete rest.birthMonth;
-                      return rest;
-                    }
-                    const parsed = Number(text);
-                    if (!Number.isFinite(parsed)) return now;
-                    return { ...now, birthMonth: parsed };
-                  });
-                }}
-              />
-            </label>
-            <label>
-              Birthday day
-              <input
-                type="number"
-                data-testid="start-birth-day"
-                min={1}
-                max={31}
-                value={setup.birthDay ?? ""}
-                onChange={(event) => {
-                  const text = event.target.value;
-                  setSetup((now) => {
-                    if (text.trim() === "") {
-                      const rest = { ...now };
-                      delete rest.birthDay;
-                      return rest;
-                    }
-                    const parsed = Number(text);
-                    if (!Number.isFinite(parsed)) return now;
-                    return { ...now, birthDay: parsed };
-                  });
-                }}
-              />
-            </label>
           </div>
-          <p
-            className="game-hint"
-            id="creator-name-hint"
-            data-testid="creator-name-hint"
-          >
-            Leave a name blank and the game gives you one.
-          </p>
+          <div className="creator-name-actions">
+            <button
+              type="button"
+              data-testid="creator-randomize-name"
+              onClick={() => {
+                const salt = nameDraws + 1;
+                const draw = previewCreatorNames(
+                  setup.seed,
+                  setup.gender,
+                  salt,
+                );
+                setNameDraws(salt);
+                setSetup((now) => ({
+                  ...now,
+                  givenName: draw.givenName,
+                  familyName: draw.familyName,
+                }));
+              }}
+            >
+              Randomize name
+            </button>
+            <p
+              className="game-hint"
+              id="creator-name-hint"
+              data-testid="creator-name-hint"
+            >
+              Leave a name blank and the game gives you one.
+            </p>
+          </div>
+          <CreatorBirthdayFields
+            setup={setup}
+            onChange={(patch) =>
+              setSetup((now) => applyBirthdayPatch(now, patch))
+            }
+          />
 
           {/*
                 Gender, asked rather than decided. Guessing it from the first
@@ -1174,12 +1259,16 @@ function SetupScreen({
             </div>
           </fieldset>
 
-          {birthdayProblem ? <p role="alert">{birthdayProblem}</p> : null}
+          {ageProblem ? (
+            <p role="alert" data-testid="creator-age-problem">
+              {ageProblem}
+            </p>
+          ) : null}
           <button
             type="button"
             className="game-creator-next"
             data-testid="creator-continue-character"
-            disabled={birthdayProblem !== null}
+            disabled={birthdayProblem !== null || ageProblem !== null}
             onClick={() => advanceTo("place")}
           >
             Next
@@ -1330,6 +1419,41 @@ function SetupScreen({
                       </small>
                     </button>
                   ))}
+                </div>
+              ) : null}
+              {placeListOpen && placePage && placePage.total > 0 ? (
+                <div className="creator-place-pager" data-testid="place-pager">
+                  <p
+                    className="game-hint"
+                    role="status"
+                    data-testid="place-page-status"
+                  >
+                    {placePage.status}
+                  </p>
+                  {placePage.pageCount > 1 ? (
+                    <div className="game-choices game-choices-inline">
+                      <button
+                        type="button"
+                        data-testid="place-page-previous"
+                        disabled={!placePage.hasPrevious}
+                        onClick={() =>
+                          setPlaceOffset(placePage.offset - HOMETOWN_PAGE_SIZE)
+                        }
+                      >
+                        Previous places
+                      </button>
+                      <button
+                        type="button"
+                        data-testid="place-page-next"
+                        disabled={!placePage.hasNext}
+                        onClick={() =>
+                          setPlaceOffset(placePage.offset + HOMETOWN_PAGE_SIZE)
+                        }
+                      >
+                        More places
+                      </button>
+                    </div>
+                  ) : null}
                 </div>
               ) : placeListOpen && placeQuery.trim().length === 0 ? (
                 <p className="game-note" data-testid="place-prompt">
@@ -1639,7 +1763,7 @@ function SetupScreen({
                 advanceTo("begin");
               }}
             >
-              Answer a Few Questions
+              Answer a few questions
             </button>
             <button
               type="button"
@@ -1656,7 +1780,7 @@ function SetupScreen({
                 advanceTo("begin");
               }}
             >
-              Explore More Questions
+              Answer more questions
               <small>You can begin your life whenever you are ready.</small>
             </button>
             <button
@@ -1674,7 +1798,7 @@ function SetupScreen({
                 advanceTo("begin");
               }}
             >
-              Discover Who I Am Through Play
+              Discover through play
             </button>
           </div>
         </section>
@@ -1691,17 +1815,28 @@ function SetupScreen({
         <button type="button" onClick={onBack}>
           Back
         </button>
-        {onReady ? (
+        {onReady && !finishedQuestions && questionnaireScreenFor(committed) ? (
           <button
             type="button"
             data-testid="begin"
             disabled={problems.length > 0}
-            onClick={() => onBegin(committed)}
+            onClick={() => onBegin(committed, null)}
           >
-            Begin
+            Continue to questions
           </button>
         ) : null}
       </div>
+
+      {onReady &&
+      problems.length === 0 &&
+      (finishedQuestions || !questionnaireScreenFor(committed)) ? (
+        <CreatorAppearanceStep
+          key={JSON.stringify(committed)}
+          setup={committed}
+          mode={previewMode}
+          onBegin={(appearance) => onBegin(committed, appearance, true)}
+        />
+      ) : null}
 
       {/*
             Reproducibility, moved off the setup surface proper. A raw seed and
@@ -1812,7 +1947,7 @@ function QuestionnaireScreenView({
           data-testid="questionnaire-finish"
           onClick={onFinishEarly}
         >
-          Begin life
+          Review appearance
         </button>
       </div>
       {note ? <p className="game-note">{note}</p> : null}
@@ -2084,7 +2219,38 @@ function PlayingScreen({
    * on screen; this is the request, cleared as soon as it is honored.
    */
   const [returnFocusTo, setReturnFocusTo] = useState<EntityId | null>(null);
-  const [continuingLifeShown, setContinuingLifeShown] = useState(false);
+  const [returnFocusPrefer, setReturnFocusPrefer] = useState<"scene" | "panel">(
+    "scene",
+  );
+  const clearReturnFocus = useCallback(() => setReturnFocusTo(null), []);
+  const continuingLifeShown = Boolean(
+    completedActivityHere(session.world, session.personId),
+  );
+  useContentViewportCss();
+  /*
+   * A day or a week from the corner control, through the same clock the
+   * calendar uses, with the same interruption preferences. The outcome is
+   * said in the HUD so the player reads where time actually stopped and why.
+   */
+  const [passOutcome, setPassOutcome] = useState<string | null>(null);
+  const passDays = useCallback(
+    (days: 1 | 7) => {
+      const result = simulateCalendarDays(
+        session.world,
+        session.personId,
+        days,
+        shell.preferences.interruptions,
+      );
+      setPassOutcome(result.outcome);
+      if (result.world !== session.world) onWorldChange(result.world);
+    },
+    [
+      session.world,
+      session.personId,
+      shell.preferences.interruptions,
+      onWorldChange,
+    ],
+  );
 
   const projectedMoment = useMemo(
     () => projectStoryMoment(session.world, session.personId),
@@ -2224,10 +2390,22 @@ function PlayingScreen({
             (button) => button.dataset.personId === newsPersonReturn.current,
           )
           ?.focus();
-      } else if (previous === "news" && openSurface === "scene") {
-        document
-          .querySelector<HTMLButtonElement>('[data-testid="shell-nav-cluster"]')
-          ?.focus();
+      } else if (previous !== "scene" && openSurface === "scene") {
+        /*
+         * Back in the room. If a conversation is waiting, the keyboard goes
+         * to it — its next choice is the sensible place to be, and Escape
+         * from there closes the conversation rather than nothing. Otherwise
+         * the corner cluster, which is the room's one resting control.
+         */
+        const talk = document.querySelector<HTMLElement>(
+          '[data-testid="conversation-intents"] button, [data-testid="talk-back"]',
+        );
+        (
+          talk ??
+          document.querySelector<HTMLButtonElement>(
+            '[data-testid="shell-nav-cluster"]',
+          )
+        )?.focus();
       }
     });
     return () => cancelAnimationFrame(frame);
@@ -2258,80 +2436,73 @@ function PlayingScreen({
 
   const destinations = useMemo<readonly ShellDestination[]>(() => {
     const entries: ShellDestination[] = [];
-    if (!capabilities.formativeYears) {
-      entries.push({
-        surface: "day",
-        label: "Today",
-        hint: "What is happening, what is next, and your time",
-        testid: "elsewhere-day",
-        open: openSurface === "day",
-        group: "now",
-      });
-    }
-    entries.push({
-      surface: "work",
-      label: "Work",
-      hint: workHint,
-      testid: "elsewhere-work",
-      open: openSurface === "work",
-      group: "now",
-    });
+    const section = view.surface === "entity" ? undefined : view.section;
+    /*
+     * The accepted grouping. Every implemented route keeps a home: Today and
+     * the calendar are one entry; People is one entry; Politics holds the
+     * office, running for office, local government and the public budget;
+     * Personal holds who you are, money, and ordinary jobs and study; Travel
+     * is the places surface; Options carries the settings and this build's
+     * notes. Nothing was dropped to make the list tidy.
+     */
     entries.push({
       surface: "calendar",
       label: "Calendar",
-      hint: "Your commitments, and the chamber's",
+      hint: "Today, what is next, and your time",
       testid: "nav-calendar",
-      open: openSurface === "calendar",
-      group: "now",
+      open: openSurface === "calendar" || openSurface === "day",
+      group: "calendar",
     });
     entries.push({
       surface: "people",
-      label: "People / Friends",
-      hint: "Family, friends, work, politics",
+      label: "People",
+      hint: "Who you know, and how",
       testid: "elsewhere-people",
       open: openSurface === "people",
-      group: "world",
+      group: "people",
     });
-    entries.push({
-      surface: "personal",
-      label: "Personal",
-      hint: "You, the household, money",
-      testid: "nav-personal-entry",
-      open: openSurface === "personal",
-      group: "you",
-    });
-    /*
-     * No "Life scenes" entry.
-     *
-     * It opened a second copy of the panel that is already standing in the
-     * room — the same scene, the same choices, the same people — under a name
-     * that did not say so. The owner's reaction was "it's the same thing. Not
-     * sure what that even means." The scene is the room; closing any
-     * workspace returns to it, and the panel there carries its own way back
-     * from the rest of the life.
-     */
-    entries.push({
-      /*
-       * Where this life can go, and what it can do when it gets there.
-       *
-       * A destination rather than a sub-page of the day: travelling, attending
-       * and going home are different actions from reading about today, and
-       * burying them under the moment panel is what made them undiscoverable.
-       */
-      surface: "places",
-      label: "Places",
-      hint: "Where you are, where you can go, and what is on there",
-      testid: "nav-places",
-      open: openSurface === "places",
-      group: "world",
-    });
+    if (!capabilities.formativeYears) {
+      entries.push({
+        surface: "work",
+        section: "office",
+        label: "Your office and campaigns",
+        hint: workHint,
+        testid: "elsewhere-work",
+        open: openSurface === "work" && section === "office",
+        group: "politics",
+      });
+    }
     entries.push({
       surface: "municipal",
       label: "Local government",
       hint: "Public meetings and your municipal work",
       testid: "nav-municipal",
       open: openSurface === "municipal",
-      group: "world",
+      group: "politics",
+    });
+    entries.push({
+      surface: "politics",
+      label: "Budget and constitutional changes",
+      hint: "Public finances and recorded constitutional changes",
+      testid: "nav-politics-budget",
+      open: openSurface === "politics",
+      group: "politics",
+    });
+    entries.push({
+      surface: "transit",
+      label: "Transit service",
+      hint: "Service proposals, public funding and recorded delivery",
+      testid: "nav-politics-transit",
+      open: openSurface === "transit",
+      group: "politics",
+    });
+    entries.push({
+      surface: "tax",
+      label: "Taxes and public receipts",
+      hint: "Tax proposals, their procedure and recorded public receipts",
+      testid: "nav-politics-tax",
+      open: openSurface === "tax",
+      group: "politics",
     });
     entries.push({
       surface: "news",
@@ -2339,15 +2510,7 @@ function PlayingScreen({
       hint: "Published public records",
       testid: "nav-news",
       open: openSurface === "news",
-      group: "world",
-    });
-    entries.push({
-      surface: "politics",
-      label: "Budget & economy",
-      hint: "Public budget records and dated economic context",
-      testid: "nav-politics-budget",
-      open: openSurface === "politics",
-      group: "politics",
+      group: "news",
     });
     entries.push({
       surface: "journal",
@@ -2355,32 +2518,62 @@ function PlayingScreen({
       hint: "Chapters, and what is still open",
       testid: "nav-journal-entry",
       open: openSurface === "journal",
-      group: "you",
+      group: "journal",
+    });
+    entries.push({
+      surface: "personal",
+      section: "identity",
+      label: "Who you are",
+      hint: "Identity, household, what you have done",
+      testid: "nav-personal",
+      open: openSurface === "personal" && section !== "finances",
+      group: "personal",
+    });
+    entries.push({
+      surface: "personal",
+      section: "finances",
+      label: "Money and property",
+      hint: "Yours, the household\u2019s, the committee\u2019s",
+      testid: "nav-finances",
+      open: openSurface === "personal" && section === "finances",
+      group: "personal",
+    });
+    entries.push({
+      surface: "work",
+      section: "jobs",
+      label: capabilities.formativeYears ? "School" : "Jobs and study",
+      hint: capabilities.formativeYears
+        ? "School, and anything waiting on you"
+        : "Offers, terms, study and hiring",
+      testid: "nav-jobs",
+      open:
+        openSurface === "work" &&
+        (section === "jobs" || capabilities.formativeYears),
+      group: "personal",
+    });
+    entries.push({
+      surface: "places",
+      label: "Travel",
+      hint: "Where you are, where you can go, and what is on there",
+      testid: "nav-places",
+      open: openSurface === "places",
+      group: "travel",
     });
     entries.push({
       surface: "options",
       label: "Options",
-      hint: "Settings this game actually reads",
+      hint: "Settings this game actually reads, and patch notes",
       testid: "nav-options",
-      open: openSurface === "options",
-      group: "game",
-    });
-    entries.push({
-      surface: "patch-notes",
-      label: "Patch notes",
-      hint: "What has changed, read from this build",
-      testid: "nav-patch-notes",
-      open: openSurface === "patch-notes",
-      group: "game",
+      open: openSurface === "options" || openSurface === "patch-notes",
+      group: "options",
     });
     return entries;
-  }, [capabilities.formativeYears, workHint, openSurface]);
+  }, [capabilities.formativeYears, workHint, openSurface, view]);
 
   const openEntity = useCallback(
     (ref: ShellRef) => {
       if (openSurface === "news" && ref.kind === "person")
         newsPersonReturn.current = ref.id;
-      setConversation(null);
       dispatch({ type: "open-entity", ref });
     },
     [dispatch, openSurface],
@@ -2474,25 +2667,34 @@ function PlayingScreen({
     shell.quickDossierPersonId === null
       ? null
       : dossierFor(shell.quickDossierPersonId);
-  const actionPerson =
-    shell.actionMenuPersonId === null
-      ? null
-      : dossierFor(shell.actionMenuPersonId);
+  const presentPersonIds = useMemo(
+    () => moment.scene.presentPeople.map((person) => person.personId),
+    [moment.scene.presentPeople],
+  );
   /*
-   * Asked once, and kept.
-   *
-   * The Talk control used to call this inline purely to decide whether to be
-   * disabled, discarding a specific, computed reason on the way. Holding it
-   * means the same answer drives the control AND the sentence beside it, so
-   * the two cannot disagree.
+   * The line still on the table while the player is browsing elsewhere, for
+   * the compact reminder. Read, never rewritten: the same record the box
+   * itself draws from.
    */
-  const talkEntry = actionPerson
-    ? openConversationWith(
-        session.world,
-        session.personId,
-        actionPerson.personId,
-      )
-    : null;
+  const pendingLine = useMemo(() => {
+    if (!conversation) return null;
+    const facing =
+      conversation.addressee === "everyone" ? null : conversation.addressee;
+    const turns = conversationExchangeTurns(
+      session.world,
+      session.personId,
+      conversation.subject,
+      facing,
+    );
+    const current = currentExchangeTurn(turns);
+    const text = current?.reply?.trim() || current?.playerLine?.trim() || "";
+    if (!text) return null;
+    return text.length > 72 ? `${text.slice(0, 70)}…` : text;
+  }, [conversation, session.world, session.personId]);
+  /*
+   * Asked once, and kept: the same answer drives the Talk control AND the
+   * sentence beside it, so the two cannot disagree.
+   */
   const inspectTalkEntry = selectedDossier
     ? openConversationWith(
         session.world,
@@ -2510,13 +2712,18 @@ function PlayingScreen({
    * over the scene, so the workspace closes and the room comes forward.
    */
   const talkTo = useCallback(
-    (personId: EntityId, subject?: ConversationSubjectKey) => {
+    (
+      personId: EntityId,
+      subject?: ConversationSubjectKey,
+      invoker: "scene" | "panel" = "scene",
+    ) => {
       const entry = openConversationWith(
         session.world,
         session.personId,
         personId,
       );
       if (entry.kind === "unavailable") return;
+      setReturnFocusPrefer(invoker);
       setConversation({
         subject: subject ?? entry.subject,
         addressee: personId,
@@ -2553,6 +2760,11 @@ function PlayingScreen({
           data-scene-id={sceneId ?? ""}
           data-scene-purpose={playScene.purpose}
         >
+          <InvokerFocusReturn
+            personId={conversation ? null : returnFocusTo}
+            prefer={returnFocusPrefer}
+            onDone={clearReturnFocus}
+          />
           {/*
         THE ROOM IS THE SURFACE.
 
@@ -2589,147 +2801,46 @@ function PlayingScreen({
              * asked for; the one rail that persists is the pin rail, and it
              * only ever holds what the player put there.
              */
-            selectedPersonId={shell.actionMenuPersonId}
+            selectedPersonId={shell.quickDossierPersonId}
             onSelectPerson={(personId) =>
               dispatch({
-                type: "select-person",
+                type: "open-quick-dossier",
                 personId: personId as EntityId,
               })
             }
           >
-            <OpeningLifeFlow
-              key={session.world.id}
-              world={session.world}
-              playerPersonId={session.personId}
-              alreadyIntroduced={session.saveId !== null}
-              onContinuingChange={setContinuingLifeShown}
-              onWorldChange={onWorldChange}
-              transitionHandlers={createCampaignElectionTransitionRegistry()}
-              continuingLife={
-                <StoryView
-                  session={session}
-                  moment={moment}
-                  onWorldChange={onWorldChange}
-                />
-              }
-              onTalkTo={(personId) => talkTo(personId)}
-              returnFocusTo={returnFocusTo}
-              onFocusReturned={() => setReturnFocusTo(null)}
-              foreground={
-                conversation ? (
-                  <SceneConversation
-                    key={conversation.subject}
-                    world={session.world}
-                    playerPersonId={session.personId}
-                    subject={conversation.subject}
-                    addressee={conversation.addressee}
-                    onWorldChange={onWorldChange}
-                    onChange={(next) => setConversation(next)}
-                    onBack={() => {
-                      const facing = conversation.addressee;
-                      setConversation(null);
-                      // The room focuses the control this came from, so Back
-                      // with a keyboard lands on the person again.
-                      if (facing !== "everyone") setReturnFocusTo(facing);
-                    }}
-                    transitionHandlers={createCampaignElectionTransitionRegistry()}
-                  />
-                ) : null
-              }
-            />
+            {view.surface === "scene" ? (
+              <OpeningLifeFlow
+                key={session.world.id}
+                world={session.world}
+                playerPersonId={session.personId}
+                onWorldChange={onWorldChange}
+                transitionHandlers={createCampaignElectionTransitionRegistry()}
+                onTalkTo={(personId) => talkTo(personId, undefined, "panel")}
+                returnFocusTo={returnFocusTo}
+                onFocusReturned={() => setReturnFocusTo(null)}
+                foreground={
+                  conversation && view.surface === "scene" ? (
+                    <SceneConversation
+                      key={conversation.subject}
+                      world={session.world}
+                      playerPersonId={session.personId}
+                      subject={conversation.subject}
+                      addressee={conversation.addressee}
+                      onWorldChange={onWorldChange}
+                      onChange={(next) => setConversation(next)}
+                      onBack={() => {
+                        const facing = conversation.addressee;
+                        setConversation(null);
+                        if (facing !== "everyone") setReturnFocusTo(facing);
+                      }}
+                      transitionHandlers={createCampaignElectionTransitionRegistry()}
+                    />
+                  ) : null
+                }
+              />
+            ) : null}
           </SceneBackdrop>
-
-          {/*
-        The anchored action menu. One click on somebody opens it, and every
-        entry on it carries that person's id — there is no route from here to a
-        surface that has forgotten who was chosen.
-      */}
-          {actionPerson ? (
-            <div
-              className="pg-action-menu civic-glass"
-              role="menu"
-              aria-label={`${actionPerson.name} actions`}
-              data-testid="person-action-menu"
-              data-person-id={actionPerson.personId}
-            >
-              <p className="pg-action-menu-name">{actionPerson.name}</p>
-              <button
-                type="button"
-                role="menuitem"
-                data-testid="action-inspect"
-                onClick={() =>
-                  dispatch({
-                    type: "open-quick-dossier",
-                    personId: actionPerson.personId,
-                  })
-                }
-              >
-                Inspect
-                <small>What you make of them</small>
-              </button>
-              {/*
-                Say why, rather than only refusing.
-
-                The entry was computed here purely to decide `disabled` and its
-                reason was thrown away, so a player met a greyed-out control
-                with nothing to read — and the reason exists, is specific, and
-                is the only thing that makes the refusal make sense. It is
-                rendered beside the control and bound to it with
-                `aria-describedby`, so somebody on a screen reader hears the
-                refusal when they reach the button rather than discovering an
-                unexplained dead end.
-              */}
-              <button
-                type="button"
-                role="menuitem"
-                data-testid="action-talk"
-                disabled={talkEntry?.kind === "unavailable"}
-                aria-describedby={
-                  talkEntry?.kind === "unavailable"
-                    ? "pg-action-talk-reason"
-                    : undefined
-                }
-                onClick={() => talkTo(actionPerson.personId)}
-              >
-                Talk
-                <small>Say something to them</small>
-              </button>
-              {talkEntry?.kind === "unavailable" ? (
-                <p
-                  className="pg-action-menu-reason"
-                  id="pg-action-talk-reason"
-                  data-testid="action-talk-reason"
-                >
-                  {talkEntry.reason}
-                </p>
-              ) : null}
-              <button
-                type="button"
-                role="menuitem"
-                data-testid="action-pin"
-                onClick={() =>
-                  dispatch({
-                    type: "toggle-pin",
-                    ref: { kind: "person", id: actionPerson.personId },
-                  })
-                }
-              >
-                {isPinned(shell, { kind: "person", id: actionPerson.personId })
-                  ? "Unpin"
-                  : "Pin"}
-              </button>
-              <button
-                type="button"
-                role="menuitem"
-                data-testid="action-record"
-                onClick={() =>
-                  openEntity({ kind: "person", id: actionPerson.personId })
-                }
-              >
-                Full record
-              </button>
-            </div>
-          ) : null}
 
           {selectedDossier ? (
             <QuickDossier
@@ -2752,12 +2863,53 @@ function PlayingScreen({
                 dispatch({ type: "open-quick-dossier", personId })
               }
               onTalk={() => talkTo(selectedDossier.personId)}
+              onMeet={() => dispatch({ type: "go-to-scene" })}
+              onTravel={() => {
+                const next = travelTowardsPerson(
+                  session.world,
+                  session.personId,
+                  selectedDossier.personId,
+                  {
+                    presentPersonIds,
+                    handlers: interruptionHandlers(
+                      shell.preferences.interruptions,
+                    ),
+                  },
+                );
+                if (next !== session.world) {
+                  onWorldChange(next);
+                  dispatch({ type: "go-to-scene" });
+                }
+              }}
+              onFullRecord={() =>
+                openEntity({ kind: "person", id: selectedDossier.personId })
+              }
+              presentPersonIds={presentPersonIds}
               talkUnavailable={
                 inspectTalkEntry?.kind === "unavailable"
                   ? inspectTalkEntry.reason
                   : null
               }
             />
+          ) : null}
+
+          {conversation && view.surface !== "scene" ? (
+            <button
+              type="button"
+              className="pg-talk-return"
+              data-testid="conversation-return"
+              onClick={() => dispatch({ type: "go-to-scene" })}
+            >
+              Return to conversation
+              <small>
+                {conversation.addressee === "everyone"
+                  ? "Everyone here"
+                  : session.world.people[conversation.addressee]
+                    ? personName(session.world.people[conversation.addressee]!)
+                    : "Someone"}
+                {pendingLine ? ` · ${pendingLine}` : ""}
+              </small>
+            </button>
           ) : null}
 
           {workspace}
@@ -2773,8 +2925,25 @@ function PlayingScreen({
                 {problem}
               </p>
             ) : null}
+            {passOutcome ? (
+              <p
+                className="life-hud-note life-hud-note--outcome"
+                role="status"
+                data-testid="pass-outcome"
+              >
+                {passOutcome}
+                <button
+                  type="button"
+                  className="life-hud-dismiss"
+                  aria-label="Dismiss"
+                  onClick={() => setPassOutcome(null)}
+                >
+                  ✕
+                </button>
+              </p>
+            ) : null}
             {session.unsavedSeed !== null ? (
-              <p className="life-hud-note" data-testid="unsaved-note">
+              <p className="sr-only" data-testid="unsaved-note">
                 This life has not been saved yet.
               </p>
             ) : null}
@@ -2812,6 +2981,7 @@ function PlayingScreen({
               })
             }
             onLeave={onLeave}
+            {...(capabilities.formativeYears ? {} : { onPassDays: passDays })}
           />
 
           <ShellPinRail
@@ -3014,6 +3184,7 @@ function renderWorkspace({
               togglePin({ kind: "person", id: dossier.personId })
             }
             onTalk={() => talkTo(dossier.personId)}
+            onMeet={() => dispatch({ type: "go-to-scene" })}
             talkUnavailable={entry.kind === "unavailable" ? entry.reason : null}
             onOpenLink={openEntity}
             onOpenPerson={(personId) =>
@@ -3062,28 +3233,45 @@ function renderWorkspace({
 
   switch (view.surface) {
     case "day":
+    case "calendar":
       /*
-       * UI9-01 / PT3. Today answers four questions and links everywhere else.
-       *
-       * It used to mount the campaign in full below the ordinary day, after an
-       * earlier pass had already moved study and jobs out to Work — so a
-       * candidate's day was still most of a campaign office, and a player
-       * looking for "Work" found half of it here. Every one of those controls
-       * now lives in Work, once; the day says what is happening, what is
-       * next, what is waiting, and offers the two things that actually spend
-       * the day's time: attending what is planned and moving on to tomorrow.
+       * Calendar opens on today: what is happening, what is next, what is
+       * waiting, then the upcoming and ongoing entries with their actions,
+       * with History and the interruption checklist a tab away. The old
+       * "Today" surface is the first tab here rather than a second page.
        */
       return frame(
-        "Today",
-        "day-overlay",
-        <TodayView
-          session={session}
+        "Calendar",
+        "calendar-workspace",
+        <CalendarWorkspaceSurface
+          world={session.world}
+          personId={session.personId}
+          isPinnedRef={pinnedRef}
+          onOpen={openEntity}
+          onTogglePin={togglePin}
           onWorldChange={onWorldChange}
-          workHint={workHint}
-          onOpenCommitment={(activityId) =>
-            openEntity({ kind: "commitment", id: activityId })
+          interruptions={shell.preferences.interruptions}
+          onInterruptionChange={(key, value) =>
+            dispatch({ type: "set-interruption", key, value })
           }
-          onGoTo={(surface) => dispatch({ type: "go-to-surface", surface })}
+          today={
+            <TodayView
+              session={session}
+              onWorldChange={onWorldChange}
+              workHint={workHint}
+              embedded
+              onOpenCommitment={(activityId) =>
+                openEntity({ kind: "commitment", id: activityId })
+              }
+              onGoTo={(surface) =>
+                dispatch({
+                  type: "go-to-surface",
+                  surface,
+                  ...(surface === "work" ? { section: "office" } : {}),
+                })
+              }
+            />
+          }
         />,
       );
 
@@ -3097,8 +3285,6 @@ function renderWorkspace({
             personId={session.personId}
             state={shell}
             dispatch={dispatch}
-            onTalk={talkTo}
-            onOpenRef={openEntity}
           />
           {/*
             What this life can actually talk about, in the room it is in — as
@@ -3115,19 +3301,6 @@ function renderWorkspace({
             />
           )}
         </>,
-      );
-
-    case "calendar":
-      return frame(
-        "Calendar",
-        "calendar-workspace",
-        <CalendarWorkspaceSurface
-          world={session.world}
-          personId={session.personId}
-          isPinnedRef={pinnedRef}
-          onOpen={openEntity}
-          onTogglePin={togglePin}
-        />,
       );
 
     case "personal":
@@ -3150,6 +3323,21 @@ function renderWorkspace({
             {...(view.section ? { section: view.section } : {})}
             onOpenPerson={openPerson}
           />
+          <details data-testid="personal-life-choices">
+            <summary>Your day, choices and pending favors</summary>
+            <LifeScenePanel
+              world={session.world}
+              playerPersonId={session.personId}
+              onWorldChange={onWorldChange}
+              onTalkTo={(personId) => talkTo(personId)}
+              transitionHandlers={createCampaignElectionTransitionRegistry()}
+            />
+            <StoryView
+              session={session}
+              moment={projectStoryMoment(session.world, session.personId)}
+              onWorldChange={onWorldChange}
+            />
+          </details>
         </>,
       );
 
@@ -3186,6 +3374,11 @@ function renderWorkspace({
         "News",
         "news-workspace",
         <>
+          <World39News
+            world={session.world}
+            personId={session.personId}
+            onOpenPerson={openPerson}
+          />
           <PressWorkspace
             world={session.world}
             onWorldChange={onWorldChange}
@@ -3194,6 +3387,7 @@ function renderWorkspace({
           <PublicInformationPanel
             model={projectPublicInformationPanel(session.world)}
             onClose={back}
+            showClose={false}
             onOpenPerson={openPerson}
             viewerPersonId={session.personId}
             followedOutletKeys={shell.preferences.followedNewsOutletKeys}
@@ -3210,25 +3404,94 @@ function renderWorkspace({
       return frame(
         "Politics",
         "politics-workspace",
-        homeJurisdictionId ? (
-          <BudgetEconomyWorkspace
-            world={session.world}
-            jurisdictionId={homeJurisdictionId}
-          />
-        ) : (
-          <p className="game-note" role="status">
-            This life has no home jurisdiction to inspect.
-          </p>
-        ),
+        <>
+          {(session.world.history.nationalElections ?? []).map((election) => (
+            <NationalElectionResults
+              key={election.id}
+              world={session.world}
+              electionId={election.id}
+            />
+          ))}
+          {homeJurisdictionId ? (
+            <PoliticsWorkspace
+              world={session.world}
+              jurisdictionId={homeJurisdictionId}
+              personId={session.personId}
+              onWorldChange={onWorldChange}
+            />
+          ) : (
+            <p className="game-note" role="status">
+              This life has no home jurisdiction to inspect.
+            </p>
+          )}
+        </>,
         "Budget & economy",
       );
     }
+
+    case "transit":
+      return frame(
+        "Transit service",
+        "transit-workspace",
+        <TransitWorkspace
+          world={session.world}
+          personId={session.personId}
+          onWorldChange={onWorldChange}
+          onOpenTaxWork={() =>
+            dispatch({ type: "go-to-surface", surface: "tax" })
+          }
+          onContinue={(days) => {
+            if (days !== 1 && days !== 7) return;
+            const result = simulateCalendarDays(
+              session.world,
+              session.personId,
+              days,
+              shell.preferences.interruptions,
+            );
+            if (result.world !== session.world) onWorldChange(result.world);
+          }}
+          onOpenBill={(docketKey) => {
+            const bill = projectTransitWork(
+              session.world,
+              session.personId,
+            ).bills.find((entry) => entry.bill.docketKey === docketKey)?.bill;
+            if (!bill) return;
+            if (capabilities.legislativeScenarioKey === bill.scenarioKey) {
+              onWorldChange(
+                selectDocketBill(
+                  session.world,
+                  bill.scenarioKey,
+                  session.personId,
+                  docketKey,
+                ),
+              );
+              dispatch({ type: "go-to-surface", surface: "work" });
+            } else openEntity({ kind: "measure", id: bill.measureId });
+          }}
+        />,
+        "Politics",
+      );
+
+    case "tax":
+      return frame(
+        "Taxes and public receipts",
+        "tax-workspace",
+        <TaxWorkWorkspace
+          world={session.world}
+          personId={session.personId}
+          onWorldChange={onWorldChange}
+          onOpenMeasure={(measureId) =>
+            openEntity({ kind: "measure", id: measureId })
+          }
+        />,
+        "Politics",
+      );
 
     case "journal":
       return frame(
         "Journal",
         "journal",
-        <JournalWorkspace
+        <World39Journal
           journal={shell.journal}
           onJournalChange={(journal) =>
             dispatch({ type: "set-journal", journal })
@@ -3250,7 +3513,19 @@ function renderWorkspace({
       return frame(
         "Options",
         "options-workspace",
-        <OptionsWorkspace state={shell} dispatch={dispatch} />,
+        <>
+          <OptionsWorkspace
+            state={shell}
+            dispatch={dispatch}
+            onOpenPatchNotes={() =>
+              dispatch({ type: "go-to-surface", surface: "patch-notes" })
+            }
+          />
+          <ContentPackWorkspace
+            world={session.world}
+            onWorldChange={onWorldChange}
+          />
+        </>,
       );
 
     case "work": {
@@ -3342,6 +3617,14 @@ function renderWorkspace({
               {capabilities.workPlace?.displayName} legislature, so what is in
               front of the chamber is in front of them too.
             </p>
+            <OfficeOnboardingWorkspace
+              world={session.world}
+              playerPersonId={session.personId}
+              selectedMeasureId={
+                workingBill?.measureId ?? assignment?.measureId ?? null
+              }
+              onWorldChange={onLegislativeChange}
+            />
             {workingBill ? (
               <p
                 className="game-band"
@@ -3453,8 +3736,19 @@ function renderWorkspace({
         );
       };
       const role = projectWorkRole(session.world, session.personId);
+      /*
+       * Politics holds the office and the campaign; Personal holds ordinary
+       * jobs, study and hiring. Same canonical panels, mounted once each;
+       * the section only decides which half of the one Work record opens.
+       * Growing up has no office, so School is the whole of it.
+       */
+      const half: "office" | "jobs" | "all" = capabilities.formativeYears
+        ? "jobs"
+        : view.section === "office" || view.section === "jobs"
+          ? view.section
+          : "all";
       const sections: WorkSection[] = [];
-      if (offices.length > 0) {
+      if (half !== "jobs" && offices.length > 0) {
         sections.push({
           key: "office",
           title: "Your court",
@@ -3473,29 +3767,31 @@ function renderWorkspace({
             </>
           ),
         });
-      } else if (executive) {
+      } else if (half !== "jobs" && executive) {
         sections.push({
           key: "office",
           title: "Your office",
           body: (
             <ExecutiveWorkWorkspace
               world={session.world}
-              onWorldChange={(next) =>
-                onWorldChange(synchronizeExecutiveInbox(next))
-              }
+              onWorldChange={onWorldChange}
               onClose={close}
               handlers={createCampaignElectionTransitionRegistry()}
             />
           ),
         });
-      } else if (legislative && capabilities.legislativeScenarioKey) {
+      } else if (
+        half !== "jobs" &&
+        legislative &&
+        capabilities.legislativeScenarioKey
+      ) {
         sections.push({
           key: "office",
           title: "Your office",
           body: legislativeOffice(capabilities.legislativeScenarioKey),
         });
       }
-      if (!capabilities.formativeYears) {
+      if (half !== "jobs" && !capabilities.formativeYears) {
         sections.push({
           key: "campaign",
           title: "Running for office",
@@ -3514,30 +3810,50 @@ function renderWorkspace({
           ),
         });
       }
-      sections.push({
-        key: "paths",
-        title: capabilities.formativeYears ? "School" : "Jobs and study",
-        body: (
-          <LifePathsPanel
-            world={session.world}
-            onWorldChange={onWorldChange}
-            transitionHandlers={createCampaignElectionTransitionRegistry()}
-            headed={false}
-          />
-        ),
-      });
-      sections.push({
-        key: "personnel",
-        title: "Hiring",
-        body: (
-          <CivilPersonnelPanel
-            world={session.world}
-            onWorldChange={onWorldChange}
-          />
-        ),
-      });
+      if (half !== "office") {
+        sections.push({
+          key: "paths",
+          title: capabilities.formativeYears ? "School" : "Jobs and study",
+          body: (
+            <LifePathsPanel
+              world={session.world}
+              onWorldChange={onWorldChange}
+              transitionHandlers={createCampaignElectionTransitionRegistry()}
+              headed={false}
+            />
+          ),
+        });
+        sections.push({
+          key: "personnel",
+          title: "Hiring",
+          body: (
+            <CivilPersonnelPanel
+              world={session.world}
+              onWorldChange={onWorldChange}
+            />
+          ),
+        });
+      }
+      if (half === "office" && sections.length === 0) {
+        sections.push({
+          key: "office",
+          title: "Your office",
+          body: (
+            <p className="game-note" data-testid="no-office">
+              You hold no office in this life yet. Running for one starts below
+              when the game supports it here.
+            </p>
+          ),
+        });
+      }
       return frame(
-        "Work",
+        half === "office"
+          ? "Your office and campaigns"
+          : half === "jobs"
+            ? capabilities.formativeYears
+              ? "School"
+              : "Jobs and study"
+            : "Work",
         offices.length > 0
           ? "judicial-office-section"
           : executive
@@ -3706,6 +4022,14 @@ function StoryView({
                   personId: session.personId,
                   scene: moment.scene,
                   optionKey: option.key,
+                  transitionHandlers:
+                    createCampaignElectionTransitionRegistry(),
+                  advanceDays: (world, days) =>
+                    passOrdinaryDays(
+                      world,
+                      days,
+                      createCampaignElectionTransitionRegistry(),
+                    ),
                 }),
               )
             }
@@ -3720,7 +4044,18 @@ function StoryView({
             className="ui-action ui-action--choice ui-action--quiet"
             data-testid="story-let-time-pass"
             onClick={() =>
-              onWorldChange(letStoryTimePass(session.world, session.personId))
+              onWorldChange(
+                letStoryTimePass(
+                  session.world,
+                  session.personId,
+                  (world, days) =>
+                    passOrdinaryDays(
+                      world,
+                      days,
+                      createCampaignElectionTransitionRegistry(),
+                    ),
+                ),
+              )
             }
           >
             {moment.formativeYears ? "Let the year run on" : "Let time pass"}
@@ -3881,12 +4216,15 @@ function TodayView({
   workHint,
   onOpenCommitment,
   onGoTo,
+  embedded = false,
 }: {
   readonly session: Session;
   readonly onWorldChange: (world: World) => void;
   readonly workHint: string;
   readonly onOpenCommitment: (activityId: EntityId) => void;
   readonly onGoTo: (surface: "work" | "calendar" | "places") => void;
+  /** Inside the Calendar, which carries its own day controls and entries. */
+  readonly embedded?: boolean;
 }) {
   const today = useMemo(
     () => projectToday(session.world, session.personId),
@@ -3955,7 +4293,9 @@ function TodayView({
           personId={session.personId}
           onWorldChange={onWorldChange}
         />
-        <PassDayControl session={session} onWorldChange={onWorldChange} />
+        {embedded ? null : (
+          <PassDayControl session={session} onWorldChange={onWorldChange} />
+        )}
       </section>
 
       <nav className="pg-today-links" aria-label="From today">
@@ -3965,25 +4305,27 @@ function TodayView({
           data-testid="day-open-work"
           onClick={() => onGoTo("work")}
         >
-          Work
+          Your office and campaigns
           <small>{workHint}</small>
         </button>
-        <button
-          type="button"
-          className="ui-action ui-action--subtle"
-          data-testid="day-open-calendar"
-          onClick={() => onGoTo("calendar")}
-        >
-          Calendar
-          <small>Everything that is scheduled</small>
-        </button>
+        {embedded ? null : (
+          <button
+            type="button"
+            className="ui-action ui-action--subtle"
+            data-testid="day-open-calendar"
+            onClick={() => onGoTo("calendar")}
+          >
+            Calendar
+            <small>Everything that is scheduled</small>
+          </button>
+        )}
         <button
           type="button"
           className="ui-action ui-action--subtle"
           data-testid="day-open-places"
           onClick={() => onGoTo("places")}
         >
-          Places
+          Travel
           <small>Where you can go from here</small>
         </button>
       </nav>
@@ -4101,3 +4443,4 @@ function WorkLayout({
     </div>
   );
 }
+import { NationalElectionResults } from "./NationalElectionResults";

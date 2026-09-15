@@ -6,7 +6,7 @@ import { startLife, enterLife, saveLife } from "./support/creator";
 
 async function openOwnWardrobe(page: Page) {
   await page.getByTestId("shell-nav-cluster").click();
-  await page.getByTestId("nav-personal-group").click();
+  await page.getByTestId("nav-group-personal").click();
   await page.getByTestId("nav-personal").click();
   await page.getByTestId("personal-appearance").click();
   const controls = page.getByTestId("saved-appearance-controls");
@@ -42,7 +42,7 @@ for (const seed of [
     const person = page.locator('[data-testid^="scene-person-"]').first();
     await expect(person).toBeVisible();
     await person.click({ position: { x: 30, y: 55 } });
-    await page.getByTestId("action-inspect").click();
+    await expect(page.getByTestId("quick-dossier")).toBeVisible();
     await page.screenshot({ path: info.outputPath("card.png") });
     await page.getByTestId("quick-dossier-full").click();
     await expect(page.getByTestId("full-dossier")).toBeVisible();
@@ -207,7 +207,7 @@ for (const kind of ["unpinned", "gen2"] as const) {
     await page.screenshot({ path: info.outputPath(`old-${kind}-opened.png`) });
     const person = page.locator('[data-testid^="scene-person-"]').first();
     await person.click({ position: { x: 30, y: 55 } });
-    await page.getByTestId("action-inspect").click();
+    await expect(page.getByTestId("quick-dossier")).toBeVisible();
     await page.getByTestId("quick-dossier-full").click();
     const talk = page.getByTestId("dossier-talk");
     if (await talk.isEnabled()) {

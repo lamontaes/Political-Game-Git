@@ -451,6 +451,8 @@ function exportReading(
       overrideAbsence: absence(procedure.override),
       effectivePublication: value(procedure.effectivePublication),
       committeeReferral: value(procedure.committeeReferral),
+      committeeReferralState: stateOf(procedure.committeeReferral),
+      introductionToPassage: value(procedure.introductionToPassage),
     },
     budget: {
       fiscalYear: value(budget.fiscalYear),

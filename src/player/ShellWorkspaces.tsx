@@ -1,8 +1,11 @@
+import { UX39CalendarGrid, useCalendarDateOrder } from "./UX39CalendarGrid";
+import { calendarDisplayDate } from "./ux39-calendar-dates";
 import {
   EconomicContextPanel,
   LEXINGTON_ECONOMIC_BINDING,
 } from "./EconomicContextPanel";
 import { playerEconomicContextLines } from "../presentation/economic-context";
+import { buildIdentity } from "../release/build-identity";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { PrivateJournalEditor } from "./PrivateJournalEditor";
 import type {
@@ -20,13 +23,16 @@ import {
 } from "../presentation/people-directory";
 import {
   calendarEntryFor,
+  calendarEntryHorizon,
   calendarKindLabel,
   formatMinute,
   projectPlayerCalendar,
   type CalendarEntry,
+  type CalendarHorizon,
 } from "../presentation/player-calendar";
 import { projectLifeRecord } from "../presentation/life-record";
 import { projectMeasureBriefing } from "../presentation/legislation-projection";
+import { projectOpeningLife } from "../presentation/opening-life";
 import { projectPersonalRecord } from "../presentation/personal-record";
 import {
   CANONICAL_VERSION,
@@ -39,11 +45,22 @@ import type {
   ShellRef,
   ShellState,
 } from "../presentation/shell-navigation";
-import { isPinned } from "../presentation/shell-navigation";
-import { projectPersonDossier } from "../presentation/person-dossier";
-import { openConversationWith } from "../presentation/person-conversation-entry";
-import { PersonCard } from "./PersonCard";
+import {
+  DEFAULT_INTERRUPTIONS,
+  isPinned,
+  type InterruptionPreferences,
+} from "../presentation/shell-navigation";
+import { INTERRUPTION_CATEGORIES } from "../presentation/interruption-policy";
 import { PeopleRelationshipWeb } from "./PeopleRelationshipWeb";
+import { PersonPortrait } from "./PersonPortrait";
+import {
+  advanceCalendarToActivity,
+  authorizeCalendarSimulation,
+  declineCalendarActivity,
+  playCalendarActivity,
+  simulateAuthorizedCalendarActivity,
+  simulateCalendarDays,
+} from "../presentation/calendar-time-control";
 import {
   measureById,
   workPendingEntriesFor,
@@ -60,7 +77,8 @@ import {
  * rather than keeping one each. None of them is an always-on dashboard, none
  * of them invents a number, and none of them can move the clock: they are
  * projections of the world plus the controls the existing gameplay writers
- * already expose.
+ * already expose. Calendar day/week/event buttons call those writers; reading
+ * still spends no time.
  */
 
 export function WorkspaceFrame({
@@ -125,15 +143,11 @@ export function PeopleWorkspace({
   personId,
   state,
   dispatch,
-  onTalk,
-  onOpenRef,
 }: {
   readonly world: World;
   readonly personId: EntityId;
   readonly state: ShellState;
   readonly dispatch: (action: ShellAction) => void;
-  readonly onTalk: (id: EntityId) => void;
-  readonly onOpenRef: (ref: ShellRef) => void;
 }) {
   const directory = useMemo(
     () => projectPeopleDirectory(world, personId),
@@ -144,21 +158,17 @@ export function PeopleWorkspace({
     () => filterDirectory(directory, category, state.peopleQuery),
     [directory, category, state.peopleQuery],
   );
-  const [selectedId, setSelectedId] = useState<EntityId | null>(null);
   const [webExpanded, setWebExpanded] = useState(false);
   const peopleView = state.preferences.peopleView;
   const showWeb = peopleView === "web";
-  const focusId = selectedId ?? personId;
-  const selectedDossier =
-    selectedId === null
-      ? null
-      : projectPersonDossier(world, personId, selectedId);
-  const talkEntry = selectedDossier
-    ? openConversationWith(world, personId, selectedDossier.personId)
-    : null;
-
+  /*
+   * Choosing somebody here opens the one person card the whole game uses,
+   * beside this workspace, rather than a second card drawn inline. The web
+   * keeps the chosen person at its centre so the card and the drawing agree.
+   */
+  const focusId = state.quickDossierPersonId ?? personId;
   function selectPerson(id: EntityId) {
-    setSelectedId(id);
+    dispatch({ type: "open-quick-dossier", personId: id });
   }
 
   return (
@@ -267,6 +277,11 @@ export function PeopleWorkspace({
                   data-testid={`people-person-${person.personId}`}
                   onClick={() => selectPerson(person.personId)}
                 >
+                  <PersonPortrait
+                    world={world}
+                    personId={person.personId}
+                    size="small"
+                  />
                   <strong>{person.name}</strong>
                   {person.relationship ? (
                     <small>{person.relationship}</small>
@@ -291,35 +306,6 @@ export function PeopleWorkspace({
           })}
         </ul>
       )}
-
-      {selectedDossier ? (
-        <PersonCard
-          world={world}
-          playerId={personId}
-          dossier={selectedDossier}
-          pinned={isPinned(state, {
-            kind: "person",
-            id: selectedDossier.personId,
-          })}
-          expanded
-          mode="inline"
-          onTogglePin={() =>
-            dispatch({
-              type: "toggle-pin",
-              ref: { kind: "person", id: selectedDossier.personId },
-            })
-          }
-          onOpenPerson={selectPerson}
-          onTalk={() => onTalk(selectedDossier.personId)}
-          talkUnavailable={
-            talkEntry?.kind === "unavailable" ? talkEntry.reason : null
-          }
-          onOpenLink={(ref) => {
-            if (ref.kind === "person") selectPerson(ref.id);
-            else onOpenRef(ref);
-          }}
-        />
-      ) : null}
     </>
   );
 }
@@ -329,13 +315,17 @@ export function PeopleWorkspace({
 function CalendarEntryRow({
   entry,
   pinned,
-  onOpen,
+  selected,
+  onSelect,
   onTogglePin,
+  children,
 }: {
   readonly entry: CalendarEntry;
   readonly pinned: boolean;
-  readonly onOpen: () => void;
+  readonly selected: boolean;
+  readonly onSelect: () => void;
   readonly onTogglePin: () => void;
+  readonly children?: ReactNode;
 }) {
   return (
     <li className="pg-calendar-entry" data-group={entry.group}>
@@ -343,7 +333,10 @@ function CalendarEntryRow({
         type="button"
         className="pg-calendar-open"
         data-testid={`calendar-entry-${entry.activityId}`}
-        onClick={onOpen}
+        aria-pressed={selected}
+        onClick={() => {
+          onSelect();
+        }}
       >
         <span className="pg-calendar-time">
           {formatMinute(entry.start.minuteOfDay)}
@@ -364,9 +357,12 @@ function CalendarEntryRow({
       >
         {pinned ? "Unpin" : "Pin"}
       </button>
+      {children}
     </li>
   );
 }
+
+export type CalendarTab = "today" | "history" | "interruptions";
 
 export function CalendarWorkspaceSurface({
   world,
@@ -374,56 +370,428 @@ export function CalendarWorkspaceSurface({
   isPinnedRef,
   onOpen,
   onTogglePin,
+  onWorldChange,
+  interruptions = DEFAULT_INTERRUPTIONS,
+  onInterruptionChange,
+  today,
 }: {
   readonly world: World;
   readonly personId: EntityId;
   readonly isPinnedRef: (ref: ShellRef) => boolean;
   readonly onOpen: (ref: ShellRef) => void;
   readonly onTogglePin: (ref: ShellRef) => void;
+  readonly onWorldChange: (world: World) => void;
+  /** The persisted checklist; read by every advance made from here. */
+  readonly interruptions?: InterruptionPreferences;
+  readonly onInterruptionChange?: (
+    key: keyof InterruptionPreferences,
+    value: boolean,
+  ) => void;
+  /** What is happening now, drawn above the upcoming entries. */
+  readonly today?: ReactNode;
 }) {
   const calendar = useMemo(
     () => projectPlayerCalendar(world, personId),
     [world, personId],
   );
+  const [dateOrder, setDateOrder] = useCalendarDateOrder();
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<EntityId | null>(null);
+  const [outcome, setOutcome] = useState<string | null>(null);
+  const [tab, setTab] = useState<CalendarTab>("today");
+
+  function apply(
+    run: () => {
+      readonly world: World;
+      readonly outcome: string;
+    },
+  ) {
+    const result = run();
+    setOutcome(result.outcome);
+    if (result.world !== world) onWorldChange(result.world);
+  }
+
+  const liveDays = calendar.days
+    .map((day) => ({
+      ...day,
+      entries: day.entries.filter(
+        (entry) => calendarEntryHorizon(entry, calendar.today) !== "history",
+      ),
+    }))
+    .filter((day) => day.entries.length > 0);
+  const historyDays = calendar.days
+    .map((day) => ({
+      ...day,
+      entries: day.entries.filter(
+        (entry) => calendarEntryHorizon(entry, calendar.today) === "history",
+      ),
+    }))
+    .filter((day) => day.entries.length > 0);
+
+  function renderDays(
+    days: typeof liveDays,
+    horizon: Exclude<CalendarHorizon, "history"> | "history",
+  ) {
+    return days.map((day) => (
+      <section
+        key={`${horizon}-${day.date}`}
+        className="pg-calendar-day"
+        data-horizon={horizon}
+      >
+        <h3>{calendarDisplayDate(day.date, dateOrder)}</h3>
+        <ul>
+          {day.entries.map((entry) => {
+            const ref: ShellRef = {
+              kind: "commitment",
+              id: entry.activityId,
+            };
+            const selectedHere = selectedId === entry.activityId;
+            return (
+              <CalendarEntryRow
+                key={entry.activityId}
+                entry={entry}
+                pinned={isPinnedRef(ref)}
+                selected={selectedHere}
+                onSelect={() =>
+                  setSelectedId(selectedHere ? null : entry.activityId)
+                }
+                onTogglePin={() => onTogglePin(ref)}
+              >
+                {selectedHere && horizon !== "history" ? (
+                  <CalendarEventActions
+                    selected={entry}
+                    onOpen={onOpen}
+                    onApply={apply}
+                    world={world}
+                    personId={personId}
+                    interruptions={interruptions}
+                  />
+                ) : null}
+              </CalendarEntryRow>
+            );
+          })}
+        </ul>
+      </section>
+    ));
+  }
+
+  const tabs: readonly { key: CalendarTab; label: string; testid: string }[] = [
+    { key: "today", label: "Today and upcoming", testid: "calendar-tab-today" },
+    { key: "history", label: "History", testid: "calendar-history-toggle" },
+    {
+      key: "interruptions",
+      label: "Interruptions",
+      testid: "calendar-tab-interruptions",
+    },
+  ];
 
   return (
     <>
       <p className="game-band" data-testid="calendar-today">
-        {calendar.today.date} · {formatMinute(calendar.today.minuteOfDay)}
+        {calendarDisplayDate(calendar.today.date, dateOrder)} ·{" "}
+        {formatMinute(calendar.today.minuteOfDay)}
       </p>
-      {/*
-        Reading the calendar is a pure read. Nothing on this screen advances the
-        clock, and the line above shows the same canonical moment before and
-        after — which is the property the proof checks.
-      */}
-      {calendar.note ? (
-        <p className="game-note" data-testid="calendar-note">
-          {calendar.note}
-        </p>
+      <fieldset className="ux39-calendar-date-order">
+        <legend>Date format</legend>
+        <label>
+          <input
+            type="radio"
+            name="calendar-date-order"
+            checked={dateOrder === "month-day"}
+            onChange={() => setDateOrder("month-day")}
+          />
+          Month / day / year
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="calendar-date-order"
+            checked={dateOrder === "day-month"}
+            onChange={() => setDateOrder("day-month")}
+          />
+          Day / month / year
+        </label>
+      </fieldset>
+      <div
+        className="pg-tabs"
+        role="tablist"
+        aria-label="Calendar views"
+        data-testid="calendar-tabs"
+      >
+        {tabs.map((entry) => (
+          <button
+            key={entry.key}
+            type="button"
+            role="tab"
+            className="pg-tab"
+            aria-selected={tab === entry.key}
+            aria-expanded={
+              entry.key === "history" ? tab === "history" : undefined
+            }
+            data-testid={entry.testid}
+            onClick={() => setTab(entry.key)}
+          >
+            {entry.label}
+            {entry.key === "history" && historyDays.length > 0 ? (
+              <small>
+                {historyDays.reduce((n, day) => n + day.entries.length, 0)}
+              </small>
+            ) : null}
+          </button>
+        ))}
+      </div>
+
+      {tab === "today" ? (
+        <>
+          <UX39CalendarGrid
+            today={calendar.today.date}
+            days={liveDays}
+            dateOrder={dateOrder}
+            selectedDate={selectedDate}
+            onSelectDate={(date) => {
+              setSelectedDate(date);
+              setSelectedId(null);
+            }}
+          />
+          {today}
+          <div className="game-choices" data-testid="calendar-time-controls">
+            <button
+              type="button"
+              className="ui-action"
+              data-testid="calendar-simulate-day"
+              onClick={() =>
+                apply(() =>
+                  simulateCalendarDays(world, personId, 1, interruptions),
+                )
+              }
+            >
+              Simulate a day
+              <small>Your routine runs; stops for what needs you.</small>
+            </button>
+            <button
+              type="button"
+              className="ui-action"
+              data-testid="calendar-simulate-week"
+              onClick={() =>
+                apply(() =>
+                  simulateCalendarDays(world, personId, 7, interruptions),
+                )
+              }
+            >
+              Simulate a week
+              <small>Same rules, seven days.</small>
+            </button>
+          </div>
+          {outcome ? (
+            <p
+              className="game-note pg-calendar-outcome"
+              role="status"
+              data-testid="calendar-time-outcome"
+            >
+              {outcome}
+            </p>
+          ) : null}
+          {calendar.note ? (
+            <p className="game-note" data-testid="calendar-note">
+              {calendar.note}
+            </p>
+          ) : null}
+          <div data-testid="calendar-upcoming">
+            <h3 className="pg-calendar-heading">
+              {selectedDate
+                ? calendarDisplayDate(selectedDate, dateOrder)
+                : "Upcoming and ongoing"}
+            </h3>
+            {selectedDate ? (
+              <button
+                type="button"
+                className="pg-tab"
+                onClick={() => setSelectedDate(null)}
+              >
+                Show all upcoming
+              </button>
+            ) : null}
+            {liveDays.filter(
+              (day) => !selectedDate || day.date === selectedDate,
+            ).length === 0 ? (
+              <p className="game-note">Nothing upcoming or ongoing.</p>
+            ) : (
+              renderDays(
+                liveDays.filter(
+                  (day) => !selectedDate || day.date === selectedDate,
+                ),
+                "upcoming",
+              )
+            )}
+          </div>
+        </>
       ) : null}
-      {calendar.days.map((day) => (
-        <section key={day.date} className="pg-calendar-day">
-          <h3>{day.date}</h3>
-          <ul>
-            {day.entries.map((entry) => {
-              const ref: ShellRef = {
-                kind: "commitment",
-                id: entry.activityId,
-              };
-              return (
-                <CalendarEntryRow
-                  key={entry.activityId}
-                  entry={entry}
-                  pinned={isPinnedRef(ref)}
-                  onOpen={() => onOpen(ref)}
-                  onTogglePin={() => onTogglePin(ref)}
-                />
-              );
-            })}
+
+      {tab === "history" ? (
+        <div data-testid="calendar-history">
+          {historyDays.length === 0 ? (
+            <p className="game-note">
+              Nothing has happened on this calendar yet.
+            </p>
+          ) : (
+            renderDays(historyDays, "history")
+          )}
+        </div>
+      ) : null}
+
+      {tab === "interruptions" ? (
+        <div className="pg-interruptions" data-testid="calendar-interruptions">
+          <p className="game-note">
+            What a day or week skip stops for. Reading or changing this moves no
+            time. A preference here never spends money, casts a vote or commits
+            you to anything; it only decides where a skip pauses.
+          </p>
+          <ul className="pg-interruption-list">
+            {INTERRUPTION_CATEGORIES.map((category) =>
+              category.key === "always" ? (
+                <li key={category.key} data-testid="interruption-always">
+                  <label className="pg-check pg-check--fixed">
+                    <input type="checkbox" checked disabled readOnly />
+                    <span>
+                      <strong>{category.label}</strong>
+                      <small>{category.detail}</small>
+                    </span>
+                  </label>
+                </li>
+              ) : (
+                <li key={category.key}>
+                  <label className="pg-check">
+                    <input
+                      type="checkbox"
+                      data-testid={`interruption-${category.key}`}
+                      checked={interruptions[category.key]}
+                      disabled={!onInterruptionChange}
+                      onChange={(event) =>
+                        onInterruptionChange?.(
+                          category.key as keyof InterruptionPreferences,
+                          event.target.checked,
+                        )
+                      }
+                    />
+                    <span>
+                      <strong>{category.label}</strong>
+                      <small>{category.detail}</small>
+                    </span>
+                  </label>
+                </li>
+              ),
+            )}
           </ul>
-        </section>
-      ))}
+        </div>
+      ) : null}
     </>
+  );
+}
+
+function CalendarEventActions({
+  selected,
+  onOpen,
+  onApply,
+  world,
+  personId,
+  interruptions,
+}: {
+  readonly selected: CalendarEntry;
+  readonly onOpen: (ref: ShellRef) => void;
+  readonly onApply: (
+    run: () => { readonly world: World; readonly outcome: string },
+  ) => void;
+  readonly world: World;
+  readonly personId: EntityId;
+  readonly interruptions: InterruptionPreferences;
+}) {
+  const simulation = authorizeCalendarSimulation(
+    world,
+    personId,
+    selected.activityId,
+    interruptions,
+  );
+  return (
+    <div className="game-choices" data-testid="calendar-event-actions">
+      <p>
+        Selected: {selected.title} · {formatMinute(selected.start.minuteOfDay)}
+      </p>
+      <button
+        type="button"
+        className="ui-action"
+        data-testid="calendar-open-event"
+        onClick={() => onOpen({ kind: "commitment", id: selected.activityId })}
+      >
+        Open event record
+      </button>
+      <button
+        type="button"
+        className="ui-action"
+        data-testid="calendar-advance-event"
+        onClick={() =>
+          onApply(() =>
+            advanceCalendarToActivity(
+              world,
+              personId,
+              selected.activityId,
+              interruptions,
+            ),
+          )
+        }
+      >
+        Advance to this event
+      </button>
+      <button
+        type="button"
+        className="ui-action"
+        data-testid="calendar-play-event"
+        onClick={() =>
+          onApply(() =>
+            playCalendarActivity(world, personId, selected.activityId),
+          )
+        }
+      >
+        Play this event
+      </button>
+      <button
+        type="button"
+        className="ui-action"
+        data-testid="calendar-simulate-event"
+        disabled={!simulation.authorized}
+        aria-describedby={`calendar-simulate-reason-${selected.activityId}`}
+        onClick={() =>
+          onApply(() =>
+            simulateAuthorizedCalendarActivity(
+              world,
+              personId,
+              selected.activityId,
+              interruptions,
+            ),
+          )
+        }
+      >
+        Simulate authorized attendance
+        <small>{simulation.reason}</small>
+      </button>
+      <p
+        className="sr-only"
+        id={`calendar-simulate-reason-${selected.activityId}`}
+      >
+        {simulation.reason}
+      </p>
+      <button
+        type="button"
+        className="ui-action"
+        data-testid="calendar-decline-event"
+        onClick={() =>
+          onApply(() =>
+            declineCalendarActivity(world, personId, selected.activityId),
+          )
+        }
+      >
+        Decline
+      </button>
+    </div>
   );
 }
 
@@ -570,6 +938,10 @@ export function PersonalWorkspace({
     () => projectPersonalRecord(world, personId),
     [world, personId],
   );
+  const intro = useMemo(
+    () => projectOpeningLife(world, personId),
+    [world, personId],
+  );
   if (!record) {
     return <p className="game-note">This world has no record of you.</p>;
   }
@@ -614,6 +986,23 @@ export function PersonalWorkspace({
           {record.identity.placeName ? ` · ${record.identity.placeName}` : ""}
         </p>
       </header>
+
+      <details className="pg-personal-section" data-testid="life-introduction">
+        <summary>Household and world notes</summary>
+        <p>{intro.context}</p>
+        {intro.household.sentences.map((text) => (
+          <p key={text}>{text}</p>
+        ))}
+        {intro.household.grounding.length > 0 ? (
+          <div data-testid="life-grounding">
+            {intro.household.grounding.map((fact) => (
+              <p key={fact.basis} data-grounding={fact.kind}>
+                {fact.text}
+              </p>
+            ))}
+          </div>
+        ) : null}
+      </details>
 
       <section className="pg-personal-section">
         <h3>Appearance</h3>
@@ -904,12 +1293,19 @@ export function JournalWorkspace({
  * 0.2.0's revision date, which is a different fact.
  */
 export function PatchNotesWorkspace() {
+  const identity = buildIdentity();
   const released = PATCH_NOTE_SECTIONS.filter((section) => section.released);
   const withheld = PATCH_NOTE_SECTIONS.length - released.length;
   return (
     <>
       <p className="game-band" data-testid="patch-notes-version">
         Version {CANONICAL_VERSION}
+      </p>
+      <p className="game-note" data-testid="patch-notes-build">
+        Running source {identity.revision}
+        {identity.dirty ? " · uncommitted changes" : " · clean source"}. This
+        identifies this game bundle, not the installed controller or a different
+        saved life.
       </p>
       {released.map((section) => (
         <section
@@ -956,9 +1352,11 @@ export function PatchNotesWorkspace() {
 export function OptionsWorkspace({
   state,
   dispatch,
+  onOpenPatchNotes,
 }: {
   readonly state: ShellState;
   readonly dispatch: (action: ShellAction) => void;
+  readonly onOpenPatchNotes?: () => void;
 }) {
   return (
     <>
@@ -1019,6 +1417,24 @@ export function OptionsWorkspace({
           here has to be switched on to make it stop.
         </p>
       </section>
+
+      {onOpenPatchNotes ? (
+        <section className="pg-personal-section">
+          <h3>This build</h3>
+          <p className="game-note">
+            Version {CANONICAL_VERSION}. What changed is read from the build
+            itself.
+          </p>
+          <button
+            type="button"
+            className="ui-action ui-action--subtle"
+            data-testid="nav-patch-notes"
+            onClick={onOpenPatchNotes}
+          >
+            Patch notes
+          </button>
+        </section>
+      ) : null}
     </>
   );
 }

@@ -1,4 +1,6 @@
+import { lifeActivityHandlers } from "./life-time-handlers";
 import { travelToPlace, type PlaceTravelProvider } from "./place-travel";
+import { runtimeLifeScenes } from "../simulation/runtime-content-packs";
 import {
   activeOrdinaryGoal,
   chooseOrdinaryLifeGoal,
@@ -16,6 +18,7 @@ import {
   recordEventKnowledge,
   advanceWorldMinutes,
   stableHash,
+  simulationMinutesBetween,
   personName,
 } from "../simulation";
 import type {
@@ -25,9 +28,11 @@ import type {
 } from "../simulation";
 
 import {
+  openingChoiceMinutes,
   OPENING_LIFE_SCENES,
   OPENING_LIFE_ADDITIONS,
   OPENING_LIFE_FAMILIES,
+  openingLifeFamily,
   OPENING_LIFE_FOLLOWUPS,
 } from "../simulation/opening-life-content";
 import {
@@ -41,6 +46,17 @@ import type {
 
 const OPEN = "life.scene.opened";
 const CLOSED = "life.scene.resolved";
+function sceneFamilies(world: World) {
+  return [
+    ...OPENING_LIFE_FAMILIES,
+    ...runtimeLifeScenes(world).map((scene) =>
+      openingLifeFamily(
+        scene,
+        "Imported authored content / ordinary-scenes-v1",
+      ),
+    ),
+  ];
+}
 function alive(world: World, id: EntityId) {
   return (
     !!world.people[id] &&
@@ -149,38 +165,41 @@ export function availableOpeningLifeScenes(world: World, personId: EntityId) {
   const beats = eligibleEpisodeBeats({
     world,
     personId,
-    families: OPENING_LIFE_FAMILIES,
+    families: sceneFamilies(world),
   }).beats;
-  return OPENING_LIFE_ADDITIONS.flatMap((definition) => {
-    const beat = beats.find(
-      (beat) => beat.episodeKey === `opening.${definition.key}`,
-    );
-    if (!beat) return [];
-    if (age < definition.ages[0] || age > definition.ages[1]) return [];
-    if (
-      definition.key === "early.home.bedtime-delay" &&
-      world.currentMoment.minuteOfDay < 19 * 60
-    )
-      return [];
-    if (definition.setting === "home" && !sceneHousehold(world, personId))
-      return [];
-    if (
-      definition.setting === "school" &&
-      activeEducationEnrollmentsAt(world, personId).length === 0
-    )
-      return [];
-    const counterpartPersonId = castFor(world, personId, definition);
-    if (counterpartPersonId !== (beat.bindings[0]?.personId ?? null)) return [];
-    return counterpartPersonId === undefined
-      ? []
-      : [
-          {
-            definition: definitionAtStage(definition, beat.stageKey),
-            counterpartPersonId,
-            beat,
-          },
-        ];
-  });
+  return [...OPENING_LIFE_ADDITIONS, ...runtimeLifeScenes(world)].flatMap(
+    (definition) => {
+      const beat = beats.find(
+        (beat) => beat.episodeKey === `opening.${definition.key}`,
+      );
+      if (!beat) return [];
+      if (age < definition.ages[0] || age > definition.ages[1]) return [];
+      if (
+        definition.key === "early.home.bedtime-delay" &&
+        world.currentMoment.minuteOfDay < 19 * 60
+      )
+        return [];
+      if (definition.setting === "home" && !sceneHousehold(world, personId))
+        return [];
+      if (
+        definition.setting === "school" &&
+        activeEducationEnrollmentsAt(world, personId).length === 0
+      )
+        return [];
+      const counterpartPersonId = castFor(world, personId, definition);
+      if (counterpartPersonId !== (beat.bindings[0]?.personId ?? null))
+        return [];
+      return counterpartPersonId === undefined
+        ? []
+        : [
+            {
+              definition: definitionAtStage(definition, beat.stageKey),
+              counterpartPersonId,
+              beat,
+            },
+          ];
+    },
+  );
 }
 
 export function currentOpeningLifeScene(world: World, personId: EntityId) {
@@ -212,7 +231,10 @@ export function currentOpeningLifeScene(world: World, personId: EntityId) {
   )
     return null;
   const key = opened.tags.find((tag) => tag.startsWith("family:"))?.slice(7);
-  const baseDefinition = OPENING_LIFE_SCENES.find((entry) => entry.key === key);
+  const baseDefinition = [
+    ...OPENING_LIFE_SCENES,
+    ...runtimeLifeScenes(world),
+  ].find((entry) => entry.key === key);
   if (!baseDefinition) return null;
   const stageKey =
     opened.tags
@@ -396,18 +418,23 @@ export function chooseOpeningLifeScene(
   const choice = scene?.choices.find((entry) => entry.key === choiceKey);
   if (!scene || scene.eventId !== eventId || !choice)
     throw new Error("That scene choice is no longer available.");
-  const probe = advanceWorldMinutes(world, scene.definition.minutes, handlers);
-  if (probe === world) return world;
+  const minutes = openingChoiceMinutes(scene.definition, choice);
+  // Reached time, not the presence of due events, tells us whether an activity
+  // completed. Free choices still record their consequences.
+  const activityHandlers = minutes ? lifeActivityHandlers(handlers) : handlers;
+  const probe = minutes
+    ? advanceWorldMinutes(world, minutes, activityHandlers)
+    : world;
   if (
-    probe.history.events
-      .slice(world.history.events.length)
-      .some((event) => event.type !== "simulation.minutes-advanced")
+    minutes &&
+    simulationMinutesBetween(world.currentMoment, probe.currentMoment) !==
+      minutes
   )
     return probe;
   const beat = eligibleEpisodeBeats({
     world,
     personId,
-    families: OPENING_LIFE_FAMILIES,
+    families: sceneFamilies(world),
   }).beats.find(
     (beat) =>
       beat.episodeKey === `opening.${scene.definition.key}` &&
@@ -418,13 +445,11 @@ export function chooseOpeningLifeScene(
     personId,
     beat,
     optionKey: choiceKey,
-    families: OPENING_LIFE_FAMILIES,
+    families: sceneFamilies(world),
   });
-  const advanced = advanceWorldMinutes(
-    played.world,
-    scene.definition.minutes,
-    handlers,
-  );
+  const advanced = minutes
+    ? advanceWorldMinutes(played.world, minutes, activityHandlers)
+    : played.world;
   const aftermath = choice.aftermath.replaceAll(
     "{person}",
     scene.counterpartPersonId
@@ -563,7 +588,7 @@ export function openingSceneChoiceEffects(
         : null;
     return {
       choiceKey: choice.key,
-      minutes: scene.definition.minutes,
+      minutes: openingChoiceMinutes(scene.definition, choice),
       keeps:
         completes && activeOrdinaryGoal(world, personId, completes)
           ? ORDINARY_LIFE_GOALS[completes]
@@ -769,7 +794,13 @@ export function walkOpeningNeighborhood(
       },
     };
   };
-  const next = travelToPlace(world, personId, destination, provider, handlers);
+  const next = travelToPlace(
+    world,
+    personId,
+    destination,
+    provider,
+    lifeActivityHandlers(handlers),
+  );
   return next.history.events
     .slice(world.history.events.length)
     .some(

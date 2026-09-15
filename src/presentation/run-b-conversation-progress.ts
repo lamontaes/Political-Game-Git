@@ -1,3 +1,8 @@
+import {
+  householdErrandsFor,
+  PUBLIC_MEETING_KEY,
+} from "../simulation/life-opportunities";
+import type { World } from "../simulation/types";
 export type RunBConversationPhase =
   | "opening"
   | "clarifying-condition"
@@ -205,8 +210,8 @@ export interface LegislativeBargainingProgress {
  * room, hearing and commitment rules are general, and only the subject is not.
  */
 export interface HouseholdObligationSubjectFacts {
-  readonly obligation: "the week's shopping and the two appointments after it";
-  readonly shortObligation: "the week's errands";
+  readonly obligation: string;
+  readonly shortObligation: string;
 }
 
 export type HouseholdObligationCover =
@@ -263,8 +268,8 @@ export interface SchoolProjectConversationProgress {
  * conversation with no institution in it at all.
  */
 export interface NeighborhoodMeetingSubjectFacts {
-  readonly subject: "a change to the bus route that runs past both houses";
-  readonly notice: "posted on the board by the door";
+  readonly subject: string;
+  readonly notice: string;
 }
 
 export type NeighborhoodMeetingStance =
@@ -313,12 +318,17 @@ export function createSchoolProjectProgress(): SchoolProjectConversationProgress
   };
 }
 
-export function createNeighborhoodMeetingProgress(): NeighborhoodMeetingConversationProgress {
+export function createNeighborhoodMeetingProgress(
+  world?: World,
+): NeighborhoodMeetingConversationProgress {
+  const notice = world?.history.workItems.find(
+    (item) => item.stableKey === PUBLIC_MEETING_KEY,
+  )?.summary;
   return {
     subject: "neighborhood-meeting-notice",
     subjectFacts: {
-      subject: "a change to the bus route that runs past both houses",
-      notice: "posted on the board by the door",
+      subject: "the posted public meeting",
+      notice: notice ?? "A public meeting has been posted.",
     },
     phase: "opening",
     stance: "unsettled",
@@ -358,11 +368,18 @@ export function isLegislativeBargainingProgress(
 /** Every subject family the game can currently hold a conversation about. */
 export type ConversationSubjectKey = ConversationProgress["subject"];
 
-export function createHouseholdObligationProgress(): HouseholdObligationConversationProgress {
+export function createHouseholdObligationProgress(
+  world?: World,
+  personId?: EntityId,
+): HouseholdObligationConversationProgress {
   return {
     subject: "household-obligation",
     subjectFacts: {
-      obligation: "the week's shopping and the two appointments after it",
+      obligation:
+        world && personId
+          ? (householdErrandsFor(world, personId)?.summary ??
+            "The errands still need attention.")
+          : "The errands still need attention.",
       shortObligation: "the week's errands",
     },
     phase: "opening",

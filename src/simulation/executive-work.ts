@@ -15,6 +15,7 @@ import {
   workItemState,
   scheduledActivityState,
   performScheduledActivity,
+  personHasActiveAssignedWork,
 } from "./time-work";
 import { recordEvidenceDiscovery } from "./evidence";
 import {
@@ -22,7 +23,10 @@ import {
   resolveExecutiveOffice,
   executiveStaffRoles,
 } from "./executive-work-context";
-import { EXECUTIVE_TERM_HANDLERS } from "./executive-work-entry";
+import {
+  EXECUTIVE_TERM_HANDLERS,
+  synchronizeElectedExecutiveOffices,
+} from "./executive-work-entry";
 import {
   applyExecutiveGoverningPlan,
   EXECUTIVE_GOVERNING_CYCLE_TRANSITION_KEY,
@@ -355,7 +359,7 @@ export function actOnExecutiveWork(
       let activityId: EntityId | null = null;
       if (action === "defer") {
         const date = addDays(next.currentDate, 7);
-        if (date >= bound.office.endsAt)
+        if (bound.office.endsAt && date >= bound.office.endsAt)
           return refused(
             world,
             "The review would fall outside this office term.",
@@ -395,6 +399,11 @@ export function actOnExecutiveWork(
         ).find((w) => w.personId === personId);
         if (!worker)
           return refused(world, "The staff engagement is no longer active.");
+        if (personHasActiveAssignedWork(next, personId))
+          return refused(
+            world,
+            "Staff already has active work; capacity cannot be duplicated.",
+          );
         next = createWorkItem(next, {
           ...step.input,
           stableKey: key,
@@ -714,7 +723,10 @@ export function spendExecutiveWorkTime(
 ): ExecutiveWorkResult {
   const office = resolveExecutiveOffice(world);
   if (!office) return refused(world, "No current executive office.");
-  if (addSimulationMinutes(world.currentMoment, 30).date >= office.endsAt)
+  if (
+    office.endsAt &&
+    addSimulationMinutes(world.currentMoment, 30).date >= office.endsAt
+  )
     return refused(
       world,
       "This work interval would extend beyond the office term.",
@@ -739,9 +751,10 @@ export function spendExecutiveWorkTime(
 /** Explicit producer hook after legislative/time actions. Pure projections never
  * invoke this. Presentment and disposition remain the legislature's records. */
 export function synchronizeExecutiveInbox(world: World): World {
-  const office = resolveExecutiveOffice(world);
-  if (!office) return world;
-  let next = world;
+  const nextWorld = synchronizeElectedExecutiveOffices(world);
+  const office = resolveExecutiveOffice(nextWorld);
+  if (!office) return nextWorld;
+  let next = nextWorld;
   for (const action of world.history.legislativeActions ?? []) {
     if (!["presented-to-executive", "signed", "vetoed"].includes(action.kind))
       continue;

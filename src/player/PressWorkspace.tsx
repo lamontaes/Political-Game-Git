@@ -30,6 +30,18 @@ import {
   type World,
 } from "../simulation";
 import { PressInterviewPanel } from "./PressInterviewPanel";
+import {
+  composePressRequestPitch,
+  composeReporterQuestion,
+  plannedPressArrangementPlace,
+  projectPressBackgroundAttributions,
+  PRESS_REQUEST_INTENT_COPY,
+  PRESS_REQUEST_INTENTS,
+  PRESS_REQUEST_STANCE_COPY,
+  PRESS_REQUEST_STANCES,
+  type PressRequestIntent,
+  type PressRequestStance,
+} from "../presentation/press-request";
 
 /** Normal saved-world consumer; arrangements and adviser content remain domain-owned. */
 export function PressWorkspace({
@@ -44,8 +56,10 @@ export function PressWorkspace({
   const [selected, setSelected] = useState<EntityId | null>(null);
   const [basisId, setBasisId] = useState("");
   const [reporterRoleId, setReporterRoleId] = useState("");
-  const [pitch, setPitch] = useState("");
-  const [question, setQuestion] = useState("");
+  const [intent, setIntent] = useState<PressRequestIntent>("request-exchange");
+  const [stance, setStance] = useState<PressRequestStance>(
+    "report-what-is-recorded",
+  );
   const [channel, setChannel] = useState<PressInterviewChannel>("written");
   const [terms, setTerms] = useState<PressRecordTerms>("on-record");
   const [attribution, setAttribution] = useState("");
@@ -71,6 +85,31 @@ export function PressWorkspace({
         })
       : [];
   const reporter = reporters.find((item) => item.workRoleId === reporterRoleId);
+  const attributions = controlledPersonId
+    ? projectPressBackgroundAttributions(world, controlledPersonId)
+    : [];
+  const selectedAttribution =
+    terms === "on-background"
+      ? attributions.includes(attribution)
+        ? attribution
+        : (attributions[0] ?? "")
+      : null;
+  const pitch = topic
+    ? composePressRequestPitch({
+        subjectSummary: topic.summary,
+        intent,
+        stance,
+        channel,
+        terms,
+        backgroundAttribution: selectedAttribution,
+      })
+    : { ok: false as const, reason: "Choose a public development." };
+  const reporterQuestion = topic
+    ? composeReporterQuestion({
+        subjectSummary: topic.summary,
+        terms,
+      })
+    : { ok: false as const, reason: "Choose a public development." };
   const requests = world.history.events.filter(
     (event) =>
       event.type === "press.interview-requested" &&
@@ -113,10 +152,10 @@ export function PressWorkspace({
               No current journalism role is recorded in this life.
               <button
                 type="button"
-                data-testid="press-establish-reporter"
+                data-testid="press-seek-reporter"
                 onClick={() => change(() => seekCivicPressContact(world).world)}
               >
-                Establish an authored civic reporter
+                Look for a reporter covering public affairs
               </button>
             </p>
           ) : null}
@@ -125,6 +164,7 @@ export function PressWorkspace({
               event.preventDefault();
               if (!topic || !reporter) return;
               change(() => {
+                if (!pitch.ok || !reporterQuestion.ok) return world;
                 const result = recordPressRequest(world, {
                   stableKey: `press-request:${controlledPersonId}:${world.actionSequence}`,
                   reporterPersonId: reporter.personId,
@@ -133,9 +173,9 @@ export function PressWorkspace({
                   channel,
                   terms,
                   backgroundAttribution:
-                    terms === "on-background" ? attribution : null,
-                  pitch,
-                  primaryQuestion: question,
+                    terms === "on-background" ? selectedAttribution : null,
+                  pitch: pitch.statement,
+                  primaryQuestion: reporterQuestion.statement,
                   questionBasisEventIds: [topic.eventId],
                 });
                 setRequestNotice(
@@ -214,38 +254,109 @@ export function PressWorkspace({
               </select>
             </label>
             {terms === "on-background" ? (
-              <label>
-                Proposed attribution
-                <input
-                  required
-                  value={attribution}
-                  onChange={(event) => setAttribution(event.target.value)}
-                />
-              </label>
+              attributions.length ? (
+                <label>
+                  Proposed attribution
+                  <select
+                    data-testid="press-attribution-select"
+                    value={selectedAttribution ?? ""}
+                    onChange={(event) => setAttribution(event.target.value)}
+                  >
+                    {attributions.map((choice) => (
+                      <option key={choice} value={choice}>
+                        {choice}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              ) : (
+                <p role="status">
+                  On-background terms need a recorded work title. None is
+                  available in this life.
+                </p>
+              )
             ) : null}
-            <label>
-              Your pitch
-              <textarea
-                required
-                value={pitch}
-                onChange={(event) => setPitch(event.target.value)}
-              />
-            </label>
-            <label>
-              Proposed question
-              <textarea
-                required
-                value={question}
-                onChange={(event) => setQuestion(event.target.value)}
-              />
-            </label>
+            <fieldset>
+              <legend>What you are asking for</legend>
+              {PRESS_REQUEST_INTENTS.map((choice) => (
+                <label key={choice}>
+                  <input
+                    type="radio"
+                    name="press-request-intent"
+                    checked={intent === choice}
+                    onChange={() => setIntent(choice)}
+                  />
+                  {PRESS_REQUEST_INTENT_COPY[choice].label}
+                </label>
+              ))}
+            </fieldset>
+            <fieldset>
+              <legend>Stance on the record</legend>
+              {PRESS_REQUEST_STANCES.map((choice) => (
+                <label key={choice}>
+                  <input
+                    type="radio"
+                    name="press-request-stance"
+                    checked={stance === choice}
+                    onChange={() => setStance(choice)}
+                  />
+                  {PRESS_REQUEST_STANCE_COPY[choice].label}
+                </label>
+              ))}
+            </fieldset>
+            {pitch.ok ? (
+              <blockquote data-testid="press-request-preview">
+                {pitch.statement}
+              </blockquote>
+            ) : (
+              <p role="status">{pitch.reason}</p>
+            )}
+            {reporterQuestion.ok ? (
+              <blockquote data-testid="press-reporter-question-preview">
+                {reporterQuestion.statement}
+              </blockquote>
+            ) : (
+              <p role="status">{reporterQuestion.reason}</p>
+            )}
             <button
               type="submit"
               disabled={
-                !reporter || !topic || !pitch.trim() || !question.trim()
+                !reporter || !topic || !pitch.ok || !reporterQuestion.ok
               }
             >
               Send request
+            </button>
+            <button
+              type="button"
+              data-testid="press-reporter-initiative"
+              disabled={
+                !reporter || !topic || !reporterQuestion.ok || !pitch.ok
+              }
+              onClick={() => {
+                if (!topic || !reporter || !pitch.ok || !reporterQuestion.ok)
+                  return;
+                change(() => {
+                  const result = recordPressRequest(world, {
+                    stableKey: `press-inquiry:${controlledPersonId}:${world.actionSequence}`,
+                    reporterPersonId: reporter.personId,
+                    reporterWorkRoleId: reporter.workRoleId,
+                    jurisdictionId: topic.jurisdictionId,
+                    channel,
+                    terms,
+                    backgroundAttribution:
+                      terms === "on-background" ? selectedAttribution : null,
+                    pitch: `The reporter asked for comment on “${topic.summary}”.`,
+                    primaryQuestion: reporterQuestion.statement,
+                    questionBasisEventIds: [topic.eventId],
+                  });
+                  setRequestNotice(
+                    "The reporter’s question is recorded. Acceptance is still pending.",
+                  );
+                  return result.world;
+                });
+              }}
+            >
+              Receive this reporter’s question
             </button>
           </form>
         </details>
@@ -381,7 +492,6 @@ function PressRequestActions({
   const [delay, setDelay] = useState(60);
   const [duration, setDuration] = useState(30);
   const [preparation, setPreparation] = useState(30);
-  const [place, setPlace] = useState("");
   const replies = world.history.events.filter((event) =>
     event.tags.includes(`press.request-event:${request.id}`),
   );
@@ -407,6 +517,12 @@ function PressRequestActions({
   );
   const end = addSimulationMinutes(start, validTiming ? duration : 1);
   const allowed = reporterReply?.context.choice === "accepted";
+  const requestChannel = PRESS_INTERVIEW_CHANNELS.find(
+    (value) => value === request.context.choice,
+  );
+  const arrangementPlace = requestChannel
+    ? plannedPressArrangementPlace(requestChannel)
+    : null;
   return (
     <li data-testid="press-saved-request">
       <strong>{request.context.motivation}</strong>
@@ -502,13 +618,17 @@ function PressRequestActions({
               onChange={(event) => setPreparation(Number(event.target.value))}
             />
           </label>
-          <label>
-            Planned meeting place
-            <input
-              value={place}
-              onChange={(event) => setPlace(event.target.value)}
-            />
-          </label>
+          {arrangementPlace ? (
+            <p data-testid="press-arrangement-place">
+              Planned meeting place: {arrangementPlace.label}. This names the
+              arranged channel and does not establish a room or anyone’s
+              arrival.
+            </p>
+          ) : (
+            <p role="status">
+              The recorded request has no arranged channel to meet through.
+            </p>
+          )}
           <p>
             Proposed start: {start.date} at{" "}
             {String(Math.floor(start.minuteOfDay / 60)).padStart(2, "0")}:
@@ -519,7 +639,7 @@ function PressRequestActions({
             type="button"
             data-testid="press-arrange-exchange"
             disabled={
-              !place.trim() ||
+              !arrangementPlace ||
               ![delay, duration].every(Number.isSafeInteger) ||
               delay < 0 ||
               duration < 1 ||
@@ -528,6 +648,7 @@ function PressRequestActions({
             }
             onClick={() =>
               onChange(() => {
+                if (!arrangementPlace) return world;
                 const prepared = adviserReply?.context.choice === "accepted";
                 const result = arrangeAcceptedPressInterview(world, {
                   stableKey: `${request.id}:arrangement`,
@@ -539,7 +660,7 @@ function PressRequestActions({
                   preparationMinutes: prepared ? preparation : 0,
                   location: {
                     locationKey: `press-planned:${request.id}`,
-                    label: place.trim(),
+                    label: arrangementPlace.label,
                   },
                 });
                 onSelect(result.activityId);

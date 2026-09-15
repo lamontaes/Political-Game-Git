@@ -45,10 +45,10 @@ test("person hover stays transparent while pointer and keyboard activation work"
   await person.hover();
   await expect(person).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
   await person.click();
-  await expect(page.getByTestId("person-action-menu")).toBeVisible();
+  await expect(page.getByTestId("quick-dossier")).toBeVisible();
 
   await page.keyboard.press("Escape");
-  await expect(page.getByTestId("person-action-menu")).toHaveCount(0);
+  await expect(page.getByTestId("quick-dossier")).toHaveCount(0);
   await person.focus();
   await expect(person).toBeFocused();
   const focusOutline = await person.evaluate(
@@ -56,7 +56,7 @@ test("person hover stays transparent while pointer and keyboard activation work"
   );
   expect(focusOutline).toBe("solid");
   await page.keyboard.press("Enter");
-  await expect(page.getByTestId("person-action-menu")).toBeVisible();
+  await expect(page.getByTestId("quick-dossier")).toBeVisible();
 });
 
 test("a creator control keeps the front-door hover, not the old green form", async ({

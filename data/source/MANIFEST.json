@@ -310,6 +310,71 @@
     {
       "artifacts": [
         {
+          "artifactId": "us-process",
+          "sha256": "348aaf850906794914f97a7c2c5c7cd3faa510ccfda7051d67bb462e17a6322f",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "us-proposal-denominator",
+          "sha256": "34860ffcfecc071387bae537b8d43f0c2b5b46bb118fc668ab364c878793c798",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ca-constitution-iv",
+          "sha256": "0f731aa7ee4d9903a62c8c53c309df55519af67d6ce28142d50326eac36da8fa",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "us-constitution",
+          "sha256": "4dfeba35d19c5235c5788c9d0ea38d453e17ff2924b1578561941a9ef6d8fa4c",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ca-constitution-xviii",
+          "sha256": "fe199d9ecb9fff8fc50f45dd0c90831d17d93cb8e1228a27c98c66bcc0a71d42",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "carson-charter",
+          "sha256": "8a26e351cc91505eca8a4eb5d4659a14b27d4edb06e214fd66cd1dd2cf8e84ad",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "nv-effective",
+          "sha256": "a256f44ef8ac98ee20ac28d1cac752a002493c1ce86219cfef957512c354891b",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "us-quorum",
+          "sha256": "b4a9993a71ff99a0e91a6064007b04d6cafbc2a4c9935046ce1c6f5fd6657cb2",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2026-09-13",
+      "boundedSampleReason": "These acquired provisions do not establish all states, initiative qualification, conventions or disputed ratification rules.",
+      "canonicalSha256": "848bc98c0172badf8febe0ae334b3dda44a220e6d61fe27fa00541335030e070",
+      "compiler": {
+        "name": "constitutional-process",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "848bc98c0172badf8febe0ae334b3dda44a220e6d61fe27fa00541335030e070",
+      "corpusId": "constitutional-process",
+      "domain": "constitutional-process",
+      "isCompleteUniverse": false,
+      "recordCount": 8,
+      "universeDescription": "Article V, California legislative amendment/revision, and Carson charter legislative route."
+    },
+    {
+      "artifacts": [
+        {
           "artifactId": "census-gazetteer-2025-counties-zip",
           "sha256": "4c90d0f805779923b5958ab13d0c1e9b99fe4932b786bfcf75dd739bb2dcb4ea",
           "sliceOfParent": null,
@@ -650,6 +715,18 @@
           "storage": "committed"
         },
         {
+          "artifactId": "va-charlottesville-city-code-ch2",
+          "sha256": "028cafbacde26c095da6592fb7117339df032fe75da8f637ffc0e2edd7b2e5a7",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "va-code-15-2-1428",
+          "sha256": "9fc0803c359a620c751fa24ac3cb88793704e4fce6ec1e0afa4124069aecff43",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
           "artifactId": "va-code-15-2-1415",
           "sha256": "4d073786049c3310d9dd35ba641c161970068a5fe225296de601cb1e25eb533f",
           "sliceOfParent": null,
@@ -670,12 +747,12 @@
       ],
       "asOf": "2026-09-08",
       "boundedSampleReason": "The tranche is bounded by publication, not by government. Virginia and Nevada publish municipal charters themselves as enacted acts in retrievable first-party HTML; most states do not, and their charters sit on city sites as PDFs or behind commercial code publishers that refuse a non-browser client. The wider national institutional corpus stays a fixture for exactly that reason.",
-      "canonicalSha256": "dab27077f2faed5926590576b2bcf81f5b88d3f2a7de34043ef31693932ef062",
+      "canonicalSha256": "21a77a8bd5d0c5c4f1e9008ca770c8c67f9dcc4d9986be4cb2ec6fcd32b924d9",
       "compiler": {
         "name": "municipal-governance",
         "version": "3.0.0"
       },
-      "corpusFileSha256": "dab27077f2faed5926590576b2bcf81f5b88d3f2a7de34043ef31693932ef062",
+      "corpusFileSha256": "21a77a8bd5d0c5c4f1e9008ca770c8c67f9dcc4d9986be4cb2ec6fcd32b924d9",
       "corpusId": "municipal-governance",
       "domain": "municipal-governance",
       "isCompleteUniverse": false,
@@ -1146,6 +1223,24 @@
           "storage": "committed"
         },
         {
+          "artifactId": "nv-2025-chapter-323-ab491",
+          "sha256": "7b0b1306139c6d446d273525942153d1992e36a38da30892439d8855946bdd53",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "nj-constitution-art-4-sec-1",
+          "sha256": "907a336c914d3a553bd3187d49c5fc3f31f95a1bffd47463014a8e843d856fd5",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ma-constitution-amend-art-101",
+          "sha256": "cca901df192768df0c751b24b1e829f56e28082731496b7782e5e2bf94570d1d",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
           "artifactId": "oh-constitution-sec-2-1",
           "sha256": "d3b2e8dc45e3cea2127ee08a36014934d095de5812e84e385e869cc4747c7ca1",
           "sliceOfParent": null,
@@ -1196,17 +1291,17 @@
       ],
       "asOf": "2026-09-09",
       "boundedSampleReason": "A bounded set of states, not a national corpus. The other forty-odd states are absent because their authorities were not retrieved in this pass, which is a fact about this repository and never a fact about those states. docs/research/qualification-source-ledger.md accounts for every research row.",
-      "canonicalSha256": "b9d1607a4079ca2fb5fd2515878910d05215e39fedacc803783de80f9b1664be",
+      "canonicalSha256": "1b0f25b083927c4733a28f5ea292ec52b8c4f43722355541fea0ed73714896fd",
       "compiler": {
         "name": "state-office-qualifications",
         "version": "2.1.1"
       },
-      "corpusFileSha256": "b9d1607a4079ca2fb5fd2515878910d05215e39fedacc803783de80f9b1664be",
+      "corpusFileSha256": "1b0f25b083927c4733a28f5ea292ec52b8c4f43722355541fea0ed73714896fd",
       "corpusId": "state-office-qualifications",
       "domain": "state-office-qualifications",
       "isCompleteUniverse": false,
-      "recordCount": 63,
-      "universeDescription": "Office qualifications for MN, MO, NE, NV, OH, compiled only where a research claim's words were found in an authority this repository retrieved and hashed."
+      "recordCount": 69,
+      "universeDescription": "Office qualifications for MA, MN, MO, NE, NJ, NV, OH, compiled only where a research claim's words were found in an authority this repository retrieved and hashed."
     }
   ],
   "gatedDomains": [

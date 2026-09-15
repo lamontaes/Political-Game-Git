@@ -15,6 +15,12 @@ import type {
 } from "./types";
 import { createVitalityCatalog } from "./vitality-catalog";
 import { createWorldMetricCatalog } from "./world-metrics";
+import { canonicalJson } from "./canonical-json";
+import { createStableId } from "./ids";
+import {
+  TRANSIT_METRIC_INPUT,
+  TRANSIT_MECHANISM_INPUT,
+} from "./transit-contract-definitions";
 
 /**
  * The reference content a player's own world starts with.
@@ -41,7 +47,7 @@ import { createWorldMetricCatalog } from "./world-metrics";
  * `assertProductionCatalogBoundary` is relaxed deliberately in the same change
  * rather than drifting open.
  *
- * One relaxation has since been made on purpose, and it is a different case
+ * Explicit simulation-quantity admissions have since been made on purpose, a different case
  * from the ones above. A world metric *definition* says what a quantity means;
  * it is not a claim that anybody measured anything. Where the simulation
  * produces a quantity itself — candidate support during a campaign, whose
@@ -51,6 +57,9 @@ import { createWorldMetricCatalog } from "./world-metrics";
  * a synthetic mortality table, a synthetic policy corpus, a storm model built
  * to exercise the engine. Those remain empty until sourced, and the allow-list
  * below is a list of names rather than a hole.
+ * Transit adds exact authored physical contract definitions, shared as pure
+ * data and compared in full here. It admits no empirical service-response model
+ * and changes none of the initially empty production catalogs.
  */
 
 /**
@@ -58,12 +67,15 @@ import { createWorldMetricCatalog } from "./world-metrics";
  *
  * Written out here rather than imported from the modules that own them:
  * `campaigns.ts` imports `world.ts`, which imports this file, so importing back
- * would close a cycle. A test beside each owning module asserts its key still
+ * would close a cycle. Transit shares pure definition data without importing
+ * its World/service module. A test beside each owning module asserts its key still
  * appears here, so the list cannot drift away from the code that relies on it.
  */
 export const SIMULATION_ESTABLISHED_METRIC_STABLE_KEYS: readonly string[] = [
   // src/simulation/campaigns.ts — CAMPAIGN_SUPPORT_METRIC_STABLE_KEY
   "campaign.candidate-support-share",
+  // T's exact paid physical contract quantity; not an empirical measurement.
+  TRANSIT_METRIC_INPUT.stableKey,
 ];
 
 /**
@@ -118,7 +130,18 @@ function simulationEstablishedMetricCount(catalog: WorldMetricCatalog): number {
     const definition = catalog.definitions[id];
     return (
       definition !== undefined &&
-      !SIMULATION_ESTABLISHED_METRIC_STABLE_KEYS.includes(definition.stableKey)
+      (definition.stableKey === TRANSIT_METRIC_INPUT.stableKey
+        ? canonicalJson(definition) !==
+          canonicalJson({
+            ...TRANSIT_METRIC_INPUT,
+            id: createStableId(
+              "world-metric-definition",
+              `definition:${TRANSIT_METRIC_INPUT.stableKey}`,
+            ),
+          })
+        : !SIMULATION_ESTABLISHED_METRIC_STABLE_KEYS.includes(
+            definition.stableKey,
+          ))
     );
   }).length;
 }
@@ -149,7 +172,20 @@ export function assertProductionCatalogBoundary(world: {
     ["policy subject", world.policyCatalog.subjectOrder.length],
     ["policy principle", world.policyCatalog.principleOrder.length],
     ["world metric", simulationEstablishedMetricCount(world.metricCatalog)],
-    ["causal mechanism", world.causalMechanismCatalog.definitionOrder.length],
+    [
+      "causal mechanism",
+      world.causalMechanismCatalog.definitionOrder.filter(
+        (id) =>
+          canonicalJson(world.causalMechanismCatalog.definitions[id]) !==
+          canonicalJson({
+            ...TRANSIT_MECHANISM_INPUT,
+            id: createStableId(
+              "causal-mechanism-definition",
+              `definition:${TRANSIT_MECHANISM_INPUT.stableKey}`,
+            ),
+          }),
+      ).length,
+    ],
     ["incident", world.incidentCatalog.definitionOrder.length],
     ["mortality table", world.vitalityCatalog.mortalityTableOrder.length],
   ] as const;

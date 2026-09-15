@@ -22,12 +22,14 @@ import {
 } from "../simulation";
 import type {
   EntityId,
+  FutureTransitionHandlerRegistry,
   OrdinaryLifeWorkItemDefinition,
   World,
 } from "../simulation";
 import type { ConversationRoomContext } from "./run-b-conversation";
 import { shortPersonName } from "./conversation-subjects";
 import { declineVenueActivity } from "./scheduled-activity-choice";
+import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
 
 /**
  * A day in an ordinary life.
@@ -205,7 +207,28 @@ export const ORDINARY_DAY_START_MINUTE = 7 * 60;
  * Later days cannot bypass a protected commitment through a date-level fallback.
  * The composed due handlers still settle dated pay and study outcomes.
  */
-export function passOrdinaryDays(world: World, days = 1): World {
+export interface PassOrdinaryDaysOptions {
+  /**
+   * The advance registry to use. Defaults to the campaign/election registry;
+   * the calendar passes an interruption-aware wrapper of that same registry.
+   */
+  readonly handlers?: FutureTransitionHandlerRegistry;
+  /**
+   * Stop at a tentative hold that comes due instead of letting it lapse. The
+   * hold is left standing; nothing is declined on the player's behalf.
+   */
+  readonly stopForTentativeHolds?: boolean;
+}
+
+export function passOrdinaryDays(
+  world: World,
+  days = 1,
+  supplied: PassOrdinaryDaysOptions | FutureTransitionHandlerRegistry = {},
+): World {
+  // Retain the existing S three-argument registry adapter while accepting UI36
+  // interruption preferences. Neither caller loses ordinary due handlers.
+  const options: PassOrdinaryDaysOptions =
+    "get" in supplied ? { handlers: supplied } : supplied;
   // The handler registry travels with every advance an adult life can make.
   // A day passed here is the same day as a day passed on the adult surface,
   // and a callback that comes due on it must be answered rather than stepped
@@ -213,7 +236,13 @@ export function passOrdinaryDays(world: World, days = 1): World {
   // behaviour that keeps a scheduled consequence from being lost. The campaign
   // registry composes the ordinary life handlers with the election handler, so
   // election day arrives without either the life or the contest being dropped.
-  const handlers = createCampaignElectionTransitionRegistry();
+  const ordinaryHandlers = createCampaignElectionTransitionRegistry();
+  const handlers = options.handlers
+    ? composeFutureTransitionHandlerRegistries(
+        options.handlers,
+        ordinaryHandlers,
+      )
+    : ordinaryHandlers;
   const migrated = migrateLegacyStudyProgression(world);
   const wholeDays = Math.max(1, Math.trunc(days));
   const morning = simulationMomentAtLocalTime({
@@ -253,6 +282,8 @@ export function passOrdinaryDays(world: World, days = 1): World {
       );
     });
     if (!optional || stepped.control.kind !== "person") return stepped;
+    // The player asked to be stopped here. The hold stays; they decide.
+    if (options.stopForTentativeHolds) return stepped;
     const declined = declineVenueActivity(
       stepped,
       stepped.control.personId,

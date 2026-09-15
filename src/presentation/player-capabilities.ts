@@ -1,4 +1,8 @@
 import {
+  legislativePackForJurisdiction,
+  legislativeWorkKey,
+} from "../simulation/legislative-institutions";
+import {
   activeWorkRelationshipsAt,
   ageOnDate,
   campaignForCandidate,
@@ -113,7 +117,13 @@ export function resolvePlayerCapabilities(world: World): PlayerCapabilities {
     workJurisdictionId !== null &&
     workJurisdictionId !== person.homeJurisdictionId;
 
-  const scenarioKey = workPlace?.capabilities.legislativeScenarioKey ?? null;
+  const institutionalPack =
+    workJurisdictionId === null
+      ? null
+      : legislativePackForJurisdiction(workJurisdictionId);
+  const scenarioKey = institutionalPack
+    ? legislativeWorkKey(institutionalPack)
+    : (workPlace?.capabilities.legislativeScenarioKey ?? null);
   const legislation = office && scenarioKey !== null;
 
   // Where they live decides the ballot, so this reads the home jurisdiction
@@ -179,8 +189,9 @@ export function resolvePlayerCapabilities(world: World): PlayerCapabilities {
     office,
     legislation,
     legislativeScenarioKey: legislation ? scenarioKey : null,
-    legislativeJurisdictionId:
-      legislation && workPlace ? workPlace.context.jurisdiction.id : null,
+    legislativeJurisdictionId: legislation
+      ? (workJurisdictionId ?? workPlace?.context.jurisdiction.id ?? null)
+      : null,
     campaign,
     withheld,
   };

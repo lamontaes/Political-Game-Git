@@ -36,20 +36,11 @@
   );
 }
 
-.title-tableau--art.front-door .title-tableau-content::before {
-  content: "";
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: min(34rem, 48%);
-  pointer-events: none;
-  z-index: 0;
-  background: linear-gradient(
-    90deg,
-    rgb(8 13 21 / 0.72) 0%,
-    rgb(8 13 21 / 0.38) 52%,
-    transparent 100%
-  );
-}
+/*
+ * No rectangular backing behind the title. The owner rejected the "black box
+ * behind the logo"; the wordmark and the menu earn their legibility with a
+ * soft text shadow and each control's own faint edge, over the room itself.
+ */
 
 .title-tableau--art.front-door .title-tableau-content > *:not(.pg-version) {
   position: relative;
@@ -61,18 +52,6 @@
     align-items: flex-end;
     justify-content: center;
   }
-
-  .title-tableau--art.front-door .title-tableau-content::before {
-    inset: auto 0 0;
-    width: 100%;
-    height: min(62%, 30rem);
-    background: linear-gradient(
-      0deg,
-      rgb(8 13 21 / 0.82) 0%,
-      rgb(8 13 21 / 0.38) 62%,
-      transparent 100%
-    );
-  }
 }
 
 .title-tableau--art.front-door .game-title {
@@ -80,6 +59,10 @@
   max-width: none;
   margin: 0;
   padding: 0;
+  /* The menu never clips: at a short window it scrolls inside its own frame. */
+  max-height: calc(var(--pg-vv-height, 100dvh) - 2 * clamp(2rem, 6vh, 4rem));
+  overflow-y: auto;
+  overscroll-behavior: contain;
   background: transparent;
   border: 0;
   border-radius: 0;
@@ -93,19 +76,17 @@
 .title-tableau--art.front-door .game-title h1 {
   max-width: none;
   margin: 0 0 1.15rem;
-  padding: 0.2rem 0.55rem 0.35rem 0.15rem;
+  padding: 0;
   color: var(--front-door-ink);
-  background: linear-gradient(
-    90deg,
-    rgb(8 13 21 / 0.48) 0%,
-    rgb(8 13 21 / 0.12) 72%,
-    transparent 100%
-  );
+  background: none;
+  box-shadow: none;
+  display: block;
   font-family: var(--front-door-display);
   font-size: clamp(1.85rem, 2.5vw, 2.55rem);
   font-weight: 600;
   letter-spacing: 0.012em;
   line-height: 1.12;
+  text-shadow: 0 1px 12px rgb(8 13 21 / 0.9);
 }
 
 .title-tableau--art.front-door .game-title-actions {
@@ -119,11 +100,11 @@
   min-height: 2.75rem;
   padding: 0.55rem 0.75rem;
   border: 0;
-  border-radius: 0;
+  border-radius: 2px;
   background: linear-gradient(
     90deg,
-    rgb(8 13 21 / 0.7) 0%,
-    rgb(8 13 21 / 0.22) 78%,
+    rgb(8 13 21 / 0.42) 0%,
+    rgb(8 13 21 / 0.1) 78%,
     transparent 100%
   );
   color: var(--front-door-ink);
@@ -210,11 +191,34 @@
   box-shadow: inset 2px 0 currentColor;
 }
 
+/*
+ * The creator's budget matches the container's actual padding, measured from
+ * the content viewport rather than the nominal display height, so Back and
+ * Begin stay reachable with Safari chrome and at short windows.
+ */
 .title-tableau--art.front-door .game-creator {
   width: min(24rem, 100%);
-  max-height: calc(100dvh - 4rem);
+  max-height: calc(var(--pg-vv-height, 100dvh) - 2 * clamp(2rem, 6vh, 4rem));
   overflow-y: auto;
   overscroll-behavior: contain;
+  border: 1px solid rgb(245 235 212 / 0.14);
+  border-radius: 3px;
+  background: rgb(8 13 21 / 0.42);
+  backdrop-filter: blur(10px);
+  box-shadow:
+    0 1px 0 rgb(244 236 224 / 0.1) inset,
+    0 18px 44px rgb(0 0 0 / 0.35);
+  padding: 0.9rem 1rem 1rem;
+  box-sizing: border-box;
+}
+
+.title-tableau--art.front-door .game-creator button {
+  background: rgb(8 13 21 / 0.5);
+}
+
+.title-tableau--art.front-door .game-creator h2 {
+  background: none;
+  padding-left: 0;
 }
 
 .title-tableau--art.front-door .game-creator h2 {
@@ -344,7 +348,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .title-tableau--art.front-door .title-tableau-content::before,
   .title-tableau--art.front-door .game-title h1,
   .title-tableau--art.front-door .game-title button {
     transition: none;

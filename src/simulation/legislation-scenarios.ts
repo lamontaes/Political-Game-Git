@@ -9,6 +9,10 @@ import {
   NEBRASKA_RULE_PACK,
 } from "./legislature-rule-packs";
 import type { LegislativeRulePack } from "./legislature-rules";
+import {
+  legislativeInstitutionContext,
+  legislativePackForWorkKey,
+} from "./legislative-institutions";
 import { personName } from "./people";
 import type {
   EntityId,
@@ -80,7 +84,7 @@ export interface LegislativeScenario {
    */
   readonly votePlan: Readonly<Record<string, AuthoredVoteCounts>>;
   /** Whether the governor signs or vetoes when the bill reaches the desk. */
-  readonly governorAction: "signed" | "vetoed";
+  readonly governorAction: "signed" | "vetoed" | null;
   readonly governorRationale: string;
 }
 
@@ -94,12 +98,16 @@ export interface LegislativeScenario {
  * is actually living in.
  */
 export interface LegislativeProcedureContext {
+  /** Explicit bill-specific fictional content admission, when supplied. */
+  readonly recordedSittingEventId?: EntityId;
+  readonly recordedPlayerPersonId?: EntityId;
+  readonly recordedPlayerBallot?: "yea" | "nay" | "present-not-voting";
   readonly pack: LegislativeRulePack;
   readonly measureId: EntityId;
   readonly bodies: readonly SeatedBody[];
-  readonly committeeMemberCount: number;
+  readonly committeeMemberCount: number | null;
   readonly votePlan: Readonly<Record<string, AuthoredVoteCounts>>;
-  readonly governorAction: "signed" | "vetoed";
+  readonly governorAction: "signed" | "vetoed" | null;
   readonly governorRationale: string;
 }
 
@@ -344,7 +352,13 @@ export function authoredScenarioSeatCount(
   pack: LegislativeRulePack,
   chamberKey: string,
 ): number {
-  const seats = AUTHORED_SCENARIO_SEAT_COUNTS[pack.packId]?.[chamberKey];
+  const formal = pack.chambers.find(
+    (chamber) => chamber.chamberKey === chamberKey,
+  )?.seats;
+  const seats =
+    formal?.kind === "known"
+      ? formal.value
+      : AUTHORED_SCENARIO_SEAT_COUNTS[pack.packId]?.[chamberKey];
   if (!Number.isSafeInteger(seats) || (seats ?? 0) <= 0) {
     throw new Error(
       `No positive authored scenario seat count exists for '${pack.packId}/${chamberKey}'.`,
@@ -623,7 +637,7 @@ export interface LegislativeBlueprint {
   readonly subjectClass: "appropriation" | "general-policy";
   readonly nonpartisan: boolean;
   readonly votePlan: Readonly<Record<string, AuthoredVoteCounts>>;
-  readonly governorAction: "signed" | "vetoed";
+  readonly governorAction: "signed" | "vetoed" | null;
   readonly governorRationale: string;
 }
 
@@ -633,9 +647,7 @@ export function legislativeBlueprint(
   const blueprint = BLUEPRINTS.find(
     (candidate) => candidate.scenarioKey === scenarioKey,
   );
-  if (!blueprint) {
-    throw new Error(`No legislative scenario named '${scenarioKey}'.`);
-  }
+  if (!blueprint) return institutionalWorkBlueprint(scenarioKey);
   return {
     scenarioKey: blueprint.scenarioKey,
     label: blueprint.label,
@@ -755,5 +767,34 @@ export function createLegislativeScenario(
     votePlan: blueprint.votePlan,
     governorAction: blueprint.governorAction,
     governorRationale: blueprint.governorRationale,
+  };
+}
+
+/** Fictional opportunity content, composed against the selected institution.
+ * No legal rule is borrowed from any fixture; decisions are expressly authored.
+ * The existing bargaining adapter can replace modeled members' dispositions.
+ */
+function institutionalWorkBlueprint(workKey: string): LegislativeBlueprint {
+  const pack = legislativePackForWorkKey(workKey);
+  if (!pack) throw new Error(`No registered legislature for '${workKey}'.`);
+  const votePlan: Record<string, AuthoredVoteCounts> = {};
+  // A registered institution establishes procedure, not how fictional people vote.
+  // Actual dispositions must come from the existing decision/ballot boundary.
+  return {
+    scenarioKey: workKey,
+    label: pack.displayName,
+    measureNotice: AUTHORED_MEASURE_NOTICE,
+    context: legislativeInstitutionContext(pack),
+    pack,
+    designation: "WORK 1",
+    shortTitle: "Public service pilot",
+    summary:
+      "Fictional working proposal. No unmodeled policy consequence is claimed.",
+    subjectClass: "general-policy",
+    nonpartisan: pack.structure === "unicameral",
+    votePlan,
+    governorAction: null,
+    governorRationale:
+      "No executive disposition supplied; signature, veto and inaction remain separate unresolved outcomes.",
   };
 }

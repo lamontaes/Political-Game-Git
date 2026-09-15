@@ -13,19 +13,19 @@ defect than the one it was aimed at.
 
 | Family | Count |
 | --- | --- |
-| vague-referent | 179 |
+| vague-referent | 183 |
 | and-it-scaffold | 38 |
-| rather-than-scaffold | 28 |
+| rather-than-scaffold | 24 |
 | third-person-player | 10 |
 | label-restated-in-description | 9 |
 | anonymous-actor | 1 |
 
 ## Repetition
 
-- 2644 templates, 2477 distinct texts.
-- 35 exact duplicate groups.
-- 44 normalized duplicate groups.
-- 20 near-duplicate clusters (Jaccard ≥ 0.72).
+- 2944 templates, 2729 distinct texts.
+- 81 exact duplicate groups.
+- 90 normalized duplicate groups.
+- 26 near-duplicate clusters (Jaccard ≥ 0.72).
 
 Exact duplicate text at two semantic locations is not itself a defect: each
 keeps its own ID, and two banks may legitimately both offer "Say nothing".
@@ -34,50 +34,50 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 
 | N-gram | Count | Banks |
 | --- | --- | --- |
-| `in front of` | 24 | 8 |
-| `no instrument read` | 21 | 1 |
-| `there is a` | 19 | 5 |
-| `it is not` | 16 | 3 |
-| `out of the` | 16 | 5 |
+| `no time passes` | 111 | 1 |
+| `in front of` | 24 | 7 |
+| `no instrument read` | 22 | 1 |
+| `there is a` | 20 | 4 |
+| `out of the` | 18 | 5 |
+| `it is not` | 17 | 3 |
+| `asked you to` | 16 | 4 |
 | `you tell you` | 16 | 1 |
-| `asked you to` | 15 | 4 |
+| `you want to` | 16 | 4 |
+| `the player asked` | 15 | 1 |
 | `a long time` | 14 | 4 |
-| `the player asked` | 14 | 1 |
+| `instrument read establishes` | 14 | 2 |
+| `the end of` | 14 | 4 |
+| `the two of` | 14 | 4 |
+| `at the end` | 13 | 3 |
+| `at the end of` | 13 | 3 |
 | `existing saves are` | 13 | 1 |
 | `existing saves are unchanged` | 13 | 1 |
-| `instrument read establishes` | 13 | 2 |
 | `saves are unchanged` | 13 | 1 |
-| `the two of` | 13 | 3 |
 | `and it is` | 12 | 5 |
 | `has asked you` | 12 | 4 |
+| `no instrument read establishes` | 12 | 1 |
 | `proof of income` | 12 | 2 |
-| `no instrument read establishes` | 11 | 1 |
-| `of income form` | 11 | 2 |
-| `proof of income form` | 11 | 2 |
-| `the bill is` | 11 | 2 |
-| `the two of you` | 11 | 3 |
-| `two of you` | 11 | 3 |
-| `is not a` | 10 | 3 |
-| `is on the` | 10 | 6 |
+| `the two of you` | 12 | 4 |
+| `two of you` | 12 | 4 |
 
 ### Most repeated sentence openings
 
 | Opening | Count |
 | --- | --- |
-| `no instrument read` | 20 |
+| `no time passes` | 111 |
+| `no instrument read` | 21 |
 | `you tell you` | 16 |
-| `the player asked` | 14 |
+| `the player asked` | 15 |
 | `there is a` | 12 |
-| `say you will` | 10 |
 | `the bill is` | 10 |
 | `that file is` | 9 |
-| `you asked for` | 9 |
-| `you put the` | 8 |
+| `you put the` | 9 |
+| `say you will` | 8 |
 | `you took the` | 8 |
+| `ask about the` | 7 |
+| `ask for a` | 7 |
+| `stay out of` | 7 |
 | `you said you` | 7 |
 | `you told them` | 7 |
-| `you told you` | 7 |
-| `ask for a` | 6 |
-| `it is not` | 6 |
 
 Every finding with its exact semantic ID is in `lint-findings.json`.

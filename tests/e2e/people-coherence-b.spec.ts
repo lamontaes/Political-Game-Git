@@ -24,7 +24,7 @@ async function captureRoom(page: Page, path: string) {
 }
 async function openOwnWardrobe(page: Page) {
   await page.getByTestId("shell-nav-cluster").click();
-  await page.getByTestId("nav-personal-group").click();
+  await page.getByTestId("nav-group-personal").click();
   await page.getByTestId("nav-personal").click();
   await page.getByTestId("personal-appearance").click();
   const controls = page.getByTestId("saved-appearance-controls");

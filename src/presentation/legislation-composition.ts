@@ -148,6 +148,7 @@ export interface SaveBillCompositionInput {
   readonly scenarioKey: string;
   readonly docketKey: string;
   readonly playerPersonId: EntityId;
+  readonly memberSeatStableKey?: string;
   readonly expectedProvisionIds: readonly EntityId[];
   readonly parameterValues: Readonly<Record<string, ProgramParameterValue>>;
 }
@@ -161,7 +162,17 @@ function checkedPreview(world: World, input: SaveBillCompositionInput) {
     throw new Error("Only the current player may prepare these changes.");
   const bill = docketBill(world, input);
   if (!bill) throw new Error("This bill is no longer on the docket.");
-  const seat = resolveActiveMemberSeat(world, input.playerPersonId);
+  const measure = world.history.legislativeMeasures?.find(
+    (entry) => entry.id === bill.measureId,
+  );
+  if (!measure) throw new Error("This bill's measure is no longer recorded.");
+  const seat = resolveActiveMemberSeat(world, input.playerPersonId, {
+    governingJurisdictionId: measure.jurisdictionId,
+    legislativeRulePackId: measure.rulePackId,
+    ...(input.memberSeatStableKey !== undefined
+      ? { relationshipStableKey: input.memberSeatStableKey }
+      : {}),
+  });
   if (
     seat.kind !== "seated" ||
     seat.seat.governingJurisdictionId !== bill.jurisdictionId ||
@@ -304,7 +315,16 @@ export function carryAdoptedBillComposition(
         v.outcome === "passed" &&
         v.provenance.sourceEntityIds.includes(input.proposalEventId),
     );
-  const seat = resolveActiveMemberSeat(world, input.playerPersonId);
+  const seat = resolveActiveMemberSeat(world, input.playerPersonId, {
+    governingJurisdictionId: preview.bill.jurisdictionId,
+    legislativeRulePackId: world.history.legislativeMeasures!.find(
+      (entry) => entry.id === preview.bill.measureId,
+    )!.rulePackId,
+    chamberKey: amendment?.chamberKey,
+    ...(input.memberSeatStableKey !== undefined
+      ? { relationshipStableKey: input.memberSeatStableKey }
+      : {}),
+  });
   if (
     !amendment ||
     !vote ||

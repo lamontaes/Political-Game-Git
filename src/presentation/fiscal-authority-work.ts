@@ -1,4 +1,9 @@
-import { createWorkItem, type EntityId, type World } from "../simulation";
+import {
+  createWorkItem,
+  stateJurisdictionForKey,
+  type EntityId,
+  type World,
+} from "../simulation";
 import {
   currentTaxPermission,
   queryFiscalAuthority,
@@ -10,6 +15,7 @@ import { resolveActiveMemberSeat } from "./legislative-member-seat";
 
 export interface FiscalAuthorityWorkRequest {
   readonly personId: EntityId;
+  readonly memberSeatStableKey?: string;
   readonly stateUsps: string;
   readonly level: string;
   readonly instrument: string;
@@ -88,7 +94,20 @@ export function openFiscalAuthorityWork(
     };
   }
 
-  const seat = resolveActiveMemberSeat(world, request.personId);
+  const jurisdiction = stateJurisdictionForKey(`US-${request.stateUsps}`);
+  if (!jurisdiction)
+    return {
+      kind: "refused",
+      world,
+      authority,
+      reason: "The queried state has no established governing jurisdiction.",
+    };
+  const seat = resolveActiveMemberSeat(world, request.personId, {
+    governingJurisdictionId: jurisdiction.id,
+    ...(request.memberSeatStableKey !== undefined
+      ? { relationshipStableKey: request.memberSeatStableKey }
+      : {}),
+  });
   if (seat.kind !== "seated") {
     return { kind: "refused", world, authority, reason: seat.reason };
   }

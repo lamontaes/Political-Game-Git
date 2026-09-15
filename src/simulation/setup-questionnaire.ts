@@ -264,8 +264,10 @@ export function itemAdmissible(
 export function admissibleQuestionnaireBank(
   context: SetupLifeContext,
 ): readonly QuestionnaireItem[] {
-  return SETUP_QUESTIONNAIRE_BANK.filter((item) =>
-    itemAdmissible(item, context),
+  return SETUP_QUESTIONNAIRE_BANK.filter(
+    (item) =>
+      item.review.verdict === "non-transparent" &&
+      itemAdmissible(item, context),
   );
 }
 
@@ -592,7 +594,12 @@ export function nextQuestionnaireStep(
   const ordinal = input.answers.length + 1;
   if (ordinal > totalPlanned) return null;
 
-  const asked = new Set(input.answers.map((answer) => answer.questionKey));
+  const asked = new Set(
+    input.answers.flatMap((answer) => {
+      const original = answer.questionKey.replace(/\.text39-v1$/, "");
+      return [original, `${original}.text39-v1`];
+    }),
+  );
   const phase = questionnairePhase(input.depth, input.answers.length);
   const openingKeys = FIXED_OPENING_KEYS_BY_BAND[life.band];
   const fixedKey = openingKeys[ordinal - 1];
@@ -782,7 +789,12 @@ function rankedLast(item: QuestionnaireItem): boolean {
 export function questionnaireOutcome(
   input: QuestionnaireSelectionInput,
 ): QuestionnaireOutcome {
-  const asked = new Set(input.answers.map((answer) => answer.questionKey));
+  const asked = new Set(
+    input.answers.flatMap((answer) => {
+      const original = answer.questionKey.replace(/\.text39-v1$/, "");
+      return [original, `${original}.text39-v1`];
+    }),
+  );
   const model = modelFromSetupPriors({
     version: 1,
     path: input.depth,

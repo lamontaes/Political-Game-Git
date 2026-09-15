@@ -325,10 +325,11 @@ describe("Acceptance 1 — the same world asks the same questions in the same or
       // initiative, a professional event and an inside-or-outside question
       // about an institution, which opened a life with a political survey.
       // They are now a kitchen, a hallway and a reference somebody asked for.
+      // TEXT39 versions the reworded items; the scenes are the same.
       expect(sequence.slice(0, 3)).toEqual([
-        "kitchen_late",
-        "marcus_and_the_trip_fund",
-        "priya_reference",
+        "kitchen_late.text39-v1",
+        "marcus_and_the_trip_fund.text39-v1",
+        "priya_reference.text39-v1",
       ]);
     }
   });
@@ -426,11 +427,12 @@ describe("Acceptance 8 — two explanations stay alive, and something separates 
     // as two lived scenes, so what is asserted here is still that the bank a
     // player can actually be asked contains something that tells the two
     // explanations apart.
+    // TEXT39 versions the reworded scenes; the hypothesis structure is inherited.
     expect(separators.map((item) => item.key)).toContain(
-      "the_audit_on_your_desk",
+      "the_audit_on_your_desk.text39-v1",
     );
     expect(separators.map((item) => item.key)).toContain(
-      "the_line_to_the_hospital",
+      "the_line_to_the_hospital.text39-v1",
     );
     // And an item that says nothing about either explanation separates nothing.
     expect(

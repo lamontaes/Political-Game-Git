@@ -1,14 +1,15 @@
+import {
+  ENGINE_PEOPLE29_CHARACTER_LIBRARY,
+  ENGINE_PEOPLE29_VISUAL_LIBRARY,
+  ENGINE_PEOPLE29_POSE_ART,
+} from "./engine-people29-review";
 import { initializeFreshCandidateOutfits } from "./complete-outfit";
+import { PRIVATE_CANDIDATE_ART_AVAILABLE } from "./private-candidate-manifests";
 import type { World } from "../simulation/types";
 import type { NewGameSetup } from "./new-game";
 import type { PoseArtIndex } from "./pose-families";
 import type { CharacterComponentLibrary } from "./character-components";
 import type { RuntimeVisualLibrary } from "./visual-integration";
-import {
-  PEOPLE_VISUAL4_CHARACTER_LIBRARY,
-  PEOPLE_VISUAL4_POSE_ART,
-  PEOPLE_VISUAL4_VISUAL_LIBRARY,
-} from "./people-visual4-review";
 import { DEFAULT_DATABASE_NAME } from "./browser-world-repository";
 import { gameBuildProfile, type GameBuildProfile } from "./build-profile";
 import { ageOnDate, makeIsoDate } from "../simulation/dates";
@@ -146,9 +147,9 @@ export function artPreviewLibraries(
 ): ArtPreviewLibraries | null {
   if (mode !== "candidate-review") return null;
   return {
-    characters: PEOPLE_VISUAL4_CHARACTER_LIBRARY,
-    visuals: PEOPLE_VISUAL4_VISUAL_LIBRARY,
-    poseArt: PEOPLE_VISUAL4_POSE_ART,
+    characters: ENGINE_PEOPLE29_CHARACTER_LIBRARY,
+    visuals: ENGINE_PEOPLE29_VISUAL_LIBRARY,
+    poseArt: ENGINE_PEOPLE29_POSE_ART,
   };
 }
 
@@ -244,8 +245,12 @@ export function setupForArtPreview<T extends NewGameSetup>(
   setup: T,
   mode: ArtPreviewMode,
 ): T {
+  // Without the owner-private prepared bodies (a public checkout), a review
+  // build has no complete candidate outfit to offer; it keeps the ordinary
+  // appearance path instead of pinning people to art that is not present.
   if (
     mode !== "candidate-review" ||
+    !PRIVATE_CANDIDATE_ART_AVAILABLE ||
     setup.appearanceRecipeVersion !== "appearance-recipe-v2" ||
     setup.appearanceCatalogGeneration !== undefined
   )
@@ -253,8 +258,8 @@ export function setupForArtPreview<T extends NewGameSetup>(
   return {
     ...setup,
     appearanceCatalogGeneration:
-      PEOPLE_VISUAL4_CHARACTER_LIBRARY.catalogGeneration,
-    appearanceOutfitVersion: "complete-outfit-v1",
+      ENGINE_PEOPLE29_CHARACTER_LIBRARY.catalogGeneration,
+    appearanceOutfitVersion: "complete-outfit-v2",
   };
 }
 
@@ -265,7 +270,13 @@ export function prepareCandidateOpeningWorld(
   mode: ArtPreviewMode,
 ): World {
   return mode === "candidate-review" &&
-    setup.appearanceOutfitVersion === "complete-outfit-v1"
-    ? initializeFreshCandidateOutfits(world, PEOPLE_VISUAL4_CHARACTER_LIBRARY)
+    PRIVATE_CANDIDATE_ART_AVAILABLE &&
+    (setup.appearanceOutfitVersion === "complete-outfit-v1" ||
+      setup.appearanceOutfitVersion === "complete-outfit-v2")
+    ? initializeFreshCandidateOutfits(
+        world,
+        ENGINE_PEOPLE29_CHARACTER_LIBRARY,
+        setup.appearanceOutfitVersion,
+      )
     : world;
 }

@@ -125,6 +125,13 @@ export interface MunicipalProcedure {
   readonly overrideAbsence: string | null;
   readonly effectivePublication: string | null;
   readonly committeeReferral: string | null;
+  /** The source layer's state for committee referral, verbatim. */
+  readonly committeeReferralState?: string;
+  /** Least time between introduction and passage, where a source fixed one. */
+  readonly introductionToPassage?: {
+    readonly minimumInterveningDays: number;
+    readonly sameDayException: string | null;
+  } | null;
 }
 
 export interface MunicipalBudget {
@@ -493,7 +500,8 @@ export function municipalRuleSourceRef(
  * fraction of the full body plus the floor the charter actually names — so the
  * rule stays exact when a seat is vacant instead of quietly dropping a vote.
  */
-function thresholdRule(
+/** Compile one municipal threshold into the shared vote-rule vocabulary. */
+export function municipalVoteThresholdRule(
   threshold: MunicipalVoteThreshold,
   label: string,
   source: RuleSourceRef,
@@ -632,7 +640,7 @@ export function municipalRulePackFor(
     reading,
     reading.procedure.passageText ?? "ordinance adoption",
   );
-  const passage = thresholdRule(
+  const passage = municipalVoteThresholdRule(
     passageThreshold!,
     reading.procedure.passageText ?? "The vote an ordinance needs.",
     passageSource,
@@ -645,7 +653,7 @@ export function municipalRulePackFor(
           "No instrument read states this body's quorum, so no meeting can be proved lawful from the pack.",
         )
       : (() => {
-          const rule = thresholdRule(
+          const rule = municipalVoteThresholdRule(
             quorumThreshold,
             reading.procedure.quorumText ?? "Quorum.",
             municipalRuleSourceRef(
@@ -672,7 +680,7 @@ export function municipalRulePackFor(
   const override =
     presentment && overrideRow?.threshold
       ? (() => {
-          const rule = thresholdRule(
+          const rule = municipalVoteThresholdRule(
             overrideRow.threshold!,
             reading.procedure.override ?? "Override.",
             executiveSource,
@@ -719,6 +727,15 @@ export function municipalRulePackFor(
           everyMeasureMustBeHeard: unknownRule(
             "No instrument read guarantees a hearing for every measure here.",
           ),
+          // Only an enacted procedure that was read and puts no referral
+          // between introduction and passage opens the floor directly.
+          floorWithoutReferral:
+            reading.procedure.committeeReferralState ===
+              "NO_REQUIREMENT_FOUND" && reading.procedure.introductionToPassage
+              ? knownRule(true, municipalRuleSourceRef(reading, "referral"))
+              : unknownRule(
+                  "No instrument read establishes that an ordinance reaches the floor without a committee.",
+                ),
           source: municipalRuleSourceRef(reading, "referral"),
         },
         committees: [],

@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { chooseContentDock, figureHeadroom } from "./scene-framing";
+import {
+  occupiedHorizontalPan,
+  chooseContentDock,
+  conversationSafeMaxHeight,
+  figureHeadroom,
+} from "./scene-framing";
 
 const VIEWPORT = { width: 1440, height: 900 };
 const PANEL = { width: 672, height: 500 };
@@ -58,5 +63,54 @@ describe("PT3 — framing around the people in the room", () => {
     ];
     const placement = chooseContentDock(both, VIEWPORT, PANEL, INSETS);
     expect(placement.maxWidth).toBeNull();
+  });
+
+  it("keeps conversation in the lower band below faces at both desktop sizes", () => {
+    const mid = [{ left: 495, right: 850, top: 12, bottom: 880 }];
+    const tall = conversationSafeMaxHeight(mid, VIEWPORT);
+    expect(tall).toBeLessThan(VIEWPORT.height - 12 - (880 - 12) * 0.36);
+    expect(tall).toBeGreaterThanOrEqual(168);
+    const compact = conversationSafeMaxHeight(
+      [{ left: 459, right: 743, top: 12, bottom: 700 }],
+      { width: 1200, height: 720 },
+    );
+    expect(compact).toBeGreaterThanOrEqual(168);
+    expect(compact).toBeLessThan(720);
+  });
+});
+
+describe("occupied shared-camera horizontal pan", () => {
+  it("recovers a clipped entry occupant without moving or scaling either person", () => {
+    const figures = [
+      { left: 500, right: 700, top: 200, bottom: 800 },
+      { left: 1100, right: 1335, top: 280, bottom: 710 },
+    ];
+    expect(occupiedHorizontalPan(figures, 1280, 1540.833, -130)).toBe(-67);
+    expect(
+      occupiedHorizontalPan(
+        figures.map((f) => ({ ...f, left: f.left - 67, right: f.right - 67 })),
+        1280,
+        1540.833,
+        -197,
+      ),
+    ).toBe(0);
+  });
+  it("retains the original camera for visible figures and refuses blank-edge overscroll", () => {
+    expect(
+      occupiedHorizontalPan(
+        [{ left: 400, right: 700, top: 100, bottom: 800 }],
+        1280,
+        1540.833,
+        -130,
+      ),
+    ).toBe(0);
+    expect(
+      occupiedHorizontalPan(
+        [{ left: -100, right: 1500, top: 100, bottom: 800 }],
+        1280,
+        1540.833,
+        -130,
+      ),
+    ).toBe(0);
   });
 });

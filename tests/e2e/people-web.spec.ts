@@ -45,7 +45,7 @@ async function selectConnection(
   for (const firstId of candidateIds) {
     const node = page.getByTestId(`people-web-node-${firstId}`);
     await node.locator("circle").click();
-    await expect(page.getByTestId("full-dossier")).toHaveAttribute(
+    await expect(page.getByTestId("quick-dossier")).toHaveAttribute(
       "data-person-id",
       firstId,
     );
@@ -112,7 +112,7 @@ async function provePeopleWebRoute(
   });
 
   const { secondId } = await selectConnection(page, candidateIds);
-  await page.getByTestId("dossier-pin").click();
+  await page.getByTestId("quick-dossier-pin").click();
   await page.getByTestId("people-overlay-close").click();
 
   const pin = page.getByTestId(`pin-person:${secondId}`);

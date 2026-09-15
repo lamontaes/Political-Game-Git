@@ -22,6 +22,10 @@ export function QuickDossier({
   onOpenLink,
   onOpenPerson,
   onTalk,
+  onMeet,
+  onTravel,
+  onFullRecord,
+  presentPersonIds,
   talkUnavailable,
 }: {
   readonly world: World;
@@ -33,6 +37,10 @@ export function QuickDossier({
   readonly onOpenLink: (ref: ShellRef) => void;
   readonly onOpenPerson?: (personId: EntityId) => void;
   readonly onTalk?: () => void;
+  readonly onMeet?: () => void;
+  readonly onTravel?: () => void;
+  readonly onFullRecord?: () => void;
+  readonly presentPersonIds?: readonly EntityId[];
   readonly talkUnavailable?: string | null;
 }) {
   const [expanded, setExpanded] = useState(false);
@@ -47,11 +55,12 @@ export function QuickDossier({
       onClose={onClose}
       onExpand={() => setExpanded(true)}
       onTogglePin={onTogglePin}
-      onOpenPerson={(personId) => {
-        setExpanded(true);
-        onOpenPerson?.(personId);
-      }}
+      onOpenPerson={(personId) => onOpenPerson?.(personId)}
       onTalk={onTalk}
+      onMeet={onMeet}
+      onTravel={onTravel}
+      onFullRecord={onFullRecord}
+      presentPersonIds={presentPersonIds}
       talkUnavailable={talkUnavailable ?? null}
       onOpenLink={onOpenLink}
     />
@@ -65,6 +74,7 @@ export function FullDossier({
   pinned,
   onTogglePin,
   onTalk,
+  onMeet,
   talkUnavailable,
   onOpenLink,
   onOpenPerson,
@@ -75,6 +85,7 @@ export function FullDossier({
   readonly pinned: boolean;
   readonly onTogglePin: () => void;
   readonly onTalk: () => void;
+  readonly onMeet?: () => void;
   readonly talkUnavailable: string | null;
   readonly onOpenLink: (ref: ShellRef) => void;
   readonly onOpenPerson?: (personId: EntityId) => void;
@@ -90,6 +101,7 @@ export function FullDossier({
       onTogglePin={onTogglePin}
       onOpenPerson={(personId) => onOpenPerson?.(personId)}
       onTalk={onTalk}
+      onMeet={onMeet}
       talkUnavailable={talkUnavailable}
       onOpenLink={onOpenLink}
     />

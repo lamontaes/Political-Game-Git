@@ -14,11 +14,16 @@ import { assertWorldIntegrity } from "./world";
  * unsupported version, which is true, rather than as a world that was altered
  * after it was written, which is not.
  */
+/** Default format remains unchanged for every life without runtime packs. */
 export const WORLD_SNAPSHOT_FORMAT_VERSION = 15;
+/** Old readers must refuse instead of silently ignoring runtime definitions. */
+export const CONTENT_PACK_SNAPSHOT_FORMAT_VERSION = 16;
 
 export interface WorldSnapshot {
   readonly format: "political-life-world";
-  readonly formatVersion: typeof WORLD_SNAPSHOT_FORMAT_VERSION;
+  readonly formatVersion:
+    | typeof WORLD_SNAPSHOT_FORMAT_VERSION
+    | typeof CONTENT_PACK_SNAPSHOT_FORMAT_VERSION;
   readonly snapshotId: EntityId;
   readonly worldId: EntityId;
   readonly savedAtWorldDate: IsoDate;
@@ -29,7 +34,10 @@ export function createWorldSnapshot(world: World): WorldSnapshot {
   assertWorldIntegrity(world);
   return {
     format: "political-life-world",
-    formatVersion: WORLD_SNAPSHOT_FORMAT_VERSION,
+    formatVersion:
+      world.contentPacks === undefined
+        ? WORLD_SNAPSHOT_FORMAT_VERSION
+        : CONTENT_PACK_SNAPSHOT_FORMAT_VERSION,
     // Canonical, so that a world rebuilt with its record maps in a different
     // insertion order is recognised as the world it is.
     snapshotId: createStableId("snapshot", canonicalJson(world)),
@@ -84,7 +92,8 @@ export function deserializeWorld(payload: string): World {
   }
   if (
     parsed.format !== "political-life-world" ||
-    parsed.formatVersion !== WORLD_SNAPSHOT_FORMAT_VERSION
+    (parsed.formatVersion !== WORLD_SNAPSHOT_FORMAT_VERSION &&
+      parsed.formatVersion !== CONTENT_PACK_SNAPSHOT_FORMAT_VERSION)
   ) {
     throw new Error("World snapshot uses an unsupported format version.");
   }
@@ -93,6 +102,14 @@ export function deserializeWorld(payload: string): World {
   }
 
   const world = parsed.world as unknown as World;
+  if (
+    (world.contentPacks !== undefined) !==
+    (parsed.formatVersion === CONTENT_PACK_SNAPSHOT_FORMAT_VERSION)
+  ) {
+    throw new Error(
+      "World content packs require their supported snapshot format.",
+    );
+  }
   assertWorldIntegrity(world);
   const expected = createWorldSnapshot(world);
   if (

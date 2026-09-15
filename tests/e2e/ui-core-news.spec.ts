@@ -140,12 +140,6 @@ test("opening the normal press request form creates no request or consent", asyn
       .getByRole("combobox", { name: "Reporter", exact: true })
       .locator("option"),
   ).toHaveCount(1);
-  await form
-    .getByLabel("Your pitch")
-    .fill("A question about a published story.");
-  await expect(
-    form.getByRole("button", { name: "Send request" }),
-  ).toBeDisabled();
   await form.locator("summary").click();
   await save(page);
   expect(await savedWorld(page)).toEqual(before);

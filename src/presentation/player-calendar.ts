@@ -1,5 +1,6 @@
 import {
   canPersonAccess,
+  compareSimulationMoments,
   personName,
   scheduledActivityState,
   type EntityId,
@@ -27,6 +28,7 @@ import {
  */
 
 export type CalendarGroup = "yours" | "chamber";
+export type CalendarHorizon = "upcoming" | "ongoing" | "history";
 
 export interface CalendarEntry {
   readonly activityId: EntityId;
@@ -68,6 +70,19 @@ const KIND_LABELS: Readonly<Record<ScheduledActivityKind, string>> = {
 
 export function calendarKindLabel(kind: ScheduledActivityKind): string {
   return KIND_LABELS[kind];
+}
+
+/** Upcoming and ongoing are the default calendar; history is a separate list. */
+export function calendarEntryHorizon(
+  entry: CalendarEntry,
+  now: SimulationMoment,
+): CalendarHorizon {
+  if (entry.status === "completed" || entry.status === "cancelled") {
+    return "history";
+  }
+  if (compareSimulationMoments(entry.end, now) < 0) return "history";
+  if (compareSimulationMoments(entry.start, now) <= 0) return "ongoing";
+  return "upcoming";
 }
 
 export function formatMinute(minuteOfDay: number): string {

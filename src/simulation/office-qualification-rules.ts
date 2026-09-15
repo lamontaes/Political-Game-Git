@@ -333,6 +333,13 @@ export interface QualificationAssessmentInput {
   /** Earliest active residence in this exact district, or null when unproved. */
   readonly districtResidenceSince: IsoDate | null;
   readonly onDate: IsoDate;
+  /**
+   * Terms this person has recorded in this exact office, from the World's
+   * canonical office records. Zero lets a term limit be met, because a limit
+   * cannot bar someone who has never held the office. Absent or null keeps the
+   * limit unevaluated: missing history is never read as no history.
+   */
+  readonly priorTermsInOffice?: number | null;
 }
 
 /**
@@ -462,6 +469,19 @@ export function assessOfficeQualifications(
           held >= required
             ? `Resident long enough: ${row.citation} requires ${required} year${required === 1 ? "" : "s"}.`
             : `Not resident long enough: ${row.citation} requires ${required} year${required === 1 ? "" : "s"}, and this character has lived here ${held}.`,
+        source: row,
+      });
+      continue;
+    }
+
+    // A term limit bars only someone who has already served. The caller says
+    // how many terms the World records for this exact office; zero means the
+    // limit cannot apply. Anything else stays unevaluated below.
+    if (row.field === "TERM_LIMIT" && input.priorTermsInOffice === 0) {
+      assessments.push({
+        field: row.field,
+        verdict: "meets",
+        reason: `No recorded term in this office, so the term limit in ${row.citation} does not apply.`,
         source: row,
       });
       continue;
