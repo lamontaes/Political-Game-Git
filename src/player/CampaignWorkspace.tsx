@@ -336,8 +336,8 @@ export function CampaignWorkspace({
             <details className="game-campaign-detail">
               <summary>About election dates here</summary>
               <p>
-                No national election calendar or inferred district membership
-                is supplied here. The existing campaign filing route uses its
+                No national election calendar or inferred district membership is
+                supplied here. The existing campaign filing route uses its
                 28-day game scenario schedule, not a sourced real-world election
                 date.
               </p>
