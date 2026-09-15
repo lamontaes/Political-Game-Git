@@ -1,3 +1,4 @@
+import type { AssetCompatibilityTags } from "./asset-compatibility";
 import type { AssetTargetClass } from "./asset-lineage";
 
 /**
@@ -131,6 +132,25 @@ export interface AssetRequest {
   readonly supersedes?: readonly string[];
   /** Required on a terminal status: how it ended, and where the thing is now. */
   readonly resolutionNote?: string;
+  /**
+   * Actual consumer variant/family/context. Additive: older records omit it
+   * rather than inventing a family from the title.
+   */
+  readonly scope?: {
+    readonly familyId?: string;
+    readonly variantId?: string;
+    readonly intendedContext?: string;
+  };
+  readonly compatibility?: AssetCompatibilityTags;
+  /**
+   * Stops this request being treated as a live generation job. D's people hold
+   * and missing private-pack inputs are access/authority facts, not "asset absent".
+   */
+  readonly generationHold?:
+    | "d-held-people"
+    | "awaiting-assessment"
+    | "private-pack-input"
+    | "already-covered-candidate";
 }
 
 export const ASSET_REQUEST_DOCUMENT_VERSION = 1 as const;
