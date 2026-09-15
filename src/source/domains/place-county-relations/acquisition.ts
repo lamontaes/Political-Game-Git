@@ -15,7 +15,7 @@
  * whose parts do not add up to the publisher's place areas is never written.
  */
 
-import { readZipMember } from "../../core/index";
+import { parseDelimited, readZipMember } from "../../core/index";
 import type { AcquisitionPlan, AcquisitionRequest } from "../../core/index";
 
 const PL_BASE =
@@ -210,10 +210,17 @@ export function cutPlaceCountyParts(archive: Buffer, usps: string): Buffer {
     const line = geoheader.subarray(start, end + 1);
     start = end + 1;
     lineNumber += 1;
-    const fields = line
-      .subarray(0, line.length - 1)
-      .toString("utf-8")
-      .split("|");
+    const parsed = parseDelimited(line, {
+      delimiter: "|",
+      encoding: LATIN1_GEOHEADER_STATES.has(usps) ? "latin1" : "utf-8",
+    });
+    if (parsed.defects.length > 0 || parsed.rows.length !== 1) {
+      const detail = parsed.defects.map((defect) => defect.message).join("; ");
+      throw new Error(
+        `${geoheaderMember(usps)} line ${lineNumber} is not a valid ${GEO_FIELD_COUNT}-field geoheader row${detail ? `: ${detail}` : "."}`,
+      );
+    }
+    const fields = parsed.rows[0]!.fields;
     const sumlev = fields[GEO_FIELD.SUMLEV];
     if (sumlev !== "155" && sumlev !== "160") continue;
     if (fields.length !== GEO_FIELD_COUNT) {
