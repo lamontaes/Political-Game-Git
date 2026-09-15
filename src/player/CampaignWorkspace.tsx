@@ -19,6 +19,7 @@ import type {
   MoneyAmount,
   World,
 } from "../simulation";
+import { DIAGNOSTICS } from "./diagnostics-profile";
 
 /**
  * Running for something.
@@ -208,11 +209,6 @@ export function CampaignWorkspace({
               </fieldset>
             ),
           )}
-          <p className="game-note">
-            No national election calendar or inferred district membership is
-            supplied here. The existing campaign filing route uses its 28-day
-            game scenario schedule, not a sourced real-world election date.
-          </p>
         </section>
       ) : null}
       {view.phase === "unavailable" ? (
@@ -241,7 +237,15 @@ export function CampaignWorkspace({
             Put their name in
             <small>The committee opens with nothing in it.</small>
           </button>
-          {view.openQuestions.length > 0 ? (
+          {/*
+            These read "No authority for Alabama was read for this domain: at
+            <url>, the publisher serves its constitution through a
+            client-rendered application" — a note from the research process to
+            the people running it, complete with the link it failed to parse.
+            The gaps still gate what the office can offer; they simply stop
+            being read out to the candidate.
+          */}
+          {DIAGNOSTICS && view.openQuestions.length > 0 ? (
             <details className="game-campaign-gaps">
               <summary>What the game does not know about this</summary>
               <ul>

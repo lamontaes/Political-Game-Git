@@ -46,8 +46,18 @@ export function MunicipalWorkspace({
   isPinnedGovernment,
   onTogglePinGovernment,
   onOpenPerson,
+  diagnostics = false,
 }: {
   readonly world: World;
+  /**
+   * Show the source-review block: publisher identifiers, Census geography, the
+   * capacity observations and the links out to the surveys behind them.
+   *
+   * Off unless a caller asks. Ordinary play gets the charter, the body, the
+   * seats and the meetings — the civic document — and not the record of how
+   * that document was ingested.
+   */
+  readonly diagnostics?: boolean;
   readonly renderVenue?: (
     world: World,
     activityId: string,
@@ -547,230 +557,239 @@ export function MunicipalWorkspace({
             )}
           </section>
 
-          <details
-            className="municipal-source-review"
-            data-testid="municipal-source-review"
-          >
-            <summary>{"Source review"}</summary>
-            <p>
-              {
-                "Publisher observations, research references, and capacity records for this government. These are not the normal gameplay screen."
-              }
-            </p>
-            <p>
-              {"Census place: "}
-              {view.government.placeGeoid ?? "Unknown"}
-              {
-                ". A place identifier is not a government-unit or county identifier."
-              }
-            </p>
-            {view.government.identity ? (
-              <details>
-                <summary>{"Government identity and geography"}</summary>
-                <p>
-                  {view.government.identity.publisherUnitName}
-                  {" ·"} {view.government.identity.governmentUnit.unitType}
-                </p>
-                <p>
-                  {"Publisher PID: "}
-                  {view.government.identity.publisherId}
-                  {". Legacy government ID:"}{" "}
-                  {view.government.identity.censusGovernmentUnitId ?? "Unknown"}
-                  {"."}
-                </p>
-                <p>
-                  {"County-equivalent representation:"}{" "}
-                  {view.government.identity.countyEquivalentGeoid ??
-                    "Not established"}
-                  {". County area:"}{" "}
-                  {view.government.identity.governmentUnit.countyAreaName ??
-                    "Unknown"}{" "}
-                  {"(not a governing parent)."}
-                </p>
-                <p>{view.government.identity.basis}</p>
-                <p>
-                  {"Inventory observation:"}{" "}
-                  {view.government.identity.governmentUnit.evidence.asOf}
-                  {"."}{" "}
-                  <a
-                    href="https://www.census.gov/data/datasets/2025/econ/gus/public-use-files.html"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {"Census Government Units Survey"}
-                  </a>
-                </p>
-              </details>
-            ) : (
-              <p>{"No verified Census government-unit link is available."}</p>
-            )}
-            {view.government.readings.map((reading) => (
-              <details
-                key={`${reading.key}:${reading.evidence}`}
-                open={reading === view.reading}
-              >
-                <summary>
-                  {reading.evidence === "enacted-text"
-                    ? "Retrieved law"
-                    : reading.evidence === "reference-observation"
-                      ? "Dated meeting reference — not operative law"
-                      : "Research report — not operative law"}{" "}
-                  {"· "}
-                  {reading.asOf}
-                </summary>
-                <dl>
-                  <dt>{"Form"}</dt>
-                  <dd>{reading.form ? humanLabel(reading.form) : "Unknown"}</dd>
-                  <dt>{"Body"}</dt>
-                  <dd>{reading.bodyName ?? "Unknown"}</dd>
-                  <dt>{"Members"}</dt>
-                  <dd>{reading.bodySize ?? "Unknown"}</dd>
-                  <dt>{"Seat pattern"}</dt>
-                  <dd>{reading.composition?.note ?? "Unknown"}</dd>
-                  <dt>{"Mayor"}</dt>
-                  <dd>
-                    {reading.mayor
-                      ? humanLabel(reading.mayor.structuralPosition)
-                      : "Unknown"}
-                  </dd>
-                  <dt>{"Professional manager"}</dt>
-                  <dd>{reading.manager?.statedRole ?? "Unknown"}</dd>
-                  <dt>{"Consolidation"}</dt>
-                  <dd>
-                    {reading.consolidationType
-                      ? humanLabel(reading.consolidationType)
-                      : "Unknown"}
-                  </dd>
-                </dl>
+          {/*
+            Publisher identifiers, GEOIDs, inventory observation dates and the
+            links back to the Census survey. The block already told the reader
+            these "are not the normal gameplay screen" — so it is no longer on
+            the normal gameplay screen. Nothing is deleted: the developer
+            harness opens the same block, and the e2e that walks it still does.
+          */}
+          {diagnostics ? (
+            <details
+              className="municipal-source-review"
+              data-testid="municipal-source-review"
+            >
+              <summary>{"Source review"}</summary>
+              <p>
+                {
+                  "Publisher observations, research references, and capacity records for this government. These are not the normal gameplay screen."
+                }
+              </p>
+              <p>
+                {"Census place: "}
+                {view.government.placeGeoid ?? "Unknown"}
+                {
+                  ". A place identifier is not a government-unit or county identifier."
+                }
+              </p>
+              {view.government.identity ? (
                 <details>
-                  <summary>{"All recorded facts and evidence"}</summary>
-                  <dl>
-                    {reading.facts.map((fact) => (
-                      <div key={fact.path}>
-                        <dt>{fact.path}</dt>
-                        <dd>
-                          {fact.state}
-                          {":"}{" "}
-                          {fact.value === undefined
-                            ? (fact.reason ?? "No value established")
-                            : typeof fact.value === "string"
-                              ? fact.value
-                              : JSON.stringify(fact.value)}{" "}
-                          {fact.asOf && ` — observed ${fact.asOf}`}
-                          {fact.evidence?.map((evidence, index) => {
-                            const source = reading.sources.find(
-                              (candidate) =>
-                                candidate.key === evidence.artifactId,
-                            );
-                            return source ? (
-                              <span key={index}>
-                                {" "}
-                                {"·"}{" "}
-                                <a
-                                  href={source.url}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                >
-                                  {evidence.locator.citation ?? source.title}
-                                </a>
-                              </span>
-                            ) : null;
-                          })}
-                        </dd>
-                      </div>
-                    ))}
-                  </dl>
+                  <summary>{"Government identity and geography"}</summary>
+                  <p>
+                    {view.government.identity.publisherUnitName}
+                    {" ·"} {view.government.identity.governmentUnit.unitType}
+                  </p>
+                  <p>
+                    {"Publisher PID: "}
+                    {view.government.identity.publisherId}
+                    {". Legacy government ID:"}{" "}
+                    {view.government.identity.censusGovernmentUnitId ?? "Unknown"}
+                    {"."}
+                  </p>
+                  <p>
+                    {"County-equivalent representation:"}{" "}
+                    {view.government.identity.countyEquivalentGeoid ??
+                      "Not established"}
+                    {". County area:"}{" "}
+                    {view.government.identity.governmentUnit.countyAreaName ??
+                      "Unknown"}{" "}
+                    {"(not a governing parent)."}
+                  </p>
+                  <p>{view.government.identity.basis}</p>
+                  <p>
+                    {"Inventory observation:"}{" "}
+                    {view.government.identity.governmentUnit.evidence.asOf}
+                    {"."}{" "}
+                    <a
+                      href="https://www.census.gov/data/datasets/2025/econ/gus/public-use-files.html"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {"Census Government Units Survey"}
+                    </a>
+                  </p>
                 </details>
+              ) : (
+                <p>{"No verified Census government-unit link is available."}</p>
+              )}
+              {view.government.readings.map((reading) => (
+                <details
+                  key={`${reading.key}:${reading.evidence}`}
+                  open={reading === view.reading}
+                >
+                  <summary>
+                    {reading.evidence === "enacted-text"
+                      ? "Retrieved law"
+                      : reading.evidence === "reference-observation"
+                        ? "Dated meeting reference — not operative law"
+                        : "Research report — not operative law"}{" "}
+                    {"· "}
+                    {reading.asOf}
+                  </summary>
+                  <dl>
+                    <dt>{"Form"}</dt>
+                    <dd>{reading.form ? humanLabel(reading.form) : "Unknown"}</dd>
+                    <dt>{"Body"}</dt>
+                    <dd>{reading.bodyName ?? "Unknown"}</dd>
+                    <dt>{"Members"}</dt>
+                    <dd>{reading.bodySize ?? "Unknown"}</dd>
+                    <dt>{"Seat pattern"}</dt>
+                    <dd>{reading.composition?.note ?? "Unknown"}</dd>
+                    <dt>{"Mayor"}</dt>
+                    <dd>
+                      {reading.mayor
+                        ? humanLabel(reading.mayor.structuralPosition)
+                        : "Unknown"}
+                    </dd>
+                    <dt>{"Professional manager"}</dt>
+                    <dd>{reading.manager?.statedRole ?? "Unknown"}</dd>
+                    <dt>{"Consolidation"}</dt>
+                    <dd>
+                      {reading.consolidationType
+                        ? humanLabel(reading.consolidationType)
+                        : "Unknown"}
+                    </dd>
+                  </dl>
+                  <details>
+                    <summary>{"All recorded facts and evidence"}</summary>
+                    <dl>
+                      {reading.facts.map((fact) => (
+                        <div key={fact.path}>
+                          <dt>{fact.path}</dt>
+                          <dd>
+                            {fact.state}
+                            {":"}{" "}
+                            {fact.value === undefined
+                              ? (fact.reason ?? "No value established")
+                              : typeof fact.value === "string"
+                                ? fact.value
+                                : JSON.stringify(fact.value)}{" "}
+                            {fact.asOf && ` — observed ${fact.asOf}`}
+                            {fact.evidence?.map((evidence, index) => {
+                              const source = reading.sources.find(
+                                (candidate) =>
+                                  candidate.key === evidence.artifactId,
+                              );
+                              return source ? (
+                                <span key={index}>
+                                  {" "}
+                                  {"·"}{" "}
+                                  <a
+                                    href={source.url}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                  >
+                                    {evidence.locator.citation ?? source.title}
+                                  </a>
+                                </span>
+                              ) : null;
+                            })}
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </details>
+                  <ul>
+                    {reading.sources.map((source) => (
+                      <li key={source.key}>
+                        <a href={source.url} target="_blank" rel="noreferrer">
+                          {source.title}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              ))}
+              <details>
+                <summary>{"Cited public records and meeting material"}</summary>
+                <p>
+                  {
+                    "These are references in this government's source readings. They are not attached agendas or notices for an authored session in this world."
+                  }
+                </p>
                 <ul>
-                  {reading.sources.map((source) => (
-                    <li key={source.key}>
-                      <a href={source.url} target="_blank" rel="noreferrer">
-                        {source.title}
+                  {view.publicReferences.map((url) => (
+                    <li key={url}>
+                      <a href={url} target="_blank" rel="noreferrer">
+                        {url}
                       </a>
                     </li>
                   ))}
                 </ul>
               </details>
-            ))}
-            <details>
-              <summary>{"Cited public records and meeting material"}</summary>
+              <h4>{"Historical finance and employment"}</h4>
               <p>
                 {
-                  "These are references in this government's source readings. They are not attached agendas or notices for an authored session in this world."
+                  "These observations do not establish current cash, staffing, or legal powers."
                 }
               </p>
-              <ul>
-                {view.publicReferences.map((url) => (
-                  <li key={url}>
-                    <a href={url} target="_blank" rel="noreferrer">
-                      {url}
+              {view.capacity.finance.length === 0 && (
+                <p>
+                  {
+                    "No finance observation is available for this exact government ID in the accepted corpus. Missing data is not zero."
+                  }
+                </p>
+              )}
+              {view.capacity.finance.map((row) => (
+                <p key={row.recordId}>
+                  {row.itemDescription}
+                  {":"}{" "}
+                  {row.amount.state === "KNOWN" ? row.amount.value : "Unknown"}{" "}
+                  {row.units}
+                  {"; fiscal year ending "}
+                  {row.fiscalYearEnding}
+                  {"."}{" "}
+                  {municipalCapacitySourceUrl(row.evidence.artifactId) && (
+                    <a
+                      href={municipalCapacitySourceUrl(row.evidence.artifactId)!}
+                    >
+                      {"Publisher observation"}
                     </a>
-                  </li>
-                ))}
-              </ul>
+                  )}
+                </p>
+              ))}
+              {view.capacity.employment.length === 0 && (
+                <p>
+                  {
+                    "No employment observation is available for this exact government ID in the accepted corpus."
+                  }
+                </p>
+              )}
+              {view.capacity.employment.map((row) => (
+                <p key={row.recordId}>
+                  {row.functionLabel}
+                  {":"}{" "}
+                  {row.fullTimeEmployees.state === "KNOWN"
+                    ? row.fullTimeEmployees.value
+                    : "Unknown"}{" "}
+                  {"full-time employees,"}{" "}
+                  {row.partTimeEmployees.state === "KNOWN"
+                    ? row.partTimeEmployees.value
+                    : "Unknown"}{" "}
+                  {"part-time employees; observed "}
+                  {row.referenceDate}
+                  {". Full-time equivalent: unknown."}{" "}
+                  {municipalCapacitySourceUrl(row.evidence.artifactId) && (
+                    <a
+                      href={municipalCapacitySourceUrl(row.evidence.artifactId)!}
+                    >
+                      {"Publisher observation"}
+                    </a>
+                  )}
+                </p>
+              ))}
             </details>
-            <h4>{"Historical finance and employment"}</h4>
-            <p>
-              {
-                "These observations do not establish current cash, staffing, or legal powers."
-              }
-            </p>
-            {view.capacity.finance.length === 0 && (
-              <p>
-                {
-                  "No finance observation is available for this exact government ID in the accepted corpus. Missing data is not zero."
-                }
-              </p>
-            )}
-            {view.capacity.finance.map((row) => (
-              <p key={row.recordId}>
-                {row.itemDescription}
-                {":"}{" "}
-                {row.amount.state === "KNOWN" ? row.amount.value : "Unknown"}{" "}
-                {row.units}
-                {"; fiscal year ending "}
-                {row.fiscalYearEnding}
-                {"."}{" "}
-                {municipalCapacitySourceUrl(row.evidence.artifactId) && (
-                  <a
-                    href={municipalCapacitySourceUrl(row.evidence.artifactId)!}
-                  >
-                    {"Publisher observation"}
-                  </a>
-                )}
-              </p>
-            ))}
-            {view.capacity.employment.length === 0 && (
-              <p>
-                {
-                  "No employment observation is available for this exact government ID in the accepted corpus."
-                }
-              </p>
-            )}
-            {view.capacity.employment.map((row) => (
-              <p key={row.recordId}>
-                {row.functionLabel}
-                {":"}{" "}
-                {row.fullTimeEmployees.state === "KNOWN"
-                  ? row.fullTimeEmployees.value
-                  : "Unknown"}{" "}
-                {"full-time employees,"}{" "}
-                {row.partTimeEmployees.state === "KNOWN"
-                  ? row.partTimeEmployees.value
-                  : "Unknown"}{" "}
-                {"part-time employees; observed "}
-                {row.referenceDate}
-                {". Full-time equivalent: unknown."}{" "}
-                {municipalCapacitySourceUrl(row.evidence.artifactId) && (
-                  <a
-                    href={municipalCapacitySourceUrl(row.evidence.artifactId)!}
-                  >
-                    {"Publisher observation"}
-                  </a>
-                )}
-              </p>
-            ))}
-          </details>
+          ) : null}
 
           <p role="status">{message}</p>
         </>

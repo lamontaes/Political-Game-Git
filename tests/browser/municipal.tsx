@@ -71,7 +71,7 @@ function Proof() {
       >
         Save verification world
       </button>
-      <MunicipalWorkspace world={world} onWorldChange={setWorld} />
+      <MunicipalWorkspace world={world} onWorldChange={setWorld} diagnostics />
     </main>
   );
 }

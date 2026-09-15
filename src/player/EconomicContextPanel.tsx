@@ -21,6 +21,19 @@ interface EconomicContextPanelProps {
   readonly simulationDate: string;
   readonly provider?: EconomicContextBrowserProvider;
   readonly fiscalGraphs?: readonly EconomicGraphModel[];
+  /**
+   * Show the ingestion machinery: which provider tables are bound, what was
+   * retrieved and when, the artifact digests, and the reason each unavailable
+   * comparison is unavailable.
+   *
+   * Off unless a caller asks for it, and ordinary play never asks. Those lines
+   * are real and stay reachable from the developer routes, but a player looking
+   * up what their county earns does not need "the locked BEA tables are CAINC1,
+   * SARPP and MARPP; none is a GDP series" — that is an answer to a question
+   * only the people building this ever ask. The numbers themselves are civic
+   * information and are shown either way.
+   */
+  readonly diagnostics?: boolean;
 }
 
 type LoadState =
@@ -36,6 +49,7 @@ export function EconomicContextPanel({
   simulationDate,
   provider = DEFAULT_PROVIDER,
   fiscalGraphs = [],
+  diagnostics = false,
 }: EconomicContextPanelProps) {
   const [state, setState] = useState<LoadState>({ status: "loading" });
 
@@ -66,29 +80,49 @@ export function EconomicContextPanel({
   if (state.status === "loading") {
     return (
       <section className="economic-context-panel" aria-busy="true">
-        <p>Loading dated economic context…</p>
+        <p>Looking up the numbers for this place…</p>
       </section>
     );
   }
   if (state.status === "error") {
+    /*
+     * The thrown message names providers, bindings and query shapes. It is the
+     * right thing to hand a developer and the wrong thing to hand a player, so
+     * it goes to the console, where the developer routes and a browser session
+     * can both still reach it, and the screen says the in-world truth: the
+     * figures are not here.
+     */
+    if (diagnostics)
+      return (
+        <section className="economic-context-panel" role="status">
+          <h2>Economic context unavailable</h2>
+          <p>{state.message}</p>
+        </section>
+      );
     return (
       <section className="economic-context-panel" role="status">
-        <h2>Economic context unavailable</h2>
-        <p>{state.message}</p>
+        <h2>Figures unavailable</h2>
+        <p>The figures for this place aren&apos;t available right now.</p>
       </section>
     );
   }
   return (
-    <EconomicContextView context={state.context} fiscalGraphs={fiscalGraphs} />
+    <EconomicContextView
+      context={state.context}
+      fiscalGraphs={fiscalGraphs}
+      diagnostics={diagnostics}
+    />
   );
 }
 
 export function EconomicContextView({
   context,
   fiscalGraphs = [],
+  diagnostics = false,
 }: {
   readonly context: BrowserEconomicContextResult;
   readonly fiscalGraphs?: readonly EconomicGraphModel[];
+  readonly diagnostics?: boolean;
 }) {
   const collection = useMemo(
     () => economicObservationGraphs(context),
@@ -124,41 +158,55 @@ export function EconomicContextView({
     >
       <header className="economic-context-header">
         <div>
-          <p className="economic-context-kicker">Dated reference context</p>
+          <p className="economic-context-kicker">How the place is doing</p>
           <h2 id="economic-context-title">{context.placeLabel}</h2>
         </div>
         <span>{context.simulationDate}</span>
       </header>
 
-      <p className="economic-context-boundary">
-        These are sourced observations known by this date—not simulated history
-        or a forecast of what a proposal will do.
-      </p>
+      {diagnostics ? (
+        <p className="economic-context-boundary">
+          These are sourced observations known by this date—not simulated
+          history or a forecast of what a proposal will do.
+        </p>
+      ) : null}
 
-      <ul className="economic-availability" aria-label="Source availability">
-        {context.availability.map((item) => (
-          <li key={item.product} data-status={item.status}>
-            <strong>{productLabel(item.product)}</strong>
-            <span>
-              {item.status === "available"
-                ? `${item.observationCount.toLocaleString("en-US")} observations`
-                : item.reason}
-            </span>
-          </li>
-        ))}
+      {/*
+        Ordinary play lists the figures this place actually has. A product with
+        nothing behind it is left out rather than listed with the binding
+        failure that explains it, because an absent measure is not news and its
+        cause is not the player's business.
+      */}
+      <ul className="economic-availability" aria-label="Figures for this place">
+        {context.availability
+          .filter((item) => diagnostics || item.status === "available")
+          .map((item) => (
+            <li key={item.product} data-status={item.status}>
+              <strong>{productLabel(item.product)}</strong>
+              <span>
+                {item.status === "available"
+                  ? `${item.observationCount.toLocaleString("en-US")} observations`
+                  : item.reason}
+              </span>
+            </li>
+          ))}
       </ul>
 
       {graphs.length > 0 ? (
         <div className="economic-graph-grid">
           {graphs.map((graph) => (
-            <EconomicGraph key={graph.graphKey} graph={graph} />
+            <EconomicGraph
+              key={graph.graphKey}
+              graph={graph}
+              diagnostics={diagnostics}
+            />
           ))}
         </div>
       ) : (
-        <p role="status">No graphable records are available for this date.</p>
+        <p role="status">Nothing has been published for this date yet.</p>
       )}
 
-      {unavailable.length > 0 ? (
+      {diagnostics && unavailable.length > 0 ? (
         <details className="economic-unavailable">
           <summary>Unavailable comparisons</summary>
           <ul>
@@ -172,6 +220,7 @@ export function EconomicContextView({
         </details>
       ) : null}
 
+      {diagnostics ? (
       <details className="economic-sources">
         <summary>Sources and scope</summary>
         <ul>
@@ -192,14 +241,17 @@ export function EconomicContextView({
           and the simulation date remain separate. Missing data stays missing.
         </p>
       </details>
+      ) : null}
     </section>
   );
 }
 
 export function EconomicGraph({
   graph,
+  diagnostics = false,
 }: {
   readonly graph: EconomicGraphModel;
+  readonly diagnostics?: boolean;
 }) {
   const values = graph.series.flatMap((series) =>
     series.points.flatMap((point) =>
@@ -269,10 +321,12 @@ export function EconomicGraph({
               ),
             )}
       </svg>
-      <div className="economic-legend" aria-label="Record classes">
+      <div className="economic-legend" aria-label="What each line shows">
         {graph.series.map((series) => (
           <span key={series.seriesKey} data-record-class={series.recordClass}>
-            {recordClassLabel(series.recordClass)} · {series.label}
+            {diagnostics
+              ? `${recordClassLabel(series.recordClass)} · ${series.label}`
+              : series.label}
           </span>
         ))}
       </div>
@@ -283,8 +337,8 @@ export function EconomicGraph({
             <tr>
               <th scope="col">Series</th>
               <th scope="col">Period</th>
-              <th scope="col">Class</th>
-              <th scope="col">Release</th>
+              {diagnostics ? <th scope="col">Class</th> : null}
+              {diagnostics ? <th scope="col">Release</th> : null}
               <th scope="col">Value</th>
             </tr>
           </thead>
@@ -294,11 +348,17 @@ export function EconomicGraph({
                 <tr key={point.pointKey}>
                   <th scope="row">{series.label}</th>
                   <td>{point.period}</td>
-                  <td>{recordClassLabel(point.recordClass)}</td>
-                  <td>{point.releaseStatus ?? "Not established"}</td>
+                  {diagnostics ? (
+                    <td>{recordClassLabel(point.recordClass)}</td>
+                  ) : null}
+                  {diagnostics ? (
+                    <td>{point.releaseStatus ?? "Not established"}</td>
+                  ) : null}
                   <td>
                     {point.value === null
-                      ? `Missing — ${point.missingReason ?? "No value supplied"}`
+                      ? diagnostics
+                        ? `Missing — ${point.missingReason ?? "No value supplied"}`
+                        : "—"
                       : formatGraphValue(point.value, graph.unit)}
                   </td>
                 </tr>
@@ -307,7 +367,14 @@ export function EconomicGraph({
           </tbody>
         </table>
       </details>
-      <p className="economic-graph-boundary">{graph.boundaries.join(" ")}</p>
+      {/*
+        "Drafts, forecasts, simulated history, and outturn remain distinct" is a
+        promise the engine makes to its authors about how it keeps its records.
+        It is kept; it is not narrated at the player.
+      */}
+      {diagnostics ? (
+        <p className="economic-graph-boundary">{graph.boundaries.join(" ")}</p>
+      ) : null}
     </figure>
   );
 }
