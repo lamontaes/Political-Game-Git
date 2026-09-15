@@ -70,16 +70,18 @@ test("normal Politics Budget route preserves exact Lexington scope, date, Back a
   await expect(budget).toContainText("Budget & economy");
   await expect(budget).toContainText("Lexington, Kentucky");
   await expect(budget).toContainText(currentDate);
-  await expect(page.getByTestId("economic-context-panel")).toBeVisible();
-  await expect(page.getByTestId("economic-context-panel")).toContainText(
-    "not established as available by this simulation date",
-  );
-  const unavailable = page
-    .locator(".economic-unavailable summary")
-    .filter({ hasText: "Unavailable comparisons" });
-  await unavailable.focus();
-  await unavailable.press("Enter");
-  await expect(unavailable.locator("..")).toHaveAttribute("open", "");
+  const panel = page.getByTestId("economic-context-panel");
+  await expect(panel).toBeVisible();
+  /*
+   * The panel used to explain which products were "not established as available
+   * by this simulation date" and offer an "Unavailable comparisons" disclosure
+   * over the binding failures behind them. Ordinary play now gets the place and
+   * the figures; the machinery moved behind the diagnostics profile, and the
+   * test below walks it there so none of those assertions were lost.
+   */
+  await expect(panel).toContainText("Lexington, Kentucky");
+  await expect(panel).not.toContainText("not established as available");
+  await expect(page.locator(".economic-unavailable summary")).toHaveCount(0);
 
   await goTo(page, "elsewhere-people");
   await expect(page.getByTestId("people-overlay")).toBeVisible();
@@ -97,6 +99,37 @@ test("normal Politics Budget route preserves exact Lexington scope, date, Back a
   await expect(budget).toContainText(currentDate);
   await saveLife(page);
   expect(await savedWorldPayload(page)).toBe(before);
+});
+
+test("the same normal Budget route still shows its ingestion record under the diagnostics profile", async ({
+  page,
+}) => {
+  /*
+   * The other half of the pair above. Same route, same place, same panel — the
+   * only difference is the explicit opt-in, which nothing in the game links to.
+   * Everything the normal-route test used to assert is asserted here instead,
+   * including the keyboard activation of the disclosure.
+   */
+  await page.goto("/?seed=recovery25-budget-normal&diagnostics=1");
+  await startLife(page, {
+    age: 38,
+    place: "Lexington, Kentucky",
+    route: "normal",
+  });
+  await enterLife(page);
+  await goTo(page, "nav-politics-budget");
+
+  const panel = page.getByTestId("economic-context-panel");
+  await expect(panel).toBeVisible();
+  await expect(panel).toContainText(
+    "not established as available by this simulation date",
+  );
+  const unavailable = page
+    .locator(".economic-unavailable summary")
+    .filter({ hasText: "Unavailable comparisons" });
+  await unavailable.focus();
+  await unavailable.press("Enter");
+  await expect(unavailable.locator("..")).toHaveAttribute("open", "");
 });
 
 test("supported-date browser proof shows exact economic and fiscal graph metadata with keyboard tables", async ({

@@ -2,6 +2,7 @@ import {
   EconomicContextPanel,
   LEXINGTON_ECONOMIC_BINDING,
 } from "./EconomicContextPanel";
+import { DIAGNOSTICS } from "./diagnostics-profile";
 import { playerEconomicContextLines } from "../presentation/economic-context";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { PrivateJournalEditor } from "./PrivateJournalEditor";
@@ -734,6 +735,7 @@ export function PersonalWorkspace({
           <EconomicContextPanel
             binding={LEXINGTON_ECONOMIC_BINDING}
             simulationDate={world.currentDate}
+            diagnostics={DIAGNOSTICS}
           />
         ) : null}
       </section>

@@ -2057,7 +2057,7 @@
     {
       "sourcePath": "src/player/BudgetEconomyWorkspace.tsx",
       "enclosingSymbol": "BudgetEconomyWorkspace",
-      "line": 45,
+      "line": 56,
       "text": "Budget record availability",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2065,7 +2065,7 @@
     {
       "sourcePath": "src/player/BudgetEconomyWorkspace.tsx",
       "enclosingSymbol": "BudgetEconomyWorkspace",
-      "line": 72,
+      "line": 84,
       "text": "Economic graph availability",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5961,7 +5961,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "WorkspaceFrame",
-      "line": 85,
+      "line": 86,
       "text": "pg-workspace civic-glass",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5969,7 +5969,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "WorkspaceFrame",
-      "line": 98,
+      "line": 99,
       "text": "ui-action ui-action--subtle",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5977,7 +5977,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PeopleWorkspace",
-      "line": 181,
+      "line": 182,
       "text": "People view",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5985,7 +5985,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PeopleWorkspace",
-      "line": 193,
+      "line": 194,
       "text": "ui-action ui-action--rail",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5993,7 +5993,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PeopleWorkspace",
-      "line": 211,
+      "line": 212,
       "text": "ui-action ui-action--rail",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6001,7 +6001,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PeopleWorkspace",
-      "line": 238,
+      "line": 239,
       "text": "ui-action ui-action--subtle",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6009,7 +6009,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PeopleWorkspace",
-      "line": 243,
+      "line": 244,
       "text": "Show the nearby connections",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6017,7 +6017,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PeopleWorkspace",
-      "line": 244,
+      "line": 245,
       "text": "Show everyone you know",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6025,7 +6025,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PeopleWorkspace",
-      "line": 279,
+      "line": 280,
       "text": "ui-action ui-action--rail",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6033,7 +6033,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PeopleWorkspace",
-      "line": 283,
+      "line": 284,
       "text": "Pin {person.name}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6041,7 +6041,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PeopleWorkspace",
-      "line": 283,
+      "line": 284,
       "text": "Unpin {person.name}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6049,16 +6049,8 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "CalendarEntryRow",
-      "line": 360,
+      "line": 361,
       "text": "ui-action ui-action--rail",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/player/ShellWorkspaces.tsx",
-      "enclosingSymbol": "MeasureSurface",
-      "line": 520,
-      "text": "Filed by {briefing.sponsorName}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -6066,6 +6058,14 @@
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "MeasureSurface",
       "line": 521,
+      "text": "Filed by {briefing.sponsorName}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/ShellWorkspaces.tsx",
+      "enclosingSymbol": "MeasureSurface",
+      "line": 522,
       "text": "No sponsor is on the record.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6073,7 +6073,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "MeasureSurface",
-      "line": 525,
+      "line": 526,
       "text": "You filed it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6081,7 +6081,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "MeasureSurface",
-      "line": 526,
+      "line": 527,
       "text": "You did not file it. Your part in it is whatever the chamber gives you.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6089,7 +6089,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "formatMoney",
-      "line": 554,
+      "line": 555,
       "text": "{whole} {amount.currency}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6097,7 +6097,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PersonalWorkspace",
-      "line": 614,
+      "line": 615,
       "text": " · {record.identity.placeName}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6105,7 +6105,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PersonalWorkspace",
-      "line": 645,
+      "line": 646,
       "text": ", {member.relationship}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6113,7 +6113,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PersonalWorkspace",
-      "line": 684,
+      "line": 685,
       "text": "Money and property",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6121,7 +6121,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PersonalWorkspace",
-      "line": 717,
+      "line": 718,
       "text": "Economic context",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6129,7 +6129,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PersonalWorkspace",
-      "line": 722,
+      "line": 723,
       "text": "Home place not recorded",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6137,7 +6137,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PatchNotesWorkspace",
-      "line": 926,
+      "line": 928,
       "text": "Version {section.version}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6145,7 +6145,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PatchNotesWorkspace",
-      "line": 927,
+      "line": 929,
       "text": "Version not stated",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6153,7 +6153,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PatchNotesWorkspace",
-      "line": 929,
+      "line": 931,
       "text": "Release date not recorded",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6161,7 +6161,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "OptionsWorkspace",
-      "line": 968,
+      "line": 970,
       "text": "People default view",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6169,7 +6169,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "OptionsWorkspace",
-      "line": 971,
+      "line": 973,
       "text": "Relationship web",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6177,7 +6177,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "OptionsWorkspace",
-      "line": 972,
+      "line": 974,
       "text": "By category",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6185,7 +6185,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "OptionsWorkspace",
-      "line": 973,
+      "line": 975,
       "text": "One list",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6193,7 +6193,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "OptionsWorkspace",
-      "line": 979,
+      "line": 981,
       "text": "ui-action ui-action--rail",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6201,7 +6201,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "OptionsWorkspace",
-      "line": 993,
+      "line": 995,
       "text": "Default pin size",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6209,7 +6209,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "OptionsWorkspace",
-      "line": 1004,
+      "line": 1006,
       "text": "ui-action ui-action--rail",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16274,7 +16274,7 @@
       "sourcePath": "src/presentation/run-c-working-document.ts",
       "enclosingSymbol": "projectKnownAnalysis",
       "line": 900,
-      "text": "From a staff policy review",
+      "text": "Known through an explicit policy-analysis review",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },

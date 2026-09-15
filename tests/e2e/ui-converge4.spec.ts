@@ -338,10 +338,19 @@ test("normal county selection preserves unspecified town and exact saved jurisdi
 });
 
 for (const place of ["Lexington, Kentucky", "Carson City, Nevada"]) {
-  test(`normal dated economic panel respects canonical place: ${place}`, async ({
+  test(`dated economic panel respects canonical place: ${place}`, async ({
     page,
   }) => {
-    await page.goto("/?seed=ui-converge4-economics");
+    /*
+     * Runs under the diagnostics profile. What this test is actually about —
+     * that the panel appears for a place the data covers and does not appear
+     * for one it does not, and that neither changes the saved world — holds in
+     * both profiles, and the source disclosures it walks now live behind the
+     * explicit opt-in. Keeping every assertion here was worth one query
+     * parameter; that ordinary play shows none of this is covered by
+     * recovery25-budget on the normal route and by the rendered-surface guard.
+     */
+    await page.goto("/?seed=ui-converge4-economics&diagnostics=1");
     await startLife(page, {
       age: 38,
       place,
