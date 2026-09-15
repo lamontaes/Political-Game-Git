@@ -276,7 +276,7 @@ test.describe("A life can stand for something", () => {
 
     // An afternoon on the doors produces a memo, and the memo admits a margin.
     // A day only holds so much, so this one happens tomorrow.
-    await page.getByTestId("pass-day").click();
+    await page.getByTestId("shell-pass-day").click();
     await page.getByTestId("campaign-outreach").click();
     const memo = page.getByTestId("campaign-memo");
     await expect(memo).toContainText(/give or take/i);
@@ -474,10 +474,10 @@ test.describe("P85D integration through ordinary player controls", () => {
     expect(await liveUntilDecided(page)).toBe(true);
     await expect(page.getByTestId("campaign-afterword")).toContainText("won.");
     await expect(page.getByTestId("office-section")).toHaveCount(0);
-    // The ordinary quiet-story clock processes the same pending term transition.
-    for (let step = 0; step < 12; step += 1) {
+    // The ordinary shell clock processes the same pending term transition.
+    for (let step = 0; step < 52; step += 1) {
       if (await page.getByTestId("office-section").isVisible()) break;
-      await page.getByTestId("pass-day").click();
+      await page.getByTestId("shell-pass-week").click();
     }
     await expect(page.getByTestId("office-section")).toContainText(
       "Kentucky legislature",
