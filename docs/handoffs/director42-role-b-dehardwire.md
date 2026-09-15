@@ -198,8 +198,27 @@ untracked local config pointing `executablePath` at
 `/opt/pw-browsers/chromium-1194`. Nothing tracked was changed to make it run,
 and that file is not committed.
 
-**Separately pending, not run by this owner:** the full repository gate, the
-rest of the Playwright lane (`npm run test:e2e`), and `test:run-a/b/c`.
+### The full unit suite
+
+`npx vitest run` over the whole repository: **347 files / 4822 tests pass,
+9 files / 20 tests fail.**
+
+Every failing file is a historical git-range ownership-boundary check or a
+prose-corpus CLI check — `authoring-ownership-boundary`, `donor-containment`,
+`executive-governing-ownership-boundary`, `judicial-gameplay-ownership-boundary`,
+`narrative-wave-ownership-boundary`, `anchor-cli`, `anchor-crossbranch`,
+`corpus`, `e2e-shard-inventory`/`release/transaction`. None of them touches
+legislation, measures, the content bank or anything in this diff; the failures
+read "can see the range it is measuring" and "can see the donor branches it is
+meant to check", which is a checkout without those historical refs.
+
+Run at **base f22fd31 in a separate worktree**, the same files fail the same
+way and in the same numbers (19 tests over the eight range/corpus files; 1 over
+the other two). Not this change.
+
+**Separately pending, not run by this owner:** the full repository gate as the
+project runs it, the rest of the Playwright lane (`npm run test:e2e`), and
+`test:run-a/b/c`.
 
 ## One assertion was rewritten, not weakened
 
