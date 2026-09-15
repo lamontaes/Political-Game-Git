@@ -76,6 +76,19 @@ prose union.
   choice. The matter label was renamed to "Mention the news:" so the two
   cannot be confused.
 
+- W1 consumed (branch `claude/alive43-l-on-w1` on W `0fcd4688`): the
+  contract mirror became re-exports of W's types; a new unsaved life sees the
+  four-panel introduction until it is finished or skipped, and News carries
+  "Who holds office" to reopen it.
+- L3 on W2 (branch `claude/alive43-l3-chapters` on W `7537cea5`): one new pin
+  kind, `organization`, for a local party chapter. Meetings stay pinned as the
+  existing `commitment` kind. "Local party chapters" under Politics and the
+  chapter pin open a chapter surface: organizer (their ordinary card), the
+  community room, this player's invitations with state, and explicit Accept,
+  Decline, Go to the meeting, Join and Leave routed to W's writers. Opening a
+  surface or pin writes nothing; going to a meeting runs the ordinary journey
+  and returns to the room.
+
 ## Pending
 
 - Recap panel screenshots at 1440x900, 1200x720 and 1024x768 with a real
@@ -83,5 +96,5 @@ prose union.
   invitation).
 - Orientation mount, and its skip, back and revisit browser proof, after the
   W1 commit.
-- L3 party chapter contact, follow-up and pins, after W2.
+- L3 browser proof (chapter route, pin reopen, accept and attend) after the private pack is staged.
 - Private-pack screenshot identity from LAND.

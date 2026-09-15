@@ -1,3 +1,4 @@
+import { organizationRefLabel } from "./organization-ref";
 import {
   ageOnDate,
   deriveRelationshipSummary,
@@ -353,6 +354,8 @@ export function shellRefIsResolvable(world: World, ref: ShellRef): boolean {
   if (ref.kind === "government") {
     return municipalGovernmentByKey(ref.id) !== null;
   }
+  if (ref.kind === "organization")
+    return organizationRefLabel(world, ref.id) !== null;
   if (ref.kind === "person") return world.people[ref.id] !== undefined;
   if (ref.kind === "commitment") {
     return world.history.scheduledActivities.some(
@@ -374,6 +377,7 @@ export function labelForRef(world: World, ref: ShellRef): string | null {
   if (ref.kind === "government") {
     return municipalGovernmentByKey(ref.id)?.displayName ?? null;
   }
+  if (ref.kind === "organization") return organizationRefLabel(world, ref.id);
   if (ref.kind === "person") {
     const person = world.people[ref.id];
     return person ? personName(person) : null;

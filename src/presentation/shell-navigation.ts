@@ -40,7 +40,16 @@ export type ShellRef =
    * surface for one to open, and a reference type with nothing to resolve to
    * would be a promise the game cannot keep.
    */
-  | { readonly kind: "government"; readonly id: string };
+  | { readonly kind: "government"; readonly id: string }
+  /**
+   * An organization the player has met, such as a local party chapter.
+   *
+   * Reopening one shows that organization's public face and the player's own
+   * invitations from it. Opening it does not travel there, join it, accept an
+   * invitation or attend a meeting; those stay explicit actions on the
+   * surface. A meeting on the calendar is still pinned as a commitment.
+   */
+  | { readonly kind: "organization"; readonly id: EntityId };
 
 export function refKey(ref: ShellRef): string {
   return `${ref.kind}:${ref.id}`;
@@ -66,6 +75,8 @@ export type ShellSurface =
   | "news"
   | "places"
   | "municipal"
+  /** The home area's local party chapters. Looking is not joining. */
+  | "parties"
   | "journal"
   | "patch-notes"
   | "options";
