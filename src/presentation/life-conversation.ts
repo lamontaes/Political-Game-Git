@@ -10,6 +10,7 @@ import {
   type TalkProposalTerms,
 } from "./life-talk-proposals";
 import { currentLifeTalkScene } from "./life-talk-presence";
+import { currentKnownMatter, matterAwareness } from "./current-matters";
 import {
   ageOnDate,
   describePersonContext,
@@ -43,6 +44,7 @@ export const LIFE_TALK_INTENTS = {
   suggestGame: "Suggest playing a game together",
   suggestQuiet: "Suggest sitting and talking together",
   share: "Ask if you can tell them something",
+  matter: "Bring up something in the news",
   remember: "Talk about an earlier conversation",
   acknowledge: "Let them know you heard",
   leave: "Say goodbye",
@@ -112,6 +114,10 @@ export function projectLifeConversation(
     .find((tag) => tag.startsWith("life.talk:"))
     ?.slice(10);
   const intents: LifeTalkIntent[] = ["greet", "scene", "activity", "share"];
+  // A current public or known matter the player could actually raise; the
+  // counterpart's answer depends on what their own records say they know.
+  const matter = currentKnownMatter(world, playerPersonId);
+  if (matter) intents.push("matter");
   if (previousIntent === "activity")
     intents.push("suggestGame", "suggestQuiet");
   if (
@@ -189,16 +195,19 @@ export function projectLifeConversation(
     person: describePersonContext(world, playerPersonId, personId)!,
     revision: world.history.nextSequence,
     proposal,
+    matter,
     intents: intents.map((key) => ({
       key,
       label:
-        proposal && key === "acceptProposal"
-          ? `Agree to ${proposal.label}`
-          : proposal && key === "declineProposal"
-            ? `Decline to ${proposal.label}`
-            : proposal && key === "spendTime"
-              ? `Spend 30 minutes: ${proposal.label}`
-              : LIFE_TALK_INTENTS[key],
+        matter && key === "matter"
+          ? `Bring up: ${matter.headline}`
+          : proposal && key === "acceptProposal"
+            ? `Agree to ${proposal.label}`
+            : proposal && key === "declineProposal"
+              ? `Decline to ${proposal.label}`
+              : proposal && key === "spendTime"
+                ? `Spend 30 minutes: ${proposal.label}`
+                : LIFE_TALK_INTENTS[key],
     })),
     transcript: history.map((event) => ({
       eventId: event.id,
@@ -414,7 +423,26 @@ function replyFor(
         : previous?.tags.includes("life.answer:company")
           ? "I want to spend time with you."
           : "I'd like to do something I already enjoy.";
+    case "matter": {
+      const matter = currentKnownMatter(world, playerPersonId);
+      if (!matter) return "What did you want to talk about?";
+      const awareness = matterAwareness(world, personId, matter.eventId);
+      if (awareness === "uninformed") return "I hadn't heard about that.";
+      if (activeOrdinaryGoal(world, personId, "privacy"))
+        return "I'd rather not get into that right now.";
+      return awareness === "involved"
+        ? "I was involved in that."
+        : "I heard about that.";
+    }
     case "remember": {
+      // A matter the two of you discussed is more memorable than small talk.
+      const matterTurn = [...history]
+        .reverse()
+        .find((event) =>
+          event.tags.some((tag) => tag.startsWith("life.matter:")),
+        );
+      if (matterTurn?.context.choice?.startsWith("Bring up: "))
+        return `I remember you bringing up “${matterTurn.context.choice.slice(10)}”`;
       const remembered =
         history.find(
           (event) =>
@@ -554,10 +582,12 @@ export function commitLifeConversation(
           : "date-declined"
         : input.intent === "activity"
           ? leisure
-          : latestPersonalValue(world, input.personId, LIFE_MIND_IDS.privacy)
-                ?.orientation === "embraces"
-            ? "private"
-            : "open";
+          : input.intent === "matter" && view.matter
+            ? `matter-${matterAwareness(world, input.personId, view.matter.eventId)}`
+            : latestPersonalValue(world, input.personId, LIFE_MIND_IDS.privacy)
+                  ?.orientation === "embraces"
+              ? "private"
+              : "open";
   const stableKey = `opening-life:talk:${input.playerPersonId}:${input.personId}:${input.revision}`;
   let next = recordWorldEvent(advanced, {
     stableKey,
@@ -596,6 +626,9 @@ export function commitLifeConversation(
       `scene:${currentLifeTalkScene(world, input.playerPersonId)!.eventId}`,
       `moment:${JSON.stringify(advanced.currentMoment)}`,
       `life.answer:${answer}`,
+      ...(input.intent === "matter" && view.matter
+        ? [`life.matter:${view.matter.eventId}`]
+        : []),
       ...(terms
         ? [
             talkProposalTag(terms),

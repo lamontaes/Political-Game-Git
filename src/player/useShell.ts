@@ -82,6 +82,7 @@ export function useShell(
           personWardrobes: stored.personWardrobes ?? {},
           pins: stored.pins,
           preferences: stored.preferences,
+          ...(stored.progress ? { progress: stored.progress } : {}),
         });
       }
       setLoadedRecord(recordKey);
@@ -104,6 +105,7 @@ export function useShell(
       personWardrobes: state.personWardrobes,
       pins: state.pins,
       preferences: state.preferences,
+      progress: state.progress,
     });
   }, [
     saveId,
@@ -114,7 +116,21 @@ export function useShell(
     state.preferences,
     state.journal,
     state.personWardrobes,
+    state.progress,
   ]);
+
+  /*
+   * A life read for the first time starts its recap frontier at the world's
+   * current sequence. A stored frontier arriving afterwards replaces it through
+   * `restore`, so the order of these two effects does not matter.
+   */
+  useEffect(() => {
+    if (state.progress.recapFrontier !== null) return;
+    dispatch({
+      type: "start-recap-frontier",
+      sequence: world.history.nextSequence,
+    });
+  }, [world, state.progress.recapFrontier]);
 
   /* A pin the world cannot resolve is not shown as one that can be opened. */
   useEffect(() => {
