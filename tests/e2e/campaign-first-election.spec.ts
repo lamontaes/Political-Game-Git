@@ -365,7 +365,7 @@ test.describe("A life can stand for something", () => {
     const afterword = await page.getByTestId("campaign-afterword").innerText();
     await openDay(page);
     const before = (await page.getByTestId("day-date").textContent()) ?? "";
-    await page.getByTestId("pass-day").click();
+    await page.getByTestId("shell-pass-day").click();
     await expect(page.getByTestId("day-date")).not.toHaveText(before);
     await expect(page.getByTestId("play-screen")).toBeVisible();
 
