@@ -109,7 +109,7 @@ async function openCampaign(page: Page) {
 /** Closes Work, whichever office-holder's frame it is drawn in. */
 async function closeWork(page: Page) {
   await page
-    .getByRole("region", { name: "Work", exact: true })
+    .getByRole("region", { name: "Your office and campaigns", exact: true })
     .getByRole("button", { name: "Close", exact: true })
     .click();
 }
@@ -206,6 +206,10 @@ test.describe("A life can stand for something", () => {
     ).toHaveCount(0);
 
     /* The offer itself still reads like an offer. */
+    await page
+      .getByTestId("campaign-office-browser")
+      .locator('input[value="us-ky-general-assembly-v1:house"]')
+      .check();
     await expect(page.getByTestId("campaign-offer")).toContainText(
       /there is a .* to be filled/i,
     );

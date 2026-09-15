@@ -159,6 +159,7 @@ test("private Journal intentions, grouped notes, real person links and history b
   await save(page);
   const initial = await savedWorld(page);
   await goTo(page, "nav-journal-entry");
+  await page.getByText("Private notes and intentions", { exact: true }).click();
   const notebook = page.getByRole("region", { name: "Private notebook" });
   await notebook
     .getByLabel("My intentions")

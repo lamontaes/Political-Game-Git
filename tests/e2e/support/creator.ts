@@ -197,8 +197,19 @@ export async function openShellMenu(page: Page): Promise<void> {
 /** Opens the cluster and presses one of its destinations. */
 export async function goTo(page: Page, testid: string): Promise<void> {
   await openShellMenu(page);
-  if (testid === "elsewhere-work") {
+  if (
+    [
+      "elsewhere-work",
+      "nav-municipal",
+      "nav-politics-budget",
+      "nav-politics-candidacy",
+      "nav-politics-tax",
+      "nav-politics-transit",
+    ].includes(testid)
+  ) {
     await page.getByTestId("nav-group-politics").click();
+  } else if (["nav-finances", "nav-jobs", "nav-personal"].includes(testid)) {
+    await page.getByTestId("nav-group-personal").click();
   }
   await page.getByTestId(testid).click();
 }
@@ -241,7 +252,9 @@ export async function openElsewhere(
   if (key === "work") {
     await page.getByTestId("nav-group-politics").click();
   }
-  const control = page.getByTestId(`elsewhere-${key}`);
+  const control = page.getByTestId(
+    key === "day" ? "nav-calendar" : `elsewhere-${key}`,
+  );
   await expect(control).toBeVisible();
   if ((await control.getAttribute("aria-pressed")) === "true") {
     /* Already open behind the flyout; close the flyout and leave it open. */
