@@ -4,6 +4,7 @@ import {
   ENGINE_PEOPLE29_POSE_ART,
 } from "./engine-people29-review";
 import { initializeFreshCandidateOutfits } from "./complete-outfit";
+import { PRIVATE_CANDIDATE_ART_AVAILABLE } from "./private-candidate-manifests";
 import type { World } from "../simulation/types";
 import type { NewGameSetup } from "./new-game";
 import type { PoseArtIndex } from "./pose-families";
@@ -244,8 +245,12 @@ export function setupForArtPreview<T extends NewGameSetup>(
   setup: T,
   mode: ArtPreviewMode,
 ): T {
+  // Without the owner-private prepared bodies (a public checkout), a review
+  // build has no complete candidate outfit to offer; it keeps the ordinary
+  // appearance path instead of pinning people to art that is not present.
   if (
     mode !== "candidate-review" ||
+    !PRIVATE_CANDIDATE_ART_AVAILABLE ||
     setup.appearanceRecipeVersion !== "appearance-recipe-v2" ||
     setup.appearanceCatalogGeneration !== undefined
   )
@@ -265,6 +270,7 @@ export function prepareCandidateOpeningWorld(
   mode: ArtPreviewMode,
 ): World {
   return mode === "candidate-review" &&
+    PRIVATE_CANDIDATE_ART_AVAILABLE &&
     (setup.appearanceOutfitVersion === "complete-outfit-v1" ||
       setup.appearanceOutfitVersion === "complete-outfit-v2")
     ? initializeFreshCandidateOutfits(

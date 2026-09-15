@@ -14,6 +14,7 @@ import {
 } from "./complete-outfit";
 import type { CharacterComponentLibrary } from "./character-components";
 import { buildSeedFor } from "./new-game-identity";
+import { PRIVATE_CANDIDATE_ART_AVAILABLE } from "./private-candidate-manifests";
 import type { NewGameSetup } from "./new-game";
 
 /**
@@ -67,7 +68,10 @@ export function creatorAppearanceDraft(
     people: [person],
     control: { kind: "person", personId: person.id },
   });
-  return setup.appearanceOutfitVersion
+  // A descriptor marked for complete candidate outfits (for example a replay
+  // from a private build) still previews in a public checkout, which carries
+  // no prepared bodies to dress.
+  return setup.appearanceOutfitVersion && PRIVATE_CANDIDATE_ART_AVAILABLE
     ? initializeFreshCandidateOutfits(
         draft,
         library,
@@ -87,7 +91,9 @@ export function applyCreatorAppearance(
   choice: CreatorAppearanceChoice | null,
   library: CharacterComponentLibrary,
 ): World {
-  if (!choice) return world;
+  // A public checkout has no prepared candidate bodies, so there is no
+  // complete outfit to commit; the ordinary generated appearance stands.
+  if (!choice || !PRIVATE_CANDIDATE_ART_AVAILABLE) return world;
   return commitCompleteOutfit(world, choice.personId, choice.appearance, {
     library,
     poseFamily: "standing-neutral",
