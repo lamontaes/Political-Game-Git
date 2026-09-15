@@ -130,8 +130,8 @@ export function DocketWorkspace({
         <details data-testid="docket-office-record">
           <summary>{officeContext.member.label}</summary>
           <p>
-            Work recorded from {officeContext.member.recordedWorkStartedAt}. The
-            legal term dates are not established by that work record.
+            You have been working here since{" "}
+            {officeContext.member.recordedWorkStartedAt}.
           </p>
           <p>{officeContext.committeeMembership.reason}</p>
         </details>

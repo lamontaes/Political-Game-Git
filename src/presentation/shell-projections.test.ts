@@ -1,11 +1,17 @@
 import { describe, expect, it } from "vitest";
 
+import { forbiddenPlayerPhrasesIn } from "./player-copy";
+
 import { createNewGameWorld } from "./new-game";
 import {
   projectPersonDossier,
   labelForRef,
   shellRefIsResolvable,
 } from "./person-dossier";
+import {
+  establishOpeningOfficeholders,
+  openingOfficeholders,
+} from "./opening-officeholders";
 import { projectPersonalRecord } from "./personal-record";
 import { projectPlayerCalendar } from "./player-calendar";
 import { filterDirectory, projectPeopleDirectory } from "./people-directory";
@@ -76,15 +82,25 @@ describe("the person dossier", () => {
     ).toBeNull();
   });
 
-  it("says what is not known instead of quietly leaving it out", () => {
+  it("withholds what is not known without narrating the withholding", () => {
     const { world, personId } = newLife("dossier-unknown");
     const other = anybodyElse(world, personId);
     expect(other).not.toBeNull();
-    const dossier = projectPersonDossier(world, personId, other!.personId);
-    /* Either the record establishes an occupation or the dossier says it does
-       not. What it may never do is neither. */
-    const claimsWork = dossier!.details.some((fact) => /at /.test(fact.text));
-    expect(claimsWork || dossier!.notKnown.length > 0).toBe(true);
+    const dossier = projectPersonDossier(world, personId, other!.personId)!;
+    /*
+     * This used to require the opposite: a stranger's card had to either claim
+     * an occupation or say out loud that it did not know of one. That is a
+     * developer's honesty, and in front of a player it read as a list of failed
+     * lookups. The gate itself has not moved — nothing unpublished appears —
+     * but the card no longer reports on its own bookkeeping, here or in any
+     * other line it renders.
+     */
+    for (const text of [
+      ...dossier.details.map((fact) => fact.text),
+      dossier.lastInteraction,
+    ]) {
+      expect(forbiddenPlayerPhrasesIn(text), text).toEqual([]);
+    }
   });
 
   it("does not publish another person's private biography as a public record", () => {
@@ -122,10 +138,59 @@ describe("the person dossier", () => {
       },
     };
     const dossier = projectPersonDossier(privateWorld, personId, subject.id)!;
-    expect(dossier.details.map((fact) => fact.text).join(" ")).not.toContain(
-      "Private Employer",
+    const rendered = dossier.details.map((fact) => fact.text).join(" ");
+    expect(rendered).not.toContain("Private Employer");
+    expect(rendered).not.toContain("Private Role");
+    /* Withheld, and withheld silently: no line announces the omission. */
+    expect(forbiddenPlayerPhrasesIn(rendered)).toEqual([]);
+  });
+
+  it("shows a public office without the player having met its holder", () => {
+    const { world, personId } = newLife("dossier-public-office");
+    const staffed = establishOpeningOfficeholders(world, personId);
+    const holders = openingOfficeholders(staffed);
+    expect(holders.length).toBeGreaterThan(0);
+    const holder = holders[0]!;
+
+    /*
+     * The player has never been introduced to this person — the world put them
+     * in office, nobody sat them down together — and that is precisely the
+     * case that used to come back blank. Holding office is public, so the card
+     * carries it.
+     */
+    const dossier = projectPersonDossier(staffed, personId, holder.personId)!;
+    expect(dossier.lastInteraction).toBe("You haven't spoken.");
+    expect(dossier.details.map((fact) => fact.text)).toContain(holder.title);
+  });
+
+  it("keeps a non-public tenure off the card it would otherwise fill", () => {
+    const { world, personId } = newLife("dossier-private-office");
+    const staffed = establishOpeningOfficeholders(world, personId);
+    const holder = openingOfficeholders(staffed)[0]!;
+
+    /*
+     * Same record, same participant, one field different. Publicity is what
+     * opens the card, so demoting the tenure's visibility has to close it —
+     * otherwise the gate is acquaintance-shaped after all, and a limited
+     * record would leak the moment somebody rendered it.
+     */
+    const withheld = {
+      ...staffed,
+      history: {
+        ...staffed.history,
+        events: staffed.history.events.map((event) =>
+          event.type === "world.office-tenure"
+            ? { ...event, visibility: "limited" as const }
+            : event,
+        ),
+      },
+    };
+    const dossier = projectPersonDossier(withheld, personId, holder.personId)!;
+    expect(dossier.details.map((fact) => fact.text)).not.toContain(
+      holder.title,
     );
-    expect(dossier.notKnown.length).toBeGreaterThan(0);
+    for (const fact of dossier.details)
+      expect(forbiddenPlayerPhrasesIn(fact.text), fact.text).toEqual([]);
   });
 
   it("only offers links this world can resolve", () => {

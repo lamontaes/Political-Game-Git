@@ -1,7 +1,13 @@
 import type { Page } from "@playwright/test";
 
 import { expect, test } from "./fixtures";
-import { enterLife, goTo, saveLife, startLife } from "./support/creator";
+import {
+  enterLife,
+  goTo,
+  openShellMenu,
+  saveLife,
+  startLife,
+} from "./support/creator";
 
 // The complete creator/read/Back/Keep/reopen journey shares one test budget.
 // Retain every assertion and native activation under a bounded 90-second limit.
@@ -41,6 +47,14 @@ async function continueSavedLife(page: Page): Promise<void> {
   await enterLife(page);
 }
 
+/** #255 groups the Budget destination under the Politics submenu. */
+async function goToBudget(page: Page): Promise<void> {
+  await openShellMenu(page);
+  if (!(await page.getByTestId("nav-politics-budget").isVisible()))
+    await page.getByTestId("nav-group-politics").click();
+  await page.getByTestId("nav-politics-budget").click();
+}
+
 test("normal Politics Budget route preserves exact Lexington scope, date, Back and save", async ({
   page,
 }) => {
@@ -58,6 +72,8 @@ test("normal Politics Budget route preserves exact Lexington scope, date, Back a
   await page.keyboard.press("Escape");
   await page.getByTestId("shell-nav-cluster").focus();
   await page.getByTestId("shell-nav-cluster").press("Enter");
+  await page.getByTestId("nav-group-politics").focus();
+  await page.getByTestId("nav-group-politics").press("Enter");
   await page.getByTestId("nav-politics-budget").focus();
   await page.getByTestId("nav-politics-budget").press("Enter");
   await expect(page.getByTestId("shell-nav-flyout")).toBeHidden();
@@ -67,16 +83,18 @@ test("normal Politics Budget route preserves exact Lexington scope, date, Back a
   await expect(budget).toContainText("Budget & economy");
   await expect(budget).toContainText("Lexington, Kentucky");
   await expect(budget).toContainText(currentDate);
-  await expect(page.getByTestId("economic-context-panel")).toBeVisible();
-  await expect(page.getByTestId("economic-context-panel")).toContainText(
-    "not established as available by this simulation date",
-  );
-  const unavailable = page
-    .locator(".economic-unavailable summary")
-    .filter({ hasText: "Unavailable comparisons" });
-  await unavailable.focus();
-  await unavailable.press("Enter");
-  await expect(unavailable.locator("..")).toHaveAttribute("open", "");
+  const panel = page.getByTestId("economic-context-panel");
+  await expect(panel).toBeVisible();
+  /*
+   * The panel used to explain which products were "not established as available
+   * by this simulation date" and offer an "Unavailable comparisons" disclosure
+   * over the binding failures behind them. Ordinary play now gets the place and
+   * the figures; the machinery moved behind the diagnostics profile, and the
+   * test below walks it there so none of those assertions were lost.
+   */
+  await expect(panel).toContainText("Lexington, Kentucky");
+  await expect(panel).not.toContainText("not established as available");
+  await expect(page.locator(".economic-unavailable summary")).toHaveCount(0);
 
   await goTo(page, "elsewhere-people");
   await expect(page.getByTestId("people-overlay")).toBeVisible();
@@ -90,10 +108,41 @@ test("normal Politics Budget route preserves exact Lexington scope, date, Back a
   await saveLife(page);
   expect(await savedWorldPayload(page)).toBe(before);
   await continueSavedLife(page);
-  await goTo(page, "nav-politics-budget");
+  await goToBudget(page);
   await expect(budget).toContainText(currentDate);
   await saveLife(page);
   expect(await savedWorldPayload(page)).toBe(before);
+});
+
+test("the same normal Budget route still shows its ingestion record under the diagnostics profile", async ({
+  page,
+}) => {
+  /*
+   * The other half of the pair above. Same route, same place, same panel — the
+   * only difference is the explicit opt-in, which nothing in the game links to.
+   * Everything the normal-route test used to assert is asserted here instead,
+   * including the keyboard activation of the disclosure.
+   */
+  await page.goto("/?seed=recovery25-budget-normal&diagnostics=1");
+  await startLife(page, {
+    age: 38,
+    place: "Lexington, Kentucky",
+    route: "normal",
+  });
+  await enterLife(page);
+  await goToBudget(page);
+
+  const panel = page.getByTestId("economic-context-panel");
+  await expect(panel).toBeVisible();
+  await expect(panel).toContainText(
+    "not established as available by this simulation date",
+  );
+  const unavailable = page
+    .locator(".economic-unavailable summary")
+    .filter({ hasText: "Unavailable comparisons" });
+  await unavailable.focus();
+  await unavailable.press("Enter");
+  await expect(unavailable.locator("..")).toHaveAttribute("open", "");
 });
 
 test("supported-date browser proof shows exact economic and fiscal graph metadata with keyboard tables", async ({
@@ -152,7 +201,7 @@ test("Politics Budget route keeps an unmatched place unavailable instead of borr
   await saveLife(page);
   const before = await savedWorldPayload(page);
 
-  await goTo(page, "nav-politics-budget");
+  await goToBudget(page);
   const budget = page.getByTestId("budget-economy-workspace");
   await expect(budget).toContainText("Carson City, Nevada");
   await expect(page.getByTestId("economic-binding-unavailable")).toContainText(
@@ -199,7 +248,7 @@ test("normal pending conversation survives Politics Budget Back and saved reopen
   const before = await savedWorldPayload(page);
   const currentDate = JSON.parse(before).world.currentDate as string;
 
-  await goTo(page, "nav-politics-budget");
+  await goToBudget(page);
   await expect(page.getByTestId("budget-economy-workspace")).toContainText(
     currentDate,
   );
@@ -239,7 +288,7 @@ test("normal pending conversation survives Politics Budget Back and saved reopen
   await page.screenshot({
     path: testInfo.outputPath("conversation-after-reopen.png"),
   });
-  await goTo(page, "nav-politics-budget");
+  await goToBudget(page);
   await page.getByTestId("politics-workspace-back").click();
   await expect(conversation.getByTestId("conversation-beat")).toHaveText(line);
   await saveLife(page);

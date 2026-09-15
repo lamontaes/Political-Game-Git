@@ -209,13 +209,16 @@ export function EducationOptionsPanel({
       {institution && (
         <section aria-label="Institution details">
           <h4>{institution.name}</h4>
+          <p>{institution.statusLabel}</p>
+          {/*
+            The record id, the release stage and the county GEOID belonged to
+            whoever compiled the directory. What a prospective student needs to
+            know is that the listing does not go as far as prices and entry
+            requirements, which is said as a person would say it.
+          */}
           <p>
-            {institution.id} · {institution.statusLabel} · {institution.release}
-          </p>
-          <p>
-            County: {institution.countyGeoid ?? "not supplied"}. Historical
-            founding: unknown. Exact tuition and program-specific admission
-            prerequisites: not established.
+            The directory doesn&apos;t list tuition or entry requirements.
+            You&apos;d have to ask them.
           </p>
           <ul>
             {institution.capabilities
@@ -242,10 +245,7 @@ export function EducationOptionsPanel({
                       </button>
                     </>
                   ) : (
-                    <p>
-                      Information only. A specific program and admission route
-                      are not established.
-                    </p>
+                    <p>Listed here, but not something you can apply for.</p>
                   )}
                 </li>
               ))}

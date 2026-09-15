@@ -159,6 +159,7 @@ test("private Journal intentions, grouped notes, real person links and history b
   await save(page);
   const initial = await savedWorld(page);
   await goTo(page, "nav-journal-entry");
+  await page.getByText("Private notes and intentions", { exact: true }).click();
   const notebook = page.getByRole("region", { name: "Private notebook" });
   await notebook
     .getByLabel("My intentions")
@@ -194,6 +195,7 @@ test("private Journal intentions, grouped notes, real person links and history b
     page.getByTestId("person-workspace").locator("[data-person-id]").first(),
   ).toHaveAttribute("data-person-id", personId!);
   await page.getByTestId("person-workspace-back").click();
+  await page.getByText("Private notes and intentions", { exact: true }).click();
   await expect(note.getByLabel("Title", { exact: true })).toHaveValue(
     "A private reminder",
   );
@@ -210,6 +212,7 @@ test("private Journal intentions, grouped notes, real person links and history b
   expect(await savedWorld(page)).toEqual(initial);
   await continueSaved(page);
   await goTo(page, "nav-journal-entry");
+  await page.getByText("Private notes and intentions", { exact: true }).click();
   await expect(notebook.getByLabel("My intentions")).toHaveValue(
     "I want to remember the people I meet.",
   );
@@ -319,8 +322,8 @@ test("normal county selection preserves unspecified town and exact saved jurisdi
   expect(player).toBeDefined();
   await expect(page.getByTestId("play-screen")).toContainText("Fayette County");
   await goTo(page, "nav-municipal");
-  await expect(page.getByTestId("municipal-workspace")).toContainText(
-    "No verified government link",
+  await expect(page.getByTestId("municipal-missing-home-link")).toContainText(
+    "nothing to attend or work on here",
   );
   await save(page);
   expect(await savedWorld(page)).toEqual(initial);
@@ -338,10 +341,19 @@ test("normal county selection preserves unspecified town and exact saved jurisdi
 });
 
 for (const place of ["Lexington, Kentucky", "Carson City, Nevada"]) {
-  test(`normal dated economic panel respects canonical place: ${place}`, async ({
+  test(`dated economic panel respects canonical place: ${place}`, async ({
     page,
   }) => {
-    await page.goto("/?seed=ui-converge4-economics");
+    /*
+     * Runs under the diagnostics profile. What this test is actually about —
+     * that the panel appears for a place the data covers and does not appear
+     * for one it does not, and that neither changes the saved world — holds in
+     * both profiles, and the source disclosures it walks now live behind the
+     * explicit opt-in. Keeping every assertion here was worth one query
+     * parameter; that ordinary play shows none of this is covered by
+     * recovery25-budget on the normal route and by the rendered-surface guard.
+     */
+    await page.goto("/?seed=ui-converge4-economics&diagnostics=1");
     await startLife(page, {
       age: 38,
       place,

@@ -109,15 +109,12 @@ export function CareerPathsPanel({
         </p>
         {world.currentDate >= "2026-09-09" && source.wage && (
           <p>
-            May 2025 national OEWS published estimate: hourly median{" "}
-            {source.wage.hourlyMedian ?? "unavailable"}, annual median{" "}
-            {source.wage.annualMedian ?? "unavailable"}. This is U.S. aggregate
-            context, not a local wage or individual offer.
+            Nationally, this work pays a median of{" "}
+            {source.wage.hourlyMedian ?? "an unlisted amount"} an hour,{" "}
+            {source.wage.annualMedian ?? "an unlisted amount"} a year. What it
+            pays here, and what anyone would offer you, is another question.
           </p>
         )}
-        <a href="https://www.onetcenter.org/database.html">O*NET database</a>
-        {" · "}
-        <a href="https://www.bls.gov/oes/tables.htm">BLS wage tables</a>
       </details>
       {mine.map((r) => {
         const status = workStatusAt(world, r.id)?.status;

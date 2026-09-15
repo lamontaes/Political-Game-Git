@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { projectBudgetEconomy } from "../presentation/budget-economy";
 import { projectModeledAccountHistory } from "../presentation/modeled-account-history";
 import type { EntityId, World } from "../simulation";
+import { DIAGNOSTICS } from "./diagnostics-profile";
 import { EconomicContextPanel, EconomicGraph } from "./EconomicContextPanel";
 import { ModeledAccountHistory } from "./ModeledAccountHistory";
 import "./budget-economy-workspace.css";
@@ -10,9 +11,19 @@ import "./budget-economy-workspace.css";
 export function BudgetEconomyWorkspace({
   world,
   jurisdictionId,
+  diagnostics = DIAGNOSTICS,
 }: {
   readonly world: World;
   readonly jurisdictionId: EntityId;
+  /**
+   * Show the ingestion record behind the figures.
+   *
+   * Defaults to the query-string opt-in, so ordinary play gets the numbers and
+   * a developer who asks for the machinery on the same screen still gets it.
+   * The budget proof fixture passes it explicitly, which is why that harness
+   * still walks "Sources and scope" exactly as it always did.
+   */
+  readonly diagnostics?: boolean;
 }) {
   const model = useMemo(
     () => projectBudgetEconomy(world, jurisdictionId),
@@ -73,6 +84,7 @@ export function BudgetEconomyWorkspace({
           binding={model.economicBinding}
           simulationDate={model.simulationDate}
           fiscalGraphs={model.fiscalGraphs}
+          diagnostics={diagnostics}
         />
       ) : (
         <section

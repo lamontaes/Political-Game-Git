@@ -19,6 +19,7 @@ import type {
   MoneyAmount,
   World,
 } from "../simulation";
+import { DIAGNOSTICS } from "./diagnostics-profile";
 
 /**
  * Running for something.
@@ -331,14 +332,17 @@ export function CampaignWorkspace({
               </fieldset>
             ),
           )}
-          <details className="game-campaign-detail">
-            <summary>About election dates here</summary>
-            <p>
-              No national election calendar or inferred district membership is
-              supplied here. The existing campaign filing route uses its 28-day
-              game scenario schedule, not a sourced real-world election date.
-            </p>
-          </details>
+          {DIAGNOSTICS ? (
+            <details className="game-campaign-detail">
+              <summary>About election dates here</summary>
+              <p>
+                No national election calendar or inferred district membership is
+                supplied here. The existing campaign filing route uses its
+                28-day game scenario schedule, not a sourced real-world election
+                date.
+              </p>
+            </details>
+          ) : null}
         </section>
       ) : null}
       {unavailable ? (
@@ -380,7 +384,7 @@ export function CampaignWorkspace({
               The committee opens with nothing in it.
             </span>
           </button>
-          {authorityDetail.length > 0 ? (
+          {DIAGNOSTICS && authorityDetail.length > 0 ? (
             <details className="game-campaign-gaps game-campaign-detail">
               <summary>What the game does not know about this</summary>
               <ul>

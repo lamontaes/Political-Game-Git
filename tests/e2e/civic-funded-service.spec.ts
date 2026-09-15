@@ -326,7 +326,7 @@ test("an Alaska member funds added transit service from a collected tax and sees
     .locator("circle")
     .click();
   await expect(page.getByTestId("quick-last-interaction")).toContainText(
-    "Last on the record:",
+    "You last spoke on",
   );
   await page.keyboard.press("Escape");
   await goTo(page, "nav-journal-entry", "journal");
@@ -358,7 +358,7 @@ test("an Alaska member funds added transit service from a collected tax and sees
     .locator("circle")
     .click();
   await expect(page.getByTestId("quick-last-interaction")).toContainText(
-    "Last on the record:",
+    "You last spoke on",
   );
   await page.keyboard.press("Escape");
   await goTo(page, "nav-journal-entry", "journal");

@@ -169,17 +169,16 @@ export function projectLegislativeOfficeContext(
     measure,
     termCommencement: {
       kind: "unavailable",
-      reason:
-        "The legal start of this term has not been established. The recorded work start is not a sourced term commencement.",
+      reason: "Nobody has put a date on when this term formally began.",
     },
     termExpiry: {
       kind: "unavailable",
-      reason: "No sourced term expiration is available for this office.",
+      reason: "Nobody has put a date on when this term ends.",
     },
     committeeMembership: {
       kind: "unavailable",
       reason:
-        "No committee appointment record establishes membership. A bill's referral does not appoint its sponsor.",
+        "You have not been appointed to a committee. Sponsoring a bill does not put you on the one that hears it.",
     },
   };
 }

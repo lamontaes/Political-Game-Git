@@ -217,9 +217,7 @@ function reconcileSeat(
   if (!contest) return unseated("The contest behind this seat is missing.");
   const pack = candidacyPackById(campaign.candidacyPackId);
   if (!pack)
-    return unseated(
-      "No sourced candidacy pack stands behind this seat's office.",
-    );
+    return unseated("This seat's office is not one you can hold here.");
   const governing = stateJurisdictionForKey(pack.jurisdictionKey);
   if (!governing) {
     return unseated("The seat's governing state is not established.");

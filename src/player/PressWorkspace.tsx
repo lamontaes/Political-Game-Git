@@ -144,7 +144,7 @@ export function PressWorkspace({
           <summary>Request a press exchange</summary>
           <p>
             Choose a public civic development and a reporter who holds a current
-            journalism role. A request does not establish acceptance. An adviser
+            journalism role. Asking is not the same as being booked. An adviser
             is optional unless you ask one to prepare you.
           </p>
           {reach.journalistCount === 0 ? (
