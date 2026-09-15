@@ -61,6 +61,8 @@ export type ShellSurface =
   | "politics"
   | "transit"
   | "tax"
+  /** Who governs home, and standing for the state's executive office. */
+  | "candidacy"
   | "news"
   | "places"
   | "municipal"
