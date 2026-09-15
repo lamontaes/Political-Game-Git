@@ -173,7 +173,7 @@ test.describe("A life can stand for something", () => {
     await expect(page.getByTestId("campaign-opponents")).toHaveText(opponents);
     await expect(page.getByTestId("campaign-treasury")).toHaveText(treasury);
   });
-  test("offers a candidacy where the game has read the rules, and says how it knows", async ({
+  test("offers a candidacy where the game has read the rules, without reciting how they were compiled", async ({
     page,
   }) => {
     const errors = watchForErrors(page);
@@ -183,17 +183,31 @@ test.describe("A life can stand for something", () => {
     const campaign = page.getByTestId("campaign-section");
     await expect(campaign).toBeVisible();
     await expect(page.getByTestId("campaign-offer")).toBeVisible();
-    // Current main carries the unresolved formal count without a numeric fallback.
-    await expect(campaign).toContainText(
-      /unresolved formal count carries no numeric fallback/i,
-    );
-    // And it is willing to say what it still does not know.
-    await campaign
-      .getByText("What the game does not know about this", { exact: true })
-      .click();
-    await expect(campaign).toContainText(/no accepted source/i);
-    await expect(campaign).toContainText(
-      /no instrument establishing the size of the chamber/i,
+
+    /*
+     * This test used to require the opposite, and it was right to at the time:
+     * the screen said "the unresolved formal count carries no numeric
+     * fallback", and opened "What the game does not know about this" onto the
+     * accepted-source gaps behind it. That is a real and careful account of the
+     * rule pack's limits, and it is addressed to whoever compiles rule packs.
+     *
+     * A candidate deciding whether to stand is not that reader. The gate has
+     * not moved — an unknown seat count is still unknown and still refuses to
+     * invent a figure — but the screen no longer explains its own bookkeeping,
+     * so the offer must be there and the compilation vocabulary must not.
+     */
+    await expect(campaign).not.toContainText(/numeric fallback/i);
+    await expect(campaign).not.toContainText(/compiled research/i);
+    await expect(campaign).not.toContainText(/for this pack/i);
+    await expect(
+      campaign.getByText("What the game does not know about this", {
+        exact: true,
+      }),
+    ).toHaveCount(0);
+
+    /* The offer itself still reads like an offer. */
+    await expect(page.getByTestId("campaign-offer")).toContainText(
+      /there is a .* to be filled/i,
     );
 
     expect(errors).toEqual([]);

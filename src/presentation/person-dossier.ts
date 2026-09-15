@@ -26,9 +26,15 @@ import { municipalGovernmentByKey } from "../simulation/municipal-government";
  * living beside somebody carries no badge at all, because that is simply what
  * they know; a fact that stands on the public record says so; a fact somebody
  * else asserted is attributed to them and stays an assertion. Nothing here
- * promotes one to another to tidy the layout, and nothing hidden is revealed —
- * a category with no record produces a plain sentence saying it is not known,
- * which is a truthful line rather than a gap.
+ * promotes one to another to tidy the layout, and nothing hidden is revealed.
+ *
+ * What a category with no record produces is nothing. The dossier used to emit
+ * a line saying the thing was not known, on the theory that a stated gap is
+ * more honest than a silent one. Against a developer reading a projection that
+ * is true; against a player it is the engine explaining its own bookkeeping,
+ * and it made every stranger's card read like a list of failed lookups. The
+ * withholding is unchanged — it simply stops announcing itself. Publicity, not
+ * acquaintance, decides what a stranger's card carries.
  */
 
 export type FactAttribution =
@@ -63,8 +69,6 @@ export interface PersonDossier {
    */
   readonly rightNow: string | null;
   readonly details: readonly DossierFact[];
-  /** Said out loud rather than left as an empty section. */
-  readonly notKnown: readonly string[];
   readonly lastInteraction: string;
   /** Canonical entities this dossier can route to. */
   readonly links: readonly ShellRef[];
@@ -77,12 +81,14 @@ function describeInteraction(
 ): string {
   const summary = deriveRelationshipSummary(world, playerId, personId);
   if (summary.interactionCount === 0) {
-    return "Nothing between you is written down yet.";
+    return "You haven't spoken.";
   }
   const when = summary.lastInteractionAt;
   return when === null
-    ? `${summary.interactionCount} exchanges are on the record.`
-    : `Last on the record: ${readableRecordDate(when)}.`;
+    ? summary.interactionCount === 1
+      ? "You have spoken once."
+      : `You have spoken ${summary.interactionCount} times.`
+    : `You last spoke on ${readableRecordDate(when)}.`;
 }
 
 const RECORD_MONTHS = [
@@ -108,6 +114,40 @@ function readableRecordDate(date: string): string {
 }
 
 /**
+ * The office somebody holds, when the world says so publicly.
+ *
+ * This is the half of the player-pure rule that adds rather than removes.
+ * Holding public office is a public fact: a citizen knows who their governor is
+ * without having been introduced to them, and a card that stayed blank until
+ * the player had personally met an officeholder was modelling acquaintance
+ * where it should have been modelling publicity.
+ *
+ * So the gate is the record's own `visibility`, not the player's social
+ * distance. Only a publicly visible tenure event counts, only while it is
+ * current, and the title comes from the tenure's own subject participant rather
+ * than from any list of offices held here — a world that invents a new office
+ * gets it for free, and a world that has none says nothing at all. Private and
+ * limited-visibility tenures stay invisible exactly as before.
+ */
+function publicRoleFor(world: World, personId: EntityId): string | null {
+  let best: { readonly title: string; readonly at: string } | null = null;
+  for (const event of world.history.events) {
+    if (event.type !== "world.office-tenure") continue;
+    if (event.visibility !== "public") continue;
+    if (event.occurredAt > world.currentDate) continue;
+    const subject = event.participants.find(
+      (participant) =>
+        participant.personId === personId &&
+        participant.role === "focus:subject",
+    );
+    if (!subject?.detail) continue;
+    if (best === null || event.occurredAt >= best.at)
+      best = { title: subject.detail, at: event.occurredAt };
+  }
+  return best?.title ?? null;
+}
+
+/**
  * The lasting details, in the order a person would actually give them.
  *
  * Household and kinship come from the player's own life, so they carry no
@@ -120,9 +160,8 @@ function buildDetails(
   world: World,
   playerId: EntityId,
   personId: EntityId,
-): { details: readonly DossierFact[]; notKnown: readonly string[] } {
+): readonly DossierFact[] {
   const details: DossierFact[] = [];
-  const notKnown: string[] = [];
 
   const playerHouseholdId = householdIdFor(world, playerId);
   const sharedHousehold =
@@ -175,13 +214,25 @@ function buildDetails(
         });
       }
     }
-    if (!occupation)
-      notKnown.push("What they do for a living is not recorded.");
   }
 
   if (personId !== playerId) {
-    // Biography truth has no access grant. Display only explicitly public
-    // statements until a knowledge-aware biography adapter supplies more.
+    /*
+     * Biography truth still has no access grant: private establishedFacts stay
+     * unreadable here, and only what the world published is shown. What changed
+     * is what happens when there is nothing published — the card used to append
+     * "their education and work history are not known to you here", which told
+     * the player about the engine's bookkeeping rather than about the person.
+     * An absent fact is now simply absent.
+     */
+    const role = publicRoleFor(world, personId);
+    if (role)
+      details.push({
+        key: `public-role-${personId}`,
+        text: role,
+        attribution: "record",
+      });
+
     const position = [...world.history.publicPositions]
       .reverse()
       .find(
@@ -194,9 +245,6 @@ function buildDetails(
         text: position.statement,
         attribution: "record",
       });
-    notKnown.push(
-      "Their education and work history are not known to you here.",
-    );
   }
 
   /*
@@ -214,7 +262,7 @@ function buildDetails(
     });
   }
 
-  return { details, notKnown };
+  return details;
 }
 
 /**
@@ -276,7 +324,7 @@ export function projectPersonDossier(
   const subject = world.people[personId];
   if (!subject) return null;
   const context = describePersonContext(world, playerId, personId);
-  const { details, notKnown } = buildDetails(world, playerId, personId);
+  const details = buildDetails(world, playerId, personId);
 
   return {
     personId,
@@ -289,7 +337,6 @@ export function projectPersonDossier(
     presentNow: options.presentNow ?? false,
     rightNow: options.rightNow ?? null,
     details,
-    notKnown,
     lastInteraction: describeInteraction(world, playerId, personId),
     links: buildLinks(world, playerId, personId),
   };
