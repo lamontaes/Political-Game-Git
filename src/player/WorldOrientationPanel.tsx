@@ -1,0 +1,264 @@
+import "./world-orientation.css";
+
+import { useEffect, useMemo, useRef, useState } from "react";
+
+import type {
+  OrientationChamber,
+  OrientationPerson,
+  OrientationView,
+} from "../presentation/world-orientation";
+import type { EntityId } from "../simulation";
+
+/**
+ * Four short panels introducing the public world: White House, Congress, the
+ * home state, the place itself.
+ *
+ * Every word and number comes from the orientation view, which reads the saved
+ * World. Choosing a name opens that person's ordinary card — the same card the
+ * People web opens — and grants nothing: no acquaintance, no knowledge, no
+ * travel. Back, Next, Skip and Close are navigation only.
+ */
+export function WorldOrientationPanel({
+  view,
+  homeStateUsps,
+  mode,
+  onClose,
+  onOpenPerson,
+}: {
+  readonly view: OrientationView;
+  readonly homeStateUsps: string | null;
+  /** "first" follows a new life; "revisit" is reopened from the menu. */
+  readonly mode: "first" | "revisit";
+  readonly onClose: () => void;
+  readonly onOpenPerson: (personId: EntityId) => void;
+}) {
+  const [index, setIndex] = useState(0);
+  const heading = useRef<HTMLHeadingElement>(null);
+  const step = view.steps[index]!;
+  const last = index === view.steps.length - 1;
+
+  useEffect(() => {
+    heading.current?.focus();
+  }, [index]);
+
+  return (
+    <section
+      className="pg-orientation"
+      role="dialog"
+      aria-modal="false"
+      aria-labelledby="pg-orientation-title"
+      data-testid="world-orientation"
+      data-step={step.key}
+      onKeyDown={(event) => {
+        if (event.key !== "Escape") return;
+        event.stopPropagation();
+        onClose();
+      }}
+    >
+      <p className="pg-orientation-kicker">
+        {index + 1} of {view.steps.length} · {view.dateLabel}
+      </p>
+      <h2
+        id="pg-orientation-title"
+        ref={heading}
+        tabIndex={-1}
+        className="pg-orientation-title"
+        data-testid={`orientation-step-${step.key}`}
+      >
+        {step.title}
+      </h2>
+      <p className="pg-orientation-summary">{step.summary}</p>
+
+      {step.chambers.map((chamber) => (
+        <ChamberBlock
+          key={chamber.chamberKey}
+          chamber={chamber}
+          homeStateUsps={homeStateUsps}
+          onOpenPerson={onOpenPerson}
+        />
+      ))}
+
+      {step.people.length > 0 ? (
+        <ul className="pg-orientation-people">
+          {step.people.map((person) => (
+            <li key={`${person.personId}:${person.title}`}>
+              <PersonButton person={person} onOpenPerson={onOpenPerson} />
+            </li>
+          ))}
+        </ul>
+      ) : null}
+
+      <div className="pg-orientation-actions">
+        <button
+          type="button"
+          className="ui-action"
+          data-testid="orientation-back"
+          disabled={index === 0}
+          onClick={() => setIndex((current) => Math.max(0, current - 1))}
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          className="ui-action ui-action--primary"
+          data-testid="orientation-next"
+          onClick={() =>
+            last
+              ? onClose()
+              : setIndex((current) =>
+                  Math.min(view.steps.length - 1, current + 1),
+                )
+          }
+        >
+          {last ? "Done" : "Next"}
+        </button>
+        {!last ? (
+          <button
+            type="button"
+            className="ui-action"
+            data-testid="orientation-skip"
+            onClick={onClose}
+          >
+            {mode === "first" ? "Skip" : "Close"}
+          </button>
+        ) : null}
+      </div>
+    </section>
+  );
+}
+
+function PersonButton({
+  person,
+  onOpenPerson,
+}: {
+  readonly person: OrientationPerson;
+  readonly onOpenPerson: (personId: EntityId) => void;
+}) {
+  return (
+    <button
+      type="button"
+      className="pg-orientation-person"
+      data-testid={`orientation-person-${person.personId}`}
+      onClick={() => onOpenPerson(person.personId)}
+    >
+      <strong>{person.name}</strong>
+      <span>
+        {person.title}
+        {person.party ? ` · ${person.party}` : ""}
+      </span>
+      {person.facts.length > 0 ? (
+        <small>{person.facts.join(" · ")}</small>
+      ) : null}
+    </button>
+  );
+}
+
+function ChamberBlock({
+  chamber,
+  homeStateUsps,
+  onOpenPerson,
+}: {
+  readonly chamber: OrientationChamber;
+  readonly homeStateUsps: string | null;
+  readonly onOpenPerson: (personId: EntityId) => void;
+}) {
+  const stateOptions = useMemo(() => {
+    const seen = new Map<string, string>();
+    for (const row of chamber.roster) {
+      const usps = seatState(row.seatKey);
+      if (!seen.has(usps)) seen.set(usps, row.seatLabel.split(",")[0]!);
+    }
+    return [...seen].sort((left, right) => left[1].localeCompare(right[1]));
+  }, [chamber.roster]);
+  const [state, setState] = useState<string>(
+    homeStateUsps && stateOptions.some(([usps]) => usps === homeStateUsps)
+      ? homeStateUsps
+      : (stateOptions[0]?.[0] ?? ""),
+  );
+  const rows = chamber.roster.filter((row) => seatState(row.seatKey) === state);
+  const counted = chamber.parties.filter((entry) => entry.members > 0);
+
+  return (
+    <div
+      className="pg-orientation-chamber"
+      data-testid={`orientation-chamber-${chamber.chamberKey}`}
+    >
+      <h3>{chamber.title}</h3>
+      <div
+        className="pg-orientation-bar"
+        role="img"
+        aria-label={`${chamber.name}: ${chamber.seats} seats`}
+      >
+        {counted.map((entry) => (
+          <span
+            key={entry.partyOrganizationId ?? "none"}
+            data-series={entry.slot}
+            style={{ flexGrow: entry.members }}
+          />
+        ))}
+        {chamber.vacancies + chamber.unrecorded > 0 ? (
+          <span
+            data-series="open"
+            style={{ flexGrow: chamber.vacancies + chamber.unrecorded }}
+          />
+        ) : null}
+      </div>
+      <ul className="pg-orientation-legend">
+        {counted.map((entry) => (
+          <li
+            key={entry.partyOrganizationId ?? "none"}
+            data-series={entry.slot}
+          >
+            {entry.label} <strong>{entry.members}</strong>
+          </li>
+        ))}
+        {chamber.vacancies > 0 ? (
+          <li data-series="open">
+            Vacant <strong>{chamber.vacancies}</strong>
+          </li>
+        ) : null}
+        {chamber.unrecorded > 0 ? (
+          <li data-series="open">
+            No recorded holder <strong>{chamber.unrecorded}</strong>
+          </li>
+        ) : null}
+      </ul>
+      <details className="pg-orientation-roster">
+        <summary>Members by state</summary>
+        <label className="pg-orientation-state">
+          State
+          <select
+            value={state}
+            data-testid={`orientation-state-${chamber.chamberKey}`}
+            onChange={(event) => setState(event.target.value)}
+          >
+            {stateOptions.map(([usps, name]) => (
+              <option key={usps} value={usps}>
+                {name}
+              </option>
+            ))}
+          </select>
+        </label>
+        <ul>
+          {rows.map((row) => (
+            <li key={row.seatKey}>
+              <span className="pg-orientation-seat">{row.seatLabel}</span>
+              {row.person ? (
+                <PersonButton person={row.person} onOpenPerson={onOpenPerson} />
+              ) : (
+                <span className="pg-orientation-open">
+                  {row.status === "vacancy" ? "Vacant" : "No recorded holder"}
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </details>
+    </div>
+  );
+}
+
+/** "us-house:KY-06" and "us-senate:KY:class-2" both carry the state second. */
+function seatState(seatKey: string): string {
+  return seatKey.split(":")[1]?.split("-")[0] ?? "";
+}

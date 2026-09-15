@@ -1,0 +1,275 @@
+/*
+ * World introduction and time-skip recap.
+ *
+ * Party colors are the validated categorical slots 1-3, stepped for a dark
+ * surface and checked against this shell's panel ground (#121d2e): lightness
+ * band, chroma, all-pairs CVD separation (worst ΔE 9.4), normal-vision
+ * separation (worst ΔE 20.9) and >= 3:1 contrast all pass. A slot is a
+ * party's position in the saved party list, never its rank, and every bar
+ * carries a legend with counts, so identity is never color alone.
+ */
+.pg-orientation,
+.pg-recap {
+  --pg-orientation-series-0: #3987e5;
+  --pg-orientation-series-1: #d95926;
+  --pg-orientation-series-2: #199e70;
+  --pg-orientation-open: #4a5466;
+  color: var(--run-a-ink);
+  background: linear-gradient(180deg, rgb(18 29 46 / 94%), rgb(11 19 32 / 96%));
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.9rem;
+  box-shadow: 0 1.2rem 3rem rgb(8 13 22 / 42%);
+}
+
+.pg-orientation {
+  position: relative;
+  z-index: 30;
+  width: min(40rem, calc(100vw - 2rem));
+  max-height: min(78vh, 44rem);
+  overflow-y: auto;
+  padding: 1.1rem 1.3rem 1.2rem;
+  margin: 1rem auto 0;
+}
+
+.pg-orientation-kicker {
+  margin: 0 0 0.35rem;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--run-a-gold);
+}
+
+.pg-orientation-title {
+  margin: 0 0 0.4rem;
+  font-size: 1.35rem;
+  line-height: 1.25;
+}
+
+.pg-orientation-title:focus-visible {
+  outline: 3px solid var(--run-a-focus);
+  outline-offset: 3px;
+}
+
+.pg-orientation-summary {
+  margin: 0 0 0.8rem;
+  line-height: 1.5;
+}
+
+.pg-orientation-people,
+.pg-orientation-roster ul,
+.pg-orientation-legend,
+.pg-recap-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pg-orientation-people {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.pg-orientation-person {
+  display: grid;
+  gap: 0.1rem;
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+  background: rgb(24 37 58 / 70%);
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.55rem;
+  cursor: pointer;
+}
+
+.pg-orientation-person:hover {
+  border-color: var(--run-a-gold);
+}
+
+.pg-orientation-person:focus-visible,
+.pg-orientation-state select:focus-visible,
+.pg-orientation-roster summary:focus-visible,
+.pg-link-button:focus-visible {
+  outline: 3px solid var(--run-a-focus);
+  outline-offset: 2px;
+}
+
+.pg-orientation-person span,
+.pg-orientation-person small {
+  color: var(--run-a-muted);
+}
+
+.pg-orientation-chamber {
+  margin: 0 0 0.9rem;
+}
+
+.pg-orientation-chamber h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+}
+
+/* One stacked bar: 2px surface gaps between segments, 4px rounded ends. */
+.pg-orientation-bar {
+  display: flex;
+  gap: 2px;
+  height: 0.75rem;
+  margin: 0 0 0.4rem;
+}
+
+.pg-orientation-bar span {
+  flex-basis: 0;
+  min-width: 2px;
+  background: var(--pg-orientation-open);
+}
+
+.pg-orientation-bar span:first-child {
+  border-radius: 4px 0 0 4px;
+}
+
+.pg-orientation-bar span:last-child {
+  border-radius: 0 4px 4px 0;
+}
+
+.pg-orientation-bar span:only-child {
+  border-radius: 4px;
+}
+
+.pg-orientation-bar [data-series="0"],
+.pg-orientation-legend [data-series="0"]::before {
+  background: var(--pg-orientation-series-0);
+}
+
+.pg-orientation-bar [data-series="1"],
+.pg-orientation-legend [data-series="1"]::before {
+  background: var(--pg-orientation-series-1);
+}
+
+.pg-orientation-bar [data-series="2"],
+.pg-orientation-legend [data-series="2"]::before {
+  background: var(--pg-orientation-series-2);
+}
+
+.pg-orientation-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.9rem;
+  margin-bottom: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--run-a-muted);
+}
+
+.pg-orientation-legend li::before {
+  content: "";
+  display: inline-block;
+  width: 0.65rem;
+  height: 0.65rem;
+  margin-right: 0.35rem;
+  border-radius: 2px;
+  background: var(--pg-orientation-open);
+  vertical-align: -0.05rem;
+}
+
+.pg-orientation-legend strong {
+  color: var(--run-a-ink);
+}
+
+.pg-orientation-roster summary {
+  cursor: pointer;
+  color: var(--run-a-muted);
+}
+
+.pg-orientation-state {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.pg-orientation-state select {
+  font: inherit;
+  color: var(--run-a-ink);
+  background: var(--run-a-navy-soft);
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.4rem;
+  padding: 0.25rem 0.4rem;
+}
+
+.pg-orientation-roster ul {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.pg-orientation-roster li {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.pg-orientation-seat,
+.pg-orientation-open {
+  font-size: 0.85rem;
+  color: var(--run-a-muted);
+}
+
+.pg-orientation-actions,
+.pg-recap-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+}
+
+/* The recap sits in the HUD column: compact, never a modal. */
+.pg-recap {
+  width: min(26rem, calc(100vw - 2rem));
+  padding: 0.8rem 1rem 0.9rem;
+  pointer-events: auto;
+}
+
+.life-hud .pg-recap {
+  width: 100%;
+  max-height: min(40vh, 22rem);
+  overflow-y: auto;
+}
+
+.pg-recap-title {
+  margin: 0 0 0.5rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--run-a-gold);
+}
+
+.pg-recap-list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.pg-recap-headline {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.pg-recap-meta,
+.pg-recap-people {
+  margin: 0.1rem 0 0;
+  font-size: 0.82rem;
+  color: var(--run-a-muted);
+}
+
+.pg-link-button {
+  margin-right: 0.6rem;
+  padding: 0;
+  font: inherit;
+  color: var(--run-a-ink);
+  text-decoration: underline;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+@media (forced-colors: active) {
+  .pg-orientation-bar span {
+    border: 1px solid CanvasText;
+  }
+}
