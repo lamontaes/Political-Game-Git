@@ -1,0 +1,3473 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "census-pl2020-al-archive",
+      "bytes": {
+        "length": 23974872,
+        "sha256": "bd3fbbf22615b166869f9119aa12017b9a7b82baf0f22a9170e92a88a397cd77"
+      },
+      "container": {
+        "memberLength": 98836952,
+        "memberPath": "algeo2020.pl",
+        "memberSha256": "d20bbadbffeb4fc6eb658f25d1136c355a4702f09ac929793ad4a0440858eb7a"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 23974872,
+        "retrievedAt": "2026-09-15T02:01:44.836Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Alabama/al2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-al-place-county-parts",
+      "bytes": {
+        "length": 181667,
+        "sha256": "ef26ff8f24a9795c2e37c9b372c2d2839bef652cf3cc1d466daec227f395e84a"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-al-archive",
+        "parentSha256": "bd3fbbf22615b166869f9119aa12017b9a7b82baf0f22a9170e92a88a397cd77",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/algeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 181667,
+        "retrievedAt": "2026-09-15T02:01:44.836Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Alabama/al2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-ak-archive",
+      "bytes": {
+        "length": 4741817,
+        "sha256": "c90837c12ab2f5fe99132c558705e8d0b5174afdf2a0d28b71927f535fe63487"
+      },
+      "container": {
+        "memberLength": 16847719,
+        "memberPath": "akgeo2020.pl",
+        "memberSha256": "3bcad8d2259f19eef47a514d6ed3b986b3e4d2d4fa56e16caf154cfed563bc8c"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 4741817,
+        "retrievedAt": "2026-09-15T02:01:48.815Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Alaska/ak2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-ak-place-county-parts",
+      "bytes": {
+        "length": 105440,
+        "sha256": "c576777a8d3997506d64daa6561a3f81d2317256b49e9a585bde408a923556c7"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-ak-archive",
+        "parentSha256": "c90837c12ab2f5fe99132c558705e8d0b5174afdf2a0d28b71927f535fe63487",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/akgeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 105440,
+        "retrievedAt": "2026-09-15T02:01:48.815Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Alaska/ak2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-az-archive",
+      "bytes": {
+        "length": 23082436,
+        "sha256": "56997e8b1b5175148fd3e1157ab57eee7c1722221cafebfd5d12fe2e687b2aff"
+      },
+      "container": {
+        "memberLength": 82187620,
+        "memberPath": "azgeo2020.pl",
+        "memberSha256": "b5d029bbccc3999ade4be6eb647f74a56569546d04146fcd1094e7d4c626056e"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 23082436,
+        "retrievedAt": "2026-09-15T02:01:51.423Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Arizona/az2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-az-place-county-parts",
+      "bytes": {
+        "length": 132730,
+        "sha256": "b2f26c1d8da40bb165c4814147594dd8443344b496fb7b46a8717f48be66e36b"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-az-archive",
+        "parentSha256": "56997e8b1b5175148fd3e1157ab57eee7c1722221cafebfd5d12fe2e687b2aff",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/azgeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 132730,
+        "retrievedAt": "2026-09-15T02:01:51.423Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Arizona/az2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-ar-archive",
+      "bytes": {
+        "length": 20179961,
+        "sha256": "940ad2916676e443dfdab98c3e145fcf62ef9dcd9f10c763ccdb195f4d5f132e"
+      },
+      "container": {
+        "memberLength": 79354702,
+        "memberPath": "argeo2020.pl",
+        "memberSha256": "cc0a03eb5c8b5452a8e2cc8b47df87332d9dc75b818662dc95cf499000d096a8"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 20179961,
+        "retrievedAt": "2026-09-15T02:01:54.997Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Arkansas/ar2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-ar-place-county-parts",
+      "bytes": {
+        "length": 181148,
+        "sha256": "235d2ed64de19cca7e5a1e11882785762a08a08ddddde131dc8c71085b8ce08c"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-ar-archive",
+        "parentSha256": "940ad2916676e443dfdab98c3e145fcf62ef9dcd9f10c763ccdb195f4d5f132e",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/argeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 181148,
+        "retrievedAt": "2026-09-15T02:01:54.997Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Arkansas/ar2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-ca-archive",
+      "bytes": {
+        "length": 79627235,
+        "sha256": "e02c83c85a9a5d69ded4bf0d4c8ebe3f4bcd2d8e5911db765e9e42915ad1f753"
+      },
+      "container": {
+        "memberLength": 256684567,
+        "memberPath": "cageo2020.pl",
+        "memberSha256": "ca49b3a5323e9eaa430b82afe36c01d72cddd1cae3462f3bdbd4be9463dea976"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 79627235,
+        "retrievedAt": "2026-09-15T02:01:58.704Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/California/ca2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-ca-place-county-parts",
+      "bytes": {
+        "length": 456004,
+        "sha256": "ea28115379e6263cda2cbf150d1284fd013cd76fe9ebe62888875048d12a91ff"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-ca-archive",
+        "parentSha256": "e02c83c85a9a5d69ded4bf0d4c8ebe3f4bcd2d8e5911db765e9e42915ad1f753",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/cageo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 456004,
+        "retrievedAt": "2026-09-15T02:01:58.704Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/California/ca2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-co-archive",
+      "bytes": {
+        "length": 24215854,
+        "sha256": "fce76008aedd10681bf0e57fa366ca788d280264edfe91e7d80a9b33ae86ab2c"
+      },
+      "container": {
+        "memberLength": 81847615,
+        "memberPath": "cogeo2020.pl",
+        "memberSha256": "420ef2960202099e83370d2adc790dc9723ccff6ddabbd33b89625d1ba929a02"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 24215854,
+        "retrievedAt": "2026-09-15T02:02:06.333Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Colorado/co2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-co-place-county-parts",
+      "bytes": {
+        "length": 142218,
+        "sha256": "a13782ae6f40973320c4263e42dbbef28a0dd79380bbc284b0b64831e0f497a8"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-co-archive",
+        "parentSha256": "fce76008aedd10681bf0e57fa366ca788d280264edfe91e7d80a9b33ae86ab2c",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/cogeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 142218,
+        "retrievedAt": "2026-09-15T02:02:06.333Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Colorado/co2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-ct-archive",
+      "bytes": {
+        "length": 10254583,
+        "sha256": "c4a2d42a79c52de10ea9397cca43db59c2df38e6d6e66b4396a0de8bd3f66780"
+      },
+      "container": {
+        "memberLength": 29460791,
+        "memberPath": "ctgeo2020.pl",
+        "memberSha256": "773e2acb8d347451ab1b71dc30e52af2d8ca3be2b987c978d76df2ec39ac8cda"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 10254583,
+        "retrievedAt": "2026-09-15T02:02:09.894Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Connecticut/ct2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-ct-place-county-parts",
+      "bytes": {
+        "length": 61579,
+        "sha256": "c1131c9866c0fe38897a1497d96ed63c6340c127361aecff9654dbdebe830544"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-ct-archive",
+        "parentSha256": "c4a2d42a79c52de10ea9397cca43db59c2df38e6d6e66b4396a0de8bd3f66780",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/ctgeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 61579,
+        "retrievedAt": "2026-09-15T02:02:09.894Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Connecticut/ct2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-de-archive",
+      "bytes": {
+        "length": 3720859,
+        "sha256": "2d7743cc442574dc785c728e9637c5d4648bef518beef41b5f03756eb56ea78a"
+      },
+      "container": {
+        "memberLength": 11937471,
+        "memberPath": "degeo2020.pl",
+        "memberSha256": "58d6e530f84ee2d8ada6b3b605b9dc2a8f140da54ef943d1e8e6a03d92d8226a"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 3720859,
+        "retrievedAt": "2026-09-15T02:02:12.693Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Delaware/de2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-de-place-county-parts",
+      "bytes": {
+        "length": 22862,
+        "sha256": "f2f8b20209ae9a09a25aec8320848cb9d90e3d326039949c840c960c8aabae68"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-de-archive",
+        "parentSha256": "2d7743cc442574dc785c728e9637c5d4648bef518beef41b5f03756eb56ea78a",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/degeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 22862,
+        "retrievedAt": "2026-09-15T02:02:12.693Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Delaware/de2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-dc-archive",
+      "bytes": {
+        "length": 1366469,
+        "sha256": "21b5189f45ce260c4607c9579f4ad52d11920133af827b14b183121b48d40ce4"
+      },
+      "container": {
+        "memberLength": 3714024,
+        "memberPath": "dcgeo2020.pl",
+        "memberSha256": "6c1c6938ca255def8024ab3bfb1b76662b9ca07fbfbd4fbd3e0780aa54c33aa0"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 1366469,
+        "retrievedAt": "2026-09-15T02:02:15.029Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/District_of_Columbia/dc2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-dc-place-county-parts",
+      "bytes": {
+        "length": 303,
+        "sha256": "fb062bce66945f4a6c3495654bfe4de37045e346be4a8320b3219a64487ac298"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-dc-archive",
+        "parentSha256": "21b5189f45ce260c4607c9579f4ad52d11920133af827b14b183121b48d40ce4",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/dcgeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 303,
+        "retrievedAt": "2026-09-15T02:02:15.029Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/District_of_Columbia/dc2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-fl-archive",
+      "bytes": {
+        "length": 65962055,
+        "sha256": "fdcc98180f634b69c40ed1d71a63fe00fdda4cda3e35fbaa6382336501f4b0cf"
+      },
+      "container": {
+        "memberLength": 219980284,
+        "memberPath": "flgeo2020.pl",
+        "memberSha256": "c26f1a34d8532ba03886f50924759b1a65fa551d5b8414007ce8acc0a7ec683d"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 65962055,
+        "retrievedAt": "2026-09-15T02:02:17.210Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Florida/fl2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-fl-place-county-parts",
+      "bytes": {
+        "length": 275028,
+        "sha256": "ff87e6f09adfb5d1c4e3c7afc0ebccbe5536b4558605a284c44051f0f5df8dc4"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-fl-archive",
+        "parentSha256": "fdcc98180f634b69c40ed1d71a63fe00fdda4cda3e35fbaa6382336501f4b0cf",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/flgeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 275028,
+        "retrievedAt": "2026-09-15T02:02:17.210Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Florida/fl2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-ga-archive",
+      "bytes": {
+        "length": 35831859,
+        "sha256": "26434588ceab435fa33a138ff999e4187c923a74732fcc488c3a0597b4adebcb"
+      },
+      "container": {
+        "memberLength": 126739688,
+        "memberPath": "gageo2020.pl",
+        "memberSha256": "c7f21198bbe1965bd449788a8b912d8fbbcbec927069967383f72c231445390e"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 35831859,
+        "retrievedAt": "2026-09-15T02:02:24.485Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Georgia/ga2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-ga-place-county-parts",
+      "bytes": {
+        "length": 205892,
+        "sha256": "dd3803a17e0411da7bb06613904ccb7e73515d28f62dfe76c65bb7d7cf75f36c"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-ga-archive",
+        "parentSha256": "26434588ceab435fa33a138ff999e4187c923a74732fcc488c3a0597b4adebcb",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/gageo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 205892,
+        "retrievedAt": "2026-09-15T02:02:24.485Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Georgia/ga2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-hi-archive",
+      "bytes": {
+        "length": 3817508,
+        "sha256": "b7e1ba6350c5d75267b688504052af001ad227763995f6bb26ccdd92fc45261f"
+      },
+      "container": {
+        "memberLength": 8701211,
+        "memberPath": "higeo2020.pl",
+        "memberSha256": "3038fb2fea23c17c5d27ece554d46919a5c5a522446d7813b220baea4c55b1f4"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 3817508,
+        "retrievedAt": "2026-09-15T02:02:29.964Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Hawaii/hi2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-hi-place-county-parts",
+      "bytes": {
+        "length": 45580,
+        "sha256": "3ca0fb72068486004c0c8da140fddeb86eedd556f9f696b54f4b5bf5ac516447"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-hi-archive",
+        "parentSha256": "b7e1ba6350c5d75267b688504052af001ad227763995f6bb26ccdd92fc45261f",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/higeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 45580,
+        "retrievedAt": "2026-09-15T02:02:29.964Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Hawaii/hi2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-id-archive",
+      "bytes": {
+        "length": 10025551,
+        "sha256": "89345b6d5d12ccdec8af4039b0a6f1f5ba4cd7ca86c8f73ad6250b5713e3df47"
+      },
+      "container": {
+        "memberLength": 42448854,
+        "memberPath": "idgeo2020.pl",
+        "memberSha256": "4a705bdb2fe900c154f698b7e527652dcff8822d15d1cb25cd6bdc78ed9995f1"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 10025551,
+        "retrievedAt": "2026-09-15T02:02:32.237Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Idaho/id2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-id-place-county-parts",
+      "bytes": {
+        "length": 67686,
+        "sha256": "28429d8b487a10e86ae7e8a3bb39709df03aebd1019acb0a731d7823896bbeb2"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-id-archive",
+        "parentSha256": "89345b6d5d12ccdec8af4039b0a6f1f5ba4cd7ca86c8f73ad6250b5713e3df47",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/idgeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 67686,
+        "retrievedAt": "2026-09-15T02:02:32.237Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Idaho/id2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-il-archive",
+      "bytes": {
+        "length": 64763317,
+        "sha256": "e73f82d6aea0b9b372e9f8572c6edbedfa72ae9fc2039da84faf0cdf0c478a32"
+      },
+      "container": {
+        "memberLength": 229047517,
+        "memberPath": "ilgeo2020.pl",
+        "memberSha256": "0629a31079acb6ea9fe477278e49277a0332597b88475489fddf9ef3b0032cce"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 64763317,
+        "retrievedAt": "2026-09-15T02:02:35.281Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Illinois/il2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-il-place-county-parts",
+      "bytes": {
+        "length": 444615,
+        "sha256": "18f21f17259a93a30d6b528077ce80988a8d2b86d7673cbe00839c203839a9c7"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-il-archive",
+        "parentSha256": "e73f82d6aea0b9b372e9f8572c6edbedfa72ae9fc2039da84faf0cdf0c478a32",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/ilgeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 444615,
+        "retrievedAt": "2026-09-15T02:02:35.281Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Illinois/il2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-in-archive",
+      "bytes": {
+        "length": 32611077,
+        "sha256": "5f4999237a9bf3b3337865494d0d62c0a1dc620cad7e48caebaa83811f95901a"
+      },
+      "container": {
+        "memberLength": 119611847,
+        "memberPath": "ingeo2020.pl",
+        "memberSha256": "b8a9c9447eaa318d09a50dea068e83a45aa853ab622055abbc48a3b7ecdcf209"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 32611077,
+        "retrievedAt": "2026-09-15T02:02:42.035Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Indiana/in2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-in-place-county-parts",
+      "bytes": {
+        "length": 200888,
+        "sha256": "5a5480031667f8765d6e7a9d86196ae9f6eae72964e0a55988bfa575d0f2a6c4"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-in-archive",
+        "parentSha256": "5f4999237a9bf3b3337865494d0d62c0a1dc620cad7e48caebaa83811f95901a",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/ingeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 200888,
+        "retrievedAt": "2026-09-15T02:02:42.035Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Indiana/in2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-ia-archive",
+      "bytes": {
+        "length": 21713685,
+        "sha256": "c55e8276080b684431b8629269d4225c31080ea17257a737f9d99e3cf2ac6822"
+      },
+      "container": {
+        "memberLength": 94959938,
+        "memberPath": "iageo2020.pl",
+        "memberSha256": "513ce58ed035d9855d69372174d3c45a964e69a34d32ab31ecf771525ead2f0b"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 21713685,
+        "retrievedAt": "2026-09-15T02:02:46.528Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Iowa/ia2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-ia-place-county-parts",
+      "bytes": {
+        "length": 304540,
+        "sha256": "735b3b9585b50adb6479a8995cf6d2cf18370b98ae745caed75ce381f81c4504"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-ia-archive",
+        "parentSha256": "c55e8276080b684431b8629269d4225c31080ea17257a737f9d99e3cf2ac6822",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/iageo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 304540,
+        "retrievedAt": "2026-09-15T02:02:46.528Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Iowa/ia2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-ks-archive",
+      "bytes": {
+        "length": 23446925,
+        "sha256": "ac6b4ae5e2af4c8d639b46748d55927ee7821756f6073cc4f8238c1fb00498ee"
+      },
+      "container": {
+        "memberLength": 98840679,
+        "memberPath": "ksgeo2020.pl",
+        "memberSha256": "c342d1e87c7440cc43702a8fed07b7492285c747d156ad61460ecf6f9336017c"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 23446925,
+        "retrievedAt": "2026-09-15T02:02:50.203Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Kansas/ks2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-ks-place-county-parts",
+      "bytes": {
+        "length": 211026,
+        "sha256": "a0366af75b8c7f9bbff7eacfd858a0fb0a94fe53564164bf3bb6b1f4a666a6cc"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-ks-archive",
+        "parentSha256": "ac6b4ae5e2af4c8d639b46748d55927ee7821756f6073cc4f8238c1fb00498ee",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/ksgeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 211026,
+        "retrievedAt": "2026-09-15T02:02:50.203Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Kansas/ks2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-ky-archive",
+      "bytes": {
+        "length": 22595797,
+        "sha256": "252a04b760e4da69665d5654108be2b63d55d294c1c0c608bfc7e7fcf2360ac4"
+      },
+      "container": {
+        "memberLength": 82589174,
+        "memberPath": "kygeo2020.pl",
+        "memberSha256": "32844971cf6d88add250e8f57c43254217ed317ed8b76f4b50f33695f1732984"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 22595797,
+        "retrievedAt": "2026-09-15T02:02:54.787Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Kentucky/ky2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-ky-place-county-parts",
+      "bytes": {
+        "length": 162354,
+        "sha256": "510d0a7b46b508212658bc635f7dfaf35f1045122c8d5db3f712461220e594b4"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-ky-archive",
+        "parentSha256": "252a04b760e4da69665d5654108be2b63d55d294c1c0c608bfc7e7fcf2360ac4",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/kygeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 162354,
+        "retrievedAt": "2026-09-15T02:02:54.787Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Kentucky/ky2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-la-archive",
+      "bytes": {
+        "length": 23768295,
+        "sha256": "d8d9ea96195f2b848be70ef33dcb224d433d8d58025e11aaa0432c5211e5345c"
+      },
+      "container": {
+        "memberLength": 85633684,
+        "memberPath": "lageo2020.pl",
+        "memberSha256": "fef3f87d680964cb1a37ea2ea3f8414fe60618261777a5744394827f045e1a34"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 23768295,
+        "retrievedAt": "2026-09-15T02:02:58.478Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Louisiana/la2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-la-place-county-parts",
+      "bytes": {
+        "length": 143119,
+        "sha256": "6d982f5f88e738ee66b910207d8accbc93b6247a9d120d91ad4cea87b3f05ab0"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-la-archive",
+        "parentSha256": "d8d9ea96195f2b848be70ef33dcb224d433d8d58025e11aaa0432c5211e5345c",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/lageo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 143119,
+        "retrievedAt": "2026-09-15T02:02:58.478Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Louisiana/la2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-me-archive",
+      "bytes": {
+        "length": 6098405,
+        "sha256": "f9bb6fe4cf13bb28b44e4d6a8d5d3e5209f9249ebc402db7ea5c24f8a673ac07"
+      },
+      "container": {
+        "memberLength": 24144661,
+        "memberPath": "megeo2020.pl",
+        "memberSha256": "b7df31ae84962786300d65722a079b437eac895886bb2598cfc1ab875cd8a5d6"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 6098405,
+        "retrievedAt": "2026-09-15T02:03:02.124Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Maine/me2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-me-place-county-parts",
+      "bytes": {
+        "length": 44393,
+        "sha256": "65c3607aef3f3c3455fb70b88f7ed5f30ae8bc6ce233ae333ca0af06ffa66027"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-me-archive",
+        "parentSha256": "f9bb6fe4cf13bb28b44e4d6a8d5d3e5209f9249ebc402db7ea5c24f8a673ac07",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/megeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 44393,
+        "retrievedAt": "2026-09-15T02:03:02.124Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Maine/me2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-md-archive",
+      "bytes": {
+        "length": 18262586,
+        "sha256": "9af1e1f0185b6219a9432132ef78e47c2d74c474948d2ed6004c7061412393f3"
+      },
+      "container": {
+        "memberLength": 53611004,
+        "memberPath": "mdgeo2020.pl",
+        "memberSha256": "957489df5b286dc6286d93f27a6bcc3e8416329609deef119c554d01096281ac"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 18262586,
+        "retrievedAt": "2026-09-15T02:03:04.707Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Maryland/md2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-md-place-county-parts",
+      "bytes": {
+        "length": 155221,
+        "sha256": "92e8a3fd27b9d5a16b8ed865a4a597edeca2227aa9570934912679666a6aabc8"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-md-archive",
+        "parentSha256": "9af1e1f0185b6219a9432132ef78e47c2d74c474948d2ed6004c7061412393f3",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/mdgeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 155221,
+        "retrievedAt": "2026-09-15T02:03:04.707Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Maryland/md2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-ma-archive",
+      "bytes": {
+        "length": 21002060,
+        "sha256": "9857362fbc1162d3943685134a77a91542a70eb667f3477559d07fd0a81e4889"
+      },
+      "container": {
+        "memberLength": 62828113,
+        "memberPath": "mageo2020.pl",
+        "memberSha256": "babed9e0a1b9ce8bb3d825a43ecd6dfd362b042965193a4107b7b151e2bdefc5"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 21002060,
+        "retrievedAt": "2026-09-15T02:03:07.902Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Massachusetts/ma2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-ma-place-county-parts",
+      "bytes": {
+        "length": 71258,
+        "sha256": "7c0d4222ec4a375a92752c0ae42df16c482c0b824523d9d23c44cf023794bb97"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-ma-archive",
+        "parentSha256": "9857362fbc1162d3943685134a77a91542a70eb667f3477559d07fd0a81e4889",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/mageo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 71258,
+        "retrievedAt": "2026-09-15T02:03:07.902Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Massachusetts/ma2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-mi-archive",
+      "bytes": {
+        "length": 39966651,
+        "sha256": "971bd53abeb1d905bb9b09bfe4dc1afe8514a916f24d285b289e0f66ec5cfb62"
+      },
+      "container": {
+        "memberLength": 143560054,
+        "memberPath": "migeo2020.pl",
+        "memberSha256": "9d19835294d8d7b445bd19d98cde9bf730896eea901e26620415f20dbd7f2347"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 39966651,
+        "retrievedAt": "2026-09-15T02:03:11.397Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Michigan/mi2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-mi-place-county-parts",
+      "bytes": {
+        "length": 217852,
+        "sha256": "d84d61623f6990691249903d6ca25287e2a1367f869cbde925d1695352345698"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-mi-archive",
+        "parentSha256": "971bd53abeb1d905bb9b09bfe4dc1afe8514a916f24d285b289e0f66ec5cfb62",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/migeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 217852,
+        "retrievedAt": "2026-09-15T02:03:11.397Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Michigan/mi2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-mn-archive",
+      "bytes": {
+        "length": 29625918,
+        "sha256": "7d30974597e73893d25ffef0975c8e673afcc1166f9919d5ff2a466a2e0e188f"
+      },
+      "container": {
+        "memberLength": 113633419,
+        "memberPath": "mngeo2020.pl",
+        "memberSha256": "563d7a36468f30a4d63f95916de333238441dbebc8374e637d574d57db46d5da"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 29625918,
+        "retrievedAt": "2026-09-15T02:03:17.159Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Minnesota/mn2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-mn-place-county-parts",
+      "bytes": {
+        "length": 269296,
+        "sha256": "ad6c71cf96b4bf7a02d3b528cfdbbd2b68caf7e9dfa442893a6d3c01d9caf04a"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-mn-archive",
+        "parentSha256": "7d30974597e73893d25ffef0975c8e673afcc1166f9919d5ff2a466a2e0e188f",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/mngeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 269296,
+        "retrievedAt": "2026-09-15T02:03:17.159Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Minnesota/mn2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-ms-archive",
+      "bytes": {
+        "length": 16282867,
+        "sha256": "cb64e3465cee9623dc574605f4dfcada33eaea6833062d31f769811fd20a5f26"
+      },
+      "container": {
+        "memberLength": 64363722,
+        "memberPath": "msgeo2020.pl",
+        "memberSha256": "76e5b6a62394abfde9cedf6340e0d26a3253ea8c9cd0c892e24a2ab678772e84"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 16282867,
+        "retrievedAt": "2026-09-15T02:03:22.885Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Mississippi/ms2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-ms-place-county-parts",
+      "bytes": {
+        "length": 125590,
+        "sha256": "0b5a1c5c9c61eeab34c169b4a71642ffad0c5e90fb6dec98449bf4353e238211"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-ms-archive",
+        "parentSha256": "cb64e3465cee9623dc574605f4dfcada33eaea6833062d31f769811fd20a5f26",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/msgeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 125590,
+        "retrievedAt": "2026-09-15T02:03:22.885Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Mississippi/ms2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-mo-archive",
+      "bytes": {
+        "length": 35967209,
+        "sha256": "900d8a3bcc59e2cc3c174730e2a8704bd653af1fc043c9fbd73196e1c0d7fba5"
+      },
+      "container": {
+        "memberLength": 144301843,
+        "memberPath": "mogeo2020.pl",
+        "memberSha256": "e48172d42cc5ee7aebaa0efb651d67dc9e09e11df82c90deb36c5e957a70e2b1"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 35967209,
+        "retrievedAt": "2026-09-15T02:03:26.673Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Missouri/mo2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-mo-place-county-parts",
+      "bytes": {
+        "length": 320545,
+        "sha256": "b5bdf6576d47b0962a5f8bbc15dd0aa5444481fed5e563c7f08e9f8ac749c117"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-mo-archive",
+        "parentSha256": "900d8a3bcc59e2cc3c174730e2a8704bd653af1fc043c9fbd73196e1c0d7fba5",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/mogeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 320545,
+        "retrievedAt": "2026-09-15T02:03:26.673Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Missouri/mo2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-mt-archive",
+      "bytes": {
+        "length": 9835205,
+        "sha256": "e01288ce3ae37ae732eb61d40268c6ac3ec8f9772c8609c6e9ca538bdd0bc130"
+      },
+      "container": {
+        "memberLength": 45748877,
+        "memberPath": "mtgeo2020.pl",
+        "memberSha256": "81b3d04e7e3ad953c6967b0de3997327320d81e00ff9d563b6e5e2e660f1e6e6"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 9835205,
+        "retrievedAt": "2026-09-15T02:03:31.851Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Montana/mt2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-mt-place-county-parts",
+      "bytes": {
+        "length": 139568,
+        "sha256": "a5ae296df183de915e37db88da93839134d6f811cf4785d99d149de414c10400"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-mt-archive",
+        "parentSha256": "e01288ce3ae37ae732eb61d40268c6ac3ec8f9772c8609c6e9ca538bdd0bc130",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/mtgeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 139568,
+        "retrievedAt": "2026-09-15T02:03:31.851Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Montana/mt2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-ne-archive",
+      "bytes": {
+        "length": 13595569,
+        "sha256": "29298d68a5905cf9cb14cd64e35750d14727a330c5940ccf5238a8ae6e110300"
+      },
+      "container": {
+        "memberLength": 62273850,
+        "memberPath": "negeo2020.pl",
+        "memberSha256": "d06533ec4f25aa9883fd4393f6ca55aa0a8402949b4c9bacd69539f56fdba8a7"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 13595569,
+        "retrievedAt": "2026-09-15T02:03:35.266Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Nebraska/ne2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-ne-place-county-parts",
+      "bytes": {
+        "length": 165043,
+        "sha256": "f15bfec860201c684ec8aa364b843f48e78fd4b41a39cc69e8c5de566d071867"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-ne-archive",
+        "parentSha256": "29298d68a5905cf9cb14cd64e35750d14727a330c5940ccf5238a8ae6e110300",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/negeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 165043,
+        "retrievedAt": "2026-09-15T02:03:35.266Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Nebraska/ne2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-nv-archive",
+      "bytes": {
+        "length": 11597053,
+        "sha256": "ac7e792e0a1d6248ff1700159f4ec6a3a7b3330ebe10899bb4f47ab97c19952d"
+      },
+      "container": {
+        "memberLength": 35769329,
+        "memberPath": "nvgeo2020.pl",
+        "memberSha256": "16d3b245593037d82c1f82ed6a8b9d08900f4c158d91eb54495bff6b95e04c39"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 11597053,
+        "retrievedAt": "2026-09-15T02:03:39.485Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Nevada/nv2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-nv-place-county-parts",
+      "bytes": {
+        "length": 36923,
+        "sha256": "f4263f2ec3d3cb78dac92b771259b4307faea59add81fefb365aa2ece54c9b80"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-nv-archive",
+        "parentSha256": "ac7e792e0a1d6248ff1700159f4ec6a3a7b3330ebe10899bb4f47ab97c19952d",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/nvgeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 36923,
+        "retrievedAt": "2026-09-15T02:03:39.485Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Nevada/nv2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-nh-archive",
+      "bytes": {
+        "length": 4807476,
+        "sha256": "31852c0cfa871ea81f933bb1df904f0d45997097e38ade83db87ba58255d4468"
+      },
+      "container": {
+        "memberLength": 17062876,
+        "memberPath": "nhgeo2020.pl",
+        "memberSha256": "3997e6c8b3716693d3762a0ce51164479604da440b1f79c70f7e8ba86fc82cbe"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 4807476,
+        "retrievedAt": "2026-09-15T02:03:42.862Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/New_Hampshire/nh2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-nh-place-county-parts",
+      "bytes": {
+        "length": 28738,
+        "sha256": "0d7d5b2ecd195292cf200fff4a55b0efee82cff25cd4fb246f50a2ea433a0b9a"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-nh-archive",
+        "parentSha256": "31852c0cfa871ea81f933bb1df904f0d45997097e38ade83db87ba58255d4468",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/nhgeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 28738,
+        "retrievedAt": "2026-09-15T02:03:42.862Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/New_Hampshire/nh2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-nj-archive",
+      "bytes": {
+        "length": 34066393,
+        "sha256": "caf0da4a9e9d46ced3f8020a7a2bf5240cd8805ed0679716f0cb2b8fcc65e811"
+      },
+      "container": {
+        "memberLength": 96042161,
+        "memberPath": "njgeo2020.pl",
+        "memberSha256": "8d4d5b35fe72f1c571667ca70b66ed8433e8201a5e9e0472de7c46388d8fab85"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 34066393,
+        "retrievedAt": "2026-09-15T02:03:46.341Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/New_Jersey/nj2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-nj-place-county-parts",
+      "bytes": {
+        "length": 200467,
+        "sha256": "3fca2706de381da571fc914ec5288684008c10ff264a176d8a2b13e0ffdb81d3"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-nj-archive",
+        "parentSha256": "caf0da4a9e9d46ced3f8020a7a2bf5240cd8805ed0679716f0cb2b8fcc65e811",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/njgeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 200467,
+        "retrievedAt": "2026-09-15T02:03:46.341Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/New_Jersey/nj2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-nm-archive",
+      "bytes": {
+        "length": 15295141,
+        "sha256": "77133ba4bb2fb2c28d39993bb4cff5f1c42823c9d13b75e51e8ecf986354c259"
+      },
+      "container": {
+        "memberLength": 59991676,
+        "memberPath": "nmgeo2020.pl",
+        "memberSha256": "f204a262aaaa766f1b49bc728d3ea3d231dc0d9bf72b3f1f4667dac6829f92b4"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 15295141,
+        "retrievedAt": "2026-09-15T02:04:15.594Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/New_Mexico/nm2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-nm-place-county-parts",
+      "bytes": {
+        "length": 150401,
+        "sha256": "17d4ed03a5d45fa2707697fba54124aa8de1f732fdc5fd6fb61667ac17fe781e"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-nm-archive",
+        "parentSha256": "77133ba4bb2fb2c28d39993bb4cff5f1c42823c9d13b75e51e8ecf986354c259",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/nmgeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=iso-8859-1",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 150401,
+        "retrievedAt": "2026-09-15T02:04:15.594Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/New_Mexico/nm2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-ny-archive",
+      "bytes": {
+        "length": 72608321,
+        "sha256": "9d046014bee6b61afa808c5dfe841a6d036c77bff70197472fbdd291a40b8ce2"
+      },
+      "container": {
+        "memberLength": 205217873,
+        "memberPath": "nygeo2020.pl",
+        "memberSha256": "1154f6061f4ed4d734ae7ec08c34409977da292411927e9524512a0ee9c1dcbf"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 72608321,
+        "retrievedAt": "2026-09-15T02:04:19.336Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/New_York/ny2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-ny-place-county-parts",
+      "bytes": {
+        "length": 369068,
+        "sha256": "bc107abbd524afe38f2d5e75b0498c833819ebdadb5ed2035b48806b5d02a876"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-ny-archive",
+        "parentSha256": "9d046014bee6b61afa808c5dfe841a6d036c77bff70197472fbdd291a40b8ce2",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/nygeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 369068,
+        "retrievedAt": "2026-09-15T02:04:19.336Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/New_York/ny2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-nc-archive",
+      "bytes": {
+        "length": 37553822,
+        "sha256": "04f2f250dad877d237d94f553f9cb2209594c2a021d15f9fdeedd4404db538db"
+      },
+      "container": {
+        "memberLength": 131874085,
+        "memberPath": "ncgeo2020.pl",
+        "memberSha256": "a15c373e68e67bb7dd77cbd070c38a4915b532dd9ebdca48fccff45ae9cda61b"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 37553822,
+        "retrievedAt": "2026-09-15T02:04:24.450Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/North_Carolina/nc2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-nc-place-county-parts",
+      "bytes": {
+        "length": 235381,
+        "sha256": "dc4911e21d972d0dc54bb585a02d2654ed941183ea408da018719df96b1bf0ae"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-nc-archive",
+        "parentSha256": "04f2f250dad877d237d94f553f9cb2209594c2a021d15f9fdeedd4404db538db",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/ncgeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 235381,
+        "retrievedAt": "2026-09-15T02:04:24.450Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/North_Carolina/nc2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-nd-archive",
+      "bytes": {
+        "length": 8780598,
+        "sha256": "a37d18e05a73b311a8fd7ade36dd5b17cac16ff125318c9ec6d2edd7f6968b71"
+      },
+      "container": {
+        "memberLength": 44240531,
+        "memberPath": "ndgeo2020.pl",
+        "memberSha256": "e5bbb5588e3f1d5a695d9925a533f30028ee187321b24b9d83a6d5e3a7c4b01c"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 8780598,
+        "retrievedAt": "2026-09-15T02:04:27.776Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/North_Dakota/nd2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-nd-place-county-parts",
+      "bytes": {
+        "length": 113569,
+        "sha256": "0b293a413d20a1b956c81c66f16472bc9167ec91f3f0ede21349613f8c16ca09"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-nd-archive",
+        "parentSha256": "a37d18e05a73b311a8fd7ade36dd5b17cac16ff125318c9ec6d2edd7f6968b71",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/ndgeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 113569,
+        "retrievedAt": "2026-09-15T02:04:27.776Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/North_Dakota/nd2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-oh-archive",
+      "bytes": {
+        "length": 51648259,
+        "sha256": "ceef338247ad2dccc267885f2879e167ab6730c7a332d3ceb5aef9d6e2338aa0"
+      },
+      "container": {
+        "memberLength": 174893316,
+        "memberPath": "ohgeo2020.pl",
+        "memberSha256": "6a243bc1e9dbec219c1ea1eb087ee21430db9a0cb69378c8e48c508a6b1188de"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 51648259,
+        "retrievedAt": "2026-09-15T02:04:30.247Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Ohio/oh2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-oh-place-county-parts",
+      "bytes": {
+        "length": 378343,
+        "sha256": "32eb3dd97f68e17cc5ac0092aea650cf3a6ae4db0249ac827a6aff20f520c1e0"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-oh-archive",
+        "parentSha256": "ceef338247ad2dccc267885f2879e167ab6730c7a332d3ceb5aef9d6e2338aa0",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/ohgeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 378343,
+        "retrievedAt": "2026-09-15T02:04:30.247Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Ohio/oh2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-ok-archive",
+      "bytes": {
+        "length": 24870369,
+        "sha256": "e95c99e6385f4ed3a5ea67962444a53ad7a731f26d1dd88df2efde504f101dff"
+      },
+      "container": {
+        "memberLength": 96351786,
+        "memberPath": "okgeo2020.pl",
+        "memberSha256": "7a4fc3b305c645df9c7992062e86c46a6685baf9690062677901624234ad1c41"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 24870369,
+        "retrievedAt": "2026-09-15T02:04:34.270Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Oklahoma/ok2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-ok-place-county-parts",
+      "bytes": {
+        "length": 249428,
+        "sha256": "d6c969a69fb67ced73fdaa8b9d696d130922e51ad415fd7a6da4ce8a6769d1b9"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-ok-archive",
+        "parentSha256": "e95c99e6385f4ed3a5ea67962444a53ad7a731f26d1dd88df2efde504f101dff",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/okgeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 249428,
+        "retrievedAt": "2026-09-15T02:04:34.270Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Oklahoma/ok2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-or-archive",
+      "bytes": {
+        "length": 14707780,
+        "sha256": "f8e7fa8c331446850b1bf545e6c4aa63733373f582b11edd6b3cf31016bc4509"
+      },
+      "container": {
+        "memberLength": 60835450,
+        "memberPath": "orgeo2020.pl",
+        "memberSha256": "dd6edb73064c53b6a2381ba61ea546ecae0ff1752615169888873201bee237fd"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 14707780,
+        "retrievedAt": "2026-09-15T02:04:37.243Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Oregon/or2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-or-place-county-parts",
+      "bytes": {
+        "length": 124562,
+        "sha256": "838db2d66786735f65013a27cc7d5535d1161847df430a46dd9da55d18fc1914"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-or-archive",
+        "parentSha256": "f8e7fa8c331446850b1bf545e6c4aa63733373f582b11edd6b3cf31016bc4509",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/orgeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 124562,
+        "retrievedAt": "2026-09-15T02:04:37.243Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Oregon/or2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-pa-archive",
+      "bytes": {
+        "length": 57240396,
+        "sha256": "2d33a7dab29c8dd5692bbde203d253e06eebbc44fcbaa96b1caa958d454026ae"
+      },
+      "container": {
+        "memberLength": 199010982,
+        "memberPath": "pageo2020.pl",
+        "memberSha256": "f35aeff584746a27db4e8e928f987506c69a20b6f464865b9f43c741536f832f"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 57240396,
+        "retrievedAt": "2026-09-15T02:04:39.862Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Pennsylvania/pa2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-pa-place-county-parts",
+      "bytes": {
+        "length": 536940,
+        "sha256": "33a0b480b524ff5befb70622c86fd35192cf4bdaac5dba3e609e16dcf0435780"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-pa-archive",
+        "parentSha256": "2d33a7dab29c8dd5692bbde203d253e06eebbc44fcbaa96b1caa958d454026ae",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/pageo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 536940,
+        "retrievedAt": "2026-09-15T02:04:39.862Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Pennsylvania/pa2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-ri-archive",
+      "bytes": {
+        "length": 4269011,
+        "sha256": "a2a6de20d0bac0dfe91aef66d3c2dde0eb768863884fbc45d4f3df5c49f5dcd0"
+      },
+      "container": {
+        "memberLength": 14024819,
+        "memberPath": "rigeo2020.pl",
+        "memberSha256": "d7236ca05940f50fa1bdb6b35c08435327011af40843f19a3f269503063300fd"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 4269011,
+        "retrievedAt": "2026-09-15T02:04:44.035Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Rhode_Island/ri2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-ri-place-county-parts",
+      "bytes": {
+        "length": 10365,
+        "sha256": "1190617c0cac9182983652fabd146bd900dd58f2caa24e802399f872b5cbccb1"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-ri-archive",
+        "parentSha256": "a2a6de20d0bac0dfe91aef66d3c2dde0eb768863884fbc45d4f3df5c49f5dcd0",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/rigeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 10365,
+        "retrievedAt": "2026-09-15T02:04:44.035Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Rhode_Island/ri2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-sc-archive",
+      "bytes": {
+        "length": 22200586,
+        "sha256": "e8996f6873405d6c048c42e8878231fc7f152564295498ff586a041648a46bb5"
+      },
+      "container": {
+        "memberLength": 81830850,
+        "memberPath": "scgeo2020.pl",
+        "memberSha256": "2dcf4f242a3f1e049715f5ae3fb2a46abc960c7a17de0290cfb873040e9328ed"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 22200586,
+        "retrievedAt": "2026-09-15T02:04:46.262Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/South_Carolina/sc2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-sc-place-county-parts",
+      "bytes": {
+        "length": 142171,
+        "sha256": "5c0c81452fae79263a624ccf1e4a786149931e6224ee4318e200c82233814ae3"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-sc-archive",
+        "parentSha256": "e8996f6873405d6c048c42e8878231fc7f152564295498ff586a041648a46bb5",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/scgeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 142171,
+        "retrievedAt": "2026-09-15T02:04:46.262Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/South_Carolina/sc2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-sd-archive",
+      "bytes": {
+        "length": 8729143,
+        "sha256": "30d4edc3ccc86ad76a2a388c763ecdaebe23f43a5dcb92658587c04ca5cfa1a5"
+      },
+      "container": {
+        "memberLength": 39806996,
+        "memberPath": "sdgeo2020.pl",
+        "memberSha256": "0806bda6f2bdb1d27d1e4bc21cbafbda7cce191a103d30fab45c1adc1232ad9b"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 8729143,
+        "retrievedAt": "2026-09-15T02:04:49.105Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/South_Dakota/sd2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-sd-place-county-parts",
+      "bytes": {
+        "length": 136926,
+        "sha256": "4dab92518450585ff2413caf53c11f6b71bc1c72898fde84491a7b59d1469d53"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-sd-archive",
+        "parentSha256": "30d4edc3ccc86ad76a2a388c763ecdaebe23f43a5dcb92658587c04ca5cfa1a5",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/sdgeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 136926,
+        "retrievedAt": "2026-09-15T02:04:49.105Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/South_Dakota/sd2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-tn-archive",
+      "bytes": {
+        "length": 25279315,
+        "sha256": "89f843dbc717409169fef44df2682548c308c06c0d825451bf2e78340234daf2"
+      },
+      "container": {
+        "memberLength": 96091663,
+        "memberPath": "tngeo2020.pl",
+        "memberSha256": "d04afebc8dee4dab88d842fd6fea6903a8b2c95dcb8b26c00681dfd1f8ede7dc"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 25279315,
+        "retrievedAt": "2026-09-15T02:04:51.541Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Tennessee/tn2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-tn-place-county-parts",
+      "bytes": {
+        "length": 153227,
+        "sha256": "299447cf8d48019fa94328c6679b3b300fa463781d7b76558512f510337bf16b"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-tn-archive",
+        "parentSha256": "89f843dbc717409169fef44df2682548c308c06c0d825451bf2e78340234daf2",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/tngeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 153227,
+        "retrievedAt": "2026-09-15T02:04:51.541Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Tennessee/tn2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-tx-archive",
+      "bytes": {
+        "length": 99593751,
+        "sha256": "6fee8ca5759eb4942db25a59b8cbd3439ad4188279fccff87dac70a89ceca6ff"
+      },
+      "container": {
+        "memberLength": 362246311,
+        "memberPath": "txgeo2020.pl",
+        "memberSha256": "91651c86391df18accd460ef81e1291bdbf368c25f4b8fa41b923cf71995a9ce"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 99593751,
+        "retrievedAt": "2026-09-15T02:04:54.525Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Texas/tx2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-tx-place-county-parts",
+      "bytes": {
+        "length": 572469,
+        "sha256": "a198ac0f90a19a3c4969c2db61e8776122a93e34ed6be22d8c7d80a5025af5d2"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-tx-archive",
+        "parentSha256": "6fee8ca5759eb4942db25a59b8cbd3439ad4188279fccff87dac70a89ceca6ff",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/txgeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 572469,
+        "retrievedAt": "2026-09-15T02:04:54.525Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Texas/tx2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-ut-archive",
+      "bytes": {
+        "length": 13713435,
+        "sha256": "4e6de13cd7b5307bfdd327446dd7107e2fdb790903f59186bb8285881531d0f0"
+      },
+      "container": {
+        "memberLength": 45888416,
+        "memberPath": "utgeo2020.pl",
+        "memberSha256": "2fa73f391c2503ec013e93221a585cf7695c42b7e0c0f92701af7d1dfc57708d"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 13713435,
+        "retrievedAt": "2026-09-15T02:04:59.973Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Utah/ut2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-ut-place-county-parts",
+      "bytes": {
+        "length": 93564,
+        "sha256": "8919afae51840d3589a194caca0f76c8aee945c224716c93ae386a2218e0bc01"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-ut-archive",
+        "parentSha256": "4e6de13cd7b5307bfdd327446dd7107e2fdb790903f59186bb8285881531d0f0",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/utgeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 93564,
+        "retrievedAt": "2026-09-15T02:04:59.973Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Utah/ut2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-vt-archive",
+      "bytes": {
+        "length": 3474558,
+        "sha256": "6a18a3364dff5e0432b25f4b4972eaf22ac0699ea0273430509a9b6a763638e9"
+      },
+      "container": {
+        "memberLength": 13235486,
+        "memberPath": "vtgeo2020.pl",
+        "memberSha256": "2244e3bf44dbb8e9f16990a76bbebc1020a5ce686791857e10d9033655b44f84"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 3474558,
+        "retrievedAt": "2026-09-15T02:05:02.526Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Vermont/vt2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-vt-place-county-parts",
+      "bytes": {
+        "length": 51012,
+        "sha256": "cf4d1022940bace10b99fe9953b1ece7b38effd08123fab68f096fb4ca674b95"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-vt-archive",
+        "parentSha256": "6a18a3364dff5e0432b25f4b4972eaf22ac0699ea0273430509a9b6a763638e9",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/vtgeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 51012,
+        "retrievedAt": "2026-09-15T02:05:02.526Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Vermont/vt2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-va-archive",
+      "bytes": {
+        "length": 28074582,
+        "sha256": "e33c7c1ac0aa84b5fe5ba20188d2e562c5c96b1c02f59e766e18d037b23df9e8"
+      },
+      "container": {
+        "memberLength": 92086859,
+        "memberPath": "vageo2020.pl",
+        "memberSha256": "a774f388f2363228bec53828bae76cfdacc7f74baa9fb1ed1bf505f6044f3aba"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 28074582,
+        "retrievedAt": "2026-09-15T02:05:04.748Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Virginia/va2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-va-place-county-parts",
+      "bytes": {
+        "length": 196703,
+        "sha256": "4a73bb5498983684ea67ae8bf09de8f95f6d04f4a89c747f1dd46d067529dad2"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-va-archive",
+        "parentSha256": "e33c7c1ac0aa84b5fe5ba20188d2e562c5c96b1c02f59e766e18d037b23df9e8",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/vageo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 196703,
+        "retrievedAt": "2026-09-15T02:05:04.748Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Virginia/va2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-wa-archive",
+      "bytes": {
+        "length": 36824364,
+        "sha256": "dde77f2db632a4af274a968c39a7ab58fac6cfd90718e4a72ec239b84980db5b"
+      },
+      "container": {
+        "memberLength": 108907229,
+        "memberPath": "wageo2020.pl",
+        "memberSha256": "4b65c370a69bc84a919f8603fb2a8fc8fee1ccd687ef148772132387a8edbb85"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 36824364,
+        "retrievedAt": "2026-09-15T02:05:07.729Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Washington/wa2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-wa-place-county-parts",
+      "bytes": {
+        "length": 181701,
+        "sha256": "507a9b73d534570daf6626863daea3e2fb6cc7a15a2c35b36fa99cd1e9114f12"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-wa-archive",
+        "parentSha256": "dde77f2db632a4af274a968c39a7ab58fac6cfd90718e4a72ec239b84980db5b",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/wageo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 181701,
+        "retrievedAt": "2026-09-15T02:05:07.729Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Washington/wa2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-wv-archive",
+      "bytes": {
+        "length": 9611980,
+        "sha256": "8356c49f300e9c18658de56c06e551f5e8cb591c395fc3d1748077d46322889b"
+      },
+      "container": {
+        "memberLength": 40196175,
+        "memberPath": "wvgeo2020.pl",
+        "memberSha256": "0c59a61dfabfb2232df074ae4b90944882ad00c5747c2e4245aa4e399e9a51a9"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 9611980,
+        "retrievedAt": "2026-09-15T02:05:10.913Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/West_Virginia/wv2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-wv-place-county-parts",
+      "bytes": {
+        "length": 125361,
+        "sha256": "372261070603d282705d1703c37fc1387b4a89a8faf5affd635a142f2db592fc"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-wv-archive",
+        "parentSha256": "8356c49f300e9c18658de56c06e551f5e8cb591c395fc3d1748077d46322889b",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/wvgeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 125361,
+        "retrievedAt": "2026-09-15T02:05:10.913Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/West_Virginia/wv2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-wi-archive",
+      "bytes": {
+        "length": 34725175,
+        "sha256": "e70f80ef4a803cdeb1e1767fc42e13f7d01ce9f98566c82ca4c2379aa9809f7f"
+      },
+      "container": {
+        "memberLength": 128397889,
+        "memberPath": "wigeo2020.pl",
+        "memberSha256": "be5573ad39ff2e710727630ce0b4f45183fc6a437a71e9a4ce28c9f5dbfc5cf6"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 34725175,
+        "retrievedAt": "2026-09-15T02:05:13.352Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Wisconsin/wi2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-wi-place-county-parts",
+      "bytes": {
+        "length": 242805,
+        "sha256": "b3d5b68cacaba5a0f54201a640234ae082cc5f6591b91970481b1c80e54ffc7f"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-wi-archive",
+        "parentSha256": "e70f80ef4a803cdeb1e1767fc42e13f7d01ce9f98566c82ca4c2379aa9809f7f",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/wigeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 242805,
+        "retrievedAt": "2026-09-15T02:05:13.352Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Wisconsin/wi2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pl2020-wy-archive",
+      "bytes": {
+        "length": 5554716,
+        "sha256": "98dd7d035942fea2758e0fcabe71efa0588a7ec7c9c33110bcde493fe8e8b942"
+      },
+      "container": {
+        "memberLength": 27162276,
+        "memberPath": "wygeo2020.pl",
+        "memberSha256": "641b06833e863675fa0914295754e0ff710b2af842d95c69b8470330e7fbe793"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 5554716,
+        "retrievedAt": "2026-09-15T02:05:16.598Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Wyoming/wy2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-pl2020-wy-place-county-parts",
+      "bytes": {
+        "length": 57191,
+        "sha256": "6565d7bc188fbeaaba6d17e17ad7f8316c7ef9339452379fbc99fa588845de39"
+      },
+      "derivation": {
+        "parentArtifactId": "census-pl2020-wy-archive",
+        "parentSha256": "98dd7d035942fea2758e0fcabe71efa0588a7ec7c9c33110bcde493fe8e8b942",
+        "selectionPredicate": "Every line of the state geoheader (<st>geo2020.pl) whose SUMLEV (field 3) is 155, State-Place-County, kept byte for byte in file order; cut only if every summary-level-160 place's AREALAND and AREAWATR equal the sums over its 155 parts and the two levels name the same places."
+      },
+      "localPath": "data/source/place-county-relations/raw/wygeo2020.sumlev155.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Redistricting and Voting Rights Data Office",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/decennial/2020/technical-documentation/complete-tech-docs/summary-file/2020Census_PL94_171Redistricting_StatesTechDoc_English.pdf",
+        "releaseDate": "2021-08-12",
+        "schemaVersion": "2020 Census Redistricting Data (P.L. 94-171) Summary File legacy format geographic header, 97 pipe-delimited fields",
+        "statedVintage": "2020 Census Redistricting Data (Public Law 94-171)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 57191,
+        "retrievedAt": "2026-09-15T02:05:16.598Z",
+        "url": "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Wyoming/wy2020.pl.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    }
+  ],
+  "domain": "place-county-relations"
+}

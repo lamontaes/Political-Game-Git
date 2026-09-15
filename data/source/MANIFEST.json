@@ -762,6 +762,635 @@
     {
       "artifacts": [
         {
+          "artifactId": "census-pl2020-al-archive",
+          "sha256": "bd3fbbf22615b166869f9119aa12017b9a7b82baf0f22a9170e92a88a397cd77",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-al-place-county-parts",
+          "sha256": "ef26ff8f24a9795c2e37c9b372c2d2839bef652cf3cc1d466daec227f395e84a",
+          "sliceOfParent": "census-pl2020-al-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-ak-archive",
+          "sha256": "c90837c12ab2f5fe99132c558705e8d0b5174afdf2a0d28b71927f535fe63487",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ak-place-county-parts",
+          "sha256": "c576777a8d3997506d64daa6561a3f81d2317256b49e9a585bde408a923556c7",
+          "sliceOfParent": "census-pl2020-ak-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-az-archive",
+          "sha256": "56997e8b1b5175148fd3e1157ab57eee7c1722221cafebfd5d12fe2e687b2aff",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-az-place-county-parts",
+          "sha256": "b2f26c1d8da40bb165c4814147594dd8443344b496fb7b46a8717f48be66e36b",
+          "sliceOfParent": "census-pl2020-az-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-ar-archive",
+          "sha256": "940ad2916676e443dfdab98c3e145fcf62ef9dcd9f10c763ccdb195f4d5f132e",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ar-place-county-parts",
+          "sha256": "235d2ed64de19cca7e5a1e11882785762a08a08ddddde131dc8c71085b8ce08c",
+          "sliceOfParent": "census-pl2020-ar-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-ca-archive",
+          "sha256": "e02c83c85a9a5d69ded4bf0d4c8ebe3f4bcd2d8e5911db765e9e42915ad1f753",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ca-place-county-parts",
+          "sha256": "ea28115379e6263cda2cbf150d1284fd013cd76fe9ebe62888875048d12a91ff",
+          "sliceOfParent": "census-pl2020-ca-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-co-archive",
+          "sha256": "fce76008aedd10681bf0e57fa366ca788d280264edfe91e7d80a9b33ae86ab2c",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-co-place-county-parts",
+          "sha256": "a13782ae6f40973320c4263e42dbbef28a0dd79380bbc284b0b64831e0f497a8",
+          "sliceOfParent": "census-pl2020-co-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-ct-archive",
+          "sha256": "c4a2d42a79c52de10ea9397cca43db59c2df38e6d6e66b4396a0de8bd3f66780",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ct-place-county-parts",
+          "sha256": "c1131c9866c0fe38897a1497d96ed63c6340c127361aecff9654dbdebe830544",
+          "sliceOfParent": "census-pl2020-ct-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-de-archive",
+          "sha256": "2d7743cc442574dc785c728e9637c5d4648bef518beef41b5f03756eb56ea78a",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-de-place-county-parts",
+          "sha256": "f2f8b20209ae9a09a25aec8320848cb9d90e3d326039949c840c960c8aabae68",
+          "sliceOfParent": "census-pl2020-de-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-dc-archive",
+          "sha256": "21b5189f45ce260c4607c9579f4ad52d11920133af827b14b183121b48d40ce4",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-dc-place-county-parts",
+          "sha256": "fb062bce66945f4a6c3495654bfe4de37045e346be4a8320b3219a64487ac298",
+          "sliceOfParent": "census-pl2020-dc-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-fl-archive",
+          "sha256": "fdcc98180f634b69c40ed1d71a63fe00fdda4cda3e35fbaa6382336501f4b0cf",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-fl-place-county-parts",
+          "sha256": "ff87e6f09adfb5d1c4e3c7afc0ebccbe5536b4558605a284c44051f0f5df8dc4",
+          "sliceOfParent": "census-pl2020-fl-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-ga-archive",
+          "sha256": "26434588ceab435fa33a138ff999e4187c923a74732fcc488c3a0597b4adebcb",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ga-place-county-parts",
+          "sha256": "dd3803a17e0411da7bb06613904ccb7e73515d28f62dfe76c65bb7d7cf75f36c",
+          "sliceOfParent": "census-pl2020-ga-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-hi-archive",
+          "sha256": "b7e1ba6350c5d75267b688504052af001ad227763995f6bb26ccdd92fc45261f",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-hi-place-county-parts",
+          "sha256": "3ca0fb72068486004c0c8da140fddeb86eedd556f9f696b54f4b5bf5ac516447",
+          "sliceOfParent": "census-pl2020-hi-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-id-archive",
+          "sha256": "89345b6d5d12ccdec8af4039b0a6f1f5ba4cd7ca86c8f73ad6250b5713e3df47",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-id-place-county-parts",
+          "sha256": "28429d8b487a10e86ae7e8a3bb39709df03aebd1019acb0a731d7823896bbeb2",
+          "sliceOfParent": "census-pl2020-id-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-il-archive",
+          "sha256": "e73f82d6aea0b9b372e9f8572c6edbedfa72ae9fc2039da84faf0cdf0c478a32",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-il-place-county-parts",
+          "sha256": "18f21f17259a93a30d6b528077ce80988a8d2b86d7673cbe00839c203839a9c7",
+          "sliceOfParent": "census-pl2020-il-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-in-archive",
+          "sha256": "5f4999237a9bf3b3337865494d0d62c0a1dc620cad7e48caebaa83811f95901a",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-in-place-county-parts",
+          "sha256": "5a5480031667f8765d6e7a9d86196ae9f6eae72964e0a55988bfa575d0f2a6c4",
+          "sliceOfParent": "census-pl2020-in-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-ia-archive",
+          "sha256": "c55e8276080b684431b8629269d4225c31080ea17257a737f9d99e3cf2ac6822",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ia-place-county-parts",
+          "sha256": "735b3b9585b50adb6479a8995cf6d2cf18370b98ae745caed75ce381f81c4504",
+          "sliceOfParent": "census-pl2020-ia-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-ks-archive",
+          "sha256": "ac6b4ae5e2af4c8d639b46748d55927ee7821756f6073cc4f8238c1fb00498ee",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ks-place-county-parts",
+          "sha256": "a0366af75b8c7f9bbff7eacfd858a0fb0a94fe53564164bf3bb6b1f4a666a6cc",
+          "sliceOfParent": "census-pl2020-ks-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-ky-archive",
+          "sha256": "252a04b760e4da69665d5654108be2b63d55d294c1c0c608bfc7e7fcf2360ac4",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ky-place-county-parts",
+          "sha256": "510d0a7b46b508212658bc635f7dfaf35f1045122c8d5db3f712461220e594b4",
+          "sliceOfParent": "census-pl2020-ky-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-la-archive",
+          "sha256": "d8d9ea96195f2b848be70ef33dcb224d433d8d58025e11aaa0432c5211e5345c",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-la-place-county-parts",
+          "sha256": "6d982f5f88e738ee66b910207d8accbc93b6247a9d120d91ad4cea87b3f05ab0",
+          "sliceOfParent": "census-pl2020-la-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-me-archive",
+          "sha256": "f9bb6fe4cf13bb28b44e4d6a8d5d3e5209f9249ebc402db7ea5c24f8a673ac07",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-me-place-county-parts",
+          "sha256": "65c3607aef3f3c3455fb70b88f7ed5f30ae8bc6ce233ae333ca0af06ffa66027",
+          "sliceOfParent": "census-pl2020-me-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-md-archive",
+          "sha256": "9af1e1f0185b6219a9432132ef78e47c2d74c474948d2ed6004c7061412393f3",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-md-place-county-parts",
+          "sha256": "92e8a3fd27b9d5a16b8ed865a4a597edeca2227aa9570934912679666a6aabc8",
+          "sliceOfParent": "census-pl2020-md-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-ma-archive",
+          "sha256": "9857362fbc1162d3943685134a77a91542a70eb667f3477559d07fd0a81e4889",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ma-place-county-parts",
+          "sha256": "7c0d4222ec4a375a92752c0ae42df16c482c0b824523d9d23c44cf023794bb97",
+          "sliceOfParent": "census-pl2020-ma-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-mi-archive",
+          "sha256": "971bd53abeb1d905bb9b09bfe4dc1afe8514a916f24d285b289e0f66ec5cfb62",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-mi-place-county-parts",
+          "sha256": "d84d61623f6990691249903d6ca25287e2a1367f869cbde925d1695352345698",
+          "sliceOfParent": "census-pl2020-mi-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-mn-archive",
+          "sha256": "7d30974597e73893d25ffef0975c8e673afcc1166f9919d5ff2a466a2e0e188f",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-mn-place-county-parts",
+          "sha256": "ad6c71cf96b4bf7a02d3b528cfdbbd2b68caf7e9dfa442893a6d3c01d9caf04a",
+          "sliceOfParent": "census-pl2020-mn-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-ms-archive",
+          "sha256": "cb64e3465cee9623dc574605f4dfcada33eaea6833062d31f769811fd20a5f26",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ms-place-county-parts",
+          "sha256": "0b5a1c5c9c61eeab34c169b4a71642ffad0c5e90fb6dec98449bf4353e238211",
+          "sliceOfParent": "census-pl2020-ms-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-mo-archive",
+          "sha256": "900d8a3bcc59e2cc3c174730e2a8704bd653af1fc043c9fbd73196e1c0d7fba5",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-mo-place-county-parts",
+          "sha256": "b5bdf6576d47b0962a5f8bbc15dd0aa5444481fed5e563c7f08e9f8ac749c117",
+          "sliceOfParent": "census-pl2020-mo-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-mt-archive",
+          "sha256": "e01288ce3ae37ae732eb61d40268c6ac3ec8f9772c8609c6e9ca538bdd0bc130",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-mt-place-county-parts",
+          "sha256": "a5ae296df183de915e37db88da93839134d6f811cf4785d99d149de414c10400",
+          "sliceOfParent": "census-pl2020-mt-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-ne-archive",
+          "sha256": "29298d68a5905cf9cb14cd64e35750d14727a330c5940ccf5238a8ae6e110300",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ne-place-county-parts",
+          "sha256": "f15bfec860201c684ec8aa364b843f48e78fd4b41a39cc69e8c5de566d071867",
+          "sliceOfParent": "census-pl2020-ne-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-nv-archive",
+          "sha256": "ac7e792e0a1d6248ff1700159f4ec6a3a7b3330ebe10899bb4f47ab97c19952d",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-nv-place-county-parts",
+          "sha256": "f4263f2ec3d3cb78dac92b771259b4307faea59add81fefb365aa2ece54c9b80",
+          "sliceOfParent": "census-pl2020-nv-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-nh-archive",
+          "sha256": "31852c0cfa871ea81f933bb1df904f0d45997097e38ade83db87ba58255d4468",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-nh-place-county-parts",
+          "sha256": "0d7d5b2ecd195292cf200fff4a55b0efee82cff25cd4fb246f50a2ea433a0b9a",
+          "sliceOfParent": "census-pl2020-nh-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-nj-archive",
+          "sha256": "caf0da4a9e9d46ced3f8020a7a2bf5240cd8805ed0679716f0cb2b8fcc65e811",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-nj-place-county-parts",
+          "sha256": "3fca2706de381da571fc914ec5288684008c10ff264a176d8a2b13e0ffdb81d3",
+          "sliceOfParent": "census-pl2020-nj-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-nm-archive",
+          "sha256": "77133ba4bb2fb2c28d39993bb4cff5f1c42823c9d13b75e51e8ecf986354c259",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-nm-place-county-parts",
+          "sha256": "17d4ed03a5d45fa2707697fba54124aa8de1f732fdc5fd6fb61667ac17fe781e",
+          "sliceOfParent": "census-pl2020-nm-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-ny-archive",
+          "sha256": "9d046014bee6b61afa808c5dfe841a6d036c77bff70197472fbdd291a40b8ce2",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ny-place-county-parts",
+          "sha256": "bc107abbd524afe38f2d5e75b0498c833819ebdadb5ed2035b48806b5d02a876",
+          "sliceOfParent": "census-pl2020-ny-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-nc-archive",
+          "sha256": "04f2f250dad877d237d94f553f9cb2209594c2a021d15f9fdeedd4404db538db",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-nc-place-county-parts",
+          "sha256": "dc4911e21d972d0dc54bb585a02d2654ed941183ea408da018719df96b1bf0ae",
+          "sliceOfParent": "census-pl2020-nc-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-nd-archive",
+          "sha256": "a37d18e05a73b311a8fd7ade36dd5b17cac16ff125318c9ec6d2edd7f6968b71",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-nd-place-county-parts",
+          "sha256": "0b293a413d20a1b956c81c66f16472bc9167ec91f3f0ede21349613f8c16ca09",
+          "sliceOfParent": "census-pl2020-nd-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-oh-archive",
+          "sha256": "ceef338247ad2dccc267885f2879e167ab6730c7a332d3ceb5aef9d6e2338aa0",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-oh-place-county-parts",
+          "sha256": "32eb3dd97f68e17cc5ac0092aea650cf3a6ae4db0249ac827a6aff20f520c1e0",
+          "sliceOfParent": "census-pl2020-oh-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-ok-archive",
+          "sha256": "e95c99e6385f4ed3a5ea67962444a53ad7a731f26d1dd88df2efde504f101dff",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ok-place-county-parts",
+          "sha256": "d6c969a69fb67ced73fdaa8b9d696d130922e51ad415fd7a6da4ce8a6769d1b9",
+          "sliceOfParent": "census-pl2020-ok-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-or-archive",
+          "sha256": "f8e7fa8c331446850b1bf545e6c4aa63733373f582b11edd6b3cf31016bc4509",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-or-place-county-parts",
+          "sha256": "838db2d66786735f65013a27cc7d5535d1161847df430a46dd9da55d18fc1914",
+          "sliceOfParent": "census-pl2020-or-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-pa-archive",
+          "sha256": "2d33a7dab29c8dd5692bbde203d253e06eebbc44fcbaa96b1caa958d454026ae",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-pa-place-county-parts",
+          "sha256": "33a0b480b524ff5befb70622c86fd35192cf4bdaac5dba3e609e16dcf0435780",
+          "sliceOfParent": "census-pl2020-pa-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-ri-archive",
+          "sha256": "a2a6de20d0bac0dfe91aef66d3c2dde0eb768863884fbc45d4f3df5c49f5dcd0",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ri-place-county-parts",
+          "sha256": "1190617c0cac9182983652fabd146bd900dd58f2caa24e802399f872b5cbccb1",
+          "sliceOfParent": "census-pl2020-ri-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-sc-archive",
+          "sha256": "e8996f6873405d6c048c42e8878231fc7f152564295498ff586a041648a46bb5",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-sc-place-county-parts",
+          "sha256": "5c0c81452fae79263a624ccf1e4a786149931e6224ee4318e200c82233814ae3",
+          "sliceOfParent": "census-pl2020-sc-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-sd-archive",
+          "sha256": "30d4edc3ccc86ad76a2a388c763ecdaebe23f43a5dcb92658587c04ca5cfa1a5",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-sd-place-county-parts",
+          "sha256": "4dab92518450585ff2413caf53c11f6b71bc1c72898fde84491a7b59d1469d53",
+          "sliceOfParent": "census-pl2020-sd-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-tn-archive",
+          "sha256": "89f843dbc717409169fef44df2682548c308c06c0d825451bf2e78340234daf2",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-tn-place-county-parts",
+          "sha256": "299447cf8d48019fa94328c6679b3b300fa463781d7b76558512f510337bf16b",
+          "sliceOfParent": "census-pl2020-tn-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-tx-archive",
+          "sha256": "6fee8ca5759eb4942db25a59b8cbd3439ad4188279fccff87dac70a89ceca6ff",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-tx-place-county-parts",
+          "sha256": "a198ac0f90a19a3c4969c2db61e8776122a93e34ed6be22d8c7d80a5025af5d2",
+          "sliceOfParent": "census-pl2020-tx-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-ut-archive",
+          "sha256": "4e6de13cd7b5307bfdd327446dd7107e2fdb790903f59186bb8285881531d0f0",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-ut-place-county-parts",
+          "sha256": "8919afae51840d3589a194caca0f76c8aee945c224716c93ae386a2218e0bc01",
+          "sliceOfParent": "census-pl2020-ut-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-vt-archive",
+          "sha256": "6a18a3364dff5e0432b25f4b4972eaf22ac0699ea0273430509a9b6a763638e9",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-vt-place-county-parts",
+          "sha256": "cf4d1022940bace10b99fe9953b1ece7b38effd08123fab68f096fb4ca674b95",
+          "sliceOfParent": "census-pl2020-vt-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-va-archive",
+          "sha256": "e33c7c1ac0aa84b5fe5ba20188d2e562c5c96b1c02f59e766e18d037b23df9e8",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-va-place-county-parts",
+          "sha256": "4a73bb5498983684ea67ae8bf09de8f95f6d04f4a89c747f1dd46d067529dad2",
+          "sliceOfParent": "census-pl2020-va-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-wa-archive",
+          "sha256": "dde77f2db632a4af274a968c39a7ab58fac6cfd90718e4a72ec239b84980db5b",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-wa-place-county-parts",
+          "sha256": "507a9b73d534570daf6626863daea3e2fb6cc7a15a2c35b36fa99cd1e9114f12",
+          "sliceOfParent": "census-pl2020-wa-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-wv-archive",
+          "sha256": "8356c49f300e9c18658de56c06e551f5e8cb591c395fc3d1748077d46322889b",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-wv-place-county-parts",
+          "sha256": "372261070603d282705d1703c37fc1387b4a89a8faf5affd635a142f2db592fc",
+          "sliceOfParent": "census-pl2020-wv-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-wi-archive",
+          "sha256": "e70f80ef4a803cdeb1e1767fc42e13f7d01ce9f98566c82ca4c2379aa9809f7f",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-wi-place-county-parts",
+          "sha256": "b3d5b68cacaba5a0f54201a640234ae082cc5f6591b91970481b1c80e54ffc7f",
+          "sliceOfParent": "census-pl2020-wi-archive",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pl2020-wy-archive",
+          "sha256": "98dd7d035942fea2758e0fcabe71efa0588a7ec7c9c33110bcde493fe8e8b942",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-pl2020-wy-place-county-parts",
+          "sha256": "6565d7bc188fbeaaba6d17e17ad7f8316c7ef9339452379fbc99fa588845de39",
+          "sliceOfParent": "census-pl2020-wy-archive",
+          "storage": "derived-qa-slice"
+        }
+      ],
+      "asOf": "2020-04-01",
+      "boundedSampleReason": null,
+      "canonicalSha256": "0158d48e19f7fe0bf06958c45c4e4a1caf5fb1cb36e325f20238cd624a8bb6a8",
+      "compiler": {
+        "name": "place-county-relations",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "0158d48e19f7fe0bf06958c45c4e4a1caf5fb1cb36e325f20238cd624a8bb6a8",
+      "corpusId": "place-county-relations",
+      "domain": "place-county-relations",
+      "isCompleteUniverse": true,
+      "recordCount": 33037,
+      "universeDescription": "Every part of a 2020 Census place (incorporated place or census designated place) lying in one county or county equivalent, as the 2020 Census Redistricting Data (P.L. 94-171) geographic headers publish at summary level 155 for the 50 states and the District of Columbia, with each part's land and water area. Puerto Rico is not included."
+    },
+    {
+      "artifacts": [
+        {
           "artifactId": "census-gazetteer-2025-places-zip",
           "sha256": "49644173a453469d9bd77fb7a493b027f87567e209edaf2078aac7543ac2ee29",
           "sliceOfParent": null,
