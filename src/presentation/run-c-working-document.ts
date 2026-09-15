@@ -897,7 +897,7 @@ function projectKnownAnalysis(
     documentRoleLabel: documentRole.label,
     authorPersonId: fixture.scenePerson.personId,
     authorLabel: `${personName(world.people[fixture.document.preparedByPersonId]!)} · staff analysis`,
-    provenanceLabel: "From a staff policy review",
+    provenanceLabel: "Known through an explicit policy-analysis review",
     qualification:
       "Projection under the fixture assumptions. This is not an appropriation, enactment, or guarantee of implementation.",
     modeledChange: `${formatMoneyMinorUnits(consequence.estimatedChange.money.minorUnits)} in modeled added outlays`,

@@ -334,7 +334,7 @@ function AnalysisPanel({
           ))}
         </div>
       ) : (
-        <p>Nobody has sent {playerGivenName} a staff projection.</p>
+        <p>No staff projection is currently known to {playerGivenName}.</p>
       )}
     </aside>
   );
