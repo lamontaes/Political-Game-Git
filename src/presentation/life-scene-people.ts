@@ -590,24 +590,25 @@ export function planLifeScenePeople(
      * An uncalibrated room only reaches here in the preview; production
      * refused it above. Fitting is what makes the art visible enough to judge.
      */
-    const layers =
-      savedWardrobes?.artPreview &&
-      (!scene.floorCalibration || scene.standardBodyWidthPercent === null)
-        ? fitLayersToBox(drawing.layers, {
-            leftPercent,
-            topPercent,
-            widthPercent,
-            heightPercent,
-          })
-        : drawing.layers;
+    const fittedForUncalibratedPreview =
+      Boolean(savedWardrobes?.artPreview) &&
+      (!scene.floorCalibration || scene.standardBodyWidthPercent === null);
+    const layers = fittedForUncalibratedPreview
+      ? fitLayersToBox(drawing.layers, {
+          leftPercent,
+          topPercent,
+          widthPercent,
+          heightPercent,
+        })
+      : drawing.layers;
     // Calibrated layers already carry the compositor's sole contact and one
     // depth scale. Their actual union is the selectable/framing box; a second
     // footprint-derived box must not resize or falsely crop that composition.
     const calibratedBounds =
-      drawing.visibleBounds ??
+      (!fittedForUncalibratedPreview ? drawing.visibleBounds : undefined) ??
       (layers.length > 0 &&
-      scene.floorCalibration &&
-      scene.standardBodyWidthPercent !== null
+      ((scene.floorCalibration && scene.standardBodyWidthPercent !== null) ||
+        fittedForUncalibratedPreview)
         ? {
             leftPercent: Math.min(...layers.map((layer) => layer.leftPercent)),
             topPercent: Math.min(...layers.map((layer) => layer.topPercent)),
@@ -638,9 +639,7 @@ export function planLifeScenePeople(
       widthPercent,
       heightPercent,
       ...(calibratedBounds ?? {}),
-      ...(drawing.visibleBounds
-        ? { visibleBounds: drawing.visibleBounds }
-        : {}),
+      ...(calibratedBounds ? { visibleBounds: calibratedBounds } : {}),
       ...(drawing.sourcePoseId ? { sourcePoseId: drawing.sourcePoseId } : {}),
       layers,
       hasArt: layers.length > 0,

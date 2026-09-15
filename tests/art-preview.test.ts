@@ -561,7 +561,7 @@ describe("the DEFAULT wardrobe resolver uses the catalog that draws", () => {
 
 describe("a complete, drawn composition still carries its diagnostics", () => {
   it("reports them on the person the room actually drew", () => {
-    const { world, playerPersonId } = aWorld(34, "u3-drawn-diagnostics");
+    const { world, playerPersonId } = aWorld(34, "art-preview-diagnostics");
     const sceneId = resolveLifeScene(world, playerPersonId).sceneId;
     const drawn = inUncalibratedScene(sceneId!, () =>
       planLifeScenePeople(
@@ -581,6 +581,20 @@ describe("a complete, drawn composition still carries its diagnostics", () => {
     expect(drawn!.artDiagnostics ?? []).toContain(
       "scene-declares-no-floor-calibration",
     );
+    const bounds = drawn!.visibleBounds!;
+    expect(bounds).toBeDefined();
+    const left = Math.min(...drawn!.layers.map((layer) => layer.leftPercent));
+    const top = Math.min(...drawn!.layers.map((layer) => layer.topPercent));
+    const right = Math.max(
+      ...drawn!.layers.map((layer) => layer.leftPercent + layer.widthPercent),
+    );
+    const bottom = Math.max(
+      ...drawn!.layers.map((layer) => layer.topPercent + layer.heightPercent),
+    );
+    expect(bounds.leftPercent).toBeCloseTo(left, 10);
+    expect(bounds.topPercent).toBeCloseTo(top, 10);
+    expect(bounds.widthPercent).toBeCloseTo(right - left, 10);
+    expect(bounds.heightPercent).toBeCloseTo(bottom - top, 10);
   });
 });
 

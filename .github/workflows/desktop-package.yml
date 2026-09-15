@@ -101,12 +101,14 @@ jobs:
         working-directory: desktop
         env:
           OCD_EXPECT_ART_PREVIEW: ${{ matrix.profile == 'internal-art-review' && '1' || '' }}
-          OCD_EXPECT_MATERIALS: ${{ matrix.profile == 'internal-art-review' && '1' || '' }}
         # Unpacked-.app proof on the runner (the DMG contains this same
         # bundle). Production also exercises window chrome via --shell.
         # The internal-art-review job proves the labelled candidate
-        # banner, keep/relaunch, and portable transfer on an isolated
-        # profile; window chrome is already covered by production Mac.
+        # banner, keep/relaunch, and portable transfer on an isolated profile.
+        # Public CI intentionally has no private candidate pack, so it verifies
+        # any saved material exactly when present but does not require material
+        # that the reviewed source is forbidden to contain. Window chrome is
+        # already covered by production Mac.
         run: |
           app="release-artifacts/mac-arm64/Our Civic Duty.app/Contents/MacOS/Our Civic Duty"
           if [ "${{ matrix.profile }}" = "internal-art-review" ]; then

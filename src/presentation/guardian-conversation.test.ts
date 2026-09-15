@@ -133,7 +133,7 @@ describe("GUARDIAN12 — guardian and known-person conversation entry", () => {
     const game = createNewGameWorld({
       startKind: "custom",
       placeKey: "kentucky",
-      startAge: 10,
+      startAge: 6,
       depth: "play-formative-years",
       startingLife: "ordinary-life",
       household: "shares-a-home",
@@ -144,10 +144,14 @@ describe("GUARDIAN12 — guardian and known-person conversation entry", () => {
       priors: [],
     } as NewGameSetup);
     const id = guardianId(game.world, game.playerPersonId)!;
-    const entry = openConversationWith(game.world, game.playerPersonId, id!);
+    const world = openNextLifeScene(game.world, game.playerPersonId, "school");
+    expect(
+      currentOpeningLifeScene(world, game.playerPersonId)!.presentPersonIds,
+    ).not.toContain(id);
+    const entry = openConversationWith(world, game.playerPersonId, id!);
     expect(entry.kind).toBe("unavailable");
     if (entry.kind !== "unavailable") return;
-    expect(entry.reason).toMatch(/not in this scene/i);
+    expect(entry.reason).toMatch(/not here/i);
   });
 
   it("supports an adult known person in the same opening-life scene", () => {
