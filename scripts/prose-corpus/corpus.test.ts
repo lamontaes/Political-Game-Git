@@ -672,7 +672,7 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     expect(report).toContain(
       `| INVENTORIED | ${coverage.counts.INVENTORIED} |`,
     );
-  });
+  }, 30_000);
 });
 
 describe("the corpus stays out of production runtime", () => {

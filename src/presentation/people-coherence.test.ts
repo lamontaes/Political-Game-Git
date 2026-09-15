@@ -11,6 +11,7 @@ import {
   type CharacterComponentManifestRecord,
 } from "./character-components";
 import { setupForArtPreview } from "./art-preview";
+import { PRIVATE_CANDIDATE_ART_AVAILABLE } from "./private-candidate-manifests";
 import { DEFAULT_NEW_GAME_SETUP, createNewGameWorld } from "./new-game";
 import {
   encodeReplayDescriptor,
@@ -164,19 +165,21 @@ describe("explicit new-life review lineage", () => {
   });
   it("pins a new preview and replays that exact creation lineage without changing world identity", () => {
     const reviewed = setupForArtPreview(setup, "candidate-review");
-    expect(reviewed.appearanceCatalogGeneration).toBe(
-      currentLibrary.catalogGeneration,
-    );
+    const expectedGeneration = PRIVATE_CANDIDATE_ART_AVAILABLE
+      ? currentLibrary.catalogGeneration
+      : undefined;
+    expect(reviewed.appearanceCatalogGeneration).toBe(expectedGeneration);
     expect(worldSeedFor(reviewed)).toBe(worldSeedFor(setup));
     const decoded = decodeReplayDescriptor(encodeReplayDescriptor(reviewed))!;
-    expect(decoded.appearanceCatalogGeneration).toBe(
-      currentLibrary.catalogGeneration,
-    );
+    expect(decoded.appearanceCatalogGeneration).toBe(expectedGeneration);
     const game = createNewGameWorld(decoded);
+    const ordinary = createNewGameWorld(setup);
 
     for (const p of Object.values(game.world.people)) {
       expect(p.appearance!.catalogGeneration).toBe(
-        currentLibrary.catalogGeneration,
+        PRIVATE_CANDIDATE_ART_AVAILABLE
+          ? currentLibrary.catalogGeneration
+          : ordinary.world.people[p.id]!.appearance!.catalogGeneration,
       );
     }
     // Exercise a real supported wardrobe choice using the freshly created person's pin.
@@ -205,10 +208,14 @@ describe("explicit new-life review lineage", () => {
       resolved.context.components
         .filter((c) => c.kind === "top")
         .map((c) => c.assetId),
-    ).toEqual([
-      "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_matched_v1",
-      "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_matched_v1_collar_front",
-    ]);
+    ).toEqual(
+      PRIVATE_CANDIDATE_ART_AVAILABLE
+        ? [
+            "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_matched_v1",
+            "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1_matched_v1_collar_front",
+          ]
+        : ["pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1"],
+    );
     const old = decodeReplayDescriptor(encodeReplayDescriptor(setup))!;
     expect(old.appearanceCatalogGeneration).toBeUndefined();
   });
