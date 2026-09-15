@@ -1,13 +1,11 @@
 import { resolveLegislativeFilingEntry } from "../presentation/legislative-filing-entry";
 import { resolveLegislativeAssignmentForMeasure } from "../presentation/legislation-world";
 import {
-  prepareRecordedLegislativeSitting,
   recordedSittingAvailable,
   hasRecordedLegislativeSitting,
-  RECORDED_SITTING_NOTICE,
 } from "../presentation/legislative-authored-sitting";
-import type { RecordedPlayerBallot } from "../presentation/legislative-authored-sitting";
 import { LegislationWorkspace } from "./LegislationWorkspace";
+import { RecordedSittingAdmission } from "./RecordedSittingAdmission";
 import { projectMeasureBriefing } from "../presentation/legislation-projection";
 import { regularSessionWindow } from "../presentation/legislative-session-window";
 import { legislativeBlueprint } from "../simulation";
@@ -449,9 +447,6 @@ function FiledBillPanel({
   const [endsOn, setEndsOn] = useState<string>(addDays(world.currentDate, 365));
   const [estimateError, setEstimateError] = useState<string | null>(null);
   const [followingProcedure, setFollowingProcedure] = useState(false);
-  const [recordedPlayerBallot, setRecordedPlayerBallot] = useState<
-    RecordedPlayerBallot | ""
-  >("");
   const institutionalAssignment = resolveLegislativeAssignmentForMeasure(
     world,
     {
@@ -692,62 +687,19 @@ function FiledBillPanel({
         }) &&
         institutionalAssignment.kind === "available" &&
         !institutionalAssignment.assignment.procedure.recordedSittingEventId ? (
-          <div>
-            <p>{RECORDED_SITTING_NOTICE}</p>
-            <fieldset>
-              <legend>
-                Your recorded ballot for the supported questions in your chamber
-                and the joint override
-              </legend>
-              {(
-                [
-                  ["yea", "Yea"],
-                  ["nay", "Nay"],
-                  ["present-not-voting", "Present, not voting"],
-                ] as const
-              ).map(([value, label]) => (
-                <label key={value}>
-                  <input
-                    type="radio"
-                    name={`recorded-ballot-${bill.docketKey}`}
-                    data-testid={`docket-recorded-player-ballot-${value}`}
-                    checked={recordedPlayerBallot === value}
-                    onChange={() => setRecordedPlayerBallot(value)}
-                  />
-                  {label}
-                </label>
-              ))}
-            </fieldset>
-            <button
-              type="button"
-              className="ui-action"
-              data-testid="docket-use-recorded-sitting"
-              disabled={recordedPlayerBallot === ""}
-              onClick={() => {
-                try {
-                  if (recordedPlayerBallot === "")
-                    throw new Error("Choose your recorded ballot first.");
-                  onWorldChange(
-                    prepareRecordedLegislativeSitting(world, {
-                      measureId: bill.measureId,
-                      playerPersonId,
-                      playerBallot: recordedPlayerBallot,
-                    }),
-                  );
-                  setFollowingProcedure(true);
-                  setEstimateError(null);
-                } catch (error) {
-                  setEstimateError(
-                    error instanceof Error
-                      ? error.message
-                      : "The recorded sitting could not be opened.",
-                  );
-                }
-              }}
-            >
-              Use the recorded fictional Alaska sitting
-            </button>
-          </div>
+          <RecordedSittingAdmission
+            world={world}
+            measureId={bill.measureId}
+            playerPersonId={playerPersonId}
+            name={`recorded-ballot-${bill.docketKey}`}
+            testIdPrefix="docket"
+            onWorldChange={onWorldChange}
+            onAdmitted={() => {
+              setFollowingProcedure(true);
+              setEstimateError(null);
+            }}
+            onError={setEstimateError}
+          />
         ) : null}
         <button
           type="button"

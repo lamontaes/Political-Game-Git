@@ -284,6 +284,13 @@ export interface ReferralRule {
   readonly authorityLabel: string;
   readonly multipleReferralAllowed: RuleValue<boolean>;
   readonly everyMeasureMustBeHeard: RuleValue<boolean>;
+  /**
+   * Known true only where an instrument moves a measure from introduction to
+   * the floor with no committee stage (a municipal council that introduces
+   * and passes at its own meetings). Absent or unresolved keeps referral as
+   * the only way to the floor.
+   */
+  readonly floorWithoutReferral?: RuleValue<boolean>;
   readonly source: RuleSourceRef;
 }
 

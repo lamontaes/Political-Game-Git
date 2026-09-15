@@ -14,6 +14,8 @@ import { composeExecutiveWorkHandlers } from "./executive-work";
 import { LIFE_PATHS2_HANDLERS } from "./life-paths2";
 import { requireCandidacyPack } from "./candidacy-packs";
 import { candidacyEligibility } from "./candidacy";
+import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
+import { planOrdinaryStateExecutiveTerm } from "./nationwide-world/state-executive-terms";
 import {
   activeCampaignForCandidate,
   campaignActionById,
@@ -1740,11 +1742,17 @@ function closeCampaignAfterElection(
       });
     }
   }
-  if (
+  const closedContest = requireElectionContest(next, campaign.contestId);
+  if (stateExecutiveIdentityForOfficeKey(closedContest.office.officeKey)) {
+    // A state executive office is not a legislative seat. The winner, whoever
+    // it is, gets a dated term only through the admitted term facts and the
+    // elected executive term chain; nothing is occupied on election night.
+    next = planOrdinaryStateExecutiveTerm(next, closedContest.id);
+  } else if (
     status === "won" ||
     supportedLegislativeTermDates(
-      requireElectionContest(next, campaign.contestId).office.officeKey,
-      requireElectionContest(next, campaign.contestId).electionDate,
+      closedContest.office.officeKey,
+      closedContest.electionDate,
     )
   ) {
     next = seatTheWinner(

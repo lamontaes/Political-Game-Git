@@ -1840,3 +1840,24 @@
     flex-direction: row;
   }
 }
+
+/*
+ * A place with no painted scene (UI FINISH, H39 light-background report).
+ *
+ * Some venues — "Somebody's street" after a campaign session, for one — have no
+ * registered scene, so SceneBackdrop renders no plate and zero height. The
+ * shell was transparent, and the document's light page ground filled the
+ * whole window behind the dock and every workspace. The shell now paints its
+ * own dark ground in exactly that case. Rooms with art are untouched, and no
+ * artwork is substituted for the missing scene.
+ */
+.life-shell:has(> .scene-backdrop[data-has-plate="false"]) {
+  min-height: 100dvh;
+  background:
+    radial-gradient(
+      ellipse at 50% 30%,
+      rgba(44, 58, 76, 0.55),
+      transparent 70%
+    ),
+    rgb(11, 19, 32);
+}

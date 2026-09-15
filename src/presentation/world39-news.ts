@@ -279,12 +279,45 @@ function institutionSentence(
     : `${name} is ${noun}.`;
 }
 
-function officeholderSentence(
+/**
+ * Whether naming the institution after the title would only say the title
+ * again (UI FINISH). "President of the United States at Presidency of the
+ * United States" names one office twice: the title and the institution end
+ * in the same "of …" phrase, or the institution simply contains the title.
+ * A distinct employer ("Clerk at Hart County Library") is still named.
+ */
+export function institutionRestatesTitle(
+  title: string,
+  institution: string,
+): boolean {
+  const norm = (text: string) => text.toLowerCase().replace(/\s+/g, " ").trim();
+  const t = norm(title);
+  const i = norm(institution);
+  if (i === t || i.includes(t)) return true;
+  const tail = (text: string) => {
+    const at = text.indexOf(" of ");
+    return at === -1 ? null : text.slice(at + 4);
+  };
+  const titleTail = tail(t);
+  return titleTail !== null && titleTail === tail(i);
+}
+
+/**
+ * One officeholder, as a resident would say it. An unknown term start (a
+ * record whose start date the game has not established) says who serves,
+ * never a made-up "since".
+ */
+export function officeholderSentence(
   name: string,
   title: string,
   institution: string | null,
-  startedAt: IsoDate,
+  startedAt: IsoDate | null,
 ): string {
-  const where = institution ? ` at ${institution}` : "";
-  return `${name} has served as ${title}${where} since ${proseMonthYear(startedAt)}.`;
+  const where =
+    institution && !institutionRestatesTitle(title, institution)
+      ? ` at ${institution}`
+      : "";
+  return startedAt === null
+    ? `${name} serves as ${title}${where}.`
+    : `${name} has served as ${title}${where} since ${proseMonthYear(startedAt)}.`;
 }

@@ -831,8 +831,9 @@ function eligibleOpportunities(
           type: "civic.meeting-agenda-item",
           summary:
             "The posted agenda asks whether the public meeting room should open for an extra evening each week. No hours or funding proposal are attached.",
+          // The player's own reading, addressed to the player (UI FINISH).
           believed:
-            "They read the proposal for an extra evening opening of the public meeting room.",
+            "You read the posted agenda: it asks whether the public meeting room should open one extra evening each week.",
         }),
     });
   }

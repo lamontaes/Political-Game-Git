@@ -118,8 +118,7 @@ export const TEXT39_SETUP_COPY: Readonly<
     options: {
       "back-ray": "Recommend Ray",
       "say-the-truth": "Say the other applicant is stronger",
-      "declare-it":
-        "Explain that Ray is your brother and don't recommend either applicant",
+      "declare-it": "Say Ray is your brother and recommend neither applicant",
     },
   },
   the_till_and_the_kid: {
@@ -154,8 +153,10 @@ export const TEXT39_SETUP_COPY: Readonly<
     prompt:
       "A neighbor asks you to sign a petition for repairs to the road. You support the repairs, but the petition also asks to remove the bus stop. The neighbor says that request is the part they plan to publicize.",
     options: {
-      sign: "Sign the petition",
-      "sign-with-a-note": "Sign and write that you oppose removing the stop",
+      // Put to the player at any character age (Packet 77), so the answer is
+      // the stance, not a signature on a document. Same meaning as before.
+      sign: "Support it as written",
+      "sign-with-a-note": "Support it, noting you oppose removing the stop",
       refuse: "Decline and explain your objection",
       "take-it-away": "Ask to keep a copy and read it first",
     },
@@ -200,8 +201,7 @@ export const TEXT39_SETUP_COPY: Readonly<
         "Ask for the same boundary criteria for both streets",
       "argue-for-the-worst-off":
         "Ask the board to prioritize children with the longest trips",
-      "ask-for-more-places":
-        "Ask whether extra seats are possible before the boundary changes",
+      "ask-for-more-places": "Ask about adding seats before the boundary moves",
     },
   },
   the_sold_field: {
@@ -262,8 +262,7 @@ export const TEXT39_SETUP_COPY: Readonly<
       enforce: "Record both violations and require correction",
       "time-to-fix": "Record both and allow six months for the floor",
       "paperwork-only": "Record only the missing cleaning records",
-      "find-the-money":
-        "Require correction and help them look for financial assistance",
+      "find-the-money": "Require the fix and help them find financial help",
     },
   },
   the_camera: {
@@ -296,7 +295,7 @@ export const TEXT39_SETUP_COPY: Readonly<
       "a-way-to-report-it":
         "Ask about a confidential way to report the findings",
       "use-it-quietly":
-        "Raise the findings at the budget meeting without naming your source",
+        "Raise the findings at the budget meeting, source unnamed",
     },
   },
   the_line_to_the_hospital: {
@@ -583,7 +582,9 @@ export function text39QuestionnaireItem(
     prompt: copy.prompt,
     source: {
       sourceDocument: "TEXT39 assignment board",
-      reference: `2026-09-14; revised ${item.key}; inherited motivation mapping, not a validity claim`,
+      // The original reference stays first: callers group authored copy by
+      // it ("Moral —", "Opening …"). The revision is appended, not substituted.
+      reference: `${item.source.reference} · TEXT39 revision 2026-09-14 of ${item.key}; inherited motivation mapping, not a validity claim`,
     },
     review: {
       verdict: "non-transparent",

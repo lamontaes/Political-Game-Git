@@ -351,7 +351,7 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       },
       {
         key: "continue",
-        label: "Keep playing",
+        label: "Keep playing with the toy",
         aftermath: "You keep playing with the toy.",
       },
     ],
@@ -837,7 +837,7 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
     choices: [
       {
         key: "offer",
-        label: "Offer some of your snack",
+        label: "Share your snack with them",
         aftermath: "You offer {person} a piece of your snack.",
       },
       {
@@ -937,7 +937,7 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
     choices: [
       {
         key: "put-away",
-        label: "Put the toy away",
+        label: "Put the toy away now",
         aftermath: "You put the toy away.",
       },
       {

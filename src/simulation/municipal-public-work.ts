@@ -1470,6 +1470,16 @@ const MUNICIPAL_MANAGER_DECISION_RULES: Readonly<
   ),
 };
 
+/**
+ * The source of the manager-election decision rule for one government, where
+ * one was compiled; null otherwise. A surface shows this instead of naming a
+ * city.
+ */
+export function municipalManagerDecisionRuleSource(governmentKey: string) {
+  const rule = MUNICIPAL_MANAGER_DECISION_RULES[governmentKey] ?? null;
+  return rule ? { label: rule.label, source: rule.source } : null;
+}
+
 export function evaluateMunicipalManagerElection(
   world: World,
   input: {

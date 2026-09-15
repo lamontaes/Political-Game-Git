@@ -60,6 +60,7 @@ export type ShellSurface =
   | "work"
   | "politics"
   | "transit"
+  | "tax"
   | "news"
   | "places"
   | "municipal"

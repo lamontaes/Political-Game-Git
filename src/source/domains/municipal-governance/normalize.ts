@@ -33,6 +33,7 @@ import type {
   ElectedStructure,
   EnumeratedPower,
   FiscalYearRule,
+  IntroductionToPassageRule,
   LegalBasis,
   LegislativeProcedure,
   ManagerValue,
@@ -394,6 +395,11 @@ function normalizePack(
     effectivePublication: cell(
       pack.legislativeProcedure.effectivePublication,
       "legislativeProcedure/effectivePublication",
+    ),
+    introductionToPassage: optionalCell<IntroductionToPassageRule>(
+      pack.legislativeProcedure.introductionToPassage,
+      "legislativeProcedure/introductionToPassage",
+      "no source read for this government fixed a least time between an ordinance's introduction and its passage.",
     ),
   };
 

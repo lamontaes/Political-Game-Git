@@ -292,25 +292,30 @@ test.describe("A life can stand for something", () => {
     await fileCandidacy(page);
     const strategy = page.getByTestId("campaign-strategy");
     await expect(strategy).toBeVisible();
-    await expect(
-      strategy.getByRole("group", { name: "Priority" }),
-    ).toBeVisible();
-    await expect(
-      strategy.getByRole("group", { name: "Represented geography" }),
-    ).toBeVisible();
-    await expect(
-      strategy.getByRole("group", { name: "Committee spending ceiling" }),
-    ).toContainText("No committee spending");
-
-    // The alternative priority is selected with the keyboard, then the plan
-    // is committed with a pointer. Both are the controls a player actually sees.
-    const outreach = strategy.getByRole("radio", {
-      name: /Spend a session on the doors/i,
+    const geography = strategy.getByRole("group", {
+      name: "Represented geography",
     });
-    await outreach.focus();
+    await expect(geography).toBeVisible();
+    // With nothing in the account there is no advertising ceiling to set; the
+    // advertising action itself says why, so no empty group is drawn.
+    await expect(
+      strategy.getByRole("group", { name: "Advertising spending ceiling" }),
+    ).toHaveCount(0);
+
+    // One control per intent: the plan only edits how the work is done, and
+    // the work itself is the single "Do this now" row. The geography is chosen
+    // with the keyboard, then the alternative priority is done with a pointer.
+    await expect(strategy.getByTestId("campaign-strategy-commit")).toHaveCount(
+      0,
+    );
+    const place = geography.getByRole("radio").first();
+    await place.focus();
     await page.keyboard.press("Space");
-    await expect(outreach).toBeChecked();
-    await strategy.getByTestId("campaign-strategy-commit").click();
+    await expect(place).toBeChecked();
+    await page
+      .getByRole("group", { name: "Do this now" })
+      .getByTestId("campaign-outreach")
+      .click();
 
     const report = page.getByTestId("campaign-strategy-report");
     await expect(report).toBeVisible();

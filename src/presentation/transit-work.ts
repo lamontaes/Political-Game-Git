@@ -1,3 +1,7 @@
+import {
+  fundedServiceRefusal,
+  resolveStateFundedServiceCapability,
+} from "./funded-service-capability";
 import { resolveLegislativeFilingEntry } from "./legislative-filing-entry";
 import { resolveActiveMemberSeat } from "./legislative-member-seat";
 import { projectTransitCashSnapshot } from "./transit-cash-snapshot";
@@ -20,6 +24,9 @@ import {
   publishTransitReport,
   TRANSIT_DELIVERY_KEY,
 } from "../simulation/transit-service";
+import { publicTaxAccountForJurisdiction } from "../simulation/tax-policy";
+import { resourcePositionAt } from "../simulation/resource-queries";
+import { money } from "../simulation/resources";
 import type { EntityId, World } from "../simulation/types";
 
 export function transitOffice(world: World, personId: EntityId) {
@@ -36,11 +43,13 @@ export function transitOffice(world: World, personId: EntityId) {
           ? seat.reason
           : "This is not the controlled character.",
     };
-  if (seat.seat.jurisdictionKey !== "US-AK")
+  const capability = resolveStateFundedServiceCapability(
+    seat.seat.jurisdictionKey,
+  );
+  if (!capability.supported)
     return {
       kind: "unavailable" as const,
-      reason:
-        "The public funding and transit implementation route currently supports Alaska state authority.",
+      reason: fundedServiceRefusal(capability),
     };
   return { kind: "available" as const, seat: seat.seat };
 }
@@ -86,6 +95,19 @@ export function requestTransitFromOffice(
   return requestTransitImplementation(world, input);
 }
 export { cancelTransitImplementation, publishTransitReport };
+/** Recorded cash in the existing same-jurisdiction public account, or null
+ * when no account or balance has been recorded. Reading reserves nothing. */
+function publicCashFor(world: World, jurisdictionId: EntityId): number | null {
+  const account = publicTaxAccountForJurisdiction(world, jurisdictionId);
+  if (!account) return null;
+  return (
+    resourcePositionAt(
+      world,
+      { kind: "organization", organizationId: account.organizationId },
+      money(0, "USD").currency,
+    )?.liquidBalance.minorUnits ?? null
+  );
+}
 export function projectTransitWork(world: World, personId: EntityId) {
   const office = transitOffice(world, personId);
   const keys = [
@@ -120,6 +142,20 @@ export function projectTransitWork(world: World, personId: EntityId) {
     bills: bills.map((bill) => ({
       bill,
       funding: resolveTransitFunding(world, bill.measureId),
+      // Completed public payments under this appropriation only; a forecast,
+      // an appropriation or a refused period adds nothing.
+      paidMinorUnits: world.history.resourceFlows.reduce((sum, flow) => {
+        if (
+          flow.basisReference.kind !== "public-funding" ||
+          flow.basisReference.mandate.measureId !== bill.measureId
+        )
+          return sum;
+        const outcome = world.history.resourceTransferOutcomes.find(
+          (row) => row.resourceFlowId === flow.id && row.status === "completed",
+        );
+        return sum + (outcome?.transferredAmount.minorUnits ?? 0);
+      }, 0),
+      publicCashMinorUnits: publicCashFor(world, bill.jurisdictionId),
       cashSnapshot:
         office.kind === "available"
           ? projectTransitCashSnapshot(world, bill.measureId)

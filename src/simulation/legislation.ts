@@ -198,6 +198,18 @@ function positionOf(state: ReplayState): MeasurePosition {
 type StepOutcome = { ok: true } | { ok: false; reason: string };
 
 const LEGAL: StepOutcome = { ok: true };
+
+/** True only where the pack establishes a floor with no committee stage. */
+function floorWithoutReferral(chamber: ChamberRule | null): boolean {
+  const rule = chamber?.referral.floorWithoutReferral;
+  return rule?.kind === "known" && rule.value === true;
+}
+
+/** True only where the pack establishes that nothing is presented. */
+function noPresentment(pack: LegislativeRulePack): boolean {
+  const rule = pack.executive.presentmentRequired;
+  return rule.kind === "known" && rule.value === false;
+}
 function illegal(reason: string): StepOutcome {
   return { ok: false, reason };
 }
@@ -309,7 +321,11 @@ function applyRecordedAction(
       return LEGAL;
     }
     case "placed-on-calendar": {
-      const gate = requirePhase(state, action.kind, ["awaiting-floor"]);
+      const gate =
+        state.phase === "awaiting-referral" &&
+        floorWithoutReferral(currentChamber())
+          ? LEGAL
+          : requirePhase(state, action.kind, ["awaiting-floor"]);
       if (!gate.ok) return gate;
       const chamber = currentChamber();
       if (!chamber) return illegal("the measure is not in a chamber");
@@ -467,7 +483,11 @@ function applyRecordedAction(
     case "enrolled": {
       const gate = requirePhase(state, action.kind, ["awaiting-enrollment"]);
       if (!gate.ok) return gate;
-      state.phase = "awaiting-presentation";
+      // Where the pack establishes that nothing is presented, the enrolled
+      // text is the enacted text; no executive step stands in between.
+      state.phase = noPresentment(pack)
+        ? "awaiting-enactment"
+        : "awaiting-presentation";
       state.floorStageKey = null;
       return LEGAL;
     }
@@ -630,6 +650,14 @@ export function measureGate(world: World, measureId: EntityId): MeasureGate {
         thresholdLabel: null,
       };
     case "awaiting-referral":
+      if (floorWithoutReferral(chamber)) {
+        return {
+          actorLabel: `${chamber?.name ?? "Chamber"} leadership`,
+          description:
+            "The measure was introduced and goes to the floor calendar; this body's rules put no committee stage in between.",
+          thresholdLabel: null,
+        };
+      }
       return {
         actorLabel: chamber?.referral.authorityLabel ?? "Referral authority",
         description: `${chamber?.referral.authorityLabel ?? "The referral authority"} decides which committee takes the measure.`,
@@ -799,8 +827,15 @@ export function availableMeasureSteps(
   switch (position.phase) {
     case "drafting":
       return ["file-measure"];
-    case "awaiting-referral":
-      return ["request-referral"];
+    case "awaiting-referral": {
+      const chamber = position.chamberKey
+        ? chamberByKey(pack, position.chamberKey)
+        : null;
+      if (!floorWithoutReferral(chamber)) return ["request-referral"];
+      return chamber && chamber.committees.length > 0
+        ? ["request-calendar-placement", "request-referral"]
+        : ["request-calendar-placement"];
+    }
     case "in-committee": {
       const steps: MeasureStepKey[] = [];
       if (!position.hearingHeld) steps.push("request-committee-hearing");
@@ -1725,13 +1760,19 @@ export function placeMeasureOnCalendar(
   input: PlaceOnCalendarInput,
 ): World {
   const measure = requireMeasure(world, input.measureId);
+  const pack = rulePackById(measure.rulePackId);
+  const before = measurePosition(world, input.measureId);
+  const direct =
+    before.phase === "awaiting-referral" &&
+    floorWithoutReferral(
+      before.chamberKey ? chamberByKey(pack, before.chamberKey) : null,
+    );
   const position = assertPhase(
     world,
     input.measureId,
-    ["awaiting-floor"],
+    [direct ? "awaiting-referral" : "awaiting-floor"],
     "place the measure on the calendar",
   );
-  const pack = rulePackById(measure.rulePackId);
   const chamber = chamberByKey(
     pack,
     position.chamberKey ?? measure.originChamberKey,

@@ -352,7 +352,10 @@ export function ShellNav({
                     }
                   >
                     {meta.label}
-                    <small>{meta.hint} ••</small>
+                    <small>{meta.hint}</small>
+                    <span className="pg-nav-more" aria-hidden="true">
+                      ›
+                    </span>
                   </button>
                 );
               })}

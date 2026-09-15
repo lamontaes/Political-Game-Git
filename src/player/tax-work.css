@@ -8,13 +8,32 @@
   gap: 0.25rem;
   margin-block: 0.6rem;
 }
-.tax-work input:not([type="checkbox"]),
+/* A checkbox or ballot choice reads with its words on one line, not as a
+ * stretched grid cell or a full-width field. */
+.tax-work label:has(> input[type="checkbox"]),
+.tax-work label:has(> input[type="radio"]) {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-block: 0.35rem;
+}
+.tax-work input:not([type="checkbox"]):not([type="radio"]),
 .tax-work textarea {
   box-sizing: border-box;
   inline-size: 100%;
   min-inline-size: 0;
   max-inline-size: 36rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.3rem;
+  background: #111d2d;
+  color: var(--run-a-ink);
   font: inherit;
+}
+.tax-work a {
+  color: var(--run-a-ink);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
 }
 .tax-work button,
 .tax-work summary {
@@ -26,4 +45,26 @@
 }
 .tax-work article {
   padding-block: 0.5rem;
+}
+.tax-work-feedback:empty {
+  display: none;
+}
+.tax-work-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.tax-work-procedure {
+  display: grid;
+  gap: 0.75rem;
+  margin-block: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.3rem;
+  min-inline-size: 0;
+}
+.tax-work-procedure fieldset {
+  margin: 0;
+  padding: 0.7rem;
+  border: 1px solid var(--run-a-line);
 }

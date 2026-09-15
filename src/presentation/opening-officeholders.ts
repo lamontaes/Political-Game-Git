@@ -9,11 +9,16 @@ import {
   makeIsoDate,
   personName,
   recordWorldEvent,
+  currentStateExecutiveHolders,
+  ensureStateExecutiveIncumbent,
+  homeStateUsps,
 } from "../simulation";
 import type {
   EntityId,
+  IsoDate,
   World,
   CharacterHistoryTransition,
+  RuleFieldKey,
 } from "../simulation";
 
 /** Institutional facts are sourced; people and initial tenures are fictional. */
@@ -129,11 +134,93 @@ export function establishOpeningOfficeholders(
       },
     });
   }
-  return next;
+  // The player's own state executive, through the one nationwide writer. Other
+  // states materialize only when a producer needs them, never on a read.
+  const stateUsps = homeStateUsps(next, playerPersonId);
+  return stateUsps
+    ? ensureStateExecutiveIncumbent(next, playerPersonId, stateUsps)
+    : next;
 }
 
-/** A past term is not a present officeholder. Judicial tenure has no fixed end. */
+export interface PublicOfficeholderRecord {
+  readonly officeKey: string;
+  readonly title: string;
+  readonly personId: EntityId;
+  readonly personName: string;
+  readonly termId: EntityId;
+  readonly organizationId: EntityId;
+  /** Null when RULES has not admitted when this term began. */
+  readonly startedAt: IsoDate | null;
+  /** Null for an office without a fixed end, or an end RULES has not admitted. */
+  readonly endExclusive: IsoDate | null;
+  readonly termFactsUnknown: readonly RuleFieldKey[];
+  readonly identityProvenance: "fictional-simulation";
+  readonly sources: readonly string[];
+}
+
+/**
+ * Every current public officeholder the World has materialized, including
+ * those whose term dates RULES has not admitted. `openingOfficeholders` stays
+ * the known-start subset its readers format with a date.
+ */
+export function currentPublicOfficeholders(
+  world: World,
+): readonly PublicOfficeholderRecord[] {
+  return [
+    ...federalOfficeholders(world).map((holder) => ({
+      ...holder,
+      termFactsUnknown: [] as readonly RuleFieldKey[],
+    })),
+    ...stateOfficeholders(world),
+  ];
+}
+
+function stateOfficeholders(world: World): readonly PublicOfficeholderRecord[] {
+  return currentStateExecutiveHolders(world).map((holder) => ({
+    officeKey: holder.officeKey,
+    title: holder.title,
+    personId: holder.personId,
+    personName: holder.personName,
+    termId: holder.termId,
+    organizationId: holder.organizationId,
+    startedAt: holder.startedAt,
+    endExclusive: holder.endExclusive,
+    termFactsUnknown: holder.termFactsUnknown,
+    identityProvenance: holder.identityProvenance,
+    sources: holder.sources,
+  }));
+}
+
+/**
+ * A past term is not a present officeholder. Judicial tenure has no fixed end.
+ * State executives appear here only once their term start is known, so every
+ * record this returns can be dated.
+ */
 export function openingOfficeholders(world: World) {
+  return [
+    ...federalOfficeholders(world),
+    ...stateOfficeholders(world).flatMap((holder) =>
+      holder.startedAt === null
+        ? []
+        : [
+            {
+              officeKey: holder.officeKey,
+              title: holder.title,
+              personId: holder.personId,
+              personName: holder.personName,
+              termId: holder.termId,
+              organizationId: holder.organizationId,
+              startedAt: holder.startedAt,
+              endExclusive: holder.endExclusive,
+              identityProvenance: holder.identityProvenance,
+              sources: [...holder.sources],
+            },
+          ],
+    ),
+  ];
+}
+
+function federalOfficeholders(world: World) {
   const opening = OFFICES.flatMap((office) =>
     world.history.events.flatMap((term) => {
       if (

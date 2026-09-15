@@ -1,6 +1,6 @@
 {
   "asOf": "2026-09-09",
-  "canonicalSha256": "b9d1607a4079ca2fb5fd2515878910d05215e39fedacc803783de80f9b1664be",
+  "canonicalSha256": "1b0f25b083927c4733a28f5ea292ec52b8c4f43722355541fea0ed73714896fd",
   "compiler": {
     "name": "state-office-qualifications",
     "version": "2.1.1"
@@ -9,7 +9,7 @@
   "coverage": {
     "boundedSampleReason": "A bounded set of states, not a national corpus. The other forty-odd states are absent because their authorities were not retrieved in this pass, which is a fact about this repository and never a fact about those states. docs/research/qualification-source-ledger.md accounts for every research row.",
     "isCompleteUniverse": false,
-    "universeDescription": "Office qualifications for MN, MO, NE, NV, OH, compiled only where a research claim's words were found in an authority this repository retrieved and hashed."
+    "universeDescription": "Office qualifications for MA, MN, MO, NE, NJ, NV, OH, compiled only where a research claim's words were found in an authority this repository retrieved and hashed."
   },
   "inputClass": "production",
   "inputs": [
@@ -86,6 +86,18 @@
       "sha256": "4153e3d848066df1b32c1a7c6b9af68d694822f34aa2e666bb7a5869f50776a8"
     },
     {
+      "artifactId": "nv-2025-chapter-323-ab491",
+      "sha256": "986f66c8da9260cce99a10cbd334f1f768b378e1616c941c5c5c63dd46df05ef"
+    },
+    {
+      "artifactId": "nj-constitution-art-4-sec-1",
+      "sha256": "b0ecb7a78d772240692cf67f902ea5a9802c42fef6b436ecf3655e48d18ef54b"
+    },
+    {
+      "artifactId": "ma-constitution-amend-art-101",
+      "sha256": "8108c3392c5d51f2bd3be5925a85f05c2597496b659204f79537c282267c2042"
+    },
+    {
       "artifactId": "oh-constitution-sec-2-1",
       "sha256": "620f7ab377e0a7438bd5947dc9d872efa3d5f6f44d97400ba9e114b8a9594b3e"
     },
@@ -122,5 +134,5 @@
     "name": "qualification-matrix-tsv",
     "version": "2.0.0"
   },
-  "recordCount": 63
+  "recordCount": 69
 }

@@ -21,8 +21,8 @@ test("UI36 non-Kentucky journey: quiet room, one card, conversation, News and re
   await page.getByTestId("start-age").fill("34");
   await page.getByLabel("First name", { exact: true }).fill("Maya");
   await page.getByLabel("Last name", { exact: true }).fill("Rivera");
-  await page.getByTestId("start-birth-month").fill("4");
-  await page.getByTestId("start-birth-day").fill("12");
+  await page.getByTestId("start-birth-month").selectOption("4");
+  await page.getByTestId("start-birth-day").selectOption("12");
   await page.getByTestId("creator-continue-character").click();
   await chooseCreatorLocation(
     page,

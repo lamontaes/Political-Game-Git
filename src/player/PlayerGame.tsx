@@ -10,6 +10,15 @@ import { PressWorkspace } from "./PressWorkspace";
 import { ContentPackWorkspace } from "./ContentPackWorkspace";
 import { birthdayProblemForSetup } from "../presentation/new-game-birthday";
 import {
+  applyBirthdayPatch,
+  CreatorBirthdayFields,
+} from "./CreatorBirthdayFields";
+import {
+  HOMETOWN_PAGE_SIZE,
+  projectHometownPage,
+} from "../presentation/creator-hometown-page";
+import { previewCreatorNames } from "../presentation/creator-name-preview";
+import {
   SavedAppearanceProvider,
   SavedRenderSnapshotsProvider,
   savedRenderSnapshots,
@@ -144,7 +153,6 @@ import {
   GENDER_IDENTITY_KEYS,
   GENDER_IDENTITY_LABELS,
   lifePlaceCoverage,
-  lifePlaceSearch,
   lifePlaceStateIdentities,
   lifePlaces,
   personName,
@@ -160,6 +168,7 @@ import { MeasureFloorSurface } from "./MeasureFloorSurface";
 import { CampaignWorkspace } from "./CampaignWorkspace";
 import { LegislationWorkspace } from "./LegislationWorkspace";
 import { TransitWorkspace } from "./TransitWorkspace";
+import { TaxWorkWorkspace } from "./TaxWorkWorkspace";
 import { projectTransitWork } from "../presentation/transit-work";
 import { DocketWorkspace } from "./DocketWorkspace";
 import { OfficeOnboardingWorkspace } from "./OfficeOnboardingWorkspace";
@@ -896,13 +905,24 @@ function SetupScreen({
         state.usps.toLowerCase() === needle,
     );
   }, [stateQuery]);
-  const matchingPlaces = useMemo(() => {
-    if (!location.stateJurisdictionKey) return [];
-    return lifePlaceSearch(placeQuery, 24, {
+  /*
+   * One honest page of towns (UI FINISH). The same accepted search, asked for
+   * every match, then shown a page at a time with a line saying which page —
+   * a short first slice is never presented as the whole state.
+   */
+  const [placeOffset, setPlaceOffset] = useState(0);
+  useEffect(() => {
+    setPlaceOffset(0);
+  }, [location.stateJurisdictionKey, placeQuery]);
+  const placePage = useMemo(() => {
+    if (!location.stateJurisdictionKey) return null;
+    return projectHometownPage(placeQuery, placeOffset, {
       stateJurisdictionKey: location.stateJurisdictionKey,
       scope: "locality",
     });
-  }, [location.stateJurisdictionKey, placeQuery]);
+  }, [location.stateJurisdictionKey, placeQuery, placeOffset]);
+  const matchingPlaces = placePage?.places ?? [];
+  const [nameDraws, setNameDraws] = useState(0);
   const statewidePlace =
     lifePlaces().find(
       (candidate) =>
@@ -965,6 +985,16 @@ function SetupScreen({
 
   const problems = newGameSetupProblems(committed);
   const birthdayProblem = birthdayProblemForSetup(committed);
+  /*
+   * An out-of-range age used to pass this step and surface only at Begin,
+   * three steps later. The character step now refuses it where it was typed.
+   */
+  const ageProblem =
+    Number.isFinite(setup.startAge) &&
+    setup.startAge >= MINIMUM_START_AGE &&
+    setup.startAge <= MAXIMUM_START_AGE
+      ? null
+      : `Choose a starting age between ${MINIMUM_START_AGE} and ${MAXIMUM_START_AGE}.`;
   const place = selectedCreatorPlace(location);
   const placeListOpen = creatorPlaceListOpen(location.placeKey, replacingPlace);
 
@@ -1155,60 +1185,42 @@ function SetupScreen({
                 onBlur={() => setAgeText(String(setup.startAge))}
               />
             </label>
-            <label>
-              Birthday month
-              <input
-                type="number"
-                data-testid="start-birth-month"
-                min={1}
-                max={12}
-                value={setup.birthMonth ?? ""}
-                onChange={(event) => {
-                  const text = event.target.value;
-                  setSetup((now) => {
-                    if (text.trim() === "") {
-                      const rest = { ...now };
-                      delete rest.birthMonth;
-                      return rest;
-                    }
-                    const parsed = Number(text);
-                    if (!Number.isFinite(parsed)) return now;
-                    return { ...now, birthMonth: parsed };
-                  });
-                }}
-              />
-            </label>
-            <label>
-              Birthday day
-              <input
-                type="number"
-                data-testid="start-birth-day"
-                min={1}
-                max={31}
-                value={setup.birthDay ?? ""}
-                onChange={(event) => {
-                  const text = event.target.value;
-                  setSetup((now) => {
-                    if (text.trim() === "") {
-                      const rest = { ...now };
-                      delete rest.birthDay;
-                      return rest;
-                    }
-                    const parsed = Number(text);
-                    if (!Number.isFinite(parsed)) return now;
-                    return { ...now, birthDay: parsed };
-                  });
-                }}
-              />
-            </label>
           </div>
-          <p
-            className="game-hint"
-            id="creator-name-hint"
-            data-testid="creator-name-hint"
-          >
-            Leave a name blank and the game gives you one.
-          </p>
+          <div className="creator-name-actions">
+            <button
+              type="button"
+              data-testid="creator-randomize-name"
+              onClick={() => {
+                const salt = nameDraws + 1;
+                const draw = previewCreatorNames(
+                  setup.seed,
+                  setup.gender,
+                  salt,
+                );
+                setNameDraws(salt);
+                setSetup((now) => ({
+                  ...now,
+                  givenName: draw.givenName,
+                  familyName: draw.familyName,
+                }));
+              }}
+            >
+              Randomize name
+            </button>
+            <p
+              className="game-hint"
+              id="creator-name-hint"
+              data-testid="creator-name-hint"
+            >
+              Leave a name blank and the game gives you one.
+            </p>
+          </div>
+          <CreatorBirthdayFields
+            setup={setup}
+            onChange={(patch) =>
+              setSetup((now) => applyBirthdayPatch(now, patch))
+            }
+          />
 
           {/*
                 Gender, asked rather than decided. Guessing it from the first
@@ -1243,12 +1255,16 @@ function SetupScreen({
             </div>
           </fieldset>
 
-          {birthdayProblem ? <p role="alert">{birthdayProblem}</p> : null}
+          {ageProblem ? (
+            <p role="alert" data-testid="creator-age-problem">
+              {ageProblem}
+            </p>
+          ) : null}
           <button
             type="button"
             className="game-creator-next"
             data-testid="creator-continue-character"
-            disabled={birthdayProblem !== null}
+            disabled={birthdayProblem !== null || ageProblem !== null}
             onClick={() => advanceTo("place")}
           >
             Next
@@ -1399,6 +1415,41 @@ function SetupScreen({
                       </small>
                     </button>
                   ))}
+                </div>
+              ) : null}
+              {placeListOpen && placePage && placePage.total > 0 ? (
+                <div className="creator-place-pager" data-testid="place-pager">
+                  <p
+                    className="game-hint"
+                    role="status"
+                    data-testid="place-page-status"
+                  >
+                    {placePage.status}
+                  </p>
+                  {placePage.pageCount > 1 ? (
+                    <div className="game-choices game-choices-inline">
+                      <button
+                        type="button"
+                        data-testid="place-page-previous"
+                        disabled={!placePage.hasPrevious}
+                        onClick={() =>
+                          setPlaceOffset(placePage.offset - HOMETOWN_PAGE_SIZE)
+                        }
+                      >
+                        Previous places
+                      </button>
+                      <button
+                        type="button"
+                        data-testid="place-page-next"
+                        disabled={!placePage.hasNext}
+                        onClick={() =>
+                          setPlaceOffset(placePage.offset + HOMETOWN_PAGE_SIZE)
+                        }
+                      >
+                        More places
+                      </button>
+                    </div>
+                  ) : null}
                 </div>
               ) : placeListOpen && placeQuery.trim().length === 0 ? (
                 <p className="game-note" data-testid="place-prompt">
@@ -1708,7 +1759,7 @@ function SetupScreen({
                 advanceTo("begin");
               }}
             >
-              Answer a Few Questions
+              Answer a few questions
             </button>
             <button
               type="button"
@@ -1725,7 +1776,7 @@ function SetupScreen({
                 advanceTo("begin");
               }}
             >
-              Explore More Questions
+              Answer more questions
               <small>You can begin your life whenever you are ready.</small>
             </button>
             <button
@@ -1743,7 +1794,7 @@ function SetupScreen({
                 advanceTo("begin");
               }}
             >
-              Discover Who I Am Through Play
+              Discover through play
             </button>
           </div>
         </section>
@@ -2439,6 +2490,14 @@ function PlayingScreen({
       hint: "Service proposals, public funding and recorded delivery",
       testid: "nav-politics-transit",
       open: openSurface === "transit",
+      group: "politics",
+    });
+    entries.push({
+      surface: "tax",
+      label: "Taxes and public receipts",
+      hint: "Tax proposals, their procedure and recorded public receipts",
+      testid: "nav-politics-tax",
+      open: openSurface === "tax",
       group: "politics",
     });
     entries.push({
@@ -3374,6 +3433,9 @@ function renderWorkspace({
           world={session.world}
           personId={session.personId}
           onWorldChange={onWorldChange}
+          onOpenTaxWork={() =>
+            dispatch({ type: "go-to-surface", surface: "tax" })
+          }
           onContinue={(days) => {
             if (days !== 1 && days !== 7) return;
             const result = simulateCalendarDays(
@@ -3402,6 +3464,21 @@ function renderWorkspace({
               dispatch({ type: "go-to-surface", surface: "work" });
             } else openEntity({ kind: "measure", id: bill.measureId });
           }}
+        />,
+        "Politics",
+      );
+
+    case "tax":
+      return frame(
+        "Taxes and public receipts",
+        "tax-workspace",
+        <TaxWorkWorkspace
+          world={session.world}
+          personId={session.personId}
+          onWorldChange={onWorldChange}
+          onOpenMeasure={(measureId) =>
+            openEntity({ kind: "measure", id: measureId })
+          }
         />,
         "Politics",
       );

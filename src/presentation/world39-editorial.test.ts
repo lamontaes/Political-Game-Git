@@ -104,7 +104,8 @@ describe("WORLD39 News editorial pass", () => {
       /^.+ serves as President of the United States$/,
     );
     expect(president?.sentence).toMatch(
-      /^.+ has served as President of the United States at Presidency of the United States since January \d{4}\.$/,
+      // UI FINISH: the institution only restated the title, so it is not named twice.
+      /^.+ has served as President of the United States since January \d{4}\.$/,
     );
     // The office title bridges the opening's us-president key and the
     // authority packs' us-federal-president key.

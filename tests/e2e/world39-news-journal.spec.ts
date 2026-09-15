@@ -32,7 +32,7 @@ test("News speaks about the place and the Journal tells the life through save (A
   await expect(news).toContainText("Around Aurora, Colorado");
   await expect(news).toContainText("serves as President of the United States");
   await expect(news).toContainText(
-    /has served as President of the United States at Presidency of the United States since [A-Z][a-z]+ \d{4}\./,
+    /has served as President of the United States since [A-Z][a-z]+ \d{4}\./,
   );
   const newsText = await news.innerText();
   expect(newsText).not.toMatch(/war broke out|secret motive|you chose to/i);

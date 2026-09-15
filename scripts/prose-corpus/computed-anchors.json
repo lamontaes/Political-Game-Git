@@ -1731,6 +1731,46 @@
       "textRevision": "498fe40e24f1"
     },
     {
+      "anchor": "MunicipalWorkspace-0079",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": ", {preview.presentNotVoting} present not voting",
+      "occurrence": 0,
+      "textRevision": "47e016cec72d"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0080",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "A councilor",
+      "occurrence": 0,
+      "textRevision": "a45f380b343c"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0081",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Present, not voting",
+      "occurrence": 0,
+      "textRevision": "68445d6c5cec"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0082",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "a date the rules read do not establish",
+      "occurrence": 0,
+      "textRevision": "cfe86edde628"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0083",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "{person.givenName} {person.familyName}",
+      "occurrence": 0,
+      "textRevision": "cace9870daf8"
+    },
+    {
       "anchor": "PHASE_SENTENCES-0001",
       "sourcePath": "src/presentation/legislation-projection.ts",
       "symbol": "PHASE_SENTENCES",
@@ -4393,6 +4433,14 @@
       "text": "{reading.displayName} — {bodyName}",
       "occurrence": 0,
       "textRevision": "5328d80d52d3"
+    },
+    {
+      "anchor": "pack-0024",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "pack",
+      "text": "No instrument read establishes that an ordinance reaches the floor without a committee.",
+      "occurrence": 0,
+      "textRevision": "2e6c15a2b93e"
     },
     {
       "anchor": "parsePortableSave-0001",

@@ -21,33 +21,15 @@ import type {
   World,
 } from "./types";
 
+import {
+  KY_TERM_RULE_VERSION,
+  SUPPORTED_LEGISLATIVE_TERM_RULES,
+} from "./legislative-term-rules";
+
+export { KY_TERM_RULE_VERSION, SUPPORTED_LEGISLATIVE_TERM_RULES };
+
 export const LEGISLATIVE_TERM_ENTRY = "election:legislative-term-entry";
 export const LEGISLATIVE_TERM_EXPIRY = "election:legislative-term-expiry";
-export const KY_TERM_RULE_VERSION = "ky-regular-term-2026-v1";
-
-/** Sourced rule data; absence stays unsupported rather than borrowing another state. */
-export const SUPPORTED_LEGISLATIVE_TERM_RULES = [
-  {
-    officeKeys: ["us-ky-general-assembly-v1:house"],
-    durationYears: 2,
-    commencement: "january-first-following-election" as const,
-    ruleVersion: KY_TERM_RULE_VERSION,
-    sourceUrl:
-      "https://legislature.ky.gov/LRC/Publications/Documents/Legislative%20Handbook.pdf",
-    sourceNote:
-      "Kentucky Constitution §§30–31; LRC Legislative Handbook December 2025 p.3.",
-  },
-  {
-    officeKeys: ["us-ky-general-assembly-v1:senate"],
-    durationYears: 4,
-    commencement: "january-first-following-election" as const,
-    ruleVersion: KY_TERM_RULE_VERSION,
-    sourceUrl:
-      "https://legislature.ky.gov/LRC/Publications/Documents/Legislative%20Handbook.pdf",
-    sourceNote:
-      "Kentucky Constitution §§30–31; LRC Legislative Handbook December 2025 p.3.",
-  },
-] as const;
 
 /** Date precision only. The bounded first-election calendar remains authored. */
 export function supportedLegislativeTermDates(

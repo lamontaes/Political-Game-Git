@@ -162,3 +162,9 @@ export type * from "./tax-types";
 export * from "./public-fiscal";
 
 export * from "./legislation-tax-identity";
+
+export * from "./nationwide-world/government-jurisdiction";
+export * from "./nationwide-world/rule-capability-port";
+export * from "./nationwide-world/state-executive-candidacy-packs";
+export * from "./nationwide-world/state-executives";
+export * from "./nationwide-world/state-executive-terms";

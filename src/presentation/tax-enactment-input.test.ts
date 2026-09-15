@@ -12,10 +12,13 @@ import {
 } from "../../tests/fixtures/tax-policy-fixture";
 import { fileTaxProposalFromOffice } from "./tax-work";
 import {
+  ALASKA_REVENUE_RECORDED_SITTING,
   prepareRecordedLegislativeSitting,
   readRecordedLegislativeSitting,
   recordedSittingAvailable,
+  recordedSittingOffer,
 } from "./legislative-authored-sitting";
+import { legislativeBlueprint } from "../simulation/legislation-scenarios";
 import { resolveLegislativeAssignmentForMeasure } from "./legislation-world";
 import { resolveTaxEnactmentInputContract } from "./tax-enactment-input";
 import {
@@ -44,7 +47,7 @@ function filed(chamber = "house") {
 }
 
 describe("F pinned ordinary revenue identity and explicit S input contract", () => {
-  it("reaches the canonical tax measure but refuses appropriation-only sitting admission without changing the World", () => {
+  it("reaches the canonical tax measure and offers only its bill-bound revenue sitting, never the appropriation sitting's decisions", () => {
     const result = filed();
     const input = {
       measureId: result.measureId,
@@ -67,22 +70,57 @@ describe("F pinned ordinary revenue identity and explicit S input contract", () 
     expect(resolveTaxEnactmentInputContract(result.world, input).kind).toBe(
       "available",
     );
-    expect(recordedSittingAvailable(result.world, input)).toBe(false);
-    expect(readRecordedLegislativeSitting(result.world, input)).toBeNull();
-    expect(() =>
-      prepareRecordedLegislativeSitting(result.world, {
-        ...input,
-        playerBallot: "present-not-voting",
-      }),
-    ).toThrow(
-      "No recorded fictional sitting supports this member's filed appropriation.",
+    // The appropriation sitting's recorded votes never enact a tax. Only the
+    // owner-accepted revenue profile, bound to this exact filed text, is offered.
+    expect(recordedSittingAvailable(result.world, input)).toBe(true);
+    expect(recordedSittingOffer(result.world, input)?.profile).toBe(
+      ALASKA_REVENUE_RECORDED_SITTING,
     );
+    expect(readRecordedLegislativeSitting(result.world, input)).toBeNull();
     expect(serializeWorld(result.world)).toBe(bytes);
     expect(result.world.history.legislativeEnactments ?? []).toHaveLength(0);
     expect(result.world.history.taxCollections ?? []).toHaveLength(0);
-    const reopened = deserializeWorld(bytes);
-    expect(recordedSittingAvailable(reopened, input)).toBe(false);
-    expect(serializeWorld(reopened)).toBe(bytes);
+    const admitted = prepareRecordedLegislativeSitting(result.world, {
+      ...input,
+      playerBallot: "present-not-voting",
+    });
+    const sitting = readRecordedLegislativeSitting(admitted, input)!;
+    expect(sitting.votePlan).not.toEqual(
+      legislativeBlueprint("alaska").votePlan,
+    );
+    expect(sitting.governorAction).toBe("signed");
+    expect(sitting.recordedPlayerBallot).toBe("present-not-voting");
+    expect(admitted.history.events.at(-1)!.context.choice).toBe(
+      ALASKA_REVENUE_RECORDED_SITTING,
+    );
+    // Admission is recorded content, not law, a policy or money.
+    expect(admitted.history.legislativeEnactments ?? []).toHaveLength(0);
+    expect(admitted.history.taxPolicies ?? []).toHaveLength(0);
+    expect(admitted.history.taxCollections ?? []).toHaveLength(0);
+    expect(admitted.history.decisionTraces).toEqual(
+      result.world.history.decisionTraces,
+    );
+    const reopened = deserializeWorld(serializeWorld(admitted));
+    expect(readRecordedLegislativeSitting(reopened, input)).toEqual(sitting);
+    // Amended text withholds the bound sitting rather than carrying it over.
+    const amended = recordFiledProvision(admitted, {
+      stableKey: "tax-input:admitted-then-amended",
+      measureId: result.measureId,
+      provisionKey: "unsupported-tax-addition",
+      sectionNumber: 2,
+      heading: "Explicit unsupported additional text",
+      text: "This fictional extra clause has no supported F effect.",
+      beneficiary: {
+        kind: "general-application",
+        appliesToLabel: "Unsupported fixture text",
+      },
+      applicationScope: {
+        jurisdictionId: result.jurisdictionId,
+        segmentKey: null,
+      },
+    });
+    expect(recordedSittingAvailable(amended, input)).toBe(false);
+    expect(readRecordedLegislativeSitting(amended, input)).toBeNull();
   });
   it.each(["house", "senate"])(
     "files from the reconciled %s seat without introducing law, decisions or money",

@@ -1,11 +1,11 @@
 {
-  "digest": "1d27339d9d3926f6",
+  "digest": "b9072fb40cbd9f22",
   "counts": {
-    "total": 2938,
+    "total": 2944,
     "byDomain": {
       "campaign": 24,
       "conversation": 195,
-      "governing": 191,
+      "governing": 197,
       "legislative": 94,
       "life": 1700,
       "narration": 75,
@@ -24,20 +24,20 @@
       "option-witnessed": 54,
       "prompt": 130,
       "scene-line": 219,
-      "status": 369,
+      "status": 375,
       "thread-recap": 32
     },
     "byReachability": {
       "CURRENTLY_UNREACHABLE": 332,
       "DEV_FIXTURE_ONLY": 110,
       "LEGACY_OR_WITHDRAWN": 90,
-      "PLAYER_REACHABLE": 1980,
-      "UNKNOWN": 68,
+      "PLAYER_REACHABLE": 1985,
+      "UNKNOWN": 69,
       "WITHHELD_BY_GROUNDING": 358
     },
     "byRealization": {
-      "static": 2416,
-      "templated": 522
+      "static": 2420,
+      "templated": 524
     }
   },
   "records": [
@@ -11604,6 +11604,43 @@
       "contextRevision": "c1aff7d0ef16"
     },
     {
+      "id": "prose:governing:municipal-law-projection:pack-0024#text",
+      "domain": "governing",
+      "bank": "municipal-law-projection",
+      "stableKey": "pack-0024",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "sourceSymbol": "pack",
+      "text": "No instrument read establishes that an ordinance reaches the floor without a committee.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "UNKNOWN",
+      "reachabilityReason": "These law-projection descriptions and missing-rule explanations are intended governing prose, but the current corpus establishes no complete operative municipal ordinance pack. Inventorying their text does not establish a reachable ordinance workflow or accept the defaults described by an unexecuted branch.",
+      "grounding": [
+        {
+          "key": "field-specific-municipal-evidence",
+          "description": "Each rule's exact field-specific cited instrument, evidence class and scoped applicability. A report or dated reference is not enacted authority, and a missing procedure must remain unknown.",
+          "kind": "requirement"
+        },
+        {
+          "key": "complete-procedure-gate",
+          "description": "A full pack requires all existing canonical procedure prerequisites. A named government, sourced structural fact or authored meeting does not itself satisfy that gate.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "pack",
+        "anchor": "pack-0024"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "2e6c15a2b93e",
+      "contextRevision": "c1aff7d0ef16"
+    },
+    {
       "id": "prose:governing:municipal-law-projection:passage-0001#text",
       "domain": "governing",
       "bank": "municipal-law-projection",
@@ -14574,6 +14611,196 @@
         "computed"
       ],
       "textRevision": "498fe40e24f1",
+      "contextRevision": "abc63ee8695e"
+    },
+    {
+      "id": "prose:governing:municipal-workspace:MunicipalWorkspace-0079#text",
+      "domain": "governing",
+      "bank": "municipal-workspace",
+      "stableKey": "MunicipalWorkspace-0079",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "sourceSymbol": "MunicipalWorkspace",
+      "text": ", {preview.presentNotVoting} present not voting",
+      "realization": "templated",
+      "slots": [
+        "preview.presentNotVoting"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "UI-core's Municipal route mounts this feature panel for the saved player. Its source-reading labels, inspection boundaries and explicit-action results are displayed here; registration is inventory, not human prose approval.",
+      "grounding": [
+        {
+          "key": "municipal-source-reading",
+          "description": "The exact government identity and individually classified enacted, attributed-report or dated-reference reading; inspection never changes residence or role.",
+          "kind": "requirement"
+        },
+        {
+          "key": "canonical-municipal-records",
+          "description": "The controlled person's saved home-place link, current organization participation, calendar, Work and append-oriented history. Mutations occur only through an activated control.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "MunicipalWorkspace",
+        "anchor": "MunicipalWorkspace-0079"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "47e016cec72d",
+      "contextRevision": "abc63ee8695e"
+    },
+    {
+      "id": "prose:governing:municipal-workspace:MunicipalWorkspace-0080#text",
+      "domain": "governing",
+      "bank": "municipal-workspace",
+      "stableKey": "MunicipalWorkspace-0080",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "sourceSymbol": "MunicipalWorkspace",
+      "text": "A councilor",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "UI-core's Municipal route mounts this feature panel for the saved player. Its source-reading labels, inspection boundaries and explicit-action results are displayed here; registration is inventory, not human prose approval.",
+      "grounding": [
+        {
+          "key": "municipal-source-reading",
+          "description": "The exact government identity and individually classified enacted, attributed-report or dated-reference reading; inspection never changes residence or role.",
+          "kind": "requirement"
+        },
+        {
+          "key": "canonical-municipal-records",
+          "description": "The controlled person's saved home-place link, current organization participation, calendar, Work and append-oriented history. Mutations occur only through an activated control.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "MunicipalWorkspace",
+        "anchor": "MunicipalWorkspace-0080"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "a45f380b343c",
+      "contextRevision": "abc63ee8695e"
+    },
+    {
+      "id": "prose:governing:municipal-workspace:MunicipalWorkspace-0081#text",
+      "domain": "governing",
+      "bank": "municipal-workspace",
+      "stableKey": "MunicipalWorkspace-0081",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "sourceSymbol": "MunicipalWorkspace",
+      "text": "Present, not voting",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "UI-core's Municipal route mounts this feature panel for the saved player. Its source-reading labels, inspection boundaries and explicit-action results are displayed here; registration is inventory, not human prose approval.",
+      "grounding": [
+        {
+          "key": "municipal-source-reading",
+          "description": "The exact government identity and individually classified enacted, attributed-report or dated-reference reading; inspection never changes residence or role.",
+          "kind": "requirement"
+        },
+        {
+          "key": "canonical-municipal-records",
+          "description": "The controlled person's saved home-place link, current organization participation, calendar, Work and append-oriented history. Mutations occur only through an activated control.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "MunicipalWorkspace",
+        "anchor": "MunicipalWorkspace-0081"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "68445d6c5cec",
+      "contextRevision": "abc63ee8695e"
+    },
+    {
+      "id": "prose:governing:municipal-workspace:MunicipalWorkspace-0082#text",
+      "domain": "governing",
+      "bank": "municipal-workspace",
+      "stableKey": "MunicipalWorkspace-0082",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "sourceSymbol": "MunicipalWorkspace",
+      "text": "a date the rules read do not establish",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "UI-core's Municipal route mounts this feature panel for the saved player. Its source-reading labels, inspection boundaries and explicit-action results are displayed here; registration is inventory, not human prose approval.",
+      "grounding": [
+        {
+          "key": "municipal-source-reading",
+          "description": "The exact government identity and individually classified enacted, attributed-report or dated-reference reading; inspection never changes residence or role.",
+          "kind": "requirement"
+        },
+        {
+          "key": "canonical-municipal-records",
+          "description": "The controlled person's saved home-place link, current organization participation, calendar, Work and append-oriented history. Mutations occur only through an activated control.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "MunicipalWorkspace",
+        "anchor": "MunicipalWorkspace-0082"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "cfe86edde628",
+      "contextRevision": "abc63ee8695e"
+    },
+    {
+      "id": "prose:governing:municipal-workspace:MunicipalWorkspace-0083#text",
+      "domain": "governing",
+      "bank": "municipal-workspace",
+      "stableKey": "MunicipalWorkspace-0083",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "sourceSymbol": "MunicipalWorkspace",
+      "text": "{person.givenName} {person.familyName}",
+      "realization": "templated",
+      "slots": [
+        "person.familyName",
+        "person.givenName"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "UI-core's Municipal route mounts this feature panel for the saved player. Its source-reading labels, inspection boundaries and explicit-action results are displayed here; registration is inventory, not human prose approval.",
+      "grounding": [
+        {
+          "key": "municipal-source-reading",
+          "description": "The exact government identity and individually classified enacted, attributed-report or dated-reference reading; inspection never changes residence or role.",
+          "kind": "requirement"
+        },
+        {
+          "key": "canonical-municipal-records",
+          "description": "The controlled person's saved home-place link, current organization participation, calendar, Work and append-oriented history. Mutations occur only through an activated control.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "MunicipalWorkspace",
+        "anchor": "MunicipalWorkspace-0083"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "cace9870daf8",
       "contextRevision": "abc63ee8695e"
     },
     {
@@ -57932,7 +58159,7 @@
       "surface": "option-label",
       "sourcePath": "src/simulation/episode-bank.ts",
       "sourceSymbol": "EPISODE_FAMILIES/opening.early.home.bedtime-delay/follow-through",
-      "text": "Put the toy away",
+      "text": "Put the toy away now",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -57979,7 +58206,7 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "556994a7cc45",
+      "textRevision": "009b8533a1e1",
       "contextRevision": "990075c140ff"
     },
     {
@@ -58324,7 +58551,7 @@
       "surface": "option-label",
       "sourcePath": "src/simulation/episode-bank.ts",
       "sourceSymbol": "EPISODE_FAMILIES/opening.early.home.bedtime-delay/moment",
-      "text": "Keep playing",
+      "text": "Keep playing with the toy",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -58366,7 +58593,7 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "b0b47d01a067",
+      "textRevision": "782e6bf66915",
       "contextRevision": "6f4f6724e9b0"
     },
     {
@@ -61411,7 +61638,7 @@
       "surface": "option-label",
       "sourcePath": "src/simulation/episode-bank.ts",
       "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.dropped-treat/follow-through",
-      "text": "Offer some of your snack",
+      "text": "Share your snack with them",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -61453,7 +61680,7 @@
         "family:school",
         "stakes:ordinary"
       ],
-      "textRevision": "ccaa24be60d6",
+      "textRevision": "3f4c78531c31",
       "contextRevision": "0d3d1b6fd3a9"
     },
     {
@@ -96308,7 +96535,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_bea_took_the_blame; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — the broken door · TEXT39 revision 2026-09-14 of child_bea_took_the_blame; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -96342,7 +96569,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_bea_took_the_blame; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — the broken door · TEXT39 revision 2026-09-14 of child_bea_took_the_blame; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -96376,7 +96603,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_bea_took_the_blame; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — the broken door · TEXT39 revision 2026-09-14 of child_bea_took_the_blame; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -96410,7 +96637,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_bea_took_the_blame; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — the broken door · TEXT39 revision 2026-09-14 of child_bea_took_the_blame; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -96614,7 +96841,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_kenny_on_his_own; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — where Kenny eats · TEXT39 revision 2026-09-14 of child_kenny_on_his_own; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -96648,7 +96875,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_kenny_on_his_own; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — where Kenny eats · TEXT39 revision 2026-09-14 of child_kenny_on_his_own; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -96682,7 +96909,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_kenny_on_his_own; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — where Kenny eats · TEXT39 revision 2026-09-14 of child_kenny_on_his_own; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -96716,7 +96943,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_kenny_on_his_own; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — where Kenny eats · TEXT39 revision 2026-09-14 of child_kenny_on_his_own; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -96750,7 +96977,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_kenny_on_his_own; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — where Kenny eats · TEXT39 revision 2026-09-14 of child_kenny_on_his_own; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -96954,7 +97181,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_kitchen_late; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood opening 01 — the light still on · TEXT39 revision 2026-09-14 of child_kitchen_late; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -96988,7 +97215,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_kitchen_late; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood opening 01 — the light still on · TEXT39 revision 2026-09-14 of child_kitchen_late; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -97022,7 +97249,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_kitchen_late; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood opening 01 — the light still on · TEXT39 revision 2026-09-14 of child_kitchen_late; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -97056,7 +97283,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_kitchen_late; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood opening 01 — the light still on · TEXT39 revision 2026-09-14 of child_kitchen_late; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -97090,7 +97317,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_kitchen_late; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood opening 01 — the light still on · TEXT39 revision 2026-09-14 of child_kitchen_late; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -97294,7 +97521,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_the_answer_sheet; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — what was on the desk · TEXT39 revision 2026-09-14 of child_the_answer_sheet; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -97328,7 +97555,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_the_answer_sheet; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — what was on the desk · TEXT39 revision 2026-09-14 of child_the_answer_sheet; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -97362,7 +97589,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_the_answer_sheet; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — what was on the desk · TEXT39 revision 2026-09-14 of child_the_answer_sheet; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -97396,7 +97623,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_the_answer_sheet; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — what was on the desk · TEXT39 revision 2026-09-14 of child_the_answer_sheet; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -97430,7 +97657,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_the_answer_sheet; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — what was on the desk · TEXT39 revision 2026-09-14 of child_the_answer_sheet; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -97634,7 +97861,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_the_bus_stop; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — the stop they took away · TEXT39 revision 2026-09-14 of child_the_bus_stop; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -97668,7 +97895,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_the_bus_stop; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — the stop they took away · TEXT39 revision 2026-09-14 of child_the_bus_stop; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -97702,7 +97929,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_the_bus_stop; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — the stop they took away · TEXT39 revision 2026-09-14 of child_the_bus_stop; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -97736,7 +97963,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_the_bus_stop; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — the stop they took away · TEXT39 revision 2026-09-14 of child_the_bus_stop; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -97770,7 +97997,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_the_bus_stop; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — the stop they took away · TEXT39 revision 2026-09-14 of child_the_bus_stop; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -97974,7 +98201,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_the_field_gate; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — the gate on the field · TEXT39 revision 2026-09-14 of child_the_field_gate; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -98008,7 +98235,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_the_field_gate; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — the gate on the field · TEXT39 revision 2026-09-14 of child_the_field_gate; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -98042,7 +98269,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_the_field_gate; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — the gate on the field · TEXT39 revision 2026-09-14 of child_the_field_gate; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -98076,7 +98303,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_the_field_gate; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — the gate on the field · TEXT39 revision 2026-09-14 of child_the_field_gate; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -98110,7 +98337,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_the_field_gate; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — the gate on the field · TEXT39 revision 2026-09-14 of child_the_field_gate; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -98314,7 +98541,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_the_note; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood opening 03 — the note that has to be signed · TEXT39 revision 2026-09-14 of child_the_note; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -98348,7 +98575,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_the_note; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood opening 03 — the note that has to be signed · TEXT39 revision 2026-09-14 of child_the_note; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -98382,7 +98609,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_the_note; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood opening 03 — the note that has to be signed · TEXT39 revision 2026-09-14 of child_the_note; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -98416,7 +98643,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_the_note; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood opening 03 — the note that has to be signed · TEXT39 revision 2026-09-14 of child_the_note; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -98450,7 +98677,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_the_note; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood opening 03 — the note that has to be signed · TEXT39 revision 2026-09-14 of child_the_note; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -98620,7 +98847,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_the_shortcut; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — the way home past the yard · TEXT39 revision 2026-09-14 of child_the_shortcut; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -98654,7 +98881,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_the_shortcut; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — the way home past the yard · TEXT39 revision 2026-09-14 of child_the_shortcut; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -98688,7 +98915,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_the_shortcut; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — the way home past the yard · TEXT39 revision 2026-09-14 of child_the_shortcut; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -98722,7 +98949,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_the_shortcut; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — the way home past the yard · TEXT39 revision 2026-09-14 of child_the_shortcut; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -98926,7 +99153,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_theo_took_it; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood opening 02 — what Theo had in his bag · TEXT39 revision 2026-09-14 of child_theo_took_it; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -98960,7 +99187,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_theo_took_it; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood opening 02 — what Theo had in his bag · TEXT39 revision 2026-09-14 of child_theo_took_it; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -98994,7 +99221,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_theo_took_it; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood opening 02 — what Theo had in his bag · TEXT39 revision 2026-09-14 of child_theo_took_it; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -99028,7 +99255,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_theo_took_it; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood opening 02 — what Theo had in his bag · TEXT39 revision 2026-09-14 of child_theo_took_it; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -99062,7 +99289,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_theo_took_it; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood opening 02 — what Theo had in his bag · TEXT39 revision 2026-09-14 of child_theo_took_it; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -99266,7 +99493,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_what_you_heard; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — through the wall · TEXT39 revision 2026-09-14 of child_what_you_heard; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -99300,7 +99527,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_what_you_heard; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — through the wall · TEXT39 revision 2026-09-14 of child_what_you_heard; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -99334,7 +99561,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_what_you_heard; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — through the wall · TEXT39 revision 2026-09-14 of child_what_you_heard; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -99368,7 +99595,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_what_you_heard; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — through the wall · TEXT39 revision 2026-09-14 of child_what_you_heard; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -99402,7 +99629,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised child_what_you_heard; inherited motivation mapping, not a validity claim",
+        "reference": "Childhood — through the wall · TEXT39 revision 2026-09-14 of child_what_you_heard; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -99946,7 +100173,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised curtis_shift; inherited motivation mapping, not a validity claim",
+        "reference": "Personal — the shift Curtis wants covering · TEXT39 revision 2026-09-14 of curtis_shift; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -99980,7 +100207,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised curtis_shift; inherited motivation mapping, not a validity claim",
+        "reference": "Personal — the shift Curtis wants covering · TEXT39 revision 2026-09-14 of curtis_shift; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -100014,7 +100241,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised curtis_shift; inherited motivation mapping, not a validity claim",
+        "reference": "Personal — the shift Curtis wants covering · TEXT39 revision 2026-09-14 of curtis_shift; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -100048,7 +100275,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised curtis_shift; inherited motivation mapping, not a validity claim",
+        "reference": "Personal — the shift Curtis wants covering · TEXT39 revision 2026-09-14 of curtis_shift; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -100082,7 +100309,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised curtis_shift; inherited motivation mapping, not a validity claim",
+        "reference": "Personal — the shift Curtis wants covering · TEXT39 revision 2026-09-14 of curtis_shift; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -100592,7 +100819,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised family_or_opportunity; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q4 · TEXT39 revision 2026-09-14 of family_or_opportunity; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -100626,7 +100853,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised family_or_opportunity; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q4 · TEXT39 revision 2026-09-14 of family_or_opportunity; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -100660,7 +100887,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised family_or_opportunity; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q4 · TEXT39 revision 2026-09-14 of family_or_opportunity; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -100694,7 +100921,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised family_or_opportunity; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q4 · TEXT39 revision 2026-09-14 of family_or_opportunity; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -101034,7 +101261,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised friend_in_trouble; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q1 · TEXT39 revision 2026-09-14 of friend_in_trouble; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -101068,7 +101295,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised friend_in_trouble; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q1 · TEXT39 revision 2026-09-14 of friend_in_trouble; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -101102,7 +101329,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised friend_in_trouble; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q1 · TEXT39 revision 2026-09-14 of friend_in_trouble; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -101136,7 +101363,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised friend_in_trouble; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q1 · TEXT39 revision 2026-09-14 of friend_in_trouble; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -101850,7 +102077,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised kitchen_late; inherited motivation mapping, not a validity claim",
+        "reference": "Opening 01 — the kitchen at eleven · TEXT39 revision 2026-09-14 of kitchen_late; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -101884,7 +102111,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised kitchen_late; inherited motivation mapping, not a validity claim",
+        "reference": "Opening 01 — the kitchen at eleven · TEXT39 revision 2026-09-14 of kitchen_late; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -101918,7 +102145,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised kitchen_late; inherited motivation mapping, not a validity claim",
+        "reference": "Opening 01 — the kitchen at eleven · TEXT39 revision 2026-09-14 of kitchen_late; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -101952,7 +102179,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised kitchen_late; inherited motivation mapping, not a validity claim",
+        "reference": "Opening 01 — the kitchen at eleven · TEXT39 revision 2026-09-14 of kitchen_late; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -101986,7 +102213,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised kitchen_late; inherited motivation mapping, not a validity claim",
+        "reference": "Opening 01 — the kitchen at eleven · TEXT39 revision 2026-09-14 of kitchen_late; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -102156,7 +102383,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised letter_of_the_rule; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q7 · TEXT39 revision 2026-09-14 of letter_of_the_rule; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -102190,7 +102417,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised letter_of_the_rule; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q7 · TEXT39 revision 2026-09-14 of letter_of_the_rule; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -102224,7 +102451,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised letter_of_the_rule; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q7 · TEXT39 revision 2026-09-14 of letter_of_the_rule; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -102258,7 +102485,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised letter_of_the_rule; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q7 · TEXT39 revision 2026-09-14 of letter_of_the_rule; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -102462,7 +102689,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised marcus_and_the_trip_fund; inherited motivation mapping, not a validity claim",
+        "reference": "Opening 02 — what Marcus said in the hallway · TEXT39 revision 2026-09-14 of marcus_and_the_trip_fund; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -102496,7 +102723,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised marcus_and_the_trip_fund; inherited motivation mapping, not a validity claim",
+        "reference": "Opening 02 — what Marcus said in the hallway · TEXT39 revision 2026-09-14 of marcus_and_the_trip_fund; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -102530,7 +102757,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised marcus_and_the_trip_fund; inherited motivation mapping, not a validity claim",
+        "reference": "Opening 02 — what Marcus said in the hallway · TEXT39 revision 2026-09-14 of marcus_and_the_trip_fund; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -102564,7 +102791,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised marcus_and_the_trip_fund; inherited motivation mapping, not a validity claim",
+        "reference": "Opening 02 — what Marcus said in the hallway · TEXT39 revision 2026-09-14 of marcus_and_the_trip_fund; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -102598,7 +102825,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised marcus_and_the_trip_fund; inherited motivation mapping, not a validity claim",
+        "reference": "Opening 02 — what Marcus said in the hallway · TEXT39 revision 2026-09-14 of marcus_and_the_trip_fund; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -102802,7 +103029,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised money_that_arrived; inherited motivation mapping, not a validity claim",
+        "reference": "Personal — the money nobody was expecting · TEXT39 revision 2026-09-14 of money_that_arrived; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -102836,7 +103063,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised money_that_arrived; inherited motivation mapping, not a validity claim",
+        "reference": "Personal — the money nobody was expecting · TEXT39 revision 2026-09-14 of money_that_arrived; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -102870,7 +103097,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised money_that_arrived; inherited motivation mapping, not a validity claim",
+        "reference": "Personal — the money nobody was expecting · TEXT39 revision 2026-09-14 of money_that_arrived; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -102904,7 +103131,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised money_that_arrived; inherited motivation mapping, not a validity claim",
+        "reference": "Personal — the money nobody was expecting · TEXT39 revision 2026-09-14 of money_that_arrived; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -102938,7 +103165,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised money_that_arrived; inherited motivation mapping, not a validity claim",
+        "reference": "Personal — the money nobody was expecting · TEXT39 revision 2026-09-14 of money_that_arrived; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -103278,7 +103505,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised nell_moving; inherited motivation mapping, not a validity claim",
+        "reference": "Personal — Nell wants to move · TEXT39 revision 2026-09-14 of nell_moving; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -103312,7 +103539,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised nell_moving; inherited motivation mapping, not a validity claim",
+        "reference": "Personal — Nell wants to move · TEXT39 revision 2026-09-14 of nell_moving; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -103346,7 +103573,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised nell_moving; inherited motivation mapping, not a validity claim",
+        "reference": "Personal — Nell wants to move · TEXT39 revision 2026-09-14 of nell_moving; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -103380,7 +103607,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised nell_moving; inherited motivation mapping, not a validity claim",
+        "reference": "Personal — Nell wants to move · TEXT39 revision 2026-09-14 of nell_moving; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -103550,7 +103777,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised offered_leadership; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q6 · TEXT39 revision 2026-09-14 of offered_leadership; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -103584,7 +103811,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised offered_leadership; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q6 · TEXT39 revision 2026-09-14 of offered_leadership; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -103618,7 +103845,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised offered_leadership; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q6 · TEXT39 revision 2026-09-14 of offered_leadership; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -103652,7 +103879,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised offered_leadership; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q6 · TEXT39 revision 2026-09-14 of offered_leadership; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -103856,7 +104083,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised priya_reference; inherited motivation mapping, not a validity claim",
+        "reference": "Opening 03 — the reference for Priya · TEXT39 revision 2026-09-14 of priya_reference; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -103890,7 +104117,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised priya_reference; inherited motivation mapping, not a validity claim",
+        "reference": "Opening 03 — the reference for Priya · TEXT39 revision 2026-09-14 of priya_reference; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -103924,7 +104151,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised priya_reference; inherited motivation mapping, not a validity claim",
+        "reference": "Opening 03 — the reference for Priya · TEXT39 revision 2026-09-14 of priya_reference; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -103958,7 +104185,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised priya_reference; inherited motivation mapping, not a validity claim",
+        "reference": "Opening 03 — the reference for Priya · TEXT39 revision 2026-09-14 of priya_reference; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -103992,7 +104219,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised priya_reference; inherited motivation mapping, not a validity claim",
+        "reference": "Opening 03 — the reference for Priya · TEXT39 revision 2026-09-14 of priya_reference; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -104332,7 +104559,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised public_mistake; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q5 · TEXT39 revision 2026-09-14 of public_mistake; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -104366,7 +104593,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised public_mistake; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q5 · TEXT39 revision 2026-09-14 of public_mistake; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -104400,7 +104627,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised public_mistake; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q5 · TEXT39 revision 2026-09-14 of public_mistake; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -104434,7 +104661,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised public_mistake; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q5 · TEXT39 revision 2026-09-14 of public_mistake; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -104638,7 +104865,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised ray_car; inherited motivation mapping, not a validity claim",
+        "reference": "Personal — Ray and the car · TEXT39 revision 2026-09-14 of ray_car; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -104672,7 +104899,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised ray_car; inherited motivation mapping, not a validity claim",
+        "reference": "Personal — Ray and the car · TEXT39 revision 2026-09-14 of ray_car; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -104706,7 +104933,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised ray_car; inherited motivation mapping, not a validity claim",
+        "reference": "Personal — Ray and the car · TEXT39 revision 2026-09-14 of ray_car; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -104740,7 +104967,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised ray_car; inherited motivation mapping, not a validity claim",
+        "reference": "Personal — Ray and the car · TEXT39 revision 2026-09-14 of ray_car; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -104774,7 +105001,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised ray_car; inherited motivation mapping, not a validity claim",
+        "reference": "Personal — Ray and the car · TEXT39 revision 2026-09-14 of ray_car; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -105114,7 +105341,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised respected_disagreement; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q8 · TEXT39 revision 2026-09-14 of respected_disagreement; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -105148,7 +105375,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised respected_disagreement; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q8 · TEXT39 revision 2026-09-14 of respected_disagreement; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -105182,7 +105409,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised respected_disagreement; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q8 · TEXT39 revision 2026-09-14 of respected_disagreement; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -105216,7 +105443,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised respected_disagreement; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q8 · TEXT39 revision 2026-09-14 of respected_disagreement; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -105386,7 +105613,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised safe_or_risky; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q2 · TEXT39 revision 2026-09-14 of safe_or_risky; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -105420,7 +105647,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised safe_or_risky; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q2 · TEXT39 revision 2026-09-14 of safe_or_risky; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -105454,7 +105681,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised safe_or_risky; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q2 · TEXT39 revision 2026-09-14 of safe_or_risky; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -105488,7 +105715,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised safe_or_risky; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q2 · TEXT39 revision 2026-09-14 of safe_or_risky; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -105862,7 +106089,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_essay; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent opening 03 — whose paragraph it is · TEXT39 revision 2026-09-14 of teen_the_essay; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -105896,7 +106123,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_essay; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent opening 03 — whose paragraph it is · TEXT39 revision 2026-09-14 of teen_the_essay; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -105930,7 +106157,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_essay; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent opening 03 — whose paragraph it is · TEXT39 revision 2026-09-14 of teen_the_essay; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -105964,7 +106191,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_essay; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent opening 03 — whose paragraph it is · TEXT39 revision 2026-09-14 of teen_the_essay; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -105998,7 +106225,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_essay; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent opening 03 — whose paragraph it is · TEXT39 revision 2026-09-14 of teen_the_essay; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -106202,7 +106429,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_money_for_the_car; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — nine hundred saved · TEXT39 revision 2026-09-14 of teen_the_money_for_the_car; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -106236,7 +106463,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_money_for_the_car; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — nine hundred saved · TEXT39 revision 2026-09-14 of teen_the_money_for_the_car; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -106270,7 +106497,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_money_for_the_car; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — nine hundred saved · TEXT39 revision 2026-09-14 of teen_the_money_for_the_car; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -106304,7 +106531,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_money_for_the_car; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — nine hundred saved · TEXT39 revision 2026-09-14 of teen_the_money_for_the_car; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -106338,7 +106565,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_money_for_the_car; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — nine hundred saved · TEXT39 revision 2026-09-14 of teen_the_money_for_the_car; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -106542,7 +106769,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_petition_at_school; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — the letter about the coach · TEXT39 revision 2026-09-14 of teen_the_petition_at_school; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -106576,7 +106803,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_petition_at_school; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — the letter about the coach · TEXT39 revision 2026-09-14 of teen_the_petition_at_school; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -106610,7 +106837,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_petition_at_school; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — the letter about the coach · TEXT39 revision 2026-09-14 of teen_the_petition_at_school; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -106644,7 +106871,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_petition_at_school; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — the letter about the coach · TEXT39 revision 2026-09-14 of teen_the_petition_at_school; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -106678,7 +106905,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_petition_at_school; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — the letter about the coach · TEXT39 revision 2026-09-14 of teen_the_petition_at_school; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -106882,7 +107109,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_room_at_the_back; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — the room they are closing · TEXT39 revision 2026-09-14 of teen_the_room_at_the_back; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -106916,7 +107143,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_room_at_the_back; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — the room they are closing · TEXT39 revision 2026-09-14 of teen_the_room_at_the_back; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -106950,7 +107177,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_room_at_the_back; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — the room they are closing · TEXT39 revision 2026-09-14 of teen_the_room_at_the_back; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -106984,7 +107211,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_room_at_the_back; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — the room they are closing · TEXT39 revision 2026-09-14 of teen_the_room_at_the_back; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -107018,7 +107245,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_room_at_the_back; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — the room they are closing · TEXT39 revision 2026-09-14 of teen_the_room_at_the_back; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -107222,7 +107449,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_shift_and_the_test; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent opening 01 — Thursday, both ways · TEXT39 revision 2026-09-14 of teen_the_shift_and_the_test; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -107256,7 +107483,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_shift_and_the_test; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent opening 01 — Thursday, both ways · TEXT39 revision 2026-09-14 of teen_the_shift_and_the_test; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -107290,7 +107517,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_shift_and_the_test; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent opening 01 — Thursday, both ways · TEXT39 revision 2026-09-14 of teen_the_shift_and_the_test; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -107324,7 +107551,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_shift_and_the_test; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent opening 01 — Thursday, both ways · TEXT39 revision 2026-09-14 of teen_the_shift_and_the_test; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -107358,7 +107585,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_shift_and_the_test; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent opening 01 — Thursday, both ways · TEXT39 revision 2026-09-14 of teen_the_shift_and_the_test; inherited motivation mapping, not a validity claim",
         "register": "lived-personal",
         "reviewVerdict": "non-transparent"
       },
@@ -107562,7 +107789,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_till_short; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — forty dollars short · TEXT39 revision 2026-09-14 of teen_the_till_short; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -107596,7 +107823,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_till_short; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — forty dollars short · TEXT39 revision 2026-09-14 of teen_the_till_short; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -107630,7 +107857,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_till_short; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — forty dollars short · TEXT39 revision 2026-09-14 of teen_the_till_short; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -107664,7 +107891,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_till_short; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — forty dollars short · TEXT39 revision 2026-09-14 of teen_the_till_short; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -107698,7 +107925,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_the_till_short; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — forty dollars short · TEXT39 revision 2026-09-14 of teen_the_till_short; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -107902,7 +108129,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_theo_driving; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent opening 02 — who is driving · TEXT39 revision 2026-09-14 of teen_theo_driving; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -107936,7 +108163,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_theo_driving; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent opening 02 — who is driving · TEXT39 revision 2026-09-14 of teen_theo_driving; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -107970,7 +108197,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_theo_driving; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent opening 02 — who is driving · TEXT39 revision 2026-09-14 of teen_theo_driving; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -108004,7 +108231,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_theo_driving; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent opening 02 — who is driving · TEXT39 revision 2026-09-14 of teen_theo_driving; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -108038,7 +108265,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_theo_driving; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent opening 02 — who is driving · TEXT39 revision 2026-09-14 of teen_theo_driving; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -108242,7 +108469,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_what_marisol_said; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — what Marisol said about the new one · TEXT39 revision 2026-09-14 of teen_what_marisol_said; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -108276,7 +108503,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_what_marisol_said; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — what Marisol said about the new one · TEXT39 revision 2026-09-14 of teen_what_marisol_said; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -108310,7 +108537,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_what_marisol_said; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — what Marisol said about the new one · TEXT39 revision 2026-09-14 of teen_what_marisol_said; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -108344,7 +108571,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_what_marisol_said; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — what Marisol said about the new one · TEXT39 revision 2026-09-14 of teen_what_marisol_said; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -108378,7 +108605,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_what_marisol_said; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — what Marisol said about the new one · TEXT39 revision 2026-09-14 of teen_what_marisol_said; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -108582,7 +108809,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_where_bea_went; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — the week Bea did not call · TEXT39 revision 2026-09-14 of teen_where_bea_went; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -108616,7 +108843,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_where_bea_went; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — the week Bea did not call · TEXT39 revision 2026-09-14 of teen_where_bea_went; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -108650,7 +108877,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_where_bea_went; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — the week Bea did not call · TEXT39 revision 2026-09-14 of teen_where_bea_went; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -108684,7 +108911,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_where_bea_went; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — the week Bea did not call · TEXT39 revision 2026-09-14 of teen_where_bea_went; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -108718,7 +108945,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised teen_where_bea_went; inherited motivation mapping, not a validity claim",
+        "reference": "Adolescent — the week Bea did not call · TEXT39 revision 2026-09-14 of teen_where_bea_went; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -108922,7 +109149,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_audit_on_your_desk; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — the printout somebody left · TEXT39 revision 2026-09-14 of the_audit_on_your_desk; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -108956,7 +109183,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_audit_on_your_desk; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — the printout somebody left · TEXT39 revision 2026-09-14 of the_audit_on_your_desk; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -108990,7 +109217,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_audit_on_your_desk; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — the printout somebody left · TEXT39 revision 2026-09-14 of the_audit_on_your_desk; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -109010,7 +109237,7 @@
       "surface": "answer",
       "sourcePath": "src/simulation/setup-questionnaire-bank.ts",
       "sourceSymbol": "SETUP_QUESTIONNAIRE_BANK/the_audit_on_your_desk.text39-v1",
-      "text": "Raise the findings at the budget meeting without naming your source",
+      "text": "Raise the findings at the budget meeting, source unnamed",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -109024,7 +109251,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_audit_on_your_desk; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — the printout somebody left · TEXT39 revision 2026-09-14 of the_audit_on_your_desk; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -109032,7 +109259,7 @@
         "register:policy-lived",
         "band:adult"
       ],
-      "textRevision": "945283176651",
+      "textRevision": "979d24869a18",
       "contextRevision": "813e34fd6ba5"
     },
     {
@@ -109058,7 +109285,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_audit_on_your_desk; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — the printout somebody left · TEXT39 revision 2026-09-14 of the_audit_on_your_desk; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -109262,7 +109489,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_bus_route; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the route they are cutting · TEXT39 revision 2026-09-14 of the_bus_route; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -109296,7 +109523,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_bus_route; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the route they are cutting · TEXT39 revision 2026-09-14 of the_bus_route; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -109330,7 +109557,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_bus_route; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the route they are cutting · TEXT39 revision 2026-09-14 of the_bus_route; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -109364,7 +109591,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_bus_route; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the route they are cutting · TEXT39 revision 2026-09-14 of the_bus_route; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -109398,7 +109625,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_bus_route; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the route they are cutting · TEXT39 revision 2026-09-14 of the_bus_route; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -109602,7 +109829,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_camera; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — the camera on the block · TEXT39 revision 2026-09-14 of the_camera; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -109636,7 +109863,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_camera; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — the camera on the block · TEXT39 revision 2026-09-14 of the_camera; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -109670,7 +109897,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_camera; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — the camera on the block · TEXT39 revision 2026-09-14 of the_camera; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -109704,7 +109931,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_camera; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — the camera on the block · TEXT39 revision 2026-09-14 of the_camera; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -109738,7 +109965,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_camera; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — the camera on the block · TEXT39 revision 2026-09-14 of the_camera; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -109908,7 +110135,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_form; inherited motivation mapping, not a validity claim",
+        "reference": "Moral — the box on the form · TEXT39 revision 2026-09-14 of the_form; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -109942,7 +110169,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_form; inherited motivation mapping, not a validity claim",
+        "reference": "Moral — the box on the form · TEXT39 revision 2026-09-14 of the_form; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -109976,7 +110203,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_form; inherited motivation mapping, not a validity claim",
+        "reference": "Moral — the box on the form · TEXT39 revision 2026-09-14 of the_form; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -110010,7 +110237,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_form; inherited motivation mapping, not a validity claim",
+        "reference": "Moral — the box on the form · TEXT39 revision 2026-09-14 of the_form; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -110214,7 +110441,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_friend_who_was_wrong; inherited motivation mapping, not a validity claim",
+        "reference": "Relational — Priya, in public, wrong · TEXT39 revision 2026-09-14 of the_friend_who_was_wrong; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -110248,7 +110475,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_friend_who_was_wrong; inherited motivation mapping, not a validity claim",
+        "reference": "Relational — Priya, in public, wrong · TEXT39 revision 2026-09-14 of the_friend_who_was_wrong; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -110282,7 +110509,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_friend_who_was_wrong; inherited motivation mapping, not a validity claim",
+        "reference": "Relational — Priya, in public, wrong · TEXT39 revision 2026-09-14 of the_friend_who_was_wrong; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -110316,7 +110543,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_friend_who_was_wrong; inherited motivation mapping, not a validity claim",
+        "reference": "Relational — Priya, in public, wrong · TEXT39 revision 2026-09-14 of the_friend_who_was_wrong; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -110350,7 +110577,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_friend_who_was_wrong; inherited motivation mapping, not a validity claim",
+        "reference": "Relational — Priya, in public, wrong · TEXT39 revision 2026-09-14 of the_friend_who_was_wrong; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -110554,7 +110781,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_inspection; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — the inspector and the bakery · TEXT39 revision 2026-09-14 of the_inspection; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -110574,7 +110801,7 @@
       "surface": "answer",
       "sourcePath": "src/simulation/setup-questionnaire-bank.ts",
       "sourceSymbol": "SETUP_QUESTIONNAIRE_BANK/the_inspection.text39-v1",
-      "text": "Require correction and help them look for financial assistance",
+      "text": "Require the fix and help them find financial help",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -110588,7 +110815,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_inspection; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — the inspector and the bakery · TEXT39 revision 2026-09-14 of the_inspection; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -110596,7 +110823,7 @@
         "register:policy-lived",
         "band:adult"
       ],
-      "textRevision": "b0cb4043745c",
+      "textRevision": "90c20720cae5",
       "contextRevision": "813e34fd6ba5"
     },
     {
@@ -110622,7 +110849,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_inspection; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — the inspector and the bakery · TEXT39 revision 2026-09-14 of the_inspection; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -110656,7 +110883,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_inspection; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — the inspector and the bakery · TEXT39 revision 2026-09-14 of the_inspection; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -110690,7 +110917,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_inspection; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — the inspector and the bakery · TEXT39 revision 2026-09-14 of the_inspection; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -110860,7 +111087,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_job_ray_wants; inherited motivation mapping, not a validity claim",
+        "reference": "Relational — putting Ray forward · TEXT39 revision 2026-09-14 of the_job_ray_wants; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -110880,7 +111107,7 @@
       "surface": "answer",
       "sourcePath": "src/simulation/setup-questionnaire-bank.ts",
       "sourceSymbol": "SETUP_QUESTIONNAIRE_BANK/the_job_ray_wants.text39-v1",
-      "text": "Explain that Ray is your brother and don't recommend either applicant",
+      "text": "Say Ray is your brother and recommend neither applicant",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -110894,7 +111121,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_job_ray_wants; inherited motivation mapping, not a validity claim",
+        "reference": "Relational — putting Ray forward · TEXT39 revision 2026-09-14 of the_job_ray_wants; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -110902,7 +111129,7 @@
         "register:lived-relational",
         "band:adult"
       ],
-      "textRevision": "b5326bcec12d",
+      "textRevision": "ab732d034c03",
       "contextRevision": "813e34fd6ba5"
     },
     {
@@ -110928,7 +111155,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_job_ray_wants; inherited motivation mapping, not a validity claim",
+        "reference": "Relational — putting Ray forward · TEXT39 revision 2026-09-14 of the_job_ray_wants; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -110962,7 +111189,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_job_ray_wants; inherited motivation mapping, not a validity claim",
+        "reference": "Relational — putting Ray forward · TEXT39 revision 2026-09-14 of the_job_ray_wants; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -111132,7 +111359,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_licence; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — the licence at the corner · TEXT39 revision 2026-09-14 of the_licence; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -111166,7 +111393,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_licence; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — the licence at the corner · TEXT39 revision 2026-09-14 of the_licence; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -111200,7 +111427,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_licence; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — the licence at the corner · TEXT39 revision 2026-09-14 of the_licence; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -111234,7 +111461,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_licence; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — the licence at the corner · TEXT39 revision 2026-09-14 of the_licence; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -111438,7 +111665,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_line_to_the_hospital; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — twenty-five years of it · TEXT39 revision 2026-09-14 of the_line_to_the_hospital; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -111472,7 +111699,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_line_to_the_hospital; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — twenty-five years of it · TEXT39 revision 2026-09-14 of the_line_to_the_hospital; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -111506,7 +111733,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_line_to_the_hospital; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — twenty-five years of it · TEXT39 revision 2026-09-14 of the_line_to_the_hospital; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -111540,7 +111767,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_line_to_the_hospital; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — twenty-five years of it · TEXT39 revision 2026-09-14 of the_line_to_the_hospital; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -111574,7 +111801,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_line_to_the_hospital; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — twenty-five years of it · TEXT39 revision 2026-09-14 of the_line_to_the_hospital; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -111778,7 +112005,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_man_at_the_meeting; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the man who keeps talking · TEXT39 revision 2026-09-14 of the_man_at_the_meeting; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -111812,7 +112039,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_man_at_the_meeting; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the man who keeps talking · TEXT39 revision 2026-09-14 of the_man_at_the_meeting; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -111846,7 +112073,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_man_at_the_meeting; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the man who keeps talking · TEXT39 revision 2026-09-14 of the_man_at_the_meeting; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -111880,7 +112107,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_man_at_the_meeting; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the man who keeps talking · TEXT39 revision 2026-09-14 of the_man_at_the_meeting; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -111914,7 +112141,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_man_at_the_meeting; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the man who keeps talking · TEXT39 revision 2026-09-14 of the_man_at_the_meeting; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -112118,7 +112345,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_night_the_power_went; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the night the power went · TEXT39 revision 2026-09-14 of the_night_the_power_went; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -112152,7 +112379,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_night_the_power_went; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the night the power went · TEXT39 revision 2026-09-14 of the_night_the_power_went; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -112186,7 +112413,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_night_the_power_went; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the night the power went · TEXT39 revision 2026-09-14 of the_night_the_power_went; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -112220,7 +112447,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_night_the_power_went; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the night the power went · TEXT39 revision 2026-09-14 of the_night_the_power_went; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -112254,7 +112481,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_night_the_power_went; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the night the power went · TEXT39 revision 2026-09-14 of the_night_the_power_went; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -112458,7 +112685,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_petition_at_the_door; inherited motivation mapping, not a validity claim",
+        "reference": "Moral — the clipboard at the door · TEXT39 revision 2026-09-14 of the_petition_at_the_door; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -112478,7 +112705,7 @@
       "surface": "answer",
       "sourcePath": "src/simulation/setup-questionnaire-bank.ts",
       "sourceSymbol": "SETUP_QUESTIONNAIRE_BANK/the_petition_at_the_door.text39-v1",
-      "text": "Sign and write that you oppose removing the stop",
+      "text": "Support it, noting you oppose removing the stop",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -112492,7 +112719,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_petition_at_the_door; inherited motivation mapping, not a validity claim",
+        "reference": "Moral — the clipboard at the door · TEXT39 revision 2026-09-14 of the_petition_at_the_door; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -112500,7 +112727,7 @@
         "register:lived-moral",
         "band:adult"
       ],
-      "textRevision": "168b4dcc7e9a",
+      "textRevision": "c698bf8376ae",
       "contextRevision": "813e34fd6ba5"
     },
     {
@@ -112512,7 +112739,7 @@
       "surface": "answer",
       "sourcePath": "src/simulation/setup-questionnaire-bank.ts",
       "sourceSymbol": "SETUP_QUESTIONNAIRE_BANK/the_petition_at_the_door.text39-v1",
-      "text": "Sign the petition",
+      "text": "Support it as written",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -112526,7 +112753,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_petition_at_the_door; inherited motivation mapping, not a validity claim",
+        "reference": "Moral — the clipboard at the door · TEXT39 revision 2026-09-14 of the_petition_at_the_door; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -112534,7 +112761,7 @@
         "register:lived-moral",
         "band:adult"
       ],
-      "textRevision": "f077af6d7106",
+      "textRevision": "13ef7f5a6502",
       "contextRevision": "813e34fd6ba5"
     },
     {
@@ -112560,7 +112787,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_petition_at_the_door; inherited motivation mapping, not a validity claim",
+        "reference": "Moral — the clipboard at the door · TEXT39 revision 2026-09-14 of the_petition_at_the_door; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -112594,7 +112821,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_petition_at_the_door; inherited motivation mapping, not a validity claim",
+        "reference": "Moral — the clipboard at the door · TEXT39 revision 2026-09-14 of the_petition_at_the_door; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -112798,7 +113025,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_rule_and_curtis; inherited motivation mapping, not a validity claim",
+        "reference": "Moral — the rule, and Curtis · TEXT39 revision 2026-09-14 of the_rule_and_curtis; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -112832,7 +113059,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_rule_and_curtis; inherited motivation mapping, not a validity claim",
+        "reference": "Moral — the rule, and Curtis · TEXT39 revision 2026-09-14 of the_rule_and_curtis; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -112866,7 +113093,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_rule_and_curtis; inherited motivation mapping, not a validity claim",
+        "reference": "Moral — the rule, and Curtis · TEXT39 revision 2026-09-14 of the_rule_and_curtis; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -112900,7 +113127,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_rule_and_curtis; inherited motivation mapping, not a validity claim",
+        "reference": "Moral — the rule, and Curtis · TEXT39 revision 2026-09-14 of the_rule_and_curtis; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -112934,7 +113161,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_rule_and_curtis; inherited motivation mapping, not a validity claim",
+        "reference": "Moral — the rule, and Curtis · TEXT39 revision 2026-09-14 of the_rule_and_curtis; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -113138,7 +113365,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_school_place; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the attendance boundary · TEXT39 revision 2026-09-14 of the_school_place; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -113172,7 +113399,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_school_place; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the attendance boundary · TEXT39 revision 2026-09-14 of the_school_place; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -113206,7 +113433,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_school_place; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the attendance boundary · TEXT39 revision 2026-09-14 of the_school_place; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -113226,7 +113453,7 @@
       "surface": "answer",
       "sourcePath": "src/simulation/setup-questionnaire-bank.ts",
       "sourceSymbol": "SETUP_QUESTIONNAIRE_BANK/the_school_place.text39-v1",
-      "text": "Ask whether extra seats are possible before the boundary changes",
+      "text": "Ask about adding seats before the boundary moves",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -113240,7 +113467,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_school_place; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the attendance boundary · TEXT39 revision 2026-09-14 of the_school_place; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -113248,7 +113475,7 @@
         "register:civic-lived",
         "band:adult"
       ],
-      "textRevision": "f57286fe15ec",
+      "textRevision": "255658b45823",
       "contextRevision": "813e34fd6ba5"
     },
     {
@@ -113274,7 +113501,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_school_place; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the attendance boundary · TEXT39 revision 2026-09-14 of the_school_place; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -113478,7 +113705,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_sold_field; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the field behind the apartments · TEXT39 revision 2026-09-14 of the_sold_field; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -113512,7 +113739,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_sold_field; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the field behind the apartments · TEXT39 revision 2026-09-14 of the_sold_field; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -113546,7 +113773,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_sold_field; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the field behind the apartments · TEXT39 revision 2026-09-14 of the_sold_field; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -113580,7 +113807,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_sold_field; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the field behind the apartments · TEXT39 revision 2026-09-14 of the_sold_field; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -113614,7 +113841,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_sold_field; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the field behind the apartments · TEXT39 revision 2026-09-14 of the_sold_field; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -113818,7 +114045,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_strike_at_the_depot; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — the week the trash stopped · TEXT39 revision 2026-09-14 of the_strike_at_the_depot; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -113852,7 +114079,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_strike_at_the_depot; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — the week the trash stopped · TEXT39 revision 2026-09-14 of the_strike_at_the_depot; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -113886,7 +114113,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_strike_at_the_depot; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — the week the trash stopped · TEXT39 revision 2026-09-14 of the_strike_at_the_depot; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -113920,7 +114147,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_strike_at_the_depot; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — the week the trash stopped · TEXT39 revision 2026-09-14 of the_strike_at_the_depot; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -113954,7 +114181,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_strike_at_the_depot; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — the week the trash stopped · TEXT39 revision 2026-09-14 of the_strike_at_the_depot; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -114124,7 +114351,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_thing_you_saw; inherited motivation mapping, not a validity claim",
+        "reference": "Moral — what you saw from the bus · TEXT39 revision 2026-09-14 of the_thing_you_saw; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -114158,7 +114385,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_thing_you_saw; inherited motivation mapping, not a validity claim",
+        "reference": "Moral — what you saw from the bus · TEXT39 revision 2026-09-14 of the_thing_you_saw; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -114192,7 +114419,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_thing_you_saw; inherited motivation mapping, not a validity claim",
+        "reference": "Moral — what you saw from the bus · TEXT39 revision 2026-09-14 of the_thing_you_saw; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -114226,7 +114453,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_thing_you_saw; inherited motivation mapping, not a validity claim",
+        "reference": "Moral — what you saw from the bus · TEXT39 revision 2026-09-14 of the_thing_you_saw; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -114396,7 +114623,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_till_and_the_kid; inherited motivation mapping, not a validity claim",
+        "reference": "Moral — the register and the kid · TEXT39 revision 2026-09-14 of the_till_and_the_kid; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -114430,7 +114657,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_till_and_the_kid; inherited motivation mapping, not a validity claim",
+        "reference": "Moral — the register and the kid · TEXT39 revision 2026-09-14 of the_till_and_the_kid; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -114464,7 +114691,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_till_and_the_kid; inherited motivation mapping, not a validity claim",
+        "reference": "Moral — the register and the kid · TEXT39 revision 2026-09-14 of the_till_and_the_kid; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -114498,7 +114725,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_till_and_the_kid; inherited motivation mapping, not a validity claim",
+        "reference": "Moral — the register and the kid · TEXT39 revision 2026-09-14 of the_till_and_the_kid; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -114702,7 +114929,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_ward_budget; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — what the district has left · TEXT39 revision 2026-09-14 of the_ward_budget; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -114736,7 +114963,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_ward_budget; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — what the district has left · TEXT39 revision 2026-09-14 of the_ward_budget; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -114770,7 +114997,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_ward_budget; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — what the district has left · TEXT39 revision 2026-09-14 of the_ward_budget; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -114804,7 +115031,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_ward_budget; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — what the district has left · TEXT39 revision 2026-09-14 of the_ward_budget; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -114838,7 +115065,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_ward_budget; inherited motivation mapping, not a validity claim",
+        "reference": "Policy — what the district has left · TEXT39 revision 2026-09-14 of the_ward_budget; inherited motivation mapping, not a validity claim",
         "register": "policy-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -115042,7 +115269,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_yard_at_the_end; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the yard at the end of the road · TEXT39 revision 2026-09-14 of the_yard_at_the_end; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -115076,7 +115303,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_yard_at_the_end; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the yard at the end of the road · TEXT39 revision 2026-09-14 of the_yard_at_the_end; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -115110,7 +115337,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_yard_at_the_end; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the yard at the end of the road · TEXT39 revision 2026-09-14 of the_yard_at_the_end; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -115144,7 +115371,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_yard_at_the_end; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the yard at the end of the road · TEXT39 revision 2026-09-14 of the_yard_at_the_end; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -115178,7 +115405,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised the_yard_at_the_end; inherited motivation mapping, not a validity claim",
+        "reference": "Civic — the yard at the end of the road · TEXT39 revision 2026-09-14 of the_yard_at_the_end; inherited motivation mapping, not a validity claim",
         "register": "civic-lived",
         "reviewVerdict": "non-transparent"
       },
@@ -115348,7 +115575,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised unfair_rule; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q3 · TEXT39 revision 2026-09-14 of unfair_rule; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -115382,7 +115609,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised unfair_rule; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q3 · TEXT39 revision 2026-09-14 of unfair_rule; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -115416,7 +115643,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised unfair_rule; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q3 · TEXT39 revision 2026-09-14 of unfair_rule; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -115450,7 +115677,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised unfair_rule; inherited motivation mapping, not a validity claim",
+        "reference": "§14D candidate questionnaire — Q3 · TEXT39 revision 2026-09-14 of unfair_rule; inherited motivation mapping, not a validity claim",
         "register": "lived-moral",
         "reviewVerdict": "non-transparent"
       },
@@ -115824,7 +116051,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised whitfield_grant; inherited motivation mapping, not a validity claim",
+        "reference": "Relational — the numbers in Ms. Whitfield's application · TEXT39 revision 2026-09-14 of whitfield_grant; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -115858,7 +116085,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised whitfield_grant; inherited motivation mapping, not a validity claim",
+        "reference": "Relational — the numbers in Ms. Whitfield's application · TEXT39 revision 2026-09-14 of whitfield_grant; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -115892,7 +116119,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised whitfield_grant; inherited motivation mapping, not a validity claim",
+        "reference": "Relational — the numbers in Ms. Whitfield's application · TEXT39 revision 2026-09-14 of whitfield_grant; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -115926,7 +116153,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised whitfield_grant; inherited motivation mapping, not a validity claim",
+        "reference": "Relational — the numbers in Ms. Whitfield's application · TEXT39 revision 2026-09-14 of whitfield_grant; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -115960,7 +116187,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised whitfield_grant; inherited motivation mapping, not a validity claim",
+        "reference": "Relational — the numbers in Ms. Whitfield's application · TEXT39 revision 2026-09-14 of whitfield_grant; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -116164,7 +116391,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised who_gets_the_credit; inherited motivation mapping, not a validity claim",
+        "reference": "Relational — whose work it was · TEXT39 revision 2026-09-14 of who_gets_the_credit; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -116198,7 +116425,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised who_gets_the_credit; inherited motivation mapping, not a validity claim",
+        "reference": "Relational — whose work it was · TEXT39 revision 2026-09-14 of who_gets_the_credit; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -116232,7 +116459,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised who_gets_the_credit; inherited motivation mapping, not a validity claim",
+        "reference": "Relational — whose work it was · TEXT39 revision 2026-09-14 of who_gets_the_credit; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -116266,7 +116493,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised who_gets_the_credit; inherited motivation mapping, not a validity claim",
+        "reference": "Relational — whose work it was · TEXT39 revision 2026-09-14 of who_gets_the_credit; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },
@@ -116300,7 +116527,7 @@
       ],
       "provenance": {
         "sourceDocument": "TEXT39 assignment board",
-        "reference": "2026-09-14; revised who_gets_the_credit; inherited motivation mapping, not a validity claim",
+        "reference": "Relational — whose work it was · TEXT39 revision 2026-09-14 of who_gets_the_credit; inherited motivation mapping, not a validity claim",
         "register": "lived-relational",
         "reviewVerdict": "non-transparent"
       },

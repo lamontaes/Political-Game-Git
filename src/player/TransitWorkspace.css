@@ -35,3 +35,35 @@
   align-items: center;
   margin: 0.4rem 0;
 }
+
+.transit-workspace .transit-cash-guidance,
+.transit-workspace .transit-outcome {
+  display: grid;
+  gap: 0.4rem;
+  margin-block: 0.75rem;
+  padding: 0.7rem;
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.3rem;
+}
+
+.transit-workspace .transit-outcome h4 {
+  margin: 0;
+}
+
+.transit-workspace .transit-periods {
+  display: grid;
+  gap: 0.5rem;
+  padding-inline-start: 1.25rem;
+}
+
+.transit-workspace .transit-reports {
+  display: grid;
+  gap: 0.5rem;
+  margin-block-start: 1.25rem;
+}
+
+.transit-workspace .transit-continue {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}

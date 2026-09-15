@@ -1,0 +1,3089 @@
+{
+  "admittedLocalRoutes": [
+    {
+      "actions": [
+        "introduce-ordinance",
+        "pass-ordinance",
+        "pass-appropriation"
+      ],
+      "name": "CITY OF CHARLOTTESVILLE",
+      "state": "VA",
+      "unitId": "gus2025:194177"
+    },
+    {
+      "actions": ["introduce-ordinance", "pass-appropriation"],
+      "name": "CITY OF RICHMOND",
+      "state": "VA",
+      "unitId": "gus2025:194178"
+    },
+    {
+      "actions": ["introduce-ordinance"],
+      "name": "CITY OF CARSON CITY",
+      "state": "NV",
+      "unitId": "gus2025:194943"
+    }
+  ],
+  "catalog": {
+    "artifactId": "census-gov-units-2025-listing-zip",
+    "asOf": "2025-06-30",
+    "coverage": "Every general-purpose government in the Census Bureau's 2025 Government Units listing. Special districts and school districts are not general-purpose units and are not in this index. Identity and geography only; no legal power is asserted."
+  },
+  "evaluatedOn": "2026-01-05",
+  "loadedRecords": [
+    {
+      "catalogUnitId": "gus2025:194463",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ak-anchorage",
+      "mapping": "mapped",
+      "state": "AK"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ak-fairbanks",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "AK"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ak-fairbanks-north-star-borough",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "AK"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ak-juneau",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "AK"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ak-north-pole",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "AK"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-al-birmingham",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "AL"
+    },
+    {
+      "catalogUnitId": "gus2025:160683",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-al-mobile",
+      "mapping": "mapped",
+      "state": "AL"
+    },
+    {
+      "catalogUnitId": "gus2025:100091",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-al-montgomery",
+      "mapping": "mapped",
+      "state": "AL"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ar-fayetteville",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "AR"
+    },
+    {
+      "catalogUnitId": "gus2025:161064",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ar-fort-smith",
+      "mapping": "mapped",
+      "state": "AR"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ar-little-rock",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "AR"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-az-mesa",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "AZ"
+    },
+    {
+      "catalogUnitId": "gus2025:207536",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-az-phoenix",
+      "mapping": "mapped",
+      "state": "AZ"
+    },
+    {
+      "catalogUnitId": "gus2025:160840",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-az-tucson",
+      "mapping": "mapped",
+      "state": "AZ"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ca-los-angeles",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "CA"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ca-oakland",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "CA"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription", "reference-observation"],
+      "governmentKey": "us-ca-sacramento",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "CA"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ca-san-diego",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "CA"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ca-san-francisco",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "CA"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-co-colorado-springs",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "CO"
+    },
+    {
+      "catalogUnitId": "gus2025:194647",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-co-denver",
+      "mapping": "mapped",
+      "state": "CO"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-co-pueblo",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "CO"
+    },
+    {
+      "catalogUnitId": "gus2025:124038",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ct-bridgeport",
+      "mapping": "mapped",
+      "state": "CT"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ct-hartford",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "CT"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ct-new-haven",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "CT"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-dc-washington",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "DC"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-de-newark",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "DE"
+    },
+    {
+      "catalogUnitId": "gus2025:161529",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-de-wilmington",
+      "mapping": "mapped",
+      "state": "DE"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-fl-jacksonville",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "FL"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-fl-miami",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "FL"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-fl-orlando",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "FL"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-fl-pensacola",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "FL"
+    },
+    {
+      "catalogUnitId": "gus2025:161650",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-fl-tallahassee",
+      "mapping": "mapped",
+      "state": "FL"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ga-atlanta",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "GA"
+    },
+    {
+      "catalogUnitId": "gus2025:194679",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ga-augusta-richmond-county",
+      "mapping": "mapped",
+      "state": "GA"
+    },
+    {
+      "catalogUnitId": "gus2025:124438",
+      "evidence": ["research-transcription", "reference-observation"],
+      "governmentKey": "us-ga-savannah",
+      "mapping": "mapped",
+      "state": "GA"
+    },
+    {
+      "catalogUnitId": "gus2025:184856",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-hi-hawaii-county",
+      "mapping": "mapped",
+      "state": "HI"
+    },
+    {
+      "catalogUnitId": "gus2025:183701",
+      "evidence": ["research-transcription", "reference-observation"],
+      "governmentKey": "us-hi-honolulu",
+      "mapping": "mapped",
+      "state": "HI"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-hi-kauai-county",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "HI"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-hi-maui-county",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "HI"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ia-cedar-rapids",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "IA"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ia-davenport",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "IA"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ia-des-moines",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "IA"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ia-dubuque",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "IA"
+    },
+    {
+      "catalogUnitId": "gus2025:164452",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ia-iowa-city",
+      "mapping": "mapped",
+      "state": "IA"
+    },
+    {
+      "catalogUnitId": "gus2025:162035",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-id-boise",
+      "mapping": "mapped",
+      "state": "ID"
+    },
+    {
+      "catalogUnitId": "gus2025:162037",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-id-meridian",
+      "mapping": "mapped",
+      "state": "ID"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription", "reference-observation"],
+      "governmentKey": "us-il-chicago",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "IL"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-il-peoria",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "IL"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription", "reference-observation"],
+      "governmentKey": "us-il-springfield",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "IL"
+    },
+    {
+      "catalogUnitId": "gus2025:211708",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-in-bloomington",
+      "mapping": "mapped",
+      "state": "IN"
+    },
+    {
+      "catalogUnitId": "gus2025:163465",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-in-fort-wayne",
+      "mapping": "mapped",
+      "state": "IN"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-in-indianapolis-marion",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "IN"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ks-overland-park",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "KS"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ks-topeka",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "KS"
+    },
+    {
+      "catalogUnitId": "gus2025:201810",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ks-wichita",
+      "mapping": "mapped",
+      "state": "KS"
+    },
+    {
+      "catalogUnitId": "gus2025:212021",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ky-bowling-green",
+      "mapping": "mapped",
+      "state": "KY"
+    },
+    {
+      "catalogUnitId": "gus2025:165831",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ky-lexington-fayette-ucg",
+      "mapping": "mapped",
+      "state": "KY"
+    },
+    {
+      "catalogUnitId": "gus2025:165866",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ky-louisville-jefferson-metro",
+      "mapping": "mapped",
+      "state": "KY"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-la-baton-rouge",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "LA"
+    },
+    {
+      "catalogUnitId": "gus2025:166094",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-la-new-orleans",
+      "mapping": "mapped",
+      "state": "LA"
+    },
+    {
+      "catalogUnitId": "gus2025:127810",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-la-shreveport",
+      "mapping": "mapped",
+      "state": "LA"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ma-boston",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "MA"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ma-cambridge",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "MA"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ma-lexington",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "MA"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ma-provincetown",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "MA"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription", "reference-observation"],
+      "governmentKey": "us-ma-springfield",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "MA"
+    },
+    {
+      "catalogUnitId": "gus2025:106079",
+      "evidence": ["research-transcription", "reference-observation"],
+      "governmentKey": "us-ma-worcester",
+      "mapping": "mapped",
+      "state": "MA"
+    },
+    {
+      "catalogUnitId": "gus2025:128028",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-md-annapolis",
+      "mapping": "mapped",
+      "state": "MD"
+    },
+    {
+      "catalogUnitId": "gus2025:208246",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-md-baltimore",
+      "mapping": "mapped",
+      "state": "MD"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-md-rockville",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "MD"
+    },
+    {
+      "catalogUnitId": "gus2025:166166",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-me-bangor",
+      "mapping": "mapped",
+      "state": "ME"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-me-blue-hill",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "ME"
+    },
+    {
+      "catalogUnitId": "gus2025:166159",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-me-lewiston",
+      "mapping": "mapped",
+      "state": "ME"
+    },
+    {
+      "catalogUnitId": "gus2025:166160",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-me-portland",
+      "mapping": "mapped",
+      "state": "ME"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-mi-detroit",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "MI"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-mi-grand-rapids",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "MI"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-mi-lansing",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "MI"
+    },
+    {
+      "catalogUnitId": "gus2025:106897",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-mn-duluth",
+      "mapping": "mapped",
+      "state": "MN"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription", "reference-observation"],
+      "governmentKey": "us-mn-minneapolis",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "MN"
+    },
+    {
+      "catalogUnitId": "gus2025:167605",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-mn-saint-paul",
+      "mapping": "mapped",
+      "state": "MN"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-mo-kansas-city",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "MO"
+    },
+    {
+      "catalogUnitId": "gus2025:168896",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-mo-springfield",
+      "mapping": "mapped",
+      "state": "MO"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-mo-st-louis",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "MO"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ms-gulfport",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "MS"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ms-jackson",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "MS"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-mt-billings",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "MT"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-mt-helena",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "MT"
+    },
+    {
+      "catalogUnitId": "gus2025:169464",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-mt-missoula",
+      "mapping": "mapped",
+      "state": "MT"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-nc-charlotte",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "NC"
+    },
+    {
+      "catalogUnitId": "gus2025:171305",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-nc-raleigh",
+      "mapping": "mapped",
+      "state": "NC"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-nd-bismarck",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "ND"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-nd-fargo",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "ND"
+    },
+    {
+      "catalogUnitId": "gus2025:110222",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-nd-grand-forks",
+      "mapping": "mapped",
+      "state": "ND"
+    },
+    {
+      "catalogUnitId": "gus2025:184191",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ne-grand-island",
+      "mapping": "mapped",
+      "state": "NE"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ne-lincoln",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "NE"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ne-omaha",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "NE"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-nh-bradford",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "NH"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-nh-canterbury",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "NH"
+    },
+    {
+      "catalogUnitId": "gus2025:204917",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-nh-concord",
+      "mapping": "mapped",
+      "state": "NH"
+    },
+    {
+      "catalogUnitId": "gus2025:208744",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-nh-enfield",
+      "mapping": "mapped",
+      "state": "NH"
+    },
+    {
+      "catalogUnitId": "gus2025:170001",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-nh-manchester",
+      "mapping": "mapped",
+      "state": "NH"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-nh-nashua",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "NH"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-nh-new-london",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "NH"
+    },
+    {
+      "catalogUnitId": "gus2025:193734",
+      "evidence": ["research-transcription", "reference-observation"],
+      "governmentKey": "us-nj-jersey-city",
+      "mapping": "mapped",
+      "state": "NJ"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription", "reference-observation"],
+      "governmentKey": "us-nj-newark",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "NJ"
+    },
+    {
+      "catalogUnitId": "gus2025:109096",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-nj-trenton",
+      "mapping": "mapped",
+      "state": "NJ"
+    },
+    {
+      "catalogUnitId": "gus2025:170378",
+      "evidence": ["research-transcription", "reference-observation"],
+      "governmentKey": "us-nm-albuquerque",
+      "mapping": "mapped",
+      "state": "NM"
+    },
+    {
+      "catalogUnitId": "gus2025:109329",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-nm-santa-fe",
+      "mapping": "mapped",
+      "state": "NM"
+    },
+    {
+      "catalogUnitId": "gus2025:194943",
+      "evidence": ["enacted-text", "research-transcription"],
+      "governmentKey": "us-nv-carson-city",
+      "mapping": "mapped",
+      "state": "NV"
+    },
+    {
+      "catalogUnitId": "gus2025:169988",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-nv-las-vegas",
+      "mapping": "mapped",
+      "state": "NV"
+    },
+    {
+      "catalogUnitId": "gus2025:169993",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-nv-reno",
+      "mapping": "mapped",
+      "state": "NV"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ny-buffalo",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "NY"
+    },
+    {
+      "catalogUnitId": "gus2025:194805",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ny-new-york-city",
+      "mapping": "mapped",
+      "state": "NY"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription", "reference-observation"],
+      "governmentKey": "us-oh-cincinnati",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "OH"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-oh-cleveland",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "OH"
+    },
+    {
+      "catalogUnitId": "gus2025:209050",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-oh-columbus",
+      "mapping": "mapped",
+      "state": "OH"
+    },
+    {
+      "catalogUnitId": "gus2025:209170",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ok-oklahoma-city",
+      "mapping": "mapped",
+      "state": "OK"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ok-tulsa",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "OK"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["enacted-text", "research-transcription"],
+      "governmentKey": "us-or-portland",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "OR"
+    },
+    {
+      "catalogUnitId": "gus2025:133602",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-pa-philadelphia",
+      "mapping": "mapped",
+      "state": "PA"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-pa-pittsburgh",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "PA"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription", "reference-observation"],
+      "governmentKey": "us-ri-providence",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "RI"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-sc-charleston",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "SC"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-sc-columbia",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "SC"
+    },
+    {
+      "catalogUnitId": "gus2025:209465",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-sd-aberdeen",
+      "mapping": "mapped",
+      "state": "SD"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-sd-sioux-falls",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "SD"
+    },
+    {
+      "catalogUnitId": "gus2025:175728",
+      "evidence": ["research-transcription", "reference-observation"],
+      "governmentKey": "us-tn-nashville-davidson-county",
+      "mapping": "mapped",
+      "state": "TN"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-tx-austin",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "TX"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-ut-salt-lake-city",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "UT"
+    },
+    {
+      "catalogUnitId": "gus2025:194177",
+      "evidence": ["enacted-text"],
+      "governmentKey": "us-va-charlottesville",
+      "mapping": "mapped",
+      "state": "VA"
+    },
+    {
+      "catalogUnitId": "gus2025:194178",
+      "evidence": ["enacted-text", "research-transcription"],
+      "governmentKey": "us-va-richmond",
+      "mapping": "mapped",
+      "state": "VA"
+    },
+    {
+      "catalogUnitId": "gus2025:176546",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-vt-burlington",
+      "mapping": "mapped",
+      "state": "VT"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-vt-danville",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "VT"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-wa-seattle",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "WA"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-wa-spokane",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "WA"
+    },
+    {
+      "catalogUnitId": "gus2025:209777",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-wi-madison",
+      "mapping": "mapped",
+      "state": "WI"
+    },
+    {
+      "catalogUnitId": "gus2025:136562",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-wi-milwaukee",
+      "mapping": "mapped",
+      "state": "WI"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-wv-charleston",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "WV"
+    },
+    {
+      "catalogUnitId": "gus2025:176966",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-wv-huntington",
+      "mapping": "mapped",
+      "state": "WV"
+    },
+    {
+      "catalogUnitId": null,
+      "evidence": ["research-transcription", "reference-observation"],
+      "governmentKey": "us-wv-morgantown",
+      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "state": "WV"
+    },
+    {
+      "catalogUnitId": "gus2025:136964",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-wy-casper",
+      "mapping": "mapped",
+      "state": "WY"
+    },
+    {
+      "catalogUnitId": "gus2025:115492",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-wy-cheyenne",
+      "mapping": "mapped",
+      "state": "WY"
+    },
+    {
+      "catalogUnitId": "gus2025:177842",
+      "evidence": ["research-transcription"],
+      "governmentKey": "us-wy-laramie",
+      "mapping": "mapped",
+      "state": "WY"
+    }
+  ],
+  "resolverVersion": "rules-capability/v1",
+  "scopeNote": "Rule admission only. An admitted field is a compiled, dated rule the resolver will apply; it is not proof that a player can reach the action, that an office or contest exists in a save, or that every clause of local law was read. Special districts and school districts are outside the general-purpose catalog.",
+  "states": [
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 531,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 531,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "AL"
+    },
+    {
+      "candidacyPack": "us-ak-legislature-v1:candidacy",
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": "bicameral",
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": ["Alaska Const. Art. II, Sec. 1"],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": ["Alaska Const. Art. II, Sec. 1"],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 164,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 164,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [
+        {
+          "enterTerm": "refused",
+          "enterTermMissing": ["term.years"],
+          "officeKey": "us-ak-legislature-v1:house",
+          "seats": 40,
+          "standForOffice": "refused",
+          "standForOfficeMissing": ["qualification.minimumAge"]
+        },
+        {
+          "enterTerm": "refused",
+          "enterTermMissing": ["term.years"],
+          "officeKey": "us-ak-legislature-v1:senate",
+          "seats": 20,
+          "standForOffice": "refused",
+          "standForOfficeMissing": ["qualification.minimumAge"]
+        }
+      ],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "AK"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 106,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 106,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "AZ"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 575,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 575,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "AR"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 540,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 540,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "CA"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 335,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 335,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "CO"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 178,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 178,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "CT"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 60,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 60,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "DE"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 477,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 477,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "FL"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 689,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 689,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "GA"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 4,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 4,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "HI"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 243,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 243,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "ID"
+    },
+    {
+      "candidacyPack": "us-il-general-assembly-v1:candidacy",
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": "bicameral",
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": ["Ill. Const. art. IV, § 8", "Ill. Const. art. IV, § 1"],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": ["Ill. Const. art. IV, § 8", "Ill. Const. art. IV, § 1"],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 2821,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 2821,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [
+        {
+          "enterTerm": "refused",
+          "enterTermMissing": ["term.years"],
+          "officeKey": "us-il-general-assembly-v1:house",
+          "seats": 118,
+          "standForOffice": "refused",
+          "standForOfficeMissing": ["qualification.minimumAge"]
+        },
+        {
+          "enterTerm": "refused",
+          "enterTermMissing": ["term.years"],
+          "officeKey": "us-il-general-assembly-v1:senate",
+          "seats": 59,
+          "standForOffice": "refused",
+          "standForOfficeMissing": ["qualification.minimumAge"]
+        }
+      ],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "IL"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 1660,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 1660,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "IN"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 1041,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 1041,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "IA"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 1981,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 1981,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "KS"
+    },
+    {
+      "candidacyPack": "us-ky-general-assembly-v1:candidacy",
+      "enterTermAdmitted": 2,
+      "isState": true,
+      "legislativeStructure": "bicameral",
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": ["Ky. Const. Sec. 46"],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": ["Ky. Const. Sec. 46"],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 530,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 530,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [
+        {
+          "enterTerm": "admitted",
+          "enterTermMissing": [],
+          "officeKey": "us-ky-general-assembly-v1:house",
+          "seats": null,
+          "standForOffice": "refused",
+          "standForOfficeMissing": ["qualification.minimumAge"]
+        },
+        {
+          "enterTerm": "admitted",
+          "enterTermMissing": [],
+          "officeKey": "us-ky-general-assembly-v1:senate",
+          "seats": null,
+          "standForOffice": "refused",
+          "standForOfficeMissing": ["qualification.minimumAge"]
+        }
+      ],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "KY"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 364,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 364,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "LA"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 497,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 497,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "ME"
+    },
+    {
+      "candidacyPack": "us-md-general-assembly-v1:candidacy",
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": "bicameral",
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [
+            "Md. Const. art. III, § 28",
+            "Md. Const. art. III, § 2"
+          ],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [
+            "Md. Const. art. III, § 28",
+            "Md. Const. art. III, § 2"
+          ],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 180,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 180,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [
+        {
+          "enterTerm": "refused",
+          "enterTermMissing": ["term.years"],
+          "officeKey": "us-md-general-assembly-v1:house",
+          "seats": 141,
+          "standForOffice": "refused",
+          "standForOfficeMissing": ["qualification.minimumAge"]
+        },
+        {
+          "enterTerm": "refused",
+          "enterTermMissing": ["term.years"],
+          "officeKey": "us-md-general-assembly-v1:senate",
+          "seats": 47,
+          "standForOffice": "refused",
+          "standForOfficeMissing": ["qualification.minimumAge"]
+        }
+      ],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "MD"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": ["Amend. Art. CI, § 1"],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": ["Amend. Art. CI, § 2"],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 357,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 357,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "MA"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 1856,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 1856,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "MI"
+    },
+    {
+      "candidacyPack": "us-mn-legislature-v1:candidacy",
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": "bicameral",
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": ["Minn. Const. art. IV, § 22", "Minn. Stat. § 2.021"],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": ["Minn. Const. art. IV, § 22", "Minn. Stat. § 2.021"],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 2720,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 2720,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [
+        {
+          "enterTerm": "refused",
+          "enterTermMissing": ["term.years"],
+          "officeKey": "us-mn-legislature-v1:house",
+          "seats": 134,
+          "standForOffice": "refused",
+          "standForOfficeMissing": ["qualification.minimumAge"]
+        },
+        {
+          "enterTerm": "refused",
+          "enterTermMissing": ["term.years"],
+          "officeKey": "us-mn-legislature-v1:senate",
+          "seats": 67,
+          "standForOffice": "refused",
+          "standForOfficeMissing": ["qualification.minimumAge"]
+        }
+      ],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "MN"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 381,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 381,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "MS"
+    },
+    {
+      "candidacyPack": "us-mo-general-assembly-v1:candidacy",
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": "bicameral",
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [
+            "Mo. Const. art. III, § 27",
+            "Mo. Const. art. III, § 3(a)",
+            "Mo. Const. art. III, § 4"
+          ],
+          "missing": ["qualification.stateResidenceYears"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [
+            "Mo. Const. art. III, § 27",
+            "Mo. Const. art. III, § 5",
+            "Mo. Const. art. III, § 6"
+          ],
+          "missing": ["qualification.stateResidenceYears"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 1337,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 1337,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [
+        {
+          "enterTerm": "refused",
+          "enterTermMissing": ["term.years"],
+          "officeKey": "us-mo-general-assembly-v1:house",
+          "seats": 163,
+          "standForOffice": "refused",
+          "standForOfficeMissing": ["qualification.stateResidenceYears"]
+        },
+        {
+          "enterTerm": "refused",
+          "enterTermMissing": ["term.years"],
+          "officeKey": "us-mo-general-assembly-v1:senate",
+          "seats": 34,
+          "standForOffice": "refused",
+          "standForOfficeMissing": ["qualification.stateResidenceYears"]
+        }
+      ],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "MO"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 183,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 183,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "MT"
+    },
+    {
+      "candidacyPack": "us-ne-legislature-v1:candidacy",
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": "unicameral",
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "unicameral",
+          "citations": ["Lawmaking in Nebraska"],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 971,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 971,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [
+        {
+          "enterTerm": "refused",
+          "enterTermMissing": ["term.years"],
+          "officeKey": "us-ne-legislature-v1:legislature",
+          "seats": null,
+          "standForOffice": "refused",
+          "standForOfficeMissing": ["qualification.minimumAge"]
+        }
+      ],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "NE"
+    },
+    {
+      "candidacyPack": "us-nv-legislature-v1:candidacy",
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": "bicameral",
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": ["Nev. Const. art. 4, § 18", "NRS 218A.200"],
+          "missing": [],
+          "standForOffice": "admitted"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": ["Nev. Const. art. 4, § 18"],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 34,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 1,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 35,
+        "withCompiledEnactedInstrument": 1
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [
+        {
+          "enterTerm": "refused",
+          "enterTermMissing": ["term.years"],
+          "officeKey": "us-nv-legislature-v1:assembly",
+          "seats": null,
+          "standForOffice": "admitted",
+          "standForOfficeMissing": []
+        },
+        {
+          "enterTerm": "refused",
+          "enterTermMissing": ["term.years"],
+          "officeKey": "us-nv-legislature-v1:senate",
+          "seats": null,
+          "standForOffice": "refused",
+          "standForOfficeMissing": ["qualification.minimumAge"]
+        }
+      ],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 1,
+      "state": "NV"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 246,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 246,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "NH"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": ["N.J. Const. art. IV, § I, ¶ 2"],
+          "missing": [],
+          "standForOffice": "admitted"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": ["N.J. Const. art. IV, § I, ¶ 2"],
+          "missing": [],
+          "standForOffice": "admitted"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 585,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 585,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "NJ"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 138,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 138,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "NM"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 1581,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 1581,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "NY"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 651,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 651,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "NC"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 1710,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 1710,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "ND"
+    },
+    {
+      "candidacyPack": "us-oh-general-assembly-v1:candidacy",
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": "bicameral",
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [
+            "Ohio Const. art. II, § 15",
+            "Ohio Const. art. XI, § 3(A)",
+            "Ohio Const. art. II, § 3"
+          ],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [
+            "Ohio Const. art. II, § 15",
+            "Ohio Const. art. XI, § 3(A)",
+            "Ohio Const. art. II, § 3"
+          ],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 2321,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 2321,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [
+        {
+          "enterTerm": "refused",
+          "enterTermMissing": ["term.years"],
+          "officeKey": "us-oh-general-assembly-v1:house",
+          "seats": 99,
+          "standForOffice": "refused",
+          "standForOfficeMissing": ["qualification.minimumAge"]
+        },
+        {
+          "enterTerm": "refused",
+          "enterTermMissing": ["term.years"],
+          "officeKey": "us-oh-general-assembly-v1:senate",
+          "seats": 33,
+          "standForOffice": "refused",
+          "standForOfficeMissing": ["qualification.minimumAge"]
+        }
+      ],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "OH"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 672,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 672,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "OK"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 277,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 277,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "OR"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 2623,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 2623,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "PA"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 39,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 39,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "RI"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 317,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 317,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "SC"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 1268,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 1268,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "SD"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 437,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 437,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "TN"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 1480,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 1480,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "TX"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 284,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 284,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "UT"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 288,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 288,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "VT"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 322,
+        "identityOnly": 0,
+        "inheritedDefaultOnly": 320,
+        "introduceOrdinanceAdmitted": 2,
+        "passAppropriationAdmitted": 2,
+        "passOrdinanceAdmitted": 1,
+        "units": 322,
+        "withCompiledEnactedInstrument": 2
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "VA"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 321,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 321,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "WA"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 285,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 285,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "WV"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 1920,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 1920,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "WI"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": true,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 122,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 122,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "WY"
+    },
+    {
+      "candidacyPack": null,
+      "enterTermAdmitted": 0,
+      "isState": false,
+      "legislativeStructure": null,
+      "legislatorQualifications": [
+        {
+          "chamberFamily": "lower",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        },
+        {
+          "chamberFamily": "upper",
+          "citations": [],
+          "missing": ["qualification.minimumAge"],
+          "standForOffice": "refused"
+        }
+      ],
+      "localGovernments": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 1,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 1,
+        "withCompiledEnactedInstrument": 0
+      },
+      "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "offices": [],
+      "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "standForOfficeAdmitted": 0,
+      "state": "DC"
+    }
+  ],
+  "totals": {
+    "byUnitType": {
+      "county": {
+        "appropriationVoteRuleAdmitted": 95,
+        "identityOnly": 2936,
+        "inheritedDefaultOnly": 95,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 3031,
+        "withCompiledEnactedInstrument": 0
+      },
+      "municipality": {
+        "appropriationVoteRuleAdmitted": 227,
+        "identityOnly": 19261,
+        "inheritedDefaultOnly": 225,
+        "introduceOrdinanceAdmitted": 3,
+        "passAppropriationAdmitted": 2,
+        "passOrdinanceAdmitted": 1,
+        "units": 19489,
+        "withCompiledEnactedInstrument": 3
+      },
+      "township": {
+        "appropriationVoteRuleAdmitted": 0,
+        "identityOnly": 16184,
+        "inheritedDefaultOnly": 0,
+        "introduceOrdinanceAdmitted": 0,
+        "passAppropriationAdmitted": 0,
+        "passOrdinanceAdmitted": 0,
+        "units": 16184,
+        "withCompiledEnactedInstrument": 0
+      }
+    },
+    "catalogUnits": 38704,
+    "loadedMunicipalRecords": 144,
+    "loadedRecordsMappedToCatalog": 63,
+    "missingMandatoryLocalFields": {
+      "body.seats": 38701,
+      "ordinance.introductionToPassage": 2
+    },
+    "states": 50,
+    "statesWithAnyStandForOfficeAdmitted": 1,
+    "statesWithAnyTermRuleAdmitted": 1,
+    "statesWithLegislativePack": 9,
+    "unitsWithAdmittedLocalRoute": 3
+  }
+}

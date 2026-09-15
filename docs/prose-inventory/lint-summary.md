@@ -22,10 +22,10 @@ defect than the one it was aimed at.
 
 ## Repetition
 
-- 2938 templates, 2720 distinct texts.
-- 84 exact duplicate groups.
-- 92 normalized duplicate groups.
-- 25 near-duplicate clusters (Jaccard ≥ 0.72).
+- 2944 templates, 2729 distinct texts.
+- 81 exact duplicate groups.
+- 90 normalized duplicate groups.
+- 26 near-duplicate clusters (Jaccard ≥ 0.72).
 
 Exact duplicate text at two semantic locations is not itself a defect: each
 keeps its own ID, and two banks may legitimately both offer "Say nothing".
@@ -36,7 +36,7 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | --- | --- | --- |
 | `no time passes` | 111 | 1 |
 | `in front of` | 24 | 7 |
-| `no instrument read` | 21 | 1 |
+| `no instrument read` | 22 | 1 |
 | `there is a` | 20 | 4 |
 | `out of the` | 18 | 5 |
 | `it is not` | 17 | 3 |
@@ -45,27 +45,27 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `you want to` | 16 | 4 |
 | `the player asked` | 15 | 1 |
 | `a long time` | 14 | 4 |
+| `instrument read establishes` | 14 | 2 |
 | `the end of` | 14 | 4 |
 | `the two of` | 14 | 4 |
 | `at the end` | 13 | 3 |
 | `at the end of` | 13 | 3 |
 | `existing saves are` | 13 | 1 |
 | `existing saves are unchanged` | 13 | 1 |
-| `instrument read establishes` | 13 | 2 |
 | `saves are unchanged` | 13 | 1 |
 | `and it is` | 12 | 5 |
 | `has asked you` | 12 | 4 |
+| `no instrument read establishes` | 12 | 1 |
 | `proof of income` | 12 | 2 |
 | `the two of you` | 12 | 4 |
 | `two of you` | 12 | 4 |
-| `is on the` | 11 | 6 |
 
 ### Most repeated sentence openings
 
 | Opening | Count |
 | --- | --- |
 | `no time passes` | 111 |
-| `no instrument read` | 20 |
+| `no instrument read` | 21 |
 | `you tell you` | 16 |
 | `the player asked` | 15 |
 | `there is a` | 12 |

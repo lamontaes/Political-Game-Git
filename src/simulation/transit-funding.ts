@@ -17,6 +17,7 @@ import {
 import { legislativeWorkKey } from "./legislative-work-key";
 import { rulePackById } from "./legislature-rule-packs";
 import { money } from "./resources";
+import { PUBLIC_FUNDING_DEFAULT_DATE_JURISDICTION_KEY } from "./public-fiscal";
 import type { EntityId, IsoDate, MoneyAmount, World } from "./types";
 
 export interface TransitFundingMandate {
@@ -72,9 +73,12 @@ export function resolveTransitFunding(
   );
   if (!enactment || measurePosition(world, measureId).outcome !== "enacted")
     return no("The transit appropriation has not become law.");
-  if (measure.jurisdictionId !== stateJurisdictionForKey("US-AK")?.id)
+  if (
+    measure.jurisdictionId !==
+    stateJurisdictionForKey(PUBLIC_FUNDING_DEFAULT_DATE_JURISDICTION_KEY)?.id
+  )
     return no(
-      "The shared funding adapter currently supports Alaska state authority only.",
+      "No sourced effective-date and availability rule is compiled for this state's appropriations.",
     );
   const availableAt = addDays(enactment.resolvedAt, 90); // Explicit pinned prospective clause, not a generic default.
   if (enactment.effectiveAt !== null && enactment.effectiveAt !== availableAt)

@@ -82,6 +82,27 @@ const moneyValue = (amount: MoneyAmount) => ({
   money: amount,
 });
 
+/** Exact paid contract hours in words. The authored price is a power of ten
+ * cents per hour, so a partial hour keeps its exact decimal, never a rounding. */
+export function serviceHoursText(paidMinorUnits: number): string {
+  const price = TRANSIT_CONTRACT_PRICE_MINOR_UNITS_PER_HOUR;
+  const whole = Math.floor(paidMinorUnits / price);
+  const rest = paidMinorUnits % price;
+  const text =
+    rest === 0
+      ? String(whole)
+      : `${whole}.${String(rest)
+          .padStart(String(price).length - 1, "0")
+          .replace(/0+$/, "")}`;
+  return `${text} vehicle-service ${text === "1" ? "hour" : "hours"}`;
+}
+export function dollarsText(amount: MoneyAmount): string {
+  return (amount.minorUnits / 100).toLocaleString("en-US", {
+    style: "currency",
+    currency: amount.currency,
+  });
+}
+
 /** F supplies the public payment writer; T neither creates nor credits accounts. */
 export type TransitPaymentRequest = PublicPaymentInput;
 export type TransitPaymentWriter = (
@@ -551,8 +572,8 @@ export function deliverTransitStage(
     visibility: "private",
     tags: ["transit.service"],
     summary: refusal
-      ? `Service period was not delivered: ${refusal}`
-      : `Recorded ${paid.minorUnits}/${TRANSIT_CONTRACT_PRICE_MINOR_UNITS_PER_HOUR} added vehicle-service hours against ${paid.minorUnits} USD cents paid. This is a modeled contract record, not observed real-world effectiveness.`,
+      ? `The service period ending ${due.dueAt} was not delivered, and nothing was paid. ${refusal}`
+      : `Delivered ${serviceHoursText(paid.minorUnits)} of added contract service for the period ending ${due.dueAt}, paid with ${dollarsText(paid)} from the public account. This is a modeled contract record, not observed ridership, travel time or access.`,
     context: {
       location: null,
       socialContext: "Completed service-period settlement",

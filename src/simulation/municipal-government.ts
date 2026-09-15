@@ -125,6 +125,13 @@ export interface MunicipalProcedure {
   readonly overrideAbsence: string | null;
   readonly effectivePublication: string | null;
   readonly committeeReferral: string | null;
+  /** The source layer's state for committee referral, verbatim. */
+  readonly committeeReferralState?: string;
+  /** Least time between introduction and passage, where a source fixed one. */
+  readonly introductionToPassage?: {
+    readonly minimumInterveningDays: number;
+    readonly sameDayException: string | null;
+  } | null;
 }
 
 export interface MunicipalBudget {
@@ -720,6 +727,15 @@ export function municipalRulePackFor(
           everyMeasureMustBeHeard: unknownRule(
             "No instrument read guarantees a hearing for every measure here.",
           ),
+          // Only an enacted procedure that was read and puts no referral
+          // between introduction and passage opens the floor directly.
+          floorWithoutReferral:
+            reading.procedure.committeeReferralState ===
+              "NO_REQUIREMENT_FOUND" && reading.procedure.introductionToPassage
+              ? knownRule(true, municipalRuleSourceRef(reading, "referral"))
+              : unknownRule(
+                  "No instrument read establishes that an ordinance reaches the floor without a committee.",
+                ),
           source: municipalRuleSourceRef(reading, "referral"),
         },
         committees: [],

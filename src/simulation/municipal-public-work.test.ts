@@ -213,7 +213,38 @@ describe("the municipal corpus reaches the game", () => {
 });
 
 describe("procedure is a capability", () => {
-  it.each(["us-va-charlottesville", "us-va-richmond", "us-nv-carson-city"])(
+  it("opens Charlottesville's ordinance route only on the City Code it read", () => {
+    const government = municipalGovernmentByKey("us-va-charlottesville")!;
+    const result = municipalRulePackFor(government);
+    expect(result.ok).toBe(true);
+    if (!result.ok) throw new Error(JSON.stringify(result.missing));
+    const council = result.pack.chambers[0]!;
+    expect(council.floorStages.map((stage) => stage.stageKey)).toEqual([
+      "final-passage",
+    ]);
+    expect(council.referral.floorWithoutReferral).toMatchObject({
+      kind: "known",
+      value: true,
+      source: { citation: "City Code §§ 2-97, 2-124" },
+    });
+    expect(result.pack.executive.presentmentRequired).toMatchObject({
+      kind: "known",
+      value: false,
+    });
+    expect(result.pack.executive.override.kind).toBe("not-applicable");
+    expect(result.pack.enactment.defaultEffectiveRule).toMatchObject({
+      kind: "known",
+      source: { citation: "City Code § 2-99" },
+    });
+    const procedure = primaryReading(government).procedure;
+    expect(procedure.introductionToPassage).toEqual({
+      minimumInterveningDays: 3,
+      sameDayException: "a four-fifths (⅘) vote of the city council",
+    });
+    expect(procedure.mayoralActionState).toBe("NOT_APPLICABLE");
+  });
+
+  it.each(["us-va-richmond", "us-nv-carson-city"])(
     "keeps unsupported progression closed for %s without hiding the government",
     (key) => {
       const government = municipalGovernmentByKey(key)!;
@@ -275,7 +306,7 @@ describe("a resident and a councilmember are not the same person", () => {
     expect(vote.kind).toBe("standing");
     expect(vote.reason).toMatch(/does not put you on it/);
 
-    // Sitting through the whole meeting changes nothing about the seat.
+    // A seat, not attendance, is what carries the vote the City Code sets out.
     const member = people[1]!;
     const memberVote = municipalActionAuthority(seated, {
       governmentKey,
@@ -283,8 +314,7 @@ describe("a resident and a councilmember are not the same person", () => {
       residentPlaceGeoid: government.placeGeoid,
       action: "vote-on-ordinance",
     });
-    expect(memberVote.ok).toBe(false);
-    if (!memberVote.ok) expect(memberVote.kind).toBe("evidence");
+    expect(memberVote.ok).toBe(true);
   }, 60000);
 
   it("says the room is open and still refuses to invent a right to speak", () => {
@@ -575,18 +605,24 @@ describe("the strongest compiled local governing route", () => {
     expect(afterReload.ok).toBe(false);
     if (!afterReload.ok) expect(afterReload.world).toBe(reloaded);
 
+    const residentOrdinance = introduceMunicipalOrdinance(attended.world, {
+      governmentKey,
+      designation: "Ord. 1",
+      shortTitle: "Resident ordinance",
+      summary: "A resident is not a councilor.",
+    });
+    expect(residentOrdinance.ok).toBe(false);
+
     const ordinance = introduceMunicipalOrdinance(memberWorld, {
       governmentKey,
       designation: "Ord. 1",
       shortTitle: "Authored test ordinance",
-      summary: "Must not invent missing procedure.",
+      summary: "Introduced under City Code §§ 2-97 and 2-124.",
     });
-    expect(ordinance.ok).toBe(false);
-    if (!ordinance.ok) {
-      expect(ordinance.reason).toMatch(/introduction/);
-      expect(ordinance.reason).toMatch(/readings/);
-      expect(ordinance.reason).toMatch(/what happens after adoption/);
-      expect(ordinance.world).toBe(memberWorld);
-    }
+    expect(ordinance.ok).toBe(true);
+    if (!ordinance.ok) throw new Error(ordinance.reason);
+    const measure = (ordinance.world.history.legislativeMeasures ?? []).at(-1)!;
+    expect(measure.rulePackId).toBe("us-va-charlottesville-council-v1");
+    expect(measure.sponsorPersonId).toBe(member);
   }, 60000);
 });

@@ -98,16 +98,9 @@ describe("feature-local municipal governing adapter", () => {
     expect(attended.ok).toBe(true);
     const citizen = route.inspect(attended.world, government.key);
     expect(citizen?.standing.roles).toEqual(["resident"]);
-    expect(citizen?.procedureGaps.map((gap) => gap.field)).toEqual(
-      expect.arrayContaining([
-        "introduction",
-        "readings",
-        "what happens after adoption",
-      ]),
-    );
-    expect(
-      citizen?.procedureGaps.some((gap) => gap.field === "passage threshold"),
-    ).toBe(false);
+    // City Code §§ 2-39(a), 2-97, 2-99 and 2-124 close the procedure gaps.
+    expect(citizen?.procedureGaps).toEqual([]);
+    expect(citizen?.ordinanceIntroduction.ok).toBe(false);
 
     let memberWorld = {
       ...attended.world,
@@ -171,7 +164,7 @@ describe("feature-local municipal governing adapter", () => {
     ).toBe(false);
     expect(
       introduceProjectedOrdinance(memberWorld, government.key, "Ord. 1").ok,
-    ).toBe(false);
+    ).toBe(true);
     expect(discoverMunicipalPublicMeetings(world, government.key)).toEqual([]);
     expect(
       ensureAuthoredPublicMeeting(world, government.key, series.seriesKey).ok,

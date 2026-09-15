@@ -116,8 +116,10 @@ export function PersonCard({
     return [
       {
         personId: otherId,
-        name: node.name,
-        label: node.relationship ?? edge.label,
+        // The player at the other end of a line is "You", not their own name.
+        name: otherId === playerId ? "You" : node.name,
+        label:
+          otherId === playerId ? edge.label : (node.relationship ?? edge.label),
         kind: edge.kind,
       },
     ];
@@ -308,7 +310,11 @@ export function PersonCard({
                   <span className="pg-person-card-connection-text">
                     <strong>{connection.name}</strong>
                     <small>
-                      {connection.label} · {EDGE_KIND_LABELS[connection.kind]}
+                      {connection.label}
+                      {/* "On the record together…" already names its kind. */}
+                      {connection.kind === "acquaintance"
+                        ? ""
+                        : ` · ${EDGE_KIND_LABELS[connection.kind]}`}
                     </small>
                   </span>
                 </button>

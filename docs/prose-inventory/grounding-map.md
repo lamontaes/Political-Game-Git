@@ -19,9 +19,9 @@ declare is reported as undeclared rather than filled in from a guess.
 | `governing/municipal-attendance-and-work` | 40 | 0 | 0 | activity-evidence, work-standing |
 | `governing/municipal-authority-refusals` | 19 | 0 | 0 | — |
 | `governing/municipal-institution-record` | 2 | 0 | 0 | activity-evidence |
-| `governing/municipal-law-projection` | 47 | 0 | 0 | — |
+| `governing/municipal-law-projection` | 48 | 0 | 0 | — |
 | `governing/municipal-work-and-session` | 7 | 0 | 0 | activity-evidence, work-standing |
-| `governing/municipal-workspace` | 76 | 0 | 0 | — |
+| `governing/municipal-workspace` | 81 | 0 | 0 | — |
 | `legislative/measure-briefing` | 94 | 0 | 0 | measure |
 | `life/adult` | 384 | 287 | 0 | colleague-identity, household-kinship, persistent-cast |
 | `life/callback` | 41 | 0 | 0 | — |

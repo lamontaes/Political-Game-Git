@@ -312,7 +312,7 @@ export function projectRelationshipWeb(
       label:
         summary.lastInteractionAt === null
           ? "On the record together"
-          : `Last on the record: ${summary.lastInteractionAt}`,
+          : `On the record together, most recently ${readableDate(summary.lastInteractionAt)}`,
     });
   }
 
@@ -349,15 +349,67 @@ export function projectRelationshipWeb(
   };
 }
 
-/** Existing #254 introduction highlight, retained with its graph. */
-export function recordedIntroductionHighlight(
-  world: World,
+export interface RecordedConnection {
+  /** The player and the selected person, when a record joins them; else empty. */
+  readonly personIds: ReadonlySet<EntityId>;
+  /** The web's own record-backed edges between the two, best first. */
+  readonly edges: readonly RelationshipEdge[];
+}
+
+/**
+ * How the player knows the selected person, from records only.
+ *
+ * This replaces an "introduction" highlight that lit the two people named in
+ * their first shared interaction. Interactions are always a pair, so it could
+ * never show an introducer, and no record in the World says that anybody
+ * introduced anybody. What the records do establish is the direct edge the web
+ * already draws — family, household, work, politics, or a written exchange —
+ * so that is the answer, with that edge's own label. When no record joins them
+ * directly the answer is empty; no chain through third people is inferred.
+ */
+export function recordedConnection(
+  web: RelationshipWeb,
   playerId: EntityId,
   focusId: EntityId,
-): ReadonlySet<EntityId> {
-  if (playerId === focusId) return new Set();
-  const shared = relationshipHistory(world, playerId, focusId);
-  return new Set(shared[0]?.personIds ?? []);
+): RecordedConnection {
+  if (playerId === focusId) return { personIds: new Set(), edges: [] };
+  const edges = web.edges
+    .filter(
+      (edge) =>
+        (edge.fromId === playerId && edge.toId === focusId) ||
+        (edge.fromId === focusId && edge.toId === playerId),
+    )
+    .sort((left, right) => EDGE_RANK[left.kind] - EDGE_RANK[right.kind]);
+  return {
+    personIds: edges.length > 0 ? new Set([playerId, focusId]) : new Set(),
+    edges,
+  };
+}
+
+export function relationshipEdgeKey(edge: RelationshipEdge): string {
+  return `${edge.fromId}:${edge.toId}:${edge.kind}`;
+}
+
+const MONTH_NAMES = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+/** A stored IsoDate as a reader writes it. Storage keeps the ISO value. */
+export function readableDate(date: string): string {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(date);
+  const month = match ? MONTH_NAMES[Number(match[2]) - 1] : undefined;
+  return match && month ? `${month} ${Number(match[3])}, ${match[1]}` : date;
 }
 
 export function neighborsOf(
@@ -382,15 +434,24 @@ export function otherPersonId(
  * Depth 0 is the focus. Depth 1 is everyone with a visible edge to them.
  * Expansion adds every remaining known person rather than capping the life
  * into a permanent small world. Search highlighting does not change membership.
+ *
+ * `alsoAround` keeps a second person's neighbors on the drawing. The People
+ * surface passes the player, so choosing somebody at the edge of the web
+ * centers them without collapsing everyone else the player knows to a pair.
  */
 export function neighborhoodIds(
   web: RelationshipWeb,
   expanded: boolean,
+  alsoAround: EntityId | null = null,
 ): ReadonlySet<EntityId> {
   if (expanded) return new Set(web.nodes.map((node) => node.personId));
   const ids = new Set<EntityId>([web.focusId]);
-  for (const edge of neighborsOf(web, web.focusId)) {
-    ids.add(otherPersonId(edge, web.focusId));
+  for (const center of alsoAround ? [web.focusId, alsoAround] : [web.focusId]) {
+    if (!web.nodes.some((node) => node.personId === center)) continue;
+    ids.add(center);
+    for (const edge of neighborsOf(web, center)) {
+      ids.add(otherPersonId(edge, center));
+    }
   }
   return ids;
 }
@@ -400,12 +461,14 @@ export function layoutRelationshipWeb(
   expanded: boolean,
   width = 640,
   height = 420,
+  alsoAround: EntityId | null = null,
 ): RelationshipWebLayout {
-  const visible = neighborhoodIds(web, expanded);
+  const visible = neighborhoodIds(web, expanded, alsoAround);
   const cx = width / 2;
   const cy = height / 2;
-  const inner = Math.min(width, height) * 0.32;
-  const outer = Math.min(width, height) * 0.44;
+  // Leaves room for a readable face and its name inside the drawing's edge.
+  const inner = Math.min(width, height) * 0.28;
+  const outer = Math.min(width, height) * 0.4;
 
   const innerIds: EntityId[] = [];
   const outerIds: EntityId[] = [];

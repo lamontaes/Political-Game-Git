@@ -146,7 +146,10 @@ it("uses F's actual collected receipt for one paid physical service period, then
     world.history.policyRealizations[0]!.id,
   );
   expect(world.history.publications!.at(-1)!.body).toContain(
-    "vehicle-service hours",
+    "Delivered 1 vehicle-service hour of added contract service",
+  );
+  expect(world.history.publications!.at(-1)!.body).toContain(
+    "paid with $100.00 from the public account",
   );
   assertWorldIntegrity(deserializeWorld(serializeWorld(world)));
 });

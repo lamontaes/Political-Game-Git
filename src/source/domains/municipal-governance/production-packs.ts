@@ -146,12 +146,21 @@ const RICHMOND_BUDGET_VETO_EXCERPT =
 
 const VA_PASSAGE_EXCERPT =
   "an ordinance may be adopted by majority vote of those present and voting at any lawful meeting";
-const VA_EFFECT_EXCERPT =
-  "An ordinance shall become effective upon adoption or upon a date fixed by the governing body.";
 const VA_AMEND_EXCERPT =
   "An ordinance may be amended or repealed in the same manner, or by the same procedure, in which, or by which, ordinances are adopted.";
 const VA_QUORUM_EXCERPT =
   "A majority of the governing body shall constitute a quorum";
+
+// Charlottesville City Code, Chapter 2 (Municode publication job 487467).
+const CVILLE_CODE_NO_VETO_EXCERPT = "The mayor shall have no veto power.";
+const CVILLE_CODE_MINUTES_EXCERPT =
+  "The clerk of the council shall enter upon the minute book the introduction and passage";
+const CVILLE_CODE_SAME_DAY_EXCERPT =
+  "No general ordinance shall be passed by the city council on the same day of its introduction,";
+const CVILLE_CODE_INTERVAL_EXCERPT =
+  "nor shall any such ordinance be valid unless at least three (3) days intervene between";
+const CVILLE_CODE_EFFECT_EXCERPT =
+  "Every ordinance shall take effect from the date of its passage unless otherwise provided.";
 
 const VA_MAJORITY_PRESENT: VoteThreshold = {
   numerator: 1,
@@ -455,14 +464,14 @@ const CHARLOTTESVILLE: MunicipalPackInput = {
     {
       power: "VETO",
       heldByRole: "MAYOR",
-      capability: silent(
-        "va-charlottesville-charter",
-        "Charter §§ 5, 9",
-        CVILLE_MAYOR_VOTE_EXCERPT,
-        "The charter gives the mayor a councilor's vote and no other action on an adopted measure; neither the charter sections read nor Code of Virginia § 15.2-1427 establishes a mayoral veto here.",
+      capability: said(
+        false,
+        "va-charlottesville-city-code-ch2",
+        "City Code § 2-39(a)",
+        CVILLE_CODE_NO_VETO_EXCERPT,
       ),
       details: open(
-        "there is no veto rule to state, because no instrument read establishes a veto.",
+        "there is no veto rule to state, because the mayor has no veto power.",
       ),
     },
   ],
@@ -473,14 +482,23 @@ const CHARLOTTESVILLE: MunicipalPackInput = {
       "Code of Virginia § 15.2-1427",
       VA_PASSAGE_EXCERPT,
     ),
-    introductionSponsorship: open(
-      "no instrument read states who may introduce an ordinance in this council.",
+    introductionSponsorship: said(
+      "An ordinance is introduced before the council at one of its meetings, and the clerk enters its introduction and its passage in the minute book. The City Code names no councilor who may not introduce one; which members may move it is left to the council's rules and Robert's Rules of Order.",
+      "va-charlottesville-city-code-ch2",
+      "City Code §§ 2-67, 2-124",
+      CVILLE_CODE_MINUTES_EXCERPT,
     ),
-    readings: open(
-      "no instrument read requires a number of readings for an ordinance in this city.",
+    readings: said(
+      1,
+      "va-charlottesville-city-code-ch2",
+      "City Code § 2-97",
+      CVILLE_CODE_SAME_DAY_EXCERPT,
     ),
-    committeeReferral: open(
-      "no instrument read establishes a standing committee system or a referral requirement.",
+    committeeReferral: silent(
+      "va-charlottesville-city-code-ch2",
+      "City Code §§ 2-97, 2-124",
+      CVILLE_CODE_SAME_DAY_EXCERPT,
+      "The Code's ordinance procedure runs from introduction at a council meeting to passage at a later one; the sections read put no committee referral between them.",
     ),
     publicHearing: open(
       "no instrument read imposes a public hearing on an ordinance generally; the charter requires one only on the budget.",
@@ -514,18 +532,39 @@ const CHARLOTTESVILLE: MunicipalPackInput = {
       "Code of Virginia § 15.2-1427(D)",
       VA_AMEND_EXCERPT,
     ),
-    mayoralAction: open(
-      "The retrieved charter sections do not establish post-adoption mayoral action; silence is not proof that presentment is inapplicable.",
+    mayoralAction: {
+      status: "NOT_APPLICABLE",
+      sourceKey: "va-charlottesville-city-code-ch2",
+      legalLocator: "City Code § 2-39(a)",
+      excerpt: CVILLE_CODE_NO_VETO_EXCERPT,
+      reason:
+        "The mayor is a councilor the council elects and has no veto power, so an ordinance the council adopts goes to no one for approval.",
+    },
+    mayoralActionWindow: open(
+      "Nothing is presented to the mayor, so no action window runs.",
     ),
-    mayoralActionWindow: open("Post-adoption mayoral action remains UNKNOWN."),
-    override: open(
-      "A veto and override process has not been established by the retrieved sections.",
-    ),
+    override: {
+      status: "NOT_APPLICABLE",
+      sourceKey: "va-charlottesville-city-code-ch2",
+      legalLocator: "City Code § 2-39(a)",
+      excerpt: CVILLE_CODE_NO_VETO_EXCERPT,
+      reason:
+        "The mayor has no veto power, so there is no veto for the council to override.",
+    },
     effectivePublication: said(
-      "An ordinance becomes effective upon adoption or upon a date fixed by the governing body.",
-      "va-code-15-2-1427",
-      "Code of Virginia § 15.2-1427(B)",
-      VA_EFFECT_EXCERPT,
+      "Every ordinance takes effect from the date of its passage unless otherwise provided.",
+      "va-charlottesville-city-code-ch2",
+      "City Code § 2-99",
+      CVILLE_CODE_EFFECT_EXCERPT,
+    ),
+    introductionToPassage: said(
+      {
+        minimumInterveningDays: 3,
+        sameDayException: "a four-fifths (⅘) vote of the city council",
+      },
+      "va-charlottesville-city-code-ch2",
+      "City Code § 2-97",
+      CVILLE_CODE_INTERVAL_EXCERPT,
     ),
   },
   budgetProcedure: {
@@ -635,8 +674,10 @@ const CHARLOTTESVILLE: MunicipalPackInput = {
     },
   ],
   unresolved: [
-    "The charter delegates the time of stated council meetings to ordinance; the ordinance was not read, so no cadence is established.",
-    "No instrument read establishes readings, committee referral, introduction rights or a general public-hearing requirement for a Charlottesville ordinance.",
+    "The charter delegates the time of stated council meetings to ordinance; City Code § 2-41 was retrieved but its meeting cadence is not yet compiled into this record.",
+    "Which councilors may move an ordinance is set by the council's adopted rules (Resolution R-24-034, March 18, 2024, published only as a scanned PDF) and Robert's Rules of Order under City Code § 2-67; neither was retrieved as enacted text, so introduction rights beyond the Code's own procedure are not compiled.",
+    "City Code § 2-97 lets a four-fifths vote of the city council pass a general ordinance on the day it is introduced; whether that fraction counts the whole council or members present is not stated, so same-day passage is not offered.",
+    "No instrument read establishes a general public-hearing requirement for a Charlottesville ordinance.",
     "Whether council elections here are partisan or nonpartisan was not established by any instrument read.",
   ],
   asOf: MUNICIPAL_PRODUCTION_AS_OF,
@@ -1652,7 +1693,12 @@ export const MUNICIPAL_PRODUCTION_PACKS: readonly MunicipalPackInput[] = [
 export const PRODUCTION_PACK_ARTIFACTS: Readonly<
   Record<string, readonly string[]>
 > = {
-  "us-va-charlottesville": ["va-charlottesville-charter", "va-code-15-2-1427"],
+  "us-va-charlottesville": [
+    "va-charlottesville-charter",
+    "va-code-15-2-1427",
+    "va-charlottesville-city-code-ch2",
+    "va-code-15-2-1428",
+  ],
   "us-va-richmond": [
     "va-richmond-charter",
     "va-code-15-2-1427",
