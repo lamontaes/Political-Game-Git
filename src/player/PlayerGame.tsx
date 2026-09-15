@@ -213,6 +213,19 @@ import { useWorldRecap } from "./useWorldRecap";
 import { WorldOrientationPanel } from "./WorldOrientationPanel";
 import { WorldOrientationEntry } from "./WorldOrientationEntry";
 import { useWorldOrientation } from "./useWorldOrientation";
+import { PartyChapterSurface } from "./PartyChapterSurface";
+import {
+  projectPartyChapter,
+  projectPartyChapters,
+  type PartyChapterView,
+} from "../presentation/party-chapter-surface";
+import {
+  acceptChapterInvitation,
+  joinPartyChapter,
+  leavePartyChapter,
+} from "../simulation";
+import { declineVenueActivity } from "../presentation/scheduled-activity-choice";
+import { attendChapterMeeting } from "../presentation/party-chapter-actions";
 import { FullDossier, QuickDossier } from "./ShellDossier";
 import {
   CalendarWorkspaceSurface,
@@ -2518,6 +2531,14 @@ function PlayingScreen({
       group: "politics",
     });
     entries.push({
+      surface: "parties",
+      label: "Local party chapters",
+      hint: "Who organizes them and your invitations",
+      testid: "nav-parties",
+      open: openSurface === "parties",
+      group: "politics",
+    });
+    entries.push({
       surface: "politics",
       label: "Budget and constitutional changes",
       hint: "Public finances and recorded constitutional changes",
@@ -3146,6 +3167,63 @@ function renderWorkspace({
     onWorldChange(publishLegislativeTransition(session.world, next));
   const pinnedRef = (ref: ShellRef) => isPinned(shell, ref);
   const togglePin = (ref: ShellRef) => dispatch({ type: "toggle-pin", ref });
+  /*
+   * A local party chapter. Each button is an explicit choice routed to W's
+   * writers; opening the surface or its pin changes nothing. Going to a
+   * meeting runs the ordinary journey and meeting time, then returns to the
+   * room so the player is where the clock says they are.
+   */
+  const chapterSurface = (chapter: PartyChapterView) => (
+    <PartyChapterSurface
+      key={chapter.organizationId}
+      chapter={chapter}
+      pinned={pinnedRef({ kind: "organization", id: chapter.organizationId })}
+      onTogglePin={() =>
+        togglePin({ kind: "organization", id: chapter.organizationId })
+      }
+      onOpenPerson={openPerson}
+      onMeeting={(action, activityId) => {
+        const next =
+          action === "accept"
+            ? acceptChapterInvitation(
+                session.world,
+                session.personId,
+                activityId,
+              )
+            : action === "decline"
+              ? declineVenueActivity(
+                  session.world,
+                  session.personId,
+                  activityId,
+                )
+              : attendChapterMeeting(
+                  session.world,
+                  session.personId,
+                  activityId,
+                  createCampaignElectionTransitionRegistry(),
+                );
+        if (next === session.world) return;
+        onWorldChange(next);
+        if (action === "attend") dispatch({ type: "go-to-scene" });
+      }}
+      onJoin={() => {
+        const next = joinPartyChapter(
+          session.world,
+          session.personId,
+          chapter.organizationId,
+        );
+        if (next !== session.world) onWorldChange(next);
+      }}
+      onLeave={() => {
+        const next = leavePartyChapter(
+          session.world,
+          session.personId,
+          chapter.organizationId,
+        );
+        if (next !== session.world) onWorldChange(next);
+      }}
+    />
+  );
 
   /*
    * The local-government surface, shared by the menu route and by a pinned
@@ -3287,6 +3365,25 @@ function renderWorkspace({
           measureId={view.ref.id}
         />,
         "Legislation",
+      );
+    }
+    if (view.ref.kind === "organization") {
+      const chapter = projectPartyChapter(
+        session.world,
+        session.personId,
+        view.ref.id,
+      );
+      return frame(
+        chapter?.name ?? "Unavailable",
+        "chapter-workspace",
+        chapter ? (
+          chapterSurface(chapter)
+        ) : (
+          <p className="game-note" data-testid="organization-missing">
+            This world has no record of that organization.
+          </p>
+        ),
+        "Record",
       );
     }
     /*
@@ -3438,6 +3535,21 @@ function renderWorkspace({
         "municipal-workspace",
         municipalSurface(),
       );
+
+    case "parties": {
+      const chapters = projectPartyChapters(session.world, session.personId);
+      return frame(
+        "Local party chapters",
+        "parties-workspace",
+        chapters.length > 0 ? (
+          <>{chapters.map(chapterSurface)}</>
+        ) : (
+          <p className="game-note" data-testid="parties-none">
+            No local party chapters are recorded where you live.
+          </p>
+        ),
+      );
+    }
 
     case "news":
       return frame(
