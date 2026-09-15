@@ -11,6 +11,7 @@ import {
   recordWorldEvent,
   currentStateExecutiveHolders,
   ensureStateExecutiveIncumbent,
+  ensureHomeLocalGovernments,
   homeStateUsps,
 } from "../simulation";
 import type {
@@ -137,9 +138,12 @@ export function establishOpeningOfficeholders(
   // The player's own state executive, through the one nationwide writer. Other
   // states materialize only when a producer needs them, never on a read.
   const stateUsps = homeStateUsps(next, playerPersonId);
-  return stateUsps
+  const withState = stateUsps
     ? ensureStateExecutiveIncumbent(next, playerPersonId, stateUsps)
     : next;
+  // The actual local governments of the home place, once; never a fictional
+  // city for a place that has no government of its own.
+  return ensureHomeLocalGovernments(withState, playerPersonId);
 }
 
 export interface PublicOfficeholderRecord {

@@ -170,6 +170,7 @@ import { CampaignWorkspace } from "./CampaignWorkspace";
 import { LegislationWorkspace } from "./LegislationWorkspace";
 import { TransitWorkspace } from "./TransitWorkspace";
 import { TaxWorkWorkspace } from "./TaxWorkWorkspace";
+import { NationwideCandidacyWorkspace } from "./NationwideCandidacyWorkspace";
 import { projectTransitWork } from "../presentation/transit-work";
 import { DocketWorkspace } from "./DocketWorkspace";
 import { OfficeOnboardingWorkspace } from "./OfficeOnboardingWorkspace";
@@ -2505,6 +2506,14 @@ function PlayingScreen({
       group: "politics",
     });
     entries.push({
+      surface: "candidacy",
+      label: "Who governs here, and the state's top office",
+      hint: "Your city and county governments, and standing for your state's executive office",
+      testid: "nav-politics-candidacy",
+      open: openSurface === "candidacy",
+      group: "politics",
+    });
+    entries.push({
       surface: "news",
       label: "News",
       hint: "Published public records",
@@ -3482,6 +3491,25 @@ function renderWorkspace({
           onWorldChange={onWorldChange}
           onOpenMeasure={(measureId) =>
             openEntity({ kind: "measure", id: measureId })
+          }
+        />,
+        "Politics",
+      );
+
+    case "candidacy":
+      return frame(
+        "Who governs here, and the state's top office",
+        "candidacy-workspace",
+        <NationwideCandidacyWorkspace
+          world={session.world}
+          personId={session.personId}
+          onWorldChange={onWorldChange}
+          onOpenCampaign={() =>
+            dispatch({
+              type: "go-to-surface",
+              surface: "work",
+              section: "office",
+            })
           }
         />,
         "Politics",

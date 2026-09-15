@@ -154,6 +154,34 @@ Minnesota Senate expectation (LAND has an updated test in its receiver).
   provisions. These states need an alternative first-party retrievable source
   before rows can be compiled; the pipeline's honest user agent is not changed.
 
+## Increment 3 — place-to-county relation for NATIONWIDE (-03)
+
+Branch `claude/rules-to-play-counties`, based on LAND's `542c7222`.
+
+- The Geography Division publishes no 2020 place-to-county relationship file
+  (rel2020 `place/` holds only place20–place10), and the Census API needs a key
+  this project does not hold. Source used instead: the 2020 P.L. 94-171
+  redistricting geoheaders, summary level 155 (State-Place-County).
+- New domain `place-county-relations`: 51 state archives (50 states + DC; not
+  PR) cached, not committed (1.2 GB), each with a committed derived QA slice of
+  its 155 lines (8.9 MB total). The cut refuses to write a slice unless every
+  level-160 place's land and water equal the sums over its 155 parts.
+- 33,037 parts, 31,617 places, 1,294 in more than one county (at most 5).
+  New Mexico's geoheader is Latin-1 ("Doña Ana" as a lone 0xF1), not the UTF-8
+  the technical documentation states; declared per state.
+- The part flag (W "Not a part" / P "Part") describes the county component,
+  not a split: a Virginia independent city is W. Splits are read from part
+  counts only.
+- `countyGovernmentUnitsForPlace(placeGeoid)` in `government-units.ts`: county
+  government units with the share of the place's 2020 land in each, largest
+  first. County areas without a county government in the 2025 listing (Virginia
+  independent cities, consolidated city-counties the listing files as
+  municipalities, Connecticut's retired counties) contribute nothing, so shares
+  can sum below one and the result can be empty.
+- Export: `node --import tsx scripts/source/export-place-county-relations.ts`
+  (npm script is a LAND adapter request). Geography is 2020-04-01, stated in
+  `PLACE_COUNTY_RELATIONS_META`.
+
 ## Remaining, owned
 
 - RULES data batches behind the resolver: state legislator and governor
