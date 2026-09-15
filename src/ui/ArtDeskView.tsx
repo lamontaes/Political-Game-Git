@@ -10,6 +10,7 @@ import assetRequestDocument from "../../art/requests/asset-requests.json";
 import reviewDocumentSeed from "../../art/requests/asset-reviews.json";
 import claimDocumentSeed from "../../art/requests/asset-claims.json";
 import reconciliationSeed from "../../art/requests/art-desk-reconciliation.json";
+import generationBatch from "../../art/requests/art-desk-generation-batch.json";
 import {
   ART_DESK_LANES,
   filterDeskItems,
@@ -145,19 +146,27 @@ export function ArtDeskView() {
   }, [privateAuthoring]);
 
   const requests = (assetRequestDocument as AssetRequestDocument).requests;
-  const desk = useMemo(
-    () =>
-      projectArtDesk({
-        requests,
-        claims: claims.claims ? claims : emptyClaimDocument(),
-        reviews: reviews.reviews ? reviews : emptyReviewDocument(),
-        now: new Date().toISOString(),
-        reconciliation: reconciliationSeed as ArtDeskReconciliation,
-        privatePackPath: undefined,
-        candidateByRequest: sessionCandidates,
-      }),
-    [requests, claims, reviews, sessionCandidates],
-  );
+  const desk = useMemo(() => {
+    const fromBatch: Record<
+      string,
+      { readonly sha256: string; readonly path: string }
+    > = {};
+    for (const record of generationBatch.records) {
+      fromBatch[record.requestId] = {
+        sha256: record.outputSha256,
+        path: record.privatePath,
+      };
+    }
+    return projectArtDesk({
+      requests,
+      claims: claims.claims ? claims : emptyClaimDocument(),
+      reviews: reviews.reviews ? reviews : emptyReviewDocument(),
+      now: new Date().toISOString(),
+      reconciliation: reconciliationSeed as ArtDeskReconciliation,
+      privatePackPath: undefined,
+      candidateByRequest: { ...fromBatch, ...sessionCandidates },
+    });
+  }, [requests, claims, reviews, sessionCandidates]);
   const filtered = useMemo(
     () => filterDeskItems(desk.items, lane, query),
     [desk.items, lane, query],

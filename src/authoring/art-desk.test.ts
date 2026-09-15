@@ -20,6 +20,7 @@ import {
 import { filterDeskItems, projectArtDesk } from "./art-desk";
 import type { AssetRequest } from "./asset-request";
 import reconciliation from "../../art/requests/art-desk-reconciliation.json";
+import generationBatch from "../../art/requests/art-desk-generation-batch.json";
 import assetRequestDocument from "../../art/requests/asset-requests.json";
 
 const now = "2026-09-15T20:00:00.000Z";
@@ -248,6 +249,42 @@ describe("Art Desk projection and briefs", () => {
       "env-neighborhood-doorstep-generic",
       "env-park-community-pavilion-winter-variant",
     ]);
+  });
+
+  it("puts hashed generation candidates in Needs your review without calling them production", () => {
+    const desk = projectArtDesk({
+      requests: assetRequestDocument.requests as AssetRequest[],
+      claims: emptyClaimDocument(),
+      reviews: emptyReviewDocument(),
+      now,
+      reconciliation,
+      candidateByRequest: {
+        "env-neighborhood-doorstep-generic": {
+          sha256:
+            "b0ced60cf0ea130db316f6d63ae61e34009795a6a04a4abebe79c55926e47266",
+          path: "art/generated/candidates/art-desk/env-neighborhood-doorstep-generic/b0ced60cf0ea130db316f6d63ae61e34009795a6a04a4abebe79c55926e47266.jpg",
+        },
+      },
+    });
+    const item = desk.items.find(
+      (entry) =>
+        entry.request.requestId === "env-neighborhood-doorstep-generic",
+    );
+    expect(item?.lane).toBe("needs-your-review");
+    expect(item?.generationEligible).toBe(false);
+    expect(item?.coverage.disposition).toBe("candidate");
+    expect(item?.candidateSha256).toMatch(/^[a-f0-9]{64}$/);
+  });
+
+  it("records the bounded generation proof below the environment master floor", () => {
+    expect(generationBatch.allowance.paidOverage).toBe(false);
+    expect(generationBatch.allowance.requestsAttempted).toHaveLength(2);
+    for (const record of generationBatch.records) {
+      expect(record.meetsEnvironmentMasterFloor).toBe(false);
+      expect(record.width).toBeLessThan(4608);
+      expect(record.outputSha256).toMatch(/^[a-f0-9]{64}$/);
+      expect(record.rightsStatus).toBe("unknown");
+    }
   });
 
   it("defaults the needs-your-review lane to genuine missing work", () => {
