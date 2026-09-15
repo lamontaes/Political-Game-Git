@@ -10,6 +10,7 @@ import { activeOrdinaryGoal } from "../simulation/life-personality";
 import { publishPublicEvent } from "../simulation/public-information";
 import { matterAwareness } from "./current-matters";
 import {
+  MATTER_CHOICE_PREFIX,
   commitLifeConversation,
   projectLifeConversation,
 } from "./life-conversation";
@@ -132,7 +133,7 @@ describe("current matters in ordinary talk", () => {
     )!;
     const option = view.intents.find((intent) => intent.key === "matter");
     expect(option?.label).toBe(
-      `Bring up: ${world.history.publications![0]!.headline}`,
+      `${MATTER_CHOICE_PREFIX}${world.history.publications![0]!.headline}`,
     );
     expect(matterAwareness(world, base.parentId, eventId)).toBe("uninformed");
 
