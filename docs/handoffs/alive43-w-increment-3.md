@@ -93,3 +93,19 @@ developments and look a publication up by source. With the W1 and W3 proofs:
 
 Observed, not W-owned: a dark vertical overlay across the living-room scene in
 this public checkout (no private pack).
+
+## Re-verification at the fix head
+
+The dev server was restarted so `/__dev/identity` reported head `bb997acb`,
+clean, before collecting proof. A fresh ordinary life by pointer at 1440x900
+(Emily Clay, Lexington, January 5, 2026) → Week ×5 → February 9, 2026:
+
+- News "Around Lexington, Kentucky" lists the Urban County Government and local
+  schools only; the House and Senate no longer appear.
+- "Latest reporting" shows both W3 matters changing within the month in this
+  seed: the local proposal's comment period was extended (published
+  January 16) and the international development eased (January 11).
+- One console `net::ERR_CONNECTION_REFUSED` appeared in the original tab after
+  the server restart. A newly opened tab loading the same build logged only
+  Vite connect messages and no errors, so it was left over from the stopped
+  server, not the app. The app source has no hard-coded local endpoints.
