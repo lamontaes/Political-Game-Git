@@ -1,6 +1,6 @@
 import { mkdtempSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { describe, expect, it } from "vitest";
 
 import { handleArtDeskBridge, hashBytes } from "./art-desk-bridge";
@@ -67,5 +67,23 @@ describe("loopback Art Desk bridge", () => {
     expect(
       JSON.parse(readFileSync(join(workspace, relative), "utf8")).reviews,
     ).toEqual([]);
+  });
+
+  it("serves allowlisted candidate rasters with an image content type", () => {
+    const candidate =
+      "art/generated/candidates/art-desk/env-neighborhood-doorstep-generic/deadbeef.jpg";
+    mkdirSync(dirname(join(workspace, candidate)), { recursive: true });
+    const bytes = Buffer.from([0xff, 0xd8, 0xff, 0xd9]);
+    writeFileSync(join(workspace, candidate), bytes);
+    const got = handleArtDeskBridge(workspace, {
+      ...loopback,
+      method: "GET",
+      relativePath: candidate,
+    });
+    expect(got.ok).toBe(true);
+    if (!got.ok) return;
+    expect(got.contentType).toBe("image/jpeg");
+    expect(got.body?.equals(bytes)).toBe(true);
+    expect(got.revision).toBe(hashBytes(bytes));
   });
 });

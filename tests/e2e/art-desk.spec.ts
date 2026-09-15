@@ -17,6 +17,12 @@ test("private Art Desk reviews the durable queue without writing saves", async (
     .getByTestId("art-desk-row-env-neighborhood-doorstep-generic")
     .click();
   await expect(page.getByTestId("art-desk-detail")).toContainText("stoop");
+  await expect(page.getByTestId("art-desk-preview")).toBeVisible();
+  await expect(
+    page
+      .getByTestId("art-desk-candidate-preview")
+      .or(page.getByTestId("art-desk-candidate-preview-missing")),
+  ).toBeVisible();
   await page.keyboard.press("ArrowDown");
   await page
     .getByRole("button", { name: "Covered / history", exact: true })
@@ -56,5 +62,10 @@ test("Art Desk bridge refuses traversal and production-style hosts", async ({
     },
   );
   expect(forged.status()).toBe(403);
+  const candidate = await request.get(
+    "/__dev/art-desk/file?path=art/generated/candidates/art-desk/env-neighborhood-doorstep-generic/b0ced60cf0ea130db316f6d63ae61e34009795a6a04a4abebe79c55926e47266.jpg",
+  );
+  expect([200, 404]).toContain(candidate.status());
+  expect(candidate.status()).not.toBe(403);
   expect(baseURL).toMatch(/127\.0\.0\.1|localhost|\[::1\]/);
 });

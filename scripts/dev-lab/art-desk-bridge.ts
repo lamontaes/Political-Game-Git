@@ -77,6 +77,13 @@ function fail(
   return { ok: false, status, code, message };
 }
 
+function contentTypeFor(relative: string): string {
+  if (relative.endsWith(".json")) return "application/json";
+  if (/\.jpe?g$/i.test(relative)) return "image/jpeg";
+  if (/\.png$/i.test(relative)) return "image/png";
+  return "application/octet-stream";
+}
+
 export function isLoopbackAddress(address: string | undefined): boolean {
   if (!address) return false;
   const host = address.replace(/^::ffff:/, "");
@@ -211,9 +218,7 @@ export function handleArtDeskBridge(
       status: 200,
       revision: hashBytes(body),
       body,
-      contentType: resolved.relative.endsWith(".json")
-        ? "application/json"
-        : "application/octet-stream",
+      contentType: contentTypeFor(resolved.relative),
     };
   }
   if (request.method === "PUT") {

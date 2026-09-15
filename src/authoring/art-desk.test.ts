@@ -274,6 +274,9 @@ describe("Art Desk projection and briefs", () => {
     expect(item?.generationEligible).toBe(false);
     expect(item?.coverage.disposition).toBe("candidate");
     expect(item?.candidateSha256).toMatch(/^[a-f0-9]{64}$/);
+    expect(item?.candidateThumbPath).toBe(
+      "art/generated/candidates/art-desk/env-neighborhood-doorstep-generic/b0ced60cf0ea130db316f6d63ae61e34009795a6a04a4abebe79c55926e47266.jpg",
+    );
   });
 
   it("records the bounded generation proof below the environment master floor", () => {

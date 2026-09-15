@@ -72,6 +72,25 @@
   gap: 4px;
   margin-bottom: 8px;
 }
+.art-desk-row--with-thumb {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+}
+.art-desk-row-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.art-desk-thumb {
+  width: 72px;
+  height: 48px;
+  object-fit: cover;
+  background: #19252b;
+  border-radius: 4px;
+}
 .art-desk-meta {
   font-size: 0.85rem;
   opacity: 0.85;
@@ -82,6 +101,9 @@
   border-radius: 8px;
   padding: 16px;
   min-width: 0;
+}
+.art-desk-preview {
+  min-height: 120px;
 }
 .art-desk-preview img,
 .art-desk-scene {

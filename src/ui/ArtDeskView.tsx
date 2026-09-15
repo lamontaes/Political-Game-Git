@@ -73,6 +73,10 @@ function localReviewOn(): boolean {
   return typeof __PG_BUILD_IDENTITY__ !== "undefined";
 }
 
+function deskFileUrl(relativePath: string): string {
+  return `/__dev/art-desk/file?path=${encodeURIComponent(relativePath)}`;
+}
+
 async function deskGet(relativePath: string): Promise<{
   revision: string;
   json: unknown;
@@ -110,6 +114,42 @@ async function deskPut(
   return { ok: true, revision: payload.revision ?? "" };
 }
 
+function CandidateRaster({
+  src,
+  alt,
+  testId,
+  className,
+  hideIfMissing = false,
+}: {
+  readonly src: string;
+  readonly alt: string;
+  readonly testId: string;
+  readonly className?: string;
+  readonly hideIfMissing?: boolean;
+}) {
+  const [failed, setFailed] = useState(false);
+  useEffect(() => {
+    setFailed(false);
+  }, [src]);
+  if (failed) {
+    if (hideIfMissing) return null;
+    return (
+      <span className={className} data-testid={`${testId}-missing`}>
+        Candidate hash is recorded. Private bytes are not in this checkout.
+      </span>
+    );
+  }
+  return (
+    <img
+      className={className}
+      data-testid={testId}
+      src={src}
+      alt={alt}
+      onError={() => setFailed(true)}
+    />
+  );
+}
+
 export function ArtDeskView() {
   const privateAuthoring = localReviewOn();
   const [lane, setLane] = useState<ArtDeskLane>("needs-your-review");
@@ -125,6 +165,7 @@ export function ArtDeskView() {
   const [reviewRevision, setReviewRevision] = useState<string | null>(null);
   const [message, setMessage] = useState("");
   const [previewObjectUrl, setPreviewObjectUrl] = useState<string | null>(null);
+  const [previewRequestId, setPreviewRequestId] = useState<string | null>(null);
   const [showIds, setShowIds] = useState(false);
   const [sessionCandidates, setSessionCandidates] = useState<
     Record<string, { readonly sha256: string; readonly path: string }>
@@ -276,6 +317,7 @@ export function ArtDeskView() {
       if (previous) URL.revokeObjectURL(previous);
       return url;
     });
+    setPreviewRequestId(item.request.requestId);
     setMessage(
       `Stored candidate ${sha.slice(0, 12)}… Rights remain unknown until declared. Bytes are private; they are not a public release.`,
     );
@@ -359,18 +401,35 @@ export function ArtDeskView() {
             <li key={item.request.requestId}>
               <button
                 type="button"
-                className="art-desk-row"
+                className={
+                  item.candidateThumbPath
+                    ? "art-desk-row art-desk-row--with-thumb"
+                    : "art-desk-row"
+                }
                 aria-pressed={
                   selected?.request.requestId === item.request.requestId
                 }
                 data-testid={`art-desk-row-${item.request.requestId}`}
                 onClick={() => setSelectedId(item.request.requestId)}
               >
-                <strong>{item.request.title}</strong>
-                <span>{item.request.consumer.playerVisibleUse}</span>
-                <span className="art-desk-meta">
-                  {item.lane} ·{" "}
-                  {item.generationEligible ? "may generate" : "do not generate"}
+                {item.candidateThumbPath ? (
+                  <CandidateRaster
+                    src={deskFileUrl(item.candidateThumbPath)}
+                    alt=""
+                    className="art-desk-thumb"
+                    testId={`art-desk-thumb-${item.request.requestId}`}
+                    hideIfMissing
+                  />
+                ) : null}
+                <span className="art-desk-row-copy">
+                  <strong>{item.request.title}</strong>
+                  <span>{item.request.consumer.playerVisibleUse}</span>
+                  <span className="art-desk-meta">
+                    {item.lane} ·{" "}
+                    {item.generationEligible
+                      ? "may generate"
+                      : "do not generate"}
+                  </span>
                 </span>
               </button>
             </li>
@@ -379,7 +438,11 @@ export function ArtDeskView() {
         {selected && (
           <ArtDeskDetail
             item={selected}
-            previewObjectUrl={previewObjectUrl}
+            previewObjectUrl={
+              previewRequestId === selected.request.requestId
+                ? previewObjectUrl
+                : null
+            }
             showIds={showIds}
             onToggleIds={() => setShowIds((value) => !value)}
             onDecide={decide}
@@ -456,9 +519,15 @@ function ArtDeskDetail({
           {warning}
         </p>
       ))}
-      <div className="art-desk-preview">
+      <div className="art-desk-preview" data-testid="art-desk-preview">
         {previewObjectUrl ? (
           <img src={previewObjectUrl} alt="Uploaded candidate preview" />
+        ) : item.candidateThumbPath ? (
+          <CandidateRaster
+            src={deskFileUrl(item.candidateThumbPath)}
+            alt={`Candidate for ${item.request.title}`}
+            testId="art-desk-candidate-preview"
+          />
         ) : (
           <p>No new candidate loaded in this session.</p>
         )}
