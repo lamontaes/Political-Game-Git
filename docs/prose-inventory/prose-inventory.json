@@ -1,25 +1,25 @@
 {
-  "digest": "b9072fb40cbd9f22",
+  "digest": "ac5329806bb1fd22",
   "counts": {
-    "total": 2944,
+    "total": 2951,
     "byDomain": {
       "campaign": 24,
       "conversation": 195,
       "governing": 197,
       "legislative": 94,
-      "life": 1700,
+      "life": 1707,
       "narration": 75,
       "ordinary": 4,
       "setup": 618,
       "shell": 37
     },
     "bySurface": {
-      "answer": 541,
+      "answer": 547,
       "artifact": 176,
       "callback": 41,
       "connective": 53,
       "option-description": 436,
-      "option-label": 451,
+      "option-label": 452,
       "option-memory": 436,
       "option-witnessed": 54,
       "prompt": 130,
@@ -28,7 +28,7 @@
       "thread-recap": 32
     },
     "byReachability": {
-      "CURRENTLY_UNREACHABLE": 332,
+      "CURRENTLY_UNREACHABLE": 339,
       "DEV_FIXTURE_ONLY": 110,
       "LEGACY_OR_WITHDRAWN": 90,
       "PLAYER_REACHABLE": 1985,
@@ -36,8 +36,8 @@
       "WITHHELD_BY_GROUNDING": 358
     },
     "byRealization": {
-      "static": 2420,
-      "templated": 524
+      "static": 2426,
+      "templated": 525
     }
   },
   "records": [
@@ -90986,6 +90986,38 @@
       "contextRevision": "003d5204173d"
     },
     {
+      "id": "prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0017#text",
+      "domain": "life",
+      "bank": "opening-conversation-intents",
+      "stableKey": "LIFE_TALK_INTENTS-0017",
+      "field": "text",
+      "surface": "option-label",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "LIFE_TALK_INTENTS",
+      "text": "Mention something in the news",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Exposed by the feature-local panel; normal-root adapter is still a consumer handoff.",
+      "grounding": [
+        {
+          "key": "eligible-selected-person-intent",
+          "description": "The conversation projection checks current presence, exact saved topic, age/context and prior consent before offering an action.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "LIFE_TALK_INTENTS",
+        "anchor": "LIFE_TALK_INTENTS-0017"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "8e5b25b72a53",
+      "contextRevision": "003d5204173d"
+    },
+    {
       "id": "prose:life:opening-conversation-replies:replyFor-0001#text",
       "domain": "life",
       "bank": "opening-conversation-replies",
@@ -92687,6 +92719,200 @@
         "computed"
       ],
       "textRevision": "88e109ffbc1c",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0058#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0058",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "I hadn't heard about that.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0058"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "cbdd2b27d7ad",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0059#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0059",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "I heard about that.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0059"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "3d5000671475",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0060#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0060",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "I remember you bringing up “{matterTurn.context.choice.slice(MATTER_CHOICE_PREFIX.length)}”",
+      "realization": "templated",
+      "slots": [
+        "matterTurn.context.choice.slice(MATTER_CHOICE_PREFIX.length)"
+      ],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0060"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "72e6e8a7ee10",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0061#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0061",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "I was involved in that.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0061"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "2bd1a8a4c878",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0062#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0062",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "I'd rather not get into that right now.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0062"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "b6155c3c7396",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0063#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0063",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "What did you want to talk about?",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0063"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "39de11314d2e",
       "contextRevision": "cf05132f1067"
     },
     {
