@@ -109,3 +109,18 @@ clean, before collecting proof. A fresh ordinary life by pointer at 1440x900
   the server restart. A newly opened tab loading the same build logged only
   Vite connect messages and no errors, so it was left over from the stopped
   server, not the app. The app source has no hard-coded local endpoints.
+
+## Final full unit suite on `0277424d`
+
+`vitest run`: 5402 passed, 6 failed, 29 skipped (434 files), exit 1.
+Classification:
+
+- `scripts/prose-corpus/corpus.test.ts` and `anchor-cli` ×3 /
+  `anchor-crossbranch`: new W source files change the committed coverage
+  artifacts; pending LAND `corpus:prose` regeneration (pass on main).
+- `people-visual4-review` wardrobe plan timeout: also fails on main `003b45ff`.
+- `narrative-life` "Play-proof 6" timeout: load only; the file passes alone on
+  `0277424d` (35/35, exit 0).
+
+The `dehardwire-census` test rewrote `docs/dehardwire/census.json` during the
+run; it was restored and is not committed.
