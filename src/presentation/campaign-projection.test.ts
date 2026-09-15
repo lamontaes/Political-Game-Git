@@ -112,19 +112,32 @@ describe("what the game will and will not offer", () => {
     const view = projectCampaign(life.world, life.personId);
     expect(view.phase).toBe("can-file");
     expect(view.officeTitle).toMatch(/seat in the/i);
-    // It says how it knows, and what it still does not know.
+    /*
+     * The gap is still carried, and still refuses to invent a number: the pack
+     * says the seat count is unknown and keeps its own note about why.
+     */
     const seats = candidacyPacks().find(
       (pack) => pack.jurisdictionKey === "US-KY",
     )!.offices[0]!.seats;
     expect(seats.kind).toBe("unknown");
     if (seats.kind !== "unknown") throw new Error("Expected unknown seats");
-    expect(view.officeAuthority).toBe(seats.note);
-    // The seat count is not attributed to a rule that does not establish it.
-    expect(view.officeAuthority).not.toMatch(/rule \d+|const\./i);
+    expect(seats.note).toMatch(/no instrument fixing it was separately read/i);
     expect(view.openQuestions.join(" ")).toMatch(
       /no instrument establishing the size of the chamber/i,
     );
     expect(view.openQuestions.length).toBeGreaterThan(0);
+    /*
+     * What changed is who hears about it. This line used to require the pack's
+     * note to be the player-facing authority string, which put "carried from
+     * compiled research ... carries no numeric fallback" in front of a
+     * candidate deciding whether to run. The note stays in the pack and in
+     * openQuestions, where the developer surfaces read it; the offer screen
+     * says nothing rather than reciting it.
+     */
+    expect(view.officeAuthority).toBeNull();
+    // And the seat count is still never attributed to a rule that does not
+    // establish it — an invented citation would be worse than silence.
+    expect(view.officeAuthority ?? "").not.toMatch(/rule \d+|const\./i);
     expect(resolvePlayerCapabilities(life.world).campaign).toBe(true);
   });
 

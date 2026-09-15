@@ -2,8 +2,8 @@
   "counts": {
     "INVENTORIED": 2458,
     "INTENTIONALLY_NON_PLAYER_FACING": 5907,
-    "DIAGNOSTIC_OR_TEST": 5341,
-    "NEEDS_CLASSIFICATION": 6627
+    "DIAGNOSTIC_OR_TEST": 5345,
+    "NEEDS_CLASSIFICATION": 6631
   },
   "needsClassification": [
     {
@@ -7425,7 +7425,7 @@
     {
       "sourcePath": "src/presentation/campaign-projection.ts",
       "enclosingSymbol": "money",
-      "line": 470,
+      "line": 494,
       "text": "{amount.currency} {(amount.minorUnits/100).toFixed(2)}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13040,8 +13040,40 @@
     },
     {
       "sourcePath": "src/presentation/player-copy.ts",
-      "enclosingSymbol": "PLAYER_REFUSALS",
+      "enclosingSymbol": "FORBIDDEN_PLAYER_PHRASES",
+      "line": 127,
+      "text": "rule-pack compilation vocabulary; internal only",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/player-copy.ts",
+      "enclosingSymbol": "FORBIDDEN_PLAYER_PHRASES",
+      "line": 131,
+      "text": "rule-pack compilation vocabulary; internal only",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/player-copy.ts",
+      "enclosingSymbol": "FORBIDDEN_PLAYER_PHRASES",
+      "line": 135,
+      "text": "rule-pack compilation vocabulary; internal only",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/player-copy.ts",
+      "enclosingSymbol": "FORBIDDEN_PLAYER_PHRASES",
       "line": 139,
+      "text": "rule-pack compilation vocabulary; internal only",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/player-copy.ts",
+      "enclosingSymbol": "PLAYER_REFUSALS",
+      "line": 164,
       "text": "You haven't been introduced.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13049,7 +13081,7 @@
     {
       "sourcePath": "src/presentation/player-copy.ts",
       "enclosingSymbol": "PLAYER_REFUSALS",
-      "line": 141,
+      "line": 166,
       "text": "You don't have a way to reach them right now.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13057,7 +13089,7 @@
     {
       "sourcePath": "src/presentation/player-copy.ts",
       "enclosingSymbol": "PLAYER_REFUSALS",
-      "line": 143,
+      "line": 168,
       "text": "This office can't take that action.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13065,7 +13097,7 @@
     {
       "sourcePath": "src/presentation/player-copy.ts",
       "enclosingSymbol": "PLAYER_REFUSALS",
-      "line": 145,
+      "line": 170,
       "text": "Nothing has been announced yet.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -55638,7 +55670,7 @@
       "sourcePath": "src/presentation/player-pure-surfaces.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 32
+      "count": 36
     },
     {
       "sourcePath": "src/presentation/player-places.test.ts",

@@ -7,6 +7,8 @@ import {
   establishOpeningOfficeholders,
   openingOfficeholders,
 } from "./opening-officeholders";
+import { projectCampaign } from "./campaign-projection";
+import { projectCampaignOffices } from "./campaign-office-discovery";
 import { projectLifeRecord } from "./life-record";
 import { projectLegislativeOfficeContext } from "./legislative-office-context";
 import { projectPersonDossier } from "./person-dossier";
@@ -260,6 +262,41 @@ describe("the reading surfaces ordinary play offers", () => {
     }
     for (const person of record.people)
       expectPlayerPure(person.sentence, "journal person");
+  });
+
+  it("offers a candidacy without reciting how the rules were compiled", () => {
+    const { world, personId } = newLife("player-pure-campaign");
+    /*
+     * Every office the pack offers, not just the default view. Passing null
+     * takes the aggregate branch and leaves the per-office line untested, which
+     * is how the first version of this check passed with the leak still in
+     * place — it went green whether or not the note was rendered.
+     */
+    const offices = projectCampaignOffices(world, personId);
+    expect(offices.length).toBeGreaterThan(0);
+    const views = [
+      projectCampaign(world, personId, null),
+      ...offices.map((office) =>
+        projectCampaign(world, personId, office.officeKey),
+      ),
+    ];
+    /*
+     * This is the leak the first pass missed. The seat-count line fell through
+     * to the rule pack's own note when the number was unknown — "the formal
+     * chamber seat count was carried from compiled research, but no instrument
+     * fixing it was separately read for this pack. The unresolved formal count
+     * carries no numeric fallback." That is addressed to whoever compiles
+     * packs, not to somebody deciding whether to run, and every Kentucky office
+     * has an unknown seat count, so every one of these views carried it.
+     */
+    for (const view of views) {
+      if (view.officeAuthority !== null)
+        expectPlayerPure(view.officeAuthority, "campaign office authority");
+      if (view.unavailableReason)
+        expectPlayerPure(view.unavailableReason, "campaign unavailable reason");
+      for (const offer of view.offers)
+        expectPlayerPure(offer.label, "campaign offer");
+    }
   });
 
   it("explains an office and its bills without citing its paperwork", () => {

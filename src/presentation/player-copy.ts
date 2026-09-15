@@ -113,6 +113,31 @@ export const FORBIDDEN_PLAYER_PHRASES: readonly ForbiddenPlayerPhrase[] = [
     pattern: /\bhttps?:\/\//i,
     because: "external research link; internal only",
   },
+  /*
+   * Rule-pack compilation vocabulary. These reached a player surface through
+   * the campaign screen's seat-count line, which fell through to the pack's own
+   * note: "the formal chamber seat count was carried from compiled research,
+   * but no instrument fixing it was separately read for this pack. The
+   * unresolved formal count carries no numeric fallback." None of these phrases
+   * has an in-world reading — a legislator does not describe their chamber as
+   * having a numeric fallback — so guarding them costs no legitimate copy.
+   */
+  {
+    pattern: /\bcompiled research\b/i,
+    because: "rule-pack compilation vocabulary; internal only",
+  },
+  {
+    pattern: /\bnumeric fallback\b/i,
+    because: "rule-pack compilation vocabulary; internal only",
+  },
+  {
+    pattern: /\b(?:rule |this )pack\b/i,
+    because: "rule-pack compilation vocabulary; internal only",
+  },
+  {
+    pattern: /\bseparately read\b/i,
+    because: "rule-pack compilation vocabulary; internal only",
+  },
 ];
 
 /**

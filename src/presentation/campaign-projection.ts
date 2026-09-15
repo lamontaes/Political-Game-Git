@@ -348,10 +348,26 @@ export function projectCampaign(
   };
 }
 
-function officeAuthority(option: ElectiveOfficeOption): string {
+/**
+ * How many seats the office has, when the world knows.
+ *
+ * The known branch is in-world civic fact and reads like one, because the pack
+ * name is a real institution: "120 of them, as the Kentucky General Assembly
+ * records it."
+ *
+ * The unknown branch used to fall through to the rule pack's own note, which is
+ * addressed to whoever compiles the packs — "the formal chamber seat count was
+ * carried from compiled research, but no instrument fixing it was separately
+ * read for this pack. The unresolved formal count carries no numeric fallback."
+ * A candidate deciding whether to run does not need the provenance of a number
+ * they were not going to be shown either way, so the line is now absent rather
+ * than replaced. Nothing about the gate changes: an unknown seat count is still
+ * unknown, and still refuses to invent a figure.
+ */
+function officeAuthority(option: ElectiveOfficeOption): string | null {
   return option.seats.kind === "known"
     ? `${option.seats.value} of them, as ${option.recordedBy.packName} records it.`
-    : option.seats.note;
+    : null;
 }
 
 function notYetFiled(
@@ -393,7 +409,15 @@ function notYetFiled(
       (options.map((item) => item.office.title).join(" or ") || null),
     officeAuthority: option
       ? officeAuthority(option)
-      : [...new Set(options.map(officeAuthority))].join(" ") || null,
+      : /* Offices with no known seat count now contribute nothing, so they are
+           dropped rather than joined in as empty strings. */
+        [
+          ...new Set(
+            options
+              .map(officeAuthority)
+              .filter((line): line is string => line !== null),
+          ),
+        ].join(" ") || null,
     openQuestions: option
       ? [...option.unresolvedGaps]
       : [...new Set(options.flatMap((item) => item.unresolvedGaps))],
