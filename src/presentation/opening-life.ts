@@ -1,5 +1,6 @@
 import {
   canonicalJson,
+  ensureHomePartyChapters,
   ensureLivingWorldOpening,
   personName,
   ageOnDate,
@@ -43,7 +44,10 @@ export function generateOpeningLife(
       ...game,
       // Congress, the national parties and public affiliations, once, after
       // the executives exist so they receive an affiliation in the same pass.
-      world: ensureLivingWorldOpening(staffed, game.playerPersonId),
+      world: ensureHomePartyChapters(
+        ensureLivingWorldOpening(staffed, game.playerPersonId),
+        game.playerPersonId,
+      ),
     },
   };
 }
