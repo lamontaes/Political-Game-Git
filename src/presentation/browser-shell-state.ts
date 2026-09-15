@@ -67,6 +67,7 @@ const REF_KINDS: readonly ShellRef["kind"][] = [
   "commitment",
   "measure",
   "government",
+  "organization",
 ];
 
 export interface StoredShellState {
