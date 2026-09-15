@@ -2,7 +2,7 @@
   "counts": {
     "INVENTORIED": 2458,
     "INTENTIONALLY_NON_PLAYER_FACING": 5907,
-    "DIAGNOSTIC_OR_TEST": 5338,
+    "DIAGNOSTIC_OR_TEST": 5341,
     "NEEDS_CLASSIFICATION": 6627
   },
   "needsClassification": [
@@ -4001,7 +4001,7 @@
     {
       "sourcePath": "src/player/PersonCard.tsx",
       "enclosingSymbol": "PersonCard",
-      "line": 114,
+      "line": 123,
       "text": "pg-person-card civic-glass pg-person-card--{mode}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4009,7 +4009,7 @@
     {
       "sourcePath": "src/player/PersonCard.tsx",
       "enclosingSymbol": "PersonCard",
-      "line": 123,
+      "line": 132,
       "text": "Your read",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4017,7 +4017,7 @@
     {
       "sourcePath": "src/player/PersonCard.tsx",
       "enclosingSymbol": "PersonCard",
-      "line": 129,
+      "line": 138,
       "text": "Close the card for {dossier.name}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4025,7 +4025,7 @@
     {
       "sourcePath": "src/player/PersonCard.tsx",
       "enclosingSymbol": "PersonCard",
-      "line": 207,
+      "line": 216,
       "text": "ui-action ui-action--rail",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4033,7 +4033,7 @@
     {
       "sourcePath": "src/player/PersonCard.tsx",
       "enclosingSymbol": "PersonCard",
-      "line": 232,
+      "line": 241,
       "text": "ui-action ui-action--rail",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4041,7 +4041,7 @@
     {
       "sourcePath": "src/player/PersonCard.tsx",
       "enclosingSymbol": "PersonCard",
-      "line": 251,
+      "line": 260,
       "text": "ui-action ui-action--rail",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4049,7 +4049,7 @@
     {
       "sourcePath": "src/player/PersonCard.tsx",
       "enclosingSymbol": "PersonCard",
-      "line": 271,
+      "line": 280,
       "text": "ui-action ui-action--primary",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4057,7 +4057,7 @@
     {
       "sourcePath": "src/player/PersonCard.tsx",
       "enclosingSymbol": "PersonCard",
-      "line": 291,
+      "line": 300,
       "text": "ui-action ui-action--primary",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -55638,7 +55638,7 @@
       "sourcePath": "src/presentation/player-pure-surfaces.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 29
+      "count": 32
     },
     {
       "sourcePath": "src/presentation/player-places.test.ts",
