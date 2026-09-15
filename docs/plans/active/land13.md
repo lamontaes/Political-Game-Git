@@ -15,6 +15,23 @@ Status: active. Sole main-merger after RETURN13 section A. No competing LAND/UI 
 
 UI144 frozen publication: `302e1f0cb3fb6c7d5823c41cf9b5bf87d2bfcac2` (draft/open). Desktop156 remains BANKED.
 
+## CODEX LAND b6 takeover — 2026-09-15
+
+Receiver `/private/tmp/pg-claude-land` remains the sole public landing writer.
+The recovered county/candidacy and FISCAL continuations have distinct
+worktrees and file ownership recorded in `output/pose41-final/HANDOFF.md`.
+
+- [x] Refresh PR #255 at `ef67f614ba7306f62261efc773f1cffea7769614`
+      and inspect the exact repository/package failures.
+- [x] Preserve the public-review fallback and fix the concrete preview-bounds
+      defect; reconcile stale guardian, retained-seat and wardrobe fixtures.
+- [x] Regenerate prose-corpus artifacts through the canonical command.
+- [ ] Publish the repaired PR #255 head and receive its exact CI disposition.
+- [ ] Finish and publish the separate county/candidacy successor.
+- [ ] Receive and compose the immutable FISCAL delivery.
+- [ ] After owner merge permission, verify actual main and rebuild the existing
+      private Play endpoint from that exact code plus its preserved private pack.
+
 ## Landings
 
 | Order | PR           | Input head                                 | Main result                                                                                                                             |

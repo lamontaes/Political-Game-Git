@@ -391,7 +391,7 @@ describe("79R2 finding A — a retained chamber context cannot write after the b
     );
   });
 
-  it("refuses rather than picking one when a second win makes the seat ambiguous", () => {
+  it("uses the retained canonical seat when a second win makes an unscoped lookup ambiguous", () => {
     const won = wonSeat();
     const opened = openBill(won.world, won.personId);
     const onHouseFloor = walkToFloorOf(
@@ -415,24 +415,40 @@ describe("79R2 finding A — a retained chamber context cannot write after the b
       won.personId,
     );
     expect(projectCampaign(ambiguous, won.personId).phase).toBe("won");
-    // Several valid seats remain several offices: the resolver withholds as
-    // ambiguous and never selects one.
+    // Several valid seats remain several offices: an unscoped resolver
+    // withholds and never selects one.
     const resolution = resolveActiveMemberSeat(ambiguous, won.personId);
     expect(resolution.kind).toBe("ambiguous");
     if (resolution.kind === "ambiguous") {
       expect(resolution.reason).toMatch(/more than one/i);
     }
 
-    expectRefusedWithoutWriting(ambiguous, () =>
-      offerNegotiatedAmendment(
-        ambiguous,
-        entry.seat,
-        entry.seat.progress,
-        "capped",
-      ),
+    // The retained sitting is not unscoped. It names the canonical seat it
+    // opened on, so the write boundary can re-resolve that exact live record
+    // without selecting an array entry or borrowing authority from the newer
+    // office.
+    const scoped = resolveActiveMemberSeat(ambiguous, won.personId, {
+      relationshipStableKey: entry.seat.memberSeatStableKey!,
+    });
+    expect(scoped.kind).toBe("seated");
+
+    const amended = offerNegotiatedAmendment(
+      ambiguous,
+      entry.seat,
+      entry.seat.progress,
+      "capped",
     );
-    expectRefusedWithoutWriting(ambiguous, () =>
-      takeNegotiatedFloorVote(ambiguous, entry.seat, entry.seat.progress),
+    expect(amended.world.history.legislativeAmendments!.length).toBeGreaterThan(
+      (ambiguous.history.legislativeAmendments ?? []).length,
+    );
+
+    const voted = takeNegotiatedFloorVote(
+      ambiguous,
+      entry.seat,
+      entry.seat.progress,
+    );
+    expect(voted.world.history.legislativeVotes!.length).toBeGreaterThan(
+      (ambiguous.history.legislativeVotes ?? []).length,
     );
   });
 
