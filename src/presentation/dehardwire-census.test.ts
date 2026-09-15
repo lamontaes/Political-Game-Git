@@ -84,14 +84,20 @@ describe("the developer fixtures and the production creation path", () => {
   });
 
   /**
-   * The fixture-named modules ordinary play does reach at runtime, pinned.
+   * The fixture-named modules ordinary play reaches at runtime, pinned.
    *
-   * These are world builders and scene registrations rather than gameplay
-   * instances, and they are a named residual rather than a claim that each has
-   * been cleared. The list is pinned so that a NEW fixture joining the
-   * ordinary-play graph fails here and gets classified before it ships.
+   * Each is classified in docs/dehardwire/classification.json: two registered
+   * rooms, the jurisdiction context the place catalog reads, the shared world
+   * builder (whose Lexington-defaulting entry point ordinary play does not
+   * call), and a portability fixture with no play-path consumer.
+   *
+   * `run-a-fixture` was on this list until the dossier stopped naming places
+   * through it. The equality is deliberate in both directions: a new fixture
+   * joining the graph fails here, and so does one dropping off unnoticed,
+   * because that is a fact about the game worth recording rather than
+   * absorbing.
    */
-  it("adds no new fixture-named module to the ordinary-play graph", () => {
+  it("reaches exactly the fixture-named modules that are classified", () => {
     const fixtureNamed = playPath
       .filter((file) =>
         /(?:^|[/-])(?:fixture|fixtures|demo|synthetic)(?:[/-]|\.|$)/i.test(
@@ -102,7 +108,6 @@ describe("the developer fixtures and the production creation path", () => {
     expect(fixtureNamed).toEqual([
       "src/environment/scenes/committee-room-fixture.ts",
       "src/environment/scenes/office-council-staff-fixture.ts",
-      "src/presentation/run-a-fixture.ts",
       "src/simulation/demo-jurisdiction-context.ts",
       "src/simulation/demo.ts",
       "src/simulation/portability-fixture.ts",

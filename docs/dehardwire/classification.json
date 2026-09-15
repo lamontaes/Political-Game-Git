@@ -104,17 +104,42 @@
       "owner": "ROLE B, follow-up"
     },
     "fixtureNamedModulesOnPlayGraph": {
-      "modules": [
-        "src/environment/scenes/committee-room-fixture.ts",
-        "src/environment/scenes/office-council-staff-fixture.ts",
-        "src/presentation/run-a-fixture.ts",
-        "src/simulation/demo-jurisdiction-context.ts",
-        "src/simulation/demo.ts",
-        "src/simulation/portability-fixture.ts"
-      ],
-      "classification": "legitimate-data-label",
-      "status": "World builders and scene registrations, not gameplay instances. The set is pinned by src/presentation/dehardwire-census.test.ts so a NEW fixture joining the ordinary-play graph fails before it ships. Each has not been individually cleared.",
-      "owner": "ROLE B, follow-up"
+      "note": "Each is now individually classified rather than pinned as a group. `src/presentation/run-a-fixture.ts` was on this list and is no longer on the ordinary-play graph at all: the dossier stopped naming places through its helper.",
+      "modules": {
+        "src/environment/scenes/committee-room-fixture.ts": {
+          "classification": "legitimate-data-label",
+          "reached_by": "src/presentation/scene-registry.ts imports COMMITTEE_ROOM_FIXTURE_SCENE",
+          "finding": "A registered room. Scene geometry and backdrop, not a gameplay instance; it names no measure, person or outcome. Renderer scope belongs to ROLE D."
+        },
+        "src/environment/scenes/office-council-staff-fixture.ts": {
+          "classification": "legitimate-data-label",
+          "reached_by": "src/presentation/scene-registry.ts imports OFFICE_COUNCIL_STAFF_FIXTURE_SCENE",
+          "finding": "A registered room, as above."
+        },
+        "src/simulation/demo-jurisdiction-context.ts": {
+          "classification": "legitimate-data-label",
+          "reached_by": "src/simulation/life-places.ts imports DEMO_START_DATE and LEXINGTON_DEMO_CONTEXT",
+          "finding": "DEMO_START_DATE is the game's calendar epoch: every state and every corpus place opens on it, so it is a scenario default rather than one world's instance. LEXINGTON_DEMO_CONTEXT is the Lexington scenario's own context, used as the lexington-fayette place's context \u2014 an explicit scenario, which is what it is for. The module's name reads like a fixture leak and its contents are not one."
+        },
+        "src/simulation/demo.ts": {
+          "classification": "legitimate-data-label",
+          "reached_by": "the src/simulation barrel, and createScenarioWorld from legislation-scenarios",
+          "finding": "`createScenarioWorld` requires an explicit jurisdiction context and defaults nothing. `createDemoWorld` DOES default its context to Lexington, which would make Kentucky a universal normal start \u2014 but ordinary New Game never calls it: its only runtime callers are the Run-A fixture and three src/ui developer proof routes. Pinned behaviourally by src/presentation/dehardwire-place-binding.test.ts, which starts named non-Kentucky lives and asserts neither the jurisdiction nor the clock falls back to Lexington."
+        },
+        "src/simulation/portability-fixture.ts": {
+          "classification": "dev-or-test-only-fixture",
+          "reached_by": "the src/simulation barrel's `export *`, and nothing else",
+          "finding": "No play-path consumer. It is on the graph because the barrel re-exports it, not because ordinary play uses anything in it."
+        }
+      },
+      "owner": "ROLE B \u2014 classification complete for these five"
+    },
+    "placeNamingOnThePlayerDossier": {
+      "classification": "production-hardcode (FIXED in this increment)",
+      "was": "src/presentation/run-a-projection.ts rendered every birthplace and residence on the player's Quick Dossier through `runAPlaceDisplayName`, the Run-A development fixture's helper, which recognised exactly one place by literal (\"Lexington-Fayette, Kentucky\" to \"Lexington, Kentucky\") and passed every other place through as its filing name.",
+      "now": "Bound to the place catalog: `lifePlaceByJurisdictionId(id)?.displayName ?? jurisdiction.name`. Every playable place \u2014 the four named ones and every row of the national corpus \u2014 already carries its resident-facing name beside its formal filing name. A jurisdiction the catalog does not list keeps its own recorded name.",
+      "proof": "src/presentation/dehardwire-place-binding.test.ts",
+      "consumers_affected": "QuickDossier, PlayerOffice, OfficeScene, PinRail, MeasureFloorSurface"
     }
   }
 }

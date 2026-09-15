@@ -1,10 +1,35 @@
-import { ageOnDate, factsForPerson, personName } from "../simulation";
-import type { EntityId, World } from "../simulation";
 import {
-  runAPlaceDisplayName,
-  type RunAFixture,
-  type RunAScenePersonContext,
-} from "./run-a-fixture";
+  ageOnDate,
+  factsForPerson,
+  lifePlaceByJurisdictionId,
+  personName,
+} from "../simulation";
+import type { EntityId, Jurisdiction, World } from "../simulation";
+import type { RunAFixture, RunAScenePersonContext } from "./run-a-fixture";
+
+/**
+ * What a person would call the place, on the dossier a player reads.
+ *
+ * This used to run every birthplace and residence through the Run-A fixture's
+ * display-name helper, which recognised exactly one place by literal: a
+ * character born in Lexington was shown "Lexington, Kentucky", and a character
+ * born anywhere else was shown whatever filing name the jurisdiction record
+ * happened to carry. One development run's convenience was deciding how the
+ * game named every place.
+ *
+ * The place catalog already holds this. Every playable place — the four named
+ * ones and every row of the national corpus — carries the resident-facing
+ * `displayName` beside the formal filing name, so the answer is looked up
+ * rather than special-cased.
+ *
+ * A jurisdiction the catalog does not list still has its own recorded name,
+ * and that is what it keeps. An unlisted place is not an unknown one.
+ */
+function placeDisplayName(jurisdiction: Jurisdiction): string {
+  return (
+    lifePlaceByJurisdictionId(jurisdiction.id)?.displayName ?? jurisdiction.name
+  );
+}
 
 export type EpistemicAccess =
   | "personally-known"
@@ -122,7 +147,7 @@ function projectHomePlace(world: World, personId: EntityId): PlayerVisibleFact {
     return {
       id: "birthplace",
       label: "Birthplace",
-      value: runAPlaceDisplayName(birthplaceJurisdiction.name),
+      value: placeDisplayName(birthplaceJurisdiction),
       access: "institutionally-accessible",
     };
   }
@@ -143,7 +168,7 @@ function projectHomePlace(world: World, personId: EntityId): PlayerVisibleFact {
     return {
       id: "residence",
       label: "Residence",
-      value: runAPlaceDisplayName(residenceJurisdiction.name),
+      value: placeDisplayName(residenceJurisdiction),
       access: "institutionally-accessible",
     };
   }

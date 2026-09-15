@@ -1,11 +1,10 @@
 {
   "generatedFrom": "src/player/PlayerGame.tsx",
   "note": "Runtime (value-import) reachability from ordinary play. Type-only imports are erased before a player runs the game and are not counted.",
-  "runtimeReachableModules": 458,
+  "runtimeReachableModules": 457,
   "fixtureNamedModulesOnRuntimeSpine": [
     "src/environment/scenes/committee-room-fixture.ts",
     "src/environment/scenes/office-council-staff-fixture.ts",
-    "src/presentation/run-a-fixture.ts",
     "src/simulation/demo-jurisdiction-context.ts",
     "src/simulation/demo.ts",
     "src/simulation/portability-fixture.ts"
