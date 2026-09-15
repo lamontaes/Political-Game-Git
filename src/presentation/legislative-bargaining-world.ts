@@ -24,12 +24,13 @@ import type {
   World,
 } from "../simulation";
 import {
+  BARGAINING_BRIEF_SCENARIO_KEY,
   bargainingBriefSupports,
   bargainingRoomContexts,
   bargainingScenePeople,
   bargainingSubjectFacts,
   FILED_SECTION_BRIEFS,
-  FISCAL_NOTE_SUMMARY,
+  fiscalNoteSummaryFor,
   formatPresentationTime,
   playerHasReadFiscalNoteFor,
   type LegislativeBargainingSeat,
@@ -183,7 +184,11 @@ export function openLegislativeBargaining(
   if (!measure) {
     return {
       kind: "unavailable",
-      reason: `${blueprint.designation} has not been taken up in this world; open the bill through the office first.`,
+      // No measure is on file, so this world has no bill number to name. The
+      // refusal says what is true of the world rather than naming a bill from
+      // the bank that nobody here has filed.
+      reason:
+        "The bill has not been taken up in this world; open it through the office first.",
     };
   }
   const measureId = measure.id;
@@ -199,12 +204,35 @@ export function openLegislativeBargaining(
       reason: "The bill on file belongs to a different jurisdiction.",
     };
   }
+  // The sitting has to be about the bill that is actually on file.
+  //
+  // Everything the authored sitting supplies — the filed sections, the fiscal
+  // note and its amounts, the beneficiary and its place, what the colleagues
+  // want and what they will trade — was written about one measure. Now that a
+  // world draws which of this legislature's written measures its session
+  // opened on, the brief and the bill can be different bills, and showing a
+  // transit pilot's sections under a school-crossing bill's name would be a
+  // fabrication about the player's own world.
+  //
+  // So it fails closed, the way this route already does for an institution
+  // with no brief: the office keeps every supported procedural action on the
+  // bill, and only the deliberation room stands down.
+  if (
+    docket === null &&
+    measure.shortTitle !==
+      legislativeBlueprint(BARGAINING_BRIEF_SCENARIO_KEY).shortTitle
+  ) {
+    return {
+      kind: "unavailable",
+      reason: `No deliberation brief was written for ${measure.designation}. Its supported procedural actions remain available in the office.`,
+    };
+  }
 
   const position = measurePosition(world, measureId);
   if (position.phase !== "on-floor") {
     return {
       kind: "unavailable",
-      reason: `${blueprint.designation} is not on the floor yet; the members' room has nothing to bargain over until it is.`,
+      reason: `${measure.designation} is not on the floor yet; the members' room has nothing to bargain over until it is.`,
     };
   }
   if (blueprint.pack.packId !== memberSeat.legislativeRulePackId) {
@@ -219,7 +247,7 @@ export function openLegislativeBargaining(
   if (position.chamberKey !== memberSeat.chamberKey) {
     return {
       kind: "unavailable",
-      reason: `${blueprint.designation} is not before this member's chamber.`,
+      reason: `${measure.designation} is not before this member's chamber.`,
     };
   }
   const chamber = chamberByKey(blueprint.pack, memberSeat.chamberKey);
@@ -259,7 +287,8 @@ export function openLegislativeBargaining(
   );
 
   if (docket === null) {
-    // The authored sitting seeds HB 214's text on first entry, as accepted. A
+    // The authored sitting seeds the filed bill's text on first entry, as
+    // accepted. A
     // docket bill filed its own clauses when it was filed, so there is nothing
     // to seed and nothing here may write over them.
     next = ensureFiledBillText(
@@ -277,7 +306,7 @@ export function openLegislativeBargaining(
     stableKey: fiscalNoteStableKeyFor(scenarioKey, docket),
     summary:
       docket === null
-        ? FISCAL_NOTE_SUMMARY
+        ? fiscalNoteSummaryFor(measure.designation)
         : draftFiscalNoteSummary(next, docket),
   });
   const sponsorPersonId = characterHistoryContextPersonId(
@@ -296,8 +325,9 @@ export function openLegislativeBargaining(
     facts = bargainingSubjectFacts({
       measureId,
       measureStableKey: measure.stableKey,
-      designation: blueprint.designation,
-      shortTitle: blueprint.shortTitle,
+      // What this world filed, not what the bank calls it.
+      designation: measure.designation,
+      shortTitle: measure.shortTitle,
       chamberName: chamber.name,
       nextStepLabel: stage.label.toLowerCase(),
       fiscalNoteEventStableKey: fiscalNoteStableKey(scenarioKey),

@@ -1212,7 +1212,7 @@ Seed `p85c-owner-clock`, start age 34, Ethan Vance.
 
 ### Legislative surface reached
 
-- HB 214 — The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
+- HB 292 — The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
   - Funds a two-year pilot extending fare-free bus service to riders enrolled in state assistance programs.
   - The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
   - Filed on 2027-03-16. Filed in the House of Representatives.
@@ -1323,7 +1323,7 @@ Seed `corpus-campaign-b`, start age 41, Nadia Tillman.
 
 ### Legislative surface reached
 
-- HB 214 — The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
+- HB 365 — The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
   - Funds a two-year pilot extending fare-free bus service to riders enrolled in state assistance programs.
   - The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
   - Filed on 2027-01-14. Filed in the House of Representatives.

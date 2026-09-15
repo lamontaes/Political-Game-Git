@@ -631,7 +631,17 @@ export interface LegislativeBlueprint {
   readonly measureNotice: typeof AUTHORED_MEASURE_NOTICE;
   readonly context: DemoJurisdictionContext;
   readonly pack: LegislativeRulePack;
-  readonly designation: string;
+  /**
+   * What the authored bank calls this measure — for the content index and for
+   * the standalone developer scenario, which files its own bill.
+   *
+   * Production must not copy it onto a measure. A bill in a player's world is
+   * numbered by that world's own jurisdiction numbering
+   * (`nextMeasureDesignation`), and the number it got is a fact recorded on the
+   * measure. The name says `authored` so that reading it in a production path
+   * reads as the mistake it would be.
+   */
+  readonly authoredDesignation: string | null;
   readonly shortTitle: string;
   readonly summary: string;
   readonly subjectClass: "appropriation" | "general-policy";
@@ -654,7 +664,7 @@ export function legislativeBlueprint(
     measureNotice: AUTHORED_MEASURE_NOTICE,
     context: blueprint.context,
     pack: blueprint.pack,
-    designation: blueprint.designation,
+    authoredDesignation: blueprint.designation,
     shortTitle: blueprint.shortTitle,
     summary: blueprint.summary,
     subjectClass: blueprint.subjectClass,
@@ -786,7 +796,10 @@ function institutionalWorkBlueprint(workKey: string): LegislativeBlueprint {
     measureNotice: AUTHORED_MEASURE_NOTICE,
     context: legislativeInstitutionContext(pack),
     pack,
-    designation: "WORK 1",
+    // A registered institution is not one bill. There is no authored
+    // designation to carry: the measure a member introduces is numbered by the
+    // jurisdiction it is filed in, when it is filed.
+    authoredDesignation: null,
     shortTitle: "Public service pilot",
     summary:
       "Fictional working proposal. No unmodeled policy consequence is claimed.",

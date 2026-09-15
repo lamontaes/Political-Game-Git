@@ -57,6 +57,23 @@ export const PROGRAM_AMOUNT_MINOR_UNITS = 800_000_000;
 export const REQUESTED_AMOUNT_MINOR_UNITS = 140_000_000;
 export const CAPPED_AMOUNT_MINOR_UNITS = 60_000_000;
 
+/**
+ * The place record the requested local match is about.
+ *
+ * The two labels below name a real Kentucky city. Until this constant they
+ * named it only as text: nothing connected "Ashland" in a player-visible
+ * clause to the game's own location corpus, so the sitting could have been
+ * talking about a place the game does not know. The GEOID is the Census
+ * identifier the places corpus is keyed by, and
+ * `legislative-bargaining-place.test.ts` holds the labels to it — the record
+ * has to exist, and it has to sit in the legislature this sitting belongs to.
+ *
+ * This grounds the claim; it does not yet generalise the sitting. The cast and
+ * the place are still written for one Kentucky measure, and widening that
+ * means authoring a second sitting rather than deleting this one.
+ */
+export const REQUESTED_MATCH_PLACE_GEOID = "2102368";
+
 export const BENEFICIARY_LABEL = "the Ashland–Boyd County Transit Authority";
 export const PLACE_LABEL = "Ashland";
 
@@ -124,8 +141,16 @@ export const FILED_SECTION_BRIEFS: readonly FiledSectionBrief[] = [
   },
 ];
 
-export const FISCAL_NOTE_SUMMARY =
-  "A fiscal note on HB 214 as filed put the two-year exposure at $8,000,000, with the caveat that a named local match would sit on top of that figure rather than inside it.";
+/**
+ * The fiscal note, about the bill this world actually filed.
+ *
+ * It used to name HB 214 outright, which was true only for as long as every
+ * save was handed that one bill. A note is written about a measure, so the
+ * measure's own designation is what it names.
+ */
+export function fiscalNoteSummaryFor(designation: string): string {
+  return `A fiscal note on ${designation} as filed put the two-year exposure at $8,000,000, with the caveat that a named local match would sit on top of that figure rather than inside it.`;
+}
 
 export const PRIOR_ADVOCATE_HISTORY_SUMMARY =
   "The two carried a road-fund bill together last session and neither of them had to be chased for a vote.";

@@ -107,6 +107,13 @@ test("a winner reaches real bargaining from normal play, and keeps it through a 
   // The win opened the office; the corner cluster still says Lexington.
   expect(await shellIdentity(page)).toContain("Lexington");
   await openElsewhere(page, "work");
+  // The election result is not office authority. Advance the ordinary shell
+  // clock until the recorded term starts, just as the composed campaign proof
+  // does, and only then expect the legislative office to exist.
+  for (let step = 0; step < 52; step += 1) {
+    if (await page.getByTestId("office-section").isVisible()) break;
+    await page.getByTestId("shell-pass-week").click();
+  }
   await expect(page.getByTestId("office-section")).toContainText(
     "Kentucky legislature",
   );
@@ -133,7 +140,13 @@ test("a winner reaches real bargaining from normal play, and keeps it through a 
   // Talk to a modelled colleague; talking legislates nothing.
   await talkToFirstColleague(page);
   const strip = page.getByTestId("conversation-strip");
-  await expect(strip).toContainText("HB 214");
+  // The colleague talks about the bill this world filed, whose number came
+  // from the jurisdiction's own numbering rather than from a scenario. So the
+  // check is that they name a House bill of this legislature — and, below,
+  // that the paper on the desk is the same one.
+  await expect(strip).toContainText(/\bHB \d+\b/);
+  const designation = (await strip.textContent())?.match(/\bHB \d+\b/)?.[0];
+  expect(designation, "the conversation should name the bill").toBeTruthy();
   await strip.getByRole("button", { name: /what they actually want/ }).click();
   await expect(strip.locator("blockquote").first()).not.toBeEmpty();
   await expect(view).toHaveAttribute("data-provision-count", "3");
@@ -142,6 +155,11 @@ test("a winner reaches real bargaining from normal play, and keeps it through a 
   // Inspect the bill and its fiscal note — canonical knowledge in this save.
   await page.getByTestId("working-document-entry").click();
   await expect(page.getByTestId("measure-paper")).toBeVisible();
+  // One bill, named the same way in the room and on the page. The heading sits
+  // on the workspace around the paper, not inside the sections article.
+  await expect(page.getByTestId("measure-paper-workspace")).toContainText(
+    designation!,
+  );
   await page.getByTestId("open-fiscal-note").click();
   await page.getByTestId("read-fiscal-note").click();
   await expect(page.getByTestId("fiscal-note-body")).toContainText("8,000,000");
