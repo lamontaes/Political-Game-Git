@@ -20,10 +20,22 @@ Total: 2 tests in 2 files
 describe("Playwright shard inventory", () => {
   it("parses listed tests and refuses an empty shard", () => {
     expect(parsePlaywrightList(listing)).toEqual([
-      "run-a.spec.ts:4:1 › Run A proof",
-      "run-b.spec.ts:4:1 › Run B proof",
+      "run-a.spec.ts › Run A proof",
+      "run-b.spec.ts › Run B proof",
     ]);
     expect(() => shardInventory(1, 2, [])).toThrow("zero tests");
+  });
+
+  it("uses logical file and title identity when source coordinates move", () => {
+    expect(
+      parsePlaywrightList(
+        "  [chromium] › moved.spec.ts:41:3 › Same logical proof\n",
+      ),
+    ).toEqual(
+      parsePlaywrightList(
+        "  [chromium] › moved.spec.ts:57:3 › Same logical proof\n",
+      ),
+    );
   });
 
   it("accepts a complete disjoint union and rejects drops, duplicates, and gaps", () => {
