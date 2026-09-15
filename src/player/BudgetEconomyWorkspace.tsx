@@ -1,9 +1,11 @@
 import { useMemo } from "react";
 
 import { projectBudgetEconomy } from "../presentation/budget-economy";
+import { projectModeledAccountHistory } from "../presentation/modeled-account-history";
 import type { EntityId, World } from "../simulation";
 import { DIAGNOSTICS } from "./diagnostics-profile";
 import { EconomicContextPanel, EconomicGraph } from "./EconomicContextPanel";
+import { ModeledAccountHistory } from "./ModeledAccountHistory";
 import "./budget-economy-workspace.css";
 
 export function BudgetEconomyWorkspace({
@@ -25,6 +27,12 @@ export function BudgetEconomyWorkspace({
 }) {
   const model = useMemo(
     () => projectBudgetEconomy(world, jurisdictionId),
+    [jurisdictionId, world],
+  );
+  // A separate projection of this life's modeled receipts account; the
+  // aggregate budget model above is left exactly as it was.
+  const modeledAccount = useMemo(
+    () => projectModeledAccountHistory(world, jurisdictionId),
     [jurisdictionId, world],
   );
 
@@ -98,6 +106,8 @@ export function BudgetEconomyWorkspace({
           ) : null}
         </section>
       )}
+
+      <ModeledAccountHistory history={modeledAccount} />
     </section>
   );
 }

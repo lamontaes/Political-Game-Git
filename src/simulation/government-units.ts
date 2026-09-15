@@ -18,8 +18,12 @@ import {
   GOVERNMENT_UNITS_META,
   GOVERNMENT_UNITS_ROWS,
 } from "./government-units.generated";
+import {
+  PLACE_COUNTY_RELATIONS_META,
+  PLACE_COUNTY_RELATIONS_ROWS,
+} from "./place-county-relations.generated";
 
-export { GOVERNMENT_UNITS_META };
+export { GOVERNMENT_UNITS_META, PLACE_COUNTY_RELATIONS_META };
 
 export type GovernmentUnitType = "county" | "municipality" | "township";
 
@@ -131,6 +135,61 @@ export function countyGovernmentUnit(
   countyGeoid: string,
 ): GovernmentUnitIdentity | null {
   return load().byCounty.get(countyGeoid) ?? null;
+}
+
+export interface CountyGovernmentShare {
+  readonly unit: GovernmentUnitIdentity;
+  /** The part of the place's 2020 land area lying in this county's area. */
+  readonly landAreaShare: number;
+}
+
+let partsByPlace: ReadonlyMap<
+  string,
+  readonly (readonly [string, number])[]
+> | null = null;
+
+function loadPlaceCountyParts(): ReadonlyMap<
+  string,
+  readonly (readonly [string, number])[]
+> {
+  if (partsByPlace) return partsByPlace;
+  const map = new Map<string, [string, number][]>();
+  for (const [place, county, land] of JSON.parse(
+    PLACE_COUNTY_RELATIONS_ROWS,
+  ) as [string, string, number][]) {
+    push(map, place, [county, land]);
+  }
+  partsByPlace = map;
+  return partsByPlace;
+}
+
+/**
+ * The county governments whose areas a Census place lies in, with the share of
+ * the place's land in each.
+ *
+ * Read from the 2020 redistricting files' place-within-county parts, so a place
+ * across four counties returns four entries, largest share first; nothing
+ * picks one. A part whose county area has no county government in the 2025
+ * listing (a Virginia independent city, a consolidated city-county the listing
+ * files as a municipality, Connecticut) contributes no entry, so shares sum to
+ * less than one when only some parts have one, and the result is empty when
+ * none do or the place is not in the 2020 files.
+ */
+export function countyGovernmentUnitsForPlace(
+  placeGeoid: string,
+): readonly CountyGovernmentShare[] {
+  const parts = loadPlaceCountyParts().get(placeGeoid) ?? [];
+  const placeLand = parts.reduce((sum, [, land]) => sum + land, 0);
+  const shares: CountyGovernmentShare[] = [];
+  for (const [countyGeoid, land] of parts) {
+    const unit = countyGovernmentUnit(countyGeoid);
+    if (unit) shares.push({ unit, landAreaShare: land / placeLand });
+  }
+  return shares.sort(
+    (left, right) =>
+      right.landAreaShare - left.landAreaShare ||
+      left.unit.id.localeCompare(right.unit.id),
+  );
 }
 
 /** Every unit, in publisher id order. */

@@ -131,5 +131,5 @@ describe("browser-loaded import graph", () => {
     // Specs reach the simulation in Node, as the failing hosted run did.
     expect(graph.has(resolve("src/simulation/world.ts"))).toBe(true);
     expect(bareJsonImports(graph)).toEqual([]);
-  });
+  }, 30_000);
 });

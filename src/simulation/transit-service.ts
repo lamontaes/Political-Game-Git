@@ -46,6 +46,7 @@ import {
 } from "./transit-funding";
 import { TRANSIT_CONTRACT_PRICE_MINOR_UNITS_PER_HOUR } from "./legislation-transit-families";
 import type { PublicPaymentInput, PublicPaymentResult } from "./public-fiscal";
+import { respondToPublishedServiceReport } from "./service-delivery-response";
 import type {
   EntityId,
   FutureDueItem,
@@ -852,5 +853,6 @@ export function publishTransitReport(
   });
   const reportId = next.history.events.at(-1)!.id;
   next = publishPublicEvent(next, { stableKey: sk, sourceEventId: reportId });
-  return next;
+  // A delivered, published report can reach one recorded supporter once.
+  return respondToPublishedServiceReport(next, { reportEventId: reportId });
 }

@@ -1,0 +1,226 @@
+{
+  "asOf": "2020-04-01",
+  "canonicalSha256": "0158d48e19f7fe0bf06958c45c4e4a1caf5fb1cb36e325f20238cd624a8bb6a8",
+  "compiler": {
+    "name": "place-county-relations",
+    "version": "1.0.0"
+  },
+  "corpusId": "place-county-relations",
+  "coverage": {
+    "boundedSampleReason": null,
+    "isCompleteUniverse": true,
+    "universeDescription": "Every part of a 2020 Census place (incorporated place or census designated place) lying in one county or county equivalent, as the 2020 Census Redistricting Data (P.L. 94-171) geographic headers publish at summary level 155 for the 50 states and the District of Columbia, with each part's land and water area. Puerto Rico is not included."
+  },
+  "inputClass": "production",
+  "inputs": [
+    {
+      "artifactId": "census-pl2020-al-place-county-parts",
+      "sha256": "ef26ff8f24a9795c2e37c9b372c2d2839bef652cf3cc1d466daec227f395e84a"
+    },
+    {
+      "artifactId": "census-pl2020-ak-place-county-parts",
+      "sha256": "c576777a8d3997506d64daa6561a3f81d2317256b49e9a585bde408a923556c7"
+    },
+    {
+      "artifactId": "census-pl2020-az-place-county-parts",
+      "sha256": "b2f26c1d8da40bb165c4814147594dd8443344b496fb7b46a8717f48be66e36b"
+    },
+    {
+      "artifactId": "census-pl2020-ar-place-county-parts",
+      "sha256": "235d2ed64de19cca7e5a1e11882785762a08a08ddddde131dc8c71085b8ce08c"
+    },
+    {
+      "artifactId": "census-pl2020-ca-place-county-parts",
+      "sha256": "ea28115379e6263cda2cbf150d1284fd013cd76fe9ebe62888875048d12a91ff"
+    },
+    {
+      "artifactId": "census-pl2020-co-place-county-parts",
+      "sha256": "a13782ae6f40973320c4263e42dbbef28a0dd79380bbc284b0b64831e0f497a8"
+    },
+    {
+      "artifactId": "census-pl2020-ct-place-county-parts",
+      "sha256": "c1131c9866c0fe38897a1497d96ed63c6340c127361aecff9654dbdebe830544"
+    },
+    {
+      "artifactId": "census-pl2020-de-place-county-parts",
+      "sha256": "f2f8b20209ae9a09a25aec8320848cb9d90e3d326039949c840c960c8aabae68"
+    },
+    {
+      "artifactId": "census-pl2020-dc-place-county-parts",
+      "sha256": "fb062bce66945f4a6c3495654bfe4de37045e346be4a8320b3219a64487ac298"
+    },
+    {
+      "artifactId": "census-pl2020-fl-place-county-parts",
+      "sha256": "ff87e6f09adfb5d1c4e3c7afc0ebccbe5536b4558605a284c44051f0f5df8dc4"
+    },
+    {
+      "artifactId": "census-pl2020-ga-place-county-parts",
+      "sha256": "dd3803a17e0411da7bb06613904ccb7e73515d28f62dfe76c65bb7d7cf75f36c"
+    },
+    {
+      "artifactId": "census-pl2020-hi-place-county-parts",
+      "sha256": "3ca0fb72068486004c0c8da140fddeb86eedd556f9f696b54f4b5bf5ac516447"
+    },
+    {
+      "artifactId": "census-pl2020-id-place-county-parts",
+      "sha256": "28429d8b487a10e86ae7e8a3bb39709df03aebd1019acb0a731d7823896bbeb2"
+    },
+    {
+      "artifactId": "census-pl2020-il-place-county-parts",
+      "sha256": "18f21f17259a93a30d6b528077ce80988a8d2b86d7673cbe00839c203839a9c7"
+    },
+    {
+      "artifactId": "census-pl2020-in-place-county-parts",
+      "sha256": "5a5480031667f8765d6e7a9d86196ae9f6eae72964e0a55988bfa575d0f2a6c4"
+    },
+    {
+      "artifactId": "census-pl2020-ia-place-county-parts",
+      "sha256": "735b3b9585b50adb6479a8995cf6d2cf18370b98ae745caed75ce381f81c4504"
+    },
+    {
+      "artifactId": "census-pl2020-ks-place-county-parts",
+      "sha256": "a0366af75b8c7f9bbff7eacfd858a0fb0a94fe53564164bf3bb6b1f4a666a6cc"
+    },
+    {
+      "artifactId": "census-pl2020-ky-place-county-parts",
+      "sha256": "510d0a7b46b508212658bc635f7dfaf35f1045122c8d5db3f712461220e594b4"
+    },
+    {
+      "artifactId": "census-pl2020-la-place-county-parts",
+      "sha256": "6d982f5f88e738ee66b910207d8accbc93b6247a9d120d91ad4cea87b3f05ab0"
+    },
+    {
+      "artifactId": "census-pl2020-me-place-county-parts",
+      "sha256": "65c3607aef3f3c3455fb70b88f7ed5f30ae8bc6ce233ae333ca0af06ffa66027"
+    },
+    {
+      "artifactId": "census-pl2020-md-place-county-parts",
+      "sha256": "92e8a3fd27b9d5a16b8ed865a4a597edeca2227aa9570934912679666a6aabc8"
+    },
+    {
+      "artifactId": "census-pl2020-ma-place-county-parts",
+      "sha256": "7c0d4222ec4a375a92752c0ae42df16c482c0b824523d9d23c44cf023794bb97"
+    },
+    {
+      "artifactId": "census-pl2020-mi-place-county-parts",
+      "sha256": "d84d61623f6990691249903d6ca25287e2a1367f869cbde925d1695352345698"
+    },
+    {
+      "artifactId": "census-pl2020-mn-place-county-parts",
+      "sha256": "ad6c71cf96b4bf7a02d3b528cfdbbd2b68caf7e9dfa442893a6d3c01d9caf04a"
+    },
+    {
+      "artifactId": "census-pl2020-ms-place-county-parts",
+      "sha256": "0b5a1c5c9c61eeab34c169b4a71642ffad0c5e90fb6dec98449bf4353e238211"
+    },
+    {
+      "artifactId": "census-pl2020-mo-place-county-parts",
+      "sha256": "b5bdf6576d47b0962a5f8bbc15dd0aa5444481fed5e563c7f08e9f8ac749c117"
+    },
+    {
+      "artifactId": "census-pl2020-mt-place-county-parts",
+      "sha256": "a5ae296df183de915e37db88da93839134d6f811cf4785d99d149de414c10400"
+    },
+    {
+      "artifactId": "census-pl2020-ne-place-county-parts",
+      "sha256": "f15bfec860201c684ec8aa364b843f48e78fd4b41a39cc69e8c5de566d071867"
+    },
+    {
+      "artifactId": "census-pl2020-nv-place-county-parts",
+      "sha256": "f4263f2ec3d3cb78dac92b771259b4307faea59add81fefb365aa2ece54c9b80"
+    },
+    {
+      "artifactId": "census-pl2020-nh-place-county-parts",
+      "sha256": "0d7d5b2ecd195292cf200fff4a55b0efee82cff25cd4fb246f50a2ea433a0b9a"
+    },
+    {
+      "artifactId": "census-pl2020-nj-place-county-parts",
+      "sha256": "3fca2706de381da571fc914ec5288684008c10ff264a176d8a2b13e0ffdb81d3"
+    },
+    {
+      "artifactId": "census-pl2020-nm-place-county-parts",
+      "sha256": "17d4ed03a5d45fa2707697fba54124aa8de1f732fdc5fd6fb61667ac17fe781e"
+    },
+    {
+      "artifactId": "census-pl2020-ny-place-county-parts",
+      "sha256": "bc107abbd524afe38f2d5e75b0498c833819ebdadb5ed2035b48806b5d02a876"
+    },
+    {
+      "artifactId": "census-pl2020-nc-place-county-parts",
+      "sha256": "dc4911e21d972d0dc54bb585a02d2654ed941183ea408da018719df96b1bf0ae"
+    },
+    {
+      "artifactId": "census-pl2020-nd-place-county-parts",
+      "sha256": "0b293a413d20a1b956c81c66f16472bc9167ec91f3f0ede21349613f8c16ca09"
+    },
+    {
+      "artifactId": "census-pl2020-oh-place-county-parts",
+      "sha256": "32eb3dd97f68e17cc5ac0092aea650cf3a6ae4db0249ac827a6aff20f520c1e0"
+    },
+    {
+      "artifactId": "census-pl2020-ok-place-county-parts",
+      "sha256": "d6c969a69fb67ced73fdaa8b9d696d130922e51ad415fd7a6da4ce8a6769d1b9"
+    },
+    {
+      "artifactId": "census-pl2020-or-place-county-parts",
+      "sha256": "838db2d66786735f65013a27cc7d5535d1161847df430a46dd9da55d18fc1914"
+    },
+    {
+      "artifactId": "census-pl2020-pa-place-county-parts",
+      "sha256": "33a0b480b524ff5befb70622c86fd35192cf4bdaac5dba3e609e16dcf0435780"
+    },
+    {
+      "artifactId": "census-pl2020-ri-place-county-parts",
+      "sha256": "1190617c0cac9182983652fabd146bd900dd58f2caa24e802399f872b5cbccb1"
+    },
+    {
+      "artifactId": "census-pl2020-sc-place-county-parts",
+      "sha256": "5c0c81452fae79263a624ccf1e4a786149931e6224ee4318e200c82233814ae3"
+    },
+    {
+      "artifactId": "census-pl2020-sd-place-county-parts",
+      "sha256": "4dab92518450585ff2413caf53c11f6b71bc1c72898fde84491a7b59d1469d53"
+    },
+    {
+      "artifactId": "census-pl2020-tn-place-county-parts",
+      "sha256": "299447cf8d48019fa94328c6679b3b300fa463781d7b76558512f510337bf16b"
+    },
+    {
+      "artifactId": "census-pl2020-tx-place-county-parts",
+      "sha256": "a198ac0f90a19a3c4969c2db61e8776122a93e34ed6be22d8c7d80a5025af5d2"
+    },
+    {
+      "artifactId": "census-pl2020-ut-place-county-parts",
+      "sha256": "8919afae51840d3589a194caca0f76c8aee945c224716c93ae386a2218e0bc01"
+    },
+    {
+      "artifactId": "census-pl2020-vt-place-county-parts",
+      "sha256": "cf4d1022940bace10b99fe9953b1ece7b38effd08123fab68f096fb4ca674b95"
+    },
+    {
+      "artifactId": "census-pl2020-va-place-county-parts",
+      "sha256": "4a73bb5498983684ea67ae8bf09de8f95f6d04f4a89c747f1dd46d067529dad2"
+    },
+    {
+      "artifactId": "census-pl2020-wa-place-county-parts",
+      "sha256": "507a9b73d534570daf6626863daea3e2fb6cc7a15a2c35b36fa99cd1e9114f12"
+    },
+    {
+      "artifactId": "census-pl2020-wv-place-county-parts",
+      "sha256": "372261070603d282705d1703c37fc1387b4a89a8faf5affd635a142f2db592fc"
+    },
+    {
+      "artifactId": "census-pl2020-wi-place-county-parts",
+      "sha256": "b3d5b68cacaba5a0f54201a640234ae082cc5f6591b91970481b1c80e54ffc7f"
+    },
+    {
+      "artifactId": "census-pl2020-wy-place-county-parts",
+      "sha256": "6565d7bc188fbeaaba6d17e17ad7f8316c7ef9339452379fbc99fa588845de39"
+    }
+  ],
+  "parser": {
+    "name": "census-pl94171-2020-geoheader",
+    "version": "1.0.0"
+  },
+  "recordCount": 33037
+}
