@@ -44,7 +44,7 @@ export const LIFE_TALK_INTENTS = {
   suggestGame: "Suggest playing a game together",
   suggestQuiet: "Suggest sitting and talking together",
   share: "Ask if you can tell them something",
-  matter: "Bring up something in the news",
+  matter: "Mention something in the news",
   remember: "Talk about an earlier conversation",
   acknowledge: "Let them know you heard",
   leave: "Say goodbye",
@@ -55,6 +55,12 @@ export const LIFE_TALK_INTENTS = {
   cancelProposal: "Cancel your plans together",
 } as const;
 export type LifeTalkIntent = keyof typeof LIFE_TALK_INTENTS;
+/**
+ * How a raised matter is labeled, and how a later "remember" finds its
+ * headline again. Distinct from the scene conversation's "Bring up:" topic
+ * switcher, which changes the subject rather than raising a news item.
+ */
+export const MATTER_CHOICE_PREFIX = "Mention the news: ";
 
 export interface LifeTalkContext {
   readonly playerPersonId: EntityId;
@@ -200,7 +206,7 @@ export function projectLifeConversation(
       key,
       label:
         matter && key === "matter"
-          ? `Bring up: ${matter.headline}`
+          ? `${MATTER_CHOICE_PREFIX}${matter.headline}`
           : proposal && key === "acceptProposal"
             ? `Agree to ${proposal.label}`
             : proposal && key === "declineProposal"
@@ -441,8 +447,8 @@ function replyFor(
         .find((event) =>
           event.tags.some((tag) => tag.startsWith("life.matter:")),
         );
-      if (matterTurn?.context.choice?.startsWith("Bring up: "))
-        return `I remember you bringing up “${matterTurn.context.choice.slice(10)}”`;
+      if (matterTurn?.context.choice?.startsWith(MATTER_CHOICE_PREFIX))
+        return `I remember you bringing up “${matterTurn.context.choice.slice(MATTER_CHOICE_PREFIX.length)}”`;
       const remembered =
         history.find(
           (event) =>
