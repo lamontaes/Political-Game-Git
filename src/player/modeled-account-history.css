@@ -1,0 +1,52 @@
+.modeled-account-history {
+  display: grid;
+  gap: 0.75rem;
+  margin-block-start: 1.25rem;
+  min-inline-size: 0;
+}
+
+.modeled-account-history h4 {
+  margin: 0;
+}
+
+.modeled-account-totals {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 0.5rem 1rem;
+  margin: 0;
+}
+
+.modeled-account-totals dt {
+  font-size: 0.85em;
+  opacity: 0.8;
+}
+
+.modeled-account-totals dd {
+  margin: 0;
+}
+
+.modeled-account-records {
+  overflow-x: auto;
+}
+
+.modeled-account-records table {
+  border-collapse: collapse;
+  inline-size: 100%;
+}
+
+.modeled-account-records caption {
+  text-align: start;
+  padding-block-end: 0.35rem;
+}
+
+.modeled-account-records th,
+.modeled-account-records td {
+  padding: 0.3rem 0.5rem;
+  text-align: start;
+  vertical-align: top;
+}
+
+.modeled-account-records code {
+  font-size: 0.8em;
+  overflow-wrap: anywhere;
+}

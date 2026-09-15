@@ -1,6 +1,7 @@
 import type { Locator, Page } from "@playwright/test";
 import { expect, test } from "./fixtures";
 import { openShellMenu, saveLife } from "./support/creator";
+import { readSavedLegislativeWorld } from "./support/legislative-entry";
 import { shotPath } from "./support/shot-path";
 
 /**
@@ -20,7 +21,7 @@ test.use({ actionTimeout: 60_000 });
 async function goTo(
   page: Page,
   id: string,
-  group: "personal" | "politics",
+  group: "personal" | "politics" | "people" | "journal",
 ): Promise<void> {
   await openShellMenu(page);
   if (!(await page.getByTestId(id).isVisible()))
@@ -284,10 +285,88 @@ test("an Alaska member funds added transit service from a collected tax and sees
     fullPage: true,
   });
 
-  // Save, reload and reopen: the same delivered record, nothing paid twice.
+  // Politics -> Budget: the separate modeled account history uses the same
+  // four cash outcomes without changing aggregate budget/reference graphs.
+  await goTo(page, "nav-politics-budget", "politics");
+  const accountHistory = page.getByTestId("modeled-account-history");
+  await expect(accountHistory).toBeVisible();
+  await expect(page.getByTestId("modeled-account-receipts")).toHaveText(
+    "$202.00",
+  );
+  await expect(page.getByTestId("modeled-account-payments")).toHaveText(
+    "$200.00",
+  );
+  await expect(page.getByTestId("modeled-account-balance")).toContainText(
+    "$2.00",
+  );
+  await expect(page.getByTestId("modeled-account-entry")).toHaveCount(4);
+  await page.screenshot({
+    path: shotPath("civic-modeled-account-history.png"),
+    fullPage: true,
+  });
+
+  // Save the delivered response, then use its canonical IDs to prove that
+  // the same colleague appears through People and the same event in Journal.
   await saveLife(page);
+  const saved = await readSavedLegislativeWorld(page);
+  const acknowledgment = saved.history.events.find(
+    (event) => event.type === "transit.service-delivery-acknowledged",
+  );
+  expect(acknowledgment).toBeDefined();
+  const colleagueId = acknowledgment!.participants[0]!.personId;
+  expect(
+    saved.history.events.filter(
+      (event) => event.type === "transit.service-delivery-acknowledged",
+    ),
+  ).toHaveLength(1);
+
+  await goTo(page, "elsewhere-people", "people");
+  await page
+    .getByTestId(`people-web-node-${colleagueId}`)
+    .locator("circle")
+    .click();
+  await expect(page.getByTestId("quick-last-interaction")).toContainText(
+    "Last on the record:",
+  );
+  await page.keyboard.press("Escape");
+  await goTo(page, "nav-journal-entry", "journal");
+  await expect(
+    page.locator(
+      `[data-testid="world39-journal"] [data-source-id="${acknowledgment!.id}"]`,
+    ),
+  ).toContainText("acknowledged the delivered service");
+  await saveLife(page);
+  const afterReaders = await readSavedLegislativeWorld(page);
+  expect(
+    afterReaders.history.events
+      .filter((event) => event.type === "transit.service-delivery-acknowledged")
+      .map((event) => event.id),
+  ).toEqual([acknowledgment!.id]);
+
+  // Reload and reopen: the same transfer IDs and actor consequence remain,
+  // with no second response or payment caused by inspection.
   await page.reload();
   await openSavedLife(page);
+  await goTo(page, "nav-politics-budget", "politics");
+  await expect(page.getByTestId("modeled-account-entry")).toHaveCount(4);
+  await expect(page.getByTestId("modeled-account-balance")).toContainText(
+    "$2.00",
+  );
+  await goTo(page, "elsewhere-people", "people");
+  await page
+    .getByTestId(`people-web-node-${colleagueId}`)
+    .locator("circle")
+    .click();
+  await expect(page.getByTestId("quick-last-interaction")).toContainText(
+    "Last on the record:",
+  );
+  await page.keyboard.press("Escape");
+  await goTo(page, "nav-journal-entry", "journal");
+  await expect(
+    page.locator(
+      `[data-testid="world39-journal"] [data-source-id="${acknowledgment!.id}"]`,
+    ),
+  ).toContainText("acknowledged the delivered service");
   await goTo(page, "nav-politics-transit", "politics");
   await expect(page.getByTestId("transit-outcome")).toContainText(
     "paid with $200.00 from the public account.",
