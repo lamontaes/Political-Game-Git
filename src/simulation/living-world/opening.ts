@@ -302,7 +302,8 @@ export function ensureLivingWorldOpening(
     organization(
       LIVING_WORLD_KEYS.chamber(chamberKey),
       CHAMBER_NAMES[chamberKey],
-      "sector:government",
+      // A national legislature, not a public office in the player's area.
+      "sector:federal-legislature",
     );
   }
   for (const party of PROFILE.majorParties) {

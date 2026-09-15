@@ -68,3 +68,28 @@ dehardwire census (the census test rewrites `docs/dehardwire/census.json`).
 
 LAND: receive the branch with L's mounts and regenerate the shared artifacts
 before full validate.
+
+## Addendum — browser journey and follow-up fix
+
+Ordinary-browser journey on dev server identity `6e735fd5` (clean,
+`/private/tmp/pg-alive43-w`, port 5481) at 1440x900, by pointer: New game →
+Start a life → age 34 → Kentucky → Lexington → Discover through play → Begin
+(Amir Zimmerman, January 5, 2026) → Week ×5 → February 9, 2026. No console
+errors. The scene headline surface showed the latest W3 stage, and News
+"Latest reporting" listed the local road-repair proposal and the international
+development's reported, continued and eased stages. In this seed only the
+international matter changed within five weeks; the local proposal had quiet
+checks.
+
+Defect found and fixed in the follow-up commit: News listed the House and Senate
+under "Around Lexington". The chambers are now `sector:federal-legislature`
+(ids unchanged), with a W1 regression test.
+
+WORLD39 test adaptations (owner disclosure): `world39-readers.test.ts` assumed
+zero publications at opening and a first-sorted publication. Both passed at W2
+`7537cea5` and failed at W3; they now assert opening publications are recorded
+developments and look a publication up by source. With the W1 and W3 proofs:
+23 passed.
+
+Observed, not W-owned: a dark vertical overlay across the living-room scene in
+this public checkout (no private pack).
