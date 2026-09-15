@@ -134,10 +134,14 @@ const interfaceSeed = await page.evaluate(async (databaseName) => {
         },
       ],
     },
+    // The complete current v3 preference shape: the shell reads interruption
+    // defaults into every stored interface, so a seed without them would not
+    // round-trip byte for byte.
     preferences: {
       peopleView: "web",
       defaultPinSize: "tiny",
       followedNewsOutletKeys: ["civic-ledger", "second-represented-outlet"],
+      interruptions: { stopForWorkShifts: false, stopForTentativeHolds: false },
     },
     personWardrobes: {
       [record.metadata.playerPersonId]: {

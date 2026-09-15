@@ -8,8 +8,8 @@ Corpus `state-legislatures`, as of 2026-09-06, records hashing to `857a38e3adec0
 - States carrying at least one UNKNOWN seat count or election fact: **9**
 - States with nothing compiled, each carrying a gap saying why: **36**
 - Distinct source artifacts cited: **18**
-- States with a full legislative rule pack on main: **5** (US-AK, US-IL, US-KY, US-MN, US-NE)
-- States with identity here but no rule pack: **10**
+- States with a registered legislative rule pack (fields may remain UNKNOWN): **9** (US-AK, US-IL, US-KY, US-MD, US-MN, US-MO, US-NE, US-NV, US-OH)
+- States with identity here but no rule pack: **8**
 
 | State                | Structure | Chambers | Names | Seats | Elected | Gaps | Rule pack |
 | -------------------- | --------- | -------- | ----- | ----- | ------- | ---- | --------- |
@@ -32,11 +32,11 @@ Corpus `state-legislatures`, as of 2026-09-06, records hashing to `857a38e3adec0
 | US-KY Kentucky       | UNKNOWN   | 0        | 0     | 0     | 0       | 1    | yes       |
 | US-LA Louisiana      | UNKNOWN   | 0        | 0     | 0     | 0       | 1    | no        |
 | US-MA Massachusetts  | UNKNOWN   | 0        | 0     | 0     | 0       | 1    | no        |
-| US-MD Maryland       | UNKNOWN   | 0        | 0     | 0     | 0       | 1    | no        |
+| US-MD Maryland       | UNKNOWN   | 0        | 0     | 0     | 0       | 1    | yes       |
 | US-ME Maine          | UNKNOWN   | 0        | 0     | 0     | 0       | 1    | no        |
 | US-MI Michigan       | UNKNOWN   | 0        | 0     | 0     | 0       | 1    | no        |
 | US-MN Minnesota      | known     | 2        | 2     | 2     | 0       | 2    | yes       |
-| US-MO Missouri       | UNKNOWN   | 0        | 0     | 0     | 0       | 1    | no        |
+| US-MO Missouri       | UNKNOWN   | 0        | 0     | 0     | 0       | 1    | yes       |
 | US-MS Mississippi    | UNKNOWN   | 0        | 0     | 0     | 0       | 1    | no        |
 | US-MT Montana        | UNKNOWN   | 0        | 0     | 0     | 0       | 1    | no        |
 | US-NC North Carolina | known     | 2        | 2     | 2     | 2       | 0    | no        |
@@ -45,9 +45,9 @@ Corpus `state-legislatures`, as of 2026-09-06, records hashing to `857a38e3adec0
 | US-NH New Hampshire  | UNKNOWN   | 0        | 0     | 0     | 0       | 1    | no        |
 | US-NJ New Jersey     | UNKNOWN   | 0        | 0     | 0     | 0       | 1    | no        |
 | US-NM New Mexico     | UNKNOWN   | 0        | 0     | 0     | 0       | 1    | no        |
-| US-NV Nevada         | known     | 2        | 2     | 0     | 0       | 1    | no        |
+| US-NV Nevada         | known     | 2        | 2     | 0     | 0       | 1    | yes       |
 | US-NY New York       | UNKNOWN   | 0        | 0     | 0     | 0       | 1    | no        |
-| US-OH Ohio           | known     | 2        | 2     | 0     | 1       | 1    | no        |
+| US-OH Ohio           | known     | 2        | 2     | 0     | 1       | 1    | yes       |
 | US-OK Oklahoma       | UNKNOWN   | 0        | 0     | 0     | 0       | 1    | no        |
 | US-OR Oregon         | known     | 2        | 2     | 0     | 2       | 1    | no        |
 | US-PA Pennsylvania   | UNKNOWN   | 0        | 0     | 0     | 0       | 1    | no        |

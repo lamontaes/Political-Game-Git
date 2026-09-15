@@ -21,6 +21,7 @@ import {
   type PredicateAuthority,
   type ProgramParameterValue,
 } from "./legislation-program-families";
+import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
 import { createStableId } from "./ids";
 import { makeIsoDate } from "./dates";
 
@@ -720,7 +721,29 @@ describe("a draft is written for a named legislature, never a default one", () =
     expect(designationPrefix("house")).toBe("HB");
     expect(designationPrefix("senate")).toBe("SB");
     expect(designationPrefix("legislature")).toBe("LB");
-    expect(() => designationPrefix("assembly")).toThrow(BillConfigurationError);
+    // Nevada's lower chamber is an Assembly and issues Assembly Bills. This
+    // assertion used "assembly" as its example of an unknown chamber, which
+    // was true only while no registered pack had one.
+    expect(designationPrefix("assembly")).toBe("AB");
+    expect(() => designationPrefix("star-chamber")).toThrow(
+      BillConfigurationError,
+    );
+  });
+
+  it("can name a bill in every chamber a registered legislature actually has", () => {
+    // Template compatibility, checked against the registry rather than a list
+    // kept by hand: a member filing in any registered chamber gets a bill
+    // number instead of an error.
+    expect(LEGISLATIVE_RULE_PACKS.length).toBeGreaterThan(0);
+    for (const pack of LEGISLATIVE_RULE_PACKS) {
+      for (const chamber of pack.chambers) {
+        const prefix = designationPrefix(chamber.chamberKey);
+        expect(
+          prefix,
+          `${pack.packId}/${chamber.chamberKey} has no bill designation`,
+        ).toMatch(/^[A-Z]{2}$/);
+      }
+    }
   });
 });
 

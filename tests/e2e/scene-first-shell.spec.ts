@@ -126,12 +126,12 @@ test.describe("A life is played in the room, not on a card", () => {
      * click falls through it to the backdrop.
      */
     await person.click();
-    const menu = page.getByTestId("person-action-menu");
+    const menu = page.getByTestId("quick-dossier");
     await expect(menu).toBeVisible();
-    await expect(menu.getByTestId("action-inspect")).toBeVisible();
+    await expect(menu.getByTestId("dossier-talk")).toBeVisible();
 
     // Their full record is one step from here, and Back returns to the room.
-    await menu.getByTestId("action-record").click();
+    await menu.getByTestId("person-full-record").click();
     await expect(page.getByTestId("person-workspace")).toBeVisible();
     await page.getByTestId("person-workspace-back").click();
 
@@ -139,7 +139,7 @@ test.describe("A life is played in the room, not on a card", () => {
     await person.focus();
     await expect(person).toBeFocused();
     await page.keyboard.press("Enter");
-    await expect(page.getByTestId("person-action-menu")).toBeVisible();
+    await expect(page.getByTestId("quick-dossier")).toBeVisible();
   });
 
   test("advances the life from a choice on the moment panel", async ({

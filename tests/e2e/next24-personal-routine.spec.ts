@@ -14,7 +14,7 @@ async function saveLife(page: Page) {
 
 async function personal(page: Page) {
   await openShellMenu(page);
-  await page.getByTestId("nav-personal-group").click();
+  await page.getByTestId("nav-group-personal").click();
   await page.getByTestId("nav-personal").click();
   const routine = page.getByTestId("personal-routine");
   await expect(routine).toBeVisible();

@@ -1514,3 +1514,14 @@ export function executiveRulePackForJurisdiction(
     ) ?? null
   );
 }
+
+/** The accepted pack whose own office key matches, or null. Titles are never used. */
+export function executiveRulePackForOfficeKey(
+  officeKey: string,
+): ExecutiveAuthorityRulePack | null {
+  return (
+    EXECUTIVE_AUTHORITY_RULE_PACKS.find(
+      (candidate) => candidate.office.officeKey === officeKey,
+    ) ?? null
+  );
+}

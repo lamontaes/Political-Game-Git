@@ -1,10 +1,11 @@
 import "./scene-conversation.css";
 import {
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
-  type KeyboardEvent,
+  type KeyboardEvent as ReactKeyboardEvent,
 } from "react";
 
 import {
@@ -34,6 +35,8 @@ import type {
   World,
 } from "../simulation";
 import { PersonPortrait } from "./PersonPortrait";
+import { browsingSurfaceOpen, firstEnabledControl } from "./overlay-focus";
+import { useClampedConversation } from "./overlay-viewport";
 
 /**
  * The conversation, as one box in the room.
@@ -94,6 +97,18 @@ export function SceneConversation({
    */
   const boxRef = useRef<HTMLElement>(null);
   const wasHistory = useRef(false);
+  useLayoutEffect(() => {
+    const focusTalk = () => {
+      const box = boxRef.current;
+      if (!box) return;
+      const intent = box.querySelector<HTMLElement>(
+        '[data-testid="conversation-intents"] button:not([disabled])',
+      );
+      (intent ?? firstEnabledControl(box))?.focus();
+    };
+    focusTalk();
+    queueMicrotask(focusTalk);
+  }, []);
   useEffect(() => {
     const box = boxRef.current;
     if (!box) return;
@@ -108,6 +123,45 @@ export function SceneConversation({
         ?.focus();
     wasHistory.current = inHistory;
   }, [historyPage]);
+  useEffect(() => {
+    function onDocumentKey(event: KeyboardEvent) {
+      if (event.key !== "Escape") return;
+      if (browsingSurfaceOpen()) return;
+      const target = event.target;
+      if (target instanceof Node && boxRef.current?.contains(target)) return;
+      if (
+        target instanceof Element &&
+        target.closest(".pg-workspace, .pg-nav, .pg-action-menu")
+      ) {
+        return;
+      }
+      if (historyPage !== null) {
+        event.stopPropagation();
+        setHistoryPage(null);
+        return;
+      }
+      event.stopPropagation();
+      onBack();
+    }
+    document.addEventListener("keydown", onDocumentKey);
+    return () => document.removeEventListener("keydown", onDocumentKey);
+  }, [historyPage, onBack]);
+  useClampedConversation(boxRef, 72);
+  /*
+   * A conversation that opens takes the keyboard: the first thing to say is
+   * where a player who pressed Talk expects to be, and Escape from there is
+   * Back. Only when focus is not already inside — coming back from browsing
+   * with the reminder keeps whatever the shell chose.
+   */
+  useEffect(() => {
+    const box = boxRef.current;
+    if (!box || box.contains(document.activeElement)) return;
+    box
+      .querySelector<HTMLElement>(
+        '[data-testid="conversation-intents"] button, [data-testid="talk-back"]',
+      )
+      ?.focus();
+  }, [subject]);
 
   const view = useMemo(
     () =>
@@ -136,7 +190,7 @@ export function SceneConversation({
     [world, playerPersonId, subject, facing],
   );
 
-  const onKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+  const onKeyDown = (event: ReactKeyboardEvent<HTMLElement>) => {
     if (event.key !== "Escape") return;
     event.stopPropagation();
     if (historyPage !== null) setHistoryPage(null);
@@ -154,6 +208,7 @@ export function SceneConversation({
         data-testid="scene-conversation"
         data-state="ended"
         aria-label="Conversation"
+        ref={boxRef}
         onKeyDown={onKeyDown}
       >
         <p className="pg-talk-line" data-testid="conversation-closed">
@@ -181,6 +236,27 @@ export function SceneConversation({
       : conversationRelationship(world, playerPersonId, facing);
   const current = currentExchangeTurn(turns);
   const history = conversationHistoryPage(turns, historyPage ?? 0);
+  /*
+   * Who is on the strip: you, whoever you are facing, and everybody the room
+   * says is physically here — in that order, without repeats.
+   */
+  const faces: EntityId[] = [];
+  const addFace = (id: EntityId | null | undefined) => {
+    if (id && world.people[id] && !faces.includes(id)) faces.push(id);
+  };
+  addFace(playerPersonId);
+  addFace(facing);
+  for (const id of view.room.eligibleAddresseePersonIds) addFace(id);
+  for (const id of view.room.physicallyPresentPersonIds) addFace(id);
+  const canFace = (id: EntityId) =>
+    view.addressees.some((choice) => choice.key === id);
+  const activeSpeakerId: EntityId | null = current
+    ? current.reply.trim().length > 0 && current.speakerPersonId
+      ? current.speakerPersonId
+      : current.playerLine
+        ? playerPersonId
+        : null
+    : facing;
   const speech = view.intents.filter((option) => option.key !== LISTEN_INTENT);
   const listen = view.intents.find((option) => option.key === LISTEN_INTENT);
   /*
@@ -208,7 +284,7 @@ export function SceneConversation({
       const after = result.world.currentMoment;
       setClock(
         after.date === before.date && after.minuteOfDay === before.minuteOfDay
-          ? "No time passed."
+          ? null
           : after.date === before.date
             ? `${formatMinute(before.minuteOfDay)} → ${formatMinute(after.minuteOfDay)}`
             : `${formatMinute(before.minuteOfDay)} → ${formatMinute(after.minuteOfDay)}, ${after.date}`,
@@ -246,30 +322,111 @@ export function SceneConversation({
       onKeyDown={onKeyDown}
     >
       <header className="pg-talk-head">
-        {facing !== null ? (
-          <PersonPortrait world={world} personId={facing} size="large" />
-        ) : null}
+        {/*
+          The sketch: the faces of the people in the conversation along the
+          top, and the one who is talking glows. Who is talking is the record's
+          answer — the speaker of the line on the table — not the person the
+          player happens to be facing; facing is drawn as a ring and can be
+          changed by pressing a face. The volume control sits at the right.
+        */}
+        <div
+          className="pg-talk-faces"
+          data-testid="talk-faces"
+          role="group"
+          aria-label="People in this conversation"
+        >
+          {faces.map((personId) => {
+            const speaking = personId === activeSpeakerId;
+            const addressed = personId === facing;
+            const eligible = personId !== playerPersonId && canFace(personId);
+            const label =
+              personId === playerPersonId
+                ? "You"
+                : personName(world.people[personId]!);
+            const Tag = eligible ? "button" : "div";
+            return (
+              <Tag
+                key={personId}
+                className="pg-talk-face"
+                data-speaking={speaking ? "true" : "false"}
+                data-addressed={addressed ? "true" : "false"}
+                data-person-id={personId}
+                data-testid={`talk-face-${personId}`}
+                {...(eligible
+                  ? {
+                      type: "button" as const,
+                      "aria-pressed": addressed,
+                      "aria-label": `Talk to ${label}`,
+                      onClick: () => {
+                        setHistoryPage(null);
+                        onChange({ subject, addressee: personId });
+                      },
+                    }
+                  : { "aria-label": label })}
+              >
+                <PersonPortrait
+                  world={world}
+                  personId={personId}
+                  size="small"
+                />
+                {speaking ? <span className="sr-only">(speaking)</span> : null}
+              </Tag>
+            );
+          })}
+        </div>
         <div className="pg-talk-who">
           <h2 className="pg-talk-name" data-testid="talk-name">
             {name}
           </h2>
-          {relationship ? (
-            <p className="pg-talk-relation" data-testid="talk-relationship">
-              {relationship}
-            </p>
-          ) : null}
-          <p className="pg-talk-topic" data-testid="conversation-topic">
-            {view.topicLabel}
+          <p className="pg-talk-relation">
+            {relationship ? (
+              <span data-testid="talk-relationship">{relationship}</span>
+            ) : null}
+            {relationship ? " · " : null}
+            <span className="pg-talk-topic" data-testid="conversation-topic">
+              {view.topicLabel}
+            </span>
           </p>
         </div>
-        <button
-          type="button"
-          className="ui-action ui-action--subtle pg-talk-back"
-          data-testid="talk-back"
-          onClick={onBack}
-        >
-          ← Back
-        </button>
+        <div className="pg-talk-head-controls">
+          {!view.settled ? (
+            <div
+              className="pg-talk-row pg-talk-volume"
+              role="group"
+              aria-label="How loudly you say it"
+              data-testid="conversation-audibility"
+            >
+              {view.audibilities.map((choice) => (
+                <button
+                  key={choice.key}
+                  type="button"
+                  className="pg-talk-chip pg-talk-chip--small"
+                  aria-pressed={choice.key === view.audibility}
+                  data-selected={choice.key === view.audibility}
+                  data-testid={`audibility-${choice.key}`}
+                  disabled={!choice.available}
+                  title={choice.unavailableReason ?? choice.description}
+                  aria-describedby={
+                    !choice.available && choice.unavailableReason
+                      ? "pg-talk-private-reason"
+                      : undefined
+                  }
+                  onClick={() => setAudibility(choice.key)}
+                >
+                  {choice.label}
+                </button>
+              ))}
+            </div>
+          ) : null}
+          <button
+            type="button"
+            className="ui-action ui-action--subtle pg-talk-back"
+            data-testid="talk-back"
+            onClick={onBack}
+          >
+            ← Back
+          </button>
+        </div>
       </header>
 
       {/*
@@ -333,7 +490,11 @@ export function SceneConversation({
               >
                 {clock}
               </p>
-            ) : null}
+            ) : (
+              <p className="sr-only" role="status" data-testid="talk-clock">
+                No time passed.
+              </p>
+            )}
           </div>
 
           {trouble ? (
@@ -394,35 +555,6 @@ export function SceneConversation({
                 {listen.label}
               </button>
             ) : null}
-            {!view.settled ? (
-              <div
-                className="pg-talk-row pg-talk-volume"
-                role="group"
-                aria-label="How you say it"
-                data-testid="conversation-audibility"
-              >
-                {view.audibilities.map((choice) => (
-                  <button
-                    key={choice.key}
-                    type="button"
-                    className="pg-talk-chip pg-talk-chip--small"
-                    aria-pressed={choice.key === view.audibility}
-                    data-selected={choice.key === view.audibility}
-                    data-testid={`audibility-${choice.key}`}
-                    disabled={!choice.available}
-                    title={choice.unavailableReason ?? choice.description}
-                    aria-describedby={
-                      !choice.available && choice.unavailableReason
-                        ? "pg-talk-private-reason"
-                        : undefined
-                    }
-                    onClick={() => setAudibility(choice.key)}
-                  >
-                    {choice.label}
-                  </button>
-                ))}
-              </div>
-            ) : null}
             {otherTopics.map((entry) => (
               <button
                 key={entry.subject}
@@ -466,7 +598,7 @@ export function SceneConversation({
                     } this too.`
                   : "Nobody else hears this."}
                 {subject === "life-talk"
-                  ? " Each exchange takes 2 minutes; spending time together takes 30."
+                  ? " Dialogue and reading dialogue take no time; spending half an hour together takes 30 minutes."
                   : ""}
               </span>
               {privateReason ? (
@@ -557,7 +689,11 @@ function ExchangeTurn({
         </p>
       ) : null}
       {reply.length > 0 ? (
-        <p className="pg-talk-line" data-testid="talk-reply">
+        <p
+          className="pg-talk-line"
+          data-testid="talk-reply"
+          data-narration={quoted ? "false" : "true"}
+        >
           {turn.speakerName && quoted ? (
             <strong className="pg-talk-speaker">{turn.speakerName}: </strong>
           ) : null}

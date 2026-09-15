@@ -1,3 +1,4 @@
+import { enterSupportedTerm } from "../../tests/fixtures/recorded-legislative-term";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -357,7 +358,10 @@ describe("what winning opens, and only where it is supported", () => {
 
     // Winning opens the office the accepted capability rules already know how
     // to open. Nothing new was invented to let the player through the door.
-    const winnerCapabilities = resolvePlayerCapabilities(won!.world);
+    expect(resolvePlayerCapabilities(won!.world).office).toBe(false);
+    const winnerCapabilities = resolvePlayerCapabilities(
+      enterSupportedTerm(won!.world, won!.personId),
+    );
     expect(winnerCapabilities.office).toBe(true);
     expect(winnerCapabilities.legislation).toBe(true);
     expect(winnerCapabilities.legislativeScenarioKey).toBe("kentucky");

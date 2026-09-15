@@ -117,9 +117,16 @@ function useAmbientStep(active: boolean): number {
  */
 export function AmbientTableau({
   resolved = null,
+  still = false,
   children,
 }: {
   readonly resolved?: TitlePresentation | null;
+  /**
+   * Hold the room. The creator and the transition stand in front of one
+   * stable backdrop rather than a cycling one: a room crossfading behind a
+   * form is the ghosting the owner saw, and it reads as an error.
+   */
+  readonly still?: boolean;
   readonly children: (roomDescription: string) => ReactNode;
 }) {
   const cycle = useMemo<readonly TitleAmbientRoom[]>(() => {
@@ -141,7 +148,7 @@ export function AmbientTableau({
   }, [resolved]);
 
   const reducedMotion = usePrefersReducedMotion();
-  const step = useAmbientStep(cycle.length > 1);
+  const step = useAmbientStep(cycle.length > 1 && !still);
   const frame = titleAmbientFrame(cycle, step);
 
   /**

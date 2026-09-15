@@ -15,38 +15,112 @@
  */
 
 .pg-talk {
-  width: min(46rem, 100%);
-  padding: 0.7rem 1rem 0.65rem;
+  width: min(44rem, 100%);
+  max-height: min(26rem, calc(var(--pg-vv-height, 100dvh) - 7.5rem));
+  overflow: auto;
+  padding: 0.65rem 0.9rem 0.6rem;
   color: var(--run-a-ink);
-  background: linear-gradient(180deg, rgb(18 29 46 / 93%), rgb(11 19 32 / 95%));
+  font-family: var(--pg-font-ui, inherit);
+  background: linear-gradient(180deg, rgb(14 23 38 / 86%), rgb(9 15 26 / 92%));
   border: 1px solid var(--run-a-line);
-  border-radius: 0.9rem;
-  box-shadow: 0 1.2rem 3rem rgb(8 13 22 / 46%);
-  backdrop-filter: blur(5px);
+  border-radius: 0.6rem;
+  box-shadow:
+    0 1px 0 rgb(244 236 224 / 12%) inset,
+    0 1.2rem 3rem rgb(8 13 22 / 42%);
+  backdrop-filter: blur(10px);
 }
 
 .pg-talk-head {
   display: flex;
-  align-items: center;
-  gap: 0.8rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.75rem;
 }
 
-.pg-talk-head .person-portrait figcaption {
+/*
+ * The faces along the top. Whoever is talking glows; whoever you are facing
+ * carries a brass ring; a face you can turn to is a button.
+ */
+.pg-talk-faces {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.3rem;
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+}
+
+.pg-talk-face {
+  position: relative;
+  display: grid;
+  padding: 0;
+  border: 0;
+  border-radius: 0.4rem;
+  background: none;
+  cursor: default;
+  transition:
+    transform 160ms ease,
+    filter 160ms ease;
+}
+
+button.pg-talk-face {
+  cursor: pointer;
+}
+
+.pg-talk-face .person-portrait figcaption {
   /* The heading beside it already says the name. */
   display: none;
 }
 
-.pg-talk-head .person-portrait-mark {
-  width: 3.2rem;
-  height: 3.2rem;
-  font-size: 1.05rem;
-  border-color: var(--run-a-gold);
+.pg-talk-face .person-portrait-mark {
+  width: 2.7rem;
+  height: 2.7rem;
+  font-size: 0.95rem;
+  border-radius: 0.4rem;
+  border: 1px solid var(--run-a-line);
   background: #1c2a40;
   color: var(--run-a-ink);
+  filter: saturate(0.75) brightness(0.85);
+  transition:
+    filter 160ms ease,
+    box-shadow 160ms ease,
+    border-color 160ms ease;
+}
+
+.pg-talk-face[data-addressed="true"] .person-portrait-mark {
+  border-color: var(--run-a-gold);
+  filter: none;
+}
+
+.pg-talk-face[data-speaking="true"] .person-portrait-mark {
+  border-color: #f2d68a;
+  filter: none;
+  box-shadow:
+    0 0 0 2px rgb(242 214 138 / 55%),
+    0 0 18px 4px rgb(242 214 138 / 45%);
+}
+
+.pg-talk-face[data-speaking="true"] {
+  transform: translateY(-2px);
+}
+
+button.pg-talk-face:hover .person-portrait-mark,
+button.pg-talk-face:focus-visible .person-portrait-mark {
+  filter: none;
+  border-color: var(--run-a-gold);
+}
+
+.pg-talk-head-controls {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.3rem;
+  flex: 1 0 100%;
 }
 
 .pg-talk-who {
-  flex: 1 1 auto;
+  flex: 1 1 10rem;
   min-width: 0;
 }
 
@@ -60,15 +134,19 @@
 .pg-talk-relation,
 .pg-talk-topic {
   margin: 0.1rem 0 0;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   color: var(--run-a-muted);
 }
 
 .pg-talk-topic {
   font-size: 0.7rem;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--run-a-gold);
+}
+
+.pg-talk-name {
+  font-family: var(--pg-font-display, Georgia, serif);
 }
 
 .pg-talk-back {
@@ -104,10 +182,22 @@
   margin-top: 0.3rem;
 }
 
+/* What you said: spoken, so upright, and marked as yours. */
 .pg-talk-you {
-  font-size: 0.88rem;
-  font-style: italic;
+  font-size: 0.9rem;
   color: var(--run-a-muted);
+}
+
+.pg-talk-you::before {
+  content: "You: ";
+  font-weight: 700;
+  color: var(--run-a-gold);
+}
+
+/* Narration — a line with no speaker — is italic, as the sketch asks. */
+.pg-talk-line[data-narration="true"] {
+  font-style: italic;
+  color: #e6dcc3;
 }
 
 .pg-talk-line {
@@ -204,7 +294,7 @@
 }
 
 .pg-talk-volume {
-  margin-left: auto;
+  margin-left: 0;
 }
 
 .pg-talk-history-list {

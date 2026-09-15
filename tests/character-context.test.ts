@@ -441,10 +441,13 @@ describe("The five-question path is one life at the stage it is opening", () => 
   });
 
   it("still opens an adult life on the adult openers", () => {
+    // TEXT39 versions the selectable items (`.text39-v1`) because their wording
+    // changed; answers saved under the base keys still resolve through the
+    // full authored list, so the openers are the same scenes under new keys.
     expect(shortPath(34).slice(0, 3)).toEqual([
-      "kitchen_late",
-      "marcus_and_the_trip_fund",
-      "priya_reference",
+      "kitchen_late.text39-v1",
+      "marcus_and_the_trip_fund.text39-v1",
+      "priya_reference.text39-v1",
     ]);
   });
 

@@ -52,7 +52,11 @@ function toItem(blueprint: LegislativeBlueprint): ContentItem {
     id: contentItemId(BANK_ID, blueprint.scenarioKey),
     bankId: BANK_ID,
     itemKey: blueprint.scenarioKey,
-    title: `${blueprint.authoredDesignation} — ${blueprint.shortTitle}`,
+    // An institutional template names no bill, so the index titles it by what
+    // it actually is rather than inventing a designation for it.
+    title: blueprint.authoredDesignation
+      ? `${blueprint.authoredDesignation} — ${blueprint.shortTitle}`
+      : blueprint.shortTitle,
     summary: blueprint.summary,
     domain: "legislation",
     family: blueprint.pack.packId,

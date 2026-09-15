@@ -10,8 +10,6 @@
     "US-HI",
     "US-ID",
     "US-NC",
-    "US-NV",
-    "US-OH",
     "US-OR",
     "US-VA"
   ],
@@ -19,8 +17,12 @@
     "US-AK",
     "US-IL",
     "US-KY",
+    "US-MD",
     "US-MN",
-    "US-NE"
+    "US-MO",
+    "US-NE",
+    "US-NV",
+    "US-OH"
   ],
   "reportVersion": "1",
   "sourceArtifactIds": [
@@ -260,7 +262,7 @@
       "chambersWithKnownName": 0,
       "chambersWithKnownSeatCount": 0,
       "gapCount": 1,
-      "hasProceduralRulePack": false,
+      "hasProceduralRulePack": true,
       "jurisdictionKey": "US-MD",
       "stateName": "Maryland",
       "structureKnown": false
@@ -304,7 +306,7 @@
       "chambersWithKnownName": 0,
       "chambersWithKnownSeatCount": 0,
       "gapCount": 1,
-      "hasProceduralRulePack": false,
+      "hasProceduralRulePack": true,
       "jurisdictionKey": "US-MO",
       "stateName": "Missouri",
       "structureKnown": false
@@ -403,7 +405,7 @@
       "chambersWithKnownName": 2,
       "chambersWithKnownSeatCount": 0,
       "gapCount": 1,
-      "hasProceduralRulePack": false,
+      "hasProceduralRulePack": true,
       "jurisdictionKey": "US-NV",
       "stateName": "Nevada",
       "structureKnown": true
@@ -425,7 +427,7 @@
       "chambersWithKnownName": 2,
       "chambersWithKnownSeatCount": 0,
       "gapCount": 1,
-      "hasProceduralRulePack": false,
+      "hasProceduralRulePack": true,
       "jurisdictionKey": "US-OH",
       "stateName": "Ohio",
       "structureKnown": true

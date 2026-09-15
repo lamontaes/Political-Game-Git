@@ -1,0 +1,11 @@
+{
+  "kind": "our-civic-duty-content-pack",
+  "api": "ordinary-scenes-v1",
+  "id": "mod.example.quiet-time",
+  "version": "1.0.0",
+  "title": "Quiet time — authored settings",
+  "authority": "authored-fiction",
+  "dependencies": [],
+  "durations": [{ "key": "mod.example.quiet-time.reading", "minutes": 12 }],
+  "scenes": []
+}

@@ -82,7 +82,29 @@ function describeInteraction(
   const when = summary.lastInteractionAt;
   return when === null
     ? `${summary.interactionCount} exchanges are on the record.`
-    : `Last on the record: ${when}.`;
+    : `Last on the record: ${readableRecordDate(when)}.`;
+}
+
+const RECORD_MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+/** "2001-01-28" as "January 28, 2001"; the stored date stays ISO. */
+function readableRecordDate(date: string): string {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(date);
+  const month = match ? RECORD_MONTHS[Number(match[2]) - 1] : undefined;
+  return match && month ? `${month} ${Number(match[3])}, ${match[1]}` : date;
 }
 
 /**

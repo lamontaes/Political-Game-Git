@@ -80,6 +80,23 @@ export function resolvePersonPortrait(
   ) {
     return { kind: "placeholder", reason: "catalog-generation-unavailable" };
   }
+  // Prepared parts use a full-person SVG canvas. Frame its authored crown/root
+  // for a recognizable head-and-shoulders crop; never substitute a portrait face.
+  const body =
+    person.appearance.material &&
+    [...characters.components.values()].find(
+      (c) =>
+        c.definition.kind === "body" &&
+        c.definition.family === person.appearance!.selection?.bodyFamily,
+    )?.definition;
+  const crown = body?.attachment_anchors?.find((a) => a.id === "crown");
+  const portraitWidth = body?.root && crown ? 210 : 35;
+  const portraitRootY =
+    body?.root && crown
+      ? 8 +
+        (((body.root.y - crown.y) * body.canvas.height) / body.canvas.width) *
+          portraitWidth
+      : 55;
   let plan: CharacterRenderPlan;
   try {
     plan = buildCharacterRenderPlan({
@@ -88,11 +105,11 @@ export function resolvePersonPortrait(
       anchor: {
         id: "person-portrait",
         xPercent: 50,
-        yPercent: 55,
+        yPercent: portraitRootY,
         scale: 1,
         poseFamily: "standing-neutral",
         depth: 1,
-        bodyWidthPercent: 35,
+        bodyWidthPercent: portraitWidth,
       },
       plate: { width: 100, height: 100 },
       library: characters,

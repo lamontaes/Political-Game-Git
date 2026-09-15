@@ -222,6 +222,98 @@ export const MUNICIPAL_SOURCES: readonly MunicipalSourceSpec[] = [
     },
   },
   {
+    // Municode's content API for the city's Code of Ordinances, publication
+    // job 487467 (code updated 2026-04-30). Each section's history note stays
+    // outside the cut regions; temporal limits are recorded where the cells
+    // cite them.
+    artifactId: "va-charlottesville-city-code-ch2",
+    url: "https://api.municode.com/CodesContent?jobId=487467&nodeId=CO_CH2AD_ARTIICICO_DIV3ORRE&productId=12078",
+    provider: "Municode Library for the City of Charlottesville, Virginia",
+    jurisdictionKey: "US-VA",
+    enactingBody: "the Council of the City of Charlottesville",
+    instrumentKind: "ordinance",
+    instrumentTitle:
+      "Code of the City of Charlottesville, Virginia, Chapter 2, Administration",
+    localPath:
+      "data/source/municipal-governance/raw/va-charlottesville-city-code-ch2.json",
+    enacted: {
+      regions: [
+        {
+          beginsWith:
+            "The city council shall, at its first meeting in January after the regular biennial",
+          endsWith: "The mayor shall have no veto power.",
+        },
+        {
+          beginsWith:
+            "The city council shall hold its regular meetings at the council chamber of the city",
+          endsWith: "to cancel or move the date of any such regular meeting.",
+        },
+        {
+          beginsWith:
+            "The rules of order and procedure of the city council, with the right of the body to",
+          endsWith: "Suspension of the rules may be made by a motion.",
+        },
+        {
+          beginsWith:
+            "The proceedings of the city council, except as its own rules may otherwise provide,",
+          endsWith: "shall be governed by Robert's Rules of Order.",
+        },
+        {
+          beginsWith:
+            "All votes of the council shall be recorded in the council journal by a listing of",
+          endsWith: "vote before the council.",
+        },
+        {
+          beginsWith:
+            "No general ordinance shall be passed by the city council on the same day of its introduction,",
+          endsWith: "or amendment to the zoning ordinance is held.",
+        },
+        {
+          beginsWith:
+            "For every ordinance or resolution appropriating money exceeding one hundred dollars",
+          endsWith:
+            "11-4 of this Code may be passed on the same date as their introduction.",
+        },
+        {
+          beginsWith:
+            "Every ordinance shall take effect from the date of its passage unless otherwise provided.",
+          endsWith:
+            "Every ordinance shall take effect from the date of its passage unless otherwise provided.",
+        },
+        {
+          beginsWith:
+            "The clerk of the council shall enter upon the minute book the introduction and passage",
+          endsWith: "new law is spread.",
+        },
+      ],
+      length: 3884,
+      sha256:
+        "c03498d121771e80b5b0149f9251f49b05a7386cd17dc9fb7736e39a5b7d0e0d",
+    },
+  },
+  {
+    artifactId: "va-code-15-2-1428",
+    url: "https://law.lis.virginia.gov/vacode/title15.2/chapter14/section15.2-1428/",
+    provider: "Virginia Law portal, Virginia General Assembly",
+    jurisdictionKey: "US-VA",
+    enactingBody: "the General Assembly of Virginia",
+    instrumentKind: "statute",
+    instrumentTitle:
+      "Code of Virginia § 15.2-1428, Procedures for certain acts",
+    localPath: "data/source/municipal-governance/raw/va-code-15-2-1428.html",
+    enacted: {
+      regions: [
+        {
+          beginsWith: "§ 15.2-1428 . Procedures for certain acts.",
+          endsWith: "two-thirds of all members elected to the governing body.",
+        },
+      ],
+      length: 501,
+      sha256:
+        "ae8bb757905736dbccee98da498696e3eba13b2c57c73e0e8b9cd6294884f25a",
+    },
+  },
+  {
     artifactId: "va-code-15-2-1415",
     url: "https://law.lis.virginia.gov/vacode/title15.2/chapter14/section15.2-1415/",
     provider: "Virginia Law portal, Virginia General Assembly",

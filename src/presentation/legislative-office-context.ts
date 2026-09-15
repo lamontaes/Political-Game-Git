@@ -8,6 +8,7 @@ import type { EntityId, IsoDate, World } from "../simulation";
 import {
   resolveActiveMemberSeat,
   type ActiveMemberSeat,
+  type MemberSeatScope,
 } from "./legislative-member-seat";
 
 export interface UnavailableOfficeFact {
@@ -59,16 +60,35 @@ export function projectLegislativeOfficeContext(
   world: World,
   personId: EntityId,
   measureId?: EntityId,
+  scope?: MemberSeatScope,
 ): LegislativeOfficeContext {
-  const resolution = resolveActiveMemberSeat(world, personId);
+  const selectedMeasure = world.history.legislativeMeasures?.find(
+    (entry) => entry.id === measureId,
+  );
+  const resolution = resolveActiveMemberSeat(
+    world,
+    personId,
+    selectedMeasure && !scope
+      ? {
+          governingJurisdictionId: selectedMeasure.jurisdictionId,
+          legislativeRulePackId: selectedMeasure.rulePackId,
+        }
+      : scope,
+  );
   let member: LegislativeOfficeContext["member"] = {
     kind: "unavailable",
     reason:
-      resolution.kind === "unseated"
+      resolution.kind !== "seated"
         ? resolution.reason
-        : "The office records are incomplete.",
+        : "The selected member seat does not match this bill's institution.",
   };
-  if (resolution.kind === "seated") {
+  if (
+    resolution.kind === "seated" &&
+    (!selectedMeasure ||
+      (selectedMeasure.jurisdictionId ===
+        resolution.seat.governingJurisdictionId &&
+        selectedMeasure.rulePackId === resolution.seat.legislativeRulePackId))
+  ) {
     const seat = resolution.seat;
     const contest = electionContestById(world, seat.contestId);
     const work = activeWorkRelationshipsAt(world, personId).find(
@@ -92,9 +112,7 @@ export function projectLegislativeOfficeContext(
       };
     }
   }
-  const record = (world.history.legislativeMeasures ?? []).find(
-    (entry) => entry.id === measureId,
-  );
+  const record = selectedMeasure;
   let measure: LegislativeOfficeContext["measure"] = {
     kind: "unavailable",
     reason: measureId

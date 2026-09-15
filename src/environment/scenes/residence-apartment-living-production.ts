@@ -69,6 +69,11 @@ export const RESIDENCE_APARTMENT_LIVING_CANONICAL_03_SCENE: EnvironmentSceneSpec
       far: { floor_y_percent: 82, scale: 0.75 },
     },
     standard_body_width_percent: 13.5,
+    // PEOPLE40: foreground crown y18 / soles y92. Visual-estimate staging
+    // against this plate’s floor recession and back-wall door (y20..63),
+    // never a same-depth comparison with the foreground coffee table.
+    // Width follows each body’s crown-to-sole geometry, not its padded canvas.
+    standing_height_percent: 74,
     camera_policy: DOMESTIC_CAMERA,
     /** At 1.5 the plate keeps x 112..1264; at 2.4 it keeps 573 rows from y 195. */
     safe_area: { x: 112, y: 195, width: 1152, height: 573 },
@@ -118,7 +123,7 @@ export const RESIDENCE_APARTMENT_LIVING_CANONICAL_03_SCENE: EnvironmentSceneSpec
         z_order: 2,
         footprint_percent: 13,
         allowed_pose_families: ["seated-guest-neutral"],
-        permitted_facings: ["front"],
+        permitted_facings: ["three-quarter-right"],
         seat_contact: {
           seat_plane_y_percent: 61.5,
           seat_front_x_percent: 33,
@@ -135,10 +140,24 @@ export const RESIDENCE_APARTMENT_LIVING_CANONICAL_03_SCENE: EnvironmentSceneSpec
         kind: "floor-standing",
         x_percent: 46,
         z_order: 6,
-        footprint_percent: 20,
+        // Clear foreground standing envelope x33..59; capacity, not body size.
+        footprint_percent: 26,
         allowed_pose_families: ["standing-neutral", "standing-conversational"],
         permitted_facings: ["front"],
         floor_contact: { floor_y_percent: 92, max_foot_spread_percent: 10 },
+      },
+      {
+        /** G41: open floor in front of the left chair, behind the near place.
+         * Image-space estimate; its floor82 shares the existing depth ramp. */
+        id: "living-room-middle-standing",
+        type: "standing-person",
+        kind: "floor-standing",
+        x_percent: 24,
+        z_order: 4,
+        footprint_percent: 20,
+        allowed_pose_families: ["standing-listening", "standing-neutral"],
+        permitted_facings: ["front"],
+        floor_contact: { floor_y_percent: 82, max_foot_spread_percent: 8 },
       },
       {
         /** Bare floor to the right of the sofa, on the way to the door. */

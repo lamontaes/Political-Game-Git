@@ -8,6 +8,7 @@ import {
   nextMeasureDesignation,
   serializeWorld,
 } from "../simulation";
+import { LEGISLATIVE_RULE_PACKS } from "../simulation/legislature-rule-packs";
 import { createNewGameWorld } from "./new-game";
 import type { NewGameSetup } from "./new-game";
 import {
@@ -229,5 +230,45 @@ describe("the authored bank", () => {
       jurisdictionId,
     });
     expect(legislativeScenarioKeysForPlace(jurisdictionId)).toContain(chosen);
+  });
+});
+
+describe("the institutional work route", () => {
+  /**
+   * The nationwide route composed in #255 files its measure through the same
+   * producer, from a seated member's own chamber. It carried `designation:
+   * "WORK 1"` — the HB 214 defect generalised, one fixed bill identity for
+   * every registered legislature — which the `authoredDesignation` rename
+   * caught the moment the two were composed.
+   */
+  it("names no bill in its template, so no world can be handed one", () => {
+    for (const pack of LEGISLATIVE_RULE_PACKS) {
+      const blueprint = legislativeBlueprint(`institution:${pack.packId}`);
+      expect(blueprint.authoredDesignation).toBeNull();
+      expect(blueprint.pack.packId).toBe(pack.packId);
+    }
+  });
+
+  it("can number a bill in every chamber a registered legislature has", () => {
+    // Template compatibility against the registry, not a hand-kept list: a
+    // member filing in any registered chamber gets a number, not an error.
+    const world = createNewGameWorld({
+      ...BASE,
+      placeKey: "kentucky",
+      seed: SEED_A,
+    }).world;
+    const jurisdictionId =
+      resolvePlayerCapabilities(world).legislativeJurisdictionId!;
+    for (const pack of LEGISLATIVE_RULE_PACKS) {
+      for (const chamber of pack.chambers) {
+        const designation = nextMeasureDesignation(world, {
+          jurisdictionId,
+          originChamberKey: chamber.chamberKey,
+        });
+        expect(designation, `${pack.packId}/${chamber.chamberKey}`).toMatch(
+          /^[A-Z]{2} \d+$/,
+        );
+      }
+    }
   });
 });

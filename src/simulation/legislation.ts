@@ -198,6 +198,18 @@ function positionOf(state: ReplayState): MeasurePosition {
 type StepOutcome = { ok: true } | { ok: false; reason: string };
 
 const LEGAL: StepOutcome = { ok: true };
+
+/** True only where the pack establishes a floor with no committee stage. */
+function floorWithoutReferral(chamber: ChamberRule | null): boolean {
+  const rule = chamber?.referral.floorWithoutReferral;
+  return rule?.kind === "known" && rule.value === true;
+}
+
+/** True only where the pack establishes that nothing is presented. */
+function noPresentment(pack: LegislativeRulePack): boolean {
+  const rule = pack.executive.presentmentRequired;
+  return rule.kind === "known" && rule.value === false;
+}
 function illegal(reason: string): StepOutcome {
   return { ok: false, reason };
 }
@@ -309,7 +321,11 @@ function applyRecordedAction(
       return LEGAL;
     }
     case "placed-on-calendar": {
-      const gate = requirePhase(state, action.kind, ["awaiting-floor"]);
+      const gate =
+        state.phase === "awaiting-referral" &&
+        floorWithoutReferral(currentChamber())
+          ? LEGAL
+          : requirePhase(state, action.kind, ["awaiting-floor"]);
       if (!gate.ok) return gate;
       const chamber = currentChamber();
       if (!chamber) return illegal("the measure is not in a chamber");
@@ -467,7 +483,11 @@ function applyRecordedAction(
     case "enrolled": {
       const gate = requirePhase(state, action.kind, ["awaiting-enrollment"]);
       if (!gate.ok) return gate;
-      state.phase = "awaiting-presentation";
+      // Where the pack establishes that nothing is presented, the enrolled
+      // text is the enacted text; no executive step stands in between.
+      state.phase = noPresentment(pack)
+        ? "awaiting-enactment"
+        : "awaiting-presentation";
       state.floorStageKey = null;
       return LEGAL;
     }
@@ -630,6 +650,14 @@ export function measureGate(world: World, measureId: EntityId): MeasureGate {
         thresholdLabel: null,
       };
     case "awaiting-referral":
+      if (floorWithoutReferral(chamber)) {
+        return {
+          actorLabel: `${chamber?.name ?? "Chamber"} leadership`,
+          description:
+            "The measure was introduced and goes to the floor calendar; this body's rules put no committee stage in between.",
+          thresholdLabel: null,
+        };
+      }
       return {
         actorLabel: chamber?.referral.authorityLabel ?? "Referral authority",
         description: `${chamber?.referral.authorityLabel ?? "The referral authority"} decides which committee takes the measure.`,
@@ -799,8 +827,15 @@ export function availableMeasureSteps(
   switch (position.phase) {
     case "drafting":
       return ["file-measure"];
-    case "awaiting-referral":
-      return ["request-referral"];
+    case "awaiting-referral": {
+      const chamber = position.chamberKey
+        ? chamberByKey(pack, position.chamberKey)
+        : null;
+      if (!floorWithoutReferral(chamber)) return ["request-referral"];
+      return chamber && chamber.committees.length > 0
+        ? ["request-calendar-placement", "request-referral"]
+        : ["request-calendar-placement"];
+    }
     case "in-committee": {
       const steps: MeasureStepKey[] = [];
       if (!position.hearingHeld) steps.push("request-committee-hearing");
@@ -930,11 +965,13 @@ function denominatorValueFor(
   }
 }
 
-export interface RecordVoteInput {
+export interface RecordVoteInput<
+  Purpose extends string = LegislativeVotePurpose,
+> {
   readonly stableKey: string;
   readonly measureId: EntityId;
   readonly forum: LegislativeVoteForum;
-  readonly purpose: LegislativeVotePurpose;
+  readonly purpose: Purpose;
   readonly floorStageKey?: string | null;
   readonly threshold: VoteThresholdRule;
   readonly eligibleMembers: number;
@@ -951,10 +988,12 @@ export interface RecordVoteInput {
  * Builds a legislative vote record and decides it structurally. The caller
  * supplies member dispositions; this function never invents them.
  */
-function buildVote(
+export function buildLegislativeVoteRecord<
+  Purpose extends LegislativeVotePurpose | "constitutional-proposal",
+>(
   world: World,
-  input: RecordVoteInput,
-): LegislativeVoteRecord {
+  input: RecordVoteInput<Purpose>,
+): Omit<LegislativeVoteRecord, "purpose"> & { readonly purpose: Purpose } {
   if (input.dispositions.length === 0) {
     throw new Error("A legislative vote must record member dispositions.");
   }
@@ -1261,11 +1300,13 @@ export function nextMeasureStableKey(
   ];
   for (const family of families) {
     for (const record of family) {
-      if (record.measureId === measureId) taken.add(record.stableKey);
+      // Writers require globally unique keys within a history family. Another
+      // measure's use of the same operation prefix is still a collision.
+      taken.add(record.stableKey);
     }
   }
   for (const item of world.history.futureDueItems ?? []) {
-    if (item.entityIds.includes(measureId)) taken.add(item.stableKey);
+    taken.add(item.stableKey);
   }
   for (let n = 1; n <= taken.size + 1; n += 1) {
     const candidate = `${prefix}:${n}`;
@@ -1625,7 +1666,7 @@ export function recordCommitteeDisposition(
     );
   }
 
-  const vote = buildVote(world, {
+  const vote = buildLegislativeVoteRecord(world, {
     stableKey: `${input.stableKey}:vote`,
     measureId: measure.id,
     forum: {
@@ -1719,13 +1760,19 @@ export function placeMeasureOnCalendar(
   input: PlaceOnCalendarInput,
 ): World {
   const measure = requireMeasure(world, input.measureId);
+  const pack = rulePackById(measure.rulePackId);
+  const before = measurePosition(world, input.measureId);
+  const direct =
+    before.phase === "awaiting-referral" &&
+    floorWithoutReferral(
+      before.chamberKey ? chamberByKey(pack, before.chamberKey) : null,
+    );
   const position = assertPhase(
     world,
     input.measureId,
-    ["awaiting-floor"],
+    [direct ? "awaiting-referral" : "awaiting-floor"],
     "place the measure on the calendar",
   );
-  const pack = rulePackById(measure.rulePackId);
   const chamber = chamberByKey(
     pack,
     position.chamberKey ?? measure.originChamberKey,
@@ -1806,7 +1853,7 @@ export function offerFloorAmendment(
   );
 
   const threshold = requireKnown(stage.vote, `${stage.label} vote threshold`);
-  const vote = buildVote(world, {
+  const vote = buildLegislativeVoteRecord(world, {
     stableKey: `${input.stableKey}:vote`,
     measureId: measure.id,
     forum: { kind: "chamber", chamberKey: chamber.chamberKey },
@@ -1901,7 +1948,7 @@ export function takeFloorVote(world: World, input: FloorVoteInput): World {
     );
   }
 
-  const vote = buildVote(world, {
+  const vote = buildLegislativeVoteRecord(world, {
     stableKey: `${input.stableKey}:vote`,
     measureId: measure.id,
     forum: { kind: "chamber", chamberKey: chamber.chamberKey },
@@ -2035,7 +2082,7 @@ export function recordConcurrenceVote(
   const threshold = pack.interChamber.concurrenceThreshold;
   const eligibleMembers = electedMembersFor(chamber, input.electedMembers);
 
-  const vote = buildVote(world, {
+  const vote = buildLegislativeVoteRecord(world, {
     stableKey: `${input.stableKey}:vote`,
     measureId: measure.id,
     forum: { kind: "chamber", chamberKey: chamber.chamberKey },
@@ -2277,7 +2324,7 @@ export function attemptVetoOverride(
             override.appropriationsThreshold,
             "appropriations override threshold",
           );
-    const vote = buildVote(next, {
+    const vote = buildLegislativeVoteRecord(next, {
       stableKey: `${input.stableKey}:${entry.forumKey}:vote`,
       measureId: measure.id,
       forum: { kind: "joint-session", forumName: override.forumName },
@@ -2328,7 +2375,7 @@ export function attemptVetoOverride(
   for (const chamberKey of expected) {
     const entry = input.forums.find((item) => item.forumKey === chamberKey)!;
     const chamber = chamberByKey(pack, chamberKey);
-    const vote = buildVote(next, {
+    const vote = buildLegislativeVoteRecord(next, {
       stableKey: `${input.stableKey}:${chamberKey}:vote`,
       measureId: measure.id,
       forum: { kind: "chamber", chamberKey },

@@ -40,14 +40,16 @@ import type { ConversationOutcome } from "./conversation-consequences";
 /** The initial state of each subject, before anything has been said. */
 function openingProgress(
   subject: ConversationSubjectKey,
+  world?: World,
+  personId?: EntityId,
 ): ConversationProgress | null {
   switch (subject) {
     case "household-obligation":
-      return createHouseholdObligationProgress();
+      return createHouseholdObligationProgress(world, personId);
     case "school-project-share":
       return createSchoolProjectProgress();
     case "neighborhood-meeting-notice":
-      return createNeighborhoodMeetingProgress();
+      return createNeighborhoodMeetingProgress(world);
     case "life-talk":
       return createLifeTalkProgress();
     default:
@@ -163,7 +165,7 @@ export function conversationProgressFromHistory(
   personId: EntityId,
   subject: ConversationSubjectKey,
 ): ConversationProgress | null {
-  let progress = openingProgress(subject);
+  let progress = openingProgress(subject, world, personId);
   if (!progress) return null;
   for (const turn of recordedConversationTurns(world, personId, subject)) {
     try {

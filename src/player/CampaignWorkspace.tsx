@@ -32,6 +32,12 @@ import type {
  * Where the game cannot honestly offer a candidacy it says so in a sentence and
  * shows nothing else, which is the only decent alternative to inventing an
  * office.
+ *
+ * One control per intent (UI FINISH). The plan section only edits how the next
+ * piece of work is carried out — where, and how much the committee may spend
+ * on advertising. Doing the work is one row of buttons, one per kind. Before
+ * this there were two ways to run the same afternoon (the plan's own "carry
+ * out" button and the row beneath it), and pressing both could book two.
  */
 
 export interface CampaignWorkspaceProps {
@@ -42,6 +48,68 @@ export interface CampaignWorkspaceProps {
 
 function money(amount: MoneyAmount): string {
   return `${amount.currency} ${(amount.minorUnits / 100).toFixed(2)}`;
+}
+
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+const ISO_DATE = /\b(\d{4})-(\d{2})-(\d{2})\b/;
+
+/** "2026-02-02" as a person would write it; anything else is left alone. */
+export function readableCampaignDate(text: string): string {
+  return text.replace(new RegExp(ISO_DATE.source, "g"), (whole, y, m, d) => {
+    const month = MONTHS[Number(m) - 1];
+    return month ? `${month} ${Number(d)}, ${y}` : whole;
+  });
+}
+
+/**
+ * Splits a joined eligibility explanation into what the player needs to read
+ * and what is source bookkeeping.
+ *
+ * A block reason is kept word for word; only its placement changes. Sentences
+ * that carry an observation or retrieval date, or talk about source text, are
+ * provenance: still true, still reachable, but under "Sources and detail"
+ * rather than in the office's one-line status. Repeated sentences (two rule
+ * checks can return the same reason) are shown once.
+ */
+export function splitEligibilityText(text: string): {
+  readonly reasons: readonly string[];
+  readonly provenance: readonly string[];
+} {
+  const sentences = [
+    ...new Set(
+      text
+        .split(/(?<=\.)\s+/)
+        .map((sentence) => sentence.trim())
+        .filter(Boolean),
+    ),
+  ];
+  const reasons: string[] = [];
+  const provenance: string[] = [];
+  for (const sentence of sentences) {
+    if (
+      ISO_DATE.test(sentence) ||
+      /\b(observed|retrieved|source text|shapefile|pack)\b/i.test(sentence)
+    ) {
+      provenance.push(sentence);
+    } else {
+      reasons.push(sentence);
+    }
+  }
+  return { reasons, provenance };
 }
 
 export function CampaignWorkspace({
@@ -71,8 +139,6 @@ export function CampaignWorkspace({
     [world, personId],
   );
   const [problem, setProblem] = useState<string | null>(null);
-  const [selectedPriority, setSelectedPriority] =
-    useState<CampaignActionKind | null>(null);
   const [selectedGeography, setSelectedGeography] = useState<string | null>(
     null,
   );
@@ -94,56 +160,51 @@ export function CampaignWorkspace({
     );
   }
 
-  function spend(kind: CampaignActionKind) {
-    run(
-      () => spendAnAfternoon(world, personId, kind),
-      (next) => {
-        if (next === world) {
-          setProblem("Something already on the calendar has to happen first.");
-          return;
-        }
-        onWorldChange(next);
-      },
-    );
-  }
-
-  const priorityKey = strategy?.priorityChoices.some(
-    (choice) => choice.key === selectedPriority,
-  )
-    ? selectedPriority!
-    : (strategy?.proposedPriorityKey ?? null);
-  const priority = strategy?.priorityChoices.find(
-    (choice) => choice.key === priorityKey,
-  );
   const geographyKey = strategy?.geographyChoices.some(
     (choice) => choice.key === selectedGeography,
   )
     ? selectedGeography!
     : (strategy?.geographyChoices[0]?.key ?? null);
-  const spendingKey = priority?.spendingChoices.some(
+  const advertising = strategy?.priorityChoices.find(
+    (choice) => choice.key === "advertising",
+  );
+  const advertisingSpendingKey = advertising?.spendingChoices.some(
     (choice) => choice.key === selectedSpending,
   )
     ? selectedSpending!
-    : (priority?.spendingChoices[0]?.key ?? null);
+    : (advertising?.spendingChoices[0]?.key ?? null);
 
-  function commitStrategy() {
-    if (!strategy || !priorityKey || !geographyKey || !spendingKey) return;
+  /*
+   * The single way to do a piece of campaign work. With a plan on the table it
+   * is committed through the plan, so the recorded strategy carries the chosen
+   * geography and, for advertising, the approved ceiling. Without one it is the
+   * ordinary afternoon. Either way the canonical writer refuses a full day or an
+   * empty account and hands back the unchanged world.
+   */
+  function doNow(kind: CampaignActionKind) {
+    const priority = strategy?.priorityChoices.find(
+      (choice) => choice.key === kind,
+    );
+    const spendingKey =
+      kind === "advertising"
+        ? advertisingSpendingKey
+        : (priority?.spendingChoices[0]?.key ?? null);
     run(
       () =>
-        commitCampaignStrategy(world, personId, {
-          campaignId: strategy.campaignId,
-          proposerPersonId: strategy.proposerPersonId,
-          priorityKey,
-          geographyKey,
-          spendingKey,
-        }),
+        strategy && priority && geographyKey && spendingKey
+          ? commitCampaignStrategy(world, personId, {
+              campaignId: strategy.campaignId,
+              proposerPersonId: strategy.proposerPersonId,
+              priorityKey: kind,
+              geographyKey,
+              spendingKey,
+            })
+          : spendAnAfternoon(world, personId, kind),
       (next) => {
         if (next === world) {
           setProblem("Something already on the calendar has to happen first.");
           return;
         }
-        setSelectedPriority(null);
-        setSelectedGeography(null);
         setSelectedSpending(null);
         onWorldChange(next);
       },
@@ -161,19 +222,33 @@ export function CampaignWorkspace({
     );
   }
 
+  const proposedLabel =
+    strategy?.priorityChoices.find(
+      (choice) => choice.key === strategy.proposedPriorityKey,
+    )?.label ?? null;
+  const unavailable =
+    view.phase === "unavailable" && view.unavailableReason
+      ? splitEligibilityText(view.unavailableReason)
+      : null;
+  const authorityDetail = [
+    ...(view.officeAuthority ? [view.officeAuthority] : []),
+    ...view.openQuestions,
+  ];
+
   return (
     <section className="game-campaign" data-testid="campaign-section">
-      <h2>Standing for something</h2>
+      {/* The surface around this panel already titles it "Running for office". */}
+      <h2 className="sr-only">Standing for something</h2>
 
       {offices.length ? (
         <section
           className="game-campaign-strategy"
           data-testid="campaign-office-browser"
         >
-          <h3>Explore established offices</h3>
+          <h3>Offices you could run for</h3>
           <p>
-            Inspecting or selecting an office does not start a campaign or spend
-            money. Existing campaigns keep their recorded office.
+            Looking at an office, or selecting one, does not start a campaign or
+            spend money.
           </p>
           {[...new Set(offices.map((office) => office.governmentLevel))].map(
             (level) => (
@@ -181,71 +256,135 @@ export function CampaignWorkspace({
                 <legend>{level}</legend>
                 {offices
                   .filter((office) => office.governmentLevel === level)
-                  .map((office) => (
-                    <label key={office.officeKey}>
-                      <input
-                        type="radio"
-                        name="campaign-office"
-                        value={office.officeKey}
-                        checked={selectedOfficeKey === office.officeKey}
-                        onChange={() => {
-                          setSelectedOfficeKey(office.officeKey);
-                          setProblem(null);
-                        }}
-                      />
-                      <span>
-                        {office.title}
-                        <small>{office.provider}</small>
-                        <small>{office.eligibility}</small>
-                        <small>{office.timing}</small>
-                        <small>
-                          {office.connections.join(" ") ||
-                            "No office-related connections are established in your records."}
-                        </small>
-                      </span>
-                    </label>
-                  ))}
+                  .map((office) => {
+                    const status = office.eligible
+                      ? { reasons: [office.eligibility], provenance: [] }
+                      : splitEligibilityText(office.eligibility);
+                    const [electionOn, ...timingDetail] = office.timing
+                      .split(" — ")
+                      .map((part) => part.trim());
+                    const hasElection = ISO_DATE.test(office.timing);
+                    const detail = [
+                      ...status.provenance,
+                      ...(hasElection ? timingDetail : []),
+                      ...office.gaps,
+                    ];
+                    return (
+                      <label
+                        key={office.officeKey}
+                        data-eligible={office.eligible ? "true" : "false"}
+                      >
+                        <input
+                          type="radio"
+                          name="campaign-office"
+                          value={office.officeKey}
+                          checked={selectedOfficeKey === office.officeKey}
+                          onChange={() => {
+                            setSelectedOfficeKey(office.officeKey);
+                            setProblem(null);
+                          }}
+                        />
+                        <span className="game-campaign-office">
+                          <span className="game-campaign-office-title">
+                            {office.title}
+                          </span>
+                          <span className="game-campaign-office-body">
+                            {office.provider}
+                          </span>
+                          <span
+                            className="game-campaign-office-status"
+                            data-testid={`campaign-office-status-${office.officeKey}`}
+                          >
+                            {office.eligible
+                              ? office.eligibility
+                              : status.reasons.length > 0
+                                ? status.reasons.join(" ")
+                                : "You can't file for this office right now. The reason is under Sources and detail."}
+                          </span>
+                          <span className="game-campaign-office-line">
+                            {hasElection
+                              ? `Election: ${readableCampaignDate(electionOn ?? "")}`
+                              : office.timing}
+                          </span>
+                          {office.connections.map((line) => (
+                            <span
+                              key={line}
+                              className="game-campaign-office-line"
+                            >
+                              {line}
+                            </span>
+                          ))}
+                          {detail.length > 0 ? (
+                            <details className="game-campaign-detail">
+                              <summary>Sources and detail</summary>
+                              <ul>
+                                {[...new Set(detail)].map((line) => (
+                                  <li key={line}>{line}</li>
+                                ))}
+                              </ul>
+                            </details>
+                          ) : null}
+                        </span>
+                      </label>
+                    );
+                  })}
               </fieldset>
             ),
           )}
-          <p className="game-note">
-            No national election calendar or inferred district membership is
-            supplied here. The existing campaign filing route uses its 28-day
-            game scenario schedule, not a sourced real-world election date.
-          </p>
+          <details className="game-campaign-detail">
+            <summary>About election dates here</summary>
+            <p>
+              No national election calendar or inferred district membership is
+              supplied here. The existing campaign filing route uses its 28-day
+              game scenario schedule, not a sourced real-world election date.
+            </p>
+          </details>
         </section>
       ) : null}
-      {view.phase === "unavailable" ? (
-        <p className="game-note" data-testid="campaign-unavailable">
-          {view.unavailableReason}
-        </p>
+      {unavailable ? (
+        <div data-testid="campaign-unavailable" className="game-note">
+          <p>
+            {unavailable.reasons.length > 0
+              ? unavailable.reasons.join(" ")
+              : "There is no office here you can file for right now."}
+          </p>
+          {unavailable.provenance.length > 0 ? (
+            <details className="game-campaign-detail">
+              <summary>Sources and detail</summary>
+              <ul>
+                {unavailable.provenance.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
+            </details>
+          ) : null}
+        </div>
       ) : null}
 
       {view.phase === "can-file" ? (
-        <div data-testid="campaign-offer">
+        <div data-testid="campaign-offer" className="game-campaign-offer">
           <p>
-            There is a {view.officeTitle} to be filled
-            {view.placeName ? ` in ${view.placeName}` : ""}. Nobody has asked{" "}
-            {view.candidateName} to stand for it. That is not usually how it
-            starts.
+            {selectedOffice
+              ? `There is a ${selectedOffice.title} to be filled${view.placeName ? ` in ${view.placeName}` : ""}. Nobody has asked ${view.candidateName} to stand for it. That is not usually how it starts.`
+              : "Choose one of the offices above to see whether you can file for it."}
           </p>
-          {view.officeAuthority ? (
-            <p className="game-campaign-authority">{view.officeAuthority}</p>
-          ) : null}
           <button
             type="button"
             data-testid="file-candidacy"
+            className="game-campaign-action"
             disabled={!selectedOffice?.eligible}
             onClick={file}
           >
-            Put their name in
-            <small>The committee opens with nothing in it.</small>
+            <span className="game-campaign-action-label">Put your name in</span>
+            <span className="game-campaign-action-note">
+              The committee opens with nothing in it.
+            </span>
           </button>
-          {view.openQuestions.length > 0 ? (
-            <details className="game-campaign-gaps">
+          {authorityDetail.length > 0 ? (
+            <details className="game-campaign-gaps game-campaign-detail">
               <summary>What the game does not know about this</summary>
               <ul>
-                {view.openQuestions.map((question) => (
+                {[...new Set(authorityDetail)].map((question) => (
                   <li key={question}>{question}</li>
                 ))}
               </ul>
@@ -260,7 +399,7 @@ export function CampaignWorkspace({
             {view.committeeName}
             {view.daysLeft !== null
               ? ` · ${view.daysLeft} ${view.daysLeft === 1 ? "day" : "days"} to go`
-              : ` · decided ${view.electionDate}`}
+              : ` · decided ${readableCampaignDate(view.electionDate ?? "")}`}
           </p>
           <p data-testid="campaign-opponents">
             Running against {view.opponentNames.join(", ")}.
@@ -286,49 +425,27 @@ export function CampaignWorkspace({
             </p>
           ) : null}
 
-          {strategy ? (
+          {strategy && view.offers.length > 0 ? (
             <section
               className="game-campaign-strategy"
               data-testid="campaign-strategy"
               aria-labelledby="campaign-strategy-title"
             >
-              <h3 id="campaign-strategy-title">Set the next priority</h3>
+              <h3 id="campaign-strategy-title">Edit the plan</h3>
               <p data-testid="campaign-strategy-attribution">
                 <strong>{strategy.attribution}</strong>
               </p>
-              <p>{strategy.prompt}</p>
+              {proposedLabel ? (
+                <p data-testid="campaign-strategy-proposal">
+                  Proposed next: {proposedLabel}.
+                </p>
+              ) : null}
               <ul>
                 {strategy.knownSituation.map((fact) => (
-                  <li key={fact}>{fact}</li>
+                  <li key={fact}>{readableCampaignDate(fact)}</li>
                 ))}
               </ul>
               <p className="game-note">{strategy.caveat}</p>
-
-              <fieldset>
-                <legend>Priority</legend>
-                {strategy.priorityChoices.map((choice) => (
-                  <label key={choice.key}>
-                    <input
-                      type="radio"
-                      name="campaign-strategy-priority"
-                      value={choice.key}
-                      checked={priorityKey === choice.key}
-                      disabled={choice.unavailable !== null}
-                      onChange={() => {
-                        setSelectedPriority(choice.key);
-                        setSelectedSpending(null);
-                      }}
-                    />
-                    <span>
-                      {choice.label}
-                      {choice.key === strategy.proposedPriorityKey
-                        ? " — proposed"
-                        : ""}
-                      <small>{choice.unavailable ?? choice.explanation}</small>
-                    </span>
-                  </label>
-                ))}
-              </fieldset>
 
               <fieldset>
                 <legend>Represented geography</legend>
@@ -349,38 +466,74 @@ export function CampaignWorkspace({
                 ))}
               </fieldset>
 
-              <fieldset>
-                <legend>Committee spending ceiling</legend>
-                {priority?.spendingChoices.map((choice) => (
-                  <label key={choice.key}>
-                    <input
-                      type="radio"
-                      name="campaign-strategy-spending"
-                      value={choice.key}
-                      checked={spendingKey === choice.key}
-                      onChange={() => setSelectedSpending(choice.key)}
-                    />
-                    <span>
-                      {choice.label}
-                      <small>{choice.explanation}</small>
-                    </span>
-                  </label>
-                ))}
-              </fieldset>
+              {/* No affordable buy means no ceiling to set; the advertising
+                  button below already says why. An empty legend is not a control. */}
+              {advertising && advertising.spendingChoices.length > 0 ? (
+                <fieldset>
+                  <legend>Advertising spending ceiling</legend>
+                  {advertising.spendingChoices.map((choice) => (
+                    <label key={choice.key}>
+                      <input
+                        type="radio"
+                        name="campaign-strategy-spending"
+                        value={choice.key}
+                        checked={advertisingSpendingKey === choice.key}
+                        onChange={() => setSelectedSpending(choice.key)}
+                      />
+                      <span>
+                        {choice.label}
+                        <small>{choice.explanation}</small>
+                      </span>
+                    </label>
+                  ))}
+                </fieldset>
+              ) : null}
+              <p className="game-hint">
+                Changing the plan does not use any time. The work happens when
+                you choose it below.
+              </p>
+            </section>
+          ) : null}
 
-              <button
-                type="button"
-                data-testid="campaign-strategy-commit"
-                disabled={
-                  !priority ||
-                  priority.unavailable !== null ||
-                  !geographyKey ||
-                  !spendingKey
-                }
-                onClick={commitStrategy}
+          {view.offers.length > 0 ? (
+            <section
+              className="game-campaign-now"
+              aria-labelledby="campaign-now-title"
+            >
+              <h3 id="campaign-now-title">Do this now</h3>
+              <div
+                className="game-choices"
+                data-testid="campaign-offers"
+                role="group"
+                aria-labelledby="campaign-now-title"
               >
-                Approve and carry out this plan
-              </button>
+                {view.offers.map((offer) => (
+                  <button
+                    key={offer.kind}
+                    type="button"
+                    className="game-campaign-action"
+                    data-testid={`campaign-${offer.kind}`}
+                    data-proposed={
+                      strategy?.proposedPriorityKey === offer.kind
+                        ? "true"
+                        : "false"
+                    }
+                    disabled={offer.unavailable !== null}
+                    title={offer.unavailable ?? undefined}
+                    onClick={() => doNow(offer.kind)}
+                  >
+                    <span className="game-campaign-action-label">
+                      {offer.label}
+                    </span>
+                    <span className="game-campaign-action-note">
+                      {offer.unavailable ??
+                        (strategy?.proposedPriorityKey === offer.kind
+                          ? `Proposed. ${offer.cost}`
+                          : offer.cost)}
+                    </span>
+                  </button>
+                ))}
+              </div>
             </section>
           ) : null}
 
@@ -403,29 +556,12 @@ export function CampaignWorkspace({
             </section>
           ) : null}
 
-          {view.offers.length > 0 ? (
-            <div className="game-choices" data-testid="campaign-offers">
-              {view.offers.map((offer) => (
-                <button
-                  key={offer.kind}
-                  type="button"
-                  data-testid={`campaign-${offer.kind}`}
-                  disabled={offer.unavailable !== null}
-                  title={offer.unavailable ?? undefined}
-                  onClick={() => spend(offer.kind)}
-                >
-                  {offer.label}
-                  <small>{offer.unavailable ?? offer.cost}</small>
-                </button>
-              ))}
-            </div>
-          ) : null}
-
           {view.sessions.length > 0 ? (
             <ul className="game-campaign-log" data-testid="campaign-log">
               {view.sessions.map((session) => (
                 <li key={session.id}>
-                  <strong>{session.title}</strong> · {session.on}
+                  <strong>{session.title}</strong> ·{" "}
+                  {readableCampaignDate(session.on)}
                   {session.outcome ? <span> — {session.outcome}</span> : null}
                   {session.blockedBy.length > 0 ? (
                     <span> — waiting on {session.blockedBy.join(", ")}.</span>

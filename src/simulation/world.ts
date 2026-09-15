@@ -1,3 +1,25 @@
+import { assertWorldContentPacks } from "./runtime-content-packs";
+import { assertAppearanceMaterial } from "./appearance-material";
+import { applyNationalTermTransitions } from "./national-election-consumer";
+import {
+  assertNationalElectionIntegrity,
+  nationalHistoryRecords,
+  nationalEntityExists,
+  nationalEntityAvailableAt,
+} from "./national-elections";
+import {
+  constitutionalHistoryRecords,
+  constitutionalEntityExists,
+  constitutionalEntityAvailableAt,
+  assertConstitutionalIntegrity,
+} from "./constitutional-process";
+import { assertPublicPaymentIntegrity } from "./public-fiscal";
+import {
+  assertTaxIntegrity,
+  taxEntityExists,
+  taxEntityAvailableAt,
+  taxHistoryRecords,
+} from "./tax-policy";
 import {
   addDays,
   assertSimulationMoment,
@@ -470,6 +492,8 @@ export function createWorld(input: CreateWorldInput): World {
 
 export function assertWorldIntegrity(world: World): void {
   assertJsonSafe(world, "world");
+  if (world.contentPacks !== undefined)
+    assertWorldContentPacks(world.contentPacks);
   if (
     world.schemaVersion !== 15 ||
     (world.generatorVersion !== "demo-world-v15" &&
@@ -573,6 +597,7 @@ export function recordWorldEvent(
       entityId !== world.id &&
       !world.people[entityId] &&
       !world.jurisdictions[entityId] &&
+      !taxEntityExists(world, entityId) &&
       !lifeEntityExists(world, entityId) &&
       !resourceHousingEntityExists(world, entityId) &&
       !worldMetricEntityExists(world, entityId) &&
@@ -584,7 +609,9 @@ export function recordWorldEvent(
       !timeWorkEntityExists(world, entityId) &&
       !futureTransitionEntityExists(world, entityId) &&
       !electionContestEntityExists(world, entityId) &&
+      !nationalEntityExists(world, entityId) &&
       !campaignEntityExists(world, entityId) &&
+      !constitutionalEntityExists(world, entityId) &&
       !legislationEntityExists(world, entityId) &&
       !legislativePoliticsEntityExists(world, entityId) &&
       !publicInformationEntityExists(world, entityId)
@@ -593,6 +620,16 @@ export function recordWorldEvent(
         `Historical event references a missing entity: ${entityId}`,
       );
     }
+    if (
+      taxEntityExists(world, entityId) &&
+      !taxEntityAvailableAt(
+        world,
+        entityId,
+        occurredAt,
+        world.history.nextSequence,
+      )
+    )
+      throw new Error("Historical event references an unavailable tax entity.");
     if (
       lifeEntityExists(world, entityId) &&
       !lifeEntityAvailableAt(
@@ -723,6 +760,19 @@ export function recordWorldEvent(
       );
     }
     if (
+      constitutionalEntityExists(world, entityId) &&
+      !constitutionalEntityAvailableAt(
+        world,
+        entityId,
+        occurredAt,
+        world.history.nextSequence,
+      )
+    ) {
+      throw new Error(
+        "Constitutional entity is unavailable at the event frontier.",
+      );
+    }
+    if (
       legislationEntityExists(world, entityId) &&
       !legislationEntityAvailableAt(
         world,
@@ -735,6 +785,16 @@ export function recordWorldEvent(
         `Historical event references an unavailable legislative entity: ${entityId}`,
       );
     }
+    if (
+      nationalEntityExists(world, entityId) &&
+      !nationalEntityAvailableAt(
+        world,
+        entityId,
+        occurredAt,
+        world.history.nextSequence,
+      )
+    )
+      throw new Error("Event references unavailable national record.");
     if (
       electionContestEntityExists(world, entityId) &&
       !electionContestEntityAvailableAt(
@@ -906,7 +966,7 @@ export function advanceWorld(
     actionSequence: actionSequence + 1,
   };
 
-  return recordWorldEvent(advanced, {
+  return recordWorldEvent(applyNationalTermTransitions(advanced), {
     stableKey: `action:${actionSequence}:time-advanced:${world.currentDate}:${days}:${nextDate}`,
     type: "simulation.time-advanced",
     occurredAt: nextDate,
@@ -1171,6 +1231,8 @@ function validateInitialEntities(
         person.appearance.recipeVersion,
         "Person appearance recipe version",
       );
+      if (person.appearance.material !== undefined)
+        assertAppearanceMaterial(person.appearance.material);
       const outfit = person.appearance.outfit;
       if (
         outfit !== undefined &&
@@ -1482,6 +1544,7 @@ function validateHistoryIntegrity(world: World): void {
     );
   }
   const records = [
+    ...taxHistoryRecords(world),
     ...lifeHistoryRecords(world),
     ...resourceHousingHistoryRecords(world),
     ...worldMetricHistoryRecords(world),
@@ -1492,14 +1555,19 @@ function validateHistoryIntegrity(world: World): void {
     ...evidenceHistoryRecords(world),
     ...timeWorkHistoryRecords(world),
     ...electionContestHistoryRecords(world),
+    ...nationalHistoryRecords(world),
     ...campaignHistoryRecords(world),
     ...legislationHistoryRecords(world),
+    ...constitutionalHistoryRecords(world),
     ...legislativePoliticsHistoryRecords(world),
     ...draftLineageHistoryRecords(world),
     ...futureTransitionHistoryRecords(world),
     ...publicInformationHistoryRecords(world),
     ...personnelHistoryRecords(world),
     ...(history.districtResidenceIntervals ?? []),
+    ...(history.officeWorkflowPreferences ?? []),
+    ...(history.officeVoteInstructions ?? []),
+    ...(history.officeBriefingInspections ?? []),
     ...history.events,
     ...history.memories,
     ...history.knowledge,
@@ -1573,6 +1641,18 @@ function validateHistoryIntegrity(world: World): void {
     "legislative draft lineage",
   );
   assertSequenceOrdered(
+    history.officeWorkflowPreferences ?? [],
+    "office workflow preference",
+  );
+  assertSequenceOrdered(
+    history.officeVoteInstructions ?? [],
+    "office vote instruction",
+  );
+  assertSequenceOrdered(
+    history.officeBriefingInspections ?? [],
+    "office briefing inspection",
+  );
+  assertSequenceOrdered(
     history.legislativeCommitments ?? [],
     "legislative commitment",
   );
@@ -1603,6 +1683,8 @@ function validateHistoryIntegrity(world: World): void {
   ]);
   assertLifeHistoryIntegrity(world, ids);
   assertResourceHousingIntegrity(world, ids);
+  assertTaxIntegrity(world, ids);
+  assertPublicPaymentIntegrity(world);
   assertWorldMetricIntegrity(world, ids);
   assertCausalEffectIntegrity(world, ids);
   assertPolicySemanticsIntegrity(world, ids);
@@ -1611,8 +1693,10 @@ function validateHistoryIntegrity(world: World): void {
   assertEvidenceIntegrity(world, ids);
   assertTimeWorkIntegrity(world, ids);
   assertElectionContestIntegrity(world, ids);
+  assertNationalElectionIntegrity(world, ids);
   assertCampaignIntegrity(world, ids);
   assertLegislationIntegrity(world, ids);
+  assertConstitutionalIntegrity(world, ids);
   assertLegislativePoliticsIntegrity(world, ids);
   assertDraftLineageIntegrity(world);
   assertFutureTransitionIntegrity(world, ids);
@@ -1637,6 +1721,76 @@ function validateHistoryIntegrity(world: World): void {
     if (!world.people[intent.personId]) {
       throw new Error(
         `District seat intent names a missing person: ${intent.personId}`,
+      );
+    }
+  }
+  const workRelationshipIds = new Set(
+    history.workRelationships.map((record) => record.id),
+  );
+  for (const record of history.officeWorkflowPreferences ?? []) {
+    assertUniqueId(ids, record.id);
+    if (!world.people[record.personId]) {
+      throw new Error(
+        `Office workflow preference names a missing person: ${record.id}`,
+      );
+    }
+    if (!workRelationshipIds.has(record.officeRelationshipId)) {
+      throw new Error(
+        `Office workflow preference names a missing office: ${record.id}`,
+      );
+    }
+    if (
+      record.id !==
+      createStableId(
+        "office-workflow-preference",
+        `${world.id}:${record.stableKey}`,
+      )
+    ) {
+      throw new Error(
+        `Office workflow preference ID does not match its stable key: ${record.id}`,
+      );
+    }
+  }
+  for (const record of history.officeVoteInstructions ?? []) {
+    assertUniqueId(ids, record.id);
+    if (!world.people[record.personId]) {
+      throw new Error(
+        `Office vote instruction names a missing person: ${record.id}`,
+      );
+    }
+    if (!workRelationshipIds.has(record.officeRelationshipId)) {
+      throw new Error(
+        `Office vote instruction names a missing office: ${record.id}`,
+      );
+    }
+    if (
+      record.id !==
+      createStableId(
+        "office-vote-instruction",
+        `${world.id}:${record.stableKey}`,
+      )
+    ) {
+      throw new Error(
+        `Office vote instruction ID does not match its stable key: ${record.id}`,
+      );
+    }
+  }
+  for (const record of history.officeBriefingInspections ?? []) {
+    assertUniqueId(ids, record.id);
+    if (!world.people[record.personId]) {
+      throw new Error(
+        `Office briefing inspection names a missing person: ${record.id}`,
+      );
+    }
+    if (
+      record.id !==
+      createStableId(
+        "office-briefing-inspection",
+        `${world.id}:${record.stableKey}`,
+      )
+    ) {
+      throw new Error(
+        `Office briefing inspection ID does not match its stable key: ${record.id}`,
       );
     }
   }
@@ -1680,6 +1834,18 @@ function validateHistoryIntegrity(world: World): void {
   assertUniqueStableKeys(
     history.legislativeDraftLineages ?? [],
     "legislative draft lineage",
+  );
+  assertUniqueStableKeys(
+    history.officeWorkflowPreferences ?? [],
+    "office workflow preference",
+  );
+  assertUniqueStableKeys(
+    history.officeVoteInstructions ?? [],
+    "office vote instruction",
+  );
+  assertUniqueStableKeys(
+    history.officeBriefingInspections ?? [],
+    "office briefing inspection",
   );
   assertUniqueStableKeys(
     history.legislativeCommitments ?? [],
@@ -1757,6 +1923,7 @@ function validateHistoryIntegrity(world: World): void {
         involvedId !== world.id &&
         !world.people[involvedId] &&
         !world.jurisdictions[involvedId] &&
+        !taxEntityExists(world, involvedId) &&
         !lifeEntityExists(world, involvedId) &&
         !resourceHousingEntityExists(world, involvedId) &&
         !worldMetricEntityExists(world, involvedId) &&
@@ -1768,7 +1935,9 @@ function validateHistoryIntegrity(world: World): void {
         !timeWorkEntityExists(world, involvedId) &&
         !futureTransitionEntityExists(world, involvedId) &&
         !electionContestEntityExists(world, involvedId) &&
+        !nationalEntityExists(world, involvedId) &&
         !campaignEntityExists(world, involvedId) &&
+        !constitutionalEntityExists(world, involvedId) &&
         !legislationEntityExists(world, involvedId) &&
         !legislativePoliticsEntityExists(world, involvedId) &&
         !publicInformationEntityExists(world, involvedId)
@@ -1907,6 +2076,19 @@ function validateHistoryIntegrity(world: World): void {
         );
       }
       if (
+        constitutionalEntityExists(world, involvedId) &&
+        !constitutionalEntityAvailableAt(
+          world,
+          involvedId,
+          event.occurredAt,
+          event.sequence,
+        )
+      ) {
+        throw new Error(
+          "Constitutional entity is unavailable at the event frontier.",
+        );
+      }
+      if (
         legislationEntityExists(world, involvedId) &&
         !legislationEntityAvailableAt(
           world,
@@ -1919,6 +2101,16 @@ function validateHistoryIntegrity(world: World): void {
           `Historical event references an unavailable legislative entity: ${event.id}`,
         );
       }
+      if (
+        nationalEntityExists(world, involvedId) &&
+        !nationalEntityAvailableAt(
+          world,
+          involvedId,
+          event.occurredAt,
+          event.sequence,
+        )
+      )
+        throw new Error("Event references unavailable national record.");
       if (
         electionContestEntityExists(world, involvedId) &&
         !electionContestEntityAvailableAt(
@@ -1945,6 +2137,18 @@ function validateHistoryIntegrity(world: World): void {
           `Historical event references an unavailable campaign entity: ${event.id}`,
         );
       }
+      if (
+        taxEntityExists(world, involvedId) &&
+        !taxEntityAvailableAt(
+          world,
+          involvedId,
+          event.occurredAt,
+          event.sequence,
+        )
+      )
+        throw new Error(
+          "Historical event references an unavailable tax entity.",
+        );
       if (
         lifeEntityExists(world, involvedId) &&
         !lifeEntityAvailableAt(

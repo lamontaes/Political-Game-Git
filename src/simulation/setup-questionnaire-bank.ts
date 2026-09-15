@@ -1,3 +1,4 @@
+import { text39QuestionnaireItem } from "./setup-text39-copy";
 import type {
   AmbiguityDeclaration,
   DimensionNudge,
@@ -75,7 +76,7 @@ import type { LifeVoiceBand } from "./voice-bands";
  * error standing to preserve a provenance claim would be the wrong trade.
  */
 
-export const SETUP_BANK_VERSION = "pg-setup-bank-v4";
+export const SETUP_BANK_VERSION = "pg-setup-bank-v5-text39";
 
 export interface AuthoredSource {
   /** The Drive research authority the copy came from, named as it is named there. */
@@ -1918,9 +1919,6 @@ export const WITHDRAWN_SETUP_ITEMS: readonly QuestionnaireItem[] = [
  * withdrawing eighteen questions would quietly recalibrate every existing
  * life. Selection reads `SETUP_QUESTIONNAIRE_BANK`; lookup reads this.
  */
-export const ALL_AUTHORED_SETUP_ITEMS: readonly QuestionnaireItem[] = [
-  ...WITHDRAWN_SETUP_ITEMS,
-];
 
 /**
  * What the eight remaining inherited items assume.
@@ -1983,7 +1981,7 @@ const INHERITED_ELIGIBILITY: Readonly<
   },
 };
 
-export const SETUP_QUESTIONNAIRE_BANK: readonly QuestionnaireItem[] = [
+const PRE_TEXT39_SETUP_ITEMS: readonly QuestionnaireItem[] = [
   ...OPENING_BANK_ITEMS,
   ...YOUNG_LIFE_BANK_ITEMS,
   ...LIFE_ITEMS.map((entry) => ({
@@ -1991,6 +1989,13 @@ export const SETUP_QUESTIONNAIRE_BANK: readonly QuestionnaireItem[] = [
     eligibility: requireEligibility(INHERITED_ELIGIBILITY, entry.key),
   })),
 ];
+
+export const ALL_AUTHORED_SETUP_ITEMS: readonly QuestionnaireItem[] = [
+  ...WITHDRAWN_SETUP_ITEMS,
+  ...PRE_TEXT39_SETUP_ITEMS,
+];
+export const SETUP_QUESTIONNAIRE_BANK: readonly QuestionnaireItem[] =
+  PRE_TEXT39_SETUP_ITEMS.map(text39QuestionnaireItem);
 
 /**
  * The three a run opens with, for the life stage it is opening.
@@ -2004,9 +2009,11 @@ export const SETUP_QUESTIONNAIRE_BANK: readonly QuestionnaireItem[] = [
 export const FIXED_OPENING_KEYS_BY_BAND: Readonly<
   Record<LifeVoiceBand, readonly string[]>
 > = {
-  adult: OPENING_FIXED_ITEMS.map((entry) => entry.key),
-  adolescence: ADOLESCENCE_FIXED_ITEMS.map((entry) => entry.key),
-  "middle-childhood": MIDDLE_CHILDHOOD_FIXED_ITEMS.map((entry) => entry.key),
+  adult: OPENING_FIXED_ITEMS.map((entry) => `${entry.key}.text39-v1`),
+  adolescence: ADOLESCENCE_FIXED_ITEMS.map((entry) => `${entry.key}.text39-v1`),
+  "middle-childhood": MIDDLE_CHILDHOOD_FIXED_ITEMS.map(
+    (entry) => `${entry.key}.text39-v1`,
+  ),
 };
 
 /** The adult openers, kept for callers that predate the bands. */

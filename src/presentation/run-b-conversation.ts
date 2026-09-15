@@ -225,8 +225,9 @@ export interface CommitConversationTurnInput {
   /**
    * The handlers any time this turn spends must answer to.
    *
-   * Only a subject whose turns take clock time reads it — today, the ordinary
-   * talk with somebody in the scene, which spends its accepted two minutes.
+   * Only a subject whose turns take clock time reads it. Ordinary spoken
+   * lines do not. Spend-time and actual activities own disclosed duration
+   * once (D34-12).
    * The scene panel always passed them when it committed that talk itself; the
    * shared surface passes them here, so moving the talk into one box does not
    * quietly drop a callback that falls due during it.
@@ -1158,10 +1159,10 @@ function resolveNpcResponse(
  * have already been at it, both of which are canonical.
  */
 const QUIET_ROOM_LINES: readonly string[] = [
-  "The room settled briefly; no participant added another claim.",
-  "Nobody said anything, and the moment went past.",
-  "It stayed unsaid, and after a while it stopped being a pause.",
-  "Neither of them took it up, and the quiet did not seem to need explaining.",
+  "No one adds anything.",
+  "No one speaks.",
+  "You leave it there.",
+  "The conversation falls quiet.",
 ];
 
 function resolveQuietRoom(
@@ -1455,145 +1456,135 @@ function evaluateSubjectResponseDecision(
 const HOUSEHOLD_RAISE: TonedBank = {
   warm: {
     lines: [
-      "“I know,” {name} says. “I was going to bring it up and then I did not.”",
-      "“Yes,” {name} says, without any edge on it. “I have been not-saying it too.”",
-      "“Good,” {name} says. “One of us had to.”",
+      "“What needs doing?” {name} says.",
+      "“Yes, let’s work it out,” {name} says.",
+      "“Sure. What can you take on?” {name} says.",
     ],
-    perception: "{full} had been meaning to raise the same thing.",
+    perception: "{full} was willing to discuss the errands.",
   },
   even: {
     lines: [
-      "“I know,” {name} says. “I have been not-saying it too.”",
-      "“Right,” {name} says, and puts the cup down. “Go on, then.”",
-      "“It is the same week for me,” {name} says. “So. Yes.”",
+      "“All right. What needs doing?” {name} says.",
+      "“Okay. How do you want to divide it?” {name} says.",
+      "“Go ahead,” {name} says.",
     ],
-    perception: "{full} had been avoiding the same conversation.",
+    perception: "{full} was willing to discuss the errands.",
   },
   worn: {
     lines: [
-      "“Here we go,” {name} says, not quite under their breath.",
-      "“I wondered how long that would take,” {name} says.",
-      "“We have had this one,” {name} says. “But go on.”",
+      "“All right. What are you asking me to do?” {name} says.",
+      "“Tell me what you have in mind,” {name} says.",
+      "“Let’s agree on who does what,” {name} says.",
     ],
-    perception:
-      "{full} treated it as a conversation the two of them had already had.",
+    perception: "{full} was willing to discuss the errands.",
   },
 };
 
 const HOUSEHOLD_OFFER: TonedBank = {
   warm: {
     lines: [
-      "“Then I owe you one,” {name} says. “I mean that.”",
-      "“You are sure?” {name} says, and then, “thank you. Properly.”",
-      "“That is a help,” {name} says. “More than you think.”",
+      "“Thanks. I appreciate it,” {name} says.",
+      "“If you’re sure. Thank you,” {name} says.",
+      "“That would help. Thanks,” {name} says.",
     ],
-    perception: "{full} accepted the offer and said it counted.",
+    perception: "{full} accepted your offer to handle {errands}.",
   },
   even: {
     lines: [
-      "“All right,” {name} says. “If you are offering.”",
-      "“Fine by me,” {name} says. “Say if it turns out to be too much.”",
-      "“Take it, then,” {name} says. “I will not argue.”",
+      "“All right. Thanks,” {name} says.",
+      "“Okay. Let me know if that changes,” {name} says.",
+      "“If you’re offering, yes,” {name} says.",
     ],
-    perception: "{full} accepted the offer without making much of it.",
+    perception: "{full} accepted your offer to handle {errands}.",
   },
   worn: {
     lines: [
-      "“Right,” {name} says. “Well. That is this week sorted.”",
-      "“If you want,” {name} says, already halfway out of the room.",
-      "“You do not have to make a point of it,” {name} says, and takes it anyway.",
+      "“All right. I’ll leave it to you,” {name} says.",
+      "“Okay. Let me know if you can’t,” {name} says.",
+      "“Yes. You can take it on,” {name} says.",
     ],
-    perception: "{full} took the offer and did not treat it as a favour.",
+    perception: "{full} accepted your offer to handle {errands}.",
   },
 };
 
 const HOUSEHOLD_SHARE: TonedBank = {
   warm: {
     lines: [
-      "“Half each works,” {name} says. “Tell me which half.”",
-      "“That is fair,” {name} says. “You pick, I will do the rest.”",
-      "“Good,” {name} says. “Write it down so neither of us forgets.”",
+      "“Yes, let’s share it,” {name} says.",
+      "“That works. We can divide the tasks,” {name} says.",
+      "“Sure. Let’s work out who does what,” {name} says.",
     ],
-    perception: "{full} agreed to split {errands}.",
+    perception: "{full} agreed to share {errands}.",
   },
   even: {
     lines: [
-      "“Half each, then,” {name} says. “Which half do you want?”",
-      "“That will do,” {name} says. “Say which bits are yours.”",
-      "“Split it,” {name} says. “Fine.”",
+      "“Okay. We’ll share it,” {name} says.",
+      "“Yes. Let’s divide the list,” {name} says.",
+      "“All right. We’ll both take some,” {name} says.",
     ],
-    perception: "{full} agreed to split {errands}.",
+    perception: "{full} agreed to share {errands}.",
   },
   worn: {
     lines: [
-      "“Half,” {name} says. “And we both actually do it this time.”",
-      "“All right,” {name} says. “But I am not doing yours as well.”",
-      "“Down the middle,” {name} says, “and I will hold you to it.”",
+      "“I’ll share it. Let’s be clear about who does what,” {name} says.",
+      "“Okay, but let’s agree on the tasks,” {name} says.",
+      "“Yes. We need to decide which tasks are mine,” {name} says.",
     ],
-    perception:
-      "{full} agreed to split {errands}, with the last time attached to it.",
+    perception: "{full} agreed to share {errands}.",
   },
 };
 
-/**
- * The one the other person decides.
- *
- * Asking somebody to take your week is a request, and a request can be refused.
- * Which way it goes is theirs, weighed over what the two of them have recorded
- * between them.
- */
 const HOUSEHOLD_ASK_TAKEN: TonedBank = {
   warm: {
     lines: [
-      "“Of course,” {name} says. “You have had a week of it.”",
-      "“Leave it with me,” {name} says. “Go and sit down.”",
-      "“I will get it,” {name} says. “It is not a problem.”",
+      "“Yes, I can handle the errands,” {name} says.",
+      "“All right. I’ll take them on,” {name} says.",
+      "“I can do that,” {name} says.",
     ],
-    perception: "{full} took {errands} on without making a condition of it.",
+    perception: "{full} agreed to handle {errands}.",
   },
   even: {
     lines: [
-      "“Fine. I will do it,” {name} says. “Not every week, though.”",
-      "“This week,” {name} says. “Not as a standing arrangement.”",
-      "“All right,” {name} says. “Once.”",
+      "“This time, yes,” {name} says.",
+      "“Okay, I’ll handle these errands,” {name} says.",
+      "“Yes, for this list,” {name} says.",
     ],
-    perception: "{full} took {errands} on, and said so with a limit attached.",
+    perception: "{full} agreed to handle {errands}.",
   },
   worn: {
     lines: [
-      "“I will do it,” {name} says. “I am saying that with a face, though.”",
-      "“Since you are asking,” {name} says, in the voice that means it is noted.",
-      "“Right,” {name} says. “Add it to the list of things I am doing.”",
+      "“I’ll do it this time,” {name} says.",
+      "“All right. But ask me again before adding anything,” {name} says.",
+      "“Yes, I can take this list,” {name} says.",
     ],
-    perception: "{full} took {errands} on and made sure it was noticed.",
+    perception: "{full} agreed to handle {errands}.",
   },
 };
 
 const HOUSEHOLD_ASK_REFUSED: TonedBank = {
   warm: {
     lines: [
-      "“I cannot this week,” {name} says, and looks like they mean it. “I am sorry.”",
-      "“Not this one,” {name} says. “Any other week, ask me again.”",
-      "“I would if I could,” {name} says. “I genuinely cannot.”",
+      "“Sorry, I can’t take all of it on,” {name} says.",
+      "“I can’t agree to that,” {name} says.",
+      "“I’m sorry. No,” {name} says.",
     ],
-    perception: "{full} could not take {errands} on and said why.",
+    perception: "{full} declined to handle all of {errands}.",
   },
   even: {
     lines: [
-      "“No,” {name} says. “My week is the same as yours.”",
-      "“I have got nothing spare either,” {name} says.",
-      "“Not this week,” {name} says. “It will have to be both of us or neither.”",
+      "“No, I can’t take the whole list,” {name} says.",
+      "“Not all of it,” {name} says.",
+      "“I’m not taking all of it on,” {name} says.",
     ],
-    perception: "{full} would not take {errands} on.",
+    perception: "{full} declined to handle all of {errands}.",
   },
   worn: {
     lines: [
-      "“No,” {name} says. “Not again.”",
-      "“You always ask,” {name} says, “and I always say yes. Not this time.”",
-      "“I am not doing it,” {name} says. “That is not me being difficult.”",
+      "“No. I’m not agreeing to that,” {name} says.",
+      "“You’ll have to make another arrangement,” {name} says.",
+      "“I won’t take the whole list,” {name} says.",
     ],
-    perception:
-      "{full} refused {errands}, and made it about more than this week.",
+    perception: "{full} declined to handle all of {errands}.",
   },
 };
 
@@ -1631,7 +1622,7 @@ function resolveHouseholdObligationResponse(
   const speaker = world.people[input.speakerPersonId];
   if (!speaker) throw new Error("The other person in the room is missing.");
   const values = {
-    name: speaker.familyName,
+    name: speaker.givenName,
     full: personName(speaker),
     errands: input.progress.subjectFacts.shortObligation,
   };
@@ -1705,110 +1696,108 @@ function resolveHouseholdObligationResponse(
 const SCHOOL_RAISE: TonedBank = {
   warm: {
     lines: [
-      "“I thought you were doing that bit,” {name} says, and then, “sorry. I did think that.”",
-      "“Oh,” {name} says. “I had that down as yours. That is on me.”",
-      "“Right,” {name} says. “Neither of us, then. Good to know now.”",
+      "“Can we look at the unfinished part together?” {name} says.",
+      "“Which part do you mean?” {name} says.",
+      "“Okay. What still needs doing?” {name} says.",
     ],
-    perception: "{full} had assumed the unstarted part was somebody else's.",
+    perception: "{full} asked about the unfinished work.",
   },
   even: {
     lines: [
-      "“I thought you had it,” {name} says.",
-      "“Nobody has done it?” {name} says. “Great.”",
-      "“So that is still sitting there,” {name} says.",
+      "“What is left to do?” {name} says.",
+      "“Show me the part you mean,” {name} says.",
+      "“How do you want to divide it?” {name} says.",
     ],
-    perception: "{full} had assumed the unstarted part was somebody else's.",
+    perception: "{full} asked about the unfinished work.",
   },
   worn: {
     lines: [
-      "“This again,” {name} says.",
-      "“I am not doing all of it,” {name} says, before anything else is said.",
-      "“Let me guess,” {name} says. “It is mine.”",
+      "“What are you asking me to take on?” {name} says.",
+      "“Tell me what you need,” {name} says.",
+      "“What is still unfinished?” {name} says.",
     ],
-    perception: "{full} answered as somebody expecting to be handed the work.",
+    perception: "{full} asked about the unfinished work.",
   },
 };
 
 const SCHOOL_OFFER: TonedBank = {
   warm: {
     lines: [
-      "“You do not have to do that,” {name} says, already writing their name next to a different section.",
-      "“Then I will do the rest of it properly,” {name} says.",
-      "“That is decent of you,” {name} says. “I will get the other half done.”",
+      "“Thank you. I’ll leave that part to you,” {name} says.",
+      "“Okay. Let me know if you need to change that,” {name} says.",
+      "“Thanks for offering to do it,” {name} says.",
     ],
-    perception: "{full} took a section rather than accept the whole offer.",
+    perception: "{full} accepted the offer to handle that part.",
   },
   even: {
     lines: [
-      "“If you want it,” {name} says. “I will take the rest.”",
-      "“All right,” {name} says. “I have got the other part.”",
-      "“Suits me,” {name} says, and writes their name next to something else.",
+      "“All right. You take that part,” {name} says.",
+      "“Okay, that part is yours,” {name} says.",
+      "“I understand. You’re taking that part,” {name} says.",
     ],
-    perception: "{full} took a section rather than accept the whole offer.",
+    perception: "{full} accepted the offer to handle that part.",
   },
   worn: {
     lines: [
-      "“Fine,” {name} says. “You do that bit and I will do mine.”",
-      "“Whatever works,” {name} says, not looking up.",
-      "“Sure,” {name} says. “That is what I thought would happen.”",
+      "“Fine. You take that part,” {name} says.",
+      "“Okay. Let me know if that changes,” {name} says.",
+      "“All right. We’ve agreed on that part,” {name} says.",
     ],
-    perception: "{full} accepted the split without treating it as generous.",
+    perception: "{full} accepted the offer to handle that part.",
   },
 };
 
 const SCHOOL_SPLIT_AGREED: TonedBank = {
   warm: {
     lines: [
-      "“Down the middle, then,” {name} says. “You pick first, so you cannot complain.”",
-      "“Deal,” {name} says. “Which half do you want?”",
-      "“Half each,” {name} says. “Say now which bit is yours.”",
+      "“Yes. Which half would you like?” {name} says.",
+      "“Let’s split it. You can choose first,” {name} says.",
+      "“Half each sounds all right,” {name} says.",
     ],
-    perception: "{full} agreed to divide the unstarted work.",
+    perception: "{full} agreed to divide the work.",
   },
   even: {
     lines: [
-      "“Half each,” {name} says. “Fine.”",
-      "“All right,” {name} says. “Write down who has what.”",
-      "“Split it,” {name} says. “I do not mind which.”",
+      "“Half each, then,” {name} says.",
+      "“All right. Let’s write down who has what,” {name} says.",
+      "“Yes, we can split it,” {name} says.",
     ],
-    perception: "{full} agreed to divide the unstarted work.",
+    perception: "{full} agreed to divide the work.",
   },
   worn: {
     lines: [
-      "“Half,” {name} says. “And it gets done this time.”",
-      "“All right,” {name} says, “but I am not covering yours again.”",
-      "“Down the middle,” {name} says. “Actually down the middle.”",
+      "“Half each. Let’s be clear about which parts,” {name} says.",
+      "“All right. Which part is mine?” {name} says.",
+      "“Yes. We should write down the split,” {name} says.",
     ],
-    perception:
-      "{full} agreed to divide the work, with the last time attached to it.",
+    perception: "{full} agreed to divide the work.",
   },
 };
 
 const SCHOOL_SPLIT_REFUSED: TonedBank = {
   warm: {
     lines: [
-      "“I cannot take half of it,” {name} says. “Not this week. I am sorry.”",
-      "“Ask me next time,” {name} says. “This one I genuinely cannot.”",
-      "“I would,” {name} says, “but I have got two others due.”",
+      "“I’m sorry, but I can’t agree to half,” {name} says.",
+      "“No, I can’t take half of it,” {name} says.",
+      "“I’ll have to say no to that split,” {name} says.",
     ],
-    perception: "{full} could not take half of the work and said why.",
+    perception: "{full} declined the proposed split.",
   },
   even: {
     lines: [
-      "“No,” {name} says. “I have not got the time for half of it.”",
-      "“Not half,” {name} says. “I will do a bit, not half.”",
-      "“I cannot,” {name} says. “That is all.”",
+      "“I won’t take half,” {name} says.",
+      "“No. I can’t agree to that,” {name} says.",
+      "“That split doesn’t work for me,” {name} says.",
     ],
-    perception: "{full} would not take half of the work.",
+    perception: "{full} declined the proposed split.",
   },
   worn: {
     lines: [
-      "“No,” {name} says. “I did it last time.”",
-      "“That is not happening,” {name} says.",
-      "“You keep asking,” {name} says. “The answer is still no.”",
+      "“No. I’m not taking half,” {name} says.",
+      "“I won’t agree to that split,” {name} says.",
+      "“No. We need another arrangement,” {name} says.",
     ],
-    perception:
-      "{full} refused the split, and made it about more than this project.",
+    perception: "{full} declined the proposed split.",
   },
 };
 
@@ -1825,7 +1814,7 @@ function resolveSchoolProjectResponse(
   const speaker = world.people[input.speakerPersonId];
   if (!speaker) throw new Error("The other person in the room is missing.");
   const values = {
-    name: speaker.familyName,
+    name: speaker.givenName,
     full: personName(speaker),
     errands: input.progress.subjectFacts.work,
   };
@@ -1897,111 +1886,108 @@ function resolveSchoolProjectResponse(
 const NEIGHBORHOOD_MENTION: TonedBank = {
   warm: {
     lines: [
-      "“I saw the notice,” {name} says. “I have not decided whether it is worth an evening.”",
-      "“You saw it too, then,” {name} says. “I keep meaning to think about it.”",
-      "“It has been up a week,” {name} says. “Nobody has said anything about it.”",
+      "“What do you think about going?” {name} says.",
+      "“Are you thinking of going?” {name} says.",
+      "“We can talk about the meeting,” {name} says.",
     ],
-    perception: "{full} had seen the notice and not decided about it.",
+    perception: "{full} responded to the question about the meeting.",
   },
   even: {
     lines: [
-      "“I saw it,” {name} says.",
-      "“The meeting,” {name} says. “Yes. I read it.”",
-      "“It is still up,” {name} says. “That is about all I know.”",
+      "“What about the meeting?” {name} says.",
+      "“Are you going?” {name} says.",
+      "“What did you want to ask?” {name} says.",
     ],
-    perception: "{full} had seen the notice and not decided about it.",
+    perception: "{full} responded to the question about the meeting.",
   },
   worn: {
     lines: [
-      "“They put one up every year,” {name} says.",
-      "“I have seen it,” {name} says. “I have seen a few of them.”",
-      "“Another meeting,” {name} says, without stopping.",
+      "“What do you want to know?” {name} says.",
+      "“Is there something you want to ask me?” {name} says.",
+      "“Go ahead. What about it?” {name} says.",
     ],
-    perception:
-      "{full} treated the notice as one of several that had come to nothing.",
+    perception: "{full} responded to the question about the meeting.",
   },
 };
 
 const NEIGHBORHOOD_SAY_GOING: TonedBank = {
   warm: {
     lines: [
-      "“Then tell me what they say,” {name} says. “I will take your word for it.”",
-      "“Good,” {name} says. “Somebody from here should be in the room.”",
-      "“You go,” {name} says. “I will ask you after.”",
+      "“Let me know what you hear there,” {name} says.",
+      "“I’d like to hear about it afterward,” {name} says.",
+      "“Tell me how it goes,” {name} says.",
     ],
-    perception: "{full} was content to hear about it secondhand.",
+    perception: "{full} acknowledged the plan to attend.",
   },
   even: {
     lines: [
-      "“Right,” {name} says. “Let me know.”",
-      "“Fair enough,” {name} says. “Tell me if anything comes of it.”",
-      "“If you are going, you are going,” {name} says.",
+      "“All right. Let me know how it goes,” {name} says.",
+      "“Okay. You can tell me afterward,” {name} says.",
+      "“I understand. You’re planning to go,” {name} says.",
     ],
-    perception: "{full} was content to hear about it secondhand.",
+    perception: "{full} acknowledged the plan to attend.",
   },
   worn: {
     lines: [
-      "“You will be the only one,” {name} says.",
-      "“Good luck,” {name} says, and does not mean it unkindly.",
-      "“Somebody has to,” {name} says. “It is usually the same somebody.”",
+      "“All right. Tell me afterward,” {name} says.",
+      "“Okay. I heard you,” {name} says.",
+      "“Let me know if there’s something I should read,” {name} says.",
     ],
-    perception: "{full} expected the meeting to be attended by almost nobody.",
+    perception: "{full} acknowledged the plan to attend.",
   },
 };
 
 const NEIGHBORHOOD_WILL_GO: TonedBank = {
   warm: {
     lines: [
-      "“All right,” {name} says. “I will go. You have talked me into it.”",
-      "“Fine,” {name} says. “I will show my face.”",
-      "“If you are asking,” {name} says, “then yes.”",
+      "“Yes, I’ll go,” {name} says.",
+      "“All right. I’ll come to the meeting,” {name} says.",
+      "“Yes. Let’s plan to go,” {name} says.",
     ],
-    perception: "{full} agreed to go to the meeting.",
+    perception: "{full} agreed to attend the meeting.",
   },
   even: {
     lines: [
-      "“I can do that,” {name} says. “It is one evening.”",
-      "“All right,” {name} says. “I will be there.”",
-      "“Yes,” {name} says. “I have nothing on.”",
+      "“I’ll go,” {name} says.",
+      "“All right, I’ll be there,” {name} says.",
+      "“Yes, I’ll come,” {name} says.",
     ],
-    perception: "{full} agreed to go to the meeting.",
+    perception: "{full} agreed to attend the meeting.",
   },
   worn: {
     lines: [
-      "“I will go,” {name} says. “I am not staying for all of it.”",
-      "“Once,” {name} says. “I will go once.”",
-      "“Fine,” {name} says. “But you owe me an evening.”",
+      "“All right. I’ll go to this meeting,” {name} says.",
+      "“Yes. I’ll come this time,” {name} says.",
+      "“Okay, I’ll go,” {name} says.",
     ],
-    perception: "{full} agreed to go, and made the limits of it clear.",
+    perception: "{full} agreed to attend the meeting.",
   },
 };
 
 const NEIGHBORHOOD_WILL_NOT_GO: TonedBank = {
   warm: {
     lines: [
-      "“Maybe,” {name} says. “If it is still the route they are changing, maybe.”",
-      "“I cannot promise,” {name} says. “Ask me nearer the time.”",
-      "“I would like to,” {name} says, “but I would be lying if I said I would.”",
+      "“No, but thank you for asking,” {name} says.",
+      "“I’m going to pass on this one,” {name} says.",
+      "“I won’t be coming, sorry,” {name} says.",
     ],
-    perception:
-      "{full} would go only if it turns out to be about their own street.",
+    perception: "{full} declined the invitation to the meeting.",
   },
   even: {
     lines: [
-      "“No,” {name} says. “Evenings are not mine to give away.”",
-      "“I will not be going,” {name} says.",
-      "“Not this one,” {name} says.",
+      "“I won’t be going,” {name} says.",
+      "“No, not this meeting,” {name} says.",
+      "“I’m not coming to this one,” {name} says.",
     ],
-    perception: "{full} said they would not be going.",
+    perception: "{full} declined the invitation to the meeting.",
   },
   worn: {
     lines: [
-      "“No,” {name} says. “I went to the last one.”",
-      "“I have done my evening at that hall,” {name} says.",
-      "“Not a chance,” {name} says. “Nothing came of the last three.”",
+      "“No. I’m not going,” {name} says.",
+      "“I’ll pass,” {name} says.",
+      "“No, I don’t want to go,” {name} says.",
     ],
-    perception:
-      "{full} refused, and said the earlier meetings had come to nothing.",
+    perception: "{full} declined the invitation to the meeting.",
   },
 };
 
@@ -2018,7 +2004,7 @@ function resolveNeighborhoodMeetingResponse(
   const speaker = world.people[input.speakerPersonId];
   if (!speaker) throw new Error("The other person in the room is missing.");
   const values = {
-    name: speaker.familyName,
+    name: speaker.givenName,
     full: personName(speaker),
     errands: input.progress.subjectFacts.subject,
   };

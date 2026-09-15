@@ -26,6 +26,7 @@ import {
 import { openLegislativeWork } from "../../src/presentation/legislation-world";
 import { projectMeasureBriefing } from "../../src/presentation/legislation-projection";
 import { resolvePlayerCapabilities } from "../../src/presentation/player-capabilities";
+import { resolveActiveMemberSeat } from "../../src/presentation/legislative-member-seat";
 import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
@@ -463,6 +464,15 @@ function runCampaign(
   let legislative: LegislativeTranscript | null = null;
   let legislativeRefusal: string | null = null;
   if (won) {
+    // A win records a dated term; legislative work opens once the term begins,
+    // reached through the same story-time seam the player uses.
+    for (
+      let step = 0;
+      step < 400 &&
+      resolveActiveMemberSeat(current, personId).kind !== "seated";
+      step += 1
+    )
+      current = letStoryTimePass(current, personId);
     const capabilities = resolvePlayerCapabilities(current);
     if (
       capabilities.legislation &&

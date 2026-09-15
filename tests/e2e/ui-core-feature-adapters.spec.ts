@@ -127,7 +127,7 @@ test("mixed person, session and measure pins preserve identity and clear workspa
   await enterLife(page);
   // Pinning is on the person in the room now, in their own action menu.
   await page.locator('[data-testid^="scene-person-"]').first().click();
-  await page.getByTestId("action-pin").click();
+  await page.getByTestId("quick-dossier-pin").click();
   await page.keyboard.press("Escape");
   // UI9-01: study and work live in Work; the day links into it. This life
   // holds an office, so Work frames them as the office rather than as the

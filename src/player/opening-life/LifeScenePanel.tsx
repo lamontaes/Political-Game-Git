@@ -1,9 +1,11 @@
+import { LifeFavorPanel } from "../LifeFavorPanel";
+import { openingChoiceMinutes } from "../../simulation/opening-life-content";
 import { projectOpeningLife } from "../../presentation/opening-life";
 import {
   canJoinOrdinaryGroup,
   joinOrdinaryGroup,
 } from "../../presentation/ordinary-community";
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { personName, describePersonContext } from "../../simulation";
 import type {
   EntityId,
@@ -46,13 +48,12 @@ export function LifeScenePanel({
   onContinue,
   onTalkTo,
   returnFocusTo = null,
-  onFocusReturned,
   transitionHandlers,
 }: {
   world: World;
   playerPersonId: EntityId;
   onWorldChange: (world: World) => void;
-  onContinue: () => void;
+  onContinue?: () => void;
   /** Opens the shared conversation box with exactly this person. */
   onTalkTo: (personId: EntityId) => void;
   /**
@@ -66,11 +67,10 @@ export function LifeScenePanel({
   const [problem, setProblem] = useState<string | null>(null);
   const [outcome, setOutcome] = useState<string | null>(null);
   const talkToRef = useRef<HTMLElement>(null);
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!returnFocusTo) return;
     talkToRef.current?.focus();
-    onFocusReturned?.();
-  }, [returnFocusTo, onFocusReturned]);
+  }, [returnFocusTo]);
   const identity = projectOpeningLife(world, playerPersonId);
   const scene = currentOpeningLifeScene(world, playerPersonId);
   const reflection = lifeReflectionOffer(world, playerPersonId);
@@ -157,6 +157,12 @@ export function LifeScenePanel({
           {outcome}
         </p>
       ) : null}
+      <LifeFavorPanel
+        world={world}
+        personId={playerPersonId}
+        onWorldChange={onWorldChange}
+        transitionHandlers={transitionHandlers}
+      />
       {aftermath ? <p data-testid="life-scene-aftermath">{aftermath}</p> : null}
       {scene ? (
         <>
@@ -164,7 +170,8 @@ export function LifeScenePanel({
             {scene.prose}
           </p>
           <p className="game-note" data-testid="life-scene-minutes">
-            Whatever you choose here takes {scene.definition.minutes} minutes.
+            Talking and reading a line take no time. Activity durations are
+            shown on their choices.
           </p>
           <div
             className="game-choices"
@@ -190,6 +197,9 @@ export function LifeScenePanel({
                 }
               >
                 {choice.label}
+                {openingChoiceMinutes(scene.definition, choice)
+                  ? ` · ${openingChoiceMinutes(scene.definition, choice)} minutes`
+                  : ""}
               </button>
             ))}
           </div>
@@ -359,19 +369,21 @@ export function LifeScenePanel({
         drawn twice — above the panel and again inside it when no scene was
         open — beside a "Continue your day" that sometimes did the same thing.
       */}
-      <div className="life-moment-foot">
-        <button
-          className="ui-action"
-          type="button"
-          aria-describedby="life-continue-hint"
-          onClick={onContinue}
-        >
-          Continue your life
-        </button>
-        <small id="life-continue-hint">
-          Step back from this moment; it stays where it is.
-        </small>
-      </div>
+      {onContinue ? (
+        <div className="life-moment-foot">
+          <button
+            className="ui-action"
+            type="button"
+            aria-describedby="life-continue-hint"
+            onClick={onContinue}
+          >
+            Continue your life
+          </button>
+          <small id="life-continue-hint">
+            Step back from this moment; it stays where it is.
+          </small>
+        </div>
+      ) : null}
     </section>
   );
 }

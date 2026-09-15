@@ -216,7 +216,7 @@ test.describe("A life can stand for something", () => {
 
     // The ordinary life is untouched by the refusal: the day still moves.
     await openDay(page);
-    const before = await page.getByTestId("day-date").innerText();
+    const before = (await page.getByTestId("day-date").textContent()) ?? "";
     await page.getByTestId("pass-day").click();
     await expect(page.getByTestId("day-date")).not.toHaveText(before);
 
@@ -292,25 +292,30 @@ test.describe("A life can stand for something", () => {
     await fileCandidacy(page);
     const strategy = page.getByTestId("campaign-strategy");
     await expect(strategy).toBeVisible();
-    await expect(
-      strategy.getByRole("group", { name: "Priority" }),
-    ).toBeVisible();
-    await expect(
-      strategy.getByRole("group", { name: "Represented geography" }),
-    ).toBeVisible();
-    await expect(
-      strategy.getByRole("group", { name: "Committee spending ceiling" }),
-    ).toContainText("No committee spending");
-
-    // The alternative priority is selected with the keyboard, then the plan
-    // is committed with a pointer. Both are the controls a player actually sees.
-    const outreach = strategy.getByRole("radio", {
-      name: /Spend a session on the doors/i,
+    const geography = strategy.getByRole("group", {
+      name: "Represented geography",
     });
-    await outreach.focus();
+    await expect(geography).toBeVisible();
+    // With nothing in the account there is no advertising ceiling to set; the
+    // advertising action itself says why, so no empty group is drawn.
+    await expect(
+      strategy.getByRole("group", { name: "Advertising spending ceiling" }),
+    ).toHaveCount(0);
+
+    // One control per intent: the plan only edits how the work is done, and
+    // the work itself is the single "Do this now" row. The geography is chosen
+    // with the keyboard, then the alternative priority is done with a pointer.
+    await expect(strategy.getByTestId("campaign-strategy-commit")).toHaveCount(
+      0,
+    );
+    const place = geography.getByRole("radio").first();
+    await place.focus();
     await page.keyboard.press("Space");
-    await expect(outreach).toBeChecked();
-    await strategy.getByTestId("campaign-strategy-commit").click();
+    await expect(place).toBeChecked();
+    await page
+      .getByRole("group", { name: "Do this now" })
+      .getByTestId("campaign-outreach")
+      .click();
 
     const report = page.getByTestId("campaign-strategy-report");
     await expect(report).toBeVisible();
@@ -349,7 +354,7 @@ test.describe("A life can stand for something", () => {
     // Whichever way it went, this is still a game with a day in it.
     const afterword = await page.getByTestId("campaign-afterword").innerText();
     await openDay(page);
-    const before = await page.getByTestId("day-date").innerText();
+    const before = (await page.getByTestId("day-date").textContent()) ?? "";
     await page.getByTestId("pass-day").click();
     await expect(page.getByTestId("day-date")).not.toHaveText(before);
     await expect(page.getByTestId("play-screen")).toBeVisible();
@@ -364,11 +369,12 @@ test.describe("A life can stand for something", () => {
       // And it opens no office it did not earn.
       await expect(page.getByTestId("office-section")).toHaveCount(0);
     } else {
-      // Winning opens the office, through the ordinary work records. The work
-      // surface is now its own HUD destination, so the office is reached there.
+      // A recorded result precedes the supported term; it grants no current office.
       await openElsewhere(page, "work");
-      await expect(page.getByTestId("office-section")).toBeVisible();
-      await expect(page.getByTestId("open-legislation")).toBeVisible();
+      await expect(page.getByTestId("office-section")).toHaveCount(0);
+      await expect(page.getByTestId("campaign-afterword")).toContainText(
+        /supported term begins/,
+      );
     }
 
     expect(errors).toEqual([]);
@@ -419,7 +425,7 @@ test.describe("P85D integration through ordinary player controls", () => {
       await enterLife(page);
       await openCampaign(page);
       await fileCandidacy(page);
-      const before = await page.getByTestId("day-date").innerText();
+      const before = (await page.getByTestId("day-date").textContent()) ?? "";
       await closeWork(page);
       if (route === "quiet") {
         await page.getByTestId("story-let-time-pass").focus();
@@ -461,7 +467,14 @@ test.describe("P85D integration through ordinary player controls", () => {
     }
     expect(await liveUntilDecided(page)).toBe(true);
     await expect(page.getByTestId("campaign-afterword")).toContainText("won.");
-    await openElsewhere(page, "work");
+    await expect(page.getByTestId("office-section")).toHaveCount(0);
+    // The ordinary quiet-story clock processes the same pending term transition.
+    for (let step = 0; step < 12; step += 1) {
+      if (await page.getByTestId("office-section").isVisible()) break;
+      await closeWork(page);
+      await page.getByTestId("story-let-time-pass").click();
+      await openCampaign(page);
+    }
     await expect(page.getByTestId("office-section")).toContainText(
       "Kentucky legislature",
     );

@@ -114,6 +114,8 @@ function playAdultLife(
       situationKey: life.scene.situationKey,
       optionKey: option.key,
     });
+    // This multi-week fixture explicitly waits; an answer itself is free.
+    world = letAdultTimePass(world);
   }
   return { world, sequence };
 }
@@ -217,7 +219,10 @@ describe("Acceptance 2 — an answer may shape a family and may never author one
     });
     for (const answer of another.priors ?? []) {
       expect(written).not.toContain(answer.questionKey);
-      if (answer.choiceId) expect(written).not.toContain(answer.choiceId);
+      // A written choice id is a JSON string value; short option keys ("c")
+      // otherwise match unrelated text.
+      if (answer.choiceId)
+        expect(written).not.toContain(JSON.stringify(answer.choiceId));
     }
   });
 
@@ -339,7 +344,9 @@ describe("Acceptance 2 — an answer may shape a family and may never author one
     for (const answer of setupPriorsOf(world).answers) {
       expect(JSON.stringify(world.history)).not.toContain(answer.questionKey);
       if (answer.choiceId)
-        expect(JSON.stringify(world.history)).not.toContain(answer.choiceId);
+        expect(JSON.stringify(world.history)).not.toContain(
+          JSON.stringify(answer.choiceId),
+        );
     }
     expect(world.history.privateBeliefs).toHaveLength(0);
     expect(world.history.publicPositions).toHaveLength(0);

@@ -1,3 +1,8 @@
+import {
+  nationalEntityExists,
+  nationalEntityAvailableAt,
+} from "./national-elections";
+import { taxEntityAvailableAt, taxEntityExists } from "./tax-policy";
 import { makeIsoDate, simulationMomentAtLocalTime } from "./dates";
 import { createStableId } from "./ids";
 import {
@@ -710,6 +715,8 @@ function canonicalEntityAvailable(
 ): boolean {
   if (id === world.id || world.jurisdictions[id] || world.people[id])
     return true;
+  if (taxEntityExists(world, id))
+    return taxEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
   if (lifeEntityExists(world, id)) {
     return lifeEntityAvailableAt(
       world,
@@ -735,6 +742,8 @@ function canonicalEntityAvailable(
   if (vitalityEntityExists(world, id)) {
     return vitalityEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
   }
+  if (nationalEntityExists(world, id))
+    return nationalEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
   if (electionContestEntityExists(world, id)) {
     return electionContestEntityAvailableAt(
       world,

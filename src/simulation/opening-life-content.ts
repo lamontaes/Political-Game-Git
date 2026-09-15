@@ -11,6 +11,7 @@ export interface LifeSceneChoice {
   readonly key: string;
   readonly label: string;
   readonly aftermath: string;
+  readonly elapsedMinutes?: number;
   readonly approach?: "ask" | "listen" | "direct";
 }
 export type LifeSceneSetting = "home" | "school" | "neighborhood";
@@ -29,6 +30,35 @@ const SOURCE =
   "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view";
 /** The reviewed packets, outputs and verdicts behind the PT3 first-session copy. */
 const PT3_FIRST_SESSION_SOURCE = "prose-review/pt3-first-session";
+
+/** Only these choices actually perform a sustained activity. Conversational
+ * choices inside a game/reading/meeting do not complete that whole activity. */
+const PERFORMED_OPENING_CHOICES: Readonly<Record<string, readonly string[]>> = {
+  "young.home.choose-activity": ["read", "rest", "draw", "add"],
+  "adult.home.free-time": ["read", "rest", "draw"],
+  "adult.home.plan-week": ["read"],
+  "early.family.packing-boxes": ["help-label"],
+  "early.peer.sidewalk-game": ["give-in-play", "trial"],
+  "early.peer.roughhouse-line": ["brush-off-tough", "return"],
+  "early.home.bedtime-delay": ["continue"],
+};
+export function openingChoiceMinutes(
+  definition: LifeSceneDefinition,
+  choice: LifeSceneChoice,
+): number {
+  // ordinary-scenes-v1 reserves mod. and authors one explicit activity
+  // duration for its choices. Preserve that frozen API/save contract.
+  if (definition.key.startsWith("mod.")) return definition.minutes;
+  const isReadMore =
+    definition.key === "adult.home.free-time" && choice.key === "more";
+  if (isReadMore) return 5;
+  return (
+    choice.elapsedMinutes ??
+    (PERFORMED_OPENING_CHOICES[definition.key]?.includes(choice.key)
+      ? definition.minutes
+      : 0)
+  );
+}
 
 function scene(
   key: string,
@@ -176,11 +206,11 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
     [6, 7],
     "school",
     "peer",
-    "During tag, {person} knocks you over while trying to catch you. You sit up on the grass, startled.",
+    "{person} knocks you over during tag. You sit up on the grass.",
     [
       {
         key: "state-boundary",
-        label: "Say tag doesn't mean pushing",
+        label: "Say, “Don’t push me”",
         aftermath: "You tell {person} you don't want to be pushed during tag.",
         approach: "direct",
       },
@@ -321,7 +351,7 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       },
       {
         key: "continue",
-        label: "Keep playing with the bedtime toy",
+        label: "Keep playing with the toy",
         aftermath: "You keep playing with the toy.",
       },
     ],
@@ -767,16 +797,16 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
   "early.peer.sidewalk-game": {
     afterChoice: "compromise-rule",
     premise:
-      "You suggested a trial round to {person}; you have not yet agreed to keep the new rule.",
+      "You suggested trying the new rule for one round. Do you want to try it?",
     choices: [
       {
         key: "trial",
-        label: "Play the proposed trial round",
+        label: "Try one round",
         aftermath: "You play one round with the new rule alongside {person}.",
       },
       {
         key: "original",
-        label: "Withdraw the trial and use the agreed rules",
+        label: "Ask to use the original rules",
         aftermath:
           "You tell {person} you want to stick with the rules you agreed first.",
       },
@@ -784,18 +814,17 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
   },
   "early.peer.secret-whisper": {
     afterChoice: "question-story",
-    premise:
-      "You asked {person} how they knew the story. You still have no evidence that it happened.",
+    premise: "{person} hasn’t told you how they know the story is true.",
     choices: [
       {
         key: "leave",
-        label: "Leave the unverified story alone",
+        label: "Go back to the reading",
         aftermath:
           "You stop asking about the story and turn back to the reading.",
       },
       {
         key: "boundary",
-        label: "Say you will not repeat an unverified story",
+        label: "Say you won’t pass the story on",
         aftermath:
           "You tell {person} you will not repeat the story without knowing it is true.",
       },
@@ -808,12 +837,12 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
     choices: [
       {
         key: "offer",
-        label: "Offer a piece after comforting them",
+        label: "Share your snack with them",
         aftermath: "You offer {person} a piece of your snack.",
       },
       {
         key: "stay",
-        label: "Stay beside them without offering food",
+        label: "Stay with them",
         aftermath: "You stay with {person} and keep your snack.",
       },
     ],
@@ -821,17 +850,16 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
   "early.peer.roughhouse-line": {
     afterChoice: "state-boundary",
     premise:
-      "You told {person} that you do not want pushing during tag. You can decide whether to join another round.",
+      "You’ve told {person} not to push you. Do you want to keep playing?",
     choices: [
       {
         key: "return",
-        label: "Rejoin tag with the no-pushing boundary",
-        aftermath:
-          "You rejoin the game and repeat that you do not want pushing.",
+        label: "Play again, but say no pushing",
+        aftermath: "You rejoin the game. “No pushing,” you tell {person}.",
       },
       {
         key: "end",
-        label: "End your tag game after naming the boundary",
+        label: "Stop playing tag",
         aftermath: "You tell {person} you are done with tag for now.",
       },
     ],
@@ -843,12 +871,12 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
     choices: [
       {
         key: "settle",
-        label: "Settle down and listen to the reading",
+        label: "Stop laughing and listen",
         aftermath: "You stop laughing and listen to the reading.",
       },
       {
         key: "move",
-        label: "Choose a quieter spot for the reading",
+        label: "Move away and listen",
         aftermath: "You move away from {person} and listen from another spot.",
       },
     ],
@@ -860,7 +888,7 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
     choices: [
       {
         key: "other",
-        label: "Continue the drawing in the other color",
+        label: "Keep drawing",
         aftermath: "You keep drawing with the color you chose after sharing.",
       },
       {
@@ -873,52 +901,48 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
   },
   "early.school.playground-turn": {
     afterChoice: "ask-turn",
-    premise:
-      "You asked {person} for a turn on the swing. Asking has not given you a turn yet.",
+    premise: "{person} is still on the swing after you asked for a turn.",
     choices: [
       {
         key: "wait",
-        label: "Wait after asking for the swing",
+        label: "Wait for a turn",
         aftermath: "You stay beside the swing to wait for a turn.",
       },
       {
         key: "leave",
-        label: "Leave the swing after asking",
+        label: "Go and play somewhere else",
         aftermath: "You tell {person} you are going to play somewhere else.",
       },
     ],
   },
   "early.school.spilled-paint": {
     afterChoice: "apologize",
-    premise:
-      "You apologized and blotted the wet drawing. The spill still happened; you cannot undo it by apologizing.",
+    premise: "The drawing is still wet after you blot it.",
     choices: [
       {
         key: "offer",
-        label: "Offer a fresh sheet for the drawing",
+        label: "Offer a fresh sheet of paper",
         aftermath: "You offer {person} a fresh sheet of paper.",
       },
       {
         key: "ask",
-        label: "Ask what help they want with the drawing",
+        label: "Ask what you can do to help",
         aftermath: "You ask {person} what they want you to do next.",
       },
     ],
   },
   "early.home.bedtime-delay": {
     afterChoice: "ask",
-    premise:
-      "You asked {person} for more time with the toy. You have not been given permission to stay up.",
+    premise: "{person} hasn’t answered your request for more time.",
     choices: [
       {
         key: "put-away",
-        label: "Put the toy away while the request stands",
-        aftermath:
-          "You put away the toy rather than treating your request as permission.",
+        label: "Put the toy away now",
+        aftermath: "You put the toy away.",
       },
       {
         key: "clarify",
-        label: "Ask whether they can give you a few minutes",
+        label: "Ask again for a few minutes",
         aftermath: "You ask {person} whether a few more minutes are possible.",
       },
     ],
@@ -930,12 +954,12 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
     choices: [
       {
         key: "step",
-        label: "Step away from the broken mug pieces",
+        label: "Step away from the pieces",
         aftermath: "You step away from the pieces and leave them for an adult.",
       },
       {
         key: "warn",
-        label: "Point out where the mug pieces fell",
+        label: "Point out the broken pieces",
         aftermath:
           "You point out the broken pieces to {person} without touching them.",
       },
@@ -947,12 +971,12 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
     choices: [
       {
         key: "another",
-        label: "Choose another bite of broccoli",
+        label: "Take another bite",
         aftermath: "You take another bite of broccoli.",
       },
       {
         key: "enough",
-        label: "Say one bite is enough for now",
+        label: "Say you’ve had enough",
         aftermath:
           "You tell {person} you have tried it and do not want another bite.",
       },
@@ -965,7 +989,7 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
     choices: [
       {
         key: "look",
-        label: "Look at the branch with the lamp on",
+        label: "Watch the branch’s shadow",
         aftermath:
           "You look from the window to the door and watch the shadow move.",
       },
@@ -983,25 +1007,24 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
     choices: [
       {
         key: "help",
-        label: "Ask before trying to repair their truck",
+        label: "Ask if they want help fixing it",
         aftermath:
           "You ask {person} whether they want you to try putting the wheel back.",
       },
       {
         key: "return",
-        label: "Return the truck and loose wheel together",
+        label: "Give back the truck and wheel",
         aftermath: "You give {person} the truck and its loose wheel.",
       },
     ],
   },
   "young.home.choose-activity": {
     afterChoice: "draw",
-    premise:
-      "You spent some time drawing. You can decide what to do with the picture you made.",
+    premise: "Your drawing is in front of you. Do you want to add anything?",
     choices: [
       {
         key: "add",
-        label: "Add one more detail to your picture",
+        label: "Add to the picture",
         aftermath: "You add another detail to your drawing.",
       },
       {
@@ -1013,17 +1036,16 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
   },
   "young.home.ask-about-childhood": {
     afterChoice: "ask",
-    premise:
-      "You asked {person} about school. Your question does not establish any facts about their childhood.",
+    premise: "You’ve asked {person} what school was like for them.",
     choices: [
       {
         key: "space",
-        label: "Give them room to answer the school question",
-        aftermath: "You leave space for {person} to answer if they want to.",
+        label: "Wait for their answer",
+        aftermath: "You wait for {person} to answer.",
       },
       {
         key: "change",
-        label: "Ask if they would prefer a different subject",
+        label: "Offer to talk about something else",
         aftermath:
           "You ask {person} whether they would rather talk about something else.",
       },
@@ -1065,17 +1087,16 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
   },
   "adult.home.shared-time": {
     afterChoice: "quiet",
-    premise:
-      "You asked {person} for quiet time. You have stated what you need, not made a shared agreement.",
+    premise: "You’ve told {person} you’d like some quiet.",
     choices: [
       {
         key: "alone",
-        label: "Take a few quiet minutes on your own",
-        aftermath: "You take a few quiet minutes on your own.",
+        label: "Say you’d like to be alone",
+        aftermath: "You tell {person} you’d like to be alone for a while.",
       },
       {
         key: "explain",
-        label: "Explain that you would like to talk another time",
+        label: "Say you’d like to talk later",
         aftermath: "You tell {person} you would like to talk another time.",
       },
     ],
@@ -1083,17 +1104,17 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
   "early.community.lost-pet-flyer": {
     afterChoice: "show",
     premise:
-      "You pointed out the cat and flyer to {person}. A resemblance does not establish that this is the missing cat.",
+      "You and {person} can compare the cat with the picture on the flyer.",
     choices: [
       {
         key: "watch",
-        label: "Watch the cat without approaching it",
+        label: "Watch from here",
         aftermath:
           "You stay beside {person} and watch the cat from a distance.",
       },
       {
         key: "compare",
-        label: "Ask them to compare the cat with the flyer",
+        label: "Ask if the cat matches the picture",
         aftermath:
           "You ask {person} to look at the flyer and the cat together.",
       },
@@ -1106,12 +1127,12 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
     choices: [
       {
         key: "beside",
-        label: "Continue along the sidewalk beside them",
+        label: "Walk beside them",
         aftermath: "You continue along the sidewalk beside {person}.",
       },
       {
         key: "hand",
-        label: "Ask to hold their hand at the curb",
+        label: "Ask to hold hands",
         aftermath: "You ask {person} to hold your hand before going farther.",
       },
     ],
@@ -1218,122 +1239,134 @@ export const OPENING_LIFE_ADDITIONS = OPENING_LIFE_SCENES.filter(
       (kernel) => kernel.kernelId === scene.key && kernel.isKernel,
     ),
 );
-export const OPENING_LIFE_FAMILIES: readonly EpisodeFamily[] =
-  OPENING_LIFE_ADDITIONS.map((scene) => {
-    const role: EpisodeRoleKey | null =
-      scene.cast === "alone"
-        ? null
-        : scene.cast === "peer"
-          ? "school-peer"
-          : scene.cast === "sibling"
-            ? "household-peer"
-            : scene.cast === "housemate"
-              ? "household-companion"
-              : "guardian";
-    const slot = role ? `{role:${role}}` : "";
-    const requirements: EpisodeRequirement[] = [
-      { kind: "age-at-least", age: scene.ages[0] },
-      { kind: "age-below", age: scene.ages[1] + 1 },
-      ...(scene.setting === "home" ? [{ kind: "home-recorded" as const }] : []),
-      ...(OPENING_SCENE_TIME_WINDOWS[scene.key]
+export function openingLifeFamily(
+  scene: LifeSceneDefinition,
+  sourceDocument = "OPENING-LIFE1 / 92C",
+): EpisodeFamily {
+  const role: EpisodeRoleKey | null =
+    scene.cast === "alone"
+      ? null
+      : scene.cast === "peer"
+        ? "school-peer"
+        : scene.cast === "sibling"
+          ? "household-peer"
+          : scene.cast === "housemate"
+            ? "household-companion"
+            : "guardian";
+  const slot = role ? `{role:${role}}` : "";
+  const requirements: EpisodeRequirement[] = [
+    { kind: "age-at-least", age: scene.ages[0] },
+    { kind: "age-below", age: scene.ages[1] + 1 },
+    ...(scene.setting === "home" ? [{ kind: "home-recorded" as const }] : []),
+    ...(OPENING_SCENE_TIME_WINDOWS[scene.key]
+      ? [
+          {
+            kind: "local-time-window" as const,
+            startMinute: OPENING_SCENE_TIME_WINDOWS[scene.key]![0],
+            endMinuteExclusive: OPENING_SCENE_TIME_WINDOWS[scene.key]![1],
+          },
+        ]
+      : []),
+    ...(role ? [{ kind: "role" as const, role }] : []),
+    ...(scene.setting === "school"
+      ? [{ kind: "fact" as const, fact: "school.enrolled" as const }]
+      : []),
+  ];
+  // The circumstance that makes the scene possible gates the moment only.
+  // Answering the moment closes the circumstance — that is what closing it
+  // means — so requiring the same fact again on the continuation would make
+  // the continuation unreachable. The continuation already requires the
+  // saved answer to the moment, which is the stronger claim anyway.
+  const circumstance: readonly EpisodeRequirement[] =
+    scene.key === "early.family.packing-boxes"
+      ? [{ kind: "fact", fact: "household.move-preparation" }]
+      : scene.key === "adult.trans.college-vs-work"
+        ? [{ kind: "fact", fact: "life.education-work-crossroad" }]
+        : scene.key === "adult.trans.drop-class-keep-job"
+          ? [{ kind: "fact", fact: "work.class-schedule-conflict" }]
+          : [];
+  return {
+    key: `opening.${scene.key}`,
+    ...(scene.recurrence ? { recurrence: scene.recurrence } : {}),
+    family: scene.setting === "school" ? "school" : "household",
+    authority: {
+      sourceDocument,
+      reference: scene.source,
+    },
+    roles: role ? [role] : [],
+    peerRoles: role === "school-peer" ? [role] : [],
+    exits: [],
+    stages: [
+      {
+        key: "moment",
+        requires: [...requirements, ...circumstance],
+        recordSceneContext: true,
+        // `{who}` introduces the person with how the record relates them
+        // to the player ("Sierra Tucker, who you live with"). Authored only
+        // where it ends a clause, because the introduction carries its own
+        // comma and no closing one.
+        lines: [
+          scene.premise
+            .replaceAll("{who}", role ? `{who:${role}}` : "")
+            .replaceAll("{person}", slot),
+        ],
+        stakes: "ordinary",
+        tensions: [],
+        mayLeadTo: [],
+        options: scene.choices.map((choice) => ({
+          key: choice.key,
+          label: choice.label.replaceAll("{person}", slot),
+          description: openingChoiceMinutes(scene, choice)
+            ? `${openingChoiceMinutes(scene, choice)} minutes`
+            : "No time passes",
+          memory: choice.aftermath.replaceAll("{person}", slot),
+          nudges: [],
+          aftermath: null,
+        })),
+      },
+      ...(OPENING_LIFE_FOLLOWUPS[scene.key]
         ? [
             {
-              kind: "local-time-window" as const,
-              startMinute: OPENING_SCENE_TIME_WINDOWS[scene.key]![0],
-              endMinuteExclusive: OPENING_SCENE_TIME_WINDOWS[scene.key]![1],
+              key: "follow-through",
+              requires: [
+                ...requirements,
+                {
+                  kind: "after-choice" as const,
+                  stage: "moment",
+                  option: OPENING_LIFE_FOLLOWUPS[scene.key]!.afterChoice,
+                },
+              ],
+              recordSceneContext: true,
+              lines: [
+                OPENING_LIFE_FOLLOWUPS[scene.key]!.premise.replaceAll(
+                  "{person}",
+                  slot,
+                ),
+              ],
+              stakes: "ordinary" as const,
+              tensions: [],
+              mayLeadTo: [],
+              options: OPENING_LIFE_FOLLOWUPS[scene.key]!.choices.map(
+                (choice) => ({
+                  key: choice.key,
+                  label: choice.label.replaceAll("{person}", slot),
+                  description: openingChoiceMinutes(
+                    { ...scene, minutes: 5 },
+                    choice,
+                  )
+                    ? `${openingChoiceMinutes({ ...scene, minutes: 5 }, choice)} minutes`
+                    : "No time passes",
+                  memory: choice.aftermath.replaceAll("{person}", slot),
+                  nudges: [],
+                  aftermath: null,
+                }),
+              ),
             },
           ]
         : []),
-      ...(role ? [{ kind: "role" as const, role }] : []),
-      ...(scene.setting === "school"
-        ? [{ kind: "fact" as const, fact: "school.enrolled" as const }]
-        : []),
-    ];
-    // The circumstance that makes the scene possible gates the moment only.
-    // Answering the moment closes the circumstance — that is what closing it
-    // means — so requiring the same fact again on the continuation would make
-    // the continuation unreachable. The continuation already requires the
-    // saved answer to the moment, which is the stronger claim anyway.
-    const circumstance: readonly EpisodeRequirement[] =
-      scene.key === "early.family.packing-boxes"
-        ? [{ kind: "fact", fact: "household.move-preparation" }]
-        : scene.key === "adult.trans.college-vs-work"
-          ? [{ kind: "fact", fact: "life.education-work-crossroad" }]
-          : scene.key === "adult.trans.drop-class-keep-job"
-            ? [{ kind: "fact", fact: "work.class-schedule-conflict" }]
-            : [];
-    return {
-      key: `opening.${scene.key}`,
-      ...(scene.recurrence ? { recurrence: scene.recurrence } : {}),
-      family: scene.setting === "school" ? "school" : "household",
-      authority: {
-        sourceDocument: "OPENING-LIFE1 / 92C",
-        reference: scene.source,
-      },
-      roles: role ? [role] : [],
-      peerRoles: role === "school-peer" ? [role] : [],
-      exits: [],
-      stages: [
-        {
-          key: "moment",
-          requires: [...requirements, ...circumstance],
-          recordSceneContext: true,
-          // `{who}` introduces the person with how the record relates them
-          // to the player ("Sierra Tucker, who you live with"). Authored only
-          // where it ends a clause, because the introduction carries its own
-          // comma and no closing one.
-          lines: [
-            scene.premise
-              .replaceAll("{who}", role ? `{who:${role}}` : "")
-              .replaceAll("{person}", slot),
-          ],
-          stakes: "ordinary",
-          tensions: [],
-          mayLeadTo: [],
-          options: scene.choices.map((choice) => ({
-            key: choice.key,
-            label: choice.label.replaceAll("{person}", slot),
-            description: `${scene.minutes} minutes`,
-            memory: choice.aftermath.replaceAll("{person}", slot),
-            nudges: [],
-            aftermath: null,
-          })),
-        },
-        ...(OPENING_LIFE_FOLLOWUPS[scene.key]
-          ? [
-              {
-                key: "follow-through",
-                requires: [
-                  ...requirements,
-                  {
-                    kind: "after-choice" as const,
-                    stage: "moment",
-                    option: OPENING_LIFE_FOLLOWUPS[scene.key]!.afterChoice,
-                  },
-                ],
-                recordSceneContext: true,
-                lines: [
-                  OPENING_LIFE_FOLLOWUPS[scene.key]!.premise.replaceAll(
-                    "{person}",
-                    slot,
-                  ),
-                ],
-                stakes: "ordinary" as const,
-                tensions: [],
-                mayLeadTo: [],
-                options: OPENING_LIFE_FOLLOWUPS[scene.key]!.choices.map(
-                  (choice) => ({
-                    key: choice.key,
-                    label: choice.label.replaceAll("{person}", slot),
-                    description: "5 minutes",
-                    memory: choice.aftermath.replaceAll("{person}", slot),
-                    nudges: [],
-                    aftermath: null,
-                  }),
-                ),
-              },
-            ]
-          : []),
-      ],
-    };
-  });
+    ],
+  };
+}
+
+export const OPENING_LIFE_FAMILIES: readonly EpisodeFamily[] =
+  OPENING_LIFE_ADDITIONS.map((scene) => openingLifeFamily(scene));

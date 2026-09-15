@@ -1,3 +1,8 @@
+import {
+  lifeRequestDetails,
+  lifeRequestDetailsTag,
+} from "./life-request-details";
+import { personName } from "./people";
 import type { AdultAftermathKind } from "./adult-situations";
 import { applyCharacterHistoryPlan } from "./character-history";
 import { addDays, makeIsoDate } from "./dates";
@@ -400,7 +405,10 @@ export function lifeCallbackTransitionHandler(
   // same way here so a callback does not have to know which produced it.
   const situationTag =
     origin.tags.find((tag) => tag.startsWith("adult.")) ??
-    origin.tags.find((tag) => tag.startsWith("conversation.subject."));
+    origin.tags.find((tag) => tag.startsWith("conversation.subject.")) ??
+    (origin.context.socialContext === "adult.friend-favour"
+      ? "adult.friend-favour"
+      : undefined);
   if (
     situationTag === "adult.promise-comes-due" ||
     situationTag === "adult.care-request"
@@ -467,8 +475,32 @@ export function lifeCallbackTransitionHandler(
     }
   }
 
+  const details = lifeRequestDetails(origin);
+  const requestTag = origin.tags.find((tag) =>
+    tag.startsWith("life.favour-request:"),
+  );
+  const performed = requestTag
+    ? world.history.events.find(
+        (event) =>
+          event.type === "life.favour-performed" &&
+          event.tags.includes(requestTag),
+      )
+    : undefined;
+  const cancelled = requestTag
+    ? world.history.events.find(
+        (event) =>
+          event.type === "life.favour-cancelled" &&
+          event.tags.includes(requestTag),
+      )
+    : undefined;
+  const condition = origin.tags.includes("favour.conditions")
+    ? details?.condition
+    : null;
   const returned =
-    (situationTag ? RETURN_SUMMARY[situationTag] : undefined) ?? GENERIC_RETURN;
+    details && counterpartId
+      ? `${personName(world.people[counterpartId]!)} brings up the request to ${details.task} again.${condition ? ` The agreed condition was: ${condition}.` : ""}${requestTag ? (performed ? " You finished the proofreading." : cancelled ? " You withdrew the commitment." : origin.tags.includes("favour.declined") ? " You had declined the request." : " You agreed, but have not finished the proofreading.") : ""}`
+      : ((situationTag ? RETURN_SUMMARY[situationTag] : undefined) ??
+        GENERIC_RETURN);
   const stableKey = `${dueItem.stableKey}:returned`;
   const applied = applyCharacterHistoryPlan(world, {
     stableKey,
@@ -483,13 +515,25 @@ export function lifeCallbackTransitionHandler(
           occurredAt: dueItem.dueAt,
           recordedAt: dueItem.dueAt,
           jurisdictionId: origin.context.location?.jurisdictionId ?? null,
-          involvedEntityIds: [personId],
+          involvedEntityIds: [
+            personId,
+            ...(counterpartId ? [counterpartId] : []),
+          ],
           participants: [
             {
               personId,
               role: "focus:subject",
               detail: "The person it came back to",
             },
+            ...(counterpartId
+              ? [
+                  {
+                    personId: counterpartId,
+                    role: "presence:participant" as const,
+                    detail: "Raised the earlier matter",
+                  },
+                ]
+              : []),
           ],
           personFactConstraints: [],
           visibility: "limited",
@@ -498,7 +542,14 @@ export function lifeCallbackTransitionHandler(
           // integrity check rejects. Nothing reached that path while every
           // aftermath came from an adult situation.
           tags: [
-            ...new Set(["life.callback", situationTag ?? "life.callback"]),
+            ...new Set([
+              "life.callback",
+              situationTag ?? "life.callback",
+              `origin:${origin.id}`,
+              ...(performed ? [`performance:${performed.id}`] : []),
+              ...(requestTag ? [requestTag] : []),
+              ...(details ? [lifeRequestDetailsTag(details)] : []),
+            ]),
           ],
           summary: returned,
           context: {

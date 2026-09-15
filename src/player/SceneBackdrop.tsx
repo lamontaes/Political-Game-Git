@@ -1,3 +1,9 @@
+import "./pose41-scene.css";
+import {
+  sceneConversationFrame,
+  type SceneConversationFrame,
+} from "../presentation/scene-conversation-frame";
+import { MaterialImage } from "./ModularCharacter";
 import {
   useLayoutEffect,
   useMemo,
@@ -30,7 +36,9 @@ import { useRasterTier } from "./useRasterTier";
 import { useSceneCoverTransform } from "./useSceneTransform";
 import {
   chooseContentDock,
+  conversationSafeMaxHeight,
   figureHeadroom,
+  occupiedHorizontalPan,
   type ContentPlacement,
   type ScreenFigure,
 } from "../presentation/scene-framing";
@@ -142,11 +150,14 @@ export function SceneBackdrop({
    * nothing drifts apart. With nobody in the room it is the covering camera
    * unchanged.
    */
-  const figuresAt = (yOffset: number): ScreenFigure[] =>
+  const figuresAt = (
+    yOffset: number,
+    xOffset = covering.xOffset,
+  ): ScreenFigure[] =>
     painted
       ? people.map((person) => {
           const left =
-            covering.xOffset +
+            xOffset +
             (person.leftPercent / 100) * plate.width * covering.uniformScale;
           const top =
             yOffset +
@@ -171,9 +182,17 @@ export function SceneBackdrop({
   );
   const transform = {
     ...covering,
+    xOffset:
+      covering.xOffset +
+      occupiedHorizontalPan(
+        figuresAt(covering.yOffset),
+        covering.viewport.width,
+        covering.renderedSceneWidth,
+        covering.xOffset,
+      ),
     yOffset: covering.yOffset + headroom,
   };
-  const figures = figuresAt(transform.yOffset);
+  const figures = figuresAt(transform.yOffset, transform.xOffset);
 
   /*
    * The foreground panel goes where it covers the fewest people. Measured
@@ -185,10 +204,62 @@ export function SceneBackdrop({
     dock: "center",
     maxWidth: null,
   });
+  const [conversationMaxHeight, setConversationMaxHeight] = useState<
+    number | null
+  >(null);
+  const [conversationFrame, setConversationFrame] =
+    useState<SceneConversationFrame | null>(null);
+  const measuredContent = useRef("");
   useLayoutEffect(() => {
     const content = contentRef.current;
     const panel = content?.firstElementChild;
-    if (!content || !panel) return;
+    if (!content || !panel) {
+      measuredContent.current = "";
+      return;
+    }
+    const measurementKey = JSON.stringify([
+      covering.viewport,
+      figures,
+      panel.className,
+      panel.textContent,
+    ]);
+    if (measurementKey === measuredContent.current) return;
+    measuredContent.current = measurementKey;
+    const talking = panel.classList.contains("pg-talk");
+    if (talking && people.length > 1) {
+      const frame = sceneConversationFrame(
+        figures,
+        covering.viewport,
+        Math.min(416, panel.scrollHeight),
+      );
+      setConversationFrame(frame);
+      setConversationMaxHeight(frame.maxHeight);
+      return;
+    }
+    setConversationFrame((current) => (current === null ? current : null));
+    if (talking) {
+      const maxHeight = conversationSafeMaxHeight(figures, covering.viewport);
+      const next = chooseContentDock(
+        figures,
+        covering.viewport,
+        {
+          width: Math.min(736, covering.viewport.width - 40),
+          height: panel.getBoundingClientRect().height,
+        },
+        { leftInset: DOCK_LEFT_INSET, rightInset: DOCK_RIGHT_INSET },
+        360,
+      );
+      setPlacement((current) =>
+        current.dock === next.dock && current.maxWidth === next.maxWidth
+          ? current
+          : next,
+      );
+      setConversationMaxHeight((current) =>
+        current === maxHeight ? current : maxHeight,
+      );
+      return;
+    }
+    setConversationMaxHeight((current) => (current === null ? current : null));
     /*
      * Decided at the panel's own nominal width, not the width a previous
      * decision narrowed it to, so the answer cannot feed back on itself.
@@ -205,9 +276,8 @@ export function SceneBackdrop({
         ? current
         : next,
     );
-    // No dependency list on purpose: what is in front of the room changes its
-    // size without changing any prop here, and the guard above keeps a stable
-    // answer from re-rendering.
+    // Measure once per content/viewport/occupancy change. Layout-derived
+    // width and height cannot repeatedly feed back into a new dock decision.
   });
   const occluders = releasedSceneOccluders(scene, visualLibrary);
   const plateClips = scenePlateClips(scene);
@@ -362,6 +432,11 @@ export function SceneBackdrop({
                 data-testid={`scene-person-${person.personId}`}
                 data-occlusion-count={masks.length}
                 data-has-art={person.hasArt ? "true" : "false"}
+                data-anchor-id={person.anchorId}
+                data-pose-id={
+                  person.sourcePoseId ??
+                  (person.seated ? "seated-unresolved" : "standing-neutral")
+                }
                 data-relationship={person.relationship ?? ""}
                 /*
                  * The compositor's reason, carried to where it can be read.
@@ -388,10 +463,28 @@ export function SceneBackdrop({
                   } satisfies CSSProperties
                 }
               >
+                {person.hasArt &&
+                !person.seated &&
+                scene?.anchors.get(person.anchorId)?.floorContact ? (
+                  <span
+                    aria-hidden="true"
+                    className="scene-person-contact-shadow"
+                    style={{
+                      top: `${((scene.anchors.get(person.anchorId)!.contactFloorYPercent - person.topPercent) / person.heightPercent) * 100}%`,
+                    }}
+                  />
+                ) : null}
                 {person.hasArt ? (
                   person.layers.map((layer, index) => (
-                    <img
+                    <MaterialImage
                       key={`${person.personId}-${index}`}
+                      assetId={layer.assetId ?? ""}
+                      material={layer.material}
+                      drawnIds={person.layers.flatMap((l) =>
+                        l.assetId ? [l.assetId] : [],
+                      )}
+                      data-asset-id={layer.assetId}
+                      data-kind={layer.kind}
                       className="scene-person-art"
                       src={layer.url}
                       alt=""
@@ -463,13 +556,27 @@ export function SceneBackdrop({
         className="scene-backdrop-content"
         ref={contentRef}
         data-dock={placement.dock}
+        data-conversation-frame={conversationFrame ? "true" : "false"}
+        data-content={conversationMaxHeight === null ? "panel" : "conversation"}
         data-testid="scene-backdrop-content"
         style={
-          placement.maxWidth === null
-            ? undefined
-            : ({
-                "--pg-dock-width": `${placement.maxWidth}px`,
-              } as CSSProperties)
+          {
+            ...(conversationFrame
+              ? {
+                  "--pg-frame-left": `${conversationFrame.left}px`,
+                  "--pg-frame-top": `${conversationFrame.top}px`,
+                  "--pg-frame-width": `${conversationFrame.width}px`,
+                }
+              : {}),
+            ...(placement.maxWidth === null
+              ? {}
+              : { "--pg-dock-width": `${placement.maxWidth}px` }),
+            ...(conversationMaxHeight === null
+              ? {}
+              : {
+                  "--pg-conversation-max-height": `${conversationMaxHeight}px`,
+                }),
+          } as CSSProperties
         }
       >
         {children}

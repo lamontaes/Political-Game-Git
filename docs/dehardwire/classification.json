@@ -1,23 +1,120 @@
 {
-  "review": "DIRECTOR42 ROLE B — DEHARDWIRE",
+  "review": "DIRECTOR42 ROLE B \u2014 DEHARDWIRE",
   "base": "f22fd314e72bec0440044026ccdfd99e7a67600d",
+  "composedOn": "5ed9bbd01a4b52bd8e365b4c5831cf990f232571 (#255 head acknowledged by LAND)",
   "classes": {
     "legitimate-data-label": "Content, a label, or recorded provenance. Belongs in the game and cannot become one world's fixed gameplay instance.",
-    "dev-or-test-only-fixture": "A fixture literal that a test, a developer route or explicit scenario data may hold, and that ordinary New Game and Continue cannot reach.",
+    "dev-or-test-only-fixture": "A fixture literal a test, a developer route or explicit scenario data may hold, and that ordinary New Game and Continue cannot reach.",
     "production-hardcode": "A world-instance gameplay identity an ordinary player can be handed because a production module spells it out. None may remain."
   },
+  "note": "Every case is listed by its exact literal. There are no file-wide wildcards: a new world-instance literal in a file already listed here is unclassified and fails the census, exactly as one in a new file would.",
   "cases": [
     {
       "file": "src/simulation/legislation-scenarios.ts",
-      "literal": "*",
+      "literal": "\"HB 214\"",
       "classification": "legitimate-data-label",
-      "rationale": "The authored measure bank. Each entry's designation is content the bank has always carried, and it is now exposed to production only as `LegislativeBlueprint.authoredDesignation`, which no production path reads: the standalone developer scenario files its own bill with it, and the content index titles the entry with it. What a player's world files is numbered by `nextMeasureDesignation` from that world's own jurisdiction numbering. Guarded by src/presentation/dehardwire-measure-identity.test.ts ('the authored bank')."
+      "rationale": "One entry in the authored measure bank. Reachable to production only as `LegislativeBlueprint.authoredDesignation`, which no production path reads: the standalone developer scenario files its own bill with it and the content index titles the entry with it. A player's world numbers its own bill through `nextMeasureDesignation`. Proved by src/presentation/dehardwire-measure-identity.test.ts and src/presentation/dehardwire-authored-designation.test.ts."
+    },
+    {
+      "file": "src/simulation/legislation-scenarios.ts",
+      "literal": "\"LB 88\"",
+      "classification": "legitimate-data-label",
+      "rationale": "One entry in the authored measure bank. Reachable to production only as `LegislativeBlueprint.authoredDesignation`, which no production path reads: the standalone developer scenario files its own bill with it and the content index titles the entry with it. A player's world numbers its own bill through `nextMeasureDesignation`. Proved by src/presentation/dehardwire-measure-identity.test.ts and src/presentation/dehardwire-authored-designation.test.ts."
+    },
+    {
+      "file": "src/simulation/legislation-scenarios.ts",
+      "literal": "\"HB 41\"",
+      "classification": "legitimate-data-label",
+      "rationale": "One entry in the authored measure bank. Reachable to production only as `LegislativeBlueprint.authoredDesignation`, which no production path reads: the standalone developer scenario files its own bill with it and the content index titles the entry with it. A player's world numbers its own bill through `nextMeasureDesignation`. Proved by src/presentation/dehardwire-measure-identity.test.ts and src/presentation/dehardwire-authored-designation.test.ts."
+    },
+    {
+      "file": "src/simulation/legislation-scenarios.ts",
+      "literal": "\"HB 388\"",
+      "classification": "legitimate-data-label",
+      "rationale": "One entry in the authored measure bank. Reachable to production only as `LegislativeBlueprint.authoredDesignation`, which no production path reads: the standalone developer scenario files its own bill with it and the content index titles the entry with it. A player's world numbers its own bill through `nextMeasureDesignation`. Proved by src/presentation/dehardwire-measure-identity.test.ts and src/presentation/dehardwire-authored-designation.test.ts."
+    },
+    {
+      "file": "src/simulation/legislation-scenarios.ts",
+      "literal": "\"LB 142\"",
+      "classification": "legitimate-data-label",
+      "rationale": "One entry in the authored measure bank. Reachable to production only as `LegislativeBlueprint.authoredDesignation`, which no production path reads: the standalone developer scenario files its own bill with it and the content index titles the entry with it. A player's world numbers its own bill through `nextMeasureDesignation`. Proved by src/presentation/dehardwire-measure-identity.test.ts and src/presentation/dehardwire-authored-designation.test.ts."
+    },
+    {
+      "file": "src/simulation/legislation-scenarios.ts",
+      "literal": "\"HB 77\"",
+      "classification": "legitimate-data-label",
+      "rationale": "One entry in the authored measure bank. Reachable to production only as `LegislativeBlueprint.authoredDesignation`, which no production path reads: the standalone developer scenario files its own bill with it and the content index titles the entry with it. A player's world numbers its own bill through `nextMeasureDesignation`. Proved by src/presentation/dehardwire-measure-identity.test.ts and src/presentation/dehardwire-authored-designation.test.ts."
+    },
+    {
+      "file": "src/simulation/legislation-scenarios.ts",
+      "literal": "\"HB 502\"",
+      "classification": "legitimate-data-label",
+      "rationale": "One entry in the authored measure bank. Reachable to production only as `LegislativeBlueprint.authoredDesignation`, which no production path reads: the standalone developer scenario files its own bill with it and the content index titles the entry with it. A player's world numbers its own bill through `nextMeasureDesignation`. Proved by src/presentation/dehardwire-measure-identity.test.ts and src/presentation/dehardwire-authored-designation.test.ts."
+    },
+    {
+      "file": "src/simulation/legislation-scenarios.ts",
+      "literal": "\"LB 219\"",
+      "classification": "legitimate-data-label",
+      "rationale": "One entry in the authored measure bank. Reachable to production only as `LegislativeBlueprint.authoredDesignation`, which no production path reads: the standalone developer scenario files its own bill with it and the content index titles the entry with it. A player's world numbers its own bill through `nextMeasureDesignation`. Proved by src/presentation/dehardwire-measure-identity.test.ts and src/presentation/dehardwire-authored-designation.test.ts."
+    },
+    {
+      "file": "src/simulation/legislation-scenarios.ts",
+      "literal": "\"HB 95\"",
+      "classification": "legitimate-data-label",
+      "rationale": "One entry in the authored measure bank. Reachable to production only as `LegislativeBlueprint.authoredDesignation`, which no production path reads: the standalone developer scenario files its own bill with it and the content index titles the entry with it. A player's world numbers its own bill through `nextMeasureDesignation`. Proved by src/presentation/dehardwire-measure-identity.test.ts and src/presentation/dehardwire-authored-designation.test.ts."
     },
     {
       "file": "src/simulation/judicial-gameplay-kernel-bank.ts",
-      "literal": "*",
+      "literal": "\"NCSC Model Time Standards for State Courts; Kentucky SCR 1.040; Texas Rules of Judicial Administration Rule 6.\"",
       "classification": "legitimate-data-label",
-      "rationale": "Recorded provenance on judicial kernel definitions — the instruments a kernel was compiled from, matched here only because a rule citation looks like a bill designation. Not a measure and not a world instance. Whether any of it should render on a player surface is ROLE C's separation question, not a dehardwire case; the citation itself stays internal."
+      "rationale": "Recorded provenance on a judicial kernel definition \u2014 the instruments it was compiled from. Matched only because a rule citation is shaped like a bill designation; it names no measure and no world instance. Whether it should render on a player surface is ROLE C's separation question."
+    },
+    {
+      "file": "src/simulation/judicial-gameplay-kernel-bank.ts",
+      "literal": "\"ABA Model Code of Judicial Conduct Rules 2.14 and 2.15; Kentucky SCR 4.300; Texas Code of Judicial Conduct Canon 3D.\"",
+      "classification": "legitimate-data-label",
+      "rationale": "Recorded provenance on a judicial kernel definition \u2014 the instruments it was compiled from. Matched only because a rule citation is shaped like a bill designation; it names no measure and no world instance. Whether it should render on a player surface is ROLE C's separation question."
+    },
+    {
+      "file": "src/simulation/judicial-gameplay-kernel-bank.ts",
+      "literal": "\"ABA Model Code of Judicial Conduct Rule 2.12; Kentucky SCR 1.050; FJC Chambers Management Handbook.\"",
+      "classification": "legitimate-data-label",
+      "rationale": "Recorded provenance on a judicial kernel definition \u2014 the instruments it was compiled from. Matched only because a rule citation is shaped like a bill designation; it names no measure and no world instance. Whether it should render on a player surface is ROLE C's separation question."
+    },
+    {
+      "file": "src/simulation/judicial-gameplay-kernel-bank.ts",
+      "literal": "\"ABA Model Code of Judicial Conduct Rules 2.4 and 2.9; Kentucky SCR 1.040.\"",
+      "classification": "legitimate-data-label",
+      "rationale": "Recorded provenance on a judicial kernel definition \u2014 the instruments it was compiled from. Matched only because a rule citation is shaped like a bill designation; it names no measure and no world instance. Whether it should render on a player surface is ROLE C's separation question."
     }
-  ]
+  ],
+  "trackedExceptions": {
+    "note": "Not census cases \u2014 no world-instance literal is involved \u2014 but the surfaces this role is still working through. Listed so a reviewer sees them next to the clean census rather than instead of it.",
+    "kentuckyPinnedSitting": {
+      "module": "src/presentation/legislative-bargaining-brief.ts",
+      "constants": [
+        "BARGAINING_BRIEF_SCENARIO_KEY",
+        "PLACE_LABEL",
+        "BENEFICIARY_LABEL",
+        "PROGRAM_AMOUNT_MINOR_UNITS",
+        "FILED_SECTION_BRIEFS"
+      ],
+      "classification": "legitimate-data-label",
+      "status": "The one authored deliberation sitting. Its measure identity is now the world's \u2014 the sections, the fiscal note, the amounts and the beneficiary are bound to the bill actually on file, and the room fails closed when they would describe a different bill. The sitting's own cast and place are still written for Kentucky; a second authored sitting, not a deletion, is what widens it.",
+      "owner": "ROLE B, follow-up"
+    },
+    "fixtureNamedModulesOnPlayGraph": {
+      "modules": [
+        "src/environment/scenes/committee-room-fixture.ts",
+        "src/environment/scenes/office-council-staff-fixture.ts",
+        "src/presentation/run-a-fixture.ts",
+        "src/simulation/demo-jurisdiction-context.ts",
+        "src/simulation/demo.ts",
+        "src/simulation/portability-fixture.ts"
+      ],
+      "classification": "legitimate-data-label",
+      "status": "World builders and scene registrations, not gameplay instances. The set is pinned by src/presentation/dehardwire-census.test.ts so a NEW fixture joining the ordinary-play graph fails before it ships. Each has not been individually cleared.",
+      "owner": "ROLE B, follow-up"
+    }
+  }
 }

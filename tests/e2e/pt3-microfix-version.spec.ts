@@ -35,6 +35,20 @@ async function expectCornerVersion(
   const version = page.getByTestId("shell-version");
   await expect(version).toHaveCount(1);
   await expect(version).toHaveText(/^v\d+\.\d+\.\d+$/);
+  const build = page.getByTestId("shell-build");
+  await expect(build).toHaveCount(1);
+  const response = await page.request.get("/__dev/identity");
+  expect(response.ok()).toBe(true);
+  const identity = await response.json();
+  await expect(build).toHaveAttribute("title", identity.head);
+  await expect(build).toHaveText(
+    `Build ${identity.head.slice(0, 7)}${identity.dirty ? " · uncommitted" : ""}`,
+  );
+  const buildBox = await build.boundingBox();
+  expect(buildBox).not.toBeNull();
+  expect(buildBox!.x).toBeGreaterThanOrEqual(0);
+  expect(buildBox!.x + buildBox!.width).toBeLessThanOrEqual(viewport.width);
+  expect(buildBox!.y + buildBox!.height).toBeLessThanOrEqual(viewport.height);
 
   const geometry = await version.evaluate((element) => {
     const style = window.getComputedStyle(element);
@@ -76,6 +90,9 @@ for (const viewport of [
 
     await page.getByTestId("start-normal").click();
     await page.getByTestId("creator-continue-character").click();
+    await expect(
+      page.getByRole("heading", { name: "Where are you from?", exact: true }),
+    ).toBeVisible();
     await chooseStateThenTown(page, "Kentucky", "Lexingto", /Lexington/i);
     await page.getByTestId("creator-continue-place").click();
     await page.getByTestId("whoareyou-answer").click();

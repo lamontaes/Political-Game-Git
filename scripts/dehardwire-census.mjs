@@ -192,7 +192,10 @@ function main() {
 
   const cases = hits.map((hit) => {
     const key = `${hit.file}:${hit.literal}`;
-    const entry = declared.get(key) ?? declared.get(`${hit.file}:*`);
+    // Exact literals only. A file-wide wildcard would let a NEW world-instance
+    // literal hide behind an older one's clearance in the same file, which is
+    // the way an inventory like this goes quietly stale.
+    const entry = declared.get(key);
     return {
       ...hit,
       classification: entry?.classification ?? "UNCLASSIFIED",

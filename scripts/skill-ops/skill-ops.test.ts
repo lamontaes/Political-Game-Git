@@ -75,6 +75,12 @@ const contracts: readonly SkillContract[] = [
       "docs/systems/scene-and-person-presentation.md",
     ],
   },
+  {
+    name: "civic-gameplay-audit",
+    trigger: /Use for requested bounded gameplay acceptance/i,
+    nontrigger: /not a whole-project architecture or style review/i,
+    links: [".codex/agents/civic-gameplay-auditor.toml"],
+  },
 ];
 
 function skillText(name: string): string {

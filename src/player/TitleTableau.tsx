@@ -1,3 +1,7 @@
+import { MaterialImage } from "./ModularCharacter";
+import { scenePlateClips } from "../presentation/scene-occlusion";
+import type { PlacedScenePerson } from "../presentation/life-scene-people";
+import type { RuntimeVisualLibrary } from "../presentation/visual-integration";
 import { useMemo, useRef, type CSSProperties, type ReactNode } from "react";
 
 import { requireSceneAnchor } from "../presentation/scene-registry";
@@ -27,7 +31,11 @@ function TitleStage({
   presentation,
   role,
   drifting,
+  hero,
+  visualLibrary,
 }: {
+  readonly hero?: PlacedScenePerson | null;
+  readonly visualLibrary: RuntimeVisualLibrary;
   readonly presentation: TitlePresentation;
   /**
    * What this stage is doing. `showing` is the ordinary state and does not
@@ -58,7 +66,7 @@ function TitleStage({
   const transform = useSceneCoverTransform(viewportRef, plate, camera);
 
   const environment = scene?.raster
-    ? PRODUCTION_VISUAL_LIBRARY.get(scene.raster.assetId)
+    ? visualLibrary.get(scene.raster.assetId)
     : undefined;
   const tier = useRasterTier(
     scene?.raster?.ladder ?? null,
@@ -123,6 +131,68 @@ function TitleStage({
             data-testid="title-tableau-plate"
           />
         ) : null}
+        {tier.paintedUrl && hero && presentation.kind === "hero-in-tableau" ? (
+          <div
+            style={{ position: "absolute", inset: 0 }}
+            data-testid="title-hero"
+            data-person-id={hero.personId}
+            data-pose-id={hero.sourcePoseId}
+          >
+            {[false, true].map((front) => {
+              const masks = scenePlateClips(scene).map((clip) => clip.maskUrl);
+              return (
+                <div
+                  key={String(front)}
+                  className="title-hero-layers"
+                  data-contact-layer={String(front)}
+                  style={
+                    !front && masks.length
+                      ? {
+                          maskImage: [
+                            "linear-gradient(black, black)",
+                            ...masks.map((url) => `url("${url}")`),
+                          ].join(", "),
+                          maskComposite: [
+                            "subtract",
+                            ...masks.map(() => "add"),
+                          ].join(", "),
+                          maskSize: "100% 100%",
+                          maskRepeat: "no-repeat",
+                        }
+                      : {}
+                  }
+                >
+                  {hero.layers
+                    .filter((layer) =>
+                      layer.kind === "accessory" ? front : !front,
+                    )
+                    .map((layer) => (
+                      <MaterialImage
+                        key={layer.assetId}
+                        assetId={layer.assetId ?? ""}
+                        drawnIds={hero.layers.flatMap((l) =>
+                          l.assetId ? [l.assetId] : [],
+                        )}
+                        className="title-hero-art"
+                        data-kind={layer.kind}
+                        data-asset-id={layer.assetId}
+                        src={layer.url}
+                        alt=""
+                        draggable={false}
+                        style={{
+                          position: "absolute",
+                          left: `${layer.leftPercent}%`,
+                          top: `${layer.topPercent}%`,
+                          width: `${layer.widthPercent}%`,
+                          height: `${layer.heightPercent}%`,
+                        }}
+                      />
+                    ))}
+                </div>
+              );
+            })}
+          </div>
+        ) : null}
         {outline ? (
           /**
            * Deliberately not a person. It is a soft column standing on the
@@ -164,7 +234,11 @@ export function TitleTableau({
   drifting = false,
   cycleKey = "still",
   leavingCycleKey = null,
+  hero = null,
+  visualLibrary = PRODUCTION_VISUAL_LIBRARY,
 }: {
+  readonly hero?: PlacedScenePerson | null;
+  readonly visualLibrary?: RuntimeVisualLibrary;
   readonly presentation: TitlePresentation;
   readonly children: ReactNode;
   readonly leaving?: TitlePresentation | null;
@@ -197,6 +271,7 @@ export function TitleTableau({
       {leaving && !NO_PLATE_KINDS.has(leaving.kind) ? (
         <TitleStage
           key={leavingCycleKey ?? `leaving:${cycleKey}`}
+          visualLibrary={visualLibrary}
           presentation={leaving}
           role="leaving"
           drifting={false}
@@ -205,6 +280,8 @@ export function TitleTableau({
       {NO_PLATE_KINDS.has(presentation.kind) ? null : (
         <TitleStage
           key={cycleKey}
+          visualLibrary={visualLibrary}
+          hero={hero}
           presentation={presentation}
           role={leaving ? "arriving" : "showing"}
           drifting={drifting}

@@ -64,3 +64,38 @@
 .municipal-workspace article {
   margin-block: 1rem;
 }
+.municipal-panel form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.5rem 0.75rem;
+}
+.municipal-panel form label {
+  display: grid;
+  gap: 0.35rem;
+}
+.municipal-ordinance-list {
+  margin: 0;
+  padding-inline-start: 1.25rem;
+}
+.municipal-ordinance-list > li + li {
+  margin-top: 1rem;
+}
+.municipal-ordinance-list p {
+  margin: 0.35rem 0;
+}
+.municipal-ordinance-vote > * + * {
+  margin-top: 0.5rem;
+}
+.municipal-ordinance-vote fieldset {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+.municipal-ordinance-vote fieldset legend {
+  padding: 0;
+  margin-bottom: 0.35rem;
+}

@@ -75,19 +75,22 @@ jobs:
   browser:
     name: browser
     runs-on: ubuntu-latest
-    # LAND already raised the combined-job budget to 75 minutes (164/166).
-    # Keep that budget on each isolated browser runner. Do not reopen those
-    # landings. A 45-minute cap is still present on some UI branches; that is
-    # a branch difference, not a reason to lower main.
+    # Two shards reached the 75-minute cap on the composed landing without a
+    # gameplay assertion. Four keep the same complete-suite/union contract
+    # while giving each isolated runner a bounded share of the browser work.
     timeout-minutes: 75
     strategy:
       fail-fast: false
       matrix:
         include:
           - shard: 1
-            total: 2
+            total: 4
           - shard: 2
-            total: 2
+            total: 4
+          - shard: 3
+            total: 4
+          - shard: 4
+            total: 4
     env:
       PG_RUN_ID: gha-${{ github.run_id }}-s${{ matrix.shard }}of${{ matrix.total }}
     steps:

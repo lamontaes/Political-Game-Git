@@ -1,0 +1,17 @@
+.life-shell .scene-backdrop-content[data-conversation-frame="true"] {
+  position: fixed;
+  left: var(--pg-frame-left);
+  top: var(--pg-frame-top);
+  width: var(--pg-frame-width);
+  right: auto;
+  bottom: auto;
+  padding: 0;
+  max-height: var(--pg-conversation-max-height);
+}
+
+.life-shell .scene-backdrop-content[data-conversation-frame="true"] > .pg-talk {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  max-height: var(--pg-conversation-max-height);
+}

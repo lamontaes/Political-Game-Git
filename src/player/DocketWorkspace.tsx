@@ -1,4 +1,11 @@
 import { resolveLegislativeFilingEntry } from "../presentation/legislative-filing-entry";
+import { resolveLegislativeAssignmentForMeasure } from "../presentation/legislation-world";
+import {
+  recordedSittingAvailable,
+  hasRecordedLegislativeSitting,
+} from "../presentation/legislative-authored-sitting";
+import { LegislationWorkspace } from "./LegislationWorkspace";
+import { RecordedSittingAdmission } from "./RecordedSittingAdmission";
 import { projectMeasureBriefing } from "../presentation/legislation-projection";
 import { regularSessionWindow } from "../presentation/legislative-session-window";
 import { legislativeBlueprint } from "../simulation";
@@ -439,6 +446,14 @@ function FiledBillPanel({
   const [startsOn, setStartsOn] = useState<string>(world.currentDate);
   const [endsOn, setEndsOn] = useState<string>(addDays(world.currentDate, 365));
   const [estimateError, setEstimateError] = useState<string | null>(null);
+  const [followingProcedure, setFollowingProcedure] = useState(false);
+  const institutionalAssignment = resolveLegislativeAssignmentForMeasure(
+    world,
+    {
+      measureId: bill.measureId,
+      playerPersonId,
+    },
+  );
   const privateEstimate = [...world.history.policyEstimates]
     .reverse()
     .map((estimate) => projectBillEstimate(world, playerPersonId, estimate.id))
@@ -665,14 +680,60 @@ function FiledBillPanel({
         </ul>
       ) : null}
 
-      <button
-        type="button"
-        className="ui-action"
-        data-testid="docket-go-to-floor"
-        onClick={() => onGoToFloor(bill)}
-      >
-        Take {bill.designation} to the members&rsquo; room
-      </button>
+      <section data-testid="docket-institutional-procedure">
+        {recordedSittingAvailable(world, {
+          measureId: bill.measureId,
+          playerPersonId,
+        }) &&
+        institutionalAssignment.kind === "available" &&
+        !institutionalAssignment.assignment.procedure.recordedSittingEventId ? (
+          <RecordedSittingAdmission
+            world={world}
+            measureId={bill.measureId}
+            playerPersonId={playerPersonId}
+            name={`recorded-ballot-${bill.docketKey}`}
+            testIdPrefix="docket"
+            onWorldChange={onWorldChange}
+            onAdmitted={() => {
+              setFollowingProcedure(true);
+              setEstimateError(null);
+            }}
+            onError={setEstimateError}
+          />
+        ) : null}
+        <button
+          type="button"
+          className="ui-action"
+          data-testid="docket-follow-procedure"
+          onClick={() => setFollowingProcedure(!followingProcedure)}
+        >
+          {followingProcedure
+            ? "Close procedure"
+            : `Follow ${bill.designation} through the legislature`}
+        </button>
+        {followingProcedure ? (
+          institutionalAssignment.kind === "available" ? (
+            <LegislationWorkspace
+              world={world}
+              assignment={institutionalAssignment.assignment}
+              onWorldChange={onWorldChange}
+            />
+          ) : (
+            <p role="status">{institutionalAssignment.reason}</p>
+          )
+        ) : null}
+      </section>
+      {!bill.scenarioKey.startsWith("institution:") &&
+      !hasRecordedLegislativeSitting(world, bill.measureId) ? (
+        <button
+          type="button"
+          className="ui-action"
+          data-testid="docket-go-to-floor"
+          onClick={() => onGoToFloor(bill)}
+        >
+          Take {bill.designation} to the members&rsquo; room
+        </button>
+      ) : null}
       <BillCompositionEditor
         key={`${bill.docketKey}:${provisions.map((p) => p.id).join(":")}`}
         world={world}

@@ -374,6 +374,15 @@ The first build's Lexington-Fayette jurisdiction is a synthetic placeholder and 
 
 ## Data Domains and Persistence
 
+Runtime ordinary-scene packs use the existing episode and scene writers. The
+optional `World.contentPacks` embeds validated immutable definitions with exact
+API/version/dependency/order/content identity. No-pack lives retain snapshot
+format 15; pack-bearing lives use format 16 so older binaries refuse rather than
+ignore their definitions. Both are read by the current codec. Unsupported or
+damaged pack content refuses before writable load. See
+[Runtime ordinary content packs](docs/systems/runtime-content-packs.md) for the
+bounded data API, author examples and remaining domain migration scope.
+
 Real-world starting data and simulated save history are separate domains:
 
 1. An immutable, sourced snapshot may initialize a new world.

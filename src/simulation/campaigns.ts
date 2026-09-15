@@ -1,7 +1,21 @@
+import {
+  supportedLegislativeTermDates,
+  scheduleLegislativeTerm,
+  createLegislativeTermTransitionRegistry,
+} from "./legislative-office-terms";
+import {
+  createNationalElectionTransitionRegistry,
+  linkedNationalUnitTransition,
+} from "./national-election-consumer";
+import { createTransitTransitionRegistry } from "./transit-service";
+import { settlePublicResourcePayment } from "./public-fiscal";
+import { createTaxTransitionHandlerRegistry } from "./tax-policy";
 import { composeExecutiveWorkHandlers } from "./executive-work";
 import { LIFE_PATHS2_HANDLERS } from "./life-paths2";
 import { requireCandidacyPack } from "./candidacy-packs";
 import { candidacyEligibility } from "./candidacy";
+import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
+import { planOrdinaryStateExecutiveTerm } from "./nationwide-world/state-executive-terms";
 import {
   activeCampaignForCandidate,
   campaignActionById,
@@ -63,6 +77,7 @@ import {
   scheduledActivityState,
 } from "./time-work";
 import type {
+  ResolveElectionContestInput,
   CampaignActionKind,
   CampaignActionRecord,
   CampaignActionResultRecord,
@@ -1558,17 +1573,16 @@ export function evaluateCampaignAwareOutcome(
  * that appear because somebody works in a legislature appear because they now
  * do.
  *
- * Two things are deliberately not claimed. Nothing here states what a member is
- * styled or what the seat pays, because no accepted source in this repository
- * says. And the term starts the day the result is recorded, because no pack
- * states when a term begins — recorded as an open question rather than dressed
- * up as a rule.
+ * Dated supported offices plan expected work and take up authority at the
+ * recorded term boundary. Unadmitted offices retain the accepted authored
+ * result-day behavior; that legacy work start is not a sourced legal term.
  */
 function seatTheWinner(
   world: World,
   campaign: CampaignRecord,
   effectiveAt: string,
   outcomeEventId: EntityId,
+  winnerPersonId = campaign.candidatePersonId,
 ): World {
   const pack = requireCandidacyPack(campaign.candidacyPackId);
   const contest = requireElectionContest(world, campaign.contestId);
@@ -1622,11 +1636,19 @@ function seatTheWinner(
       (organization) => organization.stableKey === bodyKey,
     )!.id;
 
+  const timing = supportedLegislativeTermDates(
+    contest.office.officeKey,
+    contest.electionDate,
+  );
   next = createWorkRelationship(next, {
-    stableKey: `${campaign.stableKey}:seat`,
-    personId: campaign.candidatePersonId,
+    stableKey:
+      winnerPersonId === campaign.candidatePersonId
+        ? `${campaign.stableKey}:seat`
+        : `${campaign.stableKey}:rival:${winnerPersonId}:seat`,
+    personId: winnerPersonId,
     organizationId: bodyId,
-    startedAt: effectiveAt,
+    startedAt: timing?.startsAt ?? effectiveAt,
+    ...(timing ? { initialStatus: "expected" as const } : {}),
     // The prefix the capability rules already read to open the office and the
     // legislative surfaces. A member is not staff, and the kind says which.
     kind: "employment:legislative-member",
@@ -1650,6 +1672,12 @@ function seatTheWinner(
       },
     },
   });
+  if (timing)
+    next = scheduleLegislativeTerm(
+      next,
+      next.history.workRelationships.at(-1)!.id,
+      contest.id,
+    );
   assertWorldIntegrity(next);
   return next;
 }
@@ -1714,16 +1742,49 @@ function closeCampaignAfterElection(
       });
     }
   }
-  if (status === "won") {
+  const closedContest = requireElectionContest(next, campaign.contestId);
+  if (stateExecutiveIdentityForOfficeKey(closedContest.office.officeKey)) {
+    // A state executive office is not a legislative seat. The winner, whoever
+    // it is, gets a dated term only through the admitted term facts and the
+    // elected executive term chain; nothing is occupied on election night.
+    next = planOrdinaryStateExecutiveTerm(next, closedContest.id);
+  } else if (
+    status === "won" ||
+    supportedLegislativeTermDates(
+      closedContest.office.officeKey,
+      closedContest.electionDate,
+    )
+  ) {
     next = seatTheWinner(
       next,
       campaign,
       result.resolvedAt,
       result.outcomeEventId,
+      result.winnerPersonId,
     );
   }
   assertWorldIntegrity(next);
   return next;
+}
+
+/** Supplied canonical result receiver over the shared resolver and campaign closure. */
+export function resolveCampaignElectionFromRecordedInput(
+  world: World,
+  input: ResolveElectionContestInput,
+): World {
+  const campaign = campaignForContest(world, input.contestId);
+  if (!campaign || campaignState(world, campaign.id).status !== "active")
+    throw new Error("A recorded campaign result requires its active campaign.");
+  if (input.winnerPersonId === undefined || input.tallies === undefined)
+    throw new Error(
+      "The recorded-result receiver requires actual supplied results, not a forecast.",
+    );
+  const resolved = resolveElectionContest(world, input);
+  return closeCampaignAfterElection(
+    resolved,
+    campaign,
+    electionContestResult(resolved, campaign.contestId)!.id,
+  );
 }
 
 /**
@@ -1738,6 +1799,8 @@ export function campaignElectionTransitionHandler(
   world: World,
   dueItem: FutureDueItem,
 ): FutureTransitionHandlerResult {
+  const national = linkedNationalUnitTransition(world, dueItem);
+  if (national) return national;
   const contestId = dueItem.entityIds[0];
   const campaign = contestId ? campaignForContest(world, contestId) : null;
   if (!campaign || campaignState(world, campaign.id).status !== "active") {
@@ -1784,6 +1847,12 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
   // same day, and time refuses to step over a due item it has no handler for.
   return composeExecutiveWorkHandlers(
     composeFutureTransitionHandlerRegistries(
+      createNationalElectionTransitionRegistry(),
+      createLegislativeTermTransitionRegistry(),
+      createTransitTransitionRegistry((world, input, resolver) =>
+        settlePublicResourcePayment(world, input, resolver),
+      ),
+      createTaxTransitionHandlerRegistry(),
       LIFE_PATHS2_HANDLERS,
       createFutureTransitionHandlerRegistry([
         [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],

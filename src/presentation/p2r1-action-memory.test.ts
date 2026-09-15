@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { adultSituationBank } from "../simulation/adult-situations";
+import {
+  adultSituationBank,
+  bindRequestSituation,
+  buildAdultLifeContext,
+} from "../simulation/adult-situations";
 import {
   assertWorldIntegrity,
   serializeWorld,
@@ -77,13 +81,19 @@ describe("P2R1 action recaps do not invent reactions or completed outcomes", () 
         .find((s) => s.key === "adult.household-standing")!
         .options.find((o) => o.key === optionKey)!;
       expect(event.context.choice).toBe(authored.label);
-      expect(event.summary).toBe(authored.memory);
+      const bound = bindRequestSituation(
+        buildAdultLifeContext(world, game.playerPersonId),
+        adultSituationBank().find((s) => s.key === "adult.household-standing")!,
+      );
+      expect(event.summary).toBe(
+        bound.options.find((option) => option.key === optionKey)!.memory,
+      );
       expect(
         next.history.memories.some(
           (m) =>
             m.personId === game.playerPersonId &&
             m.eventId === event.id &&
-            m.rememberedSummary === authored.memory,
+            m.rememberedSummary === event.summary,
         ),
       ).toBe(true);
       expect(event.participants.length).toBe(authored.witnessed ? 2 : 1);

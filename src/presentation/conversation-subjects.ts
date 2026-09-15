@@ -288,9 +288,8 @@ const householdObligationSubject: ConversationSubjectPresentation<HouseholdOblig
   {
     subject: "household-obligation",
     topicLabel: () => "At home",
-    describeBriefing(world, room, progress) {
-      const other = shortPersonName(world, room.eligibleAddresseePersonIds[0]!);
-      return `The week's ${progress.subjectFacts.obligation} still have to be covered, and it is on you and ${other} both. Neither of you has said who takes what.`;
+    describeBriefing(_world, _room, progress) {
+      return progress.subjectFacts.obligation;
     },
     availableIntents(_world, room, addressee, progress) {
       // Any of the people who actually live here, not merely whichever one the
@@ -307,12 +306,12 @@ const householdObligationSubject: ConversationSubjectPresentation<HouseholdOblig
         return [
           {
             key: "raise-obligation",
-            label: "Bring up the week",
-            description: `Say out loud that ${progress.subjectFacts.shortObligation} have not been sorted.`,
+            label: "Talk about the errands",
+            description: "Ask who can do what.",
           },
           {
             key: "listen",
-            label: "Wait and see if they raise it",
+            label: "Let them speak first",
             description: "Let the other person go first.",
           },
         ];
@@ -320,18 +319,18 @@ const householdObligationSubject: ConversationSubjectPresentation<HouseholdOblig
       return [
         {
           key: "offer-to-cover",
-          label: "Say you will take it",
-          description: `Cover ${progress.subjectFacts.shortObligation} yourself this week.`,
+          label: "Offer to handle the errands",
+          description: "Offer to take on the tasks on the list.",
         },
         {
           key: "ask-to-share",
           label: "Suggest splitting it",
-          description: "Divide the week rather than hand it to one person.",
+          description: "Ask to share the tasks on the list.",
         },
         {
           key: "ask-for-time",
           label: "Ask them to take it",
-          description: "Say your week will not stretch to it.",
+          description: "Ask whether they can handle the errands.",
         },
       ];
     },
@@ -339,10 +338,13 @@ const householdObligationSubject: ConversationSubjectPresentation<HouseholdOblig
       const speaker = speakerFor(world, room, addressee);
       const dialogue =
         progress.phase === "settled"
-          ? settledHouseholdLine(progress, speaker.name)
+          ? settledHouseholdLine(
+              progress,
+              world.people[speaker.personId]!.givenName,
+            )
           : progress.phase === "raised"
-            ? `“So it is on both of us,” ${shortPersonName(world, speaker.personId)} says. “Say what you can actually do.”`
-            : `${shortPersonName(world, speaker.personId)} is in the kitchen too, and hasn't brought up the week yet.`;
+            ? `“What can you take on?” ${world.people[speaker.personId]!.givenName} asks.`
+            : `You can ask ${world.people[speaker.personId]!.givenName} about the errands.`;
       return {
         speakerPersonId: speaker.personId,
         speakerName: speaker.name,
@@ -399,14 +401,14 @@ const schoolProjectSubject: ConversationSubjectPresentation<SchoolProjectConvers
               {
                 key: "raise-share",
                 label: "Say nobody has started it",
-                description: `Put the unstarted part in front of ${other} rather than working around it.`,
+                description: `Ask ${other} about the unfinished work.`,
               },
             ]
           : [
               {
                 key: "ask-to-split",
                 label: "Ask to split it",
-                description: "Take half each and say which half now.",
+                description: "Propose taking half each.",
               },
               {
                 key: "offer-to-do-more",
@@ -430,16 +432,8 @@ const schoolProjectSubject: ConversationSubjectPresentation<SchoolProjectConvers
         speakerName: speaker.name,
         dialogue:
           progress.phase === "settled"
-            ? `“We are fine now,” ${shortPersonName(world, speaker.personId)} says, and means it.`
-            : selectAuthoredVariant(
-                world,
-                `school-project:${speaker.personId}`,
-                [
-                  `${shortPersonName(world, speaker.personId)} is packing up, and has not mentioned the project either.`,
-                  `${shortPersonName(world, speaker.personId)} is already at the door, and the project has not come up.`,
-                  `${shortPersonName(world, speaker.personId)} zips the bag shut without either of you saying anything about it.`,
-                ],
-              ),
+            ? `“All right,” ${world.people[speaker.personId]!.givenName} says.`
+            : `You can ask ${world.people[speaker.personId]!.givenName} about the unfinished work.`,
       };
     },
   };
@@ -495,7 +489,7 @@ const neighborhoodMeetingSubject: ConversationSubjectPresentation<NeighborhoodMe
       );
       return progress.phase === "settled"
         ? `You and ${other} have said what you are each doing about the meeting.`
-        : `There is a meeting about ${progress.subjectFacts.subject}, ${progress.subjectFacts.notice}. Nobody has to go, and nobody has said whether they will.`;
+        : progress.subjectFacts.notice;
     },
     availableIntents(world, room, addressee, progress, silenceIsUseful) {
       if (progress.phase === "settled") return [];
@@ -505,19 +499,19 @@ const neighborhoodMeetingSubject: ConversationSubjectPresentation<NeighborhoodMe
               {
                 key: "mention-meeting",
                 label: "Mention the notice",
-                description: "Bring it up rather than walking past it.",
+                description: "Ask about the posted meeting.",
               },
             ]
           : [
               {
                 key: "say-you-will-go",
                 label: "Say you will go",
-                description: "Commit your own evening to it, and say so.",
+                description: "Say you plan to attend the meeting.",
               },
               {
                 key: "ask-them-to-go",
                 label: "Ask whether they will go",
-                description: "Put the question back rather than answering it.",
+                description: "Invite them to attend the meeting.",
               },
             ];
       if (silenceIsUseful) {
@@ -537,11 +531,7 @@ const neighborhoodMeetingSubject: ConversationSubjectPresentation<NeighborhoodMe
         dialogue:
           progress.phase === "settled"
             ? `“Right,” ${shortPersonName(world, speaker.personId)} says. “That is settled, then.”`
-            : selectAuthoredVariant(world, `neighborhood:${speaker.personId}`, [
-                `${shortPersonName(world, speaker.personId)} is at the door with the mail, and the notice is still on the board behind them.`,
-                `${shortPersonName(world, speaker.personId)} is wheeling the trash cans back up, and glances at the board on the way past.`,
-                `${shortPersonName(world, speaker.personId)} is on the step with a bag of shopping, and the notice is right there beside them.`,
-              ]),
+            : `You can ask ${world.people[speaker.personId]!.givenName} about the posted meeting.`,
       };
     },
   };
@@ -1203,7 +1193,7 @@ const COMMIT_CONTRACTS: Readonly<
             change: "maintained",
             significance: "minor",
             summary: ({ playerName, otherName }) =>
-              `${playerName} said out loud to ${otherName} what neither of them had been saying about the week.`,
+              `${playerName} asked ${otherName} how to divide the errands.`,
           };
         case "offer-to-cover":
           return {
@@ -1211,7 +1201,7 @@ const COMMIT_CONTRACTS: Readonly<
             change: "strengthened",
             significance: "meaningful",
             summary: ({ playerName, otherName }) =>
-              `${playerName} took the week off ${otherName} without being asked to.`,
+              `${playerName} offered to handle the errands, and ${otherName} accepted.`,
           };
         case "ask-to-share":
           return {
@@ -1219,7 +1209,7 @@ const COMMIT_CONTRACTS: Readonly<
             change: "strengthened",
             significance: "minor",
             summary: ({ playerName, otherName }) =>
-              `${playerName} and ${otherName} split the week between them instead of leaving it with one of them.`,
+              `${playerName} and ${otherName} agreed to share the errands.`,
           };
         case "ask-for-time":
           // The one that turns on the answer. Being taken on is a small
@@ -1274,11 +1264,11 @@ const COMMIT_CONTRACTS: Readonly<
     landed: (intent, outcome, { speakerName }) => {
       switch (intent) {
         case "raise-obligation":
-          return `${speakerName} said they had been avoiding it too.`;
+          return `${speakerName} was willing to discuss the errands.`;
         case "offer-to-cover":
           return `${speakerName} let them take it.`;
         case "ask-to-share":
-          return `${speakerName} agreed to halve it.`;
+          return `${speakerName} agreed to share the errands.`;
         case "ask-for-time":
           return outcome === "boundary-held"
             ? `${speakerName} said no.`
@@ -1484,6 +1474,8 @@ const COMMIT_CONTRACTS: Readonly<
     pressure: () => null,
     choice: choiceWriter("life talk", {
       greet: ({ addresseeName }) => `The player greeted ${addresseeName}.`,
+      scene: ({ addresseeName }) =>
+        `The player asked ${addresseeName} about the current scene.`,
       activity: ({ addresseeName }) =>
         `The player asked ${addresseeName} what they would like to do.`,
       explain: ({ addresseeName }) => `The player asked ${addresseeName} why.`,
@@ -1503,6 +1495,12 @@ const COMMIT_CONTRACTS: Readonly<
         `The player asked ${addresseeName} if this should be a date.`,
       spendTime: ({ addresseeName }) =>
         `The player spent time with ${addresseeName}.`,
+      acceptProposal: ({ addresseeName }) =>
+        `The player accepted ${addresseeName}'s proposed activity.`,
+      declineProposal: ({ addresseeName }) =>
+        `The player declined ${addresseeName}'s proposed activity.`,
+      cancelProposal: ({ addresseeName }) =>
+        `The player cancelled the activity agreed with ${addresseeName}.`,
     }),
   },
 };

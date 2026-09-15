@@ -1,0 +1,142 @@
+{
+  "before": {
+    "scene": "During tag, Vincent Snyder knocks you over while trying to catch you. You sit up on the grass, startled.",
+    "location": "School",
+    "options": [
+      {
+        "choice": "Say tag doesn't mean pushing",
+        "reply": "You tell Vincent Snyder you don't want to be pushed during tag.",
+        "followup": {
+          "prose": "You told Vincent Snyder that you do not want pushing during tag. You can decide whether to join another round.",
+          "options": [
+            {
+              "choice": "Rejoin tag with the no-pushing boundary",
+              "reply": "You rejoin the game and repeat that you do not want pushing."
+            },
+            {
+              "choice": "End your tag game after naming the boundary",
+              "reply": "You tell Vincent Snyder you are done with tag for now."
+            }
+          ]
+        }
+      },
+      {
+        "choice": "Stop playing for now",
+        "reply": "You tell Vincent Snyder you're stopping the game and step away.",
+        "followup": null
+      },
+      {
+        "choice": "Get up and keep playing",
+        "reply": "You get up and rejoin the game with Vincent Snyder.",
+        "followup": null
+      }
+    ],
+    "dialogue": [
+      {
+        "intent": {
+          "key": "greet",
+          "label": "Say hello"
+        },
+        "reply": "Hi, Rachel."
+      },
+      {
+        "intent": {
+          "key": "scene",
+          "label": "Talk about what is happening here"
+        },
+        "reply": "What would you like to do?"
+      },
+      {
+        "intent": {
+          "key": "activity",
+          "label": "Ask what they would like to do"
+        },
+        "reply": "Can we try a new game?"
+      },
+      {
+        "intent": {
+          "key": "share",
+          "label": "Ask if they want to talk"
+        },
+        "reply": "Not right now. Can we talk about something else?"
+      },
+      {
+        "intent": {
+          "key": "leave",
+          "label": "Say goodbye"
+        },
+        "reply": "See you."
+      }
+    ]
+  },
+  "after": {
+    "scene": "Vincent Snyder knocks you over during tag. You sit up on the grass.",
+    "location": "School",
+    "options": [
+      {
+        "choice": "Say, “Don’t push me”",
+        "reply": "You tell Vincent Snyder you don't want to be pushed during tag.",
+        "followup": {
+          "prose": "You’ve told Vincent Snyder not to push you. Do you want to keep playing?",
+          "options": [
+            {
+              "choice": "Play again, but say no pushing",
+              "reply": "You rejoin the game. “No pushing,” you tell Vincent Snyder."
+            },
+            {
+              "choice": "Stop playing tag",
+              "reply": "You tell Vincent Snyder you are done with tag for now."
+            }
+          ]
+        }
+      },
+      {
+        "choice": "Stop playing for now",
+        "reply": "You tell Vincent Snyder you're stopping the game and step away.",
+        "followup": null
+      },
+      {
+        "choice": "Get up and keep playing",
+        "reply": "You get up and rejoin the game with Vincent Snyder.",
+        "followup": null
+      }
+    ],
+    "dialogue": [
+      {
+        "intent": {
+          "key": "greet",
+          "label": "Say hello"
+        },
+        "reply": "Hi, Rachel."
+      },
+      {
+        "intent": {
+          "key": "scene",
+          "label": "Talk about what is happening here"
+        },
+        "reply": "Do you want to stop playing tag?"
+      },
+      {
+        "intent": {
+          "key": "activity",
+          "label": "Ask what they would like to do"
+        },
+        "reply": "Can we try a new game?"
+      },
+      {
+        "intent": {
+          "key": "share",
+          "label": "Ask if you can tell them something"
+        },
+        "reply": "Not right now. Can we talk about something else?"
+      },
+      {
+        "intent": {
+          "key": "leave",
+          "label": "Say goodbye"
+        },
+        "reply": "See you."
+      }
+    ]
+  }
+}

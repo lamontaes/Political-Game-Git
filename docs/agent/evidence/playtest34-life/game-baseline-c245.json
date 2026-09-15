@@ -1,0 +1,152 @@
+{
+  "source": "C#245 ec966f4eef3d9d2c162ac4b38dc3125c1e67da4b life-conversation.ts using identical current creator facts",
+  "seed": "setup-v3:4c0aadff77a46f0c:{\"v\":3,\"seed\":\"p34-mom-game-3\",\"placeKey\":\"lexington-fayette\",\"startAge\":10,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null,\"startKind\":\"custom\"}",
+  "person": {
+    "personId": "person_07bca4c7928d1476",
+    "name": "Elena Parsons",
+    "shortName": "Elena",
+    "pronouns": {
+      "key": "she-her",
+      "subject": "she",
+      "object": "her",
+      "possessive": "her",
+      "possessivePronoun": "hers",
+      "reflexive": "herself",
+      "pluralVerb": false
+    },
+    "relationship": "your mom",
+    "basis": "A parental:shared authority record over the player, held by this person.",
+    "anchors": [
+      {
+        "store": "childAuthorities",
+        "recordId": "child-authority_336efc999367a440",
+        "stableKey": "production:initial-life:second-parent:authority",
+        "at": "2015-10-16",
+        "sequence": 18,
+        "role": "context",
+        "note": "The authority record that makes them the adult responsible."
+      }
+    ]
+  },
+  "events": [
+    {
+      "id": "event_267fff34daaac79a",
+      "stableKey": "opening-life:talk:person_92b37a76281c2b0a:person_07bca4c7928d1476:69",
+      "sequence": 69,
+      "type": "life.conversation",
+      "occurredAt": "2026-01-05",
+      "recordedAt": "2026-01-05",
+      "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+      "involvedEntityIds": [
+        "person_07bca4c7928d1476",
+        "person_249594aa35e58134",
+        "person_92b37a76281c2b0a",
+        "person_f3fc7d2fff9e6a4f"
+      ],
+      "participants": [
+        {
+          "personId": "person_07bca4c7928d1476",
+          "role": "coordination:counterpart",
+          "detail": "Replied directly"
+        },
+        {
+          "personId": "person_249594aa35e58134",
+          "role": "observation:witness",
+          "detail": "Heard the conversation in the scene"
+        },
+        {
+          "personId": "person_92b37a76281c2b0a",
+          "role": "focus:subject",
+          "detail": "Spoke directly"
+        },
+        {
+          "personId": "person_f3fc7d2fff9e6a4f",
+          "role": "observation:witness",
+          "detail": "Heard the conversation in the scene"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": [
+        "life.answer:explore",
+        "life.conversation",
+        "life.talk:activity",
+        "moment:{\"date\":\"2026-01-05\",\"minuteOfDay\":550,\"timeZone\":\"America/New_York\",\"utcOffsetMinutes\":-300}",
+        "scene:event_3ba36e8d3ec4eaa2"
+      ],
+      "summary": "Miranda Valdez: Ask what they would like to do. Elena Parsons: Can we try a new game?",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "label": "Home",
+          "setting": "home"
+        },
+        "socialContext": "A direct ordinary conversation",
+        "pressure": null,
+        "choice": "Ask what they would like to do",
+        "motivation": null,
+        "immediateReaction": "Can we try a new game?"
+      }
+    },
+    {
+      "id": "event_267c6e34daa79b60",
+      "stableKey": "opening-life:talk:person_92b37a76281c2b0a:person_07bca4c7928d1476:74",
+      "sequence": 74,
+      "type": "life.conversation",
+      "occurredAt": "2026-01-05",
+      "recordedAt": "2026-01-05",
+      "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+      "involvedEntityIds": [
+        "person_07bca4c7928d1476",
+        "person_249594aa35e58134",
+        "person_92b37a76281c2b0a",
+        "person_f3fc7d2fff9e6a4f"
+      ],
+      "participants": [
+        {
+          "personId": "person_07bca4c7928d1476",
+          "role": "coordination:counterpart",
+          "detail": "Replied directly"
+        },
+        {
+          "personId": "person_249594aa35e58134",
+          "role": "observation:witness",
+          "detail": "Heard the conversation in the scene"
+        },
+        {
+          "personId": "person_92b37a76281c2b0a",
+          "role": "focus:subject",
+          "detail": "Spoke directly"
+        },
+        {
+          "personId": "person_f3fc7d2fff9e6a4f",
+          "role": "observation:witness",
+          "detail": "Heard the conversation in the scene"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": [
+        "life.answer:company-declined",
+        "life.conversation",
+        "life.talk:suggestGame",
+        "moment:{\"date\":\"2026-01-05\",\"minuteOfDay\":550,\"timeZone\":\"America/New_York\",\"utcOffsetMinutes\":-300}",
+        "scene:event_3ba36e8d3ec4eaa2"
+      ],
+      "summary": "Miranda Valdez: Suggest playing a game together. Elena Parsons: Not a game right now, thanks. I'd rather leave it for another time.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "label": "Home",
+          "setting": "home"
+        },
+        "socialContext": "A direct ordinary conversation",
+        "pressure": null,
+        "choice": "Suggest playing a game together",
+        "motivation": null,
+        "immediateReaction": "Not a game right now, thanks. I'd rather leave it for another time."
+      }
+    }
+  ],
+  "minutes": 0
+}

@@ -232,8 +232,11 @@ describe("What the player is told about a bill", () => {
     expect(briefing.finished).toBe(true);
     expect(briefing.whereItStands).toBe("The bill is law.");
     // The standing panel renders `whereItStands` and `outcomeNote` together, so
-    // an outcome note that only repeated the headline would print it twice.
-    expect(briefing.outcomeNote).toBeNull();
+    // the note must add something the headline does not: here, that no
+    // effective date is recorded and enactment implements no unmodeled effect.
+    expect(briefing.outcomeNote).toBe(
+      "The bill was enacted; its effective date has not been recorded. Enactment alone does not implement an unmodeled policy effect.",
+    );
     expect(briefing.options).toEqual([]);
     const senate = briefing.votes.find(
       (vote) => vote.where === "Senate" && vote.question === "Pass the bill",

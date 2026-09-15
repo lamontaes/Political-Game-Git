@@ -1,5 +1,5 @@
 import { expect, test, type Locator, type Page } from "./fixtures";
-import { openElsewhere, startLife } from "./support/creator";
+import { goTo, openElsewhere, startLife } from "./support/creator";
 
 /**
  * PT3: one conversation box, in the room, that never needs a scrollbar.
@@ -11,18 +11,24 @@ import { openElsewhere, startLife } from "./support/creator";
  * turns page inside the same box, and the room stays mostly visible.
  */
 
+/*
+ * Quiet Begin (PLAYTEST34 C) lands in the room with nothing auto-opened. The
+ * authored scene is reached the way a player reaches it: Personal, then the
+ * pending decision. The older introduction route is kept for saves that
+ * still open on it.
+ */
 async function stepIntoTheScene(page: Page) {
   await expect(page.getByTestId("play-screen")).toBeVisible();
   const opening = page.getByTestId("opening-life-panel");
   const scene = page.getByTestId("opening-life-scene");
-  await expect
-    .poll(async () =>
-      (await opening.count()) > 0 || (await scene.count()) > 0 ? "ready" : "",
-    )
-    .toBe("ready");
   if ((await opening.count()) > 0) {
     await opening.getByRole("button", { name: "Meet your household" }).click();
     await opening.getByRole("button", { name: "Step inside" }).click();
+  } else if ((await scene.count()) === 0) {
+    await goTo(page, "nav-group-personal");
+    await page.getByTestId("nav-personal").click();
+    await page.getByTestId("pending-life-open").click();
+    await expect(page.getByTestId("pending-life-surface")).toBeVisible();
   }
   await expect(scene).toBeVisible();
 }
@@ -50,6 +56,18 @@ async function expectBounded(page: Page, box: Locator, share = 0.5) {
   expect(metrics.bottom).toBeLessThanOrEqual(viewport.height);
   // The room stays the surface: the box takes well under half the height.
   expect(metrics.height).toBeLessThan(viewport.height * share);
+}
+
+async function expectBottomCentre(page: Page, box: Locator) {
+  const viewport = page.viewportSize()!;
+  const rect = await box.evaluate((element) =>
+    element.getBoundingClientRect().toJSON(),
+  );
+  const mid = (rect.left + rect.right) / 2;
+  expect(mid).toBeGreaterThan(viewport.width * 0.32);
+  expect(mid).toBeLessThan(viewport.width * 0.68);
+  expect(rect.bottom).toBeLessThanOrEqual(viewport.height);
+  expect(rect.top).toBeGreaterThan(viewport.height * 0.22);
 }
 
 async function expectAllOnScreen(page: Page, controls: Locator) {
@@ -138,12 +156,31 @@ test("the owner's age-22 conversation is one bounded box with paged history and 
 
   // Talking to them again from the room carries the conversation on rather
   // than greeting them as though nothing had been said.
-  await page.locator('[data-testid^="scene-person-"]').first().click();
-  await page.getByTestId("action-talk").click();
+  const scenePerson = page.locator('[data-testid^="scene-person-"]').first();
+  await scenePerson.click();
+  const card = page.getByTestId("quick-dossier");
+  await expect(card).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(card).toHaveCount(0);
+  await expect(scenePerson).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(card).toBeFocused();
+  await page.getByTestId("dossier-talk").click();
   await expect(box).toBeVisible();
+  await expect(
+    box.getByTestId("conversation-intents").getByRole("button").first(),
+  ).toBeFocused();
+  const dock = page.getByTestId("scene-backdrop-content");
+  await expect(dock).toHaveAttribute("data-content", "conversation");
+  await expect(dock).toHaveAttribute("data-dock", "center");
+  await expectBottomCentre(page, box);
   await expect(box.getByTestId("talk-you")).toHaveText(lastYou);
   await expect(box.getByTestId("talk-reply")).toHaveText(lastReply);
   await expect(page.getByTestId("person-workspace")).toHaveCount(0);
+
+  await page.keyboard.press("Escape");
+  await expect(box).toHaveCount(0);
+  await expect(scenePerson).toBeFocused();
 });
 
 test("turning to a second classmate keeps the last exchange and says who heard it", async ({
@@ -201,12 +238,31 @@ test("at the smaller 1280 x 720 window the box still needs no scrollbar", async 
       .getByRole("button")
       .first()
       .click();
-    // Smaller window, so the room keeps a little less — but the box still
-    // holds every choice without a scrollbar.
     await expectBounded(page, box, 0.62);
     await expectAllOnScreen(
       page,
       box.getByTestId("conversation-intents").getByRole("button"),
     );
   }
+});
+
+test("at 1200 x 720 the conversation stays bottom-centre without a scrollbar", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1200, height: 720 });
+  await page.goto("/?seed=pt3-owner-22");
+  await startLife(page, { age: 22, place: "Lexington", state: "Kentucky" });
+  await stepIntoTheScene(page);
+  await page.locator('[data-testid^="life-talk-"]').first().click();
+  const box = page.getByRole("region", { name: /^Conversation with / });
+  await expect(page.getByTestId("scene-backdrop-content")).toHaveAttribute(
+    "data-content",
+    "conversation",
+  );
+  await expectBounded(page, box, 0.62);
+  await expectBottomCentre(page, box);
+  await expectAllOnScreen(
+    page,
+    box.getByTestId("conversation-intents").getByRole("button"),
+  );
 });

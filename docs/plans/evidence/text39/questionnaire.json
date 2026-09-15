@@ -1,0 +1,248 @@
+{
+  "before": [
+    {
+      "key": "kitchen_late",
+      "prompt": "It is eleven at night and Dana is at the kitchen table with the bills spread out, which is not where Dana usually is. You have been out. She looks up and says the furnace is worse than she told you — it is not a part, it is the whole unit.",
+      "options": [
+        {
+          "key": "sit-down",
+          "text": "Sit down and go through them with her"
+        },
+        {
+          "key": "ask-what-she-needs",
+          "text": "Ask what she actually needs from you"
+        },
+        {
+          "key": "say-youll-sort-it",
+          "text": "Say you will get the furnace sorted"
+        },
+        {
+          "key": "not-tonight",
+          "text": "Tell her you can't do this tonight"
+        }
+      ],
+      "review": {
+        "verdict": "non-transparent",
+        "note": "A scene with named people and more than one defensible motive. The axis under test is not the subject of the sentence and no option is identifiable as the intended one."
+      },
+      "bands": ["adult"]
+    },
+    {
+      "key": "whitfield_grant",
+      "prompt": "Ms. Whitfield taught you and got you the placement you are in. You are checking the grant application she asked you to proofread, and the participation numbers in it are not the numbers you have been keeping.",
+      "options": [
+        {
+          "key": "tell-her",
+          "text": "Tell her the numbers are wrong"
+        },
+        {
+          "key": "fix-quietly",
+          "text": "Correct them and say nothing"
+        },
+        {
+          "key": "leave-it",
+          "text": "Leave it as she wrote it"
+        },
+        {
+          "key": "ask-where-from",
+          "text": "Ask her where the figures came from"
+        }
+      ],
+      "review": {
+        "verdict": "non-transparent",
+        "note": "A scene with named people and more than one defensible motive. The axis under test is not the subject of the sentence and no option is identifiable as the intended one."
+      },
+      "bands": ["adult"]
+    },
+    {
+      "key": "the_sold_field",
+      "prompt": "The field behind the apartments is going to be built on. Ninety units, a third of them at rents people on your street could actually pay. It is also the only open ground within a mile.",
+      "options": [
+        {
+          "key": "back-the-homes",
+          "text": "Back the development"
+        },
+        {
+          "key": "oppose",
+          "text": "Oppose it"
+        },
+        {
+          "key": "push-the-share",
+          "text": "Back it only if the affordable share goes up"
+        },
+        {
+          "key": "the-other-site",
+          "text": "Push for the empty site by the depot instead"
+        }
+      ],
+      "review": {
+        "verdict": "non-transparent",
+        "note": "A scene with named people and more than one defensible motive. The axis under test is not the subject of the sentence and no option is identifiable as the intended one."
+      },
+      "bands": ["adult"]
+    },
+    {
+      "key": "family_or_opportunity",
+      "prompt": "A family member needs you at the same time as an opportunity that matters a lot to you.",
+      "options": [
+        {
+          "key": "a",
+          "text": "Be there for the family member."
+        },
+        {
+          "key": "b",
+          "text": "Take the opportunity."
+        },
+        {
+          "key": "c",
+          "text": "Try to rearrange both, even if neither gets everything it wanted."
+        }
+      ],
+      "review": {
+        "verdict": "playtest-abstraction-flagged",
+        "note": "Named in the 2026-09-03 human playtest as a generic abstraction rather than a lived situation — nobody in it, nothing specific at stake. Kept with the verdict attached and ranked behind everything that passed; the lived replacements are in `setup-opening-bank.ts`."
+      },
+      "bands": ["adult"]
+    }
+  ],
+  "after": [
+    {
+      "key": "kitchen_late.text39-v1",
+      "prompt": "It's eleven at night when you get home. Dana has the furnace estimate and the bills on the kitchen table. “It needs replacing,” she says. “I thought we could just get it repaired.”",
+      "options": [
+        {
+          "key": "sit-down",
+          "text": "Sit down and go through the bills with her"
+        },
+        {
+          "key": "ask-what-she-needs",
+          "text": "Ask what she needs from you"
+        },
+        {
+          "key": "say-youll-sort-it",
+          "text": "Offer to arrange the furnace replacement"
+        },
+        {
+          "key": "not-tonight",
+          "text": "Tell her you can't go through this tonight"
+        }
+      ]
+    },
+    {
+      "key": "whitfield_grant.text39-v1",
+      "prompt": "Ms. Whitfield taught you and got you the placement you are in. You are checking the grant application she asked you to proofread, and the participation numbers in it are not the numbers you have been keeping.",
+      "options": [
+        {
+          "key": "tell-her",
+          "text": "Tell Ms. Whitfield the figures differ from your records"
+        },
+        {
+          "key": "fix-quietly",
+          "text": "Replace the figures with yours without asking"
+        },
+        {
+          "key": "leave-it",
+          "text": "Leave her figures unchanged"
+        },
+        {
+          "key": "ask-where-from",
+          "text": "Ask where her figures came from"
+        }
+      ]
+    },
+    {
+      "key": "the_sold_field.text39-v1",
+      "prompt": "A developer proposes ninety apartments on the field behind your building. Thirty would have rents people on your street could afford. The field is the only open ground within a mile. There is also an empty site by the depot, but you don't know whether it can be built on.",
+      "options": [
+        {
+          "key": "back-the-homes",
+          "text": "Support the apartments"
+        },
+        {
+          "key": "oppose",
+          "text": "Oppose building on the field"
+        },
+        {
+          "key": "push-the-share",
+          "text": "Ask for more affordable apartments before supporting it"
+        },
+        {
+          "key": "the-other-site",
+          "text": "Ask the developer to investigate the depot site"
+        }
+      ]
+    },
+    {
+      "key": "family_or_opportunity.text39-v1",
+      "prompt": "Dana's graduation celebration and an interview for a job you want are on the same evening. You cannot attend both in full. The employer has offered only this interview time. You could ask Dana about arriving late, but you would miss the speeches.",
+      "options": [
+        {
+          "key": "a",
+          "text": "Attend the whole celebration and decline the interview"
+        },
+        {
+          "key": "b",
+          "text": "Attend the interview and miss the celebration"
+        },
+        {
+          "key": "c",
+          "text": "Ask Dana about joining the celebration after the interview"
+        }
+      ]
+    }
+  ],
+  "assembledAdultOpening": {
+    "prompt": "It's eleven at night when you get home. Dana has the furnace estimate and the bills on the kitchen table. “It needs replacing,” she says. “I thought we could just get it repaired.”",
+    "key": "kitchen_late.text39-v1",
+    "options": [
+      {
+        "text": "Sit down and go through the bills with her",
+        "next": "Marcus tells you he took money from the group's trip fund. “I'll put it back before they count it,” he says. He asks you not to tell anyone."
+      },
+      {
+        "text": "Ask what she needs from you",
+        "next": "Marcus tells you he took money from the group's trip fund. “I'll put it back before they count it,” he says. He asks you not to tell anyone."
+      },
+      {
+        "text": "Offer to arrange the furnace replacement",
+        "next": "Marcus tells you he took money from the group's trip fund. “I'll put it back before they count it,” he says. He asks you not to tell anyone."
+      },
+      {
+        "text": "Tell her you can't go through this tonight",
+        "next": "Marcus tells you he took money from the group's trip fund. “I'll put it back before they count it,” he says. He asks you not to tell anyone."
+      }
+    ]
+  },
+  "pathChecks": [
+    {
+      "age": 6,
+      "depth": "short",
+      "screensRead": 5
+    },
+    {
+      "age": 6,
+      "depth": "deep",
+      "screensRead": 16
+    },
+    {
+      "age": 16,
+      "depth": "short",
+      "screensRead": 5
+    },
+    {
+      "age": 16,
+      "depth": "deep",
+      "screensRead": 15
+    },
+    {
+      "age": 34,
+      "depth": "short",
+      "screensRead": 5
+    },
+    {
+      "age": 34,
+      "depth": "deep",
+      "screensRead": 17
+    }
+  ]
+}

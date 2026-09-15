@@ -1,0 +1,48 @@
+{
+  "meeting": {
+    "fixtureDuration": 60,
+    "dialogueLines": 10,
+    "leaveLines": 1,
+    "dialogueMinutes": 0,
+    "afterLeaving": "scheduled",
+    "afterReloadPerformance": "completed",
+    "performanceMinutes": 60,
+    "completionCount": 1,
+    "repeatAfterReload": "rejected"
+  },
+  "ordinaryWorkFavor": {
+    "personId": "person_2d1d951c47ea070a",
+    "requestId": "event_1a35c88ae5022eb3",
+    "midShift": {
+      "date": "2026-01-06",
+      "minuteOfDay": 600,
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "favorDuringShift": "same World; no minutes/reward",
+    "afterWork": {
+      "date": "2026-01-06",
+      "minuteOfDay": 780,
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "afterFavor": {
+      "date": "2026-01-06",
+      "minuteOfDay": 800,
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "favorMinutes": 20,
+    "workSessions": ["event_6db20c14740d505c"],
+    "wages": [
+      {
+        "id": "resource-transfer-outcome_91a36017e1c008ce",
+        "amount": {
+          "minorUnits": 7200,
+          "currency": "USD"
+        }
+      }
+    ],
+    "reloadTerminalStatus": "performed"
+  }
+}

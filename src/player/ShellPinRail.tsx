@@ -1,3 +1,5 @@
+import { PersonPortrait } from "./PersonPortrait";
+import "./portrait-consumers.css";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { labelForRef } from "../presentation/person-dossier";
@@ -218,7 +220,13 @@ export function ShellPinRail({
               }}
             >
               <span className="pg-pin-monogram" aria-hidden="true">
-                {label ? initials(label) : "?"}
+                {pin.ref.kind === "person" ? (
+                  <PersonPortrait world={world} personId={pin.ref.id} />
+                ) : label ? (
+                  initials(label)
+                ) : (
+                  "?"
+                )}
               </span>
               {pin.size !== "tiny" ? (
                 <span className="pg-pin-copy">

@@ -59,13 +59,19 @@ vi.mock("../src/presentation/scene-composition", () => ({
      */
     poseGaps: [],
     diagnostics: [],
+    visibleBounds: {
+      leftPercent: request.anchor.xPercent - 1,
+      topPercent: request.anchor.contactFloorYPercent - 4,
+      widthPercent: 2,
+      heightPercent: 4,
+    },
     layers: [
       {
         assetId: "planning-seam-layer",
         url: request.wardrobe?.families.top?.[0] ?? "seeded-top",
-        leftPercent: 1,
-        topPercent: 2,
-        widthPercent: 3,
+        leftPercent: request.anchor.xPercent - 1,
+        topPercent: request.anchor.contactFloorYPercent - 4,
+        widthPercent: 2,
         heightPercent: 4,
       },
     ],
@@ -170,8 +176,10 @@ describe("saved wardrobe at the scene planning seam", () => {
         resolveWardrobe: resolver,
       },
     );
-    expect(resolver).toHaveBeenCalledOnce();
-    expect(resolver.mock.calls[0]?.[0]).toBe(world.people[ids[0]!]);
+    expect(resolver).toHaveBeenCalled();
+    expect(
+      resolver.mock.calls.every(([person]) => person === world.people[ids[0]!]),
+    ).toBe(true);
     expect(
       result.find((person) => person.personId === ids[0])?.layers[0]?.url,
     ).toBe("caller-top");

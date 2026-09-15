@@ -1903,7 +1903,7 @@ export function resolveLifeSituation(
                 }
               : null,
             socialContext: situation.key,
-            pressure: null,
+            pressure: situation.prose,
             choice: option.label,
             motivation: null,
             immediateReaction: null,
@@ -2511,7 +2511,8 @@ export function generateQuickCharacterHistory(
           age(10),
           input.jurisdictionId,
           [input.personId, peerId],
-          "A lunch-table choice became part of a peer relationship.",
+          // Concrete and the same act the memory below records (UI FINISH).
+          "At lunch you made room at the table for another kid.",
         ),
       },
       {
@@ -2522,7 +2523,7 @@ export function generateQuickCharacterHistory(
           eventStableKey: lunchEvent,
           learnedAt: age(10),
           believedSummary:
-            "A lunch-table choice became part of a peer relationship.",
+            "At lunch you made room at the table for another kid.",
           accuracy: "accurate",
           confidence: "high",
           source: { kind: "direct" },
@@ -2536,7 +2537,7 @@ export function generateQuickCharacterHistory(
           eventStableKey: lunchEvent,
           formedAt: age(10),
           rememberedSummary: "I remember making room at the table.",
-          interpretation: "A small social choice mattered.",
+          interpretation: "It was a small thing, and it stayed with you.",
           strength: "moderate",
           relevanceTags: ["formative.lunch-table"],
           supersedesMemoryId: null,

@@ -11,6 +11,7 @@ import {
   previewArtRefusal,
 } from "../presentation/art-preview";
 import { gameBuildProfile } from "../presentation/build-profile";
+import { preparedFamily } from "../presentation/engine-people29-data";
 import { ModularCharacter } from "./ModularCharacter";
 import { personName } from "../simulation";
 import type { EntityId, World } from "../simulation";
@@ -102,6 +103,50 @@ export function PersonPortrait({
           (!usingReviewLibraries && !wardrobe ? sharedSnapshot : undefined),
       });
 
+  const family =
+    visual.kind === "modular"
+      ? preparedFamily(
+          visual.plan.layers.find((layer) => layer.kind === "body")?.assetId,
+        )
+      : undefined;
+  const frame = family?.portraitFrame;
+  // Source-authored framing of the existing layers, retaining their material,
+  // garment, and identity. No separate portrait picture or saved appearance.
+  const portraitPlan =
+    visual.kind === "modular" && family && frame
+      ? {
+          ...visual.plan,
+          layers: visual.plan.layers.map((layer) => ({
+            ...layer,
+            leftPercent:
+              ((((layer.leftPercent - visual.plan.box.leftPercent) /
+                visual.plan.box.widthPercent) *
+                family.canvas.width -
+                frame.x) /
+                frame.size) *
+              100,
+            topPercent:
+              ((((layer.topPercent - visual.plan.box.topPercent) /
+                visual.plan.box.heightPercent) *
+                family.canvas.height -
+                frame.y) /
+                frame.size) *
+              100,
+            widthPercent:
+              (((layer.widthPercent / visual.plan.box.widthPercent) *
+                family.canvas.width) /
+                frame.size) *
+              100,
+            heightPercent:
+              (((layer.heightPercent / visual.plan.box.heightPercent) *
+                family.canvas.height) /
+                frame.size) *
+              100,
+          })),
+        }
+      : visual.kind === "modular"
+        ? visual.plan
+        : undefined;
   return (
     <figure
       className={`person-portrait person-portrait--${size}`}
@@ -127,7 +172,7 @@ export function PersonPortrait({
           />
         ) : visual.kind === "modular" ? (
           <ModularCharacter
-            plan={visual.plan}
+            plan={portraitPlan!}
             testId="person-portrait-character"
           />
         ) : (

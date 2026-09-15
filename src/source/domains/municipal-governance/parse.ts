@@ -178,6 +178,11 @@ export interface MunicipalPackInput {
     readonly mayoralActionWindow?: Cell;
     readonly override: Cell;
     readonly effectivePublication: Cell;
+    /**
+     * Optional: the least time between an ordinance's introduction and its
+     * passage, where a source established one.
+     */
+    readonly introductionToPassage?: Cell;
   };
   readonly budgetProcedure: {
     readonly fiscalYear: Cell;

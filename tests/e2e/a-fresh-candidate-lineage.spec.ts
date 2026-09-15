@@ -61,14 +61,18 @@ test("fresh candidate draft pins before replay encoding; replay and saved life r
   expect(
     readReplaySetup(new URL(replay, "http://localhost").search)
       ?.appearanceCatalogGeneration,
-  ).toBe(4);
+  ).toBe(6);
+  expect(
+    readReplaySetup(new URL(replay, "http://localhost").search)
+      ?.appearanceOutfitVersion,
+  ).toBe("complete-outfit-v2");
   await page.getByTestId("begin").focus();
   await page.keyboard.press("Enter");
   await enterLife(page);
   await saveLife(page);
   const before = await savedPayloads(page);
   expect(before).toHaveLength(1);
-  expect(new Set(generations(before[0]!))).toEqual(new Set([4]));
+  expect(new Set(generations(before[0]!))).toEqual(new Set([6]));
   await page.reload();
   await page.getByTestId("continue").click();
   await expect(page.getByTestId("play-screen")).toBeVisible();
@@ -83,7 +87,7 @@ test("fresh candidate draft pins before replay encoding; replay and saved life r
   for (const payload of after) expect(payload).toBe(before[0]);
 });
 
-for (const pin of [undefined, 1, 2, 3]) {
+for (const pin of [undefined, 1, 2, 3, 4, 5]) {
   test(`old candidate replay pin ${pin ?? "absent"} and old saved life stay unchanged`, async ({
     page,
   }) => {

@@ -1,3 +1,4 @@
+import { enterSupportedTerm } from "../../tests/fixtures/recorded-legislative-term";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -89,6 +90,7 @@ function playUntilDecided(seed: string, sessions: number) {
 function wonAndOnTheFloor() {
   const played = playUntilDecided("p85c-owner-0", 3);
   expect(projectCampaign(played.world, played.personId).phase).toBe("won");
+  played.world = enterSupportedTerm(played.world, played.personId);
   const capabilities = resolvePlayerCapabilities(played.world);
   const opened = openLegislativeWork(played.world, {
     playerPersonId: played.personId,
@@ -487,6 +489,7 @@ describe("proof D — missing content fails closed, never borrows", () => {
   it("withholds the members' room while the bill is not on the floor", () => {
     const played = playUntilDecided("p85c-owner-0", 3);
     expect(projectCampaign(played.world, played.personId).phase).toBe("won");
+    played.world = enterSupportedTerm(played.world, played.personId);
 
     // Seated, but the bill has not been taken up at all.
     const before = openLegislativeBargaining(played.world, {

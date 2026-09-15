@@ -662,6 +662,8 @@ export interface EnvironmentSceneSpec {
    * visual estimate per scene, not a measurement.
    */
   standard_body_width_percent?: number;
+  /** Authored crown-to-sole height at floor scale 1; image-space visual estimate. */
+  standing_height_percent?: number;
   surface_slots?: SceneSurfaceSlot[];
 
   residuals?: DimensionalResidualCheck[];
@@ -1650,6 +1652,15 @@ function validatePresentation(
   ) {
     errors.push(
       "standard_body_width_percent must be a positive percentage of plate width.",
+    );
+  }
+  if (
+    input.standing_height_percent !== undefined &&
+    (!isPositiveNumber(input.standing_height_percent) ||
+      (input.standing_height_percent as number) > 100)
+  ) {
+    errors.push(
+      "standing_height_percent must be a positive percentage of plate height.",
     );
   }
   validateSurfaceSlots(input.surface_slots, sceneIds, errors);

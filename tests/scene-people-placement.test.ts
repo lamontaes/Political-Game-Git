@@ -36,9 +36,12 @@ function aWorld() {
   } as NewGameSetup);
 }
 
+// The planner stands only canonical people, so presence uses real World ids
+// from the same deterministic setup.
 function scenePeople(count: number): ScenePerson[] {
-  return Array.from({ length: count }, (_, index) => ({
-    personId: `person_scene_${index}` as EntityId,
+  const ids = Object.keys(aWorld().world.people).sort() as EntityId[];
+  return Array.from({ length: Math.min(count, ids.length) }, (_, index) => ({
+    personId: ids[index]!,
     name: `Person ${index}`,
     relationship: index === 0 ? "your mom" : null,
     introduction: `Person ${index}`,
@@ -58,7 +61,10 @@ describe("The generated people stand in the room", () => {
       expect(person.anchorId.length).toBeGreaterThan(0);
       expect(person.leftPercent).toBeGreaterThanOrEqual(0);
       expect(person.leftPercent).toBeLessThan(100);
-      expect(person.topPercent).toBeGreaterThanOrEqual(0);
+      // Feet stay on the authored contact line; a figure taller than the space
+      // above it is cropped at the head and reported, so its top may be negative.
+      expect(person.topPercent + person.heightPercent).toBeGreaterThan(0);
+      expect(person.topPercent + person.heightPercent).toBeLessThanOrEqual(100);
       expect(person.widthPercent).toBeGreaterThan(0);
       expect(person.heightPercent).toBeGreaterThan(0);
     }
@@ -113,12 +119,14 @@ describe("The generated people stand in the room", () => {
     const anchors = once.map((p) => p.anchorId);
     expect(new Set(anchors).size).toBe(anchors.length);
     const scene = SCENE_REGISTRY.scenes.get(DOMESTIC_CANONICAL_SCENE_ID)!;
+    // Without released body art everyone is a named standing placeholder: a
+    // missing pose never seats a standing body, so only standing places count.
     const usable = [...scene.anchors.values()].filter(
       (anchor) =>
-        (anchor.kind === "seat" || anchor.kind === "floor-standing") &&
+        anchor.kind === "floor-standing" &&
         (anchor.footprintPercent ?? scene.standardBodyWidthPercent ?? 0) > 0,
     );
-    expect(usable.length).toBeGreaterThan(3);
+    expect(usable.length).toBeGreaterThanOrEqual(3);
     expect(once).toHaveLength(Math.min(scenePeople(8).length, usable.length));
     for (const person of once) {
       const anchor = usable.find(

@@ -82,6 +82,114 @@
   justify-self: start;
 }
 
+/*
+ * UI FINISH: every office line, status, button label and its explanation is its
+ * own block, so nothing runs into the next string.
+ */
+/*
+ * In short windows the shell's life dock sits over the bottom-left of a
+ * workspace. This only lets the campaign panel's own last line scroll clear
+ * of it; the overlap itself belongs to the shared shell layout.
+ */
+@media (max-height: 820px) {
+  .game-campaign {
+    padding-bottom: 5.5rem;
+  }
+}
+
+.game-campaign .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.game-campaign-office,
+.game-campaign-office > span {
+  display: block;
+}
+
+.game-campaign-office-title {
+  font-weight: 650;
+}
+
+.game-campaign-office-body,
+.game-campaign-office-line {
+  margin-top: 0.2rem;
+  color: rgba(225, 232, 238, 0.76);
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+.game-campaign-office-status {
+  margin-top: 0.3rem;
+  line-height: 1.4;
+}
+
+.game-campaign-strategy
+  label[data-eligible="false"]
+  .game-campaign-office-status {
+  color: #f0c98a;
+}
+
+.game-campaign-detail {
+  margin-top: 0.35rem;
+  font-size: 0.85rem;
+  color: rgba(225, 232, 238, 0.76);
+}
+
+.game-campaign-detail summary {
+  cursor: pointer;
+  color: #f4d68a;
+}
+
+.game-campaign-detail ul {
+  margin: 0.35rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.game-campaign-offer {
+  display: grid;
+  gap: 0.6rem;
+  margin: 1rem 0;
+}
+
+.game-campaign-action {
+  display: grid;
+  gap: 0.2rem;
+  justify-items: start;
+  text-align: left;
+}
+
+.game-campaign-action-label,
+.game-campaign-action-note {
+  display: block;
+}
+
+.game-campaign-action-note {
+  font-size: 0.82rem;
+  font-weight: 400;
+  opacity: 0.82;
+}
+
+.game-campaign-offer > .game-campaign-action {
+  justify-self: start;
+}
+
+.game-campaign-now {
+  margin: 1rem 0;
+}
+
+.game-campaign-now h3 {
+  margin: 0 0 0.5rem;
+}
+
+.game-campaign-action[data-proposed="true"] {
+  border-color: rgba(224, 189, 103, 0.88);
+}
+
 @media (max-width: 720px) {
   .game-campaign-strategy,
   .game-campaign-strategy-report {

@@ -1,3 +1,4 @@
+import { legislativePackForWorkKey } from "./legislative-institutions";
 import { addDays, makeIsoDate, yearOf } from "./dates";
 import {
   formatMinorUnits,
@@ -187,7 +188,10 @@ const SUPPORTED_SCENARIO_KEYS: readonly string[] = [
 ];
 
 export function draftingSupportsScenario(scenarioKey: string): boolean {
-  return SUPPORTED_SCENARIO_KEYS.includes(scenarioKey);
+  return (
+    SUPPORTED_SCENARIO_KEYS.includes(scenarioKey) ||
+    legislativePackForWorkKey(scenarioKey) !== null
+  );
 }
 
 /* -------------------------------------------------------------------------- */
@@ -826,6 +830,11 @@ export function designationPrefix(chamberKey: string): string {
       return "SB";
     case "legislature":
       return "LB";
+    // Nevada's lower chamber is an Assembly and issues Assembly Bills. Its
+    // registered pack has been reachable since the nationwide packs landed;
+    // without this, filing in it raises rather than numbering the bill.
+    case "assembly":
+      return "AB";
     default:
       throw new BillConfigurationError(
         `No bill designation is defined for a '${chamberKey}' chamber.`,

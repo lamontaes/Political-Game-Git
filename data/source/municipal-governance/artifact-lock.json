@@ -231,6 +231,138 @@
       "storage": "committed"
     },
     {
+      "artifactId": "va-charlottesville-city-code-ch2",
+      "bytes": {
+        "length": 491704,
+        "sha256": "028cafbacde26c095da6592fb7117339df032fe75da8f637ffc0e2edd7b2e5a7"
+      },
+      "localPath": "data/source/municipal-governance/raw/va-charlottesville-city-code-ch2.json",
+      "mediaType": "text/html",
+      "provider": "Municode Library for the City of Charlottesville, Virginia",
+      "publisher": {
+        "documentationUrl": "https://api.municode.com/CodesContent?jobId=487467&nodeId=CO_CH2AD_ARTIICICO_DIV3ORRE&productId=12078",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 491704,
+        "retrievedAt": "2026-09-15T00:06:15.059Z",
+        "url": "https://api.municode.com/CodesContent?jobId=487467&nodeId=CO_CH2AD_ARTIICICO_DIV3ORRE&productId=12078"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "the Council of the City of Charlottesville",
+          "instrumentKind": "ordinance",
+          "instrumentTitle": "Code of the City of Charlottesville, Virginia, Chapter 2, Administration",
+          "jurisdictionKey": "US-VA",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 3884,
+              "sha256": "c03498d121771e80b5b0149f9251f49b05a7386cd17dc9fb7736e39a5b7d0e0d"
+            },
+            "regions": [
+              {
+                "beginsWith": "The city council shall, at its first meeting in January after the regular biennial",
+                "endsWith": "The mayor shall have no veto power."
+              },
+              {
+                "beginsWith": "The city council shall hold its regular meetings at the council chamber of the city",
+                "endsWith": "to cancel or move the date of any such regular meeting."
+              },
+              {
+                "beginsWith": "The rules of order and procedure of the city council, with the right of the body to",
+                "endsWith": "Suspension of the rules may be made by a motion."
+              },
+              {
+                "beginsWith": "The proceedings of the city council, except as its own rules may otherwise provide,",
+                "endsWith": "shall be governed by Robert's Rules of Order."
+              },
+              {
+                "beginsWith": "All votes of the council shall be recorded in the council journal by a listing of",
+                "endsWith": "vote before the council."
+              },
+              {
+                "beginsWith": "No general ordinance shall be passed by the city council on the same day of its introduction,",
+                "endsWith": "or amendment to the zoning ordinance is held."
+              },
+              {
+                "beginsWith": "For every ordinance or resolution appropriating money exceeding one hundred dollars",
+                "endsWith": "11-4 of this Code may be passed on the same date as their introduction."
+              },
+              {
+                "beginsWith": "Every ordinance shall take effect from the date of its passage unless otherwise provided.",
+                "endsWith": "Every ordinance shall take effect from the date of its passage unless otherwise provided."
+              },
+              {
+                "beginsWith": "The clerk of the council shall enter upon the minute book the introduction and passage",
+                "endsWith": "new law is spread."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "va-code-15-2-1428",
+      "bytes": {
+        "length": 30055,
+        "sha256": "9fc0803c359a620c751fa24ac3cb88793704e4fce6ec1e0afa4124069aecff43"
+      },
+      "localPath": "data/source/municipal-governance/raw/va-code-15-2-1428.html",
+      "mediaType": "text/html",
+      "provider": "Virginia Law portal, Virginia General Assembly",
+      "publisher": {
+        "documentationUrl": "https://law.lis.virginia.gov/vacode/title15.2/chapter14/section15.2-1428/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 30055,
+        "retrievedAt": "2026-09-15T00:06:14.075Z",
+        "url": "https://law.lis.virginia.gov/vacode/title15.2/chapter14/section15.2-1428/"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "the General Assembly of Virginia",
+          "instrumentKind": "statute",
+          "instrumentTitle": "Code of Virginia § 15.2-1428, Procedures for certain acts",
+          "jurisdictionKey": "US-VA",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 501,
+              "sha256": "ae8bb757905736dbccee98da498696e3eba13b2c57c73e0e8b9cd6294884f25a"
+            },
+            "regions": [
+              {
+                "beginsWith": "§ 15.2-1428 . Procedures for certain acts.",
+                "endsWith": "two-thirds of all members elected to the governing body."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
       "artifactId": "va-code-15-2-1415",
       "bytes": {
         "length": 28109,

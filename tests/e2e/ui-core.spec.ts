@@ -72,13 +72,13 @@ async function peopleInTheRoom(page: Page): Promise<string[]> {
 /** Choose somebody in the room, the way a player does. */
 async function choosePerson(page: Page, personId: string) {
   await page.getByTestId(`scene-person-${personId}`).click();
-  await expect(page.getByTestId("person-action-menu")).toBeVisible();
+  await expect(page.getByTestId("quick-dossier")).toBeVisible();
 }
 
 /** Pin somebody who is in the room, from their own action menu. */
 async function pinFromTheRoom(page: Page, personId: string) {
   await choosePerson(page, personId);
-  await page.getByTestId("action-pin").click();
+  await page.getByTestId("quick-dossier-pin").click();
   await page.keyboard.press("Escape");
 }
 
@@ -134,7 +134,7 @@ test.describe("the corner cluster", () => {
     const flyout = page.getByTestId("shell-nav-flyout");
     await expect(flyout).toHaveAttribute("data-level", "primary");
 
-    await page.getByTestId("nav-personal-group").click();
+    await page.getByTestId("nav-group-personal").click();
     await expect(flyout).toHaveAttribute("data-level", "submenu");
     await expect(page.getByTestId("nav-personal")).toBeVisible();
 
@@ -191,10 +191,10 @@ test.describe("people, and who was chosen", () => {
     expect(people.length).toBeGreaterThan(0);
 
     await page.getByTestId(`scene-person-${people[0]}`).click();
-    const menu = page.getByTestId("person-action-menu");
+    const menu = page.getByTestId("quick-dossier");
     await expect(menu).toHaveAttribute("data-person-id", people[0]!);
 
-    await page.getByTestId("action-inspect").click();
+    await expect(page.getByTestId("quick-dossier")).toBeVisible();
     await expect(page.getByTestId("quick-dossier")).toHaveAttribute(
       "data-person-id",
       people[0]!,
@@ -470,7 +470,7 @@ test.describe("the deliberate workspaces", () => {
 
     const name = await page.getByTestId("story-who").textContent();
     /* Personal is the one destination with children, so it opens a submenu. */
-    await goTo(page, "nav-personal-group");
+    await goTo(page, "nav-group-personal");
     await page.getByTestId("nav-personal").click();
     await expect(page.getByTestId("personal-workspace")).toBeVisible();
 
@@ -614,7 +614,7 @@ test.describe("the click, back and escape contract", () => {
 
     const people = await peopleInTheRoom(page);
     const target = page.getByTestId(`scene-person-${people[0]}`);
-    const menu = page.getByTestId("person-action-menu");
+    const menu = page.getByTestId("quick-dossier");
 
     /*
      * Both halves, and the pointer half is not decoration in this test.

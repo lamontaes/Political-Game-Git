@@ -40,9 +40,14 @@ export const PERSON_CATEGORIES: readonly PersonCategory[] = [
   "politics",
 ];
 
+/*
+ * Labels only; the keys are saved view state. "family" also holds household
+ * members who are not kin, and "friends" is anyone known with no other
+ * category — neither is a friendship or kinship claim, so the labels say so.
+ */
 export const CATEGORY_LABELS: Readonly<Record<PersonCategory, string>> = {
-  family: "Family",
-  friends: "Friends",
+  family: "Home and family",
+  friends: "Met",
   work: "Work",
   politics: "Politics",
 };
