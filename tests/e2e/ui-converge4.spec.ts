@@ -195,6 +195,7 @@ test("private Journal intentions, grouped notes, real person links and history b
     page.getByTestId("person-workspace").locator("[data-person-id]").first(),
   ).toHaveAttribute("data-person-id", personId!);
   await page.getByTestId("person-workspace-back").click();
+  await page.getByText("Private notes and intentions", { exact: true }).click();
   await expect(note.getByLabel("Title", { exact: true })).toHaveValue(
     "A private reminder",
   );
@@ -211,6 +212,7 @@ test("private Journal intentions, grouped notes, real person links and history b
   expect(await savedWorld(page)).toEqual(initial);
   await continueSaved(page);
   await goTo(page, "nav-journal-entry");
+  await page.getByText("Private notes and intentions", { exact: true }).click();
   await expect(notebook.getByLabel("My intentions")).toHaveValue(
     "I want to remember the people I meet.",
   );
@@ -320,8 +322,8 @@ test("normal county selection preserves unspecified town and exact saved jurisdi
   expect(player).toBeDefined();
   await expect(page.getByTestId("play-screen")).toContainText("Fayette County");
   await goTo(page, "nav-municipal");
-  await expect(page.getByTestId("municipal-workspace")).toContainText(
-    "No verified government link",
+  await expect(page.getByTestId("municipal-missing-home-link")).toContainText(
+    "nothing to attend or work on here",
   );
   await save(page);
   expect(await savedWorld(page)).toEqual(initial);

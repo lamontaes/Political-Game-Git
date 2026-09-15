@@ -106,14 +106,6 @@ async function openCampaign(page: Page) {
   await expect(page.getByTestId("work-section-campaign")).toBeVisible();
 }
 
-/** Closes Work, whichever office-holder's frame it is drawn in. */
-async function closeWork(page: Page) {
-  await page
-    .getByRole("region", { name: "Your office and campaigns", exact: true })
-    .getByRole("button", { name: "Close", exact: true })
-    .click();
-}
-
 function watchForErrors(page: Page): string[] {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
@@ -132,7 +124,7 @@ function watchForErrors(page: Page): string[] {
 async function liveUntilDecided(page: Page, maxDays = 45) {
   for (let day = 0; day < maxDays; day += 1) {
     if (await page.getByTestId("campaign-result").isVisible()) return true;
-    await page.getByTestId("pass-day").click();
+    await page.getByTestId("shell-pass-day").click();
   }
   return page.getByTestId("campaign-result").isVisible();
 }
@@ -235,7 +227,7 @@ test.describe("A life can stand for something", () => {
     // The ordinary life is untouched by the refusal: the day still moves.
     await openDay(page);
     const before = (await page.getByTestId("day-date").textContent()) ?? "";
-    await page.getByTestId("pass-day").click();
+    await page.getByTestId("shell-pass-day").click();
     await expect(page.getByTestId("day-date")).not.toHaveText(before);
 
     expect(errors).toEqual([]);
@@ -427,8 +419,8 @@ test.describe("A life can stand for something", () => {
 });
 
 test.describe("P85D integration through ordinary player controls", () => {
-  for (const route of ["choice", "quiet"] as const) {
-    test(`resolves election day through the ${route} story route`, async ({
+  for (const activation of ["pointer", "keyboard"] as const) {
+    test(`resolves election day through the ${activation} Work day control`, async ({
       page,
     }) => {
       const errors = watchForErrors(page);
@@ -444,18 +436,14 @@ test.describe("P85D integration through ordinary player controls", () => {
       await openCampaign(page);
       await fileCandidacy(page);
       const before = (await page.getByTestId("day-date").textContent()) ?? "";
-      await closeWork(page);
-      if (route === "quiet") {
-        await page.getByTestId("story-let-time-pass").focus();
+      const passDay = page.getByTestId("pass-day");
+      if (activation === "keyboard") {
+        await passDay.focus();
         await page.keyboard.press("Enter");
       } else {
-        await page
-          .getByTestId("story-options")
-          .getByRole("button")
-          .first()
-          .click();
+        await passDay.click();
       }
-      await openCampaign(page);
+      expect(await liveUntilDecided(page)).toBe(true);
       await expect(page.getByTestId("campaign-result")).toBeVisible();
       await expect(page.getByTestId("day-date")).not.toHaveText(before);
       expect(errors).toEqual([]);
@@ -489,9 +477,7 @@ test.describe("P85D integration through ordinary player controls", () => {
     // The ordinary quiet-story clock processes the same pending term transition.
     for (let step = 0; step < 12; step += 1) {
       if (await page.getByTestId("office-section").isVisible()) break;
-      await closeWork(page);
-      await page.getByTestId("story-let-time-pass").click();
-      await openCampaign(page);
+      await page.getByTestId("pass-day").click();
     }
     await expect(page.getByTestId("office-section")).toContainText(
       "Kentucky legislature",
