@@ -420,10 +420,11 @@ export function characterHistoryContextPersonId(
 }
 
 /** Creates the smallest persistent social context person through one validated writer. */
-export function createCharacterHistoryContextPerson(
+function buildCharacterHistoryContextPerson(
   world: World,
   input: CharacterHistoryContextPersonInput,
-): World {
+  lineage: ReturnType<typeof appearanceLineageFromPeople>,
+): Person | null {
   assertNonEmpty(input.stableKey, "Context-person stable key");
   assertNonEmpty(input.givenName, "Context-person given name");
   assertNonEmpty(input.familyName, "Context-person family name");
@@ -441,8 +442,7 @@ export function createCharacterHistoryContextPerson(
     );
   }
   const id = characterHistoryContextPersonId(world, input.stableKey);
-  const existing = world.people[id];
-  if (existing) return world;
+  if (world.people[id]) return null;
   const fullName = `${input.givenName} ${input.familyName}`;
   const provenance = {
     method: "manual" as const,
@@ -479,7 +479,6 @@ export function createCharacterHistoryContextPerson(
       provenance,
     },
   ];
-  const lineage = appearanceLineageFromPeople(Object.values(world.people));
   const person: Person = {
     id,
     generationKey: `life-context-v1:${input.stableKey}`,
@@ -518,11 +517,51 @@ export function createCharacterHistoryContextPerson(
     ),
     establishedFacts: facts,
   };
+  return person;
+}
+
+export function createCharacterHistoryContextPerson(
+  world: World,
+  input: CharacterHistoryContextPersonInput,
+): World {
+  const person = buildCharacterHistoryContextPerson(
+    world,
+    input,
+    appearanceLineageFromPeople(Object.values(world.people)),
+  );
+  if (!person) return world;
   const next: World = {
     ...world,
-    people: { ...world.people, [id]: person },
-    personOrder: [...world.personOrder, id],
+    people: { ...world.people, [person.id]: person },
+    personOrder: [...world.personOrder, person.id],
   };
+  assertWorldIntegrity(next);
+  return next;
+}
+
+/**
+ * The same writer for many people at once, for an opening that seats a whole
+ * public body. Each input is validated exactly as the single writer does and
+ * receives the lineage the world already declares; adding people stamped with
+ * that lineage cannot change it, so it is read once. Integrity is asserted
+ * once over the result instead of once per person.
+ */
+export function createCharacterHistoryContextPeople(
+  world: World,
+  inputs: readonly CharacterHistoryContextPersonInput[],
+): World {
+  const lineage = appearanceLineageFromPeople(Object.values(world.people));
+  const people = { ...world.people };
+  const personOrder = [...world.personOrder];
+  const probe: World = { ...world, people };
+  for (const input of inputs) {
+    const person = buildCharacterHistoryContextPerson(probe, input, lineage);
+    if (!person) continue;
+    people[person.id] = person;
+    personOrder.push(person.id);
+  }
+  if (personOrder.length === world.personOrder.length) return world;
+  const next: World = { ...world, people, personOrder };
   assertWorldIntegrity(next);
   return next;
 }

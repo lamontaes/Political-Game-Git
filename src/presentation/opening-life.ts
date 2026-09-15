@@ -1,4 +1,9 @@
-import { canonicalJson, personName, ageOnDate } from "../simulation";
+import {
+  canonicalJson,
+  ensureLivingWorldOpening,
+  personName,
+  ageOnDate,
+} from "../simulation";
 import type { World, EntityId } from "../simulation";
 import { createNewGameWorld } from "./new-game";
 import type { NewGameSetup, NewGame } from "./new-game";
@@ -27,12 +32,18 @@ export function generateOpeningLife(
 ): OpeningLifeSession {
   if (session.game) return session;
   const game = createNewGameWorld(session.setup);
+  const staffed = establishOpeningOfficeholders(
+    game.world,
+    game.playerPersonId,
+  );
   return {
     ...session,
     phase: "world",
     game: {
       ...game,
-      world: establishOpeningOfficeholders(game.world, game.playerPersonId),
+      // Congress, the national parties and public affiliations, once, after
+      // the executives exist so they receive an affiliation in the same pass.
+      world: ensureLivingWorldOpening(staffed, game.playerPersonId),
     },
   };
 }
