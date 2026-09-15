@@ -57,6 +57,24 @@ import { PersonPortrait } from "./PersonPortrait";
  * draws their answers and commits the player's choice through the same writer
  * the other surfaces used.
  */
+/**
+ * The intent that ends a conversation rather than continuing it.
+ *
+ * This is the `leave` key in LIFE_TALK_INTENTS ("Say goodbye"). It is named
+ * here rather than matched on its label because the label is copy and can be
+ * rewritten; the key is the contract. `conversation-farewell.test.ts` fails if
+ * the two ever drift apart.
+ */
+export const FAREWELL_INTENT = "leave";
+
+/**
+ * How long the farewell stays on screen before the box closes itself.
+ *
+ * Long enough to read one short line, short enough that it reads as the
+ * conversation ending rather than as a pause waiting for another choice.
+ */
+export const FAREWELL_HOLD_MS = 1400;
+
 export function SceneConversation({
   world,
   playerPersonId,
@@ -86,6 +104,29 @@ export function SceneConversation({
   const [historyPage, setHistoryPage] = useState<number | null>(null);
   const [clock, setClock] = useState<string | null>(null);
   const [trouble, setTrouble] = useState<string | null>(null);
+  /*
+   * DIRECTOR42 ROLE D — saying goodbye ends the conversation.
+   *
+   * The playtest said goodbye, got "See you.", and then sat looking at the
+   * same list of openings until Back was pressed: "If I say goodbye, it
+   * should just end the conversation." The farewell itself was never the
+   * problem, so nothing about the exchange changes here — it still commits
+   * through the same turn and stays in the transcript. What changes is that
+   * the box stops offering new things to say and closes itself once the
+   * reply has been on screen long enough to read. Back still closes it
+   * immediately, and so does Escape, for anyone who does not want the beat.
+   */
+  const [leaving, setLeaving] = useState(false);
+  const onBackRef = useRef(onBack);
+  onBackRef.current = onBack;
+  useEffect(() => {
+    if (!leaving) return;
+    const timer = window.setTimeout(
+      () => onBackRef.current(),
+      FAREWELL_HOLD_MS,
+    );
+    return () => window.clearTimeout(timer);
+  }, [leaving]);
   /*
    * Changing mode replaces the control that was pressed, so focus is moved on
    * purpose: into the history when it opens, back to the control that opened
@@ -216,6 +257,10 @@ export function SceneConversation({
       setTrouble(null);
       setHistoryPage(null);
       onWorldChange(result.world);
+      if (intent === FAREWELL_INTENT) {
+        setLeaving(true);
+        return;
+      }
       // The pressed choice may not be offered next turn; keep the keyboard
       // inside the conversation rather than on the page body.
       requestAnimationFrame(() => {
@@ -346,7 +391,7 @@ export function SceneConversation({
             <p className="pg-talk-note" data-testid="conversation-closed">
               That is settled for now.
             </p>
-          ) : speech.length > 0 ? (
+          ) : leaving ? null : speech.length > 0 ? (
             <div
               className="pg-talk-choices"
               role="group"
