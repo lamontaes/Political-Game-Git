@@ -50,6 +50,7 @@ Git route appears to be what this wave is actually using.
 - `src/presentation/legislation-world.test.ts`
 - `src/presentation/dehardwire-measure-identity.test.ts` (new)
 - `src/presentation/dehardwire-census.test.ts` (new)
+- `tests/e2e/pr79f-production-floor.spec.ts`
 - `scripts/dehardwire-census.mjs` (new)
 - `docs/dehardwire/classification.json`, `docs/dehardwire/census.json` (new)
 
@@ -132,20 +133,73 @@ labels, rule citations and internal provenance all pass.
 
 ## Checks actually run
 
-| Check                                                                                                                               | Result                              |
-| ----------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
-| `npm run typecheck`                                                                                                                 | pass                                |
-| `npm run lint`                                                                                                                      | pass                                |
-| `npm run format` (prettier --check)                                                                                                 | pass                                |
-| `npx vitest run src/presentation src/content src/simulation/legislation.test.ts src/simulation/legislative-provision-batch.test.ts` | **135 files, 1718 tests, all pass** |
-| `src/presentation/dehardwire-measure-identity.test.ts`                                                                              | 9 pass (new)                        |
-| `src/presentation/dehardwire-census.test.ts`                                                                                        | 5 pass (new)                        |
-| `node scripts/dehardwire-census.mjs`                                                                                                | exit 0                              |
+| Check                                                                                                                               | Result                                                               |
+| ----------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `npm run typecheck`                                                                                                                 | pass                                                                 |
+| `npm run lint`                                                                                                                      | pass                                                                 |
+| `npm run format` (prettier --check)                                                                                                 | pass                                                                 |
+| `npx vitest run src/presentation src/content src/simulation/legislation.test.ts src/simulation/legislative-provision-batch.test.ts` | **135 files, 1718 tests, all pass**                                  |
+| `src/presentation/dehardwire-measure-identity.test.ts`                                                                              | 9 pass (new)                                                         |
+| `src/presentation/dehardwire-census.test.ts`                                                                                        | 5 pass (new)                                                         |
+| `node scripts/dehardwire-census.mjs`                                                                                                | exit 0                                                               |
+| `playwright test tests/e2e/pr79f-production-floor.spec.ts` (Chromium, 1440x900)                                                     | **1 passed (51.6s)** — the production route names HB 215, not HB 214 |
+| `playwright test` on the four related legislation specs                                                                             | 19 passed, 3 failed — all three also fail at base f22fd31            |
+
+### Browser evidence — the production route, actually exercised
+
+`tests/e2e/pr79f-production-floor.spec.ts` drives the route a player opens:
+title screen, life created, candidacy filed, election reached by living the
+weeks, members' room entered from the office the win opened, then a save and a
+browser reload. No `?view=floor` anywhere in it.
+
+It passed in Chromium at 1440x900: **1 passed (51.6s)**.
+
+What it showed is the point. The colleague on the floor names **HB 215** — this
+world's number, arrived at by this jurisdiction's numbering, not HB 214 — the
+paper on the desk names the same bill, the fiscal note about it reads
+$8,000,000, and all of it survives the reload.
+
+That spec previously asserted the literal "HB 214" and would have failed
+correctly, because the literal is what moved. It now reads the designation off
+the conversation and cross-checks it against the working document: a stronger
+assertion than the fixed string it replaced, because it proves the room and the
+page agree about one bill rather than that a literal exists.
+
+`tests/e2e/legislation.spec.ts` asserts "HB 214" and is **unaffected**. It
+drives `?view=legislation`, the developer route, which builds a standalone
+scenario through `createLegislativeScenario` and legitimately keeps the
+authored designation. `src/presentation/legislation-projection.test.ts` asserts
+the same literal against the same builder and still passes — that is the
+evidence for the claim, not an assumption about it.
+
+### Three browser failures, and why they are not this change
+
+Running the four related legislation specs gave **19 passed, 3 failed**:
+
+- `legislation-docket.spec.ts:265` — keeps the docket across a save and a reload
+- `legislation-docket.spec.ts:376` — new service clauses … through Work
+- `legislation.spec.ts:295` — a bill survives two saves and reloads
+
+All three are `locator.click: Test timeout of 30000ms exceeded` or
+`Target page, context or browser has been closed`. No assertion about a bill, a
+number or a title is involved in any of them.
+
+They were re-run **at base f22fd31 in a separate worktree**, and all three fail
+there too with the same errors. The base run additionally fails
+`legislation-docket.spec.ts:118`, which passes on this branch — so this branch
+fails strictly fewer of them than the base does. The cause is the 30s default
+against a slow container, not anything in this diff. Recorded as a pre-existing
+defect with a named owner; nothing was skipped, deleted or given a longer
+timeout to make it green.
+
+Note for whoever runs the lane next: this container ships Chromium 1194 while
+the pinned `@playwright/test` expects a newer build, so these runs used an
+untracked local config pointing `executablePath` at
+`/opt/pw-browsers/chromium-1194`. Nothing tracked was changed to make it run,
+and that file is not committed.
 
 **Separately pending, not run by this owner:** the full repository gate, the
-Playwright browser lane (`npm run test:e2e`), and `test:run-a/b/c`. Two e2e
-specs assert the old pinned literal and are expected to need the same treatment
-the unit assertion got — named as a residual below rather than quietly edited.
+rest of the Playwright lane (`npm run test:e2e`), and `test:run-a/b/c`.
 
 ## One assertion was rewritten, not weakened
 
@@ -157,14 +211,10 @@ on the filed record. Nothing was deleted or skipped.
 
 ## Residuals, with owners
 
-1. **`tests/e2e/legislation.spec.ts` and `tests/e2e/pr79f-production-floor.spec.ts`
-   assert "HB 214" on a production route.** They will fail against this change
-   and they are right to — the literal is what moved. They need the same
-   rewrite: assert the chamber-prefixed designation the world filed, read from
-   the page, rather than a fixed string. _Owner: ROLE B (next increment), or
-   whoever owns the browser lane if LAND prefers._ `tests/e2e/legislative-bargaining.spec.ts`
-   and `tests/e2e/pr79-integration.spec.ts` go through `?view=floor` and are
-   correct as they stand — that route keeps its fixture.
+1. **Three browser specs time out, on this branch and at base alike** — the
+   two `legislation-docket.spec.ts` cases and `legislation.spec.ts:295`,
+   listed above with the base-commit comparison. Not caused by this change
+   and not fixed by it. _Owner: the browser-lane owner, for LAND to assign._
 2. **Six fixture-named modules are on the ordinary-play runtime graph**
    (`committee-room-fixture`, `office-council-staff-fixture`, `run-a-fixture`,
    `demo-jurisdiction-context`, `demo`, `portability-fixture`). They are world
