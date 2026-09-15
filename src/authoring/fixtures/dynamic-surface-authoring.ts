@@ -48,43 +48,49 @@ import type { SlotComponentBinding } from "../dynamic-components";
 // Which surfaces the simulation owns, and which stay painted
 // ---------------------------------------------------------------------------
 
-export const CIVIC_MEETING_HALL_SURFACES: SceneDynamicSurfaceAuthoring = {
-  sceneId: "civic-community-meeting-hall",
-  semanticSurfaces: [
-    {
-      slotId: "podium-front-placard",
-      contentClasses: ["jurisdiction-seal", "candidate-name", "campaign-name"],
-      emptyStateDecor: "furniture-detail",
-      note: "The single most jurisdiction-specific object in the composition, and the largest flat face in it. Painting anything here would fix the hall to one meeting.",
-    },
-    {
-      slotId: "podium-speech-notes",
-      contentClasses: ["briefing-slide", "document-body", "agenda"],
-      emptyStateDecor: "paper-shapes",
-      note: "Paper on a lectern. The fallback is ruled lines with no words, which reads as notes without claiming to be any.",
-    },
-    {
-      slotId: "hall-title-banner-area",
-      contentClasses: ["headline", "jurisdiction-name"],
-      emptyStateDecor: "wall-artwork",
-      note: "Left-hand title-safe wall. Kept clear for the shell rather than painted with an event name.",
-    },
-  ],
-  bakedDecor: [
-    {
-      decorId: "hall-audience-sprites",
-      decorClass: "furniture-detail",
-      bakedText: "none",
-      note: "The seated audience is painted into the plate. Only the podium hero slot and the right foreground chair accept modular people; the rest of the hall is scenery.",
-    },
-    {
-      decorId: "hall-wall-fixtures",
-      decorClass: "lighting-fixture",
-      bakedText: "none",
-    },
-  ],
-  bakedTextReview: "reviewed",
-};
+/** Historical surface evidence only; excluded from all active authoring. */
+export const RETIRED_CIVIC_MEETING_HALL_SURFACES: SceneDynamicSurfaceAuthoring =
+  {
+    sceneId: "civic-community-meeting-hall",
+    semanticSurfaces: [
+      {
+        slotId: "podium-front-placard",
+        contentClasses: [
+          "jurisdiction-seal",
+          "candidate-name",
+          "campaign-name",
+        ],
+        emptyStateDecor: "furniture-detail",
+        note: "The single most jurisdiction-specific object in the composition, and the largest flat face in it. Painting anything here would fix the hall to one meeting.",
+      },
+      {
+        slotId: "podium-speech-notes",
+        contentClasses: ["briefing-slide", "document-body", "agenda"],
+        emptyStateDecor: "paper-shapes",
+        note: "Paper on a lectern. The fallback is ruled lines with no words, which reads as notes without claiming to be any.",
+      },
+      {
+        slotId: "hall-title-banner-area",
+        contentClasses: ["headline", "jurisdiction-name"],
+        emptyStateDecor: "wall-artwork",
+        note: "Left-hand title-safe wall. Kept clear for the shell rather than painted with an event name.",
+      },
+    ],
+    bakedDecor: [
+      {
+        decorId: "hall-audience-sprites",
+        decorClass: "furniture-detail",
+        bakedText: "none",
+        note: "The seated audience is painted into the plate. Only the podium hero slot and the right foreground chair accept modular people; the rest of the hall is scenery.",
+      },
+      {
+        decorId: "hall-wall-fixtures",
+        decorClass: "lighting-fixture",
+        bakedText: "none",
+      },
+    ],
+    bakedTextReview: "reviewed",
+  };
 
 export const APARTMENT_STARTER_01_SURFACES: SceneDynamicSurfaceAuthoring = {
   sceneId: "apartment-starter-01",
@@ -403,7 +409,6 @@ export const PRODUCTION_DYNAMIC_SURFACE_AUTHORING: readonly SceneDynamicSurfaceA
     APARTMENT_ORDINARY_02_SURFACES,
     APARTMENT_SETTLED_03_SURFACES,
     APARTMENT_STARTER_01_SURFACES,
-    CIVIC_MEETING_HALL_SURFACES,
     COUNCIL_STAFF_OFFICE_SURFACES,
     EXECUTIVE_PRIVATE_OFFICE_SURFACES,
   ];
@@ -426,28 +431,6 @@ export const PRODUCTION_DYNAMIC_SURFACE_AUTHORING: readonly SceneDynamicSurfaceA
 export const PRODUCTION_SLOT_COMPONENT_BINDINGS: Readonly<
   Record<string, readonly SlotComponentBinding[]>
 > = {
-  "civic-community-meeting-hall": [
-    {
-      slotId: "podium-front-placard",
-      surfaceKind: "podium-placard",
-      componentFamilies: ["KPI_CARD"],
-      fallbackDecor: "furniture-detail",
-      note: "A placard holds one short line — an office, an event, a name. A chart on a lectern face would be unreadable from any seat in the room it depicts.",
-    },
-    {
-      slotId: "podium-speech-notes",
-      surfaceKind: "podium-speech-notes",
-      componentFamilies: ["BRIEFING_CARD", "AGENDA_LIST"],
-      fallbackDecor: "paper-shapes",
-      note: "A printed agenda on a lectern is the same physical thing as a printed agenda in front of a committee member, so the list draws here too. A chart does not: nobody reads axes off a speaking script.",
-    },
-    {
-      slotId: "hall-title-banner-area",
-      surfaceKind: "title-banner-safe",
-      componentFamilies: ["KPI_CARD", "RESULT_BOARD"],
-      fallbackDecor: "wall-artwork",
-    },
-  ],
   "apartment-starter-01": [
     {
       slotId: "television-screen-slot",

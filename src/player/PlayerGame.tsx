@@ -1,4 +1,3 @@
-import { SavedTitleTableau } from "./SavedTitleTableau";
 import { CreatorAppearanceStep } from "./CreatorAppearanceStep";
 import {
   applyCreatorAppearance,
@@ -611,29 +610,26 @@ export function PlayerGame() {
    */
   if (screen.kind === "title") {
     return (
-      <SavedTitleTableau
-        summary={saves[0]}
-        store={store}
-        shellStore={shellStore}
-        previewMode={previewMode}
-      >
-        <TitleScreen
-          saves={saves}
-          savesUnavailable={savesUnavailable}
-          problem={problem}
-          onNewGame={() => {
-            setProblem(null);
-            if (replaySeed === null) {
-              setSessionSeed(resolveSessionSeed("", window.crypto));
-            }
-            setScreen({ kind: "setup" });
-          }}
-          onContinue={() => void continueMostRecent()}
-          onOpenSaves={() => setScreen({ kind: "saves" })}
-          onOpenOptions={() => setScreen({ kind: "options" })}
-          onOpenPatchNotes={() => setScreen({ kind: "patch-notes" })}
-        />
-      </SavedTitleTableau>
+      <AmbientTableau resolved={resolvedTitlePresentation(saves)}>
+        {() => (
+          <TitleScreen
+            saves={saves}
+            savesUnavailable={savesUnavailable}
+            problem={problem}
+            onNewGame={() => {
+              setProblem(null);
+              if (replaySeed === null) {
+                setSessionSeed(resolveSessionSeed("", window.crypto));
+              }
+              setScreen({ kind: "setup" });
+            }}
+            onContinue={() => void continueMostRecent()}
+            onOpenSaves={() => setScreen({ kind: "saves" })}
+            onOpenOptions={() => setScreen({ kind: "options" })}
+            onOpenPatchNotes={() => setScreen({ kind: "patch-notes" })}
+          />
+        )}
+      </AmbientTableau>
     );
   }
 
@@ -1087,8 +1083,6 @@ function SetupScreen({
       className={`game-title game-setup game-creator${onReady && (finishedQuestions || !questionnaireScreenFor(committed)) ? " game-creator--appearance" : ""}`}
       data-testid="setup-screen"
     >
-      <h1>Our Civic Duty</h1>
-
       {/*
             Finished steps, collapsed. Each is a one-line summary the player can
             reopen; this is what keeps the whole active step inside the viewport
@@ -1949,7 +1943,6 @@ function QuestionnaireScreenView({
       className="game-title game-setup game-creator"
       data-testid="questionnaire-screen"
     >
-      <h1>Our Civic Duty</h1>
       <h2>Who are you?</h2>
       {/*
             What these questions actually are, said once and plainly: they are

@@ -24,13 +24,13 @@ describe("the approved environment library, as a bank", () => {
     }
   });
 
-  it("banks eight files: six approved masters and two that are not what they claim", () => {
+  it("banks five active masters, one retired reference and two rejects", () => {
     expect(PRODUCTION_PLATE_ASSET_BANK.entries).toHaveLength(8);
     expect(summarizeAssetBank(PRODUCTION_PLATE_ASSET_BANK)).toEqual({
       production: 0,
-      reference: 1,
+      reference: 2,
       reject: 2,
-      undecided: 5,
+      undecided: 4,
     });
 
     const rejected = PRODUCTION_PLATE_ASSET_BANK.entries.filter(
@@ -59,6 +59,8 @@ describe("the approved environment library, as a bank", () => {
     // It is also the only hero plate, and a hero claim needs a reason.
     expect(withPeople[0]!.heroSlot).toBe("yes");
     expect(withPeople[0]!.heroJustification).toBeTruthy();
+    expect(withPeople[0]!.disposition).toBe("reference");
+    expect(withPeople[0]!.notes?.join(" ")).toContain("FRONTDOOR44");
   });
 
   it("leaves the style judgement unassessed for every plate nobody has seen", () => {

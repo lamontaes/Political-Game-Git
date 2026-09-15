@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 
-import { CIVIC_COMMUNITY_MEETING_TITLE_SCENE } from "../environment/scenes/civic-community-meeting-title-production";
 import { CIVIC_HEARING_ROOM_PRODUCTION_SCENE } from "../environment/scenes/civic-hearing-room-production";
 import { COMMITTEE_ROOM_FIXTURE_SCENE } from "../environment/scenes/committee-room-fixture";
 import { LEGISLATIVE_CHAMBER_PRODUCTION_SCENE } from "../environment/scenes/legislative-chamber-production";
@@ -22,7 +21,6 @@ import {
   LEGISLATIVE_CHAMBER_SCENE_ID,
   PRODUCTION_OFFICE_SCENE_ID,
   PUBLIC_MEETING_ROOM_SCENE_ID,
-  TITLE_TABLEAU_SCENE_ID,
   CAMPAIGN_STOREFRONT_SCENE_ID,
   PARK_COMMUNITY_PAVILION_SCENE_ID,
   EXECUTIVE_OFFICE_SCENE_ID,
@@ -42,7 +40,6 @@ describe("scene registry", () => {
   it("registers every shipped scene from a validated EnvironmentSceneSpec", () => {
     for (const spec of [
       SHARED_WORKROOM_OFFICE_PRODUCTION_SCENE,
-      CIVIC_COMMUNITY_MEETING_TITLE_SCENE,
       CIVIC_HEARING_ROOM_PRODUCTION_SCENE,
       LEGISLATIVE_CHAMBER_PRODUCTION_SCENE,
       RESIDENCE_APARTMENT_LIVING_CANONICAL_03_SCENE,
@@ -61,7 +58,6 @@ describe("scene registry", () => {
     }
     expect([...SCENE_REGISTRY.scenes.keys()].sort()).toEqual(
       [
-        TITLE_TABLEAU_SCENE_ID,
         HEARING_ROOM_SCENE_ID,
         LEGISLATIVE_CHAMBER_SCENE_ID,
         COMMITTEE_FIXTURE_SCENE_ID,
@@ -94,12 +90,10 @@ describe("scene registry", () => {
     expect(production.map((scene) => scene.sceneId).sort()).toEqual(
       [
         PRODUCTION_OFFICE_SCENE_ID,
-        TITLE_TABLEAU_SCENE_ID,
         HEARING_ROOM_SCENE_ID,
         LEGISLATIVE_CHAMBER_SCENE_ID,
         DOMESTIC_CANONICAL_SCENE_ID,
         DOMESTIC_ORDINARY_SCENE_ID,
-        PUBLIC_MEETING_ROOM_SCENE_ID,
         COURTROOM_SCENE_ID,
         CAMPAIGN_STOREFRONT_SCENE_ID,
       ].sort(),
@@ -112,6 +106,7 @@ describe("scene registry", () => {
       COMMITTEE_FIXTURE_SCENE_ID,
       PARK_COMMUNITY_PAVILION_SCENE_ID,
       EXECUTIVE_OFFICE_SCENE_ID,
+      PUBLIC_MEETING_ROOM_SCENE_ID,
     ]) {
       expect(
         requireScene(SCENE_REGISTRY, sceneId).presentationStatus,

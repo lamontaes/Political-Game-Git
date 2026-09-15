@@ -75,9 +75,13 @@ test.describe("The creator is a panel on the room, not a scrolling form", () => 
     const creator = page.getByTestId("setup-screen");
     await expect(creator).toBeVisible();
     await expect(page.getByTestId("title-screen")).toHaveCount(0);
-    await expect(creator.getByRole("heading", { level: 1 })).toHaveText(
-      "Our Civic Duty",
-    );
+    await expect(creator.getByRole("heading", { level: 1 })).toHaveCount(0);
+    await expect(
+      creator.getByRole("heading", {
+        level: 2,
+        name: "How do you want to start?",
+      }),
+    ).toBeVisible();
     await expect(page.getByTestId("creator-stage-route")).toBeVisible();
 
     const creatorBox = await creator.boundingBox();

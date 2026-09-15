@@ -12,7 +12,6 @@ import {
   PARK_COMMUNITY_PAVILION_SCENE_ID,
   EXECUTIVE_OFFICE_SCENE_ID,
   SCENE_REGISTRY,
-  TITLE_TABLEAU_SCENE_ID,
   type SceneRegistry,
 } from "./scene-registry";
 
@@ -106,11 +105,11 @@ export const SCENE_CONSUMERS: readonly SceneConsumerDeclaration[] = [
     label: "The title screen, before any life exists",
     runtimeComponent: "src/player/TitleScreen.tsx",
     canonicalGate: "None. This is the front door.",
-    sceneId: TITLE_TABLEAU_SCENE_ID,
+    sceneId: DOMESTIC_CANONICAL_SCENE_ID,
     wiredThrough: "src/player/TitleTableau.tsx",
     openRequestIds: [],
     blockedSeam: null,
-    note: "The approved community-meeting master, empty. Nothing is composed into it, and the audience in the picture is painted decor rather than characters.",
+    note: "FRONTDOOR44 keeps the accepted living-room front door and permanently excludes the retired baked-audience meeting-room plate.",
   },
   {
     consumerId: "title-recent-save",

@@ -986,7 +986,9 @@ function executivePrivateOffice(): SceneAuthoringScaffold {
 // The library
 // ---------------------------------------------------------------------------
 
-export const SCENE_CIVIC_COMMUNITY_MEETING_HALL = civicCommunityMeetingHall();
+/** Historical geometry only; FRONTDOOR44 forbids runtime admission. */
+export const RETIRED_CIVIC_COMMUNITY_MEETING_HALL_SCAFFOLD =
+  civicCommunityMeetingHall();
 
 export const SCENE_APARTMENT_STARTER_01 = apartment({
   sceneId: "apartment-starter-01",
@@ -1295,6 +1297,5 @@ export const PRODUCTION_SCENE_SCAFFOLDS: readonly SceneAuthoringScaffold[] = [
   SCENE_APARTMENT_ORDINARY_02,
   SCENE_APARTMENT_SETTLED_03,
   SCENE_APARTMENT_STARTER_01,
-  SCENE_CIVIC_COMMUNITY_MEETING_HALL,
   SCENE_EXECUTIVE_PRIVATE_OFFICE,
 ];

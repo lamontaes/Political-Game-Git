@@ -545,7 +545,7 @@ describe("a room says only what this world knows", () => {
       "legislative-chamber-production",
       "civic-hearing-room-production",
       "shared-workroom-office-production",
-      "civic-community-meeting-title",
+      "civic-community-meeting-room",
       "office-council-staff-fixture",
     ]) {
       expect(boundByScene.get(sceneId), sceneId).toBeGreaterThan(0);
