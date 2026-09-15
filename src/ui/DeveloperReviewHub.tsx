@@ -60,6 +60,11 @@ const SceneAuthoringProofView = lazy(() =>
     default: module.SceneAuthoringProofView,
   })),
 );
+const ArtDeskView = lazy(() =>
+  import("./ArtDeskView").then((module) => ({
+    default: module.ArtDeskView,
+  })),
+);
 const PlayerOffice = lazy(() =>
   import("../player/PlayerOffice").then((module) => ({
     default: module.PlayerOffice,
@@ -96,6 +101,7 @@ const VIEWS = [
   ["production-office", "Production office proof"],
   ["scene-proof", "Scene & pose proof"],
   ["scene-authoring", "Scene authoring proof"],
+  ["art-desk", "Art Desk"],
   ["office-fixture", "Office workflow fixture"],
   ["floor", "Floor workflow fixture"],
   ["legislation", "Legislation workflow fixture"],
@@ -121,7 +127,12 @@ export function DeveloperReviewHub() {
       "Generated development world; fictional initialization",
     ),
   );
-  const [view, setView] = useState<View>("developer");
+  const [view, setView] = useState<View>(() => {
+    const requested = new URLSearchParams(window.location.search).get("view");
+    return VIEWS.some(([key]) => key === requested)
+      ? (requested as View)
+      : "developer";
+  });
   const [revision, setRevision] = useState(0);
   const [seedInput, setSeedInput] = useState(session.world.seed);
   const [sceneId, setSceneId] = useState("");
@@ -356,6 +367,7 @@ export function DeveloperReviewHub() {
             {view === "production-office" && <ProductionOfficeProofView />}
             {view === "scene-proof" && <ScenePresentationProofView />}
             {view === "scene-authoring" && <SceneAuthoringProofView />}
+            {view === "art-desk" && <ArtDeskView />}
             {view === "office-fixture" && <PlayerOffice />}
             {view === "floor" && <MeasureFloorView />}
             {view === "legislation" && <LegislationDevRoute />}

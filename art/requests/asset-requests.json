@@ -1,6 +1,6 @@
 {
   "documentVersion": 1,
-  "generatedFrom": "Packet 68, reconciled against the 2026-09-03 Drive rescan and the released manifest, then extended by Packet 71's intake of the four 2026-09-04 uploads. Hand-authored; validated by src/authoring/asset-request.ts.",
+  "generatedFrom": "Packet 68, reconciled against the 2026-09-03 Drive rescan and the released manifest, then extended by Packet 71's intake of the four 2026-09-04 uploads. ALIVE43 Role A added doorstep and park-winter variant requests after searching park/press/community-meeting coverage; it did not reopen closed Packet 68/71 jobs. Hand-authored; validated by src/authoring/asset-request.ts.",
   "requests": [
     {
       "requestId": "person-production-standing-body",
@@ -663,6 +663,161 @@
       ],
       "dependsOn": ["person-adult-body-silhouette-reexport"],
       "resolutionNote": "Withdrawn as already covered. shoes.png supersedes the p71 three-quarter footwear sheet for front-on use; its twelve chopped candidates live at art/generated/candidates/recent-drive-sweep/front-facing-footwear/ and are byte-verified against art/qa/p95-recent-drive-sweep/candidate-component-review.json. They are candidates, not released pixels: the ordinary fit, anchor and human-acceptance gates still apply, and none of them is registered in art/manifest/. The p71 three-quarter sheets are retained as the source for a future three-quarter pose family."
+    },
+    {
+      "requestId": "env-neighborhood-doorstep-generic",
+      "requestVersion": 1,
+      "priority": "P1",
+      "status": "queued",
+      "title": "A generic neighborhood doorstep and sidewalk",
+      "consumer": {
+        "consumerId": "ordinary-life-doorstep",
+        "runtimeComponent": "src/presentation/ordinary-life.ts",
+        "playerVisibleUse": "A neighbor conversation on a stoop, with the street behind the player."
+      },
+      "whyNeeded": "Ordinary-life doorstep scenes currently have a conversation setting and no environment plate. Interior apartments must not stand in for a threshold.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "src/presentation/scene-registry.ts",
+          "src/environment/scenes/",
+          "art/families/",
+          "art/references/candidates/recent-drive-sweep/source-images/"
+        ],
+        "driveLocationsSearched": [
+          "05_4K_SOURCE_MASTERS/05D_SCENE_ENVIRONMENT_MASTERS",
+          "Drive park 1SVG_lRUgoMJTmyreTsmhLJB6roJitFr1",
+          "Drive press 1SPvoi-0L7T4mK156yFg1dpOW82ggb4J6"
+        ],
+        "found": "No registered doorstep/stoop plate. Park pavilion, press room, campaign storefront and community meeting hall exist and answer other consumers. Interior apartments declare a volunteer-doorstep-conversation semantic use of a living room, which is not an exterior stoop.",
+        "shortfall": "A threshold plate showing a generic stoop, door, and sidewalk empty of people, with no house number, street name or identifiable landmark."
+      },
+      "target": {
+        "targetClass": "environment-plate",
+        "minimumWidth": 4608,
+        "aspectRatio": "16:9",
+        "alphaRequired": false,
+        "container": "either",
+        "styleAuthority": "OCD_SCENE_MASTER_SHARED_WORKROOM_OFFICE_5504x3072_01.jpg for rendering language; residential wood-frame, not an office"
+      },
+      "generationRecipe": [
+        "First-person view from a modest front stoop looking toward the street: a door and frame at one side, two or three steps, a sidewalk, parked-street trees, ordinary wood-frame houses across the way.",
+        "GENERIC. No house number, no street sign, no named city, no landmark skyline, no baked text.",
+        "Empty of people. The room is the asset; the neighbor is not.",
+        "Illustrated project language, not photoreal. Daylight, no snow."
+      ],
+      "acceptanceCriteria": [
+        "At least 4608 pixels of real width, measured from the file.",
+        "Zero baked legible text, addresses or identifiable real buildings.",
+        "A standing contact on the stoop that can be calibrated later; do not invent millimetres in the brief."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "neighborhood-doorstep-generic",
+        "variantId": "year-round-leaf",
+        "intendedContext": "ordinary-life:doorstep"
+      },
+      "compatibility": {
+        "environmentClass": "threshold-exterior",
+        "architecturalCharacter": "stoop-and-sidewalk",
+        "climate": [
+          "humid-continental",
+          "humid-subtropical",
+          "marine-west-coast"
+        ],
+        "terrain": ["inland-plain", "rolling-hills", "coastal-plain"],
+        "vegetation": ["urban-sparse"],
+        "seasons": ["year-round-leaf"],
+        "weatherLight": ["clear-day", "overcast"],
+        "indoorOutdoor": "threshold",
+        "sourceReferenceRegion": "unspecified",
+        "allowedReuseRegions": [
+          "new-england",
+          "mid-atlantic",
+          "east-north-central",
+          "west-north-central",
+          "south-atlantic",
+          "east-south-central",
+          "west-south-central",
+          "mountain",
+          "pacific"
+        ],
+        "placeIdentity": { "kind": "generic-reusable" },
+        "exclusions": ["not-a-named-address"],
+        "snowCoverPossible": false
+      }
+    },
+    {
+      "requestId": "env-park-community-pavilion-winter-variant",
+      "requestVersion": 1,
+      "priority": "P2",
+      "status": "queued",
+      "title": "Winter variant of the existing park community pavilion",
+      "consumer": {
+        "consumerId": "park-community-pavilion",
+        "runtimeComponent": "src/ui/LocationCompositionReview.tsx",
+        "playerVisibleUse": "The same assigned park pavilion in a leafless cold season, when a save has selected this variant."
+      },
+      "whyNeeded": "The park pavilion candidate is a warm-leaf plate. A seasonal variant must reference that parent rather than inventing a second park. Winter does not mean snow on every local date.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/families/park-community-pavilion/",
+          "art/references/candidates/recent-drive-sweep/source-images/IMG_5204.JPG",
+          "src/environment/scenes/park-community-pavilion-production.ts"
+        ],
+        "driveLocationsSearched": ["Drive 1SVG_lRUgoMJTmyreTsmhLJB6roJitFr1"],
+        "found": "AX-92B1 park source IMG_5204.JPG and derived candidate tiers already cover the parent pavilion. No winter/leafless variant exists.",
+        "shortfall": "A seasonal variant of the SAME pavilion geometry: bare deciduous trees, no snow required, no new landmark, no people."
+      },
+      "target": {
+        "targetClass": "environment-plate",
+        "minimumWidth": 4608,
+        "aspectRatio": "16:9",
+        "alphaRequired": false,
+        "container": "either",
+        "styleAuthority": "art/families/park-community-pavilion/env_park_community_pavilion_v1.png parent plate"
+      },
+      "generationRecipe": [
+        "The existing timber park pavilion and concrete pad, same camera, leafless deciduous trees and a cold clear or overcast sky.",
+        "Do not add snow cover. Snow is a separate weather possibility, not implied by winter.",
+        "Do not change pavilion post spacing or pad shape; geometry change would invalidate parent anchors.",
+        "Empty of people, no baked text, not a named city park."
+      ],
+      "acceptanceCriteria": [
+        "Recognizable as the parent pavilion, not a different park.",
+        "No snow pack unless later requested as its own weather variant.",
+        "Parent asset id recorded; anchors copied only if geometry is unchanged."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "park-community-pavilion",
+        "variantId": "winter-leafless",
+        "intendedContext": "park-community-pavilion-candidate"
+      },
+      "compatibility": {
+        "environmentClass": "park-exterior",
+        "architecturalCharacter": "timber-pavilion",
+        "climate": ["humid-continental", "humid-subtropical"],
+        "terrain": ["inland-plain", "rolling-hills"],
+        "vegetation": ["deciduous-forest", "mixed-forest", "urban-sparse"],
+        "seasons": ["winter"],
+        "weatherLight": ["clear-day", "overcast"],
+        "indoorOutdoor": "outdoor",
+        "sourceReferenceRegion": "east-south-central",
+        "allowedReuseRegions": [
+          "east-south-central",
+          "east-north-central",
+          "south-atlantic",
+          "mid-atlantic"
+        ],
+        "placeIdentity": { "kind": "generic-reusable" },
+        "exclusions": ["not-a-named-city-park", "winter-is-not-universal-snow"],
+        "snowCoverPossible": false,
+        "geometryVariant": {
+          "parentAssetId": "env_park_community_pavilion_candidate_5504x3072_v1",
+          "geometryUnchanged": true,
+          "invalidatesParentAnchors": false
+        }
+      }
     }
   ]
 }
