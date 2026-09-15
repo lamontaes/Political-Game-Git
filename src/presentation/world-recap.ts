@@ -1,6 +1,8 @@
 import {
   personName,
+  projectMeaningfulChanges,
   projectPublicInformationDigest,
+  type DevelopmentImportance,
   type EntityId,
   type EventKnowledgeRecord,
   type HistoricalEvent,
@@ -20,8 +22,10 @@ import { isWorldMachineryEvent } from "./world39-news";
  * presented as one rather than as a fact.
  *
  * Grouping is by shared record identity only. A news item and the player's
- * knowledge of the same event are one entry; two events that merely happened
- * in the same week are two entries, because adjacency is not a causal link.
+ * knowledge of the same event are one entry, and the stages of one public
+ * matter (W's `matterId`) are one entry showing its latest stage. Two events
+ * that merely happened in the same week stay separate, because adjacency is
+ * not a causal link.
  */
 
 export interface RecapPerson {
@@ -40,7 +44,19 @@ export interface RecapEntry {
   readonly attribution: string | null;
   readonly inNews: boolean;
   readonly people: readonly RecapPerson[];
+  /** The public matter this belongs to, when W records one. */
+  readonly matterId: string | null;
+  /** W's authored importance for that stage; null outside a matter. */
+  readonly importance: DevelopmentImportance | null;
+  /** How many recorded stages this entry stands for since the frontier. */
+  readonly updates: number;
 }
+
+const IMPORTANCE_RANK: Readonly<Record<DevelopmentImportance, number>> = {
+  major: 3,
+  notable: 2,
+  minor: 1,
+};
 
 export interface WorldRecap {
   /** The frontier this recap was read from. */
@@ -85,9 +101,41 @@ export function projectWorldRecap(
     );
   }
 
-  const ordered = [...entries.values()].sort(
+  // Stages of one public matter become one entry: its latest stage, with a
+  // count of the stages it stands for. Only W's recorded matter identity
+  // groups; nothing is joined by date, place or wording.
+  const refs = new Map(
+    projectMeaningfulChanges(world, playerPersonId, frontier).map((ref) => [
+      ref.eventId,
+      ref,
+    ]),
+  );
+  const grouped = new Map<string, RecapEntry>();
+  for (const entry of entries.values()) {
+    const ref = refs.get(entry.eventId);
+    const tagged: RecapEntry = ref
+      ? { ...entry, matterId: ref.matterId, importance: ref.importance }
+      : entry;
+    const groupKey = ref ? `matter:${ref.matterId}` : `event:${entry.eventId}`;
+    const previous = grouped.get(groupKey);
+    if (!previous) {
+      grouped.set(groupKey, tagged);
+      continue;
+    }
+    const latest = tagged.sequence > previous.sequence ? tagged : previous;
+    grouped.set(groupKey, {
+      ...latest,
+      updates: previous.updates + tagged.updates,
+    });
+  }
+
+  const rank = (entry: RecapEntry) =>
+    entry.importance ? IMPORTANCE_RANK[entry.importance] : 0;
+  const ordered = [...grouped.values()].sort(
     (left, right) =>
-      right.sequence - left.sequence || left.key.localeCompare(right.key),
+      rank(right) - rank(left) ||
+      right.sequence - left.sequence ||
+      left.key.localeCompare(right.key),
   );
   if (ordered.length === 0) return null;
   return {
@@ -129,6 +177,9 @@ function newsSince(world: World, frontier: number): RecapEntry[] {
         personId: person.personId,
         label: person.label,
       })),
+      matterId: null,
+      importance: null,
+      updates: 1,
     }));
 }
 
@@ -174,6 +225,9 @@ function learnedSince(
       attribution: attributionFor(world, record),
       inNews: false,
       people: participantsOf(world, event, playerPersonId),
+      matterId: null,
+      importance: null,
+      updates: 1,
     });
   }
   return entries;

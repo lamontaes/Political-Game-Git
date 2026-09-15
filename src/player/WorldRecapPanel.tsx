@@ -43,6 +43,7 @@ export function WorldRecapPanel({
             <p className="pg-recap-meta">
               {proseDate(entry.at)}
               {entry.attribution ? ` · ${entry.attribution}` : ""}
+              {entry.updates > 1 ? ` · ${entry.updates} updates` : ""}
             </p>
             {entry.people.length > 0 ? (
               <p className="pg-recap-people">

@@ -102,7 +102,9 @@ describe("meaningful-change recap", () => {
     expect(recap.entries[0]).toMatchObject({
       eventId: source.id,
       inNews: true,
-      headline: published.history.publications![0]!.headline,
+      headline: published.history.publications!.find(
+        (publication) => publication.sourceEventId === source.id,
+      )!.headline,
     });
     expect(recap.throughSequence).toBe(learned.history.nextSequence);
   });
@@ -194,6 +196,8 @@ describe("meaningful-change recap", () => {
 
   it("respects the frontier and is a pure read", () => {
     const { world, playerPersonId } = opening("recap-frontier");
+    // The opening already has public matters; start after them.
+    const frontier = world.history.nextSequence;
     const acted = happen(
       world,
       otherPerson(world, playerPersonId),
@@ -206,7 +210,7 @@ describe("meaningful-change recap", () => {
       sourceEventId: acted.history.events.at(-1)!.id,
     });
     const before = serializeWorld(published);
-    const early = projectWorldRecap(published, playerPersonId, 0);
+    const early = projectWorldRecap(published, playerPersonId, frontier);
     expect(early?.entries).toHaveLength(1);
     expect(
       projectWorldRecap(
@@ -215,7 +219,9 @@ describe("meaningful-change recap", () => {
         published.history.nextSequence,
       ),
     ).toBeNull();
-    expect(projectWorldRecap(published, playerPersonId, 0)).toEqual(early);
+    expect(projectWorldRecap(published, playerPersonId, frontier)).toEqual(
+      early,
+    );
     expect(serializeWorld(published)).toBe(before);
   });
 
