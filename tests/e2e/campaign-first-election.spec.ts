@@ -106,14 +106,6 @@ async function openCampaign(page: Page) {
   await expect(page.getByTestId("work-section-campaign")).toBeVisible();
 }
 
-/** Closes Work, whichever office-holder's frame it is drawn in. */
-async function closeWork(page: Page) {
-  await page
-    .getByRole("region", { name: "Work", exact: true })
-    .getByRole("button", { name: "Close", exact: true })
-    .click();
-}
-
 function watchForErrors(page: Page): string[] {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
@@ -132,7 +124,7 @@ function watchForErrors(page: Page): string[] {
 async function liveUntilDecided(page: Page, maxDays = 45) {
   for (let day = 0; day < maxDays; day += 1) {
     if (await page.getByTestId("campaign-result").isVisible()) return true;
-    await page.getByTestId("pass-day").click();
+    await page.getByTestId("shell-pass-day").click();
   }
   return page.getByTestId("campaign-result").isVisible();
 }
@@ -173,7 +165,7 @@ test.describe("A life can stand for something", () => {
     await expect(page.getByTestId("campaign-opponents")).toHaveText(opponents);
     await expect(page.getByTestId("campaign-treasury")).toHaveText(treasury);
   });
-  test("offers a candidacy where the game has read the rules, and says how it knows", async ({
+  test("offers a candidacy where the game has read the rules, without reciting how they were compiled", async ({
     page,
   }) => {
     const errors = watchForErrors(page);
@@ -183,17 +175,35 @@ test.describe("A life can stand for something", () => {
     const campaign = page.getByTestId("campaign-section");
     await expect(campaign).toBeVisible();
     await expect(page.getByTestId("campaign-offer")).toBeVisible();
-    // Current main carries the unresolved formal count without a numeric fallback.
-    await expect(campaign).toContainText(
-      /unresolved formal count carries no numeric fallback/i,
-    );
-    // And it is willing to say what it still does not know.
-    await campaign
-      .getByText("What the game does not know about this", { exact: true })
-      .click();
-    await expect(campaign).toContainText(/no accepted source/i);
-    await expect(campaign).toContainText(
-      /no instrument establishing the size of the chamber/i,
+
+    /*
+     * This test used to require the opposite, and it was right to at the time:
+     * the screen said "the unresolved formal count carries no numeric
+     * fallback", and opened "What the game does not know about this" onto the
+     * accepted-source gaps behind it. That is a real and careful account of the
+     * rule pack's limits, and it is addressed to whoever compiles rule packs.
+     *
+     * A candidate deciding whether to stand is not that reader. The gate has
+     * not moved — an unknown seat count is still unknown and still refuses to
+     * invent a figure — but the screen no longer explains its own bookkeeping,
+     * so the offer must be there and the compilation vocabulary must not.
+     */
+    await expect(campaign).not.toContainText(/numeric fallback/i);
+    await expect(campaign).not.toContainText(/compiled research/i);
+    await expect(campaign).not.toContainText(/for this pack/i);
+    await expect(
+      campaign.getByText("What the game does not know about this", {
+        exact: true,
+      }),
+    ).toHaveCount(0);
+
+    /* The offer itself still reads like an offer. */
+    await page
+      .getByTestId("campaign-office-browser")
+      .locator('input[value="us-ky-general-assembly-v1:house"]')
+      .check();
+    await expect(page.getByTestId("campaign-offer")).toContainText(
+      /there is a .* to be filled/i,
     );
 
     expect(errors).toEqual([]);
@@ -217,7 +227,7 @@ test.describe("A life can stand for something", () => {
     // The ordinary life is untouched by the refusal: the day still moves.
     await openDay(page);
     const before = (await page.getByTestId("day-date").textContent()) ?? "";
-    await page.getByTestId("pass-day").click();
+    await page.getByTestId("shell-pass-day").click();
     await expect(page.getByTestId("day-date")).not.toHaveText(before);
 
     expect(errors).toEqual([]);
@@ -266,7 +276,7 @@ test.describe("A life can stand for something", () => {
 
     // An afternoon on the doors produces a memo, and the memo admits a margin.
     // A day only holds so much, so this one happens tomorrow.
-    await page.getByTestId("pass-day").click();
+    await page.getByTestId("shell-pass-day").click();
     await page.getByTestId("campaign-outreach").click();
     const memo = page.getByTestId("campaign-memo");
     await expect(memo).toContainText(/give or take/i);
@@ -355,7 +365,7 @@ test.describe("A life can stand for something", () => {
     const afterword = await page.getByTestId("campaign-afterword").innerText();
     await openDay(page);
     const before = (await page.getByTestId("day-date").textContent()) ?? "";
-    await page.getByTestId("pass-day").click();
+    await page.getByTestId("shell-pass-day").click();
     await expect(page.getByTestId("day-date")).not.toHaveText(before);
     await expect(page.getByTestId("play-screen")).toBeVisible();
 
@@ -409,8 +419,8 @@ test.describe("A life can stand for something", () => {
 });
 
 test.describe("P85D integration through ordinary player controls", () => {
-  for (const route of ["choice", "quiet"] as const) {
-    test(`resolves election day through the ${route} story route`, async ({
+  for (const activation of ["pointer", "keyboard"] as const) {
+    test(`resolves election day through the ${activation} Work day control`, async ({
       page,
     }) => {
       const errors = watchForErrors(page);
@@ -426,18 +436,14 @@ test.describe("P85D integration through ordinary player controls", () => {
       await openCampaign(page);
       await fileCandidacy(page);
       const before = (await page.getByTestId("day-date").textContent()) ?? "";
-      await closeWork(page);
-      if (route === "quiet") {
-        await page.getByTestId("story-let-time-pass").focus();
+      const passDay = page.getByTestId("pass-day");
+      if (activation === "keyboard") {
+        await passDay.focus();
         await page.keyboard.press("Enter");
       } else {
-        await page
-          .getByTestId("story-options")
-          .getByRole("button")
-          .first()
-          .click();
+        await passDay.click();
       }
-      await openCampaign(page);
+      expect(await liveUntilDecided(page)).toBe(true);
       await expect(page.getByTestId("campaign-result")).toBeVisible();
       await expect(page.getByTestId("day-date")).not.toHaveText(before);
       expect(errors).toEqual([]);
@@ -468,12 +474,10 @@ test.describe("P85D integration through ordinary player controls", () => {
     expect(await liveUntilDecided(page)).toBe(true);
     await expect(page.getByTestId("campaign-afterword")).toContainText("won.");
     await expect(page.getByTestId("office-section")).toHaveCount(0);
-    // The ordinary quiet-story clock processes the same pending term transition.
-    for (let step = 0; step < 12; step += 1) {
+    // The ordinary shell clock processes the same pending term transition.
+    for (let step = 0; step < 52; step += 1) {
       if (await page.getByTestId("office-section").isVisible()) break;
-      await closeWork(page);
-      await page.getByTestId("story-let-time-pass").click();
-      await openCampaign(page);
+      await page.getByTestId("shell-pass-week").click();
     }
     await expect(page.getByTestId("office-section")).toContainText(
       "Kentucky legislature",
@@ -487,6 +491,7 @@ test.describe("P85D integration through ordinary player controls", () => {
     // Where and when live on the corner cluster now, in its own label.
     expect(await shellIdentity(page)).toContain("Lexington");
     await openShellMenu(page);
+    await page.getByTestId("nav-group-politics").click();
     await page.getByTestId("elsewhere-work").focus();
     await page.keyboard.press("Space");
     await expect(page.getByTestId("office-section")).toContainText(

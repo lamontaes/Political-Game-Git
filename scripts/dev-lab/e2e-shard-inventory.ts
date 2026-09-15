@@ -14,7 +14,14 @@ export function parsePlaywrightList(output: string): string[] {
   const ids: string[] = [];
   for (const line of output.split(/\r?\n/)) {
     const match = LIST_LINE.exec(line);
-    if (match) ids.push(match[1]);
+    if (match) {
+      // Playwright's list output includes source line and column. Those
+      // coordinates can move when a generated or formatted spec is refreshed
+      // between independent inventory processes, even though the logical
+      // file/title identity is unchanged. Shard coverage is about test
+      // identity, not source coordinates.
+      ids.push(match[1].replace(/^(.+?):\d+:\d+ › /, "$1 › "));
+    }
   }
   return ids;
 }

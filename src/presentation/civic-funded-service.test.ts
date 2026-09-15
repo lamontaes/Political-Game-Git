@@ -15,6 +15,13 @@ import {
   ALASKA_REVENUE_RECORDED_SITTING,
   prepareRecordedLegislativeSitting,
 } from "./legislative-authored-sitting";
+import { projectModeledAccountHistory } from "./modeled-account-history";
+import { projectPersonDossier } from "./person-dossier";
+import { projectWorld39Journal } from "./world39-journal";
+import {
+  SERVICE_DELIVERY_RESPONSE_RULE,
+  respondToPublishedServiceReport,
+} from "../simulation/service-delivery-response";
 import { passOrdinaryDays } from "./ordinary-life";
 import { publishLegislativeTransition } from "./publish-legislative-transition";
 import {
@@ -113,6 +120,20 @@ const payments = (world: World) =>
   world.history.resourceFlows.filter(
     (flow) => flow.basisReference.kind === "public-funding",
   );
+const acknowledgments = (world: World) =>
+  world.history.events.filter(
+    (event) => event.type === "transit.service-delivery-acknowledged",
+  );
+/** The Budget page's modeled account history for the tax's own jurisdiction. */
+const accountHistory = (world: World) => {
+  const history = projectModeledAccountHistory(
+    world,
+    world.history.taxProposals!.at(-1)!.jurisdictionId,
+  );
+  if (history.status !== "recorded")
+    throw new Error("Expected a recorded modeled account.");
+  return history;
+};
 
 interface Funded {
   readonly world: World;
@@ -236,6 +257,15 @@ describe("funded civic service: decision -> collected public cash -> payment -> 
       ).toEqual(["collected", "collected"]);
       expect(cash(fullyFunded.world, account)).toBe(20_200);
       expect(payments(fullyFunded.world)).toHaveLength(0);
+      // The Budget history reads the two actual collection records, nothing else.
+      const funded = accountHistory(fullyFunded.world);
+      expect(funded.entries.map((entry) => entry.outcomeId)).toEqual(
+        fullyFunded.world.history.taxCollections!.map(
+          (row) => row.resourceOutcomeId,
+        ),
+      );
+      expect(funded.receipts).toEqual(money(20_200, "USD"));
+      expect(funded.payments).toEqual(money(0, "USD"));
 
       // Save and reopen between funding and the decision to spend.
       let world = deserializeWorld(serializeWorld(fullyFunded.world));
@@ -255,6 +285,27 @@ describe("funded civic service: decision -> collected public cash -> payment -> 
       expect(cash(world, account)).toBe(200);
       expect(bill.publicCashMinorUnits).toBe(200);
       expect(world.history.policyRealizations).toHaveLength(2);
+      // Delivery changes the scoped graph through the two payment records.
+      const delivered = accountHistory(world);
+      const paymentOutcomeIds = world.history.resourceTransferOutcomes
+        .filter((row) =>
+          payments(world).some((f) => f.id === row.resourceFlowId),
+        )
+        .map((row) => row.id);
+      expect(
+        delivered.entries
+          .filter((entry) => entry.kind === "service-payment")
+          .map((entry) => entry.outcomeId),
+      ).toEqual(paymentOutcomeIds);
+      expect(delivered.payments).toEqual(money(20_000, "USD"));
+      expect(delivered.balance).toMatchObject({
+        status: "established",
+        balance: money(200, "USD"),
+      });
+      expect(delivered.graph!.series.map((series) => series.label)).toContain(
+        "Service payments",
+      );
+      expect(delivered.graph).not.toEqual(funded.graph);
 
       const settlement = world.history.events.find(
         (e) => e.type === "transit.service-period-settled",
@@ -265,13 +316,86 @@ describe("funded civic service: decision -> collected public cash -> payment -> 
       expect(settlement.summary).toContain(
         "paid with $100.00 from the public account",
       );
+      // Delivered but unpublished: nobody else can know it, so nothing responds.
+      expect(acknowledgments(world)).toHaveLength(0);
+      const unpublished = world;
       world = publishTransitReport(world, { personId, eventId: settlement.id });
       expect(world.history.publications!.at(-1)!.body).toContain(
         "not observed ridership, travel time or access",
       );
 
+      // Published: one recorded supporter reads it and acknowledges it once.
+      const [ack] = acknowledgments(world);
+      expect(acknowledgments(world)).toHaveLength(1);
+      expect(ack!.tags).toContain(SERVICE_DELIVERY_RESPONSE_RULE);
+      const colleagueId = ack!.participants[0]!.personId;
+      expect(
+        world.history.legislativeVotes!.some(
+          (vote) =>
+            vote.measureId === transitMeasureId &&
+            vote.dispositions.some(
+              (row) =>
+                row.personId === colleagueId && row.disposition === "yea",
+            ),
+        ),
+      ).toBe(true);
+      const publication = world.history.publications!.at(-1)!;
+      // Event references link through sourceEventId; only real world entities
+      // belong in involvedEntityIds. Mixing those namespaces breaks integrity.
+      expect(ack!.involvedEntityIds).toContain(publication.id);
+      expect(ack!.involvedEntityIds).not.toContain(publication.sourceEventId);
+      expect(
+        world.history.knowledge.find(
+          (row) =>
+            row.personId === colleagueId &&
+            row.source.kind === "media" &&
+            row.source.reference === publication.id,
+        ),
+      ).toBeDefined();
+      expect(
+        world.history.knowledge.some(
+          (row) =>
+            row.personId === personId &&
+            row.eventId === ack!.id &&
+            row.source.kind === "direct",
+        ),
+      ).toBe(true);
+      const interaction = world.history.relationshipInteractions.at(-1)!;
+      expect(interaction).toMatchObject({
+        eventId: ack!.id,
+        change: "strengthened",
+        significance: "minor",
+      });
+      expect([...interaction.personIds].sort()).toEqual(
+        [colleagueId, personId].sort(),
+      );
+      // Visible in the existing dossier and in the player's Journal.
+      expect(
+        projectPersonDossier(unpublished, personId, colleagueId)!
+          .lastInteraction,
+      ).toBe("You haven't spoken.");
+      expect(
+        projectPersonDossier(world, personId, colleagueId)!.lastInteraction,
+      ).toMatch(/^You last spoke on /);
+      expect(
+        projectWorld39Journal(world, personId).entries.some(
+          (entry) => entry.sourceId === ack!.id,
+        ),
+      ).toBe(true);
+      // Replay applies nothing twice.
+      expect(
+        respondToPublishedServiceReport(world, {
+          reportEventId: publication.sourceEventId,
+        }),
+      ).toBe(world);
+
       // More time after delivery repeats no payment or service.
       const reopened = deserializeWorld(serializeWorld(world));
+      expect(accountHistory(reopened)).toEqual(accountHistory(world));
+      expect(acknowledgments(reopened)).toEqual(acknowledgments(world));
+      expect(projectWorld39Journal(reopened, personId)).toEqual(
+        projectWorld39Journal(world, personId),
+      );
       const later = passOrdinaryDays(reopened, 7);
       expect(payments(later)).toHaveLength(2);
       expect(later.history.policyRealizations).toHaveLength(2);
@@ -305,6 +429,27 @@ describe("funded civic service: decision -> collected public cash -> payment -> 
       expect(payments(world)).toHaveLength(1);
       expect(bill.paidMinorUnits).toBe(10_000);
       expect(cash(world, account)).toBe(100);
+      // The refused period records no payment in the account history.
+      const refused = accountHistory(world);
+      expect(refused.receipts).toEqual(money(10_100, "USD"));
+      expect(
+        refused.entries.filter((entry) => entry.kind === "service-payment"),
+      ).toHaveLength(1);
+      expect(refused.payments).toEqual(money(10_000, "USD"));
+      // A refused period's report draws no response; the delivered one does,
+      // in this life only.
+      const settlements = world.history.events.filter(
+        (e) => e.type === "transit.service-period-settled",
+      );
+      const blocked = settlements.find((e) =>
+        e.summary.includes("was not delivered"),
+      )!;
+      const paidPeriod = settlements.find((e) => e !== blocked)!;
+      world = publishTransitReport(world, { personId, eventId: blocked.id });
+      expect(acknowledgments(world)).toHaveLength(0);
+      world = publishTransitReport(world, { personId, eventId: paidPeriod.id });
+      expect(acknowledgments(world)).toHaveLength(1);
+      expect(acknowledgments(fullyFunded.world)).toHaveLength(0);
       expect(world.history.policyRealizations).toHaveLength(2);
       expect(
         world.history.policyRealizations.filter(
@@ -375,6 +520,21 @@ describe("funded civic service: decision -> collected public cash -> payment -> 
       ]);
       expect(payments(cancelled)).toHaveLength(0);
       expect(cash(cancelled, account)).toBe(20_200);
+      // A cancelled request is not a payment in the account history.
+      expect(accountHistory(cancelled).payments).toEqual(money(0, "USD"));
+      expect(accountHistory(cancelled).balance).toMatchObject({
+        status: "established",
+        balance: money(20_200, "USD"),
+      });
+      // A cancellation report is not delivered service and draws no response.
+      const cancellation = cancelled.history.events.find(
+        (e) => e.type === "transit.undelivered-service-cancelled",
+      )!;
+      cancelled = publishTransitReport(cancelled, {
+        personId,
+        eventId: cancellation.id,
+      });
+      expect(acknowledgments(cancelled)).toHaveLength(0);
       assertWorldIntegrity(deserializeWorld(serializeWorld(cancelled)));
     },
     LONG,

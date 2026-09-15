@@ -198,7 +198,7 @@
  */
 .title-tableau--art.front-door .game-creator {
   width: min(24rem, 100%);
-  max-height: calc(var(--pg-vv-height, 100dvh) - 2 * clamp(2rem, 6vh, 4rem));
+  max-height: 100%;
   overflow-y: auto;
   overscroll-behavior: contain;
   border: 1px solid rgb(245 235 212 / 0.14);
@@ -351,5 +351,67 @@
   .title-tableau--art.front-door .game-title h1,
   .title-tableau--art.front-door .game-title button {
     transition: none;
+  }
+}
+
+/* Role D grouping, adapted to #255's current birthday component. */
+.title-tableau--art.front-door .game-creator .creator-group {
+  margin: 0 0 0.85rem;
+  padding: 0 0 0.7rem;
+  border-bottom: 1px solid rgb(245 235 212 / 0.16);
+}
+
+.title-tableau--art.front-door .game-creator .creator-group-label {
+  display: block;
+  margin: 0 0 0.45rem;
+  color: var(--front-door-muted);
+  font-family: var(--front-door-read);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.title-tableau--art.front-door .game-creator input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.title-tableau--art.front-door
+  .game-creator
+  input[type="number"]::-webkit-outer-spin-button,
+.title-tableau--art.front-door
+  .game-creator
+  input[type="number"]::-webkit-inner-spin-button {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.title-tableau--art.front-door .game-creator .game-setup-actions {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.title-tableau--art.front-door .game-creator .game-setup-actions button {
+  min-width: 0;
+}
+
+.title-tableau--art.front-door .game-creator .game-creator-next {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+@media (height <= 50rem) {
+  .title-tableau--art.front-door .game-creator .creator-group {
+    margin-bottom: 0.55rem;
+    padding-bottom: 0.45rem;
+  }
+
+  .title-tableau--art.front-door
+    .game-creator
+    .creator-group-name
+    .game-fields {
+    grid-template-columns: 1fr 1fr;
   }
 }

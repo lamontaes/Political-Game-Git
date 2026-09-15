@@ -51,6 +51,7 @@ createRoot(document.getElementById("root")!).render(
       <BudgetEconomyWorkspace
         world={world}
         jurisdictionId={world.jurisdictionOrder[0]!}
+        diagnostics
       />
     </main>
   </StrictMode>,

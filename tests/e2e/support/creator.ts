@@ -195,9 +195,34 @@ export async function openShellMenu(page: Page): Promise<void> {
 }
 
 /** Opens the cluster and presses one of its destinations. */
-export async function goTo(page: Page, testid: string): Promise<void> {
+async function revealShellDestination(page: Page, testid: string) {
   await openShellMenu(page);
-  await page.getByTestId(testid).click();
+  const destination = page.getByTestId(testid);
+  if (await destination.isVisible()) return destination;
+  const group = [
+    "elsewhere-work",
+    "nav-municipal",
+    "nav-politics-budget",
+    "nav-politics-candidacy",
+    "nav-politics-tax",
+    "nav-politics-transit",
+  ].includes(testid)
+    ? "politics"
+    : ["nav-finances", "nav-jobs", "nav-personal"].includes(testid)
+      ? "personal"
+      : null;
+  if (group) {
+    const back = page.getByTestId("nav-submenu-back");
+    if (await back.isVisible()) await back.click();
+    await page.getByTestId(`nav-group-${group}`).click();
+  }
+  await expect(destination).toBeVisible();
+  return destination;
+}
+
+/** Opens the cluster and presses one of its destinations. */
+export async function goTo(page: Page, testid: string): Promise<void> {
+  await (await revealShellDestination(page, testid)).click();
 }
 
 /**
@@ -234,8 +259,10 @@ export async function openElsewhere(
   page: Page,
   key: "day" | "people" | "work",
 ): Promise<void> {
-  await openShellMenu(page);
-  const control = page.getByTestId(`elsewhere-${key}`);
+  const control = await revealShellDestination(
+    page,
+    key === "day" ? "nav-calendar" : `elsewhere-${key}`,
+  );
   await expect(control).toBeVisible();
   if ((await control.getAttribute("aria-pressed")) === "true") {
     /* Already open behind the flyout; close the flyout and leave it open. */

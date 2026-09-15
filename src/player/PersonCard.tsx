@@ -116,10 +116,8 @@ export function PersonCard({
     return [
       {
         personId: otherId,
-        // The player at the other end of a line is "You", not their own name.
-        name: otherId === playerId ? "You" : node.name,
-        label:
-          otherId === playerId ? edge.label : (node.relationship ?? edge.label),
+        name: node.name,
+        label: otherId === playerId ? "you" : (node.relationship ?? edge.label),
         kind: edge.kind,
       },
     ];
@@ -189,14 +187,7 @@ export function PersonCard({
               >
                 You
               </p>
-            ) : (
-              <p
-                className="pg-person-card-relation"
-                data-testid="dossier-relation-unknown"
-              >
-                No record establishes a relationship.
-              </p>
-            )}
+            ) : null}
             {!alive ? (
               <p className="pg-right-now" data-testid="person-card-deceased">
                 No longer living.
@@ -267,13 +258,6 @@ export function PersonCard({
             >
               You don&rsquo;t know much about {dossier.shortName} yet.
             </p>
-          ) : null}
-          {expanded && dossier.notKnown.length > 0 ? (
-            <ul className="pg-not-known" data-testid="dossier-not-known">
-              {dossier.notKnown.map((line) => (
-                <li key={line}>{line}</li>
-              ))}
-            </ul>
           ) : null}
           {!expanded && onExpand && (dossier.details.length > 3 || true) ? (
             <button

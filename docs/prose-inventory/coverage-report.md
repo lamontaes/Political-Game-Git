@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 2772 |
-| INTENTIONALLY_NON_PLAYER_FACING | 6403 |
-| DIAGNOSTIC_OR_TEST | 6002 |
-| **NEEDS_CLASSIFICATION** | **7551** |
+| INVENTORIED | 2774 |
+| INTENTIONALLY_NON_PLAYER_FACING | 6408 |
+| DIAGNOSTIC_OR_TEST | 6084 |
+| **NEEDS_CLASSIFICATION** | **7619** |
 
-Scanned 821 files holding 88114 string
+Scanned 834 files holding 88782 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -39,7 +39,7 @@ literals in total; the table counts only those that read like a sentence.
 | 222 | `src/presentation/run-b-conversation.ts` |
 | 214 | `src/simulation/executive-authority-rule-packs.ts` |
 | 199 | `src/simulation/legislation-service-families.ts` |
-| 136 | `src/player/PlayerGame.tsx` |
+| 140 | `src/player/PlayerGame.tsx` |
 | 128 | `src/simulation/legislation.ts` |
 | 119 | `src/simulation/opening-life-content.ts` |
 | 117 | `src/simulation/civil-personnel-actions.ts` |
@@ -95,15 +95,16 @@ literals in total; the table counts only those that read like a sentence.
 | 31 | `src/simulation/career-path7.ts` |
 | 31 | `src/simulation/politics.ts` |
 | 30 | `src/presentation/office-onboarding.ts` |
+| 30 | `src/presentation/world39-news.ts` |
 | 30 | `src/simulation/people.ts` |
 | 29 | `src/presentation/run-d-lite.ts` |
-| 29 | `src/presentation/world39-news.ts` |
 | 29 | `src/simulation/executive-work.ts` |
 | 28 | `src/content/adapters/simulation-catalogs.ts` |
 | 28 | `src/presentation/legislation-session.ts` |
 | 28 | `src/presentation/life-conversation.ts` |
 | 28 | `src/ui/MindProfile.tsx` |
 | 27 | `src/presentation/garment-fit.ts` |
+| 27 | `src/presentation/player-copy.ts` |
 | 27 | `src/simulation/transit-service.ts` |
 | 26 | `src/simulation/life-content-92c.ts` |
 | 25 | `src/player/SceneConversation.tsx` |
@@ -140,12 +141,12 @@ literals in total; the table counts only those that read like a sentence.
 | 19 | `src/simulation/world.ts` |
 | 18 | `src/content/adapters/setup-questionnaire.ts` |
 | 18 | `src/player/CalendarWorkspace.tsx` |
+| 18 | `src/player/EconomicContextPanel.tsx` |
 | 18 | `src/player/municipal-directory.ts` |
 | 18 | `src/simulation/records.ts` |
 | 17 | `src/content/adapters/conversation-subjects.ts` |
 | 17 | `src/player/ConstitutionalWorkspace.tsx` |
 | 17 | `src/player/ConversationStrip.tsx` |
-| 17 | `src/player/EconomicContextPanel.tsx` |
 | 17 | `src/player/MeasurePaperWorkspace.tsx` |
 | 17 | `src/presentation/legislation-estimate-action.ts` |
 | 17 | `src/presentation/legislative-member-seat.ts` |
@@ -200,19 +201,20 @@ literals in total; the table counts only those that read like a sentence.
 | 12 | `src/simulation/quantity.ts` |
 | 12 | `src/simulation/vitality.ts` |
 | 11 | `src/content/adapters/life-situations.ts` |
-| 11 | `src/player/EducationOptionsPanel.tsx` |
 | 11 | `src/player/PublicInformationPanel.tsx` |
-| 11 | `src/presentation/person-dossier.ts` |
+| 11 | `src/presentation/modeled-account-history.ts` |
 | 11 | `src/presentation/scene-placement.ts` |
 | 11 | `src/simulation/political-belief-formation.ts` |
 | 11 | `src/simulation/tax-policy.ts` |
 | 11 | `src/ui/SceneAuthoringProofView.tsx` |
 | 11 | `src/ui/scene-venue-exercise.ts` |
+| 10 | `src/player/EducationOptionsPanel.tsx` |
 | 10 | `src/player/MeasureFloorSurface.tsx` |
 | 10 | `src/player/PlacesWorkspace.tsx` |
 | 10 | `src/player/World39News.tsx` |
 | 10 | `src/presentation/legislative-authored-sitting.ts` |
 | 10 | `src/presentation/life-record.ts` |
+| 10 | `src/presentation/person-dossier.ts` |
 | 10 | `src/presentation/production-world.ts` |
 | 10 | `src/presentation/relationship-web.ts` |
 | 10 | `src/simulation/office-qualification-rules.ts` |
@@ -228,6 +230,8 @@ literals in total; the table counts only those that read like a sentence.
 | 9 | `src/simulation/constitutional-process.ts` |
 | 9 | `src/simulation/national-election-consumer.ts` |
 | 9 | `src/ui/LocationCompositionReview.tsx` |
+| 8 | `src/player/CareerPathsPanel.tsx` |
+| 8 | `src/player/NationwideCandidacyWorkspace.tsx` |
 | 8 | `src/player/PeopleRelationshipWeb.tsx` |
 | 8 | `src/player/PinRail.tsx` |
 | 8 | `src/player/PlayerOffice.tsx` |
@@ -260,9 +264,9 @@ literals in total; the table counts only those that read like a sentence.
 | 7 | `src/simulation/judicial-office-start.ts` |
 | 7 | `src/simulation/legislative-office-terms.ts` |
 | 7 | `src/simulation/starting-birthday.ts` |
-| 6 | `src/player/CareerPathsPanel.tsx` |
 | 6 | `src/player/LegislationWorkspace.tsx` |
 | 6 | `src/player/LifeFavorPanel.tsx` |
+| 6 | `src/player/ModeledAccountHistory.tsx` |
 | 6 | `src/player/ModularCharacter.tsx` |
 | 6 | `src/player/PersonalRoutinePanel.tsx` |
 | 6 | `src/player/SceneBackdrop.tsx` |
@@ -297,6 +301,7 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/simulation/incident-response.fixture.ts` |
 | 5 | `src/simulation/life-callbacks.ts` |
 | 5 | `src/simulation/municipal-election-rules.ts` |
+| 5 | `src/simulation/service-delivery-response.ts` |
 | 5 | `src/ui/ScenePresentationProofView.tsx` |
 | 4 | `src/districts/query.ts` |
 | 4 | `src/education/catalog.ts` |
@@ -333,6 +338,7 @@ literals in total; the table counts only those that read like a sentence.
 | 3 | `src/simulation/judicial-gameplay-kernels.ts` |
 | 3 | `src/simulation/legislation-drafting.ts` |
 | 3 | `src/simulation/life-choice-evidence.ts` |
+| 3 | `src/simulation/nationwide-world/local-governments.ts` |
 | 3 | `src/simulation/perception.ts` |
 | 3 | `src/simulation/policy-decision.ts` |
 | 3 | `src/simulation/transit-contract-definitions.ts` |
@@ -364,6 +370,7 @@ literals in total; the table counts only those that read like a sentence.
 | 2 | `src/simulation/nationwide-world/rules-capability-binding.ts` |
 | 2 | `src/simulation/nationwide-world/state-executive-terms.ts` |
 | 2 | `src/simulation/office-qualifications.generated.ts` |
+| 2 | `src/simulation/place-county-relations.generated.ts` |
 | 2 | `src/ui/LifePaths2Proof.tsx` |
 | 2 | `src/ui/PeopleList.tsx` |
 | 1 | `src/player/CreatorBirthdayFields.tsx` |

@@ -14,9 +14,33 @@ import {
   LEXINGTON_ECONOMIC_BINDING,
 } from "../player/EconomicContextPanel";
 
+import { forbiddenPlayerPhrasesIn } from "./player-copy";
+
 const ROOT = resolve(import.meta.dirname, "../..");
 
-describe("EconomicContextView", () => {
+/**
+ * The words a reader actually sees.
+ *
+ * Judging raw markup would fail on `data-record-class` and on href attributes
+ * that carry a URL the player never reads, so tags come out first and only the
+ * text between them is tested.
+ */
+function stripMarkup(html: string): string {
+  return html
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&[a-z]+;/gi, " ")
+    .replace(/\s+/g, " ");
+}
+
+/**
+ * Two profiles over one panel.
+ *
+ * Everything this file asserted before is still asserted — it just says
+ * `diagnostics: true` first, because that is who those lines were always for.
+ * The second describe is the new half: the same context, the same numbers, and
+ * none of the machinery, which is what ordinary play renders.
+ */
+describe("EconomicContextView under the diagnostic profile", () => {
   it("renders accessible exact-value fallbacks and distinct record classes", async () => {
     const provider = createEconomicContextBrowserProvider({
       fetchJson: async (url) =>
@@ -45,6 +69,7 @@ describe("EconomicContextView", () => {
       createElement(EconomicContextView, {
         context,
         fiscalGraphs: [estimate],
+        diagnostics: true,
       }),
     );
 
@@ -61,6 +86,44 @@ describe("EconomicContextView", () => {
     expect(html).not.toContain("fiscal-estimate");
     expect(html).toContain("SHA-256");
     expect(html).not.toContain("simulated future GDP");
+  });
+});
+
+describe("EconomicContextView as ordinary play renders it", () => {
+  it("keeps the figures and drops the machinery that produced them", async () => {
+    const provider = createEconomicContextBrowserProvider({
+      fetchJson: async (url) =>
+        JSON.parse(
+          readFileSync(resolve(ROOT, "public", url.replace(/^\//, "")), "utf8"),
+        ) as unknown,
+    });
+    const context = await provider.query(
+      LEXINGTON_ECONOMIC_BINDING,
+      "2026-09-09",
+    );
+    const html = renderToStaticMarkup(
+      createElement(EconomicContextView, { context }),
+    );
+
+    /* The civic content is the point of the screen and survives untouched. */
+    expect(html).toContain('data-testid="economic-context-panel"');
+    expect(html).toContain("Fayette, KY");
+    expect(html).toContain("Exact values");
+    expect(html).toContain("observations");
+
+    /*
+     * And none of the ingestion record reaches the player: no retrieval date,
+     * no artifact digest, no provider link, no record-class vocabulary, and no
+     * statement about what the engine does with missing data.
+     */
+    const offenders = forbiddenPlayerPhrasesIn(stripMarkup(html));
+    expect(
+      offenders.map((entry) => `${entry.pattern.source} — ${entry.because}`),
+    ).toEqual([]);
+    expect(html).not.toContain("SHA-256");
+    expect(html).not.toContain("Sources and scope");
+    expect(html).not.toContain("Not established");
+    expect(html).not.toContain("simulated history");
   });
 });
 
@@ -82,7 +145,9 @@ describe("EconomicGraph sparse and exact records", () => {
         recordClass: "simulated-history" as const,
       })),
     )!;
-    return renderToStaticMarkup(createElement(EconomicGraph, { graph }));
+    return renderToStaticMarkup(
+      createElement(EconomicGraph, { graph, diagnostics: true }),
+    );
   }
 
   it("shows isolated observations without inventing a line through a missing period", () => {
