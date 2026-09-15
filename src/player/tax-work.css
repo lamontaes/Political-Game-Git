@@ -1,0 +1,29 @@
+.tax-work {
+  display: grid;
+  gap: 0.75rem;
+  min-inline-size: 0;
+}
+.tax-work label {
+  display: grid;
+  gap: 0.25rem;
+  margin-block: 0.6rem;
+}
+.tax-work input:not([type="checkbox"]),
+.tax-work textarea {
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-inline-size: 0;
+  max-inline-size: 36rem;
+  font: inherit;
+}
+.tax-work button,
+.tax-work summary {
+  font: inherit;
+  cursor: pointer;
+}
+.tax-work button:disabled {
+  cursor: default;
+}
+.tax-work article {
+  padding-block: 0.5rem;
+}

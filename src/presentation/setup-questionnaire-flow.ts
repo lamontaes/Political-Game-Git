@@ -1,3 +1,4 @@
+import { TEXT39_UI_COPY } from "./text39-ui-copy";
 import {
   nextQuestionnaireStep,
   questionnaireLength,
@@ -92,11 +93,11 @@ export function questionnairePathNote(
 ): string {
   switch (path) {
     case "short":
-      return `${questionnairePathCeiling("short", setup)} situations, and then straight in.`;
+      return `Up to ${questionnairePathCeiling("short", setup)} imagined situations. You can start playing sooner.`;
     case "deep":
-      return "As many as it takes. It stops on its own when it has enough, and you can start the life at any point.";
+      return TEXT39_UI_COPY.questionnaireNote;
     case "skipped":
-      return "Skip these and let the game learn from what you do.";
+      return "Start playing without answering setup questions.";
   }
 }
 

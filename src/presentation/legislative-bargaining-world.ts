@@ -1,24 +1,24 @@
+import { ensureContextPerson } from "./legislative-context-person";
+import { hasRecordedLegislativeSitting } from "./legislative-authored-sitting";
+import {
+  legislativePackForJurisdiction,
+  legislativeWorkKey,
+} from "../simulation/legislative-institutions";
 import { regularSessionActionRefusal } from "./legislative-session-window";
 import {
-  applyCharacterHistoryPlan,
   chamberByKey,
   characterHistoryContextPersonId,
-  drawCanonicalName,
   floorStageByKey,
   legislativeBlueprint,
-  lifePlaceByJurisdictionId,
-  makeIsoDate,
   measurePosition,
   recordFiledProvision,
   recordWorldEvent,
   seatBodyForPack,
   authoredScenarioSeatCount,
   personName,
-  SeededRng,
 } from "../simulation";
 import type {
   EntityId,
-  IsoDate,
   LegislativeBlueprint,
   SeatedBody,
   World,
@@ -128,15 +128,20 @@ export function openLegislativeBargaining(
   const governingJurisdictionId = memberSeat.governingJurisdictionId;
   // The scenario surface belongs to the governing state the seat records —
   // never to where the member lives.
-  const scenarioKey =
-    lifePlaceByJurisdictionId(governingJurisdictionId)?.capabilities
-      .legislativeScenarioKey ?? null;
+  const governingPack = legislativePackForJurisdiction(governingJurisdictionId);
+  const scenarioKey = governingPack ? legislativeWorkKey(governingPack) : null;
   if (!scenarioKey) {
     return {
       kind: "unavailable",
       reason: "The governing state has no accepted rule-pack surface.",
     };
   }
+  if (scenarioKey.startsWith("institution:"))
+    return {
+      kind: "unavailable",
+      reason:
+        "This institution has no supplied deliberation brief or recorded member decisions for this bill. Its supported procedural actions remain available in the office.",
+    };
   const docketKey = input.docketKey ?? null;
   if (docketKey === null && !bargainingBriefSupports(scenarioKey)) {
     return {
@@ -182,6 +187,12 @@ export function openLegislativeBargaining(
     };
   }
   const measureId = measure.id;
+  if (hasRecordedLegislativeSitting(world, measureId))
+    return {
+      kind: "unavailable",
+      reason:
+        "This recorded fictional sitting supplies ballots, not deliberation decisions. Follow its supported procedure from the office.",
+    };
   if (measure.jurisdictionId !== governingJurisdictionId) {
     return {
       kind: "unavailable",
@@ -415,45 +426,6 @@ function draftFiscalNoteSummary(world: World, docket: DocketBill): string {
   return ceiling === null
     ? `A fiscal note on ${docket.designation} as filed records that the Act appropriates nothing, and that the ${invited} requested under Section ${reread.amendmentInvitation.sectionNumber} would be a new appropriation rather than a call on an existing one.`
     : `A fiscal note on ${docket.designation} as filed put the stated exposure at ${ceiling}, with the caveat that the ${invited} requested under Section ${reread.amendmentInvitation.sectionNumber} would sit on top of that figure rather than inside it.`;
-}
-
-/** Whether these two people have any recorded history with each other. */
-function ensureContextPerson(
-  world: World,
-  input: {
-    readonly stableKey: string;
-    readonly playerPersonId: EntityId;
-    readonly jurisdictionId: EntityId;
-  },
-): World {
-  const personId = characterHistoryContextPersonId(world, input.stableKey);
-  if (world.people[personId]) return world;
-  const rng = new SeededRng(world.seed).fork(input.stableKey);
-  const name = drawCanonicalName(rng);
-  return applyCharacterHistoryPlan(world, {
-    stableKey: input.stableKey,
-    mode: "quick-generated",
-    personId: input.playerPersonId,
-    transitions: [
-      {
-        kind: "context-person",
-        input: {
-          stableKey: input.stableKey,
-          givenName: name.givenName,
-          familyName: name.familyName,
-          birthDate: colleagueBirthDate(world.currentDate),
-          homeJurisdictionId: input.jurisdictionId,
-        },
-      },
-    ],
-  }).world;
-}
-
-/** An adult old enough to be seated. No other claim is made about them. */
-function colleagueBirthDate(currentDate: IsoDate): IsoDate {
-  return makeIsoDate(
-    `${Number(currentDate.slice(0, 4)) - 51}${currentDate.slice(4)}`,
-  );
 }
 
 function ensureFiledBillText(

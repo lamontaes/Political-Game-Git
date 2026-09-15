@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type RefObject } from "react";
 
 import type {
   ShellAction,
+  ShellSection,
   ShellState,
   ShellSurface,
 } from "../presentation/shell-navigation";
@@ -16,12 +17,6 @@ import type {
  * moment you are aiming at it, which is exactly when being small hurts. The
  * approach zone reaches past the element, so it has already grown by the time
  * the pointer arrives.
- *
- * Distance is measured to the RECTANGLE rather than to its centre, so a wide
- * control responds evenly along its whole length. The listener is passive and
- * coalesces into one animation frame: a pointermove handler doing layout work
- * on every event is a stutter, and a stuttering proximity effect is worse than
- * no proximity effect.
  */
 export function useProximity(
   ref: RefObject<HTMLElement | null>,
@@ -52,7 +47,6 @@ export function useProximity(
       pending = { x: event.clientX, y: event.clientY };
       if (frame === 0) frame = window.requestAnimationFrame(evaluate);
     };
-    /* A pointer that has left the window is not approaching anything. */
     const onLeave = () => setNear(false);
 
     window.addEventListener("pointermove", onMove, { passive: true });
@@ -69,60 +63,72 @@ export function useProximity(
   return near;
 }
 
+/**
+ * One destination the menu can open.
+ *
+ * `group` is the accepted top-level entry it sits under. A top-level entry
+ * with exactly one destination opens it directly; one with several opens a
+ * single submenu level, never more.
+ */
 export interface ShellDestination {
   readonly surface: ShellSurface;
+  readonly section?: ShellSection;
   readonly label: string;
   readonly hint: string;
-  /**
-   * The control's stable identity for proofs.
-   *
-   * Named rather than derived because several of these destinations existed
-   * before the cluster did, under the names the browser proofs already use, and
-   * moving a control into a menu is not a reason to silently drop the coverage
-   * that was pointing at it.
-   */
+  /** Stable identity for the browser proofs. */
   readonly testid: string;
-  /** True when this destination is the surface currently open. */
   readonly open: boolean;
-  /** Which heading it sits under in the open menu. */
   readonly group: ShellDestinationGroup;
 }
 
-/**
- * The menu's headings, in the order they are read.
- *
- * A long ungrouped destination column made "the day", "the room" and "life
- * scenes" read as three names for one place and hid the real ones among them.
- * Grouped, the column says what kind of thing each entry is before the player
- * reads its name: what to do with the time, the people and places of the
- * world, the character's own record, and the game itself.
- */
+/** The accepted grouping, in reading order. Save and Quit follow. */
 export type ShellDestinationGroup =
-  "now" | "world" | "politics" | "you" | "game";
+  | "calendar"
+  | "people"
+  | "politics"
+  | "news"
+  | "journal"
+  | "personal"
+  | "travel"
+  | "options";
 
-const GROUP_HEADINGS: Readonly<Record<ShellDestinationGroup, string>> = {
-  now: "Your time",
-  world: "People and places",
-  politics: "Politics",
-  you: "You",
-  game: "Game",
+const GROUP_LABELS: Readonly<
+  Record<ShellDestinationGroup, { label: string; hint: string }>
+> = {
+  calendar: { label: "Calendar", hint: "Today, what is next, and your time" },
+  people: { label: "People", hint: "Who you know, and how" },
+  politics: { label: "Politics", hint: "Office, elections and government" },
+  news: { label: "News", hint: "What has been published" },
+  journal: { label: "Journal", hint: "Your private notes and chapters" },
+  personal: { label: "Personal", hint: "You, work and study, money" },
+  travel: { label: "Travel", hint: "Where you are and where you can go" },
+  options: { label: "Options", hint: "Settings and this build" },
 };
 
 const GROUP_ORDER: readonly ShellDestinationGroup[] = [
-  "now",
-  "world",
+  "calendar",
+  "people",
   "politics",
-  "you",
-  "game",
+  "news",
+  "journal",
+  "personal",
+  "travel",
+  "options",
 ];
 
+/** Which submenu a group opens when it holds several destinations. */
+function submenuFor(group: ShellDestinationGroup): "personal" | "politics" {
+  return group === "politics" ? "politics" : "personal";
+}
+
 /**
- * The quiet corner cluster and its upward-opening stack.
+ * The corner cluster, its hidden-until-opened list, and the day controls.
  *
- * One submenu level at most, and a submenu is DARKER SLATE with a brass edge
- * and an offset — never the near-white submenu that was expressly rejected.
- * Closed, it is the identity, the date and the place: who you are, then when,
- * then where, and nothing else competing with the room.
+ * Closed, it is who you are, when, and where — plus two quiet controls that
+ * move the day or the week through the existing clock. Open, it is the
+ * accepted list: Calendar, People, Politics, News, Journal, Personal, Travel,
+ * Save, Options, Quit. One submenu level at most, drawn darker than its
+ * parent. Quit asks about saving first when the life is not saved.
  */
 export function ShellNav({
   state,
@@ -135,6 +141,8 @@ export function ShellNav({
   unsaved,
   onSave,
   onLeave,
+  onPassDays,
+  passing = false,
 }: {
   readonly state: ShellState;
   readonly dispatch: (action: ShellAction) => void;
@@ -146,19 +154,15 @@ export function ShellNav({
   readonly unsaved: boolean;
   readonly onSave: () => void;
   readonly onLeave: () => void;
+  /** Day and week through the canonical clock. Absent while growing up. */
+  readonly onPassDays?: (days: 1 | 7) => void;
+  readonly passing?: boolean;
 }) {
   const open = state.navigation !== "closed";
   const navRef = useRef<HTMLElement>(null);
   const [focusWithin, setFocusWithin] = useState(false);
   const near = useProximity(navRef, 190);
 
-  /*
-   * Three ways in, one state. Pointer approach, keyboard focus and the menu
-   * being open all raise the cluster identically, so nothing here is reachable
-   * only by hovering — which is the accessibility rule, and also just what a
-   * keyboard player expects.
-   */
-  // An unmounted focused menu item does not emit blur. Recheck the live tree.
   useEffect(() => {
     const check = () =>
       setFocusWithin(Boolean(navRef.current?.contains(document.activeElement)));
@@ -169,23 +173,50 @@ export function ShellNav({
       document.removeEventListener("focusin", check);
       document.removeEventListener("focusout", check);
     };
-  }, [state.navigation]);
-  const raised = open || near || focusWithin;
+  }, [state.navigation, state.confirmingLeave]);
+  const raised = open || near || focusWithin || state.confirmingLeave;
   const place = placeName ?? "Somewhere on record";
 
   /*
-   * Personal is the one destination with children, so it is the one entry that
-   * opens a submenu. Everything else — the journal included — stays a single
-   * press from the closed cluster, because burying a major destination one
-   * level down to tidy a list is how a menu stops being usable.
+   * Focus follows the list. Opening the menu puts the keyboard on its first
+   * entry; opening a submenu puts it on the way back. Nothing here is reachable
+   * only by hovering.
    */
-  const primary = destinations.filter((entry) => entry.surface !== "personal");
-  const personalAvailable = destinations.some(
-    (entry) => entry.surface === "personal",
+  const flyoutRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const first =
+      flyoutRef.current?.querySelector<HTMLElement>('[role="menuitem"]');
+    first?.focus();
+  }, [open, state.navigation]);
+
+  const go = (entry: ShellDestination) =>
+    dispatch({
+      type: "go-to-surface",
+      surface: entry.surface,
+      ...(entry.section ? { section: entry.section } : {}),
+    });
+
+  const renderEntry = (entry: ShellDestination, label = entry.label) => (
+    <button
+      key={`${entry.surface}:${entry.section ?? ""}`}
+      type="button"
+      role="menuitem"
+      data-testid={entry.testid}
+      aria-pressed={entry.open}
+      onClick={() => go(entry)}
+    >
+      {label}
+      <small>{entry.hint}</small>
+    </button>
   );
-  const journalAvailable = destinations.some(
-    (entry) => entry.surface === "journal",
-  );
+
+  const submenuGroup: ShellDestinationGroup | null =
+    state.navigation === "personal"
+      ? "personal"
+      : state.navigation === "politics"
+        ? "politics"
+        : null;
 
   return (
     <nav
@@ -195,131 +226,85 @@ export function ShellNav({
       data-state={open ? "open" : raised ? "near" : "rest"}
       data-testid="shell-nav"
     >
-      <button
-        type="button"
-        className="pg-nav-cluster"
-        data-testid="shell-nav-cluster"
-        aria-expanded={open}
-        aria-controls={open ? "pg-nav-flyout" : undefined}
-        aria-label={`${playerName}. ${dateLabel}. ${place}. Open navigation.`}
-        onClick={() => dispatch({ type: "toggle-navigation" })}
-      >
-        {/*
-          The button's own box stays at full size in every proximity state and
-          only the surface inside it scales. That is what keeps the click target
-          stable: the thing under the cursor never shrinks out from under a
-          press, and nothing in the room reflows.
-        */}
-        <span className="pg-nav-cluster-inner" aria-hidden="true">
-          <span className="pg-nav-emblem">✦</span>
-          <span className="pg-nav-copy">
-            <span className="pg-nav-identity" data-testid="shell-nav-identity">
-              {playerName}
+      <div className="pg-nav-row">
+        <button
+          type="button"
+          className="pg-nav-cluster"
+          data-testid="shell-nav-cluster"
+          aria-expanded={open}
+          aria-controls={open ? "pg-nav-flyout" : undefined}
+          aria-label={`${playerName}. ${dateLabel}. ${place}. Open navigation.`}
+          onClick={() => dispatch({ type: "toggle-navigation" })}
+        >
+          <span className="pg-nav-cluster-inner" aria-hidden="true">
+            <span className="pg-nav-copy">
+              <span
+                className="pg-nav-identity"
+                data-testid="shell-nav-identity"
+              >
+                <span className="life-identity-name" data-testid="story-who">
+                  {playerName}
+                </span>
+                {unsaved ? (
+                  <span
+                    className="pg-nav-unsaved"
+                    title="This life has not been saved yet."
+                  >
+                    unsaved
+                  </span>
+                ) : null}
+              </span>
+              <span className="pg-nav-date" data-testid="story-when">
+                {dateLabel}
+              </span>
+              <span className="pg-nav-place">{place}</span>
             </span>
-            <span className="pg-nav-date">{dateLabel}</span>
-            <span className="pg-nav-place">{place}</span>
           </span>
-        </span>
-      </button>
+        </button>
+        {onPassDays ? (
+          <div
+            className="pg-nav-days"
+            role="group"
+            aria-label="Move time"
+            data-testid="shell-day-controls"
+          >
+            <button
+              type="button"
+              className="pg-nav-day"
+              data-testid="shell-pass-day"
+              disabled={passing}
+              title="Let the day run through your routine. Stops for anything that needs you."
+              onClick={() => onPassDays(1)}
+            >
+              Day <span aria-hidden="true">›</span>
+            </button>
+            <button
+              type="button"
+              className="pg-nav-day"
+              data-testid="shell-pass-week"
+              disabled={passing}
+              title="Let the week run through your routine. Stops for anything that needs you."
+              onClick={() => onPassDays(7)}
+            >
+              Week <span aria-hidden="true">»</span>
+            </button>
+          </div>
+        ) : null}
+      </div>
 
       {open ? (
         <div
           id="pg-nav-flyout"
           className="pg-nav-flyout"
-          data-level={state.navigation === "primary" ? "primary" : "submenu"}
+          data-level={submenuGroup ? "submenu" : "primary"}
           data-testid="shell-nav-flyout"
           role="menu"
           aria-label={
-            state.navigation === "primary" ? "Main navigation" : "Personal"
+            submenuGroup ? GROUP_LABELS[submenuGroup].label : "Main navigation"
           }
+          ref={flyoutRef}
         >
-          {state.navigation === "primary" ? (
-            <>
-              {/*
-                No "The room" entry.
-
-                Every workspace frame already carries Back and Close, and Close
-                dispatches exactly this. A menu entry that repeats the control
-                sitting at the top of the surface the player is looking at is
-                one more thing to read on the way to the thing they wanted, and
-                from the room itself it did nothing at all. The owner's word for
-                it was "a useless button". Returning to the room is unchanged.
-              */}
-              {GROUP_ORDER.map((group) => {
-                const entries = primary.filter(
-                  (entry) => entry.group === group,
-                );
-                const withPersonal = group === "you" && personalAvailable;
-                if (entries.length === 0 && !withPersonal) return null;
-                return (
-                  <div
-                    key={group}
-                    role="group"
-                    aria-label={GROUP_HEADINGS[group]}
-                    className="pg-nav-group"
-                    data-testid={`nav-group-${group}`}
-                  >
-                    <p className="pg-nav-heading" aria-hidden="true">
-                      {GROUP_HEADINGS[group]}
-                    </p>
-                    {entries.map((entry) => (
-                      <button
-                        key={entry.surface}
-                        type="button"
-                        role="menuitem"
-                        data-testid={entry.testid}
-                        aria-pressed={entry.open}
-                        onClick={() =>
-                          dispatch({
-                            type: "go-to-surface",
-                            surface: entry.surface,
-                          })
-                        }
-                      >
-                        {entry.label}
-                        <small>{entry.hint}</small>
-                      </button>
-                    ))}
-                    {withPersonal ? (
-                      <button
-                        type="button"
-                        role="menuitem"
-                        data-testid="nav-personal-group"
-                        onClick={() =>
-                          dispatch({
-                            type: "open-nav-submenu",
-                            submenu: "personal",
-                          })
-                        }
-                      >
-                        Personal
-                        <small>You, the household, money ••</small>
-                      </button>
-                    ) : null}
-                  </div>
-                );
-              })}
-              {canSave ? (
-                <button
-                  type="button"
-                  role="menuitem"
-                  data-testid={unsaved ? "keep-world" : "save-world"}
-                  onClick={onSave}
-                >
-                  {unsaved ? "Keep this life" : "Save this life"}
-                  {unsaved ? <small>Not saved yet</small> : null}
-                </button>
-              ) : null}
-              <button
-                type="button"
-                role="menuitem"
-                data-testid="leave-game"
-                onClick={onLeave}
-              >
-                Main menu
-              </button>
-            </>
-          ) : (
+          {submenuGroup ? (
             <>
               <button
                 type="button"
@@ -329,54 +314,124 @@ export function ShellNav({
               >
                 ← Back
               </button>
-              <p className="pg-nav-heading">Personal</p>
-              <button
-                type="button"
-                role="menuitem"
-                data-testid="nav-personal"
-                onClick={() =>
-                  dispatch({
-                    type: "go-to-surface",
-                    surface: "personal",
-                    section: "identity",
-                  })
+              <p className="pg-nav-heading">
+                {GROUP_LABELS[submenuGroup].label}
+              </p>
+              {destinations
+                .filter((entry) => entry.group === submenuGroup)
+                .map((entry) => renderEntry(entry))}
+            </>
+          ) : (
+            <>
+              {GROUP_ORDER.map((group) => {
+                const entries = destinations.filter(
+                  (entry) => entry.group === group,
+                );
+                if (entries.length === 0) return null;
+                const meta = GROUP_LABELS[group];
+                if (entries.length === 1) {
+                  const only = entries[0]!;
+                  return renderEntry(
+                    { ...only, hint: only.hint || meta.hint },
+                    meta.label,
+                  );
                 }
-              >
-                Who you are
-                <small>Identity, household, what you have done</small>
-              </button>
-              <button
-                type="button"
-                role="menuitem"
-                data-testid="nav-finances"
-                onClick={() =>
-                  dispatch({
-                    type: "go-to-surface",
-                    surface: "personal",
-                    section: "finances",
-                  })
-                }
-              >
-                Money and property
-                <small>
-                  Yours, the household&rsquo;s, the committee&rsquo;s
-                </small>
-              </button>
-              {journalAvailable ? (
+                return (
+                  <button
+                    key={group}
+                    type="button"
+                    role="menuitem"
+                    aria-haspopup="menu"
+                    data-testid={`nav-group-${group}`}
+                    aria-pressed={entries.some((entry) => entry.open)}
+                    onClick={() =>
+                      dispatch({
+                        type: "open-nav-submenu",
+                        submenu: submenuFor(group),
+                      })
+                    }
+                  >
+                    {meta.label}
+                    <small>{meta.hint} ••</small>
+                  </button>
+                );
+              })}
+              <div className="pg-nav-persist">
+                {canSave ? (
+                  <button
+                    type="button"
+                    role="menuitem"
+                    data-testid={unsaved ? "keep-world" : "save-world"}
+                    onClick={onSave}
+                  >
+                    Save
+                    {unsaved ? <small>Not saved yet</small> : null}
+                  </button>
+                ) : null}
                 <button
                   type="button"
                   role="menuitem"
-                  data-testid="nav-journal"
+                  data-testid="leave-game"
                   onClick={() =>
-                    dispatch({ type: "go-to-surface", surface: "journal" })
+                    unsaved && canSave
+                      ? dispatch({ type: "ask-leave" })
+                      : onLeave()
                   }
                 >
-                  Journal
-                  <small>Private notes, intentions and life history</small>
+                  Quit
+                  <small>To the main menu</small>
                 </button>
-              ) : null}
+              </div>
             </>
           )}
+        </div>
+      ) : null}
+
+      {state.confirmingLeave ? (
+        <div
+          className="pg-nav-flyout pg-nav-confirm"
+          role="alertdialog"
+          aria-modal="true"
+          aria-labelledby="pg-nav-confirm-title"
+          data-testid="leave-confirm"
+        >
+          <p className="pg-nav-heading" id="pg-nav-confirm-title">
+            Save before quitting?
+          </p>
+          <p className="pg-nav-confirm-copy">
+            This life has not been saved. Quitting now leaves it behind.
+          </p>
+          <button
+            type="button"
+            className="ui-action ui-action--primary"
+            data-testid="leave-save-first"
+            autoFocus
+            onClick={() => {
+              onSave();
+              dispatch({ type: "cancel-leave" });
+            }}
+          >
+            Save first
+          </button>
+          <button
+            type="button"
+            className="ui-action"
+            data-testid="leave-without-saving"
+            onClick={() => {
+              dispatch({ type: "cancel-leave" });
+              onLeave();
+            }}
+          >
+            Quit without saving
+          </button>
+          <button
+            type="button"
+            className="ui-action ui-action--subtle"
+            data-testid="leave-cancel"
+            onClick={() => dispatch({ type: "cancel-leave" })}
+          >
+            Stay
+          </button>
         </div>
       ) : null}
     </nav>

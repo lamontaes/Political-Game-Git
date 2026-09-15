@@ -130,7 +130,18 @@ function readPreferences(value: unknown): ShellPreferences {
         ),
       ]
     : [];
-  return { peopleView, defaultPinSize, followedNewsOutletKeys };
+  const stored = isRecord(value.interruptions) ? value.interruptions : {};
+  const interruptions = {
+    stopForWorkShifts:
+      typeof stored.stopForWorkShifts === "boolean"
+        ? stored.stopForWorkShifts
+        : DEFAULT_PREFERENCES.interruptions.stopForWorkShifts,
+    stopForTentativeHolds:
+      typeof stored.stopForTentativeHolds === "boolean"
+        ? stored.stopForTentativeHolds
+        : DEFAULT_PREFERENCES.interruptions.stopForTentativeHolds,
+  };
+  return { peopleView, defaultPinSize, followedNewsOutletKeys, interruptions };
 }
 
 /**

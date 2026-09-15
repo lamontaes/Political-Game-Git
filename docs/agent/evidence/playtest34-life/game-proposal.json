@@ -1,0 +1,806 @@
+{
+  "setup": {
+    "startKind": "custom",
+    "placeKey": "lexington-fayette",
+    "startAge": 10,
+    "depth": "play-formative-years",
+    "startingLife": "ordinary-life",
+    "household": "shares-a-home",
+    "givenName": null,
+    "familyName": null,
+    "gender": "unstated",
+    "appearanceRecipeVersion": "appearance-recipe-v2",
+    "givenNameGenerationVersion": "given-name-v2",
+    "questionnaire": "skipped",
+    "priors": [],
+    "seed": "p34-mom-game-3"
+  },
+  "player": {
+    "id": "person_92b37a76281c2b0a",
+    "generationKey": "starting-person-v1:player",
+    "generatorVersion": "starting-person-v1",
+    "corpusVersion": "names-v1",
+    "givenName": "Miranda",
+    "familyName": "Valdez",
+    "birthDate": "2015-10-16",
+    "homeJurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+    "appearance": {
+      "seed": "app_d3b56b62bd3c1e80",
+      "recipeVersion": "appearance-recipe-v2",
+      "catalogGeneration": 2
+    },
+    "detailLevel": "lightweight",
+    "establishedFacts": [
+      {
+        "id": "fact_5267ea7c72ceb5a8",
+        "stableKey": "birth-date",
+        "kind": "birth-date",
+        "occurredAt": "2015-10-16",
+        "jurisdictionId": null,
+        "summary": "Miranda Valdez's birth date is established as 2015-10-16.",
+        "provenance": {
+          "method": "procedural-placeholder",
+          "sourceEventId": null,
+          "note": "Generated from the player's setup at the start of a new game."
+        }
+      },
+      {
+        "id": "fact_a13c5daeccaf8718",
+        "stableKey": "birthplace",
+        "kind": "birthplace",
+        "occurredAt": "2015-10-16",
+        "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+        "summary": "Miranda Valdez's birthplace is established in the world record.",
+        "provenance": {
+          "method": "procedural-placeholder",
+          "sourceEventId": null,
+          "note": "Generated from the player's setup at the start of a new game."
+        }
+      },
+      {
+        "id": "fact_23bfa30deac74a0a",
+        "stableKey": "residence:initial",
+        "kind": "residence",
+        "occurredAt": "2026-01-05",
+        "endedAt": null,
+        "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+        "summary": "Miranda Valdez resides in the recorded home jurisdiction.",
+        "provenance": {
+          "method": "procedural-placeholder",
+          "sourceEventId": null,
+          "note": "Generated from the player's setup at the start of a new game."
+        }
+      }
+    ]
+  },
+  "requester": {
+    "personId": "person_07bca4c7928d1476",
+    "name": "Elena Parsons",
+    "shortName": "Elena",
+    "pronouns": {
+      "key": "she-her",
+      "subject": "she",
+      "object": "her",
+      "possessive": "her",
+      "possessivePronoun": "hers",
+      "reflexive": "herself",
+      "pluralVerb": false
+    },
+    "relationship": "your mom",
+    "basis": "A parental:shared authority record over the player, held by this person.",
+    "anchors": [
+      {
+        "store": "childAuthorities",
+        "recordId": "child-authority_336efc999367a440",
+        "stableKey": "production:initial-life:second-parent:authority",
+        "at": "2015-10-16",
+        "sequence": 18,
+        "role": "context",
+        "note": "The authority record that makes them the adult responsible."
+      }
+    ]
+  },
+  "proposal": {
+    "request": {
+      "id": "event_267fff34daaac79a",
+      "stableKey": "opening-life:talk:person_92b37a76281c2b0a:person_07bca4c7928d1476:69",
+      "sequence": 69,
+      "type": "life.conversation",
+      "occurredAt": "2026-01-05",
+      "recordedAt": "2026-01-05",
+      "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+      "involvedEntityIds": [
+        "person_07bca4c7928d1476",
+        "person_249594aa35e58134",
+        "person_92b37a76281c2b0a",
+        "person_f3fc7d2fff9e6a4f"
+      ],
+      "participants": [
+        {
+          "personId": "person_07bca4c7928d1476",
+          "role": "coordination:counterpart",
+          "detail": "Replied directly"
+        },
+        {
+          "personId": "person_249594aa35e58134",
+          "role": "observation:witness",
+          "detail": "Heard the conversation in the scene"
+        },
+        {
+          "personId": "person_92b37a76281c2b0a",
+          "role": "focus:subject",
+          "detail": "Spoke directly"
+        },
+        {
+          "personId": "person_f3fc7d2fff9e6a4f",
+          "role": "observation:witness",
+          "detail": "Heard the conversation in the scene"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": [
+        "life.answer:explore",
+        "life.conversation",
+        "life.proposal.v1:{\"actorPersonId\":\"person_07bca4c7928d1476\",\"activity\":\"new-game\",\"minutes\":30,\"condition\":null}",
+        "life.talk:activity",
+        "moment:{\"date\":\"2026-01-05\",\"minuteOfDay\":550,\"timeZone\":\"America/New_York\",\"utcOffsetMinutes\":-300}",
+        "scene:event_3ba36e8d3ec4eaa2"
+      ],
+      "summary": "Miranda Valdez: Ask what they would like to do. Elena Parsons: We could try a new game. Would you like that?",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "label": "Home",
+          "setting": "home"
+        },
+        "socialContext": "A direct ordinary conversation",
+        "pressure": null,
+        "choice": "Ask what they would like to do",
+        "motivation": null,
+        "immediateReaction": "We could try a new game. Would you like that?"
+      }
+    },
+    "terms": {
+      "actorPersonId": "person_07bca4c7928d1476",
+      "activity": "new-game",
+      "minutes": 30,
+      "condition": null
+    },
+    "status": "proposed",
+    "label": "try a new game together"
+  },
+  "agreement": {
+    "request": {
+      "id": "event_267fff34daaac79a",
+      "stableKey": "opening-life:talk:person_92b37a76281c2b0a:person_07bca4c7928d1476:69",
+      "sequence": 69,
+      "type": "life.conversation",
+      "occurredAt": "2026-01-05",
+      "recordedAt": "2026-01-05",
+      "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+      "involvedEntityIds": [
+        "person_07bca4c7928d1476",
+        "person_249594aa35e58134",
+        "person_92b37a76281c2b0a",
+        "person_f3fc7d2fff9e6a4f"
+      ],
+      "participants": [
+        {
+          "personId": "person_07bca4c7928d1476",
+          "role": "coordination:counterpart",
+          "detail": "Replied directly"
+        },
+        {
+          "personId": "person_249594aa35e58134",
+          "role": "observation:witness",
+          "detail": "Heard the conversation in the scene"
+        },
+        {
+          "personId": "person_92b37a76281c2b0a",
+          "role": "focus:subject",
+          "detail": "Spoke directly"
+        },
+        {
+          "personId": "person_f3fc7d2fff9e6a4f",
+          "role": "observation:witness",
+          "detail": "Heard the conversation in the scene"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": [
+        "life.answer:explore",
+        "life.conversation",
+        "life.proposal.v1:{\"actorPersonId\":\"person_07bca4c7928d1476\",\"activity\":\"new-game\",\"minutes\":30,\"condition\":null}",
+        "life.talk:activity",
+        "moment:{\"date\":\"2026-01-05\",\"minuteOfDay\":550,\"timeZone\":\"America/New_York\",\"utcOffsetMinutes\":-300}",
+        "scene:event_3ba36e8d3ec4eaa2"
+      ],
+      "summary": "Miranda Valdez: Ask what they would like to do. Elena Parsons: We could try a new game. Would you like that?",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "label": "Home",
+          "setting": "home"
+        },
+        "socialContext": "A direct ordinary conversation",
+        "pressure": null,
+        "choice": "Ask what they would like to do",
+        "motivation": null,
+        "immediateReaction": "We could try a new game. Would you like that?"
+      }
+    },
+    "terms": {
+      "actorPersonId": "person_07bca4c7928d1476",
+      "activity": "new-game",
+      "minutes": 30,
+      "condition": null
+    },
+    "response": {
+      "id": "event_267c6e34daa79b60",
+      "stableKey": "opening-life:talk:person_92b37a76281c2b0a:person_07bca4c7928d1476:74",
+      "sequence": 74,
+      "type": "life.conversation",
+      "occurredAt": "2026-01-05",
+      "recordedAt": "2026-01-05",
+      "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+      "involvedEntityIds": [
+        "person_07bca4c7928d1476",
+        "person_249594aa35e58134",
+        "person_92b37a76281c2b0a",
+        "person_f3fc7d2fff9e6a4f"
+      ],
+      "participants": [
+        {
+          "personId": "person_07bca4c7928d1476",
+          "role": "coordination:counterpart",
+          "detail": "Replied directly"
+        },
+        {
+          "personId": "person_249594aa35e58134",
+          "role": "observation:witness",
+          "detail": "Heard the conversation in the scene"
+        },
+        {
+          "personId": "person_92b37a76281c2b0a",
+          "role": "focus:subject",
+          "detail": "Spoke directly"
+        },
+        {
+          "personId": "person_f3fc7d2fff9e6a4f",
+          "role": "observation:witness",
+          "detail": "Heard the conversation in the scene"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": [
+        "life.answer:company-accepted",
+        "life.conversation",
+        "life.proposal.accepted",
+        "life.proposal:event_267fff34daaac79a",
+        "life.talk:suggestGame",
+        "moment:{\"date\":\"2026-01-05\",\"minuteOfDay\":550,\"timeZone\":\"America/New_York\",\"utcOffsetMinutes\":-300}",
+        "scene:event_3ba36e8d3ec4eaa2"
+      ],
+      "summary": "Miranda Valdez: Suggest playing a game together. Elena Parsons: Yes, let's try a new game together. We haven't started yet.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "label": "Home",
+          "setting": "home"
+        },
+        "socialContext": "A direct ordinary conversation",
+        "pressure": null,
+        "choice": "Suggest playing a game together",
+        "motivation": null,
+        "immediateReaction": "Yes, let's try a new game together. We haven't started yet."
+      }
+    },
+    "status": "accepted",
+    "label": "try a new game together"
+  },
+  "transcript": [
+    {
+      "eventId": "event_267fff34daaac79a",
+      "date": "2026-01-05",
+      "action": "Ask what they would like to do",
+      "reply": "We could try a new game. Would you like that?"
+    },
+    {
+      "eventId": "event_267c6e34daa79b60",
+      "date": "2026-01-05",
+      "action": "Suggest playing a game together",
+      "reply": "Yes, let's try a new game together. We haven't started yet."
+    },
+    {
+      "eventId": "event_267c7b34daa7b177",
+      "date": "2026-01-05",
+      "action": "Spend 30 minutes: try a new game together",
+      "reply": "I'm glad we took time to try a new game together."
+    }
+  ],
+  "actualEvents": [
+    {
+      "id": "event_267fff34daaac79a",
+      "stableKey": "opening-life:talk:person_92b37a76281c2b0a:person_07bca4c7928d1476:69",
+      "sequence": 69,
+      "type": "life.conversation",
+      "occurredAt": "2026-01-05",
+      "recordedAt": "2026-01-05",
+      "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+      "involvedEntityIds": [
+        "person_07bca4c7928d1476",
+        "person_249594aa35e58134",
+        "person_92b37a76281c2b0a",
+        "person_f3fc7d2fff9e6a4f"
+      ],
+      "participants": [
+        {
+          "personId": "person_07bca4c7928d1476",
+          "role": "coordination:counterpart",
+          "detail": "Replied directly"
+        },
+        {
+          "personId": "person_249594aa35e58134",
+          "role": "observation:witness",
+          "detail": "Heard the conversation in the scene"
+        },
+        {
+          "personId": "person_92b37a76281c2b0a",
+          "role": "focus:subject",
+          "detail": "Spoke directly"
+        },
+        {
+          "personId": "person_f3fc7d2fff9e6a4f",
+          "role": "observation:witness",
+          "detail": "Heard the conversation in the scene"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": [
+        "life.answer:explore",
+        "life.conversation",
+        "life.proposal.v1:{\"actorPersonId\":\"person_07bca4c7928d1476\",\"activity\":\"new-game\",\"minutes\":30,\"condition\":null}",
+        "life.talk:activity",
+        "moment:{\"date\":\"2026-01-05\",\"minuteOfDay\":550,\"timeZone\":\"America/New_York\",\"utcOffsetMinutes\":-300}",
+        "scene:event_3ba36e8d3ec4eaa2"
+      ],
+      "summary": "Miranda Valdez: Ask what they would like to do. Elena Parsons: We could try a new game. Would you like that?",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "label": "Home",
+          "setting": "home"
+        },
+        "socialContext": "A direct ordinary conversation",
+        "pressure": null,
+        "choice": "Ask what they would like to do",
+        "motivation": null,
+        "immediateReaction": "We could try a new game. Would you like that?"
+      }
+    },
+    {
+      "id": "event_267c6e34daa79b60",
+      "stableKey": "opening-life:talk:person_92b37a76281c2b0a:person_07bca4c7928d1476:74",
+      "sequence": 74,
+      "type": "life.conversation",
+      "occurredAt": "2026-01-05",
+      "recordedAt": "2026-01-05",
+      "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+      "involvedEntityIds": [
+        "person_07bca4c7928d1476",
+        "person_249594aa35e58134",
+        "person_92b37a76281c2b0a",
+        "person_f3fc7d2fff9e6a4f"
+      ],
+      "participants": [
+        {
+          "personId": "person_07bca4c7928d1476",
+          "role": "coordination:counterpart",
+          "detail": "Replied directly"
+        },
+        {
+          "personId": "person_249594aa35e58134",
+          "role": "observation:witness",
+          "detail": "Heard the conversation in the scene"
+        },
+        {
+          "personId": "person_92b37a76281c2b0a",
+          "role": "focus:subject",
+          "detail": "Spoke directly"
+        },
+        {
+          "personId": "person_f3fc7d2fff9e6a4f",
+          "role": "observation:witness",
+          "detail": "Heard the conversation in the scene"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": [
+        "life.answer:company-accepted",
+        "life.conversation",
+        "life.proposal.accepted",
+        "life.proposal:event_267fff34daaac79a",
+        "life.talk:suggestGame",
+        "moment:{\"date\":\"2026-01-05\",\"minuteOfDay\":550,\"timeZone\":\"America/New_York\",\"utcOffsetMinutes\":-300}",
+        "scene:event_3ba36e8d3ec4eaa2"
+      ],
+      "summary": "Miranda Valdez: Suggest playing a game together. Elena Parsons: Yes, let's try a new game together. We haven't started yet.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "label": "Home",
+          "setting": "home"
+        },
+        "socialContext": "A direct ordinary conversation",
+        "pressure": null,
+        "choice": "Suggest playing a game together",
+        "motivation": null,
+        "immediateReaction": "Yes, let's try a new game together. We haven't started yet."
+      }
+    },
+    {
+      "id": "event_f34dc0dded68cf88",
+      "stableKey": "action:0:minutes-advanced:2026-01-05:550:30:2026-01-05:580",
+      "sequence": 79,
+      "type": "simulation.minutes-advanced",
+      "occurredAt": "2026-01-05",
+      "recordedAt": "2026-01-05",
+      "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+      "involvedEntityIds": ["jurisdiction_a4a6991ef3dd5879"],
+      "participants": [],
+      "personFactConstraints": [],
+      "visibility": "public",
+      "tags": ["simulation.subday-time", "simulation.time"],
+      "summary": "Simulation time advanced 30 minutes.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "label": "Primary simulation jurisdiction",
+          "setting": null
+        },
+        "socialContext": "Deterministic canonical minute-level time transition.",
+        "pressure": null,
+        "choice": null,
+        "motivation": null,
+        "immediateReaction": null
+      }
+    },
+    {
+      "id": "event_267c7b34daa7b177",
+      "stableKey": "opening-life:talk:person_92b37a76281c2b0a:person_07bca4c7928d1476:79",
+      "sequence": 80,
+      "type": "life.conversation",
+      "occurredAt": "2026-01-05",
+      "recordedAt": "2026-01-05",
+      "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+      "involvedEntityIds": [
+        "person_07bca4c7928d1476",
+        "person_249594aa35e58134",
+        "person_92b37a76281c2b0a",
+        "person_f3fc7d2fff9e6a4f"
+      ],
+      "participants": [
+        {
+          "personId": "person_07bca4c7928d1476",
+          "role": "coordination:counterpart",
+          "detail": "Replied directly"
+        },
+        {
+          "personId": "person_249594aa35e58134",
+          "role": "observation:witness",
+          "detail": "Heard the conversation in the scene"
+        },
+        {
+          "personId": "person_92b37a76281c2b0a",
+          "role": "focus:subject",
+          "detail": "Spoke directly"
+        },
+        {
+          "personId": "person_f3fc7d2fff9e6a4f",
+          "role": "observation:witness",
+          "detail": "Heard the conversation in the scene"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": [
+        "life.answer:open",
+        "life.conversation",
+        "life.proposal.performed",
+        "life.proposal:event_267fff34daaac79a",
+        "life.talk:spendTime",
+        "moment:{\"date\":\"2026-01-05\",\"minuteOfDay\":580,\"timeZone\":\"America/New_York\",\"utcOffsetMinutes\":-300}",
+        "scene:event_3ba36e8d3ec4eaa2"
+      ],
+      "summary": "Miranda Valdez: Spend half an hour together. Elena Parsons: I'm glad we took time to try a new game together.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "label": "Home",
+          "setting": "home"
+        },
+        "socialContext": "A direct ordinary conversation",
+        "pressure": null,
+        "choice": "Spend 30 minutes: try a new game together",
+        "motivation": null,
+        "immediateReaction": "I'm glad we took time to try a new game together."
+      }
+    }
+  ],
+  "minutes": {
+    "proposal": 0,
+    "agreement": 0,
+    "performance": 30,
+    "decline": 0,
+    "cancel": 0
+  },
+  "decline": {
+    "request": {
+      "id": "event_267fff34daaac79a",
+      "stableKey": "opening-life:talk:person_92b37a76281c2b0a:person_07bca4c7928d1476:69",
+      "sequence": 69,
+      "type": "life.conversation",
+      "occurredAt": "2026-01-05",
+      "recordedAt": "2026-01-05",
+      "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+      "involvedEntityIds": [
+        "person_07bca4c7928d1476",
+        "person_249594aa35e58134",
+        "person_92b37a76281c2b0a",
+        "person_f3fc7d2fff9e6a4f"
+      ],
+      "participants": [
+        {
+          "personId": "person_07bca4c7928d1476",
+          "role": "coordination:counterpart",
+          "detail": "Replied directly"
+        },
+        {
+          "personId": "person_249594aa35e58134",
+          "role": "observation:witness",
+          "detail": "Heard the conversation in the scene"
+        },
+        {
+          "personId": "person_92b37a76281c2b0a",
+          "role": "focus:subject",
+          "detail": "Spoke directly"
+        },
+        {
+          "personId": "person_f3fc7d2fff9e6a4f",
+          "role": "observation:witness",
+          "detail": "Heard the conversation in the scene"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": [
+        "life.answer:explore",
+        "life.conversation",
+        "life.proposal.v1:{\"actorPersonId\":\"person_07bca4c7928d1476\",\"activity\":\"new-game\",\"minutes\":30,\"condition\":null}",
+        "life.talk:activity",
+        "moment:{\"date\":\"2026-01-05\",\"minuteOfDay\":550,\"timeZone\":\"America/New_York\",\"utcOffsetMinutes\":-300}",
+        "scene:event_3ba36e8d3ec4eaa2"
+      ],
+      "summary": "Miranda Valdez: Ask what they would like to do. Elena Parsons: We could try a new game. Would you like that?",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "label": "Home",
+          "setting": "home"
+        },
+        "socialContext": "A direct ordinary conversation",
+        "pressure": null,
+        "choice": "Ask what they would like to do",
+        "motivation": null,
+        "immediateReaction": "We could try a new game. Would you like that?"
+      }
+    },
+    "terms": {
+      "actorPersonId": "person_07bca4c7928d1476",
+      "activity": "new-game",
+      "minutes": 30,
+      "condition": null
+    },
+    "response": {
+      "id": "event_267c6e34daa79b60",
+      "stableKey": "opening-life:talk:person_92b37a76281c2b0a:person_07bca4c7928d1476:74",
+      "sequence": 74,
+      "type": "life.conversation",
+      "occurredAt": "2026-01-05",
+      "recordedAt": "2026-01-05",
+      "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+      "involvedEntityIds": [
+        "person_07bca4c7928d1476",
+        "person_249594aa35e58134",
+        "person_92b37a76281c2b0a",
+        "person_f3fc7d2fff9e6a4f"
+      ],
+      "participants": [
+        {
+          "personId": "person_07bca4c7928d1476",
+          "role": "coordination:counterpart",
+          "detail": "Replied directly"
+        },
+        {
+          "personId": "person_249594aa35e58134",
+          "role": "observation:witness",
+          "detail": "Heard the conversation in the scene"
+        },
+        {
+          "personId": "person_92b37a76281c2b0a",
+          "role": "focus:subject",
+          "detail": "Spoke directly"
+        },
+        {
+          "personId": "person_f3fc7d2fff9e6a4f",
+          "role": "observation:witness",
+          "detail": "Heard the conversation in the scene"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": [
+        "life.answer:open",
+        "life.conversation",
+        "life.proposal.declined",
+        "life.proposal:event_267fff34daaac79a",
+        "life.talk:declineProposal",
+        "moment:{\"date\":\"2026-01-05\",\"minuteOfDay\":550,\"timeZone\":\"America/New_York\",\"utcOffsetMinutes\":-300}",
+        "scene:event_3ba36e8d3ec4eaa2"
+      ],
+      "summary": "Miranda Valdez: Decline their proposed activity. Elena Parsons: All right. We can leave that activity for another time.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "label": "Home",
+          "setting": "home"
+        },
+        "socialContext": "A direct ordinary conversation",
+        "pressure": null,
+        "choice": "Decline to try a new game together",
+        "motivation": null,
+        "immediateReaction": "All right. We can leave that activity for another time."
+      }
+    },
+    "status": "declined",
+    "label": "try a new game together"
+  },
+  "cancel": {
+    "request": {
+      "id": "event_267fff34daaac79a",
+      "stableKey": "opening-life:talk:person_92b37a76281c2b0a:person_07bca4c7928d1476:69",
+      "sequence": 69,
+      "type": "life.conversation",
+      "occurredAt": "2026-01-05",
+      "recordedAt": "2026-01-05",
+      "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+      "involvedEntityIds": [
+        "person_07bca4c7928d1476",
+        "person_249594aa35e58134",
+        "person_92b37a76281c2b0a",
+        "person_f3fc7d2fff9e6a4f"
+      ],
+      "participants": [
+        {
+          "personId": "person_07bca4c7928d1476",
+          "role": "coordination:counterpart",
+          "detail": "Replied directly"
+        },
+        {
+          "personId": "person_249594aa35e58134",
+          "role": "observation:witness",
+          "detail": "Heard the conversation in the scene"
+        },
+        {
+          "personId": "person_92b37a76281c2b0a",
+          "role": "focus:subject",
+          "detail": "Spoke directly"
+        },
+        {
+          "personId": "person_f3fc7d2fff9e6a4f",
+          "role": "observation:witness",
+          "detail": "Heard the conversation in the scene"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": [
+        "life.answer:explore",
+        "life.conversation",
+        "life.proposal.v1:{\"actorPersonId\":\"person_07bca4c7928d1476\",\"activity\":\"new-game\",\"minutes\":30,\"condition\":null}",
+        "life.talk:activity",
+        "moment:{\"date\":\"2026-01-05\",\"minuteOfDay\":550,\"timeZone\":\"America/New_York\",\"utcOffsetMinutes\":-300}",
+        "scene:event_3ba36e8d3ec4eaa2"
+      ],
+      "summary": "Miranda Valdez: Ask what they would like to do. Elena Parsons: We could try a new game. Would you like that?",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "label": "Home",
+          "setting": "home"
+        },
+        "socialContext": "A direct ordinary conversation",
+        "pressure": null,
+        "choice": "Ask what they would like to do",
+        "motivation": null,
+        "immediateReaction": "We could try a new game. Would you like that?"
+      }
+    },
+    "terms": {
+      "actorPersonId": "person_07bca4c7928d1476",
+      "activity": "new-game",
+      "minutes": 30,
+      "condition": null
+    },
+    "response": {
+      "id": "event_267c7b34daa7b177",
+      "stableKey": "opening-life:talk:person_92b37a76281c2b0a:person_07bca4c7928d1476:79",
+      "sequence": 79,
+      "type": "life.conversation",
+      "occurredAt": "2026-01-05",
+      "recordedAt": "2026-01-05",
+      "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+      "involvedEntityIds": [
+        "person_07bca4c7928d1476",
+        "person_249594aa35e58134",
+        "person_92b37a76281c2b0a",
+        "person_f3fc7d2fff9e6a4f"
+      ],
+      "participants": [
+        {
+          "personId": "person_07bca4c7928d1476",
+          "role": "coordination:counterpart",
+          "detail": "Replied directly"
+        },
+        {
+          "personId": "person_249594aa35e58134",
+          "role": "observation:witness",
+          "detail": "Heard the conversation in the scene"
+        },
+        {
+          "personId": "person_92b37a76281c2b0a",
+          "role": "focus:subject",
+          "detail": "Spoke directly"
+        },
+        {
+          "personId": "person_f3fc7d2fff9e6a4f",
+          "role": "observation:witness",
+          "detail": "Heard the conversation in the scene"
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "private",
+      "tags": [
+        "life.answer:open",
+        "life.conversation",
+        "life.proposal.cancelled",
+        "life.proposal:event_267fff34daaac79a",
+        "life.talk:cancelProposal",
+        "moment:{\"date\":\"2026-01-05\",\"minuteOfDay\":550,\"timeZone\":\"America/New_York\",\"utcOffsetMinutes\":-300}",
+        "scene:event_3ba36e8d3ec4eaa2"
+      ],
+      "summary": "Miranda Valdez: Cancel the agreed activity. Elena Parsons: All right. We won't start that activity.",
+      "context": {
+        "location": {
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "label": "Home",
+          "setting": "home"
+        },
+        "socialContext": "A direct ordinary conversation",
+        "pressure": null,
+        "choice": "Cancel the agreed activity",
+        "motivation": null,
+        "immediateReaction": "All right. We won't start that activity."
+      }
+    },
+    "status": "cancelled",
+    "label": "try a new game together"
+  },
+  "repeatRejected": true,
+  "performedCount": 1
+}

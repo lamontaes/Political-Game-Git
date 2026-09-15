@@ -12,28 +12,28 @@ declare is reported as undeclared rather than filled in from a guess.
 
 | Family | Templates | Withheld | Undeclared grounding | Canonical concerns |
 | --- | --- | --- | --- | --- |
-| `campaign/campaign-status` | 23 | 0 | 0 | candidacy |
-| `conversation/commit-contract` | 106 | 0 | 0 | — |
-| `conversation/conversation-subject` | 67 | 0 | 0 | — |
+| `campaign/campaign-status` | 24 | 0 | 0 | candidacy |
+| `conversation/commit-contract` | 110 | 0 | 0 | — |
+| `conversation/conversation-subject` | 61 | 0 | 0 | — |
 | `conversation/conversation-turn` | 24 | 0 | 0 | — |
-| `governing/municipal-attendance-and-work` | 37 | 0 | 0 | activity-evidence, work-standing |
+| `governing/municipal-attendance-and-work` | 40 | 0 | 0 | activity-evidence, work-standing |
 | `governing/municipal-authority-refusals` | 19 | 0 | 0 | — |
 | `governing/municipal-institution-record` | 2 | 0 | 0 | activity-evidence |
 | `governing/municipal-law-projection` | 47 | 0 | 0 | — |
 | `governing/municipal-work-and-session` | 7 | 0 | 0 | activity-evidence, work-standing |
-| `governing/municipal-workspace` | 75 | 0 | 0 | — |
-| `legislative/measure-briefing` | 93 | 0 | 0 | measure |
+| `governing/municipal-workspace` | 76 | 0 | 0 | — |
+| `legislative/measure-briefing` | 94 | 0 | 0 | measure |
 | `life/adult` | 384 | 287 | 0 | colleague-identity, household-kinship, persistent-cast |
 | `life/callback` | 41 | 0 | 0 | — |
 | `life/episode` | 1020 | 71 | 0 | activity-evidence, age, colleague-identity, elapsed-time, enrollment, household-kinship, incident-locality, persistent-cast, work-standing |
 | `life/formative` | 177 | 0 | 0 | persistent-cast |
 | `life/introduction` | 10 | 0 | 0 | — |
-| `life/opening-conversation-intents` | 11 | 0 | 0 | — |
-| `life/opening-conversation-replies` | 31 | 0 | 0 | — |
+| `life/opening-conversation-intents` | 15 | 0 | 0 | — |
+| `life/opening-conversation-replies` | 53 | 0 | 0 | — |
 | `narration/connective` | 43 | 0 | 0 | elapsed-time |
 | `narration/thread-recap` | 32 | 0 | 0 | — |
 | `ordinary/work-item` | 4 | 0 | 4 | — |
-| `setup/questionnaire` | 354 | 0 | 0 | — |
+| `setup/questionnaire` | 618 | 0 | 0 | — |
 | `shell/art-preview` | 2 | 0 | 0 | — |
 | `shell/save-transfer` | 35 | 0 | 0 | — |
 

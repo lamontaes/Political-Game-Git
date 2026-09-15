@@ -26,7 +26,7 @@
     {
       "path": ["household", "records", "relationship", 0, "summary"],
       "before": "Joy Villanueva said out loud to Evelyn Newman what neither of them had been saying about the week.",
-      "after": "Joy Villanueva said out loud to Donna Newman what neither of them had been saying about the week."
+      "after": "Joy Villanueva asked Donna Newman how to divide the errands."
     },
     {
       "path": ["household", "records", "relationship", 0, "id"],
@@ -51,7 +51,7 @@
     {
       "path": ["household", "records", "relationship", 1, "summary"],
       "before": "Joy Villanueva took the week off Evelyn Newman without being asked to.",
-      "after": "Joy Villanueva took the week off Donna Newman without being asked to."
+      "after": "Joy Villanueva offered to handle the errands, and Donna Newman accepted."
     },
     {
       "path": ["household", "records", "relationship", 1, "id"],
@@ -113,7 +113,7 @@
     {
       "path": ["household", "records", "landed", 0, "summary"],
       "before": "Joy Villanueva brought up the week's errands with Newman. Evelyn Newman said they had been avoiding it too.",
-      "after": "Joy Villanueva brought up the week's errands with Newman. Donna Newman said they had been avoiding it too."
+      "after": "Joy Villanueva brought up the week's errands with Newman. Donna Newman was willing to discuss the errands."
     },
     {
       "path": ["household", "records", "landed", 1, "id"],
@@ -217,7 +217,7 @@
     {
       "path": ["householdCallback", "records", "relationship", 0, "summary"],
       "before": "Joy Villanueva said out loud to Evelyn Newman what neither of them had been saying about the week.",
-      "after": "Joy Villanueva said out loud to Donna Newman what neither of them had been saying about the week."
+      "after": "Joy Villanueva asked Donna Newman how to divide the errands."
     },
     {
       "path": ["householdCallback", "records", "relationship", 0, "id"],
@@ -337,7 +337,7 @@
     {
       "path": ["householdCallback", "records", "landed", 0, "summary"],
       "before": "Joy Villanueva brought up the week's errands with Newman. Evelyn Newman said they had been avoiding it too.",
-      "after": "Joy Villanueva brought up the week's errands with Newman. Donna Newman said they had been avoiding it too."
+      "after": "Joy Villanueva brought up the week's errands with Newman. Donna Newman was willing to discuss the errands."
     },
     {
       "path": ["householdCallback", "records", "landed", 1, "id"],

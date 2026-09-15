@@ -1,0 +1,765 @@
+{
+  "version": 1,
+  "frozenScene": "bb0636c32495660022ef48b93c5f7ea35db0b891",
+  "proofInputs": "2d720ea909b14d80025f053eac4191e0ce8ad064",
+  "ownership": [
+    "src/environment/scenes/",
+    "src/presentation/life-scene-people.ts",
+    "src/presentation/scene-placement.ts",
+    "src/presentation/scene-composition.ts",
+    "src/presentation/scene-framing.ts",
+    "src/player/SceneBackdrop.tsx",
+    "src/player/useSceneTransform.ts",
+    "src/player/overlay-viewport.tsx",
+    "src/player/pose41-scene.css"
+  ],
+  "scenes": [
+    {
+      "id": "residence-apartment-living-canonical-03",
+      "plate": {
+        "width": 1376,
+        "height": 768
+      },
+      "raster": {
+        "assetId": "env_residence_apartment_living_canonical_03_5504x3072_v1",
+        "ladder": {
+          "assetId": "env_residence_apartment_living_canonical_03_5504x3072_v1",
+          "tiers": [
+            {
+              "width": 1376,
+              "height": 768,
+              "path": "art/families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png",
+              "hash": "baa3f6f965250363fdb1e376148ef0bdd7b84a36dd702a84bbe5239162c5753f",
+              "derivation": "deterministic-downscale"
+            }
+          ]
+        }
+      },
+      "sourceConfidence": "Inherited source-image visual estimates; not physical measurements. Seated contacts pending new pose-pack verification.",
+      "floorCalibration": {
+        "near": {
+          "floor_y_percent": 92,
+          "scale": 1
+        },
+        "far": {
+          "floor_y_percent": 82,
+          "scale": 0.75
+        }
+      },
+      "standingHeightPercent": 74,
+      "standardBodyWidthPercent": 13.5,
+      "camera": {
+        "minimumAspectRatio": 1.5,
+        "maximumAspectRatio": 2.4,
+        "horizontalFocus": 0.5,
+        "verticalFocus": 0.66
+      },
+      "transforms": [
+        {
+          "viewport": {
+            "width": 1280,
+            "height": 860
+          },
+          "uniformScale": 1.1197916666666667,
+          "xOffset": -130,
+          "yOffset": 0,
+          "renderedSceneWidth": 1540.8333333333335,
+          "renderedSceneHeight": 860,
+          "devicePixelRatio": 1
+        },
+        {
+          "viewport": {
+            "width": 1200,
+            "height": 720
+          },
+          "uniformScale": 0.9375,
+          "xOffset": -45,
+          "yOffset": 0,
+          "renderedSceneWidth": 1290,
+          "renderedSceneHeight": 720,
+          "devicePixelRatio": 1
+        }
+      ],
+      "anchors": [
+        {
+          "id": "sofa-seated",
+          "type": "seated-person",
+          "kind": "seat",
+          "xPercent": 69,
+          "zOrder": 3,
+          "footprintPercent": 18,
+          "hitboxPercent": null,
+          "floorContact": null,
+          "seatContact": {
+            "seat_plane_y_percent": 59.7,
+            "seat_front_x_percent": 69,
+            "seat_width_percent": 17,
+            "floor_y_percent": 79,
+            "seat_z_order": 3,
+            "backrest_z_order": 2
+          },
+          "allowedBodyFamilies": null,
+          "allowedPoseFamilies": ["seated-guest-neutral", "seated-at-desk"],
+          "permittedFacings": ["front"],
+          "contactFloorYPercent": 79
+        },
+        {
+          "id": "club-chair-seated",
+          "type": "seated-person",
+          "kind": "seat",
+          "xPercent": 33,
+          "zOrder": 2,
+          "footprintPercent": 13,
+          "hitboxPercent": null,
+          "floorContact": null,
+          "seatContact": {
+            "seat_plane_y_percent": 61.5,
+            "seat_front_x_percent": 33,
+            "seat_width_percent": 12,
+            "floor_y_percent": 71,
+            "seat_z_order": 2,
+            "backrest_z_order": 1
+          },
+          "allowedBodyFamilies": null,
+          "allowedPoseFamilies": ["seated-guest-neutral"],
+          "permittedFacings": ["front"],
+          "contactFloorYPercent": 71
+        },
+        {
+          "id": "living-room-floor-standing",
+          "type": "standing-person",
+          "kind": "floor-standing",
+          "xPercent": 46,
+          "zOrder": 6,
+          "footprintPercent": 26,
+          "hitboxPercent": null,
+          "floorContact": {
+            "floor_y_percent": 92,
+            "max_foot_spread_percent": 10
+          },
+          "seatContact": null,
+          "allowedBodyFamilies": null,
+          "allowedPoseFamilies": [
+            "standing-neutral",
+            "standing-conversational"
+          ],
+          "permittedFacings": ["front"],
+          "contactFloorYPercent": 92
+        },
+        {
+          "id": "entry-side-standing",
+          "type": "standing-person",
+          "kind": "floor-standing",
+          "xPercent": 87,
+          "zOrder": 2,
+          "footprintPercent": 14,
+          "hitboxPercent": null,
+          "floorContact": {
+            "floor_y_percent": 82,
+            "max_foot_spread_percent": 8
+          },
+          "seatContact": null,
+          "allowedBodyFamilies": null,
+          "allowedPoseFamilies": ["standing-neutral", "standing-listening"],
+          "permittedFacings": ["front"],
+          "contactFloorYPercent": 82
+        }
+      ],
+      "occluders": [
+        {
+          "id": "coffee-table-front",
+          "type": "furniture-foreground",
+          "assetId": null,
+          "zOrder": 5,
+          "regionPercent": {
+            "x_percent": 39.5,
+            "y_percent": 59,
+            "width_percent": 19.5,
+            "height_percent": 7.5
+          },
+          "plateClip": {
+            "confidence": "visual-estimate",
+            "method_note": "P29-G authored tabletop/apron silhouette from canonical-03 runtime plate; coordinates are image percentages, not physical measurements.",
+            "points": [
+              {
+                "x": 43,
+                "y": 59.4
+              },
+              {
+                "x": 56,
+                "y": 59.4
+              },
+              {
+                "x": 58.9,
+                "y": 63.4
+              },
+              {
+                "x": 58.7,
+                "y": 66.1
+              },
+              {
+                "x": 39.6,
+                "y": 66.1
+              },
+              {
+                "x": 39.5,
+                "y": 63.5
+              }
+            ]
+          }
+        },
+        {
+          "id": "coffee-table-left-leg",
+          "type": "furniture-foreground",
+          "assetId": null,
+          "zOrder": 5,
+          "regionPercent": null,
+          "plateClip": {
+            "confidence": "visual-estimate",
+            "method_note": "Authored visible left front leg from canonical-03; preserves the open space beneath the tabletop.",
+            "points": [
+              {
+                "x": 40,
+                "y": 65.8
+              },
+              {
+                "x": 41,
+                "y": 65.8
+              },
+              {
+                "x": 41,
+                "y": 73.7
+              },
+              {
+                "x": 40.1,
+                "y": 73.7
+              }
+            ]
+          }
+        },
+        {
+          "id": "coffee-table-right-leg",
+          "type": "furniture-foreground",
+          "assetId": null,
+          "zOrder": 5,
+          "regionPercent": null,
+          "plateClip": {
+            "confidence": "visual-estimate",
+            "method_note": "Authored visible right front leg from canonical-03; not a solid rectangle across the floor.",
+            "points": [
+              {
+                "x": 57.6,
+                "y": 65.8
+              },
+              {
+                "x": 58.5,
+                "y": 65.8
+              },
+              {
+                "x": 58.5,
+                "y": 73.7
+              },
+              {
+                "x": 57.7,
+                "y": 73.7
+              }
+            ]
+          }
+        }
+      ],
+      "safeAreas": [
+        {
+          "id": "lower-shell",
+          "edge": "bottom-left",
+          "width": 620,
+          "height": 120
+        },
+        {
+          "id": "navigation-flyout",
+          "edge": "top-left",
+          "width": 320,
+          "height": 300
+        }
+      ],
+      "explicitUnknowns": [
+        "P29-G standing calibration is authored image-space visual-estimate, not surveyed dimensions or inferred body height in metres. Only canonical-03 standing is calibrated; no newly accepted seated family is asserted.",
+        "Foreground floor anchor paints in front of the coffee table; lower-depth anchors use its authored silhouette, not its coarse rectangular debug bounds.",
+        "Every anchor contact below is a visual estimate read off this plate at the point where the furniture visibly meets the floor. Seat planes are read from the visible cushion; no seat hidden behind another object is declared.",
+        "The window slot carries only neutral art. Time of day and weather have no canonical owner in this world, so the slot marks where such a binder would attach and shows the painted daylight until one exists.",
+        "Both masters are external 4x upscales of 1376-wide originals. The single 1376 tier is a reduction and its pixel width is its detail width; no larger tier was derived, because none would carry more detail."
+      ]
+    },
+    {
+      "id": "residence-apartment-living-ordinary-02",
+      "plate": {
+        "width": 1376,
+        "height": 768
+      },
+      "raster": {
+        "assetId": "env_residence_apartment_living_ordinary_02_5504x3072_v1",
+        "ladder": {
+          "assetId": "env_residence_apartment_living_ordinary_02_5504x3072_v1",
+          "tiers": [
+            {
+              "width": 1376,
+              "height": 768,
+              "path": "art/families/apartment-ordinary/env_residence_apartment_living_ordinary_02_v1.png",
+              "hash": "8d0863e1c8423e6cb61682cbf025e1590f7bd5bf4fd964864b05d79f8e8838fe",
+              "derivation": "deterministic-downscale"
+            }
+          ]
+        }
+      },
+      "sourceConfidence": "Inherited source-image visual estimates; not physical measurements. Seated contacts pending new pose-pack verification.",
+      "floorCalibration": {
+        "near": {
+          "floor_y_percent": 95,
+          "scale": 1
+        },
+        "far": {
+          "floor_y_percent": 82,
+          "scale": 0.8
+        }
+      },
+      "standardBodyWidthPercent": 18,
+      "camera": {
+        "minimumAspectRatio": 1.5,
+        "maximumAspectRatio": 2.4,
+        "horizontalFocus": 0.5,
+        "verticalFocus": 0.66
+      },
+      "transforms": [
+        {
+          "viewport": {
+            "width": 1280,
+            "height": 860
+          },
+          "uniformScale": 1.1197916666666667,
+          "xOffset": -130,
+          "yOffset": 0,
+          "renderedSceneWidth": 1540.8333333333335,
+          "renderedSceneHeight": 860,
+          "devicePixelRatio": 1
+        },
+        {
+          "viewport": {
+            "width": 1200,
+            "height": 720
+          },
+          "uniformScale": 0.9375,
+          "xOffset": -45,
+          "yOffset": 0,
+          "renderedSceneWidth": 1290,
+          "renderedSceneHeight": 720,
+          "devicePixelRatio": 1
+        }
+      ],
+      "anchors": [
+        {
+          "id": "sofa-seated",
+          "type": "seated-person",
+          "kind": "seat",
+          "xPercent": 21,
+          "zOrder": 3,
+          "footprintPercent": 20,
+          "hitboxPercent": null,
+          "floorContact": null,
+          "seatContact": {
+            "seat_plane_y_percent": 63.7,
+            "seat_front_x_percent": 21,
+            "seat_width_percent": 19,
+            "floor_y_percent": 88,
+            "seat_z_order": 3,
+            "backrest_z_order": 2
+          },
+          "allowedBodyFamilies": null,
+          "allowedPoseFamilies": ["seated-guest-neutral", "seated-at-desk"],
+          "permittedFacings": ["front"],
+          "contactFloorYPercent": 88
+        },
+        {
+          "id": "armchair-seated",
+          "type": "seated-person",
+          "kind": "seat",
+          "xPercent": 67,
+          "zOrder": 4,
+          "footprintPercent": 16,
+          "hitboxPercent": null,
+          "floorContact": null,
+          "seatContact": {
+            "seat_plane_y_percent": 68,
+            "seat_front_x_percent": 67,
+            "seat_width_percent": 14,
+            "floor_y_percent": 89,
+            "seat_z_order": 4,
+            "backrest_z_order": 3
+          },
+          "allowedBodyFamilies": null,
+          "allowedPoseFamilies": ["seated-guest-neutral"],
+          "permittedFacings": ["front"],
+          "contactFloorYPercent": 89
+        },
+        {
+          "id": "living-room-floor-standing",
+          "type": "standing-person",
+          "kind": "floor-standing",
+          "xPercent": 47,
+          "zOrder": 7,
+          "footprintPercent": 22,
+          "hitboxPercent": null,
+          "floorContact": {
+            "floor_y_percent": 95,
+            "max_foot_spread_percent": 10
+          },
+          "seatContact": null,
+          "allowedBodyFamilies": null,
+          "allowedPoseFamilies": [
+            "standing-neutral",
+            "standing-conversational"
+          ],
+          "permittedFacings": ["front"],
+          "contactFloorYPercent": 95
+        },
+        {
+          "id": "entry-side-standing",
+          "type": "standing-person",
+          "kind": "floor-standing",
+          "xPercent": 88,
+          "zOrder": 2,
+          "footprintPercent": 15,
+          "hitboxPercent": null,
+          "floorContact": {
+            "floor_y_percent": 82,
+            "max_foot_spread_percent": 8
+          },
+          "seatContact": null,
+          "allowedBodyFamilies": null,
+          "allowedPoseFamilies": ["standing-neutral", "standing-listening"],
+          "permittedFacings": ["front"],
+          "contactFloorYPercent": 82
+        }
+      ],
+      "occluders": [
+        {
+          "id": "coffee-table-front",
+          "type": "furniture-foreground",
+          "assetId": null,
+          "zOrder": 6,
+          "regionPercent": {
+            "x_percent": 34,
+            "y_percent": 63,
+            "width_percent": 17,
+            "height_percent": 15
+          },
+          "plateClip": {
+            "confidence": "visual-estimate",
+            "method_note": "P29-G authored ordinary-02 tabletop/apron silhouette from its runtime plate; image coordinates, not physical measurements.",
+            "points": [
+              {
+                "x": 42.5,
+                "y": 63.5
+              },
+              {
+                "x": 50.5,
+                "y": 63.7
+              },
+              {
+                "x": 47.1,
+                "y": 74.9
+              },
+              {
+                "x": 47,
+                "y": 77
+              },
+              {
+                "x": 34.6,
+                "y": 75.8
+              },
+              {
+                "x": 34.4,
+                "y": 74.4
+              },
+              {
+                "x": 34.4,
+                "y": 73.5
+              }
+            ]
+          }
+        },
+        {
+          "id": "coffee-table-left-leg",
+          "type": "furniture-foreground",
+          "assetId": null,
+          "zOrder": 6,
+          "regionPercent": null,
+          "plateClip": {
+            "confidence": "visual-estimate",
+            "method_note": "Authored ordinary-02 visible left front leg; under-table floor is not a solid occluder.",
+            "points": [
+              {
+                "x": 34.8,
+                "y": 75.7
+              },
+              {
+                "x": 35.7,
+                "y": 75.8
+              },
+              {
+                "x": 35.7,
+                "y": 87.9
+              },
+              {
+                "x": 34.8,
+                "y": 87.9
+              }
+            ]
+          }
+        },
+        {
+          "id": "coffee-table-right-leg",
+          "type": "furniture-foreground",
+          "assetId": null,
+          "zOrder": 6,
+          "regionPercent": null,
+          "plateClip": {
+            "confidence": "visual-estimate",
+            "method_note": "Authored ordinary-02 visible right front leg; keeps the gap between the legs open.",
+            "points": [
+              {
+                "x": 45.8,
+                "y": 76.9
+              },
+              {
+                "x": 46.9,
+                "y": 77
+              },
+              {
+                "x": 46.9,
+                "y": 88.4
+              },
+              {
+                "x": 45.8,
+                "y": 88.4
+              }
+            ]
+          }
+        }
+      ],
+      "safeAreas": [
+        {
+          "id": "lower-shell",
+          "edge": "bottom-left",
+          "width": 620,
+          "height": 120
+        },
+        {
+          "id": "navigation-flyout",
+          "edge": "top-left",
+          "width": 320,
+          "height": 300
+        }
+      ],
+      "explicitUnknowns": [
+        "P29-G ordinary-02 standing calibration is authored image-space visual-estimate from its own plate, not surveyed dimensions or physical human height. It is independent of canonical-03; no newly accepted seated family is asserted.",
+        "The foreground floor spot paints in front of its table. Rear-depth occlusion uses the actual tabletop and separate leg silhouettes, retaining open floor beneath.",
+        "Every anchor contact below is a visual estimate read off this plate at the point where the furniture visibly meets the floor. Seat planes are read from the visible cushion; no seat hidden behind another object is declared.",
+        "The window slot carries only neutral art. Time of day and weather have no canonical owner in this world, so the slot marks where such a binder would attach and shows the painted daylight until one exists.",
+        "Both masters are external 4x upscales of 1376-wide originals. The single 1376 tier is a reduction and its pixel width is its detail width; no larger tier was derived, because none would carry more detail."
+      ]
+    },
+    {
+      "id": "shared-workroom-office-production",
+      "plate": {
+        "width": 1376,
+        "height": 768
+      },
+      "raster": {
+        "assetId": "env_shared_workroom_office_v1",
+        "ladder": {
+          "assetId": "env_shared_workroom_office_v1",
+          "tiers": [
+            {
+              "width": 1376,
+              "height": 768,
+              "path": "art/families/shared-workroom-office/env_shared_workroom_office_v1.png",
+              "hash": "51f6a94c151815bdcbf296096b94232b24a67c31a21744af40b84742ba5e6c12",
+              "derivation": "deterministic-downscale"
+            },
+            {
+              "width": 2752,
+              "height": 1536,
+              "path": "art/families/shared-workroom-office/env_shared_workroom_office_runtime_2x_v1.png",
+              "hash": "c26094b0b62c4e3b949ae4a5e839f2331f0785b74ffacf8488baea1564398c93",
+              "derivation": "deterministic-downscale"
+            }
+          ]
+        }
+      },
+      "sourceConfidence": "Inherited source-image visual estimates; not physical measurements. Seated contacts pending new pose-pack verification.",
+      "floorCalibration": {
+        "near": {
+          "floor_y_percent": 100,
+          "scale": 1.4988
+        },
+        "far": {
+          "floor_y_percent": 55,
+          "scale": 0.3766
+        }
+      },
+      "standardBodyWidthPercent": 18.42,
+      "camera": {
+        "minimumAspectRatio": 1.5,
+        "maximumAspectRatio": 2.4,
+        "horizontalFocus": 0.5,
+        "verticalFocus": 0.7
+      },
+      "transforms": [
+        {
+          "viewport": {
+            "width": 1280,
+            "height": 860
+          },
+          "uniformScale": 1.1197916666666667,
+          "xOffset": -130,
+          "yOffset": 0,
+          "renderedSceneWidth": 1540.8333333333335,
+          "renderedSceneHeight": 860,
+          "devicePixelRatio": 1
+        },
+        {
+          "viewport": {
+            "width": 1200,
+            "height": 720
+          },
+          "uniformScale": 0.9375,
+          "xOffset": -45,
+          "yOffset": 0,
+          "renderedSceneWidth": 1290,
+          "renderedSceneHeight": 720,
+          "devicePixelRatio": 1
+        }
+      ],
+      "anchors": [
+        {
+          "id": "kitchenette-standing",
+          "type": "standing-person",
+          "kind": "floor-standing",
+          "xPercent": 16,
+          "zOrder": 1,
+          "footprintPercent": 14,
+          "hitboxPercent": null,
+          "floorContact": {
+            "floor_y_percent": 66,
+            "max_foot_spread_percent": 7
+          },
+          "seatContact": null,
+          "allowedBodyFamilies": null,
+          "allowedPoseFamilies": [
+            "standing-neutral",
+            "standing-conversational"
+          ],
+          "permittedFacings": ["front"],
+          "contactFloorYPercent": 66
+        },
+        {
+          "id": "workroom-floor-standing",
+          "type": "standing-person",
+          "kind": "floor-standing",
+          "xPercent": 26,
+          "zOrder": 2,
+          "footprintPercent": 18,
+          "hitboxPercent": null,
+          "floorContact": {
+            "floor_y_percent": 82,
+            "max_foot_spread_percent": 9
+          },
+          "seatContact": null,
+          "allowedBodyFamilies": null,
+          "allowedPoseFamilies": [
+            "standing-neutral",
+            "standing-conversational"
+          ],
+          "permittedFacings": ["front"],
+          "contactFloorYPercent": 82
+        },
+        {
+          "id": "near-table-standing",
+          "type": "standing-person",
+          "kind": "floor-standing",
+          "xPercent": 40,
+          "zOrder": 3,
+          "footprintPercent": 22,
+          "hitboxPercent": null,
+          "floorContact": {
+            "floor_y_percent": 94,
+            "max_foot_spread_percent": 10
+          },
+          "seatContact": null,
+          "allowedBodyFamilies": null,
+          "allowedPoseFamilies": ["standing-neutral", "standing-listening"],
+          "permittedFacings": ["front"],
+          "contactFloorYPercent": 94
+        },
+        {
+          "id": "left-task-chair",
+          "type": "seated-person",
+          "kind": "seat",
+          "xPercent": 29.6,
+          "zOrder": 2,
+          "footprintPercent": 12,
+          "hitboxPercent": null,
+          "floorContact": null,
+          "seatContact": {
+            "seat_plane_y_percent": 53.9,
+            "seat_front_x_percent": 29.6,
+            "seat_width_percent": 4.36,
+            "floor_y_percent": 57.9,
+            "seat_z_order": 2,
+            "backrest_z_order": 1
+          },
+          "allowedBodyFamilies": null,
+          "allowedPoseFamilies": ["seated-at-desk", "seated-guest-neutral"],
+          "permittedFacings": ["away"],
+          "contactFloorYPercent": 57.9
+        }
+      ],
+      "occluders": [
+        {
+          "id": "near-table-front",
+          "type": "furniture-foreground",
+          "assetId": null,
+          "zOrder": 4,
+          "regionPercent": {
+            "x_percent": 40,
+            "y_percent": 60,
+            "width_percent": 60,
+            "height_percent": 40
+          }
+        }
+      ],
+      "safeAreas": [
+        {
+          "id": "lower-shell",
+          "edge": "bottom-left",
+          "width": 620,
+          "height": 120
+        },
+        {
+          "id": "navigation-flyout",
+          "edge": "top-left",
+          "width": 320,
+          "height": 300
+        }
+      ],
+      "explicitUnknowns": [
+        "Every anchor, contact, occluder region and surface slot here is a visual estimate read off this master. The scale ruler is the floor tile grid taken as 12-inch commercial tile, which is a convention rather than a surveyed dimension; if the real tile differs, every derived size moves together and the relative geometry still holds.",
+        "The horizon at 39.9% of plate height is solved from two tile measurements, not surveyed. It is the single number the floor calibration and the standard body width both rest on.",
+        "The left task chair's measured seat-to-floor gap is 4.0% of plate height where this plate's own ruler predicts 4.74% for a 0.45 m seat. Both numbers are recorded as found; neither was adjusted to close the difference.",
+        "Every other chair in this room has its seat cushion hidden behind a work table, so no seat plane can be measured for it. Those chairs are deliberately NOT declared as seat anchors rather than being given plausible numbers.",
+        "The near table's occluder region is declared without an authored alpha mask, because no production body currently renders behind it. The mask is derived from this plate when the first production body needs it.",
+        "This scene has no production character art. Body, head, hair, wardrobe and footwear masters for production people do not exist yet, so every anchor above fails closed and the proof surface reports the gap instead of substituting development fixtures.",
+        "The 35 banked pg-* candidate components are NOT eligible to fill these anchors. Their gray mannequin bodies are structural reference evidence only, and their attachment anchors are non-authoritative visual estimates (see D-068)."
+      ]
+    }
+  ]
+}

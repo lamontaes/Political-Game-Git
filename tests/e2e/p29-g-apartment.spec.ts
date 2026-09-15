@@ -111,7 +111,7 @@ for (const room of [
         await token.focus();
         await page.keyboard.press("Space");
       }
-      await expect(page.getByTestId("person-action-menu")).toBeVisible();
+      await expect(page.getByTestId("quick-dossier")).toBeVisible();
       await expect(token).toHaveAttribute("aria-expanded", "true");
     });
 

@@ -326,7 +326,8 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     return null;
   if (
     record.appearanceOutfitVersion !== undefined &&
-    record.appearanceOutfitVersion !== "complete-outfit-v1"
+    record.appearanceOutfitVersion !== "complete-outfit-v1" &&
+    record.appearanceOutfitVersion !== "complete-outfit-v2"
   )
     return null;
   const base: NewGameSetup = {

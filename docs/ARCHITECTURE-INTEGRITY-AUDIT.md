@@ -1,5 +1,48 @@
 # Architecture Integrity Audit
 
+## A41 — composed standing, scene/POSE and KIT receiver
+
+The completed standing source remains frozen. This isolated successor receives exact feature deltas; no simulation file or World schema changes. Scene capacity consumes actual supplied present IDs, unique compatible anchors and explicit source contacts. Synthetic occupancy fixtures prove allocation only, not recorded attendance. Candidate pose selection is exact body/head/hair/outfit matching; missing combinations keep supported standing without inventing occupants. All contact measurements remain visual estimates in source pixels.
+
+The first composed check exposed two generation-9 pose records omitted by the expanded pack. POSE d251 retains them additively; the unchanged three-person compatibility assertion now passes. New generation-10 variants do not replace old saved generation mappings. KIT's pre-Begin draft stays outside World/household generation and applies through the existing life construction; its shared portrait leaves preserve the completed standing provider and G room ownership.
+
+LEARN: expanded coverage is not allowed to remove previously usable exact variants. The durable guards are the adapter legacy-map test and the existing generation-9 per-person scene regression. Keep cloned occupancy evidence visibly separate from actual World presence, and compare Talk portraits by stable person ID.
+
+Final A41 composition:29 focused checks pass; two adult browser cases pass. Both childhood ordinary cases fail because the visible mother’s Talk control refuses her presence. This existing eligibility mismatch remains explicit and does not authorize changing World attendance. Missing child art is not complete household rendering. The two supported painted adults remain in frame at both sizes; source-level checkpoint Talk is not accepted ordinary UI evidence.
+
+## A39 — current-source receiver
+
+Confirmed compatible: one canonical World, clock, append-oriented history and save callback. L/X/S are already composed at e0c8; their authority/dated-term evidence is preserved. K adds optional constitutional record families and integrity/sequence checks beside existing national-election and content-pack fields; no field replaces another. Its saved-World rule resolver remains local to each save. F/T fiscal adapters remain a separately received current-source delta; no invented funds or duplicated treasury.
+
+Corrected: M's collective election threshold cites its separate operative decision provision, not appointment/quorum evidence; unknown other-government thresholds refuse. Duplicate person dispositions cannot count twice. Ordinary municipal inspection reads recorded history without creating offices or other members' votes.
+
+Deferred precisely: ordinary municipal collective-decision producer; K current US/California member-entry producer; F/T revenue admission where its decision/source packet is absent; Desktop native migration/acceptance stays on its frozen source. These limitations do not hold completed calendar, content or News/Journal increments. No private art promotion or publication.
+
+LEARN: receive an existing tested net by its actual local head and current consumer; do not repeat superseded diagnoses or substitute an old donor root. A completed reader must expose its missing producer explicitly.
+
+## PLAYTEST34 A — independent frozen returns and private continuity
+
+One existing World/clock/history/save callback remains canonical. J birthday
+fields are optional for old replay identity, and invalid character dates now
+receive an inline refusal before advancing the creator. X press leaves retain
+attributed known-source evidence, not questions asserted as facts. FOUNDATION
+adds external immutable ordinary JSON through the existing Options callback;
+pack-bearing16 refuses old readers while no-pack15 remains unchanged.
+
+Normal material reception preserves private ep29 generation5 and all older pins;
+only genuinely fresh candidate setups initialize its complete outfit. No public
+promotion, name-derived identity, political ratings or election predictions are
+added. Existing study terms/grace and menu-invoker bytes remain unchanged.
+
+T026c is received in an independent local receiver; no all-return gate, whole-root
+replacement, second treasury or authority from labels. Runtime acceptance remains
+separate. Existing C/B/LIFE own quiet/people/time repairs; Desktop compatibility
+and native proof remain separate from this local candidate route.
+
+LEARN: a Save test helper intentionally leaves navigation open. Close that menu
+through its actual Escape contract before testing foreground pointer actions;
+never use forced clicks to hide legitimate foreground ownership.
+
 ## DIRECTOR33 D — accepted study funding continuation
 
 Confirmed compatible: existing canonical World/date/minute clock, ordinary work
@@ -26,6 +69,25 @@ the Personal root and integration; independent human visual acceptance remains.
 LEARN: a saved agreement is authority for future costs; a later offer is not a
 migration. A failed transfer is not a paid period, and a canceled deadline is
 still evidence of the original disclosed grace.
+
+## D33 FOUNDATION — bounded runtime ordinary scenes
+
+Preserved: one World/clock/history, pure simulation, existing episode conditions,
+explicit player commands, subject-specific knowledge and protected time. Existing
+compiled scene identity and no-pack format-15 saves remain unchanged. Imported
+authored fiction cannot override built-in identities or invoke new legal,
+financial, election or privileged runtime commands.
+
+Corrected: pack-bearing saves require snapshot 16 because older readers accept
+extra World fields. Exact embedded definitions/dependencies/order are validated
+before writable load. Missing or unsupported content is refused while original
+records remain recoverable through existing save quarantine/portable refusal.
+
+Concrete remaining receivers: A's ordinary import/menu/save browser proof;
+N/S/M/K office/term adapters; D's accepted study terms; T/F production/payment
+composition; separately reviewed asset and isolated behavior APIs. This is no
+all-project gate. Detailed migration map and test receipts are in
+`docs/systems/runtime-content-packs.md` and the D33 FOUNDATION handoff.
 
 ## PLAYABLE29 A — complete-outfit adapter (2026-09-13)
 
@@ -1297,3 +1359,80 @@ Scoped refusal/persistence tests and actual creator browser proof passed. No
 new rule or record family was introduced; newer prose reports were retained.
 
 P29-G exact905px continuation: ordinary-02 independently calibrated from its closer-camera plate, after the unchanged normal chooser reproduced904.609px height and below-viewport feet. It does not inherit canonical-03's scale; its authored15% entry clearance accommodates calibrated14.4% width while global safeguards remain. Existing two household variants now compose full standing bodies/contact and correct table depth. Other unsupported scene/pose and press rules stay intact; no World or B/C semantic change.
+
+## S30-N — national electoral boundary (2026-09-13)
+
+Confirmed compatible: accepted simulation semantics, direct campaign arithmetic,
+qualification owner, stable people, seeded identity and absent-field legacy Worlds.
+National records reuse the contiguous history/snapshot, existing due-item calendar,
+canonical jurisdiction, organization/work and zoned minute clock boundaries.
+
+Corrected now: known presidential keys refuse the generic highest-popular-vote
+scheduler/evaluator/resolver; linked national units refuse its seeded placeholder.
+Raw totals, lawful certification winner, appointment, actual ballots/count,
+contingent choice, planned term, qualification/oath and possession are distinct.
+DC's electoral appointment does not grant a House delegation vote. Election-day
+and count-day consumers retain date granularity; qualified term possession has
+an explicit minute boundary. Immutable derived rule data prevents repeated timezone
+conversion per elector during snapshot integrity replay.
+
+Deferred with named inputs: presidential campaign/ballot-access owner supplies
+admitted tickets/all-unit results; state authority supplies certification/ballots;
+congressional producer supplies canonical membership and lawful choice lists;
+qualification receiver supplies actual oath/eligibility disposition. Excluded
+appointments, contested resolution and succession require their own source-backed
+rules. A supplies the minimal ordinary results/opening-holder reader mount.
+No installed delivery or human acceptance follows from fixture/browser proof.
+
+LEARN: raw source vote counts cannot stand in for a state-resolved winner (Maine),
+or for electoral ballots, a congressional outcome or possession. The smallest
+durable controls are record discriminants, refusal tests and source/version checks.
+
+## REST37-N — recovery and supported legislative term boundary (2026-09-14)
+
+| Contract                                    | Disposition            | Evidence and limit                                                                                                                                               |
+| ------------------------------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Frozen semantics and shared election engine | Preserved              | Same direct result resolver/closure, support arithmetic untouched; new recorded receiver consumes supplied inputs only.                                          |
+| Clock and office authority                  | Reconciled             | Existing expected/active/ended work plus paired future-due entry/expiry; result alone is insufficient; no new World store/schema.                                |
+| Rival and changed-office continuity         | Rechecked              | Actual result winner, independent sourced eligibility/alive check, ended pending entry refusal and action-time stale-seat refusal. Historical work is retained.  |
+| Residence and control                       | Preserved              | No movement, household relocation or controlled-person replacement is authored by these transitions.                                                             |
+| S collections and scopes                    | Preserved by adapter   | Patch against the current prepared S reader changes election evidence only; keeps its collection/scope/ambiguity functions. S consumer remains separately owned. |
+| Legacy and missingness                      | Explicit               | Old undated work is not relabelled as a sourced term. Only exact admitted KY keys receive new dated work; missing district cannot identify a chamber-wide seat.  |
+| National obligations                        | Separate               | Existing allocation/count/qualification receivers retain explicit missing producer inputs; legislative continuity supplies none of those inputs.                 |
+| Acceptance                                  | Bounded software proof | Fixture office proof is distinct from ordinary result production, installed delivery and human visual acceptance.                                                |
+
+LEARN: run the ordinary cold-import route as well as feature fixtures when a
+registry joins World integrity or clock readers. Source-certified browser runs
+must freeze all identity inputs until teardown; editing during a passing walk
+invalidates that receipt. The smallest controls are lazy registry construction,
+the ordinary route regression and the existing source-digest gate.
+
+## PEOPLE40 room-fit delta — 2026-09-14
+
+Compatible: optional scene-only crown-to-sole staging; no World, history, seed,
+clock, save, source-data, wardrobe or catalog mutation. Existing body crown and
+sole contacts drive one uniform placement scale; no physical measurements are
+inferred. Old scenes/poses without the optional contract retain width-based
+placement. Canonical-03 background, landmark transform and furniture paint order
+remain unchanged. Scene docking replaces only the competing viewport position
+for scene-contained Talk. Frozen B artwork is a local proof input, not part of
+this delta. Visual acceptance remains human; six-family composition belongs to
+A’s receipt of B’s successor.
+
+## G41 first bounded scene occupancy — 2026-09-14
+
+Compatible: only presentation/scene definitions, additive source-pose placement,
+private preview consumption and scene-contained panel layout change. The original
+PEOPLE40 commit is immutable. POSE41 artwork/adapter is a separately frozen owned
+input, not part of G's scene delta; B's sources, material and wardrobe files are
+unchanged. Existing World activity/presence remains the sole attendance input;
+no participant or activity producer is added. Geometry and seated posture are
+presentation estimates and human acceptance remains pending. Unsupported exact
+outfits/facings retain compatible standing places. Menus, Calendar, News/Journal,
+prose generation, current LIFE/time, saves and Desktop profile are untouched.
+
+LEARN: pose coverage must be checked per person/outfit before reserving a seat;
+transparent canvas padding must not consume scene capacity; and a panel's own
+width cannot repeatedly change the height used to choose its dock. Durable
+controls are the allocation/alpha/contact regressions, actual Talk bounds proof,
+and the keyed measurement guard, rather than larger agent instructions.

@@ -1,4 +1,7 @@
-import type { CSSProperties } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
+import { acquirePreparedVariant } from "./engine-people29-svg";
+import type { AppearanceMaterial } from "../simulation/appearance-material";
+import { ENGINE_PEOPLE29_TEMPLATES } from "../presentation/engine-people29-data";
 
 import type { CharacterRenderPlan } from "../presentation/character-render-plan";
 
@@ -37,8 +40,11 @@ export function ModularCharacter({
     >
       {plan.layers.map((layer, index) =>
         layer.url ? (
-          <img
+          <MaterialImage
             key={layer.assetId}
+            assetId={layer.assetId}
+            material={plan.material}
+            drawnIds={plan.layers.map((l) => l.assetId)}
             className={`modular-character-layer modular-character-layer--${layer.kind}`}
             src={layer.url}
             alt=""
@@ -113,5 +119,70 @@ export function ModularCharacter({
           ))
         : null}
     </div>
+  );
+}
+
+export function MaterialImage({
+  assetId,
+  material,
+  drawnIds,
+  ...props
+}: React.ImgHTMLAttributes<HTMLImageElement> & {
+  assetId: string;
+  material?: AppearanceMaterial;
+  drawnIds: readonly string[];
+}) {
+  const wanted =
+    material && ENGINE_PEOPLE29_TEMPLATES[assetId]
+      ? JSON.stringify([assetId, material, drawnIds])
+      : null;
+  const [variant, setVariant] = useState<{ key: string; url: string } | null>(
+    null,
+  );
+  const [error, setError] = useState(false);
+  useEffect(() => {
+    if (!wanted) return;
+    const [sourceId, parameters, drawn] = JSON.parse(wanted) as [
+      string,
+      AppearanceMaterial,
+      string[],
+    ];
+    let active = true;
+    setError(false);
+    let acquired: ReturnType<typeof acquirePreparedVariant>;
+    try {
+      acquired = acquirePreparedVariant(sourceId, parameters, drawn);
+      void acquired.url.then(
+        (url) => {
+          if (active) setVariant({ key: wanted, url });
+        },
+        () => {
+          if (active) setError(true);
+        },
+      );
+    } catch {
+      setError(true);
+      return;
+    }
+    return () => {
+      active = false;
+      acquired.release();
+    };
+  }, [wanted]);
+  const src = wanted
+    ? variant?.key === wanted
+      ? variant.url
+      : undefined
+    : props.src;
+  return (
+    <img
+      {...props}
+      src={src}
+      data-material-version={wanted ? material!.version : undefined}
+      data-material-parameters={wanted ? JSON.stringify(material) : undefined}
+      data-material-state={
+        wanted ? (error ? "unavailable" : src ? "ready" : "loading") : undefined
+      }
+    />
   );
 }

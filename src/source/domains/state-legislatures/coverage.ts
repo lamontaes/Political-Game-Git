@@ -6,22 +6,18 @@
  * that matters most: how many states have identity but no bill procedure, which
  * is the gap this domain was built to make visible.
  *
- * The report is derived from the corpus and nothing else, so it cannot drift
+ * The identity report is derived from the corpus; procedural registration is read from the runtime registry, so it cannot drift
  * from it, and it carries no wall clock so it replays byte-identically.
  */
 
 import { citedArtifactIds, isUnresolved } from "../../core/index";
 import type { CompiledCorpus } from "../../core/index";
 import type { StateLegislatureIdentity } from "./types";
+import { LEGISLATIVE_RULE_PACKS } from "../../../simulation/legislature-rule-packs";
 
-/** The five states accepted main already carries full bill procedure for. */
-export const PROCEDURAL_PACK_STATES: readonly string[] = [
-  "US-AK",
-  "US-IL",
-  "US-KY",
-  "US-MN",
-  "US-NE",
-];
+/** The actual registry; registration does not imply every field or action is known. */
+export const PROCEDURAL_PACK_STATES: readonly string[] =
+  LEGISLATIVE_RULE_PACKS.map((pack) => pack.jurisdictionKey).sort();
 
 export interface StateCoverage {
   readonly jurisdictionKey: string;
@@ -165,7 +161,7 @@ export function renderCoverageMarkdown(report: CoverageReport): string {
     `- Distinct source artifacts cited: **${report.distinctSourceArtifacts}**`,
   );
   lines.push(
-    `- States with a full legislative rule pack on main: **${report.proceduralPackStates.length}** (${report.proceduralPackStates.join(", ")})`,
+    `- States with a registered legislative rule pack (fields may remain UNKNOWN): **${report.proceduralPackStates.length}** (${report.proceduralPackStates.join(", ")})`,
   );
   lines.push(
     `- States with identity here but no rule pack: **${report.identityOnlyStates.length}**`,

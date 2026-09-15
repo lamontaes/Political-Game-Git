@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 3,
+  "stage": "rest37-life-journeys",
+  "kind": "check",
+  "command": "npm run test:e2e -- tests/e2e/playtest34-life.spec.ts --grep Mom proposes a new game|keyboard performance and20minutes once 1200 --project=chromium --workers=1",
+  "startedAt": "2026-09-14T04:21:18.382Z",
+  "finishedAt": "2026-09-14T04:24:36.093Z",
+  "durationMs": 197821,
+  "branchBefore": "codex/playtest34-a-next",
+  "branch": "codex/playtest34-a-next",
+  "headShaBefore": "9dac3e44ab27bbba5a759399a7a096f82b72fb3b",
+  "headSha": "9dac3e44ab27bbba5a759399a7a096f82b72fb3b",
+  "upstreamRef": null,
+  "upstreamSha": null,
+  "dirtyTrackedCountBefore": 0,
+  "dirtyTrackedCountAfter": 0,
+  "sourceIdentityVersion": "ocd-source-identity-v1",
+  "sourceExcludePaths": [],
+  "sourceFingerprintBefore": "2e3373eccb57906357b95c8e4ee0e373d73e3fbfb155096205013492bfc211bd",
+  "sourceFingerprintAfter": "2e3373eccb57906357b95c8e4ee0e373d73e3fbfb155096205013492bfc211bd",
+  "sourceChangedAcrossRun": false,
+  "exitCode": 1,
+  "signal": null,
+  "commandSucceeded": false,
+  "certifiesSource": false,
+  "certificationBlockers": [
+    "command did not succeed (exitCode=1, signal=null)"
+  ],
+  "logPath": "/private/tmp/pg-rest37-proof/life-journeys/rest37-life-journeys.log"
+}

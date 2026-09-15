@@ -10,7 +10,10 @@ import {
   deliverIncidentResources,
   requestIncidentResources,
   decideIncidentResourceRequest,
+  recordKnownIncidentForCurrentOffice,
+  publishIncidentEvent,
 } from "../simulation/incident-response";
+import { executiveIncidentPorts } from "../presentation/executive-entry";
 import type { World, EntityId } from "../simulation/types";
 
 /** Feature-local Work panel. The root owner supplies the existing World writer;
@@ -69,9 +72,25 @@ export function IncidentResponsePanel({
         Review known reports, arrange response work and follow through on
         existing commitments.
       </p>
-      {!view.reports.length && (
+      {!view.reports.length && !view.awaiting.length && (
         <p>No incident reports are known to this character.</p>
       )}
+      {view.awaiting.map((item) => (
+        <article key={item.onsetEventId}>
+          <h3>Known incident</h3>
+          <p>{item.summary}</p>
+          <button
+            type="button"
+            onClick={() =>
+              act(() =>
+                recordKnownIncidentForCurrentOffice(world, item.onsetEventId),
+              )
+            }
+          >
+            Record this known incident for office review
+          </button>
+        </article>
+      ))}
       <label>
         Staff member{" "}
         <select
@@ -86,6 +105,22 @@ export function IncidentResponsePanel({
           ))}
         </select>
       </label>
+      {view.publicOnsets.map((onset) => (
+        <article key={`public:${onset.id}`}>
+          <h3>Already-public occurrence</h3>
+          <p>{onset.summary}</p>
+          <button
+            type="button"
+            onClick={() =>
+              act(() =>
+                publishIncidentEvent(world, onset.id, executiveIncidentPorts()),
+              )
+            }
+          >
+            Record the already-public occurrence
+          </button>
+        </article>
+      ))}
       {view.reports.map((report) => (
         <article key={report.id}>
           <h3>Available report</h3>

@@ -33,6 +33,7 @@ import type {
  */
 
 export interface MeasureActionOption {
+  readonly disabledReason?: string;
   readonly actionKey: MeasureStepKey;
   readonly label: string;
   readonly detail: string;
@@ -480,7 +481,7 @@ export function projectMeasureBriefing(
     // so only add a note when the effective date says something it does not.
     outcomeNote = enactment?.effectiveAt
       ? `The bill is law and takes effect on ${enactment.effectiveAt}.`
-      : null;
+      : "The bill was enacted; its effective date has not been recorded. Enactment alone does not implement an unmodeled policy effect.";
   } else if (position.outcome === "failed-in-committee") {
     outcomeNote =
       "The committee refused to report the bill, and it went no further.";

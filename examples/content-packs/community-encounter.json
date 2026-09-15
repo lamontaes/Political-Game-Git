@@ -1,0 +1,34 @@
+{
+  "kind": "our-civic-duty-content-pack",
+  "api": "ordinary-scenes-v1",
+  "id": "mod.example.window-box",
+  "version": "1.0.0",
+  "title": "A quiet window-box afternoon",
+  "authority": "authored-fiction",
+  "dependencies": [{ "id": "mod.example.quiet-time", "version": "1.0.0" }],
+  "durations": [],
+  "scenes": [
+    {
+      "key": "mod.example.window-box.afternoon",
+      "ages": [18, 120],
+      "setting": "home",
+      "cast": "alone",
+      "minutes": 12,
+      "durationRef": "mod.example.quiet-time.reading",
+      "premise": "At home, you pause by the window. You have been thinking about growing a few herbs there.",
+      "choices": [
+        {
+          "key": "consider-plants",
+          "label": "Think through where the plants could go",
+          "aftermath": "You spend a few quiet minutes considering the light by your window. You have not bought anything."
+        },
+        {
+          "key": "rest",
+          "label": "Rest by the window instead",
+          "aftermath": "You spend a few quiet minutes resting by the window."
+        }
+      ],
+      "source": "Original fictional example written for the ordinary-scenes-v1 content API; no real-world claim."
+    }
+  ]
+}

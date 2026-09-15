@@ -1,4 +1,5 @@
 import "./MunicipalWorkspace.css";
+import { projectMunicipalGoverning } from "../presentation/municipal-governing";
 import { municipalCapacitySourceUrl } from "../simulation/municipal-capacity";
 import { municipalVenueForActivity } from "../presentation/municipal-venue";
 import type { ReactNode } from "react";
@@ -89,6 +90,9 @@ export function MunicipalWorkspace({
     userOverride,
   });
   const view = municipalWorkspaceFor(world, inspectionKey || undefined);
+  const governing = view
+    ? projectMunicipalGoverning(world, view.government.key)
+    : null;
   const governmentEntries = useMemo(
     () =>
       filterMunicipalGovernmentEntries(
@@ -214,7 +218,9 @@ export function MunicipalWorkspace({
       {directory}
       {!view ? (
         <p data-testid="municipal-missing-home-link">
-          {"No verified government link is available for this home's place."}
+          {
+            "Your town's own government is not in this build yet, so there is nothing to attend or work on here. The governments the game does support are listed above; reading them changes nothing about where you live."
+          }
         </p>
       ) : (
         <>
@@ -283,10 +289,55 @@ export function MunicipalWorkspace({
             ) : null}
           </section>
 
+          {governing ? (
+            <section
+              className="municipal-panel"
+              data-testid="municipal-governing"
+            >
+              <h3>Manager election</h3>
+              {governing.managerAppointment ? (
+                <p data-testid="municipal-manager-result">
+                  {governing.managerAppointment.summary}
+                </p>
+              ) : (
+                <p>
+                  No manager election is recorded for this government in this
+                  save.
+                </p>
+              )}
+              <p>
+                {governing.appointment.ok
+                  ? "Your council seat is recorded. Electing a manager also requires the council's recorded votes; this screen cannot supply other members' decisions."
+                  : governing.appointment.reason}
+              </p>
+              {governing.governmentKey === "us-va-charlottesville" ? (
+                <details>
+                  <summary>Election rule and remaining actions</summary>
+                  <p>
+                    Manager election uses a majority of members voting, with the
+                    charter's quorum required.{" "}
+                    <a href="https://law.lis.virginia.gov/vacode/title15.2/chapter14/section15.2-1420/">
+                      Virginia Code § 15.2-1420
+                    </a>
+                    ;{" "}
+                    <a href="https://law.lis.virginia.gov/charters/charlottesville/">
+                      Charter §§ 5(e), 12
+                    </a>
+                    .
+                  </p>
+                  <p>
+                    Recording a new council election through ordinary play still
+                    needs its member-decision producer.
+                  </p>
+                </details>
+              ) : null}
+            </section>
+          ) : null}
+
           <section className="municipal-panel" data-testid="municipal-people">
             <h3>{"Known people"}</h3>
             {knownPeople.length === 0 ? (
-              <p>{"No current officeholders are recorded in this save."}</p>
+              <p>{"Nobody who holds office here is known to you yet."}</p>
             ) : (
               <ul className="municipal-people-list">
                 {knownPeople.map((person) => (
@@ -322,14 +373,14 @@ export function MunicipalWorkspace({
           >
             <h3>{"Public meetings"}</h3>
             {view.meetings.length === 0 && (
-              <p>{"No session is recorded on this world's calendar."}</p>
+              <p>{"No public meeting is on the calendar yet."}</p>
             )}
             {view.isHomeGovernment &&
               view.availableMeetingSeries.length > 0 && (
                 <div className="municipal-authored-session">
                   <p>
                     {
-                      "Add an explicitly game-authored public session lasting 90 minutes, starting in one hour (tomorrow if this series already met today). This is not a real published notice or agenda. Closed and executive sessions are excluded."
+                      "Put a public session on the calendar: a game-authored 90-minute session starting in an hour, or tomorrow if this series already met today. Closed and executive sessions are not offered."
                     }
                   </p>
                   <label>

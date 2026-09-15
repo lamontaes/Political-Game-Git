@@ -1747,6 +1747,167 @@
       },
       {
         "sceneId": "residence-apartment-living-canonical-03",
+        "anchorId": "living-room-middle-standing",
+        "anchorKind": "floor-standing",
+        "bodyFamily": "dev-adult",
+        "poseFamily": "standing-neutral",
+        "floorCalibrated": true,
+        "composedHeightPercent": {
+          "value": 41.1339,
+          "confidence": "exact",
+          "derivedFrom": "union of the composed layer rectangles, before any fit"
+        },
+        "fittedHeightPercent": {
+          "value": 68.5313,
+          "confidence": "exact",
+          "derivedFrom": "union of the fitted layer rectangles"
+        },
+        "contactResidualPercent": {
+          "value": 0,
+          "confidence": "exact",
+          "derivedFrom": "fitted figure's bottom edge minus the anchor's declared contact line"
+        },
+        "cropped": false,
+        "artClass": "production-fixture",
+        "completeRecipe": false,
+        "layers": [
+          {
+            "assetId": "dev_hair_long_back_v1",
+            "kind": "hair-back",
+            "slotId": "hair",
+            "attachesTo": "head",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "dev_body_adult_standing_v1",
+            "kind": "body",
+            "slotId": "body",
+            "attachesTo": null,
+            "drawn": true,
+            "originResidual": null
+          },
+          {
+            "assetId": "dev_footwear_oxford_black_v1",
+            "kind": "footwear",
+            "slotId": "footwear",
+            "attachesTo": "feet",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "dev_bottom_slacks_charcoal_standing_v1",
+            "kind": "bottom",
+            "slotId": "bottom",
+            "attachesTo": "hips",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "dev_top_tee_teal_standing_v1",
+            "kind": "top",
+            "slotId": "top",
+            "attachesTo": "torso",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "dev_head_oval_v1",
+            "kind": "head",
+            "slotId": "head",
+            "attachesTo": "head",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "dev_hair_long_front_v1",
+            "kind": "hair-front",
+            "slotId": "hair",
+            "attachesTo": "head",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          }
+        ],
+        "refusal": null,
+        "diagnostics": [
+          "preferred-pose-substituted",
+          "body-declares-no-contacts"
+        ]
+      },
+      {
+        "sceneId": "residence-apartment-living-canonical-03",
         "anchorId": "club-chair-seated",
         "anchorKind": "seat",
         "bodyFamily": "dev-adult",
@@ -1766,7 +1927,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "required-slot-empty",
-          "pose-art-missing-for-body-family"
+          "facing-not-permitted-at-anchor"
         ]
       },
       {
@@ -1782,7 +1943,7 @@
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 91.375,
+          "value": 118.7875,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -1791,7 +1952,7 @@
           "confidence": "exact",
           "derivedFrom": "fitted figure's bottom edge minus the anchor's declared contact line"
         },
-        "cropped": false,
+        "cropped": true,
         "artClass": "production-fixture",
         "completeRecipe": false,
         "layers": [
@@ -7924,6 +8085,187 @@
           "preferred-pose-substituted",
           "scene-declares-no-floor-calibration",
           "scene-declares-no-floor-calibration",
+          "body-declares-no-contacts"
+        ]
+      },
+      {
+        "sceneId": "residence-apartment-living-canonical-03",
+        "anchorId": "living-room-middle-standing",
+        "anchorKind": "floor-standing",
+        "bodyFamily": "dev-adult",
+        "poseFamily": "standing-neutral",
+        "floorCalibrated": true,
+        "composedHeightPercent": {
+          "value": 41.1339,
+          "confidence": "exact",
+          "derivedFrom": "union of the composed layer rectangles, before any fit"
+        },
+        "fittedHeightPercent": {
+          "value": 68.5313,
+          "confidence": "exact",
+          "derivedFrom": "union of the fitted layer rectangles"
+        },
+        "contactResidualPercent": {
+          "value": 0,
+          "confidence": "exact",
+          "derivedFrom": "fitted figure's bottom edge minus the anchor's declared contact line"
+        },
+        "cropped": false,
+        "artClass": "production-fixture",
+        "completeRecipe": false,
+        "layers": [
+          {
+            "assetId": "dev_hair_long_back_v1",
+            "kind": "hair-back",
+            "slotId": "hair",
+            "attachesTo": "head",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "dev_body_adult_standing_v1",
+            "kind": "body",
+            "slotId": "body",
+            "attachesTo": null,
+            "drawn": true,
+            "originResidual": null
+          },
+          {
+            "assetId": "dev_footwear_oxford_black_v1",
+            "kind": "footwear",
+            "slotId": "footwear",
+            "attachesTo": "feet",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "dev_bottom_slacks_charcoal_standing_v1",
+            "kind": "bottom",
+            "slotId": "bottom",
+            "attachesTo": "hips",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "dev_top_blazer_navy_standing_v1",
+            "kind": "top",
+            "slotId": "top",
+            "attachesTo": "torso",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "dev_head_round_v1",
+            "kind": "head",
+            "slotId": "head",
+            "attachesTo": "head",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "dev_hair_long_front_v1",
+            "kind": "hair-front",
+            "slotId": "hair",
+            "attachesTo": "head",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "dev_eyewear_round_glasses_v1",
+            "kind": "eyewear",
+            "slotId": "eyewear",
+            "attachesTo": "head",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          }
+        ],
+        "refusal": null,
+        "diagnostics": [
+          "preferred-pose-substituted",
           "body-declares-no-contacts"
         ]
       },
@@ -7948,7 +8290,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "required-slot-empty",
-          "pose-art-missing-for-body-family"
+          "facing-not-permitted-at-anchor"
         ]
       },
       {
@@ -7964,7 +8306,7 @@
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 91.375,
+          "value": 118.7875,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -7973,7 +8315,7 @@
           "confidence": "exact",
           "derivedFrom": "fitted figure's bottom edge minus the anchor's declared contact line"
         },
-        "cropped": false,
+        "cropped": true,
         "artClass": "production-fixture",
         "completeRecipe": false,
         "layers": [
@@ -13991,6 +14333,127 @@
       },
       {
         "sceneId": "residence-apartment-living-canonical-03",
+        "anchorId": "living-room-middle-standing",
+        "anchorKind": "floor-standing",
+        "bodyFamily": "dev-adult",
+        "poseFamily": "standing-neutral",
+        "floorCalibrated": true,
+        "composedHeightPercent": {
+          "value": 41.1339,
+          "confidence": "exact",
+          "derivedFrom": "union of the composed layer rectangles, before any fit"
+        },
+        "fittedHeightPercent": {
+          "value": 68.5313,
+          "confidence": "exact",
+          "derivedFrom": "union of the fitted layer rectangles"
+        },
+        "contactResidualPercent": {
+          "value": 0,
+          "confidence": "exact",
+          "derivedFrom": "fitted figure's bottom edge minus the anchor's declared contact line"
+        },
+        "cropped": false,
+        "artClass": "production-fixture",
+        "completeRecipe": false,
+        "layers": [
+          {
+            "assetId": "dev_body_adult_standing_v1",
+            "kind": "body",
+            "slotId": "body",
+            "attachesTo": null,
+            "drawn": true,
+            "originResidual": null
+          },
+          {
+            "assetId": "dev_footwear_oxford_black_v1",
+            "kind": "footwear",
+            "slotId": "footwear",
+            "attachesTo": "feet",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "dev_bottom_slacks_charcoal_standing_v1",
+            "kind": "bottom",
+            "slotId": "bottom",
+            "attachesTo": "hips",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "dev_top_tee_teal_standing_v1",
+            "kind": "top",
+            "slotId": "top",
+            "attachesTo": "torso",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "dev_head_round_v1",
+            "kind": "head",
+            "slotId": "head",
+            "attachesTo": "head",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          }
+        ],
+        "refusal": null,
+        "diagnostics": [
+          "preferred-pose-substituted",
+          "body-declares-no-contacts"
+        ]
+      },
+      {
+        "sceneId": "residence-apartment-living-canonical-03",
         "anchorId": "club-chair-seated",
         "anchorKind": "seat",
         "bodyFamily": "dev-adult",
@@ -14010,7 +14473,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "required-slot-empty",
-          "pose-art-missing-for-body-family"
+          "facing-not-permitted-at-anchor"
         ]
       },
       {
@@ -14026,7 +14489,7 @@
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 91.375,
+          "value": 118.7875,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -14035,7 +14498,7 @@
           "confidence": "exact",
           "derivedFrom": "fitted figure's bottom edge minus the anchor's declared contact line"
         },
-        "cropped": false,
+        "cropped": true,
         "artClass": "production-fixture",
         "completeRecipe": false,
         "layers": [
@@ -18868,6 +19331,167 @@
           "preferred-pose-substituted",
           "scene-declares-no-floor-calibration",
           "scene-declares-no-floor-calibration",
+          "body-declares-no-contacts"
+        ]
+      },
+      {
+        "sceneId": "residence-apartment-living-canonical-03",
+        "anchorId": "living-room-middle-standing",
+        "anchorKind": "floor-standing",
+        "bodyFamily": "dev-adult",
+        "poseFamily": "standing-neutral",
+        "floorCalibrated": true,
+        "composedHeightPercent": {
+          "value": 41.1339,
+          "confidence": "exact",
+          "derivedFrom": "union of the composed layer rectangles, before any fit"
+        },
+        "fittedHeightPercent": {
+          "value": 68.5313,
+          "confidence": "exact",
+          "derivedFrom": "union of the fitted layer rectangles"
+        },
+        "contactResidualPercent": {
+          "value": 0,
+          "confidence": "exact",
+          "derivedFrom": "fitted figure's bottom edge minus the anchor's declared contact line"
+        },
+        "cropped": false,
+        "artClass": "production-fixture",
+        "completeRecipe": false,
+        "layers": [
+          {
+            "assetId": "dev_body_adult_standing_v1",
+            "kind": "body",
+            "slotId": "body",
+            "attachesTo": null,
+            "drawn": true,
+            "originResidual": null
+          },
+          {
+            "assetId": "dev_footwear_oxford_black_v1",
+            "kind": "footwear",
+            "slotId": "footwear",
+            "attachesTo": "feet",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "dev_bottom_slacks_charcoal_standing_v1",
+            "kind": "bottom",
+            "slotId": "bottom",
+            "attachesTo": "hips",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "dev_top_tee_teal_standing_v1",
+            "kind": "top",
+            "slotId": "top",
+            "attachesTo": "torso",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "dev_accessory_lapel_pin_v1",
+            "kind": "accessory",
+            "slotId": "accessory",
+            "attachesTo": "torso",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "dev_head_round_v1",
+            "kind": "head",
+            "slotId": "head",
+            "attachesTo": "head",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "dev_hair_crop_front_v1",
+            "kind": "hair-front",
+            "slotId": "hair",
+            "attachesTo": "head",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          }
+        ],
+        "refusal": null,
+        "diagnostics": [
+          "preferred-pose-substituted",
           "body-declares-no-contacts"
         ]
       },
@@ -18892,7 +19516,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "required-slot-empty",
-          "pose-art-missing-for-body-family"
+          "facing-not-permitted-at-anchor"
         ]
       },
       {
@@ -18908,7 +19532,7 @@
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 91.375,
+          "value": 118.7875,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -18917,7 +19541,7 @@
           "confidence": "exact",
           "derivedFrom": "fitted figure's bottom edge minus the anchor's declared contact line"
         },
-        "cropped": false,
+        "cropped": true,
         "artClass": "production-fixture",
         "completeRecipe": false,
         "layers": [
@@ -23099,6 +23723,7 @@
     "remainingAssetNeeds": [
       "facing-not-permitted-at-anchor: Anchor 'clerk-desk-chair' permits facings away; pose 'seated-at-desk' faces 'front'.",
       "facing-not-permitted-at-anchor: Anchor 'clerk-desk-chair' permits facings away; this body faces 'front'.",
+      "facing-not-permitted-at-anchor: Anchor 'club-chair-seated' permits facings three-quarter-right; pose 'seated-guest-neutral' faces 'front'.",
       "facing-not-permitted-at-anchor: Anchor 'counsel-chair-left' permits facings away; pose 'seated-at-desk' faces 'front'.",
       "facing-not-permitted-at-anchor: Anchor 'counsel-chair-left' permits facings away; this body faces 'front'.",
       "facing-not-permitted-at-anchor: Anchor 'left-task-chair' permits facings away; pose 'seated-at-desk' faces 'front'.",
@@ -23140,7 +23765,7 @@
         "poseFamily": "standing-neutral",
         "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 43.1819,
+          "value": 27.8727,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -23278,7 +23903,7 @@
         "poseFamily": "standing-neutral",
         "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 69.6519,
+          "value": 44.9583,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -23294,7 +23919,7 @@
         },
         "cropped": true,
         "artClass": "candidate-review",
-        "completeRecipe": false,
+        "completeRecipe": true,
         "layers": [
           {
             "assetId": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
@@ -23406,7 +24031,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": ["sprite-exceeds-footprint"]
+        "diagnostics": []
       },
       {
         "sceneId": "shared-workroom-office-production",
@@ -23441,7 +24066,7 @@
         "poseFamily": "standing-neutral",
         "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 89.5044,
+          "value": 57.7726,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -23457,7 +24082,7 @@
         },
         "cropped": true,
         "artClass": "candidate-review",
-        "completeRecipe": false,
+        "completeRecipe": true,
         "layers": [
           {
             "assetId": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
@@ -23569,7 +24194,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": ["sprite-exceeds-footprint"]
+        "diagnostics": []
       },
       {
         "sceneId": "civic-community-meeting-title",
@@ -24447,6 +25072,144 @@
       },
       {
         "sceneId": "residence-apartment-living-canonical-03",
+        "anchorId": "living-room-middle-standing",
+        "anchorKind": "floor-standing",
+        "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+        "poseFamily": "standing-neutral",
+        "floorCalibrated": true,
+        "composedHeightPercent": {
+          "value": 59.5627,
+          "confidence": "exact",
+          "derivedFrom": "union of the composed layer rectangles, before any fit"
+        },
+        "fittedHeightPercent": {
+          "value": 68.5313,
+          "confidence": "exact",
+          "derivedFrom": "union of the fitted layer rectangles"
+        },
+        "contactResidualPercent": {
+          "value": 0,
+          "confidence": "exact",
+          "derivedFrom": "fitted figure's bottom edge minus the anchor's declared contact line"
+        },
+        "cropped": false,
+        "artClass": "candidate-review",
+        "completeRecipe": false,
+        "layers": [
+          {
+            "assetId": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+            "kind": "body",
+            "slotId": "body",
+            "attachesTo": null,
+            "drawn": true,
+            "originResidual": null
+          },
+          {
+            "assetId": "pv4_wave_a_male_bottom_olive_cargo_trousers_v1",
+            "kind": "bottom",
+            "slotId": "bottom",
+            "attachesTo": "hips",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "pv4_wave_a_male_top_white_button_up_shirt_v1",
+            "kind": "top",
+            "slotId": "top",
+            "attachesTo": "torso",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "pv4_ocd_head_adult_olive_oval_adult_v1",
+            "kind": "head",
+            "slotId": "head",
+            "attachesTo": "head",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+            "kind": "footwear",
+            "slotId": "footwear",
+            "attachesTo": "feet",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "pv4_hair_30_olive_oval_adult_v1_front",
+            "kind": "hair-front",
+            "slotId": "hair",
+            "attachesTo": "head",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          }
+        ],
+        "refusal": null,
+        "diagnostics": ["preferred-pose-substituted"]
+      },
+      {
+        "sceneId": "residence-apartment-living-canonical-03",
         "anchorId": "club-chair-seated",
         "anchorKind": "seat",
         "bodyFamily": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
@@ -24466,7 +25229,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "required-slot-empty",
-          "pose-art-missing-for-body-family"
+          "facing-not-permitted-at-anchor"
         ]
       },
       {
@@ -24477,12 +25240,12 @@
         "poseFamily": "standing-neutral",
         "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 48.6207,
+          "value": 79.4169,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 91.375,
+          "value": 118.7875,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -24491,7 +25254,7 @@
           "confidence": "exact",
           "derivedFrom": "fitted figure's bottom edge minus the anchor's declared contact line"
         },
-        "cropped": false,
+        "cropped": true,
         "artClass": "candidate-review",
         "completeRecipe": true,
         "layers": [
@@ -24640,7 +25403,7 @@
         "poseFamily": "standing-neutral",
         "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 36.4655,
+          "value": 59.5627,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -24656,7 +25419,7 @@
         },
         "cropped": false,
         "artClass": "candidate-review",
-        "completeRecipe": true,
+        "completeRecipe": false,
         "layers": [
           {
             "assetId": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
@@ -24768,7 +25531,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": []
+        "diagnostics": ["sprite-exceeds-footprint"]
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -27248,7 +28011,7 @@
         "poseFamily": "standing-neutral",
         "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 42.9284,
+          "value": 27.7091,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -27386,7 +28149,7 @@
         "poseFamily": "standing-neutral",
         "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 69.2431,
+          "value": 44.6945,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -27402,7 +28165,7 @@
         },
         "cropped": true,
         "artClass": "candidate-review",
-        "completeRecipe": false,
+        "completeRecipe": true,
         "layers": [
           {
             "assetId": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
@@ -27514,7 +28277,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": ["sprite-exceeds-footprint"]
+        "diagnostics": []
       },
       {
         "sceneId": "shared-workroom-office-production",
@@ -27549,7 +28312,7 @@
         "poseFamily": "standing-neutral",
         "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 88.9791,
+          "value": 57.4335,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -27565,7 +28328,7 @@
         },
         "cropped": true,
         "artClass": "candidate-review",
-        "completeRecipe": false,
+        "completeRecipe": true,
         "layers": [
           {
             "assetId": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
@@ -27677,7 +28440,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": ["sprite-exceeds-footprint"]
+        "diagnostics": []
       },
       {
         "sceneId": "civic-community-meeting-title",
@@ -28555,6 +29318,144 @@
       },
       {
         "sceneId": "residence-apartment-living-canonical-03",
+        "anchorId": "living-room-middle-standing",
+        "anchorKind": "floor-standing",
+        "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+        "poseFamily": "standing-neutral",
+        "floorCalibrated": true,
+        "composedHeightPercent": {
+          "value": 59.2131,
+          "confidence": "exact",
+          "derivedFrom": "union of the composed layer rectangles, before any fit"
+        },
+        "fittedHeightPercent": {
+          "value": 68.5312,
+          "confidence": "exact",
+          "derivedFrom": "union of the fitted layer rectangles"
+        },
+        "contactResidualPercent": {
+          "value": 0,
+          "confidence": "exact",
+          "derivedFrom": "fitted figure's bottom edge minus the anchor's declared contact line"
+        },
+        "cropped": false,
+        "artClass": "candidate-review",
+        "completeRecipe": false,
+        "layers": [
+          {
+            "assetId": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+            "kind": "body",
+            "slotId": "body",
+            "attachesTo": null,
+            "drawn": true,
+            "originResidual": null
+          },
+          {
+            "assetId": "pv4_wave_a_male_bottom_khaki_shorts_v1",
+            "kind": "bottom",
+            "slotId": "bottom",
+            "attachesTo": "hips",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0.0046,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "pv4_wave_a_female_top_teal_shell_jacket_v1",
+            "kind": "top",
+            "slotId": "top",
+            "attachesTo": "torso",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "pv4_ocd_head_adult_light_oval_young_fem_v1",
+            "kind": "head",
+            "slotId": "head",
+            "attachesTo": "head",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+            "kind": "footwear",
+            "slotId": "footwear",
+            "attachesTo": "feet",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "pv4_hair_37_light_oval_young_fem_v1_front",
+            "kind": "hair-front",
+            "slotId": "hair",
+            "attachesTo": "head",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          }
+        ],
+        "refusal": null,
+        "diagnostics": ["preferred-pose-substituted"]
+      },
+      {
+        "sceneId": "residence-apartment-living-canonical-03",
         "anchorId": "club-chair-seated",
         "anchorKind": "seat",
         "bodyFamily": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
@@ -28574,7 +29475,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "required-slot-empty",
-          "pose-art-missing-for-body-family"
+          "facing-not-permitted-at-anchor"
         ]
       },
       {
@@ -28585,12 +29486,12 @@
         "poseFamily": "standing-neutral",
         "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 48.3353,
+          "value": 78.9508,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 91.375,
+          "value": 118.7875,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -28599,7 +29500,7 @@
           "confidence": "exact",
           "derivedFrom": "fitted figure's bottom edge minus the anchor's declared contact line"
         },
-        "cropped": false,
+        "cropped": true,
         "artClass": "candidate-review",
         "completeRecipe": true,
         "layers": [
@@ -28748,7 +29649,7 @@
         "poseFamily": "standing-neutral",
         "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 36.2515,
+          "value": 59.2131,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -28764,7 +29665,7 @@
         },
         "cropped": false,
         "artClass": "candidate-review",
-        "completeRecipe": true,
+        "completeRecipe": false,
         "layers": [
           {
             "assetId": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
@@ -28876,7 +29777,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": []
+        "diagnostics": ["sprite-exceeds-footprint"]
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -31356,7 +32257,7 @@
         "poseFamily": "standing-neutral",
         "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 40.2785,
+          "value": 25.9986,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -31474,7 +32375,7 @@
         "poseFamily": "standing-neutral",
         "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 64.9687,
+          "value": 41.9355,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -31490,7 +32391,7 @@
         },
         "cropped": true,
         "artClass": "candidate-review",
-        "completeRecipe": false,
+        "completeRecipe": true,
         "layers": [
           {
             "assetId": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
@@ -31582,7 +32483,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": ["sprite-exceeds-footprint"]
+        "diagnostics": []
       },
       {
         "sceneId": "shared-workroom-office-production",
@@ -31617,7 +32518,7 @@
         "poseFamily": "standing-neutral",
         "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 83.4864,
+          "value": 53.8881,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -31633,7 +32534,7 @@
         },
         "cropped": true,
         "artClass": "candidate-review",
-        "completeRecipe": false,
+        "completeRecipe": true,
         "layers": [
           {
             "assetId": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
@@ -31725,7 +32626,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": ["sprite-exceeds-footprint"]
+        "diagnostics": []
       },
       {
         "sceneId": "civic-community-meeting-title",
@@ -32483,6 +33384,124 @@
       },
       {
         "sceneId": "residence-apartment-living-canonical-03",
+        "anchorId": "living-room-middle-standing",
+        "anchorKind": "floor-standing",
+        "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+        "poseFamily": "standing-neutral",
+        "floorCalibrated": true,
+        "composedHeightPercent": {
+          "value": 55.5579,
+          "confidence": "exact",
+          "derivedFrom": "union of the composed layer rectangles, before any fit"
+        },
+        "fittedHeightPercent": {
+          "value": 68.5313,
+          "confidence": "exact",
+          "derivedFrom": "union of the fitted layer rectangles"
+        },
+        "contactResidualPercent": {
+          "value": 0,
+          "confidence": "exact",
+          "derivedFrom": "fitted figure's bottom edge minus the anchor's declared contact line"
+        },
+        "cropped": false,
+        "artClass": "candidate-review",
+        "completeRecipe": false,
+        "layers": [
+          {
+            "assetId": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+            "kind": "body",
+            "slotId": "body",
+            "attachesTo": null,
+            "drawn": true,
+            "originResidual": null
+          },
+          {
+            "assetId": "pv4_wave_a_male_bottom_khaki_shorts_v1",
+            "kind": "bottom",
+            "slotId": "bottom",
+            "attachesTo": "hips",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": -0.0104,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "pv4_wave_a_male_top_plaid_overshirt_v1",
+            "kind": "top",
+            "slotId": "top",
+            "attachesTo": "torso",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": -0.0016,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "pv4_ocd_head_adult_light_oval_young_fem_v1",
+            "kind": "head",
+            "slotId": "head",
+            "attachesTo": "head",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+            "kind": "footwear",
+            "slotId": "footwear",
+            "attachesTo": "feet",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          }
+        ],
+        "refusal": null,
+        "diagnostics": ["preferred-pose-substituted"]
+      },
+      {
+        "sceneId": "residence-apartment-living-canonical-03",
         "anchorId": "club-chair-seated",
         "anchorKind": "seat",
         "bodyFamily": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
@@ -32502,7 +33521,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "required-slot-empty",
-          "pose-art-missing-for-body-family"
+          "facing-not-permitted-at-anchor"
         ]
       },
       {
@@ -32513,12 +33532,12 @@
         "poseFamily": "standing-neutral",
         "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 45.3516,
+          "value": 74.0772,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 91.375,
+          "value": 118.7875,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -32527,7 +33546,7 @@
           "confidence": "exact",
           "derivedFrom": "fitted figure's bottom edge minus the anchor's declared contact line"
         },
-        "cropped": false,
+        "cropped": true,
         "artClass": "candidate-review",
         "completeRecipe": true,
         "layers": [
@@ -32656,7 +33675,7 @@
         "poseFamily": "standing-neutral",
         "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 34.0137,
+          "value": 55.5579,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -32672,7 +33691,7 @@
         },
         "cropped": false,
         "artClass": "candidate-review",
-        "completeRecipe": true,
+        "completeRecipe": false,
         "layers": [
           {
             "assetId": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
@@ -32764,7 +33783,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": []
+        "diagnostics": ["sprite-exceeds-footprint"]
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -34924,7 +35943,7 @@
         "poseFamily": "standing-neutral",
         "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 42.425,
+          "value": 27.3841,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -35082,7 +36101,7 @@
         "poseFamily": "standing-neutral",
         "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 68.431,
+          "value": 44.1703,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -35098,7 +36117,7 @@
         },
         "cropped": true,
         "artClass": "candidate-review",
-        "completeRecipe": false,
+        "completeRecipe": true,
         "layers": [
           {
             "assetId": "pv4_hair_41_light_square_older_masc_v1_back",
@@ -35230,7 +36249,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": ["sprite-exceeds-footprint"]
+        "diagnostics": []
       },
       {
         "sceneId": "shared-workroom-office-production",
@@ -35265,7 +36284,7 @@
         "poseFamily": "standing-neutral",
         "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 87.9356,
+          "value": 56.7599,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -35281,7 +36300,7 @@
         },
         "cropped": true,
         "artClass": "candidate-review",
-        "completeRecipe": false,
+        "completeRecipe": true,
         "layers": [
           {
             "assetId": "pv4_hair_41_light_square_older_masc_v1_back",
@@ -35413,7 +36432,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": ["sprite-exceeds-footprint"]
+        "diagnostics": []
       },
       {
         "sceneId": "civic-community-meeting-title",
@@ -36411,6 +37430,164 @@
       },
       {
         "sceneId": "residence-apartment-living-canonical-03",
+        "anchorId": "living-room-middle-standing",
+        "anchorKind": "floor-standing",
+        "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+        "poseFamily": "standing-neutral",
+        "floorCalibrated": true,
+        "composedHeightPercent": {
+          "value": 58.5186,
+          "confidence": "exact",
+          "derivedFrom": "union of the composed layer rectangles, before any fit"
+        },
+        "fittedHeightPercent": {
+          "value": 68.5312,
+          "confidence": "exact",
+          "derivedFrom": "union of the fitted layer rectangles"
+        },
+        "contactResidualPercent": {
+          "value": 0,
+          "confidence": "exact",
+          "derivedFrom": "fitted figure's bottom edge minus the anchor's declared contact line"
+        },
+        "cropped": false,
+        "artClass": "candidate-review",
+        "completeRecipe": false,
+        "layers": [
+          {
+            "assetId": "pv4_hair_41_light_square_older_masc_v1_back",
+            "kind": "hair-back",
+            "slotId": "hair",
+            "attachesTo": "head",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+            "kind": "body",
+            "slotId": "body",
+            "attachesTo": null,
+            "drawn": true,
+            "originResidual": null
+          },
+          {
+            "assetId": "pv4_wave_a_male_bottom_khaki_shorts_v1",
+            "kind": "bottom",
+            "slotId": "bottom",
+            "attachesTo": "hips",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0.0046,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "pv4_wave_a_female_top_charcoal_blazer_v1",
+            "kind": "top",
+            "slotId": "top",
+            "attachesTo": "torso",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "pv4_ocd_head_adult_light_square_older_masc_v1",
+            "kind": "head",
+            "slotId": "head",
+            "attachesTo": "head",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+            "kind": "footwear",
+            "slotId": "footwear",
+            "attachesTo": "feet",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          },
+          {
+            "assetId": "pv4_hair_41_light_square_older_masc_v1_front",
+            "kind": "hair-front",
+            "slotId": "hair",
+            "attachesTo": "head",
+            "drawn": true,
+            "originResidual": {
+              "x": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "y": {
+                "value": 0,
+                "confidence": "exact",
+                "derivedFrom": "placed origin minus the declared body anchor, in body-canvas fractions"
+              },
+              "fitted": true
+            }
+          }
+        ],
+        "refusal": null,
+        "diagnostics": ["preferred-pose-substituted"]
+      },
+      {
+        "sceneId": "residence-apartment-living-canonical-03",
         "anchorId": "club-chair-seated",
         "anchorKind": "seat",
         "bodyFamily": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
@@ -36430,7 +37607,7 @@
           "required-slot-empty",
           "required-slot-empty",
           "required-slot-empty",
-          "pose-art-missing-for-body-family"
+          "facing-not-permitted-at-anchor"
         ]
       },
       {
@@ -36441,12 +37618,12 @@
         "poseFamily": "standing-neutral",
         "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 47.7684,
+          "value": 78.0249,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
         "fittedHeightPercent": {
-          "value": 91.375,
+          "value": 118.7875,
           "confidence": "exact",
           "derivedFrom": "union of the fitted layer rectangles"
         },
@@ -36455,7 +37632,7 @@
           "confidence": "exact",
           "derivedFrom": "fitted figure's bottom edge minus the anchor's declared contact line"
         },
-        "cropped": false,
+        "cropped": true,
         "artClass": "candidate-review",
         "completeRecipe": true,
         "layers": [
@@ -36624,7 +37801,7 @@
         "poseFamily": "standing-neutral",
         "floorCalibrated": true,
         "composedHeightPercent": {
-          "value": 35.8263,
+          "value": 58.5186,
           "confidence": "exact",
           "derivedFrom": "union of the composed layer rectangles, before any fit"
         },
@@ -36640,7 +37817,7 @@
         },
         "cropped": false,
         "artClass": "candidate-review",
-        "completeRecipe": true,
+        "completeRecipe": false,
         "layers": [
           {
             "assetId": "pv4_hair_41_light_square_older_masc_v1_back",
@@ -36772,7 +37949,7 @@
           }
         ],
         "refusal": null,
-        "diagnostics": []
+        "diagnostics": ["sprite-exceeds-footprint"]
       },
       {
         "sceneId": "residence-apartment-living-ordinary-02",
@@ -39567,6 +40744,7 @@
     ],
     "remainingAssetNeeds": [
       "facing-not-permitted-at-anchor: Anchor 'clerk-desk-chair' permits facings away; pose 'seated-at-desk' faces 'front'.",
+      "facing-not-permitted-at-anchor: Anchor 'club-chair-seated' permits facings three-quarter-right; pose 'seated-guest-neutral' faces 'front'.",
       "facing-not-permitted-at-anchor: Anchor 'counsel-chair-left' permits facings away; pose 'seated-at-desk' faces 'front'.",
       "facing-not-permitted-at-anchor: Anchor 'left-task-chair' permits facings away; pose 'seated-at-desk' faces 'front'.",
       "facing-not-permitted-at-anchor: Anchor 'left-task-chair' permits facings away; pose 'seated-guest-neutral' faces 'front'.",

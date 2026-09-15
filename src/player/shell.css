@@ -13,7 +13,27 @@
  * rather than a permanent dashboard.
  */
 
+:root,
 .life-shell {
+  /* Type. Display serif for names and headings; a licensed system sans for
+     controls and reading copy. No webfont files are shipped. */
+  --pg-font-display:
+    Palatino, "Palatino Linotype", "Book Antiqua", Georgia, "Times New Roman",
+    serif;
+  --pg-font-ui:
+    ui-sans-serif, system-ui, "Segoe UI", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
+  /* Spacing scale. Every new shell rule uses these rather than a fresh rem. */
+  --pg-space-1: 0.25rem;
+  --pg-space-2: 0.5rem;
+  --pg-space-3: 0.75rem;
+  --pg-space-4: 1rem;
+  --pg-space-5: 1.5rem;
+  /* Surfaces: restrained translucency with an edge and a real shadow. */
+  --pg-glass: rgba(11, 19, 32, 0.8);
+  --pg-glass-strong: rgba(9, 15, 26, 0.92);
+  --pg-edge: 0 1px 0 rgba(244, 236, 224, 0.12) inset;
+  --pg-blur: blur(10px);
   --pg-ivory: var(--run-a-ink);
   --pg-ivory-dim: var(--run-a-muted);
   --pg-ivory-faint: rgba(200, 185, 151, 0.72);
@@ -24,6 +44,12 @@
   --pg-hairline: rgba(244, 236, 224, 0.16);
   --pg-shadow: 0 18px 44px rgba(0, 0, 0, 0.42);
   --pg-radius: 3px;
+  --pg-content-bottom: calc(
+    1.15rem + env(safe-area-inset-bottom, 0px) + var(--pg-vv-inset-bottom, 0px)
+  );
+  --pg-content-top: calc(
+    env(safe-area-inset-top, 0px) + var(--pg-vv-inset-top, 0px)
+  );
 }
 
 /*
@@ -39,8 +65,8 @@
 
 .pg-nav {
   position: fixed;
-  left: 1.15rem;
-  bottom: 1.15rem;
+  left: max(1.15rem, env(safe-area-inset-left, 0px));
+  bottom: var(--pg-content-bottom);
   z-index: 40;
   display: flex;
   flex-direction: column-reverse;
@@ -61,13 +87,17 @@
 .pg-nav-cluster {
   display: flex;
   align-items: center;
-  padding: 0.45rem 0.85rem 0.45rem 0.5rem;
+  padding: 0.4rem 0.75rem;
   border-radius: var(--pg-radius);
-  border: 1px solid transparent;
-  background: rgba(11, 19, 32, 0.42);
+  border: 1px solid var(--pg-hairline);
+  background: rgba(11, 19, 32, 0.72);
   color: var(--pg-ivory);
   cursor: pointer;
   text-align: left;
+  box-shadow:
+    0 1px 0 rgba(244, 236, 224, 0.12) inset,
+    0 8px 22px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(8px);
   transition:
     background 200ms ease,
     border-color 200ms ease,
@@ -85,8 +115,8 @@
 }
 
 .pg-nav[data-state="rest"] .pg-nav-cluster-inner {
-  transform: scale(0.82);
-  opacity: 0.66;
+  transform: none;
+  opacity: 0.92;
 }
 
 .pg-nav[data-state="near"] .pg-nav-cluster,
@@ -158,8 +188,11 @@
 /* The upward-opening primary stack. One submenu level, and no more. */
 .pg-nav-flyout {
   min-width: 17rem;
-  max-height: 70vh;
+  max-height: calc(
+    var(--pg-vv-height, 100dvh) - var(--pg-content-bottom) - 5.75rem
+  );
   overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 0.4rem;
   border-radius: var(--pg-radius);
   border: 1px solid var(--pg-hairline);
@@ -173,6 +206,16 @@
  * with a clear brass edge and an offset. The historically rejected near-white
  * submenu must not come back.
  */
+.pg-nav-persist {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  margin-top: 0.35rem;
+  padding-top: 0.35rem;
+  background: var(--pg-navy);
+  border-top: 1px solid var(--pg-hairline);
+}
+
 .pg-nav-flyout[data-level="submenu"] {
   background: var(--pg-slate);
   border-left: 2px solid var(--pg-brass);
@@ -393,66 +436,9 @@
   color: #e0876b;
 }
 
-/* -------------------------------------------------------- action menu */
-
-.pg-action-menu {
-  position: fixed;
-  right: 19rem;
-  bottom: 6rem;
-  z-index: 42;
-  min-width: 13rem;
-  padding: 0.35rem;
-  border-radius: var(--pg-radius);
-  box-shadow: var(--pg-shadow);
-}
-
-.pg-action-menu-name {
-  margin: 0.25rem 0.5rem 0.4rem;
-  font-size: 0.7rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--pg-brass);
-}
-
-.pg-action-menu button {
-  display: grid;
-  width: 100%;
-  padding: 0.36rem 0.5rem;
-  border: 0;
-  border-radius: 2px;
-  background: none;
-  color: var(--run-a-ink);
-  font: inherit;
-  font-size: 0.88rem;
-  text-align: left;
-  cursor: pointer;
-}
-
-.pg-action-menu button small {
-  color: var(--pg-ivory-faint);
-  font-size: 0.7rem;
-}
-
-.pg-action-menu button:disabled {
-  opacity: 0.5;
-  cursor: default;
-}
-
-.pg-action-menu button:hover:not(:disabled),
-.pg-action-menu button:focus-visible {
-  background: rgba(194, 155, 72, 0.18);
-}
-
 /* ----------------------------------------------------------- dossiers */
 
 .pg-quick-dossier {
-  position: fixed;
-  right: 19rem;
-  top: 4rem;
-  z-index: 41;
-  width: min(23rem, 34vw);
-  max-height: 70vh;
-  overflow-y: auto;
   padding: 0.9rem 1rem;
   border-radius: var(--pg-radius);
 }
@@ -584,11 +570,14 @@
 .pg-workspace {
   position: fixed;
   left: 50%;
-  top: 3vh;
+  top: max(1.5rem, var(--pg-content-top));
   transform: translateX(-50%);
   z-index: 38;
-  width: min(58rem, 74vw);
-  max-height: 88vh;
+  width: min(58rem, calc(100dvw - 2rem));
+  max-height: calc(
+    var(--pg-vv-height, 100dvh) - var(--pg-content-top) -
+      var(--pg-content-bottom) - 4.25rem
+  );
   display: flex;
   flex-direction: column;
   border-radius: var(--pg-radius);
@@ -709,9 +698,10 @@
 }
 
 .pg-person-row {
-  display: grid;
+  display: flex;
+  align-items: center;
   width: 100%;
-  gap: 0.1rem;
+  gap: 0.7rem;
   padding: 0.45rem 0.6rem;
   border: 1px solid var(--pg-hairline);
   border-radius: 2px;
@@ -727,9 +717,13 @@
   border-color: var(--pg-brass-dim);
 }
 
-.pg-person-row small {
-  color: var(--pg-ivory-dim);
-  font-size: 0.75rem;
+.pg-person-row strong,
+.pg-person-row .person-portrait {
+  flex: 0 0 auto;
+}
+
+.pg-person-row strong {
+  flex: 1 1 auto;
 }
 
 /* -------------------------------------------------------------- calendar */
@@ -756,8 +750,13 @@
 
 .pg-calendar-entry {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
+}
+
+.pg-calendar-entry .game-choices {
+  flex: 1 1 100%;
 }
 
 .pg-calendar-open {
@@ -834,6 +833,17 @@
   pointer-events: none;
 }
 
+.pg-build {
+  position: fixed;
+  right: 0.85rem;
+  bottom: 1.3rem;
+  z-index: 30;
+  margin: 0;
+  font-size: 0.66rem;
+  color: rgba(200, 185, 151, 0.7);
+  pointer-events: none;
+}
+
 /* ---------------------------------------------------- narrow desktop sizes */
 
 /*
@@ -846,11 +856,6 @@
   .pg-workspace {
     width: min(58rem, 86vw);
   }
-
-  .pg-quick-dossier,
-  .pg-action-menu {
-    right: 16rem;
-  }
 }
 
 @media (max-width: 1100px) {
@@ -858,15 +863,6 @@
     width: 94vw;
     top: 2vh;
     max-height: 92vh;
-  }
-
-  .pg-quick-dossier {
-    right: 1rem;
-    width: min(21rem, 46vw);
-  }
-
-  .pg-action-menu {
-    right: 1rem;
   }
 
   .pg-pin[data-size="expanded"] {
@@ -1249,4 +1245,598 @@
 .pg-work-section > h3:focus-visible {
   outline: 2px solid var(--pg-brass);
   outline-offset: 3px;
+}
+
+.pg-talk-return {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--pg-content-bottom, 1.15rem) + 3.4rem);
+  z-index: 41;
+  transform: translateX(-50%);
+  display: grid;
+  gap: 0.15rem;
+  min-width: 12rem;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid var(--pg-hairline);
+  border-radius: var(--pg-radius);
+  background: rgba(11, 19, 32, 0.88);
+  color: var(--pg-ivory);
+  cursor: pointer;
+  text-align: left;
+}
+
+.pg-talk-return small {
+  color: var(--pg-ivory-dim);
+}
+
+.pg-talk-context {
+  font-style: italic;
+}
+
+/* ====================================================================== */
+/* UI36 — the scene-first shell: corner cluster, one card, one conversation */
+/* ====================================================================== */
+
+/* ---- corner cluster row: identity, then the two quiet day controls ---- */
+
+.pg-nav-row {
+  display: flex;
+  align-items: stretch;
+  gap: var(--pg-space-2);
+}
+
+.pg-nav-cluster {
+  font-family: var(--pg-font-ui);
+  box-shadow:
+    var(--pg-edge),
+    0 8px 22px rgba(0, 0, 0, 0.28);
+}
+
+.pg-nav-identity {
+  display: flex;
+  align-items: baseline;
+  gap: var(--pg-space-2);
+  font-family: var(--pg-font-display);
+  font-size: 0.95rem;
+}
+
+.pg-nav-unsaved {
+  font-family: var(--pg-font-ui);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pg-brass);
+}
+
+.pg-nav-days {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  gap: 2px;
+}
+
+.pg-nav-day {
+  flex: 1 1 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.15rem 0.6rem;
+  min-height: 1.6rem;
+  border: 1px solid var(--pg-hairline);
+  border-radius: var(--pg-radius);
+  background: rgba(11, 19, 32, 0.62);
+  color: var(--pg-ivory-dim);
+  font-family: var(--pg-font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  box-shadow: var(--pg-edge);
+  transition:
+    color 160ms ease,
+    background 160ms ease,
+    border-color 160ms ease;
+}
+
+.pg-nav-day:hover:not(:disabled),
+.pg-nav-day:focus-visible {
+  color: var(--pg-ivory);
+  border-color: var(--pg-brass-dim);
+  background: var(--pg-navy);
+}
+
+.pg-nav-day:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.pg-nav[data-state="rest"] .pg-nav-days {
+  opacity: 0.86;
+}
+
+/* The flyout is a list, not a form: reading type, quiet dividers. */
+.pg-nav-flyout {
+  font-family: var(--pg-font-ui);
+  backdrop-filter: var(--pg-blur);
+  background: var(--pg-glass-strong);
+  box-shadow: var(--pg-edge), var(--pg-shadow);
+}
+
+.pg-nav-flyout > button[role="menuitem"] + button[role="menuitem"] {
+  border-top: 1px solid rgba(244, 236, 224, 0.06);
+  border-radius: 0;
+}
+
+.pg-nav-flyout button[aria-haspopup="menu"] small::after {
+  content: "";
+}
+
+/* Save before quitting? A real question, so a real dialog. */
+.pg-nav-confirm {
+  display: grid;
+  gap: var(--pg-space-2);
+  min-width: 18rem;
+  max-width: 22rem;
+  padding: var(--pg-space-3) var(--pg-space-3) var(--pg-space-3);
+}
+
+.pg-nav-confirm-copy {
+  margin: 0 0.55rem var(--pg-space-2);
+  font-size: 0.85rem;
+  color: var(--pg-ivory-dim);
+}
+
+/* The dialog's buttons are real buttons, not menu rows. */
+.pg-nav-confirm .ui-action {
+  justify-content: center;
+  border: 1px solid var(--pg-hairline);
+  border-radius: var(--pg-radius);
+  background: rgba(24, 37, 58, 0.9);
+  font-size: 0.88rem;
+}
+
+.pg-nav-confirm .ui-action--primary {
+  color: #14203a;
+  background: linear-gradient(180deg, #e7c778, var(--run-a-gold));
+  border-color: #a8842f;
+}
+
+.pg-nav-confirm .ui-action--subtle {
+  background: none;
+  border-color: transparent;
+  color: var(--pg-ivory-dim);
+}
+
+/* ---- HUD outcome: where the skip stopped, and why ---- */
+
+.life-shell .life-hud-note--outcome {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pg-space-2);
+  max-width: 24rem;
+  white-space: pre-line;
+  color: var(--pg-ivory);
+  border-color: var(--pg-brass-dim);
+  font-family: var(--pg-font-ui);
+}
+
+.life-hud-dismiss {
+  flex: 0 0 auto;
+  margin-left: auto;
+  padding: 0 0.25rem;
+  border: 0;
+  background: none;
+  color: var(--pg-ivory-faint);
+  font: inherit;
+  cursor: pointer;
+}
+
+.life-hud-dismiss:hover,
+.life-hud-dismiss:focus-visible {
+  color: var(--pg-brass);
+}
+
+/* ---- the one person card, on the right ---- */
+
+.pg-person-card {
+  font-family: var(--pg-font-ui);
+  color: var(--pg-ivory);
+}
+
+.pg-person-card--overlay {
+  position: fixed;
+  right: max(var(--pg-space-4), env(safe-area-inset-right, 0px));
+  top: max(var(--pg-space-4), calc(var(--pg-content-top) + var(--pg-space-4)));
+  z-index: 41;
+  display: flex;
+  flex-direction: column;
+  width: min(23rem, calc(100vw - 2rem));
+  max-height: calc(
+    var(--pg-vv-height, 100dvh) - var(--pg-content-top) -
+      var(--pg-content-bottom) - 5.5rem
+  );
+  padding: 0;
+  border: 1px solid var(--pg-hairline);
+  border-radius: var(--pg-radius);
+  background: var(--pg-glass-strong);
+  backdrop-filter: var(--pg-blur);
+  box-shadow: var(--pg-edge), var(--pg-shadow);
+  outline: none;
+}
+
+.pg-person-card--overlay:focus-visible {
+  outline: 2px solid var(--pg-brass);
+  outline-offset: 2px;
+}
+
+.pg-person-card--workspace {
+  display: grid;
+  gap: var(--pg-space-2);
+  margin-top: var(--pg-space-3);
+}
+
+.pg-person-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--pg-space-2);
+  padding: var(--pg-space-3) var(--pg-space-3) var(--pg-space-2);
+  border-bottom: 1px solid var(--pg-hairline);
+}
+
+.pg-person-card-identity {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pg-space-3);
+  min-width: 0;
+}
+
+.pg-person-card-identity .person-portrait figcaption {
+  display: none;
+}
+
+.pg-person-card-identity .person-portrait-mark {
+  width: 4.4rem;
+  height: 4.4rem;
+  border-radius: var(--pg-radius);
+  border-color: var(--pg-brass-dim);
+  background: #1c2a40;
+  color: var(--pg-ivory);
+  font-size: 1.2rem;
+}
+
+.pg-person-card-titles {
+  min-width: 0;
+}
+
+.pg-person-card-titles h2 {
+  margin: 0;
+  font-family: var(--pg-font-display);
+  font-size: 1.25rem;
+  line-height: 1.15;
+  color: var(--pg-ivory);
+}
+
+.pg-person-card-role,
+.pg-person-card-relation {
+  margin: 0.15rem 0 0;
+  font-size: 0.82rem;
+  color: var(--pg-ivory-dim);
+}
+
+.pg-person-card-relation {
+  color: var(--pg-brass);
+}
+
+.pg-person-card-note {
+  margin: 0.3rem 0 0;
+  font-size: 0.78rem;
+  color: var(--pg-ivory-faint);
+}
+
+.pg-person-card-corner {
+  display: flex;
+  gap: var(--pg-space-1);
+  flex: 0 0 auto;
+}
+
+.pg-person-card .ui-icon-button {
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: var(--pg-radius);
+  border: 1px solid transparent;
+  background: none;
+  color: var(--pg-ivory-dim);
+}
+
+.pg-person-card .ui-icon-button[aria-pressed="true"] {
+  color: var(--pg-brass);
+}
+
+.pg-person-card .ui-icon-button:hover,
+.pg-person-card .ui-icon-button:focus-visible {
+  color: var(--pg-ivory);
+  border-color: var(--pg-hairline);
+  background: rgba(194, 155, 72, 0.14);
+}
+
+.pg-person-card-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--pg-space-2) var(--pg-space-3) var(--pg-space-3);
+}
+
+.pg-person-card-body .pg-dossier-section:first-child {
+  margin-top: 0;
+}
+
+.pg-person-card-read {
+  margin: 0.2rem 0 0.5rem;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--pg-ivory);
+}
+
+.pg-person-card-more {
+  margin-top: var(--pg-space-2);
+  padding-left: 0;
+}
+
+.pg-person-card-connections {
+  display: grid;
+  gap: var(--pg-space-1);
+}
+
+.pg-person-card-connection {
+  display: flex;
+  align-items: center;
+  gap: var(--pg-space-2);
+  width: 100%;
+  padding: 0.3rem 0.4rem;
+  border: 1px solid transparent;
+  border-radius: var(--pg-radius);
+  background: none;
+  color: var(--pg-ivory);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pg-person-card-connection:hover,
+.pg-person-card-connection:focus-visible {
+  border-color: var(--pg-hairline);
+  background: rgba(194, 155, 72, 0.12);
+}
+
+.pg-person-card-connection .person-portrait figcaption {
+  display: none;
+}
+
+.pg-person-card-connection .person-portrait-mark {
+  width: 2rem;
+  height: 2rem;
+  font-size: 0.7rem;
+  border-color: var(--pg-brass-dim);
+  background: #1c2a40;
+  color: var(--pg-ivory);
+}
+
+.pg-person-card-connection-text {
+  display: grid;
+  min-width: 0;
+}
+
+.pg-person-card-connection-text strong {
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+.pg-person-card-connection-text small {
+  color: var(--pg-ivory-faint);
+  font-size: 0.72rem;
+}
+
+.pg-person-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pg-space-1);
+  padding: var(--pg-space-2) var(--pg-space-3);
+  border-top: 1px solid var(--pg-hairline);
+  background: rgba(9, 15, 26, 0.6);
+}
+
+.pg-person-card-actions .ui-action {
+  min-height: 2.1rem;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.84rem;
+  border-radius: var(--pg-radius);
+}
+
+.pg-person-card-why {
+  margin: 0 var(--pg-space-3) var(--pg-space-2);
+  font-size: 0.74rem;
+  color: var(--pg-ivory-faint);
+}
+
+.pg-person-card-why summary {
+  cursor: pointer;
+}
+
+.pg-person-card-why ul {
+  margin: 0.3rem 0 0;
+  padding-left: 1rem;
+}
+
+.pg-person-card > .pg-person-card-note {
+  margin: 0.35rem var(--pg-space-3) 0;
+}
+
+/* Over a workspace the card starts below the frame's Back and Close. */
+.life-shell:has(.pg-workspace) .pg-person-card--overlay {
+  top: calc(var(--pg-content-top) + 5.75rem);
+  max-height: calc(
+    var(--pg-vv-height, 100dvh) - var(--pg-content-top) -
+      var(--pg-content-bottom) - 10rem
+  );
+}
+
+/* Opening a person folds the pin rail down; the pins keep their order. */
+.life-shell:has(.pg-person-card--overlay) .pg-pin-rail {
+  max-height: 2.6rem;
+  overflow: hidden;
+  opacity: 0.55;
+  transition: opacity 160ms ease;
+}
+
+.life-shell:has(.pg-person-card--overlay) .pg-pin-rail:hover,
+.life-shell:has(.pg-person-card--overlay) .pg-pin-rail:focus-within {
+  max-height: 60vh;
+  overflow-y: auto;
+  opacity: 1;
+}
+
+/* ---- workspace tabs and the interruption checklist ---- */
+
+.pg-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pg-space-1);
+  margin: var(--pg-space-2) 0 var(--pg-space-3);
+  border-bottom: 1px solid var(--pg-hairline);
+}
+
+.pg-tab {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  padding: 0.45rem 0.7rem;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: none;
+  color: var(--pg-ivory-dim);
+  font: inherit;
+  font-family: var(--pg-font-ui);
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pg-tab small {
+  font-size: 0.7rem;
+  color: var(--pg-ivory-faint);
+}
+
+.pg-tab:hover,
+.pg-tab:focus-visible {
+  color: var(--pg-ivory);
+  background: rgba(194, 155, 72, 0.1);
+}
+
+.pg-tab[aria-selected="true"] {
+  color: var(--pg-brass);
+  border-bottom-color: var(--pg-brass);
+}
+
+.pg-calendar-heading {
+  margin: var(--pg-space-4) 0 var(--pg-space-2);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--pg-brass);
+}
+
+.pg-calendar-outcome {
+  white-space: pre-line;
+}
+
+.pg-interruption-list {
+  list-style: none;
+  margin: var(--pg-space-3) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--pg-space-2);
+}
+
+.pg-check {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pg-space-3);
+  padding: var(--pg-space-2) var(--pg-space-3);
+  border: 1px solid var(--pg-hairline);
+  border-radius: var(--pg-radius);
+  background: rgba(11, 19, 32, 0.35);
+  cursor: pointer;
+}
+
+.pg-check input {
+  margin-top: 0.2rem;
+  accent-color: var(--run-a-gold);
+}
+
+.pg-check > span {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.pg-check strong {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.pg-check small {
+  color: var(--pg-ivory-dim);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.pg-check--fixed {
+  cursor: default;
+  opacity: 0.85;
+}
+
+/* ---- workspace: glass, edge, and a body that scrolls on its own ---- */
+
+.pg-workspace {
+  font-family: var(--pg-font-ui);
+  background: var(--pg-glass-strong);
+  backdrop-filter: var(--pg-blur);
+  border: 1px solid var(--pg-hairline);
+  box-shadow: var(--pg-edge), var(--pg-shadow);
+}
+
+.pg-workspace-head h2 {
+  font-family: var(--pg-font-display);
+}
+
+.pg-workspace-body {
+  overscroll-behavior: contain;
+}
+
+/* When the card sits over a workspace it must not hide the frame's controls. */
+@media (max-width: 1100px) {
+  .pg-person-card--overlay {
+    top: auto;
+    bottom: calc(var(--pg-content-bottom) + 3.6rem);
+    max-height: min(
+      60vh,
+      calc(var(--pg-vv-height, 100dvh) - var(--pg-content-bottom) - 6rem)
+    );
+  }
+}
+
+@media (max-width: 720px) {
+  .pg-person-card--overlay {
+    left: var(--pg-space-2);
+    right: var(--pg-space-2);
+    width: auto;
+  }
+
+  .pg-nav-days {
+    flex-direction: row;
+  }
 }

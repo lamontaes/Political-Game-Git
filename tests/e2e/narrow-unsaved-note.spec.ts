@@ -10,17 +10,7 @@ import { startLife } from "./support/creator";
 async function unsavedLife(page: Page) {
   await page.goto("/?seed=narrow-unsaved-note");
   await startLife(page, { place: "Lexington", state: "Kentucky", age: 22 });
-  // Through the two introduction beats to the room's scene, whose own way on
-  // is "Continue your life" — the control this file is about.
-  const opening = page.getByTestId("opening-life-panel");
-  await expect(
-    opening.or(page.getByTestId("opening-life-scene")),
-  ).toBeVisible();
-  if ((await opening.count()) > 0) {
-    await opening.getByRole("button", { name: "Meet your household" }).click();
-    await opening.getByRole("button", { name: "Step inside" }).click();
-  }
-  await expect(page.getByTestId("opening-life-scene")).toBeVisible();
+  await expect(page.getByTestId("play-screen")).toBeVisible();
 }
 
 /**
@@ -46,7 +36,7 @@ test.describe("status notes at phone width", () => {
     await unsavedLife(page);
 
     const note = page.getByTestId("unsaved-note");
-    const primary = page.getByRole("button", { name: /continue your life/i });
+    const primary = page.getByTestId("shell-nav-cluster");
     await expect(primary).toBeVisible();
 
     // 1. Geometry: the note does not cover the primary action.
@@ -72,7 +62,7 @@ test.describe("status notes at phone width", () => {
     // 3. And the same control is reachable without a pointer at all.
     await page.reload({ waitUntil: "domcontentloaded" });
     await unsavedLife(page);
-    const again = page.getByRole("button", { name: /continue your life/i });
+    const again = page.getByTestId("shell-nav-cluster");
     await again.focus();
     await expect(again).toBeFocused();
     await page.keyboard.press("Enter");

@@ -333,8 +333,8 @@ test.describe("A life happens in the room the records put it in", () => {
       childhood: true,
     });
 
-    const introduction = page.getByTestId("life-introduction");
-    await expect(introduction).toBeVisible();
+    await expect(page.getByTestId("play-screen")).toBeVisible();
+    await expect(page.getByTestId("opening-life-panel")).toHaveCount(0);
     await expect(page.getByTestId("play-screen")).toHaveAttribute(
       "data-scene-purpose",
       "home",
@@ -344,26 +344,11 @@ test.describe("A life happens in the room the records put it in", () => {
       /residence-apartment/,
     );
 
-    /*
-     * The introduction is two beats now, not one: the world this life starts
-     * in, then the household in it. The information and the gate are the same
-     * ones main had — the same producer writes both, and the scene still waits
-     * behind them — so this walks to where the household is said rather than
-     * asserting it on the first screen.
-     */
-    await expect(introduction).toHaveAttribute(
-      "data-introduction-phase",
-      "world",
-    );
-    await page.getByTestId("introduction-continue").click();
-    await expect(introduction).toHaveAttribute(
-      "data-introduction-phase",
-      "household",
-    );
-    await expect(page.getByTestId("play-screen")).toHaveAttribute(
-      "data-scene-purpose",
-      "home",
-    );
+    await goTo(page, "nav-personal-group");
+    await page.getByTestId("nav-personal").click();
+    const introduction = page.getByTestId("life-introduction");
+    await expect(introduction).toBeVisible();
+    await introduction.locator("summary").click();
 
     const said = await introduction.innerText();
     /*
@@ -417,8 +402,12 @@ test.describe("A life happens in the room the records put it in", () => {
       )
       .toBeGreaterThan(0);
 
-    // THE HIERARCHY. One moment, and everything else behind a control.
-    await expect(page.getByTestId("story-section")).toBeVisible();
+    // THE HIERARCHY. The room is the moment. Systems stay behind the cluster.
+    await expect(page.getByTestId("play-screen")).toBeVisible();
+    await expect(page.getByTestId("shell-nav-cluster")).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Continue your life" }),
+    ).toHaveCount(0);
     await expect(page.getByTestId("ordinary-section")).toHaveCount(0);
     await expect(page.getByTestId("office-section")).toHaveCount(0);
     await expect(page.getByTestId("conversations")).toHaveCount(0);
@@ -438,26 +427,19 @@ test.describe("A life happens in the room the records put it in", () => {
   }) => {
     await freshBrowser(page);
     await startLife(page, { place: "Lexington", state: "Kentucky", age: 36 });
-    // PT3: the intro is two beats and then the scene; the life moment is
-    // reached the way a player reaches it.
     await enterLife(page);
     const room = await page
       .getByTestId("scene-backdrop")
       .getAttribute("data-scene-id");
-    const who = page.getByTestId("story-who").locator(".life-identity-name");
-    const moment = await who.innerText();
 
     await goTo(page, "keep-world");
     await expectNoDestination(page, "keep-world");
     await page.reload();
     await page.getByTestId("continue").click();
 
-    // A saved life has been introduced already, so it opens on its moment:
-    // the room's scene, with the continuing life one step in.
-    await expect(page.getByTestId("life-introduction")).toHaveCount(0);
-    await expect(page.getByTestId("opening-life-scene")).toBeVisible();
+    await expect(page.getByTestId("play-screen")).toBeVisible();
+    await expect(page.getByTestId("opening-life-panel")).toHaveCount(0);
     await enterLife(page);
-    await expect(who).toHaveText(moment);
     await expect(page.getByTestId("scene-backdrop")).toHaveAttribute(
       "data-scene-id",
       room ?? "",

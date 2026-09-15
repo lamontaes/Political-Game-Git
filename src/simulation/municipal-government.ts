@@ -493,7 +493,8 @@ export function municipalRuleSourceRef(
  * fraction of the full body plus the floor the charter actually names — so the
  * rule stays exact when a seat is vacant instead of quietly dropping a vote.
  */
-function thresholdRule(
+/** Compile one municipal threshold into the shared vote-rule vocabulary. */
+export function municipalVoteThresholdRule(
   threshold: MunicipalVoteThreshold,
   label: string,
   source: RuleSourceRef,
@@ -632,7 +633,7 @@ export function municipalRulePackFor(
     reading,
     reading.procedure.passageText ?? "ordinance adoption",
   );
-  const passage = thresholdRule(
+  const passage = municipalVoteThresholdRule(
     passageThreshold!,
     reading.procedure.passageText ?? "The vote an ordinance needs.",
     passageSource,
@@ -645,7 +646,7 @@ export function municipalRulePackFor(
           "No instrument read states this body's quorum, so no meeting can be proved lawful from the pack.",
         )
       : (() => {
-          const rule = thresholdRule(
+          const rule = municipalVoteThresholdRule(
             quorumThreshold,
             reading.procedure.quorumText ?? "Quorum.",
             municipalRuleSourceRef(
@@ -672,7 +673,7 @@ export function municipalRulePackFor(
   const override =
     presentment && overrideRow?.threshold
       ? (() => {
-          const rule = thresholdRule(
+          const rule = municipalVoteThresholdRule(
             overrideRow.threshold!,
             reading.procedure.override ?? "Override.",
             executiveSource,

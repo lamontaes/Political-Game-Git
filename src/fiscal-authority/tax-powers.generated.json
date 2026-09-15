@@ -1,0 +1,81 @@
+{
+  "evidenceScope": {
+    "doctrine": "us-government-edicts",
+    "enactingAuthority": "Enacted by the people of Alaska",
+    "excerptSha256": "ea90c6cb46634ae4edfc154c73d4a8836af7c86747ba4bc258a9b114bc527ee9",
+    "kind": "enacted-legal-text-only",
+    "locators": [
+      "Alaska Const. art. II, §§ 1, 18",
+      "Alaska Const. art. IX, §§ 1, 6, 7, 13"
+    ],
+    "parentArtifactId": "ak-constitution",
+    "parentLocalPath": "data/source/state-legislatures/raw/ak-constitution.html",
+    "parentSha256": "d72b68a640262aad7c25d7906741bda4ee19aef529a3a4cb896580570d63d476",
+    "retrieval": {
+      "httpStatus": 200,
+      "method": "GET",
+      "responseBytes": 362321,
+      "retrievedAt": "2026-09-06T18:45:27.267Z",
+      "url": "https://ltgov.alaska.gov/information/alaskas-constitution/"
+    },
+    "scope": {
+      "boundaryKind": "normalized-text-regions",
+      "extracted": {
+        "length": 1183,
+        "sha256": "95eb5838f2217be092400c218e8fb13c573f5e7b78256158bf42835156d2fc51"
+      },
+      "regions": [
+        {
+          "beginsWith": "The legislative power of the State is vested in a legislature consisting of a senate with a membership of twenty and a house of representatives with a membership of forty.",
+          "endsWith": "The legislative power of the State is vested in a legislature consisting of a senate with a membership of twenty and a house of representatives with a membership of forty."
+        },
+        {
+          "beginsWith": "Laws passed by the legislature become effective ninety days after enactment. The legislature may, by concurrence of two-thirds of the membership of each house, provide for another effective date.",
+          "endsWith": "Laws passed by the legislature become effective ninety days after enactment. The legislature may, by concurrence of two-thirds of the membership of each house, provide for another effective date."
+        },
+        {
+          "beginsWith": "The power of taxation shall never be surrendered. This power shall not be suspended or contracted away, except as provided in this article.",
+          "endsWith": "The power of taxation shall never be surrendered. This power shall not be suspended or contracted away, except as provided in this article."
+        },
+        {
+          "beginsWith": "No tax shall be levied, or appropriation of public money made, or public property transferred, nor shall the public credit be used, except for a public purpose.",
+          "endsWith": "No tax shall be levied, or appropriation of public money made, or public property transferred, nor shall the public credit be used, except for a public purpose."
+        },
+        {
+          "beginsWith": "The proceeds of any state tax or license shall not be dedicated to any special purpose, except as provided in section 15 of this article or when required by the federal government for state participation in federal programs.",
+          "endsWith": "The proceeds of any state tax or license shall not be dedicated to any special purpose, except as provided in section 15 of this article or when required by the federal government for state participation in federal programs."
+        },
+        {
+          "beginsWith": "No money shall be withdrawn from the treasury except in accordance with appropriations made by law. No obligation for the payment of money shall be incurred except as authorized by law. Unobligated appropriations outstanding at the end of the period of time specified by law shall be void.",
+          "endsWith": "No money shall be withdrawn from the treasury except in accordance with appropriations made by law. No obligation for the payment of money shall be incurred except as authorized by law. Unobligated appropriations outstanding at the end of the period of time specified by law shall be void."
+        }
+      ]
+    }
+  },
+  "powers": [
+    {
+      "asOf": "2026-09-06",
+      "citations": [
+        "Alaska Const. art. II, §§ 1, 18",
+        "Alaska Const. art. IX, §§ 1, 6, 7, 13"
+      ],
+      "constraints": [
+        "Public expenditure requires an operative appropriation made by law; collection alone grants no spending authority.",
+        "A state revenue bill must complete the current legislative and executive process.",
+        "A tax must serve a public purpose.",
+        "This bounded route deposits receipts in the general public account; no dedication exception is modeled.",
+        "The default effective date is ninety days after enactment; this route does not exercise the separate two-thirds early-effective-date power.",
+        "This establishes legal power for an authored prospective selective excise, not an existing real tax, rate, tax base, or treasury balance.",
+        "The acquired wording is a dated legal baseline, not a verified amendment chain for earlier or future real-world dates."
+      ],
+      "instrument": "selective-excise",
+      "jurisdictionKey": "US-AK",
+      "key": "US-AK:STATE:selective-excise",
+      "level": "STATE",
+      "sourceArtifactId": "ak-constitution",
+      "sourceSha256": "d72b68a640262aad7c25d7906741bda4ee19aef529a3a4cb896580570d63d476",
+      "sourceUrl": "https://ltgov.alaska.gov/information/alaskas-constitution/"
+    }
+  ],
+  "schemaVersion": 1
+}

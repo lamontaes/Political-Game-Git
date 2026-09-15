@@ -24,7 +24,7 @@ test("ordinary News press route establishes a reporter, records the NPC decision
   await form.locator("summary").click();
   await expect(form).toHaveAttribute("open", "");
 
-  const establish = page.getByTestId("press-establish-reporter");
+  const establish = page.getByTestId("press-seek-reporter");
   await expect(establish).toBeVisible();
   await establish.click();
   await expect(establish).toHaveCount(0);
@@ -47,12 +47,10 @@ test("ordinary News press route establishes a reporter, records the NPC decision
     .poll(async () => reporter.locator("option").count())
     .toBeGreaterThan(1);
   await reporter.selectOption({ index: 1 });
-  await form
-    .getByLabel("Your pitch")
-    .fill("Ask about this already recorded public development.");
-  await form
-    .getByLabel("Proposed question")
-    .fill("What public record exists from this development?");
+  await expect(form.getByTestId("press-request-preview")).not.toBeEmpty();
+  await expect(
+    form.getByTestId("press-reporter-question-preview"),
+  ).not.toBeEmpty();
   await form.getByRole("button", { name: "Send request" }).click();
   await expect(
     page.getByText("Request recorded. Awaiting the reporter’s response."),
@@ -66,25 +64,21 @@ test("ordinary News press route establishes a reporter, records the NPC decision
   await request.getByText("Arrange the accepted exchange").click();
   await request.getByLabel("Minutes from now").fill("0");
   await request.getByLabel("Exchange minutes").fill("20");
-  await request.getByLabel("Planned meeting place").fill("Office press room");
+  await expect(request.getByTestId("press-arrangement-place")).toContainText(
+    /Written correspondence|Spoken exchange/,
+  );
   await request.getByTestId("press-arrange-exchange").click();
 
   const panel = page.getByTestId("press-interview-panel");
   await expect(panel).toBeVisible();
   await panel.getByRole("button", { name: "Condensed" }).press("Enter");
   await expect(page.getByTestId("condensed-explanation")).toBeVisible();
-  await panel
-    .getByLabel("Follow-up being answered")
-    .fill("What remains on the public record?");
-  await panel
-    .getByLabel("Consequential wording")
-    .fill(
-      "The recorded public development is already part of this civic life.",
-    );
+  const preview = panel.getByTestId("press-answer-preview");
+  await expect(preview).toBeVisible();
+  const wording = (await preview.innerText()).trim();
+  expect(wording.length).toBeGreaterThan(8);
   await panel.getByRole("button", { name: "Review exact wording" }).click();
-  await expect(page.getByTestId("press-exact-wording")).toHaveText(
-    "The recorded public development is already part of this civic life.",
-  );
+  await expect(page.getByTestId("press-exact-wording")).toHaveText(wording);
   await panel
     .getByRole("button", { name: "Confirm this exact wording" })
     .press("Enter");
@@ -95,9 +89,7 @@ test("ordinary News press route establishes a reporter, records the NPC decision
 
   const article = page.locator(".public-information-article").first();
   await expect(article).toBeVisible();
-  await expect(article).toContainText(
-    "The recorded public development is already part of this civic life.",
-  );
+  await expect(article).toContainText(wording);
   await page.screenshot({
     path: info.outputPath("press-reach13-ordinary-published.png"),
   });

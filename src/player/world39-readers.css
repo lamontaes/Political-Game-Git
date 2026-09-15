@@ -1,0 +1,75 @@
+.world39-reader {
+  max-width: 58rem;
+  margin: 0 auto 1.5rem;
+  line-height: 1.55;
+}
+.world39-reader h3 {
+  font-size: 1.5rem;
+  margin: 0 0 0.5rem;
+}
+.world39-reader h4 {
+  font-size: 1.1rem;
+  margin: 1.5rem 0 0.6rem;
+}
+.world39-reader h5 {
+  font: inherit;
+  font-weight: 650;
+  margin: 0;
+}
+.world39-reader article {
+  padding: 1rem 0;
+  border-bottom: 1px solid currentColor;
+  border-color: color-mix(in srgb, currentColor 18%, transparent);
+}
+.world39-reader p {
+  margin: 0.45rem 0;
+  overflow-wrap: anywhere;
+}
+.world39-reader .world39-meta,
+.world39-reader time {
+  font-size: 0.88rem;
+}
+.world39-reader small {
+  display: block;
+  overflow-wrap: anywhere;
+}
+.world39-reader summary {
+  cursor: pointer;
+  padding: 0.6rem 0;
+}
+.world39-reader :is(button, a, summary):focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+.world39-reader button {
+  margin: 0.2rem 0.5rem 0.2rem 0;
+}
+.world39-biography {
+  list-style: none;
+  padding: 0;
+}
+.world39-biography > li {
+  padding: 0.85rem 0 0.85rem 1rem;
+  border-left: 2px solid color-mix(in srgb, currentColor 25%, transparent);
+}
+.world39-notes,
+.world39-record {
+  margin-top: 1rem;
+}
+
+.world39-chapter {
+  margin: 0.8rem 0 1rem;
+}
+
+.world39-chapter h4 {
+  margin: 0 0 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.world39-chapter p {
+  margin: 0;
+  max-width: 62ch;
+  line-height: 1.55;
+}

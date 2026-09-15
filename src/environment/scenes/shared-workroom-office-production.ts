@@ -135,6 +135,11 @@ export const SHARED_WORKROOM_OFFICE_PRODUCTION_SCENE: EnvironmentSceneSpec = {
    * only because both rooms are ordinary rooms photographed at ordinary height.
    */
   standard_body_width_percent: 18.42,
+  // G41: preserve this plate's authored 39.9% visible adult height at scale1.
+  // The previous width converted a 765×1024 canvas; a 600×1200 person became
+  // almost twice as tall. Crown-to-sole height removes that canvas dependency.
+  // This is an inherited visual estimate, not a measured human height/metres.
+  standing_height_percent: 39.9,
 
   anchors: [
     {

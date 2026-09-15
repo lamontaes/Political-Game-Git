@@ -13,19 +13,31 @@ unrelated handlers; never replace the registry with just executive handlers.
 The released shared workroom is compatible with the work panel; no new governor
 art is required or promoted.
 
-## Actual entry blocker
+## Actual entry
 
-QUAL-COMPLIANCE1 confirmed that its current qualification consumer supports
-Alaska legislative seats only, and has no executive office predicates. Therefore
-`EXECUTIVE_NORMAL_ENTRY.available` is false. Do not offer the review initializer
-in normal setup. `initializeExecutiveOfficePremiseForReview` establishes synthetic
-canonical records solely for multi-context proof. It is not an elected career,
-a legally verified office entry, or a grant-all-powers switch.
+Ordinary supported executive occupancy consumes a recorded winner of a contest
+whose office key matches an accepted executive-authority pack. The election
+outcome event is provenance, not the office start. Dated start/end and a
+recorded qualification must exist as existing work and future-due records
+before the office is held. Custom Start
+(`initializeExecutiveOfficePremiseForReview`) remains a separate authored
+premise and is not an election.
 
-Named remaining owners: QUAL-COMPLIANCE1 supplies executive qualification/entry
-support; UI-CORE-RELEASE registers the normal Work/creator routes when supported.
-Review fixture: `/tests/fixtures/executive-work.html`. It exercises the actual
-feature panel and transitions, but is explicitly not ordinary-player reachability.
+`applyExecutivePlayTransition` is the A / FABLE-UI seam: it routes presentment
+into the existing inbox for a currently held office and publishes public
+sign/veto and executive election results through NEWS. Bind incident inbox with
+`executiveIncidentPorts()`; private events and unheld offices grant nothing.
+`planElectedExecutiveOfficeTerm` / `recordElectedExecutiveQualification` and
+`executivePlayHandlers()` are the dated-term adapter. Do not use the result
+date, House/Senate January-first dates, or national presidential noon as a
+governor start.
+
+Campaign candidacy packs still list legislative seats only. Ordinary governor
+candidacy and a sourced Kentucky gubernatorial dated-term producer remain N's
+missing producers. A supplied-result test is not a completed campaign.
+
+Review fixture: `/tests/fixtures/executive-work.html`. It is not ordinary-player
+reachability.
 
 ## Source producer contract
 

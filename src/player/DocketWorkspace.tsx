@@ -1,4 +1,13 @@
 import { resolveLegislativeFilingEntry } from "../presentation/legislative-filing-entry";
+import { resolveLegislativeAssignmentForMeasure } from "../presentation/legislation-world";
+import {
+  prepareRecordedLegislativeSitting,
+  recordedSittingAvailable,
+  hasRecordedLegislativeSitting,
+  RECORDED_SITTING_NOTICE,
+} from "../presentation/legislative-authored-sitting";
+import type { RecordedPlayerBallot } from "../presentation/legislative-authored-sitting";
+import { LegislationWorkspace } from "./LegislationWorkspace";
 import { projectMeasureBriefing } from "../presentation/legislation-projection";
 import { regularSessionWindow } from "../presentation/legislative-session-window";
 import { legislativeBlueprint } from "../simulation";
@@ -439,6 +448,17 @@ function FiledBillPanel({
   const [startsOn, setStartsOn] = useState<string>(world.currentDate);
   const [endsOn, setEndsOn] = useState<string>(addDays(world.currentDate, 365));
   const [estimateError, setEstimateError] = useState<string | null>(null);
+  const [followingProcedure, setFollowingProcedure] = useState(false);
+  const [recordedPlayerBallot, setRecordedPlayerBallot] = useState<
+    RecordedPlayerBallot | ""
+  >("");
+  const institutionalAssignment = resolveLegislativeAssignmentForMeasure(
+    world,
+    {
+      measureId: bill.measureId,
+      playerPersonId,
+    },
+  );
   const privateEstimate = [...world.history.policyEstimates]
     .reverse()
     .map((estimate) => projectBillEstimate(world, playerPersonId, estimate.id))
@@ -665,14 +685,103 @@ function FiledBillPanel({
         </ul>
       ) : null}
 
-      <button
-        type="button"
-        className="ui-action"
-        data-testid="docket-go-to-floor"
-        onClick={() => onGoToFloor(bill)}
-      >
-        Take {bill.designation} to the members&rsquo; room
-      </button>
+      <section data-testid="docket-institutional-procedure">
+        {recordedSittingAvailable(world, {
+          measureId: bill.measureId,
+          playerPersonId,
+        }) &&
+        institutionalAssignment.kind === "available" &&
+        !institutionalAssignment.assignment.procedure.recordedSittingEventId ? (
+          <div>
+            <p>{RECORDED_SITTING_NOTICE}</p>
+            <fieldset>
+              <legend>
+                Your recorded ballot for the supported questions in your chamber
+                and the joint override
+              </legend>
+              {(
+                [
+                  ["yea", "Yea"],
+                  ["nay", "Nay"],
+                  ["present-not-voting", "Present, not voting"],
+                ] as const
+              ).map(([value, label]) => (
+                <label key={value}>
+                  <input
+                    type="radio"
+                    name={`recorded-ballot-${bill.docketKey}`}
+                    data-testid={`docket-recorded-player-ballot-${value}`}
+                    checked={recordedPlayerBallot === value}
+                    onChange={() => setRecordedPlayerBallot(value)}
+                  />
+                  {label}
+                </label>
+              ))}
+            </fieldset>
+            <button
+              type="button"
+              className="ui-action"
+              data-testid="docket-use-recorded-sitting"
+              disabled={recordedPlayerBallot === ""}
+              onClick={() => {
+                try {
+                  if (recordedPlayerBallot === "")
+                    throw new Error("Choose your recorded ballot first.");
+                  onWorldChange(
+                    prepareRecordedLegislativeSitting(world, {
+                      measureId: bill.measureId,
+                      playerPersonId,
+                      playerBallot: recordedPlayerBallot,
+                    }),
+                  );
+                  setFollowingProcedure(true);
+                  setEstimateError(null);
+                } catch (error) {
+                  setEstimateError(
+                    error instanceof Error
+                      ? error.message
+                      : "The recorded sitting could not be opened.",
+                  );
+                }
+              }}
+            >
+              Use the recorded fictional Alaska sitting
+            </button>
+          </div>
+        ) : null}
+        <button
+          type="button"
+          className="ui-action"
+          data-testid="docket-follow-procedure"
+          onClick={() => setFollowingProcedure(!followingProcedure)}
+        >
+          {followingProcedure
+            ? "Close procedure"
+            : `Follow ${bill.designation} through the legislature`}
+        </button>
+        {followingProcedure ? (
+          institutionalAssignment.kind === "available" ? (
+            <LegislationWorkspace
+              world={world}
+              assignment={institutionalAssignment.assignment}
+              onWorldChange={onWorldChange}
+            />
+          ) : (
+            <p role="status">{institutionalAssignment.reason}</p>
+          )
+        ) : null}
+      </section>
+      {!bill.scenarioKey.startsWith("institution:") &&
+      !hasRecordedLegislativeSitting(world, bill.measureId) ? (
+        <button
+          type="button"
+          className="ui-action"
+          data-testid="docket-go-to-floor"
+          onClick={() => onGoToFloor(bill)}
+        >
+          Take {bill.designation} to the members&rsquo; room
+        </button>
+      ) : null}
       <BillCompositionEditor
         key={`${bill.docketKey}:${provisions.map((p) => p.id).join(":")}`}
         world={world}

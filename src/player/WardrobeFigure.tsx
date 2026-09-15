@@ -14,10 +14,14 @@ export function WardrobeFigure({
   person,
   libraries,
   preference,
+  pending = false,
+  fillPreview = false,
 }: {
   readonly person: Person;
   readonly libraries: ArtPreviewLibraries;
   readonly preference?: PersonWardrobePreference;
+  readonly pending?: boolean;
+  readonly fillPreview?: boolean;
 }) {
   const [pose, setPose] = useState("standing-neutral");
   const supportedPoses = ["standing-neutral", "seated-guest-neutral"].filter(
@@ -55,19 +59,15 @@ export function WardrobeFigure({
         scale: 1,
         poseFamily: effectivePose,
         depth: 1,
-        bodyWidthPercent: 70,
+        bodyWidthPercent: fillPreview ? 90 : 70,
       },
     });
     content = plan.complete ? (
-      <div
-        style={{
-          position: "relative",
-          width: 200,
-          aspectRatio: "300 / 560",
-          maxWidth: "100%",
-        }}
-      >
-        <ModularCharacter plan={plan} testId="wardrobe-full-body" />
+      <div className="wardrobe-figure-stage">
+        <ModularCharacter
+          plan={plan}
+          testId={pending ? "outfit-pending-full-body" : "wardrobe-full-body"}
+        />
       </div>
     ) : (
       <p role="status">
@@ -83,10 +83,13 @@ export function WardrobeFigure({
     );
   }
   return (
-    <section aria-label="Your outfit preview" data-testid="wardrobe-figure">
+    <section
+      className="wardrobe-figure"
+      aria-label="Your outfit preview"
+      data-testid={pending ? "outfit-pending-figure" : "wardrobe-figure"}
+    >
       <p>
-        Candidate outfit — not approved. Your saved identity and clothing are
-        used in every view.
+        {pending ? "Preview — not saved." : "Your saved appearance and outfit."}
       </p>
       <label>
         Outfit view{" "}

@@ -26,7 +26,7 @@ test("current normal scene and saved-person dossier remain available for owner r
     fullPage: true,
   });
   await page.locator('[data-testid^="scene-person-"]').first().click();
-  await page.getByTestId("action-inspect").click();
+  await expect(page.getByTestId("quick-dossier")).toBeVisible();
   await page.getByTestId("quick-dossier-full").click();
   await expect(page.getByTestId("saved-appearance-controls")).toHaveCount(0);
   await expect(page.getByTestId("person-portrait")).toBeVisible();

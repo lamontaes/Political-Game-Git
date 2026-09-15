@@ -30,13 +30,19 @@
 
 import { createStableId } from "./ids";
 import type { FutureTransitionHandlerRegistry } from "./types";
-import { activeOrganizationParticipationsAt } from "./life-queries";
+import {
+  activeOrganizationParticipationsAt,
+  organizationProfileAt,
+} from "./life-queries";
 import { createOrganization, createOrganizationParticipation } from "./life";
+import { lifePlaceByKey } from "./life-places";
 import {
   lawReading,
   municipalGovernmentByKey,
   municipalRulePackFor,
   municipalRulePackId,
+  municipalRuleSourceRef,
+  municipalVoteThresholdRule,
   primaryReading,
   municipalMeetingReading,
   reportedReading,
@@ -46,6 +52,8 @@ import type {
   MunicipalMeetingSeries,
   MunicipalReading,
 } from "./municipal-government";
+import { majorityOf, resolveRequiredVotes } from "./legislature-rules";
+import { tallyDispositions } from "./legislation";
 import {
   createScheduledActivity,
   createWorkItem,
@@ -55,9 +63,11 @@ import {
 } from "./time-work";
 import { assertWorldIntegrity, recordWorldEvent } from "./world";
 import { addSimulationMinutes } from "./dates";
+import { introduceMeasure } from "./legislation";
 import type {
   EntityId,
   IsoDate,
+  LegislativeVoteDisposition,
   LifeRecordProvenance,
   Organization,
   OrganizationParticipation,
@@ -102,6 +112,60 @@ export function municipalOrganizationFor(
     world.history.organizations.find(
       (organization) => organization.stableKey === stableKey,
     ) ?? null
+  );
+}
+
+const COUNCIL_SEAT_ROLES: ReadonlySet<MunicipalRole> = new Set([
+  "member",
+  "presiding-member",
+  "mayor",
+]);
+
+function isCouncilSeat(role: MunicipalRole): boolean {
+  return COUNCIL_SEAT_ROLES.has(role);
+}
+
+/**
+ * The jurisdiction the government occupies, from its organization or compiled
+ * place — never from the acting person's home.
+ */
+export function municipalGovernmentJurisdictionId(
+  world: World,
+  governmentKey: string,
+): EntityId | null {
+  const organization = municipalOrganizationFor(world, governmentKey);
+  if (organization) {
+    const locationId = organizationProfileAt(
+      world,
+      organization.id,
+    )?.locationJurisdictionId;
+    if (locationId && world.jurisdictions[locationId]) return locationId;
+  }
+  const government = municipalGovernmentByKey(governmentKey);
+  if (!government?.placeGeoid) return null;
+  const place = lifePlaceByKey(government.placeGeoid);
+  const jurisdictionId = place?.context.jurisdiction.id ?? null;
+  return jurisdictionId && world.jurisdictions[jurisdictionId]
+    ? jurisdictionId
+    : null;
+}
+
+function councilorSeats(
+  world: World,
+  governmentKey: string,
+): readonly MunicipalSeat[] {
+  return municipalSeats(world, governmentKey).filter((seat) =>
+    isCouncilSeat(seat.role),
+  );
+}
+
+function presentDisposition(
+  disposition: LegislativeVoteDisposition["disposition"],
+): boolean {
+  return (
+    disposition === "yea" ||
+    disposition === "nay" ||
+    disposition === "present-not-voting"
   );
 }
 
@@ -1234,6 +1298,381 @@ export function performMunicipalMeetingNotes(
       return no(error.message);
     throw error;
   }
+}
+
+/**
+ * A seated member records the body's election of the professional manager.
+ *
+ * Standing alone is not the appointment. Charlottesville Charter § 5(e) vests
+ * the election in the council; § 12 names the quorum that makes a meeting able
+ * to transact business. The numeric rule comes from this government's compiled
+ * reading, not a generic majority invented here. Ordinance introduction stays
+ * closed wherever {@link municipalRulePackFor} still names a missing clause.
+ */
+export function appointMunicipalManager(
+  world: World,
+  input: {
+    readonly governmentKey: string;
+    readonly appointeePersonId: EntityId;
+    readonly seatLabel?: string;
+    /**
+     * Named member dispositions of this same government. The appointment
+     * writer does not invent a roll call.
+     */
+    readonly dispositions: readonly LegislativeVoteDisposition[];
+  },
+): MunicipalVisitResult {
+  const no = (reason: string): MunicipalVisitResult => ({
+    ok: false,
+    world,
+    reason,
+  });
+  if (world.control.kind !== "person") return no("Person control is required.");
+  const actorId = world.control.personId;
+  const authority = municipalActionAuthority(world, {
+    governmentKey: input.governmentKey,
+    personId: actorId,
+    residentPlaceGeoid: null,
+    action: "appoint-the-manager",
+  });
+  if (!authority.ok) return no(authority.reason);
+  if (!world.people[input.appointeePersonId])
+    return no("The named appointee is not a person in this world.");
+  const existingManager = municipalSeats(world, input.governmentKey).find(
+    (seat) => seat.role === "professional-manager",
+  );
+  if (existingManager) {
+    return no(
+      existingManager.personId === input.appointeePersonId
+        ? "This manager appointment is already recorded."
+        : "This government already has a recorded professional manager.",
+    );
+  }
+  if (
+    municipalSeats(world, input.governmentKey).some(
+      (seat) => seat.personId === input.appointeePersonId,
+    )
+  ) {
+    return no(
+      "This person already holds a recorded seat in this government, so the manager office cannot reuse that membership.",
+    );
+  }
+  const government = municipalGovernmentByKey(input.governmentKey);
+  if (!government) return no("No municipal government is compiled.");
+  const reading = primaryReading(government);
+  const decision = evaluateMunicipalManagerElection(world, {
+    governmentKey: input.governmentKey,
+    dispositions: input.dispositions,
+  });
+  if (!decision.ok) return no(decision.reason);
+  const title = reading.manager?.title ?? "professional manager";
+  const jurisdictionId = municipalGovernmentJurisdictionId(
+    world,
+    input.governmentKey,
+  );
+  const next = seatMunicipalMember(world, {
+    governmentKey: input.governmentKey,
+    personId: input.appointeePersonId,
+    startedAt: world.currentDate,
+    role: "professional-manager",
+    seatLabel: input.seatLabel ?? title,
+  });
+  const organization = municipalOrganizationFor(next, input.governmentKey);
+  const recorded = recordWorldEvent(next, {
+    stableKey: `municipal-manager-appointed:${input.governmentKey}`,
+    type: "municipal.manager-appointed",
+    occurredAt: next.currentDate,
+    recordedAt: next.currentDate,
+    jurisdictionId,
+    involvedEntityIds: [
+      actorId,
+      input.appointeePersonId,
+      ...decision.dispositions
+        .map((entry) => entry.personId)
+        .filter((id): id is EntityId => id !== null),
+      ...(organization ? [organization.id] : []),
+    ],
+    participants: [
+      {
+        personId: actorId,
+        role: "agency:appointing-member",
+        detail: `Appointed the ${title} under the compiled appointment power.`,
+      },
+      {
+        personId: input.appointeePersonId,
+        role: "agency:appointee",
+        detail: title,
+      },
+      ...decision.dispositions
+        .filter((entry) => entry.personId && entry.personId !== actorId)
+        .map((entry) => ({
+          personId: entry.personId!,
+          role: "agency:voting-member" as const,
+          detail: entry.disposition,
+        })),
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: ["municipal", `government:${input.governmentKey}`],
+    summary: `${reading.bodyName ?? reading.displayName} appointed its ${title}. ${authority.basis}`,
+    context: {
+      location: {
+        jurisdictionId,
+        label: reading.displayName,
+        setting: null,
+      },
+      socialContext: "A recorded municipal appointment, not an ordinance.",
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  return { ok: true, world: recorded };
+}
+
+export type MunicipalManagerElection =
+  | {
+      readonly ok: true;
+      readonly tally: ReturnType<typeof tallyDispositions>;
+      readonly presentMembers: number;
+      readonly requiredQuorum: number;
+      readonly requiredYeas: number;
+      readonly dispositions: readonly LegislativeVoteDisposition[];
+    }
+  | { readonly ok: false; readonly reason: string };
+
+/**
+ * Whether this government's compiled quorum and election rule are met.
+ *
+ * Quorum is the count the reading already compiled. The election threshold is
+ * the appointment power's own compiled threshold when the instrument names
+ * one. Charlottesville's separate general-law decision rule is read from
+ * Virginia Code § 15.2-1420; appointment authority and quorum are not its source.
+ * Other missing thresholds remain unresolved.
+ */
+const MUNICIPAL_MANAGER_DECISION_RULES: Readonly<
+  Record<string, ReturnType<typeof majorityOf>>
+> = {
+  "us-va-charlottesville": majorityOf(
+    "members-voting",
+    "Majority of members voting on the question",
+    {
+      authority: "statute",
+      citation: "Va. Code § 15.2-1420",
+      sourceTitle: "Code of Virginia — How questions determined; tie breaker",
+      sourceUrl:
+        "https://law.lis.virginia.gov/vacode/title15.2/chapter14/section15.2-1420/",
+      retrievedAt: "2026-09-14",
+      verification: "verified",
+      note: "Applied only to the supported Charlottesville manager election under Charter § 5(e). Does not authorize appropriations, tax or borrowing decisions under § 15.2-1428.",
+    },
+  ),
+};
+
+export function evaluateMunicipalManagerElection(
+  world: World,
+  input: {
+    readonly governmentKey: string;
+    readonly dispositions: readonly LegislativeVoteDisposition[];
+  },
+): MunicipalManagerElection {
+  const government = municipalGovernmentByKey(input.governmentKey);
+  if (!government) {
+    return { ok: false, reason: "No municipal government is compiled." };
+  }
+  const reading = primaryReading(government);
+  const councilors = councilorSeats(world, input.governmentKey);
+  if (councilors.length === 0) {
+    return {
+      ok: false,
+      reason: `${reading.bodyName ?? reading.displayName} has no seated members to elect a manager.`,
+    };
+  }
+  if (input.dispositions.length === 0) {
+    return {
+      ok: false,
+      reason: `${reading.bodyName ?? reading.displayName} has not recorded a collective decision to elect its manager. One member's standing is not that election.`,
+    };
+  }
+  const seatedByPerson = new Map(
+    councilors.map((seat) => [seat.personId, seat]),
+  );
+  const seen = new Set<string>();
+  const seenPeople = new Set<EntityId>();
+  for (const entry of input.dispositions) {
+    if (entry.memberKey.trim().length === 0) {
+      return { ok: false, reason: "Every recorded vote needs a member key." };
+    }
+    if (seen.has(entry.memberKey)) {
+      return {
+        ok: false,
+        reason: `A member voted twice on this election: ${entry.memberKey}`,
+      };
+    }
+    seen.add(entry.memberKey);
+    if (entry.personId && seenPeople.has(entry.personId)) {
+      return {
+        ok: false,
+        reason:
+          "The same council member cannot supply more than one disposition.",
+      };
+    }
+    if (entry.personId) seenPeople.add(entry.personId);
+    if (!entry.personId || !seatedByPerson.has(entry.personId)) {
+      return {
+        ok: false,
+        reason: `This recorded decision is not a vote of ${reading.bodyName ?? reading.displayName}.`,
+      };
+    }
+  }
+  const quorumThreshold = reading.procedure.quorumRule;
+  if (!quorumThreshold) {
+    return {
+      ok: false,
+      reason: `${reading.displayName} cannot prove a lawful election: no instrument read states this body's quorum.`,
+    };
+  }
+  const quorumRule = municipalVoteThresholdRule(
+    quorumThreshold,
+    reading.procedure.quorumText ?? "Quorum.",
+    municipalRuleSourceRef(reading, reading.procedure.quorumText ?? "quorum"),
+  );
+  const tally = tallyDispositions(input.dispositions);
+  const presentMembers = input.dispositions.filter((entry) =>
+    presentDisposition(entry.disposition),
+  ).length;
+  const eligibleMembers = councilors.length;
+  const quorumDenominator =
+    quorumRule.countedAgainst === "members-present"
+      ? presentMembers
+      : quorumRule.countedAgainst === "members-voting"
+        ? tally.yea + tally.nay
+        : eligibleMembers;
+  const quorum = resolveRequiredVotes(quorumRule, quorumDenominator);
+  if (presentMembers < quorum.requiredVotes) {
+    return {
+      ok: false,
+      reason: `${reading.bodyName ?? reading.displayName} cannot transact this election: ${reading.procedure.quorumText ?? "the instrument names a quorum"} (${presentMembers} present, ${quorum.requiredVotes} required).`,
+    };
+  }
+  const appointment = reading.powers.find(
+    (power) =>
+      power.power === "APPOINTMENT" &&
+      (power.heldByRole === "COUNCIL" || power.heldByRole === "COMMISSION"),
+  );
+  const title = reading.manager?.title ?? "professional manager";
+  const electionRule = appointment?.threshold
+    ? municipalVoteThresholdRule(
+        appointment.threshold,
+        appointment.conditions.join(" ") || `Election of the ${title}.`,
+        municipalRuleSourceRef(reading, appointment.target ?? title),
+      )
+    : (MUNICIPAL_MANAGER_DECISION_RULES[input.governmentKey] ?? null);
+  if (!electionRule) {
+    return {
+      ok: false,
+      reason:
+        "The manager-election voting threshold has not been established for this government.",
+    };
+  }
+  if (tally.yea + tally.nay === 0) {
+    return {
+      ok: false,
+      reason: `${reading.bodyName ?? reading.displayName} recorded no yeas or nays on the election of its ${title}.`,
+    };
+  }
+  const election = resolveRequiredVotes(
+    electionRule,
+    electionRule.countedAgainst === "members-present"
+      ? presentMembers
+      : electionRule.countedAgainst === "members-elected"
+        ? eligibleMembers
+        : tally.yea + tally.nay,
+  );
+  if (tally.yea < election.requiredVotes) {
+    return {
+      ok: false,
+      reason: `${reading.bodyName ?? reading.displayName} did not elect its ${title} (${tally.yea}-${tally.nay}; ${election.requiredVotes} required under ${electionRule.label}).`,
+    };
+  }
+  return {
+    ok: true,
+    tally,
+    presentMembers,
+    requiredQuorum: quorum.requiredVotes,
+    requiredYeas: election.requiredVotes,
+    dispositions: input.dispositions,
+  };
+}
+
+/**
+ * File an ordinance through the shared legislative measure family, or refuse
+ * with the exact compiled gap. No substitute procedure is invented.
+ */
+export function introduceMunicipalOrdinance(
+  world: World,
+  input: {
+    readonly governmentKey: string;
+    readonly designation: string;
+    readonly shortTitle: string;
+    readonly summary: string;
+  },
+): MunicipalVisitResult {
+  const no = (reason: string): MunicipalVisitResult => ({
+    ok: false,
+    world,
+    reason,
+  });
+  if (world.control.kind !== "person") return no("Person control is required.");
+  const personId = world.control.personId;
+  const authority = municipalActionAuthority(world, {
+    governmentKey: input.governmentKey,
+    personId,
+    residentPlaceGeoid: null,
+    action: "introduce-ordinance",
+  });
+  if (!authority.ok) return no(authority.reason);
+  const government = municipalGovernmentByKey(input.governmentKey);
+  if (!government) return no("No municipal government is compiled.");
+  const rules = municipalRulePackFor(government);
+  if (!rules.ok) {
+    return no(
+      `${primaryReading(government).displayName} cannot carry an ordinance here yet: ${rules.missing
+        .map((entry) => `${entry.field} — ${entry.reason}`)
+        .join(" ")}`,
+    );
+  }
+  const jurisdictionId = municipalGovernmentJurisdictionId(
+    world,
+    input.governmentKey,
+  );
+  if (!jurisdictionId || !world.jurisdictions[jurisdictionId]) {
+    return no("This government has no canonical jurisdiction for a measure.");
+  }
+  const stableKey = municipalMeasureKey(input.governmentKey, input.designation);
+  if (
+    (world.history.legislativeMeasures ?? []).some(
+      (measure) => measure.stableKey === stableKey,
+    )
+  ) {
+    return no("This ordinance designation is already recorded.");
+  }
+  return {
+    ok: true,
+    world: introduceMeasure(world, {
+      stableKey,
+      jurisdictionId,
+      rulePackId: rules.pack.packId,
+      designation: input.designation,
+      shortTitle: input.shortTitle,
+      summary: input.summary,
+      origin: "member-introduction",
+      subjectClass: "general-policy",
+      originChamberKey: "council",
+      sponsorPersonId: personId,
+    }),
+  };
 }
 
 // ---------------------------------------------------------------------------

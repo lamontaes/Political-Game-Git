@@ -101,6 +101,7 @@ jobs:
         working-directory: desktop
         env:
           OCD_EXPECT_ART_PREVIEW: ${{ matrix.profile == 'internal-art-review' && '1' || '' }}
+          OCD_EXPECT_MATERIALS: ${{ matrix.profile == 'internal-art-review' && '1' || '' }}
         # Unpacked-.app proof on the runner (the DMG contains this same
         # bundle). Production also exercises window chrome via --shell.
         # The internal-art-review job proves the labelled candidate
@@ -150,11 +151,24 @@ jobs:
             cat ../controller-release-artifacts/SHA256SUMS-private-controller.txt
           fi
 
+      # Artifact service transfers do not retain executable modes or framework
+      # symlinks in an unpacked .app. Deliver the ditto archive, not a tempting
+      # but non-installable expanded copy, separately from the plain game DMG.
+      - name: Upload the install-once private Mac archive
+        if: runner.os == 'macOS' && matrix.profile == 'internal-art-review'
+        uses: actions/upload-artifact@v7
+        with:
+          name: private-mac-arm64-art-review
+          path: |
+            desktop/controller-release-artifacts/*.zip
+            desktop/controller-release-artifacts/SHA256SUMS-private-controller.txt
+          if-no-files-found: error
+          retention-days: 14
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v7
         with:
           name: desktop-${{ matrix.name }}
           path: |
             desktop/release-artifacts/*
-            desktop/controller-release-artifacts/*
           retention-days: 14

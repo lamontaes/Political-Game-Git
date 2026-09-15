@@ -1,3 +1,4 @@
+import { TRANSIT_SERVICE_VARIANT } from "./legislation-transit-families";
 import {
   authored,
   IIJA_FISCAL_TREATMENT,
@@ -1431,7 +1432,10 @@ const SERVICE_CHARGES: ProgramFamily = {
 };
 
 export const FISCAL_INSTRUMENT_FAMILIES: readonly ProgramFamily[] = [
-  APPROPRIATIONS,
+  {
+    ...APPROPRIATIONS,
+    variants: [...APPROPRIATIONS.variants, TRANSIT_SERVICE_VARIANT],
+  },
   PROGRAM_SUNSET,
   SERVICE_CHARGES,
 ];

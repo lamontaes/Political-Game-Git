@@ -59,6 +59,7 @@ export type ShellSurface =
   | "personal"
   | "work"
   | "politics"
+  | "transit"
   | "news"
   | "places"
   | "municipal"
@@ -75,7 +76,13 @@ export type ShellSurface =
  * is how a second entry can be a real destination without becoming a second
  * page with its own copy of the record.
  */
-export type ShellSection = "identity" | "finances";
+export type ShellSection =
+  | "identity"
+  | "finances"
+  /** Politics: the office held, and running for one. */
+  | "office"
+  /** Personal: ordinary jobs, study and hiring. */
+  | "jobs";
 
 export type ShellView =
   | { readonly surface: ShellSurface; readonly section?: ShellSection }
@@ -103,12 +110,37 @@ export interface ShellPreferences {
   readonly defaultPinSize: PinSize;
   /** Interface-only outlet follows, scoped to this saved life. */
   readonly followedNewsOutletKeys: readonly string[];
+  /**
+   * What a day or week skip stops for. Read by the advance policy adapter
+   * (`interruption-policy.ts`), which is the only place these are consumed.
+   */
+  readonly interruptions: InterruptionPreferences;
 }
+
+/**
+ * The on-demand interruption checklist.
+ *
+ * Each entry names one supported category with a real consumer on the existing
+ * clock. A confirmed commitment, a journey and anything that needs the
+ * player's own decision always stop a skip; they are not preferences.
+ */
+export interface InterruptionPreferences {
+  /** Stop before each ordinary work shift instead of letting routine run it. */
+  readonly stopForWorkShifts: boolean;
+  /** Stop when a tentative hold comes due instead of letting it lapse. */
+  readonly stopForTentativeHolds: boolean;
+}
+
+export const DEFAULT_INTERRUPTIONS: InterruptionPreferences = {
+  stopForWorkShifts: false,
+  stopForTentativeHolds: false,
+};
 
 export const DEFAULT_PREFERENCES: ShellPreferences = {
   peopleView: "web",
   defaultPinSize: "normal",
   followedNewsOutletKeys: [],
+  interruptions: DEFAULT_INTERRUPTIONS,
 };
 
 /** Private player writing, never simulation facts or NPC knowledge. */
@@ -126,14 +158,20 @@ export interface PrivateJournal {
 }
 export const EMPTY_JOURNAL: PrivateJournal = { ambition: "", notes: [] };
 
+export type ShellNavigationLevel =
+  "closed" | "primary" | "personal" | "politics";
+
 export interface ShellState {
   /** Last element is the current view. The base is always the scene. */
   readonly history: readonly ShellView[];
-  readonly navigation: "closed" | "primary" | "personal";
-  /** The anchored action menu beside somebody in the room. */
-  readonly actionMenuPersonId: EntityId | null;
-  /** The quick dossier riding beside the person it describes. */
+  readonly navigation: ShellNavigationLevel;
+  /**
+   * The one person card. Whoever was opened last — from the room, a name, the
+   * People web, a list row or a pin — replaces whoever was there before.
+   */
   readonly quickDossierPersonId: EntityId | null;
+  /** The "save before quitting?" question, while it is being asked. */
+  readonly confirmingLeave: boolean;
   readonly pins: readonly ShellPin[];
   readonly activePinMenuKey: string | null;
   readonly peopleCategory: string;
@@ -148,8 +186,8 @@ export interface ShellState {
 export const INITIAL_SHELL_STATE: ShellState = {
   history: [{ surface: "scene" }],
   navigation: "closed",
-  actionMenuPersonId: null,
   quickDossierPersonId: null,
+  confirmingLeave: false,
   pins: [],
   activePinMenuKey: null,
   peopleCategory: "all",
@@ -167,7 +205,10 @@ export type ShellAction =
     }
   | { readonly type: "set-journal"; readonly journal: PrivateJournal }
   | { readonly type: "toggle-navigation" }
-  | { readonly type: "open-nav-submenu"; readonly submenu: "personal" }
+  | {
+      readonly type: "open-nav-submenu";
+      readonly submenu: "personal" | "politics";
+    }
   | { readonly type: "open-nav-primary" }
   | { readonly type: "close-navigation" }
   | {
@@ -178,10 +219,15 @@ export type ShellAction =
   | { readonly type: "go-to-scene" }
   | { readonly type: "open-entity"; readonly ref: ShellRef }
   | { readonly type: "back" }
-  | { readonly type: "select-person"; readonly personId: EntityId }
-  | { readonly type: "close-action-menu" }
   | { readonly type: "open-quick-dossier"; readonly personId: EntityId }
   | { readonly type: "close-quick-dossier" }
+  | { readonly type: "ask-leave" }
+  | { readonly type: "cancel-leave" }
+  | {
+      readonly type: "set-interruption";
+      readonly key: keyof InterruptionPreferences;
+      readonly value: boolean;
+    }
   | { readonly type: "toggle-pin"; readonly ref: ShellRef }
   | { readonly type: "unpin"; readonly key: string }
   | {
@@ -248,8 +294,8 @@ function settled(state: ShellState): ShellState {
   return {
     ...state,
     navigation: "closed",
-    actionMenuPersonId: null,
     quickDossierPersonId: null,
+    confirmingLeave: false,
     activePinMenuKey: null,
   };
 }
@@ -278,7 +324,7 @@ export function shellReducer(
       return {
         ...state,
         navigation: state.navigation === "closed" ? "primary" : "closed",
-        actionMenuPersonId: null,
+        confirmingLeave: false,
         activePinMenuKey: null,
       };
 
@@ -327,32 +373,51 @@ export function shellReducer(
     }
 
     /*
-     * Selecting somebody in the room carries WHO. The recorded defect was a
-     * rail that emitted a person and a parent that threw the id away and opened
-     * a generic surface; the id is the whole point of the action, so it travels
-     * in the action and lands in the state.
+     * Opening somebody carries WHO. The id travels in the action and lands in
+     * the state, and whoever was on the card before is replaced: one card, not
+     * a stack of close buttons. The menu and any pin menu close because the
+     * player has just pointed at something else.
      */
-    case "select-person":
+    case "open-quick-dossier":
       return {
         ...state,
         navigation: "closed",
         activePinMenuKey: null,
-        actionMenuPersonId:
-          state.actionMenuPersonId === action.personId ? null : action.personId,
-      };
-
-    case "close-action-menu":
-      return { ...state, actionMenuPersonId: null };
-
-    case "open-quick-dossier":
-      return {
-        ...state,
-        actionMenuPersonId: null,
+        confirmingLeave: false,
         quickDossierPersonId: action.personId,
       };
 
     case "close-quick-dossier":
       return { ...state, quickDossierPersonId: null };
+
+    /* The question replaces the menu; one thing to answer, not two open. */
+    case "ask-leave":
+      return {
+        ...state,
+        navigation: "closed",
+        confirmingLeave: true,
+        activePinMenuKey: null,
+      };
+
+    case "cancel-leave":
+      return { ...state, confirmingLeave: false };
+
+    case "set-interruption":
+      if (state.preferences.interruptions[action.key] === action.value)
+        return state;
+      return {
+        ...state,
+        preferences: {
+          ...state.preferences,
+          interruptions: {
+            ...state.preferences.interruptions,
+            [action.key]: action.value,
+          },
+        },
+        announcement: action.value
+          ? "A skip will stop for this."
+          : "A skip will no longer stop for this.",
+      };
 
     case "toggle-pin": {
       const key = refKey(action.ref);
@@ -371,7 +436,6 @@ export function shellReducer(
           ...state.pins,
           { key, ref: action.ref, size: state.preferences.defaultPinSize },
         ],
-        actionMenuPersonId: null,
         announcement: "Pinned.",
       };
     }
@@ -525,11 +589,11 @@ export function shellReducer(
      * leaving the life would be a surprise.
      */
     case "escape": {
+      if (state.confirmingLeave) {
+        return { ...state, confirmingLeave: false };
+      }
       if (state.activePinMenuKey) {
         return { ...state, activePinMenuKey: null };
-      }
-      if (state.actionMenuPersonId) {
-        return { ...state, actionMenuPersonId: null };
       }
       if (state.quickDossierPersonId) {
         return { ...state, quickDossierPersonId: null };

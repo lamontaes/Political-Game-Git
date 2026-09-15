@@ -310,6 +310,71 @@
     {
       "artifacts": [
         {
+          "artifactId": "us-process",
+          "sha256": "348aaf850906794914f97a7c2c5c7cd3faa510ccfda7051d67bb462e17a6322f",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "us-proposal-denominator",
+          "sha256": "34860ffcfecc071387bae537b8d43f0c2b5b46bb118fc668ab364c878793c798",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ca-constitution-iv",
+          "sha256": "0f731aa7ee4d9903a62c8c53c309df55519af67d6ce28142d50326eac36da8fa",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "us-constitution",
+          "sha256": "4dfeba35d19c5235c5788c9d0ea38d453e17ff2924b1578561941a9ef6d8fa4c",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ca-constitution-xviii",
+          "sha256": "fe199d9ecb9fff8fc50f45dd0c90831d17d93cb8e1228a27c98c66bcc0a71d42",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "carson-charter",
+          "sha256": "8a26e351cc91505eca8a4eb5d4659a14b27d4edb06e214fd66cd1dd2cf8e84ad",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "nv-effective",
+          "sha256": "a256f44ef8ac98ee20ac28d1cac752a002493c1ce86219cfef957512c354891b",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "us-quorum",
+          "sha256": "b4a9993a71ff99a0e91a6064007b04d6cafbc2a4c9935046ce1c6f5fd6657cb2",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2026-09-13",
+      "boundedSampleReason": "These acquired provisions do not establish all states, initiative qualification, conventions or disputed ratification rules.",
+      "canonicalSha256": "848bc98c0172badf8febe0ae334b3dda44a220e6d61fe27fa00541335030e070",
+      "compiler": {
+        "name": "constitutional-process",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "848bc98c0172badf8febe0ae334b3dda44a220e6d61fe27fa00541335030e070",
+      "corpusId": "constitutional-process",
+      "domain": "constitutional-process",
+      "isCompleteUniverse": false,
+      "recordCount": 8,
+      "universeDescription": "Article V, California legislative amendment/revision, and Carson charter legislative route."
+    },
+    {
+      "artifacts": [
+        {
           "artifactId": "census-gazetteer-2025-counties-zip",
           "sha256": "4c90d0f805779923b5958ab13d0c1e9b99fe4932b786bfcf75dd739bb2dcb4ea",
           "sliceOfParent": null,

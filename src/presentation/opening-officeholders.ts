@@ -1,4 +1,6 @@
 import {
+  nationalOfficeHolder,
+  NATIONAL_ELECTION_SOURCES,
   applyCharacterHistoryPlan,
   characterHistoryContextPersonId,
   createStableId,
@@ -132,7 +134,7 @@ export function establishOpeningOfficeholders(
 
 /** A past term is not a present officeholder. Judicial tenure has no fixed end. */
 export function openingOfficeholders(world: World) {
-  return OFFICES.flatMap((office) =>
+  const opening = OFFICES.flatMap((office) =>
     world.history.events.flatMap((term) => {
       if (
         term.type !== "world.office-tenure" ||
@@ -177,6 +179,27 @@ export function openingOfficeholders(world: World) {
       ];
     }),
   );
+  const actual = nationalOfficeHolder(world, "president");
+  if (!actual) return opening;
+  const work = world.history.workRelationships.find(
+    (record) => record.id === actual.state.workRelationshipId,
+  );
+  if (!work?.organizationId) return opening;
+  return [
+    ...opening.filter((record) => record.officeKey !== "us-president"),
+    {
+      officeKey: "us-president" as const,
+      title: "President of the United States",
+      personId: actual.plan.personId,
+      personName: personName(world.people[actual.plan.personId]!),
+      termId: actual.plan.id,
+      organizationId: work.organizationId,
+      startedAt: actual.state.effectiveAt.date,
+      endExclusive: actual.plan.endsAt.date,
+      identityProvenance: "fictional-simulation" as const,
+      sources: Object.values(NATIONAL_ELECTION_SOURCES),
+    },
+  ];
 }
 
 function organizationIdFor(worldId: EntityId, stableKey: string): EntityId {

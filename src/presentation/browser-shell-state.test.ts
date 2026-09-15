@@ -424,6 +424,10 @@ describe("the shell's own store", () => {
       peopleView: "list",
       defaultPinSize: "tiny",
       followedNewsOutletKeys: [],
+      interruptions: {
+        stopForWorkShifts: false,
+        stopForTentativeHolds: false,
+      },
     });
   });
 

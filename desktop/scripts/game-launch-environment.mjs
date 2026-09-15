@@ -4,3 +4,8 @@ export function gameLaunchEnvironment(environment, profile) {
   delete result.ELECTRON_RUN_AS_NODE;
   return result;
 }
+
+/** Native prepared images/fetches stay local to the packaged game origin. */
+export function isPackagedRenderRequest(url) {
+  return url.startsWith("app://game/") || url.startsWith("blob:app://game/");
+}

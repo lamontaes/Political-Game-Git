@@ -42,7 +42,7 @@ for (const seed of [
     const person = page.locator('[data-testid^="scene-person-"]').first();
     await expect(person).toBeVisible();
     await person.click({ position: { x: 30, y: 55 } });
-    await page.getByTestId("action-inspect").click();
+    await expect(page.getByTestId("quick-dossier")).toBeVisible();
     await page.screenshot({ path: info.outputPath("card.png") });
     await page.getByTestId("quick-dossier-full").click();
     await expect(page.getByTestId("full-dossier")).toBeVisible();
@@ -207,7 +207,7 @@ for (const kind of ["unpinned", "gen2"] as const) {
     await page.screenshot({ path: info.outputPath(`old-${kind}-opened.png`) });
     const person = page.locator('[data-testid^="scene-person-"]').first();
     await person.click({ position: { x: 30, y: 55 } });
-    await page.getByTestId("action-inspect").click();
+    await expect(page.getByTestId("quick-dossier")).toBeVisible();
     await page.getByTestId("quick-dossier-full").click();
     const talk = page.getByTestId("dossier-talk");
     if (await talk.isEnabled()) {

@@ -1,0 +1,84 @@
+{
+  "before": {
+    "location": "Lexington, Kentucky",
+    "briefing": "There is a meeting about a change to the bus route that runs past both houses, posted on the board by the door. Nobody has to go, and nobody has said whether they will.",
+    "opening": "Fatima is on the step with a bag of shopping, and the notice is right there beside them.",
+    "options": [
+      {
+        "choice": "Mention the notice",
+        "description": "Bring it up rather than walking past it.",
+        "reply": "“The meeting,” Barnes says. “Yes. I read it.”",
+        "next": [
+          {
+            "choice": "Say you will go",
+            "description": "Commit your own evening to it, and say so.",
+            "reply": "“Right,” Barnes says. “Let me know.”"
+          },
+          {
+            "choice": "Ask whether they will go",
+            "description": "Put the question back rather than answering it.",
+            "reply": "“All right,” Barnes says. “I will be there.”"
+          },
+          {
+            "choice": "Leave it there",
+            "description": "Say nothing more about the meeting.",
+            "reply": "It stayed unsaid, and after a while it stopped being a pause."
+          }
+        ]
+      },
+      {
+        "choice": "Leave it there",
+        "description": "Say nothing more about the meeting.",
+        "reply": "It stayed unsaid, and after a while it stopped being a pause.",
+        "next": [
+          {
+            "choice": "Mention the notice",
+            "description": "Bring it up rather than walking past it.",
+            "reply": "“The meeting,” Barnes says. “Yes. I read it.”"
+          }
+        ]
+      }
+    ]
+  },
+  "after": {
+    "location": "Lexington, Kentucky",
+    "briefing": "The agenda is posted. Decide whether to attend.",
+    "opening": "You can ask Fatima about the posted meeting.",
+    "options": [
+      {
+        "choice": "Mention the notice",
+        "description": "Ask about the posted meeting.",
+        "reply": "“Are you going?” Fatima says.",
+        "next": [
+          {
+            "choice": "Say you will go",
+            "description": "Say you plan to attend the meeting.",
+            "reply": "“All right. Let me know how it goes,” Fatima says."
+          },
+          {
+            "choice": "Ask whether they will go",
+            "description": "Invite them to attend the meeting.",
+            "reply": "“All right, I’ll be there,” Fatima says."
+          },
+          {
+            "choice": "Leave it there",
+            "description": "Say nothing more about the meeting.",
+            "reply": "You leave it there."
+          }
+        ]
+      },
+      {
+        "choice": "Leave it there",
+        "description": "Say nothing more about the meeting.",
+        "reply": "You leave it there.",
+        "next": [
+          {
+            "choice": "Mention the notice",
+            "description": "Ask about the posted meeting.",
+            "reply": "“Are you going?” Fatima says."
+          }
+        ]
+      }
+    ]
+  }
+}

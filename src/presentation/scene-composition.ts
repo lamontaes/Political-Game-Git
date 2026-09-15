@@ -1,3 +1,6 @@
+import { frozenSceneAlpha } from "./scene-frozen-alpha";
+import { resolvePose41 } from "./pose41-adapter";
+import { placeSourceScenePose } from "./scene-source-pose";
 import {
   recipeFromSnapshot,
   type PersonRenderSnapshot,
@@ -81,9 +84,13 @@ export interface SceneCharacterPresentation {
    * says what is actually being shown, never why in implementation terms.
    */
   readonly fallbackDescription: string | null;
+  readonly visibleBounds?: PlacementBox;
+  readonly sourcePoseId?: string;
 }
 
 export interface SceneCharacterRequest {
+  /** Private supplied pose pack; production release gates remain unchanged. */
+  readonly candidatePreview?: boolean;
   readonly snapshot?: PersonRenderSnapshot;
   readonly wardrobe?: CharacterWardrobeContext;
   readonly personId: string;
@@ -197,6 +204,14 @@ export function composeSceneCharacter(
     poseArt,
   } = request;
 
+  const sourcePoseRequested =
+    request.candidatePreview &&
+    (anchor.kind === "seat" ||
+      anchor.allowedPoseFamilies?.[0] === "standing-listening");
+  const identityPose = sourcePoseRequested
+    ? "standing-neutral"
+    : provisionalPose(anchor);
+
   // Identity first, against a provisional pose, so the pose resolver can ask
   // about THIS person's body family rather than about the library in general.
   const identityProbe = request.snapshot
@@ -205,13 +220,9 @@ export function composeSceneCharacter(
         personId,
         appearance,
         library,
-        provisionalPose(anchor),
+        identityPose,
       )
-    : resolvePersonCharacterRecipe(
-        appearance,
-        provisionalPose(anchor),
-        library,
-      );
+    : resolvePersonCharacterRecipe(appearance, identityPose, library);
   const resolution = resolvePoseForRequest(
     {
       anchorId: anchor.id,
@@ -229,8 +240,9 @@ export function composeSceneCharacter(
   // A pose the anchor never listed is never substituted in. When nothing
   // permitted can be drawn we keep the anchor's preferred pose so the recipe
   // resolves an honest empty context, and the gaps below say exactly why.
-  const poseFamilyId =
-    resolution.poseFamily?.pose_family_id ?? provisionalPose(anchor);
+  const poseFamilyId = sourcePoseRequested
+    ? "standing-neutral"
+    : (resolution.poseFamily?.pose_family_id ?? provisionalPose(anchor));
   const poseFamily = resolution.poseFamily;
   const recipe = request.snapshot
     ? recipeFromSnapshot(
@@ -320,6 +332,107 @@ export function composeSceneCharacter(
     };
   }
 
+  if (sourcePoseRequested) {
+    const components = recipe.context.components;
+    const idOf = (kind: string) =>
+      components.find((entry) => entry.kind === kind)?.assetId;
+    const source = resolvePose41({
+      pose:
+        anchor.kind === "seat" ? "seated-guest-neutral" : "standing-listening",
+      bodyAssetId: idOf("body") ?? "",
+      headAssetId: idOf("head") ?? "",
+      hairAssetId: idOf("hair-front") ?? null,
+      outfitAssetIds: components
+        .filter((entry) =>
+          [
+            "top",
+            "bottom",
+            "footwear",
+            "accessory",
+            "eyewear",
+            "facial-hair",
+          ].includes(entry.kind),
+        )
+        .map((entry) => entry.assetId),
+      candidatePreview: true,
+    });
+    const fitted =
+      source.status === "ready"
+        ? placeSourceScenePose(
+            scene,
+            anchor,
+            personId,
+            recipe.identity.bodyFamily,
+            source,
+          )
+        : null;
+    if (fitted) {
+      const sourceDiagnostics = [
+        ...recipe.context.diagnostics
+          .filter((entry) => entry.code !== "slot-painted-by-body")
+          .map((entry) =>
+            fromRecipeDiagnostic(entry, scene.sceneId, anchor.id, personId),
+          ),
+        ...fitted.placement.diagnostics,
+      ];
+      return {
+        personId,
+        displayName,
+        sceneId: scene.sceneId,
+        anchorId: anchor.id,
+        poseFamily: null,
+        poseGaps: [],
+        recipe,
+        placement: fitted.placement,
+        box: fitted.placement.box,
+        visibleBounds: fitted.bounds,
+        sourcePoseId: source.status === "ready" ? source.variantId : undefined,
+        layers: fitted.layers,
+        complete: sourceDiagnostics.length === 0,
+        diagnostics: sourceDiagnostics,
+        fallbackDescription: sourceDiagnostics.length
+          ? describeHonestly(displayName, sourceDiagnostics)
+          : null,
+      };
+    }
+    if (anchor.kind === "seat") {
+      const refusal = sceneDiagnostic(
+        "pose-art-missing-for-body-family",
+        "W4",
+        scene.sceneId,
+        anchor.id,
+        personId,
+        source.status === "unavailable"
+          ? source.reason
+          : "Source pose has no valid seat-to-sole span.",
+      );
+      const empty = placeSubjectAtAnchor(scene, anchor, {
+        id: personId,
+        bodyCanvas: projected.bodyCanvas,
+        root: projected.root,
+        bodyFamily: recipe.identity.bodyFamily,
+        poseFamily: "seated-guest-neutral",
+        facing: "front",
+        referenceWidthPercent: scene.standardBodyWidthPercent ?? 1,
+      });
+      return {
+        personId,
+        displayName,
+        sceneId: scene.sceneId,
+        anchorId: anchor.id,
+        poseFamily: null,
+        poseGaps: [],
+        recipe,
+        placement: empty,
+        box: empty.box,
+        layers: [],
+        complete: false,
+        diagnostics: [refusal],
+        fallbackDescription: `${displayName} has no compatible seated picture here.`,
+      };
+    }
+  }
+
   const subject: PlacementSubject = {
     id: personId,
     bodyCanvas: projected.bodyCanvas,
@@ -331,6 +444,9 @@ export function composeSceneCharacter(
     poseFamily: poseFamilyId,
     facing: recipe.context.headOrientation,
     referenceWidthPercent: scene.standardBodyWidthPercent ?? 1,
+    crownY: bodyComponent.definition.attachment_anchors?.find(
+      (point) => point.id === "crown",
+    )?.y,
   };
 
   const placement = placeSubjectAtAnchor(scene, anchor, subject);
@@ -378,6 +494,9 @@ export function composeSceneCharacter(
     recipe,
     placement,
     box: placement.box,
+    ...(frozenSceneAlpha(recipe, placement.box)
+      ? { visibleBounds: frozenSceneAlpha(recipe, placement.box)! }
+      : {}),
     layers,
     complete,
     diagnostics,

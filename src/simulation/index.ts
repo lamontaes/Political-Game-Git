@@ -10,6 +10,7 @@ export * from "./campaign-compliance";
 export * from "./campaign-compliance-rules";
 export * from "./candidate-qualification";
 export * from "./office-qualification-rules";
+export * from "./office-workflow";
 /**
  * Campaign operations are named one by one on purpose.
  *
@@ -24,6 +25,7 @@ export {
   CAMPAIGN_SUPPORT_METRIC_STABLE_KEY,
   campaignActionIsStale,
   campaignElectionTransitionHandler,
+  resolveCampaignElectionFromRecordedInput,
   createCampaignElectionTransitionRegistry,
   daysUntilElection,
   ensureCampaignOpponents,
@@ -141,3 +143,22 @@ export * from "./vitality-catalog";
 export type * from "./types";
 export * from "./world";
 export * from "./world-metrics";
+
+export * from "./national-election-types";
+export * from "./national-election-rules";
+export * from "./national-elections";
+export * from "./national-election-consumer";
+
+export * from "./national-election-geography";
+
+export * from "./national-election-offices";
+
+export * from "./legislative-office-terms";
+export * from "./constitutional-process";
+export type * from "./constitutional-types";
+export * from "./tax-policy";
+export type * from "./tax-types";
+
+export * from "./public-fiscal";
+
+export * from "./legislation-tax-identity";

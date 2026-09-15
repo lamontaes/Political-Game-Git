@@ -1,3 +1,4 @@
+import { assertPublicFundingMandate } from "./public-fiscal";
 import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
 import {
@@ -1176,6 +1177,14 @@ function validateBasisReference(
         throw new Error("Housing flow cannot predate its tenure.");
       return;
     }
+    case "public-funding":
+      assertPublicFundingMandate(
+        world,
+        reference.mandate,
+        world.history.nextSequence,
+        makeIsoDate(date),
+      );
+      return;
     case "general":
       return;
   }

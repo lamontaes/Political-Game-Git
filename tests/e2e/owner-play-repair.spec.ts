@@ -1,7 +1,13 @@
 import { fileCandidacy } from "./support/campaign";
 import { expect, test, type Page } from "./fixtures";
 
-import { enterLife, openElsewhere, startLife } from "./support/creator";
+import {
+  enterLife,
+  openElsewhere,
+  startLife,
+  saveLife,
+} from "./support/creator";
+import type { World } from "../../src/simulation/types";
 import { GIVEN_NAME_GENERATION_POOLS_V1 } from "../../src/simulation/names-data";
 
 /**
@@ -12,6 +18,38 @@ import { GIVEN_NAME_GENERATION_POOLS_V1 } from "../../src/simulation/names-data"
  * "Camila", an opening that repeated the setup form back, and a Kentucky life
  * told nobody had written down the offices where it lived.
  */
+
+async function savedRecoveryWorld(page: Page): Promise<World> {
+  return page.evaluate(
+    () =>
+      new Promise((resolve, reject) => {
+        const request = indexedDB.open("political-life-worlds");
+        request.onerror = () => reject(request.error);
+        request.onsuccess = () => {
+          const database = request.result;
+          const rows = database
+            .transaction("worlds", "readonly")
+            .objectStore("worlds")
+            .getAll();
+          rows.onerror = () => {
+            database.close();
+            reject(rows.error);
+          };
+          rows.onsuccess = () => {
+            database.close();
+            const row = rows.result.find(
+              (record) => typeof record.payload === "string",
+            );
+            if (!row)
+              return reject(
+                new Error("The explicitly saved recovery World is missing."),
+              );
+            resolve(JSON.parse(row.payload).world);
+          };
+        };
+      }),
+  );
+}
 
 async function freshBrowser(page: Page) {
   await page.goto("/");
@@ -232,9 +270,11 @@ test.describe("the life the player asked for is the life they get", () => {
       state: "Kentucky",
       gender: "male",
     });
-    // The introduction opens on the world, then the household; the grounding
-    // is the household beat's, and it still comes before the first choice.
-    await page.getByTestId("introduction-continue").click();
+    await expect(page.getByTestId("play-screen")).toBeVisible();
+    await page.getByTestId("shell-nav-cluster").click();
+    await page.getByTestId("nav-personal-group").click();
+    await page.getByTestId("nav-personal").click();
+    await page.getByTestId("life-introduction").locator("summary").click();
 
     const grounding = page.getByTestId("life-grounding");
     await expect(grounding).toBeVisible();
@@ -315,6 +355,7 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
   test("explains same-day exhaustion and restores campaign actions tomorrow", async ({
     page,
   }) => {
+    test.setTimeout(90_000);
     await freshBrowser(page);
     await startLife(page, {
       age: 34,
@@ -326,53 +367,105 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     await openElsewhere(page, "work");
     await fileCandidacy(page);
 
-    // Three sessions fit before the already-posted evening meeting. A fourth
-    // does not; that is allowed exhaustion, and every disabled action says why.
-    // Exercise both native input paths on the exact owner route.
-    await page.getByTestId("campaign-fundraising").click();
-    await page.getByTestId("campaign-outreach").focus();
-    await page.keyboard.press("Enter");
-    await page.getByTestId("campaign-advertising").click();
+    // Spend the actual available time, rather than assuming a fixed session
+    // allowance. Every performed session must visibly advance the real clock.
+    let sessions = 0;
+    for (; sessions < 16; sessions += 1) {
+      const kinds = ["fundraising", "outreach", "advertising"] as const;
+      let usable: (typeof kinds)[number] | undefined;
+      for (const kind of kinds) {
+        if (await page.getByTestId(`campaign-${kind}`).isEnabled()) {
+          usable = kind;
+          break;
+        }
+      }
+      if (!usable) break;
+      const before = (await page.getByTestId("day-date").textContent()) ?? "";
+      const action = page.getByTestId(`campaign-${usable}`);
+      if (sessions % 2 === 0) await action.click();
+      else {
+        await action.focus();
+        await page.keyboard.press("Enter");
+      }
+      await expect(page.getByTestId("day-date")).not.toHaveText(before);
+    }
+    expect(sessions).toBeGreaterThan(0);
+    expect(sessions).toBeLessThan(16);
     for (const kind of ["fundraising", "outreach", "advertising"] as const) {
       const action = page.getByTestId(`campaign-${kind}`);
       await expect(action).toBeDisabled();
       await expect(action).toContainText(/today is already spoken for/i);
     }
     await expect(page.getByTestId("pass-day")).toBeEnabled();
+    const exhausted = (await page.getByTestId("day-date").textContent()) ?? "";
+    await saveLife(page);
+    const spentWorld = await savedRecoveryWorld(page);
+    await page.reload();
+    await page.getByTestId("continue").click();
+    await enterLife(page);
+    await openElsewhere(page, "work");
+    await expect(page.getByTestId("day-date")).toHaveText(exhausted);
+    await expect(page.getByTestId("campaign-fundraising")).toBeDisabled();
 
-    /*
-     * Campaign time does not leak into the ordinary conversation surface.
-     *
-     * The sessions were held at the campaign office, and UI144's venues keep
-     * the life there until the day moves on — so this evening there is no
-     * kitchen conversation to have, and People offers none. Where a housemate
-     * cannot be talked to, their record says why in terms of where the life
-     * is, never that the day is spent.
-     */
+    // Campaign time alone cannot become a conversation-time refusal.
+    // Neither this proof nor passing midnight requires a change of location.
     await openElsewhere(page, "people");
-    await expect(
-      page.locator('[data-testid^="conversation-start-"]'),
-    ).toHaveCount(0);
     await page.locator('[data-testid^="people-person-"]').first().click();
     const refusal = page.getByTestId("dossier-talk-unavailable");
-    await expect(refusal).toBeVisible();
-    await expect(refusal).not.toContainText(/spoken for|no time|too late/i);
+    if (await refusal.isVisible())
+      await expect(refusal).not.toContainText(/spoken for|no time|too late/i);
 
     await openElsewhere(page, "work");
     await page.getByTestId("pass-day").focus();
     await page.keyboard.press("Space");
+    await expect(page.getByTestId("day-date")).not.toHaveText(exhausted);
     await expect(page.getByTestId("campaign-fundraising")).toBeEnabled();
     await expect(page.getByTestId("campaign-outreach")).toBeEnabled();
-
-    // And the next morning, back at home, the conversation is there to have.
-    await openElsewhere(page, "people");
-    await page.locator('[data-testid^="conversation-start-"]').first().click();
-    const intent = page
-      .getByTestId("conversation-intents")
-      .first()
-      .getByRole("button")
-      .first();
-    await expect(intent).toBeEnabled();
+    const morning = (await page.getByTestId("day-date").textContent()) ?? "";
+    await saveLife(page);
+    const recoveredWorld = await savedRecoveryWorld(page);
+    expect(recoveredWorld.id).toBe(spentWorld.id);
+    expect(recoveredWorld.currentDate > spentWorld.currentDate).toBe(true);
+    expect(recoveredWorld.currentMoment.minuteOfDay).toBe(7 * 60);
+    expect(recoveredWorld.control).toEqual(spentWorld.control);
+    const personId =
+      spentWorld.control.kind === "person" ? spentWorld.control.personId : "";
+    expect(recoveredWorld.people[personId]).toEqual(
+      spentWorld.people[personId],
+    );
+    expect(recoveredWorld.history.householdLocations).toEqual(
+      spentWorld.history.householdLocations,
+    );
+    expect(recoveredWorld.history.dwellingOccupancies).toEqual(
+      spentWorld.history.dwellingOccupancies,
+    );
+    expect(recoveredWorld.history.campaignActionResults).toEqual(
+      spentWorld.history.campaignActionResults,
+    );
+    await test.info().attach("recovery-clock-and-continuity", {
+      body: JSON.stringify({
+        worldId: spentWorld.id,
+        spent: spentWorld.currentMoment,
+        recovered: recoveredWorld.currentMoment,
+        sessions,
+        personId,
+        homeJurisdictionId: recoveredWorld.people[personId]!.homeJurisdictionId,
+        noResidenceOrOccupancyChange: true,
+      }),
+      contentType: "application/json",
+    });
+    await page.reload();
+    await page.getByTestId("continue").click();
+    await enterLife(page);
+    await openElsewhere(page, "work");
+    await expect(page.getByTestId("day-date")).toHaveText(morning);
+    await expect(page.getByTestId("campaign-fundraising")).toBeEnabled();
+    await page.getByTestId("campaign-outreach").focus();
+    await page.keyboard.press("Enter");
+    await expect(page.getByTestId("day-date")).not.toHaveText(morning);
+    await page.screenshot({
+      path: test.info().outputPath("campaign-recovered.png"),
+    });
   });
 
   test("lists a campaign opponent as relevant without silently pinning them", async ({

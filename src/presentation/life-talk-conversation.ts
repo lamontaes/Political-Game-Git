@@ -1,4 +1,4 @@
-import { currentOpeningLifeScene } from "./life-scene-flow";
+import { currentLifeTalkScene } from "./life-talk-presence";
 import {
   commitLifeConversation,
   projectLifeConversation,
@@ -40,7 +40,7 @@ export function lifeTalkConversationRoom(
   world: World,
   personId: EntityId,
 ): ConversationRoomContext | null {
-  const scene = currentOpeningLifeScene(world, personId);
+  const scene = currentLifeTalkScene(world, personId);
   if (!scene) return null;
   const person = world.people[personId];
   if (!person) return null;
@@ -144,7 +144,7 @@ export function lifeTalkUnavailableReason(
 ): string | null {
   const person = world.people[personId];
   const name = person ? personName(person) : "them";
-  const scene = currentOpeningLifeScene(world, playerPersonId);
+  const scene = currentLifeTalkScene(world, playerPersonId);
 
   if (!scene) {
     const guardian = activeChildAuthoritiesAt(world, playerPersonId).find(

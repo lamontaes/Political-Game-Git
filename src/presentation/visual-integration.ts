@@ -20,6 +20,7 @@ import {
   type CharacterRenderPlan,
 } from "./character-render-plan";
 import { createGarmentFitBank, type GarmentFitBankData } from "./garment-fit";
+import { globUnavailable, optionalGlob } from "./optional-glob";
 import type {
   RunBSceneAnchorId,
   RunBScenePersonContext,
@@ -256,13 +257,15 @@ export interface OfficeVisualComposition {
  * Globbing them anyway put tens of megabytes of source master into the shipped
  * bundle to satisfy URLs no page ever asks for.
  */
-const runtimeUrls = import.meta.glob<string>(
-  ["../../art/**/*.{png,jpg,jpeg,webp}", "!../../art/references/masters/**"],
-  {
-    eager: true,
-    import: "default",
-    query: "?url",
-  },
+const runtimeUrls = optionalGlob(() =>
+  import.meta.glob<string>(
+    ["../../art/**/*.{png,jpg,jpeg,webp}", "!../../art/references/masters/**"],
+    {
+      eager: true,
+      import: "default",
+      query: "?url",
+    },
+  ),
 );
 
 export function createRuntimeVisualLibrary(
@@ -341,6 +344,14 @@ export function repositoryVisualUrls(): Readonly<Record<string, string>> {
 }
 
 function repositoryUrls(): Readonly<Record<string, string>> {
+  // Development CLIs run through plain Node read records and never paint, and
+  // have no glob to resolve rasters: there a declared repository path stands
+  // for its own URL. Vite and Vitest always build the real, fail-closed index.
+  if (globUnavailable(runtimeUrls))
+    return new Proxy<Record<string, string>>(
+      {},
+      { get: (_target, key) => (typeof key === "string" ? key : undefined) },
+    );
   return Object.fromEntries(
     Object.entries(runtimeUrls).map(([modulePath, url]) => [
       modulePath.replace(/^\.\.\/\.\.\//, ""),
@@ -790,9 +801,12 @@ export const PRODUCTION_POSE_REGISTRY = createPoseFamilyRegistry(
  * never composited into a character: the developer proof shows one beside a
  * composed body so a reviewer can see that the structure and the art agree.
  */
-const poseControlPlateUrls = import.meta.glob<string>(
-  "../../art/pose-control-plates/*.svg",
-  { eager: true, import: "default", query: "?url" },
+const poseControlPlateUrls = optionalGlob(() =>
+  import.meta.glob<string>("../../art/pose-control-plates/*.svg", {
+    eager: true,
+    import: "default",
+    query: "?url",
+  }),
 );
 
 export const POSE_CONTROL_PLATE_URLS: Readonly<Record<string, string>> =

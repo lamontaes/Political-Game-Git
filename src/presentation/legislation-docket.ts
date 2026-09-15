@@ -1,5 +1,8 @@
 import { resolveLegislativeFilingEntry } from "./legislative-filing-entry";
-import { resolveActiveMemberSeat } from "./legislative-member-seat";
+import {
+  activeMemberSeats,
+  resolveActiveMemberSeat,
+} from "./legislative-member-seat";
 import {
   applyCharacterHistoryPlan,
   currentMeasureProvisions,
@@ -153,13 +156,28 @@ function docketKeyOf(scenarioKey: string, sequence: number): string {
   return `${DOCKET_KEY_PREFIX}:${scenarioKey}:bill-${String(sequence).padStart(3, "0")}`;
 }
 
-function parseDocketSequence(measureStableKey: string): number | null {
-  const match = /^legislative-docket:[^:]+:bill-(\d{3,}):measure$/.exec(
+/** Exact canonical identity, including work keys containing colons. */
+export function parseDocketMeasureIdentity(measureStableKey: string): {
+  readonly scenarioKey: string;
+  readonly sequence: number;
+  readonly docketKey: string;
+} | null {
+  const match = /^legislative-docket:(.+):bill-(\d{3,}):measure$/.exec(
     measureStableKey,
   );
   if (!match) return null;
-  const sequence = Number(match[1]);
-  return Number.isSafeInteger(sequence) ? sequence : null;
+  const sequence = Number(match[2]);
+  return Number.isSafeInteger(sequence)
+    ? {
+        scenarioKey: match[1]!,
+        sequence,
+        docketKey: measureStableKey.slice(0, -":measure".length),
+      }
+    : null;
+}
+
+function parseDocketSequence(measureStableKey: string): number | null {
+  return parseDocketMeasureIdentity(measureStableKey)?.sequence ?? null;
 }
 
 /**
@@ -253,9 +271,8 @@ export function readDocket(
     const sequence = parseDocketSequence(measure.stableKey);
     if (sequence === null) continue;
     if (
-      !measure.stableKey.startsWith(
-        `${DOCKET_KEY_PREFIX}:${input.scenarioKey}:`,
-      )
+      parseDocketMeasureIdentity(measure.stableKey)?.scenarioKey !==
+      input.scenarioKey
     ) {
       continue;
     }
@@ -345,8 +362,10 @@ export function docketBill(
 /** The next free sequence, so a new bill never lands on an existing one. */
 function nextDocketSequence(world: World, scenarioKey: string): number {
   const used = (world.history.legislativeMeasures ?? [])
-    .filter((measure) =>
-      measure.stableKey.startsWith(`${DOCKET_KEY_PREFIX}:${scenarioKey}:`),
+    .filter(
+      (measure) =>
+        parseDocketMeasureIdentity(measure.stableKey)?.scenarioKey ===
+        scenarioKey,
     )
     .map((measure) => parseDocketSequence(measure.stableKey))
     .filter((sequence): sequence is number => sequence !== null);
@@ -766,6 +785,7 @@ export function availableDraftOptions(
 export interface FileDraftInput {
   readonly scenarioKey: string;
   readonly playerPersonId: EntityId;
+  readonly memberSeatStableKey?: string;
   readonly jurisdictionId: EntityId;
   readonly familyKey: string;
   readonly variantKey: string;
@@ -836,7 +856,19 @@ export function fileDraft(
     }
   }
 
-  const membership = resolveActiveMemberSeat(world, input.playerPersonId);
+  const membership = resolveActiveMemberSeat(world, input.playerPersonId, {
+    governingJurisdictionId: input.jurisdictionId,
+    legislativeRulePackId: blueprint.pack.packId,
+    ...(input.memberSeatStableKey !== undefined
+      ? { relationshipStableKey: input.memberSeatStableKey }
+      : {}),
+  });
+  if (
+    membership.kind !== "seated" &&
+    (input.memberSeatStableKey !== undefined ||
+      activeMemberSeats(world, input.playerPersonId).length > 0)
+  )
+    throw new BillConfigurationError(membership.reason);
   const actualSeat = membership.kind === "seated" ? membership.seat : null;
   if (
     actualSeat &&
@@ -997,7 +1029,31 @@ export function fileDraftFromOffice(
   world: World,
   input: FileDraftInput,
 ): FileDraftResult {
-  const entry = resolveLegislativeFilingEntry(world, input.playerPersonId);
+  if (
+    world.control.kind !== "person" ||
+    world.control.personId !== input.playerPersonId ||
+    activeMemberSeats(world, input.playerPersonId).length === 0
+  ) {
+    const refused = resolveLegislativeFilingEntry(world, input.playerPersonId);
+    if (refused.kind === "unavailable")
+      throw new BillConfigurationError(refused.reason);
+  }
+  let packId: string;
+  try {
+    packId = legislativeBlueprint(input.scenarioKey).pack.packId;
+  } catch (error) {
+    const refused = resolveLegislativeFilingEntry(world, input.playerPersonId);
+    if (refused.kind === "unavailable")
+      throw new BillConfigurationError(refused.reason);
+    throw error;
+  }
+  const entry = resolveLegislativeFilingEntry(world, input.playerPersonId, {
+    governingJurisdictionId: input.jurisdictionId,
+    legislativeRulePackId: packId,
+    ...(input.memberSeatStableKey !== undefined
+      ? { relationshipStableKey: input.memberSeatStableKey }
+      : {}),
+  });
   if (entry.kind === "unavailable")
     throw new BillConfigurationError(entry.reason);
   if (

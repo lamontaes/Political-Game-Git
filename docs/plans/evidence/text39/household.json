@@ -1,0 +1,110 @@
+{
+  "before": {
+    "source": "TEXT39 household",
+    "location": "Home",
+    "briefing": "The week's the week's shopping and the two appointments after it still have to be covered, and it is on you and Sykes both. Neither of you has said who takes what.",
+    "opening": "Sykes is in the kitchen too, and hasn't brought up the week yet.",
+    "scene": "The shopping and two appointments still need to be covered. How do you want to handle them?",
+    "responses": [
+      {
+        "choice": "Discuss the errands",
+        "description": "Talk about who will handle the shopping and two appointments.",
+        "response": "You brought up the shopping and two appointments."
+      },
+      {
+        "choice": "Handle the errands yourself",
+        "description": "Decide to do the shopping and cover the two appointments yourself.",
+        "response": "You took on the shopping and the appointments yourself."
+      },
+      {
+        "choice": "Propose a split",
+        "description": "Suggest dividing the shopping and two appointments.",
+        "response": "You proposed sharing the shopping and appointments."
+      }
+    ],
+    "firstChoices": [
+      {
+        "key": "raise-obligation",
+        "label": "Bring up the week",
+        "description": "Say out loud that the week's errands have not been sorted."
+      },
+      {
+        "key": "listen",
+        "label": "Wait and see if they raise it",
+        "description": "Let the other person go first."
+      }
+    ],
+    "firstReply": "“It is the same week for me,” Sykes says. “So. Yes.”",
+    "dialogueChoices": [
+      {
+        "choice": "Say you will take it",
+        "description": "Cover the week's errands yourself this week.",
+        "response": "“Fine by me,” Sykes says. “Say if it turns out to be too much.”"
+      },
+      {
+        "choice": "Suggest splitting it",
+        "description": "Divide the week rather than hand it to one person.",
+        "response": "“That will do,” Sykes says. “Say which bits are yours.”"
+      },
+      {
+        "choice": "Ask them to take it",
+        "description": "Say your week will not stretch to it.",
+        "response": "“This week,” Sykes says. “Not as a standing arrangement.”"
+      }
+    ]
+  },
+  "after": {
+    "source": "TEXT39 household",
+    "location": "Home",
+    "briefing": "Buy groceries, arrange a clothing fitting for yourself, and arrange a visit to fix the kitchen cupboard hinge. Neither appointment has a time yet.",
+    "opening": "You can ask Zachary about the errands.",
+    "scene": "Buy groceries, arrange a clothing fitting for yourself, and arrange a visit to fix the kitchen cupboard hinge. Neither appointment has a time yet. How do you want to divide the errands?",
+    "responses": [
+      {
+        "choice": "Discuss the errands",
+        "description": "Ask what each of you can take on.",
+        "response": "You asked how to divide groceries and appointment calls."
+      },
+      {
+        "choice": "Handle the errands yourself",
+        "description": "Offer to handle the list yourself.",
+        "response": "You offered to handle groceries and appointment calls."
+      },
+      {
+        "choice": "Propose a split",
+        "description": "Suggest sharing the tasks on the list.",
+        "response": "You suggested sharing groceries and appointment calls."
+      }
+    ],
+    "firstChoices": [
+      {
+        "key": "raise-obligation",
+        "label": "Talk about the errands",
+        "description": "Ask who can do what."
+      },
+      {
+        "key": "listen",
+        "label": "Let them speak first",
+        "description": "Let the other person go first."
+      }
+    ],
+    "firstReply": "“Go ahead,” Zachary says.",
+    "dialogueChoices": [
+      {
+        "choice": "Offer to handle the errands",
+        "description": "Offer to take on the tasks on the list.",
+        "response": "“Okay. Let me know if that changes,” Zachary says."
+      },
+      {
+        "choice": "Suggest splitting it",
+        "description": "Ask to share the tasks on the list.",
+        "response": "“Yes. Let’s divide the list,” Zachary says."
+      },
+      {
+        "choice": "Ask them to take it",
+        "description": "Ask whether they can handle the errands.",
+        "response": "“Okay, I’ll handle these errands,” Zachary says."
+      }
+    ]
+  }
+}

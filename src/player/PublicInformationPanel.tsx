@@ -17,6 +17,8 @@ import "./public-information-panel.css";
 export interface PublicInformationPanelProps {
   readonly model: PublicInformationPanelModel;
   readonly onClose: () => void;
+  /** False inside a workspace frame, which already carries Back and Close. */
+  readonly showClose?: boolean;
   readonly onOpenPerson: (personId: EntityId) => void;
   readonly viewerPersonId: EntityId | null;
   readonly followedOutletKeys: readonly string[];
@@ -27,6 +29,7 @@ export interface PublicInformationPanelProps {
 export function PublicInformationPanel({
   model,
   onClose,
+  showClose = true,
   onOpenPerson,
   viewerPersonId,
   followedOutletKeys,
@@ -117,19 +120,21 @@ export function PublicInformationPanel({
           <h2 id="public-information-title">{model.digest.outletName}</h2>
           <p>Published through {model.digest.asOf}</p>
         </div>
-        <button
-          ref={panelCloseRef}
-          type="button"
-          aria-label="Close public information"
-          onClick={onClose}
-        >
-          <span aria-hidden="true">×</span>
-        </button>
+        {showClose ? (
+          <button
+            ref={panelCloseRef}
+            type="button"
+            aria-label="Close public information"
+            onClick={onClose}
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        ) : null}
       </header>
 
       {model.items.length === 0 ? (
         <p data-testid="public-information-empty">
-          No public-information items have been published in this save.
+          No stories have been published here yet.
         </p>
       ) : (
         <>
@@ -307,10 +312,6 @@ export function PublicInformationPanel({
           </header>
           <p>{activeConcept.fullDefinition}</p>
           <small>{activeConcept.sourceLabel}</small>
-          <p className="public-information-help-note">
-            Reading this explanation does not move time or change the saved
-            world.
-          </p>
         </aside>
       ) : null}
     </section>

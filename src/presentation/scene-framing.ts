@@ -30,6 +30,28 @@ export interface ScreenFigure {
   readonly bottom: number;
 }
 
+/** Pan only inside the existing cover crop to keep occupied figures visible.
+ * Actor/furniture/source coordinates and scale stay fixed. The returned delta
+ * belongs to the shared camera, never to an individual person's placement. */
+export function occupiedHorizontalPan(
+  figures: readonly ScreenFigure[],
+  viewportWidth: number,
+  renderedWidth: number,
+  currentOffset: number,
+  margin = 12,
+): number {
+  if (!figures.length || viewportWidth <= 0) return 0;
+  const left = Math.min(...figures.map((figure) => figure.left));
+  const right = Math.max(...figures.map((figure) => figure.right));
+  const minimum = Math.max(
+    margin - left,
+    viewportWidth - renderedWidth - currentOffset,
+  );
+  const maximum = Math.min(viewportWidth - margin - right, -currentOffset);
+  if (minimum > maximum) return 0; // No pan alone can fit this occupancy.
+  return Math.round(Math.max(minimum, Math.min(0, maximum)));
+}
+
 /**
  * How far to lower the camera so every figure's crown is on screen.
  *
@@ -126,4 +148,35 @@ export function chooseContentDock(
   if (right <= left && right < centre) return { dock: "right", maxWidth: null };
   if (left < centre) return { dock: "left", maxWidth: null };
   return centred;
+}
+
+/**
+ * How tall the conversation may be while staying in the lower scene safe area.
+ *
+ * Faces stay clear: the band from each figure's top down through the upper
+ * third is treated as the head. The box sits bottom-centre in what remains.
+ * Compact talk already fits this band at 1440×900 and 1200×720; this is a
+ * ceiling, not a request to scroll.
+ */
+export function conversationSafeMaxHeight(
+  figures: readonly ScreenFigure[],
+  viewport: { readonly width: number; readonly height: number },
+  faceFraction = 0.36,
+  bottomInset = 16,
+  minimum = 168,
+): number {
+  if (viewport.height <= 0) return minimum;
+  const faceBottom =
+    figures.length === 0
+      ? Math.round(viewport.height * 0.42)
+      : Math.max(
+          ...figures.map(
+            (figure) =>
+              figure.top + (figure.bottom - figure.top) * faceFraction,
+          ),
+        );
+  return Math.max(
+    minimum,
+    Math.floor(viewport.height - Math.max(0, faceBottom) - bottomInset),
+  );
 }

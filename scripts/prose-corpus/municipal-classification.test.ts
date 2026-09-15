@@ -23,7 +23,9 @@ describe("municipal authored prose classification", () => {
     ])
       expect(texts).toContain(expected);
     expect(texts).toContainEqual(
-      expect.stringContaining("Add an explicitly game-authored public session"),
+      expect.stringContaining(
+        "Put a public session on the calendar: a game-authored 90-minute session",
+      ),
     );
     expect(texts).toContain("A current role in this government is required.");
     expect(texts).toContain(

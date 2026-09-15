@@ -1,10 +1,12 @@
+import type { AppearanceMaterial } from "../simulation/appearance-material";
 import type { PersonRenderSnapshot } from "./person-render-snapshot";
 import {
   SCENE_REGISTRY,
   type RegisteredScene,
   type RegisteredSceneAnchor,
 } from "./scene-registry";
-import { resolvePerspectiveScale } from "./scene-placement";
+import { resolvePerspectiveScale, type PlacementBox } from "./scene-placement";
+import { allocateSceneOccupancy } from "./scene-occupancy";
 import { composeSceneCharacter } from "./scene-composition";
 import {
   PRODUCTION_CHARACTER_LIBRARY,
@@ -93,6 +95,9 @@ export interface LifeSceneWardrobeOptions {
 
 /** A layer of released character art, positioned in plate percentages. */
 export interface ScenePersonLayer {
+  readonly assetId?: string;
+  readonly kind?: string;
+  readonly material?: AppearanceMaterial;
   readonly url: string;
   readonly leftPercent: number;
   readonly topPercent: number;
@@ -107,6 +112,9 @@ export interface PlacedScenePerson {
   readonly relationship: string | null;
   readonly anchorId: string;
   readonly seated: boolean;
+  /** Visible paint bounds used for occupancy; distinct from the layer canvas. */
+  readonly visibleBounds?: PlacementBox;
+  readonly sourcePoseId?: string;
   /** Placeholder geometry, all in plate percentages. */
   readonly leftPercent: number;
   readonly topPercent: number;
@@ -290,39 +298,20 @@ const SEATED_HEIGHT_RATIO = 1.5;
 
 function placeableAnchors(
   scene: RegisteredScene,
-  preview?: LifeSceneArtPreview,
 ): readonly RegisteredSceneAnchor[] {
-  const anchors = [...scene.anchors.values()].filter(
-    (anchor) =>
-      (anchor.kind === "seat" || anchor.kind === "floor-standing") &&
-      (anchor.footprintPercent ?? scene.standardBodyWidthPercent ?? 0) > 0,
-  );
-  // Seats first, then floor spots; each group left-to-right, so a fuller room
-  // reads front-to-back and the assignment is deterministic.
-  const ordered = anchors.sort((left, right) => {
-    if (left.kind !== right.kind) return left.kind === "seat" ? -1 : 1;
-    return left.xPercent - right.xPercent;
-  });
-  if (!preview) return ordered;
-  /*
-   * Development preview only: put the spots this art can actually fill first.
-   *
-   * The banked review bodies carry `standing-neutral` and nothing else, and
-   * seats come first in the production order, so the first household member is
-   * assigned a sofa the bank cannot draw and the room stays empty — a preview
-   * that shows nothing because of an assignment rule rather than because of
-   * the art. The pose-art index answers which anchors are fillable, so the
-   * question is asked rather than assumed, and the day a seated body is banked
-   * this reorders itself back.
-   *
-   * Order within each group is unchanged, so the assignment stays
-   * deterministic and nobody is placed anywhere the registry did not offer.
-   */
-  const fillable = (anchor: RegisteredSceneAnchor): boolean =>
-    (anchor.allowedPoseFamilies ?? []).some((family) =>
-      preview.poseArt.bodyFamiliesByPose.has(family),
-    );
-  return [...ordered.filter(fillable), ...ordered.filter((a) => !fillable(a))];
+  return [...scene.anchors.values()]
+    .filter(
+      (anchor) =>
+        (anchor.kind === "seat" || anchor.kind === "floor-standing") &&
+        (anchor.footprintPercent ?? scene.standardBodyWidthPercent ?? 0) > 0,
+    )
+    .sort((a, b) => {
+      if (a.kind !== b.kind) return a.kind === "seat" ? -1 : 1;
+      return (
+        b.contactFloorYPercent - a.contactFloorYPercent ||
+        a.id.localeCompare(b.id)
+      );
+    });
 }
 
 function releasedLayers(
@@ -339,6 +328,8 @@ function releasedLayers(
   readonly refusal: string;
   /** What the compositor objected to, drawn or not. Never dropped on success. */
   readonly notes: readonly string[];
+  readonly visibleBounds?: PlacementBox;
+  readonly sourcePoseId?: string;
 } {
   // Ask #86's resolver for a real picture. Today this returns nothing — no body
   // master is released — but the call is the seam the released art lands on, so
@@ -388,6 +379,7 @@ function releasedLayers(
       record?.appearance ??
       derivePersonAppearance(person.id, LEGACY_APPEARANCE_RECIPE_VERSION);
     const presentation = composeSceneCharacter({
+      candidatePreview: Boolean(preview),
       /*
        * A shared render snapshot is bound to the library that produced it, and
        * it validates that binding: handing a production-derived snapshot to a
@@ -453,6 +445,9 @@ function releasedLayers(
         Boolean(layer.url),
       )
       .map((layer) => ({
+        assetId: layer.assetId,
+        kind: layer.kind,
+        ...(appearance.material ? { material: appearance.material } : {}),
         url: layer.url,
         leftPercent: layer.leftPercent,
         topPercent: layer.topPercent,
@@ -461,6 +456,8 @@ function releasedLayers(
       }));
     return {
       layers: drawn,
+      visibleBounds: presentation.visibleBounds,
+      sourcePoseId: presentation.sourcePoseId,
       refusal: drawn.length === 0 ? "composition-drew-no-layers" : "",
       notes,
     };
@@ -491,17 +488,23 @@ export function planLifeScenePeople(
   if (!sceneId) return [];
   const scene = SCENE_REGISTRY.scenes.get(sceneId);
   if (!scene || !scene.raster) return [];
-  const anchors = placeableAnchors(scene, savedWardrobes?.artPreview);
+  const anchors = placeableAnchors(scene);
   if (anchors.length === 0) return [];
 
-  const people = [...present]
-    .sort((left, right) => left.personId.localeCompare(right.personId))
-    .slice(0, anchors.length);
+  const people = [
+    ...new Map(
+      present
+        .filter((person) => world.people[person.personId])
+        .map((person) => [person.personId, person]),
+    ).values(),
+  ].sort((left, right) => left.personId.localeCompare(right.personId));
 
   const plateAspect = scene.plate.width / scene.plate.height;
 
-  const placed = people.map((person, index) => {
-    const anchor = anchors[index]!;
+  const renderAt = (
+    person: ScenePerson,
+    anchor: RegisteredSceneAnchor,
+  ): PlacedScenePerson => {
     const seated = anchor.kind === "seat";
     const scale = resolvePerspectiveScale(scene, anchor.contactFloorYPercent);
     const bodyWidth =
@@ -567,7 +570,13 @@ export function planLifeScenePeople(
     }
     const drawing =
       wardrobeRefusal !== undefined
-        ? { layers: [], refusal: wardrobeRefusal, notes: [wardrobeRefusal] }
+        ? {
+            layers: [],
+            refusal: wardrobeRefusal,
+            notes: [wardrobeRefusal],
+            visibleBounds: undefined,
+            sourcePoseId: undefined,
+          }
         : releasedLayers(
             world,
             { id: person.personId, displayName: person.name },
@@ -595,7 +604,8 @@ export function planLifeScenePeople(
     // depth scale. Their actual union is the selectable/framing box; a second
     // footprint-derived box must not resize or falsely crop that composition.
     const calibratedBounds =
-      layers.length > 0 &&
+      drawing.visibleBounds ??
+      (layers.length > 0 &&
       scene.floorCalibration &&
       scene.standardBodyWidthPercent !== null
         ? {
@@ -614,7 +624,7 @@ export function planLifeScenePeople(
                 ),
               ) - Math.min(...layers.map((layer) => layer.topPercent)),
           }
-        : null;
+        : null);
     if (calibratedBounds)
       overflowPercent = Math.max(0, -calibratedBounds.topPercent);
     return {
@@ -628,6 +638,10 @@ export function planLifeScenePeople(
       widthPercent,
       heightPercent,
       ...(calibratedBounds ?? {}),
+      ...(drawing.visibleBounds
+        ? { visibleBounds: drawing.visibleBounds }
+        : {}),
+      ...(drawing.sourcePoseId ? { sourcePoseId: drawing.sourcePoseId } : {}),
       layers,
       hasArt: layers.length > 0,
       presence: person.relationship
@@ -648,8 +662,42 @@ export function planLifeScenePeople(
           }
         : {}),
     } satisfies PlacedScenePerson;
-  });
+  };
 
-  // Back to front: a smaller floor line is further away and paints first.
-  return placed.sort((left, right) => left.topPercent - right.topPercent);
+  const candidates = people.map((person) => {
+    const attempts = anchors.map((anchor) => renderAt(person, anchor));
+    const compatible = attempts.filter(
+      (attempt) =>
+        attempt.hasArt &&
+        !(attempt.artDiagnostics ?? []).some((code) =>
+          /^(seated-pelvis-misses-seat-plane|feet-miss-floor-line|sprite-exceeds-footprint|pose-not-permitted-at-anchor|body-family-not-permitted-at-anchor|facing-not-permitted-at-anchor|pose-art-missing-for-body-family|body-declares-no-contacts|figure-taller-than-space)/.test(
+            code,
+          ),
+        ),
+    );
+    // A missing pose never dresses a standing body as a sitter. A named
+    // standing placeholder remains possible when this person's art is absent.
+    const choices = compatible.length
+      ? compatible
+      : attempts.filter((attempt) => !attempt.seated && !attempt.hasArt);
+    return {
+      personId: person.personId,
+      candidates: choices.map((value) => ({
+        anchorId: value.anchorId,
+        bounds: value.visibleBounds ?? value,
+        value,
+      })),
+    };
+  });
+  const placed = [...allocateSceneOccupancy(candidates)];
+  // Head height cannot determine paint order when postures differ.
+  return placed.sort((a, b) => {
+    const left = scene.anchors.get(a.anchorId)!;
+    const right = scene.anchors.get(b.anchorId)!;
+    return (
+      left.zOrder - right.zOrder ||
+      left.contactFloorYPercent - right.contactFloorYPercent ||
+      a.personId.localeCompare(b.personId)
+    );
+  });
 }

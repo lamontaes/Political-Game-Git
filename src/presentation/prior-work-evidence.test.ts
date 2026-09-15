@@ -1,3 +1,4 @@
+import { enterSupportedTerm } from "../../tests/fixtures/recorded-legislative-term";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -57,6 +58,7 @@ function seatedMemberAtTheSitting() {
     world = passOrdinaryDays(world);
   }
   expect(projectCampaign(world, personId).phase).toBe("won");
+  world = enterSupportedTerm(world, personId);
 
   const capabilities = resolvePlayerCapabilities(world);
   const scenarioKey = capabilities.legislativeScenarioKey!;

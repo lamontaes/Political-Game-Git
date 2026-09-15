@@ -1,9 +1,10 @@
+import { ORDINARY_DAY_START_MINUTE, passOrdinaryDays } from "./ordinary-life";
+import type { OrdinaryLifeDayAdvance } from "./life-time-handlers";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
 import {
-  LIFE_TRANSITION_HANDLERS,
   activeEducationEnrollmentsAt,
   adaptiveSelectionSeed,
-  advanceWorld,
+  addDays,
   ageOnDate,
   availableLifeSituations,
   createOrganization,
@@ -237,11 +238,20 @@ export interface ChooseFormativeOptionInput {
   readonly withPersonId: EntityId | null;
 }
 
-/** Records the choice, then lets the intervening time pass. */
+/** Records the answer without advancing the surrounding life. */
 export function chooseFormativeOption(
   world: World,
   input: ChooseFormativeOptionInput,
 ): World {
+  if (
+    world.history.events.some(
+      (event) =>
+        event.occurredAt === world.currentDate &&
+        event.involvedEntityIds.includes(input.personId) &&
+        event.tags.includes(input.situationKey),
+    )
+  )
+    throw new Error("This formative choice has already been recorded today.");
   const interval = formativeIntervalAt(world, input.personId);
   if (!interval) {
     throw new Error("These are no longer the formative years.");
@@ -295,7 +305,7 @@ export function chooseFormativeOption(
   if (result.status === "blocked") {
     return result.world;
   }
-  return advanceToNextMoment(result.world, input.personId, interval);
+  return result.world;
 }
 
 /**
@@ -362,16 +372,21 @@ function openTeenEmployer(
  * Lets a stretch of ordinary time go by without manufacturing an event for it.
  * Most years of a life are like this, and the record should be allowed to say so.
  */
-export function letTimePass(world: World, personId: EntityId): World {
+export function letTimePass(
+  world: World,
+  personId: EntityId,
+  advanceDays: OrdinaryLifeDayAdvance = passOrdinaryDays,
+): World {
   const interval = formativeIntervalAt(world, personId);
   if (!interval) throw new Error("These are no longer the formative years.");
-  return advanceToNextMoment(world, personId, interval);
+  return advanceToNextMoment(world, personId, interval, advanceDays);
 }
 
 function advanceToNextMoment(
   world: World,
   personId: EntityId,
   interval: FormativeInterval,
+  advanceDays: OrdinaryLifeDayAdvance,
 ): World {
   const person = world.people[personId];
   if (!person) throw new Error("This character is not in the world.");
@@ -393,10 +408,24 @@ function advanceToNextMoment(
   // With the handler registry, because a life that reaches adulthood may
   // already be carrying a scheduled callback, and time refuses to step over a
   // due item it has no handler for rather than silently losing it.
-  return refreshLifeCircumstances(
-    advanceWorld(world, days, LIFE_TRANSITION_HANDLERS),
-    personId,
-  );
+  // Explicit long formative skips still use the same routine clock. Bounded
+  // requests avoid exhausting its finite daily-resolution loop; any reached
+  // interruption stops the whole request rather than being jumped around.
+  let advanced = world;
+  for (let remaining = days; remaining > 0;) {
+    const chunk = Math.min(31, remaining);
+    const targetDate = addDays(advanced.currentDate, chunk);
+    const next = advanceDays(advanced, chunk);
+    advanced = next;
+    if (
+      next.currentDate < targetDate ||
+      (next.currentDate === targetDate &&
+        next.currentMoment.minuteOfDay < ORDINARY_DAY_START_MINUTE)
+    )
+      break;
+    remaining -= chunk;
+  }
+  return refreshLifeCircumstances(advanced, personId);
 }
 
 function daysBetween(from: string, to: string): number {

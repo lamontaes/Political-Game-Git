@@ -1237,6 +1237,40 @@ function minnesotaChamber(
   };
 }
 
+const MN_HOUSE_INTRODUCTION: RuleSourceRef = {
+  authority: "temporary-rules",
+  citation: "Minn. House Rule 1.10 (2025–2026)",
+  sourceTitle: "Minnesota House temporary rules, 94th Legislature",
+  sourceUrl: "https://www.house.mn.gov/cco/rules/permrule/hrule.asp",
+  retrievedAt: "2026-09-13",
+  verification: "verified",
+  note: "Member introduction is supported in the House; signed duplicate copies, prior Speaker submission and any annual introduction cutoff are additional requirements. Those paperwork/cutoff records are not yet modeled.",
+};
+const MN_SENATE_INTRODUCTION: RuleSourceRef = {
+  authority: "temporary-rules",
+  citation: "Minn. Senate Rule 3.1 (2025–2026)",
+  sourceTitle: "Minnesota Senate temporary rules, amended February 24, 2025",
+  sourceUrl:
+    "https://www.lrl.mn.gov/archive/rules/senate/2025-2026/2025-2026_Senate_Temporary_Rules_2025-02-24.pdf",
+  retrievedAt: "2026-09-13",
+  verification: "verified",
+  note: "Members and standing committees may introduce bills; the Senate text was independently read.",
+};
+const MN_MEMBER_INTRODUCTION: RuleSourceRef = {
+  ...MN_HOUSE_INTRODUCTION,
+  citation: "Minn. House Rule 1.10; Minn. Senate Rule 3.1 (94th Legislature)",
+  note: `Supported general introduction chambers from independent primary readings; Senate reading: ${MN_SENATE_INTRODUCTION.sourceUrl}. This does not waive submission/deadline requirements or establish a future legislature's rules.`,
+};
+const MN_EFFECTIVE_DATE: RuleSourceRef = {
+  authority: "statute",
+  citation: "Minn. Stat. § 645.02 (2025 edition)",
+  sourceTitle: "Minnesota Statutes: Effective Date and Time of Laws",
+  sourceUrl: "https://www.revisor.mn.gov/statutes/2025/cite/645.02",
+  retrievedAt: "2026-09-13",
+  verification: "verified",
+  note: "The primary text distinguishes ordinary acts, acts with appropriations, specified dates and locally approved special laws.",
+};
+
 export const MINNESOTA_RULE_PACK: LegislativeRulePack = {
   packId: "us-mn-legislature-v1",
   jurisdictionKey: "US-MN",
@@ -1248,13 +1282,8 @@ export const MINNESOTA_RULE_PACK: LegislativeRulePack = {
   ],
   chamberOrder: ["house", "senate"],
   origination: {
-    // The constitution confines revenue bills to the House and says nothing
-    // about where an ordinary bill starts. Both halves are recorded: the
-    // confinement as the sourced rule it is, and the silence as silence. The
-    // listed chamber order is not evidence of either.
-    generalOrigination: unknownRule(
-      "Where an ordinary Minnesota bill may be introduced was not resolved for this pack. Art. IV, § 18 confines revenue bills to the House and no source read states a general origination rule, so this pack does not claim one either way.",
-    ),
+    // Each chamber's member introduction rule was read independently.
+    generalOrigination: knownRule(["house", "senate"], MN_MEMBER_INTRODUCTION),
     subjectRestrictions: [
       {
         subjectClass: "revenue",
@@ -1300,13 +1329,12 @@ export const MINNESOTA_RULE_PACK: LegislativeRulePack = {
     source: MN_ART4_SEC23,
   },
   enactment: {
-    effectiveDateDistinctFromEnactment: unknownRule(
-      "Whether taking effect is a date distinct from enactment is set by Minn. Stat. § 645.02, which was not read for this pack.",
+    effectiveDateDistinctFromEnactment: knownRule(true, MN_EFFECTIVE_DATE),
+    defaultEffectiveRule: knownRule(
+      "Unless the act specifies another date, ordinary acts take effect the following August 1; acts making or containing appropriations take effect the following July 1. A special law requiring local approval follows the required certificate filings, unless a later date is specified. Default time is 12:01 a.m. An actual effective date requires the measure's class, text and applicable approval records.",
+      MN_EFFECTIVE_DATE,
     ),
-    defaultEffectiveRule: unknownRule(
-      "Minnesota's default effective date is set by Minn. Stat. § 645.02, which was not read for this pack.",
-    ),
-    source: MN_ART4_SEC22,
+    source: MN_EFFECTIVE_DATE,
   },
   session: {
     sessionLabel: "Regular session",
@@ -1330,16 +1358,19 @@ export const MINNESOTA_RULE_PACK: LegislativeRulePack = {
     MN_ART4_SEC7,
     MN_ART4_SEC2,
     MN_STAT_2_021,
+    MN_HOUSE_INTRODUCTION,
+    MN_SENATE_INTRODUCTION,
+    MN_MEMBER_INTRODUCTION,
+    MN_EFFECTIVE_DATE,
   ],
   unresolvedGaps: [
     "Minnesota's committee structure, referral among committees, and report and discharge thresholds are set by each house's rules and the joint rules, which were not read for this pack.",
     "Minnesota's authority for floor amendments and any germaneness standard are set by each house's rules, which were not read for this pack.",
     "Minnesota's conference committee composition and report rules are unresolved, and conference is not modelled.",
-    "The default effective-date rule is set by Minn. Stat. § 645.02, which was not read for this pack.",
     "Whether a Minnesota measure dies at a given adjournment, as distinct from at the end of the biennium, is unresolved.",
     "This pack models a single third-reading final-passage stage; the Minnesota Constitution requires consideration on three different days (art. IV, § 19), but the intermediate general-orders and second-reading stages come from chamber rules not read here.",
     "Whether a Minnesota bill may be amended at third reading is unresolved, so this pack does not permit an amendment at that stage.",
-    "Where an ordinary Minnesota bill may be introduced is unresolved; only the revenue confinement in art. IV, § 18 is established.",
+    "Member introduction chambers are compiled from the 94th Legislature rules. Prior submission, signatures/copies, applicable introduction deadlines and later-legislature rules are not modeled.",
   ],
 };
 

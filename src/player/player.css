@@ -7012,16 +7012,35 @@
   position: fixed;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: var(
+    --pg-content-bottom,
+    calc(1.15rem + env(safe-area-inset-bottom, 0px))
+  );
   display: flex;
   justify-content: center;
-  padding: 0 1rem 1.4rem;
+  padding: 0 1rem 0.35rem;
+  max-height: calc(
+    var(--pg-vv-height, 100dvh) - 5.5rem - env(safe-area-inset-top, 0px) -
+      var(--pg-vv-inset-top, 0px)
+  );
   z-index: 2;
   pointer-events: none;
 }
 
 .life-shell .scene-backdrop-content > * {
   pointer-events: auto;
+}
+
+.life-shell .scene-backdrop-content[data-content="conversation"] {
+  justify-content: center;
+  align-items: flex-end;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 1.2rem;
+}
+
+.life-shell .scene-backdrop-content[data-content="conversation"] > .pg-talk {
+  width: min(46rem, 100%);
 }
 
 /* --- People standing in the room --------------------------------------- */
@@ -7918,4 +7937,40 @@
 /* A side dock narrows to the room beside the people when it has to. */
 .life-shell .scene-backdrop-content[data-dock] > * {
   max-width: var(--pg-dock-width, 100%);
+}
+
+/* A restrained floor contact cue, in the actor’s same plate transform. */
+.scene-person-contact-shadow {
+  position: absolute;
+  left: 22%;
+  width: 56%;
+  height: 2.2%;
+  transform: translateY(-35%);
+  background: radial-gradient(ellipse, rgb(25 20 16 / 32%), transparent 70%);
+  pointer-events: none;
+}
+
+/* Side-docked Talk keeps names readable; controls get their own wrapping row. */
+.life-shell
+  .scene-backdrop-content[data-content="conversation"][data-dock="right"]
+  .pg-talk-head,
+.life-shell
+  .scene-backdrop-content[data-content="conversation"][data-dock="left"]
+  .pg-talk-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+}
+.life-shell
+  .scene-backdrop-content[data-content="conversation"][data-dock="right"]
+  .pg-talk-head-controls,
+.life-shell
+  .scene-backdrop-content[data-content="conversation"][data-dock="left"]
+  .pg-talk-head-controls {
+  grid-column: 1 / -1;
+  margin-left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.3rem;
 }

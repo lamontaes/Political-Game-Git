@@ -1903,7 +1903,7 @@ export function resolveLifeSituation(
                 }
               : null,
             socialContext: situation.key,
-            pressure: null,
+            pressure: situation.prose,
             choice: option.label,
             motivation: null,
             immediateReaction: null,

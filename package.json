@@ -93,7 +93,8 @@
     "measure:visual4-tone": "node --import tsx scripts/art-asset-factory/cli-people-visual4-tone.ts",
     "measure:appearance-v2": "PG_CAPTURE_EVIDENCE=1 vitest run scripts/dev-lab/appearance-recipe-v2-proof.test.ts",
     "measure:visual4-wardrobe": "node --import tsx scripts/art-asset-factory/cli-people-visual4-wardrobe.ts",
-    "derive:people-visual4": "node --import tsx scripts/art-asset-factory/people-visual4.ts"
+    "derive:people-visual4": "node --import tsx scripts/art-asset-factory/people-visual4.ts",
+    "kit:art": "node --import tsx scripts/art-asset-factory/cli-kit41.ts"
   },
   "dependencies": {
     "react": "19.2.6",

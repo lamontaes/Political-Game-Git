@@ -1,3 +1,4 @@
+import { ENGINE_PEOPLE29_CHARACTER_LIBRARY as currentLibrary } from "./engine-people29-review";
 import { describe, expect, it } from "vitest";
 import {
   PEOPLE_VISUAL4_CHARACTER_LIBRARY as library,
@@ -164,15 +165,19 @@ describe("explicit new-life review lineage", () => {
   it("pins a new preview and replays that exact creation lineage without changing world identity", () => {
     const reviewed = setupForArtPreview(setup, "candidate-review");
     expect(reviewed.appearanceCatalogGeneration).toBe(
-      library.catalogGeneration,
+      currentLibrary.catalogGeneration,
     );
     expect(worldSeedFor(reviewed)).toBe(worldSeedFor(setup));
     const decoded = decodeReplayDescriptor(encodeReplayDescriptor(reviewed))!;
-    expect(decoded.appearanceCatalogGeneration).toBe(library.catalogGeneration);
+    expect(decoded.appearanceCatalogGeneration).toBe(
+      currentLibrary.catalogGeneration,
+    );
     const game = createNewGameWorld(decoded);
 
     for (const p of Object.values(game.world.people)) {
-      expect(p.appearance!.catalogGeneration).toBe(library.catalogGeneration);
+      expect(p.appearance!.catalogGeneration).toBe(
+        currentLibrary.catalogGeneration,
+      );
     }
     // Exercise a real supported wardrobe choice using the freshly created person's pin.
     const appearance = {
@@ -194,7 +199,7 @@ describe("explicit new-life review lineage", () => {
           },
         },
       },
-      library,
+      currentLibrary,
     );
     expect(
       resolved.context.components

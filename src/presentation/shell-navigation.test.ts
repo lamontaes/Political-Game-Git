@@ -69,18 +69,50 @@ describe("the shell's navigation", () => {
     expect(state.history).toEqual([{ surface: "scene" }]);
   });
 
-  it("carries the chosen person rather than dropping the id", () => {
+  it("carries the chosen person, and one card replaces the last", () => {
     const state = shellReducer(INITIAL_SHELL_STATE, {
-      type: "select-person",
+      type: "open-quick-dossier",
       personId: BOB,
     });
-    expect(state.actionMenuPersonId).toBe(BOB);
+    expect(state.quickDossierPersonId).toBe(BOB);
 
     const other = shellReducer(state, {
-      type: "select-person",
+      type: "open-quick-dossier",
       personId: ALICE,
     });
-    expect(other.actionMenuPersonId).toBe(ALICE);
+    expect(other.quickDossierPersonId).toBe(ALICE);
+    expect(other.navigation).toBe("closed");
+  });
+
+  it("asks before leaving, and Escape withdraws the question first", () => {
+    const asked = shellReducer(
+      shellReducer(INITIAL_SHELL_STATE, { type: "toggle-navigation" }),
+      { type: "ask-leave" },
+    );
+    expect(asked.confirmingLeave).toBe(true);
+    expect(asked.navigation).toBe("closed");
+    const withdrawn = shellReducer(asked, { type: "escape" });
+    expect(withdrawn.confirmingLeave).toBe(false);
+    expect(shellReducer(asked, { type: "cancel-leave" }).confirmingLeave).toBe(
+      false,
+    );
+  });
+
+  it("keeps interruption choices as preferences with a single writer", () => {
+    const state = shellReducer(INITIAL_SHELL_STATE, {
+      type: "set-interruption",
+      key: "stopForWorkShifts",
+      value: true,
+    });
+    expect(state.preferences.interruptions.stopForWorkShifts).toBe(true);
+    expect(state.preferences.interruptions.stopForTentativeHolds).toBe(false);
+    expect(
+      shellReducer(state, {
+        type: "set-interruption",
+        key: "stopForWorkShifts",
+        value: true,
+      }),
+    ).toBe(state);
   });
 });
 
@@ -197,7 +229,6 @@ describe("Escape", () => {
     let state = run([
       { type: "toggle-pin", ref: person },
       { type: "go-to-surface", surface: "people" },
-      { type: "select-person", personId: ALICE },
       { type: "open-quick-dossier", personId: ALICE },
       { type: "toggle-pin-menu", key: refKey(person) },
     ]);

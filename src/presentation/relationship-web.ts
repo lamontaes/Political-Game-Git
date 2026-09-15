@@ -349,6 +349,17 @@ export function projectRelationshipWeb(
   };
 }
 
+/** Existing #254 introduction highlight, retained with its graph. */
+export function recordedIntroductionHighlight(
+  world: World,
+  playerId: EntityId,
+  focusId: EntityId,
+): ReadonlySet<EntityId> {
+  if (playerId === focusId) return new Set();
+  const shared = relationshipHistory(world, playerId, focusId);
+  return new Set(shared[0]?.personIds ?? []);
+}
+
 export function neighborsOf(
   web: RelationshipWeb,
   personId: EntityId,

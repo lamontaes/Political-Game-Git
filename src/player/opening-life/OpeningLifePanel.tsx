@@ -9,6 +9,7 @@ export function OpeningLifePanel({
   onNext,
   onBack,
   onSkip,
+  onDemand = false,
 }: {
   world: World;
   playerPersonId: EntityId;
@@ -16,6 +17,7 @@ export function OpeningLifePanel({
   onNext: () => void;
   onBack: () => void;
   onSkip: () => void;
+  readonly onDemand?: boolean;
 }) {
   const view = projectOpeningLife(world, playerPersonId);
   return (
@@ -85,11 +87,17 @@ export function OpeningLifePanel({
             data-testid="introduction-continue"
             onClick={onNext}
           >
-            {phase === "world" ? "Meet your household" : "Step inside"}
+            {onDemand
+              ? "Close"
+              : phase === "world"
+                ? "Meet your household"
+                : "Step inside"}
           </button>
-          <button className="ui-action" type="button" onClick={onSkip}>
-            Skip introduction
-          </button>
+          {onDemand ? null : (
+            <button className="ui-action" type="button" onClick={onSkip}>
+              Skip introduction
+            </button>
+          )}
         </div>
       </section>
     </div>

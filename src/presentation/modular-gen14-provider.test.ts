@@ -10,6 +10,7 @@ import {
   PRODUCTION_CHARACTER_LIBRARY,
 } from "./visual-integration";
 import { resolveCharacterRecipe } from "./character-components";
+import { ENGINE_PEOPLE29_CHARACTER_LIBRARY } from "./engine-people29-review";
 import {
   COHERENT_APPEARANCE_RECIPE_VERSION,
   LEGACY_APPEARANCE_RECIPE_VERSION,
@@ -32,9 +33,12 @@ import {
 describe("the life candidate preview provider", () => {
   const preview = artPreviewLibraries("candidate-review");
 
-  it("is the Visual4 provider, not the older unfitted lift", () => {
+  // The prepared-candidate lift now composes the Visual4 eligible records and
+  // their fit bank with any private prepared candidates; it is still not the
+  // older unfitted lift.
+  it("is the fitted Visual4-based provider, not the older unfitted lift", () => {
     expect(preview).not.toBeNull();
-    expect(preview!.characters).toBe(PEOPLE_VISUAL4_CHARACTER_LIBRARY);
+    expect(preview!.characters).toBe(ENGINE_PEOPLE29_CHARACTER_LIBRARY);
     expect(preview!.characters).not.toBe(CANDIDATE_REVIEW_CHARACTER_LIBRARY);
   });
 

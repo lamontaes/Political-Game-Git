@@ -1,8 +1,10 @@
-import { legislativeBlueprint } from "../simulation";
+import { legislativeBlueprint, rulePackById } from "../simulation";
+import { legislativeWorkKey } from "../simulation/legislative-institutions";
 import type { EntityId, World } from "../simulation";
 import {
   resolveActiveMemberSeat,
   type ActiveMemberSeat,
+  type MemberSeatScope,
 } from "./legislative-member-seat";
 import { resolvePlayerCapabilities } from "./player-capabilities";
 import { regularSessionActionRefusal } from "./legislative-session-window";
@@ -27,6 +29,7 @@ export type LegislativeFilingEntry =
 export function resolveLegislativeFilingEntry(
   world: World,
   personId: EntityId,
+  scope?: MemberSeatScope,
 ): LegislativeFilingEntry {
   if (world.control.kind !== "person" || world.control.personId !== personId) {
     return {
@@ -42,24 +45,28 @@ export function resolveLegislativeFilingEntry(
         "This character has no active office for filing in this legislature.",
     };
   }
-  const membership = resolveActiveMemberSeat(world, personId);
-  if (membership.kind === "unseated") {
+  const membership = resolveActiveMemberSeat(world, personId, scope);
+  if (membership.kind !== "seated") {
     return {
       kind: "unavailable",
       reason: `Filing requires a supported member seat. ${membership.reason} Staff may prepare a draft, but an office job does not authorize introduction.`,
     };
   }
   if (
-    !capability.legislativeScenarioKey ||
-    capability.legislativeJurisdictionId !==
-      membership.seat.governingJurisdictionId
+    !scope &&
+    (!capability.legislativeScenarioKey ||
+      capability.legislativeJurisdictionId !==
+        membership.seat.governingJurisdictionId)
   ) {
     return {
       kind: "unavailable",
       reason: "The active office does not match the recorded member seat.",
     };
   }
-  const blueprint = legislativeBlueprint(capability.legislativeScenarioKey);
+  const scenarioKey = scope
+    ? legislativeWorkKey(rulePackById(membership.seat.legislativeRulePackId))
+    : capability.legislativeScenarioKey!;
+  const blueprint = legislativeBlueprint(scenarioKey);
   if (blueprint.pack.packId !== membership.seat.legislativeRulePackId) {
     return {
       kind: "unavailable",
@@ -74,7 +81,7 @@ export function resolveLegislativeFilingEntry(
   return {
     kind: "available",
     personId,
-    scenarioKey: capability.legislativeScenarioKey,
+    scenarioKey,
     jurisdictionId: membership.seat.governingJurisdictionId,
     seat: membership.seat,
   };

@@ -930,11 +930,13 @@ function denominatorValueFor(
   }
 }
 
-export interface RecordVoteInput {
+export interface RecordVoteInput<
+  Purpose extends string = LegislativeVotePurpose,
+> {
   readonly stableKey: string;
   readonly measureId: EntityId;
   readonly forum: LegislativeVoteForum;
-  readonly purpose: LegislativeVotePurpose;
+  readonly purpose: Purpose;
   readonly floorStageKey?: string | null;
   readonly threshold: VoteThresholdRule;
   readonly eligibleMembers: number;
@@ -951,10 +953,12 @@ export interface RecordVoteInput {
  * Builds a legislative vote record and decides it structurally. The caller
  * supplies member dispositions; this function never invents them.
  */
-function buildVote(
+export function buildLegislativeVoteRecord<
+  Purpose extends LegislativeVotePurpose | "constitutional-proposal",
+>(
   world: World,
-  input: RecordVoteInput,
-): LegislativeVoteRecord {
+  input: RecordVoteInput<Purpose>,
+): Omit<LegislativeVoteRecord, "purpose"> & { readonly purpose: Purpose } {
   if (input.dispositions.length === 0) {
     throw new Error("A legislative vote must record member dispositions.");
   }
@@ -1261,11 +1265,13 @@ export function nextMeasureStableKey(
   ];
   for (const family of families) {
     for (const record of family) {
-      if (record.measureId === measureId) taken.add(record.stableKey);
+      // Writers require globally unique keys within a history family. Another
+      // measure's use of the same operation prefix is still a collision.
+      taken.add(record.stableKey);
     }
   }
   for (const item of world.history.futureDueItems ?? []) {
-    if (item.entityIds.includes(measureId)) taken.add(item.stableKey);
+    taken.add(item.stableKey);
   }
   for (let n = 1; n <= taken.size + 1; n += 1) {
     const candidate = `${prefix}:${n}`;
@@ -1625,7 +1631,7 @@ export function recordCommitteeDisposition(
     );
   }
 
-  const vote = buildVote(world, {
+  const vote = buildLegislativeVoteRecord(world, {
     stableKey: `${input.stableKey}:vote`,
     measureId: measure.id,
     forum: {
@@ -1806,7 +1812,7 @@ export function offerFloorAmendment(
   );
 
   const threshold = requireKnown(stage.vote, `${stage.label} vote threshold`);
-  const vote = buildVote(world, {
+  const vote = buildLegislativeVoteRecord(world, {
     stableKey: `${input.stableKey}:vote`,
     measureId: measure.id,
     forum: { kind: "chamber", chamberKey: chamber.chamberKey },
@@ -1901,7 +1907,7 @@ export function takeFloorVote(world: World, input: FloorVoteInput): World {
     );
   }
 
-  const vote = buildVote(world, {
+  const vote = buildLegislativeVoteRecord(world, {
     stableKey: `${input.stableKey}:vote`,
     measureId: measure.id,
     forum: { kind: "chamber", chamberKey: chamber.chamberKey },
@@ -2035,7 +2041,7 @@ export function recordConcurrenceVote(
   const threshold = pack.interChamber.concurrenceThreshold;
   const eligibleMembers = electedMembersFor(chamber, input.electedMembers);
 
-  const vote = buildVote(world, {
+  const vote = buildLegislativeVoteRecord(world, {
     stableKey: `${input.stableKey}:vote`,
     measureId: measure.id,
     forum: { kind: "chamber", chamberKey: chamber.chamberKey },
@@ -2277,7 +2283,7 @@ export function attemptVetoOverride(
             override.appropriationsThreshold,
             "appropriations override threshold",
           );
-    const vote = buildVote(next, {
+    const vote = buildLegislativeVoteRecord(next, {
       stableKey: `${input.stableKey}:${entry.forumKey}:vote`,
       measureId: measure.id,
       forum: { kind: "joint-session", forumName: override.forumName },
@@ -2328,7 +2334,7 @@ export function attemptVetoOverride(
   for (const chamberKey of expected) {
     const entry = input.forums.find((item) => item.forumKey === chamberKey)!;
     const chamber = chamberByKey(pack, chamberKey);
-    const vote = buildVote(next, {
+    const vote = buildLegislativeVoteRecord(next, {
       stableKey: `${input.stableKey}:${chamberKey}:vote`,
       measureId: measure.id,
       forum: { kind: "chamber", chamberKey },

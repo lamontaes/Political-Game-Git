@@ -12,15 +12,21 @@ import type { ShellRef } from "../presentation/shell-navigation";
 import type { EntityId, World } from "../simulation";
 import { pinKindLabel } from "./ShellPinRail";
 import { PersonPortrait } from "./PersonPortrait";
+import { projectPersonContact } from "../presentation/person-contact";
 import "./people-web.css";
 
 /**
- * One person card for the room, a name, a pin, and the People web.
+ * The one person card.
  *
- * Expanding happens in this card. Choosing somebody else replaces it. A pin is
- * a saved reference, not a claim that they are in the room. Talk and other
- * actions are the existing adapters; nothing here invents contact, travel, or
- * hiring.
+ * The owner's sketch: portrait, name, what they do and what they are to you,
+ * a pin in the corner, what you actually know of them (or an honest "you
+ * don't know much about John"), the people they are connected to, and the
+ * real actions along the bottom. One card, on the right at desktop sizes.
+ * Opening somebody else replaces it. Expanding happens in place.
+ *
+ * Nothing here invents contact, travel or presence: the four actions come
+ * from `projectPersonContact`, which reads records and says why when it
+ * cannot. A pin is a saved reference, not a claim that they are here.
  */
 
 function FactList({
@@ -58,11 +64,15 @@ export function PersonCard({
   pinned,
   expanded,
   mode,
+  presentPersonIds,
   onClose,
   onExpand,
   onTogglePin,
   onOpenPerson,
   onTalk,
+  onMeet,
+  onTravel,
+  onFullRecord,
   talkUnavailable,
   onOpenLink,
 }: {
@@ -71,18 +81,30 @@ export function PersonCard({
   readonly dossier: PersonDossier;
   readonly pinned: boolean;
   readonly expanded: boolean;
-  readonly mode: "overlay" | "workspace" | "inline";
+  readonly mode: "overlay" | "workspace";
+  /** Who the room says is here. Presence is the room's answer, not a pin's. */
+  readonly presentPersonIds?: readonly EntityId[];
   readonly onClose?: () => void;
   readonly onExpand?: () => void;
   readonly onTogglePin: () => void;
   readonly onOpenPerson: (personId: EntityId) => void;
   readonly onTalk?: () => void;
+  readonly onMeet?: () => void;
+  readonly onTravel?: () => void;
+  /** The full record page, with appearance controls for your own character. */
+  readonly onFullRecord?: () => void;
   readonly talkUnavailable: string | null;
   readonly onOpenLink: (ref: ShellRef) => void;
 }) {
-  const closeRef = useRef<HTMLButtonElement>(null);
+  const cardRef = useRef<HTMLElement>(null);
+  /*
+   * A card that just opened takes the keyboard: its first control is where a
+   * player who pressed Enter on somebody expects to be. Focus lands on the
+   * card itself rather than on Close, so the first Tab reaches an action and
+   * Escape still closes it.
+   */
   useEffect(() => {
-    if (mode === "overlay") closeRef.current?.focus();
+    if (mode === "overlay") cardRef.current?.focus();
   }, [dossier.personId, mode]);
 
   const web = projectRelationshipWeb(world, playerId, dossier.personId);
@@ -101,221 +123,315 @@ export function PersonCard({
     ];
   });
 
+  const contact = projectPersonContact(world, playerId, dossier.personId, {
+    ...(presentPersonIds ? { presentPersonIds } : {}),
+  });
+  const presentNow = presentPersonIds
+    ? presentPersonIds.includes(dossier.personId)
+    : dossier.presentNow;
   const facts = expanded ? dossier.details : dossier.details.slice(0, 3);
   const testId =
     mode === "overlay" && !expanded ? "quick-dossier" : "full-dossier";
   const role =
-    dossier.relationship ??
-    dossier.details.find((fact) => fact.attribution === "record")?.text ??
-    null;
+    dossier.details.find((fact) => fact.attribution === "record")?.text ?? null;
+  const isYou = dossier.personId === playerId;
+  const alive =
+    web.nodes.find((node) => node.personId === dossier.personId)?.alive !==
+    false;
+  const unavailableReasons = [
+    !isYou && onTalk && !contact.talk.available ? contact.talk.reason : null,
+    !isYou && !contact.travel.available && !presentNow
+      ? contact.travel.reason
+      : null,
+    !isYou && !presentNow ? contact.meet.reason : null,
+    !isYou ? contact.contact.reason : null,
+  ].filter((reason): reason is string => reason !== null);
 
   return (
     <aside
-      className={`pg-person-card civic-glass pg-person-card--${mode}`}
+      className={`pg-person-card pg-person-card--${mode}`}
       role={mode === "overlay" ? "dialog" : "region"}
       aria-modal="false"
       aria-label={`${dossier.name}`}
       data-testid={testId}
       data-person-id={dossier.personId}
       data-expanded={expanded ? "true" : "false"}
+      tabIndex={-1}
+      ref={cardRef}
     >
       <header className="pg-person-card-head">
-        <p className="pg-kicker">{expanded ? "Person" : "Your read"}</p>
-        {onClose ? (
-          <button
-            ref={closeRef}
-            type="button"
-            className="ui-icon-button"
-            aria-label={`Close the card for ${dossier.name}`}
-            data-testid={
-              mode === "overlay" ? "quick-dossier-close" : "person-card-close"
-            }
-            onClick={onClose}
-          >
-            <span aria-hidden="true">✕</span>
-          </button>
-        ) : null}
-      </header>
-
-      <div className="pg-dossier-identity">
-        <PersonPortrait
-          world={world}
-          personId={dossier.personId}
-          size="small"
-        />
-        <div>
-          <h2 data-testid="dossier-name">{dossier.name}</h2>
-          {role ? (
-            <p className="pg-dossier-relation" data-testid="dossier-relation">
-              {role}
-            </p>
-          ) : (
-            <p
-              className="pg-dossier-relation"
-              data-testid="dossier-relation-unknown"
-            >
-              No record establishes a relationship.
-            </p>
-          )}
-          {web.nodes.find((node) => node.personId === dossier.personId)
-            ?.alive === false ? (
-            <p className="pg-right-now" data-testid="person-card-deceased">
-              No longer living.
-            </p>
-          ) : null}
-          {dossier.presentNow ? (
-            <p className="pg-right-now" data-testid="person-card-present">
-              In the room now.
-            </p>
-          ) : (
-            <p className="game-note" data-testid="person-card-presence-note">
-              A pin or a card is a reference, not proof they are here.
-            </p>
-          )}
-          {dossier.rightNow ? (
-            <p className="pg-right-now" data-testid="dossier-right-now">
-              <span className="pg-right-now-label">Right now</span>
-              {dossier.rightNow}
-            </p>
-          ) : null}
-        </div>
-      </div>
-
-      <div className="pg-dossier-section">
-        <h3>Context</h3>
-        <p
-          data-testid={
-            expanded ? "dossier-last-interaction" : "quick-last-interaction"
-          }
-        >
-          {dossier.lastInteraction}
-        </p>
-        <FactList
-          facts={facts}
-          testId={expanded ? "dossier-facts" : "quick-facts"}
-        />
-        {facts.length === 0 ? (
-          <p
-            className="game-note"
-            data-testid={expanded ? "dossier-facts-empty" : "quick-facts-empty"}
-          >
-            Nothing about them is written down yet.
-          </p>
-        ) : null}
-        {expanded && dossier.notKnown.length > 0 ? (
-          <ul className="pg-not-known" data-testid="dossier-not-known">
-            {dossier.notKnown.map((line) => (
-              <li key={line}>{line}</li>
-            ))}
-          </ul>
-        ) : null}
-      </div>
-
-      {connections.length > 0 ? (
-        <div className="pg-dossier-section">
-          <h3>Connected people</h3>
-          <div
-            className="pg-dossier-actions"
-            data-testid="person-card-connections"
-          >
-            {connections.map((connection) => (
-              <button
-                key={connection.personId}
-                type="button"
-                className="ui-action ui-action--rail"
-                data-testid={`person-card-connection-${connection.personId}`}
-                onClick={() => onOpenPerson(connection.personId)}
+        <div className="pg-person-card-identity">
+          <PersonPortrait
+            world={world}
+            personId={dossier.personId}
+            size="large"
+          />
+          <div className="pg-person-card-titles">
+            <h2 data-testid="dossier-name">{dossier.name}</h2>
+            {role ? (
+              <p className="pg-person-card-role" data-testid="dossier-role">
+                {role}
+              </p>
+            ) : null}
+            {dossier.relationship ? (
+              <p
+                className="pg-person-card-relation"
+                data-testid="dossier-relation"
               >
-                {connection.name}
-                <small>
-                  {connection.label} · {EDGE_KIND_LABELS[connection.kind]}
-                </small>
-              </button>
-            ))}
+                {dossier.relationship}
+              </p>
+            ) : isYou ? (
+              <p
+                className="pg-person-card-relation"
+                data-testid="dossier-relation"
+              >
+                You
+              </p>
+            ) : (
+              <p
+                className="pg-person-card-relation"
+                data-testid="dossier-relation-unknown"
+              >
+                No record establishes a relationship.
+              </p>
+            )}
+            {!alive ? (
+              <p className="pg-right-now" data-testid="person-card-deceased">
+                No longer living.
+              </p>
+            ) : isYou ? null : presentNow ? (
+              <p className="pg-right-now" data-testid="person-card-present">
+                Here in the room with you.
+              </p>
+            ) : (
+              <p
+                className="pg-person-card-note"
+                data-testid="person-card-presence-note"
+              >
+                Not here. A card or a pin is a reference, not presence.
+              </p>
+            )}
           </div>
         </div>
-      ) : null}
+        <div className="pg-person-card-corner">
+          <button
+            type="button"
+            className="ui-icon-button"
+            aria-pressed={pinned}
+            aria-label={
+              pinned ? `Unpin ${dossier.name}` : `Pin ${dossier.name}`
+            }
+            data-testid={expanded ? "dossier-pin" : "quick-dossier-pin"}
+            onClick={onTogglePin}
+          >
+            <span aria-hidden="true">{pinned ? "★" : "☆"}</span>
+          </button>
+          {onClose ? (
+            <button
+              type="button"
+              className="ui-icon-button"
+              aria-label={`Close the card for ${dossier.name}`}
+              data-testid={
+                mode === "overlay" ? "quick-dossier-close" : "person-card-close"
+              }
+              onClick={onClose}
+            >
+              <span aria-hidden="true">✕</span>
+            </button>
+          ) : null}
+        </div>
+      </header>
 
-      {expanded
-        ? dossier.links.filter((link) => link.kind !== "person").length > 0 && (
-            <div className="pg-dossier-section">
-              <h3>Also connected</h3>
-              <div className="pg-dossier-actions" data-testid="dossier-links">
-                {dossier.links
-                  .filter((link) => link.kind !== "person")
-                  .map((link) => (
-                    <button
-                      key={`${link.kind}:${link.id}`}
-                      type="button"
-                      className="ui-action ui-action--rail"
-                      data-testid={`dossier-link-${link.kind}-${link.id}`}
-                      onClick={() => onOpenLink(link)}
-                    >
-                      {labelForRef(world, link) ?? "Unavailable"}
-                      <small>{pinKindLabel(link.kind)}</small>
-                    </button>
-                  ))}
-              </div>
+      <div className="pg-person-card-body">
+        <section className="pg-dossier-section" aria-label="What you know">
+          <p
+            className="pg-person-card-read"
+            data-testid={
+              expanded ? "dossier-last-interaction" : "quick-last-interaction"
+            }
+          >
+            {dossier.lastInteraction}
+          </p>
+          <FactList
+            facts={facts}
+            testId={expanded ? "dossier-facts" : "quick-facts"}
+          />
+          {facts.length === 0 ? (
+            <p
+              className="pg-person-card-note"
+              data-testid={
+                expanded ? "dossier-facts-empty" : "quick-facts-empty"
+              }
+            >
+              You don&rsquo;t know much about {dossier.shortName} yet.
+            </p>
+          ) : null}
+          {expanded && dossier.notKnown.length > 0 ? (
+            <ul className="pg-not-known" data-testid="dossier-not-known">
+              {dossier.notKnown.map((line) => (
+                <li key={line}>{line}</li>
+              ))}
+            </ul>
+          ) : null}
+          {!expanded && onExpand && (dossier.details.length > 3 || true) ? (
+            <button
+              type="button"
+              className="ui-action ui-action--subtle pg-person-card-more"
+              data-testid="quick-dossier-full"
+              onClick={onExpand}
+            >
+              More details
+            </button>
+          ) : null}
+        </section>
+
+        {connections.length > 0 ? (
+          <section className="pg-dossier-section" aria-label="Connected people">
+            <h3>Connected people</h3>
+            <div
+              className="pg-person-card-connections"
+              data-testid="person-card-connections"
+            >
+              {connections.map((connection) => (
+                <button
+                  key={connection.personId}
+                  type="button"
+                  className="pg-person-card-connection"
+                  data-testid={`person-card-connection-${connection.personId}`}
+                  onClick={() => onOpenPerson(connection.personId)}
+                >
+                  <PersonPortrait
+                    world={world}
+                    personId={connection.personId}
+                    size="small"
+                  />
+                  <span className="pg-person-card-connection-text">
+                    <strong>{connection.name}</strong>
+                    <small>
+                      {connection.label} · {EDGE_KIND_LABELS[connection.kind]}
+                    </small>
+                  </span>
+                </button>
+              ))}
             </div>
-          )
-        : dossier.links.length > 0 && (
-            <div className="pg-dossier-section">
-              <h3>Connected</h3>
-              <div className="pg-dossier-actions" data-testid="quick-links">
-                {dossier.links.map((link) => (
+          </section>
+        ) : null}
+
+        {dossier.links.filter((link) => link.kind !== "person").length > 0 ? (
+          <section className="pg-dossier-section" aria-label="Also connected">
+            <h3>Also connected</h3>
+            <div className="pg-dossier-actions" data-testid="dossier-links">
+              {dossier.links
+                .filter((link) => link.kind !== "person")
+                .map((link) => (
                   <button
                     key={`${link.kind}:${link.id}`}
                     type="button"
                     className="ui-action ui-action--rail"
                     data-testid={`dossier-link-${link.kind}-${link.id}`}
-                    onClick={() =>
-                      link.kind === "person"
-                        ? onOpenPerson(link.id)
-                        : onOpenLink(link)
-                    }
+                    onClick={() => onOpenLink(link)}
                   >
                     {labelForRef(world, link) ?? "Unavailable"}
                     <small>{pinKindLabel(link.kind)}</small>
                   </button>
                 ))}
-              </div>
             </div>
-          )}
+          </section>
+        ) : null}
+      </div>
 
-      <div className="pg-dossier-actions">
-        {onTalk ? (
+      <footer
+        className="pg-person-card-actions"
+        data-testid="person-contact-actions"
+      >
+        {!isYou && onTalk ? (
           <button
             type="button"
             className="ui-action ui-action--primary"
             data-testid="dossier-talk"
             disabled={talkUnavailable !== null}
+            aria-describedby={`person-talk-reason-${dossier.personId}`}
             onClick={onTalk}
           >
-            Talk to {dossier.shortName}
+            Talk
           </button>
         ) : null}
-        <button
-          type="button"
-          className="ui-action"
-          aria-pressed={pinned}
-          data-testid={expanded ? "dossier-pin" : "quick-dossier-pin"}
-          onClick={onTogglePin}
-        >
-          {pinned ? "Unpin" : "Pin"}
-        </button>
-        {!expanded && onExpand ? (
+        {!isYou ? (
           <button
             type="button"
-            className="ui-action ui-action--primary"
-            data-testid="quick-dossier-full"
-            onClick={onExpand}
+            className="ui-action"
+            data-testid="person-travel"
+            disabled={!contact.travel.available || !onTravel}
+            aria-describedby={`person-travel-reason-${dossier.personId}`}
+            onClick={onTravel}
           >
-            More details
+            Travel to
           </button>
         ) : null}
-      </div>
+        {!isYou ? (
+          <button
+            type="button"
+            className="ui-action"
+            data-testid="person-meet"
+            disabled={!contact.meet.available || !onMeet}
+            aria-describedby={`person-meet-reason-${dossier.personId}`}
+            onClick={onMeet}
+          >
+            Meet
+          </button>
+        ) : null}
+        {!isYou ? (
+          <button
+            type="button"
+            className="ui-action"
+            data-testid="person-contact"
+            disabled={!contact.contact.available}
+            aria-describedby={`person-contact-reason-${dossier.personId}`}
+          >
+            Contact
+          </button>
+        ) : null}
+        {onFullRecord ? (
+          <button
+            type="button"
+            className="ui-action ui-action--subtle"
+            data-testid="person-full-record"
+            onClick={onFullRecord}
+          >
+            {isYou ? "Your record and appearance" : "Full record"}
+          </button>
+        ) : null}
+      </footer>
+      <p className="sr-only" id={`person-talk-reason-${dossier.personId}`}>
+        {talkUnavailable ??
+          "Starts the established conversation with this person."}
+      </p>
+      <p className="sr-only" id={`person-contact-reason-${dossier.personId}`}>
+        {contact.contact.reason}
+      </p>
+      <p className="sr-only" id={`person-meet-reason-${dossier.personId}`}>
+        {contact.meet.reason}
+      </p>
+      <p className="sr-only" id={`person-travel-reason-${dossier.personId}`}>
+        {contact.travel.reason}
+      </p>
+      {contact.travel.available && !isYou ? (
+        <p className="pg-person-card-note" data-testid="person-contact-reason">
+          {contact.travel.reason}
+        </p>
+      ) : null}
+      {unavailableReasons.length > 0 ? (
+        <details className="pg-person-card-why">
+          <summary>Why some actions are unavailable</summary>
+          <ul data-testid="person-contact-unavailable">
+            {unavailableReasons.map((reason) => (
+              <li key={reason}>{reason}</li>
+            ))}
+          </ul>
+        </details>
+      ) : null}
       {talkUnavailable ? (
-        <p className="game-note" data-testid="dossier-talk-unavailable">
+        <p className="sr-only" data-testid="dossier-talk-unavailable">
           {talkUnavailable}
         </p>
       ) : null}

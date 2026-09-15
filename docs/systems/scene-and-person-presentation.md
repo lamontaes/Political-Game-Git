@@ -365,3 +365,53 @@ room. No press/pavilion location key was invented to make the art reachable.
 Contacts, footprints and silhouettes are visual estimates; no physical sizes,
 calibrated floor or accepted seated pair are claimed. Human floor-plane/visual
 acceptance and B's whole-person coherence remain separate from engineering proof.
+
+### PEOPLE40 standing room fit
+
+A scene may declare `standing_height_percent`: an authored visual estimate of
+crown-to-sole height at floor scale 1. For standing art with a declared `crown`
+attachment and both sole contacts, placement derives one uniform scale from
+that visible height. Canvas padding cannot set stature, and width follows the
+body’s own aspect ratio. Seated poses, rooms without the field and bodies
+without a usable crown retain the established canvas-width placement.
+
+Canonical-03 uses its foreground floor at y92 and a crown near y18, with the
+existing bounded depth ramp. These are image-space staging estimates, not
+physical room dimensions. Its floor envelope bounds capacity independently of
+body size. The same covering transform continues to place room pixels,
+landmarks, actors, contact shadows and furniture silhouettes. No room raster,
+world label or canonical presence changes.
+
+The scene docks Talk beside people using their existing bounds. Its viewport
+helper does not apply a competing centered fixed rectangle inside the scene;
+the scene-owned panel retains viewport height limits and wraps its header.
+Dialogue content, choices, time and saves remain owned by their existing code.
+
+### G41 bounded pose occupancy
+
+Private POSE41 source resolution uses the already resolved saved body, head,
+hair and complete outfit IDs. It may supply a different posture only for that
+exact supported combination. Source pixels enter the existing plate compositor
+once. A seated pelvis and sole span determine a single uniform scale; facing,
+footprint and floor checks still apply. Missing seated coverage uses an available
+standing place, never a standing sprite compressed onto a chair.
+
+Occupancy consumes the existing activity/presence projection and canonical World
+people. It creates no attendance or activity facts. It reserves each compatible
+place once, excludes intersecting visible paint, and orders figures by scene
+paint depth rather than crown height. Known frozen alpha measurements provide
+clearance; unknown sources retain a conservative canvas envelope. The scene
+chooses among available poses as presentation, not a recorded posture/activity
+claim. Selection and Talk are not placement inputs.
+
+Canonical-03 adds an open middle floor place (x24, floor82), while its angled club
+chair refuses a front sitter. Its sofa uses the inherited seat59.7/floor79
+contact pending human visual acceptance. Workroom standing uses its existing
+39.9% visible-height convention at scale1 instead of converting each new canvas
+ratio into stature. The workroom's away-facing chair remains unavailable to
+front seated art. No background pixels, crop or furniture geometry were edited.
+
+In a crowded room, Talk uses free space or a bounded panel between protected head
+and foot regions. It uses the existing scroll behavior when that space is short.
+A content/viewport/occupancy key prevents width-dependent remeasurement from
+oscillating. The camera and people retain exactly the same transform in Talk.

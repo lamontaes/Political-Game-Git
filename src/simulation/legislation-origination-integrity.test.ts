@@ -251,13 +251,13 @@ describe("origination survives the writer that first enforced it", () => {
     expect(() => assertWorldIntegrity(filed.world)).not.toThrow();
   });
 
-  it("keeps an ordinary Minnesota bill legal in the Senate, because silence is not a prohibition", () => {
-    // Minnesota's general origination rule is unresolved. An unresolved rule
-    // refuses nothing, so `introductionAllowed` stays the only gate — replay
-    // must not invent the refusal the revenue rule states.
-    expect(MINNESOTA_RULE_PACK.origination.generalOrigination.kind).toBe(
-      "unknown",
-    );
+  it("keeps an ordinary Minnesota bill legal in the Senate, because both chambers are sourced", () => {
+    // Minnesota's general introduction chambers are now read from House Rule
+    // 1.10 and Senate Rule 3.1. Replay must accept a Senate filing and must not
+    // extend the revenue rule's House-only origination to an ordinary bill.
+    const general = MINNESOTA_RULE_PACK.origination.generalOrigination;
+    expect(general.kind).toBe("known");
+    if (general.kind === "known") expect(general.value).toContain("senate");
     const filed = fileMeasure(
       MINNESOTA_FIXTURE,
       MINNESOTA_RULE_PACK.packId,
