@@ -187,12 +187,32 @@ describe("OPENING-LIFE1 canonical scenes", () => {
     assertWorldIntegrity(world);
   });
 
-  it("does not confuse enrollment or co-residence with presence", () => {
+  it("keeps home presence while not confusing school enrollment with presence", () => {
     const game = start("presence");
-    for (const personId of game.world.personOrder)
+    const playerEnrollment = game.world.history.educationEnrollments.find(
+      (entry) => entry.personId === game.playerPersonId,
+    )!;
+    const schoolmates = game.world.history.educationEnrollments
+      .filter(
+        (entry) =>
+          entry.personId !== game.playerPersonId &&
+          entry.organizationId === playerEnrollment.organizationId,
+      )
+      .map((entry) => entry.personId);
+    expect(schoolmates.length).toBeGreaterThan(0);
+    for (const personId of schoolmates)
       expect(
         projectLifeConversation(game.world, game.playerPersonId, personId),
       ).toBeNull();
+
+    const peopleAtHome = game.world.history.householdMemberships
+      .filter((entry) => entry.personId !== game.playerPersonId)
+      .map((entry) => entry.personId);
+    expect(peopleAtHome.length).toBeGreaterThan(0);
+    for (const personId of peopleAtHome)
+      expect(
+        projectLifeConversation(game.world, game.playerPersonId, personId),
+      ).not.toBeNull();
   });
 });
 
