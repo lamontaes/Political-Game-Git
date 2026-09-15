@@ -221,6 +221,15 @@ export function ArtDeskView() {
     setPage(0);
   }, [lane, query]);
 
+  useEffect(() => {
+    if (
+      selectedId &&
+      !filtered.some((item) => item.request.requestId === selectedId)
+    ) {
+      setSelectedId(filtered[0]?.request.requestId ?? null);
+    }
+  }, [filtered, selectedId]);
+
   const decide = useCallback(
     async (item: ArtDeskItem, decision: AssetReviewDecision) => {
       if (!privateAuthoring) {

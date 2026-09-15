@@ -33,6 +33,9 @@ test("private Art Desk reviews the durable queue without writing saves", async (
   await expect(
     page.getByTestId("art-desk-row-env-campaign-storefront"),
   ).toContainText("do not generate");
+  await expect(page.getByTestId("art-desk-detail")).not.toContainText(
+    "Winter variant of the existing park community pavilion",
+  );
   const before = await page.evaluate(() => indexedDB.databases());
   await page.setViewportSize({ width: 1200, height: 720 });
   await expect(page.getByTestId("art-desk")).toBeVisible();
