@@ -955,10 +955,13 @@ function SetupScreen({
    * So the field owns its own text and the setup keeps the last age that
    * actually parsed. Nothing downstream sees a partial edit; the childhood,
    * office-eligibility and range checks keep reading a real number throughout.
-   * Blur puts the committed age back on screen, so an abandoned empty field
-   * shows what the game will actually use rather than staying blank.
+   * A fresh creator starts unanswered. Blur only puts the committed age back
+   * after the player has entered something; an untouched field stays empty.
    */
-  const [ageText, setAgeText] = useState(String(setup.startAge));
+  const [ageText, setAgeText] = useState(
+    initialSetup ? String(setup.startAge) : "",
+  );
+  const ageHasCommitted = useRef(initialSetup !== undefined);
   const custom = setup.startKind === "custom";
   const committed = withCreatorLocation(setup, location);
   const steps: readonly CreatorStep[] = custom
@@ -990,15 +993,20 @@ function SetupScreen({
   const problems = newGameSetupProblems(committed);
   const birthdayProblem = birthdayProblemForSetup(committed);
   /*
-   * An out-of-range age used to pass this step and surface only at Begin,
-   * three steps later. The character step now refuses it where it was typed.
+   * Not answering is different from entering an invalid age: both keep Next
+   * disabled, but only an entered invalid value needs an error message.
    */
+  const ageChosen = ageText.trim() !== "";
+  const ageParsed = Number(ageText.trim());
+  const ageUsable =
+    ageChosen &&
+    Number.isSafeInteger(ageParsed) &&
+    ageParsed >= MINIMUM_START_AGE &&
+    ageParsed <= MAXIMUM_START_AGE;
   const ageProblem =
-    Number.isFinite(setup.startAge) &&
-    setup.startAge >= MINIMUM_START_AGE &&
-    setup.startAge <= MAXIMUM_START_AGE
-      ? null
-      : `Choose a starting age between ${MINIMUM_START_AGE} and ${MAXIMUM_START_AGE}.`;
+    ageChosen && !ageUsable
+      ? `Choose a starting age between ${MINIMUM_START_AGE} and ${MAXIMUM_START_AGE}.`
+      : null;
   const place = selectedCreatorPlace(location);
   const placeListOpen = creatorPlaceListOpen(location.placeKey, replacingPlace);
 
@@ -1137,94 +1145,107 @@ function SetupScreen({
       {isCurrent("character") ? (
         <section data-testid="creator-stage-character">
           <h2>Your character</h2>
-          <div className="game-fields">
-            <label>
-              First name
-              <input
-                type="text"
-                value={setup.givenName ?? ""}
-                aria-describedby="creator-name-hint"
-                onChange={(event) =>
+          <div className="creator-group creator-group-name">
+            <span className="creator-group-label">Name</span>
+            <div className="game-fields">
+              <label>
+                First name
+                <input
+                  type="text"
+                  value={setup.givenName ?? ""}
+                  aria-describedby="creator-name-hint"
+                  onChange={(event) =>
+                    setSetup((now) => ({
+                      ...now,
+                      givenName: event.target.value || null,
+                    }))
+                  }
+                />
+              </label>
+              <label>
+                Last name
+                <input
+                  type="text"
+                  value={setup.familyName ?? ""}
+                  aria-describedby="creator-name-hint"
+                  onChange={(event) =>
+                    setSetup((now) => ({
+                      ...now,
+                      familyName: event.target.value || null,
+                    }))
+                  }
+                />
+              </label>
+            </div>
+            <div className="creator-name-actions">
+              <button
+                type="button"
+                data-testid="creator-randomize-name"
+                onClick={() => {
+                  const salt = nameDraws + 1;
+                  const draw = previewCreatorNames(
+                    setup.seed,
+                    setup.gender,
+                    salt,
+                  );
+                  setNameDraws(salt);
                   setSetup((now) => ({
                     ...now,
-                    givenName: event.target.value || null,
-                  }))
-                }
-              />
-            </label>
-            <label>
-              Last name
-              <input
-                type="text"
-                value={setup.familyName ?? ""}
-                aria-describedby="creator-name-hint"
-                onChange={(event) =>
-                  setSetup((now) => ({
-                    ...now,
-                    familyName: event.target.value || null,
-                  }))
-                }
-              />
-            </label>
-            <label>
-              Starting age
-              <input
-                type="number"
-                data-testid="start-age"
-                min={MINIMUM_START_AGE}
-                max={MAXIMUM_START_AGE}
-                value={ageText}
-                onChange={(event) => {
-                  const text = event.target.value;
-                  setAgeText(text);
-                  /*
-                   * Commit only a real age. An empty or half-typed field leaves
-                   * the last committed one alone rather than becoming 0.
-                   */
-                  if (text.trim() === "") return;
-                  const parsed = Number(text);
-                  if (!Number.isFinite(parsed)) return;
-                  setSetup((now) => ({ ...now, startAge: parsed }));
+                    givenName: draw.givenName,
+                    familyName: draw.familyName,
+                  }));
                 }}
-                onBlur={() => setAgeText(String(setup.startAge))}
-              />
-            </label>
+              >
+                Randomize name
+              </button>
+              <p
+                className="game-hint"
+                id="creator-name-hint"
+                data-testid="creator-name-hint"
+              >
+                Leave a name blank and the game gives you one.
+              </p>
+            </div>
           </div>
-          <div className="creator-name-actions">
-            <button
-              type="button"
-              data-testid="creator-randomize-name"
-              onClick={() => {
-                const salt = nameDraws + 1;
-                const draw = previewCreatorNames(
-                  setup.seed,
-                  setup.gender,
-                  salt,
-                );
-                setNameDraws(salt);
-                setSetup((now) => ({
-                  ...now,
-                  givenName: draw.givenName,
-                  familyName: draw.familyName,
-                }));
-              }}
-            >
-              Randomize name
-            </button>
-            <p
-              className="game-hint"
-              id="creator-name-hint"
-              data-testid="creator-name-hint"
-            >
-              Leave a name blank and the game gives you one.
-            </p>
+
+          <div className="creator-group">
+            <span className="creator-group-label">Age and birthday</span>
+            <div className="game-fields">
+              <label>
+                Starting age
+                <input
+                  type="number"
+                  data-testid="start-age"
+                  min={MINIMUM_START_AGE}
+                  max={MAXIMUM_START_AGE}
+                  value={ageText}
+                  onChange={(event) => {
+                    const text = event.target.value;
+                    setAgeText(text);
+                    /*
+                     * Commit only a real age. An empty or half-typed field leaves
+                     * the last committed one alone rather than becoming 0.
+                     */
+                    if (text.trim() === "") return;
+                    const parsed = Number(text);
+                    if (!Number.isFinite(parsed)) return;
+                    ageHasCommitted.current = true;
+                    setSetup((now) => ({ ...now, startAge: parsed }));
+                  }}
+                  onBlur={() => {
+                    if (!ageHasCommitted.current) return;
+                    setAgeText(String(setup.startAge));
+                  }}
+                />
+              </label>
+            </div>
+            <CreatorBirthdayFields
+              setup={setup}
+              onChange={(patch) =>
+                setSetup((now) => applyBirthdayPatch(now, patch))
+              }
+            />
           </div>
-          <CreatorBirthdayFields
-            setup={setup}
-            onChange={(patch) =>
-              setSetup((now) => applyBirthdayPatch(now, patch))
-            }
-          />
 
           {/*
                 Gender, asked rather than decided. Guessing it from the first
@@ -1268,7 +1289,7 @@ function SetupScreen({
             type="button"
             className="game-creator-next"
             data-testid="creator-continue-character"
-            disabled={birthdayProblem !== null || ageProblem !== null}
+            disabled={birthdayProblem !== null || !ageUsable}
             onClick={() => advanceTo("place")}
           >
             Next

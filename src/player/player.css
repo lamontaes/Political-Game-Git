@@ -6987,6 +6987,28 @@
   isolation: isolate;
   min-height: 100vh;
   min-height: 100dvh;
+  /*
+   * DIRECTOR42 ROLE D — margins must not escape the game shell.
+   *
+   * `.scene-backdrop` carries `margin: 0 0 1.4rem` for the routes that stack
+   * something underneath it. Inside the shell the backdrop is the room and
+   * nothing follows it, so that bottom margin had nothing to separate — but
+   * with no padding, border or formatting context between it and <body> it
+   * collapsed straight out of the shell and moved <body> itself down 22.4px.
+   * The shell is 100vh tall, so the document became 100vh + 22.4px: every
+   * screen lost its bottom 22px below the fold and the page scrolled, which
+   * is part of what the playtest kept hitting as "I shouldn't be scrolling".
+   *
+   * `flow-root` is the shell refusing to pass any descendant's margin outward,
+   * and the rule below removes the one margin that had no work to do here.
+   * Both, deliberately: the first stops this class of bug returning from some
+   * other descendant, the second fixes the instance rather than containing it.
+   */
+  display: flow-root;
+}
+
+.life-shell .scene-backdrop {
+  margin-bottom: 0;
 }
 
 /* The room shows through: no white card, just a soft scrim toward the bottom
