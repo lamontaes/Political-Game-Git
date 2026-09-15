@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2772 |
-| INTENTIONALLY_NON_PLAYER_FACING | 6405 |
-| DIAGNOSTIC_OR_TEST | 6016 |
-| **NEEDS_CLASSIFICATION** | **7568** |
+| INTENTIONALLY_NON_PLAYER_FACING | 6408 |
+| DIAGNOSTIC_OR_TEST | 6032 |
+| **NEEDS_CLASSIFICATION** | **7590** |
 
-Scanned 826 files holding 88384 string
+Scanned 830 files holding 88617 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -202,6 +202,7 @@ literals in total; the table counts only those that read like a sentence.
 | 11 | `src/content/adapters/life-situations.ts` |
 | 11 | `src/player/EducationOptionsPanel.tsx` |
 | 11 | `src/player/PublicInformationPanel.tsx` |
+| 11 | `src/presentation/modeled-account-history.ts` |
 | 11 | `src/presentation/person-dossier.ts` |
 | 11 | `src/presentation/scene-placement.ts` |
 | 11 | `src/simulation/political-belief-formation.ts` |
@@ -264,6 +265,7 @@ literals in total; the table counts only those that read like a sentence.
 | 6 | `src/player/CareerPathsPanel.tsx` |
 | 6 | `src/player/LegislationWorkspace.tsx` |
 | 6 | `src/player/LifeFavorPanel.tsx` |
+| 6 | `src/player/ModeledAccountHistory.tsx` |
 | 6 | `src/player/ModularCharacter.tsx` |
 | 6 | `src/player/PersonalRoutinePanel.tsx` |
 | 6 | `src/player/SceneBackdrop.tsx` |
@@ -298,6 +300,7 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/simulation/incident-response.fixture.ts` |
 | 5 | `src/simulation/life-callbacks.ts` |
 | 5 | `src/simulation/municipal-election-rules.ts` |
+| 5 | `src/simulation/service-delivery-response.ts` |
 | 5 | `src/ui/ScenePresentationProofView.tsx` |
 | 4 | `src/districts/query.ts` |
 | 4 | `src/education/catalog.ts` |
