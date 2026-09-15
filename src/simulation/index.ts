@@ -168,3 +168,5 @@ export * from "./nationwide-world/rule-capability-port";
 export * from "./nationwide-world/state-executive-candidacy-packs";
 export * from "./nationwide-world/state-executives";
 export * from "./nationwide-world/state-executive-terms";
+export * from "./nationwide-world/residence-duration";
+export * from "./nationwide-world/prior-terms";

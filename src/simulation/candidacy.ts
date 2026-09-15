@@ -10,7 +10,8 @@ import {
   stateJurisdictionForKey,
 } from "./life-places";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
-import { factsForPerson } from "./people";
+import { stateResidenceSince } from "./nationwide-world/residence-duration";
+import { recordedTermsInOffice } from "./nationwide-world/prior-terms";
 import {
   assessCandidateQualification,
   candidateQualificationRuleSet,
@@ -252,16 +253,12 @@ export function candidacyEligibility(
           world.currentDate,
         )
       : null;
-  const activeStateResidence = factsForPerson(person)
-    .filter(
-      (fact) =>
-        fact.kind === "residence" &&
-        fact.endedAt === null &&
-        fact.occurredAt <= world.currentDate &&
-        lifePlaceByJurisdictionId(fact.jurisdictionId)?.stateJurisdictionKey ===
-          stateJurisdictionKey,
-    )
-    .sort((left, right) => left.occurredAt.localeCompare(right.occurredAt))[0];
+  // Continuous residence in this state, read from the recorded homes and
+  // residence facts this life already carries; never backdated.
+  const stateResidenceStart =
+    stateJurisdictionKey === null
+      ? null
+      : stateResidenceSince(world, input.personId, stateJurisdictionKey);
   const chamberKey = option?.officeKey.split(":").at(-1) ?? null;
   const officeFamily = executive
     ? "GOVERNOR"
@@ -285,15 +282,20 @@ export function candidacyEligibility(
           person,
           stateJurisdictionKey,
           officeFamily,
-          stateResidenceSince: activeStateResidence?.occurredAt ?? null,
+          stateResidenceSince: stateResidenceStart,
           districtResidenceSince: districtSince,
           onDate: world.currentDate,
+          // The World's own office records for this exact office. A term limit
+          // cannot bar someone these records show has never held it.
+          priorTermsInOffice: option
+            ? recordedTermsInOffice(world, input.personId, option.officeKey)
+            : null,
         });
   if (qualificationRules) {
     const assessment = assessCandidateQualification(qualificationRules, {
       birthDate: person.birthDate,
       onDate: world.currentDate,
-      stateResidenceSince: activeStateResidence?.occurredAt ?? null,
+      stateResidenceSince: stateResidenceStart,
       districtResidenceSince: districtSince,
     });
     for (const refusal of assessment.refusals) {
@@ -312,7 +314,10 @@ export function candidacyEligibility(
       if (assessment.verdict === "meets") continue;
       blocks.push({
         kind:
-          assessment.field === "OFFICE_EXISTENCE"
+          // Only a failed existence reading says the office does not exist;
+          // an existence row whose date is not established is an ordinary gap.
+          assessment.field === "OFFICE_EXISTENCE" &&
+          assessment.verdict === "fails"
             ? "office-does-not-exist"
             : "unproved-sourced-qualification",
         reason: assessment.reason,

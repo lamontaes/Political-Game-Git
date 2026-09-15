@@ -1,5 +1,6 @@
 import type { IsoDate } from "../types";
 import type { NationwideGovernmentScope } from "./government-jurisdiction";
+import { rulesCapabilityResolver } from "./rules-capability-binding";
 
 /**
  * The frozen rules-capability/v1 contract, as RULES TO PLAY published it.
@@ -106,7 +107,8 @@ export const unadmittedRuleCapabilityResolver: RuleCapabilityResolver = (
       : `${request.fields[0]} is not admitted for this government in this composition.`,
 });
 
-let activeResolver: RuleCapabilityResolver = unadmittedRuleCapabilityResolver;
+// Composition: RULES TO PLAY's rules-capability/v1 resolver is in this tree.
+let activeResolver: RuleCapabilityResolver = rulesCapabilityResolver;
 
 /** The one composition seam: LAND binds RULES' resolver here once. */
 export function bindRuleCapabilityResolver(

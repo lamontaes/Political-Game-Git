@@ -45,6 +45,7 @@ export function transitOffice(world: World, personId: EntityId) {
     };
   const capability = resolveStateFundedServiceCapability(
     seat.seat.jurisdictionKey,
+    world.currentDate,
   );
   if (!capability.supported)
     return {

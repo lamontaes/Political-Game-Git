@@ -65,6 +65,8 @@ export function World39News({
                 <summary>Office details</summary>
                 {holder.endExclusive ? (
                   <p>The term runs until {world39Date(holder.endExclusive)}.</p>
+                ) : holder.termFactsUnknown.length > 0 ? (
+                  <p>The term dates are not established in this game yet.</p>
                 ) : (
                   <p>The office has no fixed end date.</p>
                 )}

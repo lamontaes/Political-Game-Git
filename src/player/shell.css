@@ -862,7 +862,14 @@
   .pg-workspace {
     width: 94vw;
     top: 2vh;
-    max-height: 92vh;
+    /* Keep the same bottom reservation as the base rule, so the panel ends
+       above the life dock instead of running under it in short windows. */
+    max-height: min(
+      92vh,
+      calc(
+        var(--pg-vv-height, 100dvh) - 2vh - var(--pg-content-bottom) - 4.25rem
+      )
+    );
   }
 
   .pg-pin[data-size="expanded"] {

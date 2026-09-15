@@ -438,6 +438,204 @@
       ],
       "before": "Evelyn Newman",
       "after": "Donna Newman"
+    },
+    {
+      "path": [
+        "household",
+        "records",
+        "landed",
+        0,
+        "context",
+        "immediateReaction"
+      ],
+      "before": "“Right,” Newman says, and puts the cup down. “Go on, then.”",
+      "after": "“Okay. How do you want to divide it?” Donna says."
+    },
+    {
+      "path": [
+        "household",
+        "records",
+        "landed",
+        1,
+        "context",
+        "immediateReaction"
+      ],
+      "before": "“All right,” Newman says. “If you are offering.”",
+      "after": "“All right. Thanks,” Donna says."
+    },
+    {
+      "path": [
+        "household",
+        "records",
+        "turns",
+        0,
+        "presentation",
+        "beat",
+        "dialogue"
+      ],
+      "before": "“Right,” Newman says, and puts the cup down. “Go on, then.”",
+      "after": "“Okay. How do you want to divide it?” Donna says."
+    },
+    {
+      "path": [
+        "household",
+        "records",
+        "turns",
+        0,
+        "presentation",
+        "playerActionDescription"
+      ],
+      "before": "You · Bring up the week",
+      "after": "You · Talk about the errands"
+    },
+    {
+      "path": [
+        "household",
+        "records",
+        "turns",
+        0,
+        "presentation",
+        "playerIntentLabel"
+      ],
+      "before": "Bring up the week",
+      "after": "Talk about the errands"
+    },
+    {
+      "path": [
+        "household",
+        "records",
+        "turns",
+        0,
+        "progress",
+        "subjectFacts",
+        "obligation"
+      ],
+      "before": "the week's shopping and the two appointments after it",
+      "after": "The errands still need attention."
+    },
+    {
+      "path": [
+        "household",
+        "records",
+        "turns",
+        1,
+        "presentation",
+        "beat",
+        "dialogue"
+      ],
+      "before": "“All right,” Newman says. “If you are offering.”",
+      "after": "“All right. Thanks,” Donna says."
+    },
+    {
+      "path": [
+        "household",
+        "records",
+        "turns",
+        1,
+        "presentation",
+        "playerActionDescription"
+      ],
+      "before": "You · Say you will take it",
+      "after": "You · Offer to handle the errands"
+    },
+    {
+      "path": [
+        "household",
+        "records",
+        "turns",
+        1,
+        "presentation",
+        "playerIntentLabel"
+      ],
+      "before": "Say you will take it",
+      "after": "Offer to handle the errands"
+    },
+    {
+      "path": [
+        "householdCallback",
+        "records",
+        "landed",
+        0,
+        "context",
+        "immediateReaction"
+      ],
+      "before": "“Right,” Newman says, and puts the cup down. “Go on, then.”",
+      "after": "“Okay. How do you want to divide it?” Donna says."
+    },
+    {
+      "path": [
+        "householdCallback",
+        "records",
+        "landed",
+        1,
+        "context",
+        "immediateReaction"
+      ],
+      "before": "“This week,” Newman says. “Not as a standing arrangement.”",
+      "after": "“Okay, I’ll handle these errands,” Donna says."
+    },
+    {
+      "path": [
+        "householdCallback",
+        "records",
+        "turns",
+        0,
+        "presentation",
+        "beat",
+        "dialogue"
+      ],
+      "before": "“Right,” Newman says, and puts the cup down. “Go on, then.”",
+      "after": "“Okay. How do you want to divide it?” Donna says."
+    },
+    {
+      "path": [
+        "householdCallback",
+        "records",
+        "turns",
+        0,
+        "presentation",
+        "playerActionDescription"
+      ],
+      "before": "You · Bring up the week",
+      "after": "You · Talk about the errands"
+    },
+    {
+      "path": [
+        "householdCallback",
+        "records",
+        "turns",
+        0,
+        "presentation",
+        "playerIntentLabel"
+      ],
+      "before": "Bring up the week",
+      "after": "Talk about the errands"
+    },
+    {
+      "path": [
+        "householdCallback",
+        "records",
+        "turns",
+        0,
+        "progress",
+        "subjectFacts",
+        "obligation"
+      ],
+      "before": "the week's shopping and the two appointments after it",
+      "after": "The errands still need attention."
+    },
+    {
+      "path": [
+        "householdCallback",
+        "records",
+        "turns",
+        1,
+        "presentation",
+        "beat",
+        "dialogue"
+      ],
+      "before": "“This week,” Newman says. “Not as a standing arrangement.”",
+      "after": "“Okay, I’ll handle these errands,” Donna says."
     }
   ]
 }

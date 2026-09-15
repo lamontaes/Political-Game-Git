@@ -1,3 +1,4 @@
+import { SavedTitleTableau } from "./SavedTitleTableau";
 import { CreatorAppearanceStep } from "./CreatorAppearanceStep";
 import {
   applyCreatorAppearance,
@@ -591,26 +592,29 @@ export function PlayerGame() {
    */
   if (screen.kind === "title") {
     return (
-      <AmbientTableau resolved={resolvedTitlePresentation(saves)}>
-        {() => (
-          <TitleScreen
-            saves={saves}
-            savesUnavailable={savesUnavailable}
-            problem={problem}
-            onNewGame={() => {
-              setProblem(null);
-              if (replaySeed === null) {
-                setSessionSeed(resolveSessionSeed("", window.crypto));
-              }
-              setScreen({ kind: "setup" });
-            }}
-            onContinue={() => void continueMostRecent()}
-            onOpenSaves={() => setScreen({ kind: "saves" })}
-            onOpenOptions={() => setScreen({ kind: "options" })}
-            onOpenPatchNotes={() => setScreen({ kind: "patch-notes" })}
-          />
-        )}
-      </AmbientTableau>
+      <SavedTitleTableau
+        summary={saves[0]}
+        store={store}
+        shellStore={shellStore}
+        previewMode={previewMode}
+      >
+        <TitleScreen
+          saves={saves}
+          savesUnavailable={savesUnavailable}
+          problem={problem}
+          onNewGame={() => {
+            setProblem(null);
+            if (replaySeed === null) {
+              setSessionSeed(resolveSessionSeed("", window.crypto));
+            }
+            setScreen({ kind: "setup" });
+          }}
+          onContinue={() => void continueMostRecent()}
+          onOpenSaves={() => setScreen({ kind: "saves" })}
+          onOpenOptions={() => setScreen({ kind: "options" })}
+          onOpenPatchNotes={() => setScreen({ kind: "patch-notes" })}
+        />
+      </SavedTitleTableau>
     );
   }
 

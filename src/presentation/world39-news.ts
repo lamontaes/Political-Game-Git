@@ -13,7 +13,7 @@ import {
   primaryReading,
 } from "../simulation/municipal-government";
 import { resolvePublicationSource } from "../simulation/public-information-integrity";
-import { openingOfficeholders } from "./opening-officeholders";
+import { currentPublicOfficeholders } from "./opening-officeholders";
 import { projectPublicInformationPanel } from "./public-information-adapters";
 import { proseMonthYear } from "./prose-dates";
 
@@ -52,7 +52,9 @@ export function projectWorld39News(world: World, personId: EntityId) {
   const publishedEvents = new Set(
     publications.items.map((item) => item.sourceEventId),
   );
-  const officeholders = openingOfficeholders(world)
+  // Every materialized public officeholder, including state executives whose
+  // term dates are not established; the sentence never invents a "since".
+  const officeholders = currentPublicOfficeholders(world)
     .filter((holder) => {
       const event = world.history.events.find(
         (entry) => entry.id === holder.termId,

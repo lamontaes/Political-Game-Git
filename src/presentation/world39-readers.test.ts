@@ -9,6 +9,7 @@ import {
   recordMemory,
   serializeWorld,
   deserializeWorld,
+  stateExecutiveOffice,
   type World,
   type EntityId,
   type EventVisibility,
@@ -64,7 +65,19 @@ describe("WORLD39 saved-world readers", () => {
     const before = serializeWorld(world);
     const model = projectWorld39News(world, playerPersonId);
     expect(model.publications.items).toHaveLength(0);
-    expect(model.officeholders).toHaveLength(2);
+    // The two federal holders plus the home state's executive the opening
+    // writer produced; its term dates are not established, so no start is shown.
+    const kentucky = stateExecutiveOffice("KY")!;
+    expect(model.officeholders.map((holder) => holder.officeKey)).toEqual([
+      "us-president",
+      "us-chief-justice",
+      kentucky.officeKey,
+    ]);
+    expect(
+      model.officeholders.find(
+        (holder) => holder.officeKey === kentucky.officeKey,
+      )?.startedAt,
+    ).toBeNull();
     for (const holder of model.officeholders) {
       expect(world.people[holder.personId]).toBeDefined();
       expect(

@@ -1,5 +1,6 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { format } from "prettier";
+import { makeIsoDate } from "../../src/simulation/dates";
 import {
   nationwideFundedServiceCoverage,
   renderFundedServiceCoverage,
@@ -7,13 +8,15 @@ import {
 
 /** Writes or checks the generated funded civic service coverage document. */
 export const COVERAGE_PATH = "docs/systems/civic-service-coverage.md";
+/** The one date every state is resolved on, so the document is deterministic. */
+export const COVERAGE_AS_OF = makeIsoDate("2027-02-01");
 
 export async function renderCoverageDocument(): Promise<string> {
   return format(
-    renderFundedServiceCoverage(nationwideFundedServiceCoverage()),
-    {
-      parser: "markdown",
-    },
+    renderFundedServiceCoverage(
+      nationwideFundedServiceCoverage(COVERAGE_AS_OF),
+    ),
+    { parser: "markdown" },
   );
 }
 
