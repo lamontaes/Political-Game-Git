@@ -216,12 +216,12 @@ describe("portable transfer uses the shell's v3 codec", () => {
     return { database, records, store };
   }
 
-  it.each([1, 2, 3, undefined])(
+  it.each([1, 2, 3, 4, undefined])(
     "reads supported/legacy tag %s through the validated codec",
     (version) => {
       const decoded = readPortableInterfaceState({ ...state, version });
-      expect(decoded).toEqual({ ...readStoredShellState(state), version: 3 });
-      expect(readPortableInterfaceState({ ...state, version: 4 })).toBeNull();
+      expect(decoded).toEqual({ ...readStoredShellState(state), version: 4 });
+      expect(readPortableInterfaceState({ ...state, version: 5 })).toBeNull();
       expect(readPortableInterfaceState({ ...state, version: "3" })).toBeNull();
     },
   );
@@ -237,7 +237,7 @@ describe("portable transfer uses the shell's v3 codec", () => {
     if (exported.status !== "ok") throw new Error(exported.reason);
     expect(exported.bundle.interface).toEqual({
       status: "included",
-      state: { ...readStoredShellState(state), version: 3 },
+      state: { ...readStoredShellState(state), version: 4 },
     });
     const parsed = parsePortableSave(serializePortableSave(exported.bundle));
     if (parsed.status !== "ok") throw new Error(parsed.reason);
@@ -352,7 +352,7 @@ describe("portable transfer uses the shell's v3 codec", () => {
     if (exported.status !== "ok") throw new Error(exported.reason);
     const future = {
       ...exported.bundle,
-      interface: { status: "included", state: { ...state, version: 4 } },
+      interface: { status: "included", state: { ...state, version: 5 } },
     } as unknown as PortableSaveBundle;
     const before = JSON.stringify([...records]);
     const beforeInterface = JSON.stringify([
@@ -372,7 +372,7 @@ describe("portable transfer uses the shell's v3 codec", () => {
     );
     database.stores
       .get("interface")!
-      .set(SLOT, { ...state, saveId: SLOT, version: 4 });
+      .set(SLOT, { ...state, saveId: SLOT, version: 5 });
     const futureInterface = JSON.stringify([
       ...database.stores.get("interface")!,
     ]);

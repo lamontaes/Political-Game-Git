@@ -148,7 +148,10 @@ export function projectWorld39News(world: World, personId: EntityId) {
  * the moment a life is picked up, tenures the officeholder reader already
  * tells) are not public happenings a resident would hear about.
  */
-function isWorldMachineryEvent(type: string, tags: readonly string[]): boolean {
+export function isWorldMachineryEvent(
+  type: string,
+  tags: readonly string[],
+): boolean {
   return (
     /^(setup|simulation|information|evidence|publication|world)\./.test(type) ||
     tags.includes("world.created") ||
