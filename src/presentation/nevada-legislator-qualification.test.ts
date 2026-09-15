@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   campaignForCandidate,
   candidacyEligibility,
+  createCharacterHistoryContextPerson,
   deserializeWorld,
   requireLifePlace,
   serializeWorld,
@@ -47,25 +48,37 @@ function eligibilityOn(
 describe("Nevada legislator qualifications through ordinary discovery and filing", () => {
   it("applies NRS 218A.200 on the opening date, then files the Assembly seat after a real year in Nevada", () => {
     const opened = alamoLife("rules-to-play-nv-alamo");
-    const personId = opened.personId;
-    expect(opened.world.currentDate >= "2025-10-01").toBe(true);
+    const priorIds = new Set(opened.world.personOrder);
+    const worldAtArrival = createCharacterHistoryContextPerson(opened.world, {
+      stableKey: "rules-to-play-nv:new-resident",
+      givenName: "Test",
+      familyName: "Newcomer",
+      birthDate: "1990-01-01",
+      homeJurisdictionId:
+        opened.world.people[opened.personId]!.homeJurisdictionId,
+    });
+    const personId = worldAtArrival.personOrder.find(
+      (id) => !priorIds.has(id),
+    )!;
+    expect(worldAtArrival.currentDate >= "2025-10-01").toBe(true);
 
     // On the opening date the law applies; the only thing standing in the way
-    // is a fact about this character: the life begins with this residence.
-    const before = serializeWorld(opened.world);
-    const openingAssembly = projectCampaignOffices(opened.world, personId).find(
-      (office) => office.officeKey === ASSEMBLY,
-    );
+    // is a fact about this explicit newcomer: their records begin today.
+    const before = serializeWorld(worldAtArrival);
+    const openingAssembly = projectCampaignOffices(
+      worldAtArrival,
+      personId,
+    ).find((office) => office.officeKey === ASSEMBLY);
     expect(openingAssembly).toBeDefined();
     expect(openingAssembly!.eligibility).not.toMatch(/observ/);
-    expect(serializeWorld(opened.world)).toBe(before);
-    const opening = eligibilityOn(opened.world, personId);
+    expect(serializeWorld(worldAtArrival)).toBe(before);
+    const opening = eligibilityOn(worldAtArrival, personId);
     expect(opening.blocks.map((block) => block.reason)).toEqual([
       "Not resident long enough: NRS 218A.200 requires 1 year, and this character has lived here 0.",
     ]);
 
     // A year of this same life later, the recorded residence satisfies it.
-    const world = advanceWorld(opened.world, 366);
+    const world = advanceWorld(worldAtArrival, 366);
     const assembly = projectCampaignOffices(world, personId).find(
       (office) => office.officeKey === ASSEMBLY,
     );
