@@ -593,7 +593,8 @@ export function MunicipalWorkspace({
                     {"Publisher PID: "}
                     {view.government.identity.publisherId}
                     {". Legacy government ID:"}{" "}
-                    {view.government.identity.censusGovernmentUnitId ?? "Unknown"}
+                    {view.government.identity.censusGovernmentUnitId ??
+                      "Unknown"}
                     {"."}
                   </p>
                   <p>
@@ -638,7 +639,9 @@ export function MunicipalWorkspace({
                   </summary>
                   <dl>
                     <dt>{"Form"}</dt>
-                    <dd>{reading.form ? humanLabel(reading.form) : "Unknown"}</dd>
+                    <dd>
+                      {reading.form ? humanLabel(reading.form) : "Unknown"}
+                    </dd>
                     <dt>{"Body"}</dt>
                     <dd>{reading.bodyName ?? "Unknown"}</dd>
                     <dt>{"Members"}</dt>
@@ -751,7 +754,9 @@ export function MunicipalWorkspace({
                   {"."}{" "}
                   {municipalCapacitySourceUrl(row.evidence.artifactId) && (
                     <a
-                      href={municipalCapacitySourceUrl(row.evidence.artifactId)!}
+                      href={municipalCapacitySourceUrl(
+                        row.evidence.artifactId,
+                      )!}
                     >
                       {"Publisher observation"}
                     </a>
@@ -781,7 +786,9 @@ export function MunicipalWorkspace({
                   {". Full-time equivalent: unknown."}{" "}
                   {municipalCapacitySourceUrl(row.evidence.artifactId) && (
                     <a
-                      href={municipalCapacitySourceUrl(row.evidence.artifactId)!}
+                      href={municipalCapacitySourceUrl(
+                        row.evidence.artifactId,
+                      )!}
                     >
                       {"Publisher observation"}
                     </a>

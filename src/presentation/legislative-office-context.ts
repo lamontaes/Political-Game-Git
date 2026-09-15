@@ -151,8 +151,7 @@ export function projectLegislativeOfficeContext(
     measure,
     termCommencement: {
       kind: "unavailable",
-      reason:
-        "Nobody has put a date on when this term formally began.",
+      reason: "Nobody has put a date on when this term formally began.",
     },
     termExpiry: {
       kind: "unavailable",

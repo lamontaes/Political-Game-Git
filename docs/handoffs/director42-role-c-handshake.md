@@ -5,14 +5,14 @@ Immutable Git handoff, written because the direct session route failed. See
 
 ## Identity
 
-| Field           | Value                                                          |
-| --------------- | -------------------------------------------------------------- |
-| Role            | ROLE C — PLAYER PURE                                            |
-| Session         | `session_014poXuKZBnG1Gi37kZHmnDN`                              |
-| Program / model | Claude Code (remote); `claude-opus-5`; high effort; standard    |
-| Worktree        | `/home/user/Political-Game-Git`                                 |
-| Branch          | `claude/director42-role-c-player-u3ojxc`                        |
-| Base full SHA   | `f22fd314e72bec0440044026ccdfd99e7a67600d` (public main)        |
+| Field           | Value                                                        |
+| --------------- | ------------------------------------------------------------ |
+| Role            | ROLE C — PLAYER PURE                                         |
+| Session         | `session_014poXuKZBnG1Gi37kZHmnDN`                           |
+| Program / model | Claude Code (remote); `claude-opus-5`; high effort; standard |
+| Worktree        | `/home/user/Political-Game-Git`                              |
+| Branch          | `claude/director42-role-c-player-u3ojxc`                     |
+| Base full SHA   | `f22fd314e72bec0440044026ccdfd99e7a67600d` (public main)     |
 
 Ownership check performed before claiming: no in-repo DIRECTOR42 record exists,
 and no other running session carries a PLAYER PURE title. This session is the
@@ -20,11 +20,11 @@ single ROLE C owner and is continuing, not restarting, that role.
 
 ## Peers discovered
 
-| Role                  | Session                                | Status          |
-| --------------------- | -------------------------------------- | --------------- |
-| B — DEHARDWIRE        | `session_01WZB6HoCjRiQHuG7TA46wKV`     | REQUIRES_ACTION |
-| D — VISUAL FINISH     | `session_01BYkAYjdEy2jaV7mwH3M6uT`     | RUNNING         |
-| A — LAND / receiver   | Codex receiver, outside this session list | n/a          |
+| Role                | Session                                   | Status          |
+| ------------------- | ----------------------------------------- | --------------- |
+| B — DEHARDWIRE      | `session_01WZB6HoCjRiQHuG7TA46wKV`        | REQUIRES_ACTION |
+| D — VISUAL FINISH   | `session_01BYkAYjdEy2jaV7mwH3M6uT`        | RUNNING         |
+| A — LAND / receiver | Codex receiver, outside this session list | n/a             |
 
 LAND's current integration refs per the packet baseline: `claude/land-main`
 @ `84d57d96b72a4c01428c190320eb97370262e14f` (PR #255), successors #256
@@ -106,17 +106,17 @@ passed, 20 failed across 9 files. Every one of those files was run again at the
 base commit `f22fd31` in a clean worktree, because "failing" and "failing
 because of this branch" are different claims:
 
-| File | At base | Owner |
-| --- | --- | --- |
-| `scripts/prose-corpus/corpus.test.ts` | FAILS (report stale by 4 files) | ROLE C — **fixed here** |
-| `scripts/prose-corpus/anchor-cli.test.ts` (3) | FAILS identically | pre-existing, not ROLE C |
-| `tests/authoring-ownership-boundary.test.ts` (3) | FAILS identically | pre-existing, needs donor branches fetched |
-| `tests/executive-governing-ownership-boundary.test.ts` (4) | FAILS identically | pre-existing, same cause |
-| `tests/judicial-gameplay-ownership-boundary.test.ts` (3) | FAILS identically | pre-existing, same cause |
-| `tests/narrative-wave-ownership-boundary.test.ts` (4) | FAILS identically | pre-existing, same cause |
-| `tests/donor-containment.test.ts` (1) | FAILS identically | pre-existing; it says outright it cannot see the donor branches it checks |
-| `tests/release/transaction.test.ts` (1) | FAILS identically | pre-existing; `chmod 0o555` does not stop a process running as root |
-| `tests/release/build-identity.test.ts` (2) | PASSES | release machinery: the stamped build revision lags HEAD after any commit and is restamped by `npm run build`. Not a source defect, and not ROLE C's to hand-edit. |
+| File                                                       | At base                         | Owner                                                                                                                                                             |
+| ---------------------------------------------------------- | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `scripts/prose-corpus/corpus.test.ts`                      | FAILS (report stale by 4 files) | ROLE C — **fixed here**                                                                                                                                           |
+| `scripts/prose-corpus/anchor-cli.test.ts` (3)              | FAILS identically               | pre-existing, not ROLE C                                                                                                                                          |
+| `tests/authoring-ownership-boundary.test.ts` (3)           | FAILS identically               | pre-existing, needs donor branches fetched                                                                                                                        |
+| `tests/executive-governing-ownership-boundary.test.ts` (4) | FAILS identically               | pre-existing, same cause                                                                                                                                          |
+| `tests/judicial-gameplay-ownership-boundary.test.ts` (3)   | FAILS identically               | pre-existing, same cause                                                                                                                                          |
+| `tests/narrative-wave-ownership-boundary.test.ts` (4)      | FAILS identically               | pre-existing, same cause                                                                                                                                          |
+| `tests/donor-containment.test.ts` (1)                      | FAILS identically               | pre-existing; it says outright it cannot see the donor branches it checks                                                                                         |
+| `tests/release/transaction.test.ts` (1)                    | FAILS identically               | pre-existing; `chmod 0o555` does not stop a process running as root                                                                                               |
+| `tests/release/build-identity.test.ts` (2)                 | PASSES                          | release machinery: the stamped build revision lags HEAD after any commit and is restamped by `npm run build`. Not a source defect, and not ROLE C's to hand-edit. |
 
 No assertion was weakened, skipped or deleted to reach that table.
 

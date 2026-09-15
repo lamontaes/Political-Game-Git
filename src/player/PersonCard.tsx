@@ -103,8 +103,7 @@ export function PersonCard({
       {
         personId: otherId,
         name: node.name,
-        label:
-          otherId === playerId ? "you" : (node.relationship ?? edge.label),
+        label: otherId === playerId ? "you" : (node.relationship ?? edge.label),
         kind: edge.kind,
       },
     ];

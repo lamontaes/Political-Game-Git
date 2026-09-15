@@ -4001,7 +4001,7 @@
     {
       "sourcePath": "src/player/PersonCard.tsx",
       "enclosingSymbol": "PersonCard",
-      "line": 123,
+      "line": 122,
       "text": "pg-person-card civic-glass pg-person-card--{mode}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4009,7 +4009,7 @@
     {
       "sourcePath": "src/player/PersonCard.tsx",
       "enclosingSymbol": "PersonCard",
-      "line": 132,
+      "line": 131,
       "text": "Your read",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4017,7 +4017,7 @@
     {
       "sourcePath": "src/player/PersonCard.tsx",
       "enclosingSymbol": "PersonCard",
-      "line": 138,
+      "line": 137,
       "text": "Close the card for {dossier.name}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4025,7 +4025,7 @@
     {
       "sourcePath": "src/player/PersonCard.tsx",
       "enclosingSymbol": "PersonCard",
-      "line": 216,
+      "line": 215,
       "text": "ui-action ui-action--rail",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4033,7 +4033,7 @@
     {
       "sourcePath": "src/player/PersonCard.tsx",
       "enclosingSymbol": "PersonCard",
-      "line": 241,
+      "line": 240,
       "text": "ui-action ui-action--rail",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4041,7 +4041,7 @@
     {
       "sourcePath": "src/player/PersonCard.tsx",
       "enclosingSymbol": "PersonCard",
-      "line": 260,
+      "line": 259,
       "text": "ui-action ui-action--rail",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4049,7 +4049,7 @@
     {
       "sourcePath": "src/player/PersonCard.tsx",
       "enclosingSymbol": "PersonCard",
-      "line": 280,
+      "line": 279,
       "text": "ui-action ui-action--primary",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4057,7 +4057,7 @@
     {
       "sourcePath": "src/player/PersonCard.tsx",
       "enclosingSymbol": "PersonCard",
-      "line": 300,
+      "line": 299,
       "text": "ui-action ui-action--primary",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."

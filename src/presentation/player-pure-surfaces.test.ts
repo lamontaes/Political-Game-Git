@@ -108,9 +108,8 @@ describe("the person card in ordinary play", () => {
      * position or office record for. This is the case that used to produce a
      * card made entirely of negative statements.
      */
-    const stranger = Object.keys(world.people).find(
-      (id) => id !== personId,
-    ) as EntityId | undefined;
+    const stranger = Object.keys(world.people).find((id) => id !== personId) as
+      EntityId | undefined;
     expect(stranger).toBeDefined();
 
     for (const expanded of [false, true]) {
@@ -252,8 +251,9 @@ describe("the reading surfaces ordinary play offers", () => {
   it("keeps the journal reading like a biography", () => {
     const { world, personId } = newLife("player-pure-journal");
     const record = projectLifeRecord(world, personId);
-    expect(record.chapters.flatMap((chapter) => chapter.entries).length)
-      .toBeGreaterThan(0);
+    expect(
+      record.chapters.flatMap((chapter) => chapter.entries).length,
+    ).toBeGreaterThan(0);
     expectPlayerPure(record.summary, "journal summary");
     for (const chapter of record.chapters) {
       expectPlayerPure(chapter.heading, "journal chapter");

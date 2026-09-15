@@ -221,26 +221,26 @@ export function EconomicContextView({
       ) : null}
 
       {diagnostics ? (
-      <details className="economic-sources">
-        <summary>Sources and scope</summary>
-        <ul>
-          {sourceRows.map((source) => (
-            <li key={source.artifactId}>
-              <a href={source.retrievalUrl} rel="noreferrer">
-                {source.provider}
-              </a>
-              <span>
-                Retrieved {source.retrievedAt.slice(0, 10)} · SHA-256{" "}
-                {source.sha256}
-              </span>
-            </li>
-          ))}
-        </ul>
-        <p>
-          Reference periods, product vintages, release dates, retrieval dates,
-          and the simulation date remain separate. Missing data stays missing.
-        </p>
-      </details>
+        <details className="economic-sources">
+          <summary>Sources and scope</summary>
+          <ul>
+            {sourceRows.map((source) => (
+              <li key={source.artifactId}>
+                <a href={source.retrievalUrl} rel="noreferrer">
+                  {source.provider}
+                </a>
+                <span>
+                  Retrieved {source.retrievedAt.slice(0, 10)} · SHA-256{" "}
+                  {source.sha256}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <p>
+            Reference periods, product vintages, release dates, retrieval dates,
+            and the simulation date remain separate. Missing data stays missing.
+          </p>
+        </details>
       ) : null}
     </section>
   );
