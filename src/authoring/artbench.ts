@@ -67,6 +67,15 @@ export interface CandidateProvenance {
   readonly batchId?: string;
   readonly itemId?: string;
   readonly jobId?: string;
+  /**
+   * The producer's receipt of reference images actually supplied as inputs.
+   * Absent means unknown, never "none".
+   */
+  readonly referenceInputs?: readonly {
+    readonly ref: string;
+    readonly sha256?: string;
+    readonly role?: string;
+  }[];
 }
 
 export interface CandidateIngestedPayload {
@@ -279,6 +288,32 @@ export interface ProjectedCandidate extends CandidateIngestedPayload {
   readonly integrationState?: IntegrationReceivedPayload["state"];
   /** Disposable QA candidate: never production cargo. */
   readonly qa: boolean;
+  /** Every ingestion event for this candidate id (one per store that took it in). */
+  readonly ingestReceipts: readonly IngestReceipt[];
+  /** Set when this id is a legacy duplicate of the same delivered item. */
+  readonly aliasOf?: string;
+  /** Legacy duplicate ids grouped under this canonical candidate. */
+  readonly aliasIds: readonly string[];
+  /** Decisions across the whole duplicate group, oldest first. */
+  readonly groupDecisions: readonly ProjectedDecision[];
+  /** Group members ended with different decisions; shown, never resolved here. */
+  readonly duplicateDecisionConflict: boolean;
+}
+
+export interface IngestReceipt {
+  readonly eventId: string;
+  readonly origin: string;
+  readonly at: string;
+  readonly source: ArtbenchEventSource;
+}
+
+/** One delivered batch item that arrived with different bytes. */
+export interface IntakeConflict {
+  readonly requestId: string;
+  readonly batchId: string;
+  readonly itemId: string;
+  readonly candidateIds: readonly string[];
+  readonly sha256s: readonly string[];
 }
 
 export type RequestLane =
@@ -372,6 +407,8 @@ export interface ArtbenchProjection {
   readonly assets: Readonly<Record<string, ProjectedAsset>>;
   readonly integrationQueue: readonly ProjectedIntegrationItem[];
   readonly conflicts: readonly TagConflict[];
+  /** Same request/batch/item delivered with different bytes. */
+  readonly intakeConflicts: readonly IntakeConflict[];
   readonly rejectedEvents: readonly {
     readonly eventId: string;
     readonly reason: string;
@@ -431,13 +468,17 @@ interface MutableCandidate {
   decisions: ProjectedDecision[];
   integrationItemId?: string;
   integrationState?: IntegrationReceivedPayload["state"];
+  receipts: IngestReceipt[];
 }
 
-function candidateStatus(c: MutableCandidate): CandidateStatus {
+function candidateStatus(
+  c: MutableCandidate,
+  decisions: readonly ProjectedDecision[] = c.decisions,
+): CandidateStatus {
   if (c.integrationState === "installed") return "installed";
   if (c.integrationState === "published") return "in-game";
   if (c.integrationState === "accepted") return "accepted";
-  const latest = c.decisions.at(-1);
+  const latest = decisions.at(-1);
   if (!latest) return "awaiting-review";
   if (latest.payload.decision === "approve") {
     return c.integrationItemId ? "integration-ready" : "approved";
@@ -549,11 +590,26 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
       }
       case "candidate.ingested": {
         const p = event.payload;
-        if (candidates.has(p.candidateId)) {
-          rejected.push({
-            eventId: event.eventId,
-            reason: `candidate ${p.candidateId} already ingested`,
-          });
+        const existing = candidates.get(p.candidateId);
+        if (existing) {
+          // The same logical delivery ingested by another store: one card,
+          // one more receipt. Different content under the same id is refused.
+          if (
+            existing.ingest.sha256 === p.sha256 &&
+            existing.ingest.requestId === p.requestId
+          ) {
+            existing.receipts.push({
+              eventId: event.eventId,
+              origin: event.origin,
+              at: event.at,
+              source: event.source,
+            });
+          } else {
+            rejected.push({
+              eventId: event.eventId,
+              reason: `candidate ${p.candidateId} already ingested with different content`,
+            });
+          }
           break;
         }
         const parent = p.parentCandidateId
@@ -574,6 +630,14 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
           tagsVersion: 0,
           tagAuthors: [],
           decisions: [],
+          receipts: [
+            {
+              eventId: event.eventId,
+              origin: event.origin,
+              at: event.at,
+              source: event.source,
+            },
+          ],
         });
         if (parent) parent.children.push(p.candidateId);
         const request = requests.get(p.requestId);
@@ -812,9 +876,88 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
     }
   }
 
+  // Legacy duplicates: the same delivered item (request/version, batch/item,
+  // bytes, lineage) ingested under different random ids by different stores.
+  // The first becomes canonical; the others stay as aliases with their own
+  // history and never show as separate pending cards.
+  const aliasOf = new Map<string, string>();
+  const aliasIds = new Map<string, string[]>();
+  const byItem = new Map<
+    string,
+    {
+      requestId: string;
+      batchId: string;
+      itemId: string;
+      variants: { sha: string; ids: string[] }[];
+    }
+  >();
+  const groupKeyOwner = new Map<string, string>();
+  for (const [candidateId, c] of candidates) {
+    const { batchId, itemId } = c.ingest.provenance ?? {};
+    if (!batchId || !itemId) continue;
+    const itemKey = [c.ingest.requestId, batchId, itemId].join("\u0000");
+    const item = byItem.get(itemKey) ?? {
+      requestId: c.ingest.requestId,
+      batchId,
+      itemId,
+      variants: [],
+    };
+    const variant = item.variants.find((v) => v.sha === c.ingest.sha256);
+    if (variant) variant.ids.push(candidateId);
+    else item.variants.push({ sha: c.ingest.sha256, ids: [candidateId] });
+    byItem.set(itemKey, item);
+    const groupKey = [
+      c.ingest.requestId,
+      c.ingest.requestVersion,
+      batchId,
+      itemId,
+      c.ingest.sha256,
+      c.ingest.parentCandidateId ?? "",
+      c.ingest.editKind,
+    ].join("\u0000");
+    const owner = groupKeyOwner.get(groupKey);
+    if (!owner) {
+      groupKeyOwner.set(groupKey, candidateId);
+    } else {
+      aliasOf.set(candidateId, owner);
+      aliasIds.set(owner, [...(aliasIds.get(owner) ?? []), candidateId]);
+    }
+  }
+  const intakeConflicts: IntakeConflict[] = [];
+  for (const { requestId, batchId, itemId, variants } of byItem.values()) {
+    if (variants.length < 2) continue;
+    intakeConflicts.push({
+      requestId,
+      batchId,
+      itemId,
+      candidateIds: variants.flatMap((v) => v.ids.slice(0, 1)),
+      sha256s: variants.map((v) => v.sha),
+    });
+  }
+  for (const [alias, owner] of aliasOf) {
+    for (const entry of requests.values()) {
+      entry.candidateIds = entry.candidateIds.filter((id) => id !== alias);
+      if (entry.selectedCandidateId === alias)
+        entry.selectedCandidateId = owner;
+    }
+  }
+
   const projectedCandidates: Record<string, ProjectedCandidate> = {};
   const revisionCounter = new Map<string, number>();
   for (const [candidateId, c] of candidates) {
+    const members = [candidateId, ...(aliasIds.get(candidateId) ?? [])];
+    const groupDecisions = members
+      .flatMap((id) => candidates.get(id)?.decisions ?? [])
+      .sort((a, b) =>
+        a.at === b.at
+          ? a.eventId.localeCompare(b.eventId)
+          : a.at.localeCompare(b.at),
+      );
+    const finals = new Set(
+      members
+        .map((id) => candidates.get(id)?.decisions.at(-1)?.payload.decision)
+        .filter(Boolean),
+    );
     const revision = (revisionCounter.get(c.ingest.assetId) ?? 0) + 1;
     revisionCounter.set(c.ingest.assetId, revision);
     projectedCandidates[candidateId] = {
@@ -829,7 +972,15 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
       tagAuthors: c.tagAuthors,
       decisions: c.decisions,
       latestDecision: c.decisions.at(-1),
-      status: candidateStatus(c),
+      status: candidateStatus(
+        c,
+        aliasOf.has(candidateId) ? c.decisions : groupDecisions,
+      ),
+      ingestReceipts: c.receipts,
+      aliasOf: aliasOf.get(candidateId),
+      aliasIds: aliasIds.get(candidateId) ?? [],
+      groupDecisions: aliasOf.has(candidateId) ? c.decisions : groupDecisions,
+      duplicateDecisionConflict: finals.size > 1,
       integrationItemId: c.integrationItemId,
       integrationState: c.integrationState,
       qa:
@@ -908,6 +1059,7 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
       };
     }),
     conflicts,
+    intakeConflicts,
     rejectedEvents: rejected,
     importedReviews,
   };
@@ -1140,6 +1292,31 @@ export function facetCounts(rows: readonly CatalogRow[]): FacetCounts {
 /* Briefs and edit bundles                                             */
 /* ------------------------------------------------------------------ */
 
+const REFERENCE_ROLE_LABEL: Record<
+  NonNullable<AssetRequest["target"]["styleReferences"]>[number]["role"],
+  string
+> = {
+  "drawing-style": "DRAWING STYLE (how to render)",
+  "subject-content": "SUBJECT / ARCHITECTURE (what it looks like; not style)",
+  "parent-template": "PARENT TEMPLATE (variant source)",
+};
+
+function referenceLines(request: AssetRequest): string[] {
+  const references = request.target.styleReferences ?? [];
+  if (references.length === 0) {
+    return [
+      "- style reference: UNRESOLVED — no reference image is recorded on this request. The style authority above is a declaration, not supplied pixels.",
+    ];
+  }
+  return [
+    ...references.map(
+      (r) =>
+        `- ${REFERENCE_ROLE_LABEL[r.role]}: ${r.ref}${r.sha256 ? ` sha256 ${r.sha256}` : " (no hash recorded — unresolved)"}${r.width && r.height ? ` ${r.width}×${r.height}` : ""}${r.note ? ` — ${r.note}` : ""}`,
+    ),
+    "- These are DECLARED references. Record in the manifest which images you actually supplied as inputs (referenceInputs); a listed reference is not proof it was used.",
+  ];
+}
+
 /** Copyable producer-ingestion brief: what to make and how to hand it back. */
 export function producerBrief(
   request: AssetRequest,
@@ -1158,7 +1335,10 @@ export function producerBrief(
     ``,
     `## Target`,
     `class: ${request.target.targetClass}; minimum real width ${request.target.minimumWidth}px; aspect ${request.target.aspectRatio}; alpha ${request.target.alphaRequired ? "REQUIRED" : "not required"}; container ${request.target.container}`,
-    `style authority: ${request.target.styleAuthority}`,
+    `style authority (declared text): ${request.target.styleAuthority}`,
+    ``,
+    `## References`,
+    ...referenceLines(request),
     ``,
     `## Must be in the picture`,
     ...request.generationRecipe.map((line) => `- ${line}`),
@@ -1184,8 +1364,8 @@ export function producerBrief(
     ``,
     `## Hand back`,
     `Deliver a complete batch folder to ${options.inboxHint}: the image files plus manifest.json written LAST, shaped as`,
-    `{"batchId":"<stable id>","items":[{"itemId":"<stable per item>","file":"<name>","requestId":"${request.requestId}","requestVersion":${request.requestVersion},"parentCandidateId":null,"worker":"<who>","provider":"<tool>","model":"<model>","promptRef":"<brief ref>","createdAt":"<iso>"}]}`,
-    `Unknown fields may be omitted. Retries reuse the same batchId/itemId. Never publish approval; the owner decides on the bench.`,
+    `{"batchId":"<stable id>","items":[{"itemId":"<stable per item>","file":"<name>","requestId":"${request.requestId}","requestVersion":${request.requestVersion},"parentCandidateId":null,"worker":"<who>","provider":"<tool>","model":"<model>","promptRef":"<brief ref>","createdAt":"<iso>","referenceInputs":[{"ref":"<drive:id|repo:path>","sha256":"<hex>","role":"drawing-style"}]}]}`,
+    `referenceInputs lists only images actually supplied to the generator; omit it when unknown. Unknown fields may be omitted. Retries reuse the same batchId/itemId. Never publish approval; the owner decides on the bench.`,
   );
   return lines.join("\n");
 }

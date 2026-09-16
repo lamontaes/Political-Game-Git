@@ -304,3 +304,15 @@
   border-radius: 8px;
   padding: 12px 16px;
 }
+
+.art-desk-reference-thumb {
+  vertical-align: middle;
+  margin: 0 4px;
+  border-radius: 3px;
+}
+.art-desk-reference-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 4px;
+}

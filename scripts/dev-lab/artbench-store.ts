@@ -19,7 +19,7 @@
  * filesystem the owner's Drive client keeps in sync.
  */
 
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import {
   closeSync,
   copyFileSync,
@@ -602,12 +602,38 @@ export class ArtbenchStore {
         `No parent candidate ${meta.parentCandidateId}.`,
       );
     }
-    const duplicate = Object.values(projection.candidates).find(
-      (candidate) =>
-        candidate.sha256 === sha256 && candidate.requestId === requestId,
-    );
+    const editKindForId: EditKind =
+      meta.editKind ?? (parent ? "other" : "original");
+    const requestVersion =
+      request?.request.requestVersion ?? meta.requestVersion ?? 1;
+    const batchId = meta.provenance?.batchId;
+    const itemId = meta.provenance?.itemId;
+    const logicalId =
+      batchId && itemId
+        ? logicalCandidateId({
+            requestId,
+            requestVersion,
+            batchId,
+            itemId,
+            sha256,
+            parentCandidateId: parent?.candidateId,
+            editKind: editKindForId,
+          })
+        : null;
+    const duplicate =
+      (logicalId ? projection.candidates[logicalId] : undefined) ??
+      Object.values(projection.candidates).find(
+        (candidate) =>
+          candidate.sha256 === sha256 &&
+          candidate.requestId === requestId &&
+          (candidate.parentCandidateId ?? null) ===
+            (parent?.candidateId ?? null),
+      );
     if (duplicate) {
-      return { candidate: duplicate, duplicate: true };
+      const canonical = duplicate.aliasOf
+        ? (projection.candidates[duplicate.aliasOf] ?? duplicate)
+        : duplicate;
+      return { candidate: canonical, duplicate: true };
     }
     const container = decoded.raster.container;
     const storagePath = `bytes/${sha256}.${container}`;
@@ -619,11 +645,10 @@ export class ArtbenchStore {
       meta.assetId ??
       (request ? request.assetId : "asset:inbox");
     const payload: CandidateIngestedPayload = {
-      candidateId: `cand-${this.newId()}`,
+      candidateId: logicalId ?? `cand-${this.newId()}`,
       assetId,
       requestId,
-      requestVersion:
-        request?.request.requestVersion ?? meta.requestVersion ?? 1,
+      requestVersion,
       sha256,
       byteLength: bytes.length,
       container,
@@ -1410,6 +1435,9 @@ export class ArtbenchStore {
               batchId: declaredBatchId ?? batchId,
               itemId,
               jobId: item.jobId,
+              referenceInputs: Array.isArray(item.referenceInputs)
+                ? item.referenceInputs
+                : undefined,
             },
           },
           actor,
@@ -1564,6 +1592,40 @@ export interface IntakeItem {
   readonly createdAt?: string;
   readonly sourceTime?: string;
   readonly jobId?: string;
+  readonly referenceInputs?: CandidateProvenance["referenceInputs"];
+}
+
+/** Project scope of a logical import identity. */
+export const ARTBENCH_PROJECT_ID = "our-civic-duty";
+
+/**
+ * A stable candidate id for a delivered batch item, so independent stores
+ * that ingest the same delivery produce the same candidate. Scoped to the
+ * project, request/version, batch/item, exact bytes and edit lineage; any
+ * difference yields a different id.
+ */
+export function logicalCandidateId(parts: {
+  readonly requestId: string;
+  readonly requestVersion: number;
+  readonly batchId: string;
+  readonly itemId: string;
+  readonly sha256: string;
+  readonly parentCandidateId?: string;
+  readonly editKind: EditKind;
+}): string {
+  const key = [
+    "artbench-intake/v1",
+    ARTBENCH_PROJECT_ID,
+    parts.requestId,
+    String(parts.requestVersion),
+    parts.batchId,
+    parts.itemId,
+    parts.sha256,
+    parts.parentCandidateId ?? "",
+    parts.editKind,
+  ].join("\u0000");
+  const hex = createHash("sha256").update(key).digest("hex");
+  return `cand-${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20, 32)}`;
 }
 
 function renderCatalogMarkdown(catalog: {

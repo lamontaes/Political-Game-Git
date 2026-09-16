@@ -27,9 +27,20 @@ import type { ArtDeskPrivatePackReceipt } from "../authoring/art-desk";
 import {
   briefContractHash,
   compileAssetBrief,
+  requestReferencePixels,
   styleReferencesFor,
 } from "../authoring/asset-brief";
-import type { AssetRequest } from "../authoring/asset-request";
+import {
+  STYLE_REFERENCE_ROLES,
+  type AssetRequest,
+  type AssetStyleReference,
+} from "../authoring/asset-request";
+import {
+  buildRequestDraft,
+  initialDraftFields,
+  type RequestDraftFields,
+  type RequestDraftMode,
+} from "../authoring/artbench-request-draft";
 import { ART_DESK_CONTRACT_ID } from "../authoring/asset-review";
 import "./art-desk.css";
 
@@ -220,7 +231,9 @@ export function ArtDeskView() {
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
   const [showIds, setShowIds] = useState(false);
-  const [showNewRequest, setShowNewRequest] = useState(false);
+  const [showNewRequest, setShowNewRequest] = useState<RequestDraftMode | null>(
+    null,
+  );
 
   const reload = useCallback(async () => {
     const [state, receipt] = await Promise.all([
@@ -590,8 +603,33 @@ export function ArtDeskView() {
               ✕ {facet.key}: {facet.value}
             </button>
           ) : null}
-          <button type="button" onClick={() => setShowNewRequest((v) => !v)}>
+          <button
+            type="button"
+            data-testid="art-desk-new-request-open"
+            aria-pressed={showNewRequest === "new"}
+            onClick={() =>
+              setShowNewRequest((v) => (v === "new" ? null : "new"))
+            }
+          >
             New request
+          </button>
+          <button
+            type="button"
+            data-testid="art-desk-related-request-open"
+            aria-pressed={showNewRequest === "related"}
+            disabled={
+              !selectedRequest || selectedRequest.request.requestId === "inbox"
+            }
+            title={
+              selectedRequest
+                ? `Copies ${selectedRequest.request.requestId}'s target, criteria and scope`
+                : "Select a request first"
+            }
+            onClick={() =>
+              setShowNewRequest((v) => (v === "related" ? null : "related"))
+            }
+          >
+            Create related variant
           </button>
         </div>
         <nav aria-label="Art Desk lanes">
@@ -642,11 +680,14 @@ export function ArtDeskView() {
         ) : null}
         {showNewRequest && projection ? (
           <NewRequestForm
+            key={`${showNewRequest}:${showNewRequest === "related" ? (selectedRequest?.request.requestId ?? "") : ""}`}
+            mode={showNewRequest}
             projection={projection}
-            related={selectedRequest}
-            relatedCandidate={viewed}
+            related={showNewRequest === "related" ? selectedRequest : null}
+            relatedCandidate={showNewRequest === "related" ? viewed : null}
+            onCancel={() => setShowNewRequest(null)}
             onDone={async (created) => {
-              setShowNewRequest(false);
+              setShowNewRequest(null);
               await reload();
               if (created) {
                 setLane("all");
@@ -971,6 +1012,7 @@ function RequestDetail({
           ? ` · related to ${request.parentRequestId}`
           : ""}
       </p>
+      <StyleReferenceSummary request={r} />
       {request.qa ? (
         <p className="art-desk-warning" data-testid="art-desk-qa-flag">
           Disposable QA request from the private sidecar. Its candidates are
@@ -1140,6 +1182,42 @@ function RequestDetail({
               ? ` · batch ${viewed.provenance.batchId}/${viewed.provenance.itemId ?? "?"}`
               : ""}
           </p>
+          <p className="art-desk-meta" data-testid="art-desk-reference-inputs">
+            Reference inputs reported by the producer:{" "}
+            {viewed.provenance.referenceInputs
+              ? viewed.provenance.referenceInputs.length
+                ? viewed.provenance.referenceInputs
+                    .map(
+                      (input) =>
+                        `${input.role ? `${input.role} ` : ""}${input.ref}${input.sha256 ? ` (${input.sha256.slice(0, 12)}…)` : ""}`,
+                    )
+                    .join(", ")
+                : "none"
+              : "unknown (no receipt)"}
+          </p>
+          {viewed.aliasIds.length || viewed.ingestReceipts.length > 1 ? (
+            <p className="art-desk-meta" data-testid="art-desk-duplicates">
+              One delivered item, recorded {viewed.ingestReceipts.length}× by{" "}
+              {[...new Set(viewed.ingestReceipts.map((x) => x.origin))].join(
+                ", ",
+              )}
+              {viewed.aliasIds.length
+                ? ` · legacy duplicate ids kept as history: ${viewed.aliasIds.join(", ")}`
+                : ""}
+              {viewed.groupDecisions.length > viewed.decisions.length
+                ? ` · ${viewed.groupDecisions.length} decisions across the group`
+                : ""}
+            </p>
+          ) : null}
+          {viewed.duplicateDecisionConflict ? (
+            <p
+              className="art-desk-warning"
+              data-testid="art-desk-duplicate-conflict"
+            >
+              Duplicate records of this item ended with different decisions.
+              Both stay as history; decide again to settle it.
+            </p>
+          ) : null}
           {parent ? (
             <p className="art-desk-meta" data-testid="art-desk-lineage">
               {viewed.editKind} of {parent.candidateId} (rev {parent.revision},{" "}
@@ -1469,107 +1547,134 @@ function TagEditor({
   );
 }
 
+function StyleReferenceSummary({
+  request,
+}: {
+  readonly request: AssetRequest;
+}) {
+  const references = requestReferencePixels(request);
+  return (
+    <div className="art-desk-meta" data-testid="art-desk-style-references">
+      <strong>Style reference</strong>{" "}
+      {references.map((reference, index) => {
+        const candidateId = reference.pathOrDriveId.startsWith("candidate:")
+          ? reference.pathOrDriveId.slice("candidate:".length)
+          : null;
+        const driveId = reference.pathOrDriveId.startsWith("drive:")
+          ? reference.pathOrDriveId.slice("drive:".length)
+          : null;
+        return (
+          <span
+            key={`${reference.pathOrDriveId}-${index}`}
+            className="art-desk-reference"
+            data-testid="art-desk-style-reference"
+            data-resolution={reference.resolution ?? "unresolved"}
+            data-role={reference.role}
+          >
+            {reference.role}:{" "}
+            {candidateId && reference.sha256 ? (
+              <img
+                className="art-desk-reference-thumb"
+                alt=""
+                width={48}
+                src={originalUrl(candidateId, reference.sha256)}
+              />
+            ) : null}
+            {driveId ? (
+              <a
+                href={`https://drive.google.com/file/d/${encodeURIComponent(driveId)}/view`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {reference.pathOrDriveId}
+              </a>
+            ) : (
+              reference.pathOrDriveId
+            )}
+            {reference.sha256 ? ` · sha ${reference.sha256.slice(0, 12)}…` : ""}{" "}
+            ·{" "}
+            {reference.resolution === "declared"
+              ? "declared (not proof it was supplied)"
+              : `unresolved — ${reference.missingReason ?? "no image recorded"}`}
+            {index < references.length - 1 ? " | " : ""}
+          </span>
+        );
+      })}
+    </div>
+  );
+}
+
 function NewRequestForm({
+  mode,
   projection,
   related,
   relatedCandidate,
   onDone,
+  onCancel,
   setMessage,
 }: {
+  readonly mode: RequestDraftMode;
   readonly projection: ArtbenchProjection;
   readonly related: ProjectedRequest | null;
   readonly relatedCandidate: ProjectedCandidate | null;
   readonly onDone: (createdRequestId: string | null) => Promise<void>;
+  readonly onCancel: () => void;
   readonly setMessage: (message: string) => void;
 }) {
-  const [requestId, setRequestId] = useState("");
-  const [title, setTitle] = useState("");
-  const [use, setUse] = useState("");
-  const [consumerId, setConsumerId] = useState(
-    related?.request.consumer.consumerId ?? "",
+  const parent =
+    mode === "related" && related
+      ? {
+          request: related.request,
+          candidateId: relatedCandidate?.candidateId,
+          candidateSha256: relatedCandidate?.sha256,
+        }
+      : null;
+  const [fields, setFields] = useState<RequestDraftFields>(() =>
+    initialDraftFields(mode, parent),
   );
-  const [targetClass, setTargetClass] = useState<
-    AssetRequest["target"]["targetClass"]
-  >(related?.request.target.targetClass ?? "environment-plate");
-  const [minimumWidth, setMinimumWidth] = useState(
-    String(related?.request.target.minimumWidth ?? 4608),
+  const set = <K extends keyof RequestDraftFields>(
+    key: K,
+    value: RequestDraftFields[K],
+  ) => setFields((current) => ({ ...current, [key]: value }));
+  const [linkParent, setLinkParent] = useState(
+    mode === "related" && Boolean(relatedCandidate),
   );
-  const [alpha, setAlpha] = useState(
-    related?.request.target.alphaRequired ?? false,
-  );
-  const [linkParent, setLinkParent] = useState(Boolean(relatedCandidate));
   const [qa, setQa] = useState(false);
-  const [recipe, setRecipe] = useState(
-    related?.request.generationRecipe.join("\n") ?? "",
-  );
+  const setReference = (index: number, patch: Partial<AssetStyleReference>) =>
+    set(
+      "styleReferences",
+      fields.styleReferences.map((reference, i) =>
+        i === index ? { ...reference, ...patch } : reference,
+      ),
+    );
   return (
     <form
       className="art-desk-dialog"
       data-testid="art-desk-new-request"
+      data-mode={mode}
       onSubmit={async (event) => {
         event.preventDefault();
-        const request: AssetRequest = {
-          requestId: requestId.trim(),
-          requestVersion: 1,
-          priority: "P2",
-          status: "draft",
-          title: title.trim(),
-          consumer: {
-            consumerId: consumerId.trim() || "unassigned",
-            runtimeComponent:
-              related?.request.consumer.runtimeComponent ?? "none",
-            playerVisibleUse: use.trim(),
-          },
-          whyNeeded: related
-            ? `Related to ${related.request.requestId}.`
-            : "Owner request from the bench.",
-          inventoryCheck: {
-            repositoryPathsSearched: [],
-            driveLocationsSearched: [],
-            found: "Not yet searched.",
-            shortfall: "Declared on the bench.",
-          },
-          target: {
-            targetClass,
-            minimumWidth: Number(minimumWidth) || 1,
-            aspectRatio: related?.request.target.aspectRatio ?? "16:9",
-            alphaRequired: alpha,
-            container: "either",
-            styleAuthority:
-              related?.request.target.styleAuthority ??
-              "the project rendering language lock",
-          },
-          generationRecipe: recipe
-            .split("\n")
-            .map((l) => l.trim())
-            .filter(Boolean),
-          acceptanceCriteria: related?.request.acceptanceCriteria ?? [],
-          dependsOn: [],
-          compatibility: related?.request.compatibility,
-          scope: related?.request.scope
-            ? { ...related.request.scope, variantId: requestId.trim() }
-            : undefined,
-        };
+        const draft = buildRequestDraft(mode, fields, parent, {
+          linkParentCandidate: linkParent,
+        });
         const result = await postEvent("request.created", {
-          request,
-          parentRequestId: related?.request.requestId,
-          parentCandidateId:
-            linkParent && relatedCandidate
-              ? relatedCandidate.candidateId
-              : undefined,
+          request: draft.request,
+          parentRequestId: draft.parentRequestId,
+          parentCandidateId: draft.parentCandidateId,
           qa,
         });
         setMessage(
           result.ok
-            ? `Request ${request.requestId} created (event ${result.body.events[0]?.eventId}).`
+            ? `Request ${draft.request.requestId} created (event ${result.body.events[0]?.eventId}).`
             : `Request not created: ${result.message}`,
         );
-        await onDone(result.ok ? request.requestId : null);
+        await onDone(result.ok ? draft.request.requestId : null);
       }}
     >
-      <strong>
-        New {related ? "related " : ""}request{" "}
-        {related ? `(from ${related.request.requestId})` : ""}
+      <strong data-testid="art-desk-new-request-heading">
+        {parent
+          ? `Related variant of ${parent.request.requestId} — copies its target, acceptance criteria, scope and style authority`
+          : "New independent request — nothing is copied from the selected row"}
       </strong>
       <span className="art-desk-meta">
         A request declares need; it does not generate or spend.{" "}
@@ -1579,8 +1684,8 @@ function NewRequestForm({
         requestId{" "}
         <input
           data-testid="art-desk-new-id"
-          value={requestId}
-          onChange={(e) => setRequestId(e.target.value)}
+          value={fields.requestId}
+          onChange={(e) => set("requestId", e.target.value)}
           pattern="[A-Za-z0-9][A-Za-z0-9._:-]*"
           required
         />
@@ -1589,28 +1694,35 @@ function NewRequestForm({
         Title{" "}
         <input
           data-testid="art-desk-new-title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={fields.title}
+          onChange={(e) => set("title", e.target.value)}
           required
         />
       </label>
       <label>
         Player-visible use{" "}
-        <input value={use} onChange={(e) => setUse(e.target.value)} required />
+        <input
+          data-testid="art-desk-new-use"
+          value={fields.use}
+          onChange={(e) => set("use", e.target.value)}
+          required
+        />
       </label>
       <label>
         Consumer{" "}
         <input
-          value={consumerId}
-          onChange={(e) => setConsumerId(e.target.value)}
+          data-testid="art-desk-new-consumer"
+          value={fields.consumerId}
+          onChange={(e) => set("consumerId", e.target.value)}
         />
       </label>
       <label>
         Target class{" "}
         <select
-          value={targetClass}
+          value={fields.targetClass}
           onChange={(e) =>
-            setTargetClass(
+            set(
+              "targetClass",
               e.target.value as AssetRequest["target"]["targetClass"],
             )
           }
@@ -1626,15 +1738,15 @@ function NewRequestForm({
         Minimum width{" "}
         <input
           type="number"
-          value={minimumWidth}
-          onChange={(e) => setMinimumWidth(e.target.value)}
+          value={fields.minimumWidth}
+          onChange={(e) => set("minimumWidth", Number(e.target.value))}
         />
       </label>
       <label>
         <input
           type="checkbox"
-          checked={alpha}
-          onChange={(e) => setAlpha(e.target.checked)}
+          checked={fields.alphaRequired}
+          onChange={(e) => set("alphaRequired", e.target.checked)}
         />{" "}
         alpha required
       </label>
@@ -1647,7 +1759,7 @@ function NewRequestForm({
         />{" "}
         QA / disposable (never coverage or integration cargo)
       </label>
-      {relatedCandidate ? (
+      {parent && relatedCandidate ? (
         <label>
           <input
             type="checkbox"
@@ -1658,16 +1770,82 @@ function NewRequestForm({
           the same asset)
         </label>
       ) : null}
+      <fieldset data-testid="art-desk-new-references">
+        <legend>
+          Style reference images (optional; unresolved is allowed)
+        </legend>
+        {fields.styleReferences.map((reference, index) => (
+          <div key={index} className="art-desk-reference-row">
+            <select
+              aria-label="Reference role"
+              value={reference.role}
+              onChange={(e) =>
+                setReference(index, {
+                  role: e.target.value as AssetStyleReference["role"],
+                })
+              }
+            >
+              {STYLE_REFERENCE_ROLES.map((role) => (
+                <option key={role} value={role}>
+                  {role}
+                </option>
+              ))}
+            </select>
+            <input
+              aria-label="Reference image"
+              placeholder="drive:<fileId> · repo:<path> · candidate:<id>"
+              value={reference.ref}
+              onChange={(e) => setReference(index, { ref: e.target.value })}
+            />
+            <input
+              aria-label="Reference SHA-256"
+              placeholder="sha256 (if known)"
+              value={reference.sha256 ?? ""}
+              pattern="[0-9a-f]{64}"
+              onChange={(e) =>
+                setReference(index, { sha256: e.target.value || undefined })
+              }
+            />
+            <button
+              type="button"
+              onClick={() =>
+                set(
+                  "styleReferences",
+                  fields.styleReferences.filter((_, i) => i !== index),
+                )
+              }
+            >
+              Remove
+            </button>
+          </div>
+        ))}
+        <button
+          type="button"
+          data-testid="art-desk-add-reference"
+          onClick={() =>
+            set("styleReferences", [
+              ...fields.styleReferences,
+              { role: "drawing-style", ref: "" },
+            ])
+          }
+        >
+          Add reference image
+        </button>
+      </fieldset>
       <label>
         Recipe (one line each){" "}
         <textarea
-          value={recipe}
-          onChange={(e) => setRecipe(e.target.value)}
+          data-testid="art-desk-new-recipe"
+          value={fields.recipe.join("\n")}
+          onChange={(e) => set("recipe", e.target.value.split("\n"))}
           rows={3}
         />
       </label>
       <button type="submit" data-testid="art-desk-new-submit">
         Create request
+      </button>
+      <button type="button" onClick={onCancel}>
+        Cancel
       </button>
     </form>
   );
