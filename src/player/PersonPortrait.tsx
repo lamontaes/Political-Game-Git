@@ -14,7 +14,7 @@ import { gameBuildProfile } from "../presentation/build-profile";
 import { preparedFamily } from "../presentation/engine-people29-data";
 import { ModularCharacter } from "./ModularCharacter";
 import { personName } from "../simulation";
-import type { EntityId, World } from "../simulation";
+import type { EntityId, PersonAppearance, World } from "../simulation";
 
 export interface PersonPortraitProps {
   readonly snapshot?: PersonRenderSnapshot;
@@ -25,6 +25,8 @@ export interface PersonPortraitProps {
   readonly size?: "small" | "large";
   /** Shown under the name when the world knows one. */
   readonly note?: string | null;
+  /** Render-only creator choice. Never writes or replaces the saved person. */
+  readonly previewAppearance?: PersonAppearance;
 }
 
 export function PersonPortrait({
@@ -35,6 +37,7 @@ export function PersonPortrait({
   visualLibraries,
   wardrobe,
   snapshot,
+  previewAppearance,
 }: PersonPortraitProps) {
   const savedWardrobe = useSavedWardrobe(personId);
   const sharedSnapshot = useSavedRenderSnapshot(personId);
@@ -54,7 +57,11 @@ export function PersonPortrait({
       },
     ),
   );
-  const person = world.people[personId];
+  const savedPerson = world.people[personId];
+  const person =
+    savedPerson && previewAppearance
+      ? { ...savedPerson, appearance: previewAppearance }
+      : savedPerson;
   // The banked bodies are adult bodies and the compositor cannot tell. A child
   // keeps their initials in the preview rather than borrowing an adult figure.
   const previewRefusal =
@@ -98,9 +105,10 @@ export function PersonPortrait({
     : resolvePersonPortrait(person, {
         libraries,
         wardrobe: resolvedWardrobe,
-        snapshot:
-          snapshot ??
-          (!usingReviewLibraries && !wardrobe ? sharedSnapshot : undefined),
+        snapshot: previewAppearance
+          ? undefined
+          : (snapshot ??
+            (!usingReviewLibraries && !wardrobe ? sharedSnapshot : undefined)),
       });
 
   const family =

@@ -1,4 +1,5 @@
 import { WardrobeFigure } from "./WardrobeFigure";
+import { PersonPortrait } from "./PersonPortrait";
 import {
   createPersonRenderSnapshot,
   type PersonRenderSnapshot,
@@ -163,6 +164,18 @@ export function SavedAppearanceControls(
                       appearance,
                     }}
                     libraries={preview}
+                  />
+                )
+              : undefined
+          }
+          renderHairThumbnail={
+            preview
+              ? (appearance) => (
+                  <PersonPortrait
+                    world={props.world}
+                    personId={props.world.people[props.personId]!.id}
+                    visualLibraries={preview}
+                    previewAppearance={appearance}
                   />
                 )
               : undefined

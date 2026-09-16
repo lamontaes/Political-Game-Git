@@ -30,6 +30,7 @@ export interface PersonAppearanceControlsProps extends PersonVisualSelectionCont
   readonly preference?: PersonWardrobePreference;
   readonly familyLabels?: Readonly<Record<string, string>>;
   readonly renderPreview?: (appearance: PersonAppearance) => ReactNode;
+  readonly renderHairThumbnail?: (appearance: PersonAppearance) => ReactNode;
   readonly onWorldChange: (world: World) => void;
   /** Legacy callers retain this prop; new outfits commit atomically on World. */
   readonly onPreferenceChange: (preference: PersonWardrobePreference) => void;
@@ -134,6 +135,7 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
   const { world, personId, library, poseFamily } = props;
   const person = world.people[personId];
   const [message, setMessage] = useState("");
+  const [hairQuery, setHairQuery] = useState("");
   const randomSequence = useRef(0);
   const pick = <T,>(values: readonly T[]): T =>
     new SeededRng(person!.appearance!.seed)
@@ -391,6 +393,102 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
             headFamily: "Face",
             hairFamily: "Hairstyle",
           }[kind];
+          if (
+            kind === "hairFamily" &&
+            state.current?.bodyFamily.startsWith("ep41-")
+          ) {
+            const selected =
+              pending?.source === appearance
+                ? pending.appearance.selection?.hairFamily
+                : state.current.hairFamily;
+            const shown = choices.filter(({ value }) =>
+              value === null
+                ? "no hair".includes(hairQuery.trim().toLowerCase())
+                : label(value)
+                    .toLowerCase()
+                    .includes(hairQuery.trim().toLowerCase()),
+            );
+            return (
+              <fieldset
+                key={kind}
+                className="appearance-hair-choices"
+                data-testid="person-appearance-hair-grid"
+              >
+                <legend>Hairstyle</legend>
+                {choices.length > 10 ? (
+                  <label>
+                    Find a hairstyle
+                    <input
+                      type="search"
+                      value={hairQuery}
+                      onChange={(event) => setHairQuery(event.target.value)}
+                    />
+                  </label>
+                ) : null}
+                <div className="appearance-hair-grid">
+                  {shown.map(({ value, reason }) => {
+                    const hairFamily = value ?? null;
+                    const previewAppearance = {
+                      ...appearance,
+                      selection: { ...state.current!, hairFamily },
+                    };
+                    return (
+                      <label
+                        key={value ?? "none"}
+                        className="appearance-hair-choice"
+                        title={reason}
+                      >
+                        <input
+                          type="radio"
+                          name={`person-hairstyle-${personId}`}
+                          value={value ?? ""}
+                          checked={selected === hairFamily}
+                          disabled={Boolean(reason)}
+                          onChange={() => choose({ hairFamily })}
+                        />
+                        <span
+                          className="appearance-hair-preview"
+                          aria-hidden="true"
+                        >
+                          {hairFamily === null ? (
+                            <span className="appearance-no-hair">○</span>
+                          ) : (
+                            props.renderHairThumbnail?.(previewAppearance)
+                          )}
+                        </span>
+                        <span className="appearance-hair-label">
+                          {hairFamily === null ? "No hair" : label(hairFamily)}
+                        </span>
+                        {selected === hairFamily ? (
+                          <span className="appearance-hair-selected">
+                            Selected
+                          </span>
+                        ) : null}
+                        {reason ? <small>Unavailable: {reason}</small> : null}
+                      </label>
+                    );
+                  })}
+                </div>
+                {shown.length === 0 ? <p>No matching hairstyle.</p> : null}
+                <button
+                  type="button"
+                  aria-label="Randomize hairstyle"
+                  disabled={
+                    choices.filter((choice) => !choice.reason).length < 2
+                  }
+                  onClick={() => {
+                    const available = choices.filter(
+                      (choice) => !choice.reason && choice.value !== selected,
+                    );
+                    if (available.length)
+                      choose({ hairFamily: pick(available).value ?? null });
+                  }}
+                >
+                  Randomize hairstyle
+                </button>
+              </fieldset>
+            );
+          }
           return (
             <label key={kind}>
               {title}

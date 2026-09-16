@@ -25,6 +25,76 @@
 .person-appearance-controls [role="alert"] {
   overflow-wrap: anywhere;
 }
+.person-appearance-controls .appearance-hair-choices {
+  grid-column: 1 / -1;
+  display: block;
+}
+.appearance-hair-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
+  gap: 0.6rem;
+  max-height: 23rem;
+  overflow: auto;
+  padding: 0.25rem;
+}
+.appearance-hair-choice {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 8rem;
+  padding: 0.45rem;
+  border: 1px solid #8f9ba8;
+  border-radius: 0.55rem;
+  text-align: center;
+  cursor: pointer;
+}
+.appearance-hair-choice:has(input:checked) {
+  border: 3px solid #edc970;
+  padding: calc(0.45rem - 2px);
+}
+.appearance-hair-choice:focus-within {
+  outline: 3px solid #edc970;
+  outline-offset: 2px;
+}
+.appearance-hair-choice:has(input:disabled) {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.appearance-hair-choice input[type="radio"] {
+  align-self: flex-start;
+  margin: 0;
+}
+.appearance-hair-preview {
+  display: grid;
+  place-items: center;
+  width: 5rem;
+  height: 5rem;
+}
+.appearance-hair-preview .person-portrait figcaption {
+  display: none;
+}
+.appearance-hair-preview .person-portrait-mark {
+  width: 4.5rem;
+  height: 4.5rem;
+}
+.appearance-no-hair {
+  display: grid;
+  place-items: center;
+  width: 4.5rem;
+  height: 4.5rem;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-size: 2.5rem;
+}
+.appearance-hair-label,
+.appearance-hair-selected {
+  line-height: 1.2;
+}
+.appearance-hair-selected {
+  font-size: 0.75rem;
+  font-weight: 700;
+}
 
 .wardrobe-figure {
   display: grid;
