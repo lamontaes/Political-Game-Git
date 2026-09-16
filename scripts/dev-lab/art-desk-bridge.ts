@@ -27,11 +27,11 @@ import {
   ART_DESK_QA_REQUEST_SIDECAR,
   PRIVATE_PACK_ENV,
   collectArtDeskInputs,
-  detectRaster,
   refuseUnverifiedReviews,
   type ArtDeskInputsReceipt,
   type RasterFacts,
 } from "./art-desk-inputs";
+import { decodeRaster } from "./raster-decode";
 
 export { ART_DESK_CANDIDATE_PREFIX } from "./art-desk-inputs";
 
@@ -252,14 +252,20 @@ function checkCandidateWrite(
   relative: string,
   body: Buffer,
 ): Extract<BridgeResult, { ok: false }> | RasterFacts {
-  const raster = detectRaster(body);
-  if (!raster) {
+  const decoded = decodeRaster(body);
+  if (!decoded.ok) {
     return fail(
       422,
       "invalid-raster",
-      "Upload is not a decodable PNG or JPEG; magic bytes decide, never the filename.",
+      `Upload did not fully decode (${decoded.code}): ${decoded.message}`,
     );
   }
+  const raster: RasterFacts = {
+    container: decoded.raster.container,
+    width: decoded.raster.width,
+    height: decoded.raster.height,
+    hasAlpha: decoded.raster.hasAlpha,
+  };
   const expected = basename(relative).replace(/\.(png|jpe?g)$/i, "");
   const actual = hashBytes(body);
   if (expected !== actual) {

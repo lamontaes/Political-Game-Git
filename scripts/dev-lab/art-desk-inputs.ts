@@ -11,6 +11,7 @@
 import { createHash } from "node:crypto";
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { join, resolve, sep } from "node:path";
+import { decodeRaster } from "./raster-decode";
 
 export const ART_DESK_CANDIDATE_PREFIX = "art/generated/candidates/art-desk/";
 export const ART_DESK_CANDIDATE_SIDECAR = `${ART_DESK_CANDIDATE_PREFIX}candidates.json`;
@@ -28,6 +29,8 @@ export interface RasterFacts {
   readonly container: RasterContainer;
   readonly width: number;
   readonly height: number;
+  /** Present only after a real decode; header sniffing cannot know it. */
+  readonly hasAlpha?: boolean;
 }
 
 export function hashBytes(bytes: Buffer | string): string {
@@ -183,33 +186,41 @@ export function verifyCandidate(
   }
   const bytes = readFileSync(absolute);
   const actualSha256 = hashBytes(bytes);
-  const raster = detectRaster(bytes);
   if (actualSha256 !== record.sha256) {
+    const sniffed = detectRaster(bytes);
     return {
       ...base,
       bytes: "hash-mismatch",
       actualSha256,
       byteLength: bytes.length,
-      raster: raster ?? undefined,
+      raster: sniffed ?? undefined,
       note: "Bytes on disk do not hash to the recorded candidate. They are a different candidate; prior decisions do not apply.",
     };
   }
-  if (!raster) {
+  // Identity proven; now validity. A real bounded decode, not a header read.
+  const decoded = decodeRaster(bytes);
+  if (!decoded.ok) {
     return {
       ...base,
       bytes: "not-a-raster",
       actualSha256,
       byteLength: bytes.length,
-      note: "Bytes match the recorded hash but do not decode as PNG or JPEG.",
+      note: `Bytes match the recorded hash but are not a decodable raster (${decoded.code}): ${decoded.message}`,
     };
   }
+  const raster: RasterFacts = {
+    container: decoded.raster.container,
+    width: decoded.raster.width,
+    height: decoded.raster.height,
+    hasAlpha: decoded.raster.hasAlpha,
+  };
   return {
     ...base,
     bytes: "verified",
     actualSha256,
     byteLength: bytes.length,
     raster,
-    note: `Bytes present and hash-verified: ${raster.width}×${raster.height} ${raster.container}.`,
+    note: `Bytes present, hash-verified and fully decoded: ${raster.width}×${raster.height} ${raster.container}${raster.hasAlpha ? " with alpha" : ""}.`,
   };
 }
 
@@ -329,7 +340,16 @@ export function inspectPrivatePack(
   }
   const manifestBytes = readFileSync(manifestPath);
   const manifestSha256 = hashBytes(manifestBytes);
-  if (pack.manifestSha256 && manifestSha256 !== pack.manifestSha256) {
+  if (!pack.manifestSha256 || !SHA256.test(pack.manifestSha256)) {
+    return {
+      status: "invalid",
+      packId: pack.packId,
+      manifestSha256,
+      note: "pack.json declares no manifest SHA-256; without an expected identity nothing can be called verified.",
+      checkedAt: now,
+    };
+  }
+  if (manifestSha256 !== pack.manifestSha256) {
     return {
       status: "invalid",
       packId: pack.packId,
@@ -339,7 +359,7 @@ export function inspectPrivatePack(
       checkedAt: now,
     };
   }
-  const entries = manifestBytes
+  const rows = manifestBytes
     .toString("utf8")
     .split("\n")
     .map((line) => line.trim())
@@ -347,8 +367,24 @@ export function inspectPrivatePack(
     .map((line) => {
       const [hash, ...rest] = line.split(/\s+/);
       return { hash, relative: rest.join(" ").replace(/^\*/, "") };
-    })
-    .filter((entry) => SHA256.test(entry.hash) && entry.relative);
+    });
+  const entries = rows.filter(
+    (entry) => SHA256.test(entry.hash) && entry.relative,
+  );
+  if (rows.length === 0 || entries.length !== rows.length) {
+    return {
+      status: "invalid",
+      packId: pack.packId,
+      manifestSha256,
+      declaredManifestSha256: pack.manifestSha256,
+      filesTotal: entries.length,
+      note:
+        rows.length === 0
+          ? "Pack manifest is empty; an empty manifest verifies nothing."
+          : `Pack manifest has ${rows.length - entries.length} malformed row(s); refusing to verify against a partial manifest.`,
+      checkedAt: now,
+    };
+  }
   let filesPresent = 0;
   for (const entry of entries) {
     const absolute = resolve(workspace, entry.relative);
@@ -386,8 +422,8 @@ export function inspectPrivatePack(
     sampleVerified,
     sampleSize: sample.length,
     note: complete
-      ? `Authorized private pack ${pack.packId ?? "(unnamed)"} is staged in this workspace: manifest hash matches, ${filesPresent}/${entries.length} files present, ${sampleVerified}/${sample.length} sampled hashes verified.`
-      : `Authorized private pack ${pack.packId ?? "(unnamed)"} is only partly staged: ${filesPresent}/${entries.length} files present, ${sampleVerified}/${sample.length} sampled hashes verified.`,
+      ? `Authorized private pack ${pack.packId ?? "(unnamed)"} is staged in this workspace: manifest hash matches, ${filesPresent}/${entries.length} files present, ${sampleVerified}/${sample.length} sampled hashes verified (sampled, not a full rehash).`
+      : `Authorized private pack ${pack.packId ?? "(unnamed)"} is only partly staged: ${filesPresent}/${entries.length} files present, ${sampleVerified}/${sample.length} sampled hashes verified (sampled, not a full rehash).`,
     checkedAt: now,
   };
 }
@@ -419,6 +455,21 @@ interface ReviewLike {
   readonly requestId: string;
   readonly outputSha256: string;
   readonly decision: string;
+  readonly [field: string]: unknown;
+}
+
+function canonical(value: unknown): string {
+  if (Array.isArray(value)) return `[${value.map(canonical).join(",")}]`;
+  if (value && typeof value === "object") {
+    return `{${Object.keys(value as Record<string, unknown>)
+      .sort()
+      .map(
+        (key) =>
+          `${JSON.stringify(key)}:${canonical((value as Record<string, unknown>)[key])}`,
+      )
+      .join(",")}}`;
+  }
+  return JSON.stringify(value);
 }
 
 export type ReviewWriteRefusal = {
@@ -427,19 +478,54 @@ export type ReviewWriteRefusal = {
 };
 
 /**
- * The write boundary for decisions: every review that is new relative to the
- * file on disk must bind bytes that are present and hash-verified for that
- * request right now. History already in the file is left alone.
+ * The write boundary for decisions. History already on disk is immutable:
+ * a record may neither change under its id nor disappear, and an id may not
+ * appear twice. Every genuinely new review must bind bytes that are present,
+ * decoded and hash-verified for that request right now. A superseding
+ * decision is a new record with a new id, never an edit.
  */
 export function refuseUnverifiedReviews(
   current: { readonly reviews?: readonly ReviewLike[] } | null,
   next: { readonly reviews?: readonly ReviewLike[] },
   receipts: readonly CandidateReceipt[],
 ): ReviewWriteRefusal[] {
-  const known = new Set((current?.reviews ?? []).map((item) => item.reviewId));
+  const existing = new Map<string, string>();
+  for (const review of current?.reviews ?? []) {
+    existing.set(review.reviewId, canonical(review));
+  }
   const refusals: ReviewWriteRefusal[] = [];
+  const seen = new Set<string>();
+  const nextIds = new Set((next.reviews ?? []).map((item) => item.reviewId));
+  for (const [reviewId] of existing) {
+    if (!nextIds.has(reviewId)) {
+      refusals.push({
+        reviewId,
+        reason:
+          "Historical review would be deleted; decisions are append-only.",
+      });
+    }
+  }
   for (const review of next.reviews ?? []) {
-    if (known.has(review.reviewId)) continue;
+    if (seen.has(review.reviewId)) {
+      refusals.push({
+        reviewId: review.reviewId,
+        reason:
+          "Duplicate review id in the submitted document; identity is ambiguous.",
+      });
+      continue;
+    }
+    seen.add(review.reviewId);
+    const prior = existing.get(review.reviewId);
+    if (prior !== undefined) {
+      if (prior !== canonical(review)) {
+        refusals.push({
+          reviewId: review.reviewId,
+          reason:
+            "Historical review changed under its id; record a superseding decision with a new id instead.",
+        });
+      }
+      continue;
+    }
     const receipt = receipts.find(
       (item) =>
         item.requestId === review.requestId &&

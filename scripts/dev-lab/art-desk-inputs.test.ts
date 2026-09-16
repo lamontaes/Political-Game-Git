@@ -107,7 +107,12 @@ describe("candidate byte verification", () => {
       source: "upload-sidecar",
     });
     expect(receipt.bytes).toBe("verified");
-    expect(receipt.raster).toEqual({ container: "png", width: 2, height: 3 });
+    expect(receipt.raster).toEqual({
+      container: "png",
+      width: 2,
+      height: 3,
+      hasAlpha: false,
+    });
     expect(receipt.actualSha256).toBe(sha);
   });
 
@@ -273,6 +278,32 @@ describe("private pack receipt", () => {
     );
   });
 
+  it("refuses empty or malformed manifests and an absent declared identity", () => {
+    writeFileSync(join(packDir, "sha256.txt"), "");
+    writeFileSync(
+      join(packDir, "pack.json"),
+      JSON.stringify({ packId: "p", manifestSha256: hashBytes("") }),
+    );
+    const empty = inspectPrivatePack(workspace, packDir, "t");
+    expect(empty.status).toBe("invalid");
+    expect(empty.note).toContain("empty");
+    const malformed = "not-a-hash  art/x.svg\n";
+    writeFileSync(join(packDir, "sha256.txt"), malformed);
+    writeFileSync(
+      join(packDir, "pack.json"),
+      JSON.stringify({ packId: "p", manifestSha256: hashBytes(malformed) }),
+    );
+    const bad = inspectPrivatePack(workspace, packDir, "t");
+    expect(bad.status).toBe("invalid");
+    expect(bad.note).toContain("malformed");
+    const good = `${hashBytes("<svg a/>")}  art/authoring/x/a.svg\n`;
+    writeFileSync(join(packDir, "sha256.txt"), good);
+    writeFileSync(join(packDir, "pack.json"), JSON.stringify({ packId: "p" }));
+    const undeclared = inspectPrivatePack(workspace, packDir, "t");
+    expect(undeclared.status).toBe("invalid");
+    expect(undeclared.note).toContain("declares no manifest SHA-256");
+  });
+
   it("marks a manifest that does not hash to its declaration invalid", () => {
     writeFileSync(
       join(packDir, "pack.json"),
@@ -296,6 +327,67 @@ describe("review write boundary", () => {
     requestId: "qa",
     outputSha256: sha,
     decision: "approve",
+  });
+
+  it("refuses changed, deleted or duplicated historical records (director R2)", () => {
+    const history = {
+      reviewId: "old",
+      requestId: "qa",
+      requestVersion: 1,
+      outputSha256: "9".repeat(64),
+      decision: "reject",
+    };
+    const current = { reviews: [history] };
+    // Same id, changed request / hash / decision / version.
+    for (const mutation of [
+      { requestId: "other" },
+      { outputSha256: "1".repeat(64) },
+      { decision: "approve" },
+      { requestVersion: 2 },
+    ]) {
+      const refusals = refuseUnverifiedReviews(
+        current,
+        { reviews: [{ ...history, ...mutation }] },
+        [verified],
+      );
+      expect(refusals.map((r) => r.reviewId)).toEqual(["old"]);
+      expect(refusals[0]?.reason).toContain("changed under its id");
+    }
+    // Dropped history.
+    expect(
+      refuseUnverifiedReviews(current, { reviews: [] }, [verified])[0]?.reason,
+    ).toContain("deleted");
+    // Duplicate ids in the submission.
+    const dup = refuseUnverifiedReviews(
+      current,
+      {
+        reviews: [
+          history,
+          { ...history, reviewId: "new", outputSha256: "1".repeat(64) },
+          { ...history, reviewId: "new", outputSha256: "1".repeat(64) },
+        ],
+      },
+      [verified],
+    );
+    expect(dup.some((r) => r.reason.includes("Duplicate"))).toBe(true);
+    // Unchanged history with a verified new record passes.
+    expect(
+      refuseUnverifiedReviews(
+        current,
+        {
+          reviews: [
+            history,
+            {
+              ...history,
+              reviewId: "new",
+              outputSha256: "1".repeat(64),
+              decision: "approve",
+            },
+          ],
+        },
+        [verified],
+      ),
+    ).toEqual([]);
   });
 
   it("lets history stand and refuses new decisions on unverified bytes", () => {
