@@ -143,6 +143,15 @@ function readSettings() {
       validBranchName(value.artDeskBranch)
         ? value.artDeskBranch
         : "main",
+    // Optional exact bench source on that branch; unset follows its head.
+    artDeskPin: validRevision(value.artDeskPin) ? value.artDeskPin : null,
+    // Drive-for-desktop exchange folder for the bench; unset leaves the
+    // bench's own default discovery in charge.
+    artbenchDriveRoot:
+      typeof value.artbenchDriveRoot === "string" &&
+      path.isAbsolute(value.artbenchDriveRoot)
+        ? value.artbenchDriveRoot
+        : null,
   };
 }
 
@@ -898,6 +907,21 @@ async function listBranches() {
 
 /* -------------------------------------------------------------- art desk */
 
+/**
+ * An isolated (test) data root must never reach the owner's real Drive
+ * exchange through the bench's default discovery: unless a root is set
+ * explicitly, it gets a local fixture exchange inside the data root.
+ */
+function artbenchDriveRoot() {
+  if (settings.artbenchDriveRoot) return settings.artbenchDriveRoot;
+  if (process.env.OCD_CONTROLLER_DATA_ROOT) {
+    const fixture = path.join(dataRoot, "fixture-drive-exchange");
+    mkdirSync(fixture, { recursive: true });
+    return fixture;
+  }
+  return null;
+}
+
 async function startArtDesk() {
   const state = readState();
   if (!state?.privatePackPath)
@@ -915,7 +939,7 @@ async function startArtDesk() {
       ],
       repositoryPath,
     );
-    const revision = await git(
+    const head = await git(
       [
         "rev-parse",
         "--verify",
@@ -924,11 +948,25 @@ async function startArtDesk() {
       ],
       repositoryPath,
     );
+    let revision = head;
+    if (settings.artDeskPin) {
+      // A pin must be part of the selected owner-repository branch.
+      await git(
+        ["merge-base", "--is-ancestor", settings.artDeskPin, head],
+        repositoryPath,
+      ).catch(() => {
+        throw new Error(
+          `Pinned Art Desk source ${settings.artDeskPin.slice(0, 12)} is not on ${branch}.`,
+        );
+      });
+      revision = settings.artDeskPin;
+    }
     const status = await hub.artdesk.start({
       repositoryPath,
       branch,
       revision,
       packPath: state.privatePackPath,
+      driveRoot: artbenchDriveRoot(),
     });
     if (status.state === "ready") {
       const old = hub.views.get("artdesk");

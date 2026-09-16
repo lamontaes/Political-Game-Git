@@ -25,8 +25,8 @@ export const ART_DESK_TOKEN_HEADER = "X-OCD-Art-Desk-Token";
 export const ART_DESK_PROJECT = "ocd";
 
 import { spawn } from "node:child_process";
-import { randomBytes } from "node:crypto";
-import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { createHash, randomBytes } from "node:crypto";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { createServer } from "node:net";
 import path from "node:path";
 
@@ -125,7 +125,13 @@ export class ArtDeskHost {
    * resolved. An existing authoring worktree at another revision is kept as
    * is and reported, never moved underneath local reviews.
    */
-  async start({ repositoryPath, branch, revision, packPath }) {
+  async start({
+    repositoryPath,
+    branch,
+    revision,
+    packPath,
+    driveRoot = null,
+  }) {
     if (this.child) return this.status;
     if (!validBranchName(branch) || !validRevision(revision))
       throw new Error(
@@ -178,10 +184,22 @@ export class ArtDeskHost {
           label: "private pack installer",
         },
       );
-      if (!existsSync(path.join(worktree, "node_modules", "vite"))) {
+      // Reinstall when the source's lockfile differs from the installed one.
+      const lockFile = path.join(worktree, "package-lock.json");
+      const lockHash = existsSync(lockFile)
+        ? createHash("sha256").update(readFileSync(lockFile)).digest("hex")
+        : "none";
+      const lockMarker = path.join(path.dirname(worktree), ".ocd-hub-lock-sha");
+      const installedLock = existsSync(lockMarker)
+        ? readFileSync(lockMarker, "utf8").trim()
+        : null;
+      if (
+        !existsSync(path.join(worktree, "node_modules", "vite")) ||
+        installedLock !== lockHash
+      ) {
         this.#set(
           "preparing",
-          "Installing the Art Desk's pinned dependencies (first run)…",
+          "Installing the Art Desk's pinned dependencies…",
         );
         await runQuiet(
           "/usr/bin/env",
@@ -192,6 +210,7 @@ export class ArtDeskHost {
             label: "npm ci",
           },
         );
+        writeFileSync(lockMarker, `${lockHash}\n`);
       }
       mkdirSync(this.recordRoot, { recursive: true, mode: 0o700 });
       this.token = randomBytes(32).toString("base64url");
@@ -214,6 +233,7 @@ export class ArtDeskHost {
             PG_PRIVATE_ART_PACK: packPath,
             PG_ART_DESK_RECORD_ROOT: this.recordRoot,
             PG_ART_DESK_TOKEN: this.token,
+            ...(driveRoot ? { PG_ARTBENCH_DRIVE_ROOT: driveRoot } : {}),
             BROWSER: "none",
           },
           stdio: ["ignore", "pipe", "pipe"],
