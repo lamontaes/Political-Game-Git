@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2785 |
-| INTENTIONALLY_NON_PLAYER_FACING | 6421 |
-| DIAGNOSTIC_OR_TEST | 6276 |
-| **NEEDS_CLASSIFICATION** | **7771** |
+| INTENTIONALLY_NON_PLAYER_FACING | 6411 |
+| DIAGNOSTIC_OR_TEST | 6277 |
+| **NEEDS_CLASSIFICATION** | **7766** |
 
-Scanned 874 files holding 90588 string
+Scanned 871 files holding 90449 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -120,10 +120,10 @@ literals in total; the table counts only those that read like a sentence.
 | 24 | `src/presentation/text39-ui-copy.ts` |
 | 24 | `src/simulation/life-circumstances.ts` |
 | 24 | `src/ui/ContentBrowserView.tsx` |
-| 23 | `src/presentation/title-tableau.ts` |
 | 23 | `src/simulation/congressional-procedural-claims.ts` |
 | 22 | `src/presentation/press-request.ts` |
 | 21 | `src/player/TaxWorkWorkspace.tsx` |
+| 21 | `src/presentation/title-tableau.ts` |
 | 21 | `src/simulation/legislation-content-contracts.ts` |
 | 21 | `src/simulation/life-favors.ts` |
 | 20 | `src/player/LifePathsPanel.tsx` |
@@ -370,7 +370,6 @@ literals in total; the table counts only those that read like a sentence.
 | 2 | `src/presentation/scene-proof.ts` |
 | 2 | `src/presentation/surface-review.ts` |
 | 2 | `src/presentation/title-ambient.ts` |
-| 2 | `src/presentation/title-saved-hero.ts` |
 | 2 | `src/simulation/civil-personnel-integrity.ts` |
 | 2 | `src/simulation/evidence-integrity.ts` |
 | 2 | `src/simulation/executive-work-context.ts` |
@@ -391,7 +390,6 @@ literals in total; the table counts only those that read like a sentence.
 | 1 | `src/player/PlayerVersion.tsx` |
 | 1 | `src/player/PrivateJournalEditor.tsx` |
 | 1 | `src/player/RecordedSittingAdmission.tsx` |
-| 1 | `src/player/SavedTitleTableau.tsx` |
 | 1 | `src/player/SceneSurfaceLayer.tsx` |
 | 1 | `src/player/World39Journal.tsx` |
 | 1 | `src/player/overlay-focus.ts` |
