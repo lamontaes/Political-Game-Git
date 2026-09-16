@@ -53,10 +53,45 @@ window with enclosed tabs:
   tabs, source selector, embedded Play over `app://game`, keyboard/pointer tab
   switching without unloading the game.
 
-## Not done yet
+- `scripts/hub-continuity-test.mjs` (packaged hub, isolated root, real
+  builds `6e227fb2` → `fed321f7` + pack `0a044d18`): a kept life continues
+  A→B after the waiting build is activated; Play requests stay on
+  `app://game`; a branch preview profile is isolated; B's creator draws
+  decoded `ep41-*` current private people (600×1200).
+- `scripts/hub-artdesk-test.mjs` (packaged hub, Art Desk branch `73baa7da`):
+  QA request → import → verified hash → decoded preview → fixture-author
+  review → restart → same hash, sidecar association, preview and review. The
+  bench's decision buttons record the owner as author, so no agent clicks them.
+- `scripts/hub-agents-test.mjs` (packaged hub): UI connection check of all
+  four clients plus the master-chat boundary; UI-started Codex worker
+  (gpt-5.6-sol, low) answered this Claude session's request in-thread;
+  owner→Claude message from the UI acknowledged with evidence; Stop All left a
+  later request queued (no inference) and the owner cancelled it; restart
+  kept history and did not revive the worker.
+- Installed from the delivered ZIP into /Applications and launched through
+  Finder (parent launchd): first private main build passed the hub-owned
+  health check and became Play.
 
-Cursor and Antigravity real send/receive; hub-managed Claude workers (the
-Claude Code CLI on this Mac is not signed in); ChatGPT master chat is
-unsupported on this route (Pro custom MCP is read/fetch only; no tunnel set
-up). Installed A-to-B continuity, offline play and branch isolation proof on
-the installed app. Signing/notarization remain out of scope.
+## Seams
+
+- Art Desk record root (LAND): `<hub data>/art-records/ocd` passed as
+  `PG_ART_DESK_RECORD_ROOT`, per-launch `PG_ART_DESK_TOKEN`, sent only by the
+  Art Desk view as `X-OCD-Art-Desk-Token`. The bench writer owns the schema.
+- Health check: the worker runs the hub's bundled harness, not the target's.
+  The old harness `fetch()`ed prepared SVG `blob:` layers, which the packaged
+  CSP refuses; it now hashes decoded pixels.
+
+## Not done yet / owner-dependent
+
+- Cursor and Antigravity: the hub enrolls a client handle and copies its exact
+  entry to the clipboard; the owner pastes it once into the client's MCP file
+  and asks one chat to call `bind_session`. Automatic edits to those files
+  were refused by the session safety classifier. No external wake path exists
+  for either (Antigravity `agentapi` needs `ANTIGRAVITY_LS_ADDRESS`, set only
+  inside Antigravity; Cursor has no headless `cursor-agent` installed).
+- Hub-managed Claude workers need the Claude Code CLI signed in on this Mac.
+- ChatGPT master chat is unsupported on this route (Pro custom MCP is
+  read/fetch only; no tunnel set up).
+- Real network-off play was not toggled; offline is shown by Play making no
+  request outside `app://game`. Signing/notarization, Intel and Windows are
+  not covered by these arm64 runs.

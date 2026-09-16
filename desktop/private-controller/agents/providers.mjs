@@ -241,14 +241,13 @@ export async function detectAntigravity() {
     version: (await plistVersion(app)) ?? "unknown",
     agentapi: existsSync(agentapi) ? agentapi : null,
     authRoute: "Antigravity-managed Google login (not inspected)",
-    status: existsSync(agentapi) ? "not-tested" : "manual-attention",
+    status: "manual-attention",
     capabilities: {
       messaging:
         "Antigravity MCP (serverUrl) — enrollment snippet from the hub",
-      automaticDelivery: existsSync(agentapi)
-        ? "agentapi new-conversation / send-message present; not yet proven"
-        : "no agentapi client found",
-      wake: "agentapi send-message <conversation id> is the candidate wake path (unproven)",
+      automaticDelivery:
+        "none from the hub: agentapi only works inside a running Antigravity agent (it needs ANTIGRAVITY_LS_ADDRESS)",
+      wake: "no external wake path; an open Antigravity chat with the hub entry can poll while active",
     },
   };
 }

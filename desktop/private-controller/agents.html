@@ -65,6 +65,28 @@
           <button id="start-codex">Start worker</button>
         </div>
         <div class="row" data-spaced>
+          <label for="claude-handle" class="muted"
+            >Start a hub-managed Claude worker</label
+          >
+          <input
+            id="claude-handle"
+            value="claude-worker"
+            size="14"
+            spellcheck="false"
+          />
+          <select id="claude-model" aria-label="Claude model">
+            <option value="claude-opus-5">claude-opus-5</option>
+            <option value="claude-sonnet-5">claude-sonnet-5</option>
+            <option value="claude-fable-5-1">claude-fable-5-1</option>
+          </select>
+          <select id="claude-effort" aria-label="Claude effort">
+            <option value="low">low</option>
+            <option value="medium">medium</option>
+            <option value="high" selected>high</option>
+          </select>
+          <button id="start-claude">Start worker</button>
+        </div>
+        <div class="row" data-spaced>
           <label for="ext-handle" class="muted"
             >Enroll an existing session</label
           >

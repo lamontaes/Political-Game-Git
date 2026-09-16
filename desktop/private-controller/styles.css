@@ -236,7 +236,7 @@ section.card {
 }
 .kv dd {
   margin: 0;
-  word-break: break-all;
+  overflow-wrap: break-word;
 }
 .state-ready,
 .state-completed,
