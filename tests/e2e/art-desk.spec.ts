@@ -48,6 +48,37 @@ test("private Art Desk reviews the durable queue without writing saves", async (
   expect(after).toEqual(before);
 });
 
+test("new requests stay independent of a selected row; related variants copy deliberately", async ({
+  page,
+}) => {
+  await page.goto("/art-desk.html");
+  await page
+    .getByTestId("art-desk-row-env-neighborhood-doorstep-generic")
+    .click();
+  await page.getByTestId("art-desk-related-request-open").click();
+  const form = page.getByTestId("art-desk-new-request");
+  await expect(form).toHaveAttribute("data-mode", "related");
+  await expect(page.getByTestId("art-desk-new-request-heading")).toContainText(
+    "copies its target",
+  );
+  await expect(page.getByTestId("art-desk-new-consumer")).not.toHaveValue("");
+
+  await page.getByTestId("art-desk-new-request-open").click();
+  await expect(form).toHaveAttribute("data-mode", "new");
+  await expect(page.getByTestId("art-desk-new-request-heading")).toContainText(
+    "nothing is copied",
+  );
+  await expect(page.getByTestId("art-desk-new-consumer")).toHaveValue("");
+  await expect(page.getByTestId("art-desk-new-recipe")).toHaveValue("");
+  await expect(page.getByTestId("art-desk-new-references")).toContainText(
+    "unresolved is allowed",
+  );
+  const newButton = page.getByTestId("art-desk-new-request-open");
+  await newButton.focus();
+  await page.keyboard.press("Enter");
+  await expect(form).toHaveCount(0);
+});
+
 test("Art Desk bridge refuses traversal and production-style hosts", async ({
   request,
   baseURL,

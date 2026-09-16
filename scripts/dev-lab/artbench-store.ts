@@ -620,15 +620,26 @@ export class ArtbenchStore {
             editKind: editKindForId,
           })
         : null;
-    const duplicate =
-      (logicalId ? projection.candidates[logicalId] : undefined) ??
-      Object.values(projection.candidates).find(
-        (candidate) =>
-          candidate.sha256 === sha256 &&
-          candidate.requestId === requestId &&
-          (candidate.parentCandidateId ?? null) ===
-            (parent?.candidateId ?? null),
-      );
+    const duplicate = logicalId
+      ? (projection.candidates[logicalId] ??
+        Object.values(projection.candidates).find(
+          (candidate) =>
+            candidate.requestId === requestId &&
+            candidate.requestVersion === requestVersion &&
+            candidate.sha256 === sha256 &&
+            candidate.provenance.batchId === batchId &&
+            candidate.provenance.itemId === itemId &&
+            candidate.editKind === editKindForId &&
+            (candidate.parentCandidateId ?? null) ===
+              (parent?.candidateId ?? null),
+        ))
+      : Object.values(projection.candidates).find(
+          (candidate) =>
+            candidate.sha256 === sha256 &&
+            candidate.requestId === requestId &&
+            (candidate.parentCandidateId ?? null) ===
+              (parent?.candidateId ?? null),
+        );
     if (duplicate) {
       const canonical = duplicate.aliasOf
         ? (projection.candidates[duplicate.aliasOf] ?? duplicate)

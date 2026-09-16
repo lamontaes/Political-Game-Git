@@ -220,6 +220,25 @@ describe("one delivered item stays one review card across stores", () => {
     expect(editB.candidate.candidateId).not.toBe(editA.candidate.candidateId);
     expect(editB.duplicate).toBe(false);
   });
+
+  it("keeps distinct batch items with identical pixels as separate reviewable deliveries", () => {
+    const { drive, open } = setup();
+    const store = open(mkdtempSync(join(tmpdir(), "artbench-dup-same-bytes-")));
+    const bytes = tinyPng(5, 5);
+    dropBatch(drive, "batch-first", [
+      { itemId: "exterior-001", bytes, requestId: "env-white-house" },
+    ]);
+    dropBatch(drive, "batch-second", [
+      { itemId: "exterior-002", bytes, requestId: "env-white-house" },
+    ]);
+    store.syncOnce();
+    const ids = cards(store, "env-white-house");
+    expect(ids).toHaveLength(2);
+    expect(new Set(ids).size).toBe(2);
+    expect(
+      ids.map((id) => store.projection().candidates[id]!.provenance.batchId),
+    ).toEqual(["batch-first", "batch-second"]);
+  });
 });
 
 function legacyIngest(
@@ -327,6 +346,34 @@ describe("legacy duplicates from random ids", () => {
       expect(canonical.duplicateDecisionConflict).toBe(false);
       expect(projection.integrationQueue).toEqual([]);
     }
+  });
+
+  it("refuses a reused logical candidate id with a different request version", () => {
+    const bytes = tinyPng(6, 6);
+    const { store } = legacyStore(bytes);
+    const changed = legacyIngest(
+      "ev-reused-id",
+      "store-another",
+      "cand-legacy-hub",
+      bytes,
+      "2026-09-16T18:01:00.000Z",
+    );
+    store.admitForeign({
+      ...changed,
+      payload: { ...changed.payload, requestVersion: 2 },
+    } as ArtbenchEvent);
+    const projection = store.projection();
+    expect(
+      projection.candidates["cand-legacy-hub"]!.ingestReceipts,
+    ).toHaveLength(1);
+    expect(projection.rejectedEvents).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          eventId: "ev-reused-id",
+          reason: expect.stringContaining("different content"),
+        }),
+      ]),
+    );
   });
 
   it("does not show the group as pending when only the alias was decided, and never transfers an imported review", () => {

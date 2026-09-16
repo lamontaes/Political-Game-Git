@@ -18,7 +18,8 @@ MODULAR41 packet folder; desktop hub embeds the bench.
   (`PG_ARTBENCH_DATA_ROOT`, hub alias `PG_ART_DESK_RECORD_ROOT`), fsynced
   `events/events.jsonl`, immutable `bytes/<sha>`, `inbox/`, `outbox/`, `sync/`.
   Legacy sidecars migrate in as events with source `legacy`. Intake fully
-  decodes PNG/JPEG (pngjs/jpeg-js) under ceilings, dedupes by request+hash,
+  decodes PNG/JPEG (pngjs/jpeg-js) under ceilings, dedupes delivered batch items
+  by project+request/version+batch/item+bytes+edit lineage,
   inherits tags/notes/lineage from a parent, marks derived detail and
   calibration rechecks. Decisions are owner-only, bound to the viewed candidate
   and hash, re-verify bytes, and enqueue one integration item on approval.
@@ -58,6 +59,17 @@ items → stale/agent/conflict guards → typing safety. Unit: 27 store tests,
 raster decode, inputs receipts, bridge boundaries.
 
 ## Remaining
+
+- LAND received Claude's clean `e42b5047` request/reference/duplicate patch on
+  `codex/artbench-receive`. A new request starts independently; a related
+  variant explicitly copies the parent; reference images carry roles and
+  declared-versus-actually-supplied status. Legacy duplicate events and
+  decisions remain visible while one delivered item has one review card. The
+  incident's request 1 is not silently rewritten: this event contract has no
+  supported amendment/rebind seam yet.
+- LEARN: byte equality is storage identity, not delivery identity. A later
+  batch item with the same pixels must not disappear behind a same-hash
+  shortcut; the receiving regression test covers that boundary.
 
 - Drive for desktop syncing is paused on this Mac (its log says so); the mirror
   has not received `80_ARTBENCH_EXCHANGE`. Resuming is the owner's client

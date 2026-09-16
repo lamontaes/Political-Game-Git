@@ -596,7 +596,12 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
           // one more receipt. Different content under the same id is refused.
           if (
             existing.ingest.sha256 === p.sha256 &&
-            existing.ingest.requestId === p.requestId
+            existing.ingest.requestId === p.requestId &&
+            existing.ingest.requestVersion === p.requestVersion &&
+            existing.ingest.provenance?.batchId === p.provenance?.batchId &&
+            existing.ingest.provenance?.itemId === p.provenance?.itemId &&
+            existing.ingest.editKind === p.editKind &&
+            existing.ingest.parentCandidateId === p.parentCandidateId
           ) {
             existing.receipts.push({
               eventId: event.eventId,
