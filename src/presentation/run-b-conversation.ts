@@ -1,3 +1,4 @@
+import type { ChoiceTruthDeclaration } from "./lie-marker";
 import {
   assertNpcAutonomousApplication,
   assertWorldIntegrity,
@@ -202,7 +203,7 @@ export interface ConversationSessionDescriptor {
   readonly participantPersonIds: readonly EntityId[];
 }
 
-export interface ConversationIntentOption {
+export interface ConversationIntentOption extends ChoiceTruthDeclaration {
   readonly key: ConversationIntent;
   readonly label: string;
   readonly description: string;

@@ -428,6 +428,55 @@ describe("the shell's own store", () => {
         stopForWorkShifts: false,
         stopForTentativeHolds: false,
       },
+      // Reader layouts added later load with their defaults from older records.
+      proposalLayout: "auto",
+      newsMode: "front",
+      newsOutletKey: null,
+      journalView: "chapters",
+      journalYear: null,
+    });
+  });
+
+  it("keeps reader layout choices and falls back from values it cannot read", async () => {
+    const { store } = storeWith();
+    await store.write(SLOT, {
+      pins: [],
+      preferences: {
+        ...DEFAULT_PREFERENCES,
+        proposalLayout: "read",
+        newsMode: "publication",
+        newsOutletKey: "civic-record",
+        journalView: "years",
+        journalYear: "2019",
+      },
+    });
+    const read = await store.read(SLOT);
+    expect(read?.preferences).toMatchObject({
+      proposalLayout: "read",
+      newsMode: "publication",
+      newsOutletKey: "civic-record",
+      journalView: "years",
+      journalYear: "2019",
+    });
+
+    await store.write(SLOT, {
+      pins: [],
+      preferences: {
+        ...DEFAULT_PREFERENCES,
+        proposalLayout: "sideways",
+        newsMode: "tabloid",
+        newsOutletKey: "   ",
+        journalView: "decades",
+        journalYear: "last year",
+      } as unknown as typeof DEFAULT_PREFERENCES,
+    });
+    const fallback = await store.read(SLOT);
+    expect(fallback?.preferences).toMatchObject({
+      proposalLayout: "auto",
+      newsMode: "front",
+      newsOutletKey: null,
+      journalView: "chapters",
+      journalYear: null,
     });
   });
 

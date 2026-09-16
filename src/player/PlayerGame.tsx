@@ -40,6 +40,7 @@ import { World39News } from "./World39News";
 import { World39Journal } from "./World39Journal";
 import { PlacesWorkspace } from "./PlacesWorkspace";
 import { GovernmentBrowser } from "./politics/GovernmentBrowser";
+import { NewsDesk } from "./news/NewsDesk";
 import { PoliticsTabs, type PoliticsTab } from "./politics/PoliticsTabs";
 import { municipalVenueForActivity } from "../presentation/municipal-venue";
 import { resolveActivityVenueScene } from "../presentation/scene-venues";
@@ -3663,34 +3664,55 @@ function renderWorkspace({
       return frame(
         "News",
         "news-workspace",
-        <>
-          <WorldOrientationEntry
-            world={session.world}
-            personId={session.personId}
-            onOpenPerson={openPerson}
-          />
-          <World39News
-            world={session.world}
-            personId={session.personId}
-            onOpenPerson={openPerson}
-          />
-          <PressWorkspace
-            world={session.world}
-            onWorldChange={onWorldChange}
-            onOpenPerson={openPerson}
-          />
-          <PublicInformationPanel
-            model={projectPublicInformationPanel(session.world)}
-            onClose={back}
-            showClose={false}
-            onOpenPerson={openPerson}
-            viewerPersonId={session.personId}
-            followedOutletKeys={shell.preferences.followedNewsOutletKeys}
-            onToggleOutletFollow={(outletKey) =>
-              dispatch({ type: "toggle-news-outlet-follow", outletKey })
-            }
-          />
-        </>,
+        <NewsDesk
+          world={session.world}
+          mode={shell.preferences.newsMode}
+          outletKey={shell.preferences.newsOutletKey}
+          onModeChange={(newsMode) =>
+            dispatch({ type: "set-reader-preferences", patch: { newsMode } })
+          }
+          onOutletChange={(newsOutletKey) =>
+            dispatch({
+              type: "set-reader-preferences",
+              patch: { newsOutletKey },
+            })
+          }
+          onOpenPerson={openPerson}
+          around={
+            <>
+              <WorldOrientationEntry
+                world={session.world}
+                personId={session.personId}
+                onOpenPerson={openPerson}
+              />
+              <World39News
+                world={session.world}
+                personId={session.personId}
+                onOpenPerson={openPerson}
+              />
+            </>
+          }
+          directory={
+            <PublicInformationPanel
+              model={projectPublicInformationPanel(session.world)}
+              onClose={back}
+              showClose={false}
+              onOpenPerson={openPerson}
+              viewerPersonId={session.personId}
+              followedOutletKeys={shell.preferences.followedNewsOutletKeys}
+              onToggleOutletFollow={(outletKey) =>
+                dispatch({ type: "toggle-news-outlet-follow", outletKey })
+              }
+            />
+          }
+          press={
+            <PressWorkspace
+              world={session.world}
+              onWorldChange={onWorldChange}
+              onOpenPerson={openPerson}
+            />
+          }
+        />,
       );
 
     case "government":
@@ -3844,6 +3866,14 @@ function renderWorkspace({
         "Journal",
         "journal",
         <World39Journal
+          view={shell.preferences.journalView}
+          year={shell.preferences.journalYear}
+          onViewChange={(journalView) =>
+            dispatch({ type: "set-reader-preferences", patch: { journalView } })
+          }
+          onYearChange={(journalYear) =>
+            dispatch({ type: "set-reader-preferences", patch: { journalYear } })
+          }
           journal={shell.journal}
           onJournalChange={(journal) =>
             dispatch({ type: "set-journal", journal })
@@ -4027,6 +4057,13 @@ function renderWorkspace({
                 onWorldChange={onLegislativeChange}
                 onGoToFloor={goToTheFloorFor}
                 floorNote={floorNote}
+                proposalLayout={shell.preferences.proposalLayout}
+                onProposalLayoutChange={(proposalLayout) =>
+                  dispatch({
+                    type: "set-reader-preferences",
+                    patch: { proposalLayout },
+                  })
+                }
               />
             ) : null}
             {workingBill && (

@@ -73,3 +73,33 @@
   max-width: 62ch;
   line-height: 1.55;
 }
+
+/* Journal view controls (UI DECISION FOLLOW-THROUGH). */
+.world39-journal-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin: 0.5rem 0 0.75rem;
+}
+
+.world39-journal-controls [role="group"] {
+  display: inline-flex;
+  gap: 0.3rem;
+}
+
+.world39-journal-controls button[aria-pressed="true"] {
+  font-weight: 650;
+  text-decoration: underline;
+}
+
+.world39-journal-controls label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.world39-chapter-span {
+  font-weight: 400;
+  opacity: 0.75;
+}

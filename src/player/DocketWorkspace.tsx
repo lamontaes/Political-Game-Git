@@ -57,6 +57,8 @@ import {
   projectBillEstimate,
 } from "../presentation/legislation-estimate-action";
 import { billAnalysis } from "../presentation/legislation-analysis";
+import type { ProposalLayout } from "../presentation/shell-navigation";
+import { ProposalLayoutContext, ProposalView } from "./proposal/ProposalLayout";
 
 /**
  * The office's bills, and the drafting table beside them.
@@ -81,9 +83,31 @@ export interface DocketWorkspaceProps {
   /** Opens the members' room for one bill. Null while none can be entered. */
   readonly onGoToFloor: (bill: DocketBill) => void;
   readonly floorNote: string | null;
+  /** The saved Compare / Read choice; without it the view keeps its own. */
+  readonly proposalLayout?: ProposalLayout;
+  readonly onProposalLayoutChange?: (layout: ProposalLayout) => void;
 }
 
 export function DocketWorkspace({
+  proposalLayout,
+  onProposalLayoutChange,
+  ...props
+}: DocketWorkspaceProps) {
+  const choice = useMemo(
+    () =>
+      proposalLayout && onProposalLayoutChange
+        ? { layout: proposalLayout, onLayoutChange: onProposalLayoutChange }
+        : null,
+    [proposalLayout, onProposalLayoutChange],
+  );
+  return (
+    <ProposalLayoutContext.Provider value={choice}>
+      <DocketWorkspaceBody {...props} />
+    </ProposalLayoutContext.Provider>
+  );
+}
+
+function DocketWorkspaceBody({
   world,
   playerPersonId,
   scenarioKey,
@@ -91,7 +115,7 @@ export function DocketWorkspace({
   onWorldChange,
   onGoToFloor,
   floorNote,
-}: DocketWorkspaceProps) {
+}: Omit<DocketWorkspaceProps, "proposalLayout" | "onProposalLayoutChange">) {
   const [query, setQuery] = useState<DocketQuery>({});
   const page = useMemo(
     () => queryDocket(world, { scenarioKey, playerPersonId }, query),
@@ -822,24 +846,42 @@ function BillCompositionEditor({
           </div>
           {preview?.reason ? <p role="alert">{preview.reason}</p> : null}
           {preview?.value ? (
-            <div data-testid="composition-comparison">
+            <div>
               {preview.value.changes.length === 0 ? (
-                <p>No section changes selected.</p>
+                <p data-testid="composition-comparison">
+                  No section changes selected.
+                </p>
               ) : (
-                preview.value.changes.map((change) => (
-                  <section key={change.before.provisionKey}>
-                    <h5>
-                      Section {change.after.sectionNumber}:{" "}
-                      {change.after.heading}
-                    </h5>
-                    <p>
-                      <strong>Current:</strong> {change.before.text}
-                    </p>
-                    <p>
-                      <strong>Proposed:</strong> {change.after.text}
-                    </p>
-                  </section>
-                ))
+                <ProposalView
+                  testId="composition-layout"
+                  beforeLabel="Current wording"
+                  afterLabel="The bill as these changes would leave it"
+                  rows={preview.value.changes.map((change) => ({
+                    key: change.before.provisionKey,
+                    heading: `Section ${change.after.sectionNumber}: ${change.after.heading}`,
+                    before: change.before.text,
+                    after: change.after.text,
+                    changed: true,
+                  }))}
+                  compare={
+                    <div data-testid="composition-comparison">
+                      {preview.value.changes.map((change) => (
+                        <section key={change.before.provisionKey}>
+                          <h5>
+                            Section {change.after.sectionNumber}:{" "}
+                            {change.after.heading}
+                          </h5>
+                          <p>
+                            <strong>Current:</strong> {change.before.text}
+                          </p>
+                          <p>
+                            <strong>Proposed:</strong> {change.after.text}
+                          </p>
+                        </section>
+                      ))}
+                    </div>
+                  }
+                />
               )}
               <button
                 type="button"
@@ -1146,33 +1188,47 @@ function DraftingTable({
               <h5 className="docket-subheading">
                 As offered, and as you would file it
               </h5>
-              <table
-                className="drafting-compare"
-                data-testid="drafting-compare"
-              >
-                <thead>
-                  <tr>
-                    <th>Section</th>
-                    <th>As offered</th>
-                    <th>As you would file it</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {compareDrafts(asOffered, asChosen.draft).map((row) => (
-                    <tr
-                      key={row.provisionKey}
-                      className={
-                        row.changed ? "drafting-row-changed" : undefined
-                      }
-                      data-testid={`drafting-row-${row.provisionKey}`}
-                    >
-                      <th scope="row">{row.heading}</th>
-                      <td>{row.currentText ?? "—"}</td>
-                      <td>{row.proposedText ?? "—"}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <ProposalView
+                testId="drafting-layout"
+                beforeLabel="As offered"
+                afterLabel="The bill as you would file it"
+                rows={compareDrafts(asOffered, asChosen.draft).map((row) => ({
+                  key: row.provisionKey,
+                  heading: row.heading,
+                  before: row.currentText,
+                  after: row.proposedText,
+                  changed: row.changed,
+                }))}
+                compare={
+                  <table
+                    className="drafting-compare"
+                    data-testid="drafting-compare"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Section</th>
+                        <th>As offered</th>
+                        <th>As you would file it</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {compareDrafts(asOffered, asChosen.draft).map((row) => (
+                        <tr
+                          key={row.provisionKey}
+                          className={
+                            row.changed ? "drafting-row-changed" : undefined
+                          }
+                          data-testid={`drafting-row-${row.provisionKey}`}
+                        >
+                          <th scope="row">{row.heading}</th>
+                          <td>{row.currentText ?? "—"}</td>
+                          <td>{row.proposedText ?? "—"}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                }
+              />
 
               <p className="docket-analysis" data-testid="drafting-total">
                 {asChosen.draft.appropriatedLabel !== null
