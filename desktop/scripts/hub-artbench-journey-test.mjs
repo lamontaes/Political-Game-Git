@@ -179,14 +179,48 @@ async function launchHub() {
       timeout,
     );
   const chrome = await find(/^file:.*\/index\.html$/, "hub chrome");
-  await chrome.getByRole("tab", { name: "Art Desk" }).click();
+  const selected = async (name) =>
+    (await chrome.getByRole("tab", { name }).getAttribute("aria-selected")) ===
+    "true";
+  // No tab click: the bench starts in the background next to the game.
   const desk = await find(
     /^http:\/\/127\.0\.0\.1:\d+\/art-desk\.html/,
-    "Art Desk view",
+    "Art Desk view started in the background",
     15 * 60000,
   );
   await desk.waitForLoadState("domcontentloaded");
   await desk.getByTestId("art-desk-inputs").waitFor({ timeout: 60000 });
+  check(
+    "startup: Art Desk loaded while Play stayed the selected tab",
+    await selected("Play"),
+  );
+  const marker = await desk.evaluate(
+    () => (globalThis.__hubMarker = Math.random()),
+  );
+  const game = await find(/^app:\/\/game\//, "Play view");
+  const gameMarker = await game.evaluate(
+    () => (globalThis.__hubMarker = Math.random()),
+  );
+  const switches = [];
+  for (const name of [
+    "Art Desk",
+    "Agents",
+    "Play",
+    "Art Desk",
+    "Play",
+    "Art Desk",
+  ]) {
+    const started = Date.now();
+    await chrome.getByRole("tab", { name }).click();
+    await waitFor(() => selected(name), `${name} tab`);
+    switches.push(Date.now() - started);
+  }
+  check(
+    "startup: switching Play/Art Desk/Agents reloads nothing",
+    (await desk.evaluate(() => globalThis.__hubMarker)) === marker &&
+      (await game.evaluate(() => globalThis.__hubMarker)) === gameMarker,
+    `switch ms ${switches.join(",")}`,
+  );
   const settings = await find(/^file:.*\/settings\.html$/, "settings page");
   return { app, chrome, desk, settings };
 }

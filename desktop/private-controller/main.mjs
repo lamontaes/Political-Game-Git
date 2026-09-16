@@ -968,6 +968,14 @@ async function startArtDesk() {
       packPath: state.privatePackPath,
       driveRoot: artbenchDriveRoot(),
     });
+    const existing = hub.views.get("artdesk");
+    if (
+      status.state === "ready" &&
+      existing &&
+      !existing.webContents.isDestroyed() &&
+      existing.webContents.getURL().startsWith(new URL(status.url).origin)
+    )
+      return { ok: true, message: status.message };
     if (status.state === "ready") {
       const old = hub.views.get("artdesk");
       if (old) {
@@ -1288,6 +1296,13 @@ if (!app.requestSingleInstanceLock()) {
           "First start: preparing the private main build on this Mac. This takes several minutes once.",
       };
     layout();
+    // The Art Desk starts in the background next to the game, so switching
+    // tabs never waits for it once it is up.
+    if (process.env.OCD_HUB_NO_ARTDESK_AUTOSTART !== "1")
+      void startArtDesk().then((result) => {
+        if (!result.ok) logLine(`Art Desk: ${result.message}`);
+        broadcast();
+      });
     // Fresh-main check at every start; unchanged inputs finish quickly
     // without rebuilding.
     if (process.env.OCD_HUB_SKIP_STARTUP_CHECK !== "1") {

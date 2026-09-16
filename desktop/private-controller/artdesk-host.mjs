@@ -125,14 +125,23 @@ export class ArtDeskHost {
    * resolved. An existing authoring worktree at another revision is kept as
    * is and reported, never moved underneath local reviews.
    */
-  async start({
+  start(options) {
+    // One start at a time: a tab click during background startup joins it.
+    if (this.child) return Promise.resolve(this.status);
+    if (!this.starting)
+      this.starting = this.#start(options).finally(() => {
+        this.starting = null;
+      });
+    return this.starting;
+  }
+
+  async #start({
     repositoryPath,
     branch,
     revision,
     packPath,
     driveRoot = null,
   }) {
-    if (this.child) return this.status;
     if (!validBranchName(branch) || !validRevision(revision))
       throw new Error(
         "Art Desk source must be a valid branch at an exact SHA.",

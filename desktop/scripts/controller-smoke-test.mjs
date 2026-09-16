@@ -39,6 +39,7 @@ const launched = await electron.launch({
     ...process.env,
     OCD_CONTROLLER_DATA_ROOT: dataRoot,
     OCD_HUB_SKIP_STARTUP_CHECK: "1",
+    OCD_HUB_NO_ARTDESK_AUTOSTART: "1",
   },
 });
 const waitFor = async (predicate, label, timeout = 30000) => {
