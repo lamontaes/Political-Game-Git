@@ -131,6 +131,22 @@
       "preservedUnits": [],
       "evidencePaths": [],
       "reason": "A foreground mask is cut from the plate it belongs to. Nothing preserved is the committee hearing room plate, so no ingested file can supply another room's near seating."
+    },
+    {
+      "requestId": "env-neighborhood-doorstep-generic",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved is a stoop, door, and sidewalk. Park pavilion, press room, campaign storefront and community meeting hall are other rooms; an interior apartment is not an exterior threshold."
+    },
+    {
+      "requestId": "env-park-community-pavilion-winter-variant",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["source:IMG_5204.JPG"],
+      "evidencePaths": [
+        "art/references/candidates/recent-drive-sweep/source-images/IMG_5204.JPG"
+      ],
+      "reason": "IMG_5204.JPG is the parent park pavilion, already searched and not to be re-commissioned as a second park. It is a warm-leaf plate. A leafless winter variant of the same pavilion geometry is still required. Winter does not mean snow, and this file does not close that variant."
     }
   ],
   "unlinkedPreservedAssets": [
@@ -182,14 +198,6 @@
       ],
       "reason": "A press or announcement room at 5504x3072: a low stage with a wooden lectern against a curtain, rows of empty stacking chairs, camera tripods and a blank wall screen. It is not the committee hearing room plate the mask request needs, and no open request asks for this room. It clears the environment master floor and has never been through environment intake.",
       "nextRequiredAction": "Run environment intake with a declared source lineage and judge it for style before any further environment generation is commissioned. Do not treat it as the hearing room."
-    },
-    {
-      "preservedUnit": "source:IMG_5204.JPG",
-      "evidencePaths": [
-        "art/references/candidates/recent-drive-sweep/source-images/IMG_5204.JPG"
-      ],
-      "reason": "An outdoor public park pavilion at 5504x3072: picnic tables under an open shelter, a path, bins and a blank notice board. No open request asks for an exterior, and the earlier record describing it as an empty civic or work interior was wrong about what the picture shows.",
-      "nextRequiredAction": "Run environment intake with a declared source lineage and judge it for style. It is an exterior and does not substitute for any interior room."
     }
   ]
 }

@@ -1,0 +1,140 @@
+.art-desk {
+  color: #243b3e;
+  background: #f0ece3;
+  min-height: 100vh;
+  padding: 16px clamp(12px, 3vw, 40px) 32px;
+}
+.art-desk:focus {
+  outline: none;
+}
+.art-desk:focus-visible {
+  outline: 3px solid #ad6931;
+  outline-offset: 4px;
+}
+.art-desk-header h1 {
+  margin: 4px 0 8px;
+  font-size: clamp(1.4rem, 3vw, 2.1rem);
+}
+.art-desk-header p {
+  max-width: 80ch;
+}
+.art-desk-header nav,
+.art-desk-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+  align-items: center;
+}
+.art-desk button,
+.art-desk input {
+  font: inherit;
+}
+.art-desk button {
+  background: #31424b;
+  color: #fff;
+  border: 1px solid #89999c;
+  border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.art-desk button[aria-pressed="true"] {
+  background: #eadcb7;
+  color: #14242d;
+}
+.art-desk :focus-visible {
+  outline: 3px solid #ad6931;
+  outline-offset: 2px;
+}
+.art-desk-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 34%) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+@media (max-width: 1100px) {
+  .art-desk-layout {
+    grid-template-columns: 1fr;
+  }
+}
+.art-desk-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: min(70vh, 720px);
+  overflow: auto;
+}
+.art-desk-row {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.art-desk-row--with-thumb {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+}
+.art-desk-row-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.art-desk-thumb {
+  width: 72px;
+  height: 48px;
+  object-fit: cover;
+  background: #19252b;
+  border-radius: 4px;
+}
+.art-desk-meta {
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+.art-desk-detail {
+  background: #fff;
+  border: 1px solid #c4b89a;
+  border-radius: 8px;
+  padding: 16px;
+  min-width: 0;
+}
+.art-desk-preview {
+  min-height: 120px;
+}
+.art-desk-preview img,
+.art-desk-scene {
+  width: 100%;
+  max-height: 360px;
+  object-fit: contain;
+  background: #19252b;
+}
+.art-desk-scene {
+  position: relative;
+  min-height: 220px;
+  overflow: hidden;
+}
+.art-desk-warning {
+  color: #7a2e12;
+}
+.art-desk-pager {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-top: 16px;
+}
+.art-desk--refused {
+  max-width: 70ch;
+  padding: 32px;
+}
+.art-desk details pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 280px;
+  overflow: auto;
+  font-size: 0.8rem;
+}

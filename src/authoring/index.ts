@@ -27,6 +27,10 @@
  *                          only look it.
  * 11. `external-packs`   — what a downloaded third-party pack is, legally and
  *                          technically, and whether either answer lets us use it.
+ * 12. `asset-request`    — durable missing-picture asks.
+ * 13. `asset-compatibility` / `asset-claim` / `asset-review` / `art-desk`
+ *                          — regional tags, generation claims, exact-byte
+ *                          reviews and the private Art Desk projection.
  *
  * Nothing here reads a file, touches the DOM, or reaches the network. The
  * filesystem half lives under `scripts/art-asset-factory/`, and the developer
@@ -43,6 +47,13 @@ export * from "./asset-bank";
 export * from "./civic-symbols";
 export * from "./dynamic-components";
 export * from "./external-packs";
+export * from "./asset-request";
+export * from "./asset-readiness";
+export * from "./asset-compatibility";
+export * from "./asset-claim";
+export * from "./asset-review";
+export * from "./asset-brief";
+export * from "./art-desk";
 export * from "./generation-queue";
 export { toCanonicalJson } from "./canonical-json";
 export * from "./fixtures/scene-families";
