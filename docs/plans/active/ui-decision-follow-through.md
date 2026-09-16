@@ -29,3 +29,40 @@ Known data gaps, named not filled: there is no current-location government
 record beyond the place's jurisdiction; state courts and local courts are not
 established; the Budget screen remains bound to the home jurisdiction and now
 says so.
+
+## Increment 2 — News, Journal, proposal Compare / Read, Lie marker seam
+
+- `src/presentation/news-front-page.ts` and `src/player/news/*`: a mixed front
+  page (federal and unplaced stories first, newest first) and one outlet's own
+  front page, over saved publications only. Mastheads use live text with a
+  stable typographic treatment per outlet. The orientation reader, outlet
+  directory and follows, and the press office are separate labelled sections
+  on the same page, reachable by jump links, so existing routes keep working.
+  Only one outlet (Civic Ledger) exists in saved worlds today, so the one-paper
+  choice lists one paper; no outlet is invented.
+- `src/presentation/journal-views.ts`: Chapters (life-record phases by age,
+  default) and Years (the biography's year chapters), with an optional year
+  filter; the same entries appear once in either view; private notes and
+  record details are unchanged.
+- `src/player/proposal/ProposalLayout.tsx`: Compare / Read / Fit window for the
+  drafting table and the amendment comparison. The unsaved values stay in the
+  calling editor, so switching never discards them. Fit window compares at
+  widths above 900px and reads below; a section with no text says so.
+- Saved reading choices: `ShellPreferences.proposalLayout`, `newsMode`,
+  `newsOutletKey`, `journalView`, `journalYear`; each falls back to its default
+  when absent or unreadable, so older saves open unchanged.
+- `src/presentation/lie-marker.ts`: a choice shows "Lie" only when it declares
+  `truthIntent: "deliberate-deception"`. **Missing producer contract:** no
+  conversation choice declares deception today and no claim records a
+  contradiction, so no marker is shown in play. The seam is the optional
+  `truthIntent` on `ConversationIntentOption`.
+- Root adapter (separate commit): `PlayerGame.tsx` mounts and preference
+  dispatch; `shell-navigation.ts` and `browser-shell-state.ts` preferences;
+  `run-b-conversation.ts` optional field; `SceneConversation.tsx` marker;
+  `DocketWorkspace.tsx` layout wrapper; `World39Journal.tsx` view controls.
+
+Known base failures (identical on fed321f7): the ordinary campaign win no
+longer seats the member before 2027, so docket routes that win a seat stop
+at `office-section`/`docket`; worlds now publish from day one, so
+`public-information-empty` specs fail; `world39-news-journal` wording and
+`a39-composed` "Virginia Code" expectations have drifted.

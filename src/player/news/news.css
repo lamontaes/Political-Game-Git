@@ -1,0 +1,209 @@
+/* News desk (UI DECISION FOLLOW-THROUGH): live text on a readable paper. */
+
+.pg-news-desk {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.pg-news-sections,
+.pg-news-switch,
+.pg-news-switch [role="group"] {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.8rem;
+}
+
+.pg-news-sections button,
+.pg-news-switch button {
+  border: 1px solid var(--pg-hairline, rgba(244, 236, 224, 0.16));
+  border-radius: 3px;
+  padding: 0.3rem 0.7rem;
+  background: rgba(11, 19, 32, 0.55);
+  color: inherit;
+  font: inherit;
+  font-size: 0.86rem;
+  cursor: pointer;
+}
+
+.pg-news-switch button[aria-pressed="true"] {
+  border-color: var(--pg-brass, #c29b48);
+  background: rgba(44, 58, 76, 0.85);
+  font-weight: 650;
+}
+
+.pg-news-switch label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* The paper itself: a warm sheet with ink, not another dark dashboard. */
+.pg-news-read {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1rem 1.2rem 1.3rem;
+  border-radius: 4px;
+  background: #f6f1e6;
+  color: #1c1a17;
+}
+
+.pg-news-read .pg-news-switch button {
+  background: #ece5d6;
+  color: #1c1a17;
+  border-color: #bfb49f;
+}
+
+.pg-news-read .pg-news-switch button[aria-pressed="true"] {
+  background: #1c1a17;
+  color: #f6f1e6;
+}
+
+.pg-news-masthead {
+  border-bottom: 3px double #1c1a17;
+  padding-bottom: 0.4rem;
+  text-align: center;
+}
+
+.pg-news-masthead h2 {
+  margin: 0;
+  font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+  line-height: 1.05;
+}
+
+.pg-news-masthead p {
+  margin: 0.25rem 0 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pg-news-masthead--front h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 700;
+}
+
+.pg-news-masthead--0 {
+  font-family: "Iowan Old Style", Palatino, Georgia, serif;
+}
+
+.pg-news-masthead--1 {
+  font-family:
+    "Avenir Next Condensed", "Arial Narrow", ui-sans-serif, sans-serif;
+  letter-spacing: 0.02em;
+}
+
+.pg-news-masthead--2 {
+  font-family: Didot, "Bodoni 72", Georgia, serif;
+  font-style: italic;
+}
+
+.pg-news-masthead--3 {
+  font-family: "Rockwell", "Courier New", ui-serif, serif;
+}
+
+.pg-news-story {
+  display: grid;
+  gap: 0.3rem;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.pg-news-story h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: 1.2;
+}
+
+.pg-news-story--lead {
+  border-bottom: 1px solid #bfb49f;
+  padding-bottom: 0.8rem;
+}
+
+.pg-news-story--lead h3 {
+  font-size: clamp(1.5rem, 2.8vw, 2.1rem);
+}
+
+.pg-news-kicker {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6b5a3a;
+}
+
+.pg-news-dateline {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.78rem;
+  color: #5b554b;
+}
+
+.pg-news-body {
+  margin: 0;
+  line-height: 1.55;
+}
+
+.pg-news-story--lead .pg-news-body {
+  font-size: 1.05rem;
+}
+
+.pg-news-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1rem 1.4rem;
+}
+
+.pg-news-columns .pg-news-story + .pg-news-story {
+  border-left: 1px solid #d8cfbd;
+  padding-left: 1rem;
+}
+
+.pg-news-people {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.6rem;
+  margin: 0;
+}
+
+.pg-news-people button {
+  border: 0;
+  padding: 0;
+  background: none;
+  color: #6b3b12;
+  font: inherit;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.82rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.pg-news-empty {
+  margin: 0;
+  font-family: Georgia, serif;
+  font-style: italic;
+}
+
+.pg-news-desk button:focus-visible,
+.pg-news-desk select:focus-visible {
+  outline: 2px solid #f4d68a;
+  outline-offset: 2px;
+}
+
+.pg-news-section {
+  display: grid;
+  gap: 0.6rem;
+  border-top: 1px solid var(--pg-hairline, rgba(244, 236, 224, 0.16));
+  padding-top: 0.8rem;
+  scroll-margin-top: 1rem;
+}
+
+.pg-news-section > h2 {
+  margin: 0;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pg-news-read {
+  scroll-margin-top: 1rem;
+}
