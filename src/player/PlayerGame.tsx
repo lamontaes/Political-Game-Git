@@ -27,6 +27,16 @@ import { LifeScenePanel } from "./opening-life/LifeScenePanel";
 import { useContentViewportCss } from "./overlay-viewport";
 import { simulateCalendarDays } from "../presentation/calendar-time-control";
 import {
+  describeTimeCommandPreview,
+  previewTimeCommand,
+  submitTimeCommand,
+} from "../presentation/time-command";
+import {
+  createWorldChangeGuard,
+  nextTimeRequestId,
+  recordStaleWorldChange,
+} from "../presentation/world-change-guard";
+import {
   conversationExchangeTurns,
   currentExchangeTurn,
 } from "../presentation/scene-conversation";
@@ -63,6 +73,7 @@ import { createCampaignElectionTransitionRegistry } from "../simulation/campaign
 import {
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -77,7 +88,6 @@ import {
 import { guardUnsavedWork } from "../presentation/unsaved-work-guard";
 import {
   chooseStoryOption,
-  letStoryTimePass,
   presentPeopleSentence,
   projectStoryMoment,
   type StoryMoment,
@@ -350,6 +360,19 @@ export function PlayerGame() {
   );
   const [screen, setScreen] = useState<Screen>({ kind: "title" });
   const [session, setSession] = useState<Session | null>(null);
+  /*
+   * GOVERNING time/continuity: a World change computed from an older World
+   * must not replace a newer one. `committedWorld` is the World the rendered
+   * controls were built from; once a change from it is accepted, only further
+   * changes from that same base are accepted until the next render, so a
+   * chained writer in one handler still lands, and a late or repeated
+   * callback from an earlier render is dropped instead of rewinding or
+   * repeating time.
+   */
+  const worldGuard = useRef(createWorldChangeGuard());
+  useLayoutEffect(() => {
+    worldGuard.current.rendered(session?.world ?? null);
+  }, [session?.world]);
   /*
    * The content-viewport variables are written once at the root so the title,
    * the creator and the room all size against the same actual rectangle.
@@ -800,7 +823,11 @@ export function PlayerGame() {
       session={session}
       notice={notice}
       problem={problem}
-      onWorldChange={(world) =>
+      onWorldChange={(world, base) => {
+        if (base !== undefined && !worldGuard.current.admit(base)) {
+          recordStaleWorldChange(base, world);
+          return;
+        }
         setSession((current) =>
           current
             ? // Opening is idempotent and gated on the character, so this is
@@ -816,8 +843,8 @@ export function PlayerGame() {
                 ),
               }
             : current,
-        )
-      }
+        );
+      }}
       onKeep={(shellState) => void keepThisWorld(shellState)}
       onLeave={() => void leaveGame()}
       savesUnavailable={savesUnavailable}
@@ -2131,7 +2158,7 @@ function PlayingScreen({
   session,
   notice,
   problem,
-  onWorldChange,
+  onWorldChange: commitWorld,
   onKeep,
   onLeave,
   savesUnavailable,
@@ -2140,7 +2167,8 @@ function PlayingScreen({
   readonly session: Session;
   readonly notice: string | null;
   readonly problem: string | null;
-  readonly onWorldChange: (world: World) => void;
+  /** `base` is the World the change was computed from; see the root guard. */
+  readonly onWorldChange: (world: World, base?: World) => void;
   readonly onKeep: (shellState: StoredShellState) => void;
   readonly onLeave: () => void;
   readonly savesUnavailable: boolean;
@@ -2160,6 +2188,15 @@ function PlayingScreen({
   const capabilities = useMemo(
     () => resolvePlayerCapabilities(session.world),
     [session.world],
+  );
+  /*
+   * Every writer below computes from `session.world` as rendered, so that is
+   * the base each change is committed against.
+   */
+  const renderedWorld = session.world;
+  const onWorldChange = useCallback(
+    (world: World) => commitWorld(world, renderedWorld),
+    [commitWorld, renderedWorld],
   );
 
   /*
@@ -2260,13 +2297,14 @@ function PlayingScreen({
   }, [shell.quickDossierPersonId]);
   const passDays = useCallback(
     (days: 1 | 7) => {
-      const result = simulateCalendarDays(
-        session.world,
-        session.personId,
-        days,
-        shell.preferences.interruptions,
-      );
-      setPassOutcome(result.outcome);
+      const result = submitTimeCommand(session.world, {
+        requestId: nextTimeRequestId(),
+        personId: session.personId,
+        sourceMoment: session.world.currentMoment,
+        command: { kind: "days", days },
+        interruptions: shell.preferences.interruptions,
+      });
+      setPassOutcome(result.receipt.outcome);
       if (result.world !== session.world) onWorldChange(result.world);
     },
     [
@@ -4282,6 +4320,13 @@ function StoryView({
   readonly onWorldChange: (world: World) => void;
 }) {
   const [journalOpen, setJournalOpen] = useState(false);
+  const quietPreview = useMemo(
+    () =>
+      previewTimeCommand(session.world, session.personId, {
+        kind: "quiet-stretch",
+      }),
+    [session.world, session.personId],
+  );
 
   if (completedActivityHere(session.world, session.personId))
     return (
@@ -4384,23 +4429,22 @@ function StoryView({
             type="button"
             className="ui-action ui-action--choice ui-action--quiet"
             data-testid="story-let-time-pass"
-            onClick={() =>
-              onWorldChange(
-                letStoryTimePass(
-                  session.world,
-                  session.personId,
-                  (world, days) =>
-                    passOrdinaryDays(
-                      world,
-                      days,
-                      createCampaignElectionTransitionRegistry(),
-                    ),
-                ),
-              )
-            }
+            onClick={() => {
+              const result = submitTimeCommand(session.world, {
+                requestId: nextTimeRequestId(),
+                personId: session.personId,
+                sourceMoment: session.world.currentMoment,
+                command: { kind: "quiet-stretch" },
+              });
+              if (result.world !== session.world) onWorldChange(result.world);
+            }}
           >
             {moment.formativeYears ? "Let the year run on" : "Let time pass"}
-            <small>Come back to it when something needs you.</small>
+            <small data-testid="story-let-time-pass-target">
+              {moment.formativeYears || !quietPreview
+                ? "Come back to it when something needs you."
+                : `${describeTimeCommandPreview(quietPreview)}. Stops early for anything that needs you.`}
+            </small>
           </button>
         )}
       </div>
