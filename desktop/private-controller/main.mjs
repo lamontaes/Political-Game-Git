@@ -40,7 +40,7 @@ import {
 } from "../app-protocol.mjs";
 import { portableDownloadSavePath } from "../download-policy.mjs";
 import { AgentsHost } from "./agents/agents-host.mjs";
-import { ArtDeskHost } from "./artdesk-host.mjs";
+import { ART_DESK_TOKEN_HEADER, ArtDeskHost } from "./artdesk-host.mjs";
 import {
   MAIN_TRACK,
   activatePending,
@@ -570,6 +570,19 @@ function artDeskView(url) {
   contents.session.setPermissionRequestHandler((_wc, _p, callback) =>
     callback(false),
   );
+  // Authenticated transport to the bench: only this view's requests to the
+  // bench origin carry the per-launch capability.
+  contents.session.webRequest.onBeforeSendHeaders(
+    { urls: [`${origin}/*`] },
+    (details, callback) => {
+      callback({
+        requestHeaders: {
+          ...details.requestHeaders,
+          [ART_DESK_TOKEN_HEADER]: hub.artdesk.token ?? "",
+        },
+      });
+    },
+  );
   contents.on("will-navigate", (event, target) => {
     if (!target.startsWith(`${origin}/`)) event.preventDefault();
   });
@@ -980,6 +993,13 @@ handle("agents:snapshot", () => hub.agents.snapshot());
 handle("agents:detect", () => hub.agents.detect());
 handle("agents:start-codex", (opts) =>
   hub.agents.startCodexWorker({
+    handle: String(opts?.handle ?? ""),
+    model: String(opts?.model ?? ""),
+    effort: String(opts?.effort ?? ""),
+  }),
+);
+handle("agents:start-claude", (opts) =>
+  hub.agents.startClaudeWorker({
     handle: String(opts?.handle ?? ""),
     model: String(opts?.model ?? ""),
     effort: String(opts?.effort ?? ""),

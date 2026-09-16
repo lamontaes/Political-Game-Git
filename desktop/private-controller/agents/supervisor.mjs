@@ -1,4 +1,6 @@
-/* global setTimeout */
+/* global setTimeout, clearTimeout */
+import { spawn } from "node:child_process";
+
 /**
  * Event-driven delivery supervisor for hub-managed workers.
  *
@@ -314,5 +316,111 @@ export class CodexWorker {
 
   async interrupt() {
     await this.server.interruptActive?.(this.threadId);
+  }
+}
+
+/**
+ * A hub-managed headless Claude Code session. The first turn creates the
+ * exact session id; later turns resume that id, never "latest". Tools are
+ * limited to reading, and the CLI's own login and approval rules apply.
+ */
+export class ClaudeWorker {
+  constructor({ handle, binary, sessionId, cwd, model, effort, env, resume }) {
+    this.handle = handle;
+    this.binary = binary;
+    this.sessionId = sessionId;
+    this.cwd = cwd;
+    this.model = model;
+    this.effort = effort;
+    this.env = env;
+    this.started = Boolean(resume);
+    this.child = null;
+    this.turns = 0;
+    this.maxTurns = 6;
+    this.expectedSha = null;
+    this.verify = null;
+  }
+
+  argumentsFor(text) {
+    return [
+      "-p",
+      text,
+      "--output-format",
+      "json",
+      "--json-schema",
+      JSON.stringify(REPLY_SCHEMA),
+      "--model",
+      this.model,
+      "--effort",
+      this.effort,
+      "--tools",
+      "Read,Glob,Grep",
+      ...(this.started
+        ? ["--resume", this.sessionId]
+        : ["--session-id", this.sessionId]),
+    ];
+  }
+
+  run(envelope, context) {
+    if (this.turns >= this.maxTurns)
+      return Promise.reject(
+        new Error("Worker turn cap reached for this session."),
+      );
+    this.turns += 1;
+    return new Promise((resolve, reject) => {
+      const child = spawn(
+        this.binary,
+        this.argumentsFor(workerPrompt(envelope, context)),
+        { cwd: this.cwd, env: this.env, stdio: ["ignore", "pipe", "pipe"] },
+      );
+      this.child = child;
+      let out = "";
+      let err = "";
+      child.stdout.setEncoding("utf8");
+      child.stderr.setEncoding("utf8");
+      child.stdout.on("data", (chunk) => {
+        out += chunk;
+      });
+      child.stderr.on("data", (chunk) => {
+        err = (err + chunk).slice(-2000);
+      });
+      const timer = setTimeout(() => child.kill("SIGTERM"), 240000);
+      child.on("error", reject);
+      child.on("exit", (code, signal) => {
+        clearTimeout(timer);
+        this.child = null;
+        let parsed = null;
+        try {
+          parsed = JSON.parse(out);
+        } catch {
+          parsed = null;
+        }
+        if (code !== 0 || !parsed || parsed.is_error) {
+          reject(
+            new Error(
+              `claude exited (${signal ?? code}): ${(parsed?.result ?? err).slice(0, 300)}`,
+            ),
+          );
+          return;
+        }
+        if (parsed.session_id && parsed.session_id !== this.sessionId) {
+          reject(new Error("Claude answered from a different session id."));
+          return;
+        }
+        this.started = true;
+        const structured = parsed.structured_output ?? null;
+        resolve({
+          turnId: parsed.uuid ?? null,
+          status: parsed.subtype ?? "unknown",
+          error: null,
+          text: structured ? JSON.stringify(structured) : String(parsed.result),
+          usage: parsed.usage ?? null,
+        });
+      });
+    });
+  }
+
+  async interrupt() {
+    this.child?.kill("SIGTERM");
   }
 }

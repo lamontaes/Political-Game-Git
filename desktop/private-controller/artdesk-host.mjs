@@ -10,9 +10,22 @@
  * 127.0.0.1 port. Nothing here sets DEV globally or exposes the bridge to a
  * production build. The authoring worktree is never reset or cleaned: local
  * reviews stay until they are handed to Git.
+ *
+ * Record-root seam (LAND, 2026-09-16): the hub reserves one project-scoped
+ * Art Desk data root outside every worktree and hands the bench only its
+ * stable path and a per-launch capability, as environment variables:
+ *   PG_ART_DESK_RECORD_ROOT  absolute directory owned by the hub (0700)
+ *   PG_ART_DESK_TOKEN        random per-launch token
+ * The hub's Art Desk view sends that token on every bench request as the
+ * X-OCD-Art-Desk-Token header. The bench writer owns the record schema and
+ * decides when its bridge requires the header and uses the root.
  */
 
+export const ART_DESK_TOKEN_HEADER = "X-OCD-Art-Desk-Token";
+export const ART_DESK_PROJECT = "ocd";
+
 import { spawn } from "node:child_process";
+import { randomBytes } from "node:crypto";
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { createServer } from "node:net";
 import path from "node:path";
@@ -65,6 +78,8 @@ function runQuiet(command, args, options = {}) {
 export class ArtDeskHost {
   constructor({ dataRoot, env, onStatus }) {
     this.root = path.join(dataRoot, "artdesk");
+    this.recordRoot = path.join(dataRoot, "art-records", ART_DESK_PROJECT);
+    this.token = null;
     this.env = env;
     this.onStatus = onStatus ?? (() => {});
     this.child = null;
@@ -154,6 +169,8 @@ export class ArtDeskHost {
           },
         );
       }
+      mkdirSync(this.recordRoot, { recursive: true, mode: 0o700 });
+      this.token = randomBytes(32).toString("base64url");
       const port = await freePort();
       this.#set("starting", "Starting the identified Art Desk server…");
       const child = spawn(
@@ -171,6 +188,8 @@ export class ArtDeskHost {
           env: {
             ...this.env,
             PG_PRIVATE_ART_PACK: packPath,
+            PG_ART_DESK_RECORD_ROOT: this.recordRoot,
+            PG_ART_DESK_TOKEN: this.token,
             BROWSER: "none",
           },
           stdio: ["ignore", "pipe", "pipe"],
@@ -206,6 +225,7 @@ export class ArtDeskHost {
         identity,
         worktree,
         packPath,
+        recordRoot: this.recordRoot,
       });
       return this.status;
     } catch (error) {

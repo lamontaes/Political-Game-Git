@@ -11,8 +11,13 @@ import path from "node:path";
 
 import { openBrokerStore, startBrokerServer } from "./broker.mjs";
 import { CodexAppServer } from "./codex-app-server.mjs";
-import { clientEntry, detectAll, enrollmentSnippets } from "./providers.mjs";
-import { CodexWorker, Supervisor } from "./supervisor.mjs";
+import {
+  clientEntry,
+  detectAll,
+  detectClaude,
+  enrollmentSnippets,
+} from "./providers.mjs";
+import { ClaudeWorker, CodexWorker, Supervisor } from "./supervisor.mjs";
 
 export const HUB_PROJECT = "ocd";
 /** Stable loopback port so client MCP entries keep working across restarts. */
@@ -83,7 +88,10 @@ export class AgentsHost {
     if (!this.store) return { ready: false };
     const participants = this.store.participants(HUB_PROJECT).map((p) => ({
       ...p,
-      attached: p.managed ? this.codexServers.has(p.handle) : null,
+      attached: p.managed
+        ? this.codexServers.has(p.handle) ||
+          Boolean(this.claudeWorkers?.has(p.handle))
+        : null,
     }));
     const envelopes = this.store.list(HUB_PROJECT, 80).map((e) => ({
       ...e,
@@ -162,6 +170,51 @@ export class AgentsHost {
       server.stop();
       throw error;
     }
+  }
+
+  async startClaudeWorker({ handle, model, effort }) {
+    if (!HANDLE.test(handle ?? ""))
+      throw new Error("Choose a lowercase handle.");
+    if (this.claudeWorkers?.has(handle))
+      throw new Error("That worker is already running.");
+    const claude = await detectClaude();
+    if (claude.status !== "ready")
+      throw new Error(
+        "The Claude Code CLI on this Mac is not signed in, so no hub-managed Claude worker can run yet.",
+      );
+    const existing = this.store.enrollment(HUB_PROJECT, handle);
+    const resume = Boolean(existing?.managed && existing.provider === "claude");
+    const sessionId = resume ? existing.sessionId : randomUUID();
+    const cwd = path.join(this.workRoot, handle);
+    mkdirSync(cwd, { recursive: true });
+    this.store.enroll({
+      project: HUB_PROJECT,
+      handle,
+      provider: "claude",
+      sessionId,
+      model,
+      effort,
+      worktree: cwd,
+      authRoute: claude.authRoute,
+      capability:
+        "messaging; automatic delivery (hub-managed, read-only tools)",
+      managed: true,
+    });
+    const worker = new ClaudeWorker({
+      handle,
+      binary: claude.binary,
+      sessionId,
+      cwd,
+      model,
+      effort,
+      env: this.env,
+      resume,
+    });
+    this.claudeWorkers = this.claudeWorkers ?? new Map();
+    this.claudeWorkers.set(handle, worker);
+    this.supervisor.addWorker(worker);
+    this.onChange();
+    return { handle, sessionId };
   }
 
   /**
@@ -247,6 +300,7 @@ export class AgentsHost {
     await this.supervisor?.stopAll();
     for (const server of this.codexServers.values()) server.stop();
     this.codexServers.clear();
+    this.claudeWorkers?.clear();
     this.supervisor = new Supervisor({
       store: this.store,
       project: HUB_PROJECT,

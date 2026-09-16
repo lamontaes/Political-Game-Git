@@ -255,6 +255,19 @@ $("start-codex").addEventListener("click", async () => {
       : result?.message,
   );
 });
+$("start-claude").addEventListener("click", async () => {
+  say("Starting a hub-managed Claude session…");
+  const result = await api.startClaude({
+    handle: $("claude-handle").value.trim(),
+    model: $("claude-model").value,
+    effort: $("claude-effort").value,
+  });
+  say(
+    result?.sessionId
+      ? `Started @${result.handle} with session ${result.sessionId}.`
+      : result?.message,
+  );
+});
 $("enroll").addEventListener("click", async () => {
   const result = await api.enroll({
     handle: $("ext-handle").value.trim(),

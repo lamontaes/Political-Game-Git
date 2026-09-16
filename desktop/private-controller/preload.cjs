@@ -28,6 +28,7 @@ contextBridge.exposeInMainWorld("ocdHub", {
     snapshot: invoke("agents:snapshot"),
     detect: invoke("agents:detect"),
     startCodex: invoke("agents:start-codex"),
+    startClaude: invoke("agents:start-claude"),
     enroll: invoke("agents:enroll"),
     connect: invoke("agents:connect"),
     send: invoke("agents:send"),
