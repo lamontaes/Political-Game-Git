@@ -9,9 +9,10 @@ test("private Art Desk reviews the durable queue without writing saves", async (
   await page.goto("/art-desk.html");
   await expect(page.getByTestId("art-desk")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Art Desk" })).toBeVisible();
-  await expect(
-    page.getByRole("button", { name: "Needs your review", exact: true }),
-  ).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByTestId("art-desk-lane-needs-review")).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
   await expect(page.getByTestId("art-desk-pack")).toContainText("access/input");
   await expect(
     page.getByTestId("art-desk-row-env-neighborhood-doorstep-generic"),
@@ -27,15 +28,13 @@ test("private Art Desk reviews the durable queue without writing saves", async (
       .or(page.getByTestId("art-desk-candidate-preview-missing")),
   ).toBeVisible();
   await page.keyboard.press("ArrowDown");
-  await page
-    .getByRole("button", { name: "Covered / history", exact: true })
-    .click();
+  await page.getByTestId("art-desk-lane-history").click();
   await expect(
     page.getByTestId("art-desk-row-env-campaign-storefront"),
   ).toBeVisible();
   await expect(
     page.getByTestId("art-desk-row-env-campaign-storefront"),
-  ).toContainText("do not generate");
+  ).toContainText("History");
   await expect(page.getByTestId("art-desk-detail")).not.toContainText(
     "Winter variant of the existing park community pavilion",
   );
@@ -110,7 +109,7 @@ const QA_REQUEST = {
 const QA_SIDECAR = "art/generated/candidates/art-desk/qa-requests.json";
 const CANDIDATE_SIDECAR = "art/generated/candidates/art-desk/candidates.json";
 const EXISTING_RASTER =
-  "art/families/campaign-storefront/env_campaign_storefront_v1.png";
+  "art/families/apartment-ordinary/env_residence_apartment_living_ordinary_02_v1.png";
 
 function fileUrl(path: string): string {
   return `/__dev/art-desk/file?path=${encodeURIComponent(path)}`;
@@ -172,15 +171,9 @@ test("an existing raster round-trips upload → reload → same candidate → fu
     await expect(page.getByTestId("art-desk-detail")).toContainText(
       "Disposable QA request",
     );
-    await expect(
-      page
-        .getByTestId("art-desk-detail")
-        .getByRole("button", { name: "Approve", exact: true }),
-    ).toBeDisabled();
-
     await page.getByTestId("art-desk-upload").setInputFiles(EXISTING_RASTER);
     await expect(page.getByTestId("art-desk-status")).toContainText(
-      "Stored candidate",
+      "stored as",
     );
     const state = page.getByTestId("art-desk-candidate-state");
     await expect(state).toHaveAttribute("data-candidate-bytes", "verified");
@@ -202,11 +195,23 @@ test("an existing raster round-trips upload → reload → same candidate → fu
     await page.reload();
     await expect(page.getByTestId("art-desk-inputs")).toBeVisible();
     await page.getByTestId(`art-desk-row-${QA_REQUEST.requestId}`).click();
+    const uploadedId = await page.evaluate(async (prefix) => {
+      const state = (await (
+        await fetch("/__dev/artbench/state", { cache: "no-store" })
+      ).json()) as {
+        projection: { candidates: Record<string, { sha256: string }> };
+      };
+      return Object.entries(state.projection.candidates).find(([, c]) =>
+        c.sha256.startsWith(prefix),
+      )?.[0];
+    }, hash);
+    expect(uploadedId).toBeTruthy();
+    await page.getByTestId(`art-desk-candidate-${uploadedId ?? ""}`).click();
     await expect(page.getByTestId("art-desk-candidate-state")).toContainText(
       `Recorded hash ${hash}`,
     );
     await expect(page.getByTestId("art-desk-candidate-state")).toContainText(
-      "upload-sidecar",
+      "bench",
     );
     const reloaded = page.getByTestId("art-desk-candidate-preview");
     await expect(reloaded).toBeVisible();

@@ -76,9 +76,13 @@ const SHA256 = /^[a-f0-9]{64}$/;
 const SAFE_ID = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$/;
 const IMAGE_EXT = /\.(png|jpe?g)$/i;
 
+/** Desktop hub alias: it hands a 0700 record root outside every worktree. */
+export const HUB_RECORD_ROOT_ENV = "PG_ART_DESK_RECORD_ROOT";
+
 export function defaultDataRoot(): string {
   return (
     process.env[ARTBENCH_DATA_ROOT_ENV] ||
+    process.env[HUB_RECORD_ROOT_ENV] ||
     join(homedir(), "Documents", "Political Game", "output", "artbench")
   );
 }
@@ -372,11 +376,28 @@ export class ArtbenchStore {
   /* Registry and projection                                           */
   /* ---------------------------------------------------------------- */
 
+  /** Registry requests with the reconciliation holds applied, as the Art Desk always did. */
   registryRequests(): readonly AssetRequest[] {
     const document = readJson<{ requests?: AssetRequest[] }>(
       join(this.workspace, "art/requests/asset-requests.json"),
     );
-    return document?.requests ?? [];
+    const reconciliation = readJson<{
+      holds?: Record<string, AssetRequest["generationHold"]>;
+      coveredRequestIds?: string[];
+    }>(join(this.workspace, "art/requests/art-desk-reconciliation.json"));
+    const covered = new Set(reconciliation?.coveredRequestIds ?? []);
+    return (document?.requests ?? []).map((request) => {
+      const terminal =
+        request.status === "rejected" ||
+        request.status === "withdrawn-already-covered" ||
+        request.status === "accepted-promoted";
+      const hold =
+        request.generationHold ??
+        (covered.has(request.requestId) && !terminal
+          ? "already-covered-candidate"
+          : reconciliation?.holds?.[request.requestId]);
+      return hold ? { ...request, generationHold: hold } : request;
+    });
   }
 
   qaRequests(): readonly AssetRequest[] {

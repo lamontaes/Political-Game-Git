@@ -162,3 +162,145 @@
   overflow: auto;
   font-size: 0.8rem;
 }
+
+/* ---- Artbench: sync panel, toolbar, facets, alternatives, dialogs ---- */
+.art-desk-sync {
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: #e6e1d3;
+  max-width: 110ch;
+}
+.art-desk-sync[data-sync-status="ok"] {
+  background: #dfeadf;
+}
+.art-desk-sync[data-sync-status="error"],
+.art-desk-sync[data-sync-status="needs-mirror"] {
+  background: #efdcc9;
+}
+.art-desk-sync button {
+  margin-left: 8px;
+  padding: 4px 10px;
+}
+.art-desk-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin: 8px 0;
+}
+.art-desk-toolbar select,
+.art-desk-dialog select,
+.art-desk-dialog input,
+.art-desk-dialog textarea {
+  font: inherit;
+  padding: 4px 6px;
+}
+.art-desk-facets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: 6px 0 10px;
+}
+.art-desk-chip {
+  padding: 2px 8px !important;
+  border-radius: 999px !important;
+  font-size: 0.85rem;
+  margin: 0 2px;
+}
+.art-desk-alternatives {
+  list-style: none;
+  margin: 8px 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.art-desk-alt {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+  text-align: left;
+  min-width: 240px;
+  max-width: 320px;
+}
+.art-desk-viewed {
+  margin-top: 8px;
+}
+.art-desk-preview--compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.art-desk-preview figure {
+  margin: 0;
+  background: #19252b;
+}
+.art-desk-preview figcaption {
+  color: #d5dde0;
+  padding: 2px 6px;
+}
+/* Real alpha shows over a checkerboard, never flattened onto a colour. */
+.art-desk-checker,
+.art-desk-thumb--alpha {
+  background-color: #fff;
+  background-image:
+    linear-gradient(45deg, #c9c9c9 25%, transparent 25%),
+    linear-gradient(-45deg, #c9c9c9 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #c9c9c9 75%),
+    linear-gradient(-45deg, transparent 75%, #c9c9c9 75%);
+  background-size: 16px 16px;
+  background-position:
+    0 0,
+    0 8px,
+    8px -8px,
+    -8px 0;
+}
+.art-desk-dialog {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: center;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #c4b89a;
+  border-radius: 6px;
+  background: #faf7ef;
+}
+.art-desk-dialog textarea {
+  width: min(60ch, 100%);
+  display: block;
+}
+.art-desk-taggrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 6px 12px;
+  width: 100%;
+}
+.art-desk-taggrid label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+}
+.art-desk-linkbutton {
+  display: inline-block;
+  background: #31424b;
+  color: #fff;
+  border: 1px solid #89999c;
+  border-radius: 5px;
+  padding: 8px 12px;
+  text-decoration: none;
+}
+.art-desk-upload input[type="file"] {
+  max-width: 220px;
+}
+.art-desk-detail--dragging {
+  outline: 3px dashed #ad6931;
+}
+.art-desk-queue {
+  margin-top: 16px;
+  background: #fff;
+  border: 1px solid #c4b89a;
+  border-radius: 8px;
+  padding: 12px 16px;
+}

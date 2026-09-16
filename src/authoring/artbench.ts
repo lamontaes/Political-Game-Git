@@ -414,6 +414,8 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
       assetId: string;
       candidateIds: string[];
       selectedCandidateId?: string;
+      /** True once the owner pinned a revision explicitly (candidate.selected). */
+      selectedPinned?: boolean;
       parentRequestId?: string;
       parentCandidateId?: string;
       manifestId?: string;
@@ -530,8 +532,13 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
         const request = requests.get(p.requestId);
         if (request) {
           request.candidateIds.push(p.candidateId);
-          // A fresh candidate becomes the selected revision unless one was pinned.
-          if (!request.selectedCandidateId || parent) {
+          // A fresh candidate becomes the selected revision unless the owner
+          // pinned one explicitly; an edited revision of the pinned one follows.
+          if (
+            !request.selectedPinned ||
+            (parent &&
+              parent.ingest.candidateId === request.selectedCandidateId)
+          ) {
             request.selectedCandidateId = p.candidateId;
           }
         } else if (p.requestId !== INBOX_REQUEST_ID) {
@@ -546,6 +553,7 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
         const request = requests.get(event.payload.requestId);
         if (request && candidates.has(event.payload.candidateId)) {
           request.selectedCandidateId = event.payload.candidateId;
+          request.selectedPinned = true;
         } else {
           rejected.push({
             eventId: event.eventId,
@@ -935,17 +943,40 @@ export function catalogRows(projection: ArtbenchProjection): CatalogRow[] {
   return rows;
 }
 
+/**
+ * The lane a row sits in. A request with one approved and three awaiting
+ * candidates is genuinely in two lanes; the candidate decides, the request's
+ * own lane is the summary for rows without candidates.
+ */
+export function rowLane(row: CatalogRow): RequestLane {
+  if (!row.candidate) return row.request.lane;
+  if (row.request.lane === "inbox") return "inbox";
+  switch (row.candidate.status) {
+    case "awaiting-review":
+      return "needs-review";
+    case "revision-requested":
+      return "revision-requested";
+    case "approved":
+    case "integration-ready":
+    case "accepted":
+      return "approved-awaiting-integration";
+    case "installed":
+    case "in-game":
+      return "in-game";
+    case "rejected":
+      return "history";
+    default:
+      return row.request.lane;
+  }
+}
+
 export function filterCatalog(
   rows: readonly CatalogRow[],
   filter: CatalogFilter,
 ): CatalogRow[] {
   const needle = filter.text?.trim().toLowerCase() ?? "";
   return rows.filter((row) => {
-    if (
-      filter.lane &&
-      filter.lane !== "all" &&
-      row.request.lane !== filter.lane
-    )
+    if (filter.lane && filter.lane !== "all" && rowLane(row) !== filter.lane)
       return false;
     if (
       filter.status &&
@@ -974,7 +1005,8 @@ export function facetCounts(rows: readonly CatalogRow[]): FacetCounts {
   const tags: Record<string, Record<string, number>> = {};
   let untagged = 0;
   for (const row of rows) {
-    lanes[row.request.lane] = (lanes[row.request.lane] ?? 0) + 1;
+    const lane = rowLane(row);
+    lanes[lane] = (lanes[lane] ?? 0) + 1;
     if (!row.candidate) continue;
     statuses[row.candidate.status] = (statuses[row.candidate.status] ?? 0) + 1;
     if (isUntagged(row.candidate.tags)) untagged += 1;

@@ -1,49 +1,67 @@
-# Art Desk first usable slice
+# Art Desk → Artbench: the owner's asset-production workspace
 
-Owner packet: `00_MODULAR41 — ART DESK FIRST USABLE SLICE`. Base
-`fed321f7667bbe5c3570679554a2f6b88d3bf8b1` (origin/main at fetch time).
-Branch `claude/artdesk-first-usable-slice`. LAND handshake: Drive doc
-"ARTDESK FIRST USABLE SLICE — Fable handshake to LAND (2026-09-16)".
+Owner packets: `00_MODULAR41 › ART DESK FIRST USABLE SLICE` and
+`ARTBENCH COMPLETE WORKFLOW`. Base `fed321f7` (origin/main). Branch
+`claude/artdesk-first-usable-slice`. LAND (Codex) receives; Drive thread in the
+MODULAR41 packet folder; desktop hub embeds the bench.
 
-## Findings repaired (director's source findings at the tested head)
+## What exists now
 
-1. `ArtDeskView` hardwired `privatePackPath: undefined` and
-   `privatePackInputState(null)`, so the pack-missing banner was an assumption.
-   Now the identified server answers `GET /__dev/art-desk/inputs` with a receipt:
-   pack `not-configured | missing | invalid | incomplete | verified` (from
-   `PG_PRIVATE_ART_PACK`, pack.json, manifest hash, file presence, sampled
-   hashes) and a per-candidate byte state. The browser renders the receipt and
-   shows `unknown` until it arrives. Environment requests carry their own style
-   authority; only people requests reference the pack, with its real state.
-2. `projectArtDesk` said "Candidate bytes present" when only metadata existed.
-   Candidates now carry `bytes: unchecked | verified | missing | hash-mismatch |
-   not-a-raster`; coverage notes and thumbnails say which. The doorstep JPEG
-   `b0ced60c…7266` stays recorded as history with its bytes reported missing;
-   no bounded local source held a retained copy, and nothing was invented.
-3. Decisions bound a recorded hash without verifying bytes. `decisionBlocker`
-   gates the UI, `decide` re-reads the receipt and binds the server-verified
-   hash, and the bridge refuses (`422 candidate-unverified`) any new review
-   whose bytes are absent, changed or undecodable at the write boundary.
-   Existing reviews in the file are history and are left alone. Decision-write
-   tests use fixture authors, never `lamontae`.
-4. Uploads persisted bytes but kept the request↔candidate map in React state.
-   The bridge now validates the raster (magic bytes, dimensions, path hash equals
-   content hash) and the view records the association in the private, gitignored
-   sidecar `art/generated/candidates/art-desk/candidates.json` with If-Match.
-   Reload reads it back through the receipt.
-5. Rows without a thumbnail collapsed the copy into the 72px column. Every row
-   is the same two-column grid with a labelled empty slot. Approval and
-   navigation keys are ignored while typing in a field.
+- **Event contract** `src/authoring/artbench.ts` (`artbench-events/v1`):
+  request.created, candidate.ingested, candidate.selected, review.decided,
+  tags.set, integration.queued, integration.received, batch.completed. Stable
+  ids: assetId (logical), candidateId (bytes ingested), sha256 (exact bytes),
+  parentCandidateId (edit lineage), eventId (immutable fact). Projection is
+  rebuildable; lanes are per candidate row; tags carry versions and conflicts
+  are surfaced, never last-writer-wins.
+- **Store** `scripts/dev-lab/artbench-store.ts`: data root outside any worktree
+  (`PG_ARTBENCH_DATA_ROOT`, hub alias `PG_ART_DESK_RECORD_ROOT`), fsynced
+  `events/events.jsonl`, immutable `bytes/<sha>`, `inbox/`, `outbox/`, `sync/`.
+  Legacy sidecars migrate in as events with source `legacy`. Intake fully
+  decodes PNG/JPEG (pngjs/jpeg-js) under ceilings, dedupes by request+hash,
+  inherits tags/notes/lineage from a parent, marks derived detail and
+  calibration rechecks. Decisions are owner-only, bound to the viewed candidate
+  and hash, re-verify bytes, and enqueue one integration item on approval.
+- **Bridge** `scripts/dev-lab/artbench-bridge.ts`: `/__dev/artbench/{state,
+intake, events, original, brief, sync}` on the identified loopback server;
+  honors the hub's `X-OCD-Art-Desk-Token` when `PG_ART_DESK_TOKEN` is set.
+- **Exchange**: the sync worker polls the Drive-for-desktop mirror of
+  `80_ARTBENCH_EXCHANGE` (`PG_ARTBENCH_DRIVE_ROOT` overrides): complete
+  batches in `01_INBOX` (manifest.json last or COMPLETE marker) ingest with
+  per-item dedupe; events export to `03_REVIEW_AND_INTEGRATION_EVENTS/<eventId>.json`;
+  `02_CATALOG/{catalog.json,CATALOG.md,events-index.json,candidates/<sha>}`
+  are rebuildable projections; foreign events (LAND receipts) are admitted once.
+  No tokens; nothing leaves loopback.
+- **Bench UI** `src/ui/ArtDeskView.tsx`: lanes (need generation, awaiting
+  capable worker, claimed, needs review, revision requested, approved/awaiting
+  integration, in game, history, inbox), facets + text search + untagged, new
+  and related requests, copy/download brief, multi-file and drag/drop intake,
+  alternatives strip with selected revision and parent compare, checkerboard
+  alpha, download original, upload edited version (edit kind + note, optional
+  upload-and-approve), revision dialog with exact text, tag editor, decision
+  history, integration queue, sync panel with Sync now.
 
-## QA proof
+## Guards closed (director R1/R2 + manifest)
 
-A disposable QA request lives only in the private sidecar
-`art/generated/candidates/art-desk/qa-requests.json`; the e2e test creates it,
-uploads an existing tracked raster, checks full-size preview, reloads, checks
-the same hash and preview, then restores both sidecars and removes the bytes.
-It is bench proof, not coverage or acceptance of any production art.
+Real bounded decode at upload and decision time; review history append-only
+(changed/deleted/duplicate ids refused); empty/malformed/undeclared pack
+manifests invalid; sampled hashes labelled sampled.
 
-## Not done here
+## Proof
 
-No image generation, no provider, no people/appearance edits, no owner-save
-changes, no doorstep recovery. LAND merges.
+`tests/e2e/artbench.spec.ts` runs the combined journey on isolated roots:
+needed request → brief → ten-item batch with one invalid file, manifest last →
+duplicate retry → restart → filter → approve untagged → tags → revision text →
+export/readback → download original → upscale and transparent reimports with
+carried identity/tags and new hashes → approve the new revision → integration
+items → stale/agent/conflict guards → typing safety. Unit: 27 store tests,
+raster decode, inputs receipts, bridge boundaries.
+
+## Remaining
+
+- Drive for desktop syncing is paused on this Mac (its log says so); the mirror
+  has not received `80_ARTBENCH_EXCHANGE`. Resuming is the owner's client
+  setting; the worker picks the folder up automatically afterwards.
+- No image generator is registered; lanes say "awaiting capable worker".
+- LAND integration receipts arrive as `integration.received` events in the
+  exchange; installed/published states come from those, never from approval.

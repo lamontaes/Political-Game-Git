@@ -47,6 +47,7 @@ export const ART_DESK_BRIDGE_PATHS = [
 ] as const;
 
 export const ART_DESK_INPUTS_ROUTE = "/__dev/art-desk/inputs";
+const ART_DESK_TOKEN_HEADER = "x-ocd-art-desk-token";
 const REVIEWS_PATH = "art/requests/asset-reviews.json";
 
 const ALLOWED = new Set<string>(ART_DESK_BRIDGE_PATHS);
@@ -429,6 +430,22 @@ async function dispatch(
   response: ServerResponse,
 ): Promise<void> {
   const url = new URL(request.url ?? "/", "http://127.0.0.1");
+  const expectedToken = process.env.PG_ART_DESK_TOKEN;
+  if (
+    expectedToken &&
+    request.method !== "GET" &&
+    header(request, ART_DESK_TOKEN_HEADER) !== expectedToken
+  ) {
+    respond(
+      response,
+      fail(
+        401,
+        "unauthorized-origin",
+        "Host token missing or wrong for a write.",
+      ),
+    );
+    return;
+  }
   const options: BridgeInputsOptions = {
     packDirectory: process.env[PRIVATE_PACK_ENV] || undefined,
     now: new Date().toISOString(),

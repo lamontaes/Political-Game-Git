@@ -21,6 +21,17 @@ import {
 } from "./artbench-store";
 
 export const ARTBENCH_ROUTE_PREFIX = "/__dev/artbench/";
+/** Desktop hub launch token: when set, every artbench request must carry it. */
+export const ART_DESK_TOKEN_ENV = "PG_ART_DESK_TOKEN";
+export const ART_DESK_TOKEN_HEADER = "x-ocd-art-desk-token";
+
+export function tokenAccepted(
+  provided: string | null,
+  expected: string | undefined = process.env[ART_DESK_TOKEN_ENV],
+): boolean {
+  if (!expected) return true;
+  return provided !== null && provided === expected;
+}
 const MAX_JSON_BODY = 4 * 1024 * 1024;
 const MAX_UPLOAD_BODY = 96 * 1024 * 1024;
 
@@ -92,6 +103,13 @@ export function createArtbenchHandler(store: ArtbenchStore) {
       sendJson(response, 403, {
         error: "not-loopback",
         message: "Artbench is loopback-only.",
+      });
+      return;
+    }
+    if (!tokenAccepted(header(request, ART_DESK_TOKEN_HEADER))) {
+      sendJson(response, 401, {
+        error: "token-required",
+        message: `This bench was launched with a host token; send it as ${ART_DESK_TOKEN_HEADER}.`,
       });
       return;
     }
