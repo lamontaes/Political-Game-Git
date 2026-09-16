@@ -45,21 +45,24 @@ export function assessUpdateTarget({
   return { action: "build", reason: "newer-main" };
 }
 
-export function controllerPaths(dataRoot, revision) {
+export function controllerPaths(dataRoot, revision, inputTag = null) {
   if (!validateRevision(revision)) throw new Error("Invalid build revision.");
+  if (inputTag !== null && !/^[0-9a-f]{8,64}$/.test(inputTag))
+    throw new Error("Invalid build input tag.");
   const root = path.resolve(dataRoot);
   const versionsRoot = path.join(root, "versions");
-  const stagingRoot = path.join(root, "staging", revision);
+  const buildKey = inputTag ? `${revision}-${inputTag}` : revision;
+  const stagingRoot = path.join(root, "staging", buildKey);
   return {
     root,
     statePath: path.join(root, "state.json"),
     versionsRoot,
     stagingRoot,
     sourcePath: path.join(stagingRoot, "source"),
-    versionPath: path.join(versionsRoot, revision),
+    versionPath: path.join(versionsRoot, buildKey),
     appPath: path.join(
       versionsRoot,
-      revision,
+      buildKey,
       "Our Civic Duty Internal Art Review.app",
     ),
   };

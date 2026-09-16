@@ -72,3 +72,6 @@ desktop/node_modules
 # regeneration byte for byte, so regenerate rather than hand-format.
 docs/systems/nationwide-rule-coverage.json
 docs/systems/nationwide-rule-coverage.md
+
+# Vendored third-party source kept byte-identical to its pinned upstream.
+desktop/private-controller/vendor/
