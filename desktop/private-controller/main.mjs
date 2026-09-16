@@ -1,4 +1,4 @@
-/* global process, setTimeout, clearTimeout, URL, Response */
+/* global process, setTimeout, URL, Response */
 /**
  * Our Civic Duty Private — the owner's private development hub.
  *
@@ -40,7 +40,11 @@ import {
 } from "../app-protocol.mjs";
 import { portableDownloadSavePath } from "../download-policy.mjs";
 import { AgentsHost } from "./agents/agents-host.mjs";
-import { ART_DESK_TOKEN_HEADER, ArtDeskHost } from "./artdesk-host.mjs";
+import {
+  ART_DESK_TOKEN_HEADER,
+  ArtDeskHost,
+  artDeskDownloadPath,
+} from "./artdesk-host.mjs";
 import {
   MAIN_TRACK,
   activatePending,
@@ -54,6 +58,11 @@ import {
   validRevision,
 } from "./hub-model.mjs";
 import { buildRecord, repositoryIsExpected } from "./private-update.mjs";
+import {
+  SILENCE_NOTICE_MS,
+  createSilenceWatch,
+  silenceNotice,
+} from "./worker-watch.mjs";
 
 const {
   app,
@@ -298,6 +307,17 @@ async function verifiedRepository() {
 
 /* ------------------------------------------------------------ hub status */
 
+function readHubBuild() {
+  try {
+    return JSON.parse(
+      readFileSync(path.join(process.resourcesPath, "hub-build.json"), "utf8"),
+    ).hub;
+  } catch {
+    return { revision: "unpackaged", version: app.getVersion() };
+  }
+}
+const hubBuild = readHubBuild();
+
 const hub = {
   window: null,
   chrome: null,
@@ -346,6 +366,34 @@ function publicState() {
     repositoryPath: state?.repositoryPath ?? null,
     privatePackPath: state?.privatePackPath ?? null,
     artDeskBranch: settings.artDeskBranch,
+    identities: {
+      hub: {
+        revision: hubBuild.revision,
+        desktopDirty: hubBuild.desktopDirty ?? null,
+        signing: hubBuild.signing ?? "unknown",
+      },
+      game: (() => {
+        const build = state?.tracks[selected]?.current;
+        return build
+          ? {
+              track: selected,
+              revision: build.revision,
+              clientTreeSha256: build.clientTreeSha256,
+              architecture: build.architecture,
+            }
+          : null;
+      })(),
+      bench:
+        hub.artdesk?.status?.state === "ready"
+          ? {
+              branch: hub.artdesk.status.branch,
+              revision: hub.artdesk.status.revision,
+              requestedRevision: hub.artdesk.status.requestedRevision,
+              recordRoot: hub.artdesk.status.recordRoot,
+            }
+          : null,
+      privatePack: state?.tracks[selected]?.current?.privatePack ?? null,
+    },
     artdesk: hub.artdesk?.status ?? null,
     log: hub.log.slice(-60),
     architecture: process.arch,
@@ -555,6 +603,8 @@ function localView(file, query = null) {
   return view;
 }
 
+let artDeskDownloadsConfigured = false;
+
 function artDeskView(url) {
   const origin = new URL(url).origin;
   const view = new WebContentsView({
@@ -587,6 +637,28 @@ function artDeskView(url) {
     if (!target.startsWith(`${origin}/`)) event.preventDefault();
   });
   contents.setWindowOpenHandler(() => ({ action: "deny" }));
+  if (!artDeskDownloadsConfigured) {
+    artDeskDownloadsConfigured = true;
+    contents.session.on("will-download", (event, item) => {
+      const dest = artDeskDownloadPath({
+        filename: item.getFilename(),
+        url: item.getURL(),
+        benchOrigin: hub.artdesk?.url ? new URL(hub.artdesk.url).origin : null,
+        downloadsDir:
+          process.env.OCD_DOWNLOAD_DIR ||
+          path.join(app.getPath("downloads"), "Our Civic Duty Art Desk"),
+      });
+      if (!dest) {
+        event.preventDefault();
+        return;
+      }
+      mkdirSync(path.dirname(dest), { recursive: true });
+      item.setSavePath(dest);
+      item.once("done", (_event, state) =>
+        logLine(`Art Desk download ${state}: ${dest}`),
+      );
+    });
+  }
   void contents.loadURL(url);
   return view;
 }
@@ -658,23 +730,22 @@ function startWorker(track) {
   );
   hub.worker = child;
   hub.workerTrack = track;
-  // The worker's first step reads the project and pack folders. A worker
-  // that stays silent is usually waiting on a macOS privacy prompt (each
-  // unsigned build is a new app to macOS).
-  let heard = false;
-  const silence = setTimeout(() => {
-    if (heard || hub.worker !== child) return;
-    hub.phase[track] = {
-      phase: "fetching",
-      message:
-        "Waiting for macOS permission to read the project folder — answer the system prompt (Allow) to continue. Play is unaffected.",
-    };
-    broadcast();
-  }, 10000);
+  const watch = createSilenceWatch({
+    onSilent: () => {
+      if (hub.worker !== child) return;
+      hub.phase[track] = {
+        phase: hub.phase[track]?.phase ?? "fetching",
+        message: silenceNotice({
+          hasPlayableBuild: Boolean(readState()?.tracks[track]),
+          seconds: SILENCE_NOTICE_MS / 1000,
+        }),
+      };
+      broadcast();
+    },
+  });
   let pending = "";
   const consume = (chunk) => {
-    heard = true;
-    clearTimeout(silence);
+    watch.heard();
     pending += String(chunk);
     const lines = pending.split("\n");
     pending = lines.pop() ?? "";
@@ -691,10 +762,12 @@ function startWorker(track) {
   };
   child.stdout.on("data", consume);
   child.stderr.on("data", consume);
-  child.on("error", (error) =>
-    onWorkerEvent(track, { kind: "error", message: error.message }),
-  );
+  child.on("error", (error) => {
+    watch.settle();
+    onWorkerEvent(track, { kind: "error", message: error.message });
+  });
   child.on("exit", (code, signal) => {
+    watch.settle();
     if (pending) consume("\n");
     hub.worker = null;
     hub.workerTrack = null;

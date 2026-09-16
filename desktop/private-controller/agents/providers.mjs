@@ -219,7 +219,7 @@ export async function detectCursor() {
       automaticDelivery: agentBinary
         ? "headless cursor-agent present; not yet proven"
         : "no headless cursor-agent installed; the app's 'cursor agent' installs it on first use (owner action)",
-      wake: "open Cursor chats: no verified wake path",
+      wake: "no wake path verified in this install for open Cursor chats",
     },
   };
 }
@@ -246,8 +246,8 @@ export async function detectAntigravity() {
       messaging:
         "Antigravity MCP (serverUrl) — enrollment snippet from the hub",
       automaticDelivery:
-        "none from the hub: agentapi only works inside a running Antigravity agent (it needs ANTIGRAVITY_LS_ADDRESS)",
-      wake: "no external wake path; an open Antigravity chat with the hub entry can poll while active",
+        "none found in this install: its agentapi runs only inside a running Antigravity agent (needs ANTIGRAVITY_LS_ADDRESS)",
+      wake: "no external wake path found in this install; an open Antigravity chat with the hub entry can poll while active",
     },
   };
 }

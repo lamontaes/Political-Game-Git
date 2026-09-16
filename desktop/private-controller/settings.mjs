@@ -23,6 +23,18 @@ function render(state) {
   if (document.activeElement !== $("artdesk-input"))
     $("artdesk-input").value = state.artDeskBranch;
   $("arch").textContent = `${state.architecture} · hub ${state.hubVersion}`;
+  const ids = state.identities ?? {};
+  $("id-hub").textContent =
+    `${ids.hub?.revision ?? "unknown"}${ids.hub?.desktopDirty ? " (uncommitted desktop changes)" : ""} · ${ids.hub?.signing ?? ""}`;
+  $("id-game").textContent = ids.game
+    ? `${ids.game.track} · ${ids.game.revision} · client ${ids.game.clientTreeSha256} · ${ids.game.architecture}`
+    : "No verified build yet";
+  $("id-bench").textContent = ids.bench
+    ? `${ids.bench.branch} @ ${ids.bench.revision}${ids.bench.requestedRevision && ids.bench.requestedRevision !== ids.bench.revision ? ` (newer ${ids.bench.requestedRevision} waiting)` : ""} · records ${ids.bench.recordRoot}`
+    : "Not started";
+  $("id-pack").textContent = ids.privatePack
+    ? `${ids.privatePack.packId} · manifest ${ids.privatePack.manifestSha256}`
+    : "Unknown for this build";
   const rows = Object.entries(state.tracks).map(([id, track]) => {
     const tr = document.createElement("tr");
     tr.append(

@@ -75,6 +75,30 @@ function runQuiet(command, args, options = {}) {
   });
 }
 
+/**
+ * Where a bench download (an original or edited raster the owner asked for)
+ * may land: only from the running bench origin, only raster/archive names,
+ * never outside the downloads folder.
+ */
+export function artDeskDownloadPath({
+  filename,
+  url,
+  benchOrigin,
+  downloadsDir,
+}) {
+  if (!benchOrigin) return null;
+  const source = String(url ?? "");
+  if (!source.startsWith(`${benchOrigin}/`) && !source.startsWith("blob:"))
+    return null;
+  if (source.startsWith("blob:") && !source.startsWith(`blob:${benchOrigin}/`))
+    return null;
+  const base = path.basename(String(filename ?? ""));
+  if (!/^[^/\\]+\.(png|jpe?g|webp|zip)$/i.test(base)) return null;
+  const resolved = path.resolve(downloadsDir, base);
+  if (!resolved.startsWith(path.resolve(downloadsDir) + path.sep)) return null;
+  return resolved;
+}
+
 export class ArtDeskHost {
   constructor({ dataRoot, env, onStatus }) {
     this.root = path.join(dataRoot, "artdesk");
