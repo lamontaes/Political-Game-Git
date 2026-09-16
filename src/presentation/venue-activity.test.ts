@@ -87,9 +87,11 @@ describe("normal venue activity control", () => {
       "completed",
     );
     expect(completedActivityHere(next, personId)?.id).toBe(entry.activity.id);
-    expect(resolveVenueScene(next, personId).sceneId).toBe(
-      "civic-community-meeting-room",
-    );
+    expect(resolveVenueScene(next, personId)).toMatchObject({
+      sceneId: null,
+      activityId: entry.activity.id,
+      reason: "The venue has no released production plate.",
+    });
     expect(
       resolveVenueScene(deserializeWorld(serializeWorld(next)), personId),
     ).toEqual(resolveVenueScene(next, personId));

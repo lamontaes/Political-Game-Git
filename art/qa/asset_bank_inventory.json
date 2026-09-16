@@ -43,12 +43,6 @@
         "familyId": "shared-workroom-office",
         "released": true,
         "path": "art/families/shared-workroom-office/env_shared_workroom_office_runtime_2x_v1.png"
-      },
-      {
-        "assetId": "title_bg_civic_community_meeting_hero_slot_5504x3072_v1",
-        "familyId": "civic-community-meeting",
-        "released": true,
-        "path": "art/families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_runtime_2048_v1.png"
       }
     ],
     "registeredFamilies": [
@@ -350,7 +344,6 @@
       "consumingAnchors": [
         "campaign-storefront-production:phone-bank-standing",
         "civic-community-meeting-room:stage-left-standing",
-        "civic-community-meeting-title:stage-left-standing",
         "civic-hearing-room-production:hearing-floor-standing",
         "courtroom-empty-production:gallery-aisle-standing",
         "courtroom-empty-production:well-floor-standing",
@@ -377,7 +370,6 @@
       "consumingAnchors": [
         "campaign-storefront-production:organizer-standing",
         "civic-community-meeting-room:podium-speaker",
-        "civic-community-meeting-title:podium-speaker",
         "civic-hearing-room-production:witness-lectern-standing",
         "courtroom-empty-production:counsel-table-left-standing",
         "legislative-chamber-production:rostrum-lectern-standing",

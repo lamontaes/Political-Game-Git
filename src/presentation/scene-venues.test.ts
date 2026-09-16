@@ -150,7 +150,7 @@ describe("where a life actually is", () => {
    * with a posted public meeting is IN the meeting hall while the meeting is
    * on. Before ENV-ALL1 this life saw its living room or a page of text.
    */
-  it("shows the meeting aftermath only after actual activity performance", () => {
+  it("records meeting attendance without presenting the retired room plate", () => {
     const life = anOrdinaryLife("venue-positive");
     const meeting = scheduledActivitiesVisibleTo(
       life.world,
@@ -166,11 +166,12 @@ describe("where a life actually is", () => {
 
     const during = performVenueActivity(life.world, life.personId, meeting!.id);
     const resolved = resolveVenueScene(during, life.personId);
-    expect(resolved.sceneId).toBe(PUBLIC_MEETING_ROOM_SCENE_ID);
+    expect(resolved.sceneId).toBeNull();
     expect(resolved.activityId).toBe(meeting!.id);
+    expect(resolved.reason).toBe("The venue has no released production plate.");
 
-    // And it reaches the surface the player actually looks at.
-    expect(resolveLifeScene(during, life.personId).sceneId).toBe(
+    // The player surface must not revive the rejected meeting-room backdrop.
+    expect(resolveLifeScene(during, life.personId).sceneId).not.toBe(
       PUBLIC_MEETING_ROOM_SCENE_ID,
     );
     expect(
