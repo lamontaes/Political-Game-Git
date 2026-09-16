@@ -323,6 +323,18 @@ async function main() {
     });
     const samePack =
       existing?.current?.privatePack?.manifestSha256 === pack.manifestSha256;
+    const pendingMatches =
+      existing?.pending?.revision === targetRevision &&
+      existing.pending.privatePack?.manifestSha256 === pack.manifestSha256 &&
+      existsSync(existing.pending.appPath);
+    if (pendingMatches) {
+      writeState(statePath, { ...state, repositoryPath });
+      return emit(
+        "complete",
+        `The ${label} build ${targetRevision.slice(0, 12)} is already verified and waiting to be activated.`,
+        { outcome: "pending", track: id, revision: targetRevision },
+      );
+    }
     if (assessment.action === "none" && samePack) {
       writeState(statePath, { ...state, repositoryPath });
       return emit("complete", `This is already the current ${label} build.`, {

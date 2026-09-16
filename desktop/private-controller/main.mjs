@@ -1111,6 +1111,15 @@ if (!app.requestSingleInstanceLock()) {
     await hub.agents.start().catch((error) => {
       logLine(`Agent broker unavailable: ${error.message}`);
     });
+    // No game view is open yet, so a verified build that waited for the
+    // previous Play session to close can take over now.
+    for (const [id, track] of Object.entries(readState().tracks))
+      if (track.pending) {
+        atomicWrite(statePath, activatePending(readState(), id));
+        logLine(
+          `Activated the waiting ${id} build ${track.pending.revision.slice(0, 12)}.`,
+        );
+      }
     createWindow();
     const opened = await openPlay(readState().selectedTrack);
     if (!opened.ok) logLine(opened.message);
