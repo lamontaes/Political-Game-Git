@@ -1,13 +1,14 @@
-/* global console, process, setTimeout, fetch */
+/* global console, process, setTimeout, fetch, URL, atob */
 /**
  * Art Desk inside the packaged private hub, in an isolated data root:
  * import an existing raster for a disposable QA request, see the decoded
  * preview, bind a review to the verified hash, quit, relaunch, and find the
  * same request, candidate hash, preview and review again.
  *
- * The review is written with a fixture author through the bench's bridge.
- * The bench's own decision buttons record the owner as author, so this proof
- * never clicks them: an agent must not fabricate an owner approval.
+ * Uses the bench's artbench store (events + intake). The decision is sent
+ * with an explicit fixture owner actor; an agent actor must be refused. The
+ * bench's own decision buttons act as the owner, so this proof never clicks
+ * them. Events are immutable, so each run uses a fresh request id.
  *
  * Usage:
  *   node scripts/hub-artdesk-test.mjs --hub <hub executable>
@@ -83,9 +84,6 @@ const QA_REQUEST = {
   acceptanceCriteria: ["Preview decodes after restart."],
   dependsOn: [],
 };
-const QA_SIDECAR = "art/generated/candidates/art-desk/qa-requests.json";
-const CANDIDATE_SIDECAR = "art/generated/candidates/art-desk/candidates.json";
-const REVIEWS = "art/requests/asset-reviews.json";
 const RASTER =
   "art/families/campaign-storefront/env_campaign_storefront_v1.png";
 
@@ -183,41 +181,56 @@ async function openArtDesk(app, chrome) {
   return desk;
 }
 
-const bridge = (desk, method, file, body, ifMatch) =>
-  desk.evaluate(
-    async ({ method, file, body, ifMatch }) => {
-      const response = await fetch(
-        `/__dev/art-desk/file?path=${encodeURIComponent(file)}`,
-        {
-          method,
-          headers: {
-            "Content-Type": "application/json",
-            ...(ifMatch ? { "If-Match": ifMatch } : {}),
-          },
-          body: method === "PUT" ? body : undefined,
-        },
-      );
-      return {
-        status: response.status,
-        revision: response.headers.get("x-art-desk-revision"),
-        text: await response.text(),
-      };
-    },
-    { method, file, body, ifMatch },
-  );
-
 async function quitHub(app) {
   await app.evaluate(({ app: electronApp }) => electronApp.quit());
   await app.waitForEvent("close", { timeout: 30000 }).catch(() => {});
 }
 
-let hash = null;
 const worktree = path.join(dataRoot, "artdesk", branchSlug(branch), "source");
-let priorQa = null;
-let priorCandidates = null;
-let priorReviews = null;
+const requestId = `qa-hub-proof-${Date.now().toString(36)}`;
+const FIXTURE_ACTOR = { kind: "owner", id: "hub-qa-fixture" };
 
-// ---- Session 1: import, preview, review -----------------------------------
+// Every bench request from the hub's Art Desk view carries the hub token.
+const artbench = (desk, method, route, { json, base64, contentType } = {}) =>
+  desk.evaluate(
+    async ({ method, route, json, base64, contentType }) => {
+      let body;
+      if (base64 !== undefined)
+        body = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
+      else if (json !== undefined) body = JSON.stringify(json);
+      const response = await fetch(route, {
+        method,
+        headers: body
+          ? { "Content-Type": contentType ?? "application/json" }
+          : {},
+        body,
+      });
+      const text = await response.text();
+      let parsed = null;
+      try {
+        parsed = JSON.parse(text);
+      } catch {
+        parsed = null;
+      }
+      return { status: response.status, json: parsed, text };
+    },
+    { method, route, json, base64, contentType },
+  );
+
+async function showRow(desk) {
+  const row = desk.getByTestId(`art-desk-row-${requestId}`);
+  const lanes = desk.locator('[data-testid^="art-desk-lane-"]');
+  for (let index = 0; index < (await lanes.count()); index += 1) {
+    if (await row.isVisible()) break;
+    await lanes.nth(index).click();
+    await sleep(300);
+  }
+  await row.click();
+}
+
+let candidate = null;
+
+// ---- Session 1: request, import, preview, decision --------------------------
 {
   const { app, chrome } = await launchHub();
   const desk = await openArtDesk(app, chrome);
@@ -226,56 +239,68 @@ let priorReviews = null;
     .getAttribute("data-pack-status");
   check("session 1: bench reports the private pack", pack === "verified", pack);
 
-  priorQa = await bridge(desk, "GET", QA_SIDECAR);
-  priorCandidates = await bridge(desk, "GET", CANDIDATE_SIDECAR);
-  priorReviews = await bridge(desk, "GET", REVIEWS);
-  const wrote = await bridge(
+  const unauthenticated = await fetch(
+    new URL("/__dev/artbench/state", desk.url()),
+  ).then((r) => r.status);
+  check(
+    "session 1: a caller without the hub token is refused",
+    unauthenticated === 401,
+    String(unauthenticated),
+  );
+
+  const created = await artbench(desk, "POST", "/__dev/artbench/events", {
+    json: {
+      type: "request.created",
+      actor: FIXTURE_ACTOR,
+      payload: {
+        request: {
+          ...QA_REQUEST,
+          requestId,
+          priority: "P2",
+        },
+      },
+    },
+  });
+  check(
+    "session 1: disposable request created as a fixture-owner event",
+    created.status === 201,
+    `${created.status} ${created.text.slice(0, 100)}`,
+  );
+
+  const raster = path.join(worktree, RASTER);
+  const intake = await artbench(
     desk,
     "PUT",
-    QA_SIDECAR,
-    JSON.stringify({ documentVersion: 1, requests: [QA_REQUEST] }),
-    priorQa.status === 200 ? priorQa.revision : undefined,
+    `/__dev/artbench/intake?meta=${encodeURIComponent(
+      JSON.stringify({ requestId, actor: FIXTURE_ACTOR, note: "hub proof" }),
+    )}`,
+    {
+      base64: readFileSync(raster).toString("base64"),
+      contentType: "image/png",
+    },
   );
+  candidate = intake.json?.candidate ?? null;
   check(
-    "session 1: disposable QA request written to the private sidecar",
-    wrote.status < 300,
-    String(wrote.status),
+    "session 1: raster imported and decoded at intake",
+    intake.status === 201 && Boolean(candidate?.sha256) && candidate.width > 0,
+    `${intake.status} ${candidate?.sha256 ?? intake.text.slice(0, 100)}`,
   );
+
   await desk.reload();
   await desk.getByTestId("art-desk-inputs").waitFor();
-  await desk.getByTestId(`art-desk-row-${QA_ID}`).click();
-  const raster = path.join(worktree, RASTER);
-  check(
-    "session 1: the bench worktree holds the raster to import",
-    existsSync(raster),
-    raster,
-  );
-  await desk.getByTestId("art-desk-upload").setInputFiles(raster);
-  await desk
-    .getByTestId("art-desk-status")
-    .filter({ hasText: "Stored candidate" })
-    .waitFor({ timeout: 30000 });
+  await showRow(desk);
   const state = desk.getByTestId("art-desk-candidate-state");
   await waitFor(
     async () =>
-      (await state.getAttribute("data-candidate-bytes")) === "verified",
-    "verified bytes",
+      (await state.getAttribute("data-candidate-bytes")) === "verified" &&
+      ((await state.textContent()) ?? "").includes(
+        `Recorded hash ${candidate.sha256.slice(0, 12)}`,
+      ),
+    "verified candidate in the UI",
     30000,
   );
-  const inputs = await desk.evaluate(() =>
-    fetch("/__dev/art-desk/inputs").then((r) => r.json()),
-  );
-  const candidate = (inputs.candidates ?? []).find(
-    (c) => c.requestId === QA_ID,
-  );
-  hash = candidate?.actualSha256 ?? candidate?.sha256 ?? null;
-  check(
-    "session 1: imported candidate verified by hash",
-    Boolean(hash) && candidate.bytes === "verified",
-    hash ?? "none",
-  );
+  check("session 1: UI shows the verified hash", true, candidate.sha256);
   const preview = desk.getByTestId("art-desk-candidate-preview");
-  await preview.waitFor();
   const width = await waitFor(
     () => preview.evaluate((img) => img.naturalWidth),
     "decoded preview",
@@ -283,63 +308,63 @@ let priorReviews = null;
   );
   check("session 1: actual decoded preview", width > 0, `${width}px wide`);
 
-  const reviews = await bridge(desk, "GET", REVIEWS);
-  const reviewDocument = JSON.parse(reviews.text);
-  const review = {
-    reviewId: `${QA_ID}-${hash.slice(0, 12)}-hub-fixture`,
-    requestId: QA_ID,
-    requestVersion: 1,
-    outputSha256: hash,
-    contractVersion: "alive43-art-desk-v1",
-    fitContractHash: "f".repeat(64),
-    sceneContractHash: "e".repeat(64),
-    decision: "request-revision",
-    authorId: "hub-qa-fixture",
-    decidedAt: new Date().toISOString(),
-    rightsStatus: "unknown",
-    sourceDeclaration: "hub QA fixture; not an owner decision",
-  };
-  const bound = await bridge(
-    desk,
-    "PUT",
-    REVIEWS,
-    JSON.stringify({
-      ...reviewDocument,
-      reviews: [...reviewDocument.reviews, review],
-    }),
-    reviews.revision,
-  );
+  const hex = (c) => c.repeat(64);
+  const agentDecision = await artbench(desk, "POST", "/__dev/artbench/events", {
+    json: {
+      type: "review.decided",
+      actor: { kind: "agent", id: "hub-qa-agent" },
+      payload: {
+        candidateId: candidate.candidateId,
+        viewedCandidateId: candidate.candidateId,
+        viewedSha256: candidate.sha256,
+        decision: "approve",
+        fitContractHash: hex("f"),
+        sceneContractHash: hex("e"),
+        contractVersion: "alive43-art-desk-v1",
+      },
+    },
+  });
   check(
-    "session 1: hash-bound fixture review accepted at the write boundary",
-    bound.status < 300,
-    `${bound.status} ${bound.text.slice(0, 120)}`,
+    "session 1: an agent cannot record a decision",
+    agentDecision.status === 403,
+    String(agentDecision.status),
+  );
+  const decided = await artbench(desk, "POST", "/__dev/artbench/events", {
+    json: {
+      type: "review.decided",
+      actor: FIXTURE_ACTOR,
+      payload: {
+        candidateId: candidate.candidateId,
+        viewedCandidateId: candidate.candidateId,
+        viewedSha256: candidate.sha256,
+        decision: "request-revision",
+        note: "Hub proof only; not an owner decision.",
+        fitContractHash: hex("f"),
+        sceneContractHash: hex("e"),
+        contractVersion: "alive43-art-desk-v1",
+      },
+    },
+  });
+  check(
+    "session 1: hash-bound fixture decision accepted",
+    decided.status === 201,
+    `${decided.status} ${decided.text.slice(0, 100)}`,
   );
   if (shots)
     await desk.screenshot({ path: path.join(shots, "artdesk-session1.png") });
   await quitHub(app);
 }
 
-// ---- Session 2: restart, same request, candidate and review ----------------
+// ---- Session 2: restart, same request, candidate and decision ---------------
 {
   const { app, chrome } = await launchHub();
   const desk = await openArtDesk(app, chrome);
-  // A reviewed request moves to another lane: search, then step through lanes.
-  await desk.getByLabel("Search requests").fill(QA_ID);
-  const row = desk.getByTestId(`art-desk-row-${QA_ID}`);
-  const lanes = desk
-    .getByRole("navigation", { name: "Art Desk lanes" })
-    .getByRole("button");
-  for (let index = 0; index < (await lanes.count()); index += 1) {
-    if (await row.isVisible()) break;
-    await lanes.nth(index).click();
-    await sleep(300);
-  }
-  await row.click();
+  await showRow(desk);
   const state = desk.getByTestId("art-desk-candidate-state");
   await waitFor(
     async () =>
       ((await state.textContent()) ?? "").includes(
-        `Recorded hash ${hash.slice(0, 12)}`,
+        `Recorded hash ${candidate.sha256.slice(0, 12)}`,
       ),
     "same hash after restart",
     30000,
@@ -347,11 +372,7 @@ let priorReviews = null;
   check(
     "session 2: same candidate hash after restart",
     true,
-    hash.slice(0, 12),
-  );
-  check(
-    "session 2: association came back from the private sidecar",
-    ((await state.textContent()) ?? "").includes("upload-sidecar"),
+    candidate.sha256.slice(0, 12),
   );
   const preview = desk.getByTestId("art-desk-candidate-preview");
   const width = await waitFor(
@@ -359,53 +380,42 @@ let priorReviews = null;
     "decoded preview after restart",
     20000,
   );
+  check("session 2: preview decodes after restart", width > 0, `${width}px`);
+  const snapshot = await artbench(desk, "GET", "/__dev/artbench/state");
+  const text = JSON.stringify(snapshot.json ?? {});
   check(
-    "session 2: preview decodes after restart",
-    width > 0,
-    `${width}px wide`,
+    "session 2: store still holds the request, candidate and bytes",
+    snapshot.status === 200 &&
+      text.includes(requestId) &&
+      text.includes(candidate.candidateId) &&
+      snapshot.json?.bytes?.[candidate.candidateId]?.state === "verified",
+    snapshot.json?.bytes?.[candidate.candidateId]?.state ?? "missing",
   );
-  const reviews = JSON.parse((await bridge(desk, "GET", REVIEWS)).text);
-  const kept = reviews.reviews.find(
-    (r) => r.requestId === QA_ID && r.outputSha256 === hash,
+  const events = await artbench(
+    desk,
+    "GET",
+    "/__dev/artbench/events?sinceSeq=0",
+  );
+  const ours = JSON.stringify(events.json ?? {}).includes("hub-qa-fixture");
+  const decisions = (events.json?.events ?? []).filter(
+    (e) =>
+      e.type === "review.decided" &&
+      e.payload?.candidateId === candidate.candidateId,
   );
   check(
-    "session 2: review still bound to the same hash",
-    Boolean(kept),
-    kept?.reviewId ?? "missing",
+    "session 2: decision persisted, bound to the hash, fixture-authored only",
+    ours &&
+      decisions.length === 1 &&
+      decisions[0].payload.outputSha256 === candidate.sha256 &&
+      decisions[0].actor?.id === "hub-qa-fixture",
+    `${decisions.length} decision(s)`,
   );
   check(
-    "session 2: no owner approval was fabricated",
-    !reviews.reviews.some(
-      (r) => r.requestId === QA_ID && r.authorId === "lamontae",
-    ),
+    "session 2: store lives in the hub record root, outside the worktree",
+    existsSync(path.join(dataRoot, "art-records", "ocd", "store.json")),
   );
   if (shots)
     await desk.screenshot({ path: path.join(shots, "artdesk-session2.png") });
-
-  if (!args.includes("--keep")) {
-    // Leave the isolated bench as it was: restore sidecars and reviews.
-    const restore = async (file, prior, empty) => {
-      const now = await bridge(desk, "GET", file);
-      await bridge(
-        desk,
-        "PUT",
-        file,
-        prior?.status === 200 ? prior.text : empty,
-        now.status === 200 ? now.revision : undefined,
-      );
-    };
-    await restore(
-      QA_SIDECAR,
-      priorQa,
-      JSON.stringify({ documentVersion: 1, requests: [] }),
-    );
-    await restore(
-      CANDIDATE_SIDECAR,
-      priorCandidates,
-      JSON.stringify({ documentVersion: 1, candidates: [] }),
-    );
-    await restore(REVIEWS, priorReviews, null);
-  }
   await quitHub(app);
 }
 
