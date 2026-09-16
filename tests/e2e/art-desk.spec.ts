@@ -204,7 +204,7 @@ test("an existing raster round-trips upload → reload → same candidate → fu
       return Object.entries(state.projection.candidates).find(([, c]) =>
         c.sha256.startsWith(prefix),
       )?.[0];
-    }, hash);
+    }, hash ?? "");
     expect(uploadedId).toBeTruthy();
     await page.getByTestId(`art-desk-candidate-${uploadedId ?? ""}`).click();
     await expect(page.getByTestId("art-desk-candidate-state")).toContainText(
