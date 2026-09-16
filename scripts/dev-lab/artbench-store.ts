@@ -1321,14 +1321,28 @@ export class ArtbenchStore {
     }
   }
 
+  /**
+   * Foreign events are admitted in their authoring order (time, then the
+   * author's seq), never in directory order, so a candidate can never be
+   * admitted before the request it names.
+   */
   private admitForeignEvents(eventsDir: string): void {
     if (!existsSync(eventsDir)) return;
+    const pending: ArtbenchEvent[] = [];
     for (const name of readdirSync(eventsDir)) {
       if (!name.endsWith(".json")) continue;
       const file = join(eventsDir, name);
       if (lstatSync(file).isSymbolicLink()) continue;
       const event = readJson<ArtbenchEvent>(file);
-      if (event && this.admitForeign(event)) this.syncState.importedEvents += 1;
+      if (event && event.eventId && !this.known.has(event.eventId)) {
+        pending.push(event);
+      }
+    }
+    pending.sort((a, b) =>
+      a.at === b.at ? (a.seq ?? 0) - (b.seq ?? 0) : a.at < b.at ? -1 : 1,
+    );
+    for (const event of pending) {
+      if (this.admitForeign(event)) this.syncState.importedEvents += 1;
     }
   }
 

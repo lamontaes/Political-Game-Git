@@ -466,6 +466,68 @@ describe("artbench store: inbox batches and the exchange", () => {
     ).toBeTruthy();
   });
 
+  it("admits foreign events in authoring order even when filenames sort otherwise", () => {
+    const eventsDir = join(drive, "03_REVIEW_AND_INTEGRATION_EVENTS");
+    const base = {
+      contractVersion: "artbench-events/v1",
+      actor: { kind: "owner", id: "hub-qa-fixture" },
+      source: "bench",
+      origin: "store-hub",
+    };
+    const req = request("qa-foreign-order");
+    // "zzz" (request.created, earlier) sorts after "aaa" (candidate, later).
+    writeFileSync(
+      join(eventsDir, "zzz-request.json"),
+      JSON.stringify({
+        ...base,
+        eventId: "foreign-req-1",
+        seq: 1,
+        at: "2026-09-16T02:00:00.000Z",
+        type: "request.created",
+        payload: {
+          request: req,
+          assetId: "asset:qa-foreign-order",
+          origin: "owner",
+        },
+      }),
+    );
+    writeFileSync(
+      join(eventsDir, "aaa-candidate.json"),
+      JSON.stringify({
+        ...base,
+        eventId: "foreign-cand-1",
+        seq: 2,
+        at: "2026-09-16T02:00:01.000Z",
+        type: "candidate.ingested",
+        payload: {
+          candidateId: "cand-foreign-1",
+          assetId: "asset:qa-foreign-order",
+          requestId: "qa-foreign-order",
+          requestVersion: 1,
+          sha256: "c".repeat(64),
+          byteLength: 1,
+          container: "png",
+          width: 1,
+          height: 1,
+          hasAlpha: false,
+          storagePath: "bytes/none.png",
+          editKind: "original",
+          provenance: {},
+          nativeDetail: "unverified",
+          calibrationRecheck: [],
+        },
+      }),
+    );
+    store.syncOnce();
+    const projection = store.projection();
+    expect(projection.requests["qa-foreign-order"]?.candidateIds).toEqual([
+      "cand-foreign-1",
+    ]);
+    expect(projection.rejectedEvents.map((r) => r.eventId)).not.toContain(
+      "foreign-cand-1",
+    );
+  });
+
   it("queues decisions durably while the mirror is absent and exports them later", () => {
     const offline = new ArtbenchStore({
       dataRoot: mkdtempSync(join(tmpdir(), "artbench-offline-")),
