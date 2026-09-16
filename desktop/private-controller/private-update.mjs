@@ -3,6 +3,51 @@ import { URL } from "node:url";
 
 export const CONTROLLER_STATE_SCHEMA = 1;
 export const EXPECTED_REPOSITORY = "github.com/lamontaes/Political-Game-Git";
+export const AUTOMATIC_CHECK_INTERVAL_MS = 6 * 60 * 60 * 1000;
+export const AUTOMATIC_STARTUP_DELAY_MS = 20 * 1000;
+
+export function cleanUpdatePolicy(value) {
+  // Legacy valid state opts into the disclosed new default. Explicit malformed
+  // or future preferences fail closed to manual, never silently enable work.
+  const mode =
+    value === undefined
+      ? "automatic"
+      : value?.version === 1 && value.mode === "automatic"
+        ? "automatic"
+        : "manual";
+  return {
+    version: 1,
+    mode,
+    lastAttemptAt:
+      typeof value?.lastAttemptAt === "string" &&
+      Number.isFinite(Date.parse(value.lastAttemptAt))
+        ? value.lastAttemptAt
+        : null,
+    lastOutcome:
+      typeof value?.lastOutcome === "string" ? value.lastOutcome : null,
+    lastTargetRevision: validateRevision(value?.lastTargetRevision)
+      ? value.lastTargetRevision
+      : null,
+  };
+}
+
+export function automaticCheckDue(state, now = Date.now()) {
+  const policy = cleanUpdatePolicy(state?.updatePolicy);
+  if (!state?.repositoryPath || state.pending || policy.mode !== "automatic")
+    return false;
+  const last =
+    policy.lastAttemptAt === null ? null : Date.parse(policy.lastAttemptAt);
+  return last === null || now - last >= AUTOMATIC_CHECK_INTERVAL_MS;
+}
+
+export function setUpdateMode(state, mode) {
+  if (mode !== "automatic" && mode !== "manual")
+    throw new Error("Invalid update mode.");
+  return {
+    ...state,
+    updatePolicy: { ...cleanUpdatePolicy(state.updatePolicy), mode },
+  };
+}
 
 export function canonicalRepository(value) {
   const raw = String(value ?? "").trim();
@@ -87,19 +132,28 @@ export function cleanControllerState(value) {
   };
   const current = cleanBuild(value.current);
   const pending = value.pending ? cleanBuild(value.pending) : null;
-  if (!current) return null;
+  const previous = value.previous ? cleanBuild(value.previous) : null;
+  if (!current || (value.pending && !pending) || (value.previous && !previous))
+    return null;
   return {
     schema: CONTROLLER_STATE_SCHEMA,
     repositoryPath:
       typeof value.repositoryPath === "string" ? value.repositoryPath : null,
     current,
     pending,
-    previous: value.previous ? cleanBuild(value.previous) : null,
+    previous,
+    updatePolicy: cleanUpdatePolicy(value.updatePolicy),
+    compatibilityProof: value.compatibilityProof ?? null,
+    rollbackProof: value.rollbackProof ?? null,
+    blockedRevision: validateRevision(value.blockedRevision)
+      ? value.blockedRevision
+      : null,
   };
 }
 
 export function withPendingBuild(state, build, repositoryPath) {
   return {
+    ...state,
     schema: CONTROLLER_STATE_SCHEMA,
     repositoryPath,
     current: state.current,
@@ -111,11 +165,38 @@ export function withPendingBuild(state, build, repositoryPath) {
 export function activatePendingBuild(state) {
   if (!state.pending) return state;
   return {
+    ...state,
     schema: CONTROLLER_STATE_SCHEMA,
     repositoryPath: state.repositoryPath ?? null,
     current: state.pending,
     previous: state.current,
     pending: null,
+    compatibilityProof: null,
+    rollbackProof: state.compatibilityProof
+      ? {
+          version: 1,
+          previous: state.compatibilityProof.current,
+          current: state.compatibilityProof.pending,
+        }
+      : null,
+  };
+}
+
+export function restorePreviousBuild(state) {
+  if (!state?.previous || state.pending)
+    throw new Error("No unambiguous last-good rollback is available.");
+  return {
+    ...state,
+    current: state.previous,
+    previous: null,
+    pending: null,
+    compatibilityProof: null,
+    rollbackProof: null,
+    blockedRevision: state.current.revision,
+    updatePolicy: {
+      ...cleanUpdatePolicy(state.updatePolicy),
+      lastOutcome: "rolled-back",
+    },
   };
 }
 

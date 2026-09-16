@@ -33,6 +33,7 @@ import {
   assertProvenanceMatches,
   defaultComposition,
 } from "../../scripts/client-provenance.mjs";
+import { checkoutCompatibility } from "../private-controller/update-compatibility.mjs";
 
 const desktopRoot = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const repoRoot = path.dirname(desktopRoot);
@@ -139,6 +140,7 @@ const identity = {
   profile: provenance.profile,
   clientTreeSha256: treeSha256,
   stagedAt: new Date().toISOString(),
+  compatibility: checkoutCompatibility(repoRoot, revision),
 };
 
 rmSync(stagedRoot, { recursive: true, force: true });

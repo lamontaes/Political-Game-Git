@@ -1,6 +1,7 @@
 /* global console, process */
 
-import { spawnSync } from "node:child_process";
+import { execFileSync, spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import {
   cpSync,
   existsSync,
@@ -16,6 +17,17 @@ import { fileURLToPath } from "node:url";
 
 const desktopRoot = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const controllerRoot = path.join(desktopRoot, "private-controller");
+const repoRoot = path.dirname(desktopRoot);
+const controllerRevision = execFileSync("git", ["rev-parse", "HEAD"], {
+  cwd: repoRoot,
+  encoding: "utf8",
+}).trim();
+const controllerDirty =
+  execFileSync("git", ["status", "--porcelain"], {
+    cwd: repoRoot,
+    encoding: "utf8",
+  }).trim() !== "";
+const controllerTree = createHash("sha256");
 const bootstrapApp = path.join(
   desktopRoot,
   "release-artifacts",
@@ -80,7 +92,14 @@ for (const name of [
   "styles.css",
   "private-update.mjs",
   "private-update-worker.mjs",
+  "controller-status.mjs",
+  "controller-view.mjs",
+  "update-compatibility.mjs",
+  "controller-activation.mjs",
+  "owned-process.mjs",
 ]) {
+  const bytes = readFileSync(path.join(controllerRoot, name));
+  controllerTree.update(`${name}\0${bytes.length}\0`).update(bytes);
   cpSync(path.join(controllerRoot, name), path.join(packagedSource, name));
 }
 mkdirSync(path.join(resources, "bootstrap"), { recursive: true });
@@ -143,6 +162,9 @@ writeFileSync(
   `${JSON.stringify(
     {
       schema: 1,
+      controllerSourceRevision: controllerRevision,
+      controllerSourceDirty: controllerDirty,
+      controllerTreeSha256: controllerTree.digest("hex"),
       bootstrapRevision: identity.revision,
       bootstrapVersion: identity.version,
       bootstrapProfile: identity.profile,
@@ -155,7 +177,7 @@ writeFileSync(
 
 const zipPath = path.join(
   outputRoot,
-  `Our-Civic-Duty-Private-${identity.version}-${identity.revision.slice(0, 12)}-arm64.zip`,
+  `Our-Civic-Duty-Private-${identity.version}-${identity.revision.slice(0, 12)}-controller-${controllerRevision.slice(0, 12)}-arm64.zip`,
 );
 const zipped = spawnSync(
   "/usr/bin/ditto",
