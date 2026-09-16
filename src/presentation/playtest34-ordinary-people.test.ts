@@ -149,12 +149,12 @@ it.skipIf(needsPrivateArt)(
             );
         }
     }
-  expect(femaleParents).toBeGreaterThan(0);
-  expect(oldMismatches).toBeGreaterThan(0);
-  // Current-bank painted rasters carry their tone in the source pixels; the
-  // material token is deliberately singular rather than pretending those
-  // colours are runtime tints.
-  expect(tones).toEqual(new Set(["source-colour"]));
+    expect(femaleParents).toBeGreaterThan(0);
+    expect(oldMismatches).toBeGreaterThan(0);
+    // Current-bank painted rasters carry their tone in the source pixels; the
+    // material token is deliberately singular rather than pretending those
+    // colours are runtime tints.
+    expect(tones).toEqual(new Set(["source-colour"]));
     expect(bodies.size).toBeGreaterThan(2);
     expect(shirts.size).toBeGreaterThan(2);
   },

@@ -1,5 +1,5 @@
 {
-  "totalItems": 1886,
+  "totalItems": 1884,
   "items": [
     {
       "filePath": "families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png",
@@ -16,14 +16,6 @@
     {
       "filePath": "families/campaign-storefront/env_campaign_storefront_v1.png",
       "hash": "35a37c8a6526a86eb569be61383558c1b90369abb9c185d21a7d5765d52edfc0"
-    },
-    {
-      "filePath": "families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_runtime_2048_v1.png",
-      "hash": "a1c6ed73a06ab71cd82ab9fa98f9f39228a4ffe74bbf4f8870d1d33fb55a2527"
-    },
-    {
-      "filePath": "families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_v1.png",
-      "hash": "7f40aaba49683ed011d57ff91f4bd3b202fdd39b941ab59e70b299337f7063e6"
     },
     {
       "filePath": "families/civic-hearing-room/env_civic_hearing_room_runtime_2x_v1.png",
