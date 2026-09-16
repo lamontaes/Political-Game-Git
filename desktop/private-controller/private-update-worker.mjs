@@ -13,6 +13,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 import { createHash } from "node:crypto";
 
@@ -31,6 +32,19 @@ import {
 
 const EXPECTED_PACKAGE_NAME = "political-life-rpg";
 const PACK_SCHEMA = "ocd-private-pack/v1";
+// The health check is the hub's own trusted harness, not the target
+// source's copy: a selected branch cannot weaken the check that admits it.
+const HARNESS_ROOT = path.join(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "..",
+  "scripts",
+);
+const HARNESS_FILES = [
+  "smoke-test.mjs",
+  "game-launch-environment.mjs",
+  "drawn-appearance-proof.mjs",
+  "saved-identity-proof.mjs",
+];
 const APP_NAME = "Our Civic Duty.app";
 
 const args = process.argv.slice(2);
@@ -436,9 +450,18 @@ async function main() {
     if (!architecture.includes("arm64"))
       throw new Error("The application is not an Apple Silicon build.");
 
+    const harness = path.join(
+      paths.sourcePath,
+      ".hub-harness",
+      "desktop",
+      "scripts",
+    );
+    mkdirSync(harness, { recursive: true });
+    for (const file of HARNESS_FILES)
+      cpSync(path.join(HARNESS_ROOT, file), path.join(harness, file));
     await run(
       process.execPath,
-      ["scripts/smoke-test.mjs", "--app", executable],
+      [path.join(harness, "smoke-test.mjs"), "--app", executable],
       {
         cwd: desktopPath,
         env: { OCD_EXPECT_ART_PREVIEW: "1" },

@@ -109,6 +109,18 @@ const packagedController = path.join(packagedRoot, "private-controller");
 mkdirSync(packagedController, { recursive: true });
 for (const name of ["app-protocol.mjs", "download-policy.mjs"])
   cpSync(path.join(desktopRoot, name), path.join(packagedRoot, name));
+// The hub's own trusted health-check harness for candidate builds.
+mkdirSync(path.join(packagedRoot, "scripts"), { recursive: true });
+for (const name of [
+  "smoke-test.mjs",
+  "game-launch-environment.mjs",
+  "drawn-appearance-proof.mjs",
+  "saved-identity-proof.mjs",
+])
+  cpSync(
+    path.join(desktopRoot, "scripts", name),
+    path.join(packagedRoot, "scripts", name),
+  );
 const CONTROLLER_FILES = [
   "main.mjs",
   "hub-model.mjs",

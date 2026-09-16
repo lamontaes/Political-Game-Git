@@ -246,4 +246,12 @@ $("stop-all").addEventListener("click", async () =>
 );
 
 hub.onState(scheduleRefresh);
-void refresh();
+// One read-only connection check when the page first loads: versions,
+// sign-in state and allowances only; no model turn is started.
+void refresh().then(async () => {
+  if (snapshot?.ready && !snapshot.detection) {
+    $("detect-note").textContent = "Checking…";
+    await api.detect();
+    await refresh();
+  }
+});

@@ -18,6 +18,7 @@
 import { execFile, spawn } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import {
+  appendFileSync,
   cpSync,
   existsSync,
   mkdirSync,
@@ -363,6 +364,15 @@ function broadcast() {
 
 function logLine(message) {
   if (!message) return;
+  try {
+    mkdirSync(path.join(dataRoot, "logs"), { recursive: true });
+    appendFileSync(
+      path.join(dataRoot, "logs", "hub.log"),
+      `${new Date().toISOString()}  ${message}\n`,
+    );
+  } catch {
+    /* logging never blocks the hub */
+  }
   hub.log.push(`${new Date().toLocaleTimeString()}  ${message}`);
   if (hub.log.length > 400) hub.log.splice(0, hub.log.length - 400);
 }

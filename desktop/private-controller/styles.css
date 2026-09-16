@@ -299,3 +299,6 @@ th {
 .row[data-spaced] {
   margin-top: 10px;
 }
+.grid > p {
+  grid-column: 1 / -1;
+}
