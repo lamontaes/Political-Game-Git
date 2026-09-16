@@ -26,6 +26,7 @@ const CONTRACT = {
   fitContractHash: "f".repeat(64),
   sceneContractHash: "s".repeat(64),
   contractVersion: "alive43-art-desk-v1",
+  authority: "session-capability" as const,
 };
 
 function request(id: string, extra: Partial<AssetRequest> = {}): AssetRequest {
@@ -80,6 +81,7 @@ function makeStore(
   return new ArtbenchStore({
     dataRoot,
     workspace,
+    ownerId: OWNER.id,
     driveRoot: null,
     now: () => `2026-09-16T00:00:${String(counter++).padStart(2, "0")}.000Z`,
   });
@@ -287,6 +289,7 @@ describe("artbench store: intake, alternatives, lineage and decisions", () => {
     const reopened = new ArtbenchStore({
       dataRoot,
       workspace,
+      ownerId: OWNER.id,
       driveRoot: null,
     });
     const after = reopened.projection();
@@ -300,6 +303,96 @@ describe("artbench store: intake, alternatives, lineage and decisions", () => {
       region: ["southwest"],
       assetType: ["environment-plate"],
     });
+  });
+
+  it("refuses decisions without proven capability, fixture identities on production requests, and self-declared owners", () => {
+    const projection = store.projection();
+    const b = projection.requests["env-a"].candidateIds[1];
+    const base = {
+      candidateId: b,
+      viewedCandidateId: b,
+      viewedSha256: projection.candidates[b].sha256,
+      decision: "reject" as const,
+    };
+    expect(() =>
+      store.decide({ ...base, ...CONTRACT, actor: OWNER, authority: null }),
+    ).toThrow(/capability/);
+    expect(() =>
+      store.decide({
+        ...base,
+        ...CONTRACT,
+        actor: { kind: "owner", id: "hub-qa-fixture" },
+      }),
+    ).toThrow(/QA requests only/);
+    expect(() =>
+      store.decide({
+        ...base,
+        ...CONTRACT,
+        actor: { kind: "worker", id: "producer" },
+      }),
+    ).toThrow(/owner/);
+  });
+
+  it("records QA approvals as QA and never queues them for integration", () => {
+    store.createRequest({
+      request: request("qa-disposable"),
+      actor: OWNER,
+      origin: "owner",
+      qa: true,
+    });
+    const c = store.ingest(
+      tinyPng(6, 6),
+      { requestId: "qa-disposable" },
+      OWNER,
+    );
+    const events = store.decide({
+      candidateId: c.candidate.candidateId,
+      viewedCandidateId: c.candidate.candidateId,
+      viewedSha256: c.candidate.sha256,
+      decision: "approve",
+      actor: { kind: "owner", id: "hub-qa-fixture" },
+      ...CONTRACT,
+    });
+    expect(events.map((e) => e.type)).toEqual(["review.decided"]);
+    expect(events[0].type === "review.decided" && events[0].payload.qa).toBe(
+      true,
+    );
+    const after = store.projection();
+    expect(after.requests["qa-disposable"].qa).toBe(true);
+    expect(after.candidates[c.candidate.candidateId].qa).toBe(true);
+    expect(after.candidates[c.candidate.candidateId].status).toBe("approved");
+    expect(
+      after.integrationQueue.some(
+        (i) => i.candidateId === c.candidate.candidateId,
+      ),
+    ).toBe(false);
+  });
+
+  it("returns an existing integration item by QA disposition and exposes current tags to receiving", () => {
+    const before = store.projection();
+    const item = before.integrationQueue[0];
+    expect(item.tagsState).toBe("untagged");
+    expect(item.currentTags.region).toEqual(["southwest"]);
+    store.dispositionQa(
+      {
+        itemId: item.itemId,
+        requestId: "env-a",
+        reason: "bench proof, not production cargo",
+      },
+      { kind: "system", id: "artbench-qa-disposition" },
+      "session-capability",
+    );
+    const after = store.projection();
+    const returned = after.integrationQueue.find(
+      (i) => i.itemId === item.itemId,
+    )!;
+    expect(returned.state).toBe("returned");
+    expect(returned.qa).toBe(true);
+    expect(after.requests["env-a"].qa).toBe(true);
+    expect(after.candidates[item.candidateId].decisions).toHaveLength(1);
+    expect(() =>
+      store.dispositionQa({ itemId: item.itemId, reason: "x" }, OWNER, null),
+    ).toThrow(/capability/);
   });
 
   it("creates related requests and refuses duplicates", () => {
@@ -337,7 +430,12 @@ describe("artbench store: inbox batches and the exchange", () => {
   ]) {
     mkdirSync(join(drive, folder), { recursive: true });
   }
-  const store = new ArtbenchStore({ dataRoot, workspace, driveRoot: drive });
+  const store = new ArtbenchStore({
+    dataRoot,
+    workspace,
+    driveRoot: drive,
+    ownerId: OWNER.id,
+  });
 
   it("ingests a complete ten-item batch with one invalid file, retries without duplicates", () => {
     const batch = join(drive, "01_INBOX", "batch-2026-09-16-a");
@@ -466,6 +564,55 @@ describe("artbench store: inbox batches and the exchange", () => {
     ).toBeTruthy();
   });
 
+  it("quarantines an imported owner review as evidence instead of applying it", () => {
+    const projection = store.projection();
+    const candidateId = projection.requests["env-c"].candidateIds[2];
+    const candidate = projection.candidates[candidateId];
+    const decisionsBefore = candidate.decisions.length;
+    writeFileSync(
+      join(drive, "03_REVIEW_AND_INTEGRATION_EVENTS", "foreign-review.json"),
+      JSON.stringify({
+        contractVersion: "artbench-events/v1",
+        eventId: "foreign-review-1",
+        seq: 9,
+        at: "2026-09-16T03:00:00.000Z",
+        actor: { kind: "owner", id: OWNER.id },
+        source: "bench",
+        origin: "store-somewhere-else",
+        type: "review.decided",
+        payload: {
+          reviewId: "rev-foreign",
+          requestId: "env-c",
+          requestVersion: 1,
+          candidateId,
+          viewedCandidateId: candidateId,
+          outputSha256: candidate.sha256,
+          decision: "approve",
+          contractVersion: "alive43-art-desk-v1",
+          fitContractHash: "f".repeat(64),
+          sceneContractHash: "s".repeat(64),
+          rightsStatus: "unknown",
+          sourceDeclaration: "forged",
+        },
+      }),
+    );
+    store.syncOnce();
+    store.syncOnce();
+    const after = store.projection();
+    expect(after.candidates[candidateId].decisions).toHaveLength(
+      decisionsBefore,
+    );
+    expect(after.candidates[candidateId].status).not.toBe("integration-ready");
+    expect(after.importedReviews.map((r) => r.imported.reviewId)).toEqual([
+      "rev-foreign",
+    ]);
+    expect(
+      store
+        .allEvents()
+        .filter((e) => e.eventId === "imported:foreign-review-1"),
+    ).toHaveLength(1);
+  });
+
   it("admits foreign events in authoring order even when filenames sort otherwise", () => {
     const eventsDir = join(drive, "03_REVIEW_AND_INTEGRATION_EVENTS");
     const base = {
@@ -532,6 +679,7 @@ describe("artbench store: inbox batches and the exchange", () => {
     const offline = new ArtbenchStore({
       dataRoot: mkdtempSync(join(tmpdir(), "artbench-offline-")),
       workspace,
+      ownerId: OWNER.id,
       driveRoot: join(drive, "missing-mirror"),
     });
     const c = offline.ingest(tinyPng(4, 4), { requestId: "env-c" }, OWNER);

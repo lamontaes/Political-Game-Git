@@ -72,16 +72,55 @@ function sendJson(
   response.end(JSON.stringify(body));
 }
 
-/** The owner acts through the bench; agents/workers must say so. */
-function actorFrom(raw: unknown): ArtbenchActor {
+export const OWNER_CAPABILITY_HEADER = "x-ocd-owner-capability";
+
+/**
+ * An actor is data the caller supplies; it is never proof. A missing or
+ * malformed actor is refused on events; uploads without one are recorded as
+ * unattributed worker uploads (still never approval).
+ */
+export function parseActor(
+  raw: unknown,
+): { ok: true; actor: ArtbenchActor } | { ok: false; message: string } {
   const candidate = raw as Partial<ArtbenchActor> | undefined;
-  if (candidate && typeof candidate.id === "string" && candidate.id.trim()) {
-    const kind = candidate.kind;
-    if (kind === "owner" || kind === "agent" || kind === "worker") {
-      return { kind, id: candidate.id.trim().slice(0, 64) };
-    }
+  if (!candidate || typeof candidate !== "object") {
+    return { ok: false, message: "actor {kind, id} is required." };
   }
-  return { kind: "owner", id: "lamontae" };
+  const kind = candidate.kind;
+  if (
+    (kind !== "owner" && kind !== "agent" && kind !== "worker") ||
+    typeof candidate.id !== "string" ||
+    !/^[A-Za-z0-9][A-Za-z0-9._@:-]{0,63}$/.test(candidate.id)
+  ) {
+    return {
+      ok: false,
+      message:
+        "actor.kind must be owner|agent|worker and actor.id a short identifier.",
+    };
+  }
+  return { ok: true, actor: { kind, id: candidate.id } };
+}
+
+/** Proof of owner review capability comes from headers, never the body. */
+export function authorityFrom(
+  headers: {
+    readonly hostToken: string | null;
+    readonly ownerCapability: string | null;
+  },
+  expected: {
+    readonly hostToken: string | undefined;
+    readonly ownerCapability: string;
+  },
+): "host-token" | "session-capability" | null {
+  if (expected.hostToken && headers.hostToken === expected.hostToken)
+    return "host-token";
+  if (
+    headers.ownerCapability &&
+    headers.ownerCapability === expected.ownerCapability
+  ) {
+    return "session-capability";
+  }
+  return null;
 }
 
 export interface ArtbenchBridgeOptions {
@@ -132,7 +171,36 @@ export function createArtbenchHandler(store: ArtbenchStore) {
       });
       return;
     }
+    const authority = authorityFrom(
+      {
+        hostToken: header(request, ART_DESK_TOKEN_HEADER),
+        ownerCapability: header(request, OWNER_CAPABILITY_HEADER),
+      },
+      {
+        hostToken: process.env[ART_DESK_TOKEN_ENV],
+        ownerCapability: store.ownerCapability,
+      },
+    );
     try {
+      if (route === "session" && method === "GET") {
+        // The same-origin bench page (or the host's token) obtains the
+        // per-launch owner capability; other loopback processes do not.
+        const sameOrigin = header(request, "sec-fetch-site") === "same-origin";
+        if (!sameOrigin && authority !== "host-token") {
+          sendJson(response, 403, {
+            error: "not-the-bench",
+            message:
+              "The owner session capability is issued only to the same-origin bench page or the host token.",
+          });
+          return;
+        }
+        sendJson(response, 200, {
+          ownerId: store.ownerId,
+          capability: store.ownerCapability,
+          authority: authority ?? "session-capability",
+        });
+        return;
+      }
       if (route === "state" && method === "GET") {
         const projection = store.projection();
         const bytes: Record<string, unknown> = {};
@@ -186,7 +254,11 @@ export function createArtbenchHandler(store: ArtbenchStore) {
           });
           return;
         }
-        const result = store.ingest(body, meta, actorFrom(meta.actor), "bench");
+        const parsed = parseActor(meta.actor);
+        const uploader: ArtbenchActor = parsed.ok
+          ? parsed.actor
+          : { kind: "worker", id: "unattributed-upload" };
+        const result = store.ingest(body, meta, uploader, "bench");
         sendJson(response, result.duplicate ? 200 : 201, {
           candidate: result.candidate,
           duplicate: result.duplicate,
@@ -202,11 +274,43 @@ export function createArtbenchHandler(store: ArtbenchStore) {
           payload: Record<string, unknown>;
           actor?: unknown;
         };
-        const actor = actorFrom(body.actor);
+        const parsed = parseActor(body.actor);
+        if (!parsed.ok) {
+          sendJson(response, 400, {
+            error: "invalid-actor",
+            message: parsed.message,
+          });
+          return;
+        }
+        const actor = parsed.actor;
         const payload = body.payload ?? {};
         switch (body.type) {
+          case "qa.disposition": {
+            const event = store.dispositionQa(
+              {
+                requestId:
+                  typeof payload.requestId === "string"
+                    ? payload.requestId
+                    : undefined,
+                candidateId:
+                  typeof payload.candidateId === "string"
+                    ? payload.candidateId
+                    : undefined,
+                itemId:
+                  typeof payload.itemId === "string"
+                    ? payload.itemId
+                    : undefined,
+                reason: String(payload.reason ?? ""),
+              },
+              actor,
+              authority,
+            );
+            sendJson(response, 201, { events: [event] });
+            return;
+          }
           case "review.decided": {
             const events = store.decide({
+              authority,
               candidateId: String(payload.candidateId ?? ""),
               viewedCandidateId: String(payload.viewedCandidateId ?? ""),
               viewedSha256: String(payload.viewedSha256 ?? ""),
@@ -257,6 +361,7 @@ export function createArtbenchHandler(store: ArtbenchStore) {
                 typeof payload.manifestId === "string"
                   ? payload.manifestId
                   : undefined,
+              qa: payload.qa === true,
             });
             sendJson(response, 201, { events: [event] });
             return;

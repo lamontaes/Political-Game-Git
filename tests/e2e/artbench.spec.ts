@@ -140,13 +140,22 @@ test("the owner journey: brief → batch → restart → filter → approve → 
       : json;
     return request.put(fileUrl(QA_SIDECAR), { headers, data: body });
   };
-  expect(
-    (
-      await putQa(
-        JSON.stringify({ documentVersion: 1, requests: [qaRequest()] }),
-      )
-    ).ok(),
-  ).toBeTruthy();
+  const session = await (
+    await request.get(`${BENCH}/session`, {
+      headers: { "Sec-Fetch-Site": "same-origin" },
+    })
+  ).json();
+  expect(session.ownerId).toBe(ACTOR.id);
+  const auth = { ...json, "X-OCD-Owner-Capability": session.capability };
+  const created = await request.post(`${BENCH}/events`, {
+    headers: auth,
+    data: JSON.stringify({
+      type: "request.created",
+      actor: ACTOR,
+      payload: { request: qaRequest(), qa: false },
+    }),
+  });
+  expect(created.status()).toBe(201);
 
   const inbox = join(
     process.env.PG_ARTBENCH_DATA_ROOT ?? join(tmpdir(), "artbench-e2e-missing"),
@@ -430,8 +439,30 @@ test("the owner journey: brief → batch → restart → filter → approve → 
     );
 
     // 11. Guards: stale/invalid approval and a concurrent tag edit conflict.
-    const stale = await request.post(`${BENCH}/events`, {
+    const declared = await request.post(`${BENCH}/events`, {
       headers: json,
+      data: JSON.stringify({
+        type: "review.decided",
+        actor: ACTOR,
+        payload: {
+          candidateId: second.candidateId,
+          viewedCandidateId: second.candidateId,
+          viewedSha256: second.sha256,
+          decision: "approve",
+          fitContractHash: "f".repeat(64),
+          sceneContractHash: "s".repeat(64),
+          contractVersion: "alive43-art-desk-v1",
+        },
+      }),
+    });
+    expect(declared.status()).toBe(403);
+    const noActor = await request.post(`${BENCH}/events`, {
+      headers: auth,
+      data: JSON.stringify({ type: "review.decided", payload: {} }),
+    });
+    expect(noActor.status()).toBe(400);
+    const stale = await request.post(`${BENCH}/events`, {
+      headers: auth,
       data: JSON.stringify({
         type: "review.decided",
         actor: ACTOR,
@@ -448,7 +479,7 @@ test("the owner journey: brief → batch → restart → filter → approve → 
     });
     expect(stale.status()).toBe(409);
     const agentApproval = await request.post(`${BENCH}/events`, {
-      headers: json,
+      headers: auth,
       data: JSON.stringify({
         type: "review.decided",
         actor: { kind: "agent", id: "some-model" },
@@ -465,7 +496,7 @@ test("the owner journey: brief → batch → restart → filter → approve → 
     });
     expect(agentApproval.status()).toBe(403);
     const conflict = await request.post(`${BENCH}/events`, {
-      headers: json,
+      headers: auth,
       data: JSON.stringify({
         type: "tags.set",
         actor: { kind: "owner", id: "another-editor" },

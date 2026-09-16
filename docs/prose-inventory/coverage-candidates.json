@@ -3,7 +3,7 @@
     "INVENTORIED": 2785,
     "INTENTIONALLY_NON_PLAYER_FACING": 6413,
     "DIAGNOSTIC_OR_TEST": 6280,
-    "NEEDS_CLASSIFICATION": 7817
+    "NEEDS_CLASSIFICATION": 7818
   },
   "needsClassification": [
     {
@@ -59521,7 +59521,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "BYTES_LABEL",
-      "line": 135,
+      "line": 153,
       "text": "no bytes",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59529,7 +59529,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "Thumb",
-      "line": 164,
+      "line": 182,
       "text": "art-desk-thumb art-desk-thumb--none",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59537,7 +59537,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "STATUS_LABEL",
-      "line": 175,
+      "line": 193,
       "text": "awaiting review",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59545,7 +59545,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "STATUS_LABEL",
-      "line": 178,
+      "line": 196,
       "text": "revision requested",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59553,7 +59553,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "STATUS_LABEL",
-      "line": 180,
+      "line": 198,
       "text": "accepted by integration",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59561,7 +59561,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "STATUS_LABEL",
-      "line": 182,
+      "line": 200,
       "text": "in game",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59569,7 +59569,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "decide",
-      "line": 300,
+      "line": 319,
       "text": "Assign this candidate to a request before deciding.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59577,7 +59577,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "decide",
-      "line": 310,
+      "line": 329,
       "text": "The candidate changed while you were looking; review the current one before deciding.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59585,7 +59585,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "decide",
-      "line": 323,
+      "line": 342,
       "text": "A newer candidate arrived on this request; your decision applies only to {candidate.candidateId.slice(0,13)}… (rev {candidate.revision}).",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59593,7 +59593,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "decide",
-      "line": 339,
+      "line": 358,
       "text": "{decision} refused ({result.error??\"error\"}): {result.message}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59601,7 +59601,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "decide",
-      "line": 345,
+      "line": 364,
       "text": "{decision} recorded for {candidate.candidateId.slice(0,13)}… at {candidate.sha256.slice(0,12)}… (event {result.body.events[0]?.eventId??\"?\"}). Private acceptance is not public release.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59609,7 +59609,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "intake",
-      "line": 395,
+      "line": 414,
       "text": "already present as {body.candidate?.candidateId.slice(0,13)}…",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59617,7 +59617,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "intake",
-      "line": 396,
+      "line": 415,
       "text": "stored as {body.candidate?.candidateId.slice(0,13)}… {body.candidate?.width}×{body.candidate?.height} {body.candidate?.container}{body.candidate?.hasAlpha?\"α\":\"\"}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59625,7 +59625,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "intake",
-      "line": 397,
+      "line": 416,
       "text": "refused ({body.error??response.status}): {body.message??response.statusText}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59633,7 +59633,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "intake",
-      "line": 403,
+      "line": 422,
       "text": "{r.name}: {r.message}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59641,7 +59641,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "syncNow",
-      "line": 416,
+      "line": 435,
       "text": "Sync {status.status}: {status.pendingOutbox} unsynced event(s), {status.pendingBatches.length} partial batch(es){status.lastError?`;${status.lastError}`:\"\"}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59649,7 +59649,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "ArtDeskView",
-      "line": 445,
+      "line": 464,
       "text": "art-desk art-desk--refused",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59657,7 +59657,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "ArtDeskView",
-      "line": 515,
+      "line": 534,
       "text": "Mirror {sync.driveRoot} present.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59665,7 +59665,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "ArtDeskView",
-      "line": 516,
+      "line": 535,
       "text": "No Drive-for-desktop mirror of 80_ARTBENCH_EXCHANGE on this machine; decisions queue durably in the outbox.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59673,7 +59673,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "ArtDeskView",
-      "line": 521,
+      "line": 540,
       "text": " Last error: {sync.lastError}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59681,7 +59681,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "ArtDeskView",
-      "line": 537,
+      "line": 556,
       "text": "Search requests",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59689,7 +59689,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "ArtDeskView",
-      "line": 543,
+      "line": 562,
       "text": "Candidate status",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59697,7 +59697,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "ArtDeskView",
-      "line": 569,
+      "line": 588,
       "text": "Clear tag filter {facet.key}: {facet.value}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59705,7 +59705,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "ArtDeskView",
-      "line": 578,
+      "line": 597,
       "text": "Art Desk lanes",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59713,7 +59713,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "ArtDeskView",
-      "line": 680,
+      "line": 700,
       "text": " · QA, disposable",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59721,7 +59721,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "ArtDeskView",
-      "line": 682,
+      "line": 702,
       "text": " · bench request",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59729,7 +59729,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "ArtDeskView",
-      "line": 713,
+      "line": 733,
       "text": "Selected {candidateId.slice(0,13)}… as the current revision.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59737,7 +59737,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "ArtDeskView",
-      "line": 727,
+      "line": 747,
       "text": "Tags saved for {candidate.candidateId.slice(0,13)}… (event {result.body.events[0]?.eventId}).",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59745,7 +59745,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "ArtDeskView",
-      "line": 728,
+      "line": 748,
       "text": "Tags not saved: {result.message}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59753,7 +59753,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "ArtDeskView",
-      "line": 738,
+      "line": 758,
       "text": "No request matches the current filters.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59761,7 +59761,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "ArtDeskView",
-      "line": 739,
+      "line": 759,
       "text": "Loading the bench…",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59769,7 +59769,15 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "ArtDeskView",
-      "line": 764,
+      "line": 786,
+      "text": " · QA, not cargo",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/ArtDeskView.tsx",
+      "enclosingSymbol": "ArtDeskView",
+      "line": 788,
       "text": " · outstanding: {item.missingFacts.join(\";\")}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59777,7 +59785,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "ArtDeskView",
-      "line": 767,
+      "line": 791,
       "text": " · receipts: {item.receipts.map((r)=>`${r.state}${JSON.stringify(r.receipt)}`).join(\";\")}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59785,7 +59793,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "blocker",
-      "line": 870,
+      "line": 894,
       "text": "Upload or select a candidate first.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59793,7 +59801,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "blocker",
-      "line": 872,
+      "line": 896,
       "text": "Assign this candidate to a request before deciding.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59801,7 +59809,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "blocker",
-      "line": 874,
+      "line": 898,
       "text": "Candidate bytes are {viewedBytes?.state??\"unchecked\"}; a decision binds present, decoded, hash-verified bytes.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59809,7 +59817,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "RequestDetail",
-      "line": 947,
+      "line": 971,
       "text": " · related to {request.parentRequestId}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59817,7 +59825,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "RequestDetail",
-      "line": 983,
+      "line": 1007,
       "text": "Upload candidate(s)",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59825,7 +59833,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "RequestDetail",
-      "line": 983,
+      "line": 1007,
       "text": "Upload to inbox",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59833,7 +59841,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "RequestDetail",
-      "line": 1026,
+      "line": 1050,
       "text": " · selected",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59841,7 +59849,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "RequestDetail",
-      "line": 1034,
+      "line": 1058,
       "text": " of rev {projection.candidates[candidate.parentCandidateId]?.revision??\"?\"}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59849,7 +59857,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "RequestDetail",
-      "line": 1066,
+      "line": 1090,
       "text": "Parent revision {parent.revision}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59857,7 +59865,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "RequestDetail",
-      "line": 1080,
+      "line": 1104,
       "text": "Candidate for {r.title}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59865,7 +59873,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "RequestDetail",
-      "line": 1086,
+      "line": 1110,
       "text": " · transparent",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59873,7 +59881,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "RequestDetail",
-      "line": 1092,
+      "line": 1116,
       "text": "{viewedBytes.state}: {viewedBytes.note}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59881,7 +59889,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "RequestDetail",
-      "line": 1093,
+      "line": 1117,
       "text": "Bench data not loaded for this candidate.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59889,7 +59897,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "RequestDetail",
-      "line": 1107,
+      "line": 1131,
       "text": " · below the {r.target.minimumWidth}px target",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59897,7 +59905,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "RequestDetail",
-      "line": 1110,
+      "line": 1134,
       "text": " · recheck: {viewed.calibrationRecheck.join(\",\")}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59905,7 +59913,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "RequestDetail",
-      "line": 1113,
+      "line": 1137,
       "text": " · worker {viewed.provenance.worker}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59913,7 +59921,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "RequestDetail",
-      "line": 1116,
+      "line": 1140,
       "text": " · batch {viewed.provenance.batchId}/{viewed.provenance.itemId??\"?\"}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59921,7 +59929,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "RequestDetail",
-      "line": 1124,
+      "line": 1148,
       "text": " · \"{viewed.note}\"",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59929,7 +59937,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "RequestDetail",
-      "line": 1126,
+      "line": 1150,
       "text": "Compare with parent",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59937,7 +59945,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "RequestDetail",
-      "line": 1126,
+      "line": 1150,
       "text": "Hide parent",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59945,7 +59953,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "RequestDetail",
-      "line": 1192,
+      "line": 1216,
       "text": "Exactly what should change on this candidate.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59953,7 +59961,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "RequestDetail",
-      "line": 1225,
+      "line": 1249,
       "text": "Assign to request",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59961,7 +59969,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "RequestDetail",
-      "line": 1337,
+      "line": 1361,
       "text": " · \"{d.payload.note}\"",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59969,7 +59977,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "RequestDetail",
-      "line": 1339,
+      "line": 1363,
       "text": " · supersedes {d.payload.supersedesReviewId}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59977,7 +59985,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "TagEditor",
-      "line": 1383,
+      "line": 1407,
       "text": "(untagged — approval does not wait for tags)",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59985,7 +59993,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "TagEditor",
-      "line": 1389,
+      "line": 1413,
       "text": " Last set by {candidate.tagAuthors.at(-1)?.id}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59993,7 +60001,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "TagEditor",
-      "line": 1399,
+      "line": 1423,
       "text": "comma separated",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -60001,7 +60009,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "TagEditor",
-      "line": 1411,
+      "line": 1435,
       "text": "e.g. mood",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -60009,7 +60017,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "request",
-      "line": 1499,
+      "line": 1524,
       "text": "Related to {related.request.requestId}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -60017,7 +60025,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "request",
-      "line": 1500,
+      "line": 1525,
       "text": "Owner request from the bench.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -60025,7 +60033,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "request",
-      "line": 1504,
+      "line": 1529,
       "text": "Not yet searched.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -60033,7 +60041,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "request",
-      "line": 1505,
+      "line": 1530,
       "text": "Declared on the bench.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -60041,7 +60049,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "request",
-      "line": 1515,
+      "line": 1540,
       "text": "the project rendering language lock",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -60049,7 +60057,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "NewRequestForm",
-      "line": 1538,
+      "line": 1564,
       "text": "Request {request.requestId} created (event {result.body.events[0]?.eventId}).",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -60057,7 +60065,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "NewRequestForm",
-      "line": 1539,
+      "line": 1565,
       "text": "Request not created: {result.message}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -60065,7 +60073,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "NewRequestForm",
-      "line": 1546,
+      "line": 1572,
       "text": "(from {related.request.requestId})",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."

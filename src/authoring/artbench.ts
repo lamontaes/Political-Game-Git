@@ -141,11 +141,34 @@ export interface ReviewDecidedPayload {
   readonly attachments?: readonly string[];
   /** A correction of an earlier decision names it; the earlier one stays. */
   readonly supersedesReviewId?: string;
+  /** True when the request is a disposable QA record; never production cargo. */
+  readonly qa?: boolean;
+  /** How the caller proved owner review capability; never self-declared. */
+  readonly authority?: ReviewAuthority;
+}
+
+export type ReviewAuthority = "host-token" | "session-capability";
+
+/** A review that arrived through the exchange: evidence, never applied. */
+export interface ReviewImportedPayload {
+  readonly imported: ReviewDecidedPayload;
+  readonly fromOrigin: string;
+  readonly reason: string;
+}
+
+/** Administrative disposition: marks records as QA and returns their items. */
+export interface QaDispositionPayload {
+  readonly requestId?: string;
+  readonly candidateId?: string;
+  readonly itemId?: string;
+  readonly reason: string;
 }
 
 export interface RequestCreatedPayload {
   readonly request: AssetRequest;
   readonly assetId: string;
+  /** Disposable QA request: excluded from approval, coverage and integration. */
+  readonly qa?: boolean;
   readonly parentRequestId?: string;
   readonly parentCandidateId?: string;
   readonly origin: "owner" | "worker" | "expansion";
@@ -198,7 +221,9 @@ export type ArtbenchEvent =
   | ArtbenchEventOf<"tags.set", TagsSetPayload>
   | ArtbenchEventOf<"integration.queued", IntegrationQueuedPayload>
   | ArtbenchEventOf<"integration.received", IntegrationReceivedPayload>
-  | ArtbenchEventOf<"batch.completed", BatchCompletedPayload>;
+  | ArtbenchEventOf<"batch.completed", BatchCompletedPayload>
+  | ArtbenchEventOf<"review.imported", ReviewImportedPayload>
+  | ArtbenchEventOf<"qa.disposition", QaDispositionPayload>;
 
 export type ArtbenchEventType = ArtbenchEvent["type"];
 
@@ -252,6 +277,8 @@ export interface ProjectedCandidate extends CandidateIngestedPayload {
   readonly status: CandidateStatus;
   readonly integrationItemId?: string;
   readonly integrationState?: IntegrationReceivedPayload["state"];
+  /** Disposable QA candidate: never production cargo. */
+  readonly qa: boolean;
 }
 
 export type RequestLane =
@@ -300,6 +327,8 @@ export interface ProjectedRequest {
   readonly parentCandidateId?: string;
   readonly manifestId?: string;
   readonly createdEventId?: string;
+  /** Disposable QA request: shown, filterable, never coverage or cargo. */
+  readonly qa: boolean;
 }
 
 export interface ProjectedAsset {
@@ -328,6 +357,10 @@ export interface ProjectedIntegrationItem extends IntegrationQueuedPayload {
   readonly queuedEventId: string;
   readonly state: "pending" | IntegrationReceivedPayload["state"];
   readonly receipts: readonly IntegrationReceivedPayload[];
+  /** Current candidate tags for the receiver; tagsState stays approval-time. */
+  readonly currentTags: TagSet;
+  readonly currentTagsVersion: number;
+  readonly qa: boolean;
 }
 
 export interface ArtbenchProjection {
@@ -342,6 +375,14 @@ export interface ArtbenchProjection {
   readonly rejectedEvents: readonly {
     readonly eventId: string;
     readonly reason: string;
+  }[];
+  /** Reviews that arrived through the exchange; evidence only. */
+  readonly importedReviews: readonly {
+    readonly eventId: string;
+    readonly at: string;
+    readonly fromOrigin: string;
+    readonly reason: string;
+    readonly imported: ReviewDecidedPayload;
   }[];
 }
 
@@ -420,6 +461,7 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
       parentCandidateId?: string;
       manifestId?: string;
       createdEventId?: string;
+      qa: boolean;
     }
   >();
   for (const request of inputs.registryRequests) {
@@ -428,6 +470,7 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
       source: "registry",
       assetId: assetIdForRequest(request),
       candidateIds: [],
+      qa: false,
     });
   }
   for (const request of inputs.qaRequests ?? []) {
@@ -437,9 +480,12 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
         source: "qa",
         assetId: assetIdForRequest(request),
         candidateIds: [],
+        qa: true,
       });
     }
   }
+  const importedReviews: ArtbenchProjection["importedReviews"][number][] = [];
+  const qaCandidates = new Set<string>();
   const candidates = new Map<string, MutableCandidate>();
   const assets = new Map<
     string,
@@ -496,6 +542,7 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
           parentCandidateId: event.payload.parentCandidateId,
           manifestId: event.payload.manifestId,
           createdEventId: event.eventId,
+          qa: event.payload.qa === true,
         });
         assetFor(event.payload.assetId).requestIds.add(request.requestId);
         break;
@@ -657,6 +704,16 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
           break;
         }
         if (
+          requests.get(candidate.ingest.requestId)?.qa ||
+          qaCandidates.has(p.candidateId)
+        ) {
+          rejected.push({
+            eventId: event.eventId,
+            reason: "QA candidates never enter the integration queue",
+          });
+          break;
+        }
+        if (
           [...integration.values()].some(
             (item) =>
               item.candidateId === p.candidateId && item.state === "pending",
@@ -675,6 +732,9 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
           queuedEventId: event.eventId,
           state: "pending",
           receipts: [],
+          currentTags: {},
+          currentTagsVersion: 0,
+          qa: false,
         });
         break;
       }
@@ -708,6 +768,47 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
       }
       case "batch.completed":
         break;
+      case "review.imported":
+        importedReviews.push({
+          eventId: event.eventId,
+          at: event.at,
+          fromOrigin: event.payload.fromOrigin,
+          reason: event.payload.reason,
+          imported: event.payload.imported,
+        });
+        break;
+      case "qa.disposition": {
+        const p = event.payload;
+        if (p.requestId) {
+          const request = requests.get(p.requestId);
+          if (request) {
+            request.qa = true;
+            for (const id of request.candidateIds) qaCandidates.add(id);
+          }
+        }
+        if (p.candidateId) qaCandidates.add(p.candidateId);
+        if (p.itemId) {
+          const item = integration.get(p.itemId);
+          if (item) {
+            integration.set(p.itemId, {
+              ...item,
+              state: "returned",
+              qa: true,
+              receipts: [
+                ...item.receipts,
+                {
+                  itemId: p.itemId,
+                  state: "returned",
+                  receipt: { disposition: "qa" },
+                  note: p.reason,
+                },
+              ],
+            });
+            qaCandidates.add(item.candidateId);
+          }
+        }
+        break;
+      }
     }
   }
 
@@ -731,6 +832,9 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
       status: candidateStatus(c),
       integrationItemId: c.integrationItemId,
       integrationState: c.integrationState,
+      qa:
+        qaCandidates.has(candidateId) ||
+        (requests.get(c.ingest.requestId)?.qa ?? false),
     };
   }
 
@@ -749,6 +853,7 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
       parentCandidateId: entry.parentCandidateId,
       manifestId: entry.manifestId,
       createdEventId: entry.createdEventId,
+      qa: entry.qa,
       lane: laneFor(entry.request, statuses, {
         claimed: inputs.claimedRequestIds?.has(requestId) ?? false,
         generatorAvailable: inputs.generatorAvailable ?? false,
@@ -769,6 +874,7 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
       candidateIds: inboxCandidates.map((c) => c.candidateId),
       selectedCandidateId: inboxCandidates.at(-1)?.candidateId,
       lane: "inbox",
+      qa: false,
     };
   }
 
@@ -792,9 +898,18 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
     requests: projectedRequests,
     candidates: projectedCandidates,
     assets: projectedAssets,
-    integrationQueue: [...integration.values()],
+    integrationQueue: [...integration.values()].map((item) => {
+      const candidate = projectedCandidates[item.candidateId];
+      return {
+        ...item,
+        currentTags: candidate?.tags ?? {},
+        currentTagsVersion: candidate?.tagsVersion ?? 0,
+        qa: item.qa || (candidate?.qa ?? false),
+      };
+    }),
     conflicts,
     rejectedEvents: rejected,
+    importedReviews,
   };
 }
 

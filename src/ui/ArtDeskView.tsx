@@ -95,6 +95,15 @@ async function getJson<T>(url: string): Promise<T | null> {
   return (await response.json()) as T;
 }
 
+/** Per-launch owner capability, issued only to this same-origin page. */
+let ownerSession: { ownerId: string; capability: string } | null = null;
+
+async function loadSession(): Promise<typeof ownerSession> {
+  const response = await fetch(`${BENCH}/session`, { cache: "no-store" });
+  ownerSession = response.ok ? await response.json() : null;
+  return ownerSession;
+}
+
 async function postEvent(
   type: string,
   payload: unknown,
@@ -102,10 +111,19 @@ async function postEvent(
   | { ok: true; body: { events: { eventId: string }[] } }
   | { ok: false; message: string; error?: string }
 > {
+  if (!ownerSession) await loadSession();
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+  if (ownerSession) headers["X-OCD-Owner-Capability"] = ownerSession.capability;
   const response = await fetch(`${BENCH}/events`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ type, payload }),
+    headers,
+    body: JSON.stringify({
+      type,
+      payload,
+      actor: { kind: "owner", id: ownerSession?.ownerId ?? "unknown" },
+    }),
   });
   const body = (await response.json().catch(() => ({}))) as {
     events?: { eventId: string }[];
@@ -216,6 +234,7 @@ export function ArtDeskView() {
 
   useEffect(() => {
     if (!privateAuthoring) return;
+    void loadSession();
     void reload();
     const timer = setInterval(() => void reload(), 15_000);
     return () => clearInterval(timer);
@@ -677,6 +696,7 @@ export function ArtDeskView() {
                     <span className="art-desk-meta">
                       {LANE_LABELS[row.lane]} · {row.candidateIds.length}{" "}
                       candidate{row.candidateIds.length === 1 ? "" : "s"}
+                      {row.qa ? " · QA" : ""}
                       {row.source === "qa" ? " · QA, disposable" : ""}
                       {row.source === "event" && requestId !== "inbox"
                         ? " · bench request"
@@ -758,8 +778,12 @@ export function ArtDeskView() {
               >
                 <strong>{item.state}</strong> · {item.requestId} ·{" "}
                 {item.candidateId.slice(0, 13)}… · sha{" "}
-                {item.sha256.slice(0, 12)}… · consumer {item.consumerId} ·{" "}
-                {item.tagsState}
+                {item.sha256.slice(0, 12)}… · consumer {item.consumerId} · at
+                approval {item.tagsState} · current tags{" "}
+                {Object.keys(item.currentTags).length
+                  ? JSON.stringify(item.currentTags)
+                  : "none"}
+                {item.qa ? " · QA, not cargo" : ""}
                 {item.missingFacts.length
                   ? ` · outstanding: ${item.missingFacts.join("; ")}`
                   : ""}
@@ -947,8 +971,8 @@ function RequestDetail({
           ? ` · related to ${request.parentRequestId}`
           : ""}
       </p>
-      {request.source === "qa" ? (
-        <p className="art-desk-warning">
+      {request.qa ? (
+        <p className="art-desk-warning" data-testid="art-desk-qa-flag">
           Disposable QA request from the private sidecar. Its candidates are
           bench proof, not production art, and never count as coverage.
         </p>
@@ -1474,6 +1498,7 @@ function NewRequestForm({
     related?.request.target.alphaRequired ?? false,
   );
   const [linkParent, setLinkParent] = useState(Boolean(relatedCandidate));
+  const [qa, setQa] = useState(false);
   const [recipe, setRecipe] = useState(
     related?.request.generationRecipe.join("\n") ?? "",
   );
@@ -1532,6 +1557,7 @@ function NewRequestForm({
             linkParent && relatedCandidate
               ? relatedCandidate.candidateId
               : undefined,
+          qa,
         });
         setMessage(
           result.ok
@@ -1611,6 +1637,15 @@ function NewRequestForm({
           onChange={(e) => setAlpha(e.target.checked)}
         />{" "}
         alpha required
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          data-testid="art-desk-new-qa"
+          checked={qa}
+          onChange={(e) => setQa(e.target.checked)}
+        />{" "}
+        QA / disposable (never coverage or integration cargo)
       </label>
       {relatedCandidate ? (
         <label>

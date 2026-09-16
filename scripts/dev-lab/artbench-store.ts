@@ -55,6 +55,8 @@ import {
   type EditKind,
   type IntegrationReceivedPayload,
   type ProjectedCandidate,
+  type QaDispositionPayload,
+  type ReviewAuthority,
   type ReviewDecidedPayload,
   type TagSet,
 } from "../../src/authoring/artbench";
@@ -65,6 +67,9 @@ import { decodeRaster, type DecodedRaster } from "./raster-decode";
 
 export const ARTBENCH_DATA_ROOT_ENV = "PG_ARTBENCH_DATA_ROOT";
 export const ARTBENCH_DRIVE_ROOT_ENV = "PG_ARTBENCH_DRIVE_ROOT";
+/** The one identity whose approvals are production-eligible on this bench. */
+export const ARTBENCH_OWNER_ID_ENV = "PG_ARTBENCH_OWNER_ID";
+export const DEFAULT_OWNER_ID = "lamontae";
 export const EXCHANGE_FOLDER = "80_ARTBENCH_EXCHANGE";
 export const EXCHANGE_INBOX = "01_INBOX";
 export const EXCHANGE_CATALOG = "02_CATALOG";
@@ -180,6 +185,8 @@ export interface DecisionInput {
   readonly rightsStatus?: "known" | "unknown";
   readonly sourceDeclaration?: string;
   readonly supersedesReviewId?: string;
+  /** Proven by the host token or the same-origin session capability; null = none. */
+  readonly authority: ReviewAuthority | null;
 }
 
 export interface SyncStatus {
@@ -223,6 +230,8 @@ export interface StoreOptions {
   readonly driveRoot?: string | null;
   readonly now?: () => string;
   readonly newId?: () => string;
+  /** Production-eligible owner identity; defaults to PG_ARTBENCH_OWNER_ID or lamontae. */
+  readonly ownerId?: string;
 }
 
 export class ArtbenchStore {
@@ -230,6 +239,9 @@ export class ArtbenchStore {
   readonly workspace: string;
   readonly storeId: string;
   driveRoot: string | null;
+  readonly ownerId: string;
+  /** Per-launch capability the same-origin bench UI presents on decisions. */
+  readonly ownerCapability: string;
   private readonly now: () => string;
   private readonly newId: () => string;
   private events: ArtbenchEvent[] = [];
@@ -242,6 +254,9 @@ export class ArtbenchStore {
     this.dataRoot = resolve(options.dataRoot);
     this.workspace = resolve(options.workspace);
     this.driveRoot = options.driveRoot ?? null;
+    this.ownerId =
+      options.ownerId ?? process.env[ARTBENCH_OWNER_ID_ENV] ?? DEFAULT_OWNER_ID;
+    this.ownerCapability = randomUUID();
     this.now = options.now ?? (() => new Date().toISOString());
     this.newId = options.newId ?? (() => randomUUID());
     for (const dir of ["events", "bytes", "inbox", "outbox", "sync", "cache"]) {
@@ -363,6 +378,34 @@ export class ArtbenchStore {
     if (!event.eventId || this.known.has(event.eventId)) return false;
     if (event.origin === this.storeId) return false;
     if (event.contractVersion !== ARTBENCH_CONTRACT_VERSION) return false;
+    if (event.type === "review.decided") {
+      // A review JSON in the exchange is evidence of someone else's decision.
+      // It never becomes a live decision here: the live rule requires proven
+      // owner capability at this bench's boundary.
+      const quarantineId = `imported:${event.eventId}`;
+      if (this.known.has(quarantineId)) return false;
+      this.known.add(event.eventId);
+      this.persist(
+        {
+          contractVersion: ARTBENCH_CONTRACT_VERSION,
+          eventId: quarantineId,
+          seq: this.nextSeq(),
+          at: this.now(),
+          actor: { kind: "system", id: "artbench-exchange" },
+          source: "drive",
+          origin: this.storeId,
+          type: "review.imported",
+          payload: {
+            imported: event.payload,
+            fromOrigin: event.origin,
+            reason:
+              "Imported review from the exchange is evidence only; decisions are made at this bench with proven owner capability.",
+          },
+        },
+        false,
+      );
+      return true;
+    }
     const admitted: ArtbenchEvent = {
       ...event,
       seq: this.nextSeq(),
@@ -646,11 +689,26 @@ export class ArtbenchStore {
         `Candidate bytes are ${state.state}: ${state.note}`,
       );
     }
-    if (input.actor.kind === "agent" || input.actor.kind === "worker") {
+    if (input.actor.kind !== "owner") {
       throw new ArtbenchError(
         403,
         "not-an-owner",
-        "Only the owner decides; an agent's statement is not approval.",
+        "Only the owner decides; an agent's or worker's statement is not approval.",
+      );
+    }
+    if (!input.authority) {
+      throw new ArtbenchError(
+        403,
+        "owner-capability-required",
+        "Declaring an owner actor is not proof. Decisions need the host token or the same-origin bench session capability.",
+      );
+    }
+    const qa = request.qa;
+    if (!qa && input.actor.id !== this.ownerId) {
+      throw new ArtbenchError(
+        403,
+        "not-the-owner",
+        `Only ${this.ownerId} may decide production requests; '${input.actor.id}' may decide QA requests only.`,
       );
     }
     if (
@@ -684,11 +742,14 @@ export class ArtbenchStore {
       note: input.note,
       attachments: input.attachments,
       supersedesReviewId: input.supersedesReviewId,
+      qa,
+      authority: input.authority,
     };
     const events: ArtbenchEvent[] = [
       this.append("review.decided", payload, input.actor, "bench"),
     ];
-    if (input.decision === "approve") {
+    // QA approvals are recorded but never become integration cargo.
+    if (input.decision === "approve" && !qa) {
       const queued = this.projection().integrationQueue.some(
         (item) =>
           item.candidateId === candidate.candidateId &&
@@ -800,6 +861,7 @@ export class ArtbenchStore {
     readonly parentCandidateId?: string;
     readonly origin: "owner" | "worker" | "expansion";
     readonly manifestId?: string;
+    readonly qa?: boolean;
   }): ArtbenchEvent {
     const { request } = input;
     if (!SAFE_ID.test(request.requestId)) {
@@ -849,10 +911,59 @@ export class ArtbenchStore {
         parentCandidateId: input.parentCandidateId,
         origin: input.origin,
         manifestId: input.manifestId,
+        qa: input.qa === true,
       },
       input.actor,
       "bench",
     );
+  }
+
+  /** Administrative correction: mark records as QA and return their items. */
+  dispositionQa(
+    payload: QaDispositionPayload,
+    actor: ArtbenchActor,
+    authority: ReviewAuthority | null,
+  ): ArtbenchEvent {
+    if (!authority) {
+      throw new ArtbenchError(
+        403,
+        "owner-capability-required",
+        "QA disposition needs proven capability.",
+      );
+    }
+    const projection = this.projection();
+    if (payload.requestId && !projection.requests[payload.requestId]) {
+      throw new ArtbenchError(
+        404,
+        "unknown-request",
+        `No request ${payload.requestId}.`,
+      );
+    }
+    if (payload.candidateId && !projection.candidates[payload.candidateId]) {
+      throw new ArtbenchError(
+        404,
+        "unknown-candidate",
+        `No candidate ${payload.candidateId}.`,
+      );
+    }
+    if (
+      payload.itemId &&
+      !projection.integrationQueue.some((i) => i.itemId === payload.itemId)
+    ) {
+      throw new ArtbenchError(
+        404,
+        "unknown-item",
+        `No integration item ${payload.itemId}.`,
+      );
+    }
+    if (!payload.reason?.trim()) {
+      throw new ArtbenchError(
+        400,
+        "invalid-disposition",
+        "A QA disposition states its reason.",
+      );
+    }
+    return this.append("qa.disposition", payload, actor, "bench");
   }
 
   selectCandidate(
@@ -1401,6 +1512,7 @@ export class ArtbenchStore {
       integrationQueue: projection.integrationQueue,
       conflicts: projection.conflicts,
       rejectedEvents: projection.rejectedEvents,
+      importedReviews: projection.importedReviews,
     };
     writeAtomic(
       join(catalogDir, "catalog.json"),
@@ -1455,6 +1567,7 @@ function renderCatalogMarkdown(catalog: {
   })[];
   integrationQueue: ArtbenchProjection["integrationQueue"];
   conflicts: ArtbenchProjection["conflicts"];
+  importedReviews?: ArtbenchProjection["importedReviews"];
 }): string {
   const lines = [
     `# Artbench catalog — generated ${catalog.generatedAt} by ${catalog.storeId}`,
@@ -1465,21 +1578,29 @@ function renderCatalogMarkdown(catalog: {
   ];
   for (const request of Object.values(catalog.requests)) {
     lines.push(
-      `- **${request.request.requestId}** v${request.request.requestVersion} — ${request.request.title} · lane ${request.lane} · ${request.candidateIds.length} candidate(s)${request.selectedCandidateId ? ` · selected ${request.selectedCandidateId}` : ""}`,
+      `- **${request.request.requestId}** v${request.request.requestVersion} — ${request.request.title}${request.qa ? " · QA (disposable)" : ""} · lane ${request.lane} · ${request.candidateIds.length} candidate(s)${request.selectedCandidateId ? ` · selected ${request.selectedCandidateId}` : ""}`,
     );
   }
   lines.push(``, `## Candidates`);
   for (const c of catalog.candidates) {
     const latest = c.latestDecision;
     lines.push(
-      `- ${c.candidateId} · request ${c.requestId} · rev ${c.revision} · ${c.width}×${c.height} ${c.container}${c.hasAlpha ? " α" : ""} · sha ${c.sha256} · ${c.editKind}${c.parentCandidateId ? ` of ${c.parentCandidateId}` : ""} · bytes ${c.bytes.state} · status ${c.status}${latest ? ` · ${latest.payload.decision} (${latest.payload.reviewId}, event ${latest.eventId}${latest.payload.note ? `, "${latest.payload.note}"` : ""})` : ""}${Object.keys(c.tags).length ? ` · tags ${JSON.stringify(c.tags)}` : " · untagged"}${c.exchangePath ? ` · file ${c.exchangePath}` : ""}`,
+      `- ${c.candidateId}${c.qa ? " · QA" : ""} · request ${c.requestId} · rev ${c.revision} · ${c.width}×${c.height} ${c.container}${c.hasAlpha ? " α" : ""} · sha ${c.sha256} · ${c.editKind}${c.parentCandidateId ? ` of ${c.parentCandidateId}` : ""} · bytes ${c.bytes.state} · status ${c.status}${latest ? ` · ${latest.payload.decision} (${latest.payload.reviewId}, event ${latest.eventId}${latest.payload.note ? `, "${latest.payload.note}"` : ""})` : ""}${Object.keys(c.tags).length ? ` · tags ${JSON.stringify(c.tags)}` : " · untagged"}${c.exchangePath ? ` · file ${c.exchangePath}` : ""}`,
     );
   }
   lines.push(``, `## Integration queue`);
   for (const item of catalog.integrationQueue) {
     lines.push(
-      `- ${item.itemId} · ${item.state} · candidate ${item.candidateId} · sha ${item.sha256} · consumer ${item.consumerId} · ${item.tagsState}${item.missingFacts.length ? ` · missing: ${item.missingFacts.join("; ")}` : ""}`,
+      `- ${item.itemId} · ${item.state}${item.qa ? " · QA (not cargo)" : ""} · candidate ${item.candidateId} · sha ${item.sha256} · consumer ${item.consumerId} · at approval ${item.tagsState} · current tags ${Object.keys(item.currentTags).length ? JSON.stringify(item.currentTags) : "none"} (v${item.currentTagsVersion})${item.missingFacts.length ? ` · missing: ${item.missingFacts.join("; ")}` : ""}`,
     );
+  }
+  if (catalog.importedReviews?.length) {
+    lines.push(``, `## Imported reviews (exchange evidence, not applied)`);
+    for (const r of catalog.importedReviews) {
+      lines.push(
+        `- ${r.eventId} from ${r.fromOrigin}: ${r.imported.decision} on ${r.imported.candidateId} (${r.imported.reviewId})`,
+      );
+    }
   }
   if (catalog.conflicts.length) {
     lines.push(``, `## Tag conflicts (surfaced, not overwritten)`);
