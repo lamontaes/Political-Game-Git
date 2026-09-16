@@ -190,9 +190,15 @@ async function launchHub() {
   );
   await desk.waitForLoadState("domcontentloaded");
   await desk.getByTestId("art-desk-inputs").waitFor({ timeout: 60000 });
+  const tabStates = {};
+  for (const name of ["Play", "Art Desk", "Agents", "Settings"])
+    tabStates[name] = await chrome
+      .getByRole("tab", { name })
+      .getAttribute("aria-selected");
   check(
     "startup: Art Desk loaded while Play stayed the selected tab",
     await selected("Play"),
+    JSON.stringify(tabStates),
   );
   const marker = await desk.evaluate(
     () => (globalThis.__hubMarker = Math.random()),
