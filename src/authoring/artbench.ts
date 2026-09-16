@@ -756,8 +756,10 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
     };
   }
   // Unassigned uploads are visible as a pseudo-request, never silently lost.
+  // An inbox candidate that has been assigned (it has a child on a real
+  // request) leaves the inbox; its bytes and lineage stay as history.
   const inboxCandidates = Object.values(projectedCandidates).filter(
-    (c) => c.requestId === INBOX_REQUEST_ID,
+    (c) => c.requestId === INBOX_REQUEST_ID && c.childCandidateIds.length === 0,
   );
   if (inboxCandidates.length > 0) {
     projectedRequests[INBOX_REQUEST_ID] = {
