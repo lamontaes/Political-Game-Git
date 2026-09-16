@@ -1,4 +1,4 @@
-/* global process, setTimeout, URL, Response */
+/* global process, setTimeout, clearTimeout, URL, Response */
 /**
  * Our Civic Duty Private — the owner's private development hub.
  *
@@ -658,8 +658,23 @@ function startWorker(track) {
   );
   hub.worker = child;
   hub.workerTrack = track;
+  // The worker's first step reads the project and pack folders. A worker
+  // that stays silent is usually waiting on a macOS privacy prompt (each
+  // unsigned build is a new app to macOS).
+  let heard = false;
+  const silence = setTimeout(() => {
+    if (heard || hub.worker !== child) return;
+    hub.phase[track] = {
+      phase: "fetching",
+      message:
+        "Waiting for macOS permission to read the project folder — answer the system prompt (Allow) to continue. Play is unaffected.",
+    };
+    broadcast();
+  }, 10000);
   let pending = "";
   const consume = (chunk) => {
+    heard = true;
+    clearTimeout(silence);
     pending += String(chunk);
     const lines = pending.split("\n");
     pending = lines.pop() ?? "";
