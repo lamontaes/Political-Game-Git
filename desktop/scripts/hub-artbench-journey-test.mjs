@@ -303,6 +303,7 @@ writeSettings({ artDeskPin: pin });
     type: "request.created",
     actor: ACTOR,
     payload: {
+      qa: true,
       request: {
         requestId,
         requestVersion: 1,
@@ -461,9 +462,9 @@ writeSettings({ artDeskPin: pin });
     },
   });
   check(
-    "s1: isolated fixture approval of the edit queued for integration",
+    "s1: isolated fixture approval of the QA edit recorded without queueing integration",
     approval.status === 201 &&
-      (approval.json?.events ?? []).some(
+      !(approval.json?.events ?? []).some(
         (e) => e.type === "integration.queued",
       ),
   );

@@ -188,6 +188,7 @@ try {
     type: "request.created",
     actor: ACTOR,
     payload: {
+      qa: true,
       request: {
         requestId: record.requestId,
         requestVersion: 1,

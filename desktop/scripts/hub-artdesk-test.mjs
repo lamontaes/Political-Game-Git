@@ -253,6 +253,7 @@ let candidate = null;
       type: "request.created",
       actor: FIXTURE_ACTOR,
       payload: {
+        qa: true,
         request: {
           ...QA_REQUEST,
           requestId,
