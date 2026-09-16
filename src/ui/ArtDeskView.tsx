@@ -13,22 +13,30 @@ import reconciliationSeed from "../../art/requests/art-desk-reconciliation.json"
 import generationBatch from "../../art/requests/art-desk-generation-batch.json";
 import {
   ART_DESK_LANES,
+  decisionBlocker,
   filterDeskItems,
   paginateDeskItems,
   projectArtDesk,
+  unknownPrivatePackReceipt,
+  type ArtDeskCandidateInput,
   type ArtDeskItem,
   type ArtDeskLane,
+  type ArtDeskPrivatePackReceipt,
   type ArtDeskReconciliation,
 } from "../authoring/art-desk";
 import {
+  briefContractHash,
   compileAssetBrief,
-  privatePackInputState,
+  styleReferencesFor,
 } from "../authoring/asset-brief";
 import {
   emptyClaimDocument,
   type AssetClaimDocument,
 } from "../authoring/asset-claim";
-import type { AssetRequestDocument } from "../authoring/asset-request";
+import type {
+  AssetRequest,
+  AssetRequestDocument,
+} from "../authoring/asset-request";
 import {
   emptyReviewDocument,
   recordReview,
@@ -52,6 +60,49 @@ const LANE_LABEL: Record<ArtDeskLane, string> = {
 
 const PAGE_SIZE = 8;
 
+/** Private, gitignored sidecars the loopback bridge allowlists. */
+const CANDIDATE_SIDECAR = "art/generated/candidates/art-desk/candidates.json";
+const QA_REQUEST_SIDECAR = "art/generated/candidates/art-desk/qa-requests.json";
+const INPUTS_ROUTE = "/__dev/art-desk/inputs";
+
+/** Mirrors scripts/dev-lab/art-desk-inputs.ts; the browser only reads it. */
+interface InputsReceipt {
+  readonly checkedAt: string;
+  readonly privatePack: ArtDeskPrivatePackReceipt;
+  readonly candidates: readonly {
+    readonly requestId: string;
+    readonly sha256: string;
+    readonly path: string;
+    readonly source: "generation-batch" | "upload-sidecar";
+    readonly bytes: "verified" | "missing" | "hash-mismatch" | "not-a-raster";
+    readonly actualSha256?: string;
+    readonly byteLength?: number;
+    readonly raster?: {
+      readonly container: "png" | "jpg";
+      readonly width: number;
+      readonly height: number;
+    };
+    readonly note: string;
+  }[];
+}
+
+interface CandidateSidecar {
+  readonly documentVersion: 1;
+  readonly candidates: readonly {
+    readonly requestId: string;
+    readonly sha256: string;
+    readonly path: string;
+    readonly byteLength: number;
+    readonly container: "png" | "jpg";
+    readonly width: number;
+    readonly height: number;
+    readonly storedAt: string;
+    readonly declaredBy: string;
+    readonly rightsStatus: "unknown";
+    readonly sourceDeclaration: string;
+  }[];
+}
+
 async function sha256Hex(data: BufferSource | string): Promise<string> {
   const bytes =
     typeof data === "string" ? new TextEncoder().encode(data) : data;
@@ -73,18 +124,19 @@ function localReviewOn(): boolean {
   return typeof __PG_BUILD_IDENTITY__ !== "undefined";
 }
 
-function deskFileUrl(relativePath: string): string {
-  return `/__dev/art-desk/file?path=${encodeURIComponent(relativePath)}`;
+function deskFileUrl(relativePath: string, version?: string): string {
+  const base = `/__dev/art-desk/file?path=${encodeURIComponent(relativePath)}`;
+  return version ? `${base}&v=${version.slice(0, 12)}` : base;
 }
 
 async function deskGet(relativePath: string): Promise<{
   revision: string;
   json: unknown;
 } | null> {
-  const response = await fetch(
-    `/__dev/art-desk/file?path=${encodeURIComponent(relativePath)}`,
-    { headers: { Accept: "application/json" } },
-  );
+  const response = await fetch(deskFileUrl(relativePath), {
+    headers: { Accept: "application/json" },
+    cache: "no-store",
+  });
   if (!response.ok) return null;
   const revision = response.headers.get("X-Art-Desk-Revision") ?? "";
   return { revision, json: await response.json() };
@@ -100,10 +152,11 @@ async function deskPut(
     "Content-Type": "application/json",
   };
   if (ifMatch) headers["If-Match"] = ifMatch;
-  const response = await fetch(
-    `/__dev/art-desk/file?path=${encodeURIComponent(relativePath)}`,
-    { method: "PUT", headers, body },
-  );
+  const response = await fetch(deskFileUrl(relativePath), {
+    method: "PUT",
+    headers,
+    body,
+  });
   const payload = (await response.json().catch(() => ({}))) as {
     revision?: string;
     message?: string;
@@ -114,39 +167,49 @@ async function deskPut(
   return { ok: true, revision: payload.revision ?? "" };
 }
 
-function CandidateRaster({
-  src,
-  alt,
-  testId,
-  className,
-  hideIfMissing = false,
-}: {
-  readonly src: string;
-  readonly alt: string;
-  readonly testId: string;
-  readonly className?: string;
-  readonly hideIfMissing?: boolean;
-}) {
-  const [failed, setFailed] = useState(false);
-  useEffect(() => {
-    setFailed(false);
-  }, [src]);
-  if (failed) {
-    if (hideIfMissing) return null;
+async function fetchInputs(): Promise<InputsReceipt | null> {
+  const response = await fetch(INPUTS_ROUTE, { cache: "no-store" });
+  if (!response.ok) return null;
+  return (await response.json()) as InputsReceipt;
+}
+
+/** Keys typed into a field are text, never desk commands. */
+function isTextTarget(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) return false;
+  if (target.isContentEditable) return true;
+  const tag = target.tagName;
+  return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT";
+}
+
+const THUMB_LABEL: Record<ArtDeskItem["candidateBytes"], string> = {
+  unchecked: "unchecked",
+  verified: "",
+  missing: "no bytes",
+  "hash-mismatch": "mismatch",
+  "not-a-raster": "not raster",
+};
+
+function CandidateThumb({ item }: { readonly item: ArtDeskItem }) {
+  const requestId = item.request.requestId;
+  if (item.candidateVerified && item.candidateThumbPath) {
     return (
-      <span className={className} data-testid={`${testId}-missing`}>
-        Candidate hash is recorded. Private bytes are not in this checkout.
-      </span>
+      <img
+        className="art-desk-thumb"
+        data-testid={`art-desk-thumb-${requestId}`}
+        src={deskFileUrl(item.candidateThumbPath, item.candidateSha256)}
+        alt=""
+      />
     );
   }
   return (
-    <img
-      className={className}
-      data-testid={testId}
-      src={src}
-      alt={alt}
-      onError={() => setFailed(true)}
-    />
+    <span
+      className="art-desk-thumb art-desk-thumb--none"
+      data-testid={`art-desk-thumb-${requestId}-none`}
+      data-candidate-bytes={item.candidateSha256 ? item.candidateBytes : "none"}
+      aria-hidden="true"
+    >
+      {item.candidateSha256 ? THUMB_LABEL[item.candidateBytes] : "—"}
+    </span>
   );
 }
 
@@ -162,20 +225,24 @@ export function ArtDeskView() {
   const [claims, setClaims] = useState<AssetClaimDocument>(
     claimDocumentSeed as AssetClaimDocument,
   );
+  const [qaRequests, setQaRequests] = useState<readonly AssetRequest[]>([]);
+  const [inputs, setInputs] = useState<InputsReceipt | null>(null);
   const [reviewRevision, setReviewRevision] = useState<string | null>(null);
   const [message, setMessage] = useState("");
-  const [previewObjectUrl, setPreviewObjectUrl] = useState<string | null>(null);
-  const [previewRequestId, setPreviewRequestId] = useState<string | null>(null);
   const [showIds, setShowIds] = useState(false);
-  const [sessionCandidates, setSessionCandidates] = useState<
-    Record<string, { readonly sha256: string; readonly path: string }>
-  >({});
+
+  const reloadInputs = useCallback(async () => {
+    const receipt = await fetchInputs();
+    if (receipt) setInputs(receipt);
+    return receipt;
+  }, []);
 
   useEffect(() => {
     if (!privateAuthoring) return;
     void (async () => {
       const liveReviews = await deskGet("art/requests/asset-reviews.json");
       const liveClaims = await deskGet("art/requests/asset-claims.json");
+      const liveQa = await deskGet(QA_REQUEST_SIDECAR);
       if (liveReviews) {
         setReviews(liveReviews.json as AssetReviewDocument);
         setReviewRevision(liveReviews.revision);
@@ -183,20 +250,50 @@ export function ArtDeskView() {
       if (liveClaims) {
         setClaims(liveClaims.json as AssetClaimDocument);
       }
+      if (liveQa) {
+        const document = liveQa.json as { requests?: AssetRequest[] };
+        setQaRequests(document.requests ?? []);
+      }
+      await reloadInputs();
     })();
-  }, [privateAuthoring]);
+  }, [privateAuthoring, reloadInputs]);
 
-  const requests = (assetRequestDocument as AssetRequestDocument).requests;
+  const registryRequests = (assetRequestDocument as AssetRequestDocument)
+    .requests;
+  const requests = useMemo(() => {
+    const registryIds = new Set(registryRequests.map((r) => r.requestId));
+    return [
+      ...registryRequests,
+      ...qaRequests.filter((r) => !registryIds.has(r.requestId)),
+    ];
+  }, [registryRequests, qaRequests]);
+  const disposableRequestIds = useMemo(
+    () => new Set(qaRequests.map((r) => r.requestId)),
+    [qaRequests],
+  );
+
   const desk = useMemo(() => {
-    const fromBatch: Record<
-      string,
-      { readonly sha256: string; readonly path: string }
-    > = {};
-    for (const record of generationBatch.records) {
-      fromBatch[record.requestId] = {
-        sha256: record.outputSha256,
-        path: record.privatePath,
-      };
+    const candidateByRequest: Record<string, ArtDeskCandidateInput> = {};
+    if (inputs) {
+      for (const receipt of inputs.candidates) {
+        candidateByRequest[receipt.requestId] = {
+          sha256: receipt.sha256,
+          path: receipt.path,
+          bytes: receipt.bytes,
+          source: receipt.source,
+          raster: receipt.raster,
+        };
+      }
+    } else {
+      // Before the receipt arrives the batch registry is metadata only.
+      for (const record of generationBatch.records) {
+        candidateByRequest[record.requestId] = {
+          sha256: record.outputSha256,
+          path: record.privatePath,
+          bytes: "unchecked",
+          source: "generation-batch",
+        };
+      }
     }
     return projectArtDesk({
       requests,
@@ -204,10 +301,11 @@ export function ArtDeskView() {
       reviews: reviews.reviews ? reviews : emptyReviewDocument(),
       now: new Date().toISOString(),
       reconciliation: reconciliationSeed as ArtDeskReconciliation,
-      privatePackPath: undefined,
-      candidateByRequest: { ...fromBatch, ...sessionCandidates },
+      privatePack: inputs?.privatePack ?? unknownPrivatePackReceipt(),
+      disposableRequestIds,
+      candidateByRequest,
     });
-  }, [requests, claims, reviews, sessionCandidates]);
+  }, [requests, claims, reviews, inputs, disposableRequestIds]);
   const filtered = useMemo(
     () => filterDeskItems(desk.items, lane, query),
     [desk.items, lane, query],
@@ -238,27 +336,40 @@ export function ArtDeskView() {
         );
         return;
       }
-      const hash = item.candidateSha256 ?? "0".repeat(64);
-      if (!item.candidateSha256) {
-        setMessage(
-          "Approve/reject binds exact candidate bytes. Upload or generate a candidate first.",
-        );
+      // Re-read the receipt so the decision binds bytes as they are now, not
+      // as they were when the list last rendered.
+      const fresh = await reloadInputs();
+      const current = fresh?.candidates.find(
+        (candidate) => candidate.requestId === item.request.requestId,
+      );
+      const live: ArtDeskItem = current
+        ? {
+            ...item,
+            candidateSha256: current.sha256,
+            candidateBytes: current.bytes,
+            candidateVerified: current.bytes === "verified",
+          }
+        : { ...item, candidateBytes: "unchecked", candidateVerified: false };
+      const blocker = decisionBlocker(live);
+      if (blocker || !current?.actualSha256 || !live.candidateSha256) {
+        setMessage(blocker ?? "Candidate bytes are not verified.");
         return;
       }
       const brief = compileAssetBrief({
         request: item.request,
-        stylePixels: [privatePackInputState(null)],
+        stylePixels: styleReferencesFor(item.request, desk.privatePack),
       });
-      const fitContractHash = await sha256Hex(brief.derivativeNote);
+      const fitContractHash = await sha256Hex(briefContractHash(brief));
       const sceneContractHash = await sha256Hex(
         item.sceneId ?? item.request.requestId,
       );
+      const hash = live.candidateSha256;
       const result = recordReview(reviews, {
         requestId: item.request.requestId,
         requestVersion: item.request.requestVersion,
         expectedRequestVersion: item.request.requestVersion,
         outputSha256: hash,
-        currentOutputSha256: hash,
+        currentOutputSha256: current.actualSha256,
         contractVersion: ART_DESK_CONTRACT_ID,
         fitContractHash,
         sceneContractHash,
@@ -289,7 +400,7 @@ export function ArtDeskView() {
         `${decision} recorded for ${item.request.requestId} at ${hash.slice(0, 12)}… Private acceptance is not public release.`,
       );
     },
-    [privateAuthoring, reviews, reviewRevision],
+    [privateAuthoring, reviews, reviewRevision, reloadInputs, desk.privatePack],
   );
 
   async function onUpload(item: ArtDeskItem, file: File) {
@@ -300,39 +411,84 @@ export function ArtDeskView() {
     const bytes = await file.arrayBuffer();
     const sha = await sha256Hex(bytes);
     const ext =
-      file.type.includes("jpeg") || file.name.endsWith(".jpg") ? "jpg" : "png";
+      file.type.includes("jpeg") || /\.jpe?g$/i.test(file.name) ? "jpg" : "png";
     const relative = candidateRelativePath(item.request.requestId, sha, ext);
-    const written = await fetch(
-      `/__dev/art-desk/file?path=${encodeURIComponent(relative)}`,
-      {
-        method: "PUT",
-        headers: { "Content-Type": file.type || "application/octet-stream" },
-        body: bytes,
-      },
-    );
+    const written = await fetch(deskFileUrl(relative), {
+      method: "PUT",
+      headers: { "Content-Type": file.type || "application/octet-stream" },
+      body: bytes,
+    });
+    const payload = (await written.json().catch(() => ({}))) as {
+      message?: string;
+      sha256?: string;
+      byteLength?: number;
+      container?: "png" | "jpg";
+      width?: number;
+      height?: number;
+    };
     if (!written.ok) {
-      const payload = (await written.json().catch(() => ({}))) as {
-        message?: string;
-      };
       setMessage(payload.message ?? written.statusText);
       return;
     }
-    setSessionCandidates((current) => ({
-      ...current,
-      [item.request.requestId]: { sha256: sha, path: relative },
-    }));
-    const url = URL.createObjectURL(file);
-    setPreviewObjectUrl((previous) => {
-      if (previous) URL.revokeObjectURL(previous);
-      return url;
-    });
-    setPreviewRequestId(item.request.requestId);
+    if (
+      payload.sha256 !== sha ||
+      !payload.container ||
+      !payload.width ||
+      !payload.height
+    ) {
+      setMessage(
+        "Server stored the bytes but did not return decoded raster facts; the candidate was not recorded.",
+      );
+      return;
+    }
+    // Persist the request ↔ candidate association in the private sidecar so a
+    // reload finds the same candidate. Optimistic concurrency on the sidecar.
+    const existing = await deskGet(CANDIDATE_SIDECAR);
+    const sidecar: CandidateSidecar = existing
+      ? (existing.json as CandidateSidecar)
+      : { documentVersion: 1, candidates: [] };
+    const next: CandidateSidecar = {
+      documentVersion: 1,
+      candidates: [
+        ...sidecar.candidates.filter(
+          (record) => record.requestId !== item.request.requestId,
+        ),
+        {
+          requestId: item.request.requestId,
+          sha256: sha,
+          path: relative,
+          byteLength: payload.byteLength ?? bytes.byteLength,
+          container: payload.container,
+          width: payload.width,
+          height: payload.height,
+          storedAt: new Date().toISOString(),
+          declaredBy: "art-desk-upload",
+          rightsStatus: "unknown",
+          sourceDeclaration:
+            "user-or-agent-submission; rights not inferred from a web reference",
+        },
+      ],
+    };
+    const recorded = await deskPut(
+      CANDIDATE_SIDECAR,
+      next,
+      existing?.revision ?? null,
+    );
+    if (!recorded.ok) {
+      setMessage(
+        `Bytes stored under ${sha.slice(0, 12)}… but the candidate record was not written: ${recorded.message}`,
+      );
+      return;
+    }
+    await reloadInputs();
+    setSelectedId(item.request.requestId);
     setMessage(
-      `Stored candidate ${sha.slice(0, 12)}… Rights remain unknown until declared. Bytes are private; they are not a public release.`,
+      `Stored candidate ${sha.slice(0, 12)}… (${payload.width}×${payload.height} ${payload.container}). Rights remain unknown until declared. Bytes are private; they are not a public release.`,
     );
   }
 
   function onKey(event: KeyboardEvent<HTMLDivElement>) {
+    if (isTextTarget(event.target)) return;
     const ids = paged.page.map((item) => item.request.requestId);
     const index = selected ? ids.indexOf(selected.request.requestId) : 0;
     if (event.key === "ArrowDown" || event.key === "j") {
@@ -366,6 +522,8 @@ export function ArtDeskView() {
     );
   }
 
+  const pack = desk.privatePack;
+
   return (
     <div
       className="art-desk"
@@ -380,8 +538,22 @@ export function ArtDeskView() {
           Review new candidates against the durable request registry. Previews
           do not write saves. Unapproved pixels never replace accepted game art.
         </p>
-        <p className="art-desk-pack" data-testid="art-desk-pack">
-          {desk.privatePack.note}
+        <p
+          className="art-desk-pack"
+          data-testid="art-desk-pack"
+          data-pack-status={pack.status}
+        >
+          <strong>Private pack: {pack.status}.</strong> {pack.note}
+          {inputs ? (
+            <span className="art-desk-meta" data-testid="art-desk-inputs">
+              {" "}
+              Receipt read {inputs.checkedAt}; {inputs.candidates.length}{" "}
+              recorded candidate
+              {inputs.candidates.length === 1 ? "" : "s"},{" "}
+              {inputs.candidates.filter((c) => c.bytes === "verified").length}{" "}
+              with verified bytes.
+            </span>
+          ) : null}
         </p>
         <label>
           Search{" "}
@@ -410,26 +582,14 @@ export function ArtDeskView() {
             <li key={item.request.requestId}>
               <button
                 type="button"
-                className={
-                  item.candidateThumbPath
-                    ? "art-desk-row art-desk-row--with-thumb"
-                    : "art-desk-row"
-                }
+                className="art-desk-row"
                 aria-pressed={
                   selected?.request.requestId === item.request.requestId
                 }
                 data-testid={`art-desk-row-${item.request.requestId}`}
                 onClick={() => setSelectedId(item.request.requestId)}
               >
-                {item.candidateThumbPath ? (
-                  <CandidateRaster
-                    src={deskFileUrl(item.candidateThumbPath)}
-                    alt=""
-                    className="art-desk-thumb"
-                    testId={`art-desk-thumb-${item.request.requestId}`}
-                    hideIfMissing
-                  />
-                ) : null}
+                <CandidateThumb item={item} />
                 <span className="art-desk-row-copy">
                   <strong>{item.request.title}</strong>
                   <span>{item.request.consumer.playerVisibleUse}</span>
@@ -438,6 +598,7 @@ export function ArtDeskView() {
                     {item.generationEligible
                       ? "may generate"
                       : "do not generate"}
+                    {item.disposable ? " · QA, disposable" : ""}
                   </span>
                 </span>
               </button>
@@ -447,11 +608,7 @@ export function ArtDeskView() {
         {selected && (
           <ArtDeskDetail
             item={selected}
-            previewObjectUrl={
-              previewRequestId === selected.request.requestId
-                ? previewObjectUrl
-                : null
-            }
+            pack={pack}
             showIds={showIds}
             onToggleIds={() => setShowIds((value) => !value)}
             onDecide={decide}
@@ -477,7 +634,9 @@ export function ArtDeskView() {
         >
           Next
         </button>
-        <p role="status">{message}</p>
+        <p role="status" data-testid="art-desk-status">
+          {message}
+        </p>
       </footer>
     </div>
   );
@@ -485,14 +644,14 @@ export function ArtDeskView() {
 
 function ArtDeskDetail({
   item,
-  previewObjectUrl,
+  pack,
   showIds,
   onToggleIds,
   onDecide,
   onUpload,
 }: {
   readonly item: ArtDeskItem;
-  readonly previewObjectUrl: string | null;
+  readonly pack: ArtDeskPrivatePackReceipt;
   readonly showIds: boolean;
   readonly onToggleIds: () => void;
   readonly onDecide: (
@@ -503,7 +662,7 @@ function ArtDeskDetail({
 }) {
   const brief = compileAssetBrief({
     request: item.request,
-    stylePixels: [privatePackInputState(null)],
+    stylePixels: styleReferencesFor(item.request, pack),
     bodyPoseFamilies: item.request.requestId.startsWith("person-")
       ? ["standing-neutral"]
       : [],
@@ -518,6 +677,7 @@ function ArtDeskDetail({
     ].includes(item.sceneId)
       ? item.sceneId
       : null;
+  const blocker = decisionBlocker(item);
   return (
     <article className="art-desk-detail" data-testid="art-desk-detail">
       <h2>{item.request.title}</h2>
@@ -529,17 +689,33 @@ function ArtDeskDetail({
         </p>
       ))}
       <div className="art-desk-preview" data-testid="art-desk-preview">
-        {previewObjectUrl ? (
-          <img src={previewObjectUrl} alt="Uploaded candidate preview" />
-        ) : item.candidateThumbPath ? (
-          <CandidateRaster
-            src={deskFileUrl(item.candidateThumbPath)}
+        {item.candidateVerified && item.candidateThumbPath ? (
+          <img
+            src={deskFileUrl(item.candidateThumbPath, item.candidateSha256)}
             alt={`Candidate for ${item.request.title}`}
-            testId="art-desk-candidate-preview"
+            data-testid="art-desk-candidate-preview"
           />
+        ) : item.candidateSha256 ? (
+          <p data-testid="art-desk-candidate-preview-missing">
+            {item.coverage.note}
+          </p>
         ) : (
-          <p>No new candidate loaded in this session.</p>
+          <p>No candidate is recorded for this request.</p>
         )}
+        {item.candidateSha256 ? (
+          <p
+            className="art-desk-meta"
+            data-testid="art-desk-candidate-state"
+            data-candidate-bytes={item.candidateBytes}
+          >
+            Recorded hash {item.candidateSha256.slice(0, 12)}… ·{" "}
+            {item.candidateSource ?? "unknown source"} · bytes{" "}
+            {item.candidateBytes}
+            {item.candidateRaster
+              ? ` · ${item.candidateRaster.width}×${item.candidateRaster.height} ${item.candidateRaster.container}`
+              : ""}
+          </p>
+        ) : null}
       </div>
       {sceneId && (
         <div className="art-desk-scene" data-testid="art-desk-scene">
@@ -556,16 +732,28 @@ function ArtDeskDetail({
         </div>
       )}
       <div className="art-desk-actions">
-        <button type="button" onClick={() => void onDecide(item, "approve")}>
+        <button
+          type="button"
+          disabled={Boolean(blocker)}
+          title={blocker ?? undefined}
+          onClick={() => void onDecide(item, "approve")}
+        >
           Approve
         </button>
         <button
           type="button"
+          disabled={Boolean(blocker)}
+          title={blocker ?? undefined}
           onClick={() => void onDecide(item, "request-revision")}
         >
           Request revision
         </button>
-        <button type="button" onClick={() => void onDecide(item, "reject")}>
+        <button
+          type="button"
+          disabled={Boolean(blocker)}
+          title={blocker ?? undefined}
+          onClick={() => void onDecide(item, "reject")}
+        >
           Reject
         </button>
         <label>
@@ -573,12 +761,19 @@ function ArtDeskDetail({
           <input
             type="file"
             accept="image/png,image/jpeg"
+            data-testid="art-desk-upload"
             onChange={(event) => {
               const file = event.target.files?.[0];
               if (file) void onUpload(item, file);
+              event.target.value = "";
             }}
           />
         </label>
+        {blocker ? (
+          <span className="art-desk-meta" data-testid="art-desk-blocker">
+            {blocker}
+          </span>
+        ) : null}
       </div>
       <details open={showIds} onToggle={onToggleIds}>
         <summary>IDs, measurements and compiled brief</summary>

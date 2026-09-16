@@ -174,6 +174,45 @@ export function briefContractHash(brief: CompiledAssetBrief): string {
   });
 }
 
+/**
+ * The style references a request is actually judged against. Environment and
+ * mask requests name their own style authority; only people requests draw on
+ * the private character pack, and even then the pack's state comes from the
+ * server receipt, never from a guessed path.
+ */
+export function styleReferencesFor(
+  request: Pick<AssetRequest, "requestId" | "target">,
+  pack: {
+    readonly status: string;
+    readonly note: string;
+    readonly packId?: string;
+    readonly manifestSha256?: string;
+  },
+): readonly BriefPixelRef[] {
+  const authority: BriefPixelRef = {
+    role: "style-authority",
+    pathOrDriveId: request.target.styleAuthority,
+    nativeDetail: "unverified",
+  };
+  if (!request.requestId.startsWith("person-")) {
+    return [authority];
+  }
+  const template: BriefPixelRef =
+    pack.status === "verified" && pack.packId
+      ? {
+          role: "template",
+          pathOrDriveId: pack.packId,
+          sha256: pack.manifestSha256,
+          nativeDetail: "unverified",
+        }
+      : {
+          role: "template",
+          pathOrDriveId: "PG_PRIVATE_ART_PACK",
+          missingReason: pack.note,
+        };
+  return [authority, template];
+}
+
 export function privatePackInputState(
   supplied: { readonly path?: string; readonly sha256?: string } | null,
 ): BriefPixelRef {
