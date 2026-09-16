@@ -1,0 +1,57 @@
+{
+  "documentVersion": 1,
+  "contractVersion": "alive43-art-desk-v1",
+  "generatedFrom": "ALIVE43 Role A bounded generation proof on cursor/alive43-art-desk-708a",
+  "allowance": {
+    "maxRequests": 5,
+    "maxAttemptsPerRequest": 2,
+    "paidOverage": false,
+    "requestsAttempted": [
+      "env-neighborhood-doorstep-generic",
+      "env-park-community-pavilion-winter-variant"
+    ]
+  },
+  "notes": [
+    "Cursor GenerateImage produced real rasters (JPEG), not SVG or text. Qualification of this provider is this batch.",
+    "Native width is 1280, below the 4608 environment master floor. These are private review candidates, not production masters. Repository tooling did not enlarge them.",
+    "Winter variant used the existing park pavilion source (Drive 1SVG_lRUgoMJTmyreTsmhLJB6roJitFr1) as parent reference. Snow/frost appeared contrary to the snowless brief and must not be auto-approved.",
+    "Park, press, community meeting, and campaign storefront were not re-generated. D-held people were not generated.",
+    "Private acceptance is not public release. Pixels remain gitignored pending Lamontae review."
+  ],
+  "records": [
+    {
+      "requestId": "env-neighborhood-doorstep-generic",
+      "attempt": 1,
+      "tool": "cursor-generate-image",
+      "providerQualification": true,
+      "outputSha256": "b0ced60cf0ea130db316f6d63ae61e34009795a6a04a4abebe79c55926e47266",
+      "byteLength": 342842,
+      "container": "jpg",
+      "width": 1280,
+      "height": 720,
+      "nativeDetail": "native",
+      "rightsStatus": "unknown",
+      "sourceDeclaration": "AI-generated candidate; rights unknown; not inferred from a web reference",
+      "meetsEnvironmentMasterFloor": false,
+      "privatePath": "art/generated/candidates/art-desk/env-neighborhood-doorstep-generic/b0ced60cf0ea130db316f6d63ae61e34009795a6a04a4abebe79c55926e47266.jpg",
+      "originalPath": "art/generated/candidates/art-desk/env-neighborhood-doorstep-generic/original-attempt1.jpg"
+    },
+    {
+      "requestId": "env-park-community-pavilion-winter-variant",
+      "attempt": 1,
+      "tool": "cursor-generate-image",
+      "providerQualification": true,
+      "outputSha256": "ad63d7836a61f362643eeab32f9f947d545f74e36daadc4343db840e3ad5a95e",
+      "byteLength": 398945,
+      "container": "jpg",
+      "width": 1280,
+      "height": 720,
+      "nativeDetail": "native",
+      "rightsStatus": "unknown",
+      "sourceDeclaration": "AI-generated candidate; rights unknown; not inferred from a web reference",
+      "meetsEnvironmentMasterFloor": false,
+      "privatePath": "art/generated/candidates/art-desk/env-park-community-pavilion-winter-variant/ad63d7836a61f362643eeab32f9f947d545f74e36daadc4343db840e3ad5a95e.jpg",
+      "originalPath": "art/generated/candidates/art-desk/env-park-community-pavilion-winter-variant/original-attempt1.jpg"
+    }
+  ]
+}

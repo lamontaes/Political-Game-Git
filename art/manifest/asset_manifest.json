@@ -4433,47 +4433,28 @@
     },
     {
       "asset_id": "title_bg_civic_community_meeting_hero_slot_5504x3072_v1",
-      "asset_type": "environment-plate",
+      "asset_type": "environment-reference-master",
       "art_class": "production",
-      "raster_tiers": [
-        {
-          "width": 1376,
-          "height": 768,
-          "path": "art/families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_v1.png",
-          "hash": "7f40aaba49683ed011d57ff91f4bd3b202fdd39b941ab59e70b299337f7063e6",
-          "derivation": "deterministic-downscale"
-        },
-        {
-          "width": 2048,
-          "height": 1143,
-          "path": "art/families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_runtime_2048_v1.png",
-          "hash": "a1c6ed73a06ab71cd82ab9fa98f9f39228a4ffe74bbf4f8870d1d33fb55a2527",
-          "derivation": "deterministic-downscale"
-        }
-      ],
       "family_id": "civic-community-meeting",
       "jurisdiction_scope": "unscoped-generic-public-meeting",
-      "hero_asset": true,
-      "hero_justification": "The neutral title tableau. It is the one plate the game shows before a character exists, so it must name no jurisdiction, campaign or person.",
-      "reuse_allowed": true,
+      "hero_asset": false,
+      "reuse_allowed": false,
       "source_refs": [
         "prov_title_bg_civic_community_meeting_hero_slot_5504x3072_v1"
       ],
-      "rights_note": "Owner-approved Our Civic Duty title master from the canonical 4K/5K source library; external reuse rights remain unknown.",
+      "rights_note": "Historical owner-supplied source master retained for provenance; external reuse rights remain unknown.",
       "fixed_or_modular": "fixed",
-      "variant_rules": "Generic civic meeting hall. Both runtime tiers are deterministic DOWNSCALES of the owner-approved 5504x3072 master; nothing in this repository enlarged it. The audience is painted into the plate and is decor, not characters.",
+      "variant_rules": "FRONTDOOR44 reference tombstone only. The baked-audience master has no runtime tiers, scene admission, fallback, rotation, generator, or installer path.",
       "negative_constraints": [
-        "Do not treat depicted details as sourced jurisdiction facts.",
-        "Do not bake names, seals, headlines, campaign identity or simulation status into this plate.",
-        "Do not use as a committee hearing room: it has no dais, member bench or witness table.",
-        "Do not use as a private domestic or bilateral conversation room.",
-        "Do not upscale either tier; the 5504x3072 master is the only enlargement source and it is preserved unmodified."
+        "Do not release, derive, regenerate, install, or paint this source in any runtime.",
+        "Do not use this source in the title, creator, questionnaire, Begin transition, gameplay, fallback, or rotation.",
+        "Retain the original master only as historical provenance."
       ],
-      "generation_status": "approved",
-      "qa_status": "approved",
-      "runtime_release_status": "released",
-      "final_path": "art/families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_runtime_2048_v1.png",
-      "hash": "a1c6ed73a06ab71cd82ab9fa98f9f39228a4ffe74bbf4f8870d1d33fb55a2527",
+      "generation_status": "rejected",
+      "qa_status": "rejected",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/references/masters/scene-environment/PG_TITLE_BG_COMMUNITY_MEETING_HERO_SLOT_02_5504x3072.png",
+      "hash": "0ac5ef6ffa603d9510efb2160da38e065d0a7290352a976bc074dde779109663",
       "requires_transparency": false
     },
     {

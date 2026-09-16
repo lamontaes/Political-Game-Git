@@ -366,28 +366,8 @@ export const TITLE_TABLEAU_REGISTRY: TitleTableauRegistry = {
     },
   ],
 
-  /**
-   * Rooms that read correctly with nobody in them.
-   *
-   * The community meeting hall is deliberately NOT in `tableaux` above. Being
-   * an adult, or having a job, does not mean a character has ever spoken at a
-   * public meeting, and putting them at that lectern because the picture has a
-   * lectern is presentation inventing a life. Empty, it is simply a civic room
-   * — which is the right thing to show before any character exists at all.
-   */
+  /** Rooms that read correctly with nobody in them. */
   neutralBank: [
-    {
-      tableauId: "a-community-meeting",
-      familyId: "civic-community-meeting",
-      label: "A hall set out for a community meeting",
-      sceneId: "civic-community-meeting-title",
-      heroAnchorId: "stage-left-standing",
-      requiredPoseFamily: "standing-neutral",
-      requiredFacing: "front",
-      requiredCapabilities: [],
-      supportsNoCharacter: true,
-      emptyHeroTreatment: "the room alone",
-    },
     {
       tableauId: "an-empty-living-room",
       familyId: "apartment-ordinary",
@@ -414,5 +394,5 @@ export const TITLE_TABLEAU_REGISTRY: TitleTableauRegistry = {
     },
   ],
 
-  frontDoorTableauId: "a-community-meeting",
+  frontDoorTableauId: "an-empty-living-room",
 };

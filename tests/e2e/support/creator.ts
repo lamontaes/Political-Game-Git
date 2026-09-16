@@ -174,10 +174,21 @@ export async function startLife(page: Page, life: CreatorLife): Promise<void> {
 }
 
 /**
- * Quiet Begin lands on the play screen. Introductory facts live on Personal.
+ * Begin lands on the play screen. A new life opens with the skippable world
+ * introduction in front of the room; specs that are not about it skip it the
+ * way a player would, so they start from the same room they always did.
  */
 export async function enterLife(page: Page): Promise<void> {
   await expect(page.getByTestId("play-screen")).toBeVisible();
+  const intro = page.getByTestId("world-orientation");
+  const shown = await intro
+    .waitFor({ state: "visible", timeout: 2000 })
+    .then(() => true)
+    .catch(() => false);
+  if (shown) {
+    await page.getByTestId("orientation-skip").click();
+    await expect(intro).toBeHidden();
+  }
 }
 
 /**

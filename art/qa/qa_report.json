@@ -40,26 +40,6 @@
     "meetsTransparencyReq": null
   },
   {
-    "file": "families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_runtime_2048_v1.png",
-    "metadata": {
-      "width": 2048,
-      "height": 1143,
-      "aspectRatio": "2048:1143",
-      "hasTransparency": "none"
-    },
-    "meetsTransparencyReq": null
-  },
-  {
-    "file": "families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_v1.png",
-    "metadata": {
-      "width": 1376,
-      "height": 768,
-      "aspectRatio": "43:24",
-      "hasTransparency": "none"
-    },
-    "meetsTransparencyReq": null
-  },
-  {
     "file": "families/civic-hearing-room/env_civic_hearing_room_runtime_2x_v1.png",
     "metadata": {
       "width": 2752,

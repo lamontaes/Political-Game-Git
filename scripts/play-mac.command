@@ -39,6 +39,11 @@ PORT="${PG_PORT:-5199}"
 # shipped art, where most household members appear as initials.
 MODE="${PG_MODE:-candidate}"
 
+# The durable owner-private MODULAR41 delivery. Candidate mode authenticates
+# this exact pack and stages it with its retained non-overwriting installer.
+# Production mode never reads or copies private inputs.
+PRIVATE_PACK="${PG_PRIVATE_PACK:-$REPO/output/private-packs/modular41-current}"
+
 # Where the play copies are kept.
 PLAY_ROOT="${PG_PLAY_ROOT:-$HOME/political-game-play}"
 
@@ -116,6 +121,81 @@ case "$MODE" in
   *) fail "PG_MODE must be 'candidate' or 'production'. Got: $MODE" ;;
 esac
 
+# Candidate mode is not a URL toggle: it is an exact public source plus one
+# authenticated private input pack. Refuse a missing, renamed or modified pack
+# before fetching source, creating a worktree, installing dependencies or
+# starting a server.
+if [ "$MODE" = "candidate" ]; then
+  EXPECTED_PACK_ID="modular41-current-0a044d183ad7"
+  EXPECTED_PACK_MANIFEST_SHA256="0a044d183ad7ac4f38f2e88f72ba294cd1496c8b4cc4466cce023b6a7b0694a2"
+  EXPECTED_PACK_JSON_SHA256="0c8f67fed39ab24dee8260f185f4a61ca74a9e1e6229703ce55b94d8b2946a82"
+  EXPECTED_PACK_FILE_LIST_SHA256="daaf6db64cc70d64b7ea86184800820fac2a8094f6af5d4af8174ae32c702b5e"
+  EXPECTED_PACK_INSTALLER_SHA256="212250f6097573f58e5cb0d428d986738db75c8131411dea65126c44b90d97e0"
+  EXPECTED_PACK_FILE_COUNT="2730"
+
+  [ -d "$PRIVATE_PACK" ] || fail "Candidate mode requires the retained MODULAR41 pack at:
+  $PRIVATE_PACK
+Set PG_PRIVATE_PACK to the exact modular41-current delivery."
+  for REQUIRED_PACK_FILE in pack.json sha256.txt files.list stage-into-worktree.sh; do
+    [ -f "$PRIVATE_PACK/$REQUIRED_PACK_FILE" ] \
+      || fail "Private pack is incomplete: missing $PRIVATE_PACK/$REQUIRED_PACK_FILE"
+  done
+  command -v shasum >/dev/null 2>&1 || fail "shasum is required to authenticate private inputs."
+  command -v rsync >/dev/null 2>&1 || fail "rsync is required by the retained private-pack installer."
+
+  PACK_META="$(node -e '
+    const fs = require("fs");
+    const p = JSON.parse(fs.readFileSync(process.argv[1], "utf8"));
+    process.stdout.write([
+      p.schemaVersion, p.packId, p.profile, p.fileCount, p.manifest,
+      p.manifestSha256, p.filesRoot, p.visibility, p.publication,
+    ].map((value) => String(value ?? "")).join("|"));
+  ' "$PRIVATE_PACK/pack.json" 2>/dev/null)" \
+    || fail "Private pack metadata is not valid JSON."
+  IFS='|' read -r PACK_SCHEMA PACK_ID PACK_PROFILE PACK_FILE_COUNT \
+    PACK_MANIFEST PACK_MANIFEST_SHA256 PACK_FILES_ROOT PACK_VISIBILITY \
+    PACK_PUBLICATION <<< "$PACK_META"
+
+  [ "$PACK_SCHEMA" = "ocd-private-pack/v1" ] \
+    || fail "Wrong private-pack schema: $PACK_SCHEMA"
+  [ "$PACK_ID" = "$EXPECTED_PACK_ID" ] \
+    || fail "Wrong private-pack identity: $PACK_ID (expected $EXPECTED_PACK_ID)."
+  [ "$PACK_PROFILE" = "internal-art-review" ] \
+    || fail "Wrong private-pack profile: $PACK_PROFILE"
+  [ "$PACK_FILE_COUNT" = "$EXPECTED_PACK_FILE_COUNT" ] \
+    || fail "Wrong private-pack file count: $PACK_FILE_COUNT"
+  [ "$PACK_MANIFEST" = "sha256.txt" ] \
+    || fail "Wrong private-pack manifest name: $PACK_MANIFEST"
+  [ "$PACK_MANIFEST_SHA256" = "$EXPECTED_PACK_MANIFEST_SHA256" ] \
+    || fail "Wrong private-pack manifest identity: $PACK_MANIFEST_SHA256"
+  [ "$PACK_FILES_ROOT" = "files" ] \
+    || fail "Wrong private-pack files root: $PACK_FILES_ROOT"
+  [ "$PACK_VISIBILITY" = "private-local-only" ] \
+    || fail "Wrong private-pack visibility: $PACK_VISIBILITY"
+  [ "$PACK_PUBLICATION" = "forbidden" ] \
+    || fail "Wrong private-pack publication boundary: $PACK_PUBLICATION"
+
+  PACK_JSON_SHA256="$(shasum -a 256 "$PRIVATE_PACK/pack.json" | awk '{print $1}')"
+  PACK_FILE_LIST_SHA256="$(shasum -a 256 "$PRIVATE_PACK/files.list" | awk '{print $1}')"
+  PACK_INSTALLER_SHA256="$(shasum -a 256 "$PRIVATE_PACK/stage-into-worktree.sh" | awk '{print $1}')"
+  ACTUAL_PACK_MANIFEST_SHA256="$(shasum -a 256 "$PRIVATE_PACK/$PACK_MANIFEST" | awk '{print $1}')"
+  [ "$PACK_JSON_SHA256" = "$EXPECTED_PACK_JSON_SHA256" ] \
+    || fail "Private pack metadata bytes do not match $EXPECTED_PACK_ID."
+  [ "$PACK_FILE_LIST_SHA256" = "$EXPECTED_PACK_FILE_LIST_SHA256" ] \
+    || fail "Private pack file list does not match $EXPECTED_PACK_ID."
+  [ "$PACK_INSTALLER_SHA256" = "$EXPECTED_PACK_INSTALLER_SHA256" ] \
+    || fail "Private pack installer does not match $EXPECTED_PACK_ID."
+  [ "$ACTUAL_PACK_MANIFEST_SHA256" = "$EXPECTED_PACK_MANIFEST_SHA256" ] \
+    || fail "Private input manifest bytes do not match $EXPECTED_PACK_ID."
+  [ "$(wc -l < "$PRIVATE_PACK/files.list" | tr -d '[:space:]')" = "$EXPECTED_PACK_FILE_COUNT" ] \
+    || fail "Private pack file list does not contain $EXPECTED_PACK_FILE_COUNT paths."
+  [ "$(wc -l < "$PRIVATE_PACK/$PACK_MANIFEST" | tr -d '[:space:]')" = "$EXPECTED_PACK_FILE_COUNT" ] \
+    || fail "Private pack manifest does not contain $EXPECTED_PACK_FILE_COUNT hashes."
+
+  say "Private pack: $PACK_ID"
+  say "Pack manifest: $ACTUAL_PACK_MANIFEST_SHA256"
+fi
+
 # --- 3. Resolve the source to an exact commit, from the remote. ------------
 
 say "Fetching the current source ..."
@@ -150,7 +230,9 @@ REUSE_PLAY_DIR=0
 if [ -e "$PLAY_DIR" ]; then
   PLAY_DIR_ROOT="$(git -C "$PLAY_DIR" rev-parse --show-toplevel 2>/dev/null || true)"
   PLAY_DIR_HEAD="$(git -C "$PLAY_DIR" rev-parse --verify HEAD 2>/dev/null || true)"
-  PLAY_DIR_STATUS="$(git -C "$PLAY_DIR" status --porcelain --untracked-files=all 2>/dev/null || true)"
+  # Candidate inputs are intentionally untracked and authenticated separately
+  # below. Only tracked changes disqualify reuse of this launcher-owned copy.
+  PLAY_DIR_STATUS="$(git -C "$PLAY_DIR" status --porcelain --untracked-files=no 2>/dev/null || true)"
   EXPECTED_PLAY_DIR="$(cd "$PLAY_DIR" 2>/dev/null && pwd -P || true)"
   if [ "$PLAY_DIR_ROOT" = "$EXPECTED_PLAY_DIR" ] \
     && [ "$PLAY_DIR_HEAD" = "$SHA" ] \
@@ -191,7 +273,18 @@ say "Verified source: $VERIFIED_PLAY_HEAD"
 say "Verified play:   $VERIFIED_PLAY_DIR"
 say ""
 
-# --- 5. Dependencies. If this fails, we stop. We do not launch anyway. -----
+# --- 5. Exact private inputs, candidate mode only. -------------------------
+
+if [ "$MODE" = "candidate" ]; then
+  say "Installing and verifying the exact private inputs (nothing is overwritten) ..."
+  "$PRIVATE_PACK/stage-into-worktree.sh" "$PLAY_DIR" \
+    || fail "The retained MODULAR41 installer refused or could not verify this play copy."
+  say "Verified private pack: $PACK_ID"
+  say "Verified manifest:     $ACTUAL_PACK_MANIFEST_SHA256"
+  say ""
+fi
+
+# --- 6. Dependencies. If this fails, we stop. We do not launch anyway. -----
 
 LOCK_HASH="$(node -e 'const fs=require("fs"), crypto=require("crypto"); process.stdout.write(crypto.createHash("sha256").update(fs.readFileSync("package-lock.json")).digest("hex"))' 2>/dev/null)" \
   || fail "Could not fingerprint package-lock.json."
@@ -223,7 +316,7 @@ To start over for this commit, delete that folder and re-run:
   say ""
 fi
 
-# --- 6. Serve, and open the game's own address. ----------------------------
+# --- 7. Serve, and open the game's own address. ----------------------------
 
 if [ "$MODE" = "candidate" ]; then
   URL="http://127.0.0.1:$PORT/?art-preview=candidate"
@@ -235,6 +328,10 @@ say "=============================================================="
 say " Play copy:  $PLAY_DIR"
 say " Source:     $SOURCE @ $SHA"
 say " Verified:    $VERIFIED_PLAY_HEAD @ $VERIFIED_PLAY_DIR"
+if [ "$MODE" = "candidate" ]; then
+  say " Private:    $PACK_ID"
+  say " Manifest:   $ACTUAL_PACK_MANIFEST_SHA256"
+fi
 say " Play ($MODE art): $URL"
 if [ "$MODE" = "candidate" ]; then
   say " Production-art Play (separate saves): http://127.0.0.1:$PORT/"

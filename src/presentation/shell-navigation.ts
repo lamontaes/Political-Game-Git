@@ -40,7 +40,16 @@ export type ShellRef =
    * surface for one to open, and a reference type with nothing to resolve to
    * would be a promise the game cannot keep.
    */
-  | { readonly kind: "government"; readonly id: string };
+  | { readonly kind: "government"; readonly id: string }
+  /**
+   * An organization the player has met, such as a local party chapter.
+   *
+   * Reopening one shows that organization's public face and the player's own
+   * invitations from it. Opening it does not travel there, join it, accept an
+   * invitation or attend a meeting; those stay explicit actions on the
+   * surface. A meeting on the calendar is still pinned as a commitment.
+   */
+  | { readonly kind: "organization"; readonly id: EntityId };
 
 export function refKey(ref: ShellRef): string {
   return `${ref.kind}:${ref.id}`;
@@ -66,6 +75,8 @@ export type ShellSurface =
   | "news"
   | "places"
   | "municipal"
+  /** The home area's local party chapters. Looking is not joining. */
+  | "parties"
   | "journal"
   | "patch-notes"
   | "options";
@@ -161,6 +172,36 @@ export interface PrivateJournal {
 }
 export const EMPTY_JOURNAL: PrivateJournal = { ambition: "", notes: [] };
 
+/**
+ * What this player has already been shown, kept per saved life.
+ *
+ * Interface consumption, never world truth: finishing the introduction or
+ * dismissing a recap moves nothing in the World, and reopening either one
+ * reads the same saved facts again. The frontier is a World history sequence,
+ * so "since you last looked" means records appended after it, not a date guess.
+ */
+export interface InterfaceProgress {
+  /** The world introduction was finished or skipped for this life. */
+  readonly orientationSeen: boolean;
+  /**
+   * History sequence the player has caught up to. Null until this life is
+   * first read, when it is set to the world's current sequence, so an old life
+   * never opens with its whole past presented as news.
+   */
+  readonly recapFrontier: number | null;
+}
+
+export const INITIAL_INTERFACE_PROGRESS: InterfaceProgress = {
+  orientationSeen: false,
+  recapFrontier: null,
+};
+
+/** A record written before progress existed belongs to a life already under way. */
+export const LEGACY_INTERFACE_PROGRESS: InterfaceProgress = {
+  orientationSeen: true,
+  recapFrontier: null,
+};
+
 export type ShellNavigationLevel =
   "closed" | "primary" | "personal" | "politics";
 
@@ -182,6 +223,7 @@ export interface ShellState {
   readonly preferences: ShellPreferences;
   readonly personWardrobes: Readonly<Record<string, PersonWardrobePreference>>;
   readonly journal: PrivateJournal;
+  readonly progress: InterfaceProgress;
   /** Announced to assistive technology after a navigation action. */
   readonly announcement: string;
 }
@@ -199,6 +241,7 @@ export const INITIAL_SHELL_STATE: ShellState = {
   announcement: "",
   personWardrobes: {},
   journal: EMPTY_JOURNAL,
+  progress: INITIAL_INTERFACE_PROGRESS,
 };
 
 export type ShellAction =
@@ -263,7 +306,14 @@ export type ShellAction =
       readonly journal?: PrivateJournal;
       readonly pins: readonly ShellPin[];
       readonly preferences: ShellPreferences;
+      readonly progress?: InterfaceProgress;
     }
+  /** The world introduction was finished or skipped. */
+  | { readonly type: "finish-orientation" }
+  /** Sets the recap frontier for a life read for the first time. */
+  | { readonly type: "start-recap-frontier"; readonly sequence: number }
+  /** The player dismissed a recap that covered records through this sequence. */
+  | { readonly type: "acknowledge-recap"; readonly throughSequence: number }
   /** Drops pins whose target this world no longer has. */
   | { readonly type: "prune-pins"; readonly keep: readonly string[] }
   | { readonly type: "escape" };
@@ -565,7 +615,39 @@ export function shellReducer(
         preferences: action.preferences,
         journal: action.journal ?? EMPTY_JOURNAL,
         personWardrobes: action.personWardrobes ?? {},
+        progress: action.progress ?? LEGACY_INTERFACE_PROGRESS,
       };
+
+    case "finish-orientation":
+      if (state.progress.orientationSeen) return state;
+      return {
+        ...state,
+        progress: { ...state.progress, orientationSeen: true },
+      };
+
+    case "start-recap-frontier":
+      if (state.progress.recapFrontier !== null) return state;
+      return {
+        ...state,
+        progress: { ...state.progress, recapFrontier: action.sequence },
+      };
+
+    /*
+     * Monotone on purpose. A second dismissal of the same recap, or a stale
+     * one arriving after a newer one, must not move the frontier backwards and
+     * re-present what the player already dismissed.
+     */
+    case "acknowledge-recap": {
+      const current = state.progress.recapFrontier ?? 0;
+      if (action.throughSequence <= current) return state;
+      return {
+        ...state,
+        progress: {
+          ...state.progress,
+          recapFrontier: action.throughSequence,
+        },
+      };
+    }
 
     /*
      * A pin points at a canonical entity. Loading a world that never had that

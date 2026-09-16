@@ -42,6 +42,8 @@
     "person-production-standing-body"
   ],
   "stillRequired": [
+    "env-neighborhood-doorstep-generic",
+    "env-park-community-pavilion-winter-variant",
     "mask-hearing-room-public-seating",
     "person-child-body-morphology"
   ],

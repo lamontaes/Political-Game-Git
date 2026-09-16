@@ -68,6 +68,25 @@ describe("Which rooms the title screen may drift through", () => {
     expect(CYCLE[0]!.tableauId).toBe(TITLE_TABLEAU_REGISTRY.frontDoorTableauId);
   });
 
+  it("never admits the retired baked-audience meeting room", () => {
+    expect(TITLE_TABLEAU_REGISTRY.frontDoorTableauId).toBe(
+      "an-empty-living-room",
+    );
+    expect(
+      TITLE_TABLEAU_REGISTRY.neutralBank.map((entry) => entry.tableauId),
+    ).not.toContain("a-community-meeting");
+    for (const room of CYCLE) {
+      expect(room.sceneId).not.toBe("civic-community-meeting-title");
+      const scene = SCENE_REGISTRY.scenes.get(room.sceneId);
+      expect(scene?.raster?.assetId).not.toBe(
+        "title_bg_civic_community_meeting_hero_slot_5504x3072_v1",
+      );
+      for (const tier of scene?.raster?.ladder.tiers ?? []) {
+        expect(tier.path).not.toContain("civic_community_meeting_hero_slot");
+      }
+    }
+  });
+
   it("never shows the same room twice in one lap", () => {
     const scenes = CYCLE.map((room) => room.sceneId);
     expect(new Set(scenes).size).toBe(scenes.length);

@@ -113,7 +113,7 @@ describe("explicit municipal venue candidates", () => {
 });
 
 describe("shared completed municipal scene binding", () => {
-  it("shows the source-backed Carson venue during the opening without granting attendance", () => {
+  it("records Carson attendance without reviving the retired meeting-room plate", () => {
     const input = context("us-nv-carson-city", "3209700", "regular");
     expect(
       resolveVenueScene(input.world, input.personId).activityId,
@@ -125,12 +125,11 @@ describe("shared completed municipal scene binding", () => {
     ).world;
     const frozen = serializeWorld(attended);
     const venue = resolveVenueScene(attended, input.personId);
-    expect(venue.sceneId).toBe("civic-community-meeting-room");
+    expect(venue.sceneId).toBeNull();
+    expect(venue.activityId).not.toBeNull();
+    expect(venue.reason).toBe("The venue has no released production plate.");
     const opening = resolveOpeningPlaySceneContext(attended, input.personId);
-    expect(opening.purpose).toBe("activity");
-    expect(opening.sceneId).toBe(venue.sceneId);
-    expect(opening.locationKey).toBe("municipal:us-nv-carson-city:regular");
-    expect(opening.placeLabel).toContain("Crowell");
+    expect(opening.sceneId).not.toBe("civic-community-meeting-room");
     expect(serializeWorld(attended)).toBe(frozen);
     const later = advanceWorldMinutes(attended, 1);
     expect(resolveVenueScene(later, input.personId).activityId).toBeNull();

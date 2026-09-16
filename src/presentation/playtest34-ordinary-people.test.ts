@@ -79,8 +79,10 @@ it.skipIf(needsPrivateArt)(
               appearance = person.appearance!;
             const family = preparedFamily(appearance.selection?.bodyFamily)!;
             expect(family, id).toBeDefined();
-            expect(appearance.catalogGeneration).toBe(7);
-            expect(appearance.selection!.bodyFamily).toMatch(/^ep35-/);
+            expect(appearance.catalogGeneration).toBe(
+              library.catalogGeneration,
+            );
+            expect(appearance.selection!.bodyFamily).toMatch(/^ep41-/);
             expect(
               resolveCompleteOutfit({
                 appearance,
@@ -149,7 +151,10 @@ it.skipIf(needsPrivateArt)(
     }
     expect(femaleParents).toBeGreaterThan(0);
     expect(oldMismatches).toBeGreaterThan(0);
-    expect(tones.size).toBeGreaterThan(1);
+    // Current-bank painted rasters carry their tone in the source pixels; the
+    // material token is deliberately singular rather than pretending those
+    // colours are runtime tints.
+    expect(tones).toEqual(new Set(["source-colour"]));
     expect(bodies.size).toBeGreaterThan(2);
     expect(shirts.size).toBeGreaterThan(2);
   },

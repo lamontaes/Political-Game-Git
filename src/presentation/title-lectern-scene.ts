@@ -1,4 +1,4 @@
-import { CIVIC_COMMUNITY_MEETING_TITLE_SCENE } from "../environment/scenes/civic-community-meeting-title-production";
+import { CIVIC_COMMUNITY_MEETING_ROOM_SCENE } from "../environment/scenes/civic-community-meeting-room-production";
 import { registerScene } from "./scene-registry";
 import type { RuntimeVisualLibrary } from "./visual-integration";
 import { TITLE41_CORRECTED_URL as correctedUrl } from "./title41-private-inputs";
@@ -11,7 +11,7 @@ const percent = ([x, y]: readonly number[]) => ({
 });
 /** Actual corrected file, visual estimates in its own pixel space. No physical ruler. */
 export const TITLE_LECTERN_SCENE = registerScene({
-  ...CIVIC_COMMUNITY_MEETING_TITLE_SCENE,
+  ...CIVIC_COMMUNITY_MEETING_ROOM_SCENE,
   scene_id: "title41-community-portrait",
   environment_id: "environment:title41:community-portrait",
   label: "A community hall",

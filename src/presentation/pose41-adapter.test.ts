@@ -31,8 +31,8 @@ const request = (index = 0): Pose41Request => {
 describe.skipIf(!PRIVATE_CANDIDATE_ART_AVAILABLE)(
   "POSE41 source compatibility and identity continuity",
   () => {
-    it("retains the two frozen generation-9 fits alongside all six generation-10 families", () => {
-      expect(POSE41_VARIANTS).toHaveLength(26);
+    it("retains the frozen pose bank plus the MODULAR41 repaired-head variants", () => {
+      expect(POSE41_VARIANTS).toHaveLength(42);
       for (const old of legacy.variants) {
         expect(POSE41_VARIANTS.find((v) => v.id === old.id)).toEqual(old);
         expect(

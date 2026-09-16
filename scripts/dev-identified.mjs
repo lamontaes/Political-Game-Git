@@ -106,6 +106,7 @@ console.log(
 console.log(
   `Review tools (developer fixtures): ${origin}/review.html?seed=${encodeURIComponent(seed)}`,
 );
+console.log(`Private Art Desk: ${origin}/art-desk.html`);
 console.log(`Identity: ${origin}/__dev/identity`);
 
 const viteArgs = [

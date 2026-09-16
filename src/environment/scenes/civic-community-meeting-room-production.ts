@@ -1,8 +1,8 @@
 import type { EnvironmentSceneSpec } from "../environment-scene-spec";
 
-/** Gameplay framing of the existing community-hall plate.
- * Baked audience figures are anonymous decor, never canonical participants.
- * Contacts and slots retain the accepted title plate's image-space estimates.
+/** Retained gameplay mechanics for a public-meeting room without a runtime plate.
+ * Contacts and slots preserve the retired plate's image-space estimates as
+ * authored evidence; they do not authorize that plate or a replacement.
  * Body-scale calibration remains unknown. A visual-estimate vector silhouette
  * now clips the existing painted lectern; no source pixels are replaced.
  */
@@ -11,7 +11,7 @@ export const CIVIC_COMMUNITY_MEETING_ROOM_SCENE: EnvironmentSceneSpec = {
   scene_id: "civic-community-meeting-room",
   family_id: "civic-community-meeting",
   label: "A public meeting room",
-  presentation_status: "production",
+  presentation_status: "development-fixture",
   fidelity_tier: "F4",
   coordinate_system: "plate-normalized",
   units: "plate-percent",
@@ -37,26 +37,6 @@ export const CIVIC_COMMUNITY_MEETING_ROOM_SCENE: EnvironmentSceneSpec = {
   ui_safe_zones: [
     { id: "lower-shell", edge: "bottom-left", width: 620, height: 120 },
   ],
-
-  raster: {
-    asset_id: "title_bg_civic_community_meeting_hero_slot_5504x3072_v1",
-    tiers: [
-      {
-        width: 1376,
-        height: 768,
-        path: "art/families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_v1.png",
-        hash: "7f40aaba49683ed011d57ff91f4bd3b202fdd39b941ab59e70b299337f7063e6",
-        derivation: "deterministic-downscale",
-      },
-      {
-        width: 2048,
-        height: 1143,
-        path: "art/families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_runtime_2048_v1.png",
-        hash: "a1c6ed73a06ab71cd82ab9fa98f9f39228a4ffe74bbf4f8870d1d33fb55a2527",
-        derivation: "deterministic-downscale",
-      },
-    ],
-  },
 
   anchors: [
     {
@@ -175,8 +155,8 @@ export const CIVIC_COMMUNITY_MEETING_ROOM_SCENE: EnvironmentSceneSpec = {
   ],
 
   explicit_unknowns: [
-    "This scene shares its raster and tier ladder with civic-community-meeting-title. No floor calibration pair or standard body width is established. The podium floor line remains estimated; painted audience chairs and cropped left-edge chairs have no canonical seats. The gameplay lectern uses an explicitly authored image-space vector clip; the microphone and soft shadow are not masked.",
-    "This plate is an external upscale to 5504x3072 from a 2048-wide pass. The inherited tier declarations are preserved; reduction does not establish native source detail.",
+    "FRONTDOOR44 retired the baked-audience meeting-room plate and both runtime derivatives. This fixture intentionally has no raster until a separately approved replacement exists.",
+    "No floor calibration pair or standard body width is established. The podium floor line remains estimated; the retained lectern clip records historical image-space geometry only.",
     "This is a generic public meeting hall. It names no jurisdiction and depicts no real room. Which meeting of which body it is standing for is canonical world truth supplied by the caller and is never read off the picture.",
   ],
 };

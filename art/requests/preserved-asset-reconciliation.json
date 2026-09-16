@@ -131,6 +131,20 @@
       "preservedUnits": [],
       "evidencePaths": [],
       "reason": "A foreground mask is cut from the plate it belongs to. Nothing preserved is the committee hearing room plate, so no ingested file can supply another room's near seating."
+    },
+    {
+      "requestId": "env-neighborhood-doorstep-generic",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The preserved packet contains no generic exterior doorstep or stoop. Existing apartment interiors, the park pavilion, the campaign storefront and meeting rooms answer different environment classes and cannot substitute for this threshold scene. The separate private Art Desk attempt remains unapproved and is not evidence in this reconciliation."
+    },
+    {
+      "requestId": "env-park-community-pavilion-winter-variant",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The preserved packet contains the warm-leaf parent pavilion only. It contains no same-geometry leafless winter variant, and the separate private Art Desk attempt remains unapproved and is not evidence in this reconciliation."
     }
   ],
   "unlinkedPreservedAssets": [

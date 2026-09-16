@@ -85,15 +85,14 @@ describe("the production scene families", () => {
 });
 
 describe("the production scene scaffolds", () => {
-  it("carries the six approved rooms, five of them as scaffolds", () => {
+  it("excludes the retired meeting-hall scaffold from active authoring", () => {
     expect(PRODUCTION_SCENE_SCAFFOLDS.map((s) => s.sceneId)).toEqual([
       "apartment-ordinary-02",
       "apartment-settled-03",
       "apartment-starter-01",
-      "civic-community-meeting-hall",
       "executive-private-office",
     ]);
-    // The sixth is the Lexington fixture, which already exists as a spec
+    // The Lexington fixture already exists as a spec
     // because its plate is the one that is actually in this repository.
     expect(OFFICE_COUNCIL_STAFF_FIXTURE_SCENE.scene_id).toBe(
       "office-council-staff-fixture",
@@ -176,7 +175,7 @@ describe("the production scene scaffolds", () => {
 
 describe("what the simulation owns in each room", () => {
   it("validates every scene's dynamic-surface authoring against its slots", () => {
-    expect(PRODUCTION_DYNAMIC_SURFACE_AUTHORING).toHaveLength(6);
+    expect(PRODUCTION_DYNAMIC_SURFACE_AUTHORING).toHaveLength(5);
     for (const authoring of PRODUCTION_DYNAMIC_SURFACE_AUTHORING) {
       const result = validateDynamicSurfaceAuthoring(
         authoring,
@@ -234,7 +233,7 @@ describe("what the simulation owns in each room", () => {
       authoring.semanticSurfaces.map((surface) => surface.slotId),
     );
     expect(promoted).toContain("wall-district-map-slot");
-    expect(promoted).toContain("podium-front-placard");
+    expect(promoted).not.toContain("podium-front-placard");
     expect(promoted).toContain("jurisdiction-state-flag");
     expect(
       promoted.filter((id) => id === "television-screen-slot"),

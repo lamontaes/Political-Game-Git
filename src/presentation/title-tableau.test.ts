@@ -154,12 +154,8 @@ describe("title tableau resolution", () => {
     }
   });
 
-  /**
-   * A character is never put at a lectern in front of an audience because the
-   * art has a lectern in it. The community hall is banked for its empty state
-   * only, and no capability set promotes it into a hero tableau.
-   */
-  it("keeps the community meeting hall empty of the player", () => {
+  /** The retired meeting-room plate has no title path for any hero. */
+  it("never resolves the retired community meeting hall", () => {
     for (const capabilities of [
       ["adult", "residence-known"],
       ["adult", "residence-known", "office"],
@@ -177,9 +173,10 @@ describe("title tableau resolution", () => {
             heroIdentityKey: `speaker-${attempt}`,
           }),
         });
-        if (presentation.scene?.sceneId === "civic-community-meeting-title") {
-          expect(presentation.kind).toBe("neutral-tableau");
-        }
+        expect(presentation.scene?.sceneId).not.toBe(
+          "civic-community-meeting-title",
+        );
+        expect(presentation.tableau?.tableauId).not.toBe("a-community-meeting");
       }
     }
   });

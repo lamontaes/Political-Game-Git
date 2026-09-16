@@ -1603,6 +1603,13 @@
     "evidence": "something"
   },
   {
+    "id": "prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0017#text",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "something"
+  },
+  {
     "id": "prose:life:opening-conversation-replies:replyFor-0008#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",

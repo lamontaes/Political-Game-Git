@@ -128,8 +128,11 @@ describe("NATIONWIDE opening state executive", () => {
       placeKey: place.key,
       startAge: 34,
     };
-    const base = createNewGameWorld(setup).world;
-    const opened = generateOpeningLife(prepareOpeningLife(setup)).game!.world;
+    const created = createNewGameWorld(setup);
+    const base = created.world;
+    // The officeholder writers only; the national Congress snapshot that the
+    // opening adds afterwards carries its own budget in living-world-opening.
+    const opened = establishOpeningOfficeholders(base, created.playerPersonId);
     const baseBytes = serializeWorld(base).length;
     const added = serializeWorld(opened).length - baseBytes;
     console.info(

@@ -1179,6 +1179,14 @@
       "textRevision": "647cba1b8e82"
     },
     {
+      "anchor": "LIFE_TALK_INTENTS-0017",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "LIFE_TALK_INTENTS",
+      "text": "Mention something in the news",
+      "occurrence": 0,
+      "textRevision": "8e5b25b72a53"
+    },
+    {
       "anchor": "MunicipalWorkspace-0001",
       "sourcePath": "src/player/MunicipalWorkspace.tsx",
       "symbol": "MunicipalWorkspace",
@@ -5593,6 +5601,54 @@
       "text": "You do not have to pretend you like it.",
       "occurrence": 0,
       "textRevision": "88e109ffbc1c"
+    },
+    {
+      "anchor": "replyFor-0058",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "I hadn't heard about that.",
+      "occurrence": 0,
+      "textRevision": "cbdd2b27d7ad"
+    },
+    {
+      "anchor": "replyFor-0059",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "I heard about that.",
+      "occurrence": 0,
+      "textRevision": "3d5000671475"
+    },
+    {
+      "anchor": "replyFor-0060",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "I remember you bringing up “{matterTurn.context.choice.slice(MATTER_CHOICE_PREFIX.length)}”",
+      "occurrence": 0,
+      "textRevision": "72e6e8a7ee10"
+    },
+    {
+      "anchor": "replyFor-0061",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "I was involved in that.",
+      "occurrence": 0,
+      "textRevision": "2bd1a8a4c878"
+    },
+    {
+      "anchor": "replyFor-0062",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "I'd rather not get into that right now.",
+      "occurrence": 0,
+      "textRevision": "b6155c3c7396"
+    },
+    {
+      "anchor": "replyFor-0063",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "What did you want to talk about?",
+      "occurrence": 0,
+      "textRevision": "39de11314d2e"
     },
     {
       "anchor": "requirementNoteFor-0001",

@@ -6,23 +6,25 @@ Reconciled against **packet-92b-preserved-assets** (merge `1159da749682cf5eb1dd7
 
 - closed by a preserved asset: **1**
 - premise restated, still required: **6**
-- unaffected, still required: **2**
+- unaffected, still required: **4**
 - preserved units linked to a request: **13** of 20
 - preserved units answering no request: **7** of 20
 
 ## Open requests
 
-| Request                                 | Priority | Status                    | Verdict                         | Preserved units                                                                                                                                                       |
-| --------------------------------------- | -------- | ------------------------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `env-campaign-storefront`               | P2       | draft                     | premise-restated-still-required | `source:IMG_5190.JPG`, `source:IMG_5205.JPG`, `source:IMG_5207.JPG`                                                                                                   |
-| `env-executive-office-4k-master`        | P2       | draft                     | premise-restated-still-required | `source:IMG_5189.JPG`                                                                                                                                                 |
-| `footwear-front-on-pair-reexport`       | P1       | withdrawn-already-covered | closed-by-preserved-asset       | `family:shoes`                                                                                                                                                        |
-| `mask-hearing-room-public-seating`      | P2       | draft                     | unaffected-still-required       | —                                                                                                                                                                     |
-| `person-adult-body-silhouette-reexport` | P0       | queued                    | premise-restated-still-required | `source:IMG_5192.PNG`                                                                                                                                                 |
-| `person-adult-lectern-pose`             | P1       | queued                    | premise-restated-still-required | `family:additional-fat-female-pose`, `family:average-man`, `family:fat-man`, `family:older-woman`, `family:skinny-man`                                                |
-| `person-child-body-morphology`          | P1       | queued                    | unaffected-still-required       | —                                                                                                                                                                     |
-| `person-production-seated-body`         | P0       | revision-requested        | premise-restated-still-required | `family:additional-fat-female-pose`, `family:average-man`, `family:average-woman`, `family:fat-man`, `family:older-woman`, `family:skinny-man`, `family:skinny-woman` |
-| `person-production-standing-body`       | P0       | revision-requested        | premise-restated-still-required | `family:additional-fat-female-pose`, `family:average-man`, `family:average-woman`, `family:fat-man`, `family:older-woman`, `family:skinny-man`, `family:skinny-woman` |
+| Request                                      | Priority | Status                    | Verdict                         | Preserved units                                                                                                                                                       |
+| -------------------------------------------- | -------- | ------------------------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `env-campaign-storefront`                    | P2       | draft                     | premise-restated-still-required | `source:IMG_5190.JPG`, `source:IMG_5205.JPG`, `source:IMG_5207.JPG`                                                                                                   |
+| `env-executive-office-4k-master`             | P2       | draft                     | premise-restated-still-required | `source:IMG_5189.JPG`                                                                                                                                                 |
+| `env-neighborhood-doorstep-generic`          | P1       | queued                    | unaffected-still-required       | —                                                                                                                                                                     |
+| `env-park-community-pavilion-winter-variant` | P2       | queued                    | unaffected-still-required       | —                                                                                                                                                                     |
+| `footwear-front-on-pair-reexport`            | P1       | withdrawn-already-covered | closed-by-preserved-asset       | `family:shoes`                                                                                                                                                        |
+| `mask-hearing-room-public-seating`           | P2       | draft                     | unaffected-still-required       | —                                                                                                                                                                     |
+| `person-adult-body-silhouette-reexport`      | P0       | queued                    | premise-restated-still-required | `source:IMG_5192.PNG`                                                                                                                                                 |
+| `person-adult-lectern-pose`                  | P1       | queued                    | premise-restated-still-required | `family:additional-fat-female-pose`, `family:average-man`, `family:fat-man`, `family:older-woman`, `family:skinny-man`                                                |
+| `person-child-body-morphology`               | P1       | queued                    | unaffected-still-required       | —                                                                                                                                                                     |
+| `person-production-seated-body`              | P0       | revision-requested        | premise-restated-still-required | `family:additional-fat-female-pose`, `family:average-man`, `family:average-woman`, `family:fat-man`, `family:older-woman`, `family:skinny-man`, `family:skinny-woman` |
+| `person-production-standing-body`            | P0       | revision-requested        | premise-restated-still-required | `family:additional-fat-female-pose`, `family:average-man`, `family:average-woman`, `family:fat-man`, `family:older-woman`, `family:skinny-man`, `family:skinny-woman` |
 
 ### `env-campaign-storefront` — premise-restated-still-required
 
@@ -37,6 +39,14 @@ Three preserved candidates bear on this room, and the request may no longer say 
 The request recorded that the only file above the 4608 environment floor was the rejected photoreal variant. That is no longer true: IMG_5189.JPG, an executive-office candidate at 5504x3072, is in the repository and clears the floor on width. It does not close the request. Clearing a dimension floor is not acceptance: its style has not been judged against the accepted rendering language, no environment intake has been run on it, and it is not promoted here. It is assessed before anything new is commissioned for this room.
 
 - `art/references/candidates/recent-drive-sweep/source-images/IMG_5189.JPG`
+
+### `env-neighborhood-doorstep-generic` — unaffected-still-required
+
+The preserved packet contains no generic exterior doorstep or stoop. Existing apartment interiors, the park pavilion, the campaign storefront and meeting rooms answer different environment classes and cannot substitute for this threshold scene. The separate private Art Desk attempt remains unapproved and is not evidence in this reconciliation.
+
+### `env-park-community-pavilion-winter-variant` — unaffected-still-required
+
+The preserved packet contains the warm-leaf parent pavilion only. It contains no same-geometry leafless winter variant, and the separate private Art Desk attempt remains unapproved and is not evidence in this reconciliation.
 
 ### `footwear-front-on-pair-reexport` — closed-by-preserved-asset
 

@@ -163,9 +163,10 @@ const ENTRIES: readonly AssetBankEntry[] = [
         "campaign-meet-and-greet",
         "neighbourhood-association",
       ],
+      disposition: "reference",
       notes: [
-        "The audience is baked. That is a real constraint and not a defect: only the podium hero slot and the right foreground chair accept modular people, and the scaffold declares exactly those two.",
-        "Native 5504x3072, so it is the only master in the library that could fill a 4096 tier without any enlargement.",
+        "FRONTDOOR44 retired this baked-audience plate from every runtime, fallback, rotation, generation and installation path. The master is history only and must not be promoted again.",
+        "Native 5504x3072. Its retained dimensions and inspection record do not authorize a runtime derivative.",
       ],
     },
   ),
@@ -264,5 +265,5 @@ export const PRODUCTION_PLATE_ASSET_BANK: AssetBankManifest =
   createAssetBankManifest(
     "approved-environment-library-2026-09-03",
     ENTRIES,
-    "The six approved environment masters and the two mislabelled enlargements. Six of the eight are Drive-only; the seventh is the Lexington fixture, whose bytes are in this repository. No entry is dispositioned production, because the questions that decide production need eyes on pixels at size and nobody has done that pass.",
+    "Five active approved environment masters, one FRONTDOOR44-retired reference master, and two mislabelled enlargements. No entry is dispositioned production; the retired meeting-hall master is history only and may not be regenerated or installed.",
   );

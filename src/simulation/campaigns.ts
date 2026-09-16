@@ -55,6 +55,14 @@ import {
   recordWorkStatus,
 } from "./life";
 import { LIFE_TRANSITION_HANDLERS } from "./life-callbacks";
+import {
+  CHAPTER_OUTREACH_TRANSITION_KEY,
+  chapterOutreachTransitionHandler,
+} from "./living-world/party-chapters";
+import {
+  DEVELOPMENT_STEP_TRANSITION_KEY,
+  developmentStepTransitionHandler,
+} from "./living-world/developments";
 import { workStatusAt, workStatusHistory } from "./life-queries";
 import {
   lifePlaceByJurisdictionId,
@@ -1856,6 +1864,10 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
       LIFE_PATHS2_HANDLERS,
       createFutureTransitionHandlerRegistry([
         [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
+        // ALIVE43 W2: a local chapter organizer acts while ordinary time passes.
+        [CHAPTER_OUTREACH_TRANSITION_KEY, chapterOutreachTransitionHandler],
+        // ALIVE43 W3: background public developments take their next step.
+        [DEVELOPMENT_STEP_TRANSITION_KEY, developmentStepTransitionHandler],
       ]),
       LIFE_TRANSITION_HANDLERS,
     ),

@@ -284,7 +284,12 @@ describe("NATIONWIDE local governments at the opening", () => {
       questionnaire: "skipped" as const,
     };
     const base = createNewGameWorld(setup);
-    const opened = generateOpeningLife(prepareOpeningLife(setup)).game!.world;
+    // The officeholder and local-government writers only; the national
+    // Congress snapshot carries its own budget in living-world-opening.
+    const opened = establishOpeningOfficeholders(
+      base.world,
+      base.playerPersonId,
+    );
     const added =
       serializeWorld(opened).length - serializeWorld(base.world).length;
     // Governor + federal holders + a city and its county governments, not a state's catalog.

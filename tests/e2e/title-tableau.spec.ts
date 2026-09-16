@@ -81,15 +81,19 @@ test.describe("The title screen shows the game", () => {
     await expect(tableau).toHaveAttribute("data-has-plate", "true");
 
     const plate = await paintedPlate(page);
-    // The picture is the approved title master's own ladder, not a stray asset
-    // that happened to be reachable.
+    // FRONTDOOR44 preserves the accepted living-room front door and excludes
+    // the retired baked-audience meeting-room asset.
     await expect(plate).toHaveAttribute(
+      "src",
+      /env_residence_apartment_living_canonical_03/,
+    );
+    await expect(plate).not.toHaveAttribute(
       "src",
       /title_bg_civic_community_meeting_hero_slot/,
     );
     await expect(page.getByTestId("title-tableau-stage")).toHaveAttribute(
       "data-scene-id",
-      "civic-community-meeting-title",
+      "residence-apartment-living-canonical-03",
     );
 
     // THE REGRESSION. A pale page is a page whose backdrop paints nothing.

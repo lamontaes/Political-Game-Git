@@ -785,12 +785,12 @@ describe("Packet 76 approved runtime art", () => {
       "human_candidate_B01_left_guest_seated_v1",
     ]);
     // 4 office fixtures + 16 generation-1 and 30 generation-2 DEV components,
-    // plus six released production environment plates.
-    expect(result.runtimeEligibleAssetIds).toHaveLength(56);
+    // plus five released production environment plates.
+    expect(result.runtimeEligibleAssetIds).toHaveLength(55);
     // Everything past the four fixtures is a DEV component except the released
     // production plates, and those are named one by one rather than swept up
     // by "does not start with dev_". Naming them is the point: this list is
-    // what the runtime may actually paint, and a sixth plate appearing here
+    // what the runtime may actually paint, and another plate appearing here
     // without a line changing in this test would be a plate nobody reviewed.
     const beyondFixtures = result.runtimeEligibleAssetIds.slice(4);
     expect(
@@ -803,7 +803,6 @@ describe("Packet 76 approved runtime art", () => {
       "env_residence_apartment_living_canonical_03_5504x3072_v1",
       "env_residence_apartment_living_ordinary_02_5504x3072_v1",
       "env_shared_workroom_office_v1",
-      "title_bg_civic_community_meeting_hero_slot_5504x3072_v1",
     ]);
     const environment = manifest.assets.find(
       (asset: { asset_id: string }) =>

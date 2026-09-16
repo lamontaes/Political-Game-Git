@@ -7,6 +7,8 @@ import {
 import {
   DEFAULT_PREFERENCES,
   EMPTY_JOURNAL,
+  LEGACY_INTERFACE_PROGRESS,
+  type InterfaceProgress,
   type PrivateJournal,
   type JournalNote,
   refKey,
@@ -33,10 +35,16 @@ import type { EntityId } from "../simulation";
  * cannot be opened — the shell then keeps its defaults, which is a working game.
  */
 
-export const SHELL_RECORD_VERSION = 3;
+/*
+ * Version 4 adds interface progress: whether the world introduction was seen
+ * and the recap frontier. Older records have no progress and read back as a
+ * life already under way (introduction seen, frontier set on first read).
+ */
+export const SHELL_RECORD_VERSION = 4;
 export const SHELL_RECORD_VERSIONS: readonly number[] = [
   1,
   2,
+  3,
   SHELL_RECORD_VERSION,
 ];
 
@@ -59,6 +67,7 @@ const REF_KINDS: readonly ShellRef["kind"][] = [
   "commitment",
   "measure",
   "government",
+  "organization",
 ];
 
 export interface StoredShellState {
@@ -66,6 +75,7 @@ export interface StoredShellState {
   readonly journal?: PrivateJournal;
   readonly pins: readonly ShellPin[];
   readonly preferences: ShellPreferences;
+  readonly progress?: InterfaceProgress;
 }
 
 export const EMPTY_SHELL_STATE: StoredShellState = {
@@ -73,6 +83,7 @@ export const EMPTY_SHELL_STATE: StoredShellState = {
   preferences: DEFAULT_PREFERENCES,
   journal: EMPTY_JOURNAL,
   personWardrobes: {},
+  progress: LEGACY_INTERFACE_PROGRESS,
 };
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -160,6 +171,32 @@ export function readStoredShellState(value: unknown): StoredShellState | null {
     personWardrobes: readWardrobes(value.personWardrobes),
     pins: readPins(value.pins),
     preferences: readPreferences(value.preferences),
+    progress: readProgress(value.progress),
+  };
+}
+
+/**
+ * Interface progress, validated like every other stored field.
+ *
+ * A missing or damaged value is a life already under way, never a fresh one:
+ * the cost of that reading is an introduction the player can still open from
+ * the menu, whereas the opposite reading would push an introduction in front
+ * of somebody's long-running save.
+ */
+function readProgress(value: unknown): InterfaceProgress {
+  if (!isRecord(value)) return LEGACY_INTERFACE_PROGRESS;
+  const frontier = value.recapFrontier;
+  return {
+    orientationSeen:
+      typeof value.orientationSeen === "boolean"
+        ? value.orientationSeen
+        : LEGACY_INTERFACE_PROGRESS.orientationSeen,
+    recapFrontier:
+      typeof frontier === "number" &&
+      Number.isSafeInteger(frontier) &&
+      frontier >= 0
+        ? frontier
+        : null,
   };
 }
 
@@ -175,6 +212,7 @@ export function encodeStoredShellState(
     personWardrobes: readWardrobes(state.personWardrobes),
     pins: readPins(state.pins).map((pin) => ({ ref: pin.ref, size: pin.size })),
     preferences: readPreferences(state.preferences),
+    progress: readProgress(state.progress),
   };
 }
 

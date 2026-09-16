@@ -39,11 +39,11 @@ the runtime uses.
 
 ### Production libraries
 
-- placements measured: 164
-- placements where some layer drew: 156
+- placements measured: 148
+- placements where some layer drew: 140
 - of those, COMPLETE recipes (compositor reported nothing): 0
-- partial draws (drew, but a slot or pose was reported): 156
-- by output class: {"production-fixture":156,"refused":8}
+- partial draws (drew, but a slot or pose was reported): 140
+- by output class: {"production-fixture":140,"refused":8}
 - feet off the declared contact line by more than 0.5% of the plate: 0
 - figures escaping the plate: 24
 - unfitted components not landing on their declared anchor: 0
@@ -52,11 +52,11 @@ Fitted figure height spans 16.1% to 135.6% of the plate.
 
 ### Candidate review libraries (development preview only)
 
-- placements measured: 164
-- placements where some layer drew: 112
+- placements measured: 148
+- placements where some layer drew: 96
 - of those, COMPLETE recipes (compositor reported nothing): 32
-- partial draws (drew, but a slot or pose was reported): 80
-- by output class: {"candidate-review":112,"refused":52}
+- partial draws (drew, but a slot or pose was reported): 64
+- by output class: {"candidate-review":96,"refused":52}
 - feet off the declared contact line by more than 0.5% of the plate: 0
 - figures escaping the plate: 24
 - unfitted components not landing on their declared anchor: 0
@@ -70,8 +70,6 @@ against. That is a missing measurement, and the fix is to measure it —
 not to copy an estimate out of this report into the scene data.
 
 - `campaign-storefront-production`
-- `civic-community-meeting-room`
-- `civic-community-meeting-title`
 - `civic-hearing-room-production`
 - `courtroom-empty-production`
 - `executive-office-candidate`

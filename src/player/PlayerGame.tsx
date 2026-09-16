@@ -1,4 +1,3 @@
-import { SavedTitleTableau } from "./SavedTitleTableau";
 import { CreatorAppearanceStep } from "./CreatorAppearanceStep";
 import {
   applyCreatorAppearance,
@@ -208,6 +207,24 @@ import {
 } from "../simulation/civil-personnel-start";
 import { ShellNav, type ShellDestination } from "./ShellNav";
 import { ShellPinRail } from "./ShellPinRail";
+import { WorldRecapPanel } from "./WorldRecapPanel";
+import { useWorldRecap } from "./useWorldRecap";
+import { WorldOrientationPanel } from "./WorldOrientationPanel";
+import { WorldOrientationEntry } from "./WorldOrientationEntry";
+import { useWorldOrientation } from "./useWorldOrientation";
+import { PartyChapterSurface } from "./PartyChapterSurface";
+import {
+  projectPartyChapter,
+  projectPartyChapters,
+  type PartyChapterView,
+} from "../presentation/party-chapter-surface";
+import {
+  acceptChapterInvitation,
+  joinPartyChapter,
+  leavePartyChapter,
+} from "../simulation";
+import { declineVenueActivity } from "../presentation/scheduled-activity-choice";
+import { attendChapterMeeting } from "../presentation/party-chapter-actions";
 import { FullDossier, QuickDossier } from "./ShellDossier";
 import {
   CalendarWorkspaceSurface,
@@ -593,29 +610,26 @@ export function PlayerGame() {
    */
   if (screen.kind === "title") {
     return (
-      <SavedTitleTableau
-        summary={saves[0]}
-        store={store}
-        shellStore={shellStore}
-        previewMode={previewMode}
-      >
-        <TitleScreen
-          saves={saves}
-          savesUnavailable={savesUnavailable}
-          problem={problem}
-          onNewGame={() => {
-            setProblem(null);
-            if (replaySeed === null) {
-              setSessionSeed(resolveSessionSeed("", window.crypto));
-            }
-            setScreen({ kind: "setup" });
-          }}
-          onContinue={() => void continueMostRecent()}
-          onOpenSaves={() => setScreen({ kind: "saves" })}
-          onOpenOptions={() => setScreen({ kind: "options" })}
-          onOpenPatchNotes={() => setScreen({ kind: "patch-notes" })}
-        />
-      </SavedTitleTableau>
+      <AmbientTableau resolved={resolvedTitlePresentation(saves)}>
+        {() => (
+          <TitleScreen
+            saves={saves}
+            savesUnavailable={savesUnavailable}
+            problem={problem}
+            onNewGame={() => {
+              setProblem(null);
+              if (replaySeed === null) {
+                setSessionSeed(resolveSessionSeed("", window.crypto));
+              }
+              setScreen({ kind: "setup" });
+            }}
+            onContinue={() => void continueMostRecent()}
+            onOpenSaves={() => setScreen({ kind: "saves" })}
+            onOpenOptions={() => setScreen({ kind: "options" })}
+            onOpenPatchNotes={() => setScreen({ kind: "patch-notes" })}
+          />
+        )}
+      </AmbientTableau>
     );
   }
 
@@ -1069,8 +1083,6 @@ function SetupScreen({
       className={`game-title game-setup game-creator${onReady && (finishedQuestions || !questionnaireScreenFor(committed)) ? " game-creator--appearance" : ""}`}
       data-testid="setup-screen"
     >
-      <h1>Our Civic Duty</h1>
-
       {/*
             Finished steps, collapsed. Each is a one-line summary the player can
             reopen; this is what keeps the whole active step inside the viewport
@@ -1931,7 +1943,6 @@ function QuestionnaireScreenView({
       className="game-title game-setup game-creator"
       data-testid="questionnaire-screen"
     >
-      <h1>Our Civic Duty</h1>
       <h2>Who are you?</h2>
       {/*
             What these questions actually are, said once and plainly: they are
@@ -2212,6 +2223,16 @@ function PlayingScreen({
    * gameplay writers below are still the only things that change the world.
    */
   const [shell, dispatch] = useShell(session.world, session.saveId, shellStore);
+  /* What changed since the player last caught up; a read, never a writer. */
+  const recap = useWorldRecap(session.world, session.personId, shell);
+  /*
+   * The world introduction follows a new, not-yet-saved life until it is
+   * finished or skipped. Loaded lives never see it pushed at them; it stays
+   * available from News.
+   */
+  const orientation = useWorldOrientation(session.world, session.personId);
+  const showOrientation =
+    session.unsavedSeed !== null && !shell.progress.orientationSeen;
 
   const [assignment, setAssignment] = useState<LegislativeAssignment | null>(
     null,
@@ -2500,6 +2521,14 @@ function PlayingScreen({
       hint: "Public meetings and your municipal work",
       testid: "nav-municipal",
       open: openSurface === "municipal",
+      group: "politics",
+    });
+    entries.push({
+      surface: "parties",
+      label: "Local party chapters",
+      hint: "Who organizes them and your invitations",
+      testid: "nav-parties",
+      open: openSurface === "parties",
       group: "politics",
     });
     entries.push({
@@ -2866,6 +2895,16 @@ function PlayingScreen({
                       }}
                       transitionHandlers={createCampaignElectionTransitionRegistry()}
                     />
+                  ) : showOrientation ? (
+                    <WorldOrientationPanel
+                      view={orientation.view}
+                      homeStateUsps={orientation.homeStateUsps}
+                      mode="first"
+                      onClose={() => dispatch({ type: "finish-orientation" })}
+                      onOpenPerson={(personId) =>
+                        dispatch({ type: "open-quick-dossier", personId })
+                      }
+                    />
                   ) : null
                 }
               />
@@ -2972,6 +3011,20 @@ function PlayingScreen({
                 </button>
               </p>
             ) : null}
+            {recap ? (
+              <WorldRecapPanel
+                recap={recap}
+                onDismiss={(throughSequence) =>
+                  dispatch({ type: "acknowledge-recap", throughSequence })
+                }
+                onOpenNews={() =>
+                  dispatch({ type: "go-to-surface", surface: "news" })
+                }
+                onOpenPerson={(personId) =>
+                  dispatch({ type: "open-quick-dossier", personId })
+                }
+              />
+            ) : null}
             {session.unsavedSeed !== null ? (
               <p className="sr-only" data-testid="unsaved-note">
                 This life has not been saved yet.
@@ -3008,6 +3061,7 @@ function PlayingScreen({
                 preferences: shell.preferences,
                 journal: shell.journal,
                 personWardrobes: shell.personWardrobes,
+                progress: shell.progress,
               })
             }
             onLeave={onLeave}
@@ -3106,6 +3160,63 @@ function renderWorkspace({
     onWorldChange(publishLegislativeTransition(session.world, next));
   const pinnedRef = (ref: ShellRef) => isPinned(shell, ref);
   const togglePin = (ref: ShellRef) => dispatch({ type: "toggle-pin", ref });
+  /*
+   * A local party chapter. Each button is an explicit choice routed to W's
+   * writers; opening the surface or its pin changes nothing. Going to a
+   * meeting runs the ordinary journey and meeting time, then returns to the
+   * room so the player is where the clock says they are.
+   */
+  const chapterSurface = (chapter: PartyChapterView) => (
+    <PartyChapterSurface
+      key={chapter.organizationId}
+      chapter={chapter}
+      pinned={pinnedRef({ kind: "organization", id: chapter.organizationId })}
+      onTogglePin={() =>
+        togglePin({ kind: "organization", id: chapter.organizationId })
+      }
+      onOpenPerson={openPerson}
+      onMeeting={(action, activityId) => {
+        const next =
+          action === "accept"
+            ? acceptChapterInvitation(
+                session.world,
+                session.personId,
+                activityId,
+              )
+            : action === "decline"
+              ? declineVenueActivity(
+                  session.world,
+                  session.personId,
+                  activityId,
+                )
+              : attendChapterMeeting(
+                  session.world,
+                  session.personId,
+                  activityId,
+                  createCampaignElectionTransitionRegistry(),
+                );
+        if (next === session.world) return;
+        onWorldChange(next);
+        if (action === "attend") dispatch({ type: "go-to-scene" });
+      }}
+      onJoin={() => {
+        const next = joinPartyChapter(
+          session.world,
+          session.personId,
+          chapter.organizationId,
+        );
+        if (next !== session.world) onWorldChange(next);
+      }}
+      onLeave={() => {
+        const next = leavePartyChapter(
+          session.world,
+          session.personId,
+          chapter.organizationId,
+        );
+        if (next !== session.world) onWorldChange(next);
+      }}
+    />
+  );
 
   /*
    * The local-government surface, shared by the menu route and by a pinned
@@ -3247,6 +3358,25 @@ function renderWorkspace({
           measureId={view.ref.id}
         />,
         "Legislation",
+      );
+    }
+    if (view.ref.kind === "organization") {
+      const chapter = projectPartyChapter(
+        session.world,
+        session.personId,
+        view.ref.id,
+      );
+      return frame(
+        chapter?.name ?? "Unavailable",
+        "chapter-workspace",
+        chapter ? (
+          chapterSurface(chapter)
+        ) : (
+          <p className="game-note" data-testid="organization-missing">
+            This world has no record of that organization.
+          </p>
+        ),
+        "Record",
       );
     }
     /*
@@ -3399,11 +3529,31 @@ function renderWorkspace({
         municipalSurface(),
       );
 
+    case "parties": {
+      const chapters = projectPartyChapters(session.world, session.personId);
+      return frame(
+        "Local party chapters",
+        "parties-workspace",
+        chapters.length > 0 ? (
+          <>{chapters.map(chapterSurface)}</>
+        ) : (
+          <p className="game-note" data-testid="parties-none">
+            No local party chapters are recorded where you live.
+          </p>
+        ),
+      );
+    }
+
     case "news":
       return frame(
         "News",
         "news-workspace",
         <>
+          <WorldOrientationEntry
+            world={session.world}
+            personId={session.personId}
+            onOpenPerson={openPerson}
+          />
           <World39News
             world={session.world}
             personId={session.personId}

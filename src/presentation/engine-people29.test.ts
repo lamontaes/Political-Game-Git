@@ -102,10 +102,9 @@ describe.skipIf(needsPrivateArt)("prepared candidate increment", () => {
 it.skipIf(needsPrivateArt)(
   "freezes source bytes and generation5 while old fresh replay markers reproduce",
   () => {
-    // Generation 5 = engine-people29, 6 = engine-people34 paint finish, 7 = the
-    // additive engine-people35 painted-raster candidate pack (STYLE35), 8 = its
-    // engine-people36 successor (PEOPLE38 neck/shoe/ink corrections); 9 = PEOPLE40 audience sources.
-    expect(library.catalogGeneration).toBe(10);
+    // Generation 5 = engine-people29; later additive generations preserve it.
+    // The retained current-bank pack finishes at MODULAR41 generation 12.
+    expect(library.catalogGeneration).toBe(12);
     for (const asset of data.assets)
       expect(
         createHash("sha256")
