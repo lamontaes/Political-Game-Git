@@ -1,0 +1,1462 @@
+/**
+ * ARTBENCH STORE — project-scoped data root, append-only event log, validated
+ * intake, decision guards, legacy migration and the Drive-mirror exchange.
+ *
+ * The data root lives OUTSIDE any git worktree (default
+ * ~/Documents/Political Game/output/artbench, override PG_ARTBENCH_DATA_ROOT),
+ * so a branch switch or worktree removal cannot erase uploads or decisions.
+ * Layout:
+ *   store.json            storeId (origin of authored events)
+ *   events/events.jsonl   one immutable event per line, fsynced on append
+ *   bytes/<sha256>.<ext>  immutable originals
+ *   inbox/                local batch drop (folder per batch, manifest.json last)
+ *   outbox/<eventId>.json events not yet exported to the exchange
+ *   sync/                 cursors, processed batches, last status
+ *   cache/                rebuildable projections
+ *
+ * Drive: a Drive-for-desktop mirror path of 80_ARTBENCH_EXCHANGE (or
+ * PG_ARTBENCH_DRIVE_ROOT). Nothing here holds tokens; the mirror is ordinary
+ * filesystem the owner's Drive client keeps in sync.
+ */
+
+import { randomUUID } from "node:crypto";
+import {
+  closeSync,
+  copyFileSync,
+  existsSync,
+  fsyncSync,
+  lstatSync,
+  mkdirSync,
+  openSync,
+  readdirSync,
+  readFileSync,
+  renameSync,
+  statSync,
+  unlinkSync,
+  writeSync,
+} from "node:fs";
+import { homedir } from "node:os";
+import { basename, dirname, extname, join, resolve, sep } from "node:path";
+
+import {
+  ARTBENCH_CONTRACT_VERSION,
+  INBOX_REQUEST_ID,
+  assetIdForRequest,
+  calibrationRecheckFor,
+  producerBrief,
+  projectArtbench,
+  type ArtbenchActor,
+  type ArtbenchEvent,
+  type ArtbenchEventSource,
+  type ArtbenchProjection,
+  type BatchCompletedPayload,
+  type CandidateIngestedPayload,
+  type CandidateProvenance,
+  type EditKind,
+  type IntegrationReceivedPayload,
+  type ProjectedCandidate,
+  type ReviewDecidedPayload,
+  type TagSet,
+} from "../../src/authoring/artbench";
+import type { AssetRequest } from "../../src/authoring/asset-request";
+import type { AssetReviewDecision } from "../../src/authoring/asset-review";
+import { hashBytes } from "./art-desk-inputs";
+import { decodeRaster, type DecodedRaster } from "./raster-decode";
+
+export const ARTBENCH_DATA_ROOT_ENV = "PG_ARTBENCH_DATA_ROOT";
+export const ARTBENCH_DRIVE_ROOT_ENV = "PG_ARTBENCH_DRIVE_ROOT";
+export const EXCHANGE_FOLDER = "80_ARTBENCH_EXCHANGE";
+export const EXCHANGE_INBOX = "01_INBOX";
+export const EXCHANGE_CATALOG = "02_CATALOG";
+export const EXCHANGE_EVENTS = "03_REVIEW_AND_INTEGRATION_EVENTS";
+const DEFAULT_MIRROR =
+  "Library/CloudStorage/GoogleDrive-lamontaebilling@gmail.com/My Drive/00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE";
+
+const SHA256 = /^[a-f0-9]{64}$/;
+const SAFE_ID = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$/;
+const IMAGE_EXT = /\.(png|jpe?g)$/i;
+
+export function defaultDataRoot(): string {
+  return (
+    process.env[ARTBENCH_DATA_ROOT_ENV] ||
+    join(homedir(), "Documents", "Political Game", "output", "artbench")
+  );
+}
+
+export function defaultDriveRoot(): string | null {
+  const configured = process.env[ARTBENCH_DRIVE_ROOT_ENV];
+  if (configured) return configured;
+  const mirror = join(homedir(), DEFAULT_MIRROR, EXCHANGE_FOLDER);
+  return existsSync(mirror) ? mirror : null;
+}
+
+export class ArtbenchError extends Error {
+  constructor(
+    readonly status: number,
+    readonly code: string,
+    message: string,
+  ) {
+    super(message);
+  }
+}
+
+function writeAtomic(absolute: string, body: Buffer | string): void {
+  mkdirSync(dirname(absolute), { recursive: true });
+  const temp = `${absolute}.${process.pid}.${randomUUID().slice(0, 8)}.tmp`;
+  const fd = openSync(temp, "w");
+  try {
+    if (typeof body === "string") writeSync(fd, body);
+    else writeSync(fd, body);
+    fsyncSync(fd);
+  } finally {
+    closeSync(fd);
+  }
+  renameSync(temp, absolute);
+}
+
+function readJson<T>(absolute: string): T | null {
+  if (!existsSync(absolute)) return null;
+  try {
+    return JSON.parse(readFileSync(absolute, "utf8")) as T;
+  } catch {
+    return null;
+  }
+}
+
+function isInside(root: string, absolute: string): boolean {
+  const base = resolve(root);
+  const target = resolve(absolute);
+  return target === base || target.startsWith(base + sep);
+}
+
+/** Refuse symlinks anywhere under the root on the way to a file. */
+function realFileInside(root: string, relative: string): string | null {
+  if (relative.includes("..") || relative.includes("\0")) return null;
+  const absolute = resolve(root, relative);
+  if (!isInside(root, absolute)) return null;
+  let cursor = resolve(root);
+  for (const part of relative.split(/[\\/]/).filter(Boolean)) {
+    cursor = join(cursor, part);
+    if (!existsSync(cursor)) return absolute;
+    if (lstatSync(cursor).isSymbolicLink()) return null;
+  }
+  return absolute;
+}
+
+export interface IntakeMeta {
+  readonly requestId?: string;
+  readonly requestVersion?: number;
+  readonly assetId?: string;
+  readonly parentCandidateId?: string;
+  readonly editKind?: EditKind;
+  readonly note?: string;
+  readonly tags?: TagSet;
+  readonly nativeDetail?: "native" | "derived" | "unverified";
+  readonly provenance?: CandidateProvenance;
+  readonly originalName?: string;
+}
+
+export interface IntakeResult {
+  readonly candidate: ProjectedCandidate;
+  readonly duplicate: boolean;
+  readonly event?: ArtbenchEvent;
+}
+
+export interface DecisionInput {
+  readonly candidateId: string;
+  readonly viewedCandidateId: string;
+  readonly viewedSha256: string;
+  readonly decision: AssetReviewDecision;
+  readonly note?: string;
+  readonly attachments?: readonly string[];
+  readonly actor: ArtbenchActor;
+  readonly fitContractHash: string;
+  readonly sceneContractHash: string;
+  readonly contractVersion: string;
+  readonly rightsStatus?: "known" | "unknown";
+  readonly sourceDeclaration?: string;
+  readonly supersedesReviewId?: string;
+}
+
+export interface SyncStatus {
+  readonly status: "ok" | "needs-mirror" | "error" | "never";
+  readonly driveRoot: string | null;
+  readonly driveRootPresent: boolean;
+  readonly lastAttemptAt: string | null;
+  readonly lastSuccessAt: string | null;
+  readonly lastError: string | null;
+  readonly pendingOutbox: number;
+  readonly pendingBatches: readonly string[];
+  readonly processedBatches: number;
+  readonly exportedEvents: number;
+  readonly importedEvents: number;
+  readonly lastCatalogAt: string | null;
+}
+
+interface SyncState {
+  lastAttemptAt: string | null;
+  lastSuccessAt: string | null;
+  lastError: string | null;
+  lastCatalogAt: string | null;
+  exportedEvents: number;
+  importedEvents: number;
+  /** batchId → itemId → candidateId (or "rejected:<reason>") */
+  batches: Record<string, Record<string, string>>;
+}
+
+interface BytesState {
+  readonly state: "verified" | "missing" | "hash-mismatch" | "not-a-raster";
+  readonly note: string;
+  readonly raster?: DecodedRaster;
+  readonly mtimeMs?: number;
+  readonly size?: number;
+}
+
+export interface StoreOptions {
+  readonly dataRoot: string;
+  /** The git workspace holding the registry and legacy sidecars. */
+  readonly workspace: string;
+  readonly driveRoot?: string | null;
+  readonly now?: () => string;
+  readonly newId?: () => string;
+}
+
+export class ArtbenchStore {
+  readonly dataRoot: string;
+  readonly workspace: string;
+  readonly storeId: string;
+  driveRoot: string | null;
+  private readonly now: () => string;
+  private readonly newId: () => string;
+  private events: ArtbenchEvent[] = [];
+  private readonly known = new Set<string>();
+  private readonly bytesCache = new Map<string, BytesState>();
+  private syncState: SyncState;
+  private settling = new Map<string, number>();
+
+  constructor(options: StoreOptions) {
+    this.dataRoot = resolve(options.dataRoot);
+    this.workspace = resolve(options.workspace);
+    this.driveRoot = options.driveRoot ?? null;
+    this.now = options.now ?? (() => new Date().toISOString());
+    this.newId = options.newId ?? (() => randomUUID());
+    for (const dir of ["events", "bytes", "inbox", "outbox", "sync", "cache"]) {
+      mkdirSync(join(this.dataRoot, dir), { recursive: true });
+    }
+    const storeFile = join(this.dataRoot, "store.json");
+    const existing = readJson<{ storeId?: string }>(storeFile);
+    if (existing?.storeId) {
+      this.storeId = existing.storeId;
+    } else {
+      this.storeId = `store-${this.newId()}`;
+      writeAtomic(
+        storeFile,
+        JSON.stringify(
+          { storeId: this.storeId, createdAt: this.now() },
+          null,
+          2,
+        ),
+      );
+    }
+    this.syncState = readJson<SyncState>(
+      join(this.dataRoot, "sync", "state.json"),
+    ) ?? {
+      lastAttemptAt: null,
+      lastSuccessAt: null,
+      lastError: null,
+      lastCatalogAt: null,
+      exportedEvents: 0,
+      importedEvents: 0,
+      batches: {},
+    };
+    this.loadEvents();
+    this.migrateLegacy();
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Event log                                                         */
+  /* ---------------------------------------------------------------- */
+
+  private get logPath(): string {
+    return join(this.dataRoot, "events", "events.jsonl");
+  }
+
+  private loadEvents(): void {
+    if (!existsSync(this.logPath)) return;
+    const lines = readFileSync(this.logPath, "utf8")
+      .split("\n")
+      .filter(Boolean);
+    for (const line of lines) {
+      try {
+        const event = JSON.parse(line) as ArtbenchEvent;
+        if (event.eventId && !this.known.has(event.eventId)) {
+          this.events.push(event);
+          this.known.add(event.eventId);
+        }
+      } catch {
+        // A torn final line from a crash is ignored; everything before it stands.
+      }
+    }
+  }
+
+  allEvents(sinceSeq = 0): readonly ArtbenchEvent[] {
+    return this.events.filter((event) => event.seq > sinceSeq);
+  }
+
+  private nextSeq(): number {
+    return (this.events.at(-1)?.seq ?? 0) + 1;
+  }
+
+  private persist(event: ArtbenchEvent, toOutbox: boolean): void {
+    const fd = openSync(this.logPath, "a");
+    try {
+      writeSync(fd, `${JSON.stringify(event)}\n`);
+      fsyncSync(fd);
+    } finally {
+      closeSync(fd);
+    }
+    this.events.push(event);
+    this.known.add(event.eventId);
+    if (toOutbox) {
+      writeAtomic(
+        join(this.dataRoot, "outbox", `${event.eventId}.json`),
+        JSON.stringify(event, null, 2),
+      );
+    }
+  }
+
+  private append<T extends ArtbenchEvent["type"]>(
+    type: T,
+    payload: Extract<ArtbenchEvent, { type: T }>["payload"],
+    actor: ArtbenchActor,
+    source: ArtbenchEventSource,
+    eventId = this.newId(),
+  ): Extract<ArtbenchEvent, { type: T }> {
+    if (this.known.has(eventId)) {
+      throw new ArtbenchError(
+        409,
+        "duplicate-event",
+        `Event ${eventId} already exists.`,
+      );
+    }
+    const event = {
+      contractVersion: ARTBENCH_CONTRACT_VERSION,
+      eventId,
+      seq: this.nextSeq(),
+      at: this.now(),
+      actor,
+      source,
+      origin: this.storeId,
+      type,
+      payload,
+    } as Extract<ArtbenchEvent, { type: T }>;
+    this.persist(event, source !== "legacy");
+    return event;
+  }
+
+  /** Admit an event authored elsewhere (Drive exchange). Never re-imports our own. */
+  admitForeign(event: ArtbenchEvent): boolean {
+    if (!event.eventId || this.known.has(event.eventId)) return false;
+    if (event.origin === this.storeId) return false;
+    if (event.contractVersion !== ARTBENCH_CONTRACT_VERSION) return false;
+    const admitted: ArtbenchEvent = {
+      ...event,
+      seq: this.nextSeq(),
+      source: "drive",
+    } as ArtbenchEvent;
+    this.persist(admitted, false);
+    return true;
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Registry and projection                                           */
+  /* ---------------------------------------------------------------- */
+
+  registryRequests(): readonly AssetRequest[] {
+    const document = readJson<{ requests?: AssetRequest[] }>(
+      join(this.workspace, "art/requests/asset-requests.json"),
+    );
+    return document?.requests ?? [];
+  }
+
+  qaRequests(): readonly AssetRequest[] {
+    const document = readJson<{ requests?: AssetRequest[] }>(
+      join(
+        this.workspace,
+        "art/generated/candidates/art-desk/qa-requests.json",
+      ),
+    );
+    return document?.requests ?? [];
+  }
+
+  projection(): ArtbenchProjection {
+    return projectArtbench({
+      registryRequests: this.registryRequests(),
+      qaRequests: this.qaRequests(),
+      events: this.events,
+      generatorAvailable: false,
+    });
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Bytes                                                             */
+  /* ---------------------------------------------------------------- */
+
+  resolveStorage(
+    candidate: Pick<ProjectedCandidate, "storagePath">,
+  ): string | null {
+    if (candidate.storagePath.startsWith("bytes/")) {
+      return realFileInside(this.dataRoot, candidate.storagePath);
+    }
+    // Legacy candidates keep their workspace-relative private path.
+    return realFileInside(this.workspace, candidate.storagePath);
+  }
+
+  bytesState(candidate: ProjectedCandidate): BytesState {
+    const absolute = this.resolveStorage(candidate);
+    if (!absolute || !existsSync(absolute) || !statSync(absolute).isFile()) {
+      return {
+        state: "missing",
+        note: "Original bytes are not in the data root or this checkout.",
+      };
+    }
+    const stat = statSync(absolute);
+    const cached = this.bytesCache.get(candidate.sha256);
+    if (
+      cached &&
+      cached.mtimeMs === stat.mtimeMs &&
+      cached.size === stat.size
+    ) {
+      return cached;
+    }
+    const bytes = readFileSync(absolute);
+    const actual = hashBytes(bytes);
+    let result: BytesState;
+    if (actual !== candidate.sha256) {
+      result = {
+        state: "hash-mismatch",
+        note: `Bytes on disk hash to ${actual.slice(0, 12)}…, not the recorded ${candidate.sha256.slice(0, 12)}….`,
+      };
+    } else {
+      const decoded = decodeRaster(bytes);
+      result = decoded.ok
+        ? {
+            state: "verified",
+            note: `Present, hash-verified and fully decoded: ${decoded.raster.width}×${decoded.raster.height} ${decoded.raster.container}${decoded.raster.hasAlpha ? " with alpha" : ""}.`,
+            raster: decoded.raster,
+          }
+        : {
+            state: "not-a-raster",
+            note: `${decoded.code}: ${decoded.message}`,
+          };
+    }
+    const entry = { ...result, mtimeMs: stat.mtimeMs, size: stat.size };
+    this.bytesCache.set(candidate.sha256, entry);
+    return entry;
+  }
+
+  original(candidateId: string): {
+    readonly bytes: Buffer;
+    readonly filename: string;
+    readonly candidate: ProjectedCandidate;
+  } {
+    const candidate = this.projection().candidates[candidateId];
+    if (!candidate)
+      throw new ArtbenchError(
+        404,
+        "unknown-candidate",
+        `No candidate ${candidateId}.`,
+      );
+    const state = this.bytesState(candidate);
+    if (state.state !== "verified") {
+      throw new ArtbenchError(409, "bytes-unavailable", state.note);
+    }
+    const absolute = this.resolveStorage(candidate)!;
+    return {
+      bytes: readFileSync(absolute),
+      filename: `${candidate.requestId}__${candidate.candidateId.slice(0, 8)}__${candidate.sha256.slice(0, 12)}.${candidate.container}`,
+      candidate,
+    };
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Intake                                                            */
+  /* ---------------------------------------------------------------- */
+
+  ingest(
+    bytes: Buffer,
+    meta: IntakeMeta,
+    actor: ArtbenchActor,
+    source: ArtbenchEventSource = "bench",
+  ): IntakeResult {
+    const decoded = decodeRaster(bytes);
+    if (!decoded.ok) {
+      throw new ArtbenchError(
+        422,
+        "invalid-raster",
+        `${decoded.code}: ${decoded.message}`,
+      );
+    }
+    const sha256 = hashBytes(bytes);
+    const projection = this.projection();
+    const requestId =
+      meta.requestId && meta.requestId !== ""
+        ? meta.requestId
+        : INBOX_REQUEST_ID;
+    if (!SAFE_ID.test(requestId)) {
+      throw new ArtbenchError(
+        400,
+        "invalid-request-id",
+        "requestId contains unsafe characters.",
+      );
+    }
+    const request =
+      requestId === INBOX_REQUEST_ID ? null : projection.requests[requestId];
+    if (requestId !== INBOX_REQUEST_ID && !request) {
+      throw new ArtbenchError(
+        404,
+        "unknown-request",
+        `No request ${requestId}; upload to the inbox instead.`,
+      );
+    }
+    const parent = meta.parentCandidateId
+      ? projection.candidates[meta.parentCandidateId]
+      : undefined;
+    if (meta.parentCandidateId && !parent) {
+      throw new ArtbenchError(
+        404,
+        "unknown-parent",
+        `No parent candidate ${meta.parentCandidateId}.`,
+      );
+    }
+    const duplicate = Object.values(projection.candidates).find(
+      (candidate) =>
+        candidate.sha256 === sha256 && candidate.requestId === requestId,
+    );
+    if (duplicate) {
+      return { candidate: duplicate, duplicate: true };
+    }
+    const container = decoded.raster.container;
+    const storagePath = `bytes/${sha256}.${container}`;
+    const absolute = join(this.dataRoot, storagePath);
+    if (!existsSync(absolute)) writeAtomic(absolute, bytes);
+    const editKind: EditKind = meta.editKind ?? (parent ? "other" : "original");
+    const assetId =
+      parent?.assetId ??
+      meta.assetId ??
+      (request ? request.assetId : "asset:inbox");
+    const payload: CandidateIngestedPayload = {
+      candidateId: `cand-${this.newId()}`,
+      assetId,
+      requestId,
+      requestVersion:
+        request?.request.requestVersion ?? meta.requestVersion ?? 1,
+      sha256,
+      byteLength: bytes.length,
+      container,
+      width: decoded.raster.width,
+      height: decoded.raster.height,
+      hasAlpha: decoded.raster.hasAlpha,
+      storagePath,
+      parentCandidateId: parent?.candidateId,
+      editKind,
+      note: meta.note,
+      provenance: {
+        ...(meta.provenance ?? {}),
+        originalName: meta.originalName ?? meta.provenance?.originalName,
+      },
+      nativeDetail:
+        parent && editKind !== "original"
+          ? "derived"
+          : (meta.nativeDetail ?? parent?.nativeDetail ?? "unverified"),
+      calibrationRecheck: parent
+        ? calibrationRecheckFor(editKind, parent, decoded.raster)
+        : [],
+      inheritedTags: parent ? parent.tags : meta.tags,
+    };
+    const event = this.append("candidate.ingested", payload, actor, source);
+    const candidate = this.projection().candidates[payload.candidateId]!;
+    return { candidate, duplicate: false, event };
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Decisions, tags, requests, selection, integration                 */
+  /* ---------------------------------------------------------------- */
+
+  decide(input: DecisionInput): readonly ArtbenchEvent[] {
+    const projection = this.projection();
+    const candidate = projection.candidates[input.candidateId];
+    if (!candidate)
+      throw new ArtbenchError(
+        404,
+        "unknown-candidate",
+        `No candidate ${input.candidateId}.`,
+      );
+    if (
+      input.viewedCandidateId !== input.candidateId ||
+      input.viewedSha256 !== candidate.sha256
+    ) {
+      throw new ArtbenchError(
+        409,
+        "viewed-candidate-changed",
+        "The candidate you were viewing is not the one being decided. Review the current candidate before deciding.",
+      );
+    }
+    const request = projection.requests[candidate.requestId];
+    if (!request) {
+      throw new ArtbenchError(
+        409,
+        "unassigned-candidate",
+        "Assign the candidate to a request before deciding.",
+      );
+    }
+    if (request.request.requestVersion !== candidate.requestVersion) {
+      throw new ArtbenchError(
+        409,
+        "stale-request-version",
+        `Candidate was ingested for request version ${candidate.requestVersion}; the request is now version ${request.request.requestVersion}.`,
+      );
+    }
+    const state = this.bytesState(candidate);
+    if (state.state !== "verified") {
+      throw new ArtbenchError(
+        422,
+        "candidate-unverified",
+        `Candidate bytes are ${state.state}: ${state.note}`,
+      );
+    }
+    if (input.actor.kind === "agent" || input.actor.kind === "worker") {
+      throw new ArtbenchError(
+        403,
+        "not-an-owner",
+        "Only the owner decides; an agent's statement is not approval.",
+      );
+    }
+    if (
+      input.supersedesReviewId &&
+      !candidate.decisions.some(
+        (d) => d.payload.reviewId === input.supersedesReviewId,
+      )
+    ) {
+      throw new ArtbenchError(
+        404,
+        "unknown-review",
+        "The decision being superseded does not exist on this candidate.",
+      );
+    }
+    const reviewId = `rev-${this.newId()}`;
+    const payload: ReviewDecidedPayload = {
+      reviewId,
+      requestId: candidate.requestId,
+      requestVersion: candidate.requestVersion,
+      candidateId: candidate.candidateId,
+      viewedCandidateId: input.viewedCandidateId,
+      outputSha256: candidate.sha256,
+      decision: input.decision,
+      contractVersion: input.contractVersion,
+      fitContractHash: input.fitContractHash,
+      sceneContractHash: input.sceneContractHash,
+      rightsStatus: input.rightsStatus ?? "unknown",
+      sourceDeclaration:
+        input.sourceDeclaration ??
+        "owner decision on the private bench; rights not inferred from a web reference",
+      note: input.note,
+      attachments: input.attachments,
+      supersedesReviewId: input.supersedesReviewId,
+    };
+    const events: ArtbenchEvent[] = [
+      this.append("review.decided", payload, input.actor, "bench"),
+    ];
+    if (input.decision === "approve") {
+      const queued = this.projection().integrationQueue.some(
+        (item) =>
+          item.candidateId === candidate.candidateId &&
+          item.state === "pending",
+      );
+      if (!queued) {
+        const missing: string[] = [];
+        if (candidate.width < request.request.target.minimumWidth) {
+          missing.push(
+            `width ${candidate.width} is below the request's ${request.request.target.minimumWidth}px floor`,
+          );
+        }
+        if (request.request.target.alphaRequired && !candidate.hasAlpha)
+          missing.push("alpha required but not present");
+        if (candidate.nativeDetail !== "native")
+          missing.push(`native detail ${candidate.nativeDetail}`);
+        if (candidate.calibrationRecheck.length > 0)
+          missing.push(`recheck: ${candidate.calibrationRecheck.join(", ")}`);
+        events.push(
+          this.append(
+            "integration.queued",
+            {
+              itemId: `int-${this.newId()}`,
+              candidateId: candidate.candidateId,
+              assetId: candidate.assetId,
+              requestId: candidate.requestId,
+              sha256: candidate.sha256,
+              consumerId: request.request.consumer.consumerId,
+              runtimeComponent: request.request.consumer.runtimeComponent,
+              target: request.request.target,
+              tagsState: Object.values(candidate.tags).some((v) => v.length > 0)
+                ? "tagged"
+                : "untagged",
+              missingFacts: missing,
+              approvalReviewId: reviewId,
+            },
+            { kind: "system", id: "artbench" },
+            "bench",
+          ),
+        );
+      }
+    }
+    return events;
+  }
+
+  setTags(input: {
+    readonly entity: "candidate" | "asset";
+    readonly entityId: string;
+    readonly tags: TagSet;
+    readonly baseVersion: number;
+    readonly author: ArtbenchActor;
+    readonly suggestion?: boolean;
+  }): ArtbenchEvent {
+    const projection = this.projection();
+    const target =
+      input.entity === "candidate"
+        ? projection.candidates[input.entityId]
+        : projection.assets[input.entityId];
+    if (!target)
+      throw new ArtbenchError(
+        404,
+        "unknown-entity",
+        `No ${input.entity} ${input.entityId}.`,
+      );
+    if (target.tagsVersion !== input.baseVersion) {
+      throw new ArtbenchError(
+        409,
+        "tag-conflict",
+        `Tags changed since you loaded them (version ${target.tagsVersion}, you saw ${input.baseVersion}). Reload and merge; nothing was overwritten.`,
+      );
+    }
+    for (const [facet, values] of Object.entries(input.tags)) {
+      if (!SAFE_ID.test(facet))
+        throw new ArtbenchError(
+          400,
+          "invalid-tag",
+          `Facet '${facet}' is not a valid key.`,
+        );
+      if (
+        !Array.isArray(values) ||
+        values.some((v) => typeof v !== "string" || v.length > 120)
+      ) {
+        throw new ArtbenchError(
+          400,
+          "invalid-tag",
+          `Facet '${facet}' must hold short strings.`,
+        );
+      }
+    }
+    return this.append(
+      "tags.set",
+      {
+        entity: input.entity,
+        entityId: input.entityId,
+        tags: input.tags,
+        baseVersion: input.baseVersion,
+        author: input.author,
+        suggestion: input.suggestion,
+      },
+      input.author,
+      "bench",
+    );
+  }
+
+  createRequest(input: {
+    readonly request: AssetRequest;
+    readonly actor: ArtbenchActor;
+    readonly parentRequestId?: string;
+    readonly parentCandidateId?: string;
+    readonly origin: "owner" | "worker" | "expansion";
+    readonly manifestId?: string;
+  }): ArtbenchEvent {
+    const { request } = input;
+    if (!SAFE_ID.test(request.requestId)) {
+      throw new ArtbenchError(
+        400,
+        "invalid-request",
+        "requestId must be a stable slug.",
+      );
+    }
+    if (
+      !request.title?.trim() ||
+      !request.consumer?.consumerId ||
+      !request.target?.targetClass
+    ) {
+      throw new ArtbenchError(
+        400,
+        "invalid-request",
+        "A request needs a title, a consumer and a target.",
+      );
+    }
+    const projection = this.projection();
+    if (projection.requests[request.requestId]) {
+      throw new ArtbenchError(
+        409,
+        "duplicate-request",
+        `Request ${request.requestId} already exists.`,
+      );
+    }
+    if (
+      input.parentCandidateId &&
+      !projection.candidates[input.parentCandidateId]
+    ) {
+      throw new ArtbenchError(
+        404,
+        "unknown-parent",
+        "Parent candidate does not exist.",
+      );
+    }
+    return this.append(
+      "request.created",
+      {
+        request,
+        assetId: input.parentCandidateId
+          ? projection.candidates[input.parentCandidateId]!.assetId
+          : assetIdForRequest(request),
+        parentRequestId: input.parentRequestId,
+        parentCandidateId: input.parentCandidateId,
+        origin: input.origin,
+        manifestId: input.manifestId,
+      },
+      input.actor,
+      "bench",
+    );
+  }
+
+  selectCandidate(
+    requestId: string,
+    candidateId: string,
+    actor: ArtbenchActor,
+  ): ArtbenchEvent {
+    const projection = this.projection();
+    if (
+      !projection.requests[requestId] ||
+      !projection.candidates[candidateId]
+    ) {
+      throw new ArtbenchError(
+        404,
+        "unknown-entity",
+        "Request or candidate does not exist.",
+      );
+    }
+    return this.append(
+      "candidate.selected",
+      { requestId, candidateId },
+      actor,
+      "bench",
+    );
+  }
+
+  recordIntegration(
+    payload: IntegrationReceivedPayload,
+    actor: ArtbenchActor,
+  ): ArtbenchEvent {
+    if (
+      !this.projection().integrationQueue.some(
+        (item) => item.itemId === payload.itemId,
+      )
+    ) {
+      throw new ArtbenchError(
+        404,
+        "unknown-item",
+        `No integration item ${payload.itemId}.`,
+      );
+    }
+    return this.append("integration.received", payload, actor, "bench");
+  }
+
+  brief(requestId: string, candidateId?: string): string {
+    const projection = this.projection();
+    const request = projection.requests[requestId];
+    if (!request)
+      throw new ArtbenchError(
+        404,
+        "unknown-request",
+        `No request ${requestId}.`,
+      );
+    const inboxHint = this.driveRoot
+      ? `Drive › 00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE › ${EXCHANGE_FOLDER} › ${EXCHANGE_INBOX} › <batchId>/ (or the bench's local inbox folder)`
+      : "the bench's local inbox folder (Drive exchange not configured on this machine)";
+    return producerBrief(request.request, {
+      inboxHint,
+      parentCandidate: candidateId
+        ? projection.candidates[candidateId]
+        : undefined,
+    });
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Legacy migration (idempotent, non-destructive)                    */
+  /* ---------------------------------------------------------------- */
+
+  private migrateLegacy(): void {
+    const legacyActor: ArtbenchActor = {
+      kind: "legacy",
+      id: "art-desk-sidecars",
+    };
+    const registry = new Map(
+      this.registryRequests().map((r) => [r.requestId, r]),
+    );
+    const batch = readJson<{
+      records?: readonly {
+        requestId: string;
+        outputSha256: string;
+        privatePath: string;
+        width?: number;
+        height?: number;
+        byteLength?: number;
+        container?: string;
+        tool?: string;
+        nativeDetail?: string;
+      }[];
+    }>(join(this.workspace, "art/requests/art-desk-generation-batch.json"));
+    const sidecar = readJson<{
+      candidates?: readonly {
+        requestId: string;
+        sha256: string;
+        path: string;
+        byteLength: number;
+        container: "png" | "jpg";
+        width: number;
+        height: number;
+        storedAt: string;
+        declaredBy: string;
+      }[];
+    }>(
+      join(this.workspace, "art/generated/candidates/art-desk/candidates.json"),
+    );
+    const legacyCandidates: {
+      requestId: string;
+      sha256: string;
+      path: string;
+      width: number;
+      height: number;
+      byteLength: number;
+      container: "png" | "jpg";
+      provenance: CandidateProvenance;
+      nativeDetail: "native" | "derived" | "unverified";
+    }[] = [];
+    for (const record of batch?.records ?? []) {
+      legacyCandidates.push({
+        requestId: record.requestId,
+        sha256: record.outputSha256,
+        path: record.privatePath,
+        width: record.width ?? 0,
+        height: record.height ?? 0,
+        byteLength: record.byteLength ?? 0,
+        container: record.container === "png" ? "png" : "jpg",
+        provenance: { provider: record.tool, worker: "ALIVE43 Role A" },
+        nativeDetail:
+          record.nativeDetail === "native" ? "native" : "unverified",
+      });
+    }
+    for (const record of sidecar?.candidates ?? []) {
+      legacyCandidates.push({
+        requestId: record.requestId,
+        sha256: record.sha256,
+        path: record.path,
+        width: record.width,
+        height: record.height,
+        byteLength: record.byteLength,
+        container: record.container,
+        provenance: { worker: record.declaredBy, createdAt: record.storedAt },
+        nativeDetail: "unverified",
+      });
+    }
+    const qa = new Map(this.qaRequests().map((r) => [r.requestId, r]));
+    const shaToCandidate = new Map<string, string>();
+    for (const event of this.events) {
+      if (event.type === "candidate.ingested") {
+        shaToCandidate.set(
+          `${event.payload.requestId}:${event.payload.sha256}`,
+          event.payload.candidateId,
+        );
+      }
+    }
+    for (const legacy of legacyCandidates) {
+      if (!SHA256.test(legacy.sha256)) continue;
+      const eventId = `legacy:candidate:${legacy.requestId}:${legacy.sha256}`;
+      if (this.known.has(eventId)) continue;
+      const request =
+        registry.get(legacy.requestId) ?? qa.get(legacy.requestId);
+      // Copy verifiable bytes into the data root so they outlive the worktree.
+      let storagePath = legacy.path;
+      let hasAlpha = false;
+      const absolute = realFileInside(this.workspace, legacy.path);
+      if (absolute && existsSync(absolute)) {
+        const bytes = readFileSync(absolute);
+        if (hashBytes(bytes) === legacy.sha256) {
+          const decoded = decodeRaster(bytes);
+          if (decoded.ok) {
+            storagePath = `bytes/${legacy.sha256}.${decoded.raster.container}`;
+            const target = join(this.dataRoot, storagePath);
+            if (!existsSync(target)) copyFileSync(absolute, target);
+            hasAlpha = decoded.raster.hasAlpha;
+          }
+        }
+      }
+      const candidateId = `cand-legacy-${legacy.sha256.slice(0, 16)}`;
+      this.append(
+        "candidate.ingested",
+        {
+          candidateId,
+          assetId: request
+            ? assetIdForRequest(request)
+            : `asset:${legacy.requestId}`,
+          requestId: legacy.requestId,
+          requestVersion: request?.requestVersion ?? 1,
+          sha256: legacy.sha256,
+          byteLength: legacy.byteLength,
+          container: legacy.container,
+          width: legacy.width,
+          height: legacy.height,
+          hasAlpha,
+          storagePath,
+          editKind: "original",
+          provenance: {
+            ...legacy.provenance,
+            originalName: basename(legacy.path),
+          },
+          nativeDetail: legacy.nativeDetail,
+          calibrationRecheck: [],
+        },
+        legacyActor,
+        "legacy",
+        eventId,
+      );
+      shaToCandidate.set(`${legacy.requestId}:${legacy.sha256}`, candidateId);
+    }
+    const reviews = readJson<{
+      reviews?: readonly (ReviewDecidedPayload & {
+        authorId?: string;
+        decidedAt?: string;
+      })[];
+    }>(join(this.workspace, "art/requests/asset-reviews.json"));
+    for (const review of reviews?.reviews ?? []) {
+      const eventId = `legacy:review:${review.reviewId}`;
+      if (this.known.has(eventId)) continue;
+      const candidateId = shaToCandidate.get(
+        `${review.requestId}:${review.outputSha256}`,
+      );
+      if (!candidateId) continue;
+      this.append(
+        "review.decided",
+        {
+          reviewId: review.reviewId,
+          requestId: review.requestId,
+          requestVersion: review.requestVersion,
+          candidateId,
+          viewedCandidateId: candidateId,
+          outputSha256: review.outputSha256,
+          decision: review.decision,
+          contractVersion: review.contractVersion,
+          fitContractHash: review.fitContractHash,
+          sceneContractHash: review.sceneContractHash,
+          rightsStatus: review.rightsStatus,
+          sourceDeclaration: review.sourceDeclaration,
+          note: review.note,
+        },
+        { kind: "legacy", id: review.authorId ?? "asset-reviews.json" },
+        "legacy",
+        eventId,
+      );
+    }
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Sync: local inbox + Drive mirror exchange                         */
+  /* ---------------------------------------------------------------- */
+
+  private saveSyncState(): void {
+    writeAtomic(
+      join(this.dataRoot, "sync", "state.json"),
+      JSON.stringify(this.syncState, null, 2),
+    );
+  }
+
+  syncStatus(): SyncStatus {
+    const outbox = readdirSync(join(this.dataRoot, "outbox")).filter((f) =>
+      f.endsWith(".json"),
+    );
+    const present = Boolean(this.driveRoot && existsSync(this.driveRoot));
+    const pendingBatches = [
+      ...this.pendingBatchIds(join(this.dataRoot, "inbox")),
+      ...(present
+        ? this.pendingBatchIds(join(this.driveRoot!, EXCHANGE_INBOX))
+        : []),
+    ];
+    return {
+      status: !this.syncState.lastAttemptAt
+        ? "never"
+        : !present
+          ? "needs-mirror"
+          : this.syncState.lastError
+            ? "error"
+            : "ok",
+      driveRoot: this.driveRoot
+        ? basename(dirname(this.driveRoot)) + "/" + basename(this.driveRoot)
+        : null,
+      driveRootPresent: present,
+      lastAttemptAt: this.syncState.lastAttemptAt,
+      lastSuccessAt: this.syncState.lastSuccessAt,
+      lastError: this.syncState.lastError,
+      pendingOutbox: outbox.length,
+      pendingBatches,
+      processedBatches: Object.keys(this.syncState.batches).length,
+      exportedEvents: this.syncState.exportedEvents,
+      importedEvents: this.syncState.importedEvents,
+      lastCatalogAt: this.syncState.lastCatalogAt,
+    };
+  }
+
+  private pendingBatchIds(inbox: string): string[] {
+    if (!existsSync(inbox)) return [];
+    const pending: string[] = [];
+    for (const entry of readdirSync(inbox, { withFileTypes: true })) {
+      if (entry.isSymbolicLink()) continue;
+      if (entry.isDirectory()) {
+        const folder = join(inbox, entry.name);
+        const complete =
+          existsSync(join(folder, "manifest.json")) ||
+          existsSync(join(folder, "COMPLETE"));
+        const processed = this.syncState.batches[entry.name];
+        if (!complete && !processed) pending.push(entry.name);
+      }
+    }
+    return pending;
+  }
+
+  /** One pass: import complete batches, export outbox, admit foreign events, publish catalog. */
+  syncOnce(): SyncStatus {
+    this.syncState.lastAttemptAt = this.now();
+    try {
+      this.importInbox(join(this.dataRoot, "inbox"), "local-inbox");
+      const present = Boolean(this.driveRoot && existsSync(this.driveRoot));
+      if (present) {
+        const root = this.driveRoot!;
+        this.importInbox(join(root, EXCHANGE_INBOX), "drive-inbox");
+        this.admitForeignEvents(join(root, EXCHANGE_EVENTS));
+        this.exportOutbox(join(root, EXCHANGE_EVENTS));
+        this.publishCatalog(join(root, EXCHANGE_CATALOG));
+        this.syncState.lastSuccessAt = this.now();
+        this.syncState.lastError = null;
+      } else {
+        this.syncState.lastError = null;
+        this.publishCatalog(join(this.dataRoot, "cache"));
+      }
+    } catch (error) {
+      this.syncState.lastError =
+        error instanceof Error ? error.message : String(error);
+    }
+    this.saveSyncState();
+    return this.syncStatus();
+  }
+
+  private settled(absolute: string): boolean {
+    const size = statSync(absolute).size;
+    const previous = this.settling.get(absolute);
+    this.settling.set(absolute, size);
+    return previous === size;
+  }
+
+  private importInbox(
+    inbox: string,
+    source: BatchCompletedPayload["source"],
+  ): void {
+    if (!existsSync(inbox)) return;
+    const actor: ArtbenchActor = { kind: "worker", id: source };
+    for (const entry of readdirSync(inbox, { withFileTypes: true })) {
+      if (entry.isSymbolicLink()) continue;
+      const absolute = join(inbox, entry.name);
+      if (entry.isDirectory()) {
+        this.importBatchFolder(absolute, entry.name, source, actor);
+      } else if (IMAGE_EXT.test(entry.name) && this.settled(absolute)) {
+        // A loose settled file is its own one-item batch; retries dedupe by name+hash.
+        this.importItems(
+          `loose-${entry.name}`,
+          source,
+          actor,
+          [{ itemId: entry.name, file: entry.name }],
+          inbox,
+          null,
+        );
+      }
+    }
+  }
+
+  private importBatchFolder(
+    folder: string,
+    batchId: string,
+    source: BatchCompletedPayload["source"],
+    actor: ArtbenchActor,
+  ): void {
+    if (!SAFE_ID.test(batchId)) return;
+    const manifestPath = join(folder, "manifest.json");
+    const complete =
+      existsSync(manifestPath) || existsSync(join(folder, "COMPLETE"));
+    if (!complete) return;
+    const manifest = readJson<{ batchId?: string; items?: IntakeItem[] }>(
+      manifestPath,
+    );
+    const items: IntakeItem[] = manifest?.items?.length
+      ? manifest.items
+      : readdirSync(folder)
+          .filter((name) => IMAGE_EXT.test(name))
+          .map((name) => ({ itemId: name, file: name }));
+    this.importItems(
+      batchId,
+      source,
+      actor,
+      items,
+      folder,
+      manifest?.batchId ?? null,
+    );
+  }
+
+  private importItems(
+    batchId: string,
+    source: BatchCompletedPayload["source"],
+    actor: ArtbenchActor,
+    items: readonly IntakeItem[],
+    folder: string,
+    declaredBatchId: string | null,
+  ): void {
+    const done = this.syncState.batches[batchId] ?? {};
+    let changed = false;
+    const ingested: string[] = [];
+    const rejected: { item: string; reason: string }[] = [];
+    for (const item of items) {
+      const itemId = item.itemId ?? item.file;
+      if (!itemId || done[itemId]) continue;
+      const file = realFileInside(folder, item.file ?? "");
+      if (!file || !existsSync(file) || !IMAGE_EXT.test(file)) {
+        done[itemId] = "rejected:missing-or-not-image";
+        rejected.push({ item: itemId, reason: "missing or not an image file" });
+        changed = true;
+        continue;
+      }
+      try {
+        const bytes = readFileSync(file);
+        const result = this.ingest(
+          bytes,
+          {
+            requestId: item.requestId,
+            requestVersion: item.requestVersion,
+            parentCandidateId: item.parentCandidateId ?? undefined,
+            editKind: item.editKind,
+            note: item.note,
+            tags: item.tags,
+            nativeDetail: item.nativeDetail,
+            originalName: basename(file),
+            provenance: {
+              worker: item.worker,
+              provider: item.provider,
+              model: item.model,
+              promptRef: item.promptRef,
+              createdAt: item.createdAt,
+              sourceTime: item.sourceTime,
+              batchId: declaredBatchId ?? batchId,
+              itemId,
+              jobId: item.jobId,
+            },
+          },
+          actor,
+          source === "drive-inbox" ? "drive" : "inbox",
+        );
+        done[itemId] = result.candidate.candidateId;
+        if (!result.duplicate) ingested.push(result.candidate.candidateId);
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : String(error);
+        done[itemId] = `rejected:${reason.slice(0, 80)}`;
+        rejected.push({ item: itemId, reason });
+      }
+      changed = true;
+    }
+    if (changed) {
+      this.syncState.batches[batchId] = done;
+      this.append(
+        "batch.completed",
+        {
+          batchId,
+          source,
+          itemCount: items.length,
+          ingestedCandidateIds: ingested,
+          rejected,
+        },
+        { kind: "system", id: "artbench-sync" },
+        "bench",
+      );
+    }
+  }
+
+  private admitForeignEvents(eventsDir: string): void {
+    if (!existsSync(eventsDir)) return;
+    for (const name of readdirSync(eventsDir)) {
+      if (!name.endsWith(".json")) continue;
+      const file = join(eventsDir, name);
+      if (lstatSync(file).isSymbolicLink()) continue;
+      const event = readJson<ArtbenchEvent>(file);
+      if (event && this.admitForeign(event)) this.syncState.importedEvents += 1;
+    }
+  }
+
+  private exportOutbox(eventsDir: string): void {
+    mkdirSync(eventsDir, { recursive: true });
+    const outbox = join(this.dataRoot, "outbox");
+    for (const name of readdirSync(outbox)) {
+      if (!name.endsWith(".json")) continue;
+      const local = join(outbox, name);
+      const remote = join(eventsDir, name);
+      if (!existsSync(remote)) writeAtomic(remote, readFileSync(local));
+      unlinkSync(local);
+      this.syncState.exportedEvents += 1;
+    }
+  }
+
+  /** Rebuildable views. Originals of decided candidates are copied once per hash. */
+  private publishCatalog(catalogDir: string): void {
+    mkdirSync(catalogDir, { recursive: true });
+    const projection = this.projection();
+    const candidates = Object.values(projection.candidates).map((candidate) => {
+      const bytes = this.bytesState(candidate);
+      let exchangePath: string | null = null;
+      if (
+        bytes.state === "verified" &&
+        candidate.decisions.length > 0 &&
+        this.driveRoot
+      ) {
+        const name = `${candidate.sha256}.${candidate.container}`;
+        const target = join(catalogDir, "candidates", name);
+        if (!existsSync(target)) {
+          mkdirSync(dirname(target), { recursive: true });
+          copyFileSync(this.resolveStorage(candidate)!, target);
+        }
+        exchangePath = `${EXCHANGE_CATALOG}/candidates/${name}`;
+      }
+      return {
+        ...candidate,
+        bytes: { state: bytes.state, note: bytes.note },
+        exchangePath,
+      };
+    });
+    const catalog = {
+      contractVersion: ARTBENCH_CONTRACT_VERSION,
+      storeId: this.storeId,
+      generatedAt: this.now(),
+      lastSeq: projection.lastSeq,
+      coverage: {
+        note: "Index of bench-known requests and candidates. The wider managed library is referenced, not scanned; an empty section is not proof of absent art.",
+        registryRequests: this.registryRequests().length,
+        candidates: candidates.length,
+      },
+      requests: projection.requests,
+      assets: projection.assets,
+      candidates,
+      integrationQueue: projection.integrationQueue,
+      conflicts: projection.conflicts,
+      rejectedEvents: projection.rejectedEvents,
+    };
+    writeAtomic(
+      join(catalogDir, "catalog.json"),
+      JSON.stringify(catalog, null, 2),
+    );
+    writeAtomic(join(catalogDir, "CATALOG.md"), renderCatalogMarkdown(catalog));
+    writeAtomic(
+      join(catalogDir, "events-index.json"),
+      JSON.stringify(
+        this.events.map((e) => ({
+          eventId: e.eventId,
+          seq: e.seq,
+          at: e.at,
+          type: e.type,
+          origin: e.origin,
+          actor: e.actor,
+        })),
+        null,
+        2,
+      ),
+    );
+    this.syncState.lastCatalogAt = this.now();
+  }
+}
+
+export interface IntakeItem {
+  readonly itemId?: string;
+  readonly file?: string;
+  readonly requestId?: string;
+  readonly requestVersion?: number;
+  readonly parentCandidateId?: string | null;
+  readonly editKind?: EditKind;
+  readonly note?: string;
+  readonly tags?: TagSet;
+  readonly nativeDetail?: "native" | "derived" | "unverified";
+  readonly worker?: string;
+  readonly provider?: string;
+  readonly model?: string;
+  readonly promptRef?: string;
+  readonly createdAt?: string;
+  readonly sourceTime?: string;
+  readonly jobId?: string;
+}
+
+function renderCatalogMarkdown(catalog: {
+  generatedAt: string;
+  storeId: string;
+  requests: ArtbenchProjection["requests"];
+  candidates: readonly (ProjectedCandidate & {
+    bytes: { state: string };
+    exchangePath: string | null;
+  })[];
+  integrationQueue: ArtbenchProjection["integrationQueue"];
+  conflicts: ArtbenchProjection["conflicts"];
+}): string {
+  const lines = [
+    `# Artbench catalog — generated ${catalog.generatedAt} by ${catalog.storeId}`,
+    ``,
+    `Rebuildable projection of the immutable event log. Approval here is private review, not runtime release.`,
+    ``,
+    `## Requests`,
+  ];
+  for (const request of Object.values(catalog.requests)) {
+    lines.push(
+      `- **${request.request.requestId}** v${request.request.requestVersion} — ${request.request.title} · lane ${request.lane} · ${request.candidateIds.length} candidate(s)${request.selectedCandidateId ? ` · selected ${request.selectedCandidateId}` : ""}`,
+    );
+  }
+  lines.push(``, `## Candidates`);
+  for (const c of catalog.candidates) {
+    const latest = c.latestDecision;
+    lines.push(
+      `- ${c.candidateId} · request ${c.requestId} · rev ${c.revision} · ${c.width}×${c.height} ${c.container}${c.hasAlpha ? " α" : ""} · sha ${c.sha256} · ${c.editKind}${c.parentCandidateId ? ` of ${c.parentCandidateId}` : ""} · bytes ${c.bytes.state} · status ${c.status}${latest ? ` · ${latest.payload.decision} (${latest.payload.reviewId}, event ${latest.eventId}${latest.payload.note ? `, "${latest.payload.note}"` : ""})` : ""}${Object.keys(c.tags).length ? ` · tags ${JSON.stringify(c.tags)}` : " · untagged"}${c.exchangePath ? ` · file ${c.exchangePath}` : ""}`,
+    );
+  }
+  lines.push(``, `## Integration queue`);
+  for (const item of catalog.integrationQueue) {
+    lines.push(
+      `- ${item.itemId} · ${item.state} · candidate ${item.candidateId} · sha ${item.sha256} · consumer ${item.consumerId} · ${item.tagsState}${item.missingFacts.length ? ` · missing: ${item.missingFacts.join("; ")}` : ""}`,
+    );
+  }
+  if (catalog.conflicts.length) {
+    lines.push(``, `## Tag conflicts (surfaced, not overwritten)`);
+    for (const conflict of catalog.conflicts) {
+      lines.push(
+        `- ${conflict.entity} ${conflict.entityId}: ${conflict.author.id} wrote against version ${conflict.baseVersion}, current ${conflict.currentVersion} (event ${conflict.eventId})`,
+      );
+    }
+  }
+  return lines.join("\n") + "\n";
+}
+
+export function fileExtensionFor(name: string): string {
+  return extname(name).toLowerCase();
+}

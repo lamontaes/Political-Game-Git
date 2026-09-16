@@ -80,7 +80,7 @@ test("Art Desk bridge refuses traversal and production-style hosts", async ({
 const QA_REQUEST = {
   requestId: "qa-art-desk-round-trip",
   requestVersion: 1,
-  priority: "P3",
+  priority: "P2",
   status: "draft",
   title: "QA round trip: existing raster through the bench",
   consumer: {
