@@ -39,6 +39,8 @@ import { MunicipalWorkspace } from "./MunicipalWorkspace";
 import { World39News } from "./World39News";
 import { World39Journal } from "./World39Journal";
 import { PlacesWorkspace } from "./PlacesWorkspace";
+import { GovernmentBrowser } from "./politics/GovernmentBrowser";
+import { PoliticsTabs, type PoliticsTab } from "./politics/PoliticsTabs";
 import { municipalVenueForActivity } from "../presentation/municipal-venue";
 import { resolveActivityVenueScene } from "../presentation/scene-venues";
 import { publishLegislativeTransition } from "../presentation/publish-legislative-transition";
@@ -226,6 +228,7 @@ import {
 import { declineVenueActivity } from "../presentation/scheduled-activity-choice";
 import { attendChapterMeeting } from "../presentation/party-chapter-actions";
 import { FullDossier, QuickDossier } from "./ShellDossier";
+import type { PersonCardAnchor } from "./PersonCard";
 import {
   CalendarWorkspaceSurface,
   CommitmentSurface,
@@ -2276,6 +2279,22 @@ function PlayingScreen({
    * said in the HUD so the player reads where time actually stopped and why.
    */
   const [passOutcome, setPassOutcome] = useState<string | null>(null);
+  /*
+   * Where the clicked scene person stands, kept with that person. A card
+   * reached any other way, or for somebody else, has no anchor and uses the
+   * consistent side placement.
+   */
+  const [cardAnchor, setCardAnchor] = useState<{
+    readonly personId: EntityId;
+    readonly rect: PersonCardAnchor;
+  } | null>(null);
+  useEffect(() => {
+    setCardAnchor((current) =>
+      current && current.personId !== shell.quickDossierPersonId
+        ? null
+        : current,
+    );
+  }, [shell.quickDossierPersonId]);
   const passDays = useCallback(
     (days: 1 | 7) => {
       const result = simulateCalendarDays(
@@ -2503,6 +2522,14 @@ function PlayingScreen({
       testid: "elsewhere-people",
       open: openSurface === "people",
       group: "people",
+    });
+    entries.push({
+      surface: "government",
+      label: "Government",
+      hint: "Who governs where you are, at every level",
+      testid: "nav-politics-government",
+      open: openSurface === "government",
+      group: "politics",
     });
     if (!capabilities.formativeYears) {
       entries.push({
@@ -2861,12 +2888,29 @@ function PlayingScreen({
              * only ever holds what the player put there.
              */
             selectedPersonId={shell.quickDossierPersonId}
-            onSelectPerson={(personId) =>
+            onSelectPerson={(personId) => {
+              const button = document.querySelector<HTMLElement>(
+                `[data-testid="scene-person-${personId}"]`,
+              );
+              const box = button?.getBoundingClientRect();
+              setCardAnchor(
+                box
+                  ? {
+                      personId: personId as EntityId,
+                      rect: {
+                        left: box.left,
+                        top: box.top,
+                        width: box.width,
+                        height: box.height,
+                      },
+                    }
+                  : null,
+              );
               dispatch({
                 type: "open-quick-dossier",
                 personId: personId as EntityId,
-              })
-            }
+              });
+            }}
           >
             {view.surface === "scene" ? (
               <OpeningLifeFlow
@@ -2916,6 +2960,11 @@ function PlayingScreen({
               world={session.world}
               playerId={session.personId}
               dossier={selectedDossier}
+              anchor={
+                cardAnchor?.personId === selectedDossier.personId
+                  ? cardAnchor.rect
+                  : null
+              }
               pinned={isPinned(shell, {
                 kind: "person",
                 id: selectedDossier.personId,
@@ -3268,6 +3317,66 @@ function renderWorkspace({
     />
   );
 
+  /*
+   * The Politics hub (UI DECISION FOLLOW-THROUGH): one tab strip over the
+   * existing political surfaces. Tabs only navigate; every mechanism stays in
+   * the surface that owns it.
+   */
+  const politicsTabs = (
+    active: PoliticsTab,
+    section?: "budget" | "transit" | "tax" | "overview" | "records",
+  ) => {
+    const goTo = (tab: PoliticsTab) => {
+      if (tab === "office")
+        dispatch({ type: "go-to-surface", surface: "work", section: "office" });
+      else if (tab === "campaigns")
+        dispatch({ type: "go-to-surface", surface: "candidacy" });
+      else if (tab === "government")
+        dispatch({ type: "go-to-surface", surface: "government" });
+      else if (tab === "parties")
+        dispatch({ type: "go-to-surface", surface: "parties" });
+      else dispatch({ type: "go-to-surface", surface: "politics" });
+    };
+    const subItems =
+      active === "issues"
+        ? [
+            { key: "budget", label: "Budget and constitution" },
+            { key: "transit", label: "Transit" },
+            { key: "tax", label: "Taxes" },
+          ]
+        : active === "government"
+          ? [
+              { key: "overview", label: "Who governs" },
+              { key: "records", label: "Local meetings and records" },
+            ]
+          : [];
+    return (
+      <PoliticsTabs
+        active={active}
+        onSelect={goTo}
+        hidden={capabilities.formativeYears ? ["office", "campaigns"] : []}
+        subItems={subItems.map((item) => ({
+          ...item,
+          current: item.key === section,
+          testid: `politics-sub-${item.key}`,
+        }))}
+        onSelectSub={(key) => {
+          const surface =
+            key === "budget"
+              ? "politics"
+              : key === "records"
+                ? "municipal"
+                : key === "overview"
+                  ? "government"
+                  : key === "transit"
+                    ? "transit"
+                    : "tax";
+          dispatch({ type: "go-to-surface", surface });
+        }}
+      />
+    );
+  };
+
   const frame = (
     title: string,
     testid: string,
@@ -3526,7 +3635,10 @@ function renderWorkspace({
       return frame(
         "Local government",
         "municipal-workspace",
-        municipalSurface(),
+        <>
+          {politicsTabs("government", "records")}
+          {municipalSurface()}
+        </>,
       );
 
     case "parties": {
@@ -3534,13 +3646,16 @@ function renderWorkspace({
       return frame(
         "Local party chapters",
         "parties-workspace",
-        chapters.length > 0 ? (
-          <>{chapters.map(chapterSurface)}</>
-        ) : (
-          <p className="game-note" data-testid="parties-none">
-            No local party chapters are recorded where you live.
-          </p>
-        ),
+        <>
+          {politicsTabs("parties")}
+          {chapters.length > 0 ? (
+            <>{chapters.map(chapterSurface)}</>
+          ) : (
+            <p className="game-note" data-testid="parties-none">
+              No local party chapters are recorded where you live.
+            </p>
+          )}
+        </>,
       );
     }
 
@@ -3578,13 +3693,42 @@ function renderWorkspace({
         </>,
       );
 
+    case "government":
+      return frame(
+        "Government",
+        "government-workspace",
+        <>
+          {politicsTabs("government", "overview")}
+          <GovernmentBrowser
+            world={session.world}
+            personId={session.personId}
+            onOpenPerson={(holderId) =>
+              dispatch({ type: "open-quick-dossier", personId: holderId })
+            }
+            onOpenLocalRecords={() =>
+              dispatch({ type: "go-to-surface", surface: "municipal" })
+            }
+          />
+        </>,
+        "Politics",
+      );
+
     case "politics": {
       const homeJurisdictionId =
         session.world.people[session.personId]?.homeJurisdictionId;
+      const homePlaceName = homeJurisdictionId
+        ? (session.world.jurisdictions[homeJurisdictionId]?.name ?? null)
+        : null;
       return frame(
         "Politics",
         "politics-workspace",
         <>
+          {politicsTabs("issues", "budget")}
+          {homePlaceName ? (
+            <p className="game-note" data-testid="politics-budget-scope">
+              Public finances for your home, {homePlaceName}.
+            </p>
+          ) : null}
           {(session.world.history.nationalElections ?? []).map((election) => (
             <NationalElectionResults
               key={election.id}
@@ -3613,42 +3757,45 @@ function renderWorkspace({
       return frame(
         "Transit service",
         "transit-workspace",
-        <TransitWorkspace
-          world={session.world}
-          personId={session.personId}
-          onWorldChange={onWorldChange}
-          onOpenTaxWork={() =>
-            dispatch({ type: "go-to-surface", surface: "tax" })
-          }
-          onContinue={(days) => {
-            if (days !== 1 && days !== 7) return;
-            const result = simulateCalendarDays(
-              session.world,
-              session.personId,
-              days,
-              shell.preferences.interruptions,
-            );
-            if (result.world !== session.world) onWorldChange(result.world);
-          }}
-          onOpenBill={(docketKey) => {
-            const bill = projectTransitWork(
-              session.world,
-              session.personId,
-            ).bills.find((entry) => entry.bill.docketKey === docketKey)?.bill;
-            if (!bill) return;
-            if (capabilities.legislativeScenarioKey === bill.scenarioKey) {
-              onWorldChange(
-                selectDocketBill(
-                  session.world,
-                  bill.scenarioKey,
-                  session.personId,
-                  docketKey,
-                ),
+        <>
+          {politicsTabs("issues", "transit")}
+          <TransitWorkspace
+            world={session.world}
+            personId={session.personId}
+            onWorldChange={onWorldChange}
+            onOpenTaxWork={() =>
+              dispatch({ type: "go-to-surface", surface: "tax" })
+            }
+            onContinue={(days) => {
+              if (days !== 1 && days !== 7) return;
+              const result = simulateCalendarDays(
+                session.world,
+                session.personId,
+                days,
+                shell.preferences.interruptions,
               );
-              dispatch({ type: "go-to-surface", surface: "work" });
-            } else openEntity({ kind: "measure", id: bill.measureId });
-          }}
-        />,
+              if (result.world !== session.world) onWorldChange(result.world);
+            }}
+            onOpenBill={(docketKey) => {
+              const bill = projectTransitWork(
+                session.world,
+                session.personId,
+              ).bills.find((entry) => entry.bill.docketKey === docketKey)?.bill;
+              if (!bill) return;
+              if (capabilities.legislativeScenarioKey === bill.scenarioKey) {
+                onWorldChange(
+                  selectDocketBill(
+                    session.world,
+                    bill.scenarioKey,
+                    session.personId,
+                    docketKey,
+                  ),
+                );
+                dispatch({ type: "go-to-surface", surface: "work" });
+              } else openEntity({ kind: "measure", id: bill.measureId });
+            }}
+          />
+        </>,
         "Politics",
       );
 
@@ -3656,14 +3803,17 @@ function renderWorkspace({
       return frame(
         "Taxes and public receipts",
         "tax-workspace",
-        <TaxWorkWorkspace
-          world={session.world}
-          personId={session.personId}
-          onWorldChange={onWorldChange}
-          onOpenMeasure={(measureId) =>
-            openEntity({ kind: "measure", id: measureId })
-          }
-        />,
+        <>
+          {politicsTabs("issues", "tax")}
+          <TaxWorkWorkspace
+            world={session.world}
+            personId={session.personId}
+            onWorldChange={onWorldChange}
+            onOpenMeasure={(measureId) =>
+              openEntity({ kind: "measure", id: measureId })
+            }
+          />
+        </>,
         "Politics",
       );
 
@@ -3671,18 +3821,21 @@ function renderWorkspace({
       return frame(
         "Who governs here, and the state's top office",
         "candidacy-workspace",
-        <NationwideCandidacyWorkspace
-          world={session.world}
-          personId={session.personId}
-          onWorldChange={onWorldChange}
-          onOpenCampaign={() =>
-            dispatch({
-              type: "go-to-surface",
-              surface: "work",
-              section: "office",
-            })
-          }
-        />,
+        <>
+          {politicsTabs("campaigns")}
+          <NationwideCandidacyWorkspace
+            world={session.world}
+            personId={session.personId}
+            onWorldChange={onWorldChange}
+            onOpenCampaign={() =>
+              dispatch({
+                type: "go-to-surface",
+                surface: "work",
+                section: "office",
+              })
+            }
+          />
+        </>,
         "Politics",
       );
 

@@ -68,6 +68,8 @@ export type ShellSurface =
   | "personal"
   | "work"
   | "politics"
+  /** Public government by place, level and branch (Politics hub). */
+  | "government"
   | "transit"
   | "tax"
   /** Who governs home, and standing for the state's executive office. */
