@@ -406,6 +406,15 @@ export class ArtbenchStore {
       );
       return true;
     }
+    if (
+      event.type === "integration.queued" ||
+      event.type === "qa.disposition"
+    ) {
+      // Another bench's queue and its administrative corrections stay its own;
+      // only this bench's proven approvals enqueue cargo here.
+      this.known.add(event.eventId);
+      return false;
+    }
     const admitted: ArtbenchEvent = {
       ...event,
       seq: this.nextSeq(),

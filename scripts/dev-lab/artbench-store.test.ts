@@ -613,6 +613,41 @@ describe("artbench store: inbox batches and the exchange", () => {
     ).toHaveLength(1);
   });
 
+  it("does not let another bench's integration.queued enter this queue", () => {
+    const before = store.projection().integrationQueue.length;
+    writeFileSync(
+      join(drive, "03_REVIEW_AND_INTEGRATION_EVENTS", "foreign-queue.json"),
+      JSON.stringify({
+        contractVersion: "artbench-events/v1",
+        eventId: "foreign-queue-1",
+        seq: 11,
+        at: "2026-09-16T04:00:00.000Z",
+        actor: { kind: "system", id: "artbench" },
+        source: "bench",
+        origin: "store-somewhere-else",
+        type: "integration.queued",
+        payload: {
+          itemId: "int-foreign",
+          candidateId: store.projection().requests["env-c"].candidateIds[0],
+          assetId: "asset:env-c",
+          requestId: "env-c",
+          sha256: "d".repeat(64),
+          consumerId: "c",
+          runtimeComponent: "none",
+          target: request("env-c").target,
+          tagsState: "untagged",
+          missingFacts: [],
+          approvalReviewId: "rev-foreign",
+        },
+      }),
+    );
+    store.syncOnce();
+    expect(store.projection().integrationQueue.length).toBe(before);
+    expect(store.allEvents().some((e) => e.eventId === "foreign-queue-1")).toBe(
+      false,
+    );
+  });
+
   it("admits foreign events in authoring order even when filenames sort otherwise", () => {
     const eventsDir = join(drive, "03_REVIEW_AND_INTEGRATION_EVENTS");
     const base = {
