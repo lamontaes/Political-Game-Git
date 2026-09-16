@@ -239,6 +239,33 @@ export function openBrokerStore(dataDir) {
       return { token, enrollment: store.enrollment(project, handle) };
     },
 
+    /**
+     * A client-level enrollment ("unbound:…") is bound to the first exact
+     * session that uses it. Rebinding to a different session is refused, so
+     * one token cannot silently serve two sessions under one name.
+     */
+    bindSession(project, handle, sessionId, { model = null } = {}) {
+      const current = store.enrollment(project, handle);
+      if (!current || current.revoked) throw new Error("Not enrolled.");
+      const value = String(sessionId ?? "").trim();
+      if (!value || value.length > 200 || value.startsWith("unbound:"))
+        throw new Error("A real session id is required.");
+      if (current.sessionId === value) return current;
+      if (!current.sessionId.startsWith("unbound:"))
+        throw Object.assign(
+          new Error(
+            `Handle '${handle}' is already bound to another session; ask the owner to re-enroll.`,
+          ),
+          { code: "handle-collision" },
+        );
+      db.prepare(
+        "UPDATE enrollments SET session_id = ?, model = COALESCE(?, model) WHERE project = ? AND handle = ?",
+      ).run(value, model, project, handle);
+      audit({ tool: "_bind", project, handle, sessionId: value });
+      emit({ type: "enrollment", project, handle });
+      return store.enrollment(project, handle);
+    },
+
     revoke(project, handle) {
       db.prepare(
         "UPDATE enrollments SET revoked_at = ? WHERE project = ? AND handle = ?",
@@ -483,6 +510,14 @@ function buildMcpServer(store, identity) {
     "Your authenticated identity in this project's hub room.",
     {},
     guard(() => store.enrollment(project, handle)),
+  );
+  server.tool(
+    "bind_session",
+    "Call once at the start: record your exact session/conversation id (and model if known) for this enrollment.",
+    { session_id: z.string().max(200), model: z.string().max(100).optional() },
+    guard(({ session_id, model }) =>
+      store.bindSession(project, handle, session_id, { model: model ?? null }),
+    ),
   );
   server.tool(
     "who",

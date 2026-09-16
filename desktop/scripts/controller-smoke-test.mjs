@@ -54,7 +54,10 @@ const waitFor = async (predicate, label, timeout = 30000) => {
 try {
   const pageFor = (pattern) =>
     launched.windows().find((page) => pattern.test(page.url()));
-  const chrome = await waitFor(() => pageFor(/index\.html$/), "hub chrome");
+  const chrome = await waitFor(
+    () => pageFor(/^file:.*\/index\.html$/),
+    "hub chrome",
+  );
   await chrome.getByRole("tab", { name: "Play" }).waitFor();
   await chrome.getByRole("tab", { name: "Art Desk" }).waitFor();
   await chrome.getByRole("tab", { name: "Agents" }).waitFor();

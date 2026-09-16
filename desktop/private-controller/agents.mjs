@@ -64,6 +64,19 @@ function renderProviders(detection) {
         ]),
       );
       if (p.detail) card.append(el("p", p.detail, "muted"));
+      if (
+        p.installed &&
+        ["claude", "codex", "cursor", "antigravity"].includes(p.provider)
+      ) {
+        const connect = el(
+          "button",
+          ["cursor", "antigravity"].includes(p.provider)
+            ? "Connect (copy hub entry)"
+            : "Create hub enrollment",
+        );
+        connect.addEventListener("click", () => connectClient(p.provider));
+        card.append(connect);
+      }
       return card;
     }),
   );
@@ -196,6 +209,32 @@ function scheduleRefresh() {
 }
 
 const say = (text) => ($("people-note").textContent = text ?? "");
+
+const CONFIG_FILES = {
+  cursor: "~/.cursor/mcp.json",
+  antigravity: "~/.gemini/config/mcp_config.json",
+};
+
+async function connectClient(provider) {
+  const result = await api.connect(provider);
+  if (!result?.handle) return say(result?.message);
+  $("enroll-out").hidden = false;
+  $("enroll-out").textContent = result.clipboard
+    ? [
+        `@${result.handle} is enrolled. Its hub entry is on your clipboard.`,
+        `1. Paste it inside "mcpServers" in ${CONFIG_FILES[provider]} (create the file with {"mcpServers": {}} if it is missing), then reload ${provider}.`,
+        "2. In a new chat there, ask once:",
+        `   ${result.firstPrompt}`,
+        "The connection test passes when that chat's first call arrives (liveness turns fresh).",
+      ].join("\n")
+    : [
+        `@${result.handle} is enrolled. Token file (private): ${result.tokenFile}`,
+        `Room URL: ${result.url}`,
+        `Add it: ${result.snippets?.[provider] ?? ""}`,
+        "Then, in that session, ask once:",
+        `   ${result.firstPrompt}`,
+      ].join("\n");
+}
 
 $("detect").addEventListener("click", async () => {
   $("detect-note").textContent = "Checking…";

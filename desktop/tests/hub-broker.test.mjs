@@ -69,6 +69,37 @@ test("same-name collision with another session is refused", () => {
   }
 });
 
+test("an unbound client enrollment binds to its first real session only", () => {
+  const f = fixture();
+  try {
+    f.store.enroll({
+      project: "ocd",
+      handle: "cursor-1",
+      provider: "cursor",
+      sessionId: "unbound:cursor:x",
+    });
+    assert.throws(
+      () => f.store.bindSession("ocd", "cursor-1", "unbound:fake"),
+      /real session id/,
+    );
+    const bound = f.store.bindSession("ocd", "cursor-1", "chat-123", {
+      model: "m",
+    });
+    assert.equal(bound.sessionId, "chat-123");
+    assert.equal(bound.model, "m");
+    assert.equal(
+      f.store.bindSession("ocd", "cursor-1", "chat-123").sessionId,
+      "chat-123",
+    );
+    assert.throws(
+      () => f.store.bindSession("ocd", "cursor-1", "chat-999"),
+      /already bound/,
+    );
+  } finally {
+    f.done();
+  }
+});
+
 test("tokens are project scoped", () => {
   const f = fixture();
   try {

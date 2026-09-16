@@ -59,6 +59,7 @@ const {
   app,
   BaseWindow,
   WebContentsView,
+  clipboard,
   dialog,
   ipcMain,
   protocol,
@@ -611,6 +612,8 @@ function layout() {
 /* --------------------------------------------------------------- builds */
 
 function startWorker(track) {
+  if (process.env.OCD_HUB_NO_BUILDS === "1")
+    return { ok: false, message: "Builds are disabled for this test run." };
   const state = readState();
   if (!state?.repositoryPath)
     return { ok: false, message: "Choose the project folder in Settings." };
@@ -989,6 +992,15 @@ handle("agents:enroll", (opts) =>
     sessionId: String(opts?.sessionId ?? ""),
   }),
 );
+handle("agents:connect", (value) => {
+  const provider = String(value ?? "");
+  const result = hub.agents.connectClient({ provider });
+  if (provider === "cursor" || provider === "antigravity") {
+    clipboard.writeText(hub.agents.clientEntryFor(provider));
+    result.clipboard = true;
+  }
+  return result;
+});
 handle("agents:send", (opts) =>
   hub.agents.sendAsOwner({
     to: String(opts?.to ?? ""),

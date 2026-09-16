@@ -6,15 +6,17 @@
  */
 
 import { randomUUID } from "node:crypto";
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
 import { openBrokerStore, startBrokerServer } from "./broker.mjs";
 import { CodexAppServer } from "./codex-app-server.mjs";
-import { detectAll, enrollmentSnippets } from "./providers.mjs";
+import { clientEntry, detectAll, enrollmentSnippets } from "./providers.mjs";
 import { CodexWorker, Supervisor } from "./supervisor.mjs";
 
 export const HUB_PROJECT = "ocd";
+/** Stable loopback port so client MCP entries keep working across restarts. */
+export const PREFERRED_BROKER_PORT = 47431;
 const HANDLE = /^[a-z0-9][a-z0-9_-]{0,47}$/;
 
 export class AgentsHost {
@@ -36,7 +38,16 @@ export class AgentsHost {
     mkdirSync(this.tokensDir, { recursive: true, mode: 0o700 });
     mkdirSync(this.workRoot, { recursive: true });
     this.store = openBrokerStore(path.join(this.root, "broker"));
-    this.server = await startBrokerServer(this.store);
+    try {
+      this.server = await startBrokerServer(this.store, {
+        port: PREFERRED_BROKER_PORT,
+      });
+    } catch {
+      // Taken by something else: run on a free port and say so; connected
+      // clients must update their hub entry.
+      this.server = await startBrokerServer(this.store);
+      this.portNote = `Preferred port ${PREFERRED_BROKER_PORT} was busy; update connected clients' hub URL.`;
+    }
     const owner = this.store.enrollment(HUB_PROJECT, "owner");
     if (!owner || owner.sessionId !== this.installId)
       this.store.enroll({
@@ -81,6 +92,7 @@ export class AgentsHost {
     return {
       ready: true,
       url: this.url(),
+      portNote: this.portNote ?? null,
       participants,
       envelopes,
       supervisor: this.supervisor?.status() ?? null,
@@ -152,6 +164,26 @@ export class AgentsHost {
     }
   }
 
+  /**
+   * Client-level enrollment for an installed app: the handle is bound to the
+   * first real session that calls bind_session. The hub does not edit the
+   * client's own configuration; it returns the entry for the owner to add.
+   */
+  connectClient({ provider }) {
+    if (!["claude", "codex", "cursor", "antigravity"].includes(provider))
+      throw new Error("Unknown provider.");
+    const handle = `${provider}-1`;
+    const existing = this.store.enrollment(HUB_PROJECT, handle);
+    return this.enrollExternal({
+      handle,
+      provider,
+      sessionId:
+        existing && !existing.revoked
+          ? existing.sessionId
+          : `unbound:${provider}:${randomUUID()}`,
+    });
+  }
+
   /** Enroll an existing external session; returns its token file and snippets. */
   enrollExternal({ handle, provider, sessionId }) {
     if (!HANDLE.test(handle ?? ""))
@@ -175,7 +207,19 @@ export class AgentsHost {
       tokenFile,
       url: this.url(),
       snippets: enrollmentSnippets({ url: this.url(), tokenFile, handle }),
+      firstPrompt:
+        "Use the ocd-hub MCP tools: call bind_session with your conversation id (or a unique label if you cannot see one), then whoami, then poll once; acknowledge any message addressed to you and answer it with send (kind reply, reply_to that message id).",
     };
+  }
+
+  /** Entry text for the owner's clipboard (read from the private token file). */
+  clientEntryFor(provider) {
+    const handle = `${provider}-1`;
+    const token = readFileSync(
+      path.join(this.tokensDir, `${handle}.token`),
+      "utf8",
+    ).trim();
+    return clientEntry(provider, { url: this.url(), token });
   }
 
   sendAsOwner({ to, text }) {

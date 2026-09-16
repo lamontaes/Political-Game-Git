@@ -29,6 +29,7 @@ contextBridge.exposeInMainWorld("ocdHub", {
     detect: invoke("agents:detect"),
     startCodex: invoke("agents:start-codex"),
     enroll: invoke("agents:enroll"),
+    connect: invoke("agents:connect"),
     send: invoke("agents:send"),
     cancel: invoke("agents:cancel"),
     stopAll: invoke("agents:stop-all"),

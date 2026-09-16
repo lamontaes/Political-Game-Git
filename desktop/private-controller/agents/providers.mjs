@@ -294,29 +294,15 @@ export function enrollmentSnippets({ url, tokenFile, handle }) {
   return {
     claude: `claude mcp add --transport http ocd-hub ${url} --header "Authorization: Bearer $(cat '${tokenFile}')"`,
     codex: `[mcp_servers.ocd_hub]\nurl = "${url}"\nbearer_token_env_var = "OCD_HUB_TOKEN_${handle.replace(/[^A-Za-z0-9]/g, "_").toUpperCase()}"`,
-    cursor: JSON.stringify(
-      {
-        mcpServers: {
-          "ocd-hub": {
-            url,
-            headers: { Authorization: "Bearer <token from file>" },
-          },
-        },
-      },
-      null,
-      2,
-    ),
-    antigravity: JSON.stringify(
-      {
-        mcpServers: {
-          "ocd-hub": {
-            serverUrl: url,
-            headers: { Authorization: "Bearer <token from file>" },
-          },
-        },
-      },
-      null,
-      2,
-    ),
+    cursor: `~/.cursor/mcp.json → "mcpServers": { "ocd-hub": { "url": "${url}", "headers": { "Authorization": "Bearer <token>" } } }`,
+    antigravity: `~/.gemini/config/mcp_config.json → "mcpServers": { "ocd-hub": { "serverUrl": "${url}", "headers": { "Authorization": "Bearer <token>" } } }`,
   };
+}
+
+/** The exact client entry, token included, for the owner's clipboard only. */
+export function clientEntry(provider, { url, token }) {
+  const headers = { Authorization: `Bearer ${token}` };
+  const entry =
+    provider === "antigravity" ? { serverUrl: url, headers } : { url, headers };
+  return JSON.stringify({ "ocd-hub": entry }, null, 2);
 }
