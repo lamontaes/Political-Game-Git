@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 2785 |
 | INTENTIONALLY_NON_PLAYER_FACING | 6411 |
-| DIAGNOSTIC_OR_TEST | 6277 |
-| **NEEDS_CLASSIFICATION** | **7766** |
+| DIAGNOSTIC_OR_TEST | 6280 |
+| **NEEDS_CLASSIFICATION** | **7773** |
 
-Scanned 871 files holding 90449 string
+Scanned 871 files holding 90509 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -113,6 +113,7 @@ literals in total; the table counts only those that read like a sentence.
 | 25 | `src/player/SceneConversation.tsx` |
 | 25 | `src/presentation/economic-graphs.ts` |
 | 25 | `src/simulation/judicial-office-work.ts` |
+| 25 | `src/ui/ArtDeskView.tsx` |
 | 24 | `src/content/adapters/legislative-rule-packs.ts` |
 | 24 | `src/presentation/browser-world-repository.ts` |
 | 24 | `src/presentation/campaign-strategy.ts` |
@@ -147,7 +148,6 @@ literals in total; the table counts only those that read like a sentence.
 | 18 | `src/player/municipal-directory.ts` |
 | 18 | `src/simulation/living-world/developments.ts` |
 | 18 | `src/simulation/records.ts` |
-| 18 | `src/ui/ArtDeskView.tsx` |
 | 17 | `src/content/adapters/conversation-subjects.ts` |
 | 17 | `src/player/ConstitutionalWorkspace.tsx` |
 | 17 | `src/player/ConversationStrip.tsx` |

@@ -2,8 +2,8 @@
   "counts": {
     "INVENTORIED": 2785,
     "INTENTIONALLY_NON_PLAYER_FACING": 6411,
-    "DIAGNOSTIC_OR_TEST": 6277,
-    "NEEDS_CLASSIFICATION": 7766
+    "DIAGNOSTIC_OR_TEST": 6280,
+    "NEEDS_CLASSIFICATION": 7773
   },
   "needsClassification": [
     {
@@ -59521,7 +59521,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "LANE_LABEL",
-      "line": 45,
+      "line": 53,
       "text": "Needs your review",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59529,7 +59529,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "LANE_LABEL",
-      "line": 46,
+      "line": 54,
       "text": "Claimed / generating",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59537,7 +59537,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "LANE_LABEL",
-      "line": 48,
+      "line": 56,
       "text": "Approved, awaiting integration",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59545,15 +59545,39 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "LANE_LABEL",
-      "line": 50,
+      "line": 58,
       "text": "Covered / history",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
+      "enclosingSymbol": "THUMB_LABEL",
+      "line": 187,
+      "text": "no bytes",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/ArtDeskView.tsx",
+      "enclosingSymbol": "THUMB_LABEL",
+      "line": 189,
+      "text": "not raster",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/ArtDeskView.tsx",
+      "enclosingSymbol": "CandidateThumb",
+      "line": 206,
+      "text": "art-desk-thumb art-desk-thumb--none",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "decide",
-      "line": 237,
+      "line": 335,
       "text": "Art Desk writes require the identified local authoring server.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59561,15 +59585,15 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "decide",
-      "line": 244,
-      "text": "Approve/reject binds exact candidate bytes. Upload or generate a candidate first.",
+      "line": 355,
+      "text": "Candidate bytes are not verified.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "result",
-      "line": 270,
+      "line": 381,
       "text": "user-or-agent-submission; rights not inferred from a web reference",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59577,7 +59601,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "decide",
-      "line": 289,
+      "line": 400,
       "text": "{decision} recorded for {item.request.requestId} at {hash.slice(0,12)}… Private acceptance is not public release.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59585,7 +59609,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "onUpload",
-      "line": 297,
+      "line": 408,
       "text": "Uploads require the identified local authoring server.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59593,15 +59617,39 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "onUpload",
-      "line": 331,
-      "text": "Stored candidate {sha.slice(0,12)}… Rights remain unknown until declared. Bytes are private; they are not a public release.",
+      "line": 440,
+      "text": "Server stored the bytes but did not return decoded raster facts; the candidate was not recorded.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/ArtDeskView.tsx",
+      "enclosingSymbol": "next",
+      "line": 468,
+      "text": "user-or-agent-submission; rights not inferred from a web reference",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/ArtDeskView.tsx",
+      "enclosingSymbol": "onUpload",
+      "line": 479,
+      "text": "Bytes stored under {sha.slice(0,12)}… but the candidate record was not written: {recorded.message}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/ArtDeskView.tsx",
+      "enclosingSymbol": "onUpload",
+      "line": 486,
+      "text": "Stored candidate {sha.slice(0,12)}… ({payload.width}×{payload.height} {payload.container}). Rights remain unknown until declared. Bytes are private; they are not a public release.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "ArtDeskView",
-      "line": 356,
+      "line": 512,
       "text": "art-desk art-desk--refused",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59609,7 +59657,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "ArtDeskView",
-      "line": 391,
+      "line": 563,
       "text": "Search requests",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59617,7 +59665,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "ArtDeskView",
-      "line": 394,
+      "line": 566,
       "text": "Art Desk lanes",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59625,15 +59673,7 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "ArtDeskView",
-      "line": 415,
-      "text": "art-desk-row art-desk-row--with-thumb",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/ui/ArtDeskView.tsx",
-      "enclosingSymbol": "ArtDeskView",
-      "line": 439,
+      "line": 599,
       "text": "may generate",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -59641,24 +59681,40 @@
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "ArtDeskView",
-      "line": 440,
+      "line": 600,
       "text": "do not generate",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
-      "enclosingSymbol": "ArtDeskDetail",
-      "line": 533,
-      "text": "Uploaded candidate preview",
+      "enclosingSymbol": "ArtDeskView",
+      "line": 601,
+      "text": " · QA, disposable",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "enclosingSymbol": "ArtDeskDetail",
-      "line": 537,
+      "line": 695,
       "text": "Candidate for {item.request.title}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/ArtDeskView.tsx",
+      "enclosingSymbol": "ArtDeskDetail",
+      "line": 712,
+      "text": "unknown source",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/ArtDeskView.tsx",
+      "enclosingSymbol": "ArtDeskDetail",
+      "line": 715,
+      "text": " · {item.candidateRaster.width}×{item.candidateRaster.height} {item.candidateRaster.container}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -64605,6 +64661,30 @@
     {
       "sourcePath": "src/simulation/causal-effects.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertCausalMechanismCatalogIntegrity. Play fails closed rather than showing it.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/character-history-context-people.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/causal-effects.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 64
+    },
+    {
+      "sourcePath": "src/simulation/career-path7.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 4
+    },
+    {
+      "sourcePath": "src/simulation/causal-effects.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateCausalProcess. Play fails closed rather than showing it.",
       "count": 4
     },
@@ -64613,18 +64693,6 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateCausalProvenance. Play fails closed rather than showing it.",
       "count": 4
-    },
-    {
-      "sourcePath": "src/simulation/causal-effects.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertCausalMechanismCatalogIntegrity. Play fails closed rather than showing it.",
-      "count": 5
-    },
-    {
-      "sourcePath": "src/simulation/causal-effects.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 64
     },
     {
       "sourcePath": "src/simulation/career-path7.test.ts",
@@ -64675,12 +64743,6 @@
       "count": 5
     },
     {
-      "sourcePath": "src/simulation/character-history-context-people.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 5
-    },
-    {
       "sourcePath": "src/simulation/candidacy.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -64717,15 +64779,15 @@
       "count": 58
     },
     {
+      "sourcePath": "src/simulation/campaign-queries.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
       "sourcePath": "src/simulation/campaign-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertCampaignIntegrity. Play fails closed rather than showing it.",
-      "count": 4
-    },
-    {
-      "sourcePath": "src/simulation/career-path7.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 4
     },
     {
@@ -64733,12 +64795,6 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 41
-    },
-    {
-      "sourcePath": "src/simulation/campaign-compliance.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 2
     },
     {
       "sourcePath": "src/simulation/campaign-compliance.ts",
@@ -64753,9 +64809,15 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "sourcePath": "src/simulation/candidacy-packs.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/candidacy.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -64771,9 +64833,9 @@
       "count": 2
     },
     {
-      "sourcePath": "src/simulation/campaign-queries.ts",
+      "sourcePath": "src/simulation/campaign-compliance.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 2
     },
     {
@@ -64795,27 +64857,15 @@
       "count": 8
     },
     {
-      "sourcePath": "src/simulation/appearance-material.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 5
-    },
-    {
       "sourcePath": "src/simulation/adult-situations.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/candidacy-packs.ts",
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/candidacy.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 1
     },
     {
@@ -64849,27 +64899,27 @@
       "count": 21
     },
     {
-      "sourcePath": "src/presentation/world-recap-matters.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 5
-    },
-    {
       "sourcePath": "src/presentation/world-orientation.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 30
     },
     {
-      "sourcePath": "src/presentation/world-orientation-live.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 7
-    },
-    {
       "sourcePath": "src/presentation/weekend19-modular-people.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/presentation/world-recap-matters.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/appearance-material.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 5
     },
     {
@@ -64891,13 +64941,19 @@
       "count": 17
     },
     {
+      "sourcePath": "src/presentation/ui36-shell.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 7
+    },
+    {
       "sourcePath": "src/presentation/venue-activity.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 6
+      "count": 7
     },
     {
-      "sourcePath": "src/presentation/ui36-shell.test.ts",
+      "sourcePath": "src/presentation/world-orientation-live.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 7
@@ -65008,7 +65064,7 @@
       "sourcePath": "src/presentation/scene-venues.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 24
+      "count": 25
     },
     {
       "sourcePath": "src/presentation/scene-transform.ts",
@@ -65021,6 +65077,12 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 3
+    },
+    {
+      "sourcePath": "src/presentation/legislative-session-window.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 6
     },
     {
       "sourcePath": "src/presentation/scene-transform.test.ts",
@@ -65662,7 +65724,7 @@
       "sourcePath": "src/presentation/municipal-public-work.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 16
+      "count": 17
     },
     {
       "sourcePath": "src/presentation/morning23-catalog-continuity.test.ts",
@@ -65831,12 +65893,6 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 14
-    },
-    {
-      "sourcePath": "src/presentation/legislative-session-window.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 6
     },
     {
       "sourcePath": "src/presentation/legislative-routine-plan.ts",
