@@ -109,3 +109,56 @@ Clerk statistics 2020/2022/2024 PDFs, NGA governor pages), `artifact-lock.json`
 - National setting parties have no materialized national committee, so their
   merger/rename needs an actual officer to exist first.
 - State legislatures are not generated; only the home-state executive is.
+
+## CRUNCH47 C — measured long-history profile (C1 PROOF)
+
+`node --import tsx scripts/dev-lab/profile-long-history.ts [years] [seed]`
+builds a current opening, advances it in year steps and times the clock, the
+integrity pass, the projections and serialization. Every number below was
+measured on this Mac under heavy concurrent load (load average ~30–170 during
+CRUNCH47); they are this machine's numbers, not a target.
+
+Run: 3 years, seed `world47-profile-smoke`.
+
+| year | advance (365 days) | integrity | serialize | save bytes |
+| ---- | ------------------ | --------- | --------- | ---------- |
+| 1    | 23.0 s             | 73 ms     | 136 ms    | 1.91 MB    |
+| 2    | 62.9 s             | —         | —         | —          |
+| 3    | 91.9 s             | —         | —         | —          |
+
+After three years: 549 people, 1,058 events, 163 crisis records, 533 scheduled
+due items, history sequence 3,702.
+
+What this says, and what it does not:
+
+- **The cost of a year grows with the history.** Year 3 costs about four times
+  year 1. Integrity and serialization are not the problem (73 ms and 136 ms at
+  year 1): the time is inside the clock, resolving due items. A developed
+  30-year history is therefore not reachable by extrapolating a fresh life, and
+  this profile stops at 3 years rather than pretending otherwise.
+- **The dominant handler is not yet attributed.** This run measures the clock
+  as a whole. Naming which handler (mortality windows, party reviews, the
+  hazard sampler, development steps, macro months) carries the growth needs a
+  per-handler measurement, and that is the next step of this work, not a
+  conclusion of this one.
+- **One repeated scan was found and fixed here**: the hazard sampler filtered
+  the whole compiled episode array per state, family and month, and recomputed
+  the represented-exposure scan twice per month. The catalog is now indexed
+  once by state, family and month, and the exposure scan runs once per handler
+  call. Determinism is unchanged (the hazard tests still pass, including the
+  identical-resample check).
+
+## CRUNCH47 C — conditions and their consumers (C1)
+
+`projectHousingConditions(world, personId, proposedCost?)` keeps the two
+housing facts apart, as C1 requires: the represented supply-and-demand ratio
+(national only — no compiled local housing stock exists, and a local layer
+says so) and this household's own affordability from the resource model, with
+neither merged into a single verdict and every absent input named.
+
+The employment side is deliberately **not** wired. The only employment-shaped
+opportunity the model writes is a colleague asking for one extra hour; there
+is no represented employer demand, staffing capacity or offered-position
+count for a macro condition to move. Connecting hours to the economy would be
+an unsupported effect, so the missing inputs are recorded instead: per-employer
+demand or capacity, offered positions, and scheduled hours as records.
