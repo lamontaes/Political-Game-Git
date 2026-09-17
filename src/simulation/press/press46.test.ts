@@ -789,3 +789,38 @@ describe("PRESS46 integrity", () => {
     expect(() => assertWorldIntegrity(forged)).toThrow(/unsupported outlet/);
   });
 });
+
+describe("PRESS46 CRISIS events reach the desk", () => {
+  it("routes a public state hazard to the state newsroom as breaking news", () => {
+    const fixture = pressFixture("press46-crisis", 0);
+    const hazard = recordWorldEvent(fixture.world, {
+      stableKey: "press46-test:hazard",
+      type: "crisis.hazard-occurred",
+      occurredAt: fixture.world.currentDate,
+      recordedAt: fixture.world.currentDate,
+      jurisdictionId: KY,
+      involvedEntityIds: [KY],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: ["crisis"],
+      summary: "A severe storm damaged homes across the state.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const event = hazard.history.events.at(-1)!;
+    const later = days(hazard, 8);
+    const lead = storyLeads(later).find(
+      (l) =>
+        l.outletId === fixture.stateOutletId &&
+        l.basisEventIds.includes(event.id),
+    );
+    expect(lead?.family).toBe("breaking-crisis");
+  }, 120_000);
+});

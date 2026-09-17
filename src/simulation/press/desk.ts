@@ -1395,6 +1395,7 @@ function familyForEvent(event: HistoricalEvent): StoryFamily {
     return "campaign-activity";
   if (
     event.type.startsWith("crisis.") ||
+    event.type.startsWith("health.episode-disclosed") ||
     event.type.startsWith("disaster.") ||
     event.type.startsWith("vitality.")
   )
@@ -1408,12 +1409,21 @@ function beatForEventType(type: string): MediaBeat {
     return "business-economy";
   if (type.startsWith("campaign.") || type.startsWith("election."))
     return "campaigns";
-  if (type.startsWith("international.")) return "international";
+  if (
+    type.startsWith("international.") ||
+    type.startsWith("crisis.international") ||
+    type.startsWith("crisis.war-powers")
+  )
+    return "international";
   if (type.startsWith("civic.local-matter")) return "local-government";
   if (type.startsWith("congress.")) return "congress";
   if (type.startsWith("legislation.") || type.startsWith("legislative."))
     return "statehouse";
-  if (type.startsWith("crisis.") || type.startsWith("disaster."))
+  if (
+    type.startsWith("crisis.") ||
+    type.startsWith("disaster.") ||
+    type.startsWith("health.episode-disclosed")
+  )
     return "public-safety";
   return "general-assignment";
 }
