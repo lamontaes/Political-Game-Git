@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 2780 |
 | INTENTIONALLY_NON_PLAYER_FACING | 6413 |
-| DIAGNOSTIC_OR_TEST | 6472 |
-| **NEEDS_CLASSIFICATION** | **8035** |
+| DIAGNOSTIC_OR_TEST | 6485 |
+| **NEEDS_CLASSIFICATION** | **8037** |
 
-Scanned 915 files holding 92631 string
+Scanned 915 files holding 92748 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -147,6 +147,7 @@ literals in total; the table counts only those that read like a sentence.
 | 18 | `src/player/CalendarWorkspace.tsx` |
 | 18 | `src/player/EconomicContextPanel.tsx` |
 | 18 | `src/player/municipal-directory.ts` |
+| 18 | `src/presentation/shell-navigation.ts` |
 | 18 | `src/simulation/living-world/developments.ts` |
 | 18 | `src/simulation/records.ts` |
 | 18 | `src/ui/ArtDeskView.tsx` |
@@ -163,7 +164,6 @@ literals in total; the table counts only those that read like a sentence.
 | 16 | `src/player/PressInterviewPanel.tsx` |
 | 16 | `src/player/WorkingDocumentWorkspace.tsx` |
 | 16 | `src/presentation/run-a-projection.ts` |
-| 16 | `src/presentation/shell-navigation.ts` |
 | 16 | `src/simulation/policy-semantics.ts` |
 | 16 | `src/simulation/transit-funding.ts` |
 | 16 | `src/ui/EventHistory.tsx` |
