@@ -1,6 +1,5 @@
-/* global fetch */
+/* global document, crypto */
 import assert from "node:assert/strict";
-import { createHash } from "node:crypto";
 
 /** Fail closed on a plausible-looking figure with the wrong saved identity. */
 export function validateDrawnAppearance(proof, saved, requireMaterial = false) {
@@ -36,7 +35,8 @@ export function validateDrawnAppearance(proof, saved, requireMaterial = false) {
         material,
         "drawn parameters differ from save",
       );
-      assert.match(layer.svgSha256, /^[a-f0-9]{64}$/);
+      assert.match(layer.drawnSha256, /^[a-f0-9]{64}$/);
+      assert.equal(layer.drawnVisible, true, "prepared layer drew nothing");
     }
   } else {
     assert.equal(
@@ -68,15 +68,32 @@ export async function readDrawnAppearance(
       Array.from(element.querySelectorAll("img"), async (img) => {
         await img.decode();
         const materialVersion = img.dataset.materialVersion || null;
-        let svg = null;
+        let drawnSha256 = null;
+        let drawnVisible = null;
         if (materialVersion) {
           if (!img.src.startsWith("blob:"))
             throw new Error("prepared image is not a native blob");
-          const response = await fetch(img.src);
-          if (!response.ok) throw new Error("prepared SVG could not be read");
-          svg = await response.text();
-          if (!svg.includes("<svg"))
-            throw new Error("prepared image is not SVG");
+          // Hash the decoded pixels instead of fetch()ing the blob: the
+          // packaged CSP (connect-src 'self') rightly refuses that request,
+          // and the drawn raster is what the player actually sees.
+          const canvas = document.createElement("canvas");
+          canvas.width = img.naturalWidth;
+          canvas.height = img.naturalHeight;
+          const context = canvas.getContext("2d");
+          context.drawImage(img, 0, 0);
+          const pixels = context.getImageData(
+            0,
+            0,
+            canvas.width,
+            canvas.height,
+          ).data;
+          drawnVisible = pixels.some(
+            (value, index) => index % 4 === 3 && value > 0,
+          );
+          const digest = await crypto.subtle.digest("SHA-256", pixels);
+          drawnSha256 = Array.from(new Uint8Array(digest), (byte) =>
+            byte.toString(16).padStart(2, "0"),
+          ).join("");
         }
         return {
           assetId: img.dataset.assetId,
@@ -88,17 +105,11 @@ export async function readDrawnAppearance(
           parameters: img.dataset.materialParameters
             ? JSON.parse(img.dataset.materialParameters)
             : null,
-          svg,
+          drawnSha256,
+          drawnVisible,
         };
       }),
     ),
   }));
-  for (const layer of proof.layers) {
-    layer.svgSha256 =
-      layer.svg === null
-        ? null
-        : createHash("sha256").update(layer.svg).digest("hex");
-    delete layer.svg;
-  }
   return validateDrawnAppearance(proof, saved, requireMaterial);
 }

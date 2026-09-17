@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; base-uri 'none'; form-action 'none'"
+    />
+    <title>Settings</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <p class="eyebrow">Settings &amp; builds</p>
+      <h1>Sources, private inputs and verified builds</h1>
+
+      <section class="card" aria-labelledby="sources-h">
+        <h2 id="sources-h">Connections</h2>
+        <dl class="kv">
+          <dt>Project folder</dt>
+          <dd id="repo">—</dd>
+          <dt>Private art pack</dt>
+          <dd id="pack">—</dd>
+          <dt>Art Desk source</dt>
+          <dd id="artdesk-branch">—</dd>
+          <dt>This Mac</dt>
+          <dd id="arch">—</dd>
+          <dt>Hub source</dt>
+          <dd id="id-hub">—</dd>
+          <dt>Game build</dt>
+          <dd id="id-game">—</dd>
+          <dt>Art Desk source</dt>
+          <dd id="id-bench">Not started</dd>
+          <dt>Private pack</dt>
+          <dd id="id-pack">—</dd>
+        </dl>
+        <div class="row" data-spaced>
+          <button id="choose-repo">Choose Project…</button>
+          <button id="choose-pack">Choose Private Pack…</button>
+          <label for="artdesk-input" class="muted">Art Desk branch</label>
+          <input id="artdesk-input" size="34" spellcheck="false" />
+          <button id="artdesk-save">Use for Art Desk</button>
+          <button id="artdesk-restart">Restart Art Desk</button>
+        </div>
+        <p id="settings-note" class="muted" role="status"></p>
+      </section>
+
+      <section class="card" aria-labelledby="tracks-h">
+        <h2 id="tracks-h">Verified builds</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Source</th>
+              <th>Playing</th>
+              <th>Waiting</th>
+              <th>Previous</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tracks"></tbody>
+        </table>
+      </section>
+
+      <section class="card" aria-labelledby="log-h">
+        <h2 id="log-h">Build log</h2>
+        <pre id="log" class="log">No activity yet.</pre>
+      </section>
+    </main>
+    <script src="settings.mjs" type="module"></script>
+  </body>
+</html>

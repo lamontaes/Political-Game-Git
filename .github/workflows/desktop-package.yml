@@ -60,7 +60,11 @@ jobs:
         run: npm run build
 
       - name: Install desktop shell dependencies
-        run: npm ci --no-audit --no-fund
+        # The private controller's own dependencies (MCP SDK) are imported by
+        # the desktop tests, so they are installed before `npm test`.
+        run: |
+          npm ci --no-audit --no-fund
+          npm ci --prefix private-controller --no-audit --no-fund
         working-directory: desktop
 
       - name: Prove the update contract deterministically

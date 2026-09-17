@@ -295,7 +295,7 @@ async function assertVisiblePerson(page, expected) {
   );
   const reopenedDrawnAppearance = await assertVisiblePerson(page, identity);
   check(
-    "reload: drawn asset IDs and native material SVG hashes preserved",
+    "reload: drawn asset IDs and decoded material hashes preserved",
     isDeepStrictEqual(drawnAppearance, reopenedDrawnAppearance),
   );
   check(
