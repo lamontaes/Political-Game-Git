@@ -1,6 +1,11 @@
 import { expect, test } from "./fixtures";
 
-import { enterLife, openPoliticsHub, startLife } from "./support/creator";
+import {
+  enterLife,
+  openPoliticsHub,
+  saveLife,
+  startLife,
+} from "./support/creator";
 
 /*
  * CRUNCH46 UI: Politics > Government > Map mounts the MAPS lane's political
@@ -65,8 +70,8 @@ test("Government Map opens, remembers its layer and opens people", async ({
   await page.keyboard.press("Escape");
   await expect(card).toBeHidden();
 
-  // The layer is a saved preference; the page reload restores it.
-  await page.waitForTimeout(1_000);
+  // The layer is a saved preference; reopening the save restores it.
+  await saveLife(page);
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
