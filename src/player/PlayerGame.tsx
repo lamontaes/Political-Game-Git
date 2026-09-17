@@ -2598,6 +2598,10 @@ function PlayingScreen({
     !capabilities.formativeYears &&
     (judicialOfficeContexts(session.world).length > 0 ||
       resolveExecutiveOffice(session.world) !== null ||
+      // A governorship is a held office recorded against the office itself,
+      // not an executive employment relationship, so it has to be asked for
+      // by name or the menu sends an officeholder to Campaigns.
+      governingOfficeForPerson(session.world, session.personId) !== null ||
       capabilities.legislation);
   const workHint = capabilities.formativeYears
     ? "School, and anything waiting on you"
