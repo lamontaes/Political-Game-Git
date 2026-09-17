@@ -15,6 +15,8 @@ import {
   claimStanceOf,
 } from "../simulation/claim-stances";
 import { CLAIM_CONTRADICTION_TRANSITION_KEY } from "../simulation/claim-contradictions";
+import { recordTraitChange } from "../simulation/people-traits";
+import type { PeopleTrait } from "../simulation/people-trait-definitions";
 import { seekCivicPressContact } from "../simulation/press-reach";
 import type { ContextualSceneSubject } from "./contextual-scenes";
 import { resolveActiveMemberSeat } from "./legislative-member-seat";
@@ -251,8 +253,33 @@ describe("a reporter's question about an actual promise", () => {
     ).toBe(false);
   });
 
+  // The organizer is the only person who can confirm what was promised, and
+  // whether they will is their own temperament, not the seed's. The test says
+  // which kind of person they are, so the outcome follows from the world
+  // rather than from which life this happened to be.
+  const invitation = asked.history.events.find(
+    (event) => event.type === "party.chapter-meeting-invited",
+  )!;
+  const organizerId = invitation.participants.find(
+    (entry) => entry.role === "agency:asked",
+  )!.personId;
+  const sourceWho = (...changes: readonly [PeopleTrait, -2 | 2][]): World => {
+    let world = asked;
+    for (const [trait, value] of changes) {
+      world = recordTraitChange(world, {
+        personId: organizerId,
+        trait,
+        value,
+        eventId: invitation.id,
+        reason: "Test: an established temperament, not a coin toss.",
+      });
+    }
+    return world;
+  };
+
   it("a denial is a claim the world contradicts, and the reporter calls back only after a source confirms", () => {
-    const denied = say(asked, player, "scene-reporter-question", "deny");
+    const willing = sourceWho(["conflict", 2]);
+    const denied = say(willing, player, "scene-reporter-question", "deny");
     const claim = denied.history.claims.findLast(
       (entry) => entry.speakerPersonId === player,
     )!;
@@ -267,7 +294,8 @@ describe("a reporter's question about an actual promise", () => {
     const confirmed = world.history.events.filter(
       (event) => event.type === "press.source-confirmed",
     );
-    // In this life the organizer confirms; the record and the callback agree.
+    // This organizer does not mind contradicting somebody on the record, so
+    // they confirm; the record and the callback agree.
     expect(confirmed).toHaveLength(1);
     expect(found).toHaveLength(1);
     expect(found[0]!.tags).toContain("claim.intent.deceive");
@@ -298,5 +326,30 @@ describe("a reporter's question about an actual promise", () => {
       "keep-denying",
       "no-comment-again",
     ]);
+  });
+
+  it("control: a source who will not talk means no callback at all", () => {
+    const reticent = sourceWho(["conflict", -2], ["risk", -2]);
+    const denied = say(reticent, player, "scene-reporter-question", "deny");
+    let world = denied;
+    for (let day = 0; day < 10; day += 1) {
+      world = passOrdinaryDays(world, 1, { stopForTentativeHolds: true });
+    }
+    // Nobody confirmed it, so nothing was discovered. The denial stands, and
+    // the claim is still exactly as false as it was.
+    expect(
+      world.history.events.filter(
+        (event) => event.type === "press.source-confirmed",
+      ),
+    ).toEqual([]);
+    expect(
+      world.history.events.filter(
+        (event) => event.type === CLAIM_CONTRADICTION_EVENT,
+      ),
+    ).toEqual([]);
+    const claim = world.history.claims.findLast(
+      (entry) => entry.speakerPersonId === player,
+    )!;
+    expect(claim.relationshipToTruth).toBe("contradicts");
   });
 });
