@@ -24,6 +24,7 @@ function launch(
   mode: "candidate" | "production",
   cached = true,
   occupied = false,
+  privatePack: "absent" | "incomplete" = "absent",
 ) {
   const root = realpathSync(
     mkdtempSync(path.join(os.tmpdir(), "p31-play-cli-")),
@@ -45,6 +46,14 @@ function launch(
     path.join(repo, "package.json"),
     '{"name":"political-life-rpg"}',
   );
+  // The public fixture never carries the owner's private pack. "incomplete"
+  // stands in a directory with only its metadata file, so the launcher's
+  // fail-closed check on the pack's shape is exercised before any hashing.
+  if (privatePack === "incomplete") {
+    const pack = path.join(repo, "output/private-packs/modular41-current");
+    mkdirSync(pack, { recursive: true });
+    writeFileSync(path.join(pack, "pack.json"), "{}");
+  }
   const lock = '{"lockfileVersion":3}';
   writeFileSync(path.join(playDir, "package-lock.json"), lock);
   writeFileSync(path.join(playDir, "node_modules/.bin/vite"), "#!/bin/sh\n", {
@@ -125,25 +134,47 @@ esac`,
 }
 
 describe("double-click Play guidance and preserved launch boundaries", () => {
-  it.each(["candidate", "production"] as const)(
-    "opens selected %s art Play with exact cached dependencies and labels review separately",
-    (mode) => {
-      const { result, trace, sha } = launch(mode);
+  it("opens production art Play with exact cached dependencies and labels review separately", () => {
+    const mode = "production";
+    const { result, trace, sha } = launch(mode);
+    expect(result.error).toBeUndefined();
+    expect(result.status).toBe(0);
+    const url = "http://127.0.0.1:5311/";
+    const play = `Play (${mode} art): ${url}`;
+    expect(result.stdout).toContain(play);
+    expect(result.stdout).toContain("art Play (separate saves):");
+    expect(result.stdout.indexOf(play)).toBeLessThan(
+      result.stdout.indexOf("Review tools (developer fixtures):"),
+    );
+    expect(result.stdout).toContain(`Verified source: ${sha}`);
+    expect(trace).toContain(`open ${url}\n`);
+    expect(trace).toContain("npm run dev:identified -- --port 5311");
+    expect(trace).not.toContain("npm ci");
+    expect(trace).not.toContain("validate");
+    expect(trace).not.toContain("unexpected git");
+  });
+
+  // Candidate mode is an exact public source plus one authenticated private
+  // pack. The public fixture has no pack, so the launcher must stop before it
+  // fetches source, installs anything or starts a server. The guard itself is
+  // unchanged; this only pins its fail-closed boundary.
+  it.each([
+    ["absent", "Candidate mode requires the retained MODULAR41 pack"],
+    ["incomplete", "Private pack is incomplete: missing"],
+  ] as const)(
+    "refuses candidate art Play when the private pack is %s, before touching source",
+    (privatePack, message) => {
+      const { result, trace } = launch("candidate", true, false, privatePack);
       expect(result.error).toBeUndefined();
-      expect(result.status).toBe(0);
-      const url = `http://127.0.0.1:5311/${mode === "candidate" ? "?art-preview=candidate" : ""}`;
-      const play = `Play (${mode} art): ${url}`;
-      expect(result.stdout).toContain(play);
-      expect(result.stdout).toContain("art Play (separate saves):");
-      expect(result.stdout.indexOf(play)).toBeLessThan(
-        result.stdout.indexOf("Review tools (developer fixtures):"),
+      expect(result.status).not.toBe(0);
+      expect(result.stderr).toContain(`STOPPED: ${message}`);
+      expect(result.stderr).toContain(
+        "Nothing was started, and nothing you had running was changed.",
       );
-      expect(result.stdout).toContain(`Verified source: ${sha}`);
-      expect(trace).toContain(`open ${url}\n`);
-      expect(trace).toContain("npm run dev:identified -- --port 5311");
-      expect(trace).not.toContain("npm ci");
-      expect(trace).not.toContain("validate");
-      expect(trace).not.toContain("unexpected git");
+      expect(result.stdout).not.toContain("Play (candidate art):");
+      expect(trace).not.toContain("fetch");
+      expect(trace).not.toContain("npm");
+      expect(trace).not.toContain("open ");
     },
   );
 
