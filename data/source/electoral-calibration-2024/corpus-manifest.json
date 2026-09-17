@@ -1,8 +1,8 @@
 {
   "asOf": "2026-01-05",
-  "canonicalSha256": "379368a5b177f65ab517818d9fc98326b15d681a0aee0c49fc17e399c9002773",
+  "canonicalSha256": "410a3fc1fcbc2a87d81f2e3d7fe4bd9cd92f23cab3933b55be360f68383bbade",
   "compiler": "scripts/world/compile-electoral-calibration.mjs",
-  "compilerVersion": "1.0.0",
+  "compilerVersion": "1.1.0",
   "corpusPath": "data/source/electoral-calibration-2024/corpus.json",
   "coverage": {
     "governors": { "ambiguous": 0, "compiled": 50, "missing": 0, "rows": 50 },
