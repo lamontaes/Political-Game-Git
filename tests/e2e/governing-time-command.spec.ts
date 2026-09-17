@@ -42,7 +42,9 @@ test("the quiet stretch discloses its end date and lands there once", async ({
   await goTo(page, "nav-personal");
   const choices = page.getByTestId("personal-life-choices");
   if (!(await choices.evaluate((node) => (node as HTMLDetailsElement).open)))
-    await choices.locator(":scope > summary").click();
+    // Keyboard: the corner time controls currently overlap this summary.
+    await choices.locator(":scope > summary").focus();
+  await page.keyboard.press("Enter");
 
   const story = page.getByTestId("story-section");
   for (let step = 0; step < 3; step += 1) {

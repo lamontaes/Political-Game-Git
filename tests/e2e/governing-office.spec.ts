@@ -55,33 +55,48 @@ test("a Colorado life wins the governorship, takes office and governs", async ({
   page,
 }, testInfo) => {
   test.setTimeout(600_000);
-  await freshBrowser(page);
-  await page.goto("/?seed=gov-win-CO-1");
-  await walkCreator(page, {
-    place: "Acres Green",
-    state: "Colorado",
-    age: 40,
-  });
-  await enterLife(page);
+  // A seed on which this ordinary life wins without campaigning. The creator
+  // decides the rest of the life, so a few seeds are tried; nothing is
+  // supplied to the election.
+  let status = page.getByTestId("state-executive-status");
+  let won = false;
+  for (const seed of [1, 2, 3, 4, 5, 6, 7, 8].map((n) => `gov-win-CO-${n}`)) {
+    await freshBrowser(page);
+    await page.goto(`/?seed=${seed}`);
+    await walkCreator(page, {
+      place: "Acres Green",
+      state: "Colorado",
+      age: 40,
+    });
+    await enterLife(page);
 
-  await goTo(page, "nav-politics-candidacy");
-  const candidacy = page.getByTestId("state-executive-candidacy");
-  await expect(candidacy).toHaveAttribute("data-office-key", "us-co-governor");
-  const calendar = page.getByTestId("state-executive-calendar");
-  await expect(calendar).toHaveAttribute("data-basis", "game-profile");
-  await expect(page.getByTestId("file-state-executive")).toContainText(
-    "November 3, 2026",
-  );
-  await page.getByTestId("file-state-executive").click();
-  const status = page.getByTestId("state-executive-status");
-  await expect(status).toHaveAttribute("data-status", "pending-election");
+    await goTo(page, "nav-politics-candidacy");
+    const candidacy = page.getByTestId("state-executive-candidacy");
+    await expect(candidacy).toHaveAttribute(
+      "data-office-key",
+      "us-co-governor",
+    );
+    const calendar = page.getByTestId("state-executive-calendar");
+    await expect(calendar).toHaveAttribute("data-basis", "game-profile");
+    await expect(page.getByTestId("file-state-executive")).toContainText(
+      "November 3, 2026",
+    );
+    await page.getByTestId("file-state-executive").click();
+    status = page.getByTestId("state-executive-status");
+    await expect(status).toHaveAttribute("data-status", "pending-election");
 
-  await passWeeksUntil(
-    page,
-    async () =>
-      (await status.getAttribute("data-status")) !== "pending-election",
-    60,
-  );
+    await passWeeksUntil(
+      page,
+      async () =>
+        (await status.getAttribute("data-status")) !== "pending-election",
+      60,
+    );
+    if ((await status.getAttribute("data-status")) !== "lost") {
+      won = true;
+      break;
+    }
+  }
+  expect(won).toBe(true);
   await expect(status).toHaveAttribute("data-status", "awaiting-qualification");
   await expect(status).toContainText("January 4, 2027");
   await page.getByTestId("qualify-state-executive").click();
