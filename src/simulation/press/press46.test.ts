@@ -20,6 +20,7 @@ import {
   simulationMomentAtLocalTime,
 } from "../index";
 import { KENTUCKY_CONTEXT } from "../legislation-scenarios";
+import { correctPublication } from "../public-information";
 import { recordEventKnowledge } from "../records";
 import type { CampaignRecord, EntityId, World } from "../types";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
@@ -280,6 +281,43 @@ describe("PRESS46 false public allegation", () => {
     expect(allegationStory!.body).toMatch(
       /did not respond by publication time|declined to comment|said: “/,
     );
+  });
+
+  it("a correction is appended, and the original stays exactly as published", () => {
+    const stories = (later.history.publications ?? []).filter((p) =>
+      p.outletKey.startsWith("media:"),
+    );
+    const original = stories.find((p) => p.correctsPublicationId === null)!;
+    expect(original).toBeDefined();
+    const before = JSON.stringify(original);
+    const corrected = correctPublication(later, {
+      stableKey: `${original.stableKey}:correction:test`,
+      correctsPublicationId: original.id,
+      headline: `Correction: ${original.headline}`,
+      body: `${original.body}\n\nCorrection: the complaint was dismissed.`,
+      correctionNote: "The complaint was dismissed with no finding.",
+    });
+    const publications = corrected.history.publications ?? [];
+    const kept = publications.find((p) => p.id === original.id)!;
+    // Nothing is rewritten or deleted: the record of what was published stands.
+    expect(JSON.stringify(kept)).toBe(before);
+    const correction = publications.find(
+      (p) => p.correctsPublicationId === original.id,
+    )!;
+    expect(correction.headline).toContain("Correction:");
+    expect(correction.correctionNote).toMatch(/dismissed/);
+    expect(correction.body).toContain(original.body);
+    // And one correction is enough; the same one is refused twice.
+    expect(() =>
+      correctPublication(corrected, {
+        stableKey: `${original.stableKey}:correction:again`,
+        correctsPublicationId: original.id,
+        headline: "Correction: again",
+        body: "Again.",
+        correctionNote: "Again.",
+      }),
+    ).toThrow();
+    assertWorldIntegrity(corrected);
   });
 
   it("keeps the confidential steps out of the player's view until notified", () => {

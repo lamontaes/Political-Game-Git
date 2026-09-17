@@ -2,7 +2,7 @@
   "counts": {
     "INVENTORIED": 3076,
     "INTENTIONALLY_NON_PLAYER_FACING": 6627,
-    "DIAGNOSTIC_OR_TEST": 6500,
+    "DIAGNOSTIC_OR_TEST": 6505,
     "NEEDS_CLASSIFICATION": 8675
   },
   "needsClassification": [
@@ -61329,7 +61329,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "next",
-      "line": 478,
+      "line": 476,
       "text": "Declined to comment",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61337,7 +61337,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "next",
-      "line": 479,
+      "line": 477,
       "text": "Answered on the record",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61345,7 +61345,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "next",
-      "line": 484,
+      "line": 482,
       "text": "Received the response",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61353,7 +61353,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "next",
-      "line": 498,
+      "line": 496,
       "text": "{personName(world.people[input.personId]!)} declined to comment.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61361,7 +61361,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "next",
-      "line": 499,
+      "line": 497,
       "text": "{personName(world.people[input.personId]!)} responded on the record.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61369,7 +61369,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "evaluation",
-      "line": 638,
+      "line": 658,
       "text": "Dispute it",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61377,7 +61377,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "evaluation",
-      "line": 639,
+      "line": 659,
       "text": "Say the account is wrong.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61385,7 +61385,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "evaluation",
-      "line": 643,
+      "line": 663,
       "text": "Decline to comment",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61393,7 +61393,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "evaluation",
-      "line": 644,
+      "line": 664,
       "text": "Say nothing on the record.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61401,7 +61401,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "evaluation",
-      "line": 648,
+      "line": 668,
       "text": "Do not respond",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61409,7 +61409,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "evaluation",
-      "line": 649,
+      "line": 669,
       "text": "Let the deadline pass.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61417,7 +61417,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "evaluation",
-      "line": 659,
+      "line": 679,
       "text": "There is no allegation to dispute.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61425,7 +61425,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "evaluation",
-      "line": 673,
+      "line": 693,
       "text": "This person has no record of doing what is alleged.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61433,7 +61433,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "evaluation",
-      "line": 674,
+      "line": 694,
       "text": "Saying nothing on the record avoids committing to an account.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61441,7 +61441,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "statement",
-      "line": 686,
+      "line": 706,
       "text": "That account is not accurate.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61449,7 +61449,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "statement",
-      "line": 687,
+      "line": 707,
       "text": "I have no comment.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61457,7 +61457,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "editorialDecision",
-      "line": 806,
+      "line": 826,
       "text": "Anonymous information needs a named source, a second source or a document before it runs.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61465,7 +61465,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "editorialDecision",
-      "line": 815,
+      "line": 835,
       "text": "There is no public record to report on its own.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61473,7 +61473,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "editorialDecision",
-      "line": 824,
+      "line": 844,
       "text": "The story was already held once for verification.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61481,7 +61481,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "evaluation",
-      "line": 846,
+      "line": 866,
       "text": "Run the story now.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61489,7 +61489,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "evaluation",
-      "line": 847,
+      "line": 867,
       "text": "Wait for verification.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61497,7 +61497,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "evaluation",
-      "line": 851,
+      "line": 871,
       "text": "Run only what the public record supports.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61505,7 +61505,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "evaluation",
-      "line": 853,
+      "line": 873,
       "text": "Run no story.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61513,7 +61513,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "evaluation",
-      "line": 866,
+      "line": 886,
       "text": "The account is sourced to the outlet's standard.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61521,7 +61521,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "evaluation",
-      "line": 868,
+      "line": 888,
       "text": "Only the public record meets the outlet's standard.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61529,7 +61529,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "evaluation",
-      "line": 870,
+      "line": 890,
       "text": "The account needs verification before it can run.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61537,7 +61537,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "evaluation",
-      "line": 871,
+      "line": 891,
       "text": "The account could not be verified.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61545,7 +61545,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "next",
-      "line": 941,
+      "line": 961,
       "text": "Reported for {outlet.name}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61553,7 +61553,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "next",
-      "line": 946,
+      "line": 966,
       "text": "Named in the story",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61561,7 +61561,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "next",
-      "line": 967,
+      "line": 987,
       "text": "Reported by {personName(world.people[reporterId]!)} for {outlet.name}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61569,7 +61569,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "recordProfessionalReaders",
-      "line": 1035,
+      "line": 1055,
       "text": "{publication.outletName} reported: {story.summary}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61577,7 +61577,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "composeStory",
-      "line": 1088,
+      "line": 1108,
       "text": "{personName(source)} said: “{claim.statement}”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61585,7 +61585,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "composeStory",
-      "line": 1091,
+      "line": 1111,
       "text": "{capitalize(agreement.attributionLabel!)} said: “{claim.statement}”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61593,7 +61593,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "composeStory",
-      "line": 1095,
+      "line": 1115,
       "text": "{outlet.name} has learned: {claim.statement}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61601,7 +61601,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "composeStory",
-      "line": 1101,
+      "line": 1121,
       "text": "{personName(source)} provided records to {outlet.name}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61609,7 +61609,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "composeStory",
-      "line": 1102,
+      "line": 1122,
       "text": "{outlet.name} reviewed records provided by a source.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61617,7 +61617,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "composeStory",
-      "line": 1127,
+      "line": 1147,
       "text": "{personName(subject)} declined to comment.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61625,7 +61625,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "composeStory",
-      "line": 1128,
+      "line": 1148,
       "text": "{personName(subject)} said: “{response.context.immediateReaction}”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61633,7 +61633,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "composeStory",
-      "line": 1132,
+      "line": 1152,
       "text": "{personName(subject)} did not respond by publication time.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61641,7 +61641,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "headline",
-      "line": 1143,
+      "line": 1163,
       "text": "Update: {lead0}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61649,7 +61649,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "headline",
-      "line": 1145,
+      "line": 1165,
       "text": "{outlet.name} reports an account concerning {subjectNames(world,lead)}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61657,7 +61657,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "composeStory",
-      "line": 1153,
+      "line": 1173,
       "text": "Reported by {personName(world.people[reporterId]!)} for {outlet.name}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61665,7 +61665,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "subjectNames",
-      "line": 1167,
+      "line": 1187,
       "text": "a public official",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61673,7 +61673,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "procedureStatusSentence",
-      "line": 1192,
+      "line": 1212,
       "text": "No official body has announced any finding.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61681,7 +61681,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "storyQuestion",
-      "line": 1495,
+      "line": 1515,
       "text": "There is an account that {allegation.statement.replace(/\\.$/,\"\")}. What is your response?",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61689,7 +61689,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "storyQuestion",
-      "line": 1499,
+      "line": 1519,
       "text": "Records describe the following: {basis.summary} What is your response?",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61697,7 +61697,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "storyQuestion",
-      "line": 1501,
+      "line": 1521,
       "text": "We are reporting on this: {basis.summary} Do you want to comment?",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61705,7 +61705,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "correctedBody",
-      "line": 1542,
+      "line": 1562,
       "text": " has learned: ",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61713,7 +61713,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "note",
-      "line": 1544,
+      "line": 1564,
       "text": "An earlier version of this story stated an unattributed account as fact. {procedureStatusSentence(next,matter.id)}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61721,7 +61721,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "issueDueCorrections",
-      "line": 1548,
+      "line": 1568,
       "text": "Correction: {original.headline}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61729,7 +61729,7 @@
     {
       "sourcePath": "src/simulation/press/desk.ts",
       "enclosingSymbol": "issueDueCorrections",
-      "line": 1549,
+      "line": 1569,
       "text": "{correctedBody}\n\nCorrection: {note}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -70114,7 +70114,7 @@
       "sourcePath": "src/simulation/press/press46.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 60
+      "count": 65
     },
     {
       "sourcePath": "src/simulation/press/outlets.ts",
