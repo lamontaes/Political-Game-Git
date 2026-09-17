@@ -757,10 +757,10 @@ function CalendarEntryDetail({ entry }: { readonly entry: CalendarEntry }) {
         {entry.title} · {entry.kindLabel}
         {entry.summary ? <span> {entry.summary}</span> : null}
       </dd>
-      <dt>How it reached you</dt>
+      <dt>On the record</dt>
       <dd data-testid="calendar-event-arrangement">
         {entry.arrangementNote ??
-          "No record says who arranged it or how it reached you."}{" "}
+          "The record does not say who arranged it or how it reached you."}{" "}
         {entry.ownershipNote}
       </dd>
       <dt>Who is going</dt>

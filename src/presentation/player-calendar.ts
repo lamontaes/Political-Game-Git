@@ -46,9 +46,10 @@ export interface CalendarEntry {
   /** Who owns it, said plainly. The distinction the playtest asked for. */
   readonly ownershipNote: string;
   /**
-   * How it came to the character, only as far as the record says: who
-   * arranged it and which recorded people it came through. Null when the
-   * record names nobody; the screen says so rather than guessing.
+   * What the record says about where it comes from: the person responsible
+   * for it and the recorded people it is sourced to. The record has no
+   * inviter field, so this never claims who arranged or relayed it. Null when
+   * the record names nobody; the screen says so rather than guessing.
    */
   readonly arrangementNote: string | null;
   /** Everyone on the record as attending, the player first as "You". */
@@ -151,7 +152,7 @@ function arrangementNote(
   if (responsible === personId) parts.push("You are responsible for it.");
   else if (responsible) {
     const [name] = namesOf(world, [responsible]);
-    if (name) parts.push(`Arranged by ${name}.`);
+    if (name) parts.push(`${name} is responsible for it.`);
   }
   const through = namesOf(
     world,
@@ -160,7 +161,7 @@ function arrangementNote(
     ),
   );
   if (through.length > 0)
-    parts.push(`It came to you through ${through.join(", ")}.`);
+    parts.push(`The record ties it to ${through.join(", ")}.`);
   return parts.length > 0 ? parts.join(" ") : null;
 }
 
