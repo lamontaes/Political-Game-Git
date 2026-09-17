@@ -102,6 +102,40 @@ test("previews sort by meaningful recency", () => {
   );
 });
 
+test("a build made here stays choosable after its branch leaves the remote", () => {
+  // The payload is on disk. Dropping it from the chooser would strand the
+  // owner on whatever is loaded, with no way back and no stated reason.
+  const view = projectBuildChooser({
+    branches: [{ name: "claude/desktop-hub", sha: SHA }],
+    recorded: [
+      { branch: "main", revision: SHA },
+      { branch: "claude/desktop-hub", revision: SHA },
+      { branch: "claude/gone-from-remote", revision: SHA },
+    ],
+  });
+  assert.deepEqual(
+    view.previews.map((item) => item.branch),
+    [],
+  );
+  const kept = view.technical.find(
+    (item) => item.branch === "claude/gone-from-remote",
+  );
+  assert.equal(kept?.kind, "recorded");
+  assert.equal(kept?.revision, SHA);
+  assert.match(chooserLabel(kept), /no longer on the remote/);
+  // main is its own entry, never a technical duplicate.
+  assert.equal(
+    view.technical.some((item) => item.branch === "main"),
+    false,
+  );
+  // A branch still on the remote is not duplicated by its recorded track.
+  assert.equal(
+    view.technical.filter((item) => item.branch === "claude/desktop-hub")
+      .length,
+    1,
+  );
+});
+
 test("hostile catalog entries and branch names are dropped", () => {
   const cleaned = cleanCatalog({
     branches: { "../x": { title: "no" }, "ok/branch": { title: "" } },

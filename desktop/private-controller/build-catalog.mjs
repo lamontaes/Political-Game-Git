@@ -69,6 +69,7 @@ export function projectBuildChooser({
   commitTimes = {},
   merged = new Set(),
   unsupported = new Set(),
+  recorded = [],
 }) {
   const prByBranch = new Map(pullRequests.map((pr) => [pr.branch, pr]));
   const previews = [];
@@ -106,6 +107,28 @@ export function projectBuildChooser({
       technical.push({ ...item, kind: "technical" });
     }
   }
+  /*
+   * A build this hub already made stays choosable even when its branch has
+   * gone from the remote: the payload is on disk, and the owner must be able
+   * to return to it — and to read why it is no longer offered as a preview.
+   */
+  const listed = new Set((branches ?? []).map((branch) => branch?.name));
+  for (const track of recorded) {
+    if (!track?.branch || track.branch === MAIN_TRACK) continue;
+    if (listed.has(track.branch)) continue;
+    const entry = catalog[track.branch] ?? null;
+    technical.push({
+      id: `branch:${track.branch}`,
+      branch: track.branch,
+      revision: validRevision(track.revision) ? track.revision : null,
+      title:
+        entry?.title ?? prByBranch.get(track.branch)?.title ?? track.branch,
+      purpose: entry?.purpose ?? null,
+      pullRequest: prByBranch.get(track.branch)?.number ?? null,
+      updated: null,
+      kind: "recorded",
+    });
+  }
   const byRecency = (a, b) =>
     (b.updated ?? 0) - (a.updated ?? 0) || a.branch.localeCompare(b.branch);
   previews.sort(byRecency);
@@ -130,6 +153,8 @@ export function chooserLabel(item) {
       return `${item.title} — historical`;
     case "unsupported":
       return `${item.title} — can't be previewed here`;
+    case "recorded":
+      return `${item.title} — built here, no longer on the remote`;
     default:
       return item.title;
   }
