@@ -17,6 +17,7 @@ const sources = optionalGlob(() =>
       "../../art/authoring/engine-people40/families/*/*.svg",
       "../../art/authoring/engine-people41/families/*/*.svg",
       "../../art/authoring/modular41-head-v2/*.svg",
+      "../../art/authoring/modular45/parts/*.svg",
     ],
     { query: "?raw", import: "default" },
   ),
@@ -54,6 +55,30 @@ function parse(svg: string): XMLDocument {
       throw new Error("Prepared image must embed its pixels.");
   return document;
 }
+function writeSkinTable(document: XMLDocument, stops: readonly string[]) {
+  const channels = [
+    ...document.querySelectorAll(
+      "feComponentTransfer[data-skin-map] > [data-skin-channel]",
+    ),
+  ];
+  if (channels.length !== 3 || stops.length < 2)
+    throw new Error("Incomplete prepared skin map.");
+  const rgb = stops.map((stop) => {
+    const match = /^#([0-9a-f]{6})$/i.exec(stop);
+    if (!match) throw new Error("Invalid skin map stop.");
+    const value = Number.parseInt(match[1]!, 16);
+    return [value >> 16, (value >> 8) & 255, value & 255];
+  });
+  for (const element of channels) {
+    const index = Number(element.getAttribute("data-skin-channel"));
+    if (index !== 0 && index !== 1 && index !== 2)
+      throw new Error("Invalid skin map channel.");
+    element.setAttribute(
+      "tableValues",
+      rgb.map((c) => (c[index]! / 255).toFixed(4)).join(" "),
+    );
+  }
+}
 function materialize(
   document: XMLDocument,
   part: PreparedPart,
@@ -64,6 +89,14 @@ function materialize(
     if (!ramp) throw new Error("Unsupported tone ramp.");
     if (!document.getElementById(m.maskId))
       throw new Error("Missing prepared material mask.");
+    // Prepared skin map (MODULAR45): an authored ramp writes the gradient
+    // table; the unmapped painting removes the overlay so its pixels are exact.
+    const overlays = [...document.querySelectorAll("image[data-skin-overlay]")];
+    if (overlays.length) {
+      if (m.channel !== "skin") throw new Error("Skin map on another channel.");
+      if (!ramp.stops) for (const overlay of overlays) overlay.remove();
+      else writeSkinTable(document, ramp.stops);
+    } else if (ramp.stops) throw new Error("Part has no prepared skin map.");
     for (const e of document.querySelectorAll("stop[data-tone]")) {
       const tone = e.getAttribute("data-tone") as
         "neutral" | "shadow" | "light";
@@ -184,7 +217,7 @@ export function acquirePreparedVariant(
   drawnIds: readonly string[],
 ) {
   const key = JSON.stringify([
-    "engine-people29-v1",
+    "engine-people29-v2",
     assetId,
     ENGINE_PEOPLE29_TEMPLATES[assetId]?.sourceSha256,
     material,

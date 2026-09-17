@@ -45,6 +45,7 @@ const manifests = optionalGlob(() =>
     [
       "../../art/manifest/character_candidate_{engine29,engine34,engine35,engine36,engine40,engine41,kit41}_{registry,generation}.json",
       "../../art/manifest/character_candidate_modular41_heads.json",
+      "../../art/manifest/character_candidate_modular45_registry.json",
     ],
     { eager: true, import: "default" },
   ),
@@ -101,4 +102,25 @@ export const MODULAR41_HEADS_REGISTRY: Kit41RegistryManifest = {
   familyAdditions: {},
   generations: [],
   ...manifest("modular41_heads"),
+};
+
+/**
+ * MODULAR45 corrected standing generation (13): fitted head/hair derivatives,
+ * cleaned garment edges and prepared skin maps. Older generations stay exact.
+ */
+export interface Modular45RegistryManifest extends Kit41RegistryManifest {
+  /** Authored light-to-dark skin ramp ids, in display order. */
+  readonly skinRamps: readonly string[];
+}
+
+export const MODULAR45_REGISTRY: Modular45RegistryManifest = {
+  assets: [],
+  garments: [],
+  families: [],
+  templates: {},
+  labels: {},
+  familyAdditions: {},
+  generations: [],
+  skinRamps: [],
+  ...manifest("modular45_registry"),
 };

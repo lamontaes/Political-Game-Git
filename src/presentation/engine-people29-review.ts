@@ -2,6 +2,7 @@ import fit from "../../art/manifest/character_candidate_visual4_fit.json";
 import {
   KIT41_REGISTRY as kit,
   MODULAR41_HEADS_REGISTRY as headRepair,
+  MODULAR45_REGISTRY as modular45,
   candidateGenerations,
   candidateRegistry,
 } from "./private-candidate-manifests";
@@ -32,6 +33,7 @@ const review = liftCandidatesForReview(
   [
     ...eligible,
     ...(headRepair.assets as unknown as readonly CharacterComponentManifestRecord[]),
+    ...(modular45.assets as unknown as readonly CharacterComponentManifestRecord[]),
     ...(kit.assets as unknown as readonly CharacterComponentManifestRecord[]),
     ...(data.assets as unknown as readonly CharacterComponentManifestRecord[]),
     ...(refinement.assets as unknown as readonly CharacterComponentManifestRecord[]),
@@ -46,6 +48,7 @@ const review = liftCandidatesForReview(
       ...frozen.catalog.generations,
       ...candidateGenerations("engine41"),
       ...headRepair.generations,
+      ...modular45.generations,
       ...kit.generations,
       ...candidateGenerations(
         "engine29",

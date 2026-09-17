@@ -7,6 +7,7 @@ import type { PersonAppearance } from "../simulation/types";
 import {
   KIT41_REGISTRY as kit,
   MODULAR41_HEADS_REGISTRY as headRepair,
+  MODULAR45_REGISTRY as modular45,
   candidateRegistry,
 } from "./private-candidate-manifests";
 const input = candidateRegistry("engine29");
@@ -45,6 +46,8 @@ export interface PreparedPart {
       shadow: string;
       neutral: string;
       light: string;
+      /** Prepared skin map: gradient-table stops, dark to light. */
+      stops?: readonly string[];
     }[];
   }[];
   features?: readonly PreparedFeature[];
@@ -79,8 +82,64 @@ export const PREPARED_FAMILIES = [
     ] ?? []),
     ...((kit.familyAdditions as Record<string, PreparedPart[]>)[family.id] ??
       []),
+    ...((modular45.familyAdditions as Record<string, PreparedPart[]>)[
+      family.id
+    ] ?? []),
   ],
 }));
+/** First generation that draws the MODULAR45 corrected parts. */
+export const MODULAR45_GENERATION: number | null =
+  modular45.generations[0]?.generation ?? null;
+const modular45PartIds = new Set(
+  Object.values(
+    modular45.familyAdditions as Record<string, PreparedPart[]>,
+  ).flatMap((parts) => parts.map((p) => p.id)),
+);
+const supersededAt = new Map<string, number>();
+for (const registry of [headRepair, modular45])
+  for (const generation of registry.generations)
+    for (const asset of registry.assets as readonly {
+      asset_id: string;
+      candidate_component?: { supersedes_asset_id?: string };
+    }[]) {
+      const previous = asset.candidate_component?.supersedes_asset_id;
+      if (previous && generation.component_ids.includes(asset.asset_id))
+        supersededAt.set(previous, generation.generation);
+    }
+/** Authored skin ramp ids offered by the corrected generation, light to dark. */
+export const PREPARED_SKIN_RAMPS: readonly string[] = modular45.skinRamps;
+/**
+ * The prepared parts a person pinned to `generation` can actually draw.
+ * Generations before MODULAR45 (and an unknown pin) keep the historical
+ * whole-family view exactly, so their material defaults do not move.
+ */
+export function preparedPartsAt(
+  family: PreparedFamily,
+  generation: number | undefined,
+): readonly PreparedPart[] {
+  if (
+    generation === undefined ||
+    MODULAR45_GENERATION === null ||
+    generation < MODULAR45_GENERATION
+  )
+    return family.parts.filter((p) => !modular45PartIds.has(p.id));
+  return family.parts.filter(
+    (p) => !(supersededAt.has(p.id) && supersededAt.get(p.id)! <= generation),
+  );
+}
+/** Ramps every drawable region of a channel supports at this generation. */
+export function preparedRampsAt(
+  family: PreparedFamily,
+  channel: MaterialChannel,
+  generation: number | undefined,
+) {
+  const regions = preparedPartsAt(family, generation)
+    .flatMap((p) => p.materials)
+    .filter((m) => m.channel === channel);
+  return (regions[0]?.ramps ?? []).filter((r) =>
+    regions.every((m) => m.ramps.some((x) => x.id === r.id)),
+  );
+}
 export const ENGINE_PEOPLE29_TEMPLATES = {
   ...input.templates,
   ...headRepair.templates,
@@ -103,10 +162,17 @@ export function preparedFamily(bodyFamily: string | undefined) {
 }
 export function defaultPreparedMaterial(
   family: PreparedFamily,
+  generation?: number,
 ): AppearanceMaterial {
   const palettes = {} as Record<MaterialChannel, string>;
-  for (const p of family.parts)
+  for (const p of preparedPartsAt(family, generation))
     for (const m of p.materials) palettes[m.channel] ??= m.ramps[0]!.id;
+  const swatches = preparedRampsAt(family, "skin", generation).filter((r) =>
+    PREPARED_SKIN_RAMPS.includes(r.id),
+  );
+  // Middle of the authored range: a neutral default, not an estimate of anyone.
+  if (swatches.length)
+    palettes.skin = swatches[Math.floor(swatches.length / 2)]!.id;
   const features = {} as Record<
     FeatureKind,
     AppearanceMaterial["features"]["eyes"]
@@ -130,7 +196,7 @@ export function validatePreparedAppearance(appearance: PersonAppearance): void {
   const family = preparedFamily(appearance.selection?.bodyFamily);
   if (!family || family.id !== appearance.material.familyId)
     throw new Error("Prepared material belongs to another body family.");
-  for (const p of family.parts)
+  for (const p of preparedPartsAt(family, appearance.catalogGeneration))
     for (const m of p.materials)
       if (
         !m.ramps.some((r) => r.id === appearance.material!.palettes[m.channel])
@@ -179,7 +245,7 @@ export function selectPreparedBody(
       ? null
       : (translate(appearance.selection?.hairFamily, "hair-front") ??
         family.parts.find((p) => p.kind === "hair-front")!.id);
-  const base = defaultPreparedMaterial(family);
+  const base = defaultPreparedMaterial(family, appearance.catalogGeneration);
   const material =
     appearance.material && previous
       ? {
@@ -209,18 +275,23 @@ export function selectPreparedBody(
 export function generatedPreparedMaterial(
   family: PreparedFamily,
   seed: string,
+  generation?: number,
 ): AppearanceMaterial {
-  const base = defaultPreparedMaterial(family);
+  const base = defaultPreparedMaterial(family, generation);
   const rng = new SeededRng(seed).fork("prepared-material-defaults-v1");
   const palettes = { ...base.palettes };
   for (const channel of ["skin", "hair", "top", "bottom"] as const) {
-    const regions = family.parts
+    const regions = preparedPartsAt(family, generation)
       .flatMap((p) => p.materials)
       .filter((m) => m.channel === channel);
-    const choices = regions[0]!.ramps
+    let choices = regions[0]!.ramps
       .map((r) => r.id)
       .filter((id) => regions.every((m) => m.ramps.some((r) => r.id === id)))
       .sort();
+    // A corrected skin map offers authored swatches. The unmapped painting
+    // stays drawable for old saves but is not a new person's complexion.
+    if (choices.some((id) => id !== "source-colour"))
+      choices = choices.filter((id) => id !== "source-colour");
     palettes[channel] = rng.fork(channel).pick(choices);
   }
   const features = { ...base.features };
