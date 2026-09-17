@@ -1,0 +1,30 @@
+{
+  "asOf": "2026-01-05",
+  "canonicalSha256": "379368a5b177f65ab517818d9fc98326b15d681a0aee0c49fc17e399c9002773",
+  "compiler": "scripts/world/compile-electoral-calibration.mjs",
+  "compilerVersion": "1.0.0",
+  "corpusPath": "data/source/electoral-calibration-2024/corpus.json",
+  "coverage": {
+    "governors": { "ambiguous": 0, "compiled": 50, "missing": 0, "rows": 50 },
+    "house": {
+      "ambiguous": 1,
+      "contested": 418,
+      "rows": 435,
+      "uncontested": 17,
+      "withShare": 397
+    },
+    "presidentialByState": 51,
+    "senate": {
+      "ambiguous": 0,
+      "contested": 100,
+      "rows": 100,
+      "uncontested": 0,
+      "withShare": 96
+    }
+  },
+  "jsonFormatter": "prettier 3.9.6",
+  "pdfTextTool": "pdfjs-dist 6.3.289",
+  "runtimeArtifactIsByteIdenticalToCorpus": true,
+  "runtimeArtifactPath": "src/simulation/world-setup/electoral-calibration.generated.json",
+  "schema": "electoral-calibration-corpus-manifest/v1"
+}
