@@ -22,12 +22,14 @@ export function PersonalRoutinePanel({
   onWorldChange,
   onOpenEntity,
   onTogglePin,
+  isPinned,
 }: {
   readonly world: World;
   readonly personId: EntityId;
   readonly onWorldChange: (world: World) => void;
   readonly onOpenEntity: (ref: PlacesEntityRef) => void;
   readonly onTogglePin: (ref: PlacesEntityRef) => void;
+  readonly isPinned: (ref: PlacesEntityRef) => boolean;
 }) {
   const [notice, setNotice] = useState("");
   if (world.control.kind !== "person" || world.control.personId !== personId)
@@ -149,6 +151,7 @@ export function PersonalRoutinePanel({
         onWorldChange={(next) => commit(next)}
         onOpenEntity={onOpenEntity}
         onTogglePin={onTogglePin}
+        isPinned={isPinned}
         transitionHandlers={createCampaignElectionTransitionRegistry()}
       />
     </details>

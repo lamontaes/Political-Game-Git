@@ -302,6 +302,11 @@ export type ShellAction =
       readonly section?: ShellSection;
     }
   | { readonly type: "go-to-scene" }
+  /**
+   * A conversation starts in the room. Unlike `go-to-scene`, the way there is
+   * kept, so Back after the conversation returns to the person it started from.
+   */
+  | { readonly type: "talk-in-scene"; readonly personId: EntityId }
   | { readonly type: "open-entity"; readonly ref: ShellRef }
   | { readonly type: "back" }
   | { readonly type: "open-quick-dossier"; readonly personId: EntityId }
@@ -439,6 +444,32 @@ export function shellReducer(
         history: [{ surface: "scene" }],
         announcement: "Back in the room.",
       };
+
+    /*
+     * The room goes on top of the history rather than replacing it. Talking
+     * from the person card over a workspace also keeps that person's record
+     * underneath, because the card itself is a layer and not a place Back can
+     * return to. Talking from the room leaves the history as it is.
+     */
+    case "talk-in-scene": {
+      const current = currentView(state);
+      if (current.surface === "scene") {
+        return { ...settled(state), announcement: "Back in the room." };
+      }
+      const record: ShellView = {
+        surface: "entity",
+        ref: { kind: "person", id: action.personId },
+      };
+      const fromCard =
+        state.quickDossierPersonId === action.personId &&
+        !(current.surface === "entity" && sameRef(current.ref, record.ref));
+      const withRecord = fromCard ? pushView(state, record) : settled(state);
+      return {
+        ...withRecord,
+        history: [...withRecord.history, { surface: "scene" }],
+        announcement: "Back in the room.",
+      };
+    }
 
     case "go-to-surface": {
       if (action.surface === "scene") {

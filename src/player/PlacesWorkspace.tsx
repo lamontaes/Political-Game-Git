@@ -13,6 +13,8 @@ import {
   projectPlacesWorkspace,
   type PlacesOfferView,
 } from "../presentation/player-places";
+import { labelForRef } from "../presentation/person-dossier";
+import { PinToggle } from "./controls/PinToggle";
 import { walkOpeningNeighborhood } from "../presentation/life-scene-flow";
 import {
   declineVenueActivity,
@@ -32,6 +34,8 @@ export interface PlacesWorkspaceProps {
   readonly personId: EntityId;
   readonly onOpenEntity: (ref: PlacesEntityRef) => void;
   readonly onTogglePin: (ref: PlacesEntityRef) => void;
+  /** Whether the shell already holds a pin for this reference. */
+  readonly isPinned: (ref: PlacesEntityRef) => boolean;
   readonly onWorldChange: (world: World) => void;
   /** Campaign-aware handlers for canonical travel and attendance writers. */
   readonly transitionHandlers?: FutureTransitionHandlerRegistry;
@@ -55,6 +59,8 @@ export function PlacesWorkspace({
   world,
   personId,
   onOpenEntity,
+  onTogglePin,
+  isPinned,
   onWorldChange,
   transitionHandlers = createCampaignElectionTransitionRegistry(),
 }: PlacesWorkspaceProps): ReactNode {
@@ -154,6 +160,39 @@ export function PlacesWorkspace({
     setProblem("That offer is not supported.");
   }
 
+  /* The calendar entry and the government an offer names, when it names one. */
+  function pinTargets(offer: PlacesOfferView) {
+    const targets: {
+      ref: PlacesEntityRef;
+      name: string;
+      noun: string;
+      testid: string;
+    }[] = [];
+    const activityId = offer.activityId ?? offer.meetingId;
+    if (activityId) {
+      targets.push({
+        ref: { kind: "commitment", id: activityId },
+        name: offer.title,
+        noun: offer.meetingId ? "meeting" : "activity",
+        testid: `places-offer-${offer.id}-pin-commitment`,
+      });
+    }
+    const governmentKey = offer.inspectGovernmentKey ?? offer.governmentKey;
+    if (governmentKey) {
+      const ref: PlacesEntityRef = { kind: "government", id: governmentKey };
+      const name = labelForRef(world, ref);
+      if (name !== null) {
+        targets.push({
+          ref,
+          name,
+          noun: "government",
+          testid: `places-offer-${offer.id}-pin-government`,
+        });
+      }
+    }
+    return targets;
+  }
+
   function declineOffer(offer: PlacesOfferView) {
     if (!offer.declineActivityId) return;
     commit(() =>
@@ -249,6 +288,17 @@ export function PlacesWorkspace({
                       Decline
                     </button>
                   ) : null}
+                  {pinTargets(offer).map((target) => (
+                    <PinToggle
+                      key={target.testid}
+                      className="ui-action ui-action--subtle"
+                      pinned={isPinned(target.ref)}
+                      name={target.name}
+                      noun={target.noun}
+                      testid={target.testid}
+                      onToggle={() => onTogglePin(target.ref)}
+                    />
+                  ))}
                 </div>
               </li>
             ))}

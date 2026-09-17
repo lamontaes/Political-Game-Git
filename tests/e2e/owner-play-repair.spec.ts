@@ -510,8 +510,8 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
       .locator("li")
       .filter({ hasText: opponentName });
     await expect(opponent).toHaveCount(1);
-    // The empty star is the separate, deliberate hold state; discovery must
-    // not press it for the player.
+    // Pin is the separate, deliberate hold state; discovery must not press it
+    // for the player.
     const pin = opponent.locator("[data-testid^='people-pin-']");
     await expect(pin).toHaveAttribute("aria-pressed", "false");
     await expect(pin).toHaveAttribute("aria-label", `Pin ${opponentName}`);

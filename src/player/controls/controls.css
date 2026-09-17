@@ -337,3 +337,20 @@
     transition: none;
   }
 }
+
+/* ------------------------------------------------------------ PinToggle */
+
+.pg-pin-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+}
+
+.pg-pin-toggle[aria-pressed="true"] .pg-pin-icon {
+  color: var(--pg-control-accent);
+}
+
+.pg-pin-icon {
+  flex: none;
+}
