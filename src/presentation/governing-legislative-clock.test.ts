@@ -235,3 +235,40 @@ describe("GOVERNING 5: a real bill reaches the governor's desk", () => {
     expect(work?.status).toBe("open");
   }, 900_000);
 });
+
+describe("GOVERNING 5: the office keeps working after a bill is done", () => {
+  it("opens a new bill once the previous one has finished or its session closed", () => {
+    const game = createNewGameWorld({ ...STAFF, seed: "governing-next-bill" });
+    const capabilities = resolvePlayerCapabilities(game.world);
+    const input = {
+      scenarioKey: "kentucky",
+      playerPersonId: game.playerPersonId,
+      jurisdictionId: capabilities.legislativeJurisdictionId!,
+    };
+    const first = openLegislativeWork(game.world, input);
+    // Same bill while it is live.
+    expect(openLegislativeWork(first.world, input).assignment.measureId).toBe(
+      first.assignment.measureId,
+    );
+    // Past the session's sourced limit the bill is history, and a new
+    // session's opening files the next bill.
+    const nextYear = passTo(first.world, "2027-01-15");
+    expect(() =>
+      applyLegislativeCommand(nextYear, first.assignment, {
+        kind: "take-step",
+        step: availableMeasureSteps(nextYear, first.assignment.measureId)[0]!,
+      }),
+    ).toThrow(/session ended/);
+    const second = openLegislativeWork(nextYear, input);
+    expect(second.assignment.measureId).not.toBe(first.assignment.measureId);
+    expect(second.assignment.sponsorPersonId).toBe(
+      first.assignment.sponsorPersonId,
+    );
+    const measures = second.world.history.legislativeMeasures ?? [];
+    expect(
+      measures.filter((m) =>
+        m.stableKey.startsWith("legislative-work:kentucky:measure"),
+      ),
+    ).toHaveLength(2);
+  }, 600_000);
+});

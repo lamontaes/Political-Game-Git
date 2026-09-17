@@ -44,6 +44,7 @@ import type {
 import { applyLegislativeStep } from "./legislation-session";
 import {
   LEGISLATIVE_INSTITUTION_STEP,
+  measureSessionIsClosed,
   measureStepOwner,
   scheduleInstitutionStep,
 } from "../simulation/governing/legislative-clock";
@@ -312,10 +313,29 @@ export function openLegislativeWork(
     );
   }
 
-  const measureStableKey = `legislative-work:${input.scenarioKey}:measure`;
-  const existing = (world.history.legislativeMeasures ?? []).find(
-    (record) => record.stableKey === measureStableKey,
+  // The office's bills, in the order it filed them. A finished bill, or one
+  // whose session has closed, is history; the next opening files a new one.
+  const baseKey = `legislative-work:${input.scenarioKey}:measure`;
+  const officeMeasures = (world.history.legislativeMeasures ?? []).filter(
+    (record) =>
+      record.stableKey === baseKey ||
+      record.stableKey.startsWith(`${baseKey}:`),
   );
+  const latest = officeMeasures.at(-1);
+  // A new bill is filed only when a session is open to take it; until then
+  // the finished or closed bill stays the office's readable record.
+  const latestDone =
+    latest !== undefined &&
+    (measurePosition(world, latest.id).terminal ||
+      measureSessionIsClosed(world, latest.id).closed) &&
+    regularSessionActionRefusal(blueprint.pack, world.currentDate) === null;
+  const measureStableKey =
+    latest === undefined
+      ? baseKey
+      : latestDone
+        ? `${baseKey}:${officeMeasures.length + 1}`
+        : latest.stableKey;
+  const existing = latestDone ? undefined : latest;
 
   // Which authored measure this world's session is carrying.
   //
@@ -377,25 +397,29 @@ export function openLegislativeWork(
     `legislative-member:${input.scenarioKey}`,
   );
   const name = drawCanonicalName(rng);
-  let next = institutional
-    ? world
-    : applyCharacterHistoryPlan(world, {
-        stableKey: sponsorKey,
-        mode: "quick-generated",
-        personId: input.playerPersonId,
-        transitions: [
-          {
-            kind: "context-person",
-            input: {
-              stableKey: sponsorKey,
-              givenName: name.givenName,
-              familyName: name.familyName,
-              birthDate: memberBirthDate(world.currentDate),
-              homeJurisdictionId: input.jurisdictionId,
+  // The office's member is the same person for every bill it files.
+  const sponsorExists =
+    !institutional && Boolean(world.people[sponsorPersonId]);
+  let next =
+    institutional || sponsorExists
+      ? world
+      : applyCharacterHistoryPlan(world, {
+          stableKey: sponsorKey,
+          mode: "quick-generated",
+          personId: input.playerPersonId,
+          transitions: [
+            {
+              kind: "context-person",
+              input: {
+                stableKey: sponsorKey,
+                givenName: name.givenName,
+                familyName: name.familyName,
+                birthDate: memberBirthDate(world.currentDate),
+                homeJurisdictionId: input.jurisdictionId,
+              },
             },
-          },
-        ],
-      }).world;
+          ],
+        }).world;
 
   // Where the bill starts, and therefore what it is called.
   //
@@ -596,6 +620,16 @@ export function applyLegislativeCommand(
         "This step is the office's own to take.",
       );
     return awaitInstitution(world, assignment);
+  }
+  if (
+    command.kind === "take-step" &&
+    command.step !== "await-executive-decision"
+  ) {
+    const session = measureSessionIsClosed(world, assignment.measureId);
+    if (session.closed)
+      throw new RegularSessionUnavailableError(
+        `The session ended on ${session.closedOn}. Whether this bill carries over is not established, so it does not move again; the office can file a new bill next session.`,
+      );
   }
   if (
     command.kind === "take-step" &&
