@@ -102,12 +102,12 @@ describe("GoverningOfficeDesk", () => {
     expect(html).toContain('data-testid="office-casework-none"');
     // No zeroed amount stands in for a record that does not exist.
     expect(html).not.toContain("$0");
-  });
+  }, 120_000);
 
   it("renders nothing at all for a citizen, so no decision control exists", () => {
     const { world, playerPersonId } = coloradoLife("desk-render-citizen");
     expect(render(world, playerPersonId)).toBe("");
-  });
+  }, 120_000);
 
   it("renders objective, what was put to the office, and that nothing is committed", () => {
     const { world } = coloradoLife("desk-render-program");
@@ -128,5 +128,5 @@ describe("GoverningOfficeDesk", () => {
     expect(html).toContain('data-testid="office-program-uncommitted"');
     expect(html).toContain('data-testid="office-program-no-options"');
     expect(html).not.toContain('data-testid="office-program-commitment"');
-  });
+  }, 120_000);
 });

@@ -287,8 +287,11 @@ function programView(
   const position = programPosition(world, programKey);
   const objective: string[] = [];
   if (capacity && capacity.jurisdictionId === office.jurisdictionId) {
+    // The count in service is the latest recorded one, so this line and the
+    // outturn below it cannot disagree once delivered work has returned units
+    // to service. The declared figure is only where the record started.
     objective.push(
-      `${capacity.unitsOperational} of ${capacity.unitsTotal} ${capacity.unitLabel} are in service.`,
+      `${position.unitsOperational ?? capacity.unitsOperational} of ${capacity.unitsTotal} ${capacity.unitLabel} are in service.`,
       `Running it costs ${dollars(capacity.monthlyOperatingNeed)} a month.`,
       capacity.restorationCostPerUnit
         ? `Returning one ${capacity.unitLabel.replace(/e?s$/, "")} to service costs ${dollars(capacity.restorationCostPerUnit)}.`

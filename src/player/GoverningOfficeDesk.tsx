@@ -118,11 +118,17 @@ export function GoverningOfficeDesk({
       <h4>Casework</h4>
       {casework && casework.votingMode ? (
         <div className="office-desk-casework">
-          <label htmlFor="office-casework-mode">
+          {/*
+            The trigger is a combobox button, which `for` cannot label, so the
+            name is carried by aria-labelledby rather than the association
+            alone.
+          */}
+          <label id="office-casework-label" htmlFor="office-casework-mode">
             How this office handles constituent requests
           </label>
           <GameSelect
             id="office-casework-mode"
+            aria-labelledby="office-casework-label"
             data-testid="office-casework-mode"
             value={casework.mode ?? ""}
             onChange={(event) => {
@@ -158,15 +164,13 @@ export function GoverningOfficeDesk({
         </p>
       )}
 
-      {refusal ? (
-        <p
-          role="status"
-          className="game-note"
-          data-testid="office-desk-refusal"
-        >
-          {refusal}
-        </p>
-      ) : null}
+      {/*
+        Mounted whether or not there is a refusal: a live region added to the
+        page at the same moment as its text is not reliably announced.
+      */}
+      <p role="status" className="game-note" data-testid="office-desk-refusal">
+        {refusal}
+      </p>
     </section>
   );
 }
@@ -176,8 +180,8 @@ function ProgramCard({ program }: { readonly program: OfficeProgram }) {
     <li className="office-program" data-testid="office-program">
       <h5>{program.serviceLabel ?? program.programKey}</h5>
       <ul className="office-program-objective">
-        {program.objectiveLines.map((line) => (
-          <li key={line}>{line}</li>
+        {program.objectiveLines.map((line, index) => (
+          <li key={`${index}-${line}`}>{line}</li>
         ))}
       </ul>
 
@@ -208,12 +212,12 @@ function ProgramCard({ program }: { readonly program: OfficeProgram }) {
               <details>
                 <summary>Payments and what became of them</summary>
                 <ul>
-                  {commitment.installmentLines.map((line) => (
-                    <li key={line}>{line}</li>
+                  {commitment.installmentLines.map((line, index) => (
+                    <li key={`${index}-${line}`}>{line}</li>
                   ))}
                 </ul>
-                {commitment.failureReasons.map((reason) => (
-                  <p key={reason} className="game-note">
+                {commitment.failureReasons.map((reason, index) => (
+                  <p key={`${index}-${reason}`} className="game-note">
                     {reason}
                   </p>
                 ))}
@@ -227,8 +231,8 @@ function ProgramCard({ program }: { readonly program: OfficeProgram }) {
         <>
           <h6>What the work came to</h6>
           <ul data-testid="office-program-outturn">
-            {program.outturnLines.map((line) => (
-              <li key={line}>{line}</li>
+            {program.outturnLines.map((line, index) => (
+              <li key={`${index}-${line}`}>{line}</li>
             ))}
           </ul>
         </>
