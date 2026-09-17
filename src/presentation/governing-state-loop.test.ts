@@ -2,6 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import {
   ELECTION_CONTEST_TRANSITION_KEY,
+  decideGoverningMatter,
+  delegateGoverningMatter,
+  qualifyForStateExecutiveTerm,
   addDays,
   campaignElectionTransitionHandler,
   campaignForCandidate,
@@ -224,4 +227,126 @@ describe("GOVERNING: a victory recorded before the office had a calendar", () =>
       recoverOffCycleStateExecutiveTerm(recovered, personId),
     ).toThrow();
   }, 300_000);
+});
+
+/** Advance to exactly `until`, in steps of at most 30 days. */
+function passTo(world: World, until: string): World {
+  let next = world;
+  for (let step = 0; step < 80 && next.currentDate < until; step += 1) {
+    const days = Math.round(
+      (Date.parse(until) - Date.parse(next.currentDate)) / 86_400_000,
+    );
+    next = passOrdinaryDays(next, Math.max(1, Math.min(30, days)));
+  }
+  return next;
+}
+
+describe("GOVERNING 4: bills and the budget reach the governor", () => {
+  it("signs, returns and ignores bills, and hands the budget to staff", () => {
+    const { world, personId } = adultLifeIn("CO", "governing-desk");
+    const filed = fileForStateExecutiveOffice(world, personId);
+    const won = passMonths(filed, "2026-11-05", suppliedWin(personId));
+    const entered = passTo(
+      qualifyForStateExecutiveTerm(won, personId),
+      "2027-01-10",
+    );
+    const office = governingOfficeForPerson(entered, personId)!;
+    // Hire a chief of staff so recommendations and delegation exist.
+    const cos = governingMatters(entered, office.officeKey).find(
+      (m) => m.family === "chief-of-staff",
+    )!;
+    let current = decideGoverningMatter(
+      entered,
+      cos.id,
+      cos.options[0]!.key,
+    ).world;
+    const agenda = governingMatters(current, office.officeKey).find(
+      (m) => m.family === "agenda",
+    )!;
+    current = decideGoverningMatter(
+      current,
+      agenda.id,
+      agenda.options[0]!.key,
+    ).world;
+
+    const openBill = (w: World) =>
+      governingMatters(w, office.officeKey).find(
+        (m) => m.family === "bill" && m.status === "open",
+      );
+    const lawsFor = (w: World, matterId: string) =>
+      governingMatters(w, office.officeKey).filter(
+        (m) =>
+          m.family === "implementation" &&
+          m.openedEvent.tags.some((t) => t.startsWith("source-event:")) &&
+          m.stableKey.includes(`law:${matterId}`),
+      );
+
+    // February: a bill arrives with a ten-day deadline; sign it.
+    current = passTo(current, "2027-02-16");
+    const first = openBill(current)!;
+    expect(first.deadline).toBe("2027-02-25");
+    expect(first.options.map((o) => o.key)).toEqual([
+      "bill:sign",
+      "bill:return",
+    ]);
+    current = decideGoverningMatter(current, first.id, "bill:sign").world;
+    expect(lawsFor(current, first.id)).toHaveLength(1);
+
+    // March: send it back; the legislature answers three weeks later.
+    current = passTo(current, "2027-03-16");
+    const second = openBill(current)!;
+    current = decideGoverningMatter(current, second.id, "bill:return").world;
+    current = passTo(current, "2027-04-10");
+    const answer = current.history.events.find(
+      (e) =>
+        e.type === "governing.outcome" &&
+        e.tags.includes(`matter:${second.id}`),
+    )!;
+    expect(answer.visibility).toBe("public");
+    expect(
+      answer.tags.some((t) =>
+        ["bill:overridden", "bill:returned-stands"].includes(t),
+      ),
+    ).toBe(true);
+
+    // April: leave it; it becomes law without a signature and still becomes
+    // agency work.
+    current = passTo(current, "2027-04-16");
+    const third = openBill(current)!;
+    current = passTo(current, "2027-05-01");
+    const lapsed = governingMatters(current, office.officeKey).find(
+      (m) => m.id === third.id,
+    )!;
+    expect(lapsed.status).toBe("lapsed");
+    expect(lapsed.decision!.visibility).toBe("public");
+    expect(lapsed.decision!.summary).toContain("without the signature");
+    expect(lawsFor(current, third.id)).toHaveLength(1);
+
+    // December: the budget request; the chief of staff handles it.
+    current = passTo(current, "2027-12-02");
+    const budget = governingMatters(current, office.officeKey).find(
+      (m) => m.family === "budget" && m.status === "open",
+    )!;
+    expect(budget.options.length).toBeGreaterThanOrEqual(2);
+    const delegated = delegateGoverningMatter(current, budget.id);
+    expect(delegated.ok).toBe(true);
+    current = delegated.world;
+    expect(
+      governingMatters(current, office.officeKey).find(
+        (m) => m.id === budget.id,
+      )!.decision!.tags,
+    ).toContain("decided-by:delegated");
+    current = passTo(current, "2028-03-05");
+    const response = current.history.events.find(
+      (e) =>
+        e.type === "governing.outcome" &&
+        e.tags.includes(`matter:${budget.id}`),
+    )!;
+    expect(response.tags.some((t) => t.startsWith("budget:"))).toBe(true);
+
+    const reopened = deserializeWorld(serializeWorld(current));
+    expect(governingMatters(reopened, office.officeKey)).toEqual(
+      governingMatters(current, office.officeKey),
+    );
+  }, 900_000);
 });
