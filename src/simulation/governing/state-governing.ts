@@ -1808,9 +1808,20 @@ const institutionStepWithProgramMatters = (() => {
   const step = createInstitutionStepHandler(governorDesk);
   return (world: World, due: FutureDueItem): FutureTransitionHandlerResult => {
     const result = step(world, due);
+    // Reading every office on every legislative step would cost the clock a
+    // scan per state for nothing: almost no step enacts an appropriation.
+    // The cheap record check comes first, and the offices are read only for
+    // the jurisdictions that actually have money waiting.
+    const jurisdictions = new Set(
+      (result.world.history.publicProgramRecords ?? [])
+        .filter((record) => record.kind === "appropriation")
+        .map((record) => record.jurisdictionId),
+    );
+    if (jurisdictions.size === 0) return result;
     let next = result.world;
     for (const office of currentGoverningOffices(next))
-      next = openProgramMatters(next, office);
+      if (jurisdictions.has(office.jurisdictionId))
+        next = openProgramMatters(next, office);
     return { ...result, world: next };
   };
 })();
