@@ -9,6 +9,7 @@ import { openOrdinaryLife } from "../../presentation/ordinary-life";
 import { serializeWorld } from "../serialization";
 import type { World } from "../types";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
+import { projectCongress } from "../living-world/congress";
 import {
   officeConsequences,
   recordOfficeConsequence,
@@ -103,6 +104,49 @@ describe("GOVERNING D2: what an office does about an allegation", () => {
     expect(serializeWorld(again.world)).toBe(serializeWorld(resigned.world));
     expect(again.outcome.changed).toBe(true);
     expect(again.eventId).toBe(resigned.eventId);
+  }, 600_000);
+
+  it("a seat in Congress and an ordinary recorded office can be resigned too", () => {
+    const world = openingWorld("office-consequence-seat");
+    const seat = projectCongress(world)!.house.seats.find(
+      (row) => row.occupant.kind === "member",
+    )!;
+    if (seat.occupant.kind !== "member") throw new Error("fixture");
+    const member = seat.occupant.member.personId;
+    const result = recordOfficeConsequence(world, {
+      stableKey: "press:seat-resignation",
+      officeKey: seat.seatKey,
+      subjectPersonId: member,
+      kind: "resignation",
+      effectiveAt: world.currentDate,
+      statedReason: "I am leaving the House.",
+      evidenceEventIds: [],
+    });
+    expect(result.outcome.changed).toBe(true);
+    if (result.outcome.changed)
+      expect(result.outcome.effectiveAt).toBe(world.currentDate);
+    // Every reader of the chamber sees the same vacancy.
+    const view = projectCongress(result.world)!.house.seats.find(
+      (row) => row.seatKey === seat.seatKey,
+    )!;
+    expect(view.occupant.kind).toBe("vacancy");
+    // Somebody else's seat is still not theirs to resign.
+    const stranger = world.personOrder.find((id) => id !== member)!;
+    const refused = recordOfficeConsequence(world, {
+      stableKey: "press:not-their-seat",
+      officeKey: seat.seatKey,
+      subjectPersonId: stranger,
+      kind: "resignation",
+      effectiveAt: world.currentDate,
+      statedReason: "I resign.",
+      evidenceEventIds: [],
+    });
+    expect(refused.outcome.changed).toBe(false);
+    expect(
+      projectCongress(refused.world)!.house.seats.find(
+        (row) => row.seatKey === seat.seatKey,
+      )!.occupant.kind,
+    ).toBe("member");
   }, 600_000);
 
   it("refuses to end a term for someone who does not hold the office", () => {
