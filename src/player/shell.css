@@ -2164,3 +2164,49 @@
     animation: none !important;
   }
 }
+
+/*
+ * Phone widths (UI46 polish, MAPS s7-390 report).
+ *
+ * The rail-lane reservation above is a desktop rule: at 390px it left the
+ * workspace a ~170px column. Below 640px the workspace spans the viewport with
+ * a 16px gutter and sits above the pin rail while it is open. Its bottom edge
+ * still stops above the corner navigation cluster (the base max-height keeps
+ * the --pg-nav-reserve), so the cluster stays below it and reachable.
+ */
+@media (max-width: 640px) {
+  .pg-workspace {
+    left: max(16px, env(safe-area-inset-left, 0px));
+    right: max(16px, env(safe-area-inset-right, 0px));
+    top: max(0.75rem, var(--pg-content-top));
+    width: auto;
+    max-width: none;
+    margin-inline: 0;
+    transform: none;
+    /* Above the pin rail (39), below the corner navigation (40). */
+    z-index: 39;
+    max-height: calc(
+      var(--pg-vv-height, 100dvh) - max(0.75rem, var(--pg-content-top)) -
+        var(--pg-content-bottom) - max(4.25rem, var(--pg-nav-reserve, 0px))
+    );
+  }
+
+  .pg-workspace-head {
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+    padding: 0.7rem 0.8rem 0.5rem;
+  }
+
+  .pg-workspace-head > :first-child {
+    flex: 1 1 auto;
+  }
+
+  .pg-workspace-controls {
+    flex-wrap: nowrap;
+    flex: 0 0 auto;
+  }
+
+  .pg-workspace-body {
+    padding: 0.75rem 0.8rem 1rem;
+  }
+}
