@@ -42,7 +42,8 @@ async function freshBrowser(page: Page) {
 }
 
 async function openWork(page: Page) {
-  await openElsewhere(page, "work");
+  // Campaigns have their own Politics tab on #265.
+  await openElsewhere(page, "campaign");
   await expect(page.getByTestId("work-section-campaign")).toBeVisible();
 }
 
