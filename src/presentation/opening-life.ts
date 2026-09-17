@@ -9,6 +9,7 @@ import {
   LEGACY_WORLD_OPENING_VERSION,
   generatePoliticalStartingConditions,
   ensurePartyGoverningBodies,
+  ensureHazardProduction,
   macroStartingConditions,
 } from "../simulation";
 import {
@@ -63,16 +64,20 @@ export function generateOpeningLife(
       ...game,
       // Congress, the national parties and public affiliations, once, after
       // the executives exist so they receive an affiliation in the same pass.
-      world: ensureLivingWorldDevelopments(
-        // Standing chapter committees exist only in current openings.
-        ensurePartyGoverningBodies(
-          ensureHomePartyChapters(
-            ensureLivingWorldOpening(staffed, game.playerPersonId),
+      // The hazard stream schedules its first monthly sample for a current
+      // opening that has something exposed; a legacy save gets none.
+      world: ensureHazardProduction(
+        ensureLivingWorldDevelopments(
+          // Standing chapter committees exist only in current openings.
+          ensurePartyGoverningBodies(
+            ensureHomePartyChapters(
+              ensureLivingWorldOpening(staffed, game.playerPersonId),
+              game.playerPersonId,
+            ),
             game.playerPersonId,
           ),
           game.playerPersonId,
         ),
-        game.playerPersonId,
       ),
     },
   };
