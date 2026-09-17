@@ -9,6 +9,7 @@ import {
 } from "../presentation/person-visual-selection";
 import { ModularCharacter } from "./ModularCharacter";
 import { GameSelect } from "./controls/GameSelect";
+import { PREPARED_FAMILIES } from "../presentation/engine-people29-data";
 
 /** The controlled person's actual saved outfit, at a fixed full-body scale. */
 export function WardrobeFigure({
@@ -25,6 +26,7 @@ export function WardrobeFigure({
   readonly fillPreview?: boolean;
 }) {
   const [pose, setPose] = useState("standing-neutral");
+  const [expression, setExpression] = useState<"neutral" | "smile">("neutral");
   const supportedPoses = ["standing-neutral", "seated-guest-neutral"].filter(
     (poseFamily) =>
       person.appearance &&
@@ -39,6 +41,7 @@ export function WardrobeFigure({
     ? pose
     : (supportedPoses[0] ?? "standing-neutral");
   let content;
+  let supportsSmile = false;
   try {
     const wardrobe = preference
       ? resolvePersonWardrobeContext(person, preference, {
@@ -63,10 +66,20 @@ export function WardrobeFigure({
         bodyWidthPercent: fillPreview ? 90 : 70,
       },
     });
+    supportsSmile = plan.layers.some(
+      (layer) =>
+        layer.kind === "head" &&
+        PREPARED_FAMILIES.some((family) =>
+          family.parts.some(
+            (part) => part.id === layer.assetId && part.expressionVariants?.smile,
+          ),
+        ),
+    );
     content = plan.complete ? (
       <div className="wardrobe-figure-stage">
         <ModularCharacter
           plan={plan}
+          expression={supportsSmile ? expression : "neutral"}
           testId={pending ? "outfit-pending-full-body" : "wardrobe-full-body"}
         />
       </div>
@@ -116,6 +129,22 @@ export function WardrobeFigure({
           ]}
         />
       </label>
+      {supportsSmile ? (
+        <label className="wardrobe-figure-view">
+          Expression{" "}
+          <GameSelect
+            aria-label="Expression preview"
+            value={expression}
+            onChange={(event) =>
+              setExpression(event.target.value === "smile" ? "smile" : "neutral")
+            }
+            options={[
+              { value: "neutral", label: "Neutral", disabled: false },
+              { value: "smile", label: "Smile", disabled: false },
+            ]}
+          />
+        </label>
+      ) : null}
       {content}
     </section>
   );

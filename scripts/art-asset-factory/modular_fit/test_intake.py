@@ -1,5 +1,5 @@
 import copy,unittest
-from intake import fit_recipe, IntakeError
+from intake import fit_recipe, fit_hair, IntakeError
 
 class DescriptorTests(unittest.TestCase):
  def setUp(self):
@@ -24,4 +24,18 @@ class DescriptorTests(unittest.TestCase):
  def test_no_raster_enlargement(self):
   b=copy.deepcopy(self.b);b['socket'].update(heightRange=[200,240],widthRange=[140,180],preferredHeight=210)
   with self.assertRaisesRegex(IntakeError,'native_detail_shortfall'):fit_recipe(self.h,b)
+ def test_turned_head_requires_explicit_socket_view_support(self):
+  h=copy.deepcopy(self.h);h['view']='three-quarter-left';b=copy.deepcopy(self.b);b['neckOwnership']='body-layer'
+  with self.assertRaisesRegex(IntakeError,'incompatible_view'):fit_recipe(h,b)
+  b['supportedHeadViews']=['front','three-quarter-left'];r=fit_recipe(h,b)
+  self.assertEqual(r['sourceView'],'three-quarter-left');self.assertEqual(r['bodyView'],'front')
+  self.assertEqual(r['attachment'],(280,220))
+ def test_frontal_hair_cannot_follow_a_turned_face(self):
+  h=copy.deepcopy(self.h);h['view']='three-quarter-left'
+  hair={'view':'front','pose':h['pose']}
+  with self.assertRaisesRegex(IntakeError,'incompatible_view'):fit_hair(None,hair,h,self.b,{})
+ def test_view_changes_invalidate_fit_recipe(self):
+  b=copy.deepcopy(self.b);b.update(neckOwnership='body-layer',supportedHeadViews=['front','three-quarter-right'])
+  first=fit_recipe(self.h,b);h=copy.deepcopy(self.h);h['view']='three-quarter-right'
+  self.assertNotEqual(first['cacheKey'],fit_recipe(h,b)['cacheKey'])
 if __name__=='__main__':unittest.main()

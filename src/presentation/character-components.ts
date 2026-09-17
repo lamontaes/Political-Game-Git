@@ -1949,7 +1949,20 @@ export function componentsAtGeneration(
       .filter((component) => !component.fixture && component.released)
       .map((component) => component.definition.kind),
   );
+  const bodies = current.filter((c) => c.definition.kind === "body");
   return current
+    .filter((component) => {
+      if (component.definition.kind === "body") return true;
+      const families = component.definition.compatible_body_families;
+      const compatibleBodies = bodies.filter(
+        (b) => !families || families.includes(b.definition.family),
+      );
+      // A new rig admits its own prepared kit. Old art remains available at
+      // its historical pin, but cannot become a silent fallback on a new rig.
+      return compatibleBodies.some((b) =>
+        profileCompatible(component.definition, b.definition),
+      );
+    })
     .filter(
       (component) =>
         !component.fixture || !productionKinds.has(component.definition.kind),

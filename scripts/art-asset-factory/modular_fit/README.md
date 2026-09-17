@@ -90,3 +90,24 @@ the same face frame; neutral remains the default and identity is unchanged.
 These paths prepare private candidates. Automated success does not promote art
 or establish human visual acceptance. The real expansion receipt must freeze
 fitter/renderer hashes before admitting genuinely new source paint through data.
+
+Native head view is explicit. A body socket lists `supportedHeadViews`; each
+hair source must still match its head's exact authored view and source pose.
+Admitting a turned face never rotates or reuses a frontal hair cap implicitly.
+Pose rules accept `hairLayers` with separate front/back layers in that shared
+head frame. Source heads may declare `expressions.smile`, an independently
+painted descriptor with `identityOf` naming the same face and the same native
+view/pose. The existing outfit preview exposes only prepared expressions.
+
+New sources may opt into `materialSampling: "coverage-normalized-v1"`.
+Preparation filters material ownership with the paint's coverage and converts
+it back into a conditional weight, so antialiasing does not apply silhouette
+alpha twice and restore donor pigment at the edge. The historical resampling
+path remains byte-compatible. Tests cover translucent edges, excluded features
+and unchanged paint alpha.
+
+LEARN: matching pixels require matching source semantics. Validate native view,
+profile compatibility and material ownership at intake; a successful geometry
+fit cannot establish them. Latest-generation choices exclude parts whose
+profile has no compatible current body, while pinned old generations retain
+their exact prior choices.

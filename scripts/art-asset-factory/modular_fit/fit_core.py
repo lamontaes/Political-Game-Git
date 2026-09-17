@@ -144,6 +144,30 @@ def warp_group(layers: Iterable[Image.Image], transform: Fit,
     return [im.convert('RGBA').convert('RGBa').transform(size,Image.Transform.AFFINE,affine,Image.Resampling.BICUBIC).convert('RGBA') for im in layers]
 
 
+def warp_material_group(paint, maps, transform, size):
+    """Resample material ownership conditional on the paint's coverage.
+
+    Material weight is not a second silhouette alpha. Filtering it as one would
+    blend the original pigment back into antialiased edges after recoloring.
+    Keep the historical warp_group path available for already frozen sources.
+    """
+    coverage=np.asarray(paint.convert('RGBA'))[...,3].astype(float)/255
+    weighted=[]
+    for material in maps:
+        pixels=np.array(material.convert('RGBA'))
+        pixels[...,3]=np.rint(pixels[...,3]*coverage).astype('uint8')
+        weighted.append(Image.fromarray(pixels))
+    result=warp_group([paint,*weighted],transform,size)
+    alpha=np.asarray(result[0])[...,3].astype(float)
+    normalized=[]
+    for material in result[1:]:
+        pixels=np.array(material)
+        pixels[...,3]=np.divide(pixels[...,3].astype(float)*255,alpha,
+            out=np.zeros_like(alpha),where=alpha>0).round().clip(0,255).astype('uint8')
+        normalized.append(Image.fromarray(pixels))
+    return [result[0],*normalized]
+
+
 def union_frame(boxes: Iterable[Box], padding: float = 0) -> Box:
     values=list(boxes)
     if not values or padding<0 or not math.isfinite(padding):

@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 import numpy as np
 from PIL import Image, ImageDraw
-from fit_core import Fit, warp_group
+from fit_core import Fit, warp_group, warp_material_group
 from intake import IntakeError, pinned_image, canonical, digest
 
 def polygon_mask(canvas, polygons):
@@ -48,7 +48,10 @@ def separate(root, descriptor):
         maps[channel]=Image.fromarray(np.dstack([shade,shade,shade,weight]))
     transform=Fit(**descriptor['transform'])
     if not 0<transform.scale<=1:raise IntakeError('native_detail_shortfall','source separation cannot enlarge')
-    results=warp_group([Image.fromarray(a),*maps.values()],transform,tuple(descriptor['outputCanvas']))
+    if descriptor.get('materialSampling')=='coverage-normalized-v1':
+        results=warp_material_group(Image.fromarray(a),list(maps.values()),transform,tuple(descriptor['outputCanvas']))
+    else:
+        results=warp_group([Image.fromarray(a),*maps.values()],transform,tuple(descriptor['outputCanvas']))
     return results[0],dict(zip(maps,results[1:]))
 
 def prepare_sources(root, specification):

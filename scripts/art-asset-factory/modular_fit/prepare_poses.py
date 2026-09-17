@@ -8,17 +8,21 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 from intake import fit_head,fit_hair,pinned_image,digest,IntakeError
-from prepare import emit,png
+from prepare import emit,png,emit_expressions
 from fit_core import visible_bounds
+from rig import validate_profile,body_descriptor
 
 def prepare_poses(spec,root):
  registry=json.loads((root/spec['registry']).read_text())
- heads={x['id']:x for x in spec['heads']}; bodies={x['id']:x for x in spec['bodies']}; hairs={x['id']:x for x in spec['hairstyles']}
+ for profile in spec.get('bodyProfiles',[]):validate_profile(profile,root)
+ profile_bodies=[body_descriptor(p,pose) for p in spec.get('bodyProfiles',[]) for pose in p['poses']]
+ heads={x['id']:x for x in spec['heads']}; bodies={x['id']:x for x in [*spec.get('bodies',[]),*profile_bodies]}; hairs={x['id']:x for x in spec['hairstyles']}
  generated={};variants=[];head_cache={};hair_cache={}
- def layer(identifier,family,kind,order,paint,maps,recipe):
+ def layer(identifier,family,kind,order,paint,maps,recipe,expressions=None):
   if identifier not in generated:
    part,_=emit(root,spec,identifier,'pose-'+kind,order,paint,maps,spec['ramps'])
    part.update(introducedGeneration=spec['generation'],fitRecipe=recipe)
+   if expressions:part['expressionVariants']=expressions
    if identifier in registry['templates']:raise IntakeError('duplicate_id',identifier)
    registry['familyAdditions'].setdefault(family,[]).append(part)
    registry['templates'][identifier]={'familyId':family,'partIds':[identifier],'sourceSha256':part['sha256']}
@@ -42,12 +46,17 @@ def prepare_poses(spec,root):
    if item.get('coversNeck'):
     coverage*=1-np.array(pinned_image(root,item['paint'],body['canvas']))[...,3]/255
   a=np.array(hp);a[...,3]=np.rint(a[...,3]*coverage).astype('uint8');hp=Image.fromarray(a)
-  layers.append(layer(rule['headPart'],family,'head',50,hp,hm,recipe))
+  expressions=emit_expressions(root,spec,rule['headPart'],head,body,rule.get('headLayer',50),coverage) if rule['headPart'] not in generated else None
+  layers.append(layer(rule['headPart'],family,'head',rule.get('headLayer',50),hp,hm,recipe,expressions))
+  hair_layers=rule.get('hairLayers',[])
   if rule.get('hair'):
-   hair=hairs[rule['hair']];hk=(*key,hair['id'])
+   hair_layers=[{'source':rule['hair'],'id':rule['hairPart'],'kind':'hair-front','layer':55},*hair_layers]
+  for item in hair_layers:
+   if item['kind'] not in ('hair-front','hair-back'):raise IntakeError('invalid_hair_layer',item['kind'])
+   hair=hairs[item['source']];hk=(*key,hair['id'])
    if hk not in hair_cache:hair_cache[hk]=fit_hair(root,hair,head,body,recipe)
    paint,maps,receipt=hair_cache[hk]
-   layers.append(layer(rule['hairPart'],family,'hair-front',55,paint,maps,receipt))
+   layers.append(layer(item['id'],family,item['kind'],item['layer'],paint,maps,receipt))
   v['layers']=layers
   composite=Image.new('RGBA',tuple(body['canvas']))
   for item in sorted(layers,key=lambda x:x['layer']):composite.alpha_composite(Image.open(root/item['path']).convert('RGBA'))

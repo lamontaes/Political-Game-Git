@@ -7,7 +7,7 @@ from pathlib import Path
 import hashlib, json, math
 import numpy as np
 from PIL import Image
-from fit_core import Box, HeadGeometry, BodySocket, Fit, solve_fit, visible_bounds, warp_group
+from fit_core import Box, HeadGeometry, BodySocket, Fit, solve_fit, visible_bounds, warp_group, warp_material_group
 
 VERSION = 'semantic-fit-v1'
 
@@ -61,7 +61,12 @@ def fit_recipe(head, body):
         if head['pose'] not in body['compatibleSourcePoses']:
             raise IntakeError('unsupported_pose', head['pose'])
         s=body['socket']
-        target=BodySocket(tuple(s['attachment']),tuple(s['heightRange']),tuple(s['widthRange']),s['preferredHeight'],body['view'],body['calibration']['version'])
+        target_view=body['view']
+        if body.get('neckOwnership')=='body-layer':
+            if head['view'] not in body.get('supportedHeadViews',[body['view']]):
+                raise IntakeError('incompatible_view','body socket has no authored support for this head view')
+            target_view=head['view']
+        target=BodySocket(tuple(s['attachment']),tuple(s['heightRange']),tuple(s['widthRange']),s['preferredHeight'],target_view,body['calibration']['version'])
         result=solve_fit(g,target)
     except IntakeError: raise
     except (KeyError,TypeError,ValueError) as e:
@@ -74,6 +79,7 @@ def fit_recipe(head, body):
     payload={'algorithm':algorithm,'head':head,'body':body}
     return {'algorithm':algorithm,'cacheKey':digest(canonical(payload)),
             'sourceHash':head['paint']['sha256'],'head':head['id'],'body':body['id'],
+            'sourceView':head['view'],'bodyView':body['view'],
             'transform':{'scale':f.scale,'dx':f.dx,'dy':f.dy},
             'anatomy':vars(f.box(g.anatomy)),'attachment':f.point(g.attachment),
             'calibrationConfidence':head['calibration']['confidence'],
@@ -94,7 +100,9 @@ def fit_head(root, head, body):
     a=np.array(paint); a[...,3]=(a[...,3].astype(float)*np.array(mask)/255).round().astype('uint8')
     layers=[Image.fromarray(a)]
     for ref in head.get('materialMaps',{}).values(): layers.append(pinned_image(root,ref,head['canvas']))
-    result=warp_group(layers,f,tuple(body['canvas']))
+    result=(warp_material_group(layers[0],layers[1:],f,tuple(body['canvas']))
+            if head.get('materialSampling')=='coverage-normalized-v1'
+            else warp_group(layers,f,tuple(body['canvas'])))
     if body.get('neckOwnership')=='body-layer':
         # Clean admitted heads end at the anatomical jaw. Their associated body
         # already owns the continuous neck; never append a second neck donor.
@@ -130,6 +138,8 @@ def fit_hair(root, hair, head, body, recipe):
     t=Fit(scale,f.scale*(ts['centerX']-k*hs['centerX'])+f.dx,f.scale*(ts['top']-k*hs['top'])+f.dy)
     p=pinned_image(root,hair['paint'],hair['canvas'])
     maps={ch:pinned_image(root,ref,hair['canvas']) for ch,ref in hair['materialMaps'].items()}
-    imgs=warp_group([p,*maps.values()],t,tuple(body['canvas']))
+    imgs=(warp_material_group(p,list(maps.values()),t,tuple(body['canvas']))
+          if hair.get('materialSampling')=='coverage-normalized-v1'
+          else warp_group([p,*maps.values()],t,tuple(body['canvas'])))
     return imgs[0],dict(zip(maps,imgs[1:])),{'transform':vars(t),'logicalStyle':hair['logicalStyle'],
         'cacheKey':digest(canonical([recipe['cacheKey'],hair,VERSION]))}

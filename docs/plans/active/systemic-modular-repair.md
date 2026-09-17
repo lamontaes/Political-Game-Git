@@ -93,3 +93,64 @@ art. No owner-save changes, backgrounds, separate portraits or competing LAND.
   Art Desk intake, remote matching source/private delivery and receiving ACK.
 - UI/LAND handshake remains sent, not acknowledged. No shared-root edits,
   competing landing work, public art upload, purchases or API-key billing.
+
+### Owner steering — directional hair
+
+Owner explicitly rejected the standing sheet because frontal hair did not turn
+with the side/three-quarter faces. No visual acceptance is claimed. Audit found
+native yaw mislabeled as front on Rowan and retained turned faces, plus original
+ear pixels in several legacy hair sources. New intake tests enforce native
+head/hair view agreement and explicit body-socket support; 39 Python tests pass.
+Directional coily-crop sources are being checked first, then the retained style
+bank will receive clean authored hair-only views. Missing views refuse; a 2D
+rotation or mirrored frontal cap is not a substitute for painted viewpoint.
+
+Infrastructure source checkpoint fead1149c22fc228c1059c4d65af5d72f90285db is
+uploaded for UI/LAND, including e50 history from base 7618994:
+https://drive.google.com/file/d/18apUqdUV-iXUkr84eD2XRDDQT-eC_3jj/view
+SHA256 e7ae2d4b12ef256a2b29da9bf42e98934bfa7c7ab4f05c414d7e4f5741126302.
+Both coordination docs received and read back the checkpoint note. SENT, not ACK.
+An initial image upload was auto-review blocked as unverified destination. Folder
+metadata then verified the existing MODULAR41 review folder is owned by the user
+with only owner permission, and source uploads succeeded. No permissions changed.
+
+### Owner clarification — system first, clean replacement kit
+
+The owner explicitly authorizes entirely new faces, bodies, hair and clothing;
+there is no need to preserve the previous rendering in the current candidate.
+Stop spending source-production work on repairing old character masters. They
+remain untouched historical-save regression inputs. The new private generation
+will admit a coherent kit on shared rig profiles; components prepared for an old
+profile cannot silently fall back onto a newer body. Prove expansion with new
+source data after the generic intake/render interface is frozen. Finish the
+normal game workflow, not merely contact sheets or named-character repairs.
+
+### Clean-kit infrastructure and pose checkpoint — 2026-09-17
+
+- Latest owner direction sent to both UI/LAND coordination documents; still
+  SENT, no acknowledgment received. Scope remains the reusable modular kit.
+- Draft replacement kit: six newly painted body profiles, six independent new
+  faces, two newly authored hair styles with matching native views, short/long
+  garments and independent skin/hair materials. No legacy head/hair fallback
+  can fill a newer profile. 36 standing face fits + 72 hair fits + 30 body/garment
+  catalog parts prepare without refusal; old generation 14 stays exact.
+- All six newly painted seated short-sleeve sources prepared. Four long-sleeve
+  seated sources currently prepared, remaining two in production. Shared pose
+  preparation emitted 396 variants/484 layers at this intermediate checkpoint.
+  This is not the complete-kit receipt and is not visual acceptance.
+- Native-view validation now rejects frontal hair on a turned face. Separate
+  front/back hair layers and authored same-identity expressions use the common
+  profile path. Existing outfit view exposes an expression only when prepared.
+- Fixed double silhouette weighting in newly opted-in material resampling;
+  old sampling remains unchanged. Inspected source masks and corrected garment
+  contamination around mustard trousers and brown shoe/ankle boundaries.
+- Verification: 43 Python tests (including supplied tests, native-view guards,
+  material-edge invariants and expression identity/view guards); 28 TypeScript
+  component/profile/clean-kit integration tests; TypeScript and changed-file
+  lint passed. TypeScript first caught missing explicit disabled flags in the
+  expression selector; corrected and reran successfully.
+- Generation 15 remains unadmitted. Required remaining work: complete full pose
+  kit and smiles, ordinary browser and pixel proof, freeze generic code hashes
+  then admit real new face/hair/clothing/body source through data, Art Desk
+  candidates and matching private/source delivery. Historical e50/fead and
+  previous private packs remain preserved.

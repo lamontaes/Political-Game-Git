@@ -41,6 +41,20 @@ def emit(root, spec, identifier, kind, layer, paint, maps, ramps, coverage=None)
         b=visible_bounds(paint);part['portraitBounds']=vars(b) if b else None
     return part,str(runtime.relative_to(root))
 
+def emit_expressions(root,spec,identifier,head,body,layer,coverage=None):
+    """Authored expressions share identity, native view and the body socket."""
+    variants={}
+    for expression,source in head.get('expressions',{}).items():
+        if expression not in ('smile',):raise IntakeError('unsupported_expression',expression)
+        if source.get('identityOf')!=head['id'] or source['view']!=head['view'] or source['pose']!=head['pose']:
+            raise IntakeError('expression_identity_mismatch',expression)
+        paint,maps,recipe=fit_head(root,source,body)
+        if coverage is not None:
+            a=np.array(paint);a[...,3]=np.rint(a[...,3]*coverage).astype('uint8');paint=Image.fromarray(a)
+        part,_=emit(root,spec,identifier+'-'+expression,'head-expression',layer,paint,maps,spec['ramps'])
+        variants[expression]={'svgPath':part['svgPath'],'sha256':part['sha256'],'sourceIdentity':head['id'],'fitRecipe':recipe}
+    return variants
+
 def prepare(spec,root):
     for profile in spec.get('bodyProfiles',[]):
         validate_profile(profile,root)
@@ -87,7 +101,9 @@ def prepare(spec,root):
         try:
             head=sources[rule['head']];body=bodies[rule['body']]
             paint,maps,recipe=fit_head(root,head,body)
-            register(rule,paint,maps,recipe); report['fits'].append(recipe)
+            variants=emit_expressions(root,spec,rule['id'],head,body,rule.get('component',{}).get('layer',40))
+            resolved_rule={**rule,'expressionVariants':variants} if variants else rule
+            register(resolved_rule,paint,maps,recipe); report['fits'].append(recipe)
             for hr in rule['hair']:
                 hair=hairs[hr['source']]
                 hp,hm,receipt=fit_hair(root,hair,head,body,recipe)

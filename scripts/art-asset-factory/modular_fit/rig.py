@@ -27,6 +27,8 @@ def validate_profile(profile, root=None):
     if not poses:
         raise IntakeError('unsupported_pose', 'no authored pose')
     for name, pose in poses.items():
+        if pose.get('supportedHeadViews') is not None and (not pose['supportedHeadViews'] or any(v not in ('front','three-quarter-left','three-quarter-right','left-profile','right-profile') for v in pose['supportedHeadViews'])):
+            raise IntakeError('incompatible_view', name)
         if pose.get('view') != 'front':
             raise IntakeError('incompatible_view', name)
         if set(pose.get('landmarks', {})) != set(JOINTS):
@@ -53,6 +55,7 @@ def body_descriptor(profile, pose_name):
     pose=profile['poses'][pose_name]
     return {'schemaVersion':1,'id':profile['id']+'/'+pose_name,
             'canvas':profile['canvas'],'view':pose['view'],
+            'supportedHeadViews':pose.get('supportedHeadViews',[pose['view']]),
             'compatibleSourcePoses':['standing-neutral'],
             'neckOwnership':'body-layer','profileHash':fingerprint,
             'calibration':{'status':'calibrated','version':profile['revision'],
