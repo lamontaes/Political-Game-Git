@@ -113,6 +113,7 @@ export {
   commitCampaignWeek,
   performCampaignWeekSession,
   projectCampaignWeek,
+  releaseCampaignWeekSession,
   runCondensedCampaignWeek,
 } from "./campaign-weekly-plans";
 export type {

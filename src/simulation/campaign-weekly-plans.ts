@@ -30,6 +30,7 @@ import { createStableId } from "./ids";
 import { workStatusAt } from "./life-queries";
 import { personName } from "./people";
 import {
+  cancelScheduledActivity,
   controlledCommitmentsBlockingActivityPerformance,
   scheduledActivityState,
 } from "./time-work";
@@ -44,7 +45,7 @@ import type {
   SimulationMoment,
   World,
 } from "./types";
-import { assertWorldIntegrity } from "./world";
+import { assertWorldIntegrity, recordWorldEvent } from "./world";
 
 export type {
   CampaignAdChannel,
@@ -253,6 +254,11 @@ export interface CampaignWeekSessionView {
   readonly end: SimulationMoment;
   readonly plannedSpend: MoneyAmount | null;
   readonly status: "scheduled" | "completed" | "cancelled";
+  /**
+   * True when the session is still on the calendar but its start has already
+   * gone by, so it can no longer be done as planned; it can only be let go.
+   */
+  readonly passed: boolean;
 }
 
 export interface CampaignCommittedWeekView {
@@ -261,8 +267,14 @@ export interface CampaignCommittedWeekView {
   readonly allocation: CampaignWeeklyAllocation;
   readonly advertising: CampaignWeeklyAdvertising | null;
   readonly sessions: readonly CampaignWeekSessionView[];
-  /** The next session still to do, in time order, or null. */
+  /** The next session that can still be done, in time order, or null. */
   readonly nextActionId: EntityId | null;
+  /**
+   * The session the clock is stopped at or already past, still on the
+   * calendar: the player either does it (when it has not begun) or lets it go
+   * through `releaseCampaignWeekSession`. Null when nothing is holding time.
+   */
+  readonly holdingActionId: EntityId | null;
 }
 
 export interface CampaignWeekRefusalView {
@@ -639,6 +651,9 @@ function sessionView(
   action: CampaignActionRecord,
 ): CampaignWeekSessionView {
   const state = scheduledActivityState(world, action.scheduledActivityId);
+  const status = campaignActionResult(world, action.id)
+    ? "completed"
+    : state.status;
   return {
     actionId: action.id,
     kind: action.kind,
@@ -646,7 +661,10 @@ function sessionView(
     start: state.start,
     end: state.end,
     plannedSpend: action.plannedSpend ? { ...action.plannedSpend } : null,
-    status: campaignActionResult(world, action.id) ? "completed" : state.status,
+    status,
+    passed:
+      status === "scheduled" &&
+      compareSimulationMoments(state.start, world.currentMoment) < 0,
   };
 }
 
@@ -657,6 +675,17 @@ function orderedSessions(
   return plan.scheduledActionIds
     .map((actionId) => sessionView(world, campaignActionById(world, actionId)!))
     .sort((left, right) => compareSimulationMoments(left.start, right.start));
+}
+
+/** The first session still scheduled whose start has not gone by. */
+function nextSession(
+  sessions: readonly CampaignWeekSessionView[],
+): CampaignWeekSessionView | null {
+  return (
+    sessions.find(
+      (session) => session.status === "scheduled" && !session.passed,
+    ) ?? null
+  );
 }
 
 function requireControlledCandidate(
@@ -744,9 +773,15 @@ export function projectCampaignWeek(
           allocation: { ...committed.allocation },
           advertising: committed.advertising,
           sessions,
-          nextActionId:
-            sessions.find((session) => session.status === "scheduled")
-              ?.actionId ?? null,
+          nextActionId: nextSession(sessions)?.actionId ?? null,
+          holdingActionId:
+            sessions.find(
+              (session) =>
+                session.status === "scheduled" &&
+                compareSimulationMoments(session.start, world.currentMoment) <=
+                  0 &&
+                compareSimulationMoments(world.currentMoment, session.end) < 0,
+            )?.actionId ?? null,
         }
       : null,
     lastRefusal:
@@ -859,7 +894,6 @@ function placeSessions(
   kinds: readonly CampaignActionKind[],
   strategyFor: (kind: CampaignActionKind) => CampaignActionStrategyRecord,
   spendFor: (kind: CampaignActionKind) => MoneyAmount | null,
-  geographyLabel: string,
 ): { readonly world: World; readonly actionIds: readonly EntityId[] } | null {
   const campaign = context.campaign;
   const participants = [campaign.candidatePersonId, ...context.staff];
@@ -901,7 +935,7 @@ function placeSessions(
             end,
             location: {
               locationKey: session.locationKey,
-              label: `${session.locationLabel} — ${geographyLabel}`,
+              label: `${session.locationLabel} — ${strategyFor(kind).geographyLabel}`,
               jurisdictionId: campaign.jurisdictionId,
             },
             title: session.title,
@@ -1102,14 +1136,15 @@ export function commitCampaignWeek(
       "advertising",
     ),
   ];
-  const placed = placeSessions(
+  // Sessions of an earlier week that were never done are released first, with
+  // a recorded reason, so a missed week never leaves a stale hold behind.
+  const released = releaseEarlierWeekSessions(
     world,
-    context,
-    kinds,
-    strategyFor,
-    (kind) =>
-      kind === "advertising" && advertising ? { ...advertising.amount } : null,
-    advertising?.geographyLabel ?? jurisdictionGeography.label,
+    campaign,
+    context.weekStart,
+  );
+  const placed = placeSessions(released, context, kinds, strategyFor, (kind) =>
+    kind === "advertising" && advertising ? { ...advertising.amount } : null,
   );
   if (!placed) return refuse("no-free-time");
   return appendPlan(placed.world, campaign, {
@@ -1156,16 +1191,18 @@ export function performCampaignWeekSession(
   if (campaignActionResult(world, action.id)) {
     throw new Error("That session is already done.");
   }
-  const next = orderedSessions(world, plan).find(
-    (session) => session.status === "scheduled",
-  );
-  if (!next || next.actionId !== action.id) {
-    throw new Error("Do the earlier session in this week's plan first.");
+  const sessions = orderedSessions(world, plan);
+  const own = sessions.find((session) => session.actionId === action.id);
+  if (!own || own.status !== "scheduled") {
+    throw new Error("That session is no longer on the calendar.");
   }
-  if (compareSimulationMoments(next.start, world.currentMoment) < 0) {
+  if (own.passed) {
     throw new Error(
       "The time for that session has already passed, so it can no longer be done as planned.",
     );
+  }
+  if (nextSession(sessions)?.actionId !== action.id) {
+    throw new Error("Do the earlier session in this week's plan first.");
   }
   // Something the character already promised comes first: that is the
   // answer, not a failure, and it wins over the money check below.
@@ -1212,9 +1249,7 @@ export function runCondensedCampaignWeek(
   }
   let current = world;
   for (;;) {
-    const next = orderedSessions(current, plan).find(
-      (session) => session.status === "scheduled",
-    );
+    const next = nextSession(orderedSessions(current, plan));
     if (!next) return current;
     const performed = performCampaignWeekSession(
       current,
@@ -1224,6 +1259,124 @@ export function runCondensedCampaignWeek(
     if (performed === current) return current;
     current = performed;
   }
+}
+
+/**
+ * Letting a planned session go.
+ *
+ * A booked session is a confirmed commitment, so ordinary time stops at its
+ * start rather than stepping over it. Not doing it is the player's choice to
+ * make, and it is made explicitly: the hold is cancelled and a limited
+ * campaign event records that the session was let go. Nothing is spent,
+ * nobody's support moves and nobody is met. Works before the session, at its
+ * start, or after its start has gone by.
+ */
+export function releaseCampaignWeekSession(
+  world: World,
+  personId: EntityId,
+  actionId: EntityId,
+): World {
+  const campaign = requireControlledCandidate(world, personId);
+  const action = campaignActionById(world, actionId);
+  const plan = planForAction(world, actionId);
+  if (!action || !plan || plan.campaignId !== campaign.id) {
+    throw new Error("That session is not part of this campaign's weekly plan.");
+  }
+  if (
+    campaignActionResult(world, action.id) ||
+    scheduledActivityState(world, action.scheduledActivityId).status !==
+      "scheduled"
+  ) {
+    throw new Error("That session is no longer on the calendar.");
+  }
+  return releaseSession(
+    world,
+    campaign,
+    plan,
+    action,
+    "The candidate chose to let this planned session go.",
+  );
+}
+
+function releaseSession(
+  world: World,
+  campaign: CampaignRecord,
+  plan: CampaignWeeklyPlanRecord,
+  action: CampaignActionRecord,
+  reason: string,
+): World {
+  const session = CAMPAIGN_WEEKLY_SESSIONS[action.kind];
+  const cancelled = cancelScheduledActivity(world, action.scheduledActivityId);
+  const next = recordWorldEvent(cancelled, {
+    stableKey: `${action.stableKey}:weekly-release`,
+    type: "campaign.weekly-session-released",
+    occurredAt: cancelled.currentDate,
+    recordedAt: cancelled.currentDate,
+    jurisdictionId: campaign.jurisdictionId,
+    involvedEntityIds: [
+      campaign.contestId,
+      campaign.organizationId,
+      campaign.candidatePersonId,
+      action.scheduledActivityId,
+      action.id,
+      plan.id,
+    ],
+    participants: [
+      {
+        personId: campaign.candidatePersonId,
+        role: "agency:candidate",
+        detail: "Let a planned campaign session go",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "limited",
+    tags: ["campaign.weekly-plan", "campaign.session-released"],
+    summary: `${session.label} from the week's plan was not done. ${reason} Nothing was spent and no support moved.`,
+    context: {
+      location: null,
+      socialContext: "Campaign work, on the same clock as the rest of the day.",
+      pressure: null,
+      choice: "Let the planned session go instead of doing it.",
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  assertWorldIntegrity(next);
+  return next;
+}
+
+/**
+ * Releases every still-scheduled session of this campaign's earlier committed
+ * weeks. Called only when a new week is committed, which can only happen once
+ * the earlier weeks have ended, so every such session's start has gone by.
+ */
+function releaseEarlierWeekSessions(
+  world: World,
+  campaign: CampaignRecord,
+  weekStart: IsoDate,
+): World {
+  let current = world;
+  for (const plan of plansFor(world, campaign.id)) {
+    if (plan.status !== "committed" || plan.weekEnd >= weekStart) continue;
+    for (const actionId of plan.scheduledActionIds) {
+      const action = campaignActionById(current, actionId)!;
+      if (
+        campaignActionResult(current, action.id) ||
+        scheduledActivityState(current, action.scheduledActivityId).status !==
+          "scheduled"
+      ) {
+        continue;
+      }
+      current = releaseSession(
+        current,
+        campaign,
+        plan,
+        action,
+        "Its week ended before it was done, and a new week was planned.",
+      );
+    }
+  }
+  return current;
 }
 
 /** Whether a campaign action was booked by a weekly plan. */

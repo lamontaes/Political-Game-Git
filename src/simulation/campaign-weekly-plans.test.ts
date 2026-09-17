@@ -17,6 +17,7 @@ import {
   performCampaignAction,
   performCampaignWeekSession,
   projectCampaignWeek,
+  releaseCampaignWeekSession,
   runCondensedCampaignWeek,
   scheduleCampaignAction,
   scheduledActivityState,
@@ -32,7 +33,8 @@ import type {
 } from "./index";
 import { canonicalJson } from "./canonical-json";
 import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
-import { assertWorldIntegrity } from "./world";
+import { createCampaignElectionTransitionRegistry } from "./campaigns";
+import { advanceWorld, assertWorldIntegrity, recordWorldEvent } from "./world";
 import { passOrdinaryDays } from "../presentation/ordinary-life";
 
 const KENTUCKY_PACK = "us-ky-general-assembly-v1:candidacy";
@@ -773,6 +775,216 @@ describe("weekly campaign plans", { timeout: 900_000 }, () => {
     assertWorldIntegrity(world);
   });
 
+  it("never dead-ends time when a committed week is never performed", () => {
+    // Three weeks of a candidate who plans every week and never does any of
+    // it. A booked session is a confirmed commitment, so ordinary time stops
+    // at its start; letting it go is an explicit, recorded choice, after which
+    // the days keep passing and the next week can still be planned.
+    const filed = fundedCampaign("weekly-never-performed");
+    const start = filed.world.currentDate;
+    const moneyBefore = treasury(filed, filed.world);
+    const supportBefore = filed.world.history.metricStates.length;
+    const fieldWeek = (view: CampaignWeekView) =>
+      inputFor(view, {
+        emphasis: "field",
+        allocation: {
+          fieldShifts: 2,
+          fundraisingSessions: 0,
+          advertisingBuys: 0,
+        },
+        advertising: null,
+      });
+    let world = filed.world;
+    let stops = 0;
+    let passes = 0;
+    const planIds: EntityId[] = [];
+    while (world.currentDate < addDays(start, 21)) {
+      passes += 1;
+      expect(passes, "time must keep moving").toBeLessThan(80);
+      const view = projectCampaignWeek(world, filed.personId)!;
+      if (!view.committed) {
+        world = commitCampaignWeek(world, filed.personId, fieldWeek(view));
+        const plan = world.history.campaignWeeklyPlans!.at(-1)!;
+        expect(plan.status).toBe("committed");
+        planIds.push(plan.id);
+        continue;
+      }
+      const passed = passOrdinaryDays(world, 1);
+      if (compareMoments(passed, world) !== 0) {
+        world = passed;
+        continue;
+      }
+      // The clock is held by a planned session: it is not done, it is let go.
+      const holding = view.committed.holdingActionId;
+      expect(holding, `stuck on ${world.currentDate}`).not.toBeNull();
+      expect(view.committed.nextActionId).toBe(holding);
+      world = releaseCampaignWeekSession(world, filed.personId, holding!);
+      stops += 1;
+      expect(() =>
+        releaseCampaignWeekSession(world, filed.personId, holding!),
+      ).toThrow(/no longer on the calendar/);
+      expect(() =>
+        performCampaignWeekSession(world, filed.personId, holding!),
+      ).toThrow(/no longer on the calendar/);
+    }
+    expect(world.currentDate >= addDays(start, 21)).toBe(true);
+    expect(planIds.length).toBeGreaterThanOrEqual(3);
+    const actionIds = world.history
+      .campaignWeeklyPlans!.filter((plan) => planIds.includes(plan.id))
+      .flatMap((plan) => plan.scheduledActionIds);
+    expect(stops).toBeGreaterThan(0);
+    for (const actionId of actionIds) {
+      expect(campaignActionResult(world, actionId)).toBeFalsy();
+    }
+    const releases = world.history.events.filter(
+      (event) => event.type === "campaign.weekly-session-released",
+    );
+    // Every session of a finished week was let go; the current week's
+    // sessions that have not come up yet are still on the calendar.
+    expect(releases.length).toBe(stops);
+    expect(
+      releases.every((event) =>
+        event.participants.every((p) => p.role === "agency:candidate"),
+      ),
+    ).toBe(true);
+    // Nothing done means nothing spent, raised or moved.
+    expect(treasury(filed, world)).toBe(moneyBefore);
+    // Support may still move because the other side campaigns on its own
+    // (recorded opponent steps); none of it comes from the released sessions.
+    const opponentStateIds = new Set(
+      (world.history.campaignOpponentSteps ?? []).flatMap(
+        (step) => step.supportStateIds,
+      ),
+    );
+    expect(world.history.campaignActionResults?.length).toBe(
+      filed.world.history.campaignActionResults?.length,
+    );
+    for (const state of world.history.metricStates
+      .slice(supportBefore)
+      .filter((state) => state.metricId === filed.campaign.supportMetricId)) {
+      expect(opponentStateIds.has(state.id), state.stableKey).toBe(true);
+    }
+    // And the current week still accepts a plan once its own ends.
+    const latest = world.history.campaignWeeklyPlans!.at(-1)!;
+    expect(latest.status).toBe("committed");
+    assertWorldIntegrity(world);
+    expect(canonicalJson(deserializeWorld(serializeWorld(world)))).toBe(
+      canonicalJson(world),
+    );
+  });
+
+  it("releases an earlier week's sessions with a recorded reason when the clock jumped past them", () => {
+    const filed = fundedCampaign("weekly-jumped");
+    const planned = planWeek(filed);
+    const first = planned.history.campaignWeeklyPlans!.at(-1)!;
+    const moneyBefore = treasury(filed, planned);
+    // A date-level jump (the fixture clock) steps over confirmed holds.
+    const jumped = advanceWorld(
+      planned,
+      8,
+      createCampaignElectionTransitionRegistry(),
+    );
+    const view = projectCampaignWeek(jumped, filed.personId)!;
+    expect(view.committed).toBeNull();
+    expect(
+      first.scheduledActionIds.every(
+        (id) =>
+          scheduledActivityState(
+            jumped,
+            campaignActionById(jumped, id)!.scheduledActivityId,
+          ).status === "scheduled",
+      ),
+    ).toBe(true);
+    expect(() =>
+      performCampaignWeekSession(
+        jumped,
+        filed.personId,
+        first.scheduledActionIds[0]!,
+      ),
+    ).toThrow(/already passed/);
+
+    // A refused plan still releases nothing: the refusal writes only itself.
+    const refused = commitCampaignWeek(
+      jumped,
+      filed.personId,
+      inputFor(view, {
+        emphasis: "field",
+        allocation: {
+          fieldShifts: 0,
+          fundraisingSessions: 0,
+          advertisingBuys: 0,
+        },
+        advertising: null,
+      }),
+    );
+    expect(refused.history.events).toEqual(jumped.history.events);
+    expect(refused.history.scheduledActivityStates).toEqual(
+      jumped.history.scheduledActivityStates,
+    );
+
+    const next = commitCampaignWeek(jumped, filed.personId, inputFor(view));
+    const second = next.history.campaignWeeklyPlans!.at(-1)!;
+    expect(second.status).toBe("committed");
+    for (const id of first.scheduledActionIds) {
+      const action = campaignActionById(next, id)!;
+      expect(
+        scheduledActivityState(next, action.scheduledActivityId).status,
+      ).toBe("cancelled");
+      expect(campaignActionResult(next, id)).toBeFalsy();
+    }
+    const releases = next.history.events.filter(
+      (event) => event.type === "campaign.weekly-session-released",
+    );
+    expect(releases).toHaveLength(first.scheduledActionIds.length);
+    expect(releases[0]!.summary).toMatch(/week ended before it was done/);
+    expect(releases[0]!.involvedEntityIds).toContain(first.id);
+    expect(treasury(filed, next)).toBe(moneyBefore);
+    // The new week is fully doable.
+    const done = runCondensedCampaignWeek(next, filed.personId, second.id);
+    expect(
+      second.scheduledActionIds.every((id) => campaignActionResult(done, id)),
+    ).toBe(true);
+  });
+
+  it("counts only public opponent campaign events in this contest as known", () => {
+    const filed = fundedCampaign("weekly-opponent-facts");
+    const reasons = (world: World) =>
+      projectCampaignWeek(world, filed.personId)!
+        .options.find((option) => option.emphasis === "communications")!
+        .reasons.join(" ");
+    expect(reasons(filed.world)).toMatch(/No public campaign events/);
+    const event = (
+      world: World,
+      key: string,
+      visibility: "public" | "limited",
+    ) =>
+      recordWorldEvent(world, {
+        stableKey: `weekly-test:${key}`,
+        type: "campaign.opponent-field-event",
+        occurredAt: world.currentDate,
+        recordedAt: world.currentDate,
+        jurisdictionId: filed.campaign.jurisdictionId,
+        involvedEntityIds: [filed.campaign.contestId],
+        participants: [],
+        personFactConstraints: [],
+        visibility,
+        tags: ["campaign.opponent"],
+        summary: "The other side held an event.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+    const hidden = event(filed.world, "limited", "limited");
+    expect(reasons(hidden)).toMatch(/No public campaign events/);
+    const known = event(hidden, "public", "public");
+    expect(reasons(known)).toMatch(/1 public campaign event by the other side/);
+  });
+
   it("rejects a committed plan whose actions were tampered with", () => {
     const filed = fundedCampaign("weekly-integrity");
     const planned = planWeek(filed);
@@ -858,6 +1070,13 @@ describe("weekly campaign plans", { timeout: 900_000 }, () => {
     expect(() => assertWorldIntegrity(badKind)).toThrow(/advertising/);
   });
 });
+
+function compareMoments(left: World, right: World): number {
+  return canonicalJson(left.currentMoment) ===
+    canonicalJson(right.currentMoment)
+    ? 0
+    : 1;
+}
 
 /** A direct session outside any plan, which changes the treasury. */
 function performCampaignWeekSessionless(filed: Filed): World {

@@ -20,6 +20,8 @@ import {
   CAMPAIGN_SUPPORT_REQUEST_DECIDED_EVENT,
   acceptCampaignLifeActivity,
   campaignLifeActivityForScheduledActivity,
+  campaignLifeOutreachTransitionHandler,
+  ensureCampaignLifeOutreach,
   offerCampaignLifeActivity,
   projectCampaignGuidance,
   projectCampaignLifeActivities,
@@ -37,8 +39,19 @@ import {
 } from "./campaign-queries";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
 import { canonicalJson } from "./canonical-json";
+import { campaignCompliancePackFor } from "./campaign-compliance";
+import { GAME_ADULT_CANDIDACY_AGE, candidacyPackById } from "./candidacy-packs";
+import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
+import {
+  advanceWorld,
+  createScenarioWorld,
+  ensureCampaignOpponents,
+  fileCampaign,
+  makeCurrencyCode,
+} from "./index";
 import {
   addDays,
+  ageOnDate,
   compareSimulationMoments,
   simulationMomentAtLocalTime,
 } from "./dates";
@@ -49,7 +62,11 @@ import {
 } from "./living-world/party-chapters";
 import { resourcePositionAt } from "./resource-queries";
 import { deserializeWorld, serializeWorld } from "./serialization";
-import { performScheduledActivity, scheduledActivityState } from "./time-work";
+import {
+  createScheduledActivity,
+  performScheduledActivity,
+  scheduledActivityState,
+} from "./time-work";
 import type { EntityId, IsoDate, SimulationMoment, World } from "./types";
 
 const REGISTRY = createCampaignElectionTransitionRegistry();
@@ -232,6 +249,56 @@ function passDay(world: World, personId: EntityId): World {
         : liveThrough(stepped, personId, (destination ?? blocker).id);
   }
   throw new Error("The day never ended.");
+}
+
+/**
+ * A Kentucky scenario world with a filed campaign and one staff member, the
+ * shape `campaigns.test.ts` uses. The staff member is a real committee host.
+ */
+function staffedKentuckyCampaign(seed: string, advanceDays: number) {
+  const created = createScenarioWorld(seed, KENTUCKY_CONTEXT, {
+    peopleCount: 6,
+  });
+  const scenario = advanceWorld(created, advanceDays);
+  const adults = scenario.personOrder.filter(
+    (id) =>
+      ageOnDate(scenario.people[id]!.birthDate, scenario.currentDate) >=
+      GAME_ADULT_CANDIDACY_AGE,
+  );
+  const candidatePersonId = adults[0]!;
+  const staffPersonId = adults[1]!;
+  const base: World = {
+    ...scenario,
+    control: { kind: "person", personId: candidatePersonId },
+  };
+  const opponents = ensureCampaignOpponents(base, {
+    stableKey: "life-test-campaign",
+    jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
+    count: 1,
+    excludePersonIds: [candidatePersonId, staffPersonId],
+  });
+  const filed = fileCampaign(opponents.world, {
+    stableKey: "life-test-campaign",
+    candidatePersonId,
+    jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
+    officeKey: candidacyPackById("us-ky-general-assembly-v1:candidacy")!
+      .offices[0]!.officeKey,
+    electionDate: addDays(base.currentDate, 21),
+    rivalPersonIds: opponents.personIds,
+    existingContestId: null,
+    committeeName: "A committee for the test fixture",
+    donorPoolName: "Supporters, in aggregate",
+    advertisingVendorName: "Advertising, in aggregate",
+    staffPersonIds: [staffPersonId],
+    treasuryCurrency: makeCurrencyCode("USD"),
+  });
+  const life: Life = {
+    world: filed.world,
+    personId: candidatePersonId,
+    chapterId: filed.campaign.organizationId,
+    organizerId: staffPersonId,
+  };
+  return { life, campaign: filed.campaign };
 }
 
 function withCampaign(life: Life): Life {
@@ -576,13 +643,16 @@ describe(
       }
     });
 
-    it("a Kentucky fundraiser the compliance pack refuses records no money", () => {
+    it("a Kentucky fundraiser follows the reviewed pack: unknown before its coverage", () => {
       const running = withCampaign(adultLife("life-a"));
       const campaign = activeCampaignForCandidate(
         running.world,
         running.personId,
       )!;
       const flowsBefore = running.world.history.resourceFlows.length;
+      // The opening date precedes the pack's reviewed coverage (2026-07-15),
+      // so the itemization threshold is unknown and nothing is recorded.
+      expect(running.world.currentDate < "2026-07-15").toBe(true);
       const done = attend(
         offer(
           running,
@@ -602,7 +672,222 @@ describe(
         (e) => e.id === outcome.outcomeEventId,
       )!;
       expect(event.tags).toContain("compliance:refused");
-      expect(event.summary).toMatch(/could not record/);
+      expect(event.summary).toMatch(/itemization threshold is UNKNOWN/);
+    });
+
+    it("a covered Kentucky fundraiser, hosted by campaign staff, stays within the itemization threshold", () => {
+      const staffed = staffedKentuckyCampaign("life-ky-covered", 247);
+      const { campaign } = staffed;
+      const running = staffed.life;
+      // Inside the pack's reviewed coverage.
+      expect(running.world.currentDate >= "2026-07-15").toBe(true);
+      expect(
+        campaignCompliancePackFor(running.world, campaign.id),
+      ).not.toBeNull();
+      const covered = running.world;
+      // A request to the committee is hosted by its active staff member.
+      const requested = requestCampaignLifeActivity(covered, running.personId, {
+        form: "phone-shift",
+        hostOrganizationId: campaign.organizationId,
+      });
+      expect(latestRecord(requested)).toMatchObject({
+        hostPersonId: running.organizerId,
+        campaignId: campaign.id,
+        origin: "subject-request",
+      });
+      const treasuryBefore = campaignTreasuryPosition(covered, campaign)!
+        .liquidBalance.minorUnits;
+      const first = attend(
+        offer(
+          running,
+          covered,
+          "fundraiser",
+          evening(covered, 1),
+          "test:fundraiser:ky-covered",
+          { campaignId: campaign.id },
+        ),
+        running.personId,
+      );
+      const outcome = campaignLifeOutcomeRecords(first).at(-1)!;
+      // KRS 121.180(3)(a)2.: over $200 needs address, employer and
+      // occupation, which this World does not record for the donor.
+      expect(outcome.raisedAmount).toEqual({
+        minorUnits: 20_000,
+        currency: campaign.treasuryCurrency,
+      });
+      expect(
+        campaignTreasuryPosition(first, campaign)!.liquidBalance.minorUnits,
+      ).toBe(treasuryBefore + 20_000);
+      const event = first.history.events.find(
+        (e) => e.id === outcome.outcomeEventId,
+      )!;
+      expect(event.tags).toContain("compliance:allowed");
+      expect(event.summary).toMatch(/kept to \$200\.00/);
+      expect(event.summary).toMatch(/address, employer or occupation/);
+      expect(event.summary).toMatch(/KRS 121\.180/);
+
+      // The same persistent donor has nothing more that can be recorded.
+      const second = attend(
+        offer(
+          running,
+          first,
+          "fundraiser",
+          evening(first, 2),
+          "test:fundraiser:ky-covered:2",
+          { campaignId: campaign.id },
+        ),
+        running.personId,
+      );
+      const again = campaignLifeOutcomeRecords(second).at(-1)!;
+      expect(again.contactPersonIds).toEqual(outcome.contactPersonIds);
+      expect(again.resourceFlowId).toBeNull();
+      expect(again.raisedAmount).toBeNull();
+      expect(second.history.resourceFlows.length).toBe(
+        first.history.resourceFlows.length,
+      );
+      const refused = second.history.events.find(
+        (e) => e.id === again.outcomeEventId,
+      )!;
+      expect(refused.tags).toContain("compliance:refused");
+      expect(refused.summary).toMatch(/already given \$200\.00/);
+      expect(refused.summary).toMatch(/address, employer or occupation/);
+    });
+
+    it("refuses early or foreign attendance, and a declined offer cannot be accepted", () => {
+      const life = adultLife("life-a");
+      const offered = offer(
+        life,
+        life.world,
+        "organization-meeting",
+        evening(life.world, 1),
+        "test:early",
+      );
+      const record = latestRecord(offered);
+      const before = serializeWorld(offered);
+      expect(() =>
+        recordCampaignLifeAttendance(
+          offered,
+          life.personId,
+          record.scheduledActivityId,
+          "attended",
+        ),
+      ).toThrow(/has not happened yet/);
+      expect(() =>
+        recordCampaignLifeAttendance(
+          offered,
+          life.organizerId,
+          record.scheduledActivityId,
+          "attended",
+        ),
+      ).toThrow(/Only the person you are playing/);
+      expect(serializeWorld(offered)).toBe(before);
+      const declined = declineVenueActivity(
+        offered,
+        life.personId,
+        record.scheduledActivityId,
+      );
+      expect(
+        acceptCampaignLifeActivity(declined, life.personId, record.id),
+      ).toBe(declined);
+      // The host is on the hold, so nobody can book the organizer over it.
+      expect(() =>
+        createScheduledActivity(offered, {
+          stableKey: "test:early:organizer-busy",
+          title: "Something else",
+          summary: "A confirmed commitment.",
+          kind: "confirmed",
+          start: evening(life.world, 1, 18 * 60 + 45),
+          end: evening(life.world, 1, 19 * 60 + 15),
+          participantPersonIds: [life.organizerId],
+          responsiblePersonId: life.organizerId,
+          location: {
+            locationKey: "ordinary-life:meeting-room",
+            label: "Community room",
+            jurisdictionId: null,
+          },
+          sourceEntityIds: [record.invitationEventId],
+          flexibility: { kind: "fixed" },
+          access: { kind: "private", personIds: [life.organizerId] },
+        }),
+      ).toThrow(/conflicts/);
+    });
+
+    it("a late recording is dated to the day the activity happened", () => {
+      const life = adultLife("life-a");
+      const offered = offer(
+        life,
+        life.world,
+        "organization-meeting",
+        evening(life.world, 1),
+        "test:late-record",
+        { origin: "subject-request" },
+      );
+      const record = latestRecord(offered);
+      const lived = liveThrough(
+        offered,
+        life.personId,
+        record.scheduledActivityId,
+      );
+      const happenedOn = lived.currentDate;
+      const later = passDay(lived, life.personId);
+      expect(later.currentDate > happenedOn).toBe(true);
+      expect(viewFor(later, life.personId, record.id)).toMatchObject({
+        state: "completed",
+        outcome: null,
+      });
+      const done = recordCampaignLifeAttendance(
+        later,
+        life.personId,
+        record.scheduledActivityId,
+        "attended",
+      );
+      const outcome = campaignLifeOutcomeRecords(done).at(-1)!;
+      expect(outcome.completedAt).toBe(happenedOn);
+      const event = done.history.events.find(
+        (e) => e.id === outcome.outcomeEventId,
+      )!;
+      expect(event.occurredAt).toBe(happenedOn);
+      expect(event.recordedAt).toBe(later.currentDate);
+    });
+
+    it("the outreach handler is pure, reschedules forward and blocks without a host", () => {
+      const life = adultLife("life-a");
+      const scheduled = ensureCampaignLifeOutreach(
+        life.world,
+        life.personId,
+        life.chapterId,
+      );
+      expect(
+        ensureCampaignLifeOutreach(scheduled, life.personId, life.chapterId),
+      ).toBe(scheduled);
+      const item = scheduled.history.futureDueItems.at(-1)!;
+      expect(item.transitionKey).toBe(CAMPAIGN_LIFE_OUTREACH_KEY);
+      expect([...item.entityIds]).toEqual([...item.entityIds].sort());
+      expect(item.dueAt > scheduled.currentDate).toBe(true);
+      const before = serializeWorld(scheduled);
+      const result = campaignLifeOutreachTransitionHandler(scheduled, item);
+      expect(serializeWorld(scheduled)).toBe(before);
+      expect(result.status).toBe("resolved");
+      expect(result.world.currentDate).toBe(scheduled.currentDate);
+      expect(result.world.id).toBe(scheduled.id);
+      const added = result.world.history.futureDueItems.slice(
+        scheduled.history.futureDueItems.length,
+      );
+      expect(added).toHaveLength(1);
+      expect(added[0]!.stableKey.endsWith(":2")).toBe(true);
+      expect(added[0]!.dueAt > scheduled.currentDate).toBe(true);
+      // Same due item, same answer.
+      expect(
+        canonicalJson(
+          campaignLifeOutreachTransitionHandler(scheduled, item).world,
+        ),
+      ).toBe(canonicalJson(result.world));
+      const orphan = campaignLifeOutreachTransitionHandler(scheduled, {
+        ...item,
+        entityIds: [life.personId],
+      });
+      expect(orphan.status).toBe("blocked");
+      expect(orphan.world).toBe(scheduled);
     });
 
     it("field work for a running campaign moves canonical support zero-sum", () => {

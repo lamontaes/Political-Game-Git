@@ -11,10 +11,10 @@ import {
   type CampaignSupportDecision,
 } from "./campaign-life-types";
 import {
-  campaignForContest,
   campaignLifeOutcomeRecords,
   campaignOpponentRecords,
   campaignOpponentStepRecords,
+  campaigns as campaignRecords,
   campaignState,
   requireCampaign,
 } from "./campaign-queries";
@@ -89,8 +89,14 @@ const MESSAGING_MINIMUM_MINOR_UNITS = 20_000;
 const FUNDRAISING_RANGE = [60_000, 250_001] as const;
 const MESSAGING_RANGE = [20_000, 120_001] as const;
 const SWING_RANGE = [60, 141] as const;
-/** A field event: three hours, the candidate and their field lead. */
-const FIELD_EVENT_MINUTES = 180;
+/**
+ * A field event: ninety minutes with the two people actually present, the
+ * candidate and their field lead. The effect uses the same formula as a
+ * player's outreach afternoon (`campaigns.ts` requestedGainBasisPoints:
+ * minutes x workers x 3/2, then the seeded swing), so a rival's evening on the
+ * doors is worth what the player's is, not a multiple of it.
+ */
+const FIELD_EVENT_MINUTES = 90;
 const FIELD_EVENT_WORKERS = 2;
 const EVALUATION_INTERVAL_DAYS = 7;
 const LATE_CAMPAIGN_DAYS = 21;
@@ -422,6 +428,9 @@ function reachableChapter(
   world: World,
   opponent: CampaignOpponentRecord,
 ): HomePartyChapter | null {
+  // TODO(CRUNCH46 WORLD): switch to WORLD's `affiliationAt(world, personId,
+  // date?)` once it lands on this branch; `publicPartyAffiliation` is the
+  // accessor this checkout has today and reads the same public record.
   const partyId = publicPartyAffiliation(world, opponent.candidatePersonId);
   if (!partyId) return null;
   return (
@@ -519,6 +528,17 @@ function chooseStep(
       optionKey: "support-request",
       kind: "history:already-requested",
       explanation: "They have already asked their party chapter this race.",
+      sourceRefs: [],
+    });
+  } else if (!reachableChapter(world, opponent)) {
+    // A candidate knows whether they have a party chapter to ask. Without
+    // this, a rival who values relationships would pick the request every
+    // week and fall back to fundraising every week.
+    constraints.push({
+      stableKey: `${stepKey}:constraint:no-chapter`,
+      optionKey: "support-request",
+      kind: "affiliation:no-reachable-chapter",
+      explanation: "They have no local party chapter to ask.",
       sourceRefs: [],
     });
   }
@@ -1271,7 +1291,18 @@ export function campaignWeeklyEvaluationHandler(
     dueItem.entityIds
       .map((id) => electionContestById(world, id))
       .find((record) => record !== undefined && record !== null) ?? null;
-  const campaign = contest ? campaignForContest(world, contest.id) : null;
+  // The due item's own stable key names the campaign it was scheduled for;
+  // the contest alone would not if a contest ever carried two campaigns.
+  const campaign = contest
+    ? (campaignRecords(world).find(
+        (record) =>
+          record.contestId === contest.id &&
+          dueItem.stableKey.startsWith(evaluationPrefix(record)) &&
+          /^\d+$/.test(
+            dueItem.stableKey.slice(evaluationPrefix(record).length),
+          ),
+      ) ?? null)
+    : null;
   if (
     !contest ||
     !campaign ||
@@ -1301,8 +1332,14 @@ export function campaignWeeklyEvaluationHandler(
   const weekStart = dueItem.dueAt;
   let next = world;
   let outcomeEventId: EntityId | null = null;
+  // Only candidates the player's campaign carries a support scope for can
+  // gain support through `recordSupportShift`; anyone else is left alone.
+  const scoped = new Set(
+    campaign.candidateSupportScopes.map((scope) => scope.candidatePersonId),
+  );
   const rivals = [...contest.candidatePersonIds]
     .filter((personId) => personId !== campaign.candidatePersonId)
+    .filter((personId) => scoped.has(personId))
     .filter(
       (personId) => world.people[personId] && !isDeceased(world, personId),
     )
@@ -1373,20 +1410,34 @@ export function projectKnownOpponentActivity(
   world: World,
   personId: EntityId,
 ): readonly KnownOpponentActivity[] {
+  const steps = campaignOpponentStepRecords(world);
+  if (steps.length === 0) return [];
   const opponents = new Map(
     campaignOpponentRecords(world).map((record) => [record.id, record]),
   );
+  const stepEventIds = new Set(steps.map((step) => step.outcomeEventId));
+  const events = new Map(
+    world.history.events
+      .filter((event) => stepEventIds.has(event.id))
+      .map((event) => [event.id, event]),
+  );
+  const knowledgeByEvent = new Map<EntityId, string>();
+  for (const record of world.history.knowledge) {
+    if (
+      record.personId === personId &&
+      stepEventIds.has(record.eventId) &&
+      !knowledgeByEvent.has(record.eventId)
+    ) {
+      knowledgeByEvent.set(record.eventId, record.believedSummary);
+    }
+  }
   const rows: { sequence: number; row: KnownOpponentActivity }[] = [];
-  for (const step of campaignOpponentStepRecords(world)) {
+  for (const step of steps) {
     const opponent = opponents.get(step.opponentId);
-    const event = world.history.events.find(
-      (candidate) => candidate.id === step.outcomeEventId,
-    );
+    const event = events.get(step.outcomeEventId);
     if (!opponent || !event || event.visibility !== "public") continue;
-    const knowledge = world.history.knowledge.find(
-      (record) => record.personId === personId && record.eventId === event.id,
-    );
-    if (!knowledge) continue;
+    const believedSummary = knowledgeByEvent.get(event.id);
+    if (believedSummary === undefined) continue;
     rows.push({
       sequence: event.sequence,
       row: {
@@ -1394,7 +1445,7 @@ export function projectKnownOpponentActivity(
         date: event.occurredAt,
         opponentPersonId: opponent.candidatePersonId,
         kind: step.kind,
-        summary: knowledge.believedSummary,
+        summary: believedSummary,
       },
     });
   }

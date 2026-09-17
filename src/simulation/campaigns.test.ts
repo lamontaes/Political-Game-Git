@@ -923,10 +923,11 @@ describe("support truth and what the campaign is told about it", () => {
 
 /**
  * Outreach sessions that carry "probe-3" to a win. Since CRUNCH46 the rival
- * runs a campaign of their own (a weekly field event or message), so three
- * afternoons no longer outwork them; twelve do for this seed.
+ * runs a campaign of their own (four weekly steps before this election), so
+ * three afternoons no longer outwork them; seven is the fewest that do for
+ * this seed (six still loses).
  */
-const WINNING_SESSIONS = 12;
+const WINNING_SESSIONS = 7;
 
 /** Same fixture, two ways of playing it, one seed that answers differently. */
 function playToElection(seed: string, outreachSessions: number) {

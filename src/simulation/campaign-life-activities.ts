@@ -17,6 +17,7 @@ import {
 import {
   assessKentuckyCampaignContribution,
   campaignCompliancePackFor,
+  type CampaignComplianceRulePack,
 } from "./campaign-compliance";
 import { assessContribution } from "./campaign-compliance-rules";
 import {
@@ -1229,31 +1230,9 @@ function planFundraiser(
       decisionTag: "compliance:not-attempted",
     };
   }
-  if (campaignCompliancePackFor(world, campaign.id)) {
-    const assessment = assessKentuckyCampaignContribution({
-      onDate: world.currentDate,
-      contributorKind: "individual",
-      amountMinorUnits: amount.minorUnits,
-      currency: amount.currency,
-      contributorName: personName(donor),
-      // Not recorded for this donor; never guessed.
-      contributorAddress: null,
-      employer: null,
-      occupation: null,
-    });
-    return assessment.acceptableForRecording
-      ? {
-          amount,
-          allowed: true,
-          note: "The Kentucky pack's recordability checks were satisfied.",
-          decisionTag: "compliance:allowed",
-        }
-      : {
-          amount,
-          allowed: false,
-          note: `The committee could not record the gift: ${assessment.refusals.join(" ")}`,
-          decisionTag: "compliance:refused",
-        };
+  const kentucky = campaignCompliancePackFor(world, campaign.id);
+  if (kentucky) {
+    return planKentuckyGift(world, campaign, donorPersonId, amount, kentucky);
   }
   const ruling = assessContribution(world, {
     campaignId: campaign.id,
@@ -1272,6 +1251,105 @@ function planFundraiser(
         : ruling.reason,
     decisionTag: `compliance:${ruling.decision}`,
   };
+}
+
+/** What this donor has already given this committee through recorded gifts. */
+function givenByDonorMinorUnits(
+  world: World,
+  campaign: CampaignRecord,
+  donorPersonId: EntityId,
+): number {
+  const flowIds = new Set(
+    world.history.resourceFlows
+      .filter(
+        (flow) =>
+          flow.source.kind === "person" &&
+          flow.source.personId === donorPersonId &&
+          flow.recipient.kind === "organization" &&
+          flow.recipient.organizationId === campaign.organizationId &&
+          flow.basisKind === "custom:campaign-contribution",
+      )
+      .map((flow) => flow.id),
+  );
+  return world.history.resourceTransferOutcomes
+    .filter(
+      (outcome) =>
+        flowIds.has(outcome.resourceFlowId) &&
+        outcome.transferredAmount.currency === campaign.treasuryCurrency,
+    )
+    .reduce((sum, outcome) => sum + outcome.transferredAmount.minorUnits, 0);
+}
+
+/**
+ * A Kentucky gift under the reviewed pack.
+ *
+ * The pack requires a contributor's address, employer and occupation once a
+ * contributor's gifts pass its itemization threshold. This World does not
+ * record any of those for a generated donor, and they are never invented, so
+ * the donor keeps their total at or under the threshold — the one path the
+ * pack itself makes recordable without them. The total is counted across all
+ * of this donor's recorded gifts to the committee (the conservative reading).
+ * When nothing more fits, or the threshold is not established on this date,
+ * nothing is collected and the outcome says exactly why.
+ */
+function planKentuckyGift(
+  world: World,
+  campaign: CampaignRecord,
+  donorPersonId: EntityId,
+  drawn: MoneyAmount,
+  pack: CampaignComplianceRulePack,
+): FundraiserPlan {
+  const donorName = personName(world.people[donorPersonId]!);
+  const threshold = pack.itemizationThresholdMinorUnits;
+  const given = givenByDonorMinorUnits(world, campaign, donorPersonId);
+  const missingFacts =
+    "the game does not record this donor's address, employer or occupation";
+  let amount = drawn;
+  let capNote = "";
+  if (
+    threshold.state === "KNOWN" &&
+    given + drawn.minorUnits > threshold.value
+  ) {
+    const room = threshold.value - given;
+    const limit = formatMoney({
+      minorUnits: threshold.value,
+      currency: drawn.currency,
+    });
+    if (room <= 0) {
+      return {
+        amount: drawn,
+        allowed: false,
+        note: `${donorName} has already given ${limit}, the most Kentucky lets a committee record without itemizing (${threshold.source.legalLocator}), and ${missingFacts}, so nothing more was collected.`,
+        decisionTag: "compliance:refused",
+      };
+    }
+    amount = { minorUnits: room, currency: drawn.currency };
+    capNote = ` The gift was kept to ${formatMoney(amount)} so ${donorName}'s total stays within ${limit}, because ${missingFacts} and Kentucky requires them above that amount (${threshold.source.legalLocator}).`;
+  }
+  const assessment = assessKentuckyCampaignContribution({
+    onDate: world.currentDate,
+    contributorKind: "individual",
+    // Assessed on the donor's running total, not on this gift alone.
+    amountMinorUnits: given + amount.minorUnits,
+    currency: amount.currency,
+    contributorName: donorName,
+    contributorAddress: null,
+    employer: null,
+    occupation: null,
+  });
+  return assessment.acceptableForRecording
+    ? {
+        amount,
+        allowed: true,
+        note: `The Kentucky pack's recordability checks were satisfied; the gift needs no itemization.${capNote}`,
+        decisionTag: "compliance:allowed",
+      }
+    : {
+        amount,
+        allowed: false,
+        note: `The committee could not record the gift: ${assessment.refusals.join(" ")}${assessment.requiresItemization === true ? ` (${missingFacts}.)` : ""}`,
+        decisionTag: "compliance:refused",
+      };
 }
 
 /**
@@ -1311,6 +1389,9 @@ export function recordCampaignLifeAttendance(
   if (activityState.status !== "completed") {
     throw new Error("That activity has not happened yet.");
   }
+  // The day the activity actually finished; a late recording still dates what
+  // happened to that day, while money and support are recorded when recorded.
+  const completedAt = makeIsoDate(activityState.recordedAt.date);
   const entry = campaignLifeCatalogEntry(record.form);
   const subject = world.people[personId]!;
   const host = world.people[record.hostPersonId]!;
@@ -1345,8 +1426,19 @@ export function recordCampaignLifeAttendance(
   // Persistent contacts, created the first time they are needed.
   let next = world;
   const contactPersonIds: EntityId[] = [];
-  const addContact = (key: string) => {
-    const ensured = ensureContactPerson(next, key, homeJurisdictionId);
+  // A persistent contact who has since died is never met again; the next
+  // numbered person in that role is used instead.
+  const addContact = (roleKey: string, first: number) => {
+    let n = first;
+    while (
+      deceased(next, characterHistoryContextPersonId(next, `${roleKey}:${n}`))
+    )
+      n += 1;
+    const ensured = ensureContactPerson(
+      next,
+      `${roleKey}:${n}`,
+      homeJurisdictionId,
+    );
     next = ensured.world;
     contactPersonIds.push(ensured.personId);
     return ensured.personId;
@@ -1364,13 +1456,13 @@ export function recordCampaignLifeAttendance(
       new SeededRng(world.seed)
         .fork(`campaign-life-roster:${outcomeId}`)
         .integer(0, 2) === 1;
-    addContact(`${orgKey}:campaign-life:volunteer:${second ? 2 : 1}`);
+    addContact(`${orgKey}:campaign-life:volunteer`, second ? 2 : 1);
   } else if (record.form === "fundraiser") {
-    addContact(`${orgKey}:campaign-life:donor:1`);
+    addContact(`${orgKey}:campaign-life:donor`, 1);
   } else if (record.form === "town-hall") {
     // TODO(PRESS): a reporter covering the town hall belongs to PRESS's
     // persistent press people; none is invented here.
-    addContact(`${orgKey}:campaign-life:community:1`);
+    addContact(`${orgKey}:campaign-life:community`, 1);
   }
   const contactNames = contactPersonIds.map((id) =>
     personName(next.people[id]!),
@@ -1417,7 +1509,7 @@ export function recordCampaignLifeAttendance(
   next = recordWorldEvent(next, {
     stableKey: `${keyBase}:attended`,
     type: CAMPAIGN_LIFE_ATTENDED_EVENT,
-    occurredAt: world.currentDate,
+    occurredAt: completedAt,
     recordedAt: world.currentDate,
     jurisdictionId,
     involvedEntityIds: [
@@ -1492,7 +1584,7 @@ export function recordCampaignLifeAttendance(
       stableKey: `${keyBase}:guidance`,
       personId,
       eventId: outcomeEvent.id,
-      learnedAt: world.currentDate,
+      learnedAt: completedAt,
       believedSummary: guidanceText(guidance),
       accuracy: "accurate",
       confidence: "high",
@@ -1553,7 +1645,7 @@ export function recordCampaignLifeAttendance(
     next = recordWorldEvent(next, {
       stableKey: `${keyBase}:support-decision`,
       type: CAMPAIGN_SUPPORT_REQUEST_DECIDED_EVENT,
-      occurredAt: world.currentDate,
+      occurredAt: completedAt,
       recordedAt: world.currentDate,
       jurisdictionId,
       involvedEntityIds: [
@@ -1615,7 +1707,7 @@ export function recordCampaignLifeAttendance(
       stableKey: `${keyBase}:contact:${otherId}`,
       personIds: [personId, otherId],
       eventId: outcomeEvent.id,
-      occurredAt: world.currentDate,
+      occurredAt: completedAt,
       kind: CAMPAIGN_LIFE_CONTACT_KIND,
       change: knownBefore ? "maintained" : "formed",
       significance: "minor",
@@ -1630,7 +1722,7 @@ export function recordCampaignLifeAttendance(
         stableKey: `${keyBase}:recurring:${otherId}`,
         personIds: [personId, otherId],
         eventId: outcomeEvent.id,
-        occurredAt: world.currentDate,
+        occurredAt: completedAt,
         kind: CAMPAIGN_LIFE_RECURRING_CONTACT_KIND,
         change: "strengthened",
         significance: "minor",
@@ -1649,7 +1741,7 @@ export function recordCampaignLifeAttendance(
     sequence: next.history.nextSequence,
     activityId: record.id,
     scheduledActivityId: activity.id,
-    completedAt: world.currentDate,
+    completedAt,
     attendance,
     outcomeEventId: outcomeEvent.id,
     contactPersonIds,
@@ -1718,7 +1810,7 @@ export function ensureCampaignLifeOutreach(
       0,
       ...items.map((item) => Number(item.stableKey.slice(prefix.length))),
     ) + 1;
-  return scheduleFutureDueItem(world, {
+  const next = scheduleFutureDueItem(world, {
     stableKey: `${prefix}${n}`,
     dueAt: addDays(
       world.currentDate,
@@ -1738,6 +1830,8 @@ export function ensureCampaignLifeOutreach(
       sourceEntityIds: [chapter.organizerPersonId],
     },
   });
+  assertWorldIntegrity(next);
+  return next;
 }
 
 const FORM_OPTION_TEXT: Readonly<Record<CampaignLifeForm, string>> = {
@@ -2022,16 +2116,19 @@ export function projectCampaignLifeActivities(
       const holdState = scheduledActivityState(world, hold.id);
       const outcome = outcomeFor(world, record.id);
       const holds = holdsFor(world, record).map((activity) => activity.id);
-      const state: CampaignLifeActivityState = outcome
-        ? "completed"
-        : declinedHold(world, holds)
-          ? "declined"
-          : holdState.status === "scheduled" &&
-              compareSimulationMoments(holdState.end, world.currentMoment) > 0
-            ? hold.kind === "confirmed"
-              ? "accepted"
-              : "offered"
-            : "expired";
+      // A hold that has completed but whose outcome is not yet recorded is
+      // still "completed" (with outcome null), never "expired".
+      const state: CampaignLifeActivityState =
+        outcome || holdState.status === "completed"
+          ? "completed"
+          : declinedHold(world, holds)
+            ? "declined"
+            : holdState.status === "scheduled" &&
+                compareSimulationMoments(holdState.end, world.currentMoment) > 0
+              ? hold.kind === "confirmed"
+                ? "accepted"
+                : "offered"
+              : "expired";
       const outcomeEvent = outcome
         ? world.history.events.find(
             (event) => event.id === outcome.outcomeEventId,

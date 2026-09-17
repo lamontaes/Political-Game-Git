@@ -122,7 +122,8 @@ export function assertCampaignLifeIntegrity(
       hold.kind === "travel" ||
       !hold.sourceEntityIds.includes(record.invitationEventId) ||
       state?.status !== "completed" ||
-      state.sequence >= outcome.sequence
+      state.sequence >= outcome.sequence ||
+      state.recordedAt.date !== outcome.completedAt
     )
       fail("does not follow a completed hold of its activity");
     const event = eventById.get(outcome.outcomeEventId);
@@ -167,6 +168,20 @@ export function assertCampaignLifeIntegrity(
         flow.recipient.kind !== "organization" ||
         flow.recipient.organizationId !== campaign.organizationId ||
         flow.basisKind !== "custom:campaign-contribution" ||
+        flow.restrictionKind !== "purpose:campaign" ||
+        flow.source.kind !== "person" ||
+        !outcome.contactPersonIds.includes(flow.source.personId) ||
+        !world.history.resourceTransferOutcomes.some(
+          (transfer) =>
+            transfer.resourceFlowId === flow.id &&
+            transfer.status === "completed" &&
+            transfer.sequence > event.sequence &&
+            transfer.sequence < outcome.sequence &&
+            transfer.transferredAmount.minorUnits ===
+              outcome.raisedAmount!.minorUnits &&
+            transfer.transferredAmount.currency ===
+              outcome.raisedAmount!.currency,
+        ) ||
         outcome.raisedAmount.minorUnits <= 0 ||
         outcome.raisedAmount.currency !== campaign.treasuryCurrency
       )

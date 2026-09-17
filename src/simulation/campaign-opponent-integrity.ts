@@ -28,6 +28,17 @@ const STEP_KINDS: readonly CampaignOpponentStepKind[] = [
 
 const DECISIONS: readonly string[] = ["granted", "declined", "deferred"];
 
+/**
+ * The event type each step kind writes. Kept here rather than imported from
+ * `campaign-opponents.ts` so integrity never depends on the writer module.
+ */
+const STEP_EVENT_TYPES: Readonly<Record<CampaignOpponentStepKind, string>> = {
+  fundraising: "campaign.opponent-fundraising-reported",
+  messaging: "campaign.opponent-message-released",
+  "field-event": "campaign.opponent-field-event",
+  "support-request": "campaign.opponent-support-decided",
+};
+
 function fail(message: string, id: EntityId): never {
   throw new Error(`${message}: ${id}`);
 }
@@ -138,6 +149,7 @@ export function assertCampaignOpponentIntegrity(
       !event ||
       event.sequence >= step.sequence ||
       event.occurredAt !== step.createdAt ||
+      event.type !== STEP_EVENT_TYPES[step.kind] ||
       !event.involvedEntityIds.includes(opponent.candidatePersonId)
     ) {
       fail("Campaign opponent step event is invalid", step.id);
@@ -181,6 +193,8 @@ export function assertCampaignOpponentIntegrity(
         flow.recipient.organizationId !== recipient ||
         flow.basisKind !== basis ||
         flow.restrictionKind !== "purpose:campaign" ||
+        flow.provenance.kind !== "simulated-event" ||
+        flow.provenance.eventId !== step.outcomeEventId ||
         transfer.transferredAmount.minorUnits !== step.amount.minorUnits ||
         transfer.transferredAmount.currency !== step.amount.currency
       ) {

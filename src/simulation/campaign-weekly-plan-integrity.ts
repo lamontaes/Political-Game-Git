@@ -101,7 +101,15 @@ export function assertCampaignWeeklyPlanIntegrity(
     if (!campaign || campaign.sequence >= plan.sequence) {
       throw new Error(`Campaign weekly plan linkage is invalid: ${plan.id}`);
     }
+    const electionDate =
+      (world.history.electionContests ?? []).find(
+        (contest) => contest.id === campaign.contestId,
+      )?.electionDate ?? null;
     if (
+      electionDate === null ||
+      // A committed week ends before election day; a refused one may have
+      // been decided on it (the "election-passed" refusal).
+      (plan.status === "committed" && plan.weekEnd >= electionDate) ||
       plan.weekStart > plan.weekEnd ||
       plan.weekEnd > addDays(plan.weekStart, 6) ||
       plan.createdAt > plan.weekStart ||

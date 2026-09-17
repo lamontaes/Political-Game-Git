@@ -143,9 +143,11 @@ describe("a state office does not move its winner's home", () => {
     const earlier = life.world.history;
     let world = spendAnAfternoon(life.world, life.personId, "fundraising");
     // Since CRUNCH46 the rival campaigns every week too, so three afternoons
-    // no longer carry this seat; sixteen mornings of doors still do. Each day
-    // opens through the ordinary-day path so the afternoon is still free.
-    for (let day = 0; day < 16; day += 1) {
+    // no longer carry this seat. Advancing a whole day at a time drifts the
+    // clock past the afternoon after four days, so each day opens through the
+    // ordinary-day path instead; six such days are the fewest that still win
+    // (five lose).
+    for (let day = 0; day < 6; day += 1) {
       world = passOrdinaryDays(world, 1);
       const outreach = projectCampaign(world, life.personId).offers.find(
         (offer) => offer.kind === "outreach",

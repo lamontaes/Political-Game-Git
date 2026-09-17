@@ -24,6 +24,7 @@ import {
 } from "./index";
 import {
   CAMPAIGN_CONTACT_MET_KIND,
+  CAMPAIGN_CONTACT_RECURRING_KIND,
   CAMPAIGN_OPPONENT_EVENTS,
   campaignWeeklyEvaluationHandler,
   ensureCampaignWeeklyEvaluation,
@@ -340,6 +341,105 @@ describe("CRUNCH46 opponent campaigns", () => {
     },
     300_000,
   );
+
+  it("scores a field event like a player's canvass and strengthens only a repeat contact", () => {
+    // Pinned seed: this rival favours field work and holds several events.
+    const filed = fileRace("opponents-money-b", { electionInDays: 60 });
+    const world = advance(filed.world, 59);
+    const opponent = campaignOpponentRecords(world)[0]!;
+    const fieldSteps = campaignOpponentStepRecords(world).filter(
+      (step) => step.kind === "field-event",
+    );
+    expect(fieldSteps.length).toBeGreaterThanOrEqual(2);
+    const rivalShare = (stateId: EntityId) => {
+      const state = world.history.metricStates.find((s) => s.id === stateId)!;
+      if (state.value.kind !== "quantity") throw new Error("not a share");
+      return (
+        (state.value.quantity.numerator * 10_000) /
+        state.value.quantity.denominator
+      );
+    };
+    fieldSteps.forEach((step, index) => {
+      const event = world.history.events.find(
+        (record) => record.id === step.outcomeEventId,
+      )!;
+      expect(event.visibility).toBe("public");
+      expect(event.participants.map((participant) => participant.role)).toEqual(
+        ["presence:participant", "presence:participant"],
+      );
+      // Ninety minutes, two people, swing 60-140: the player's own formula.
+      const rivalState = world.history.metricStates.find(
+        (state) =>
+          step.supportStateIds.includes(state.id) &&
+          state.scope.segmentKey ===
+            filed.campaign.candidateSupportScopes.find(
+              (scope) => scope.candidatePersonId === filed.rivalPersonId,
+            )!.segmentKey,
+      )!;
+      const previous = world.history.metricStates
+        .filter(
+          (state) =>
+            state.metricId === rivalState.metricId &&
+            state.scope.segmentKey === rivalState.scope.segmentKey &&
+            state.sequence < rivalState.sequence,
+        )
+        .at(-1)!;
+      const gain = rivalShare(rivalState.id) - rivalShare(previous.id);
+      expect(gain).toBeGreaterThanOrEqual(0);
+      expect(gain).toBeLessThanOrEqual(Math.floor((90 * 2 * 3 * 140) / 200));
+
+      const contacts = world.history.relationshipInteractions.filter(
+        (interaction) => interaction.eventId === event.id,
+      );
+      for (const contact of contacts) {
+        expect([...contact.personIds].sort()).toEqual(
+          [filed.rivalPersonId, opponent.fieldLeadPersonId].sort(),
+        );
+        expect(contact.tags).toEqual(["campaign.contact"]);
+      }
+      if (index === 0) {
+        expect(
+          contacts.map((contact) => [contact.kind, contact.change]),
+        ).toEqual([[CAMPAIGN_CONTACT_MET_KIND, "formed"]]);
+      } else {
+        expect(
+          contacts.map((contact) => [contact.kind, contact.change]),
+        ).toEqual([
+          [CAMPAIGN_CONTACT_MET_KIND, "maintained"],
+          [CAMPAIGN_CONTACT_RECURRING_KIND, "strengthened"],
+        ]);
+      }
+    });
+    // A step that met nobody writes no contact.
+    for (const step of campaignOpponentStepRecords(world)) {
+      if (step.kind === "field-event") continue;
+      expect(
+        world.history.relationshipInteractions.some(
+          (interaction) => interaction.eventId === step.outcomeEventId,
+        ),
+      ).toBe(false);
+    }
+  }, 300_000);
+
+  it("does not keep choosing a chapter request a rival has no chapter for", () => {
+    // Pinned seed: this rival values relationships, and the World has no
+    // party chapters, so asking one is not a real option.
+    const filed = fileRace("opponents-money-a", { electionInDays: 60 });
+    const world = advance(filed.world, 59);
+    expect(campaignOpponentRecords(world)[0]!.emphasis).toBe("relationships");
+    const fallbacks = campaignOpponentStepRecords(world).filter((step) => {
+      const event = world.history.events.find(
+        (record) => record.id === step.outcomeEventId,
+      )!;
+      return event.context.motivation?.includes("no party chapter") ?? false;
+    });
+    expect(fallbacks).toEqual([]);
+    expect(
+      campaignOpponentStepRecords(world).some(
+        (step) => step.kind === "support-request",
+      ),
+    ).toBe(false);
+  }, 300_000);
 
   it("tells the player's campaign only what the rival did in public", () => {
     const filed = fileRace("opponents-knowledge", { electionInDays: 60 });
