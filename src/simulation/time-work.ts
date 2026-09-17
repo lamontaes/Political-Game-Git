@@ -10,6 +10,7 @@ import {
   makeSimulationMoment,
   sameSimulationMoment,
   simulationMomentAtLocalTime,
+  simulationMomentEpochMinute,
   simulationMinutesBetween,
 } from "./dates";
 import { createStableId } from "./ids";
@@ -178,14 +179,44 @@ function cloneFlexibility(
       };
 }
 
+/*
+ * GOVERNING profile: "latest state of X" was a full scan per call, and the
+ * integrity pass asks it for every record. History arrays are replaced, never
+ * edited, so an index per array is exact.
+ */
+function latestIndex<T, K>(
+  cache: WeakMap<readonly T[], Map<K, T>>,
+  records: readonly T[],
+  keyOf: (record: T) => K,
+): Map<K, T> {
+  let index = cache.get(records);
+  if (!index) {
+    index = new Map();
+    for (const record of records) index.set(keyOf(record), record);
+    cache.set(records, index);
+  }
+  return index;
+}
+
+const LATEST_ACTIVITY_STATE = new WeakMap<
+  readonly ScheduledActivityStateRecord[],
+  Map<EntityId, ScheduledActivityStateRecord>
+>();
+const LATEST_WORK_STATE = new WeakMap<
+  readonly WorkItemStateRecord[],
+  Map<EntityId, WorkItemStateRecord>
+>();
+
 function latestActivityStateUnchecked(
   world: World,
   activityId: EntityId,
 ): ScheduledActivityStateRecord | null {
   return (
-    world.history.scheduledActivityStates
-      .filter((state) => state.activityId === activityId)
-      .at(-1) ?? null
+    latestIndex(
+      LATEST_ACTIVITY_STATE,
+      world.history.scheduledActivityStates,
+      (state) => state.activityId,
+    ).get(activityId) ?? null
   );
 }
 
@@ -208,9 +239,11 @@ function latestWorkStateUnchecked(
   workItemId: EntityId,
 ): WorkItemStateRecord | null {
   return (
-    world.history.workItemStates
-      .filter((state) => state.workItemId === workItemId)
-      .at(-1) ?? null
+    latestIndex(
+      LATEST_WORK_STATE,
+      world.history.workItemStates,
+      (state) => state.workItemId,
+    ).get(workItemId) ?? null
   );
 }
 
@@ -239,6 +272,37 @@ export function personHasActiveAssignedWork(
       state?.status === "active" && state.assignedPersonIds.includes(personId)
     );
   });
+}
+
+/**
+ * A per-person sweep that finds whether any two scheduled activities sharing
+ * a participant overlap. Only when it finds one does the pairwise loop run,
+ * so the reported pair is the same one it always reported.
+ */
+function scheduledActivitiesMayOverlap(
+  world: World,
+  active: readonly ScheduledActivityRecord[],
+): boolean {
+  const byPerson = new Map<EntityId, { start: number; end: number }[]>();
+  for (const activity of active) {
+    const state = latestActivityStateUnchecked(world, activity.id)!;
+    const start = simulationMomentEpochMinute(state.start);
+    const end = simulationMomentEpochMinute(state.end);
+    for (const personId of new Set(activity.participantPersonIds)) {
+      const list = byPerson.get(personId) ?? [];
+      list.push({ start, end });
+      byPerson.set(personId, list);
+    }
+  }
+  for (const list of byPerson.values()) {
+    list.sort((a, b) => a.start - b.start);
+    let maxEnd = -Infinity;
+    for (const interval of list) {
+      if (interval.start < maxEnd) return true;
+      maxEnd = Math.max(maxEnd, interval.end);
+    }
+  }
+  return false;
 }
 
 function intervalsOverlap(
@@ -1722,6 +1786,38 @@ function canonicalSourceAvailable(
   return !!record && record.sequence < sequenceExclusive;
 }
 
+const RECORD_INDEX_ACTIVITY = new WeakMap<
+  readonly ScheduledActivityRecord[],
+  Map<EntityId, ScheduledActivityRecord>
+>();
+const RECORD_INDEX_ACTIVITY_STATE = new WeakMap<
+  readonly ScheduledActivityStateRecord[],
+  Map<EntityId, ScheduledActivityStateRecord>
+>();
+const RECORD_INDEX_WORK = new WeakMap<
+  readonly WorkItemRecord[],
+  Map<EntityId, WorkItemRecord>
+>();
+const RECORD_INDEX_WORK_STATE = new WeakMap<
+  readonly WorkItemStateRecord[],
+  Map<EntityId, WorkItemStateRecord>
+>();
+
+function byId<T extends { readonly id: EntityId }>(
+  cache: WeakMap<readonly T[], Map<EntityId, T>>,
+  records: readonly T[],
+): Map<EntityId, T> {
+  let index = cache.get(records);
+  if (!index) {
+    index = new Map();
+    // First record wins, as the scan it replaces did.
+    for (const record of records)
+      if (!index.has(record.id)) index.set(record.id, record);
+    cache.set(records, index);
+  }
+  return index;
+}
+
 function timeWorkRecordById(
   world: World,
   id: EntityId,
@@ -1731,11 +1827,12 @@ function timeWorkRecordById(
   | WorkItemRecord
   | WorkItemStateRecord
   | null {
+  const h = world.history;
   return (
-    world.history.scheduledActivities.find((record) => record.id === id) ??
-    world.history.scheduledActivityStates.find((record) => record.id === id) ??
-    world.history.workItems.find((record) => record.id === id) ??
-    world.history.workItemStates.find((record) => record.id === id) ??
+    byId(RECORD_INDEX_ACTIVITY, h.scheduledActivities).get(id) ??
+    byId(RECORD_INDEX_ACTIVITY_STATE, h.scheduledActivityStates).get(id) ??
+    byId(RECORD_INDEX_WORK, h.workItems).get(id) ??
+    byId(RECORD_INDEX_WORK_STATE, h.workItemStates).get(id) ??
     null
   );
 }
@@ -1947,26 +2044,29 @@ export function assertTimeWorkIntegrity(
       return state?.status === "scheduled";
     },
   );
-  for (let index = 0; index < activeScheduled.length; index += 1) {
-    const left = activeScheduled[index]!;
-    const leftState = latestActivityStateUnchecked(world, left.id)!;
-    for (const right of activeScheduled.slice(index + 1)) {
-      const rightState = latestActivityStateUnchecked(world, right.id)!;
-      if (
-        left.participantPersonIds.some((personId) =>
-          right.participantPersonIds.includes(personId),
-        ) &&
-        intervalsOverlap(
-          leftState.start,
-          leftState.end,
-          rightState.start,
-          rightState.end,
-        )
-      ) {
-        throw new Error(`Scheduled activities overlap: ${left.id}:${right.id}`);
+  if (scheduledActivitiesMayOverlap(world, activeScheduled))
+    for (let index = 0; index < activeScheduled.length; index += 1) {
+      const left = activeScheduled[index]!;
+      const leftState = latestActivityStateUnchecked(world, left.id)!;
+      for (const right of activeScheduled.slice(index + 1)) {
+        const rightState = latestActivityStateUnchecked(world, right.id)!;
+        if (
+          left.participantPersonIds.some((personId) =>
+            right.participantPersonIds.includes(personId),
+          ) &&
+          intervalsOverlap(
+            leftState.start,
+            leftState.end,
+            rightState.start,
+            rightState.end,
+          )
+        ) {
+          throw new Error(
+            `Scheduled activities overlap: ${left.id}:${right.id}`,
+          );
+        }
       }
     }
-  }
 
   const workById = new Map<EntityId, WorkItemRecord>();
   for (const item of world.history.workItems) {
