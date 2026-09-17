@@ -193,7 +193,8 @@ function ChamberBlock({
         {counted.map((entry) => (
           <span
             key={entry.partyOrganizationId ?? "none"}
-            data-series={entry.slot}
+            data-series={entry.noParty ? "none" : entry.slot}
+            data-no-party={entry.noParty ? "true" : undefined}
             style={{ flexGrow: entry.members }}
           />
         ))}
@@ -208,7 +209,8 @@ function ChamberBlock({
         {counted.map((entry) => (
           <li
             key={entry.partyOrganizationId ?? "none"}
-            data-series={entry.slot}
+            data-series={entry.noParty ? "none" : entry.slot}
+            data-no-party={entry.noParty ? "true" : undefined}
           >
             {entry.label} <strong>{entry.members}</strong>
           </li>
