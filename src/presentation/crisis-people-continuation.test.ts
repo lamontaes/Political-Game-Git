@@ -10,7 +10,7 @@ import {
 import type { EntityId, World } from "../simulation";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
-import { passOrdinaryDays } from "./ordinary-life";
+import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 import {
   continueAs,
   observeWorld,
@@ -24,7 +24,9 @@ function frailPlayer(seed: string) {
     prepareOpeningLife({ ...DEFAULT_NEW_GAME_SETUP, seed, startAge: 34 }),
   ).game!;
   const player = game.playerPersonId;
-  const world = beginHealthEpisode(game.world, {
+  // A real player's world has an opened ordinary life with player-required work.
+  const opened = openOrdinaryLife(game.world, player);
+  const world = beginHealthEpisode(opened, {
     stableKey: "proof-frail",
     personId: player,
     severity: "chronic",
