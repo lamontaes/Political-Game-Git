@@ -77,11 +77,15 @@ export function QuickDossier({
  * else has already placed focus deliberately, such as the scene's own return.
  */
 function useReturnFocusToOpener(): void {
+  // Read during the first render: the card's own effect moves focus into it
+  // before this component's effect runs.
+  const [opener] = useState(() =>
+    typeof document !== "undefined" &&
+    document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null,
+  );
   useEffect(() => {
-    const opener =
-      document.activeElement instanceof HTMLElement
-        ? document.activeElement
-        : null;
     return () => {
       if (!opener) return;
       requestAnimationFrame(() => {
@@ -90,7 +94,7 @@ function useReturnFocusToOpener(): void {
         if (lost && opener.isConnected) opener.focus();
       });
     };
-  }, []);
+  }, [opener]);
 }
 
 export function FullDossier({
