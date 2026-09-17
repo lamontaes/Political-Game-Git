@@ -63,7 +63,7 @@ test("Politics workspace fills a 390x844 phone frame", async ({
     .locator(".pg-politics-tab-list")
     .first()
     .evaluate((list) => {
-      const tabs = [...list.querySelectorAll("button")];
+      const tabs = Array.from(list.querySelectorAll("button"));
       const tops = new Set(
         tabs.map((tab) => Math.round(tab.getBoundingClientRect().top)),
       );
