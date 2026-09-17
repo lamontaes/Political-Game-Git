@@ -155,6 +155,7 @@ const interfaceSeed = await page.evaluate(async (databaseName) => {
       journalYear: null,
       politicsPlace: "here",
       governmentScope: "local",
+      learnedGuideTermKeys: [],
       map: {
         mode: "house",
         stateUsps: null,
