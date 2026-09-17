@@ -6,6 +6,11 @@ import { useMemo, useRef, type CSSProperties, type ReactNode } from "react";
 
 import { requireSceneAnchor } from "../presentation/scene-registry";
 import type { TitlePresentation } from "../presentation/title-tableau";
+import {
+  titleCameraClassName,
+  titleStageDrifts,
+  type TitleStageRole,
+} from "../presentation/title-ambient";
 import { PRODUCTION_VISUAL_LIBRARY } from "../presentation/visual-integration";
 import { useRasterTier } from "./useRasterTier";
 import { useSceneCoverTransform } from "./useSceneTransform";
@@ -43,7 +48,7 @@ function TitleStage({
    * the front door of the game spends its first second and a half arriving.
    * `arriving` and `leaving` exist only for the length of a crossfade.
    */
-  readonly role: "showing" | "arriving" | "leaving";
+  readonly role: TitleStageRole;
   readonly drifting: boolean;
 }) {
   const scene = presentation.scene;
@@ -107,11 +112,7 @@ function TitleStage({
       aria-hidden="true"
     >
       <div
-        className={
-          drifting
-            ? "scene-camera title-tableau-camera title-tableau-camera--drift"
-            : "scene-camera title-tableau-camera"
-        }
+        className={titleCameraClassName(drifting)}
         data-testid="title-tableau-camera"
         data-painted-tier={tier.paintedWidth ?? ""}
         style={
@@ -274,7 +275,7 @@ export function TitleTableau({
           visualLibrary={visualLibrary}
           presentation={leaving}
           role="leaving"
-          drifting={false}
+          drifting={titleStageDrifts("leaving", drifting)}
         />
       ) : null}
       {NO_PLATE_KINDS.has(presentation.kind) ? null : (
@@ -284,7 +285,10 @@ export function TitleTableau({
           hero={hero}
           presentation={presentation}
           role={leaving ? "arriving" : "showing"}
-          drifting={drifting}
+          drifting={titleStageDrifts(
+            leaving ? "arriving" : "showing",
+            drifting,
+          )}
         />
       )}
       <div className="title-tableau-content">{children}</div>

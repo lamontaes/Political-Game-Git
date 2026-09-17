@@ -15,6 +15,13 @@ import {
   projectHometownPage,
 } from "../presentation/creator-hometown-page";
 import { previewCreatorNames } from "../presentation/creator-name-preview";
+import { proseDate } from "../presentation/prose-dates";
+import {
+  creatorBirthDate,
+  creatorCharacterHint,
+  creatorCharacterMissing,
+  statedCreatorGender,
+} from "../presentation/creator-character";
 import {
   SavedAppearanceProvider,
   SavedRenderSnapshotsProvider,
@@ -264,6 +271,7 @@ import {
   WorkspaceFrame,
 } from "./ShellWorkspaces";
 import { PlayerVersion } from "./PlayerVersion";
+import { ReturnToTitleAction } from "./ReturnToTitleAction";
 import { PersonalRoutinePanel } from "./PersonalRoutinePanel";
 import {
   SaveImportControl,
@@ -1083,7 +1091,10 @@ function SetupScreen({
   const stateAgencyAvailable =
     setup.startAge >= STATE_AGENCY_START_MINIMUM_AGE &&
     stateAgencyStartAvailableFor(place?.stateJurisdictionKey ?? null);
-  const genderStated = setup.gender && setup.gender !== "unstated";
+  const chosenGender = statedCreatorGender(setup.gender);
+  const characterMissing = creatorCharacterMissing(committed, ageChosen);
+  const characterHint = creatorCharacterHint(characterMissing);
+  const birthDate = ageChosen ? creatorBirthDate(setup) : null;
   // The compact summaries the finished steps collapse to.
   const summaryText: Partial<Record<CreatorStep, string>> = {
     route: custom ? "Custom start" : "Start a life",
@@ -1091,10 +1102,8 @@ function SetupScreen({
       [setup.givenName, setup.familyName].filter(Boolean).join(" ") ||
         "A name you'll be given",
       `age ${setup.startAge}`,
-      setup.birthMonth !== undefined && setup.birthDay !== undefined
-        ? `birthday ${setup.birthMonth}/${setup.birthDay}`
-        : null,
-      genderStated ? GENDER_IDENTITY_LABELS[setup.gender!] : null,
+      birthDate ? `born ${proseDate(birthDate)}` : null,
+      chosenGender ? GENDER_IDENTITY_LABELS[chosenGender] : null,
     ]
       .filter(Boolean)
       .join(" · "),
@@ -1205,8 +1214,12 @@ function SetupScreen({
                 gender only (owner override) — pronouns derive silently from it
                 and are never a player-facing control here.
               */}
-          <fieldset className="game-fieldset" data-testid="gender-choices">
-            <legend>Gender</legend>
+          <fieldset
+            className="game-fieldset"
+            data-testid="gender-choices"
+            aria-required="true"
+          >
+            <legend>Gender (required)</legend>
             <div className="game-choices game-choices-inline">
               {GENDER_IDENTITY_KEYS.filter((key) => key !== "unstated").map(
                 (key) => (
@@ -1238,6 +1251,8 @@ function SetupScreen({
                 First name
                 <input
                   type="text"
+                  required
+                  autoComplete="off"
                   value={setup.givenName ?? ""}
                   aria-describedby="creator-name-hint"
                   onChange={(event) =>
@@ -1252,6 +1267,8 @@ function SetupScreen({
                 Last name
                 <input
                   type="text"
+                  required
+                  autoComplete="off"
                   value={setup.familyName ?? ""}
                   aria-describedby="creator-name-hint"
                   onChange={(event) =>
@@ -1267,11 +1284,13 @@ function SetupScreen({
               <button
                 type="button"
                 data-testid="creator-randomize-name"
+                disabled={chosenGender === null}
                 onClick={() => {
+                  if (chosenGender === null) return;
                   const salt = nameDraws + 1;
                   const draw = previewCreatorNames(
                     setup.seed,
-                    setup.gender,
+                    chosenGender,
                     salt,
                   );
                   setNameDraws(salt);
@@ -1289,7 +1308,9 @@ function SetupScreen({
                 id="creator-name-hint"
                 data-testid="creator-name-hint"
               >
-                Leave a name blank and the game gives you one.
+                {chosenGender === null
+                  ? "Choose a gender first; Randomize name then draws a name for it."
+                  : "Type a first and last name, or use Randomize name."}
               </p>
             </div>
           </div>
@@ -1309,11 +1330,27 @@ function SetupScreen({
             type="button"
             className="game-creator-next"
             data-testid="creator-continue-character"
-            disabled={birthdayProblem !== null || !ageUsable}
+            aria-describedby={
+              characterHint ? "creator-character-missing" : undefined
+            }
+            disabled={
+              characterMissing.length > 0 ||
+              birthdayProblem !== null ||
+              !ageUsable
+            }
             onClick={() => advanceTo("place")}
           >
             Next
           </button>
+          {characterHint ? (
+            <p
+              className="game-hint"
+              id="creator-character-missing"
+              data-testid="creator-character-missing"
+            >
+              {characterHint}
+            </p>
+          ) : null}
         </section>
       ) : null}
 
@@ -2838,6 +2875,14 @@ function PlayingScreen({
     goToTheFloor,
     goToTheFloorFor,
     workHint,
+    returnToTitle: (
+      <ReturnToTitleAction
+        needsConfirmation={session.saveId === null && !savesUnavailable}
+        confirming={shell.confirmingLeave}
+        onAskConfirmation={() => dispatch({ type: "ask-leave" })}
+        onLeave={onLeave}
+      />
+    ),
   });
 
   return (
@@ -3211,6 +3256,7 @@ function renderWorkspace({
   goToTheFloor,
   goToTheFloorFor,
   workHint,
+  returnToTitle,
 }: {
   readonly view: ReturnType<typeof activeView>;
   readonly session: Session;
@@ -3230,6 +3276,8 @@ function renderWorkspace({
   readonly goToTheFloor: () => void;
   readonly goToTheFloorFor: (bill: DocketBill) => void;
   readonly workHint: string;
+  /** The in-game Options way back to the title screen. */
+  readonly returnToTitle: ReactNode;
 }): ReactNode {
   if (view.surface === "scene") return null;
 
@@ -3985,6 +4033,7 @@ function renderWorkspace({
             world={session.world}
             onWorldChange={onWorldChange}
           />
+          {returnToTitle}
         </>,
       );
 

@@ -4,6 +4,7 @@ import {
   chooseStateThenTown,
   openCreator,
   chooseStartAge,
+  completeCharacterStep,
 } from "./support/creator";
 
 async function freshBrowser(page: Page) {
@@ -75,7 +76,7 @@ for (const viewport of [
     await expect(page.getByTestId("begin")).toHaveCount(0);
     await expectFooterInsideViewport(page, viewport);
 
-    await chooseStartAge(page, 22);
+    await completeCharacterStep(page, 22);
     await page.getByTestId("creator-continue-character").click();
     await expect(page.getByTestId("creator-stage-place")).toBeVisible();
     await expect(page.getByTestId("begin")).toHaveCount(0);
@@ -94,7 +95,7 @@ test("bounds long search results and preserves Back/edit with keyboard", async (
   await page.setViewportSize(viewport);
   await freshBrowser(page);
   await reachPlaceSearch(page);
-  await chooseStartAge(page, 22);
+  await completeCharacterStep(page, 22);
   await page.getByTestId("creator-continue-character").click();
   /*
    * A long result list inside one state. The composed creator searches within

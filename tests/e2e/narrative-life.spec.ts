@@ -3,7 +3,7 @@ import {
   enterLife,
   openCreator,
   startLife as walkCreator,
-  chooseStartAge,
+  completeCharacterStep,
 } from "./support/creator";
 
 /**
@@ -217,6 +217,7 @@ test.describe("Setting up a life reads like a game, not a form", () => {
     await openCreator(page);
     await page.getByTestId("start-normal").click();
     await expect(page.getByTestId("creator-stage-character")).toBeVisible();
+    await completeCharacterStep(page, 30);
     await page.getByTestId("creator-continue-character").click();
     await expect(page.getByTestId("creator-stage-place")).toBeVisible();
     await expect(page.getByTestId("place-choices")).toHaveCount(0);
@@ -256,7 +257,7 @@ test.describe("Setting up a life reads like a game, not a form", () => {
     await freshBrowser(page);
     await openCreator(page);
     await page.getByTestId("start-normal").click();
-    await chooseStartAge(page, 22);
+    await completeCharacterStep(page, 22);
     await page.getByTestId("creator-continue-character").click();
 
     await page.getByTestId("state-search").fill("Kentucky");
@@ -319,7 +320,7 @@ test.describe("Setting up a life reads like a game, not a form", () => {
     await freshBrowser(page);
     await openCreator(page);
     await page.getByTestId("start-normal").click();
-    await chooseStartAge(page, 22);
+    await completeCharacterStep(page, 22);
     await page.getByTestId("creator-continue-character").click();
 
     await page.getByTestId("state-search").fill("Kentucky");
