@@ -1669,14 +1669,26 @@ function validateHistoryIntegrity(world: World): void {
     ...history.temporaryStates,
     ...history.decisionTraces,
   ];
-  const sequences = records
-    .map((record) => record.sequence)
-    .sort((a, b) => a - b);
-  if (
-    history.nextSequence !== records.length ||
-    sequences.some((sequence, index) => sequence !== index)
-  ) {
+  // Contiguity is "every sequence from 0 to n-1, exactly once", which a seen
+  // list answers in one pass. Sorting every record on every write proved the
+  // same thing at a cost that grew with the length of the life.
+  if (history.nextSequence !== records.length) {
     throw new Error("History sequence is not contiguous and append-oriented.");
+  }
+  const seen = new Uint8Array(records.length);
+  for (const record of records) {
+    const sequence = record.sequence;
+    if (
+      !Number.isInteger(sequence) ||
+      sequence < 0 ||
+      sequence >= records.length ||
+      seen[sequence] === 1
+    ) {
+      throw new Error(
+        "History sequence is not contiguous and append-oriented.",
+      );
+    }
+    seen[sequence] = 1;
   }
   assertSequenceOrdered(history.events, "event");
   assertSequenceOrdered(history.memories, "memory");
@@ -3437,6 +3449,7 @@ function assertUniqueStableKeys(
   records: readonly { readonly stableKey: string }[],
   label: string,
 ): void {
+  if (UNIQUE_KEYS.has(records as readonly object[])) return;
   const keys = new Set<string>();
   for (const record of records) {
     if (keys.has(record.stableKey)) {
@@ -3444,12 +3457,23 @@ function assertUniqueStableKeys(
     }
     keys.add(record.stableKey);
   }
+  UNIQUE_KEYS.add(records as readonly object[]);
 }
+
+/*
+ * Q47-006: history arrays are append-only and replaced rather than edited, so
+ * an array that has already passed one of these checks passes it forever.
+ * Remembering the exact array proved is what stops every write from re-proving
+ * the whole of history.
+ */
+const ORDERED = new WeakSet<readonly object[]>();
+const UNIQUE_KEYS = new WeakSet<readonly object[]>();
 
 function assertSequenceOrdered(
   records: readonly { readonly sequence: number }[],
   label: string,
 ): void {
+  if (ORDERED.has(records as readonly object[])) return;
   if (
     records.some(
       (record, index) =>
@@ -3458,6 +3482,7 @@ function assertSequenceOrdered(
   ) {
     throw new Error(`${label} history is not stored in append-sequence order.`);
   }
+  ORDERED.add(records as readonly object[]);
 }
 
 function assertNonEmptyString(
