@@ -97,8 +97,10 @@ at `office-section`/`docket`; worlds now publish from day one, so
   Not converted here, by ownership: appearance controls
   (`PersonAppearanceControls`, `PreparedAppearanceControls`, `WardrobeFigure`,
   `CreatorAppearanceStep`) belong to MODULAR, which received the API; developer
-  views under `src/ui/` keep native controls. No `confirm`/`alert`/`prompt`
-  and no native date or color input remain in `src/player`.
+  views under `src/ui/` keep native controls. `GameDateField` (three game
+  selects over a `YYYY-MM-DD` value) replaces the docket's two native date
+  inputs. No `confirm`/`alert`/`prompt` and no native date or color input
+  remain in `src/player`.
 - Creator follows gender -> name -> full birthday -> derived age
   (`src/presentation/creator-full-birthday.ts`). The year sets `startAge`
   against the start date; month and day stay optional; Randomize birthday

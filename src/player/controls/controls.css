@@ -167,6 +167,19 @@
   }
 }
 
+/* --------------------------------------------------------- GameDateField */
+
+.pg-date-field {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  vertical-align: middle;
+}
+
+.pg-date-field .pg-select {
+  min-width: 5.5rem;
+}
+
 /* ------------------------------------------------- native inputs, skinned */
 
 .pg-game

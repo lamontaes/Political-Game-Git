@@ -59,6 +59,7 @@ import {
 import { billAnalysis } from "../presentation/legislation-analysis";
 import type { ProposalLayout } from "../presentation/shell-navigation";
 import { ProposalLayoutContext, ProposalView } from "./proposal/ProposalLayout";
+import { GameDateField } from "./controls/GameDateField";
 import { GameSelect } from "./controls/GameSelect";
 
 /**
@@ -649,20 +650,24 @@ function FiledBillPanel({
           </p>
           <label>
             From{" "}
-            <input
-              type="date"
+            <GameDateField
+              aria-label="From"
               data-testid="estimate-start"
               value={startsOn}
-              onChange={(event) => setStartsOn(event.target.value)}
+              minYear={Number(world.currentDate.slice(0, 4)) - 1}
+              maxYear={Number(world.currentDate.slice(0, 4)) + 10}
+              onChange={setStartsOn}
             />
           </label>
           <label>
             Through{" "}
-            <input
-              type="date"
+            <GameDateField
+              aria-label="Through"
               data-testid="estimate-end"
               value={endsOn}
-              onChange={(event) => setEndsOn(event.target.value)}
+              minYear={Number(world.currentDate.slice(0, 4)) - 1}
+              maxYear={Number(world.currentDate.slice(0, 4)) + 10}
+              onChange={setEndsOn}
             />
           </label>
           <button
