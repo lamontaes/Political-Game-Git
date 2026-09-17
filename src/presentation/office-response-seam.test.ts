@@ -79,7 +79,7 @@ describe("B + D: answering for an office, against the real writer", () => {
     assertWorldIntegrity(said.world);
   });
 
-  it("an office GOVERNING does not recognize is not vacated by B saying so", () => {
+  it("a resignation ends the term through GOVERNING, and B prints its date", () => {
     const { world, player } = officeholder();
     const alleged = withMatter(world, player, "seam-resign");
     const matterId = projectOfficeMatters(alleged, player)[0]!.matterId;
@@ -88,17 +88,18 @@ describe("B + D: answering for an office, against the real writer", () => {
       { personId: player, matterId, kind: "resignation" },
       recordOfficeConsequence,
     );
-    // A legislative seat is not an office GOVERNING's writer recognizes by the
-    // key B has for it, so it answers that there is no term to end — and B
-    // prints that, rather than inventing a vacancy. The seat stands.
-    expect(resigned.officeChanged).toBe(false);
-    expect(resigned.effectiveAt).toBeNull();
-    expect(officeOutcomeLine(resigned)).toBe(resigned.officeNote);
-    expect(resigned.officeNote).toMatch(/do not hold this office/);
-    expect(resigned.world.history.workStatuses).toEqual(
-      alleged.history.workStatuses,
+    // GOVERNING resolves the seat by the work relationship's own key, ends the
+    // term, and hands back the date. B prints that date and writes no term
+    // record of its own.
+    expect(resigned.officeChanged).toBe(true);
+    expect(resigned.effectiveAt).toBeTruthy();
+    expect(officeOutcomeLine(resigned)).toContain("The office is vacant from");
+    expect(resigned.world.history.workStatuses.length).toBeGreaterThan(
+      alleged.history.workStatuses.length,
     );
-    // The player's own words are still recorded: they said it, whatever it did.
+    // The honest limit is GOVERNING's own sentence, not one B invented.
+    expect(resigned.officeNote.toLowerCase()).toContain("rules");
+    // The player's words are on the record either way.
     expect(
       resigned.world.history.events.filter(
         (event) => event.type === OFFICE_ANSWER_EVENT,
@@ -115,5 +116,25 @@ describe("B + D: answering for an office, against the real writer", () => {
     ).toThrow(/nothing of yours to answer/);
     const reopened = serializeWorld(resigned.world);
     expect(reopened.length).toBeGreaterThan(0);
+  });
+
+  it("somebody else's seat is not theirs to resign, and the note says so", () => {
+    const { world, player } = officeholder();
+    const alleged = withMatter(world, player, "seam-stranger");
+    const stranger = alleged.personOrder.find((id) => id !== player)!;
+    const answered = recordOfficeConsequence(alleged, {
+      stableKey: "seam:stranger-resign",
+      officeKey: "candidacy:nobody:seat",
+      subjectPersonId: stranger,
+      kind: "resignation",
+      effectiveAt: alleged.currentDate,
+      statedReason: "Resigning something that was never theirs.",
+      evidenceEventIds: [],
+    });
+    expect(answered.outcome.changed).toBe(false);
+    expect(answered.outcome.note).toMatch(/do not hold this office/);
+    expect(answered.world.history.workStatuses).toEqual(
+      alleged.history.workStatuses,
+    );
   });
 });
