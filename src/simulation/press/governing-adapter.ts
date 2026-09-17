@@ -1,7 +1,13 @@
-import type { EntityId, IsoDate, World } from "../types";
+import type { EntityId, IsoDate, ResourceEndpoint, World } from "../types";
 
 /**
  * GOVERNING interface boundary for PRESS46.
+ *
+ * Swap at merge: GOVERNING published the real implementations at 58453e5f
+ * (claude/governing-all-states, PR #266) in
+ * src/simulation/governing/institution-authority.ts and
+ * src/simulation/governing/outside-mandate-payment.ts with these exact shapes.
+ * Once both PRs are on one base, replace the bodies below with re-exports.
  *
  * GOVERNING owns public-fund writers and institutional authority. It agreed to
  * provide `recordOutsideMandatePublicPayment` and `canInstitutionAct`
@@ -104,6 +110,7 @@ export interface OutsideMandatePaymentInput {
   readonly operationKey: string;
   readonly purposeUsed: string;
   readonly amountMinorUnits: number;
+  readonly recipient: ResourceEndpoint;
   readonly intent: "deliberate-outside-mandate";
 }
 

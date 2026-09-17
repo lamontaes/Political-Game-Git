@@ -126,3 +126,15 @@ import {
 
 The helpers do not exist on `fed321f7`, so this branch cannot carry the gate
 before the merge.
+
+## Merge requirement with GOVERNING (claude/governing-all-states @ 58453e5f)
+
+Replace the stubs in `src/simulation/press/governing-adapter.ts` with
+re-exports of `canInstitutionAct` (`governing/institution-authority.ts`) and
+`recordOutsideMandatePublicPayment` (`governing/outside-mandate-payment.ts`),
+and delete `outsideMandatePublicPaymentAvailable`, or make it return true. The
+input shapes already match.
+
+Expect press tests to still pass. After the swap, FEC also answers
+`available` for `civil-penalty` and `refer-for-prosecution`. PRESS surfaces
+neither yet, so no copy changes.
