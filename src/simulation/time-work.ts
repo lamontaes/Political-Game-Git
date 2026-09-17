@@ -1203,12 +1203,15 @@ function advanceCanonicalMinutes(
   let world = inputWorld;
   for (const transition of transitions) {
     if (transition.kind === "date-boundary") {
+      // Resolving due items moves the date to each due day; the continuity
+      // producers must still see the whole span this boundary crossed.
+      const crossedFrom = world.currentDate;
       world = resolveFutureDueItemsThrough(
         world,
         transition.at.date,
         transitionHandlers,
       );
-      world = setCurrentMoment(world, transition.at);
+      world = setCurrentMoment(world, transition.at, crossedFrom);
     } else if (transition.kind === "work-completion" && transition.entityId) {
       world = setCurrentMoment(world, transition.at);
       world = completeStaffWork(
@@ -1561,15 +1564,19 @@ function appendWorkState(world: World, state: WorkItemStateRecord): World {
   return next;
 }
 
-function setCurrentMoment(world: World, moment: SimulationMoment): World {
+function setCurrentMoment(
+  world: World,
+  moment: SimulationMoment,
+  crossedFrom: World["currentDate"] = world.currentDate,
+): World {
   const moved = applyNationalTermTransitions({
     ...world,
     currentDate: moment.date,
     currentMoment: cloneMoment(moment),
   });
   return applyGovernorTurnover(
-    world.currentDate,
-    applyCongressTurnover(world.currentDate, moved),
+    crossedFrom,
+    applyCongressTurnover(crossedFrom, moved),
   );
 }
 
