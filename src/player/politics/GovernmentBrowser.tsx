@@ -12,6 +12,7 @@ import {
   type RepresentationRow,
 } from "../../presentation/politics-government";
 import "./politics-hub.css";
+import { GuideTerm } from "../GuideTerm";
 
 /**
  * Public government for a place, by scope and branch (OCD-UI-004).
@@ -238,7 +239,14 @@ function Roster({
     <ul className="pg-government-roster" data-testid={testid}>
       {rows.map((row) => (
         <li key={row.key} data-seat-status={row.status}>
-          <span className="pg-government-seat">{row.seatLabel}</span>
+          <span className="pg-government-seat">
+            {/*
+             * A seat title that IS a term gets its explanation; every other
+             * title renders exactly as it did. Matching is the whole label
+             * against the catalog, never a scan of the words inside it.
+             */}
+            <GuideTerm label={row.seatLabel}>{row.seatLabel}</GuideTerm>
+          </span>
           <SeatHolder
             status={row.status}
             name={row.holderName}

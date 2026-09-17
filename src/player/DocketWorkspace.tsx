@@ -59,6 +59,7 @@ import {
 import { billAnalysis } from "../presentation/legislation-analysis";
 import type { ProposalLayout } from "../presentation/shell-navigation";
 import { ProposalLayoutContext, ProposalView } from "./proposal/ProposalLayout";
+import { GuideTerm } from "./GuideTerm";
 import { GameDateField } from "./controls/GameDateField";
 import { GameSelect } from "./controls/GameSelect";
 
@@ -531,7 +532,9 @@ function FiledBillPanel({
 
       <dl className="docket-identity" data-testid="docket-identity">
         <div>
-          <dt>Sponsor of record</dt>
+          <dt>
+            <GuideTerm semanticKey="sponsor">Sponsor</GuideTerm> of record
+          </dt>
           <dd data-testid="docket-sponsor">
             {sponsor ? personName(sponsor) : "Not recorded"}
           </dd>
@@ -833,7 +836,8 @@ function BillCompositionEditor({
           <p>
             Save a private working copy of compatible changes and read every
             affected section. The bill's current text changes only after a
-            recorded amendment adopts these proposed changes.
+            recorded <GuideTerm semanticKey="amendment">amendment</GuideTerm>{" "}
+            adopts these proposed changes.
           </p>
           <div className="drafting-controls">
             {base.draft.parameters.map((spec) => (

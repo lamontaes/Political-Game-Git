@@ -270,6 +270,8 @@ import {
   WorkWorkspace,
   WorkspaceFrame,
 } from "./ShellWorkspaces";
+import { GuideWorkspace } from "./GuideWorkspace";
+import { GuideHelpProvider } from "./GuideTerm";
 import { PlayerVersion } from "./PlayerVersion";
 import { ReturnToTitleAction } from "./ReturnToTitleAction";
 import {
@@ -2549,6 +2551,18 @@ function PlayingScreen({
   const openSurface = view.surface;
   const previousSurface = useRef(openSurface);
   const newsPersonReturn = useRef<string | null>(null);
+  /**
+   * The term the Guide should open on when it was reached from inline help.
+   *
+   * Presentation only, and not kept: a player who walks into the Guide from
+   * the menu next time gets the whole catalog rather than whatever word they
+   * last looked up.
+   */
+  const [guideTermKey, setGuideTermKey] = useState<string | null>(null);
+  useEffect(() => {
+    /* Leaving the Guide forgets the lookup, so the menu opens the catalog. */
+    if (openSurface !== "guide" && guideTermKey !== null) setGuideTermKey(null);
+  }, [openSurface, guideTermKey]);
   useEffect(() => {
     const previous = previousSurface.current;
     previousSurface.current = openSurface;
@@ -2726,6 +2740,14 @@ function PlayingScreen({
       testid: "nav-places",
       open: openSurface === "places",
       group: "travel",
+    });
+    entries.push({
+      surface: "guide",
+      label: "Guide",
+      hint: "What the words on the other screens mean",
+      testid: "nav-guide",
+      open: openSurface === "guide",
+      group: "options",
     });
     entries.push({
       surface: "options",
@@ -3575,6 +3597,13 @@ function renderWorkspace({
     );
   };
 
+  /*
+   * Inline term help reaches every workspace from here.
+   *
+   * A surface that mentions an institutional word wraps it in `GuideTerm` and
+   * needs nothing else: the shell owns the learned list, because it is a saved
+   * presentation preference, and the shell owns navigation into the Guide.
+   */
   const frame = (
     title: string,
     testid: string,
@@ -3589,7 +3618,19 @@ function renderWorkspace({
       onBack={back}
       onClose={close}
     >
-      {body}
+      <GuideHelpProvider
+        help={{
+          learnedKeys: shell.preferences.learnedGuideTermKeys,
+          setLearned: (semanticKey, learned) =>
+            dispatch({ type: "set-guide-term-learned", semanticKey, learned }),
+          openGuide: (semanticKey) => {
+            setGuideTermKey(semanticKey);
+            dispatch({ type: "go-to-surface", surface: "guide" });
+          },
+        }}
+      >
+        {body}
+      </GuideHelpProvider>
     </WorkspaceFrame>
   );
 
@@ -4093,6 +4134,19 @@ function renderWorkspace({
           world={session.world}
           personId={session.personId}
           onOpenPerson={openPerson}
+        />,
+      );
+
+    case "guide":
+      return frame(
+        "Guide",
+        "guide-workspace",
+        <GuideWorkspace
+          learnedKeys={shell.preferences.learnedGuideTermKeys}
+          openKey={guideTermKey}
+          onSetLearned={(semanticKey, learned) =>
+            dispatch({ type: "set-guide-term-learned", semanticKey, learned })
+          }
         />,
       );
 
