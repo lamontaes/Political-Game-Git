@@ -438,6 +438,8 @@ describe("the shell's own store", () => {
       politicsPlace: "here",
       governmentScope: "local",
       map: DEFAULT_MAP_PREFERENCES,
+      // Guide terms arrived later too: an older record has marked none.
+      learnedGuideTermKeys: [],
     });
   });
 

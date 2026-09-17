@@ -1,5 +1,6 @@
 import type { PersonWardrobePreference } from "./person-visual-selection";
 import { readMapPreferences } from "../maps/map-preferences";
+import { guideTerm } from "./guide-terms";
 import {
   DEFAULT_DATABASE_NAME,
   INTERFACE_STORE_NAME,
@@ -193,6 +194,25 @@ function readPreferences(value: unknown): ShellPreferences {
     value.governmentScope === "federal"
       ? value.governmentScope
       : DEFAULT_PREFERENCES.governmentScope;
+  /*
+   * A record written before the Guide existed simply has no learned terms, so
+   * it reads back as a player who has marked none — which is exactly what they
+   * had. Unknown and malformed entries are dropped rather than kept, because a
+   * key no catalog resolves would be an entry the Guide cannot show.
+   */
+  const learnedGuideTermKeys = Array.isArray(value.learnedGuideTermKeys)
+    ? [
+        ...new Set(
+          value.learnedGuideTermKeys
+            .filter(
+              (entry): entry is string =>
+                typeof entry === "string" && entry.trim().length > 0,
+            )
+            .map((entry) => entry.trim())
+            .filter((entry) => guideTerm(entry) !== null),
+        ),
+      ]
+    : DEFAULT_PREFERENCES.learnedGuideTermKeys;
   return {
     peopleView,
     defaultPinSize,
@@ -207,6 +227,7 @@ function readPreferences(value: unknown): ShellPreferences {
     governmentScope,
     // Saves written before the map existed have no map field; defaults apply.
     map: readMapPreferences(value.map),
+    learnedGuideTermKeys,
   };
 }
 
