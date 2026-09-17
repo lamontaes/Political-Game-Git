@@ -219,7 +219,6 @@ import { measureById } from "../simulation";
 import { measureGate } from "../simulation/legislation";
 import { ConversationStarters, SceneConversation } from "./SceneConversation";
 import { InvokerFocusReturn } from "./PersonSceneActionMenu";
-import type { ConversationAddressee } from "../presentation/run-b-conversation";
 import type { ConversationSubjectKey } from "../presentation/run-b-conversation-progress";
 import { openConversationWith } from "../presentation/person-conversation-entry";
 import {
@@ -230,6 +229,7 @@ import {
 import {
   activeView,
   canGoBack,
+  conversationSuspended,
   isPinned,
   type ShellAction,
   type ShellRef,
@@ -273,6 +273,8 @@ import {
   WorkWorkspace,
   WorkspaceFrame,
 } from "./ShellWorkspaces";
+import { GuideWorkspace } from "./GuideWorkspace";
+import { GuideHelpProvider } from "./GuideTerm";
 import { PlayerVersion } from "./PlayerVersion";
 import { ReturnToTitleAction } from "./ReturnToTitleAction";
 import {
@@ -2343,16 +2345,14 @@ function PlayingScreen({
   /**
    * The conversation the player asked for, and who they are facing in it.
    *
-   * Held beside the shell rather than inside it because it is not a place — it
-   * is a thing happening in the room. The addressee travels with it, which is
-   * the whole repair: the recorded defect was a selected person being dropped
-   * on the way to a generic surface. PT3: it is drawn in ONE place, the
+   * It is still not a place — it is a thing happening in the room — but the
+   * shell holds the record now, because the shell is what has to answer where
+   * Back goes while it is waiting. The addressee travels with it, which is the
+   * original repair: the recorded defect was a selected person being dropped on
+   * the way to a generic surface. PT3: it is drawn in ONE place, the
    * conversation box in the room, whichever control started it.
    */
-  const [conversation, setConversation] = useState<{
-    readonly subject: ConversationSubjectKey;
-    readonly addressee: ConversationAddressee;
-  } | null>(null);
+  const conversation = shell.conversation;
   /**
    * Whose Talk-to control the room should focus when a conversation closes.
    *
@@ -2562,6 +2562,18 @@ function PlayingScreen({
   const openSurface = view.surface;
   const previousSurface = useRef(openSurface);
   const newsPersonReturn = useRef<string | null>(null);
+  /**
+   * The term the Guide should open on when it was reached from inline help.
+   *
+   * Presentation only, and not kept: a player who walks into the Guide from
+   * the menu next time gets the whole catalog rather than whatever word they
+   * last looked up.
+   */
+  const [guideTermKey, setGuideTermKey] = useState<string | null>(null);
+  useEffect(() => {
+    /* Leaving the Guide forgets the lookup, so the menu opens the catalog. */
+    if (openSurface !== "guide" && guideTermKey !== null) setGuideTermKey(null);
+  }, [openSurface, guideTermKey]);
   useEffect(() => {
     const previous = previousSurface.current;
     previousSurface.current = openSurface;
@@ -2741,6 +2753,14 @@ function PlayingScreen({
       group: "travel",
     });
     entries.push({
+      surface: "guide",
+      label: "Guide",
+      hint: "What the words on the other screens mean",
+      testid: "nav-guide",
+      open: openSurface === "guide",
+      group: "options",
+    });
+    entries.push({
       surface: "options",
       label: "Options",
       hint: "Settings this game actually reads, and patch notes",
@@ -2905,7 +2925,8 @@ function PlayingScreen({
       );
       if (entry.kind === "unavailable") return;
       setReturnFocusPrefer(invoker);
-      setConversation({
+      dispatch({
+        type: "set-conversation",
         subject: subject ?? entry.subject,
         addressee: personId,
       });
@@ -2969,6 +2990,8 @@ function PlayingScreen({
     goToTheFloor,
     goToTheFloorFor,
     workHint,
+    guideTermKey,
+    onOpenGuideTerm: setGuideTermKey,
     returnToTitle: (
       <ReturnToTitleAction
         needsConfirmation={needsLeaveConfirmation}
@@ -3074,10 +3097,12 @@ function PlayingScreen({
                         subject={conversation.subject}
                         addressee={conversation.addressee}
                         onWorldChange={onWorldChange}
-                        onChange={(next) => setConversation(next)}
+                        onChange={(next) =>
+                          dispatch({ type: "set-conversation", ...next })
+                        }
                         onBack={() => {
                           const facing = conversation.addressee;
-                          setConversation(null);
+                          dispatch({ type: "end-conversation" });
                           // Started from a record: Back returns to that record.
                           if (canGoBack(shell)) {
                             dispatch({ type: "back" });
@@ -3166,12 +3191,15 @@ function PlayingScreen({
               />
             ) : null}
 
-            {conversation && view.surface !== "scene" ? (
+            {/* The one answer to "is a line still waiting behind this?", read
+                from the shell rather than re-derived here, so the offer and
+                the reducer cannot disagree about whether there is one. */}
+            {conversationSuspended(shell) && conversation ? (
               <button
                 type="button"
                 className="pg-talk-return"
                 data-testid="conversation-return"
-                onClick={() => dispatch({ type: "go-to-scene" })}
+                onClick={() => dispatch({ type: "resume-conversation" })}
               >
                 Return to conversation
                 <small>
@@ -3391,6 +3419,8 @@ function renderWorkspace({
   goToTheFloor,
   goToTheFloorFor,
   workHint,
+  guideTermKey,
+  onOpenGuideTerm,
   returnToTitle,
 }: {
   readonly view: ReturnType<typeof activeView>;
@@ -3411,6 +3441,15 @@ function renderWorkspace({
   readonly goToTheFloor: () => void;
   readonly goToTheFloorFor: (bill: DocketBill) => void;
   readonly workHint: string;
+  /**
+   * The term the Guide should open on, and how inline help asks for one.
+   *
+   * The shell owns this rather than the Guide, because inline help lives on
+   * every other workspace and has to say which entry it meant before the
+   * Guide is the open surface. It is presentation only and is not saved.
+   */
+  readonly guideTermKey: string | null;
+  readonly onOpenGuideTerm: (semanticKey: string) => void;
   /** The in-game Options way back to the title screen. */
   readonly returnToTitle: ReactNode;
 }): ReactNode {
@@ -3552,6 +3591,12 @@ function renderWorkspace({
    * The Politics hub (UI DECISION FOLLOW-THROUGH): one tab strip over the
    * existing political surfaces. Tabs only navigate; every mechanism stays in
    * the surface that owns it.
+   *
+   * CRUNCH47 A1: a tab is a subroute of the hub, not a second place to come
+   * back through. Menu entries still add a level; these replace the one the
+   * hub already occupies, so one Back from any tab leaves the hub — and lands
+   * on a conversation waiting in the room rather than on the tab passed
+   * through on the way in.
    */
   const politicsTabs = (
     active: PoliticsTab,
@@ -3559,18 +3604,22 @@ function renderWorkspace({
   ) => {
     const goTo = (tab: PoliticsTab) => {
       if (tab === "office")
-        dispatch({ type: "go-to-surface", surface: "work", section: "office" });
+        dispatch({
+          type: "go-to-subroute",
+          surface: "work",
+          section: "office",
+        });
       else if (tab === "campaigns")
         dispatch({
-          type: "go-to-surface",
+          type: "go-to-subroute",
           surface: "work",
           section: "campaign",
         });
       else if (tab === "government")
-        dispatch({ type: "go-to-surface", surface: "government" });
+        dispatch({ type: "go-to-subroute", surface: "government" });
       else if (tab === "parties")
-        dispatch({ type: "go-to-surface", surface: "parties" });
-      else dispatch({ type: "go-to-surface", surface: "politics" });
+        dispatch({ type: "go-to-subroute", surface: "parties" });
+      else dispatch({ type: "go-to-subroute", surface: "politics" });
     };
     /*
      * Transit and tax configuration are an office's tools: offered only to a
@@ -3618,12 +3667,19 @@ function renderWorkspace({
                   : key === "transit"
                     ? "transit"
                     : "tax";
-          dispatch({ type: "go-to-surface", surface });
+          dispatch({ type: "go-to-subroute", surface });
         }}
       />
     );
   };
 
+  /*
+   * Inline term help reaches every workspace from here.
+   *
+   * A surface that mentions an institutional word wraps it in `GuideTerm` and
+   * needs nothing else: the shell owns the learned list, because it is a saved
+   * presentation preference, and the shell owns navigation into the Guide.
+   */
   const frame = (
     title: string,
     testid: string,
@@ -3638,7 +3694,19 @@ function renderWorkspace({
       onBack={back}
       onClose={close}
     >
+      <GuideHelpProvider
+        help={{
+          learnedKeys: shell.preferences.learnedGuideTermKeys,
+          setLearned: (semanticKey, learned) =>
+            dispatch({ type: "set-guide-term-learned", semanticKey, learned }),
+          openGuide: (semanticKey) => {
+            onOpenGuideTerm(semanticKey);
+            dispatch({ type: "go-to-surface", surface: "guide" });
+          },
+        }}
+      >
       {body}
+      </GuideHelpProvider>
     </WorkspaceFrame>
   );
 
@@ -3940,7 +4008,8 @@ function renderWorkspace({
           }
           onContextChange={(context) =>
             dispatch({
-              type: "go-to-surface",
+              // A News context is a section of the News desk, not a level.
+              type: "go-to-subroute",
               surface: "news",
               ...(context === "read"
                 ? {}
@@ -4150,6 +4219,19 @@ function renderWorkspace({
           world={session.world}
           personId={session.personId}
           onOpenPerson={openPerson}
+        />,
+      );
+
+    case "guide":
+      return frame(
+        "Guide",
+        "guide-workspace",
+        <GuideWorkspace
+          learnedKeys={shell.preferences.learnedGuideTermKeys}
+          openKey={guideTermKey}
+          onSetLearned={(semanticKey, learned) =>
+            dispatch({ type: "set-guide-term-learned", semanticKey, learned })
+          }
         />,
       );
 

@@ -1,5 +1,6 @@
 import "./MunicipalWorkspace.css";
 import { PinToggle } from "./controls/PinToggle";
+import { GuideTerm } from "./GuideTerm";
 import { projectMunicipalGoverning } from "../presentation/municipal-governing";
 import { proseDate } from "../presentation/prose-dates";
 import { formatMinute } from "../presentation/player-calendar";
@@ -344,7 +345,8 @@ export function MunicipalWorkspace({
                 <details>
                   <summary>Election rule and remaining actions</summary>
                   <p>
-                    {managerRule.label}, with the body's quorum required.{" "}
+                    {managerRule.label}, with the body's{" "}
+                    <GuideTerm semanticKey="quorum">quorum</GuideTerm> required.{" "}
                     {managerRule.source.sourceUrl ? (
                       <a
                         href={managerRule.source.sourceUrl}
