@@ -878,6 +878,54 @@ function validateNationalRecord(
         throw new Error("Missing term outcome event.");
       break;
     }
+    case "succession": {
+      const vacated = priorRecord(
+        world,
+        record.vacatedPlanId,
+        record.electionId,
+      );
+      const successor = priorRecord(
+        world,
+        record.successorPlanId,
+        record.electionId,
+      );
+      const death = world.history.personDeaths.find(
+        (row) => row.id === record.deathRecordId,
+      );
+      const entered = (planId: EntityId) =>
+        prior.some(
+          (old) =>
+            old.kind === "term-state" &&
+            old.planId === planId &&
+            old.status === "entered" &&
+            compareSimulationMoments(old.effectiveAt, record.effectiveAt) <= 0,
+        );
+      if (
+        vacated.kind !== "term-plan" ||
+        vacated.office !== "president" ||
+        successor.kind !== "term-plan" ||
+        successor.office !== "vice-president" ||
+        successor.personId !== record.personId ||
+        !death ||
+        death.personId !== vacated.personId ||
+        death.sequence >= record.sequence ||
+        death.diedAt !== record.effectiveAt.date ||
+        !entered(vacated.id) ||
+        !entered(successor.id) ||
+        compareSimulationMoments(record.effectiveAt, vacated.endsAt) >= 0 ||
+        compareSimulationMoments(record.effectiveAt, world.currentMoment) > 0 ||
+        record.basis !== "us-const-amend-xxv-s1" ||
+        prior.some(
+          (old) =>
+            old.kind === "succession" &&
+            old.vacatedPlanId === record.vacatedPlanId,
+        )
+      )
+        throw new Error(
+          "Succession needs the entered President's recorded death and an entered Vice President, once.",
+        );
+      break;
+    }
     default:
       throw new Error("Unknown national record kind.");
   }

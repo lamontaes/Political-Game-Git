@@ -1,4 +1,5 @@
 import { assertPublicFundingMandate } from "./public-fiscal";
+import { assertProgramInstallmentBasis } from "./public-program-integrity";
 import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
 import {
@@ -1181,6 +1182,15 @@ function validateBasisReference(
       assertPublicFundingMandate(
         world,
         reference.mandate,
+        world.history.nextSequence,
+        makeIsoDate(date),
+      );
+      return;
+    case "public-program":
+      assertProgramInstallmentBasis(
+        world,
+        reference.commitmentId,
+        reference.installmentIndex,
         world.history.nextSequence,
         makeIsoDate(date),
       );
