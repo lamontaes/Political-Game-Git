@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2781 |
-| INTENTIONALLY_NON_PLAYER_FACING | 6482 |
-| DIAGNOSTIC_OR_TEST | 6497 |
-| **NEEDS_CLASSIFICATION** | **8122** |
+| INTENTIONALLY_NON_PLAYER_FACING | 6489 |
+| DIAGNOSTIC_OR_TEST | 6495 |
+| **NEEDS_CLASSIFICATION** | **8139** |
 
-Scanned 930 files holding 93934 string
+Scanned 933 files holding 94085 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -165,6 +165,7 @@ literals in total; the table counts only those that read like a sentence.
 | 16 | `src/player/PressInterviewPanel.tsx` |
 | 16 | `src/player/WorkingDocumentWorkspace.tsx` |
 | 16 | `src/presentation/run-a-projection.ts` |
+| 16 | `src/simulation/governing/institution-authority.ts` |
 | 16 | `src/simulation/policy-semantics.ts` |
 | 16 | `src/simulation/transit-funding.ts` |
 | 16 | `src/ui/EventHistory.tsx` |
@@ -435,6 +436,7 @@ literals in total; the table counts only those that read like a sentence.
 | 1 | `src/presentation/scene-conversation.ts` |
 | 1 | `src/presentation/transit-work.ts` |
 | 1 | `src/simulation/commitment-seam.ts` |
+| 1 | `src/simulation/governing/outside-mandate-payment.ts` |
 | 1 | `src/simulation/life-personality.ts` |
 | 1 | `src/simulation/living-world/congress-seats.ts` |
 | 1 | `src/simulation/national-election-offices.ts` |
