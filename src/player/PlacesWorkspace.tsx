@@ -169,12 +169,11 @@ export function PlacesWorkspace({
       testid: string;
     }[] = [];
     const activityId = offer.activityId ?? offer.meetingId;
-    const commitment: PlacesEntityRef = {
-      kind: "commitment",
-      id: activityId ?? "",
-    };
-    const commitmentName = activityId ? labelForRef(world, commitment) : null;
-    if (activityId && commitmentName !== null) {
+    const commitment: PlacesEntityRef | null = activityId
+      ? { kind: "commitment", id: activityId }
+      : null;
+    const commitmentName = commitment ? labelForRef(world, commitment) : null;
+    if (commitment && commitmentName !== null) {
       targets.push({
         ref: commitment,
         name: commitmentName,

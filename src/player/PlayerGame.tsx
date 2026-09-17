@@ -16,7 +16,6 @@ import {
   projectHometownPage,
 } from "../presentation/creator-hometown-page";
 import { previewCreatorNames } from "../presentation/creator-name-preview";
-import { proseDate } from "../presentation/prose-dates";
 import {
   creatorBirthDate,
   creatorCharacterHint,

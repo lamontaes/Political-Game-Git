@@ -62,8 +62,8 @@ export function PersonalRoutinePanel({
         report.stoppedEarly && report.target
           ? `${stoppedEarlyLabel(report.target)}\n${report.outcome}`
           : report.outcome,
-        ),
-      );
+      ),
+    );
   const tomorrow = previewTimeCommand(world, personId, {
     kind: "days",
     days: 1,
