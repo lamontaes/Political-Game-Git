@@ -230,6 +230,7 @@ describe("world orientation reader", () => {
     expect(house.parties).toEqual([
       {
         partyOrganizationId: "party-a",
+        noParty: false,
         label: "Democratic Party",
         members: 1,
         slot: 0,
