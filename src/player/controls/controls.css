@@ -137,11 +137,12 @@
   font-weight: 650;
 }
 
-.pg-select-option[aria-selected="true"]::after {
+/* The check is decoration for sighted players; aria-selected carries the
+   state, so the glyph stays out of the option's accessible name. */
+.pg-select-check {
   position: absolute;
   top: 0.45rem;
   right: 0.55rem;
-  content: "✓";
 }
 
 .pg-select-option[aria-disabled="true"] {

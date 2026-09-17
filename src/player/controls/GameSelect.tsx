@@ -489,6 +489,11 @@ export function GameSelect({
                     }}
                   >
                     {option.label}
+                    {index === selectedIndex ? (
+                      <span className="pg-select-check" aria-hidden="true">
+                        ✓
+                      </span>
+                    ) : null}
                   </li>
                 </Fragment>
               );

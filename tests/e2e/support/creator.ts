@@ -243,7 +243,7 @@ const POLITICS_HUB: Readonly<Record<string, readonly string[]>> = {
   "nav-politics-government": ["politics-tab-government"],
   "nav-municipal": ["politics-tab-government", "politics-sub-records"],
   "nav-parties": ["politics-tab-parties"],
-  "nav-politics-budget": ["politics-tab-issues"],
+  "nav-politics-budget": ["politics-tab-issues", "politics-sub-budget"],
   "nav-politics-transit": ["politics-tab-issues", "politics-sub-transit"],
   "nav-politics-tax": ["politics-tab-issues", "politics-sub-tax"],
   "nav-politics-candidacy": ["politics-tab-campaigns"],
@@ -271,6 +271,11 @@ export async function openPoliticsHub(
   await page.getByTestId("nav-politics").click();
   for (const step of steps) {
     const control = page.getByTestId(step);
+    // A tab with a single section draws no section strip; that one section
+    // is already the destination.
+    if (step.startsWith("politics-sub-") && (await control.count()) === 0) {
+      continue;
+    }
     await expect(control).toBeVisible();
     if ((await control.getAttribute("aria-current")) !== "page") {
       await control.click();
@@ -360,12 +365,18 @@ export async function shellIdentity(page: Page): Promise<string> {
  */
 export async function openElsewhere(
   page: Page,
-  key: "day" | "people" | "work",
+  key: "day" | "people" | "work" | "jobs",
 ): Promise<void> {
   if (key === "work") return openPoliticsHub(page, "elsewhere-work");
+  // "work" is the office half of the old Work record; jobs, study, hiring
+  // and invitations are its Personal half, reached as a player reaches them.
   const control = await revealShellDestination(
     page,
-    key === "day" ? "nav-calendar" : `elsewhere-${key}`,
+    key === "day"
+      ? "nav-calendar"
+      : key === "jobs"
+        ? "nav-jobs"
+        : `elsewhere-${key}`,
   );
   await expect(control).toBeVisible();
   if ((await control.getAttribute("aria-pressed")) === "true") {
