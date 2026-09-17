@@ -62,7 +62,7 @@ try {
   await chrome.getByRole("tab", { name: "Play" }).waitFor();
   await chrome.getByRole("tab", { name: "Art Desk" }).waitFor();
   await chrome.getByRole("tab", { name: "Agents" }).waitFor();
-  await chrome.getByRole("combobox", { name: "Play source" }).waitFor();
+  await chrome.getByRole("combobox", { name: "Game build" }).waitFor();
   const game = await waitFor(() => pageFor(/^app:\/\/game\//), "Play view");
   await game.waitForLoadState("domcontentloaded");
   const marker = await game.evaluate(() => {
