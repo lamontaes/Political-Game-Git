@@ -576,7 +576,7 @@
   width: min(58rem, calc(100dvw - 2rem));
   max-height: calc(
     var(--pg-vv-height, 100dvh) - var(--pg-content-top) -
-      var(--pg-content-bottom) - 4.25rem
+      var(--pg-content-bottom) - max(4.25rem, var(--pg-nav-reserve, 0px))
   );
   display: flex;
   flex-direction: column;
@@ -930,7 +930,8 @@
     max-height: min(
       92vh,
       calc(
-        var(--pg-vv-height, 100dvh) - 2vh - var(--pg-content-bottom) - 4.25rem
+        var(--pg-vv-height, 100dvh) - 2vh - var(--pg-content-bottom) -
+          max(4.25rem, var(--pg-nav-reserve, 0px))
       )
     );
   }

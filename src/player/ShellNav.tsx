@@ -251,6 +251,30 @@ export function ShellNav({
 }) {
   const open = state.navigation !== "closed";
   const navRef = useRef<HTMLElement>(null);
+  const rowRef = useRef<HTMLDivElement>(null);
+
+  /*
+   * Workspaces end above the corner cluster. Its height changes with the Day
+   * and Week targets, so it is measured and published rather than guessed;
+   * a fixed reservation let the controls cover a workspace's last row.
+   */
+  useEffect(() => {
+    const row = rowRef.current;
+    if (!row || typeof ResizeObserver === "undefined") return;
+    const root = document.documentElement;
+    const publish = () =>
+      root.style.setProperty(
+        "--pg-nav-reserve",
+        `${Math.ceil(row.getBoundingClientRect().height) + 12}px`,
+      );
+    publish();
+    const observer = new ResizeObserver(publish);
+    observer.observe(row);
+    return () => {
+      observer.disconnect();
+      root.style.removeProperty("--pg-nav-reserve");
+    };
+  }, []);
   const [focusWithin, setFocusWithin] = useState(false);
   const near = useProximity(navRef, 190);
 
@@ -358,7 +382,7 @@ export function ShellNav({
       data-state={open ? "open" : raised ? "near" : "rest"}
       data-testid="shell-nav"
     >
-      <div className="pg-nav-row">
+      <div className="pg-nav-row" ref={rowRef}>
         <button
           type="button"
           className="pg-nav-cluster"
