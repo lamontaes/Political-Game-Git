@@ -2163,3 +2163,164 @@
     animation: none !important;
   }
 }
+
+/* ====================================================================== */
+/* CRUNCH46 — what follows a played life, observing, aims and temperament */
+/* ====================================================================== */
+
+/*
+ * The continuation view covers the room but not the corner cluster or the
+ * pin rail, so Save, People, News and the Journal stay in reach.
+ */
+.pg-continuation-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 37;
+  display: grid;
+  place-items: center;
+  padding: max(var(--pg-space-4), var(--pg-content-top)) var(--pg-space-4)
+    calc(var(--pg-content-bottom) + 4.5rem);
+  background: rgba(6, 10, 18, 0.72);
+  overflow-y: auto;
+}
+
+.pg-continuation {
+  width: min(40rem, 100%);
+  display: grid;
+  gap: var(--pg-space-3);
+  padding: var(--pg-space-5);
+  border: 1px solid var(--pg-hairline);
+  border-radius: var(--pg-radius);
+  background: var(--pg-glass-strong);
+  box-shadow: var(--pg-shadow), var(--pg-edge);
+  backdrop-filter: var(--pg-blur);
+  color: var(--pg-ivory);
+  font-family: var(--pg-font-ui);
+}
+
+.pg-continuation h2 {
+  margin: 0;
+  font-family: var(--pg-font-display);
+  font-size: 1.45rem;
+  line-height: 1.25;
+}
+
+.pg-continuation h2:focus-visible {
+  outline: 2px solid var(--pg-brass);
+  outline-offset: var(--pg-space-1);
+}
+
+.pg-continuation-kicker {
+  margin: 0;
+  color: var(--pg-brass);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pg-continuation-choices {
+  display: grid;
+  gap: var(--pg-space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pg-continuation-choices li {
+  display: grid;
+  gap: var(--pg-space-1);
+  justify-items: start;
+}
+
+.pg-continuation-note {
+  margin: 0;
+  color: var(--pg-ivory-dim);
+}
+
+.pg-continuation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pg-space-2);
+  padding-top: var(--pg-space-2);
+  border-top: 1px solid var(--pg-hairline);
+}
+
+.pg-continuation-problem {
+  margin: 0;
+  padding: var(--pg-space-2) var(--pg-space-3);
+  border-left: 3px solid var(--pg-brass);
+  background: var(--pg-slate);
+}
+
+.pg-observing {
+  position: fixed;
+  top: max(var(--pg-space-3), var(--pg-content-top));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 36;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--pg-space-2) var(--pg-space-3);
+  max-width: calc(100dvw - 2 * var(--pg-space-4));
+  padding: var(--pg-space-2) var(--pg-space-4);
+  border: 1px solid var(--pg-brass-dim);
+  border-radius: var(--pg-radius);
+  background: var(--pg-navy);
+  box-shadow: var(--pg-shadow);
+  color: var(--pg-ivory);
+  font-family: var(--pg-font-ui);
+}
+
+.pg-observing strong {
+  color: var(--pg-brass);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pg-observing span {
+  color: var(--pg-ivory-dim);
+}
+
+.pg-retire-confirm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--pg-space-2);
+}
+
+.pg-retire-confirm p {
+  flex-basis: 100%;
+  margin: 0;
+}
+
+.pg-person-card-traits {
+  margin: var(--pg-space-1) 0 0;
+  color: var(--pg-ivory-faint);
+  font-size: 0.85rem;
+}
+
+.pg-goals-list {
+  display: grid;
+  gap: var(--pg-space-3);
+  margin: 0 0 var(--pg-space-3);
+  padding: 0;
+  list-style: none;
+}
+
+.pg-goals-list p {
+  margin: 0 0 var(--pg-space-1);
+}
+
+.pg-goals-list small {
+  color: var(--pg-ivory-dim);
+}
+
+.pg-goals-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--pg-space-2);
+  margin-top: var(--pg-space-1);
+}

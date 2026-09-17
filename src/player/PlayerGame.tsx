@@ -1,4 +1,17 @@
 import { CreatorAppearanceStep } from "./CreatorAppearanceStep";
+import { LifeContinuationPanel } from "./LifeContinuationPanel";
+import { RetireFromPlayAction } from "./RetireFromPlayAction";
+import { PersonalGoalsPanel } from "./PersonalGoalsPanel";
+import {
+  READ_ONLY_REFUSAL,
+  isObserving,
+  observerReadingLens,
+  playedLifeContinuation,
+  shellReadOnly,
+  shellViewpointPersonId,
+  surfaceOpenWhileReadOnly,
+} from "../presentation/life-continuation-shell";
+import { retireFromPlay } from "../presentation/people-continuation";
 import {
   applyCreatorAppearance,
   type CreatorAppearanceChoice,
@@ -227,6 +240,7 @@ import {
 import {
   activeView,
   canGoBack,
+  EMPTY_JOURNAL,
   isPinned,
   type ShellAction,
   type ShellRef,
@@ -521,7 +535,11 @@ export function PlayerGame() {
     );
     pendingAppearance.current = null;
     setSession({
-      world: openOrdinaryLife(prepared, personId),
+      // A world being observed has nobody whose life could be opened.
+      world:
+        prepared.control.kind === "person"
+          ? openOrdinaryLife(prepared, personId)
+          : prepared,
       personId,
       unsavedSeed: seed,
       saveId,
@@ -587,11 +605,13 @@ export function PlayerGame() {
     if (!store) return;
     try {
       const world = await store.load(saveId);
-      if (!world || world.control.kind !== "person") {
+      // An observed world opens read-only, seen as the last life played.
+      const personId = world ? shellViewpointPersonId(world) : null;
+      if (!world || personId === null) {
         setProblem("That saved game could not be opened.");
         return;
       }
-      startPlaying(world, world.control.personId, null, saveId);
+      startPlaying(world, personId, null, saveId);
       setNotice(null);
     } catch {
       setProblem("That saved game could not be opened.");
@@ -866,6 +886,12 @@ export function PlayerGame() {
       notice={notice}
       problem={problem}
       onWorldChange={(world, base) => {
+        // Nobody played, or a life that has ended: only the continuation
+        // commands below may change this World.
+        if (shellReadOnly(session.world)) {
+          setNotice(READ_ONLY_REFUSAL);
+          return;
+        }
         if (base !== undefined && !worldGuard.current.admit(base)) {
           recordStaleWorldChange(base, world);
           return;
@@ -886,6 +912,26 @@ export function PlayerGame() {
               }
             : current,
         );
+      }}
+      onControlChange={(world, base, change) => {
+        if (!worldGuard.current.admit(base)) {
+          recordStaleWorldChange(base, world);
+          return;
+        }
+        setNotice(null);
+        setSession((current) => {
+          if (!current) return current;
+          if (change.kind !== "continued") return { ...current, world };
+          // The same World and save; only who is played has moved.
+          return {
+            ...current,
+            personId: change.personId,
+            world: applyExecutivePlayTransition(
+              current.world,
+              openOrdinaryLife(world, change.personId),
+            ),
+          };
+        });
       }}
       onKeep={(shellState) => void keepThisWorld(shellState)}
       onLeave={() => void leaveGame()}
@@ -2234,10 +2280,11 @@ function SavesScreen({
 /* -------------------------------------------------------------------------- */
 
 function PlayingScreen({
-  session,
+  session: storedSession,
   notice,
   problem,
   onWorldChange: commitWorld,
+  onControlChange,
   onKeep,
   onLeave,
   returnToTitleRequest,
@@ -2251,6 +2298,18 @@ function PlayingScreen({
   readonly problem: string | null;
   /** `base` is the World the change was computed from; see the root guard. */
   readonly onWorldChange: (world: World, base?: World) => void;
+  /**
+   * A continuation or retirement command's result, computed from `base`.
+   * `continued` moves the session to the successor.
+   */
+  readonly onControlChange: (
+    world: World,
+    base: World,
+    change:
+      | { readonly kind: "continued"; readonly personId: EntityId }
+      | { readonly kind: "observing" }
+      | { readonly kind: "retired" },
+  ) => void;
   readonly onKeep: (shellState: StoredShellState) => void;
   readonly onLeave: () => void;
   /** Set while a Return to title (Options or desktop hub) is in progress. */
@@ -2272,6 +2331,30 @@ function PlayingScreen({
    */
   readonly shellStore: BrowserShellStateStore;
 }) {
+  /*
+   * A played life that ended, or a world watched with nobody played, leaves
+   * the shell read-only. While observing, the reading surfaces see the world
+   * through the last life played; that lens is never committed or saved.
+   */
+  const observing = isObserving(storedSession.world);
+  const readOnly = useMemo(
+    () => shellReadOnly(storedSession.world),
+    [storedSession.world],
+  );
+  const continuation = useMemo(
+    () => playedLifeContinuation(storedSession.world),
+    [storedSession.world],
+  );
+  const session = useMemo<Session>(
+    () =>
+      storedSession.world.control.kind === "person"
+        ? storedSession
+        : {
+            ...storedSession,
+            world: observerReadingLens(storedSession.world),
+          },
+    [storedSession],
+  );
   const capabilities = useMemo(
     () => resolvePlayerCapabilities(session.world),
     [session.world],
@@ -2729,8 +2812,31 @@ function PlayingScreen({
       open: openSurface === "options" || openSurface === "patch-notes",
       group: "options",
     });
-    return entries;
-  }, [capabilities.formativeYears, holdsOffice, workHint, openSurface, view]);
+    if (!readOnly) return entries;
+    // Nobody is played: only the reading surfaces stay, and Politics opens
+    // on who governs rather than on an office or a campaign.
+    return entries
+      .map((entry) =>
+        entry.group === "politics"
+          ? {
+              surface: "government" as const,
+              label: "Politics",
+              hint: "Who governs, at every level",
+              testid: entry.testid,
+              open: entry.open,
+              group: entry.group,
+            }
+          : entry,
+      )
+      .filter((entry) => surfaceOpenWhileReadOnly(entry.surface));
+  }, [
+    capabilities.formativeYears,
+    holdsOffice,
+    workHint,
+    openSurface,
+    view,
+    readOnly,
+  ]);
 
   const openEntity = useCallback(
     (ref: ShellRef) => {
@@ -2879,6 +2985,7 @@ function PlayingScreen({
       subject?: ConversationSubjectKey,
       invoker: "scene" | "panel" = "scene",
     ) => {
+      if (readOnly) return;
       const entry = openConversationWith(
         session.world,
         session.personId,
@@ -2892,8 +2999,29 @@ function PlayingScreen({
       });
       dispatch({ type: "talk-in-scene", personId });
     },
-    [session.world, session.personId, dispatch],
+    [session.world, session.personId, dispatch, readOnly],
   );
+
+  /* A conversation cannot go on once nobody is played. */
+  useEffect(() => {
+    if (readOnly) setConversation(null);
+  }, [readOnly]);
+
+  /*
+   * The continuation view. Over the room whenever the played life has ended
+   * and nothing has been chosen; while observing, opened from the Observing
+   * bar and put away again with Escape or Keep observing.
+   */
+  const [continuationOpen, setContinuationOpen] = useState(false);
+  const observingButton = useRef<HTMLButtonElement>(null);
+  const closeContinuation = useCallback(() => {
+    setContinuationOpen(false);
+    requestAnimationFrame(() => observingButton.current?.focus());
+  }, []);
+  const showContinuation =
+    continuation !== null &&
+    view.surface === "scene" &&
+    (!observing || continuationOpen);
 
   const needsLeaveConfirmation = session.saveId === null && !savesUnavailable;
 
@@ -2950,6 +3078,24 @@ function PlayingScreen({
     goToTheFloor,
     goToTheFloorFor,
     workHint,
+    readOnly,
+    retireFromPlay: readOnly ? null : (
+      <RetireFromPlayAction
+        name={moment.personName}
+        onRetire={() => {
+          try {
+            const next = retireFromPlay(storedSession.world, session.personId);
+            onControlChange(next, storedSession.world, { kind: "retired" });
+            dispatch({ type: "go-to-scene" });
+            return null;
+          } catch (error) {
+            return error instanceof Error
+              ? error.message
+              : "This character could not be retired from play.";
+          }
+        }}
+      />
+    ),
     returnToTitle: (
       <ReturnToTitleAction
         needsConfirmation={needsLeaveConfirmation}
@@ -3036,9 +3182,9 @@ function PlayingScreen({
                 });
               }}
             >
-              {view.surface === "scene" ? (
+              {view.surface === "scene" && !readOnly ? (
                 <OpeningLifeFlow
-                  key={session.world.id}
+                  key={`${session.world.id}:${session.personId}`}
                   world={session.world}
                   playerPersonId={session.personId}
                   onWorldChange={onWorldChange}
@@ -3116,9 +3262,12 @@ function PlayingScreen({
                 onOpenPerson={(personId) =>
                   dispatch({ type: "open-quick-dossier", personId })
                 }
-                onTalk={() => talkTo(selectedDossier.personId)}
+                {...(readOnly
+                  ? {}
+                  : { onTalk: () => talkTo(selectedDossier.personId) })}
                 onMeet={() => dispatch({ type: "go-to-scene" })}
                 onTravel={() => {
+                  if (readOnly) return;
                   const next = travelTowardsPerson(
                     session.world,
                     session.personId,
@@ -3140,11 +3289,64 @@ function PlayingScreen({
                 }
                 presentPersonIds={presentPersonIds}
                 talkUnavailable={
-                  inspectTalkEntry?.kind === "unavailable"
-                    ? inspectTalkEntry.reason
-                    : null
+                  readOnly
+                    ? READ_ONLY_REFUSAL
+                    : inspectTalkEntry?.kind === "unavailable"
+                      ? inspectTalkEntry.reason
+                      : null
                 }
               />
+            ) : null}
+
+            {showContinuation && continuation ? (
+              <LifeContinuationPanel
+                world={storedSession.world}
+                view={continuation}
+                observing={observing}
+                onCommit={(next, personId) => {
+                  onControlChange(
+                    next,
+                    storedSession.world,
+                    personId === null
+                      ? { kind: "observing" }
+                      : { kind: "continued", personId },
+                  );
+                  setContinuationOpen(false);
+                  dispatch({ type: "go-to-scene" });
+                }}
+                onViewRecord={() =>
+                  openEntity({
+                    kind: "person",
+                    id: continuation.recordPersonId,
+                  })
+                }
+                {...(observing ? { onClose: closeContinuation } : {})}
+              />
+            ) : null}
+
+            {observing ? (
+              <div
+                className="pg-observing"
+                role="status"
+                data-testid="observing-label"
+              >
+                <strong>Observing</strong>
+                <span>Nobody is being played. You can look, not act.</span>
+                {continuation && !showContinuation ? (
+                  <button
+                    ref={observingButton}
+                    type="button"
+                    className="ui-action ui-action--subtle"
+                    data-testid="open-continuation"
+                    onClick={() => {
+                      setContinuationOpen(true);
+                      dispatch({ type: "go-to-scene" });
+                    }}
+                  >
+                    Continue playing
+                  </button>
+                ) : null}
+              </div>
             ) : null}
 
             {conversation && view.surface !== "scene" ? (
@@ -3239,9 +3441,9 @@ function PlayingScreen({
             <ShellNav
               state={shell}
               dispatch={dispatch}
-              playerName={moment.personName}
+              playerName={observing ? "Observing" : moment.personName}
               portrait={
-                session.world.people[session.personId] ? (
+                !observing && session.world.people[session.personId] ? (
                   <PersonPortrait
                     world={session.world}
                     personId={session.personId}
@@ -3257,7 +3459,8 @@ function PlayingScreen({
                 const shellState = {
                   pins: shell.pins,
                   preferences: shell.preferences,
-                  journal: shell.journal,
+                  journal: shell.legacyJournal,
+                  journals: shell.journals,
                   personWardrobes: shell.personWardrobes,
                   progress: shell.progress,
                 };
@@ -3268,7 +3471,7 @@ function PlayingScreen({
                 } else onKeep(shellState);
               }}
               onLeave={leaveNow}
-              {...(capabilities.formativeYears
+              {...(capabilities.formativeYears || readOnly
                 ? {}
                 : { onPassDays: passDays, passTargets })}
               passing={timeRunner.pending}
@@ -3336,6 +3539,8 @@ function renderWorkspace({
   goToTheFloor,
   goToTheFloorFor,
   workHint,
+  readOnly,
+  retireFromPlay,
   returnToTitle,
 }: {
   readonly view: ReturnType<typeof activeView>;
@@ -3356,6 +3561,10 @@ function renderWorkspace({
   readonly goToTheFloor: () => void;
   readonly goToTheFloorFor: (bill: DocketBill) => void;
   readonly workHint: string;
+  /** Nobody is played, or the played life ended: reading surfaces only. */
+  readonly readOnly: boolean;
+  /** Options' Retire from play, or null when there is nobody to retire. */
+  readonly retireFromPlay: ReactNode;
   /** The in-game Options way back to the title screen. */
   readonly returnToTitle: ReactNode;
 }): ReactNode {
@@ -3546,7 +3755,9 @@ function renderWorkspace({
       <PoliticsTabs
         active={active}
         onSelect={goTo}
-        hidden={capabilities.formativeYears ? ["office", "campaigns"] : []}
+        hidden={
+          capabilities.formativeYears || readOnly ? ["office", "campaigns"] : []
+        }
         subItems={subItems.map((item) => ({
           ...item,
           current: item.key === section,
@@ -3586,6 +3797,16 @@ function renderWorkspace({
       {body}
     </WorkspaceFrame>
   );
+
+  if (readOnly && !surfaceOpenWhileReadOnly(view.surface)) {
+    return frame(
+      "Not while observing",
+      "read-only-workspace",
+      <p className="game-note" data-testid="read-only-note">
+        {READ_ONLY_REFUSAL}
+      </p>,
+    );
+  }
 
   if (view.surface === "entity") {
     if (view.ref.kind === "person") {
@@ -3760,13 +3981,14 @@ function renderWorkspace({
             conversation box in the room, the same box every other route
             opens.
           */}
-          {!completedActivityHere(session.world, session.personId) && (
-            <ConversationStarters
-              world={session.world}
-              personId={session.personId}
-              onStart={(personId, subject) => talkTo(personId, subject)}
-            />
-          )}
+          {!readOnly &&
+            !completedActivityHere(session.world, session.personId) && (
+              <ConversationStarters
+                world={session.world}
+                personId={session.personId}
+                onStart={(personId, subject) => talkTo(personId, subject)}
+              />
+            )}
         </>,
       );
 
@@ -3791,6 +4013,30 @@ function renderWorkspace({
             {...(view.section ? { section: view.section } : {})}
             onOpenPerson={openPerson}
           />
+          {view.section !== "finances" && (
+            <PersonalGoalsPanel
+              world={session.world}
+              personId={session.personId}
+              onWorldChange={onWorldChange}
+              onOpportunity={(opportunity) => {
+                if (opportunity.kind === "talk" && opportunity.personId) {
+                  talkTo(
+                    opportunity.personId,
+                    (opportunity.subject ?? undefined) as
+                      ConversationSubjectKey | undefined,
+                  );
+                } else if (opportunity.kind === "read-news") {
+                  dispatch({ type: "go-to-surface", surface: "news" });
+                } else {
+                  dispatch({
+                    type: "go-to-surface",
+                    surface: "work",
+                    section: "campaign",
+                  });
+                }
+              }}
+            />
+          )}
           <details data-testid="personal-life-choices">
             <summary>Your day, choices and pending favors</summary>
             <LifeScenePanel
@@ -4080,9 +4326,13 @@ function renderWorkspace({
           onYearChange={(journalYear) =>
             dispatch({ type: "set-reader-preferences", patch: { journalYear } })
           }
-          journal={shell.journal}
+          journal={shell.journals[session.personId] ?? EMPTY_JOURNAL}
           onJournalChange={(journal) =>
-            dispatch({ type: "set-journal", journal })
+            dispatch({
+              type: "set-journal",
+              personId: session.personId,
+              journal,
+            })
           }
           world={session.world}
           personId={session.personId}
@@ -4113,6 +4363,7 @@ function renderWorkspace({
             world={session.world}
             onWorldChange={onWorldChange}
           />
+          {retireFromPlay}
           {returnToTitle}
         </>,
       );
