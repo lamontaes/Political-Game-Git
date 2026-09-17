@@ -152,7 +152,52 @@ function readPreferences(value: unknown): ShellPreferences {
         ? stored.stopForTentativeHolds
         : DEFAULT_PREFERENCES.interruptions.stopForTentativeHolds,
   };
-  return { peopleView, defaultPinSize, followedNewsOutletKeys, interruptions };
+  const proposalLayout =
+    value.proposalLayout === "compare" ||
+    value.proposalLayout === "read" ||
+    value.proposalLayout === "auto"
+      ? value.proposalLayout
+      : DEFAULT_PREFERENCES.proposalLayout;
+  const newsMode =
+    value.newsMode === "publication" || value.newsMode === "front"
+      ? value.newsMode
+      : DEFAULT_PREFERENCES.newsMode;
+  const newsOutletKey =
+    typeof value.newsOutletKey === "string" &&
+    value.newsOutletKey.trim().length > 0
+      ? value.newsOutletKey.trim()
+      : DEFAULT_PREFERENCES.newsOutletKey;
+  const journalView =
+    value.journalView === "years" || value.journalView === "chapters"
+      ? value.journalView
+      : DEFAULT_PREFERENCES.journalView;
+  const journalYear =
+    typeof value.journalYear === "string" && /^\d{4}$/.test(value.journalYear)
+      ? value.journalYear
+      : DEFAULT_PREFERENCES.journalYear;
+  const politicsPlace =
+    value.politicsPlace === "home" || value.politicsPlace === "here"
+      ? value.politicsPlace
+      : DEFAULT_PREFERENCES.politicsPlace;
+  const governmentScope =
+    value.governmentScope === "local" ||
+    value.governmentScope === "state" ||
+    value.governmentScope === "federal"
+      ? value.governmentScope
+      : DEFAULT_PREFERENCES.governmentScope;
+  return {
+    peopleView,
+    defaultPinSize,
+    followedNewsOutletKeys,
+    interruptions,
+    proposalLayout,
+    newsMode,
+    newsOutletKey,
+    journalView,
+    journalYear,
+    politicsPlace,
+    governmentScope,
+  };
 }
 
 /**

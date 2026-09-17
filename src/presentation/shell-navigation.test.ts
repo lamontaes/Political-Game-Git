@@ -71,6 +71,53 @@ describe("the shell's navigation", () => {
     expect(state.history).toEqual([{ surface: "scene" }]);
   });
 
+  it("keeps the person's record under a conversation started from it", () => {
+    const talking = run([
+      { type: "go-to-surface", surface: "people" },
+      { type: "open-entity", ref: person },
+      { type: "talk-in-scene", personId: ALICE },
+    ]);
+    expect(activeView(talking)).toEqual({ surface: "scene" });
+    const back = shellReducer(talking, { type: "back" });
+    expect(activeView(back)).toEqual({ surface: "entity", ref: person });
+    expect(activeView(shellReducer(back, { type: "back" }))).toEqual({
+      surface: "people",
+    });
+  });
+
+  it("puts the person's record under a conversation started from their card", () => {
+    const talking = run([
+      { type: "go-to-surface", surface: "people" },
+      { type: "open-quick-dossier", personId: ALICE },
+      { type: "talk-in-scene", personId: ALICE },
+    ]);
+    expect(talking.quickDossierPersonId).toBeNull();
+    expect(activeView(talking)).toEqual({ surface: "scene" });
+    const back = shellReducer(talking, { type: "back" });
+    expect(activeView(back)).toEqual({ surface: "entity", ref: person });
+  });
+
+  it("does not send Back from a room conversation to an older record", () => {
+    const talking = run([
+      { type: "go-to-surface", surface: "people" },
+      { type: "open-entity", ref: person },
+      { type: "talk-in-scene", personId: ALICE },
+      { type: "open-quick-dossier", personId: ALICE },
+      { type: "talk-in-scene", personId: ALICE },
+    ]);
+    expect(talking.history).toEqual([{ surface: "scene" }]);
+    expect(canGoBack(talking)).toBe(false);
+  });
+
+  it("leaves the history alone when the conversation starts in the room", () => {
+    const talking = run([
+      { type: "open-quick-dossier", personId: ALICE },
+      { type: "talk-in-scene", personId: ALICE },
+    ]);
+    expect(talking.history).toEqual(INITIAL_SHELL_STATE.history);
+    expect(talking.quickDossierPersonId).toBeNull();
+  });
+
   it("carries the chosen person, and one card replaces the last", () => {
     const state = shellReducer(INITIAL_SHELL_STATE, {
       type: "open-quick-dossier",

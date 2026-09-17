@@ -6793,6 +6793,12 @@
   margin-bottom: 0.35rem;
 }
 
+/* In play these lists sit on the dark glass card, not on paper. */
+body:where(.pg-game) .game-campaign-log,
+body:where(.pg-game) .game-campaign-tallies {
+  color: var(--pg-ivory-dim, rgba(244, 236, 224, 0.78));
+}
+
 /*
   Packet 72 — the page hierarchy the human playtest could not read.
 

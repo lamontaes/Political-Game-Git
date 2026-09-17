@@ -5,6 +5,7 @@ import {
   enterLife,
   openCreator,
   startLife,
+  completeCharacterStep,
 } from "./support/creator";
 
 async function freshBrowser(page: Page) {
@@ -89,6 +90,7 @@ for (const viewport of [
     await expectCornerVersion(page, viewport);
 
     await page.getByTestId("start-normal").click();
+    await completeCharacterStep(page, 30);
     await page.getByTestId("creator-continue-character").click();
     await expect(
       page.getByRole("heading", { name: "Where are you from?", exact: true }),

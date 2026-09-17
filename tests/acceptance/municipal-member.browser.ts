@@ -3,7 +3,12 @@
  * production controls never grant it and all subsequent actions use normal UI.
  */
 import { test, expect, type Page } from "@playwright/test";
-import { enterLife, startLife } from "../e2e/support/creator";
+import {
+  enterLife,
+  isPoliticsHubDestination,
+  openPoliticsHub,
+  startLife,
+} from "../e2e/support/creator";
 import {
   createBrowserWorldRecord,
   type StoredBrowserWorldRecord,
@@ -18,6 +23,7 @@ import { simulationMinutesBetween } from "../../src/simulation/dates";
 import { workItemState } from "../../src/simulation/time-work";
 
 async function goTo(page: Page, id: string) {
+  if (isPoliticsHubDestination(id)) return openPoliticsHub(page, id);
   const flyout = page.getByTestId("shell-nav-flyout");
   if (!(await flyout.isVisible()))
     await page.getByTestId("shell-nav-cluster").click();

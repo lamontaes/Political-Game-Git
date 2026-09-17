@@ -6,7 +6,13 @@ import {
   openCreator,
   openElsewhere,
   goTo,
+  openNewsContext,
+  chooseStartAge,
 } from "./support/creator";
+
+/* The corner cluster draws the player's own portrait; these look at another. */
+const OUTSIDE_NAV_PORTRAIT =
+  '[data-testid="person-portrait"]:not([data-testid="shell-nav"] *)';
 
 test("current normal scene and saved-person dossier remain available for owner review", async ({
   page,
@@ -29,7 +35,7 @@ test("current normal scene and saved-person dossier remain available for owner r
   await expect(page.getByTestId("quick-dossier")).toBeVisible();
   await page.getByTestId("quick-dossier-full").click();
   await expect(page.getByTestId("saved-appearance-controls")).toHaveCount(0);
-  await expect(page.getByTestId("person-portrait")).toBeVisible();
+  await expect(page.locator(OUTSIDE_NAV_PORTRAIT)).toBeVisible();
   await page.screenshot({
     path: info.outputPath("normal-npc-dossier.png"),
     fullPage: true,
@@ -42,7 +48,7 @@ test("current normal scene and saved-person dossier remain available for owner r
   await controls.locator("summary").focus();
   await controls.locator("summary").press("Enter");
   await expect(controls).toHaveAttribute("open", "");
-  await expect(page.getByTestId("person-portrait")).toBeVisible();
+  await expect(page.locator(OUTSIDE_NAV_PORTRAIT)).toBeVisible();
   await page.screenshot({
     path: info.outputPath("normal-own-wardrobe.png"),
     fullPage: true,
@@ -65,7 +71,7 @@ test("the rest of the named owner visual set renders on a normal start", async (
   await openCreator(page);
   await page.getByTestId("start-normal").click();
   await expect(page.getByTestId("creator-stage-character")).toBeVisible();
-  await page.getByTestId("start-age").fill("38");
+  await chooseStartAge(page, 38);
   await page.screenshot({
     path: info.outputPath("normal-creator.png"),
     fullPage: true,
@@ -92,6 +98,7 @@ test("the rest of the named owner visual set renders on a normal start", async (
   // than inventing a reporter or a story to fill itself. Publishing into it
   // requires a member seat, which this journey does not have.
   await goTo(page, "nav-news");
+  await openNewsContext(page, "directory");
   await expect(page.getByTestId("public-information-empty")).toBeVisible();
   await page.screenshot({
     path: info.outputPath("normal-news.png"),

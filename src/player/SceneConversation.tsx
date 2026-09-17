@@ -13,6 +13,7 @@ import {
   projectPlayerConversation,
 } from "../presentation/player-conversation";
 import { formatMinute } from "../presentation/player-calendar";
+import { proseDate } from "../presentation/prose-dates";
 import {
   commitConversationTurn,
   LISTEN_INTENT,
@@ -37,6 +38,7 @@ import type {
 import { PersonPortrait } from "./PersonPortrait";
 import { browsingSurfaceOpen, firstEnabledControl } from "./overlay-focus";
 import { useClampedConversation } from "./overlay-viewport";
+import { lieMarkerFor } from "../presentation/lie-marker";
 
 /**
  * The conversation, as one box in the room.
@@ -328,7 +330,7 @@ export function SceneConversation({
           ? null
           : after.date === before.date
             ? `${formatMinute(before.minuteOfDay)} → ${formatMinute(after.minuteOfDay)}`
-            : `${formatMinute(before.minuteOfDay)} → ${formatMinute(after.minuteOfDay)}, ${after.date}`,
+            : `${formatMinute(before.minuteOfDay)} → ${formatMinute(after.minuteOfDay)}, ${proseDate(after.date)}`,
       );
       setTrouble(null);
       setHistoryPage(null);
@@ -559,22 +561,32 @@ export function SceneConversation({
               aria-label="What you say"
               data-testid="conversation-intents"
             >
-              {speech.map((option) => (
-                <button
-                  key={option.key}
-                  type="button"
-                  className="pg-talk-choice"
-                  data-testid={`intent-${option.key}`}
-                  title={
-                    option.description !== option.label
-                      ? option.description
-                      : undefined
-                  }
-                  onClick={() => say(option.key)}
-                >
-                  {option.label}
-                </button>
-              ))}
+              {speech.map((option) => {
+                const lie = lieMarkerFor(option);
+                return (
+                  <button
+                    key={option.key}
+                    type="button"
+                    className="pg-talk-choice"
+                    data-testid={`intent-${option.key}`}
+                    title={
+                      lie
+                        ? lie.description
+                        : option.description !== option.label
+                          ? option.description
+                          : undefined
+                    }
+                    onClick={() => say(option.key)}
+                  >
+                    {lie ? (
+                      <span className="pg-talk-lie" data-testid="lie-marker">
+                        {lie.label}
+                      </span>
+                    ) : null}
+                    {option.label}
+                  </button>
+                );
+              })}
             </div>
           ) : (
             <p className="pg-talk-note" data-testid="conversation-closed">
@@ -672,7 +684,9 @@ export function SceneConversation({
                 <ExchangeTurn
                   turn={turn}
                   dateLabel={
-                    turn.date === world.currentDate ? null : String(turn.date)
+                    turn.date === world.currentDate
+                      ? null
+                      : proseDate(turn.date)
                   }
                 />
               </li>

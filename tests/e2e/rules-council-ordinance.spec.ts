@@ -10,7 +10,13 @@
  * after loading uses the normal controls.
  */
 import { test, expect, type Page } from "./fixtures";
-import { enterLife, saveLife, startLife } from "./support/creator";
+import {
+  enterLife,
+  isPoliticsHubDestination,
+  openPoliticsHub,
+  saveLife,
+  startLife,
+} from "./support/creator";
 import {
   createBrowserWorldRecord,
   type StoredBrowserWorldRecord,
@@ -28,14 +34,11 @@ const SEAT_LABEL =
   "Review scenario seat, placed for this governing check, not won in an election";
 
 async function goTo(page: Page, id: string) {
+  if (isPoliticsHubDestination(id)) return openPoliticsHub(page, id);
   const flyout = page.getByTestId("shell-nav-flyout");
   if (!(await flyout.isVisible()))
     await page.getByTestId("shell-nav-cluster").click();
   await expect(flyout).toBeVisible();
-  // Local government shares the Politics group, which opens as a submenu.
-  if (!(await page.getByTestId(id).isVisible())) {
-    await page.getByTestId("nav-group-politics").click();
-  }
   await page.getByTestId(id).click();
 }
 

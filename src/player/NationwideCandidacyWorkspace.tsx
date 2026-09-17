@@ -8,8 +8,10 @@ import { projectCampaign } from "../presentation/campaign-projection";
 import {
   fileForStateExecutiveOffice,
   qualifyForStateExecutiveTerm,
+  recoverOffCycleStateExecutiveTerm,
   stateExecutiveCandidacyForPerson,
   stateExecutiveEntryStatus,
+  stateExecutiveOfficeCalendar,
 } from "../presentation/nationwide-candidacy";
 import type { StateExecutiveEntryStatus } from "../simulation";
 import { readableCampaignDate } from "./CampaignWorkspace";
@@ -41,6 +43,9 @@ export function NationwideCandidacyWorkspace({
     campaignPhase === "active",
   );
   const status = stateExecutiveEntryStatus(world, personId);
+  const calendar = candidacy
+    ? stateExecutiveOfficeCalendar(world, candidacy.identity.stateUsps)
+    : null;
   const share = (unitId: string) =>
     home.countyShares?.find((entry) => entry.unitId === unitId)
       ?.landAreaShare ?? null;
@@ -150,11 +155,51 @@ export function NationwideCandidacyWorkspace({
                   Put your name in
                 </span>
                 <span className="game-campaign-action-note">
-                  The election date is the game's campaign schedule, not a real
-                  one.
+                  {calendar
+                    ? `The next regular election is ${readableCampaignDate(calendar.nextElection)}. The winner takes office ${readableCampaignDate(calendar.termStartsAt)}.`
+                    : null}
                 </span>
               </button>
             </>
+          ) : null}
+          {calendar ? (
+            <details
+              className="game-campaign-detail"
+              data-testid="state-executive-calendar"
+              data-basis={calendar.basis}
+            >
+              <summary>How this office's calendar works</summary>
+              <p>{calendar.note}</p>
+              {calendar.sources.length > 0 ? (
+                <ul>
+                  {calendar.sources.map((source) => (
+                    <li key={source.citation}>
+                      <a href={source.url} target="_blank" rel="noreferrer">
+                        {source.citation}
+                      </a>
+                      : “{source.excerpt}”
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </details>
+          ) : null}
+          {status.kind === "won-off-cycle" ? (
+            <button
+              type="button"
+              className="game-campaign-action"
+              data-testid="recover-state-executive-term"
+              onClick={() =>
+                act(() => recoverOffCycleStateExecutiveTerm(world, personId))
+              }
+            >
+              <span className="game-campaign-action-label">
+                Take up the next full term
+              </span>
+              <span className="game-campaign-action-note">
+                {`From ${readableCampaignDate(status.recovery.startsAt)} to ${readableCampaignDate(status.recovery.endsAt)}. Your recorded victory stays as it happened.`}
+              </span>
+            </button>
           ) : null}
           {campaignPhase === "active" ? (
             <button
@@ -246,7 +291,9 @@ function statusText(status: StateExecutiveEntryStatus): string | null {
     case "lost":
       return "The last election for this office went to someone else.";
     case "won-term-unavailable":
-      return `You won the election, but the term cannot be dated yet. ${status.reason}`;
+      return `You won the election. ${status.reason}`;
+    case "won-off-cycle":
+      return `You won. ${status.reason}`;
     case "awaiting-qualification":
       return `You won. The term runs from ${readableCampaignDate(status.startsAt)} to ${readableCampaignDate(status.endsAt)}, and you must qualify before it begins.`;
     case "qualified-awaiting-entry":

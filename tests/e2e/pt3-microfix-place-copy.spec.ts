@@ -1,6 +1,10 @@
 import { expect, test, type Page } from "./fixtures";
 
-import { chooseStateThenTown, openCreator } from "./support/creator";
+import {
+  chooseStateThenTown,
+  openCreator,
+  completeCharacterStep,
+} from "./support/creator";
 
 async function freshBrowser(page: Page) {
   await page.goto("/");
@@ -26,6 +30,7 @@ async function freshBrowser(page: Page) {
 async function reachPlaceSearch(page: Page) {
   await openCreator(page);
   await page.getByTestId("start-normal").click();
+  await completeCharacterStep(page, 30);
   await page.getByTestId("creator-continue-character").click();
   await expect(page.getByTestId("creator-stage-place")).toBeVisible();
 }
@@ -56,6 +61,7 @@ test("scopes the unavailable message to the legislative staff start", async ({
   await freshBrowser(page);
   await openCreator(page);
   await page.getByTestId("start-custom").click();
+  await completeCharacterStep(page, 30);
   await page.getByTestId("creator-continue-character").click();
   await expect(page.getByTestId("creator-stage-place")).toBeVisible();
   await chooseStateThenTown(page, "Kentucky", "lex", /Lexington/i);

@@ -45,6 +45,15 @@ export interface CalendarEntry {
   readonly participantNames: readonly string[];
   /** Who owns it, said plainly. The distinction the playtest asked for. */
   readonly ownershipNote: string;
+  /**
+   * What the record says about where it comes from: the person responsible
+   * for it and the recorded people it is sourced to. The record has no
+   * inviter field, so this never claims who arranged or relayed it. Null when
+   * the record names nobody; the screen says so rather than guessing.
+   */
+  readonly arrangementNote: string | null;
+  /** Everyone on the record as attending, the player first as "You". */
+  readonly attendeeNames: readonly string[];
 }
 
 export interface CalendarDay {
@@ -111,14 +120,49 @@ function entryFor(
     end: state.end,
     status: state.status,
     locationLabel: activity.location.label,
-    participantNames: activity.participantPersonIds
-      .map((id) => world.people[id])
-      .filter((person): person is NonNullable<typeof person> => Boolean(person))
-      .map((person) => personName(person)),
+    participantNames: namesOf(world, activity.participantPersonIds),
     ownershipNote: mine
       ? "You are on this."
       : "On the chamber's agenda. Not an appointment of yours.",
+    arrangementNote: arrangementNote(world, personId, activity),
+    attendeeNames: [
+      ...(mine ? ["You"] : []),
+      ...namesOf(
+        world,
+        activity.participantPersonIds.filter((id) => id !== personId),
+      ),
+    ],
   };
+}
+
+function namesOf(world: World, ids: readonly EntityId[]): string[] {
+  return ids
+    .map((id) => world.people[id])
+    .filter((person): person is NonNullable<typeof person> => Boolean(person))
+    .map((person) => personName(person));
+}
+
+function arrangementNote(
+  world: World,
+  personId: EntityId,
+  activity: ScheduledActivityRecord,
+): string | null {
+  const parts: string[] = [];
+  const responsible = activity.responsiblePersonId;
+  if (responsible === personId) parts.push("You are responsible for it.");
+  else if (responsible) {
+    const [name] = namesOf(world, [responsible]);
+    if (name) parts.push(`${name} is responsible for it.`);
+  }
+  const through = namesOf(
+    world,
+    activity.sourceEntityIds.filter(
+      (id) => id !== personId && id !== responsible,
+    ),
+  );
+  if (through.length > 0)
+    parts.push(`The record ties it to ${through.join(", ")}.`);
+  return parts.length > 0 ? parts.join(" ") : null;
 }
 
 /**

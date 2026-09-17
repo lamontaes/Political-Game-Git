@@ -1,4 +1,6 @@
 import { assertWorldContentPacks } from "./runtime-content-packs";
+import { applyCongressTurnover } from "./living-world/congress-turnover";
+import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
 import { assertAppearanceMaterial } from "./appearance-material";
 import { applyNationalTermTransitions } from "./national-election-consumer";
 import {
@@ -20,6 +22,10 @@ import {
   assertConstitutionalIntegrity,
 } from "./constitutional-process";
 import { assertPublicPaymentIntegrity } from "./public-fiscal";
+import {
+  assertPublicProgramIntegrity,
+  publicProgramRecords,
+} from "./public-program-integrity";
 import {
   assertTaxIntegrity,
   taxEntityExists,
@@ -496,7 +502,21 @@ export function createWorld(input: CreateWorldInput): World {
   return world;
 }
 
+/*
+ * GOVERNING profile: writers validate the World they receive and the World
+ * they return, so one object was being checked again by the next writer.
+ * Worlds are immutable values; an object that passed once is remembered.
+ * A World built by spreading is a new object and is always checked.
+ */
+const VALIDATED_WORLDS = new WeakSet<World>();
+
 export function assertWorldIntegrity(world: World): void {
+  if (VALIDATED_WORLDS.has(world)) return;
+  validateWorldIntegrity(world);
+  VALIDATED_WORLDS.add(world);
+}
+
+function validateWorldIntegrity(world: World): void {
   assertJsonSafe(world, "world");
   if (world.contentPacks !== undefined)
     assertWorldContentPacks(world.contentPacks);
@@ -985,7 +1005,14 @@ export function advanceWorld(
     actionSequence: actionSequence + 1,
   };
 
-  return recordWorldEvent(applyNationalTermTransitions(advanced), {
+  const continued = applyGovernorTurnover(
+    world.currentDate,
+    applyCongressTurnover(
+      world.currentDate,
+      applyNationalTermTransitions(advanced),
+    ),
+  );
+  return recordWorldEvent(continued, {
     stableKey: `action:${actionSequence}:time-advanced:${world.currentDate}:${days}:${nextDate}`,
     type: "simulation.time-advanced",
     occurredAt: nextDate,
@@ -1584,6 +1611,7 @@ function validateHistoryIntegrity(world: World): void {
     ...publicInformationHistoryRecords(world),
     ...personnelHistoryRecords(world),
     ...crisisRecords(world),
+    ...publicProgramRecords(world),
     ...(history.districtResidenceIntervals ?? []),
     ...(history.officeWorkflowPreferences ?? []),
     ...(history.officeVoteInstructions ?? []),
@@ -1817,6 +1845,7 @@ function validateHistoryIntegrity(world: World): void {
     }
   }
   assertPersonnelIntegrity(world, ids);
+  assertPublicProgramIntegrity(world, ids);
   assertUniqueStableKeys(history.events, "event");
   assertUniqueStableKeys(history.memories, "memory");
   assertUniqueStableKeys(history.knowledge, "knowledge");

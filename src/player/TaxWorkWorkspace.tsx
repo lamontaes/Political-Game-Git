@@ -196,103 +196,116 @@ export function TaxWorkWorkspace({
         {error ? <p role="alert">{error}</p> : null}
         {message ? <p role="status">{message}</p> : null}
       </div>
-      <details>
-        <summary>Prepare an authored tax proposal</summary>
-        <p>
+      {power ? (
+        /*
+         * One readable flow over the same filing mechanics: what the tax is
+         * for, then the terms (with a preview), then the commitment to file.
+         */
+        <details>
+          <summary>Prepare an authored tax proposal</summary>
+          <p>Your current office has a sourced state tax-power baseline.</p>
+          <fieldset className="tax-work-step">
+            <legend>1. Objective: what the tax is for</legend>
+            <label>
+              Public purpose{" "}
+              <input
+                aria-label="Tax public purpose"
+                value={purpose}
+                onChange={(event) => setPurpose(event.target.value)}
+              />
+            </label>
+            <label>
+              Tax base description{" "}
+              <input
+                aria-label="Tax base description"
+                value={baseLabel}
+                onChange={(event) => setBaseLabel(event.target.value)}
+              />
+            </label>
+          </fieldset>
+          <fieldset className="tax-work-step">
+            <legend>2. Proposal: the terms</legend>
+            <label>
+              Rate, percent{" "}
+              <input
+                aria-label="Tax rate percent"
+                inputMode="decimal"
+                value={rate}
+                onChange={(event) => setRate(event.target.value)}
+              />
+            </label>
+            <label>
+              Allowance per occurrence, USD{" "}
+              <input
+                aria-label="Tax allowance USD"
+                inputMode="decimal"
+                value={allowance}
+                onChange={(event) => setAllowance(event.target.value)}
+              />
+            </label>
+            <label>
+              Settlement lag, days{" "}
+              <input
+                aria-label="Tax settlement lag days"
+                inputMode="numeric"
+                value={lag}
+                onChange={(event) => setLag(event.target.value)}
+              />
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={exempt}
+                onChange={(event) => setExempt(event.target.checked)}
+              />
+              Exempt this declared base
+            </label>
+            <label>
+              Model assumptions{" "}
+              <textarea
+                aria-label="Tax model assumptions"
+                value={assumptions}
+                onChange={(event) => setAssumptions(event.target.value)}
+              />
+            </label>
+            <label>
+              Declared occurrence base, USD{" "}
+              <input
+                aria-label="Declared occurrence base USD"
+                inputMode="decimal"
+                value={occurrence}
+                onChange={(event) => setOccurrence(event.target.value)}
+              />
+            </label>
+            <button type="button" onClick={preview}>
+              Preview tax
+            </button>
+          </fieldset>
+          <fieldset className="tax-work-step">
+            <legend>3. Commitment: file it</legend>
+            <p>
+              Legal wording acquired {power.asOf}.{" "}
+              <a href={power.sourceUrl}>Alaska Constitution</a>. This proposal
+              carries that wording forward as a game assumption; it does not
+              verify future real law.
+            </p>
+            <p>
+              This route uses the ninety-day default after enactment, exact
+              half-up cent rounding and general public receipts. It models no
+              dedication exception or early effective-date vote.
+            </p>
+            <button type="button" onClick={file}>
+              File tax proposal
+            </button>
+          </fieldset>
+        </details>
+      ) : (
+        <p data-testid="tax-proposal-withheld">
           {entry.kind === "available"
-            ? power
-              ? "Your current office has a sourced state tax-power baseline."
-              : "This office has no supported tax-power contract."
+            ? "This office has no supported tax-power contract, so it cannot propose a tax."
             : entry.reason}
         </p>
-        {power ? (
-          <p>
-            Legal wording acquired {power.asOf}.{" "}
-            <a href={power.sourceUrl}>Alaska Constitution</a>. This proposal
-            carries that wording forward as a game assumption; it does not
-            verify future real law.
-          </p>
-        ) : null}
-        <label>
-          Tax base description{" "}
-          <input
-            aria-label="Tax base description"
-            value={baseLabel}
-            onChange={(event) => setBaseLabel(event.target.value)}
-          />
-        </label>
-        <label>
-          Rate, percent{" "}
-          <input
-            aria-label="Tax rate percent"
-            inputMode="decimal"
-            value={rate}
-            onChange={(event) => setRate(event.target.value)}
-          />
-        </label>
-        <label>
-          Allowance per occurrence, USD{" "}
-          <input
-            aria-label="Tax allowance USD"
-            inputMode="decimal"
-            value={allowance}
-            onChange={(event) => setAllowance(event.target.value)}
-          />
-        </label>
-        <label>
-          Settlement lag, days{" "}
-          <input
-            aria-label="Tax settlement lag days"
-            inputMode="numeric"
-            value={lag}
-            onChange={(event) => setLag(event.target.value)}
-          />
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={exempt}
-            onChange={(event) => setExempt(event.target.checked)}
-          />
-          Exempt this declared base
-        </label>
-        <label>
-          Public purpose{" "}
-          <input
-            aria-label="Tax public purpose"
-            value={purpose}
-            onChange={(event) => setPurpose(event.target.value)}
-          />
-        </label>
-        <label>
-          Model assumptions{" "}
-          <textarea
-            aria-label="Tax model assumptions"
-            value={assumptions}
-            onChange={(event) => setAssumptions(event.target.value)}
-          />
-        </label>
-        <p>
-          This route uses the ninety-day default after enactment, exact half-up
-          cent rounding and general public receipts. It models no dedication
-          exception or early effective-date vote.
-        </p>
-        <button type="button" disabled={!power} onClick={file}>
-          File tax proposal
-        </button>
-        <label>
-          Declared occurrence base, USD{" "}
-          <input
-            aria-label="Declared occurrence base USD"
-            inputMode="decimal"
-            value={occurrence}
-            onChange={(event) => setOccurrence(event.target.value)}
-          />
-        </label>
-        <button type="button" onClick={preview}>
-          Preview tax
-        </button>
-      </details>
+      )}
       {proposals.map((proposal) => {
         const policy = world.history.taxPolicies?.find(
           (row) => row.proposalId === proposal.id,

@@ -1,6 +1,10 @@
 import { expect, test, type Page } from "./fixtures";
 
-import { chooseStateThenTown, startLife } from "./support/creator";
+import {
+  chooseStateThenTown,
+  startLife,
+  completeCharacterStep,
+} from "./support/creator";
 
 async function freshBrowser(page: Page) {
   await page.goto("/");
@@ -66,6 +70,7 @@ test("a creator control keeps the front-door hover, not the old green form", asy
   await freshBrowser(page);
   await page.getByTestId("new-game").click();
   await page.getByTestId("start-normal").click();
+  await completeCharacterStep(page, 30);
   await page.getByTestId("creator-continue-character").click();
   await chooseStateThenTown(page, "Kentucky", "Lexingto", /Lexington/i);
   await page.getByTestId("creator-continue-place").click();

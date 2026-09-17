@@ -54,9 +54,9 @@ function watchForErrors(page: Page): string[] {
   return errors;
 }
 
-/** Running for office lives in Work (PT3), beside the day's time control. */
+/** Running for office lives in Politics → Campaigns, beside the time control. */
 async function openCampaign(page: Page) {
-  await openElsewhere(page, "work");
+  await openElsewhere(page, "campaign");
   await expect(page.getByTestId("work-section-campaign")).toBeVisible();
 }
 

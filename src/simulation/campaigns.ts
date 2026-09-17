@@ -3,6 +3,10 @@ import {
   scheduleLegislativeTerm,
   createLegislativeTermTransitionRegistry,
 } from "./legislative-office-terms";
+import { STATE_GOVERNING_HANDLERS } from "./governing/state-governing";
+import { PUBLIC_PROGRAM_HANDLERS } from "./governing/public-program";
+import { OFFICE_CONTINUITY_HANDLERS } from "./governing/office-continuity";
+import { GOVERNOR_TURNOVER_HANDLERS } from "./nationwide-world/state-executive-turnover";
 import {
   createNationalElectionTransitionRegistry,
   linkedNationalUnitTransition,
@@ -1867,6 +1871,11 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
       createCrisisTransitionRegistry(),
       createFutureTransitionHandlerRegistry([
         [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
+        // GOVERNING: state office matters, their deadlines and reports.
+        ...STATE_GOVERNING_HANDLERS,
+        ...GOVERNOR_TURNOVER_HANDLERS,
+        ...PUBLIC_PROGRAM_HANDLERS,
+        ...OFFICE_CONTINUITY_HANDLERS,
         // ALIVE43 W2: a local chapter organizer acts while ordinary time passes.
         [CHAPTER_OUTREACH_TRANSITION_KEY, chapterOutreachTransitionHandler],
         // ALIVE43 W3: background public developments take their next step.

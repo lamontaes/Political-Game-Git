@@ -121,6 +121,7 @@ export type EntityKind =
   | "person-death"
   | "person-functional-capacity"
   | "personnel-record"
+  | "public-program-record"
   | "personal-value"
   | "personality-tendency"
   | "personality-tendency-definition"
@@ -2621,6 +2622,12 @@ export type ResourceFlowBasisReference =
       readonly mandate: PublicFundingMandate;
       readonly operationKey: string;
     }
+  | {
+      readonly kind: "public-program";
+      /** The earlier commitment that authorizes this installment. */
+      readonly commitmentId: EntityId;
+      readonly installmentIndex: number;
+    }
   | { readonly kind: "work"; readonly workRelationshipId: EntityId }
   | { readonly kind: "care"; readonly careResponsibilityId: EntityId }
   | { readonly kind: "housing"; readonly housingTenureId: EntityId }
@@ -3334,6 +3341,103 @@ export interface PublicationRecord {
 }
 
 // ---------------------------------------------------------------------------
+// Public programs — appropriation, commitment, installment and capacity outturn
+// ---------------------------------------------------------------------------
+
+/** Where a program figure came from. A fixture or game profile says so. */
+export interface PublicProgramBasis {
+  readonly kind: "sourced" | "game-profile" | "authored-fixture";
+  readonly note: string;
+}
+
+export type PublicProgramPurpose = "operating" | "maintenance" | "grant";
+
+export interface PublicProgramInstallmentPlan {
+  readonly dueAt: IsoDate;
+  readonly amount: MoneyAmount;
+  readonly purpose: PublicProgramPurpose;
+}
+
+interface PublicProgramRecordBase {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  /** `namespace:name`, e.g. `transit:bus-service`. */
+  readonly programKey: string;
+  readonly jurisdictionId: EntityId;
+  readonly recordedAt: IsoDate;
+  /** The ordinary event written with this record. */
+  readonly eventId: EntityId;
+}
+
+/** What the service has to work with, as declared; never a forecast. */
+export interface PublicProgramCapacityRecord extends PublicProgramRecordBase {
+  readonly kind: "capacity";
+  readonly serviceLabel: string;
+  readonly unitLabel: string;
+  readonly unitsTotal: number;
+  readonly unitsOperational: number;
+  readonly monthlyOperatingNeed: MoneyAmount;
+  /** Share of scheduled trips reliably completed, in thousandths, if observed. */
+  readonly completedPermille: number | null;
+  /** Declared cost to return one unit to service; null when nobody knows. */
+  readonly restorationCostPerUnit: MoneyAmount | null;
+  readonly basis: PublicProgramBasis;
+}
+
+/** Spending authority on an existing public account. Not cash. */
+export interface PublicProgramAppropriationRecord extends PublicProgramRecordBase {
+  readonly kind: "appropriation";
+  readonly accountOrganizationId: EntityId;
+  readonly amount: MoneyAmount;
+  readonly availableFrom: IsoDate;
+  readonly availableThrough: IsoDate;
+  readonly basis: PublicProgramBasis;
+}
+
+/** One office's decision to commit part of an appropriation, including $0. */
+export interface PublicProgramCommitmentRecord extends PublicProgramRecordBase {
+  readonly kind: "commitment";
+  readonly appropriationId: EntityId;
+  readonly alternativeKey: string;
+  readonly alternativeTitle: string;
+  readonly decidedByPersonId: EntityId;
+  /** The standing that let this person decide, in words. */
+  readonly authority: string;
+  readonly recipientOrganizationId: EntityId | null;
+  readonly installments: readonly PublicProgramInstallmentPlan[];
+  /** Days from payment to delivered maintenance, when the purpose has one. */
+  readonly deliveryLeadDays: number | null;
+}
+
+/** What happened when an installment fell due. Written once. */
+export interface PublicProgramInstallmentRecord extends PublicProgramRecordBase {
+  readonly kind: "installment";
+  readonly commitmentId: EntityId;
+  readonly installmentIndex: number;
+  readonly status: "posted" | "failed";
+  readonly resourceFlowId: EntityId | null;
+  readonly reason: string | null;
+}
+
+/** The service's capacity after delivered work. Reads implementation only. */
+export interface PublicProgramCapacityOutturnRecord extends PublicProgramRecordBase {
+  readonly kind: "capacity-outturn";
+  readonly commitmentId: EntityId;
+  readonly installmentId: EntityId;
+  readonly unitsOperational: number;
+  /** Units returned to service; null when no restoration cost was declared. */
+  readonly restoredUnits: number | null;
+}
+
+export type PublicProgramRecord =
+  | PublicProgramCapacityRecord
+  | PublicProgramAppropriationRecord
+  | PublicProgramCommitmentRecord
+  | PublicProgramInstallmentRecord
+  | PublicProgramCapacityOutturnRecord;
+
+// ---------------------------------------------------------------------------
 // Public personnel — sourced procedure steps over LIFE work relationships
 // ---------------------------------------------------------------------------
 
@@ -3604,6 +3708,8 @@ export interface HistoryStore {
   readonly legislativeEnactments?: readonly LegislativeEnactmentRecord[];
   /** Optional so pre-CIVIL-AUTHORITY13 snapshots remain structurally readable. */
   readonly personnelRecords?: readonly PersonnelRecord[];
+  /** Optional so pre-GOVERNING-6 snapshots remain structurally readable. */
+  readonly publicProgramRecords?: readonly PublicProgramRecord[];
   readonly futureDueItems: readonly FutureDueItem[];
   readonly futureDueItemStates: readonly FutureDueItemStateRecord[];
   readonly events: readonly HistoricalEvent[];

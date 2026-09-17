@@ -1,0 +1,217 @@
+import {
+  characterHistoryContextPersonId,
+  createCharacterHistoryContextPeople,
+} from "../character-history";
+import { addDays, makeIsoDate } from "../dates";
+import {
+  electionContestResult,
+  scheduleElectionContest,
+} from "../election-contests";
+import { drawCanonicalName } from "../people";
+import { generatePersonIdentity } from "../person-identity";
+import { SeededRng } from "../rng";
+import { scheduleFutureDueItem } from "../future-transitions";
+import type {
+  FutureDueItem,
+  FutureTransitionHandlerResult,
+  IsoDate,
+  World,
+} from "../types";
+import { stateJurisdictionForKey } from "../life-places";
+import { recordedTermsInOffice } from "./prior-terms";
+import { US_STATE_USPS } from "./state-executive-candidacy-packs";
+import {
+  ensureStateJurisdiction,
+  currentStateExecutiveHolders,
+  stateExecutiveOffice,
+} from "./state-executives";
+import {
+  generalElectionDay,
+  stateExecutiveTermRule,
+} from "./state-executive-term-rules";
+import { planOrdinaryStateExecutiveTerm } from "./state-executive-terms";
+
+import {
+  GOVERNOR_FIELD_CLOSE,
+  GOVERNOR_TERM_PLAN,
+  GOVERNOR_TURNOVER_PROFILE,
+  scheduleNextFieldClose,
+  turnoverContestKey,
+} from "./state-executive-turnover-calendar";
+
+/**
+ * GOVERNOR CONTINUITY — every governorship this World has materialized holds
+ * its regular elections on the canonical clock, whether or not the player
+ * takes part.
+ *
+ * When the field for a regular election closes, a contest is opened unless
+ * one already exists for that office and day (the player's own filing is
+ * that contest). The winner of an open contest gets a dated term through the
+ * same planner a player's win uses, and a non-player winner qualifies in the
+ * ordinary course. No incumbent stays past the end of a term without an
+ * election, and nothing is written for a date the clock has not crossed.
+ */
+
+function ageOn(birthDate: IsoDate, date: IsoDate): number {
+  const years = Number(date.slice(0, 4)) - Number(birthDate.slice(0, 4));
+  return date.slice(5) < birthDate.slice(5) ? years - 1 : years;
+}
+
+function pad(value: number): string {
+  return value.toString().padStart(2, "0");
+}
+
+/** Opens the regular contest for one office, once, when its field closes. */
+function openRegularContest(
+  world: World,
+  stateUsps: string,
+  year: number,
+  electionDay: IsoDate,
+): World {
+  const office = stateExecutiveOffice(stateUsps)!;
+  const key = turnoverContestKey(office.officeKey, year);
+  const contests = world.history.electionContests ?? [];
+  if (
+    contests.some(
+      (contest) =>
+        contest.stableKey === `${key}:contest` ||
+        (contest.office.officeKey === office.officeKey &&
+          contest.electionDate === electionDay),
+    )
+  )
+    return world;
+  const rng = new SeededRng(world.seed).fork(key);
+  const holder = currentStateExecutiveHolders(world).find(
+    (record) => record.officeKey === office.officeKey,
+  );
+  const incumbent = holder ? world.people[holder.personId] : undefined;
+  const incumbentRuns =
+    incumbent !== undefined &&
+    world.control.kind === "person" &&
+    world.control.personId !== incumbent.id &&
+    ageOn(incumbent.birthDate, electionDay) <
+      GOVERNOR_TURNOVER_PROFILE.retirementAge &&
+    recordedTermsInOffice(world, incumbent.id, office.officeKey) <
+      GOVERNOR_TURNOVER_PROFILE.incumbentStepsDownAfterTerms &&
+    rng.integer(0, 1000) < GOVERNOR_TURNOVER_PROFILE.incumbentRunsPermille;
+  const challengers = incumbentRuns ? 1 : 2;
+  let next = ensureStateJurisdiction(world, stateUsps);
+  const stateId = stateJurisdictionForKey(`US-${stateUsps}`)!.id;
+  const inputs = Array.from({ length: challengers }, (_, index) => {
+    const stableKey = `${key}:candidate:${index}`;
+    const personRng = rng.fork(stableKey);
+    const age = personRng.integer(38, 68);
+    return {
+      stableKey,
+      ...drawCanonicalName(personRng.fork("name")),
+      identity: generatePersonIdentity(personRng.fork("identity")),
+      birthDate: makeIsoDate(
+        `${year - age}-${pad(personRng.integer(1, 13))}-${pad(personRng.integer(1, 29))}`,
+      ),
+      homeJurisdictionId: stateId,
+    };
+  });
+  next = createCharacterHistoryContextPeople(next, inputs);
+  const candidatePersonIds = [
+    ...(incumbentRuns && incumbent ? [incumbent.id] : []),
+    ...inputs.map((input) =>
+      characterHistoryContextPersonId(next, input.stableKey),
+    ),
+  ];
+  return scheduleElectionContest(next, {
+    stableKey: `${key}:contest`,
+    jurisdictionId: stateId,
+    office: {
+      officeKey: office.officeKey,
+      title: office.displayName,
+      seatKey: null,
+      occupationClassification: `service:${office.officeKey}`,
+    },
+    electionDate: electionDay,
+    candidatePersonIds,
+    provenance: {
+      method: "simulated",
+      sourceEntityIds: [...candidatePersonIds].sort(),
+      note: `${GOVERNOR_TURNOVER_PROFILE.id}: the regular election for ${office.displayName}, opened when the candidate field closed.`,
+    },
+  });
+}
+
+function officeForDue(due: FutureDueItem) {
+  const match = /^governor-turnover\/v1:(.+):(\d{4}):/.exec(due.stableKey);
+  if (!match) return null;
+  const office = US_STATE_USPS.map((usps) => stateExecutiveOffice(usps)).find(
+    (candidate) => candidate?.officeKey === match[1],
+  );
+  return office ? { office, year: Number(match[2]) } : null;
+}
+
+function done(world: World, context: string): FutureTransitionHandlerResult {
+  return {
+    world,
+    status: "resolved",
+    reasonKey: null,
+    context,
+    outcomeEventId: null,
+  };
+}
+
+/** The field closes: open the regular contest and line up what follows. */
+export function governorFieldCloseHandler(
+  world: World,
+  due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  const found = officeForDue(due);
+  if (!found) return done(world, "No office matches this field closing.");
+  const rule = stateExecutiveTermRule(found.office.stateUsps)!;
+  const electionDay = generalElectionDay(rule.election, found.year);
+  let next = openRegularContest(
+    world,
+    found.office.stateUsps,
+    found.year,
+    electionDay,
+  );
+  const stateId = stateJurisdictionForKey(`US-${found.office.stateUsps}`)!.id;
+  const planKey = `${turnoverContestKey(found.office.officeKey, found.year)}:term-plan`;
+  if (!next.history.futureDueItems.some((d) => d.stableKey === planKey))
+    next = scheduleFutureDueItem(next, {
+      stableKey: planKey,
+      dueAt: addDays(electionDay, 1),
+      transitionKey: GOVERNOR_TERM_PLAN,
+      entityIds: [stateId],
+      jurisdictionId: stateId,
+      provenance: {
+        kind: "authored",
+        note: `${GOVERNOR_TURNOVER_PROFILE.id}: the winner's term is dated the day after the election.`,
+      },
+    });
+  next = scheduleNextFieldClose(next, found.office.stateUsps, electionDay);
+  return done(next, `The field for ${found.office.displayName} closed.`);
+}
+
+/** The day after the election: date the winner's term. */
+export function governorTermPlanHandler(
+  world: World,
+  due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  const found = officeForDue(due);
+  if (!found) return done(world, "No office matches this election.");
+  const rule = stateExecutiveTermRule(found.office.stateUsps)!;
+  const electionDay = generalElectionDay(rule.election, found.year);
+  const contest = (world.history.electionContests ?? []).find(
+    (candidate) =>
+      candidate.office.officeKey === found.office.officeKey &&
+      candidate.electionDate === electionDay &&
+      electionContestResult(world, candidate.id),
+  );
+  if (!contest) return done(world, "No decided contest to date.");
+  return done(
+    planOrdinaryStateExecutiveTerm(world, contest.id),
+    `The ${found.year} winner's term was dated.`,
+  );
+}
+
+export const GOVERNOR_TURNOVER_HANDLERS = [
+  [GOVERNOR_FIELD_CLOSE, governorFieldCloseHandler],
+  [GOVERNOR_TERM_PLAN, governorTermPlanHandler],
+] as const;

@@ -4,6 +4,7 @@ import type {
   JournalNote,
   PrivateJournal,
 } from "../presentation/shell-navigation";
+import { GameSelect } from "./controls/GameSelect";
 
 /** No World writer: this is private writing in the existing interface store. */
 export function PrivateJournalEditor({
@@ -49,7 +50,7 @@ export function PrivateJournalEditor({
       </label>
       <label>
         Show group
-        <select
+        <GameSelect
           value={group}
           onChange={(event) => setGroup(event.target.value)}
         >
@@ -57,7 +58,7 @@ export function PrivateJournalEditor({
           {groups.map((value) => (
             <option key={value}>{value}</option>
           ))}
-        </select>
+        </GameSelect>
       </label>
       <button
         type="button"
@@ -123,7 +124,7 @@ export function PrivateJournalEditor({
               </label>
               <label>
                 Linked person
-                <select
+                <GameSelect
                   value={note.personId ?? ""}
                   onChange={(event) =>
                     edit(note.id, {
@@ -140,7 +141,7 @@ export function PrivateJournalEditor({
                       {person.name}
                     </option>
                   ))}
-                </select>
+                </GameSelect>
               </label>
               {person ? (
                 <button
@@ -152,7 +153,7 @@ export function PrivateJournalEditor({
               ) : null}
               <label>
                 History bookmark
-                <select
+                <GameSelect
                   value={note.eventKey ?? ""}
                   onChange={(event) =>
                     edit(note.id, { eventKey: event.target.value || null })
@@ -164,7 +165,7 @@ export function PrivateJournalEditor({
                       {event.sentence}
                     </option>
                   ))}
-                </select>
+                </GameSelect>
               </label>
               {event ? (
                 <a href={`#journal-entry-${encodeURIComponent(event.key)}`}>

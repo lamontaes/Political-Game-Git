@@ -1,10 +1,11 @@
 import { test, expect } from "@playwright/test";
+import { chooseOption } from "../e2e/support/controls";
 test("pointer and keyboard decision, actual work, briefing and save/reload", async ({
   page,
 }) => {
   await page.goto("/tests/incident-response/index.html");
   const staff = page.getByLabel("Staff member");
-  await staff.selectOption({ index: 1 });
+  await chooseOption(staff, { index: 1 });
   await page
     .getByRole("button", { name: "Commission response briefing" })
     .click();
@@ -58,7 +59,7 @@ test("information request, deferral and declined allocation remain distinct", as
   page,
 }) => {
   await page.goto("/tests/incident-response/index.html");
-  await page.getByLabel("Staff member").selectOption({ index: 1 });
+  await chooseOption(page.getByLabel("Staff member"), { index: 1 });
   await page
     .getByRole("button", { name: "Request information", exact: true })
     .click();

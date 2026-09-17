@@ -76,9 +76,9 @@ async function freshBrowser(page: Page) {
   });
 }
 
-/** Running for office lives in Work (PT3), beside the day's time control. */
+/** Running for office lives in Politics → Campaigns, beside the time control. */
 async function openCampaign(page: Page) {
-  await openElsewhere(page, "work");
+  await openElsewhere(page, "campaign");
   await expect(page.getByTestId("work-section-campaign")).toBeVisible();
 }
 
@@ -282,8 +282,12 @@ test.describe("the docket, from the ordinary route", () => {
     await enterLife(page);
 
     await openShellMenu(page);
-    await page.getByTestId("elsewhere-work").focus();
+    await page.getByTestId("nav-politics").focus();
     await page.keyboard.press("Space");
+    await expect(page.getByTestId("politics-tab-office")).toHaveAttribute(
+      "aria-current",
+      "page",
+    );
     await expect(page.getByTestId("docket-list")).toBeVisible();
     await page
       .getByTestId("docket-open-legislative-docket:kentucky:bill-001")

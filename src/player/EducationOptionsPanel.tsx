@@ -20,6 +20,7 @@ import {
   studyEnrollmentProgressLabel,
   studyProgramCostLabel,
 } from "./education-study-display";
+import { GameSelect } from "./controls/GameSelect";
 export interface EducationOptionsPanelProps {
   world: World;
   onWorldChange: (world: World) => void;
@@ -127,7 +128,7 @@ export function EducationOptionsPanel({
       </label>
       <label>
         Institution type{" "}
-        <select
+        <GameSelect
           value={kind}
           onChange={(e) => {
             setKind(e.target.value);
@@ -138,7 +139,7 @@ export function EducationOptionsPanel({
           <option value="postsecondary">Colleges</option>
           <option value="school">Public schools</option>
           <option value="district">School districts</option>
-        </select>
+        </GameSelect>
       </label>
       <p>{result.total.toLocaleString()} matching institutions</p>
       <ul>
