@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 2785 |
-| INTENTIONALLY_NON_PLAYER_FACING | 6411 |
-| DIAGNOSTIC_OR_TEST | 6277 |
-| **NEEDS_CLASSIFICATION** | **7766** |
+| INVENTORIED | 2793 |
+| INTENTIONALLY_NON_PLAYER_FACING | 6558 |
+| DIAGNOSTIC_OR_TEST | 6396 |
+| **NEEDS_CLASSIFICATION** | **8032** |
 
-Scanned 871 files holding 90449 string
+Scanned 892 files holding 92697 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -46,10 +46,12 @@ literals in total; the table counts only those that read like a sentence.
 | 101 | `src/simulation/adult-situations.ts` |
 | 87 | `src/simulation/policy.ts` |
 | 84 | `src/simulation/life-paths2.ts` |
+| 82 | `src/simulation/campaign-life-activities.ts` |
 | 76 | `src/presentation/legislative-bargaining.ts` |
 | 74 | `src/simulation/press-interview-producers.ts` |
 | 71 | `src/player/PersonAppearanceControls.tsx` |
 | 69 | `src/simulation/character-history.ts` |
+| 65 | `src/simulation/campaign-opponents.ts` |
 | 61 | `src/simulation/press-interviews.ts` |
 | 59 | `src/presentation/legislative-dialogue-motifs.ts` |
 | 54 | `src/presentation/run-c-working-document.ts` |
@@ -66,12 +68,14 @@ literals in total; the table counts only those that read like a sentence.
 | 45 | `src/player/DocketWorkspace.tsx` |
 | 45 | `src/simulation/legislative-politics.ts` |
 | 45 | `src/simulation/time-work.ts` |
+| 44 | `src/presentation/campaign-life-surface.ts` |
 | 43 | `src/presentation/funded-service-capability.ts` |
 | 43 | `src/presentation/legislative-bargaining-brief.ts` |
 | 43 | `src/presentation/scene-consumers.ts` |
 | 43 | `src/simulation/episode-bank.ts` |
 | 42 | `src/simulation/demo.ts` |
 | 42 | `src/simulation/life-paths2-catalog.ts` |
+| 41 | `src/simulation/campaign-weekly-plans.ts` |
 | 40 | `src/player/ShellWorkspaces.tsx` |
 | 40 | `src/simulation/decisions.ts` |
 | 40 | `src/ui/SceneGalleryView.tsx` |
@@ -183,6 +187,7 @@ literals in total; the table counts only those that read like a sentence.
 | 14 | `src/simulation/municipal-public-work.ts` |
 | 14 | `src/simulation/public-fiscal.ts` |
 | 14 | `src/ui/CandidateAdmissionReview.tsx` |
+| 13 | `src/player/CampaignWeekPanel.tsx` |
 | 13 | `src/player/OfficeScene.tsx` |
 | 13 | `src/player/WorkPendingWorkspace.tsx` |
 | 13 | `src/player/opening-life/LifeScenePanel.tsx` |
@@ -222,6 +227,7 @@ literals in total; the table counts only those that read like a sentence.
 | 10 | `src/presentation/person-dossier.ts` |
 | 10 | `src/presentation/production-world.ts` |
 | 10 | `src/presentation/relationship-web.ts` |
+| 10 | `src/simulation/campaign-life-catalog.ts` |
 | 10 | `src/simulation/office-qualification-rules.ts` |
 | 10 | `src/simulation/press-reach.ts` |
 | 10 | `src/simulation/setup-questionnaire-bank.ts` |
@@ -236,6 +242,7 @@ literals in total; the table counts only those that read like a sentence.
 | 9 | `src/simulation/constitutional-process.ts` |
 | 9 | `src/simulation/national-election-consumer.ts` |
 | 9 | `src/ui/LocationCompositionReview.tsx` |
+| 8 | `src/player/CampaignLifePanel.tsx` |
 | 8 | `src/player/CareerPathsPanel.tsx` |
 | 8 | `src/player/NationwideCandidacyWorkspace.tsx` |
 | 8 | `src/player/PeopleRelationshipWeb.tsx` |
@@ -338,6 +345,7 @@ literals in total; the table counts only those that read like a sentence.
 | 3 | `src/player/PartyChapterSurface.tsx` |
 | 3 | `src/presentation/art-preview.ts` |
 | 3 | `src/presentation/browser-shell-state.ts` |
+| 3 | `src/presentation/campaign-life-actions.ts` |
 | 3 | `src/presentation/economic-context.ts` |
 | 3 | `src/presentation/legislation-composition.ts` |
 | 3 | `src/presentation/life-introduction.ts` |

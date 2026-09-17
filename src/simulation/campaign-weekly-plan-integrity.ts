@@ -185,8 +185,7 @@ export function assertCampaignWeeklyPlanIntegrity(
     const windows = committedWindows.get(plan.campaignId) ?? [];
     if (
       windows.some(
-        (window) =>
-          plan.weekStart <= window.end && window.start <= plan.weekEnd,
+        (span) => plan.weekStart <= span.end && span.start <= plan.weekEnd,
       )
     ) {
       throw new Error(
