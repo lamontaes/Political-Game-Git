@@ -1,4 +1,4 @@
-import policyJson from "./crunch46-provisional-policy.json";
+import policyJson from "./crunch46-provisional-policy.json" with { type: "json" };
 import type { StartingRegime } from "./types";
 
 type ByRegime<T> = Readonly<Record<StartingRegime, T>>;
