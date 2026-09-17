@@ -1,13 +1,13 @@
 {
-  "digest": "5c0da0caa7fe84d9",
+  "digest": "05dbf318640f99e8",
   "counts": {
-    "total": 3101,
+    "total": 3132,
     "byDomain": {
       "campaign": 24,
-      "conversation": 324,
+      "conversation": 346,
       "governing": 197,
       "legislative": 94,
-      "life": 1728,
+      "life": 1737,
       "narration": 75,
       "ordinary": 4,
       "setup": 618,
@@ -24,20 +24,20 @@
       "option-witnessed": 54,
       "prompt": 130,
       "scene-line": 219,
-      "status": 507,
+      "status": 538,
       "thread-recap": 32
     },
     "byReachability": {
-      "CURRENTLY_UNREACHABLE": 360,
+      "CURRENTLY_UNREACHABLE": 369,
       "DEV_FIXTURE_ONLY": 110,
       "LEGACY_OR_WITHDRAWN": 90,
-      "PLAYER_REACHABLE": 2114,
+      "PLAYER_REACHABLE": 2136,
       "UNKNOWN": 69,
       "WITHHELD_BY_GROUNDING": 358
     },
     "byRealization": {
-      "static": 2500,
-      "templated": 601
+      "static": 2514,
+      "templated": 618
     }
   },
   "records": [
@@ -5509,6 +5509,82 @@
       "contextRevision": "ca7b14b8141d"
     },
     {
+      "id": "prose:conversation:contextual-scene:favor-0008#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "favor-0008",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "favor",
+      "text": "What became of {lowerFirst(binding.facts.task??\"thefavor\")}",
+      "realization": "templated",
+      "slots": [
+        "lowerFirst(binding.facts.task??\"thefavor\")"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "favor",
+        "anchor": "favor-0008"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "1321fcfc7aa3",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:favor-0009#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "favor-0009",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "favor",
+      "text": "What you said about it",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "favor",
+        "anchor": "favor-0009"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "47c6c3ef2109",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
       "id": "prose:conversation:contextual-scene:homeEvening-0001#text",
       "domain": "conversation",
       "bank": "contextual-scene",
@@ -8337,6 +8413,773 @@
         "computed"
       ],
       "textRevision": "1bb970ce6cae",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:recalledAnswers-0001#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "recalledAnswers-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "recalledAnswers",
+      "text": "Answer from memory. You may be remembering it wrong.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recalledAnswers",
+        "anchor": "recalledAnswers-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "aea8b8904b0e",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:recalledAnswers-0002#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "recalledAnswers-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "recalledAnswers",
+      "text": "I think I said I’d {lowerFirst(task)}. I’d have to think back.",
+      "realization": "templated",
+      "slots": [
+        "lowerFirst(task)"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recalledAnswers",
+        "anchor": "recalledAnswers-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "07b73e3aa011",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:recalledAnswers-0003#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "recalledAnswers-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "recalledAnswers",
+      "text": "I’d rather not get into it now.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recalledAnswers",
+        "anchor": "recalledAnswers-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "07d6d6341c67",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:recalledAnswers-0004#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "recalledAnswers-0004",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "recalledAnswers",
+      "text": "Neither confirm nor deny.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recalledAnswers",
+        "anchor": "recalledAnswers-0004"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "467511007607",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:recalledAnswers-0005#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "recalledAnswers-0005",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "recalledAnswers",
+      "text": "Of course. I said I’d {lowerFirst(task)}.",
+      "realization": "templated",
+      "slots": [
+        "lowerFirst(task)"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recalledAnswers",
+        "anchor": "recalledAnswers-0005"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "9c0734304a01",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:recalledAnswers-0006#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "recalledAnswers-0006",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "recalledAnswers",
+      "text": "Say you agreed",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recalledAnswers",
+        "anchor": "recalledAnswers-0006"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "274bbfdb16ea",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:recalledAnswers-0007#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "recalledAnswers-0007",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "recalledAnswers",
+      "text": "Say you think you agreed, but you’re not certain",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recalledAnswers",
+        "anchor": "recalledAnswers-0007"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "72530dc5177e",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:recalledAnswers-0008#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "recalledAnswers-0008",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "recalledAnswers",
+      "text": "Say you think you agreed, though you can’t quite recall",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recalledAnswers",
+        "anchor": "recalledAnswers-0008"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "22d8166d88ce",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:recalledAnswers-0009#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "recalledAnswers-0009",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "recalledAnswers",
+      "text": "Say you’d rather not get into it",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recalledAnswers",
+        "anchor": "recalledAnswers-0009"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "9f77fef44dd0",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:recalledAnswers-0010#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "recalledAnswers-0010",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "recalledAnswers",
+      "text": "The player declined to say what had become of the {lowerFirst(task)}.",
+      "realization": "templated",
+      "slots": [
+        "lowerFirst(task)"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recalledAnswers",
+        "anchor": "recalledAnswers-0010"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "dbd5eb621d31",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:recalledAnswers-0011#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "recalledAnswers-0011",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "recalledAnswers",
+      "text": "The player told {context.name} they had agreed to {lowerFirst(task)}, having declined.",
+      "realization": "templated",
+      "slots": [
+        "context.name",
+        "lowerFirst(task)"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recalledAnswers",
+        "anchor": "recalledAnswers-0011"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "cb0fb9cacfe5",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:recalledAnswers-0012#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "recalledAnswers-0012",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "recalledAnswers",
+      "text": "The player told {context.name}, from memory, that they thought they had agreed to {lowerFirst(task)}.",
+      "realization": "templated",
+      "slots": [
+        "context.name",
+        "lowerFirst(task)"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recalledAnswers",
+        "anchor": "recalledAnswers-0012"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "b7912d5c3569",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:recalledAnswers-0013#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "recalledAnswers-0013",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "recalledAnswers",
+      "text": "You know you declined.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recalledAnswers",
+        "anchor": "recalledAnswers-0013"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "6dab1320b7e6",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:recalledAnswers-0014#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "recalledAnswers-0014",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "recalledAnswers",
+      "text": "{context.player.givenName} said they had agreed to {lowerFirst(task)}.",
+      "realization": "templated",
+      "slots": [
+        "context.player.givenName",
+        "lowerFirst(task)"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recalledAnswers",
+        "anchor": "recalledAnswers-0014"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "d893c88d2245",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:recalledAnswers-0015#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "recalledAnswers-0015",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "recalledAnswers",
+      "text": "“All right. I won’t push,” {name} says.",
+      "realization": "templated",
+      "slots": [
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recalledAnswers",
+        "anchor": "recalledAnswers-0015"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "bebdaf4277b3",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:recalledAnswers-0016#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "recalledAnswers-0016",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "recalledAnswers",
+      "text": "“All right. That’s not how I had it,” {name} says.",
+      "realization": "templated",
+      "slots": [
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recalledAnswers",
+        "anchor": "recalledAnswers-0016"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "0fc56b6d1668",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:recalledAnswers-0017#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "recalledAnswers-0017",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "recalledAnswers",
+      "text": "“That’s how I remember it too,” {name} says.",
+      "realization": "templated",
+      "slots": [
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recalledAnswers",
+        "anchor": "recalledAnswers-0017"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "8c79a9984f06",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:recalledAnswers-0018#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "recalledAnswers-0018",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "recalledAnswers",
+      "text": "“Then I must have got it wrong,” {name} says.",
+      "realization": "templated",
+      "slots": [
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recalledAnswers",
+        "anchor": "recalledAnswers-0018"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "596704390540",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:recalledAnswers-0019#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "recalledAnswers-0019",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "recalledAnswers",
+      "text": "“Understood,” {name} says.",
+      "realization": "templated",
+      "slots": [
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recalledAnswers",
+        "anchor": "recalledAnswers-0019"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "eb9b017cf020",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:recalledAnswers-0020#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "recalledAnswers-0020",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "recalledAnswers",
+      "text": "“We can check between us,” {name} says.",
+      "realization": "templated",
+      "slots": [
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "recalledAnswers",
+        "anchor": "recalledAnswers-0020"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "6601ff0fc399",
       "contextRevision": "ca7b14b8141d"
     },
     {
@@ -98550,6 +99393,305 @@
       ],
       "textRevision": "1067680294ef",
       "contextRevision": "e1c104310c89"
+    },
+    {
+      "id": "prose:life:recall-cards:STATUS_LINE-0001#text",
+      "domain": "life",
+      "bank": "recall-cards",
+      "stableKey": "STATUS_LINE-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "sourceSymbol": "STATUS_LINE",
+      "text": "It was dropped.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "CRUNCH47 B1 adapter: what the played person remembers being asked and having said. UI mounts it; until then no ordinary route renders it.",
+      "grounding": [
+        {
+          "key": "request-and-claim",
+          "description": "The saved request with its terms and status, and the player's own recorded answers, each named by the event it happened in.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "STATUS_LINE",
+        "anchor": "STATUS_LINE-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "10dd223d9ff6",
+      "contextRevision": "409a86564823"
+    },
+    {
+      "id": "prose:life:recall-cards:STATUS_LINE-0002#text",
+      "domain": "life",
+      "bank": "recall-cards",
+      "stableKey": "STATUS_LINE-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "sourceSymbol": "STATUS_LINE",
+      "text": "You did it.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "CRUNCH47 B1 adapter: what the played person remembers being asked and having said. UI mounts it; until then no ordinary route renders it.",
+      "grounding": [
+        {
+          "key": "request-and-claim",
+          "description": "The saved request with its terms and status, and the player's own recorded answers, each named by the event it happened in.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "STATUS_LINE",
+        "anchor": "STATUS_LINE-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "9b6a3a1b82d8",
+      "contextRevision": "409a86564823"
+    },
+    {
+      "id": "prose:life:recall-cards:STATUS_LINE-0003#text",
+      "domain": "life",
+      "bank": "recall-cards",
+      "stableKey": "STATUS_LINE-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "sourceSymbol": "STATUS_LINE",
+      "text": "You have not answered.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "CRUNCH47 B1 adapter: what the played person remembers being asked and having said. UI mounts it; until then no ordinary route renders it.",
+      "grounding": [
+        {
+          "key": "request-and-claim",
+          "description": "The saved request with its terms and status, and the player's own recorded answers, each named by the event it happened in.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "STATUS_LINE",
+        "anchor": "STATUS_LINE-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "b896df4e1a4b",
+      "contextRevision": "409a86564823"
+    },
+    {
+      "id": "prose:life:recall-cards:STATUS_LINE-0004#text",
+      "domain": "life",
+      "bank": "recall-cards",
+      "stableKey": "STATUS_LINE-0004",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "sourceSymbol": "STATUS_LINE",
+      "text": "You said you could not.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "CRUNCH47 B1 adapter: what the played person remembers being asked and having said. UI mounts it; until then no ordinary route renders it.",
+      "grounding": [
+        {
+          "key": "request-and-claim",
+          "description": "The saved request with its terms and status, and the player's own recorded answers, each named by the event it happened in.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "STATUS_LINE",
+        "anchor": "STATUS_LINE-0004"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "c367d1ed7c96",
+      "contextRevision": "409a86564823"
+    },
+    {
+      "id": "prose:life:recall-cards:STATUS_LINE-0005#text",
+      "domain": "life",
+      "bank": "recall-cards",
+      "stableKey": "STATUS_LINE-0005",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "sourceSymbol": "STATUS_LINE",
+      "text": "You said you would.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "CRUNCH47 B1 adapter: what the played person remembers being asked and having said. UI mounts it; until then no ordinary route renders it.",
+      "grounding": [
+        {
+          "key": "request-and-claim",
+          "description": "The saved request with its terms and status, and the player's own recorded answers, each named by the event it happened in.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "STATUS_LINE",
+        "anchor": "STATUS_LINE-0005"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "00dcacb91a8c",
+      "contextRevision": "409a86564823"
+    },
+    {
+      "id": "prose:life:recall-cards:projectRecallCards-0001#text",
+      "domain": "life",
+      "bank": "recall-cards",
+      "stableKey": "projectRecallCards-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "sourceSymbol": "projectRecallCards",
+      "text": "You said: “{recorded.stance.statement}”",
+      "realization": "templated",
+      "slots": [
+        "recorded.stance.statement"
+      ],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "CRUNCH47 B1 adapter: what the played person remembers being asked and having said. UI mounts it; until then no ordinary route renders it.",
+      "grounding": [
+        {
+          "key": "request-and-claim",
+          "description": "The saved request with its terms and status, and the player's own recorded answers, each named by the event it happened in.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectRecallCards",
+        "anchor": "projectRecallCards-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "06f95fcd4ae6",
+      "contextRevision": "409a86564823"
+    },
+    {
+      "id": "prose:life:recall-cards:projectRecallCards-0002#text",
+      "domain": "life",
+      "bank": "recall-cards",
+      "stableKey": "projectRecallCards-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "sourceSymbol": "projectRecallCards",
+      "text": "You told {personName(other)}: “{recorded.stance.statement}”",
+      "realization": "templated",
+      "slots": [
+        "personName(other)",
+        "recorded.stance.statement"
+      ],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "CRUNCH47 B1 adapter: what the played person remembers being asked and having said. UI mounts it; until then no ordinary route renders it.",
+      "grounding": [
+        {
+          "key": "request-and-claim",
+          "description": "The saved request with its terms and status, and the player's own recorded answers, each named by the event it happened in.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectRecallCards",
+        "anchor": "projectRecallCards-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "5bfad94d93ba",
+      "contextRevision": "409a86564823"
+    },
+    {
+      "id": "prose:life:recall-cards:projectRecallCards-0003#text",
+      "domain": "life",
+      "bank": "recall-cards",
+      "stableKey": "projectRecallCards-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "sourceSymbol": "projectRecallCards",
+      "text": "{STATUS_LINE[entry.status]} You said: {entry.conditions}",
+      "realization": "templated",
+      "slots": [
+        "STATUS_LINE[entry.status]",
+        "entry.conditions"
+      ],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "CRUNCH47 B1 adapter: what the played person remembers being asked and having said. UI mounts it; until then no ordinary route renders it.",
+      "grounding": [
+        {
+          "key": "request-and-claim",
+          "description": "The saved request with its terms and status, and the player's own recorded answers, each named by the event it happened in.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectRecallCards",
+        "anchor": "projectRecallCards-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "41c6e29e496a",
+      "contextRevision": "409a86564823"
+    },
+    {
+      "id": "prose:life:recall-cards:projectRecallCards-0004#text",
+      "domain": "life",
+      "bank": "recall-cards",
+      "stableKey": "projectRecallCards-0004",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "sourceSymbol": "projectRecallCards",
+      "text": "{entry.counterpartName} asked you to {entry.task}",
+      "realization": "templated",
+      "slots": [
+        "entry.counterpartName",
+        "entry.task"
+      ],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "CRUNCH47 B1 adapter: what the played person remembers being asked and having said. UI mounts it; until then no ordinary route renders it.",
+      "grounding": [
+        {
+          "key": "request-and-claim",
+          "description": "The saved request with its terms and status, and the player's own recorded answers, each named by the event it happened in.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectRecallCards",
+        "anchor": "projectRecallCards-0004"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "626eb505db83",
+      "contextRevision": "409a86564823"
     },
     {
       "id": "prose:narration:connective:composeConnectiveNarration-0001#text",

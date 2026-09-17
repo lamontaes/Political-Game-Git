@@ -55,6 +55,9 @@ import type {
 
 export const LIFE_CALLBACK_TRANSITION_KEY = "life:callback" as const;
 
+/** The event written when somebody raises an earlier choice again. */
+export const LIFE_CALLBACK_EVENT = "life.earlier-choice-returned" as const;
+
 /**
  * What it reads like when it comes back.
  *
@@ -515,7 +518,7 @@ export function lifeCallbackTransitionHandler(
         kind: "event",
         input: {
           stableKey: `${stableKey}:event`,
-          type: "life.earlier-choice-returned",
+          type: LIFE_CALLBACK_EVENT,
           occurredAt: dueItem.dueAt,
           recordedAt: dueItem.dueAt,
           jurisdictionId: origin.context.location?.jurisdictionId ?? null,

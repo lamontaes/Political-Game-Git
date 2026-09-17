@@ -189,8 +189,8 @@ export function claimContradictionTransitionHandler(
         speakerId,
         discovererId: recipientId,
         evidenceEventId: evidence.evidenceEventId,
-        family: "reporter-question",
-        place: "By phone",
+        family: route.discovery?.family ?? "reporter-question",
+        place: route.discovery?.place ?? "By phone",
         jurisdictionId:
           stanceEvent.jurisdictionId ?? fallbackJurisdiction(next),
         evidenceLabel: evidence.label,
@@ -712,6 +712,7 @@ function writeDiscovery(
         ...input.facts,
         statement: input.stance.statement,
         proposition: input.stance.proposition,
+        evidenceLabel: input.evidenceLabel,
       },
       knownRecordIds: [input.evidenceEventId],
       target: null,

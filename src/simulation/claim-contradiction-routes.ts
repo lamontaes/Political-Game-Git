@@ -1,5 +1,7 @@
 import type { ClaimStance } from "./claim-stances";
+import { peopleRequestContradictionRoute } from "./people-request-route";
 import { pressMatterContradictionRoute } from "./press/claim-route";
+import type { SceneFamily } from "./scene-bindings";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "./types";
 
 /**
@@ -27,6 +29,16 @@ export interface ContradictionEvidence {
 
 export interface ContradictionRoute {
   readonly prefix: string;
+  /**
+   * How the discovery reads when this route finds evidence. A reporter calling
+   * back and a friend raising it at home are the same machinery and must not
+   * be the same scene, so a route says which family and place its discovery
+   * belongs to. Left out, it reads as the reporter call PEOPLE shipped first.
+   */
+  readonly discovery?: {
+    readonly family: SceneFamily;
+    readonly place: string;
+  };
   /** The first date evidence could exist, or null when it never can. */
   checkDate(world: World, stance: ClaimStance, id: EntityId): IsoDate | null;
   /** Evidence this recipient actually holds by now, if any. Pure. */
@@ -42,4 +54,6 @@ export interface ContradictionRoute {
 export const CONTRADICTION_ROUTES: readonly ContradictionRoute[] = [
   // CRUNCH46 PRESS: a denial to a reporter meets a published finding or the ledger.
   pressMatterContradictionRoute,
+  // CRUNCH47 PEOPLE: an answer about a request meets the asker's own memory.
+  peopleRequestContradictionRoute,
 ];

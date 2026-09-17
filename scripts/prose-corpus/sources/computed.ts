@@ -462,6 +462,7 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
       "cameBackAnswers",
       "memoryCorrectedAnswers",
       "promisedExplain",
+      "recalledAnswers",
       "partyInvitationAnswers",
       "partyJoinAnswers",
       "partyAfterDeclineAnswers",
@@ -552,6 +553,23 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
         key: "eligible-selected-person-intent",
         description:
           "The conversation projection checks current presence, exact saved topic, age/context and prior consent before offering an action.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/presentation/people-recall-cards.ts",
+    domain: "life",
+    bank: "recall-cards",
+    symbols: ["STATUS_LINE", "projectRecallCards"],
+    surface: "status",
+    reachability: "CURRENTLY_UNREACHABLE",
+    reachabilityReason:
+      "CRUNCH47 B1 adapter: what the played person remembers being asked and having said. UI mounts it; until then no ordinary route renders it.",
+    grounding: [
+      {
+        key: "request-and-claim",
+        description:
+          "The saved request with its terms and status, and the player's own recorded answers, each named by the event it happened in.",
       },
     ],
   },

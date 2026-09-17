@@ -2187,6 +2187,46 @@
       "textRevision": "d6b9f53d7541"
     },
     {
+      "anchor": "STATUS_LINE-0001",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "symbol": "STATUS_LINE",
+      "text": "It was dropped.",
+      "occurrence": 0,
+      "textRevision": "10dd223d9ff6"
+    },
+    {
+      "anchor": "STATUS_LINE-0002",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "symbol": "STATUS_LINE",
+      "text": "You did it.",
+      "occurrence": 0,
+      "textRevision": "9b6a3a1b82d8"
+    },
+    {
+      "anchor": "STATUS_LINE-0003",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "symbol": "STATUS_LINE",
+      "text": "You have not answered.",
+      "occurrence": 0,
+      "textRevision": "b896df4e1a4b"
+    },
+    {
+      "anchor": "STATUS_LINE-0004",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "symbol": "STATUS_LINE",
+      "text": "You said you could not.",
+      "occurrence": 0,
+      "textRevision": "c367d1ed7c96"
+    },
+    {
+      "anchor": "STATUS_LINE-0005",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "symbol": "STATUS_LINE",
+      "text": "You said you would.",
+      "occurrence": 0,
+      "textRevision": "00dcacb91a8c"
+    },
+    {
       "anchor": "STEP_COPY-0001",
       "sourcePath": "src/presentation/legislation-projection.ts",
       "symbol": "STEP_COPY",
@@ -3569,6 +3609,22 @@
       "text": "An evening at home",
       "occurrence": 0,
       "textRevision": "6f7097468fb9"
+    },
+    {
+      "anchor": "favor-0008",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "favor",
+      "text": "What became of {lowerFirst(binding.facts.task??\"thefavor\")}",
+      "occurrence": 0,
+      "textRevision": "1321fcfc7aa3"
+    },
+    {
+      "anchor": "favor-0009",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "favor",
+      "text": "What you said about it",
+      "occurrence": 0,
+      "textRevision": "47c6c3ef2109"
     },
     {
       "anchor": "fileForOffice-0001",
@@ -5731,6 +5787,38 @@
       "textRevision": "7e9e5d00a119"
     },
     {
+      "anchor": "projectRecallCards-0001",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "symbol": "projectRecallCards",
+      "text": "You said: “{recorded.stance.statement}”",
+      "occurrence": 0,
+      "textRevision": "06f95fcd4ae6"
+    },
+    {
+      "anchor": "projectRecallCards-0002",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "symbol": "projectRecallCards",
+      "text": "You told {personName(other)}: “{recorded.stance.statement}”",
+      "occurrence": 0,
+      "textRevision": "5bfad94d93ba"
+    },
+    {
+      "anchor": "projectRecallCards-0003",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "symbol": "projectRecallCards",
+      "text": "{STATUS_LINE[entry.status]} You said: {entry.conditions}",
+      "occurrence": 0,
+      "textRevision": "41c6e29e496a"
+    },
+    {
+      "anchor": "projectRecallCards-0004",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "symbol": "projectRecallCards",
+      "text": "{entry.counterpartName} asked you to {entry.task}",
+      "occurrence": 0,
+      "textRevision": "626eb505db83"
+    },
+    {
       "anchor": "promisedExplain-0001",
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "symbol": "promisedExplain",
@@ -5945,6 +6033,166 @@
       "text": "This build has no durable interface store. Pins and private notes were not stored with this life.",
       "occurrence": 0,
       "textRevision": "ae7d44d1e40f"
+    },
+    {
+      "anchor": "recalledAnswers-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "Answer from memory. You may be remembering it wrong.",
+      "occurrence": 0,
+      "textRevision": "aea8b8904b0e"
+    },
+    {
+      "anchor": "recalledAnswers-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "I think I said I’d {lowerFirst(task)}. I’d have to think back.",
+      "occurrence": 0,
+      "textRevision": "07b73e3aa011"
+    },
+    {
+      "anchor": "recalledAnswers-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "I’d rather not get into it now.",
+      "occurrence": 0,
+      "textRevision": "07d6d6341c67"
+    },
+    {
+      "anchor": "recalledAnswers-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "Neither confirm nor deny.",
+      "occurrence": 0,
+      "textRevision": "467511007607"
+    },
+    {
+      "anchor": "recalledAnswers-0005",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "Of course. I said I’d {lowerFirst(task)}.",
+      "occurrence": 0,
+      "textRevision": "9c0734304a01"
+    },
+    {
+      "anchor": "recalledAnswers-0006",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "Say you agreed",
+      "occurrence": 0,
+      "textRevision": "274bbfdb16ea"
+    },
+    {
+      "anchor": "recalledAnswers-0007",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "Say you think you agreed, but you’re not certain",
+      "occurrence": 0,
+      "textRevision": "72530dc5177e"
+    },
+    {
+      "anchor": "recalledAnswers-0008",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "Say you think you agreed, though you can’t quite recall",
+      "occurrence": 0,
+      "textRevision": "22d8166d88ce"
+    },
+    {
+      "anchor": "recalledAnswers-0009",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "Say you’d rather not get into it",
+      "occurrence": 0,
+      "textRevision": "9f77fef44dd0"
+    },
+    {
+      "anchor": "recalledAnswers-0010",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "The player declined to say what had become of the {lowerFirst(task)}.",
+      "occurrence": 0,
+      "textRevision": "dbd5eb621d31"
+    },
+    {
+      "anchor": "recalledAnswers-0011",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "The player told {context.name} they had agreed to {lowerFirst(task)}, having declined.",
+      "occurrence": 0,
+      "textRevision": "cb0fb9cacfe5"
+    },
+    {
+      "anchor": "recalledAnswers-0012",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "The player told {context.name}, from memory, that they thought they had agreed to {lowerFirst(task)}.",
+      "occurrence": 0,
+      "textRevision": "b7912d5c3569"
+    },
+    {
+      "anchor": "recalledAnswers-0013",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "You know you declined.",
+      "occurrence": 0,
+      "textRevision": "6dab1320b7e6"
+    },
+    {
+      "anchor": "recalledAnswers-0014",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "{context.player.givenName} said they had agreed to {lowerFirst(task)}.",
+      "occurrence": 0,
+      "textRevision": "d893c88d2245"
+    },
+    {
+      "anchor": "recalledAnswers-0015",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "“All right. I won’t push,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "bebdaf4277b3"
+    },
+    {
+      "anchor": "recalledAnswers-0016",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "“All right. That’s not how I had it,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "0fc56b6d1668"
+    },
+    {
+      "anchor": "recalledAnswers-0017",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "“That’s how I remember it too,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "8c79a9984f06"
+    },
+    {
+      "anchor": "recalledAnswers-0018",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "“Then I must have got it wrong,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "596704390540"
+    },
+    {
+      "anchor": "recalledAnswers-0019",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "“Understood,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "eb9b017cf020"
+    },
+    {
+      "anchor": "recalledAnswers-0020",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "“We can check between us,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "6601ff0fc399"
     },
     {
       "anchor": "recapSentence-0001",

@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 2952 |
+| INVENTORIED | 2992 |
 | INTENTIONALLY_NON_PLAYER_FACING | 6602 |
-| DIAGNOSTIC_OR_TEST | 6431 |
-| **NEEDS_CLASSIFICATION** | **8547** |
+| DIAGNOSTIC_OR_TEST | 6442 |
+| **NEEDS_CLASSIFICATION** | **8588** |
 
-Scanned 908 files holding 94951 string
+Scanned 912 files holding 95234 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -32,7 +32,7 @@ literals in total; the table counts only those that read like a sentence.
 
 | Candidates | File |
 | --- | --- |
-| 425 | `src/presentation/contextual-scene-families.ts` |
+| 461 | `src/presentation/contextual-scene-families.ts` |
 | 341 | `src/simulation/legislation-administration-families.ts` |
 | 290 | `src/simulation/legislation-infrastructure-families.ts` |
 | 269 | `src/simulation/legislation-fiscal-families.ts` |
@@ -54,7 +54,7 @@ literals in total; the table counts only those that read like a sentence.
 | 64 | `src/simulation/press/desk.ts` |
 | 61 | `src/simulation/press-interviews.ts` |
 | 59 | `src/presentation/legislative-dialogue-motifs.ts` |
-| 55 | `src/presentation/contextual-scene-producers.ts` |
+| 58 | `src/presentation/contextual-scene-producers.ts` |
 | 54 | `src/presentation/run-c-working-document.ts` |
 | 53 | `src/simulation/civil-personnel.ts` |
 | 51 | `src/simulation/campaigns.ts` |
@@ -399,6 +399,7 @@ literals in total; the table counts only those that read like a sentence.
 | 2 | `src/simulation/nationwide-world/rules-capability-binding.ts` |
 | 2 | `src/simulation/nationwide-world/state-executive-terms.ts` |
 | 2 | `src/simulation/office-qualifications.generated.ts` |
+| 2 | `src/simulation/people-request-route.ts` |
 | 2 | `src/simulation/place-county-relations.generated.ts` |
 | 2 | `src/simulation/press/claim-route.ts` |
 | 2 | `src/simulation/press/integrity.ts` |

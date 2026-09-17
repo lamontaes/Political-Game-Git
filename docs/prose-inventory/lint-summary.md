@@ -22,9 +22,9 @@ defect than the one it was aimed at.
 
 ## Repetition
 
-- 3101 templates, 2886 distinct texts.
-- 81 exact duplicate groups.
-- 90 normalized duplicate groups.
+- 3132 templates, 2916 distinct texts.
+- 82 exact duplicate groups.
+- 92 normalized duplicate groups.
 - 34 near-duplicate clusters (Jaccard ≥ 0.72).
 
 Exact duplicate text at two semantic locations is not itself a defect: each
@@ -40,8 +40,8 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `there is a` | 20 | 4 |
 | `it is not` | 18 | 4 |
 | `out of the` | 18 | 5 |
+| `asked you to` | 17 | 5 |
 | `you want to` | 17 | 4 |
-| `asked you to` | 16 | 4 |
 | `the end of` | 16 | 5 |
 | `the player asked` | 16 | 2 |
 | `you tell you` | 16 | 1 |
@@ -72,12 +72,12 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `the bill is` | 10 |
 | `that file is` | 9 |
 | `you put the` | 9 |
+| `you said you` | 9 |
 | `say you will` | 8 |
+| `the player told` | 8 |
 | `you took the` | 8 |
 | `ask about the` | 7 |
 | `ask for a` | 7 |
 | `stay out of` | 7 |
-| `you said you` | 7 |
-| `you told them` | 7 |
 
 Every finding with its exact semantic ID is in `lint-findings.json`.

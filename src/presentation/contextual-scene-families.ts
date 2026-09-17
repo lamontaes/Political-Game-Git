@@ -7,6 +7,8 @@ import {
   projectPartyEncounters,
 } from "../simulation/living-world/party-chapters";
 import { lifeOpportunitiesFor } from "../simulation/life-opportunities";
+import { recalledRequest } from "../simulation/people-recall";
+import { requestPropositionKey } from "../simulation/people-request-route";
 import type { BoundScene, SceneFamily } from "../simulation/scene-bindings";
 import { scheduledActivityState } from "../simulation/time-work";
 import { adultSituationOpen, chooseAdultOption } from "./adult-life";
@@ -679,6 +681,139 @@ function adultChoice(
     });
 }
 
+/**
+ * What became of a request, when the person who made it raises it again
+ * (CRUNCH47 P4).
+ *
+ * Four different things a person can say, and the record keeps them apart:
+ * the truth, a deliberate untruth, an honest guess, and a refusal to get into
+ * it. Only the guess can turn out to be wrong without anybody having lied, and
+ * only the untruth is marked before it is chosen.
+ */
+function recalledAnswers(context: SceneContext): SceneAnswer[] {
+  const task = context.fact("task");
+  const status = context.fact("status");
+  const requestEventId = context.fact("requestEventId") as EntityId;
+  const agreed = status === "agreed" || status === "performed";
+  const done = status === "performed";
+  const basis = {
+    propositionKey: requestPropositionKey(requestEventId),
+    proposition: `The player told ${context.name} they would ${lowerFirst(task)}.`,
+    beliefEvidenceIds: [requestEventId],
+    sourceEntityIds: [requestEventId],
+    worldTruth: (agreed ? "true" : "false") as "true" | "false",
+  };
+  const straight: SceneAnswer = agreed
+    ? {
+        key: "said-yes",
+        label: done ? "Say you did it" : "Say you took it on",
+        description: done
+          ? "It is done, and the record says so."
+          : "You said you would, and you still mean to.",
+        truthIntent: "sincere",
+        statement: done
+          ? `I did. It’s done.`
+          : `I said I would, and I haven’t forgotten.`,
+        replies: says(context, [
+          done
+            ? "“Thank you. I did wonder,” {name} says."
+            : "“All right. I’ll leave it with you,” {name} says.",
+          "“Good. Thanks for telling me,” {name} says.",
+        ]),
+        record: done
+          ? `The player told ${context.name} the ${lowerFirst(task)} was done.`
+          : `The player told ${context.name} they still meant to ${lowerFirst(task)}.`,
+        stance: {
+          ...basis,
+          asserted: "affirms",
+          speakerBelief: "believes-true",
+          intent: "truthful",
+        },
+      }
+    : {
+        key: "said-no",
+        label: "Say you turned it down",
+        description: "You said no at the time, and you say so now.",
+        truthIntent: "sincere",
+        statement: "I told you at the time I couldn’t. That hasn’t changed.",
+        replies: says(context, [
+          "“You did. I thought I’d ask once more,” {name} says.",
+          "“Fair enough. I remember,” {name} says.",
+        ]),
+        record: `The player reminded ${context.name} that they had declined.`,
+        stance: {
+          ...basis,
+          asserted: "denies",
+          speakerBelief: "believes-false",
+          intent: "truthful",
+        },
+      };
+  return [
+    straight,
+    {
+      key: "think-so",
+      label: agreed
+        ? "Say you think you agreed, but you’re not certain"
+        : "Say you think you agreed, though you can’t quite recall",
+      description: "Answer from memory. You may be remembering it wrong.",
+      truthIntent: "uncertain",
+      statement: `I think I said I’d ${lowerFirst(task)}. I’d have to think back.`,
+      replies: says(context, [
+        "“That’s how I remember it too,” {name} says.",
+        "“We can check between us,” {name} says.",
+      ]),
+      record: `The player told ${context.name}, from memory, that they thought they had agreed to ${lowerFirst(task)}.`,
+      stance: {
+        ...basis,
+        asserted: "affirms",
+        speakerBelief: "uncertain",
+        intent: "from-memory",
+      },
+    },
+    ...(agreed
+      ? []
+      : [
+          {
+            key: "claim-yes",
+            label: "Say you agreed",
+            description: "You know you declined.",
+            truthIntent: "deliberate-deception" as const,
+            statement: `Of course. I said I’d ${lowerFirst(task)}.`,
+            replies: says(context, [
+              "“Then I must have got it wrong,” {name} says.",
+              "“All right. That’s not how I had it,” {name} says.",
+            ]),
+            perception: `${context.player.givenName} said they had agreed to ${lowerFirst(task)}.`,
+            record: `The player told ${context.name} they had agreed to ${lowerFirst(task)}, having declined.`,
+            stance: {
+              ...basis,
+              asserted: "affirms" as const,
+              speakerBelief: "believes-false" as const,
+              intent: "deceive" as const,
+            },
+          },
+        ]),
+    {
+      key: "rather-not",
+      label: "Say you’d rather not get into it",
+      description: "Neither confirm nor deny.",
+      statement: "I’d rather not get into it now.",
+      replies: says(context, [
+        "“All right. I won’t push,” {name} says.",
+        "“Understood,” {name} says.",
+      ]),
+      record: `The player declined to say what had become of the ${lowerFirst(task)}.`,
+      stance: {
+        ...basis,
+        asserted: "none",
+        speakerBelief: "not-applicable",
+        intent: "evade",
+        worldTruth: "unknown",
+      },
+    },
+  ];
+}
+
 const favor: SceneFamilyDefinition = {
   family: "favor",
   eventType: "conversation.favor-turn",
@@ -687,17 +822,40 @@ const favor: SceneFamilyDefinition = {
   motivation: "Answer a specific request.",
   interactionTags: ["conversation.request"],
   topic: (binding) =>
-    binding.variant === "extra-hours-request"
-      ? "Extra hours at work"
-      : binding.variant === "household-evening"
-        ? "An evening at home"
-        : binding.facts.speakerGiven
-          ? `A favor for ${binding.facts.speakerGiven}`
-          : "A favor",
+    binding.variant === "claim-came-back" ||
+    binding.variant === "memory-corrected"
+      ? "What you said about it"
+      : binding.variant === "recalled"
+        ? `What became of ${lowerFirst(binding.facts.task ?? "the favor")}`
+        : binding.variant === "extra-hours-request"
+          ? "Extra hours at work"
+          : binding.variant === "household-evening"
+            ? "An evening at home"
+            : binding.facts.speakerGiven
+              ? `A favor for ${binding.facts.speakerGiven}`
+              : "A favor",
   briefing(context) {
     const who = context.relationship
       ? `${context.fullName}, ${context.relationship},`
       : context.fullName;
+    if (context.binding.variant === "claim-came-back") {
+      return `${context.fullName} has gone back over ${context.fact("evidenceLabel")} and it does not match what you told them.`;
+    }
+    if (context.binding.variant === "memory-corrected") {
+      return `${context.fullName} checked ${context.fact("evidenceLabel")}. What you told them from memory was wrong.`;
+    }
+    if (context.binding.variant === "recalled") {
+      const asked = proseDate(context.binding.date!);
+      const answer =
+        context.fact("status") === "declined"
+          ? "You told them you could not."
+          : context.fact("status") === "performed"
+            ? "You did it."
+            : context.fact("status") === "agreed"
+              ? "You said you would."
+              : "You never gave them an answer.";
+      return `${who} asked you on ${asked} to ${context.fact("task")}. ${answer}`;
+    }
     if (context.binding.variant === "extra-hours-request") {
       return `${who} is asking whether you can ${context.fact("task")}. Pay and the date are not settled.`;
     }
@@ -710,6 +868,24 @@ const favor: SceneFamilyDefinition = {
     return `${who} is asking you to ${context.fact("task")}.${minutes}`;
   },
   opening(context) {
+    if (context.binding.variant === "claim-came-back") {
+      return says(context, [
+        "“That isn’t how I remember it, and I checked,” {name} says.",
+        "“I went back over it. What you told me isn’t what happened,” {name} says.",
+      ]);
+    }
+    if (context.binding.variant === "memory-corrected") {
+      return says(context, [
+        "“I think you had that the wrong way round. I checked,” {name} says.",
+      ]);
+    }
+    if (context.binding.variant === "recalled") {
+      const task = lowerFirst(context.fact("task"));
+      return says(context, [
+        `“I wanted to ask you about the ${task}. Where did we land on that?” {name} asks.`,
+        `“It’s been a while. Did anything come of the ${task}?” {name} asks.`,
+      ]);
+    }
     const opening = context.fact("opening");
     const verb = opening.trim().endsWith("?") ? "asks" : "says";
     return says(context, [
@@ -718,6 +894,29 @@ const favor: SceneFamilyDefinition = {
     ]);
   },
   answers(context) {
+    if (context.binding.variant === "claim-came-back") {
+      return cameBackAnswers(
+        context,
+        {
+          statement: "You’re right. I knew better when I said it.",
+          replies: [
+            "“Thank you for saying so,” {name} says.",
+            "“That’s something, at least,” {name} says.",
+          ],
+        },
+        {
+          statement: "That is what I told you, and I stand by it.",
+          replies: [
+            "“Then we remember it differently,” {name} says.",
+            "“All right,” {name} says, and lets it drop.",
+          ],
+        },
+      );
+    }
+    if (context.binding.variant === "memory-corrected") {
+      return memoryCorrectedAnswers(context);
+    }
+    if (context.binding.variant === "recalled") return recalledAnswers(context);
     const open = adultSituationOpen(
       context.world,
       context.binding.playerPersonId,
@@ -891,15 +1090,34 @@ const favor: SceneFamilyDefinition = {
       "decline-hours": "“No hard feelings,” {name} says.",
       "spend-evening": "“See you tonight,” {name} says.",
       "keep-evening": "“Another time,” {name} says.",
+      "said-yes": "“Thanks. That’s all I wanted to know,” {name} says.",
+      "said-no": "“Understood,” {name} says.",
+      "think-so": "“We’ll leave it there for now,” {name} says.",
+      "admit-it": "“Okay. Thank you,” {name} says.",
+      "keep-denying": "{name} lets it drop.",
+      "thank-for-correction": "“No harm done,” {name} says.",
+      "claim-yes": "“All right,” {name} says.",
+      "rather-not": "“Another time, then,” {name} says.",
     };
     return fill(done[answer ?? ""] ?? "“Okay,” {name} says.", {
       name: context.name,
     });
   },
   relevant: (world, bound) =>
-    lifeOpportunitiesFor(world, bound.binding.playerPersonId).some(
-      (entry) => entry.eventId === bound.binding.sourceEntityIds[0],
-    ),
+    // A request raised again is answerable on its own record, not on an open
+    // opportunity: the opportunity it came from was answered long ago.
+    bound.binding.variant === "claim-came-back" ||
+    bound.binding.variant === "memory-corrected"
+      ? true
+      : bound.binding.variant === "recalled"
+        ? !!recalledRequest(
+            world,
+            bound.binding.playerPersonId,
+            bound.binding.facts.requestEventId as EntityId,
+          )
+        : lifeOpportunitiesFor(world, bound.binding.playerPersonId).some(
+            (entry) => entry.eventId === bound.binding.sourceEntityIds[0],
+          ),
   room: (world, bound) =>
     bound.binding.variant === "household-evening"
       ? homeRoom(world, bound)

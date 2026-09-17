@@ -21,6 +21,8 @@ import type {
 import { commitmentPromisee } from "../simulation/claim-contradictions";
 import { evaluateDecision } from "../simulation/decisions";
 import { lifeRequestDetails } from "../simulation/life-request-details";
+import { LIFE_CALLBACK_EVENT } from "../simulation/life-callbacks";
+import { requestBehindCallback } from "../simulation/people-recall";
 import {
   LIFE_OPPORTUNITY_TAG_PREFIX,
   lifeOpportunitiesFor,
@@ -103,6 +105,7 @@ export function refreshContextualScenes(
   }
   const producers: readonly Producer[] = [
     produceHomeEvening,
+    produceRecalledRequest,
     produceFavor,
     producePartyInvite,
     produceCampaignReaction,
@@ -422,6 +425,66 @@ const FAVOR_KINDS = {
   },
   "household-evening": { situation: QUIET_EVENING_KEY, place: "Home" },
 } as const;
+
+/** Days after the asker raises it again that the scene stays answerable. */
+const RECALL_WINDOW_DAYS = 3;
+
+/**
+ * "You said you'd look at that." The request comes back because the person who
+ * made it chose to raise it, which the callback handler has already decided and
+ * written. Nothing here reopens an issue on its own.
+ */
+function produceRecalledRequest(world: World, personId: EntityId): World {
+  const from = addDays(world.currentDate, -RECALL_WINDOW_DAYS);
+  for (const callback of world.history.events) {
+    if (
+      callback.type !== LIFE_CALLBACK_EVENT ||
+      callback.occurredAt < from ||
+      !callback.involvedEntityIds.includes(personId)
+    ) {
+      continue;
+    }
+    if (sceneAlreadyBound(world, personId, "favor", "recalled", callback.id)) {
+      continue;
+    }
+    const entry = requestBehindCallback(world, personId, callback);
+    if (!entry || entry.status === "cancelled") continue;
+    const speaker = world.people[entry.counterpartPersonId];
+    if (!speaker) continue;
+    const facts: Record<string, string> = {
+      task: entry.task,
+      speakerGiven: speaker.givenName,
+      askedOn: entry.askedOn,
+      status: entry.status,
+      requestEventId: entry.requestEventId,
+    };
+    if (entry.answeredOn) facts.answeredOn = entry.answeredOn;
+    if (entry.conditions) facts.condition = entry.conditions;
+    return recordSceneBinding(
+      world,
+      {
+        version: 1,
+        family: "favor",
+        variant: "recalled",
+        playerPersonId: personId,
+        speakerPersonId: speaker.id,
+        relationship: relationshipLabel(world, personId, speaker.id),
+        place: "By phone",
+        jurisdictionId:
+          callback.jurisdictionId ?? world.people[personId]!.homeJurisdictionId,
+        request: `What became of ${entry.task}.`,
+        sourceEntityIds: [callback.id, entry.requestEventId],
+        facts,
+        knownRecordIds: [entry.requestEventId],
+        target: entry.task,
+        date: entry.askedOn,
+        expiresAt: addDays(callback.occurredAt, 14),
+      },
+      `${personName(speaker)} raised the earlier request again.`,
+    );
+  }
+  return world;
+}
 
 function produceFavor(world: World, personId: EntityId): World {
   for (const opportunity of lifeOpportunitiesFor(world, personId)) {
