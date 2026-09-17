@@ -4809,12 +4809,12 @@ function renderWorkspace({
                 onWorldChange={onWorldChange}
               />
               {executive ? (
-                <ExecutiveWorkWorkspace
-                  world={session.world}
-                  onWorldChange={onWorldChange}
-                  onClose={close}
-                  handlers={createCampaignElectionTransitionRegistry()}
-                />
+            <ExecutiveWorkWorkspace
+              world={session.world}
+              onWorldChange={onWorldChange}
+              onClose={close}
+              handlers={createCampaignElectionTransitionRegistry()}
+            />
               ) : null}
             </>
           ),

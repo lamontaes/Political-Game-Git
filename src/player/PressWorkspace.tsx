@@ -139,17 +139,26 @@ export function PressWorkspace({
     }
   }
   return (
-    <section data-testid="normal-press-workspace" aria-label="Press interviews">
-      <h3>Press interviews</h3>
-      {problem ? <p role="status">{problem}</p> : null}
-      {requestNotice ? <p role="status">{requestNotice}</p> : null}
+    <section data-testid="normal-press-workspace" aria-label="Press office">
+      {problem ? (
+        <p className="game-problem" role="status">
+          {problem}
+        </p>
+      ) : null}
+      {requestNotice ? (
+        <p className="game-note" role="status">
+          {requestNotice}
+        </p>
+      ) : null}
       {controlledPersonId ? (
         <PressDeskPanel
           world={world}
           personId={controlledPersonId}
           onWorldChange={onWorldChange}
+          onOpenPerson={onOpenPerson}
         />
       ) : null}
+      <h3>Press interviews</h3>
       {controlledPersonId ? (
         <details data-testid="press-request-form">
           <summary>Request a press exchange</summary>
