@@ -10,6 +10,7 @@ interface ModularCharacterProps {
   /** Developer-only: draw the root and attachment anchors as DOM markers. */
   readonly debugAnchors?: boolean;
   readonly testId?: string;
+  readonly expression?: "neutral" | "smile";
 }
 
 /**
@@ -22,6 +23,7 @@ export function ModularCharacter({
   plan,
   debugAnchors = false,
   testId = "modular-character",
+  expression = "neutral",
 }: ModularCharacterProps) {
   return (
     <div
@@ -36,6 +38,7 @@ export function ModularCharacter({
       data-pinned-by-person={plan.pinnedByPerson ? "true" : "false"}
       data-complete={plan.complete ? "true" : "false"}
       data-layer-count={plan.layers.length}
+      data-expression={expression}
       style={{ zIndex: plan.depth } satisfies CSSProperties}
     >
       {plan.layers.map((layer, index) =>
@@ -45,6 +48,7 @@ export function ModularCharacter({
             assetId={layer.assetId}
             material={plan.material}
             drawnIds={plan.layers.map((l) => l.assetId)}
+            expression={expression}
             className={`modular-character-layer modular-character-layer--${layer.kind}`}
             src={layer.url}
             alt=""
@@ -126,15 +130,17 @@ export function MaterialImage({
   assetId,
   material,
   drawnIds,
+  expression = "neutral",
   ...props
 }: React.ImgHTMLAttributes<HTMLImageElement> & {
   assetId: string;
   material?: AppearanceMaterial;
   drawnIds: readonly string[];
+  expression?: "neutral" | "smile";
 }) {
   const wanted =
     material && ENGINE_PEOPLE29_TEMPLATES[assetId]
-      ? JSON.stringify([assetId, material, drawnIds])
+      ? JSON.stringify([assetId, material, drawnIds, expression])
       : null;
   const [variant, setVariant] = useState<{ key: string; url: string } | null>(
     null,
@@ -142,16 +148,19 @@ export function MaterialImage({
   const [error, setError] = useState(false);
   useEffect(() => {
     if (!wanted) return;
-    const [sourceId, parameters, drawn] = JSON.parse(wanted) as [
-      string,
-      AppearanceMaterial,
-      string[],
-    ];
+    const [sourceId, parameters, drawn, faceExpression] = JSON.parse(
+      wanted,
+    ) as [string, AppearanceMaterial, string[], "neutral" | "smile"];
     let active = true;
     setError(false);
     let acquired: ReturnType<typeof acquirePreparedVariant>;
     try {
-      acquired = acquirePreparedVariant(sourceId, parameters, drawn);
+      acquired = acquirePreparedVariant(
+        sourceId,
+        parameters,
+        drawn,
+        faceExpression,
+      );
       void acquired.url.then(
         (url) => {
           if (active) setVariant({ key: wanted, url });

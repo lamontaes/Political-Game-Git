@@ -4,6 +4,7 @@ import { AppearanceOutfitDialog } from "./AppearanceOutfitDialog";
 import { PreparedAppearanceControls } from "./PreparedAppearanceControls";
 import {
   MODULAR45_GENERATION,
+  PREPARED_FAMILIES,
   selectPreparedBody,
   preparedFamily,
   preparedPartsAt,
@@ -42,6 +43,11 @@ export interface PersonAppearanceControlsProps extends PersonVisualSelectionCont
   readonly onPreferenceChange: (preference: PersonWardrobePreference) => void;
 }
 export function appearanceFamilyLabel(value: string): string {
+  const authored = PREPARED_FAMILIES.flatMap((f) => f.parts)
+    .slice()
+    .reverse()
+    .find((p) => p.logicalFamily === value && p.label);
+  if (authored?.label) return authored.label;
   const imported = (
     kit.labels as Record<string, { name: string; colour: string }>
   )[value];

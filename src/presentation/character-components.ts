@@ -145,6 +145,9 @@ export interface CharacterComponentDefinition {
   readonly catalog_generation: number;
   /** Later-generation raster-only revision; all other attachment/identity metadata must match. */
   readonly supersedes_asset_id?: string;
+  /** Explicit offline rig calibration. Its hash pins the authored profile;
+   * only geometry may change in a profile-backed revision, never identity. */
+  readonly prepared_profile?: { readonly id: string; readonly sha256: string };
   /** Coordinated same-canvas garment pieces, never independent wardrobe choices. */
   readonly render_piece_ids?: readonly string[];
   readonly render_piece_of?: string;
@@ -632,14 +635,36 @@ function rasterRevisionErrors(
 ): string[] {
   const errors: string[] = [];
   const successors = new Set<string>();
-  const normalized = (definition: CharacterComponentDefinition) => {
+  const normalized = (
+    definition: CharacterComponentDefinition,
+    recalibrated = false,
+  ) => {
     const copy: Record<string, unknown> = { ...definition };
     delete copy.catalog_generation;
     delete copy.supersedes_asset_id;
     delete copy.render_piece_ids;
+    if (recalibrated) {
+      for (const key of [
+        "prepared_profile",
+        "root",
+        "attachment_anchors",
+        "contacts",
+        "origin",
+        "layer",
+      ])
+        delete copy[key];
+    }
     return canonicalJson(copy);
   };
   for (const component of components.values()) {
+    const profile = component.definition.prepared_profile;
+    const recalibrated =
+      profile !== undefined &&
+      typeof profile.id === "string" &&
+      profile.id.length > 0 &&
+      /^[a-f0-9]{64}$/.test(profile.sha256);
+    if (profile !== undefined && !recalibrated)
+      errors.push(`Invalid prepared profile on '${component.assetId}'.`);
     const previousId = component.definition.supersedes_asset_id;
     if (previousId === undefined) continue;
     const previous = components.get(previousId);
@@ -647,7 +672,8 @@ function rasterRevisionErrors(
       !previous ||
       previous.definition.catalog_generation >=
         component.definition.catalog_generation ||
-      normalized(previous.definition) !== normalized(component.definition)
+      normalized(previous.definition, recalibrated) !==
+        normalized(component.definition, recalibrated)
     )
       errors.push(
         `Invalid raster revision '${component.assetId}' of '${previousId}': an older component with identical identity/attachment metadata is required.`,
@@ -1952,6 +1978,13 @@ function familyCompatibleWithIdentity(
   return bodyOk && headOk;
 }
 
+function profileCompatible(
+  part: CharacterComponentDefinition,
+  body: CharacterComponentDefinition,
+): boolean {
+  return part.prepared_profile?.sha256 === body.prepared_profile?.sha256;
+}
+
 function contextCompatible(
   definition: CharacterComponentDefinition,
   poseFamily: string,
@@ -2434,6 +2467,7 @@ export function resolveCharacterRecipe(
             (component) =>
               component.definition.kind === slot.kind &&
               wardrobeFamilies.includes(component.definition.family) &&
+              profileCompatible(component.definition, body.definition) &&
               familyCompatibleWithIdentity(
                 component.definition,
                 bodyFamily,
@@ -2482,8 +2516,9 @@ export function resolveCharacterRecipe(
       );
       const forBody = forPose.filter(
         (component) =>
-          component.definition.compatible_body_families === undefined ||
-          component.definition.compatible_body_families.includes(bodyFamily),
+          profileCompatible(component.definition, body.definition) &&
+          (component.definition.compatible_body_families === undefined ||
+            component.definition.compatible_body_families.includes(bodyFamily)),
       );
       // A family can also hold one fitted derivative PER FACE (MODULAR45 hair
       // fronts). The identity stage only asked whether the family reaches this

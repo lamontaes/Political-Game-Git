@@ -70,8 +70,9 @@ def fit_recipe(head, body):
     f=result.transform
     # This offline path writes final rasters: never upscale its source pixels.
     if f.scale > 1: raise IntakeError('native_detail_shortfall','output would enlarge source raster')
-    payload={'algorithm':VERSION,'head':head,'body':body}
-    return {'algorithm':VERSION,'cacheKey':digest(canonical(payload)),
+    algorithm='semantic-fit-v2' if body.get('neckOwnership')=='body-layer' else VERSION
+    payload={'algorithm':algorithm,'head':head,'body':body}
+    return {'algorithm':algorithm,'cacheKey':digest(canonical(payload)),
             'sourceHash':head['paint']['sha256'],'head':head['id'],'body':body['id'],
             'transform':{'scale':f.scale,'dx':f.dx,'dy':f.dy},
             'anatomy':vars(f.box(g.anatomy)),'attachment':f.point(g.attachment),
@@ -94,6 +95,13 @@ def fit_head(root, head, body):
     layers=[Image.fromarray(a)]
     for ref in head.get('materialMaps',{}).values(): layers.append(pinned_image(root,ref,head['canvas']))
     result=warp_group(layers,f,tuple(body['canvas']))
+    if body.get('neckOwnership')=='body-layer':
+        # Clean admitted heads end at the anatomical jaw. Their associated body
+        # already owns the continuous neck; never append a second neck donor.
+        recipe['paintSupport']=vars(visible_bounds(paint))
+        recipe['semanticSupport']=vars(bounds)
+        recipe['neckOwnership']='body-layer'
+        return result[0],dict(zip(head.get('materialMaps',{}),result[1:])),recipe
     # Body-owned neck patch is in BODY coordinates and never scales with the face.
     neck=pinned_image(root,body['neckPaint'],body['canvas'])
     face=result[0]; result[0]=Image.alpha_composite(neck,face)

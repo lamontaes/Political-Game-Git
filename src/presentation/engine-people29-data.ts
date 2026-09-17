@@ -37,6 +37,13 @@ export interface PreparedPart {
   introducedGeneration?: number;
   logicalFamily?: string;
   logicalIdentity?: string;
+  label?: string;
+  /** Authored clothing-specific anatomy, rendered in the existing body slot. */
+  anatomyOverride?: string;
+  /** Same identity/frame, authored expressive paint; neutral remains default. */
+  expressionVariants?: Readonly<
+    Record<string, { svgPath: string; sha256: string }>
+  >;
   portraitBounds?: { left: number; top: number; right: number; bottom: number };
   materials: readonly {
     channel: MaterialChannel;

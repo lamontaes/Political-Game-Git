@@ -62,3 +62,31 @@ It is expansion evidence, not a claim of newly painted production art.
 LEARN: geometric PASS is not seam/material acceptance. Keep machine fit receipts,
 exact pixel invariants, the normal browser route, and visual sheets as separate
 receipts. Preserve rejected attempts as diagnostics outside the active pack.
+
+## CRUNCH47 profile and source preparation
+
+`rig.py` validates the shared 600×1200 offline body-profile contract. Each body
+keeps its own authored proportions and every supported pose has pinned paint,
+explicit landmarks and one uniform reduction. Missing landmarks and unsupported
+views are refusals. A clean v2 head owns face/ears/curved jaw; the body owns neck,
+chest and limbs. `source_parts.py` applies hash-pinned ownership/material masks
+and declared alpha cleanup, then transforms paint and masks together.
+
+Prepared components may declare `prepared_profile: {id, sha256}`. An explicit
+profile-backed successor can recalibrate root, anchors, contacts, layer and
+origin while preserving kind, logical family, canvas, pose/view and compatibility.
+An ordinary raster successor still requires exact metadata. Context resolution
+requires the selected part and body to share their profile hash. This is the
+bounded geometry extension authorized by CRUNCH47 E1; it does not alter old
+catalog membership, generation signatures or saved choices.
+
+A prepared garment may point at an `anatomyOverride` auxiliary body corrective.
+The renderer draws that painted anatomy in the body slot; the garment never owns
+skin. This supports authored hand/cuff and neckline corrections while keeping
+face, hair, skin and clothing selection independent. Conflicting or non-body
+correctives refuse. `expressionVariants` selects another authored expression in
+the same face frame; neutral remains the default and identity is unchanged.
+
+These paths prepare private candidates. Automated success does not promote art
+or establish human visual acceptance. The real expansion receipt must freeze
+fitter/renderer hashes before admitting genuinely new source paint through data.

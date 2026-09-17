@@ -30,6 +30,8 @@ export interface PersonPortraitProps {
   readonly note?: string | null;
   /** Render-only creator choice. Never writes or replaces the saved person. */
   readonly previewAppearance?: PersonAppearance;
+  /** Prepared expression of this same identity; neutral remains the default. */
+  readonly expression?: "neutral" | "smile";
 }
 
 export function PersonPortrait({
@@ -41,6 +43,7 @@ export function PersonPortrait({
   wardrobe,
   snapshot,
   previewAppearance,
+  expression = "neutral",
 }: PersonPortraitProps) {
   const savedWardrobe = useSavedWardrobe(personId);
   const sharedSnapshot = useSavedRenderSnapshot(personId);
@@ -189,6 +192,7 @@ export function PersonPortrait({
           />
         ) : visual.kind === "modular" ? (
           <ModularCharacter
+            expression={expression}
             plan={portraitPlan!}
             testId="person-portrait-character"
           />

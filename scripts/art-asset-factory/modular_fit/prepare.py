@@ -10,6 +10,7 @@ import numpy as np
 from PIL import Image
 from fit_core import visible_bounds, union_frame, Box
 from intake import fit_head, fit_hair, pinned_image, digest, IntakeError, canonical
+from rig import validate_profile, body_descriptor
 
 def png(im):
     b=io.BytesIO(); im.save(b,format='PNG'); return b.getvalue()
@@ -41,21 +42,32 @@ def emit(root, spec, identifier, kind, layer, paint, maps, ramps, coverage=None)
     return part,str(runtime.relative_to(root))
 
 def prepare(spec,root):
+    for profile in spec.get('bodyProfiles',[]):
+        validate_profile(profile,root)
+    profile_bodies=[body_descriptor(p,pose) for p in spec.get('bodyProfiles',[]) for pose in p['poses']]
     registry=json.loads((root/spec['registry']).read_text())
     original=copy.deepcopy(registry)
     registry.setdefault('families',[]).extend(copy.deepcopy(spec.get('families',[])))
     registry.setdefault('garments',[]).extend(copy.deepcopy(spec.get('garments',[])))
     prior_parts={p['id']:p for ps in registry['familyAdditions'].values() for p in ps}
-    assets={a['asset_id']:a for a in registry['assets']}
-    sources={s['id']:s for s in spec['heads']}; bodies={b['id']:b for b in spec['bodies']};hairs={h['id']:h for h in spec['hairstyles']}
+    templates=[json.loads((root/path).read_text()) for path in spec.get('templateRegistries',[])]
+    assets={a['asset_id']:a for r in [*templates,registry] for a in r['assets']}
+    for r in templates:
+        for family in r.get('families',[]):
+            prior_parts.update({p['id']:p for p in family.get('parts',[])})
+    sources={s['id']:s for s in spec['heads']}; bodies={b['id']:b for b in [*spec['bodies'],*profile_bodies]};hairs={h['id']:h for h in spec['hairstyles']}
     report={'algorithm':'semantic-fit-v1','generation':spec['generation'],'fits':[],'hair':[],'errors':[],'newIds':[]}
     def register(rule,paint,maps,recipe):
         base=copy.deepcopy(assets[rule['previous']]);definition=base['candidate_component']
+        for key in rule.get('componentOmit',[]): definition.pop(key,None)
         definition.update(rule.get('component',{}))
         if rule.get('operation','replace')=='add':definition.pop('supersedes_asset_id',None)
         else:definition['supersedes_asset_id']=rule['previous']
         part,runtime=emit(root,spec,rule['id'],definition['kind'],definition['layer'],paint,maps,spec['ramps'],rule.get('coverage'))
         part['introducedGeneration']=spec['generation']; part['fitRecipe']=recipe
+        if rule.get('label'):part['label']=rule['label']
+        if rule.get('anatomyOverride'):part['anatomyOverride']=rule['anatomyOverride']
+        if rule.get('expressionVariants'):part['expressionVariants']=rule['expressionVariants']
         if definition['kind']=='head' and recipe.get('anatomy'):part['portraitBounds']=recipe['anatomy']
         part['logicalFamily']=definition['family']
         if rule.get('logicalIdentity') or recipe.get('logicalStyle'): part['logicalIdentity']=rule.get('logicalIdentity',recipe.get('logicalStyle'))
@@ -85,6 +97,13 @@ def prepare(spec,root):
         p=pinned_image(root,rule['paint'],rule['canvas'])
         maps={c:pinned_image(root,r,rule['canvas']) for c,r in rule['materialMaps'].items()}
         register(rule,p,maps,{'source':rule['paint'],'materialMaps':rule['materialMaps'],'algorithm':'raster-material-v1'})
+    for rule in spec.get('auxiliaryParts',[]):
+        p=pinned_image(root,rule['paint'],rule['canvas'])
+        maps={c:pinned_image(root,r,rule['canvas']) for c,r in rule['materialMaps'].items()}
+        part,_=emit(root,spec,rule['id'],rule['kind'],rule['layer'],p,maps,spec['ramps'])
+        part['introducedGeneration']=spec['generation']
+        registry['familyAdditions'].setdefault(rule['family'],[]).append(part)
+        registry['templates'][rule['id']]={'familyId':rule['family'],'partIds':[rule['id']],'sourceSha256':part['sha256']}
     out=root/spec['report'];out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,indent=2)+'\n')
     if report['errors']:raise IntakeError('batch_refused',f"{len(report['errors'])} fit errors; registry unchanged, see {out}")
     # No existing asset, template, part or generation may change on append.

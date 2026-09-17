@@ -20,6 +20,8 @@ const sources = optionalGlob(() =>
       "../../art/authoring/modular41-head-v2/*.svg",
       "../../art/authoring/modular45/parts/*.svg",
       "../../art/authoring/modular45/pose/*.svg",
+      "../../art/authoring/modular47/parts/*.svg",
+      "../../art/authoring/modular47/pose/*.svg",
     ],
     { query: "?raw", import: "default" },
   ),
@@ -200,6 +202,7 @@ export async function renderPreparedSvg(
   assetId: string,
   material: AppearanceMaterial,
   drawnIds: readonly string[],
+  expression: "neutral" | "smile" = "neutral",
 ): Promise<string> {
   const template = ENGINE_PEOPLE29_TEMPLATES[assetId];
   const family = PREPARED_FAMILIES.find((f) => f.id === material.familyId);
@@ -207,6 +210,23 @@ export async function renderPreparedSvg(
     throw new Error("Prepared family does not match this component.");
   let ids = [...template.partIds];
   const original = family.parts.find((p) => p.id === ids[0])!;
+  if (original.kind === "body") {
+    const overrides = [
+      ...new Set(
+        drawnIds.flatMap(
+          (id) => family.parts.find((p) => p.id === id)?.anatomyOverride ?? [],
+        ),
+      ),
+    ];
+    if (overrides.length > 1)
+      throw new Error("Conflicting anatomy correctives.");
+    if (overrides[0]) {
+      const corrective = family.parts.find((p) => p.id === overrides[0]);
+      if (corrective?.kind !== "body-corrective")
+        throw new Error("Invalid anatomy corrective.");
+      ids = [corrective.id];
+    }
+  }
   if (original.kind === "head")
     ids = [
       original.id,
@@ -218,7 +238,9 @@ export async function renderPreparedSvg(
   for (const id of ids) {
     const p = family.parts.find((p) => p.id === id);
     if (!p) throw new Error("Unknown prepared part.");
-    const d = parse(await source(p.svgPath));
+    const variant =
+      expression === "neutral" ? undefined : p.expressionVariants?.[expression];
+    const d = parse(await source(variant?.svgPath ?? p.svgPath));
     await materialize(d, p, material);
     for (const child of [...d.documentElement.children])
       result.documentElement.appendChild(result.importNode(child, true));
@@ -281,12 +303,14 @@ export function acquirePreparedVariant(
   assetId: string,
   material: AppearanceMaterial,
   drawnIds: readonly string[],
+  expression: "neutral" | "smile" = "neutral",
 ) {
   const key = JSON.stringify([
     "engine-people29-v2",
     assetId,
     ENGINE_PEOPLE29_TEMPLATES[assetId]?.sourceSha256,
     material,
+    expression,
     [...drawnIds].sort(),
   ]);
   let entry = cache.get(key);
@@ -303,8 +327,9 @@ export function acquirePreparedVariant(
       key,
       refs: 0,
       touched: ++sequence,
-      url: renderPreparedSvg(assetId, material, drawnIds).then((svg) =>
-        URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" })),
+      url: renderPreparedSvg(assetId, material, drawnIds, expression).then(
+        (svg) =>
+          URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" })),
       ),
     };
     cache.set(key, entry);
