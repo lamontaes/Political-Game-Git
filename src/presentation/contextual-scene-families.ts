@@ -1106,7 +1106,7 @@ const partyInvite: SceneFamilyDefinition = {
     binding.variant === "join-ask"
       ? `Joining the ${binding.facts.chapterName}`
       : binding.variant === "after-decline"
-        ? `The ${binding.facts.chapterName}`
+        ? `After the ${binding.facts.chapterName} meeting`
         : `An invitation from the ${binding.facts.chapterName}`,
   briefing(context) {
     const chapter = context.fact("chapterName");

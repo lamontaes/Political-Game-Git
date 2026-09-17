@@ -22,10 +22,10 @@ defect than the one it was aimed at.
 
 ## Repetition
 
-- 3016 templates, 2801 distinct texts.
+- 3101 templates, 2886 distinct texts.
 - 81 exact duplicate groups.
 - 90 normalized duplicate groups.
-- 28 near-duplicate clusters (Jaccard ≥ 0.72).
+- 34 near-duplicate clusters (Jaccard ≥ 0.72).
 
 Exact duplicate text at two semantic locations is not itself a defect: each
 keeps its own ID, and two banks may legitimately both offer "Say nothing".
@@ -38,15 +38,15 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `in front of` | 24 | 7 |
 | `no instrument read` | 22 | 1 |
 | `there is a` | 20 | 4 |
+| `it is not` | 18 | 4 |
 | `out of the` | 18 | 5 |
-| `it is not` | 17 | 3 |
 | `you want to` | 17 | 4 |
 | `asked you to` | 16 | 4 |
 | `the end of` | 16 | 5 |
+| `the player asked` | 16 | 2 |
 | `you tell you` | 16 | 1 |
 | `at the end` | 15 | 4 |
 | `at the end of` | 15 | 4 |
-| `the player asked` | 15 | 1 |
 | `a long time` | 14 | 4 |
 | `instrument read establishes` | 14 | 2 |
 | `the two of` | 14 | 4 |
@@ -66,8 +66,8 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | --- | --- |
 | `no time passes` | 111 |
 | `no instrument read` | 21 |
+| `the player asked` | 16 |
 | `you tell you` | 16 |
-| `the player asked` | 15 |
 | `there is a` | 12 |
 | `the bill is` | 10 |
 | `that file is` | 9 |
