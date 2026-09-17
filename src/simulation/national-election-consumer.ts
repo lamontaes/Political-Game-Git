@@ -35,6 +35,7 @@ import type {
   TimeDemandProfile,
 } from "./types";
 import type {
+  NationalSuccession,
   NationalTermPlan,
   NationalTermState,
 } from "./national-election-types";
@@ -172,35 +173,77 @@ export function planNationalOfficeTerm(
     endsAt: rules.endsAt,
   });
 }
+function enteredHolder(world: World, plan: NationalTermPlan) {
+  const states = nationalRecords(world, plan.electionId).filter(
+    (record): record is NationalTermState =>
+      record.kind === "term-state" &&
+      record.planId === plan.id &&
+      compareSimulationMoments(record.effectiveAt, world.currentMoment) <= 0,
+  );
+  const state = states.at(-1);
+  return state?.status === "entered" &&
+    state.workRelationshipId !== null &&
+    workStatusAt(world, state.workRelationshipId)?.status === "active" &&
+    compareSimulationMoments(world.currentMoment, plan.endsAt) < 0 &&
+    nationalPersonAlive(world, plan.personId)
+    ? state
+    : null;
+}
+
+/** Recorded Twenty-Fifth Amendment successions in effect now. */
+export function nationalSuccessions(
+  world: World,
+): readonly NationalSuccession[] {
+  return nationalRecords(world).filter(
+    (record): record is NationalSuccession =>
+      record.kind === "succession" &&
+      compareSimulationMoments(record.effectiveAt, world.currentMoment) <= 0,
+  );
+}
+
+/**
+ * Who holds the office now. After a recorded § 1 succession the former Vice
+ * President holds the presidency for the rest of the term (their office work
+ * is the vice-presidential work they already had), and the vice presidency is
+ * vacant until a § 2 nomination is confirmed, which is not modeled.
+ */
 export function nationalOfficeHolder(
   world: World,
   office: "president" | "vice-president",
 ) {
+  const successions = nationalSuccessions(world);
   const plans = nationalRecords(world).filter(
     (record): record is NationalTermPlan =>
       record.kind === "term-plan" && record.office === office,
   );
-  return (
-    plans
-      .flatMap((plan) => {
-        const states = nationalRecords(world, plan.electionId).filter(
-          (record): record is NationalTermState =>
-            record.kind === "term-state" &&
-            record.planId === plan.id &&
-            compareSimulationMoments(record.effectiveAt, world.currentMoment) <=
-              0,
-        );
-        const state = states.at(-1);
-        return state?.status === "entered" &&
-          state.workRelationshipId !== null &&
-          workStatusAt(world, state.workRelationshipId)?.status === "active" &&
-          compareSimulationMoments(world.currentMoment, plan.endsAt) < 0 &&
-          nationalPersonAlive(world, plan.personId)
-          ? [{ plan, state }]
-          : [];
-      })
-      .at(-1) ?? null
-  );
+  const held = plans
+    .flatMap((plan) => {
+      if (
+        office === "vice-president" &&
+        successions.some((row) => row.successorPlanId === plan.id)
+      )
+        return [];
+      const state = enteredHolder(world, plan);
+      return state ? [{ plan, state, succession: null }] : [];
+    })
+    .at(-1);
+  if (held || office === "vice-president") return held ?? null;
+  for (const succession of [...successions].reverse()) {
+    const successor = nationalRecords(world).find(
+      (record): record is NationalTermPlan =>
+        record.kind === "term-plan" && record.id === succession.successorPlanId,
+    );
+    const vacated = nationalRecords(world).find(
+      (record): record is NationalTermPlan =>
+        record.kind === "term-plan" && record.id === succession.vacatedPlanId,
+    );
+    if (!successor || !vacated) continue;
+    if (compareSimulationMoments(world.currentMoment, vacated.endsAt) >= 0)
+      continue;
+    const state = enteredHolder(world, successor);
+    if (state) return { plan: successor, state, succession };
+  }
+  return null;
 }
 /** Ordinary clock calls this at exact represented instants. Legacy Worlds are a no-op. */
 export function applyNationalTermTransitions(world: World): World {
