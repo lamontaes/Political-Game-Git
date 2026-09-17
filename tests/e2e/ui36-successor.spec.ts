@@ -1,5 +1,11 @@
 import { expect, test, type Page } from "./fixtures";
-import { chooseCreatorLocation, goTo, openCreator } from "./support/creator";
+import { chooseOption } from "./support/controls";
+import {
+  chooseCreatorLocation,
+  goTo,
+  openCreator,
+  chooseStartAge,
+} from "./support/creator";
 
 async function inViewport(page: Page, testId: string) {
   const button = page.getByTestId(testId);
@@ -18,11 +24,11 @@ test("UI36 non-Kentucky journey: quiet room, one card, conversation, News and re
   await page.goto("/?art-preview=candidate");
   await openCreator(page);
   await page.getByTestId("start-normal").click();
-  await page.getByTestId("start-age").fill("34");
   await page.getByLabel("First name", { exact: true }).fill("Maya");
   await page.getByLabel("Last name", { exact: true }).fill("Rivera");
-  await page.getByTestId("start-birth-month").selectOption("4");
-  await page.getByTestId("start-birth-day").selectOption("12");
+  await chooseOption(page.getByTestId("start-birth-month"), "4");
+  await chooseOption(page.getByTestId("start-birth-day"), "12");
+  await chooseStartAge(page, 34);
   await page.getByTestId("creator-continue-character").click();
   await chooseCreatorLocation(
     page,

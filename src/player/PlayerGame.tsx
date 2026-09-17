@@ -9,10 +9,7 @@ import { locationReviewVisuals } from "../presentation/location-art-review";
 import { PressWorkspace } from "./PressWorkspace";
 import { ContentPackWorkspace } from "./ContentPackWorkspace";
 import { birthdayProblemForSetup } from "../presentation/new-game-birthday";
-import {
-  applyBirthdayPatch,
-  CreatorBirthdayFields,
-} from "./CreatorBirthdayFields";
+import { CreatorBirthdayFields } from "./CreatorBirthdayFields";
 import {
   HOMETOWN_PAGE_SIZE,
   projectHometownPage,
@@ -30,6 +27,16 @@ import { LifeScenePanel } from "./opening-life/LifeScenePanel";
 import { useContentViewportCss } from "./overlay-viewport";
 import { simulateCalendarDays } from "../presentation/calendar-time-control";
 import {
+  describeTimeCommandPreview,
+  previewTimeCommand,
+  submitTimeCommand,
+} from "../presentation/time-command";
+import {
+  createWorldChangeGuard,
+  nextTimeRequestId,
+  recordStaleWorldChange,
+} from "../presentation/world-change-guard";
+import {
   conversationExchangeTurns,
   currentExchangeTurn,
 } from "../presentation/scene-conversation";
@@ -39,6 +46,10 @@ import { MunicipalWorkspace } from "./MunicipalWorkspace";
 import { World39News } from "./World39News";
 import { World39Journal } from "./World39Journal";
 import { PlacesWorkspace } from "./PlacesWorkspace";
+import { GovernmentBrowser } from "./politics/GovernmentBrowser";
+import { NewsDesk } from "./news/NewsDesk";
+import "./controls/controls.css";
+import { PoliticsTabs, type PoliticsTab } from "./politics/PoliticsTabs";
 import { municipalVenueForActivity } from "../presentation/municipal-venue";
 import { resolveActivityVenueScene } from "../presentation/scene-venues";
 import { publishLegislativeTransition } from "../presentation/publish-legislative-transition";
@@ -62,6 +73,7 @@ import { createCampaignElectionTransitionRegistry } from "../simulation/campaign
 import {
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -76,7 +88,6 @@ import {
 import { guardUnsavedWork } from "../presentation/unsaved-work-guard";
 import {
   chooseStoryOption,
-  letStoryTimePass,
   presentPeopleSentence,
   projectStoryMoment,
   type StoryMoment,
@@ -226,6 +237,7 @@ import {
 import { declineVenueActivity } from "../presentation/scheduled-activity-choice";
 import { attendChapterMeeting } from "../presentation/party-chapter-actions";
 import { FullDossier, QuickDossier } from "./ShellDossier";
+import type { PersonCardAnchor } from "./PersonCard";
 import {
   CalendarWorkspaceSurface,
   CommitmentSurface,
@@ -349,6 +361,19 @@ export function PlayerGame() {
   const [screen, setScreen] = useState<Screen>({ kind: "title" });
   const [session, setSession] = useState<Session | null>(null);
   /*
+   * GOVERNING time/continuity: a World change computed from an older World
+   * must not replace a newer one. `committedWorld` is the World the rendered
+   * controls were built from; once a change from it is accepted, only further
+   * changes from that same base are accepted until the next render, so a
+   * chained writer in one handler still lands, and a late or repeated
+   * callback from an earlier render is dropped instead of rewinding or
+   * repeating time.
+   */
+  const worldGuard = useRef(createWorldChangeGuard());
+  useLayoutEffect(() => {
+    worldGuard.current.rendered(session?.world ?? null);
+  }, [session?.world]);
+  /*
    * The content-viewport variables are written once at the root so the title,
    * the creator and the room all size against the same actual rectangle.
    */
@@ -374,6 +399,12 @@ export function PlayerGame() {
   useEffect(() => {
     void refreshSaves();
   }, [refreshSaves]);
+
+  /* The game's own control skins apply while the game is mounted. */
+  useEffect(() => {
+    document.body.classList.add("pg-game");
+    return () => document.body.classList.remove("pg-game");
+  }, []);
 
   const replayStarted = useRef(false);
   useEffect(() => {
@@ -792,7 +823,11 @@ export function PlayerGame() {
       session={session}
       notice={notice}
       problem={problem}
-      onWorldChange={(world) =>
+      onWorldChange={(world, base) => {
+        if (base !== undefined && !worldGuard.current.admit(base)) {
+          recordStaleWorldChange(base, world);
+          return;
+        }
         setSession((current) =>
           current
             ? // Opening is idempotent and gated on the character, so this is
@@ -808,8 +843,8 @@ export function PlayerGame() {
                 ),
               }
             : current,
-        )
-      }
+        );
+      }}
       onKeep={(shellState) => void keepThisWorld(shellState)}
       onLeave={() => void leaveGame()}
       savesUnavailable={savesUnavailable}
@@ -973,10 +1008,7 @@ function SetupScreen({
    * A fresh creator starts unanswered. Blur only puts the committed age back
    * after the player has entered something; an untouched field stays empty.
    */
-  const [ageText, setAgeText] = useState(
-    initialSetup ? String(setup.startAge) : "",
-  );
-  const ageHasCommitted = useRef(initialSetup !== undefined);
+  const [ageChosen, setAgeChosen] = useState(initialSetup !== undefined);
   const custom = setup.startKind === "custom";
   const committed = withCreatorLocation(setup, location);
   const steps: readonly CreatorStep[] = custom
@@ -1011,17 +1043,11 @@ function SetupScreen({
    * Not answering is different from entering an invalid age: both keep Next
    * disabled, but only an entered invalid value needs an error message.
    */
-  const ageChosen = ageText.trim() !== "";
-  const ageParsed = Number(ageText.trim());
   const ageUsable =
     ageChosen &&
-    Number.isSafeInteger(ageParsed) &&
-    ageParsed >= MINIMUM_START_AGE &&
-    ageParsed <= MAXIMUM_START_AGE;
-  const ageProblem =
-    ageChosen && !ageUsable
-      ? `Choose a starting age between ${MINIMUM_START_AGE} and ${MAXIMUM_START_AGE}.`
-      : null;
+    Number.isSafeInteger(setup.startAge) &&
+    setup.startAge >= MINIMUM_START_AGE &&
+    setup.startAge <= MAXIMUM_START_AGE;
   const place = selectedCreatorPlace(location);
   const placeListOpen = creatorPlaceListOpen(location.placeKey, replacingPlace);
 
@@ -1158,6 +1184,39 @@ function SetupScreen({
       {isCurrent("character") ? (
         <section data-testid="creator-stage-character">
           <h2>Your character</h2>
+          {/*
+                Gender, asked rather than decided. Guessing it from the first
+                name would be wrong: the name corpus carries no demographic
+                attribute for anything to be guessed from. Normal Start exposes
+                gender only (owner override) — pronouns derive silently from it
+                and are never a player-facing control here.
+              */}
+          <fieldset className="game-fieldset" data-testid="gender-choices">
+            <legend>Gender</legend>
+            <div className="game-choices game-choices-inline">
+              {GENDER_IDENTITY_KEYS.filter((key) => key !== "unstated").map(
+                (key) => (
+                  <button
+                    key={key}
+                    type="button"
+                    data-testid={`gender-${key}`}
+                    aria-pressed={setup.gender === key}
+                    className={setup.gender === key ? "is-chosen" : undefined}
+                    onClick={() => {
+                      setSetup((now) => ({
+                        ...now,
+                        gender: key,
+                        pronouns: defaultPronounsForGender(key),
+                      }));
+                    }}
+                  >
+                    {GENDER_IDENTITY_LABELS[key]}
+                  </button>
+                ),
+              )}
+            </div>
+          </fieldset>
+
           <div className="creator-group creator-group-name">
             <span className="creator-group-label">Name</span>
             <div className="game-fields">
@@ -1222,82 +1281,16 @@ function SetupScreen({
           </div>
 
           <div className="creator-group">
-            <span className="creator-group-label">Age and birthday</span>
-            <div className="game-fields">
-              <label>
-                Starting age
-                <input
-                  type="number"
-                  data-testid="start-age"
-                  min={MINIMUM_START_AGE}
-                  max={MAXIMUM_START_AGE}
-                  value={ageText}
-                  onChange={(event) => {
-                    const text = event.target.value;
-                    setAgeText(text);
-                    /*
-                     * Commit only a real age. An empty or half-typed field leaves
-                     * the last committed one alone rather than becoming 0.
-                     */
-                    if (text.trim() === "") return;
-                    const parsed = Number(text);
-                    if (!Number.isFinite(parsed)) return;
-                    ageHasCommitted.current = true;
-                    setSetup((now) => ({ ...now, startAge: parsed }));
-                  }}
-                  onBlur={() => {
-                    if (!ageHasCommitted.current) return;
-                    setAgeText(String(setup.startAge));
-                  }}
-                />
-              </label>
-            </div>
             <CreatorBirthdayFields
               setup={setup}
-              onChange={(patch) =>
-                setSetup((now) => applyBirthdayPatch(now, patch))
-              }
+              yearChosen={ageChosen}
+              onChange={(next, yearChosen) => {
+                setSetup(next);
+                if (yearChosen) setAgeChosen(true);
+              }}
             />
           </div>
 
-          {/*
-                Gender, asked rather than decided. Guessing it from the first
-                name would be wrong: the name corpus carries no demographic
-                attribute for anything to be guessed from. Normal Start exposes
-                gender only (owner override) — pronouns derive silently from it
-                and are never a player-facing control here.
-              */}
-          <fieldset className="game-fieldset" data-testid="gender-choices">
-            <legend>Gender</legend>
-            <div className="game-choices game-choices-inline">
-              {GENDER_IDENTITY_KEYS.filter((key) => key !== "unstated").map(
-                (key) => (
-                  <button
-                    key={key}
-                    type="button"
-                    data-testid={`gender-${key}`}
-                    aria-pressed={setup.gender === key}
-                    className={setup.gender === key ? "is-chosen" : undefined}
-                    onClick={() => {
-                      setSetup((now) => ({
-                        ...now,
-                        gender: key,
-                        pronouns: defaultPronounsForGender(key),
-                      }));
-                    }}
-                  >
-                    {GENDER_IDENTITY_LABELS[key]}
-                  </button>
-                ),
-              )}
-            </div>
-          </fieldset>
-
-          {ageProblem ? (
-            <p role="alert" data-testid="creator-age-problem">
-              {ageProblem}
-            </p>
-          ) : null}
           <button
             type="button"
             className="game-creator-next"
@@ -2165,7 +2158,7 @@ function PlayingScreen({
   session,
   notice,
   problem,
-  onWorldChange,
+  onWorldChange: commitWorld,
   onKeep,
   onLeave,
   savesUnavailable,
@@ -2174,7 +2167,8 @@ function PlayingScreen({
   readonly session: Session;
   readonly notice: string | null;
   readonly problem: string | null;
-  readonly onWorldChange: (world: World) => void;
+  /** `base` is the World the change was computed from; see the root guard. */
+  readonly onWorldChange: (world: World, base?: World) => void;
   readonly onKeep: (shellState: StoredShellState) => void;
   readonly onLeave: () => void;
   readonly savesUnavailable: boolean;
@@ -2194,6 +2188,15 @@ function PlayingScreen({
   const capabilities = useMemo(
     () => resolvePlayerCapabilities(session.world),
     [session.world],
+  );
+  /*
+   * Every writer below computes from `session.world` as rendered, so that is
+   * the base each change is committed against.
+   */
+  const renderedWorld = session.world;
+  const onWorldChange = useCallback(
+    (world: World) => commitWorld(world, renderedWorld),
+    [commitWorld, renderedWorld],
   );
 
   /*
@@ -2276,15 +2279,32 @@ function PlayingScreen({
    * said in the HUD so the player reads where time actually stopped and why.
    */
   const [passOutcome, setPassOutcome] = useState<string | null>(null);
+  /*
+   * Where the clicked scene person stands, kept with that person. A card
+   * reached any other way, or for somebody else, has no anchor and uses the
+   * consistent side placement.
+   */
+  const [cardAnchor, setCardAnchor] = useState<{
+    readonly personId: EntityId;
+    readonly rect: PersonCardAnchor;
+  } | null>(null);
+  useEffect(() => {
+    setCardAnchor((current) =>
+      current && current.personId !== shell.quickDossierPersonId
+        ? null
+        : current,
+    );
+  }, [shell.quickDossierPersonId]);
   const passDays = useCallback(
     (days: 1 | 7) => {
-      const result = simulateCalendarDays(
-        session.world,
-        session.personId,
-        days,
-        shell.preferences.interruptions,
-      );
-      setPassOutcome(result.outcome);
+      const result = submitTimeCommand(session.world, {
+        requestId: nextTimeRequestId(),
+        personId: session.personId,
+        sourceMoment: session.world.currentMoment,
+        command: { kind: "days", days },
+        interruptions: shell.preferences.interruptions,
+      });
+      setPassOutcome(result.receipt.outcome);
       if (result.world !== session.world) onWorldChange(result.world);
     },
     [
@@ -2504,65 +2524,42 @@ function PlayingScreen({
       open: openSurface === "people",
       group: "people",
     });
-    if (!capabilities.formativeYears) {
-      entries.push({
-        surface: "work",
-        section: "office",
-        label: "Your office and campaigns",
-        hint: workHint,
-        testid: "elsewhere-work",
-        open: openSurface === "work" && section === "office",
-        group: "politics",
-      });
-    }
-    entries.push({
-      surface: "municipal",
-      label: "Local government",
-      hint: "Public meetings and your municipal work",
-      testid: "nav-municipal",
-      open: openSurface === "municipal",
-      group: "politics",
-    });
-    entries.push({
-      surface: "parties",
-      label: "Local party chapters",
-      hint: "Who organizes them and your invitations",
-      testid: "nav-parties",
-      open: openSurface === "parties",
-      group: "politics",
-    });
-    entries.push({
-      surface: "politics",
-      label: "Budget and constitutional changes",
-      hint: "Public finances and recorded constitutional changes",
-      testid: "nav-politics-budget",
-      open: openSurface === "politics",
-      group: "politics",
-    });
-    entries.push({
-      surface: "transit",
-      label: "Transit service",
-      hint: "Service proposals, public funding and recorded delivery",
-      testid: "nav-politics-transit",
-      open: openSurface === "transit",
-      group: "politics",
-    });
-    entries.push({
-      surface: "tax",
-      label: "Taxes and public receipts",
-      hint: "Tax proposals, their procedure and recorded public receipts",
-      testid: "nav-politics-tax",
-      open: openSurface === "tax",
-      group: "politics",
-    });
-    entries.push({
-      surface: "candidacy",
-      label: "Who governs here, and the state's top office",
-      hint: "Your city and county governments, and standing for your state's executive office",
-      testid: "nav-politics-candidacy",
-      open: openSurface === "candidacy",
-      group: "politics",
-    });
+    /*
+     * Politics is one hub (UI DECISION FOLLOW-THROUGH). Its tab strip reaches
+     * the office, campaigns, government and local records, parties, and the
+     * budget with transit and taxes, so the menu carries a single entry.
+     */
+    const politicsSurfaces: readonly string[] = [
+      "government",
+      "municipal",
+      "parties",
+      "politics",
+      "transit",
+      "tax",
+      "candidacy",
+    ];
+    entries.push(
+      capabilities.formativeYears
+        ? {
+            surface: "government",
+            label: "Politics",
+            hint: "Who governs where you are, at every level",
+            testid: "nav-politics",
+            open: politicsSurfaces.includes(openSurface ?? ""),
+            group: "politics",
+          }
+        : {
+            surface: "work",
+            section: "office",
+            label: "Politics",
+            hint: workHint,
+            testid: "nav-politics",
+            open:
+              politicsSurfaces.includes(openSurface ?? "") ||
+              (openSurface === "work" && section === "office"),
+            group: "politics",
+          },
+    );
     entries.push({
       surface: "news",
       label: "News",
@@ -2861,12 +2858,29 @@ function PlayingScreen({
              * only ever holds what the player put there.
              */
             selectedPersonId={shell.quickDossierPersonId}
-            onSelectPerson={(personId) =>
+            onSelectPerson={(personId) => {
+              const button = document.querySelector<HTMLElement>(
+                `[data-testid="scene-person-${personId}"]`,
+              );
+              const box = button?.getBoundingClientRect();
+              setCardAnchor(
+                box
+                  ? {
+                      personId: personId as EntityId,
+                      rect: {
+                        left: box.left,
+                        top: box.top,
+                        width: box.width,
+                        height: box.height,
+                      },
+                    }
+                  : null,
+              );
               dispatch({
                 type: "open-quick-dossier",
                 personId: personId as EntityId,
-              })
-            }
+              });
+            }}
           >
             {view.surface === "scene" ? (
               <OpeningLifeFlow
@@ -2916,6 +2930,11 @@ function PlayingScreen({
               world={session.world}
               playerId={session.personId}
               dossier={selectedDossier}
+              anchor={
+                cardAnchor?.personId === selectedDossier.personId
+                  ? cardAnchor.rect
+                  : null
+              }
               pinned={isPinned(shell, {
                 kind: "person",
                 id: selectedDossier.personId,
@@ -3268,6 +3287,66 @@ function renderWorkspace({
     />
   );
 
+  /*
+   * The Politics hub (UI DECISION FOLLOW-THROUGH): one tab strip over the
+   * existing political surfaces. Tabs only navigate; every mechanism stays in
+   * the surface that owns it.
+   */
+  const politicsTabs = (
+    active: PoliticsTab,
+    section?: "budget" | "transit" | "tax" | "overview" | "records",
+  ) => {
+    const goTo = (tab: PoliticsTab) => {
+      if (tab === "office")
+        dispatch({ type: "go-to-surface", surface: "work", section: "office" });
+      else if (tab === "campaigns")
+        dispatch({ type: "go-to-surface", surface: "candidacy" });
+      else if (tab === "government")
+        dispatch({ type: "go-to-surface", surface: "government" });
+      else if (tab === "parties")
+        dispatch({ type: "go-to-surface", surface: "parties" });
+      else dispatch({ type: "go-to-surface", surface: "politics" });
+    };
+    const subItems =
+      active === "issues"
+        ? [
+            { key: "budget", label: "Budget and constitution" },
+            { key: "transit", label: "Transit" },
+            { key: "tax", label: "Taxes" },
+          ]
+        : active === "government"
+          ? [
+              { key: "overview", label: "Who governs" },
+              { key: "records", label: "Local meetings and records" },
+            ]
+          : [];
+    return (
+      <PoliticsTabs
+        active={active}
+        onSelect={goTo}
+        hidden={capabilities.formativeYears ? ["office", "campaigns"] : []}
+        subItems={subItems.map((item) => ({
+          ...item,
+          current: item.key === section,
+          testid: `politics-sub-${item.key}`,
+        }))}
+        onSelectSub={(key) => {
+          const surface =
+            key === "budget"
+              ? "politics"
+              : key === "records"
+                ? "municipal"
+                : key === "overview"
+                  ? "government"
+                  : key === "transit"
+                    ? "transit"
+                    : "tax";
+          dispatch({ type: "go-to-surface", surface });
+        }}
+      />
+    );
+  };
+
   const frame = (
     title: string,
     testid: string,
@@ -3526,7 +3605,10 @@ function renderWorkspace({
       return frame(
         "Local government",
         "municipal-workspace",
-        municipalSurface(),
+        <>
+          {politicsTabs("government", "records")}
+          {municipalSurface()}
+        </>,
       );
 
     case "parties": {
@@ -3534,13 +3616,16 @@ function renderWorkspace({
       return frame(
         "Local party chapters",
         "parties-workspace",
-        chapters.length > 0 ? (
-          <>{chapters.map(chapterSurface)}</>
-        ) : (
-          <p className="game-note" data-testid="parties-none">
-            No local party chapters are recorded where you live.
-          </p>
-        ),
+        <>
+          {politicsTabs("parties")}
+          {chapters.length > 0 ? (
+            <>{chapters.map(chapterSurface)}</>
+          ) : (
+            <p className="game-note" data-testid="parties-none">
+              No local party chapters are recorded where you live.
+            </p>
+          )}
+        </>,
       );
     }
 
@@ -3548,43 +3633,111 @@ function renderWorkspace({
       return frame(
         "News",
         "news-workspace",
+        <NewsDesk
+          world={session.world}
+          context={
+            view.section === "news-around"
+              ? "around"
+              : view.section === "news-directory"
+                ? "directory"
+                : view.section === "news-press"
+                  ? "press"
+                  : "read"
+          }
+          onContextChange={(context) =>
+            dispatch({
+              type: "go-to-surface",
+              surface: "news",
+              ...(context === "read"
+                ? {}
+                : { section: `news-${context}` as const }),
+            })
+          }
+          mode={shell.preferences.newsMode}
+          outletKey={shell.preferences.newsOutletKey}
+          onModeChange={(newsMode) =>
+            dispatch({ type: "set-reader-preferences", patch: { newsMode } })
+          }
+          onOutletChange={(newsOutletKey) =>
+            dispatch({
+              type: "set-reader-preferences",
+              patch: { newsOutletKey },
+            })
+          }
+          onOpenPerson={openPerson}
+          around={
+            <>
+              <WorldOrientationEntry
+                world={session.world}
+                personId={session.personId}
+                onOpenPerson={openPerson}
+              />
+              <World39News
+                world={session.world}
+                personId={session.personId}
+                onOpenPerson={openPerson}
+              />
+            </>
+          }
+          directory={
+            <PublicInformationPanel
+              model={projectPublicInformationPanel(session.world)}
+              onClose={back}
+              showClose={false}
+              onOpenPerson={openPerson}
+              viewerPersonId={session.personId}
+              followedOutletKeys={shell.preferences.followedNewsOutletKeys}
+              onToggleOutletFollow={(outletKey) =>
+                dispatch({ type: "toggle-news-outlet-follow", outletKey })
+              }
+            />
+          }
+          press={
+            <PressWorkspace
+              world={session.world}
+              onWorldChange={onWorldChange}
+              onOpenPerson={openPerson}
+            />
+          }
+        />,
+      );
+
+    case "government":
+      return frame(
+        "Government",
+        "government-workspace",
         <>
-          <WorldOrientationEntry
+          {politicsTabs("government", "overview")}
+          <GovernmentBrowser
             world={session.world}
             personId={session.personId}
-            onOpenPerson={openPerson}
-          />
-          <World39News
-            world={session.world}
-            personId={session.personId}
-            onOpenPerson={openPerson}
-          />
-          <PressWorkspace
-            world={session.world}
-            onWorldChange={onWorldChange}
-            onOpenPerson={openPerson}
-          />
-          <PublicInformationPanel
-            model={projectPublicInformationPanel(session.world)}
-            onClose={back}
-            showClose={false}
-            onOpenPerson={openPerson}
-            viewerPersonId={session.personId}
-            followedOutletKeys={shell.preferences.followedNewsOutletKeys}
-            onToggleOutletFollow={(outletKey) =>
-              dispatch({ type: "toggle-news-outlet-follow", outletKey })
+            onOpenPerson={(holderId) =>
+              dispatch({ type: "open-quick-dossier", personId: holderId })
+            }
+            onOpenLocalRecords={() =>
+              dispatch({ type: "go-to-surface", surface: "municipal" })
             }
           />
         </>,
+        "Politics",
       );
 
     case "politics": {
       const homeJurisdictionId =
         session.world.people[session.personId]?.homeJurisdictionId;
+      const homePlaceName = homeJurisdictionId
+        ? (session.world.jurisdictions[homeJurisdictionId]?.name ?? null)
+        : null;
       return frame(
         "Politics",
         "politics-workspace",
         <>
+          {politicsTabs("issues", "budget")}
+          {homePlaceName ? (
+            <p className="game-note" data-testid="politics-budget-scope">
+              Public finances for your home, {homePlaceName}.
+            </p>
+          ) : null}
           {(session.world.history.nationalElections ?? []).map((election) => (
             <NationalElectionResults
               key={election.id}
@@ -3613,42 +3766,45 @@ function renderWorkspace({
       return frame(
         "Transit service",
         "transit-workspace",
-        <TransitWorkspace
-          world={session.world}
-          personId={session.personId}
-          onWorldChange={onWorldChange}
-          onOpenTaxWork={() =>
-            dispatch({ type: "go-to-surface", surface: "tax" })
-          }
-          onContinue={(days) => {
-            if (days !== 1 && days !== 7) return;
-            const result = simulateCalendarDays(
-              session.world,
-              session.personId,
-              days,
-              shell.preferences.interruptions,
-            );
-            if (result.world !== session.world) onWorldChange(result.world);
-          }}
-          onOpenBill={(docketKey) => {
-            const bill = projectTransitWork(
-              session.world,
-              session.personId,
-            ).bills.find((entry) => entry.bill.docketKey === docketKey)?.bill;
-            if (!bill) return;
-            if (capabilities.legislativeScenarioKey === bill.scenarioKey) {
-              onWorldChange(
-                selectDocketBill(
-                  session.world,
-                  bill.scenarioKey,
-                  session.personId,
-                  docketKey,
-                ),
+        <>
+          {politicsTabs("issues", "transit")}
+          <TransitWorkspace
+            world={session.world}
+            personId={session.personId}
+            onWorldChange={onWorldChange}
+            onOpenTaxWork={() =>
+              dispatch({ type: "go-to-surface", surface: "tax" })
+            }
+            onContinue={(days) => {
+              if (days !== 1 && days !== 7) return;
+              const result = simulateCalendarDays(
+                session.world,
+                session.personId,
+                days,
+                shell.preferences.interruptions,
               );
-              dispatch({ type: "go-to-surface", surface: "work" });
-            } else openEntity({ kind: "measure", id: bill.measureId });
-          }}
-        />,
+              if (result.world !== session.world) onWorldChange(result.world);
+            }}
+            onOpenBill={(docketKey) => {
+              const bill = projectTransitWork(
+                session.world,
+                session.personId,
+              ).bills.find((entry) => entry.bill.docketKey === docketKey)?.bill;
+              if (!bill) return;
+              if (capabilities.legislativeScenarioKey === bill.scenarioKey) {
+                onWorldChange(
+                  selectDocketBill(
+                    session.world,
+                    bill.scenarioKey,
+                    session.personId,
+                    docketKey,
+                  ),
+                );
+                dispatch({ type: "go-to-surface", surface: "work" });
+              } else openEntity({ kind: "measure", id: bill.measureId });
+            }}
+          />
+        </>,
         "Politics",
       );
 
@@ -3656,14 +3812,17 @@ function renderWorkspace({
       return frame(
         "Taxes and public receipts",
         "tax-workspace",
-        <TaxWorkWorkspace
-          world={session.world}
-          personId={session.personId}
-          onWorldChange={onWorldChange}
-          onOpenMeasure={(measureId) =>
-            openEntity({ kind: "measure", id: measureId })
-          }
-        />,
+        <>
+          {politicsTabs("issues", "tax")}
+          <TaxWorkWorkspace
+            world={session.world}
+            personId={session.personId}
+            onWorldChange={onWorldChange}
+            onOpenMeasure={(measureId) =>
+              openEntity({ kind: "measure", id: measureId })
+            }
+          />
+        </>,
         "Politics",
       );
 
@@ -3671,18 +3830,21 @@ function renderWorkspace({
       return frame(
         "Who governs here, and the state's top office",
         "candidacy-workspace",
-        <NationwideCandidacyWorkspace
-          world={session.world}
-          personId={session.personId}
-          onWorldChange={onWorldChange}
-          onOpenCampaign={() =>
-            dispatch({
-              type: "go-to-surface",
-              surface: "work",
-              section: "office",
-            })
-          }
-        />,
+        <>
+          {politicsTabs("campaigns")}
+          <NationwideCandidacyWorkspace
+            world={session.world}
+            personId={session.personId}
+            onWorldChange={onWorldChange}
+            onOpenCampaign={() =>
+              dispatch({
+                type: "go-to-surface",
+                surface: "work",
+                section: "office",
+              })
+            }
+          />
+        </>,
         "Politics",
       );
 
@@ -3691,6 +3853,14 @@ function renderWorkspace({
         "Journal",
         "journal",
         <World39Journal
+          view={shell.preferences.journalView}
+          year={shell.preferences.journalYear}
+          onViewChange={(journalView) =>
+            dispatch({ type: "set-reader-preferences", patch: { journalView } })
+          }
+          onYearChange={(journalYear) =>
+            dispatch({ type: "set-reader-preferences", patch: { journalYear } })
+          }
           journal={shell.journal}
           onJournalChange={(journal) =>
             dispatch({ type: "set-journal", journal })
@@ -3874,6 +4044,13 @@ function renderWorkspace({
                 onWorldChange={onLegislativeChange}
                 onGoToFloor={goToTheFloorFor}
                 floorNote={floorNote}
+                proposalLayout={shell.preferences.proposalLayout}
+                onProposalLayoutChange={(proposalLayout) =>
+                  dispatch({
+                    type: "set-reader-preferences",
+                    patch: { proposalLayout },
+                  })
+                }
               />
             ) : null}
             {workingBill && (
@@ -4060,24 +4237,27 @@ function renderWorkspace({
             : legislative
               ? "office-section"
               : "personal-work-section",
-        <WorkLayout
-          roleSentence={role.sentence}
-          pending={
-            <WorkWorkspace world={session.world} personId={session.personId}>
-              {null}
-            </WorkWorkspace>
-          }
-          sections={sections}
-          timeControl={
-            capabilities.formativeYears ? null : (
-              <PassDayControl
-                session={session}
-                onWorldChange={onWorldChange}
-                withClock
-              />
-            )
-          }
-        />,
+        <>
+          {half === "office" ? politicsTabs("office") : null}
+          <WorkLayout
+            roleSentence={role.sentence}
+            pending={
+              <WorkWorkspace world={session.world} personId={session.personId}>
+                {null}
+              </WorkWorkspace>
+            }
+            sections={sections}
+            timeControl={
+              capabilities.formativeYears ? null : (
+                <PassDayControl
+                  session={session}
+                  onWorldChange={onWorldChange}
+                  withClock
+                />
+              )
+            }
+          />
+        </>,
         offices.length > 0
           ? "Judicial office"
           : executive
@@ -4140,6 +4320,13 @@ function StoryView({
   readonly onWorldChange: (world: World) => void;
 }) {
   const [journalOpen, setJournalOpen] = useState(false);
+  const quietPreview = useMemo(
+    () =>
+      previewTimeCommand(session.world, session.personId, {
+        kind: "quiet-stretch",
+      }),
+    [session.world, session.personId],
+  );
 
   if (completedActivityHere(session.world, session.personId))
     return (
@@ -4242,23 +4429,22 @@ function StoryView({
             type="button"
             className="ui-action ui-action--choice ui-action--quiet"
             data-testid="story-let-time-pass"
-            onClick={() =>
-              onWorldChange(
-                letStoryTimePass(
-                  session.world,
-                  session.personId,
-                  (world, days) =>
-                    passOrdinaryDays(
-                      world,
-                      days,
-                      createCampaignElectionTransitionRegistry(),
-                    ),
-                ),
-              )
-            }
+            onClick={() => {
+              const result = submitTimeCommand(session.world, {
+                requestId: nextTimeRequestId(),
+                personId: session.personId,
+                sourceMoment: session.world.currentMoment,
+                command: { kind: "quiet-stretch" },
+              });
+              if (result.world !== session.world) onWorldChange(result.world);
+            }}
           >
             {moment.formativeYears ? "Let the year run on" : "Let time pass"}
-            <small>Come back to it when something needs you.</small>
+            <small data-testid="story-let-time-pass-target">
+              {moment.formativeYears || !quietPreview
+                ? "Come back to it when something needs you."
+                : `${describeTimeCommandPreview(quietPreview)}. Stops early for anything that needs you.`}
+            </small>
           </button>
         )}
       </div>

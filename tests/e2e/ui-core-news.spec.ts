@@ -1,6 +1,6 @@
 import { saveLife } from "./support/creator";
 import { expect, test } from "./fixtures";
-import { enterLife, goTo, startLife } from "./support/creator";
+import { enterLife, goTo, openNewsContext, startLife } from "./support/creator";
 import {
   reachMemberOffice,
   readSavedLegislativeWorld as savedWorld,
@@ -25,6 +25,7 @@ test("normal completed legislative action publishes News with person Back and un
   });
   await enterLife(page);
   await goTo(page, "nav-news");
+  await openNewsContext(page, "directory");
   await expect(page.getByTestId("public-information-empty")).toBeVisible();
   await page
     .getByRole("button", { name: "Close public information" })
@@ -47,6 +48,7 @@ test("normal completed legislative action publishes News with person Back and un
   );
   expect(publications).toHaveLength(1);
   await goTo(page, "nav-news");
+  await openNewsContext(page, "directory");
   const article = page.locator(
     `.public-information-article[data-source-event-id="${introduction!.eventId}"]`,
   );
@@ -82,6 +84,7 @@ test("normal completed legislative action publishes News with person Back and un
   await page.getByTestId("continue").click();
   await enterLife(page);
   await goTo(page, "nav-news");
+  await openNewsContext(page, "directory");
   await expect(article).toHaveAttribute("data-source-event-id", sourceEventId!);
   await expect(person).toHaveAttribute("data-person-id", personId!);
   await save(page);
@@ -112,6 +115,7 @@ test("legislative staff can preview but cannot file or publish a member bill", a
   await save(page);
   expect(await savedWorld(page)).toEqual(before);
   await goTo(page, "nav-news");
+  await openNewsContext(page, "directory");
   await expect(page.getByTestId("public-information-empty")).toBeVisible();
 });
 
@@ -129,6 +133,7 @@ test("opening the normal press request form creates no request or consent", asyn
   await save(page);
   const before = await savedWorld(page);
   await goTo(page, "nav-news");
+  await openNewsContext(page, "press");
   const form = page.getByTestId("press-request-form");
   await form.locator("summary").press("Enter");
   await expect(form).toHaveAttribute("open", "");

@@ -88,7 +88,6 @@
 }
 
 .pg-orientation-person:focus-visible,
-.pg-orientation-state select:focus-visible,
 .pg-orientation-roster summary:focus-visible,
 .pg-link-button:focus-visible {
   outline: 3px solid var(--run-a-focus);
@@ -184,15 +183,6 @@
   align-items: center;
   gap: 0.5rem;
   margin: 0.5rem 0;
-}
-
-.pg-orientation-state select {
-  font: inherit;
-  color: var(--run-a-ink);
-  background: var(--run-a-navy-soft);
-  border: 1px solid var(--run-a-line);
-  border-radius: 0.4rem;
-  padding: 0.25rem 0.4rem;
 }
 
 .pg-orientation-roster ul {

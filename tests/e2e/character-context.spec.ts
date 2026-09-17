@@ -6,6 +6,7 @@ import {
   openCreator,
   startLife as walkCreator,
   chooseCreatorLocation,
+  chooseStartAge,
 } from "./support/creator";
 
 /**
@@ -53,7 +54,7 @@ async function openSetup(page: Page, age: number) {
   // are reached without touching the place search.
   await page.getByTestId("start-normal").click();
   await expect(page.getByTestId("creator-stage-character")).toBeVisible();
-  await page.getByTestId("start-age").fill(String(age));
+  await chooseStartAge(page, age);
 }
 
 /** Picks Kentucky, then Lexington, and advances past the place step. */

@@ -1,5 +1,11 @@
 import { test, expect, type Page } from "./fixtures";
-import { enterLife, saveLife, chooseCreatorLocation } from "./support/creator";
+import { chooseOption, expectChosen, optionValues } from "./support/controls";
+import {
+  enterLife,
+  saveLife,
+  chooseCreatorLocation,
+  chooseStartAge,
+} from "./support/creator";
 import { readReplaySetup } from "../../src/presentation/new-game-identity";
 
 async function payloads(page: Page) {
@@ -72,17 +78,17 @@ test("birthday validates through actual creator keyboard/pointer controls and pe
   await page.goto("/?seed=p34-birthday&art-preview=candidate");
   await page.getByTestId("new-game").click();
   await page.getByTestId("start-normal").click();
-  await page.getByTestId("start-age").fill("22");
   // Month names and a day list no longer than the month: February offers no
   // 30th to choose, and moving the month keeps a day that still exists.
-  await page.getByTestId("start-birth-month").selectOption("2");
-  await expect(
-    page.getByTestId("start-birth-day").locator('option[value="30"]'),
-  ).toHaveCount(0);
-  await page.getByTestId("start-birth-day").selectOption("28");
-  await page.getByTestId("start-birth-month").selectOption({ label: "March" });
-  await expect(page.getByTestId("start-birth-month")).toHaveValue("3");
-  await expect(page.getByTestId("start-birth-day")).toHaveValue("28");
+  await chooseOption(page.getByTestId("start-birth-month"), "2");
+  expect(await optionValues(page.getByTestId("start-birth-day"))).not.toContain(
+    "30",
+  );
+  await chooseOption(page.getByTestId("start-birth-day"), "28");
+  await chooseOption(page.getByTestId("start-birth-month"), { label: "March" });
+  await expectChosen(page.getByTestId("start-birth-month"), "3");
+  await expectChosen(page.getByTestId("start-birth-day"), "28");
+  await chooseStartAge(page, 22);
   await page.getByTestId("creator-continue-character").focus();
   await page.keyboard.press("Enter");
   await chooseCreatorLocation(

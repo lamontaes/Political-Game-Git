@@ -15,6 +15,7 @@ import {
 } from "../simulation/incident-response";
 import { executiveIncidentPorts } from "../presentation/executive-entry";
 import type { World, EntityId } from "../simulation/types";
+import { GameSelect } from "./controls/GameSelect";
 
 /** Feature-local Work panel. The root owner supplies the existing World writer;
  * opening the panel cannot create an incident, role, meeting or publication. */
@@ -93,7 +94,7 @@ export function IncidentResponsePanel({
       ))}
       <label>
         Staff member{" "}
-        <select
+        <GameSelect
           value={staffId}
           onChange={(e) => setStaffId(e.target.value as EntityId)}
         >
@@ -103,7 +104,7 @@ export function IncidentResponsePanel({
               {world.people[id]!.givenName} {world.people[id]!.familyName}
             </option>
           ))}
-        </select>
+        </GameSelect>
       </label>
       {view.publicOnsets.map((onset) => (
         <article key={`public:${onset.id}`}>

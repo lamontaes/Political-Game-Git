@@ -80,6 +80,8 @@ function describeInteraction(
   playerId: EntityId,
   personId: EntityId,
 ): string {
+  // The player's own card is not somebody the player has or has not spoken to.
+  if (personId === playerId) return "This is you.";
   const summary = deriveRelationshipSummary(world, playerId, personId);
   if (summary.interactionCount === 0) {
     return "You haven't spoken.";
@@ -166,6 +168,7 @@ function buildDetails(
 
   const playerHouseholdId = householdIdFor(world, playerId);
   const sharedHousehold =
+    personId !== playerId &&
     playerHouseholdId !== null &&
     peopleInHouseholdAt(world, playerHouseholdId).includes(personId);
   if (sharedHousehold) {

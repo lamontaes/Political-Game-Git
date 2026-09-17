@@ -8,6 +8,7 @@ import type {
   OrientationView,
 } from "../presentation/world-orientation";
 import type { EntityId } from "../simulation";
+import { GameSelect } from "./controls/GameSelect";
 
 /**
  * Four short panels introducing the public world: White House, Congress, the
@@ -227,7 +228,7 @@ function ChamberBlock({
         <summary>Members by state</summary>
         <label className="pg-orientation-state">
           State
-          <select
+          <GameSelect
             value={state}
             data-testid={`orientation-state-${chamber.chamberKey}`}
             onChange={(event) => setState(event.target.value)}
@@ -237,7 +238,7 @@ function ChamberBlock({
                 {name}
               </option>
             ))}
-          </select>
+          </GameSelect>
         </label>
         <ul>
           {rows.map((row) => (

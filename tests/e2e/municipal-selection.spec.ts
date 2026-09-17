@@ -1,4 +1,5 @@
 import { expect, test } from "./fixtures";
+import { chooseOption } from "./support/controls";
 import { enterLife, goTo, saveLife, startLife } from "./support/creator";
 
 /**
@@ -36,7 +37,7 @@ test("pinned government A, dropdown B, and external pin C all control inspection
   );
 
   const select = workspace.getByTestId("municipal-government-select");
-  await select.selectOption("us-nv-carson-city");
+  await chooseOption(select, "us-nv-carson-city");
   await expect(workspace.getByTestId("municipal-current-name")).toContainText(
     "Carson City",
   );
@@ -51,7 +52,7 @@ test("pinned government A, dropdown B, and external pin C all control inspection
   );
 
   await workspace.getByTestId("municipal-search").fill("Fargo");
-  await select.selectOption("us-nd-fargo");
+  await chooseOption(select, "us-nd-fargo");
   await expect(workspace.getByTestId("municipal-current-name")).toContainText(
     "Fargo",
   );

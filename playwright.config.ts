@@ -53,6 +53,13 @@ export default defineConfig({
         ...(process.env.CI ? {} : { channel: "chrome" as const }),
       },
     },
+    /*
+     * Safari's engine, on request: PG_E2E_WEBKIT=1 adds it without changing
+     * the default run. Needs `npx playwright install webkit` once.
+     */
+    ...(process.env.PG_E2E_WEBKIT === "1"
+      ? [{ name: "webkit", use: { ...devices["Desktop Safari"] } }]
+      : []),
   ],
   webServer: {
     command: `"${nodeBinary}" scripts/dev-identified.mjs --host ${run.host} --port ${run.port}`,

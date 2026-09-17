@@ -20,7 +20,7 @@ import {
  * fixture standing in for the actual root.
  *
  * The reachability probe has to look where the destination actually lives.
- * Every real destination, "elsewhere-work" included, renders inside the
+ * Every real destination, Politics included, renders inside the
  * shell-nav flyout, not on the page by default (see openShellMenu/goTo in
  * support/creator.ts, used the same way by 29 other specs) - checking for it
  * without opening that menu first reports "absent" on every tree, composed
@@ -39,7 +39,7 @@ test("normal civilian career offer, keyboard consent, work, resignation and save
   });
   await enterLife(page);
   await openShellMenu(page);
-  const workTab = page.getByTestId("elsewhere-work");
+  const workTab = page.getByTestId("nav-politics");
   const composed = await workTab
     .waitFor({ state: "visible", timeout: 3000 })
     .then(() => true)

@@ -3,6 +3,7 @@ import {
   enterLife,
   openCreator,
   startLife as walkCreator,
+  chooseStartAge,
 } from "./support/creator";
 
 /**
@@ -255,7 +256,7 @@ test.describe("Setting up a life reads like a game, not a form", () => {
     await freshBrowser(page);
     await openCreator(page);
     await page.getByTestId("start-normal").click();
-    await page.getByTestId("start-age").fill("22");
+    await chooseStartAge(page, 22);
     await page.getByTestId("creator-continue-character").click();
 
     await page.getByTestId("state-search").fill("Kentucky");
@@ -318,7 +319,7 @@ test.describe("Setting up a life reads like a game, not a form", () => {
     await freshBrowser(page);
     await openCreator(page);
     await page.getByTestId("start-normal").click();
-    await page.getByTestId("start-age").fill("22");
+    await chooseStartAge(page, 22);
     await page.getByTestId("creator-continue-character").click();
 
     await page.getByTestId("state-search").fill("Kentucky");

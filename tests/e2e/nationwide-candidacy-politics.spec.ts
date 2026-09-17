@@ -12,12 +12,10 @@ test.setTimeout(120_000);
 
 async function openCandidacy(page: Page, activation: "pointer" | "keyboard") {
   await openShellMenu(page);
-  const politics = page.getByTestId("nav-group-politics");
-  if (!(await page.getByTestId("nav-politics-candidacy").isVisible())) {
-    if (activation === "keyboard") await politics.press("Enter");
-    else await politics.click();
-  }
-  const destination = page.getByTestId("nav-politics-candidacy");
+  const politics = page.getByTestId("nav-politics");
+  if (activation === "keyboard") await politics.press("Enter");
+  else await politics.click();
+  const destination = page.getByTestId("politics-tab-campaigns");
   if (activation === "keyboard") {
     await destination.focus();
     await destination.press("Enter");

@@ -26,6 +26,7 @@ import { workRoleAt, workStatusAt } from "../simulation/life-queries";
 import { simulationMinutesBetween } from "../simulation/dates";
 import { advanceWorldMinutes } from "../simulation/time-work";
 import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
+import { GameSelect } from "./controls/GameSelect";
 export function CareerPathsPanel({
   world,
   onWorldChange,
@@ -67,7 +68,7 @@ export function CareerPathsPanel({
       <h3>Career opportunities</h3>
       <label>
         Compare work{" "}
-        <select
+        <GameSelect
           value={selected}
           onChange={(e) => {
             setSelected(e.target.value);
@@ -78,7 +79,7 @@ export function CareerPathsPanel({
               {lifePathDefinition(p.pathId).title}
             </option>
           ))}
-        </select>
+        </GameSelect>
       </label>
       <p>
         {path.organizationName} pays ${(path.sessionPayMinor / 100).toFixed(2)}{" "}

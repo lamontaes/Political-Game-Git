@@ -1,6 +1,7 @@
 import { saveLife } from "./support/creator";
+import { chooseOption, optionEntries } from "./support/controls";
 import { expect, test } from "./fixtures";
-import { enterLife, goTo, startLife } from "./support/creator";
+import { enterLife, goTo, openNewsContext, startLife } from "./support/creator";
 import { readSavedLegislativeWorld as savedWorld } from "./support/legislative-entry";
 
 test("ordinary News press route establishes a reporter, records the NPC decision, publishes, and reloads", async ({
@@ -17,6 +18,7 @@ test("ordinary News press route establishes a reporter, records the NPC decision
   });
   await enterLife(page);
   await goTo(page, "nav-news");
+  await openNewsContext(page, "press");
 
   const workspace = page.getByTestId("normal-press-workspace");
   await expect(workspace).toBeVisible();
@@ -31,22 +33,20 @@ test("ordinary News press route establishes a reporter, records the NPC decision
 
   const development = form.getByTestId("press-basis-select");
   await expect
-    .poll(async () => development.locator("option").count())
+    .poll(async () => (await optionEntries(development)).length)
     .toBeGreaterThan(1);
-  const meeting = development
-    .locator("option")
-    .filter({ hasText: /public meeting|agenda/i })
-    .first();
-  if ((await meeting.count()) > 0) {
-    await development.selectOption({ label: (await meeting.textContent())! });
-  } else {
-    await development.selectOption({ index: 1 });
-  }
+  const meeting = (await optionEntries(development)).find((entry) =>
+    /public meeting|agenda/i.test(entry.label),
+  );
+  await chooseOption(
+    development,
+    meeting ? { value: meeting.value } : { index: 1 },
+  );
   const reporter = form.getByTestId("press-reporter-select");
   await expect
-    .poll(async () => reporter.locator("option").count())
+    .poll(async () => (await optionEntries(reporter)).length)
     .toBeGreaterThan(1);
-  await reporter.selectOption({ index: 1 });
+  await chooseOption(reporter, { index: 1 });
   await expect(form.getByTestId("press-request-preview")).not.toBeEmpty();
   await expect(
     form.getByTestId("press-reporter-question-preview"),
@@ -103,6 +103,7 @@ test("ordinary News press route establishes a reporter, records the NPC decision
   await page.getByTestId("continue").click();
   await enterLife(page);
   await goTo(page, "nav-news");
+  await openNewsContext(page, "directory");
   await expect(
     page.locator(".public-information-article").first(),
   ).toBeVisible();

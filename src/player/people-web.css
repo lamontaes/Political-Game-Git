@@ -140,9 +140,13 @@
 .pg-relationship-web-edge {
   transition: opacity 120ms ease;
 }
-.pg-relationship-web-node text {
-  pointer-events: auto;
+.pg-relationship-web-label-hit {
+  fill: transparent;
   cursor: pointer;
+}
+.pg-relationship-web-node text {
+  /* The label box beneath takes the click, whole, in every engine. */
+  pointer-events: none;
   font-size: 0.78rem;
   paint-order: stroke;
   stroke: rgba(11, 19, 32, 0.9);

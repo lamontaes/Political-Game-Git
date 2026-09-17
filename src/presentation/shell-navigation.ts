@@ -68,6 +68,8 @@ export type ShellSurface =
   | "personal"
   | "work"
   | "politics"
+  /** Public government by place, level and branch (Politics hub). */
+  | "government"
   | "transit"
   | "tax"
   /** Who governs home, and standing for the state's executive office. */
@@ -96,7 +98,11 @@ export type ShellSection =
   /** Politics: the office held, and running for one. */
   | "office"
   /** Personal: ordinary jobs, study and hiring. */
-  | "jobs";
+  | "jobs"
+  /** News: reading comes first; these are its other contexts. */
+  | "news-around"
+  | "news-directory"
+  | "news-press";
 
 export type ShellView =
   | { readonly surface: ShellSurface; readonly section?: ShellSection }
@@ -105,6 +111,27 @@ export type ShellView =
 export type PinSize = "tiny" | "normal" | "expanded";
 
 export type PeopleView = "web" | "categories" | "list";
+
+/**
+ * Reader layouts (UI DECISION FOLLOW-THROUGH). Presentation only: none of these
+ * changes the World, a draft or a publication.
+ * - proposalLayout: "auto" is side-by-side when there is room and one page
+ *   when there is not; "compare" and "read" are the player's explicit choice.
+ * - newsMode: the mixed front page or one publication's front page.
+ * - journalView / journalYear: Chapters or Years, and an optional year filter.
+ */
+export type ProposalLayout = "auto" | "compare" | "read";
+export type NewsMode = "front" | "publication";
+export type JournalView = "chapters" | "years";
+
+export type ReaderPreferences = Pick<
+  ShellPreferences,
+  | "proposalLayout"
+  | "newsMode"
+  | "newsOutletKey"
+  | "journalView"
+  | "journalYear"
+>;
 
 export interface ShellPin {
   /** Stable, derived from the reference. A pin is its target, not a row. */
@@ -129,6 +156,13 @@ export interface ShellPreferences {
    * (`interruption-policy.ts`), which is the only place these are consumed.
    */
   readonly interruptions: InterruptionPreferences;
+  readonly proposalLayout: ProposalLayout;
+  readonly newsMode: NewsMode;
+  /** The publication the News reader opens on in publication mode. */
+  readonly newsOutletKey: string | null;
+  readonly journalView: JournalView;
+  /** A four-digit year the Journal is filtered to, or null for all years. */
+  readonly journalYear: string | null;
 }
 
 /**
@@ -155,6 +189,11 @@ export const DEFAULT_PREFERENCES: ShellPreferences = {
   defaultPinSize: "normal",
   followedNewsOutletKeys: [],
   interruptions: DEFAULT_INTERRUPTIONS,
+  proposalLayout: "auto",
+  newsMode: "front",
+  newsOutletKey: null,
+  journalView: "chapters",
+  journalYear: null,
 };
 
 /** Private player writing, never simulation facts or NPC knowledge. */
@@ -293,6 +332,10 @@ export type ShellAction =
     }
   | { readonly type: "toggle-pin-menu"; readonly key: string }
   | { readonly type: "set-people-view"; readonly view: PeopleView }
+  | {
+      readonly type: "set-reader-preferences";
+      readonly patch: Partial<ReaderPreferences>;
+    }
   | { readonly type: "set-people-category"; readonly category: string }
   | { readonly type: "set-people-query"; readonly query: string }
   | { readonly type: "set-default-pin-size"; readonly size: PinSize }
@@ -572,6 +615,16 @@ export function shellReducer(
 
     case "set-people-query":
       return { ...state, peopleQuery: action.query };
+
+    case "set-reader-preferences": {
+      const patch = Object.fromEntries(
+        Object.entries(action.patch).filter(([, value]) => value !== undefined),
+      ) as Partial<ReaderPreferences>;
+      return {
+        ...state,
+        preferences: { ...state.preferences, ...patch },
+      };
+    }
 
     case "set-default-pin-size":
       return {

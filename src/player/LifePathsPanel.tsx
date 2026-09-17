@@ -52,6 +52,7 @@ import {
   studyProgramCostLabel,
   studyUsesPeriodUi,
 } from "./education-study-display";
+import { GameSelect } from "./controls/GameSelect";
 
 /** Feature-local adapter. UI-CORE owns opening/closing this panel and the World. */
 export interface LifePathsPanelProps {
@@ -400,7 +401,7 @@ export function LifePathsPanel({
       </p>
       <label>
         Person{" "}
-        <select
+        <GameSelect
           value={person}
           onChange={(e) => setPerson(e.target.value as EntityId)}
         >
@@ -410,11 +411,11 @@ export function LifePathsPanel({
               {name(id)}
             </option>
           ))}
-        </select>
+        </GameSelect>
       </label>
       <label>
         Work{" "}
-        <select
+        <GameSelect
           value={role}
           onChange={(e) => {
             setRole(e.target.value);
@@ -431,7 +432,7 @@ export function LifePathsPanel({
               {p.title} ({p.scope})
             </option>
           ))}
-        </select>
+        </GameSelect>
       </label>
       <label>
         Dollars per completed assignment{" "}

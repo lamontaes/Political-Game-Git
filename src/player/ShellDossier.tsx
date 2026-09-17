@@ -3,7 +3,7 @@ import { useState } from "react";
 import type { PersonDossier } from "../presentation/person-dossier";
 import type { ShellRef } from "../presentation/shell-navigation";
 import type { EntityId, World } from "../simulation";
-import { PersonCard } from "./PersonCard";
+import { PersonCard, type PersonCardAnchor } from "./PersonCard";
 
 /**
  * Compatibility mounts for the unified person card.
@@ -27,11 +27,13 @@ export function QuickDossier({
   onFullRecord,
   presentPersonIds,
   talkUnavailable,
+  anchor = null,
 }: {
   readonly world: World;
   readonly playerId: EntityId;
   readonly dossier: PersonDossier;
   readonly pinned: boolean;
+  readonly anchor?: PersonCardAnchor | null;
   readonly onClose: () => void;
   readonly onTogglePin: () => void;
   readonly onOpenLink: (ref: ShellRef) => void;
@@ -52,6 +54,7 @@ export function QuickDossier({
       pinned={pinned}
       expanded={expanded}
       mode="overlay"
+      anchor={anchor}
       onClose={onClose}
       onExpand={() => setExpanded(true)}
       onTogglePin={onTogglePin}

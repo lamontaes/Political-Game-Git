@@ -5,6 +5,7 @@ import {
   enterLife,
   saveLife,
   openShellMenu,
+  openNewsContext,
 } from "./support/creator";
 import type { World } from "../../src/simulation/types";
 
@@ -114,6 +115,7 @@ for (const [town, gender] of [
     await expect(page.getByTestId("content-pack-workspace")).toBeVisible();
     await openShellMenu(page);
     await page.getByTestId("nav-news").click();
+    await openNewsContext(page, "directory");
     await expect(page.getByTestId("public-information-empty")).toBeVisible();
     await saveLife(page);
     expect((await saved(page)).currentMoment).toEqual(before.currentMoment);
