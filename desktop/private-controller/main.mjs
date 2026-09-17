@@ -1244,6 +1244,7 @@ function artbenchExchange() {
       for (const folder of folders)
         mkdirSync(path.join(fixture, folder.name), { recursive: true });
       const resolved = resolveExchangeFolders(fixture, { folders });
+      for (const note of resolved.notes) logLine(`Art Desk exchange: ${note}`);
       hub.exchange = exchangeSummary(resolved);
       return resolved;
     }

@@ -62,6 +62,15 @@ export function exchangeFolderIdOverride(settingsValue = null) {
 
 /** The configured identities, with any override applied. */
 export function configuredExchangeFolders(override = null) {
+  // A key the folders do not have is a mistyped override, not a no-op: left
+  // silent it would trade work through a folder the owner meant to redirect.
+  const unknown = Object.keys(override ?? {}).filter(
+    (key) => !EXCHANGE_FOLDERS.some((folder) => folder.key === key),
+  );
+  if (unknown.length)
+    throw new Error(
+      `The Art Desk exchange override names no such folder: ${unknown.join(", ")}. Expected ${EXCHANGE_FOLDERS.map((folder) => folder.key).join(", ")}.`,
+    );
   return EXCHANGE_FOLDERS.map((folder) => {
     const replacement = override?.[folder.key];
     if (replacement === undefined || replacement === null) return folder;

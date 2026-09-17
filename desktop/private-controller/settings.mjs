@@ -56,7 +56,11 @@ function render(state) {
     ? "Not bound; the bench uses its own folder discovery"
     : exchange.ok
       ? `${exchange.root} · ${exchange.folders
-          .map((folder) => `${folder.key} ${folder.id} by ${folder.resolvedBy}`)
+          .map((folder) =>
+            folder.resolvedBy === "id"
+              ? `${folder.key} ${folder.id} by Drive id`
+              : `${folder.key} "${folder.name}" by name only — Drive identity unverified`,
+          )
           .join(" · ")}`
       : exchange.message;
   $("id-pack").textContent = ids.privatePack

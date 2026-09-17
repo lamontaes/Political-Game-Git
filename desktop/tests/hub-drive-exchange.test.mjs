@@ -164,3 +164,15 @@ test("an unreadable override is refused rather than guessed", () => {
     inbox: INBOX,
   });
 });
+
+test("an override naming no such folder is refused, not ignored", () => {
+  assert.throws(
+    () => configuredExchangeFolders({ inboxx: "1QAqaQAqaQAqaQAqa00" }),
+    /names no such folder: inboxx/,
+  );
+  // An array is a mistyped override too, not three untouched identities.
+  assert.throws(
+    () => configuredExchangeFolders(["1QAqaQAqaQAqaQAqa00"]),
+    /names no such folder/,
+  );
+});

@@ -32,7 +32,14 @@ export const ART_DESK_PROJECT = "ocd";
 
 import { spawn } from "node:child_process";
 import { createHash, randomBytes } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import {
+  chmodSync,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
 import { createServer } from "node:net";
 import path from "node:path";
 
@@ -122,10 +129,15 @@ export class ArtDeskHost {
   /**
    * The durable record root is the hub's, not whichever writer reaches it
    * first: it is created 0700 at hub start, the way the agents directory is,
-   * so the bench never gets to make it world-readable.
+   * so the bench never gets to make it world-readable. mkdirSync leaves an
+   * existing directory's permissions alone, so a root some earlier writer
+   * already created loosely is tightened here rather than trusted.
    */
   ensureRecordRoot() {
     mkdirSync(this.recordRoot, { recursive: true, mode: 0o700 });
+    for (const directory of [path.dirname(this.recordRoot), this.recordRoot])
+      if ((statSync(directory).mode & 0o777) !== 0o700)
+        chmodSync(directory, 0o700);
     return this.recordRoot;
   }
 
