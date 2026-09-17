@@ -61,6 +61,7 @@ import { World39News } from "./World39News";
 import { World39Journal } from "./World39Journal";
 import { PlacesWorkspace } from "./PlacesWorkspace";
 import { GovernmentBrowser } from "./politics/GovernmentBrowser";
+import { PublicServicePanel } from "./politics/PublicServicePanel";
 import { NewsDesk } from "./news/NewsDesk";
 import "./controls/controls.css";
 import { PinToggle } from "./controls/PinToggle";
@@ -3989,6 +3990,13 @@ function renderWorkspace({
             <p className="game-note" role="status">
               {issuesPlace.note}
             </p>
+          ) : null}
+          {issuesPlace.jurisdictionId ? (
+            <PublicServicePanel
+              world={session.world}
+              jurisdictionId={issuesPlace.jurisdictionId}
+              placeLabel={issuesPlace.label}
+            />
           ) : null}
           {(session.world.history.nationalElections ?? []).map((election) => (
             <NationalElectionResults
