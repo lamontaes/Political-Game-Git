@@ -51,6 +51,14 @@ function render(state) {
   $("id-bench").textContent = ids.bench
     ? `${ids.bench.branch} · requested ${ids.bench.requestedRevision ?? "unknown"} · running ${ids.bench.revision ?? "unknown"} · records ${ids.bench.recordRoot}`
     : "Not started";
+  const exchange = state.artdeskExchange;
+  $("id-exchange").textContent = !exchange
+    ? "Not bound; the bench uses its own folder discovery"
+    : exchange.ok
+      ? `${exchange.root} · ${exchange.folders
+          .map((folder) => `${folder.key} ${folder.id} by ${folder.resolvedBy}`)
+          .join(" · ")}`
+      : exchange.message;
   $("id-pack").textContent = ids.privatePack
     ? `${ids.privatePack.packId} · manifest ${ids.privatePack.manifestSha256}`
     : "Unknown for this build";

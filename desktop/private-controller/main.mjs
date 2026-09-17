@@ -52,6 +52,12 @@ import {
   projectBuildChooser,
 } from "./build-catalog.mjs";
 import {
+  configuredExchangeFolders,
+  exchangeFolderIdOverride,
+  exchangeSummary,
+  resolveExchangeFolders,
+} from "./drive-exchange.mjs";
+import {
   MAIN_TRACK,
   activatePending,
   barPill,
@@ -190,6 +196,14 @@ function readSettings() {
       typeof value.artbenchDriveRoot === "string" &&
       path.isAbsolute(value.artbenchDriveRoot)
         ? value.artbenchDriveRoot
+        : null,
+    // Per-install override of the configured exchange folder identities
+    // (another Drive account, a dedicated QA exchange); unset uses the
+    // owner's configured folders.
+    artbenchExchangeFolderIds:
+      value.artbenchExchangeFolderIds &&
+      typeof value.artbenchExchangeFolderIds === "object"
+        ? value.artbenchExchangeFolderIds
         : null,
   };
 }
@@ -382,6 +396,7 @@ const hub = {
   log: [],
   artdesk: null,
   agents: null,
+  exchange: null, // the Art Desk exchange as last resolved, or its refusal
   quitting: false,
 };
 
@@ -510,6 +525,7 @@ function publicState() {
       privatePack: state?.tracks[selected]?.current?.privatePack ?? null,
     },
     artdesk: hub.artdesk?.status ?? null,
+    artdeskExchange: hub.exchange,
     log: hub.log.slice(-60),
     architecture: process.arch,
     hubVersion: app.getVersion(),
@@ -1201,18 +1217,45 @@ async function listBranches(repositoryPathArg) {
 /* -------------------------------------------------------------- art desk */
 
 /**
+ * The exchange handed to the bench, with each folder bound to its configured
+ * Drive identity rather than to a name under whatever parent is chosen. A
+ * mismatch or a missing folder throws, so the Art Desk refuses to start and
+ * says why instead of quietly trading work through the wrong folder.
+ *
  * An isolated (test) data root must never reach the owner's real Drive
  * exchange through the bench's default discovery: unless a root is set
- * explicitly, it gets a local fixture exchange inside the data root.
+ * explicitly, it gets a local fixture exchange inside the data root, whose
+ * folders can only ever resolve by name.
  */
-function artbenchDriveRoot() {
-  if (settings.artbenchDriveRoot) return settings.artbenchDriveRoot;
-  if (process.env.OCD_CONTROLLER_DATA_ROOT) {
-    const fixture = path.join(dataRoot, "fixture-drive-exchange");
-    mkdirSync(fixture, { recursive: true });
-    return fixture;
+function artbenchExchange() {
+  const folders = configuredExchangeFolders(
+    exchangeFolderIdOverride(settings.artbenchExchangeFolderIds),
+  );
+  const root = settings.artbenchDriveRoot;
+  try {
+    if (root) {
+      const resolved = resolveExchangeFolders(root, { folders });
+      for (const note of resolved.notes) logLine(`Art Desk exchange: ${note}`);
+      hub.exchange = exchangeSummary(resolved);
+      return resolved;
+    }
+    if (process.env.OCD_CONTROLLER_DATA_ROOT) {
+      const fixture = path.join(dataRoot, "fixture-drive-exchange");
+      for (const folder of folders)
+        mkdirSync(path.join(fixture, folder.name), { recursive: true });
+      const resolved = resolveExchangeFolders(fixture, { folders });
+      hub.exchange = exchangeSummary(resolved);
+      return resolved;
+    }
+    hub.exchange = null;
+    return null;
+  } catch (error) {
+    hub.exchange = exchangeSummary(
+      error instanceof Error ? error : new Error(String(error)),
+    );
+    logLine(`Art Desk exchange: ${hub.exchange.message}`);
+    throw error;
   }
-  return null;
 }
 
 async function startArtDesk() {
@@ -1220,6 +1263,7 @@ async function startArtDesk() {
   if (!state?.privatePackPath)
     return { ok: false, message: "Choose the private art pack in Settings." };
   try {
+    const exchange = artbenchExchange();
     const repositoryPath = await verifiedRepository();
     const branch = settings.artDeskBranch;
     await git(
@@ -1259,7 +1303,8 @@ async function startArtDesk() {
       branch,
       revision,
       packPath: state.privatePackPath,
-      driveRoot: artbenchDriveRoot(),
+      driveRoot: exchange?.root ?? null,
+      exchangeFolders: exchange?.paths ?? null,
     });
     const existing = hub.views.get("artdesk");
     if (
@@ -1605,6 +1650,13 @@ if (!app.requestSingleInstanceLock()) {
       env: toolEnvironment(),
       onStatus: () => broadcast(),
     });
+    // The Art Desk's durable record root belongs to the hub: create it 0700
+    // now rather than leaving its permissions to the first writer.
+    try {
+      hub.artdesk.ensureRecordRoot();
+    } catch (error) {
+      logLine(`Art Desk record root unavailable: ${error.message}`);
+    }
     hub.agents = new AgentsHost({
       dataRoot,
       installId: settings.installId,

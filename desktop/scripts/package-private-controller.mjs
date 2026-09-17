@@ -128,6 +128,7 @@ const CONTROLLER_FILES = [
   "build-catalog.json",
   "worker-watch.mjs",
   "artdesk-host.mjs",
+  "drive-exchange.mjs",
   "preload.cjs",
   "index.html",
   "chrome.mjs",
