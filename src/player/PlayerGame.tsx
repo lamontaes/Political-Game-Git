@@ -88,6 +88,8 @@ import { CivilPersonnelPanel } from "./CivilPersonnelPanel";
 import { JudicialOfficeWork } from "./JudicialOfficeWork";
 import { judicialOfficeContexts } from "../simulation/judicial-office-work";
 import { ExecutiveWorkWorkspace } from "./ExecutiveWorkWorkspace";
+import { GoverningBriefing } from "./GoverningBriefing";
+import { governingOfficeForPerson } from "../simulation/governing/state-governing";
 import { resolveExecutiveOffice } from "../simulation/executive-work-context";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import {
@@ -4373,17 +4375,29 @@ function renderWorkspace({
             </>
           ),
         });
-      } else if (officeHalf && executive) {
+      } else if (
+        officeHalf &&
+        (executive || governingOfficeForPerson(session.world, session.personId))
+      ) {
         sections.push({
           key: "office",
           title: "Your office",
           body: (
-            <ExecutiveWorkWorkspace
-              world={session.world}
-              onWorldChange={onWorldChange}
-              onClose={close}
-              handlers={createCampaignElectionTransitionRegistry()}
-            />
+            <>
+              <GoverningBriefing
+                world={session.world}
+                personId={session.personId}
+                onWorldChange={onWorldChange}
+              />
+              {executive ? (
+                <ExecutiveWorkWorkspace
+                  world={session.world}
+                  onWorldChange={onWorldChange}
+                  onClose={close}
+                  handlers={createCampaignElectionTransitionRegistry()}
+                />
+              ) : null}
+            </>
           ),
         });
       } else if (
