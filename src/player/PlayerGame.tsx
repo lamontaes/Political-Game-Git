@@ -226,6 +226,7 @@ import {
 import {
   activeView,
   canGoBack,
+  conversationSuspended,
   isPinned,
   type ShellAction,
   type ShellRef,
@@ -3153,7 +3154,10 @@ function PlayingScreen({
               />
             ) : null}
 
-            {conversation && view.surface !== "scene" ? (
+            {/* The one answer to "is a line still waiting behind this?", read
+                from the shell rather than re-derived here, so the offer and
+                the reducer cannot disagree about whether there is one. */}
+            {conversationSuspended(shell) && conversation ? (
               <button
                 type="button"
                 className="pg-talk-return"

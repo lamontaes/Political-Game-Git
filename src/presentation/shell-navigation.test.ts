@@ -596,6 +596,24 @@ describe("the workspace, its tabs, and a conversation waiting in the room", () =
     ]);
   });
 
+  it("never replaces the room a conversation is waiting in either", () => {
+    // Started from People, so the room the line waits on is a pushed level.
+    const waiting = pendingFromPeople();
+    expect(activeView(waiting)).toEqual({ surface: "scene" });
+
+    const state = shellReducer(waiting, {
+      type: "go-to-subroute",
+      surface: "politics",
+    });
+    // The room is still under it, so one Back still lands on the conversation.
+    expect(activeView(shellReducer(state, { type: "back" }))).toEqual({
+      surface: "scene",
+    });
+    expect(shellReducer(state, { type: "back" }).conversation).toEqual(
+      waiting.conversation,
+    );
+  });
+
   it("closes one transient layer at a time, and the workspace last", () => {
     const layered = run([
       { type: "go-to-surface", surface: "people" },

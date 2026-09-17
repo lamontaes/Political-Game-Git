@@ -511,6 +511,16 @@ function replaceView(state: ShellState, view: ShellView): ShellState {
     // No workspace is open to have a subroute; the room's base never moves.
     return pushView(state, view);
   }
+  /*
+   * A ROOM is never a subroute's level either, and not only the one at the
+   * base. A conversation started from a list puts a second room on top of the
+   * way there, and that room is the level the waiting line belongs to;
+   * replacing it would leave Back stepping straight over the room the player
+   * is owed. No control in the room dispatches a subroute today, so this keeps
+   * that an invariant of the reducer rather than a property of which buttons
+   * happen to be mounted.
+   */
+  if (level.surface === "scene") return pushView(state, view);
   const same =
     level.surface === view.surface &&
     viewSection(level) === viewSection(view) &&
