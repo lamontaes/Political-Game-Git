@@ -1,6 +1,6 @@
 import { addDays, daysBetween, makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
-import { lifePlaceByJurisdictionId } from "../life-places";
+import { lifePlaceByJurisdictionId, lifePlaceSearch } from "../life-places";
 import { SeededRng } from "../rng";
 import type {
   EntityId,
@@ -38,6 +38,15 @@ export const HAZARD_PRODUCER_VERSION = "crisis-hazard-producer-v1";
 export const HAZARD_SAMPLING_CONTRACT = {
   version: HAZARD_PRODUCER_VERSION,
   countLaw: "poisson-at-the-catalog-recorded-monthly-rate",
+  /**
+   * The catalog records episodes for a whole state; it has no per-county rate.
+   * A represented place is thinned out of that state rate by the state's
+   * recorded median county footprint over the number of counties in the
+   * state. That is an authored assumption of uniform incidence inside a
+   * state, stated here rather than hidden in the arithmetic, and it is the
+   * only step in this module that is not read straight from the catalog.
+   */
+  countyThinning: "recorded-median-footprint-over-counties-in-state",
   footprintSource: "resampled-recorded-episode-of-the-same-state-family-month",
   magnitudeLadder: "authored-from-the-recorded-episode-area-count",
   label: "historical-report-resampling",
@@ -56,6 +65,12 @@ interface StormEpisode {
   }[];
 }
 
+interface StateFootprint {
+  readonly stateUsps: string;
+  readonly family: string;
+  readonly medianCountiesPerEpisode: number;
+}
+
 interface StateMonthRate {
   readonly stateUsps: string;
   readonly family: string;
@@ -72,6 +87,7 @@ interface StormCatalog {
   };
   readonly episodes: readonly StormEpisode[];
   readonly stateMonthlyCatalog?: readonly StateMonthRate[];
+  readonly stateFootprintProfile?: readonly StateFootprint[];
   readonly episodeDetailPolicy?: {
     readonly episodeRowYears?: { firstYear: number; lastYear: number };
   };
@@ -146,7 +162,7 @@ export function representedHazardAreas(
   return areas;
 }
 
-function rateFor(
+function stateMonthRate(
   stateUsps: string,
   family: string,
   month: number,
@@ -160,6 +176,39 @@ function rateFor(
       candidate.month === month,
   );
   return row?.episodesPerExposureYear ?? null;
+}
+
+const countiesInState = new Map<string, number>();
+function countyCount(stateUsps: string): number {
+  const known = countiesInState.get(stateUsps);
+  if (known !== undefined) return known;
+  const count = lifePlaceSearch("", Number.MAX_SAFE_INTEGER, {
+    stateJurisdictionKey: `US-${stateUsps}`,
+    scope: "county",
+  }).length;
+  countiesInState.set(stateUsps, count);
+  return count;
+}
+
+/**
+ * Expected episodes touching ONE represented place in that state, family and
+ * month. The state rate is the catalog's; the thinning is the declared
+ * assumption in HAZARD_SAMPLING_CONTRACT.
+ */
+export function representedRate(
+  stateUsps: string,
+  family: string,
+  month: number,
+): number | null {
+  const rate = stateMonthRate(stateUsps, family, month);
+  if (rate === null) return null;
+  const footprint = STORM_CATALOG.stateFootprintProfile?.find(
+    (row) => row.stateUsps === stateUsps && row.family === family,
+  );
+  const counties = countyCount(stateUsps);
+  if (!footprint || counties === 0) return null;
+  const share = Math.min(1, footprint.medianCountiesPerEpisode / counties);
+  return rate * share;
 }
 
 /** Knuth's method, on the shared deterministic stream. */
@@ -208,8 +257,10 @@ export function sampleMonthlyHazards(
     a[0].localeCompare(b[0]),
   )) {
     for (const sourceFamily of Object.keys(FAMILY_OF).sort()) {
-      const rate = rateFor(stateUsps, sourceFamily, month);
-      if (rate === null || rate <= 0) continue;
+      const perPlace = representedRate(stateUsps, sourceFamily, month);
+      if (perPlace === null || perPlace <= 0) continue;
+      // One draw for the represented places of this state together.
+      const rate = perPlace * jurisdictionIds.length;
       const stream = new SeededRng(HAZARD_PRODUCER_VERSION).fork(
         JSON.stringify([
           HAZARD_PRODUCER_VERSION,
@@ -383,7 +434,12 @@ export function hazardSampleHandler(
       transitionKey: HAZARD_SAMPLE_TRANSITION_KEY,
       entityIds: [areas[0]!.jurisdictionId],
       jurisdictionId: areas[0]!.jurisdictionId,
-      provenance: { kind: "simulated", sourceEntityIds: [dueItem.id] },
+      // The place itself is the canonical source of the next sample; a due
+      // item being resolved is not available as one.
+      provenance: {
+        kind: "simulated",
+        sourceEntityIds: [areas[0]!.jurisdictionId],
+      },
     });
   }
   return {
