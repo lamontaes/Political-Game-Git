@@ -50,6 +50,41 @@ B never ends a term, never moves money on its own and never writes a finding.
 - Grief is choices-only: no numbers and nothing compulsory.
 - Childhood actions render in the Personal workspace's existing day section.
 
+## What is done
+
+**B1 is complete.** Branch `claude/prose-contextual-scenes`.
+
+| Row          | Where it lives                                                                                                                                                                                                   |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| P3           | `people-contact.ts` (asking, answering, a different day offered back, somebody reaching out on their own, a day that lapses), `people-contacts.ts` (the projection A mounts), the favor family's "meet-up" scene |
+| P4           | `people-recall.ts` (asked, agreed, declined, performed kept apart), `people-request-route.ts` (the asker's own memory as evidence), the favor family's "recalled" scene, `people-recall-cards.ts`                |
+| P14          | `childhood.ts` — the formative bank's own agency field, finally read                                                                                                                                             |
+| Family       | `people-family-plan.ts` — two adults decide, and the day arrives on the clock                                                                                                                                    |
+| Grief        | `people-bereavement.ts` and the home-evening "bereaved" scene                                                                                                                                                    |
+| Continuation | a wider successor list, with the people the life was bound to first; `pendingCommandsInvalidatedBy` for A                                                                                                        |
+
+Proof: 17 test files, 283 tests, on `caa2ac60`.
+
+**B2 is partly done.** The seam branch `claude/people47-seam` composes B1 with
+WORLD and GOVERNING:
+
+- PRESS's two GOVERNING placeholders are gone; the real writers are in place,
+  and public-fund misuse is reachable.
+- New press opening setup runs only for a current opening version, so a legacy
+  save is rebuilt exactly as it always was (`pressOpeningApplies`).
+- `press-disclosure.ts` is the player's side: who could be talked to, what each
+  arrangement means, and only what this character actually knows or holds.
+- Matter reactions now reach the people who live with it, not only colleagues
+  and party contacts.
+- A correction is appended and the original stands, proven on its own record.
+- A defect A found in the composition is fixed: a story with two subjects could
+  not be answered by the second one, which threw inside the clock.
+
+Still open in B2: NPC-originated misconduct (only the player's own deliberate
+act creates an occurrence today), the undisclosed-conflict family, which has
+no producer, and the staff-mediated explanation flow, which waits on D's
+`recordOfficeConsequence`.
+
 ## B1 scope
 
 | Row | Work                                                                                                                                                                                         |
