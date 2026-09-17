@@ -106,3 +106,33 @@ Refused states are UNFINISHED, not passed: each needs a way for the game to
 record the named qualification (elector status, citizenship years) or a RULES
 decision about how an unrecorded requirement is treated at filing. The governor
 offices in those states still continue for non-player holders.
+
+## CRUNCH46 section 07 — next increments (gap map read 2026-09-16)
+
+What exists: legislative record types and writers (refer, hearing, committee
+disposition, floor vote, transmit, concurrence, enrol, presentment, executive
+action, override, enactment, adjournment death), bill drafting with typed
+instruments, 79F bargaining (Kentucky HB 214 only), vote instructions, public
+payment writer (`settlePublicResourcePayment`), Alaska transit route.
+
+Gaps to close, in order:
+
+1. P10: chamber/actor check on every legislative step (authored route too).
+2. P11: continuing intake — several bills per session, not one pinned measure.
+3. P12: session calendar with convening and adjournment; production
+   `recordAdjournmentDeath`; no bill resumes after adjournment.
+4. P09/NPC progress: committee, other-chamber and executive steps run on the
+   canonical clock for NPC actors; governor "bill" matters bind to real
+   `legislativeMeasures` where a legislature exists.
+5. P06: committee assignment records made by the chamber's actual appointing
+   authority; staff hiring at seating.
+6. P08: sponsor/stage labels from real ownership.
+7. Drafting: add grant, appropriation transfer, rate/exemption instruments;
+   bind amounts to accounts.
+8. Fiscal: appropriation, commitment, installment and outturn records over the
+   existing payment writer; transit fleet/capacity record (G3 fixture numbers
+   are test inputs only).
+9. Oversight/casework records.
+10. Peer asks: PRESS `recordOutsideMandatePublicPayment` + `canInstitutionAct`;
+    CRISIS K3 succession consuming `crisisOfficeContinuityNotices`;
+    CHANGE read access to fiscal records.
