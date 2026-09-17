@@ -60,7 +60,11 @@ jobs:
         run: npm run build
 
       - name: Install desktop shell dependencies
-        run: npm ci --no-audit --no-fund
+        # The private controller's own dependencies (MCP SDK) are imported by
+        # the desktop tests, so they are installed before `npm test`.
+        run: |
+          npm ci --no-audit --no-fund
+          npm ci --prefix private-controller --no-audit --no-fund
         working-directory: desktop
 
       - name: Prove the update contract deterministically
@@ -122,7 +126,6 @@ jobs:
         if: runner.os == 'macOS' && matrix.profile == 'internal-art-review'
         working-directory: desktop
         run: |
-          npm ci --prefix private-controller --no-audit --no-fund
           node scripts/package-private-controller.mjs
           controller="controller-release-artifacts/Our Civic Duty Private.app/Contents/MacOS/Electron"
           node scripts/controller-smoke-test.mjs --app "$controller"
