@@ -1,3 +1,4 @@
+import { crisisEntityAvailableAt, crisisEntityExists } from "./crisis/records";
 import {
   nationalEntityExists,
   nationalEntityAvailableAt,
@@ -742,6 +743,8 @@ function canonicalEntityAvailable(
   if (vitalityEntityExists(world, id)) {
     return vitalityEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
   }
+  if (crisisEntityExists(world, id))
+    return crisisEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
   if (nationalEntityExists(world, id))
     return nationalEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
   if (electionContestEntityExists(world, id)) {

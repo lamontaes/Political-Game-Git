@@ -2,6 +2,12 @@ import { assertWorldContentPacks } from "./runtime-content-packs";
 import { assertAppearanceMaterial } from "./appearance-material";
 import { applyNationalTermTransitions } from "./national-election-consumer";
 import {
+  assertCrisisIntegrity,
+  crisisEntityAvailableAt,
+  crisisEntityExists,
+  crisisRecords,
+} from "./crisis/records";
+import {
   assertNationalElectionIntegrity,
   nationalHistoryRecords,
   nationalEntityExists,
@@ -614,7 +620,8 @@ export function recordWorldEvent(
       !constitutionalEntityExists(world, entityId) &&
       !legislationEntityExists(world, entityId) &&
       !legislativePoliticsEntityExists(world, entityId) &&
-      !publicInformationEntityExists(world, entityId)
+      !publicInformationEntityExists(world, entityId) &&
+      !crisisEntityExists(world, entityId)
     ) {
       throw new Error(
         `Historical event references a missing entity: ${entityId}`,
@@ -669,6 +676,18 @@ export function recordWorldEvent(
         `Historical event references an unavailable causal/effect entity: ${entityId}`,
       );
     }
+    if (
+      crisisEntityExists(world, entityId) &&
+      !crisisEntityAvailableAt(
+        world,
+        entityId,
+        occurredAt,
+        world.history.nextSequence,
+      )
+    )
+      throw new Error(
+        `Historical event references an unavailable CRISIS entity: ${entityId}`,
+      );
     if (
       incidentEntityExists(world, entityId) &&
       !incidentEntityAvailableAt(
@@ -1564,6 +1583,7 @@ function validateHistoryIntegrity(world: World): void {
     ...futureTransitionHistoryRecords(world),
     ...publicInformationHistoryRecords(world),
     ...personnelHistoryRecords(world),
+    ...crisisRecords(world),
     ...(history.districtResidenceIntervals ?? []),
     ...(history.officeWorkflowPreferences ?? []),
     ...(history.officeVoteInstructions ?? []),
@@ -1701,6 +1721,8 @@ function validateHistoryIntegrity(world: World): void {
   assertDraftLineageIntegrity(world);
   assertFutureTransitionIntegrity(world, ids);
   assertPublicInformationIntegrity(world, ids);
+  for (const record of crisisRecords(world)) assertUniqueId(ids, record.id);
+  assertCrisisIntegrity(world);
   for (const interval of history.districtResidenceIntervals ?? []) {
     assertUniqueId(ids, interval.id);
     if (!world.people[interval.personId]) {
@@ -1940,7 +1962,8 @@ function validateHistoryIntegrity(world: World): void {
         !constitutionalEntityExists(world, involvedId) &&
         !legislationEntityExists(world, involvedId) &&
         !legislativePoliticsEntityExists(world, involvedId) &&
-        !publicInformationEntityExists(world, involvedId)
+        !publicInformationEntityExists(world, involvedId) &&
+        !crisisEntityExists(world, involvedId)
       ) {
         throw new Error(
           `Historical event references a missing involved entity: ${event.id}`,

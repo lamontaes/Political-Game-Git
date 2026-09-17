@@ -1,3 +1,4 @@
+import { crisisEntityAvailableAt } from "./crisis/records";
 import { ageOnDate, dateAtAge, makeIsoDate, yearOf } from "./dates";
 import { createStableId } from "./ids";
 import { assertExactQuantity } from "./quantity";
@@ -894,6 +895,8 @@ function sourceAvailable(
   if (vitalityEntityAvailableAt(world, id, asOfDate, sequenceExclusive)) {
     return true;
   }
+  if (crisisEntityAvailableAt(world, id, asOfDate, sequenceExclusive))
+    return true;
   const event = world.history.events.find((record) => record.id === id);
   if (event) {
     return event.occurredAt <= asOfDate && event.sequence < sequenceExclusive;
