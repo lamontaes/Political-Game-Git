@@ -383,12 +383,36 @@ export function resolveFutureDueItemsThrough(
     }
   }
 
+  // The due list is recomputed only when the set of due items actually
+  // changes. Scanning and sorting every pending item for every item resolved
+  // cost the clock a pass over the whole schedule per due boundary; a handler
+  // that schedules something new replaces that array, which is what asks for a
+  // fresh list. Cancellations change only the states, and those are caught by
+  // re-reading each candidate's own state before it runs.
+  let candidates: FutureDueItem[] | null = null;
+  let candidatesFrom: readonly FutureDueItem[] | null = null;
   while (true) {
-    const item = scheduledFutureDueItemsThrough(
-      working,
-      startingDate,
-      throughDate,
-    )[0];
+    if (
+      candidates === null ||
+      candidatesFrom !== working.history.futureDueItems
+    ) {
+      candidates = [
+        ...scheduledFutureDueItemsThrough(working, startingDate, throughDate),
+      ];
+      candidatesFrom = working.history.futureDueItems;
+    }
+    let item: FutureDueItem | undefined;
+    while (candidates.length > 0) {
+      const next = candidates[0]!;
+      if (
+        latestDueItemStateAtCurrentFrontier(working, next.id)?.status ===
+        "scheduled"
+      ) {
+        item = next;
+        break;
+      }
+      candidates.shift();
+    }
     if (!item) return working;
     const handler = registry.get(item.transitionKey);
     if (!handler) {
@@ -427,11 +451,19 @@ export function resolveFutureDueItemsThrough(
     }
     const resultDueItems = result.world.history.futureDueItems;
     const resultDueStates = result.world.history.futureDueItemStates;
+    // The same records, not merely equal ones: history is append-only, so a
+    // handler that rewrote an earlier entry would have to replace the object.
+    // Comparing references proves more than comparing serialized text did,
+    // and it does not re-serialize the whole due history for every item.
+    const prefixUnchanged = <T>(
+      after: readonly T[],
+      before: readonly T[],
+    ): boolean =>
+      after.length >= before.length &&
+      before.every((record, index) => after[index] === record);
     if (
-      JSON.stringify(resultDueItems.slice(0, dueItemsBefore.length)) !==
-        JSON.stringify(dueItemsBefore) ||
-      JSON.stringify(resultDueStates.slice(0, dueStatesBefore.length)) !==
-        JSON.stringify(dueStatesBefore)
+      !prefixUnchanged(resultDueItems, dueItemsBefore) ||
+      !prefixUnchanged(resultDueStates, dueStatesBefore)
     ) {
       throw new Error(
         "Future-transition handlers cannot rewrite existing due-item history.",
