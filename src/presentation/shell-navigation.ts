@@ -1,6 +1,13 @@
 import type { PersonWardrobePreference } from "./person-visual-selection";
 import type { EntityId } from "../simulation";
 import type { GovernmentPlace, GovernmentScope } from "./politics-government";
+import {
+  DEFAULT_MAP_PREFERENCES,
+  readMapPreferences,
+  type MapPreferences,
+} from "../maps/map-preferences";
+import type { ConversationAddressee } from "./run-b-conversation";
+import type { ConversationSubjectKey } from "./run-b-conversation-progress";
 
 /**
  * The shared shell: what is open, how you got there, and how you get back.
@@ -71,6 +78,8 @@ export type ShellSurface =
   | "politics"
   /** Public government by place, level and branch (Politics hub). */
   | "government"
+  /** Politics → Government → Map: who holds each seat, drawn by place. */
+  | "government-map"
   | "transit"
   | "tax"
   /** Who governs home, and standing for the state's executive office. */
@@ -82,6 +91,8 @@ export type ShellSurface =
   | "parties"
   | "journal"
   | "patch-notes"
+  /** The term catalog, searchable: what the words on the other screens mean. */
+  | "guide"
   | "options";
 
 /**
@@ -174,6 +185,22 @@ export interface ShellPreferences {
    */
   readonly politicsPlace: GovernmentPlace;
   readonly governmentScope: GovernmentScope;
+  /**
+   * How Politics → Government → Map was last left: layer, focused state,
+   * labels and map-or-list. The map's history date is never saved.
+   */
+  readonly map: MapPreferences;
+  /**
+   * Guide terms this player has marked as learned.
+   *
+   * A human presentation preference and nothing else: it decides how much
+   * inline help a term carries on the surfaces that mention it, and every
+   * entry stays fully readable in the Guide either way. It is deliberately
+   * NOT character knowledge — the person in the world does not become better
+   * informed because the player read a definition, and no political outcome,
+   * conversation or simulation record may read this list.
+   */
+  readonly learnedGuideTermKeys: readonly string[];
 }
 
 /**
@@ -207,6 +234,8 @@ export const DEFAULT_PREFERENCES: ShellPreferences = {
   journalYear: null,
   politicsPlace: "here",
   governmentScope: "local",
+  map: DEFAULT_MAP_PREFERENCES,
+  learnedGuideTermKeys: [],
 };
 
 /** Private player writing, never simulation facts or NPC knowledge. */
@@ -257,9 +286,34 @@ export const LEGACY_INTERFACE_PROGRESS: InterfaceProgress = {
 export type ShellNavigationLevel =
   "closed" | "primary" | "personal" | "politics";
 
+/**
+ * The conversation on the table, wherever the player has browsed to since.
+ *
+ * A conversation is not a place, so it is not a history level; it is a thing
+ * happening in the room, and the room IS a history level. Holding the record
+ * here rather than beside the shell is what lets one reducer answer "what does
+ * Back mean now?" truthfully: while a browsing workspace is open over the room,
+ * the conversation is SUSPENDED, and the level Back returns to is the room with
+ * this line still waiting on it.
+ *
+ * It deliberately carries no world state. The addressee and the subject are
+ * what the player chose; the beat, the choices and whether Listen means
+ * anything are projected from the World every time the box draws, so a
+ * suspended conversation cannot go stale and cannot be a second copy of the
+ * transcript. Nothing here is saved: it belongs to this sitting, and the World
+ * it happens in already records what was actually said.
+ */
+export interface ShellConversation {
+  readonly subject: ConversationSubjectKey;
+  /** Who the player is facing. A request; the projection corrects it. */
+  readonly addressee: ConversationAddressee;
+}
+
 export interface ShellState {
   /** Last element is the current view. The base is always the scene. */
   readonly history: readonly ShellView[];
+  /** The conversation waiting in the room, or null when there is none. */
+  readonly conversation: ShellConversation | null;
   readonly navigation: ShellNavigationLevel;
   /**
    * The one person card. Whoever was opened last — from the room, a name, the
@@ -274,7 +328,16 @@ export interface ShellState {
   readonly peopleQuery: string;
   readonly preferences: ShellPreferences;
   readonly personWardrobes: Readonly<Record<string, PersonWardrobePreference>>;
-  readonly journal: PrivateJournal;
+  /**
+   * Private notebooks, one per played person in this slot, so a character
+   * continued after another never reads the predecessor's notes.
+   */
+  readonly journals: Readonly<Record<string, PrivateJournal>>;
+  /**
+   * A slot-wide notebook from before notebooks were kept per person that
+   * could not yet be given to anyone. Kept and written back, never dropped.
+   */
+  readonly legacyJournal: PrivateJournal;
   readonly progress: InterfaceProgress;
   /** Announced to assistive technology after a navigation action. */
   readonly announcement: string;
@@ -282,6 +345,7 @@ export interface ShellState {
 
 export const INITIAL_SHELL_STATE: ShellState = {
   history: [{ surface: "scene" }],
+  conversation: null,
   navigation: "closed",
   quickDossierPersonId: null,
   confirmingLeave: false,
@@ -292,7 +356,8 @@ export const INITIAL_SHELL_STATE: ShellState = {
   preferences: DEFAULT_PREFERENCES,
   announcement: "",
   personWardrobes: {},
-  journal: EMPTY_JOURNAL,
+  journals: {},
+  legacyJournal: EMPTY_JOURNAL,
   progress: INITIAL_INTERFACE_PROGRESS,
 };
 
@@ -301,7 +366,11 @@ export type ShellAction =
       readonly type: "set-person-wardrobe";
       readonly preference: PersonWardrobePreference;
     }
-  | { readonly type: "set-journal"; readonly journal: PrivateJournal }
+  | {
+      readonly type: "set-journal";
+      readonly personId: EntityId;
+      readonly journal: PrivateJournal;
+    }
   | { readonly type: "toggle-navigation" }
   | {
       readonly type: "open-nav-submenu";
@@ -314,7 +383,38 @@ export type ShellAction =
       readonly surface: ShellSurface;
       readonly section?: ShellSection;
     }
+  /**
+   * A tab or section INSIDE the workspace already open.
+   *
+   * Top-level navigation changes which workspace is open, so it adds a level
+   * and Back returns to where the player came from. A tab strip within one
+   * workspace is not a second place: it replaces the subroute. Without this,
+   * Politics → Issues and budget was two levels deep, one Back landed on the
+   * tab the player passed through rather than on the room, and a conversation
+   * waiting there took two presses to get back to.
+   */
+  | {
+      readonly type: "go-to-subroute";
+      readonly surface: ShellSurface;
+      readonly section?: ShellSection;
+    }
   | { readonly type: "go-to-scene" }
+  /** The player chose somebody to talk to, and what about. */
+  | {
+      readonly type: "set-conversation";
+      readonly subject: ConversationSubjectKey;
+      readonly addressee: ConversationAddressee;
+    }
+  /** The conversation is over: said goodbye, walked off, or closed the box. */
+  | { readonly type: "end-conversation" }
+  /**
+   * Back to the line still waiting, from wherever the player browsed to.
+   *
+   * Unlike `go-to-scene` this keeps the levels BELOW the room it returns to,
+   * so a conversation started from the People list still has that list under
+   * it afterwards. With nothing to resume it does nothing.
+   */
+  | { readonly type: "resume-conversation" }
   /**
    * A conversation starts in the room. Unlike `go-to-scene`, the way there is
    * kept, so Back after the conversation returns to the person it started from.
@@ -354,17 +454,28 @@ export type ShellAction =
       readonly type: "set-reader-preferences";
       readonly patch: Partial<ReaderPreferences>;
     }
+  | {
+      readonly type: "set-map-preferences";
+      readonly preferences: MapPreferences;
+    }
   | { readonly type: "set-people-category"; readonly category: string }
   | { readonly type: "set-people-query"; readonly query: string }
   | { readonly type: "set-default-pin-size"; readonly size: PinSize }
   | { readonly type: "toggle-news-outlet-follow"; readonly outletKey: string }
+  /** Marks a Guide term learned, or learned no longer. Presentation only. */
+  | {
+      readonly type: "set-guide-term-learned";
+      readonly semanticKey: string;
+      readonly learned: boolean;
+    }
   /** Restores pins and preferences read back from storage. */
   | {
       readonly type: "restore";
       readonly personWardrobes?: Readonly<
         Record<string, PersonWardrobePreference>
       >;
-      readonly journal?: PrivateJournal;
+      readonly journals?: Readonly<Record<string, PrivateJournal>>;
+      readonly legacyJournal?: PrivateJournal;
       readonly pins: readonly ShellPin[];
       readonly preferences: ShellPreferences;
       readonly progress?: InterfaceProgress;
@@ -427,6 +538,62 @@ function pushView(state: ShellState, view: ShellView): ShellState {
       : view.surface === "entity" && sameRef(current.ref, view.ref));
   if (same) return settled(state);
   return { ...settled(state), history: [...state.history, view] };
+}
+
+/**
+ * The level the workspace itself occupies, below any drilldown over it.
+ *
+ * A person, measure or project opened from a list is a level of its own, which
+ * is how Back from one returns to the list it came from. A tab pressed while
+ * such a record is open is still a tab of the workspace underneath, so the
+ * search walks down past the drilldowns to the level the tabs belong to. The
+ * room at the base is never one of them.
+ */
+function workspaceLevel(state: ShellState): number {
+  let index = state.history.length - 1;
+  while (index > 0 && state.history[index]?.surface === "entity") index -= 1;
+  return index;
+}
+
+/** Replaces the open workspace's subroute instead of stacking a second one. */
+function replaceView(state: ShellState, view: ShellView): ShellState {
+  const index = workspaceLevel(state);
+  const level = state.history[index];
+  if (index === 0 || !level || level.surface === "entity") {
+    // No workspace is open to have a subroute; the room's base never moves.
+    return pushView(state, view);
+  }
+  /*
+   * A ROOM is never a subroute's level either, and not only the one at the
+   * base. A conversation started from a list puts a second room on top of the
+   * way there, and that room is the level the waiting line belongs to;
+   * replacing it would leave Back stepping straight over the room the player
+   * is owed. No control in the room dispatches a subroute today, so this keeps
+   * that an invariant of the reducer rather than a property of which buttons
+   * happen to be mounted.
+   */
+  if (level.surface === "scene") return pushView(state, view);
+  const same =
+    level.surface === view.surface &&
+    viewSection(level) === viewSection(view) &&
+    index === state.history.length - 1;
+  if (same) return settled(state);
+  return {
+    ...settled(state),
+    history: [...state.history.slice(0, index), view],
+  };
+}
+
+/**
+ * Whether a conversation is waiting behind whatever the player is reading.
+ *
+ * Derived, never stored: the conversation is suspended exactly when one is
+ * held and the room is not the current view. Two flags that could disagree
+ * about the same fact is how a "Return to conversation" button ends up
+ * offering a conversation that is already on screen.
+ */
+export function conversationSuspended(state: ShellState): boolean {
+  return state.conversation !== null && activeView(state).surface !== "scene";
 }
 
 export function shellReducer(
@@ -500,6 +667,50 @@ export function shellReducer(
           ...(action.section ? { section: action.section } : {}),
         }),
         announcement: `Opened ${action.section ?? action.surface}.`,
+      };
+    }
+
+    case "go-to-subroute": {
+      if (action.surface === "scene") {
+        return shellReducer(state, { type: "go-to-scene" });
+      }
+      return {
+        ...replaceView(state, {
+          surface: action.surface,
+          ...(action.section ? { section: action.section } : {}),
+        }),
+        announcement: `Opened ${action.section ?? action.surface}.`,
+      };
+    }
+
+    case "set-conversation":
+      return {
+        ...state,
+        conversation: {
+          subject: action.subject,
+          addressee: action.addressee,
+        },
+      };
+
+    case "end-conversation":
+      if (!state.conversation) return state;
+      return { ...state, conversation: null };
+
+    /*
+     * Returning is a Back to the room this conversation is waiting in, not a
+     * reset to the room. Everything the player walked through to get here is
+     * still under it, so the next Back leaves the conversation the same way it
+     * would have before they went browsing.
+     */
+    case "resume-conversation": {
+      if (!state.conversation) return state;
+      let index = state.history.length - 1;
+      while (index > 0 && state.history[index]?.surface !== "scene") index -= 1;
+      if (index === state.history.length - 1) return settled(state);
+      return {
+        ...settled(state),
+        history: state.history.slice(0, index + 1),
+        announcement: "Back in the room.",
       };
     }
 
@@ -676,6 +887,15 @@ export function shellReducer(
       };
     }
 
+    case "set-map-preferences":
+      return {
+        ...state,
+        preferences: {
+          ...state.preferences,
+          map: readMapPreferences(action.preferences),
+        },
+      };
+
     case "set-default-pin-size":
       return {
         ...state,
@@ -701,6 +921,28 @@ export function shellReducer(
       };
     }
 
+    case "set-guide-term-learned": {
+      const semanticKey = action.semanticKey.trim();
+      if (!semanticKey) return state;
+      const learned =
+        state.preferences.learnedGuideTermKeys.includes(semanticKey);
+      if (learned === action.learned) return state;
+      return {
+        ...state,
+        preferences: {
+          ...state.preferences,
+          learnedGuideTermKeys: action.learned
+            ? [...state.preferences.learnedGuideTermKeys, semanticKey]
+            : state.preferences.learnedGuideTermKeys.filter(
+                (candidate) => candidate !== semanticKey,
+              ),
+        },
+        announcement: action.learned
+          ? "Term marked as learned."
+          : "Term no longer marked as learned.",
+      };
+    }
+
     case "set-person-wardrobe":
       return {
         ...state,
@@ -710,13 +952,17 @@ export function shellReducer(
         },
       };
     case "set-journal":
-      return { ...state, journal: action.journal };
+      return {
+        ...state,
+        journals: { ...state.journals, [action.personId]: action.journal },
+      };
     case "restore":
       return {
         ...state,
         pins: action.pins,
         preferences: action.preferences,
-        journal: action.journal ?? EMPTY_JOURNAL,
+        journals: action.journals ?? {},
+        legacyJournal: action.legacyJournal ?? EMPTY_JOURNAL,
         personWardrobes: action.personWardrobes ?? {},
         progress: action.progress ?? LEGACY_INTERFACE_PROGRESS,
       };

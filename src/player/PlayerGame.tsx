@@ -1,4 +1,17 @@
 import { CreatorAppearanceStep } from "./CreatorAppearanceStep";
+import { LifeContinuationPanel } from "./LifeContinuationPanel";
+import { RetireFromPlayAction } from "./RetireFromPlayAction";
+import { PersonalGoalsPanel } from "./PersonalGoalsPanel";
+import {
+  READ_ONLY_REFUSAL,
+  isObserving,
+  observerReadingLens,
+  playedLifeContinuation,
+  shellReadOnly,
+  shellViewpointPersonId,
+  surfaceOpenWhileReadOnly,
+} from "../presentation/life-continuation-shell";
+import { retireFromPlay } from "../presentation/people-continuation";
 import {
   applyCreatorAppearance,
   type CreatorAppearanceChoice,
@@ -45,6 +58,9 @@ import {
   skipToLabel,
   stoppedEarlyLabel,
 } from "../presentation/time-target-label";
+import { authorityDecisions } from "../presentation/crisis-shell";
+import { CrisisNoticesPanel } from "./CrisisNoticesPanel";
+import { useCrisisStop } from "./use-crisis-stop";
 import {
   TimeCommandProvider,
   useTimeCommand,
@@ -61,6 +77,7 @@ import { World39News } from "./World39News";
 import { World39Journal } from "./World39Journal";
 import { PlacesWorkspace } from "./PlacesWorkspace";
 import { GovernmentBrowser } from "./politics/GovernmentBrowser";
+import { PublicServicePanel } from "./politics/PublicServicePanel";
 import { NewsDesk } from "./news/NewsDesk";
 import "./controls/controls.css";
 import { PinToggle } from "./controls/PinToggle";
@@ -89,10 +106,13 @@ import { JudicialOfficeWork } from "./JudicialOfficeWork";
 import { judicialOfficeContexts } from "../simulation/judicial-office-work";
 import { ExecutiveWorkWorkspace } from "./ExecutiveWorkWorkspace";
 import { GoverningBriefing } from "./GoverningBriefing";
+import { GoverningOfficeDesk } from "./GoverningOfficeDesk";
 import { governingOfficeForPerson } from "../simulation/governing/state-governing";
 import { resolveExecutiveOffice } from "../simulation/executive-work-context";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import {
+  lazy,
+  Suspense,
   useCallback,
   useEffect,
   useLayoutEffect,
@@ -218,7 +238,6 @@ import { measureById } from "../simulation";
 import { measureGate } from "../simulation/legislation";
 import { ConversationStarters, SceneConversation } from "./SceneConversation";
 import { InvokerFocusReturn } from "./PersonSceneActionMenu";
-import type { ConversationAddressee } from "../presentation/run-b-conversation";
 import type { ConversationSubjectKey } from "../presentation/run-b-conversation-progress";
 import { openConversationWith } from "../presentation/person-conversation-entry";
 import {
@@ -229,11 +248,15 @@ import {
 import {
   activeView,
   canGoBack,
+  EMPTY_JOURNAL,
+  conversationSuspended,
   isPinned,
   type ShellAction,
+  type ShellPin,
   type ShellRef,
   type ShellState,
 } from "../presentation/shell-navigation";
+import type { PoliticalMapFocus } from "../maps/PoliticalMap";
 import { useShell } from "./useShell";
 import {
   stateAgencyStartAvailableFor,
@@ -247,6 +270,7 @@ import { WorldOrientationPanel } from "./WorldOrientationPanel";
 import { WorldOrientationEntry } from "./WorldOrientationEntry";
 import { useWorldOrientation } from "./useWorldOrientation";
 import { PartyChapterSurface } from "./PartyChapterSurface";
+import { PartyInitiativesPanel } from "./politics/PartyInitiativesPanel";
 import {
   projectPartyChapter,
   projectPartyChapters,
@@ -272,6 +296,8 @@ import {
   WorkWorkspace,
   WorkspaceFrame,
 } from "./ShellWorkspaces";
+import { GuideWorkspace } from "./GuideWorkspace";
+import { GuideHelpProvider } from "./GuideTerm";
 import { PlayerVersion } from "./PlayerVersion";
 import { ReturnToTitleAction } from "./ReturnToTitleAction";
 import {
@@ -285,6 +311,27 @@ import {
   SaveTransferControls,
 } from "./SaveTransferControls";
 import { PoliticsWorkspace } from "./ConstitutionalWorkspace";
+
+/* The map carries its geometry; it loads only when a player opens it. */
+const PoliticalMap = lazy(() => import("../maps/PoliticalMap"));
+
+/*
+ * The map recomputes pinned-seat highlights whenever its focus object changes,
+ * so one focus is kept per pins array (the reducer replaces it only when the
+ * pins change) instead of a fresh object on every render.
+ */
+const mapFocusByPins = new WeakMap<readonly ShellPin[], PoliticalMapFocus>();
+function mapFocusForPins(pins: readonly ShellPin[]): PoliticalMapFocus {
+  const cached = mapFocusByPins.get(pins);
+  if (cached) return cached;
+  const focus: PoliticalMapFocus = {
+    personIds: pins.flatMap((pin) =>
+      pin.ref.kind === "person" ? [pin.ref.id] : [],
+    ),
+  };
+  mapFocusByPins.set(pins, focus);
+  return focus;
+}
 
 /**
  * The game.
@@ -523,7 +570,12 @@ export function PlayerGame() {
     );
     pendingAppearance.current = null;
     setSession({
-      world: openOrdinaryLife(prepared, personId),
+      // A world being observed, or a played life that ended before anything
+      // followed it, has nobody whose week could be opened: loading such a
+      // save must not write new work for the retired or dead character.
+      world: shellReadOnly(prepared)
+        ? prepared
+        : openOrdinaryLife(prepared, personId),
       personId,
       unsavedSeed: seed,
       saveId,
@@ -589,11 +641,13 @@ export function PlayerGame() {
     if (!store) return;
     try {
       const world = await store.load(saveId);
-      if (!world || world.control.kind !== "person") {
+      // An observed world opens read-only, seen as the last life played.
+      const personId = world ? shellViewpointPersonId(world) : null;
+      if (!world || personId === null) {
         setProblem("That saved game could not be opened.");
         return;
       }
-      startPlaying(world, world.control.personId, null, saveId);
+      startPlaying(world, personId, null, saveId);
       setNotice(null);
     } catch {
       setProblem("That saved game could not be opened.");
@@ -868,6 +922,12 @@ export function PlayerGame() {
       notice={notice}
       problem={problem}
       onWorldChange={(world, base) => {
+        // Nobody played, or a life that has ended: only the continuation
+        // commands below may change this World.
+        if (shellReadOnly(session.world)) {
+          setNotice(READ_ONLY_REFUSAL);
+          return;
+        }
         if (base !== undefined && !worldGuard.current.admit(base)) {
           recordStaleWorldChange(base, world);
           return;
@@ -888,6 +948,28 @@ export function PlayerGame() {
               }
             : current,
         );
+      }}
+      onControlChange={(world, base, change) => {
+        if (!worldGuard.current.admit(base)) {
+          recordStaleWorldChange(base, world);
+          return;
+        }
+        // Computed here, not inside the state update, so a refusal throws
+        // back to the command's caller (which says why) and nothing changes.
+        const next =
+          change.kind === "continued"
+            ? applyExecutivePlayTransition(
+                base,
+                openOrdinaryLife(world, change.personId),
+              )
+            : world;
+        setNotice(null);
+        setSession((current) => {
+          if (!current) return current;
+          if (change.kind !== "continued") return { ...current, world: next };
+          // The same World and save; only who is played has moved.
+          return { ...current, personId: change.personId, world: next };
+        });
       }}
       onKeep={(shellState) => void keepThisWorld(shellState)}
       onLeave={() => void leaveGame()}
@@ -2107,6 +2189,12 @@ function SavesScreen({
           {problem}
         </p>
       ) : null}
+      {saves.length === 0 && !savesUnavailable ? (
+        <p className="game-note" data-testid="saves-empty">
+          No lives are saved in this browser yet. You can import a saved life
+          below.
+        </p>
+      ) : null}
       <ul>
         {saves.map((save) => (
           <li key={save.saveId} data-testid="save-entry">
@@ -2236,10 +2324,11 @@ function SavesScreen({
 /* -------------------------------------------------------------------------- */
 
 function PlayingScreen({
-  session,
+  session: storedSession,
   notice,
   problem,
   onWorldChange: commitWorld,
+  onControlChange,
   onKeep,
   onLeave,
   returnToTitleRequest,
@@ -2253,6 +2342,18 @@ function PlayingScreen({
   readonly problem: string | null;
   /** `base` is the World the change was computed from; see the root guard. */
   readonly onWorldChange: (world: World, base?: World) => void;
+  /**
+   * A continuation or retirement command's result, computed from `base`.
+   * `continued` moves the session to the successor.
+   */
+  readonly onControlChange: (
+    world: World,
+    base: World,
+    change:
+      | { readonly kind: "continued"; readonly personId: EntityId }
+      | { readonly kind: "observing" }
+      | { readonly kind: "retired" },
+  ) => void;
   readonly onKeep: (shellState: StoredShellState) => void;
   readonly onLeave: () => void;
   /** Set while a Return to title (Options or desktop hub) is in progress. */
@@ -2274,6 +2375,30 @@ function PlayingScreen({
    */
   readonly shellStore: BrowserShellStateStore;
 }) {
+  /*
+   * A played life that ended, or a world watched with nobody played, leaves
+   * the shell read-only. While observing, the reading surfaces see the world
+   * through the last life played; that lens is never committed or saved.
+   */
+  const observing = isObserving(storedSession.world);
+  const readOnly = useMemo(
+    () => shellReadOnly(storedSession.world),
+    [storedSession.world],
+  );
+  const continuation = useMemo(
+    () => playedLifeContinuation(storedSession.world),
+    [storedSession.world],
+  );
+  const session = useMemo<Session>(
+    () =>
+      storedSession.world.control.kind === "person"
+        ? storedSession
+        : {
+            ...storedSession,
+            world: observerReadingLens(storedSession.world),
+          },
+    [storedSession],
+  );
   const capabilities = useMemo(
     () => resolvePlayerCapabilities(session.world),
     [session.world],
@@ -2336,16 +2461,14 @@ function PlayingScreen({
   /**
    * The conversation the player asked for, and who they are facing in it.
    *
-   * Held beside the shell rather than inside it because it is not a place — it
-   * is a thing happening in the room. The addressee travels with it, which is
-   * the whole repair: the recorded defect was a selected person being dropped
-   * on the way to a generic surface. PT3: it is drawn in ONE place, the
+   * It is still not a place — it is a thing happening in the room — but the
+   * shell holds the record now, because the shell is what has to answer where
+   * Back goes while it is waiting. The addressee travels with it, which is the
+   * original repair: the recorded defect was a selected person being dropped on
+   * the way to a generic surface. PT3: it is drawn in ONE place, the
    * conversation box in the room, whichever control started it.
    */
-  const [conversation, setConversation] = useState<{
-    readonly subject: ConversationSubjectKey;
-    readonly addressee: ConversationAddressee;
-  } | null>(null);
+  const conversation = shell.conversation;
   /**
    * Whose Talk-to control the room should focus when a conversation closes.
    *
@@ -2395,16 +2518,26 @@ function PlayingScreen({
     onWorldChange,
   });
   const { submit: submitTime } = timeRunner;
+  /*
+   * CRISIS raises decisions nobody else may make: disclosing an illness of
+   * your own, a governor's federal request, a President's declaration or
+   * international choice. A skip that passed one says so here and opens the
+   * surface that holds the real decision, so it cannot be buried under the
+   * routine outcome.
+   */
+  const crisisStop = useCrisisStop(session.world);
   const passDays = useCallback(
-    (days: 1 | 7) =>
+    (days: 1 | 7) => {
+      crisisStop.watch();
       submitTime({ kind: "days", days }, (report) =>
         setPassOutcome(
           report.stoppedEarly && report.target
             ? `${stoppedEarlyLabel(report.target)} ${report.outcome}`
             : report.outcome,
         ),
-      ),
-    [submitTime],
+      );
+    },
+    [crisisStop, submitTime],
   );
   const passTargets = useMemo(() => {
     const day = previewTimeCommand(session.world, session.personId, {
@@ -2545,6 +2678,18 @@ function PlayingScreen({
   const openSurface = view.surface;
   const previousSurface = useRef(openSurface);
   const newsPersonReturn = useRef<string | null>(null);
+  /**
+   * The term the Guide should open on when it was reached from inline help.
+   *
+   * Presentation only, and not kept: a player who walks into the Guide from
+   * the menu next time gets the whole catalog rather than whatever word they
+   * last looked up.
+   */
+  const [guideTermKey, setGuideTermKey] = useState<string | null>(null);
+  useEffect(() => {
+    /* Leaving the Guide forgets the lookup, so the menu opens the catalog. */
+    if (openSurface !== "guide" && guideTermKey !== null) setGuideTermKey(null);
+  }, [openSurface, guideTermKey]);
   useEffect(() => {
     const previous = previousSurface.current;
     previousSurface.current = openSurface;
@@ -2563,10 +2708,11 @@ function PlayingScreen({
          * Back in the room. If a conversation is waiting, the keyboard goes
          * to it — its next choice is the sensible place to be, and Escape
          * from there closes the conversation rather than nothing. Otherwise
-         * the corner cluster, which is the room's one resting control.
+         * the corner cluster, which is the room's one resting control. An
+         * open continuation view comes before either: it is the choice left.
          */
         const talk = document.querySelector<HTMLElement>(
-          '[data-testid="conversation-intents"] button, [data-testid="talk-back"]',
+          '[data-testid="life-continuation-heading"], [data-testid="conversation-intents"] button, [data-testid="talk-back"]',
         );
         (
           talk ??
@@ -2591,6 +2737,10 @@ function PlayingScreen({
     !capabilities.formativeYears &&
     (judicialOfficeContexts(session.world).length > 0 ||
       resolveExecutiveOffice(session.world) !== null ||
+      // A governorship is a held office recorded against the office itself,
+      // not an executive employment relationship, so it has to be asked for
+      // by name or the menu sends an officeholder to Campaigns.
+      governingOfficeForPerson(session.world, session.personId) !== null ||
       capabilities.legislation);
   const workHint = capabilities.formativeYears
     ? "School, and anything waiting on you"
@@ -2637,6 +2787,7 @@ function PlayingScreen({
      */
     const politicsSurfaces: readonly string[] = [
       "government",
+      "government-map",
       "municipal",
       "parties",
       "politics",
@@ -2724,6 +2875,14 @@ function PlayingScreen({
       group: "travel",
     });
     entries.push({
+      surface: "guide",
+      label: "Guide",
+      hint: "What the words on the other screens mean",
+      testid: "nav-guide",
+      open: openSurface === "guide",
+      group: "options",
+    });
+    entries.push({
       surface: "options",
       label: "Options",
       hint: "Settings this game actually reads, and patch notes",
@@ -2731,8 +2890,31 @@ function PlayingScreen({
       open: openSurface === "options" || openSurface === "patch-notes",
       group: "options",
     });
-    return entries;
-  }, [capabilities.formativeYears, holdsOffice, workHint, openSurface, view]);
+    if (!readOnly) return entries;
+    // Nobody is played: only the reading surfaces stay, and Politics opens
+    // on who governs rather than on an office or a campaign.
+    return entries
+      .map((entry) =>
+        entry.group === "politics"
+          ? {
+              surface: "government" as const,
+              label: "Politics",
+              hint: "Who governs, at every level",
+              testid: entry.testid,
+              open: entry.open,
+              group: entry.group,
+            }
+          : entry,
+      )
+      .filter((entry) => surfaceOpenWhileReadOnly(entry.surface));
+  }, [
+    capabilities.formativeYears,
+    holdsOffice,
+    workHint,
+    openSurface,
+    view,
+    readOnly,
+  ]);
 
   const openEntity = useCallback(
     (ref: ShellRef) => {
@@ -2881,6 +3063,7 @@ function PlayingScreen({
       subject?: ConversationSubjectKey,
       invoker: "scene" | "panel" = "scene",
     ) => {
+      if (readOnly) return;
       const entry = openConversationWith(
         session.world,
         session.personId,
@@ -2888,14 +3071,36 @@ function PlayingScreen({
       );
       if (entry.kind === "unavailable") return;
       setReturnFocusPrefer(invoker);
-      setConversation({
+      dispatch({
+        type: "set-conversation",
         subject: subject ?? entry.subject,
         addressee: personId,
       });
       dispatch({ type: "talk-in-scene", personId });
     },
-    [session.world, session.personId, dispatch],
+    [session.world, session.personId, dispatch, readOnly],
   );
+
+  /* A conversation cannot go on once nobody is played. */
+  useEffect(() => {
+    if (readOnly) dispatch({ type: "end-conversation" });
+  }, [readOnly, dispatch]);
+
+  /*
+   * The continuation view. Over the room whenever the played life has ended
+   * and nothing has been chosen; while observing, opened from the Observing
+   * bar and put away again with Escape or Keep observing.
+   */
+  const [continuationOpen, setContinuationOpen] = useState(false);
+  const observingButton = useRef<HTMLButtonElement>(null);
+  const closeContinuation = useCallback(() => {
+    setContinuationOpen(false);
+    requestAnimationFrame(() => observingButton.current?.focus());
+  }, []);
+  const showContinuation =
+    continuation !== null &&
+    view.surface === "scene" &&
+    (!observing || continuationOpen);
 
   const needsLeaveConfirmation = session.saveId === null && !savesUnavailable;
 
@@ -2952,6 +3157,26 @@ function PlayingScreen({
     goToTheFloor,
     goToTheFloorFor,
     workHint,
+    readOnly,
+    retireFromPlay: readOnly ? null : (
+      <RetireFromPlayAction
+        name={moment.personName}
+        onRetire={() => {
+          try {
+            const next = retireFromPlay(storedSession.world, session.personId);
+            onControlChange(next, storedSession.world, { kind: "retired" });
+            dispatch({ type: "go-to-scene" });
+            return null;
+          } catch (error) {
+            return error instanceof Error
+              ? error.message
+              : "This character could not be retired from play.";
+          }
+        }}
+      />
+    ),
+    guideTermKey,
+    onOpenGuideTerm: setGuideTermKey,
     returnToTitle: (
       <ReturnToTitleAction
         needsConfirmation={needsLeaveConfirmation}
@@ -3038,9 +3263,9 @@ function PlayingScreen({
                 });
               }}
             >
-              {view.surface === "scene" ? (
+              {view.surface === "scene" && !readOnly ? (
                 <OpeningLifeFlow
-                  key={session.world.id}
+                  key={`${session.world.id}:${session.personId}`}
                   world={session.world}
                   playerPersonId={session.personId}
                   onWorldChange={onWorldChange}
@@ -3057,10 +3282,12 @@ function PlayingScreen({
                         subject={conversation.subject}
                         addressee={conversation.addressee}
                         onWorldChange={onWorldChange}
-                        onChange={(next) => setConversation(next)}
+                        onChange={(next) =>
+                          dispatch({ type: "set-conversation", ...next })
+                        }
                         onBack={() => {
                           const facing = conversation.addressee;
-                          setConversation(null);
+                          dispatch({ type: "end-conversation" });
                           // Started from a record: Back returns to that record.
                           if (canGoBack(shell)) {
                             dispatch({ type: "back" });
@@ -3118,9 +3345,12 @@ function PlayingScreen({
                 onOpenPerson={(personId) =>
                   dispatch({ type: "open-quick-dossier", personId })
                 }
-                onTalk={() => talkTo(selectedDossier.personId)}
+                {...(readOnly
+                  ? {}
+                  : { onTalk: () => talkTo(selectedDossier.personId) })}
                 onMeet={() => dispatch({ type: "go-to-scene" })}
                 onTravel={() => {
+                  if (readOnly) return;
                   const next = travelTowardsPerson(
                     session.world,
                     session.personId,
@@ -3142,19 +3372,75 @@ function PlayingScreen({
                 }
                 presentPersonIds={presentPersonIds}
                 talkUnavailable={
-                  inspectTalkEntry?.kind === "unavailable"
-                    ? inspectTalkEntry.reason
-                    : null
+                  readOnly
+                    ? READ_ONLY_REFUSAL
+                    : inspectTalkEntry?.kind === "unavailable"
+                      ? inspectTalkEntry.reason
+                      : null
                 }
               />
             ) : null}
 
-            {conversation && view.surface !== "scene" ? (
+            {showContinuation && continuation ? (
+              <LifeContinuationPanel
+                world={storedSession.world}
+                view={continuation}
+                observing={observing}
+                onCommit={(next, personId) => {
+                  onControlChange(
+                    next,
+                    storedSession.world,
+                    personId === null
+                      ? { kind: "observing" }
+                      : { kind: "continued", personId },
+                  );
+                  setContinuationOpen(false);
+                  dispatch({ type: "go-to-scene" });
+                }}
+                onViewRecord={() =>
+                  openEntity({
+                    kind: "person",
+                    id: continuation.recordPersonId,
+                  })
+                }
+                {...(observing ? { onClose: closeContinuation } : {})}
+              />
+            ) : null}
+
+            {observing ? (
+              <div
+                className="pg-observing"
+                role="status"
+                data-testid="observing-label"
+              >
+                <strong>Observing</strong>
+                <span>Nobody is being played. You can look, not act.</span>
+                {continuation && !showContinuation ? (
+                  <button
+                    ref={observingButton}
+                    type="button"
+                    className="ui-action ui-action--subtle"
+                    data-testid="open-continuation"
+                    onClick={() => {
+                      setContinuationOpen(true);
+                      dispatch({ type: "go-to-scene" });
+                    }}
+                  >
+                    Who could be played next
+                  </button>
+                ) : null}
+              </div>
+            ) : null}
+
+            {/* The one answer to "is a line still waiting behind this?", read
+                from the shell rather than re-derived here, so the offer and
+                the reducer cannot disagree about whether there is one. */}
+            {conversationSuspended(shell) && conversation ? (
               <button
                 type="button"
                 className="pg-talk-return"
                 data-testid="conversation-return"
-                onClick={() => dispatch({ type: "go-to-scene" })}
+                onClick={() => dispatch({ type: "resume-conversation" })}
               >
                 Return to conversation
                 <small>
@@ -3203,6 +3489,42 @@ function PlayingScreen({
                   </button>
                 </p>
               ) : null}
+              {crisisStop.stop ? (
+                <p
+                  className="life-hud-note life-hud-note--problem"
+                  role="status"
+                  data-testid="crisis-stop"
+                >
+                  {crisisStop.stop.sentence}
+                  <button
+                    type="button"
+                    className="ui-action"
+                    data-testid="crisis-stop-open"
+                    onClick={() => {
+                      crisisStop.clear();
+                      dispatch(
+                        crisisStop.stop?.target === "authority"
+                          ? {
+                              type: "go-to-surface",
+                              surface: "work",
+                              section: "office",
+                            }
+                          : { type: "go-to-surface", surface: "personal" },
+                      );
+                    }}
+                  >
+                    Go to it
+                  </button>
+                  <button
+                    type="button"
+                    className="life-hud-dismiss"
+                    aria-label="Dismiss"
+                    onClick={crisisStop.clear}
+                  >
+                    ✕
+                  </button>
+                </p>
+              ) : null}
               {recap ? (
                 <WorldRecapPanel
                   recap={recap}
@@ -3241,9 +3563,9 @@ function PlayingScreen({
             <ShellNav
               state={shell}
               dispatch={dispatch}
-              playerName={moment.personName}
+              playerName={observing ? "Observing" : moment.personName}
               portrait={
-                session.world.people[session.personId] ? (
+                !observing && session.world.people[session.personId] ? (
                   <PersonPortrait
                     world={session.world}
                     personId={session.personId}
@@ -3259,7 +3581,8 @@ function PlayingScreen({
                 const shellState = {
                   pins: shell.pins,
                   preferences: shell.preferences,
-                  journal: shell.journal,
+                  journal: shell.legacyJournal,
+                  journals: shell.journals,
                   personWardrobes: shell.personWardrobes,
                   progress: shell.progress,
                 };
@@ -3270,7 +3593,7 @@ function PlayingScreen({
                 } else onKeep(shellState);
               }}
               onLeave={leaveNow}
-              {...(capabilities.formativeYears
+              {...(capabilities.formativeYears || readOnly
                 ? {}
                 : { onPassDays: passDays, passTargets })}
               passing={timeRunner.pending}
@@ -3338,6 +3661,10 @@ function renderWorkspace({
   goToTheFloor,
   goToTheFloorFor,
   workHint,
+  readOnly,
+  retireFromPlay,
+  guideTermKey,
+  onOpenGuideTerm,
   returnToTitle,
 }: {
   readonly view: ReturnType<typeof activeView>;
@@ -3358,6 +3685,19 @@ function renderWorkspace({
   readonly goToTheFloor: () => void;
   readonly goToTheFloorFor: (bill: DocketBill) => void;
   readonly workHint: string;
+  /** Nobody is played, or the played life ended: reading surfaces only. */
+  readonly readOnly: boolean;
+  /** Options' Retire from play, or null when there is nobody to retire. */
+  readonly retireFromPlay: ReactNode;
+  /**
+   * The term the Guide should open on, and how inline help asks for one.
+   *
+   * The shell owns this rather than the Guide, because inline help lives on
+   * every other workspace and has to say which entry it meant before the
+   * Guide is the open surface. It is presentation only and is not saved.
+   */
+  readonly guideTermKey: string | null;
+  readonly onOpenGuideTerm: (semanticKey: string) => void;
   /** The in-game Options way back to the title screen. */
   readonly returnToTitle: ReactNode;
 }): ReactNode {
@@ -3499,25 +3839,35 @@ function renderWorkspace({
    * The Politics hub (UI DECISION FOLLOW-THROUGH): one tab strip over the
    * existing political surfaces. Tabs only navigate; every mechanism stays in
    * the surface that owns it.
+   *
+   * CRUNCH47 A1: a tab is a subroute of the hub, not a second place to come
+   * back through. Menu entries still add a level; these replace the one the
+   * hub already occupies, so one Back from any tab leaves the hub — and lands
+   * on a conversation waiting in the room rather than on the tab passed
+   * through on the way in.
    */
   const politicsTabs = (
     active: PoliticsTab,
-    section?: "budget" | "transit" | "tax" | "overview" | "records",
+    section?: "budget" | "transit" | "tax" | "overview" | "map" | "records",
   ) => {
     const goTo = (tab: PoliticsTab) => {
       if (tab === "office")
-        dispatch({ type: "go-to-surface", surface: "work", section: "office" });
+        dispatch({
+          type: "go-to-subroute",
+          surface: "work",
+          section: "office",
+        });
       else if (tab === "campaigns")
         dispatch({
-          type: "go-to-surface",
+          type: "go-to-subroute",
           surface: "work",
           section: "campaign",
         });
       else if (tab === "government")
-        dispatch({ type: "go-to-surface", surface: "government" });
+        dispatch({ type: "go-to-subroute", surface: "government" });
       else if (tab === "parties")
-        dispatch({ type: "go-to-surface", surface: "parties" });
-      else dispatch({ type: "go-to-surface", surface: "politics" });
+        dispatch({ type: "go-to-subroute", surface: "parties" });
+      else dispatch({ type: "go-to-subroute", surface: "politics" });
     };
     /*
      * Transit and tax configuration are an office's tools: offered only to a
@@ -3541,6 +3891,7 @@ function renderWorkspace({
         : active === "government"
           ? [
               { key: "overview", label: "Who governs" },
+              { key: "map", label: "Map" },
               { key: "records", label: "Local meetings and records" },
             ]
           : [];
@@ -3548,7 +3899,9 @@ function renderWorkspace({
       <PoliticsTabs
         active={active}
         onSelect={goTo}
-        hidden={capabilities.formativeYears ? ["office", "campaigns"] : []}
+        hidden={
+          capabilities.formativeYears || readOnly ? ["office", "campaigns"] : []
+        }
         subItems={subItems.map((item) => ({
           ...item,
           current: item.key === section,
@@ -3562,15 +3915,24 @@ function renderWorkspace({
                 ? "municipal"
                 : key === "overview"
                   ? "government"
-                  : key === "transit"
-                    ? "transit"
-                    : "tax";
-          dispatch({ type: "go-to-surface", surface });
+                  : key === "map"
+                    ? "government-map"
+                    : key === "transit"
+                      ? "transit"
+                      : "tax";
+          dispatch({ type: "go-to-subroute", surface });
         }}
       />
     );
   };
 
+  /*
+   * Inline term help reaches every workspace from here.
+   *
+   * A surface that mentions an institutional word wraps it in `GuideTerm` and
+   * needs nothing else: the shell owns the learned list, because it is a saved
+   * presentation preference, and the shell owns navigation into the Guide.
+   */
   const frame = (
     title: string,
     testid: string,
@@ -3585,9 +3947,31 @@ function renderWorkspace({
       onBack={back}
       onClose={close}
     >
-      {body}
+      <GuideHelpProvider
+        help={{
+          learnedKeys: shell.preferences.learnedGuideTermKeys,
+          setLearned: (semanticKey, learned) =>
+            dispatch({ type: "set-guide-term-learned", semanticKey, learned }),
+          openGuide: (semanticKey) => {
+            onOpenGuideTerm(semanticKey);
+            dispatch({ type: "go-to-surface", surface: "guide" });
+          },
+        }}
+      >
+        {body}
+      </GuideHelpProvider>
     </WorkspaceFrame>
   );
+
+  if (readOnly && !surfaceOpenWhileReadOnly(view.surface)) {
+    return frame(
+      "Not while observing",
+      "read-only-workspace",
+      <p className="game-note" data-testid="read-only-note">
+        {READ_ONLY_REFUSAL}
+      </p>,
+    );
+  }
 
   if (view.surface === "entity") {
     if (view.ref.kind === "person") {
@@ -3762,13 +4146,14 @@ function renderWorkspace({
             conversation box in the room, the same box every other route
             opens.
           */}
-          {!completedActivityHere(session.world, session.personId) && (
-            <ConversationStarters
-              world={session.world}
-              personId={session.personId}
-              onStart={(personId, subject) => talkTo(personId, subject)}
-            />
-          )}
+          {!readOnly &&
+            !completedActivityHere(session.world, session.personId) && (
+              <ConversationStarters
+                world={session.world}
+                personId={session.personId}
+                onStart={(personId, subject) => talkTo(personId, subject)}
+              />
+            )}
         </>,
       );
 
@@ -3793,6 +4178,38 @@ function renderWorkspace({
             {...(view.section ? { section: view.section } : {})}
             onOpenPerson={openPerson}
           />
+          {view.section !== "finances" && (
+            <>
+              <PersonalGoalsPanel
+                world={session.world}
+                personId={session.personId}
+                onWorldChange={onWorldChange}
+                onOpportunity={(opportunity) => {
+                  if (opportunity.kind === "talk" && opportunity.personId) {
+                    talkTo(
+                      opportunity.personId,
+                      (opportunity.subject ?? undefined) as
+                        ConversationSubjectKey | undefined,
+                    );
+                  } else if (opportunity.kind === "read-news") {
+                    dispatch({ type: "go-to-surface", surface: "news" });
+                  } else {
+                    dispatch({
+                      type: "go-to-surface",
+                      surface: "work",
+                      section: "campaign",
+                    });
+                  }
+                }}
+              />
+              <CrisisNoticesPanel
+                world={session.world}
+                personId={session.personId}
+                onWorldChange={onWorldChange}
+                scope="personal"
+              />
+            </>
+          )}
           <details data-testid="personal-life-choices">
             <summary>Your day, choices and pending favors</summary>
             <LifeScenePanel
@@ -3858,6 +4275,11 @@ function renderWorkspace({
               No local party chapters are recorded where you live.
             </p>
           )}
+          <PartyInitiativesPanel
+            world={session.world}
+            personId={session.personId}
+            onWorldChange={(next) => onWorldChange(next)}
+          />
         </>,
       );
     }
@@ -3879,7 +4301,8 @@ function renderWorkspace({
           }
           onContextChange={(context) =>
             dispatch({
-              type: "go-to-surface",
+              // A News context is a section of the News desk, not a level.
+              type: "go-to-subroute",
               surface: "news",
               ...(context === "read"
                 ? {}
@@ -3960,6 +4383,39 @@ function renderWorkspace({
         "Politics",
       );
 
+    case "government-map":
+      return frame(
+        "Government map",
+        "government-map-workspace",
+        <>
+          {politicsTabs("government", "map")}
+          <Suspense
+            fallback={
+              <p className="game-note" role="status">
+                Loading the map…
+              </p>
+            }
+          >
+            <PoliticalMap
+              world={session.world}
+              personId={session.personId}
+              preferences={shell.preferences.map}
+              onPreferencesChange={(preferences) =>
+                dispatch({ type: "set-map-preferences", preferences })
+              }
+              onOpenPerson={(personId) =>
+                dispatch({ type: "open-quick-dossier", personId })
+              }
+              onOpenMeasure={(measureId) =>
+                openEntity({ kind: "measure", id: measureId })
+              }
+              focus={mapFocusForPins(shell.pins)}
+            />
+          </Suspense>
+        </>,
+        "Politics",
+      );
+
     case "politics": {
       // Issues follows the place and level chosen in Government.
       const issuesPlace = issuesPlaceForSelection(
@@ -3983,6 +4439,13 @@ function renderWorkspace({
             <p className="game-note" role="status">
               {issuesPlace.note}
             </p>
+          ) : null}
+          {issuesPlace.jurisdictionId ? (
+            <PublicServicePanel
+              world={session.world}
+              jurisdictionId={issuesPlace.jurisdictionId}
+              placeLabel={issuesPlace.label}
+            />
           ) : null}
           {(session.world.history.nationalElections ?? []).map((election) => (
             <NationalElectionResults
@@ -4082,13 +4545,30 @@ function renderWorkspace({
           onYearChange={(journalYear) =>
             dispatch({ type: "set-reader-preferences", patch: { journalYear } })
           }
-          journal={shell.journal}
+          journal={shell.journals[session.personId] ?? EMPTY_JOURNAL}
           onJournalChange={(journal) =>
-            dispatch({ type: "set-journal", journal })
+            dispatch({
+              type: "set-journal",
+              personId: session.personId,
+              journal,
+            })
           }
           world={session.world}
           personId={session.personId}
           onOpenPerson={openPerson}
+        />,
+      );
+
+    case "guide":
+      return frame(
+        "Guide",
+        "guide-workspace",
+        <GuideWorkspace
+          learnedKeys={shell.preferences.learnedGuideTermKeys}
+          openKey={guideTermKey}
+          onSetLearned={(semanticKey, learned) =>
+            dispatch({ type: "set-guide-term-learned", semanticKey, learned })
+          }
         />,
       );
 
@@ -4115,6 +4595,7 @@ function renderWorkspace({
             world={session.world}
             onWorldChange={onWorldChange}
           />
+          {retireFromPlay}
           {returnToTitle}
         </>,
       );
@@ -4356,6 +4837,26 @@ function renderWorkspace({
               : "all";
       const sections: WorkSection[] = [];
       const officeHalf = half === "office" || half === "all";
+      /*
+       * A disaster request or an international choice belongs to whoever
+       * actually holds the office being asked, so the section exists only
+       * while one is pending. A resident reads the same emergency as a public
+       * event under Who you are and is never shown a decision to make.
+       */
+      if (officeHalf && authorityDecisions(session.world).length > 0) {
+        sections.push({
+          key: "crisis",
+          title: "Decisions only you can make",
+          body: (
+            <CrisisNoticesPanel
+              world={session.world}
+              personId={session.personId}
+              onWorldChange={onWorldChange}
+              scope="authority"
+            />
+          ),
+        });
+      }
       if (officeHalf && offices.length > 0) {
         sections.push({
           key: "office",
@@ -4385,6 +4886,11 @@ function renderWorkspace({
           body: (
             <>
               <GoverningBriefing
+                world={session.world}
+                personId={session.personId}
+                onWorldChange={onWorldChange}
+              />
+              <GoverningOfficeDesk
                 world={session.world}
                 personId={session.personId}
                 onWorldChange={onWorldChange}
@@ -4604,6 +5110,7 @@ function StoryView({
       }),
     [session.world, session.personId],
   );
+  const crisisStop = useCrisisStop(session.world);
 
   if (completedActivityHere(session.world, session.personId))
     return (
@@ -4708,7 +5215,10 @@ function StoryView({
             data-testid="story-let-time-pass"
             aria-disabled={runner.pending || undefined}
             aria-busy={runner.pending}
-            onClick={() => runner.submit({ kind: "quiet-stretch" })}
+            onClick={() => {
+              crisisStop.watch();
+              runner.submit({ kind: "quiet-stretch" });
+            }}
           >
             {moment.formativeYears ? "Let the year run on" : "Let time pass"}
             <small data-testid="story-let-time-pass-target">
@@ -4719,6 +5229,15 @@ function StoryView({
           </button>
         )}
       </div>
+
+      {crisisStop.stop ? (
+        <p className="game-note" role="status" data-testid="story-crisis-stop">
+          {crisisStop.stop.sentence}{" "}
+          {crisisStop.stop.target === "authority"
+            ? "It is waiting in your office."
+            : "It is waiting under Who you are."}
+        </p>
+      ) : null}
 
       {moment.openThreads.length > 0 ? (
         <ul className="game-pending" data-testid="story-open">
@@ -5071,7 +5590,8 @@ function PassDayControl({
 }
 
 interface WorkSection {
-  readonly key: "office" | "campaign" | "statewide" | "paths" | "personnel";
+  readonly key:
+    "office" | "campaign" | "statewide" | "paths" | "personnel" | "crisis";
   readonly title: string;
   readonly body: ReactNode;
 }

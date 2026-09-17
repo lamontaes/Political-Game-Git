@@ -36,7 +36,20 @@ import type {
   RunBConversationProgress,
   RunCLegislativeConversationProgress,
 } from "./run-b-conversation-progress";
-import { conversationRole } from "./run-b-conversation";
+import {
+  conversationRole,
+  resolveConversationListeners,
+} from "./run-b-conversation";
+import {
+  CONTEXTUAL_SCENE_SUBJECTS,
+  contextualSubjectPresentation,
+  familyOfSubject,
+  isContextualSceneProgress,
+  sceneFamily,
+  staticContract,
+  type ContextualSceneProgress,
+  type ContextualSceneSubject,
+} from "./contextual-scenes";
 import type {
   ConversationWorldConsequence,
   ConversationAftermathSpec,
@@ -287,7 +300,7 @@ const legislativeDraftSubject: ConversationSubjectPresentation<RunCLegislativeCo
 const householdObligationSubject: ConversationSubjectPresentation<HouseholdObligationConversationProgress> =
   {
     subject: "household-obligation",
-    topicLabel: () => "At home",
+    topicLabel: () => "This week’s errands",
     describeBriefing(_world, _room, progress) {
       return progress.subjectFacts.obligation;
     },
@@ -344,7 +357,17 @@ const householdObligationSubject: ConversationSubjectPresentation<HouseholdOblig
             )
           : progress.phase === "raised"
             ? `“What can you take on?” ${world.people[speaker.personId]!.givenName} asks.`
-            : `You can ask ${world.people[speaker.personId]!.givenName} about the errands.`;
+            : fillName(
+                selectAuthoredVariant(
+                  world,
+                  `household-opening:${speaker.personId}`,
+                  [
+                    "“Have you looked at what needs doing this week?” {name} asks.",
+                    "“Can we sort out this week’s errands?” {name} asks.",
+                  ],
+                ),
+                world.people[speaker.personId]!.givenName,
+              );
       return {
         speakerPersonId: speaker.personId,
         speakerName: speaker.name,
@@ -352,6 +375,10 @@ const householdObligationSubject: ConversationSubjectPresentation<HouseholdOblig
       };
     },
   };
+
+function fillName(line: string, name: string): string {
+  return line.replace("{name}", name);
+}
 
 function settledHouseholdLine(
   progress: HouseholdObligationConversationProgress,
@@ -378,7 +405,7 @@ function settledHouseholdLine(
 const schoolProjectSubject: ConversationSubjectPresentation<SchoolProjectConversationProgress> =
   {
     subject: "school-project-share",
-    topicLabel: () => "A shared project",
+    topicLabel: () => "The group project",
     describeBriefing(world, room, progress) {
       // Deliberately unnamed while it is still open. The world records who is
       // in the class and does not record who the partner is, so the briefing
@@ -433,7 +460,17 @@ const schoolProjectSubject: ConversationSubjectPresentation<SchoolProjectConvers
         dialogue:
           progress.phase === "settled"
             ? `“All right,” ${world.people[speaker.personId]!.givenName} says.`
-            : `You can ask ${world.people[speaker.personId]!.givenName} about the unfinished work.`,
+            : fillName(
+                selectAuthoredVariant(
+                  world,
+                  `school-opening:${speaker.personId}`,
+                  [
+                    "“Nobody has started the last part of the project, and it’s due at the end of next week,” {name} says.",
+                    "“We still haven’t split up the last part of the project. It’s due at the end of next week,” {name} says.",
+                  ],
+                ),
+                world.people[speaker.personId]!.givenName,
+              ),
       };
     },
   };
@@ -481,7 +518,7 @@ export function advanceSchoolProject(
 const neighborhoodMeetingSubject: ConversationSubjectPresentation<NeighborhoodMeetingConversationProgress> =
   {
     subject: "neighborhood-meeting-notice",
-    topicLabel: () => "A meeting that has been posted",
+    topicLabel: () => "The posted public meeting",
     describeBriefing(world, room, progress) {
       const other = shortPersonName(
         world,
@@ -531,7 +568,17 @@ const neighborhoodMeetingSubject: ConversationSubjectPresentation<NeighborhoodMe
         dialogue:
           progress.phase === "settled"
             ? `“Right,” ${shortPersonName(world, speaker.personId)} says. “That is settled, then.”`
-            : `You can ask ${world.people[speaker.personId]!.givenName} about the posted meeting.`,
+            : fillName(
+                selectAuthoredVariant(
+                  world,
+                  `meeting-opening:${speaker.personId}`,
+                  [
+                    "“Did you see the notice about the public meeting?” {name} asks.",
+                    "“There’s a public meeting posted. Did you see it?” {name} asks.",
+                  ],
+                ),
+                world.people[speaker.personId]!.givenName,
+              ),
       };
     },
   };
@@ -757,13 +804,47 @@ const SUBJECTS = {
 export function conversationSubjectPresentation(
   progress: ConversationProgress,
 ): ConversationSubjectPresentation<ConversationProgress> {
+  if (isContextualSceneProgress(progress)) {
+    return contextualPresentation(
+      progress.subject,
+    ) as unknown as ConversationSubjectPresentation<ConversationProgress>;
+  }
   return SUBJECTS[
-    progress.subject
+    progress.subject as keyof typeof SUBJECTS
   ] as unknown as ConversationSubjectPresentation<ConversationProgress>;
 }
 
 export function conversationSubjectKeys(): readonly ConversationSubjectKey[] {
-  return Object.keys(SUBJECTS) as readonly ConversationSubjectKey[];
+  return [
+    ...(Object.keys(SUBJECTS) as ConversationSubjectKey[]),
+    ...CONTEXTUAL_SCENE_SUBJECTS,
+  ];
+}
+
+/**
+ * The contextual families speak through the same subject interface. Their
+ * response also needs the room's hearing rules, which stay the engine's.
+ */
+function contextualPresentation(
+  subject: ContextualSceneSubject,
+): ConversationSubjectPresentation<ContextualSceneProgress> {
+  const scene = contextualSubjectPresentation();
+  return {
+    subject,
+    topicLabel: scene.topicLabel,
+    describeBriefing: scene.describeBriefing,
+    availableIntents: scene.availableIntents,
+    openingBeat: scene.openingBeat,
+    responseSpeaker: (room) => scene.responseSpeaker(room),
+    resolveResponse: (world, input) =>
+      scene.resolveResponse(world, input, (room, audibility) =>
+        resolveConversationListeners(
+          room,
+          room.eligibleAddresseePersonIds[0]!,
+          audibility,
+        ),
+      ),
+  };
 }
 
 /**
@@ -1029,8 +1110,18 @@ const OFFICE_INTERACTION = (
     ? "work:reassurance"
     : "conflict:pressed-for-answer";
 
+/** A contextual family's fixed vocabulary: event type and subject tag. */
+export function contextualSceneContract(
+  subject: ContextualSceneSubject,
+): ConversationCommitContract {
+  return staticContract(sceneFamily(familyOfSubject(subject)));
+}
+
 const COMMIT_CONTRACTS: Readonly<
-  Record<ConversationSubjectKey, ConversationCommitContract>
+  Record<
+    Exclude<ConversationSubjectKey, ContextualSceneSubject>,
+    ConversationCommitContract
+  >
 > = {
   "shared-intake-checklist": {
     subject: "shared-intake-checklist",
@@ -1508,6 +1599,9 @@ const COMMIT_CONTRACTS: Readonly<
 export function conversationCommitContract(
   progress: ConversationProgress,
 ): ConversationCommitContract {
+  if (isContextualSceneProgress(progress)) {
+    return contextualSceneContract(progress.subject);
+  }
   const contract = COMMIT_CONTRACTS[progress.subject];
   if (!contract) {
     throw new Error(

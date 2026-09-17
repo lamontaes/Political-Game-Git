@@ -16,12 +16,19 @@ const buildIdentity = resolveBuildIdentity(process.cwd());
 
 import { identifiedBuild } from "./scripts/dev-lab/vite-identity";
 import { artDeskBridge } from "./scripts/dev-lab/art-desk-bridge";
+import { artbenchBridge } from "./scripts/dev-lab/artbench-bridge";
 
 export default defineConfig({
   cacheDir:
     process.env.PG_CACHE_DIR ??
     resolve("test-results", "cache", process.env.PG_RUN_ID ?? "dev"),
-  plugins: [react(), sites(), identifiedBuild(), artDeskBridge(process.cwd())],
+  plugins: [
+    react(),
+    sites(),
+    identifiedBuild(),
+    artDeskBridge(process.cwd()),
+    artbenchBridge({ workspace: process.cwd() }),
+  ],
   define: buildIdentityDefines(buildIdentity),
   build: {
     outDir: "dist/client",

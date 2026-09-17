@@ -41,6 +41,7 @@ import {
   simulationMomentOnLocalDate,
 } from "./dates";
 import { assertSetupPriorIntegrity, clonePriors } from "./setup-priors";
+import { assertMacroEconomyIntegrity } from "./macro-economy/store";
 import {
   assertCausalEffectIntegrity,
   assertCausalMechanismCatalogIntegrity,
@@ -78,6 +79,12 @@ import {
   evidenceEntityExists,
   evidenceHistoryRecords,
 } from "./evidence-integrity";
+import {
+  assertPressIntegrity,
+  pressEntityAvailableAt,
+  pressEntityExists,
+  pressHistoryRecords,
+} from "./press/integrity";
 import {
   assertPublicInformationIntegrity,
   publicInformationEntityAvailableAt,
@@ -178,6 +185,10 @@ import {
   personnelHistoryRecords,
 } from "./civil-personnel-integrity";
 import { assertLegislativePoliticsIntegrity } from "./legislative-politics-integrity";
+import {
+  assertWorldSetupIntegrity,
+  worldSetupHistoryRecords,
+} from "./world-setup/integrity";
 import {
   legislativePoliticsHistoryRecords,
   legislativePoliticsEntityExists,
@@ -576,6 +587,7 @@ function validateWorldIntegrity(world: World): void {
     assertSetupPriorIntegrity(world.setupPriors);
   }
   validateHistoryIntegrity(world);
+  if (world.macroEconomy !== undefined) assertMacroEconomyIntegrity(world);
 }
 
 export function recordWorldEvent(
@@ -642,6 +654,7 @@ export function recordWorldEvent(
       !legislationEntityExists(world, entityId) &&
       !legislativePoliticsEntityExists(world, entityId) &&
       !publicInformationEntityExists(world, entityId) &&
+      !pressEntityExists(world, entityId) &&
       !crisisEntityExists(world, entityId)
     ) {
       throw new Error(
@@ -885,6 +898,19 @@ export function recordWorldEvent(
     ) {
       throw new Error(
         `Historical event references an unavailable publication entity: ${entityId}`,
+      );
+    }
+    if (
+      pressEntityExists(world, entityId) &&
+      !pressEntityAvailableAt(
+        world,
+        entityId,
+        occurredAt,
+        world.history.nextSequence,
+      )
+    ) {
+      throw new Error(
+        `Historical event references an unavailable press entity: ${entityId}`,
       );
     }
     const involvedPerson = world.people[entityId];
@@ -1612,9 +1638,11 @@ function validateHistoryIntegrity(world: World): void {
     ...draftLineageHistoryRecords(world),
     ...futureTransitionHistoryRecords(world),
     ...publicInformationHistoryRecords(world),
+    ...pressHistoryRecords(world),
     ...personnelHistoryRecords(world),
-    ...publicProgramRecords(world),
+    ...worldSetupHistoryRecords(world),
     ...crisisRecords(world),
+    ...publicProgramRecords(world),
     ...(history.districtResidenceIntervals ?? []),
     ...(history.officeWorkflowPreferences ?? []),
     ...(history.officeVoteInstructions ?? []),
@@ -1752,6 +1780,7 @@ function validateHistoryIntegrity(world: World): void {
   assertDraftLineageIntegrity(world);
   assertFutureTransitionIntegrity(world, ids);
   assertPublicInformationIntegrity(world, ids);
+  assertPressIntegrity(world, ids);
   for (const record of crisisRecords(world)) assertUniqueId(ids, record.id);
   assertCrisisIntegrity(world);
   for (const interval of history.districtResidenceIntervals ?? []) {
@@ -1848,6 +1877,7 @@ function validateHistoryIntegrity(world: World): void {
     }
   }
   assertPersonnelIntegrity(world, ids);
+  assertWorldSetupIntegrity(world, ids);
   assertPublicProgramIntegrity(world, ids);
   assertUniqueStableKeys(history.events, "event");
   assertUniqueStableKeys(history.memories, "memory");
@@ -1995,6 +2025,7 @@ function validateHistoryIntegrity(world: World): void {
         !legislationEntityExists(world, involvedId) &&
         !legislativePoliticsEntityExists(world, involvedId) &&
         !publicInformationEntityExists(world, involvedId) &&
+        !pressEntityExists(world, involvedId) &&
         !crisisEntityExists(world, involvedId)
       ) {
         throw new Error(
@@ -2228,6 +2259,19 @@ function validateHistoryIntegrity(world: World): void {
       ) {
         throw new Error(
           `Historical event references an unavailable publication entity: ${event.id}`,
+        );
+      }
+      if (
+        pressEntityExists(world, involvedId) &&
+        !pressEntityAvailableAt(
+          world,
+          involvedId,
+          event.occurredAt,
+          event.sequence,
+        )
+      ) {
+        throw new Error(
+          `Historical event references an unavailable press entity: ${event.id}`,
         );
       }
       const involvedPerson = world.people[involvedId];

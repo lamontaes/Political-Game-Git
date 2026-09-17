@@ -1,12 +1,11 @@
 import { organizationParticipationStateAt } from "../life-queries";
+import { makeIsoDate } from "../dates";
 import { personName } from "../people";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import {
-  LIVING_WORLD_SCENARIO_PROFILE as PROFILE,
   type ChamberKey,
   type ChamberView,
   type CongressView,
-  type MajorPartyKey,
   type PartyView,
   type PublicHolderView,
   type SeatOccupant,
@@ -17,6 +16,7 @@ import {
   congressSeats,
   type CongressSeat,
 } from "./congress-seats";
+import { activePartyUnitsAt } from "./party-registry";
 import {
   CAUCUS_MEMBERSHIP_KIND,
   CHAMBER_NAMES,
@@ -33,8 +33,32 @@ import {
 } from "./opening";
 
 /**
- * The party a person is publicly affiliated with today, or null. Affiliation
- * only: never registration, caucus, belief or a vote.
+ * Optional as-of read. Omitted, every reader answers for `world.currentDate`
+ * exactly as before. With `asOf`, the save's recorded history is read as it
+ * stood on that earlier date: effective dates after `asOf` are ignored, so a
+ * later party change never recolors an older day.
+ */
+export interface LivingWorldReadOptions {
+  readonly asOf?: IsoDate;
+}
+
+function readDate(
+  world: World,
+  options: LivingWorldReadOptions | undefined,
+): IsoDate {
+  if (!options?.asOf) return world.currentDate;
+  const asOf = makeIsoDate(options.asOf);
+  if (asOf > world.currentDate) {
+    throw new Error(
+      "A living-world as-of read cannot be after the current world date.",
+    );
+  }
+  return asOf;
+}
+
+/**
+ * The party a person is publicly affiliated with today (or on `asOf`), or
+ * null. Affiliation only: never registration, caucus, belief or a vote.
  *
  * Participation records are authoritative once a person has any: a member
  * who later ends an affiliation does not fall back to the roll's old label.
@@ -43,30 +67,36 @@ import {
 export function publicPartyAffiliation(
   world: World,
   personId: EntityId,
+  options?: LivingWorldReadOptions,
 ): EntityId | null {
-  return affiliationWithRoll(world, personId, undefined);
+  return affiliationWithRoll(
+    world,
+    personId,
+    undefined,
+    readDate(world, options),
+  );
 }
 
 function affiliationWithRoll(
   world: World,
   personId: EntityId,
   knownRoll: HistoricalEvent | null | undefined,
+  asOf: IsoDate,
 ): EntityId | null {
   const recorded = world.history.organizationParticipations.filter(
     (participation) =>
       participation.personId === personId &&
       participation.kind === PARTY_AFFILIATION_KIND &&
-      participation.startedAt <= world.currentDate,
+      participation.startedAt <= asOf,
   );
-  if (recorded.length > 0) return activeOrganization(world, recorded);
+  if (recorded.length > 0) return activeOrganization(world, recorded, asOf);
   const roll =
-    knownRoll === undefined ? currentRollEvent(world, personId) : knownRoll;
+    knownRoll === undefined
+      ? currentRollEvent(world, personId, asOf)
+      : knownRoll;
   const party = roll ? tagValue(roll, SEAT_PARTY_TAG) : null;
   return party && party !== "none"
-    ? livingWorldOrganizationId(
-        world,
-        LIVING_WORLD_KEYS.nationalParty(party as MajorPartyKey),
-      )
+    ? livingWorldOrganizationId(world, LIVING_WORLD_KEYS.nationalParty(party))
     : null;
 }
 
@@ -74,24 +104,28 @@ function affiliationWithRoll(
 export function caucusMembership(
   world: World,
   personId: EntityId,
+  options?: LivingWorldReadOptions,
 ): EntityId | null {
-  return caucusWithRoll(world, personId, undefined);
+  return caucusWithRoll(world, personId, undefined, readDate(world, options));
 }
 
 function caucusWithRoll(
   world: World,
   personId: EntityId,
   knownRoll: HistoricalEvent | null | undefined,
+  asOf: IsoDate,
 ): EntityId | null {
   const recorded = world.history.organizationParticipations.filter(
     (participation) =>
       participation.personId === personId &&
       participation.kind === CAUCUS_MEMBERSHIP_KIND &&
-      participation.startedAt <= world.currentDate,
+      participation.startedAt <= asOf,
   );
-  if (recorded.length > 0) return activeOrganization(world, recorded);
+  if (recorded.length > 0) return activeOrganization(world, recorded, asOf);
   const roll =
-    knownRoll === undefined ? currentRollEvent(world, personId) : knownRoll;
+    knownRoll === undefined
+      ? currentRollEvent(world, personId, asOf)
+      : knownRoll;
   const caucus = roll ? tagValue(roll, SEAT_CAUCUS_TAG) : null;
   const chamber = roll
     ? (tagValue(roll, "office:") as ChamberKey | null)
@@ -99,7 +133,7 @@ function caucusWithRoll(
   return caucus && caucus !== "none" && chamber
     ? livingWorldOrganizationId(
         world,
-        LIVING_WORLD_KEYS.caucus(chamber, caucus as MajorPartyKey),
+        LIVING_WORLD_KEYS.caucus(chamber, caucus),
       )
     : null;
 }
@@ -110,22 +144,28 @@ function activeOrganization(
     readonly id: EntityId;
     readonly organizationId: EntityId;
   }[],
+  asOf: IsoDate,
 ): EntityId | null {
+  const cutoff = {
+    asOfDate: asOf,
+    historySequenceExclusive: world.history.nextSequence,
+  };
   return (
     records
       .filter(
         (record) =>
-          organizationParticipationStateAt(world, record.id)?.status ===
+          organizationParticipationStateAt(world, record.id, cutoff)?.status ===
           "active",
       )
       .at(-1)?.organizationId ?? null
   );
 }
 
-/** The person's in-term seat-roll record, if they hold a seat today. */
+/** The person's in-term seat-roll record, if they hold a seat on `asOf`. */
 function currentRollEvent(
   world: World,
   personId: EntityId,
+  asOf: IsoDate,
 ): HistoricalEvent | null {
   return (
     [...world.history.events]
@@ -134,60 +174,65 @@ function currentRollEvent(
         (event) =>
           event.type === SEAT_TENURE_EVENT &&
           event.recordedAt <= world.currentDate &&
-          event.occurredAt <= world.currentDate &&
+          event.occurredAt <= asOf &&
           event.participants.some(
             (participant) =>
               participant.personId === personId &&
               participant.role === "focus:subject",
           ) &&
-          world.currentDate < (tagValue(event, "term-end:") ?? ""),
+          asOf < (tagValue(event, "term-end:") ?? ""),
       ) ?? null
   );
 }
 
-/** The national parties this save records, with derived officeholder counts. */
+/**
+ * The national parties this save records as active today, with derived
+ * officeholder counts. However many there are; merged or dissolved parties
+ * drop out from their effective date, and history keeps them.
+ */
 export function nationalParties(
   world: World,
   currentHolderPersonIds: readonly EntityId[],
+  options?: LivingWorldReadOptions,
 ): readonly PartyView[] {
-  const holders = new Set(currentHolderPersonIds);
-  return PROFILE.majorParties.flatMap((party) => {
-    const stableKey = LIVING_WORLD_KEYS.nationalParty(party.key);
-    const organization = world.history.organizations.find(
-      (candidate) => candidate.stableKey === stableKey,
-    );
-    if (!organization) return [];
-    const affiliated = [...holders].filter(
-      (personId) => publicPartyAffiliation(world, personId) === organization.id,
-    );
-    return [
-      {
-        organizationId: organization.id,
-        partyKey: party.key as MajorPartyKey,
-        name: party.name,
-        level: "national" as const,
-        parentOrganizationId: null,
-        jurisdictionId: null,
-        affiliatedOfficeholders: affiliated.length,
-      },
-    ];
-  });
+  const asOf = readDate(world, options);
+  const affiliation = new Map<EntityId, number>();
+  for (const personId of new Set(currentHolderPersonIds)) {
+    const party = publicPartyAffiliation(world, personId, options);
+    if (party) affiliation.set(party, (affiliation.get(party) ?? 0) + 1);
+  }
+  return activePartyUnitsAt(world, asOf, {
+    level: "national",
+  }).map((unit) => ({
+    organizationId: unit.organizationId,
+    partyKey: unit.partyKey,
+    name: unit.name,
+    level: "national" as const,
+    parentOrganizationId: null,
+    jurisdictionId: null,
+    affiliatedOfficeholders: affiliation.get(unit.organizationId) ?? 0,
+  }));
 }
 
 /**
- * Both chambers as this save records them today. Pure: counts are derived
- * from seat records and participations on every read, and nothing is created.
- * Null for a save whose public world was never established.
+ * Both chambers as this save records them today (or on `options.asOf`).
+ * Pure: counts are derived from seat records and participations on every
+ * read, and nothing is created. Null for a save whose public world was never
+ * established.
  */
-export function projectCongress(world: World): CongressView | null {
+export function projectCongress(
+  world: World,
+  options?: LivingWorldReadOptions,
+): CongressView | null {
   if (!livingWorldEstablished(world)) return null;
+  const asOf = readDate(world, options);
   const bySeat = new Map<string, HistoricalEvent>();
   for (const event of world.history.events) {
     if (
       (event.type !== SEAT_TENURE_EVENT && event.type !== SEAT_VACANCY_EVENT) ||
       !event.tags.includes(LIVING_WORLD_WRITER_VERSION) ||
       event.recordedAt > world.currentDate ||
-      event.occurredAt > world.currentDate
+      event.occurredAt > asOf
     )
       continue;
     const seatKey = tagValue(event, "seat:");
@@ -204,7 +249,7 @@ export function projectCongress(world: World): CongressView | null {
   const chamber = (chamberKey: ChamberKey): ChamberView => {
     const seats = congressSeats()
       .filter((seat) => seat.chamberKey === chamberKey)
-      .map((seat) => seatView(world, seat, bySeat.get(seat.seatKey)));
+      .map((seat) => seatView(world, seat, bySeat.get(seat.seatKey), asOf));
     return {
       chamberKey,
       organizationId: livingWorldOrganizationId(
@@ -217,7 +262,7 @@ export function projectCongress(world: World): CongressView | null {
     };
   };
   return {
-    asOf: world.currentDate,
+    asOf,
     house: chamber("us-house"),
     senate: chamber("us-senate"),
     sources: Object.values(CONGRESS_SEAT_SOURCES),
@@ -228,6 +273,7 @@ function seatView(
   world: World,
   seat: CongressSeat,
   event: HistoricalEvent | undefined,
+  asOf: IsoDate,
 ): SeatView {
   return {
     seatKey: seat.seatKey,
@@ -235,7 +281,7 @@ function seatView(
     stateUsps: seat.stateUsps,
     district: seat.district,
     senateClass: seat.senateClass,
-    occupant: occupantFor(world, seat, event),
+    occupant: occupantFor(world, seat, event, asOf),
   };
 }
 
@@ -243,13 +289,15 @@ function occupantFor(
   world: World,
   seat: CongressSeat,
   event: HistoricalEvent | undefined,
+  asOf: IsoDate,
 ): SeatOccupant {
   if (!event) {
     // A snapshot always writes every seat; this guards a hand-edited save.
-    return { kind: "no-current-record", lastTermEnded: world.currentDate };
+    // An as-of read before the snapshot's terms began lands here too.
+    return { kind: "no-current-record", lastTermEnded: asOf };
   }
   const endExclusive = tagValue(event, "term-end:") as IsoDate | null;
-  if (endExclusive && world.currentDate >= endExclusive)
+  if (endExclusive && asOf >= endExclusive)
     return { kind: "no-current-record", lastTermEnded: endExclusive };
   if (event.type === SEAT_VACANCY_EVENT)
     return { kind: "vacancy", since: event.occurredAt, eventId: event.id };
@@ -259,14 +307,13 @@ function occupantFor(
   const person = personId ? world.people[personId] : undefined;
   const death = person
     ? world.history.personDeaths.find(
-        (record) =>
-          record.personId === person.id && record.diedAt <= world.currentDate,
+        (record) => record.personId === person.id && record.diedAt <= asOf,
       )
     : undefined;
   if (!person || death)
     return {
       kind: "no-current-record",
-      lastTermEnded: death?.diedAt ?? world.currentDate,
+      lastTermEnded: death?.diedAt ?? asOf,
     };
   const member: PublicHolderView = {
     personId: person.id,
@@ -274,8 +321,8 @@ function occupantFor(
     officeKey: seat.chamberKey,
     title: congressSeatTitle(seat),
     stateUsps: seat.stateUsps,
-    partyOrganizationId: affiliationWithRoll(world, person.id, event),
-    caucusOrganizationId: caucusWithRoll(world, person.id, event),
+    partyOrganizationId: affiliationWithRoll(world, person.id, event, asOf),
+    caucusOrganizationId: caucusWithRoll(world, person.id, event, asOf),
     termId: event.id,
     startedAt: event.occurredAt,
     endExclusive,

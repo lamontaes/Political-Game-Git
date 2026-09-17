@@ -1,3 +1,4 @@
+import { createPressTransitionRegistry } from "./press/transitions";
 import {
   supportedLegislativeTermDates,
   scheduleLegislativeTerm,
@@ -60,14 +61,28 @@ import {
   recordWorkStatus,
 } from "./life";
 import { LIFE_TRANSITION_HANDLERS } from "./life-callbacks";
+import { PEOPLE_CONTACT_HANDLERS } from "./people-contact";
+import { PEOPLE_FAMILY_HANDLERS } from "./people-family-plan";
+import {
+  CLAIM_CONTRADICTION_TRANSITION_KEY,
+  claimContradictionTransitionHandler,
+} from "./claim-contradictions";
 import {
   CHAPTER_OUTREACH_TRANSITION_KEY,
   chapterOutreachTransitionHandler,
 } from "./living-world/party-chapters";
 import {
+  MACRO_MONTHLY_STEP_KEY,
+  macroMonthlyStepHandler,
+} from "./macro-economy/producer";
+import {
   DEVELOPMENT_STEP_TRANSITION_KEY,
   developmentStepTransitionHandler,
 } from "./living-world/developments";
+import {
+  PARTY_BODY_REVIEW_TRANSITION_KEY,
+  partyBodyReviewTransitionHandler,
+} from "./living-world/party-evolution";
 import { workStatusAt, workStatusHistory } from "./life-queries";
 import {
   lifePlaceByJurisdictionId,
@@ -1786,9 +1801,24 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         [CHAPTER_OUTREACH_TRANSITION_KEY, chapterOutreachTransitionHandler],
         // ALIVE43 W3: background public developments take their next step.
         [DEVELOPMENT_STEP_TRANSITION_KEY, developmentStepTransitionHandler],
+        // PROSE B: an earlier answer may meet evidence once the world holds it.
+        [
+          CLAIM_CONTRADICTION_TRANSITION_KEY,
+          claimContradictionTransitionHandler,
+        ],
+        // CRUNCH46 CHANGE: canonical macro history closes each month once.
+        [MACRO_MONTHLY_STEP_KEY, macroMonthlyStepHandler],
+        // CRUNCH46 WORLD: party governing bodies meet and may change.
+        [PARTY_BODY_REVIEW_TRANSITION_KEY, partyBodyReviewTransitionHandler],
         // CRUNCH46 CAMPAIGN: organizer outreach and weekly opponent evaluation.
         ...CAMPAIGN_LIFE_HANDLERS,
       ]),
+      // CRUNCH46 PRESS: newsroom desk, story steps, procedures, bookkeeping.
+      createPressTransitionRegistry(),
+      // CRUNCH47 PEOPLE: somebody answers a request to meet, in their own time.
+      PEOPLE_CONTACT_HANDLERS,
+      // CRUNCH47 PEOPLE: a family two people agreed to, on the day it lands.
+      PEOPLE_FAMILY_HANDLERS,
       LIFE_TRANSITION_HANDLERS,
     ),
   );

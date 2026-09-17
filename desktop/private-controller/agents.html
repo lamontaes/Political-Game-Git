@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; base-uri 'none'; form-action 'none'"
+    />
+    <title>Agents</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <div class="row">
+        <div>
+          <p class="eyebrow">Agents</p>
+          <h1>Local agent room</h1>
+        </div>
+        <span class="muted" id="broker"></span>
+        <button id="stop-all" class="danger">Stop All hub work</button>
+      </div>
+      <p class="muted">
+        Messages are small and addressed to one participant. Server enqueue is
+        not receipt: a message counts as received only when its recipient
+        acknowledges it, and as done only with evidence. Stop All affects
+        hub-managed workers only; external sessions are never stopped.
+      </p>
+
+      <section class="card" aria-labelledby="clients-h">
+        <div class="row">
+          <h2 id="clients-h">Clients on this Mac</h2>
+          <button id="detect">Check connections</button>
+          <span id="detect-note" class="muted"></span>
+        </div>
+        <div id="providers" class="grid"></div>
+      </section>
+
+      <section class="card" aria-labelledby="people-h">
+        <h2 id="people-h">Participants</h2>
+        <div id="participants" class="grid"></div>
+        <div class="row" data-spaced>
+          <label for="codex-handle" class="muted"
+            >Start managed Codex worker</label
+          >
+          <input
+            id="codex-handle"
+            value="codex-worker"
+            size="14"
+            spellcheck="false"
+          />
+          <select id="codex-model" aria-label="Codex model"></select>
+          <select id="codex-effort" aria-label="Codex effort"></select>
+          <button id="start-codex">Start managed Codex worker</button>
+        </div>
+        <div class="row" data-spaced>
+          <label for="claude-handle" class="muted"
+            >Start managed Claude worker</label
+          >
+          <input
+            id="claude-handle"
+            value="claude-worker"
+            size="14"
+            spellcheck="false"
+          />
+          <select id="claude-model" aria-label="Claude model">
+            <option value="claude-opus-5">claude-opus-5</option>
+            <option value="claude-sonnet-5">claude-sonnet-5</option>
+            <option value="claude-fable-5-1">claude-fable-5-1</option>
+          </select>
+          <select id="claude-effort" aria-label="Claude effort">
+            <option value="low">low</option>
+            <option value="medium">medium</option>
+            <option value="high" selected>high</option>
+          </select>
+          <button id="start-claude">Start managed Claude worker</button>
+        </div>
+        <div class="row" data-spaced>
+          <label for="ext-handle" class="muted"
+            >Connect an existing session</label
+          >
+          <input
+            id="ext-handle"
+            placeholder="handle"
+            size="12"
+            spellcheck="false"
+          />
+          <select id="ext-provider" aria-label="Provider">
+            <option value="claude">Claude</option>
+            <option value="codex">Codex</option>
+            <option value="cursor">Cursor</option>
+            <option value="antigravity">Antigravity</option>
+          </select>
+          <input
+            id="ext-session"
+            placeholder="exact session id"
+            size="30"
+            spellcheck="false"
+          />
+          <button id="enroll">Connect existing session</button>
+        </div>
+        <dialog id="enroll-dialog" aria-labelledby="enroll-title">
+          <h2 id="enroll-title">Finish connecting</h2>
+          <p id="enroll-state" class="state-manual-attention" role="status">
+            Waiting for session
+          </p>
+          <ol id="enroll-steps"></ol>
+          <pre id="enroll-out" class="log"></pre>
+          <p class="muted">
+            The token stays in a private file on this Mac. It is never shown
+            here, put in a link, or exported.
+          </p>
+          <div class="row">
+            <button id="enroll-test" class="primary">Test connection</button>
+            <button id="enroll-reveal">Show token file</button>
+            <button id="enroll-close">Close</button>
+          </div>
+        </dialog>
+        <p id="people-note" class="muted" role="status"></p>
+      </section>
+
+      <section class="card" aria-labelledby="send-h">
+        <h2 id="send-h">Ask a participant</h2>
+        <div class="row">
+          <select id="send-to" aria-label="Recipient"></select>
+          <input
+            id="send-text"
+            size="70"
+            placeholder="One small request; reference Drive or Git for anything large"
+          />
+          <button id="send" class="primary">Send</button>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="mail-h">
+        <h2 id="mail-h">Messages and jobs</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>When</th>
+              <th>From → To</th>
+              <th>Kind</th>
+              <th>Message</th>
+              <th>State history</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="envelopes"></tbody>
+        </table>
+      </section>
+    </main>
+    <script src="agents.mjs" type="module"></script>
+  </body>
+</html>

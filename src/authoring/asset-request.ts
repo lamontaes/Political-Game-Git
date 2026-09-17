@@ -105,9 +105,35 @@ export interface AssetRequestTarget {
   /** True when the delivered file must carry real per-pixel transparency. */
   readonly alphaRequired: boolean;
   readonly container: "png" | "jpeg" | "either";
-  /** The approved reference a delivery is judged against for style. */
+  /**
+   * The approved reference a delivery is judged against for style, as a
+   * declaration. Text here is not proof that reference pixels exist or were
+   * supplied; `styleReferences` carries the actual images when known.
+   */
   readonly styleAuthority: string;
+  /** Explicit reference images, each with its role. Optional; may be empty. */
+  readonly styleReferences?: readonly AssetStyleReference[];
 }
+
+/**
+ * One reference image a request points at. The role keeps drawing style
+ * separate from what the subject looks like and from a parent template.
+ */
+export interface AssetStyleReference {
+  readonly role: "drawing-style" | "subject-content" | "parent-template";
+  /** `drive:<fileId>`, `repo:<path>` or `candidate:<candidateId>`. */
+  readonly ref: string;
+  readonly sha256?: string;
+  readonly width?: number;
+  readonly height?: number;
+  readonly note?: string;
+}
+
+export const STYLE_REFERENCE_ROLES: readonly AssetStyleReference["role"][] = [
+  "drawing-style",
+  "subject-content",
+  "parent-template",
+];
 
 export interface AssetRequest {
   /** A stable semantic slug. Never a seed, a hash or a generator id. */

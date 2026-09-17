@@ -311,10 +311,10 @@ test.describe("A life is kept, and comes back", () => {
     await expect(page.getByTestId("save-entry")).toHaveCount(0);
 
     // And it stays gone across a reload, rather than being written back by
-    // anything that was still in flight. With nothing left to open, the title
-    // screen says so by leaving the saved-games door shut.
+    // anything that was still in flight. With nothing left to open, Continue
+    // is off; Saved games stays open because an import starts there.
     await page.reload();
-    await expect(page.getByTestId("open-saves")).toBeDisabled();
+    await expect(page.getByTestId("open-saves")).toBeEnabled();
     await expect(page.getByTestId("continue")).toBeDisabled();
   });
 

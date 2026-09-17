@@ -13,6 +13,8 @@ import {
   ensureStateExecutiveIncumbent,
   ensureHomeLocalGovernments,
   homeStateUsps,
+  worldOpeningVersionOf,
+  CRUNCH46_WORLD_OPENING_VERSION,
 } from "../simulation";
 import type {
   EntityId,
@@ -21,6 +23,11 @@ import type {
   CharacterHistoryTransition,
   RuleFieldKey,
 } from "../simulation";
+
+import {
+  OPENING_FEDERAL_GEOGRAPHY_VERSION,
+  prepareOpeningFederalGeography,
+} from "./opening-federal-geography";
 
 /** Institutional facts are sourced; people and initial tenures are fictional. */
 export const OPENING_OFFICE_SOURCES = {
@@ -57,6 +64,10 @@ export function establishOpeningOfficeholders(
 ): World {
   const player = world.people[playerPersonId];
   if (!player) throw new Error("Opening requires an existing player.");
+  // The federal geography repair belongs to the current opening. A legacy
+  // replay rebuilds exactly what its descriptor built before the repair.
+  const separatedGeography =
+    worldOpeningVersionOf(world) === CRUNCH46_WORLD_OPENING_VERSION;
   let next = world;
   for (const office of OFFICES) {
     const key = `${VERSION}:${office.key}`;
@@ -80,6 +91,12 @@ export function establishOpeningOfficeholders(
     const personKey = `${termKey}:holder`;
     const personId = characterHistoryContextPersonId(world, personKey);
     const rng = new SeededRng(world.seed).fork(personKey);
+    // Keep the existing person/name stream and IDs; only new officeholders
+    // receive the separate geography version. Existing terms were skipped above.
+    const geography = separatedGeography
+      ? prepareOpeningFederalGeography(next, personKey)
+      : null;
+    if (geography) next = geography.world;
     const provenance = { kind: "generated" as const, generatorKey: VERSION };
     const transitions: CharacterHistoryTransition[] = [
       {
@@ -88,7 +105,12 @@ export function establishOpeningOfficeholders(
           stableKey: personKey,
           ...drawCanonicalName(rng),
           birthDate: makeIsoDate(`${startYear - rng.integer(45, 70)}-01-01`),
-          homeJurisdictionId: player.homeJurisdictionId,
+          ...(geography
+            ? {
+                homeJurisdictionId: geography.homeJurisdictionId,
+                birthplaceJurisdictionId: geography.birthplaceJurisdictionId,
+              }
+            : { homeJurisdictionId: player.homeJurisdictionId }),
         },
       },
       {
@@ -100,7 +122,8 @@ export function establishOpeningOfficeholders(
           initialProfile: {
             name: office.organization,
             classification: "sector:government",
-            locationJurisdictionId: null,
+            locationJurisdictionId:
+              geography?.institutionJurisdictionId ?? null,
           },
         },
       },
@@ -125,6 +148,7 @@ export function establishOpeningOfficeholders(
         VERSION,
         `office:${office.key}`,
         "provenance:fictional-initial-tenure",
+        ...(geography ? [OPENING_FEDERAL_GEOGRAPHY_VERSION] : []),
       ],
       summary: `${personName(next.people[personId]!)} holds the office of ${office.title} in this fictional world.`,
       context: {

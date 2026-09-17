@@ -1,4 +1,4 @@
-/* global process, URL, Response */
+/* global process */
 /**
  * Our Civic Duty — desktop shell main process.
  *
@@ -16,14 +16,19 @@
  * directory, independent of where the application is installed.
  */
 
-import { createReadStream, readFileSync } from "node:fs";
-import { stat } from "node:fs/promises";
+import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import electron from "electron";
 import { runUpdateCheck, updateActivation } from "./updater.mjs";
 import { windowsAllClosed } from "./window-close.mjs";
 import { portableDownloadSavePath } from "./download-policy.mjs";
+import {
+  APP_ORIGIN,
+  APP_SCHEME,
+  APP_SCHEME_PRIVILEGES,
+  serveAppRequest,
+} from "./app-protocol.mjs";
 
 const { app, BrowserWindow, Menu, dialog, protocol, session, shell } = electron;
 
@@ -88,117 +93,9 @@ if (process.env.OCD_USER_DATA_DIR) {
   );
 }
 
-const APP_SCHEME = "app";
-const APP_HOST = "game";
-const APP_ORIGIN = `${APP_SCHEME}://${APP_HOST}`;
-
 // Standard + secure gives the origin real web semantics (IndexedDB,
 // absolute /assets/ paths); the rest stays minimal.
-protocol.registerSchemesAsPrivileged([
-  {
-    scheme: APP_SCHEME,
-    privileges: {
-      standard: true,
-      secure: true,
-      supportFetchAPI: true,
-      stream: true,
-    },
-  },
-]);
-
-const MIME_TYPES = new Map([
-  [".html", "text/html; charset=utf-8"],
-  [".js", "text/javascript; charset=utf-8"],
-  [".mjs", "text/javascript; charset=utf-8"],
-  [".css", "text/css; charset=utf-8"],
-  [".json", "application/json; charset=utf-8"],
-  [".png", "image/png"],
-  [".jpg", "image/jpeg"],
-  [".jpeg", "image/jpeg"],
-  [".webp", "image/webp"],
-  [".gif", "image/gif"],
-  [".svg", "image/svg+xml"],
-  [".ico", "image/x-icon"],
-  [".woff", "font/woff"],
-  [".woff2", "font/woff2"],
-  [".ttf", "font/ttf"],
-  [".otf", "font/otf"],
-  [".map", "application/json; charset=utf-8"],
-  [".txt", "text/plain; charset=utf-8"],
-  [".wasm", "application/wasm"],
-]);
-
-// The game is fully local; every directive stays inside the packaged
-// origin. style 'unsafe-inline' is required by React inline style
-// attributes in the existing build; scripts remain 'self' only.
-const CONTENT_SECURITY_POLICY = [
-  "default-src 'none'",
-  "script-src 'self'",
-  "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob:",
-  "font-src 'self' data:",
-  "connect-src 'self'",
-  "media-src 'self'",
-  "worker-src 'self' blob:",
-  "base-uri 'none'",
-  "form-action 'none'",
-  "frame-ancestors 'none'",
-].join("; ");
-
-/**
- * Resolve a request path strictly inside the content root. Traversal,
- * encoded traversal, null bytes, and anything that escapes the root all
- * fail closed to null.
- */
-function resolveContentPath(requestPath) {
-  let decoded;
-  try {
-    decoded = decodeURIComponent(requestPath);
-  } catch {
-    return null;
-  }
-  if (decoded.includes("\0")) return null;
-  const relative = decoded.replace(/^\/+/, "");
-  const resolved = path.resolve(contentRoot, relative === "" ? "." : relative);
-  if (resolved !== contentRoot && !resolved.startsWith(contentRoot + path.sep))
-    return null;
-  return resolved;
-}
-
-function responseHeaders(extension) {
-  const headers = {
-    "content-type": MIME_TYPES.get(extension) ?? "application/octet-stream",
-    "x-content-type-options": "nosniff",
-  };
-  if (extension === ".html")
-    headers["content-security-policy"] = CONTENT_SECURITY_POLICY;
-  return headers;
-}
-
-async function serveAppRequest(request) {
-  const url = new URL(request.url);
-  if (url.host !== APP_HOST || request.method !== "GET")
-    return new Response("Not found", { status: 404 });
-
-  let filePath = resolveContentPath(url.pathname);
-  if (filePath === null) return new Response("Not found", { status: 404 });
-
-  let fileStat = await stat(filePath).catch(() => null);
-  if (fileStat?.isDirectory()) {
-    filePath = path.join(filePath, "index.html");
-    fileStat = await stat(filePath).catch(() => null);
-  }
-  if (fileStat === null || !fileStat.isFile())
-    return new Response("Not found", { status: 404 });
-
-  const extension = path.extname(filePath).toLowerCase();
-  const body = createReadStream(filePath);
-  const { Readable } = await import("node:stream");
-  return new Response(Readable.toWeb(body), {
-    status: 200,
-    headers: responseHeaders(extension),
-  });
-}
+protocol.registerSchemesAsPrivileged([APP_SCHEME_PRIVILEGES]);
 
 /**
  * Direct-update seam. Disabled by default and hard disabled for Steam
@@ -403,7 +300,9 @@ if (!app.requestSingleInstanceLock()) {
   });
 
   app.whenReady().then(() => {
-    protocol.handle(APP_SCHEME, serveAppRequest);
+    protocol.handle(APP_SCHEME, (request) =>
+      serveAppRequest(contentRoot, request),
+    );
 
     const ses = session.defaultSession;
     // The game asks for no device or web-platform permissions; deny all.

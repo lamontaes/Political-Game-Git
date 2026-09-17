@@ -24,6 +24,7 @@ import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import os from "node:os";
 import path from "node:path";
+import { chooseStartAge } from "./creator-drive.mjs";
 
 const require = createRequire(
   path.join(
@@ -118,7 +119,7 @@ async function newLifeAndKeep(page) {
   await page.getByTestId("setup-screen").waitFor();
   await page.getByTestId("start-normal").click();
   await page.getByTestId("creator-stage-character").waitFor();
-  await page.getByTestId("start-age").fill("31");
+  await chooseStartAge(page, 31);
   await page.getByTestId("creator-continue-character").click();
   await page.getByTestId("creator-stage-place").waitFor();
   await page.getByTestId("place-search").fill("Kentu");

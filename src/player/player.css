@@ -8002,3 +8002,75 @@ body:where(.pg-game) .game-campaign-tallies {
   justify-content: space-between;
   gap: 0.3rem;
 }
+
+/*
+ * The officeholder's desk (GOVERNING mount). The briefing's matters and the
+ * desk's programs, staff, measures and casework are all reading surfaces
+ * first, so they are separated by hairlines rather than boxed in cards.
+ */
+.governing-briefing,
+.office-desk {
+  display: grid;
+  gap: var(--pg-space-3);
+  margin: var(--pg-space-4) 0;
+}
+
+.governing-briefing h4,
+.office-desk h4 {
+  margin: var(--pg-space-2) 0 0;
+  padding-top: var(--pg-space-3);
+  border-top: 1px solid var(--pg-hairline);
+}
+
+.governing-matters,
+.office-desk-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--pg-space-3);
+}
+
+.governing-matter,
+.office-program,
+.office-desk-list > li {
+  display: grid;
+  gap: var(--pg-space-1);
+  padding: var(--pg-space-3);
+  border: 1px solid var(--pg-hairline);
+  border-radius: var(--pg-radius);
+  background: var(--pg-glass);
+}
+
+.governing-matter h5,
+.office-program h5 {
+  margin: 0;
+}
+
+.office-program h6 {
+  margin: var(--pg-space-2) 0 0;
+  color: var(--pg-ivory-dim);
+  font-weight: 600;
+}
+
+.office-program-objective {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--pg-space-1);
+}
+
+/* An appropriation is what was put to the office, not a decision it made. */
+.office-program-appropriation {
+  display: grid;
+  gap: var(--pg-space-1);
+  padding-left: var(--pg-space-3);
+  border-left: 2px solid var(--pg-brass-dim);
+}
+
+.office-desk-casework {
+  display: grid;
+  gap: var(--pg-space-2);
+  justify-items: start;
+}

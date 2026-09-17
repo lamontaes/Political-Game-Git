@@ -13,6 +13,7 @@ import { createRequire } from "node:module";
 import os from "node:os";
 import path from "node:path";
 import { isDeepStrictEqual } from "node:util";
+import { chooseStartAge } from "./creator-drive.mjs";
 
 const require = createRequire(
   path.join(
@@ -61,7 +62,7 @@ await page.getByTestId("new-game").click();
 await page.getByTestId("setup-screen").waitFor();
 await page.getByTestId("start-normal").click();
 await page.getByTestId("creator-stage-character").waitFor();
-await page.getByTestId("start-age").fill("27");
+await chooseStartAge(page, 27);
 await page.getByTestId("creator-continue-character").click();
 await page.getByTestId("creator-stage-place").waitFor();
 await page.getByTestId("state-search").fill("Kentucky");
@@ -114,7 +115,11 @@ const interfaceSeed = await page.evaluate(async (databaseName) => {
     return null;
   }
   const state = {
-    version: 3,
+    // The current stored-interface record version (SHELL_RECORD_VERSION in
+    // src/presentation/browser-shell-state.ts). Older readable versions are
+    // re-encoded at the current one on export, so a seed written at an older
+    // version would not round-trip byte for byte.
+    version: 4,
     pins: [
       {
         ref: { kind: "person", id: record.metadata.playerPersonId },
@@ -134,14 +139,29 @@ const interfaceSeed = await page.evaluate(async (databaseName) => {
         },
       ],
     },
-    // The complete current v3 preference shape: the shell reads interruption
-    // defaults into every stored interface, so a seed without them would not
-    // round-trip byte for byte.
+    // The complete current v3 preference shape: the shell reads a default for
+    // every preference into each stored interface, so a seed missing any of
+    // them would not round-trip byte for byte. Keep this in step with
+    // DEFAULT_PREFERENCES in src/presentation/shell-navigation.ts.
     preferences: {
       peopleView: "web",
       defaultPinSize: "tiny",
       followedNewsOutletKeys: ["civic-ledger", "second-represented-outlet"],
       interruptions: { stopForWorkShifts: false, stopForTentativeHolds: false },
+      proposalLayout: "auto",
+      newsMode: "front",
+      newsOutletKey: null,
+      journalView: "chapters",
+      journalYear: null,
+      politicsPlace: "here",
+      governmentScope: "local",
+      learnedGuideTermKeys: [],
+      map: {
+        mode: "house",
+        stateUsps: null,
+        labels: true,
+        presentation: "map",
+      },
     },
     personWardrobes: {
       [record.metadata.playerPersonId]: {
@@ -214,7 +234,7 @@ const wireState = (state) => ({
   pins: state.pins.map(({ ref, size }) => ({ ref, size })),
 });
 check(
-  "transfer: exported file includes complete validated v3 interface",
+  "transfer: exported file includes the complete validated current interface",
   exportedBundle.interface?.status === "included" &&
     isDeepStrictEqual(
       wireState(exportedBundle.interface.state),
@@ -269,7 +289,11 @@ writeFileSync(
     ...exportedBundle,
     interface: {
       status: "included",
-      state: { ...exportedBundle.interface.state, version: 4 },
+      // One past the current version: unreadable by this build, refused.
+      state: {
+        ...exportedBundle.interface.state,
+        version: exportedBundle.interface.state.version + 1,
+      },
     },
   }),
 );
@@ -284,6 +308,15 @@ check(
   "transfer: future interface refusal creates no new slot",
   (await page.getByTestId("save-entry").count()) === afterCount,
 );
+
+// Opening a life gives its save-wide journal to the person it was written as
+// (journals are kept per played person), so after a reopen the same writing is
+// read from that person's notebook. Nothing else about the interface may move.
+const seededPersonId = interfaceSeed.state.pins[0].ref.id;
+const reopenedWireState = (state) => ({
+  ...wireState(state),
+  journal: state.journals?.[seededPersonId] ?? state.journal,
+});
 
 // Reopen both same-life slots using the real UI, not just raw record presence.
 for (let index = 0; index < 2; index += 1) {
@@ -328,7 +361,7 @@ check(
 check(
   "transfer: reopen preserves complete interface in both slots",
   reopened.interfaces.filter((state) =>
-    isDeepStrictEqual(wireState(state), wireState(interfaceSeed.state)),
+    isDeepStrictEqual(reopenedWireState(state), wireState(interfaceSeed.state)),
   ).length === 2,
 );
 

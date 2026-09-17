@@ -246,3 +246,75 @@
   outline: 2px solid #f4d68a;
   outline-offset: 2px;
 }
+
+/*
+ * Phone widths: the tab strip is one row that scrolls sideways instead of one
+ * tab per line. Buttons stay in tab order; focusing one scrolls it into view.
+ */
+@media (max-width: 640px) {
+  .pg-politics-tab-list {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+    padding-bottom: 0.2rem;
+  }
+
+  .pg-politics-tab-list > li {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+
+  .pg-politics-tab {
+    white-space: nowrap;
+  }
+}
+
+/* Public services, under Issues and budget. */
+.pg-public-services {
+  display: grid;
+  gap: var(--pg-space-2);
+  margin: var(--pg-space-3) 0;
+}
+
+.pg-public-services-list {
+  display: grid;
+  gap: var(--pg-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pg-public-services-list > li {
+  padding: var(--pg-space-2) var(--pg-space-3);
+  border: 1px solid var(--pg-hairline);
+  border-radius: var(--pg-radius);
+}
+
+.pg-public-services-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 var(--pg-space-2);
+  margin: 0;
+}
+
+.pg-public-services-name small {
+  color: var(--pg-ivory-faint);
+}
+
+.pg-public-services-facts {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 0.2rem var(--pg-space-3);
+  margin: var(--pg-space-2) 0 0;
+}
+
+.pg-public-services-facts dt {
+  color: var(--pg-ivory-dim);
+}
+
+.pg-public-services-facts dd {
+  margin: 0;
+}

@@ -1043,6 +1043,38 @@
       "textRevision": "30075e37c876"
     },
     {
+      "anchor": "FAMILY_LABEL-0001",
+      "sourcePath": "src/presentation/people-goals.ts",
+      "symbol": "FAMILY_LABEL",
+      "text": "Follow a public matter",
+      "occurrence": 0,
+      "textRevision": "185e7af0aa8e"
+    },
+    {
+      "anchor": "FAMILY_LABEL-0002",
+      "sourcePath": "src/presentation/people-goals.ts",
+      "symbol": "FAMILY_LABEL",
+      "text": "Get back in touch",
+      "occurrence": 0,
+      "textRevision": "efa1d17c8843"
+    },
+    {
+      "anchor": "FAMILY_LABEL-0003",
+      "sourcePath": "src/presentation/people-goals.ts",
+      "symbol": "FAMILY_LABEL",
+      "text": "Pursue a relationship",
+      "occurrence": 0,
+      "textRevision": "4abc374fb4d8"
+    },
+    {
+      "anchor": "FAMILY_LABEL-0004",
+      "sourcePath": "src/presentation/people-goals.ts",
+      "symbol": "FAMILY_LABEL",
+      "text": "Run for office",
+      "occurrence": 0,
+      "textRevision": "9b0cf639bbf6"
+    },
+    {
       "anchor": "GENERIC_RETURN-0001",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "GENERIC_RETURN",
@@ -1859,6 +1891,30 @@
       "textRevision": "7985cc6382bd"
     },
     {
+      "anchor": "RELATION_LABEL-0001",
+      "sourcePath": "src/presentation/people-continuation.ts",
+      "symbol": "RELATION_LABEL",
+      "text": "no connection on record",
+      "occurrence": 0,
+      "textRevision": "85118d75c88b"
+    },
+    {
+      "anchor": "RELATION_LABEL-0002",
+      "sourcePath": "src/presentation/people-continuation.ts",
+      "symbol": "RELATION_LABEL",
+      "text": "someone they kept up with",
+      "occurrence": 0,
+      "textRevision": "a8e05a56ed09"
+    },
+    {
+      "anchor": "RELATION_LABEL-0003",
+      "sourcePath": "src/presentation/people-continuation.ts",
+      "symbol": "RELATION_LABEL",
+      "text": "someone they taught",
+      "occurrence": 0,
+      "textRevision": "698cbb5f9e2b"
+    },
+    {
       "anchor": "RETURN_SUMMARY-0001",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
@@ -2123,6 +2179,46 @@
       "textRevision": "d6b9f53d7541"
     },
     {
+      "anchor": "STATUS_LINE-0001",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "symbol": "STATUS_LINE",
+      "text": "It was dropped.",
+      "occurrence": 0,
+      "textRevision": "10dd223d9ff6"
+    },
+    {
+      "anchor": "STATUS_LINE-0002",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "symbol": "STATUS_LINE",
+      "text": "You did it.",
+      "occurrence": 0,
+      "textRevision": "9b6a3a1b82d8"
+    },
+    {
+      "anchor": "STATUS_LINE-0003",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "symbol": "STATUS_LINE",
+      "text": "You have not answered.",
+      "occurrence": 0,
+      "textRevision": "b896df4e1a4b"
+    },
+    {
+      "anchor": "STATUS_LINE-0004",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "symbol": "STATUS_LINE",
+      "text": "You said you could not.",
+      "occurrence": 0,
+      "textRevision": "c367d1ed7c96"
+    },
+    {
+      "anchor": "STATUS_LINE-0005",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "symbol": "STATUS_LINE",
+      "text": "You said you would.",
+      "occurrence": 0,
+      "textRevision": "00dcacb91a8c"
+    },
+    {
       "anchor": "STEP_COPY-0001",
       "sourcePath": "src/presentation/legislation-projection.ts",
       "symbol": "STEP_COPY",
@@ -2361,6 +2457,38 @@
       "text": "Wait for the next legislative day",
       "occurrence": 0,
       "textRevision": "412d3c6d230d"
+    },
+    {
+      "anchor": "TERM_LABEL-0001",
+      "sourcePath": "src/presentation/press-disclosure.ts",
+      "symbol": "TERM_LABEL",
+      "text": "Off the record",
+      "occurrence": 0,
+      "textRevision": "9121669c0f5c"
+    },
+    {
+      "anchor": "TERM_LABEL-0002",
+      "sourcePath": "src/presentation/press-disclosure.ts",
+      "symbol": "TERM_LABEL",
+      "text": "On background",
+      "occurrence": 0,
+      "textRevision": "d5b8e01ff0c6"
+    },
+    {
+      "anchor": "TERM_LABEL-0003",
+      "sourcePath": "src/presentation/press-disclosure.ts",
+      "symbol": "TERM_LABEL",
+      "text": "On deep background",
+      "occurrence": 0,
+      "textRevision": "cf2984558c63"
+    },
+    {
+      "anchor": "TERM_LABEL-0004",
+      "sourcePath": "src/presentation/press-disclosure.ts",
+      "symbol": "TERM_LABEL",
+      "text": "On the record",
+      "occurrence": 0,
+      "textRevision": "0a3737a1606e"
     },
     {
       "anchor": "act-0001",
@@ -2603,6 +2731,214 @@
       "textRevision": "8040c080eaa8"
     },
     {
+      "anchor": "bereavedAnswers-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "Be honest about that much.",
+      "occurrence": 0,
+      "textRevision": "5f828795d161"
+    },
+    {
+      "anchor": "bereavedAnswers-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "I don’t know what to say about it yet.",
+      "occurrence": 0,
+      "textRevision": "02dbcbcf9da1"
+    },
+    {
+      "anchor": "bereavedAnswers-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "I keep coming back to the small things about {given}.",
+      "occurrence": 0,
+      "textRevision": "8ed0602a1eb2"
+    },
+    {
+      "anchor": "bereavedAnswers-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "Leave it for now",
+      "occurrence": 0,
+      "textRevision": "6808b0c01557"
+    },
+    {
+      "anchor": "bereavedAnswers-0005",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "Not tonight.",
+      "occurrence": 0,
+      "textRevision": "f76d5f14ed28"
+    },
+    {
+      "anchor": "bereavedAnswers-0006",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "Not tonight. I can’t.",
+      "occurrence": 0,
+      "textRevision": "771b86b9b019"
+    },
+    {
+      "anchor": "bereavedAnswers-0007",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "Offer to take something on",
+      "occurrence": 0,
+      "textRevision": "94caf7dbf882"
+    },
+    {
+      "anchor": "bereavedAnswers-0008",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "Remember them out loud.",
+      "occurrence": 0,
+      "textRevision": "50930ad4df82"
+    },
+    {
+      "anchor": "bereavedAnswers-0009",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "Say something about {given}",
+      "occurrence": 0,
+      "textRevision": "3fb2732efb74"
+    },
+    {
+      "anchor": "bereavedAnswers-0010",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "Say you don’t know what to say",
+      "occurrence": 0,
+      "textRevision": "9428367bbcfa"
+    },
+    {
+      "anchor": "bereavedAnswers-0011",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "Tell me what needs doing. I can take some of it.",
+      "occurrence": 0,
+      "textRevision": "6438f49ccbb7"
+    },
+    {
+      "anchor": "bereavedAnswers-0012",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "The player and {context.name} remembered {given} together.",
+      "occurrence": 0,
+      "textRevision": "7dd270b3fa0c"
+    },
+    {
+      "anchor": "bereavedAnswers-0013",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "The player left it for another time with {context.name}.",
+      "occurrence": 0,
+      "textRevision": "17f2cf49fc2a"
+    },
+    {
+      "anchor": "bereavedAnswers-0014",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "The player offered {context.name} to take on some of the arrangements for {given}.",
+      "occurrence": 0,
+      "textRevision": "b4f497a63095"
+    },
+    {
+      "anchor": "bereavedAnswers-0015",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "The player told {context.name} they had no words for it yet.",
+      "occurrence": 0,
+      "textRevision": "bf11aeb4035b"
+    },
+    {
+      "anchor": "bereavedAnswers-0016",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "There are arrangements, and you can carry some of them.",
+      "occurrence": 0,
+      "textRevision": "de19303333b0"
+    },
+    {
+      "anchor": "bereavedAnswers-0017",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "{playerName} and {otherName} talked about {given}.",
+      "occurrence": 0,
+      "textRevision": "bc61f8924310"
+    },
+    {
+      "anchor": "bereavedAnswers-0018",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "{playerName} offered to carry some of what {otherName} was left with.",
+      "occurrence": 0,
+      "textRevision": "c76a2a293496"
+    },
+    {
+      "anchor": "bereavedAnswers-0019",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "“All right. I’m here,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "624c221573a7"
+    },
+    {
+      "anchor": "bereavedAnswers-0020",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "“Another time,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "330d49ddd9c2"
+    },
+    {
+      "anchor": "bereavedAnswers-0021",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "“Nobody does. It’s all right,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "248c4c6cd4e7"
+    },
+    {
+      "anchor": "bereavedAnswers-0022",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "“So do I. That’s the part that gets me,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "a035e921e758"
+    },
+    {
+      "anchor": "bereavedAnswers-0023",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "“Tell me one. I’d like to hear it,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "d64d1c10f431"
+    },
+    {
+      "anchor": "bereavedAnswers-0024",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "“Thank you. I didn’t want to ask,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "4344ab1c815b"
+    },
+    {
+      "anchor": "bereavedAnswers-0025",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "“That would help. I’ll write you a list,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "e576d3f45977"
+    },
+    {
+      "anchor": "bereavedAnswers-0026",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "“You don’t have to,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "b8679caf695d"
+    },
+    {
       "anchor": "buildFloorStages-0001",
       "sourcePath": "src/simulation/municipal-government.ts",
       "symbol": "buildFloorStages",
@@ -2713,6 +3049,142 @@
       "text": "You're {age}.",
       "occurrence": 0,
       "textRevision": "6eaa9e09f6b0"
+    },
+    {
+      "anchor": "cameBackAnswers-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "cameBackAnswers",
+      "text": "Admit it",
+      "occurrence": 0,
+      "textRevision": "7fe076c26a77"
+    },
+    {
+      "anchor": "cameBackAnswers-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "cameBackAnswers",
+      "text": "Deny it",
+      "occurrence": 0,
+      "textRevision": "fd2996abc3f6"
+    },
+    {
+      "anchor": "cameBackAnswers-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "cameBackAnswers",
+      "text": "Say you knew otherwise when you said it.",
+      "occurrence": 0,
+      "textRevision": "b250ecf95202"
+    },
+    {
+      "anchor": "cameBackAnswers-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "cameBackAnswers",
+      "text": "Stand by what you said.",
+      "occurrence": 0,
+      "textRevision": "05f8752104d8"
+    },
+    {
+      "anchor": "cameBackAnswers-0005",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "cameBackAnswers",
+      "text": "The player admitted to {context.name} that the earlier answer was not true.",
+      "occurrence": 0,
+      "textRevision": "060f6157aee3"
+    },
+    {
+      "anchor": "cameBackAnswers-0006",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "cameBackAnswers",
+      "text": "The player knew “{said}” was untrue when they said it.",
+      "occurrence": 0,
+      "textRevision": "410984a0956b"
+    },
+    {
+      "anchor": "cameBackAnswers-0007",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "cameBackAnswers",
+      "text": "The player stood by the earlier answer to {context.name}, knowing it was not true.",
+      "occurrence": 0,
+      "textRevision": "a07ccfccd240"
+    },
+    {
+      "anchor": "cameBackAnswers-0008",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "cameBackAnswers",
+      "text": "The player told {context.name}: “{said}”",
+      "occurrence": 0,
+      "textRevision": "8cf8ad4308a4"
+    },
+    {
+      "anchor": "cameBackAnswers-0009",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "cameBackAnswers",
+      "text": "{context.player.givenName} stood by an answer that {context.name} knows was not true.",
+      "occurrence": 0,
+      "textRevision": "7afc42e99ee6"
+    },
+    {
+      "anchor": "cameBackAnswers-0010",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "cameBackAnswers",
+      "text": "{playerName} admitted to {otherName} that they had not told the truth.",
+      "occurrence": 0,
+      "textRevision": "1e3141123733"
+    },
+    {
+      "anchor": "cameBackAnswers-0011",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "cameBackAnswers",
+      "text": "{playerName} repeated a denial {otherName} knew was false.",
+      "occurrence": 0,
+      "textRevision": "df6f0d9976ff"
+    },
+    {
+      "anchor": "campaignReaction-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "campaignReaction",
+      "text": "A housemate reacting to the player’s election result.",
+      "occurrence": 0,
+      "textRevision": "43fe005d83f9"
+    },
+    {
+      "anchor": "campaignReaction-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "campaignReaction",
+      "text": "After the election",
+      "occurrence": 0,
+      "textRevision": "9bace6952238"
+    },
+    {
+      "anchor": "campaignReaction-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "campaignReaction",
+      "text": "Home, after the result",
+      "occurrence": 0,
+      "textRevision": "3a6fad14324d"
+    },
+    {
+      "anchor": "campaignReaction-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "campaignReaction",
+      "text": "Talk about how the election went.",
+      "occurrence": 0,
+      "textRevision": "bcc100d6b097"
+    },
+    {
+      "anchor": "campaignReaction-0005",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "campaignReaction",
+      "text": "Your campaign",
+      "occurrence": 0,
+      "textRevision": "e8397e1b6a09"
+    },
+    {
+      "anchor": "campaignReaction-0006",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "campaignReaction",
+      "text": "Your first day",
+      "occurrence": 0,
+      "textRevision": "8276797327f9"
     },
     {
       "anchor": "commitConversationTurn-0001",
@@ -3142,9 +3614,9 @@
       "anchor": "dialogue-0003",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "dialogue",
-      "text": "You can ask {world.people[speaker.personId]!.givenName} about the errands.",
+      "text": "“Have you looked at what needs doing this week?” {name} asks.",
       "occurrence": 0,
-      "textRevision": "2f483d429d5c"
+      "textRevision": "ec7bf32bd84e"
     },
     {
       "anchor": "dialogue-0004",
@@ -3153,6 +3625,14 @@
       "text": "“What can you take on?” {world.people[speaker.personId]!.givenName} asks.",
       "occurrence": 0,
       "textRevision": "d11dd365158d"
+    },
+    {
+      "anchor": "dialogue-0005",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "dialogue",
+      "text": "“Can we sort out this week’s errands?” {name} asks.",
+      "occurrence": 0,
+      "textRevision": "a9593576d559"
     },
     {
       "anchor": "directory-0001",
@@ -3307,6 +3787,86 @@
       "textRevision": "f8d2dd95956e"
     },
     {
+      "anchor": "favor-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "favor",
+      "text": "A favor",
+      "occurrence": 0,
+      "textRevision": "6ece2e163739"
+    },
+    {
+      "anchor": "favor-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "favor",
+      "text": "A favor for {binding.facts.speakerGiven}",
+      "occurrence": 0,
+      "textRevision": "10037ce93246"
+    },
+    {
+      "anchor": "favor-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "favor",
+      "text": "A person the player knows asked for a specific favor.",
+      "occurrence": 0,
+      "textRevision": "a9e6c933e2dc"
+    },
+    {
+      "anchor": "favor-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "favor",
+      "text": "Answer a specific request.",
+      "occurrence": 0,
+      "textRevision": "cc6c8cfff87b"
+    },
+    {
+      "anchor": "favor-0005",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "favor",
+      "text": "Answering a request for help",
+      "occurrence": 0,
+      "textRevision": "561010970b55"
+    },
+    {
+      "anchor": "favor-0006",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "favor",
+      "text": "Extra hours at work",
+      "occurrence": 0,
+      "textRevision": "aca560c4c3af"
+    },
+    {
+      "anchor": "favor-0007",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "favor",
+      "text": "An evening at home",
+      "occurrence": 0,
+      "textRevision": "6f7097468fb9"
+    },
+    {
+      "anchor": "favor-0008",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "favor",
+      "text": "What became of {lowerFirst(binding.facts.task??\"thefavor\")}",
+      "occurrence": 0,
+      "textRevision": "1321fcfc7aa3"
+    },
+    {
+      "anchor": "favor-0009",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "favor",
+      "text": "What you said about it",
+      "occurrence": 0,
+      "textRevision": "47c6c3ef2109"
+    },
+    {
+      "anchor": "favor-0010",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "favor",
+      "text": "{binding.facts.speakerGiven??\"Somebody\"} wants to meet",
+      "occurrence": 0,
+      "textRevision": "dd4473cfb6dc"
+    },
+    {
       "anchor": "fileForOffice-0001",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "fileForOffice",
@@ -3329,6 +3889,38 @@
       "text": "{person.familyName} for the {option.chamberName}",
       "occurrence": 0,
       "textRevision": "8e074194b004"
+    },
+    {
+      "anchor": "homeEvening-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "homeEvening",
+      "text": "Know where each of them will be.",
+      "occurrence": 0,
+      "textRevision": "6a0a0fc8b4ca"
+    },
+    {
+      "anchor": "homeEvening-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "homeEvening",
+      "text": "Two people who live together, talking about an evening.",
+      "occurrence": 0,
+      "textRevision": "a0dcd2aaf639"
+    },
+    {
+      "anchor": "homeEvening-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "homeEvening",
+      "text": "What you said about that evening",
+      "occurrence": 0,
+      "textRevision": "9e73fcf8b21e"
+    },
+    {
+      "anchor": "homeEvening-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "homeEvening",
+      "text": "Your {binding.date?\"evening\":\"plans\"}",
+      "occurrence": 0,
+      "textRevision": "42c22a984778"
     },
     {
       "anchor": "householdAbsenceLine-0001",
@@ -3537,6 +4129,270 @@
       "text": "the mayor",
       "occurrence": 0,
       "textRevision": "04663a8f5d7a"
+    },
+    {
+      "anchor": "meetUpAnswers-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "Agreed to meet {spoken}.",
+      "occurrence": 0,
+      "textRevision": "39c88d28f91c"
+    },
+    {
+      "anchor": "meetUpAnswers-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "Ask what it’s about",
+      "occurrence": 0,
+      "textRevision": "555c97fc0fc3"
+    },
+    {
+      "anchor": "meetUpAnswers-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "Could not make it.",
+      "occurrence": 0,
+      "textRevision": "f45ede27ef21"
+    },
+    {
+      "anchor": "meetUpAnswers-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "Find out before you answer.",
+      "occurrence": 0,
+      "textRevision": "28472ce73176"
+    },
+    {
+      "anchor": "meetUpAnswers-0005",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "I can’t at the moment. I’m sorry.",
+      "occurrence": 0,
+      "textRevision": "54bface4df0b"
+    },
+    {
+      "anchor": "meetUpAnswers-0006",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "I can’t do {spoken}. Could you do {proseDate(later)}?",
+      "occurrence": 0,
+      "textRevision": "c07a0e08ce6e"
+    },
+    {
+      "anchor": "meetUpAnswers-0007",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "Offer a different day",
+      "occurrence": 0,
+      "textRevision": "b1c3c9625394"
+    },
+    {
+      "anchor": "meetUpAnswers-0008",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "Offered {later} instead.",
+      "occurrence": 0,
+      "textRevision": "945143e992cd"
+    },
+    {
+      "anchor": "meetUpAnswers-0009",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "Put it on the calendar.",
+      "occurrence": 0,
+      "textRevision": "291ee5de3c70"
+    },
+    {
+      "anchor": "meetUpAnswers-0010",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "Say you can’t",
+      "occurrence": 0,
+      "textRevision": "1cbae73a9372"
+    },
+    {
+      "anchor": "meetUpAnswers-0011",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "Say you could do {proseDate(later)} instead.",
+      "occurrence": 0,
+      "textRevision": "236adda3a848"
+    },
+    {
+      "anchor": "meetUpAnswers-0012",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "Say {spoken} works",
+      "occurrence": 0,
+      "textRevision": "85f3e71a4b1a"
+    },
+    {
+      "anchor": "meetUpAnswers-0013",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "The player agreed to meet {context.name} {spoken}.",
+      "occurrence": 0,
+      "textRevision": "c213e2175a61"
+    },
+    {
+      "anchor": "meetUpAnswers-0014",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "The player asked {context.name} what the meeting was about.",
+      "occurrence": 0,
+      "textRevision": "4a247275c2ba"
+    },
+    {
+      "anchor": "meetUpAnswers-0015",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "The player offered {context.name} {proseDate(later)} instead.",
+      "occurrence": 0,
+      "textRevision": "c2fb7d53c508"
+    },
+    {
+      "anchor": "meetUpAnswers-0016",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "The player turned down meeting {context.name}.",
+      "occurrence": 0,
+      "textRevision": "fb6c278f6c35"
+    },
+    {
+      "anchor": "meetUpAnswers-0017",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "Turn it down for now.",
+      "occurrence": 0,
+      "textRevision": "947f362d86af"
+    },
+    {
+      "anchor": "meetUpAnswers-0018",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "What’s it about?",
+      "occurrence": 0,
+      "textRevision": "631fcd2add7d"
+    },
+    {
+      "anchor": "meetUpAnswers-0019",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "{playerName} and {otherName} arranged to meet.",
+      "occurrence": 0,
+      "textRevision": "c9f1ecf17c04"
+    },
+    {
+      "anchor": "meetUpAnswers-0020",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "{spoken.charAt(0).toUpperCase()}{spoken.slice(1)} works. I’ll be there.",
+      "occurrence": 0,
+      "textRevision": "a7bedcc235d2"
+    },
+    {
+      "anchor": "meetUpAnswers-0021",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "“Another time, then,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "0ee9a680dda4"
+    },
+    {
+      "anchor": "meetUpAnswers-0022",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "“Good. It’s been too long,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "4d3a90ed9880"
+    },
+    {
+      "anchor": "meetUpAnswers-0023",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "“Let me look at that and come back to you,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "9bf36bf714d8"
+    },
+    {
+      "anchor": "meetUpAnswers-0024",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "“Maybe. I’ll check,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "5aaf563c50d8"
+    },
+    {
+      "anchor": "meetUpAnswers-0025",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "“Nothing in particular. I just thought of you,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "400dc925b7a3"
+    },
+    {
+      "anchor": "meetUpAnswers-0026",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "“That’s settled, then,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "a9a01ba42746"
+    },
+    {
+      "anchor": "meetUpAnswers-0027",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "“Understood. Take care of yourself,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "e9f9ee136770"
+    },
+    {
+      "anchor": "memoryCorrectedAnswers-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "memoryCorrectedAnswers",
+      "text": "I had that wrong. Thanks for checking.",
+      "occurrence": 0,
+      "textRevision": "9dec8c0efd67"
+    },
+    {
+      "anchor": "memoryCorrectedAnswers-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "memoryCorrectedAnswers",
+      "text": "Thank them for the correction",
+      "occurrence": 0,
+      "textRevision": "8a3967a88282"
+    },
+    {
+      "anchor": "memoryCorrectedAnswers-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "memoryCorrectedAnswers",
+      "text": "The player thanked {context.name} for correcting an answer given from memory.",
+      "occurrence": 0,
+      "textRevision": "0b4a155aea6d"
+    },
+    {
+      "anchor": "memoryCorrectedAnswers-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "memoryCorrectedAnswers",
+      "text": "You answered from memory and got it wrong.",
+      "occurrence": 0,
+      "textRevision": "68f1f671937a"
+    },
+    {
+      "anchor": "memoryCorrectedAnswers-0005",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "memoryCorrectedAnswers",
+      "text": "“It happens. I just wanted it right,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "e528cdf2df11"
+    },
+    {
+      "anchor": "memoryCorrectedAnswers-0006",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "memoryCorrectedAnswers",
+      "text": "“No harm done,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "41b96294cb20"
     },
     {
       "anchor": "municipalActionAuthority-0001",
@@ -3771,6 +4627,38 @@
       "textRevision": "70ce4bbe0b04"
     },
     {
+      "anchor": "objectiveFor-0001",
+      "sourcePath": "src/presentation/people-goals.ts",
+      "symbol": "objectiveFor",
+      "text": "Follow what happens with: {event?.summary??\"apublicmatter\"}",
+      "occurrence": 0,
+      "textRevision": "4976e840194c"
+    },
+    {
+      "anchor": "objectiveFor-0002",
+      "sourcePath": "src/presentation/people-goals.ts",
+      "symbol": "objectiveFor",
+      "text": "Get back in touch with {name}.",
+      "occurrence": 0,
+      "textRevision": "e58aaebee72c"
+    },
+    {
+      "anchor": "objectiveFor-0003",
+      "sourcePath": "src/presentation/people-goals.ts",
+      "symbol": "objectiveFor",
+      "text": "Run for public office.",
+      "occurrence": 0,
+      "textRevision": "706af7635cb6"
+    },
+    {
+      "anchor": "objectiveFor-0004",
+      "sourcePath": "src/presentation/people-goals.ts",
+      "symbol": "objectiveFor",
+      "text": "See whether a relationship with {name} could work.",
+      "occurrence": 0,
+      "textRevision": "e7c76e90aa49"
+    },
+    {
       "anchor": "obligationNoun-0001",
       "sourcePath": "src/presentation/life-narration.ts",
       "symbol": "obligationNoun",
@@ -3926,17 +4814,17 @@
       "anchor": "openingBeat-0014",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "openingBeat",
-      "text": "You can ask {world.people[speaker.personId]!.givenName} about the posted meeting.",
+      "text": "“Did you see the notice about the public meeting?” {name} asks.",
       "occurrence": 0,
-      "textRevision": "b89d47f43614"
+      "textRevision": "ee50fda113d7"
     },
     {
       "anchor": "openingBeat-0015",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "openingBeat",
-      "text": "You can ask {world.people[speaker.personId]!.givenName} about the unfinished work.",
+      "text": "“Nobody has started the last part of the project, and it’s due at the end of next week,” {name} says.",
       "occurrence": 0,
-      "textRevision": "d1b4bfabb593"
+      "textRevision": "2efbda78ff6c"
     },
     {
       "anchor": "openingBeat-0016",
@@ -3945,6 +4833,22 @@
       "text": "“All right,” {world.people[speaker.personId]!.givenName} says.",
       "occurrence": 0,
       "textRevision": "8b0f431cd3db"
+    },
+    {
+      "anchor": "openingBeat-0017",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "openingBeat",
+      "text": "“There’s a public meeting posted. Did you see it?” {name} asks.",
+      "occurrence": 0,
+      "textRevision": "212b1221d49d"
+    },
+    {
+      "anchor": "openingBeat-0018",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "openingBeat",
+      "text": "“We still haven’t split up the last part of the project. It’s due at the end of next week,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "1b8c22ba4527"
     },
     {
       "anchor": "openingFacts-0001",
@@ -4065,6 +4969,38 @@
       "text": "{others.length} other resident(s) on the household record.",
       "occurrence": 0,
       "textRevision": "1772dd02ba0d"
+    },
+    {
+      "anchor": "opportunitiesFor-0001",
+      "sourcePath": "src/presentation/people-goals.ts",
+      "symbol": "opportunitiesFor",
+      "text": "Look for news on it",
+      "occurrence": 0,
+      "textRevision": "270aeade0034"
+    },
+    {
+      "anchor": "opportunitiesFor-0002",
+      "sourcePath": "src/presentation/people-goals.ts",
+      "symbol": "opportunitiesFor",
+      "text": "Talk with {personName(world.people[target]!)}: {entry.topicLabel}",
+      "occurrence": 0,
+      "textRevision": "9e86c7dc591f"
+    },
+    {
+      "anchor": "opportunitiesFor-0003",
+      "sourcePath": "src/presentation/people-goals.ts",
+      "symbol": "opportunitiesFor",
+      "text": "Work on your campaign",
+      "occurrence": 0,
+      "textRevision": "916d08cb98eb"
+    },
+    {
+      "anchor": "opportunitiesFor-0004",
+      "sourcePath": "src/presentation/people-goals.ts",
+      "symbol": "opportunitiesFor",
+      "text": "You can file to run for {office.office.title}",
+      "occurrence": 0,
+      "textRevision": "426e138a13e9"
     },
     {
       "anchor": "options-0001",
@@ -4539,6 +5475,462 @@
       "textRevision": "0970cdfa09a0"
     },
     {
+      "anchor": "partyAfterDeclineAnswers-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyAfterDeclineAnswers",
+      "text": "Ask them to keep inviting you",
+      "occurrence": 0,
+      "textRevision": "93b4ebf915d7"
+    },
+    {
+      "anchor": "partyAfterDeclineAnswers-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyAfterDeclineAnswers",
+      "text": "Ask when they meet",
+      "occurrence": 0,
+      "textRevision": "a7a9b11ba898"
+    },
+    {
+      "anchor": "partyAfterDeclineAnswers-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyAfterDeclineAnswers",
+      "text": "Be straight about it.",
+      "occurrence": 0,
+      "textRevision": "1f99d2edfe69"
+    },
+    {
+      "anchor": "partyAfterDeclineAnswers-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyAfterDeclineAnswers",
+      "text": "Find out for another time.",
+      "occurrence": 0,
+      "textRevision": "241d34c18ba9"
+    },
+    {
+      "anchor": "partyAfterDeclineAnswers-0005",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyAfterDeclineAnswers",
+      "text": "Please keep inviting me. That night just didn’t work.",
+      "occurrence": 0,
+      "textRevision": "0a744dc481de"
+    },
+    {
+      "anchor": "partyAfterDeclineAnswers-0006",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyAfterDeclineAnswers",
+      "text": "Say party meetings aren’t for you right now",
+      "occurrence": 0,
+      "textRevision": "a0f33deceaa2"
+    },
+    {
+      "anchor": "partyAfterDeclineAnswers-0007",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyAfterDeclineAnswers",
+      "text": "That night just didn’t work.",
+      "occurrence": 0,
+      "textRevision": "6e344e70d86c"
+    },
+    {
+      "anchor": "partyAfterDeclineAnswers-0008",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyAfterDeclineAnswers",
+      "text": "The player asked {context.name} when the chapter meets.",
+      "occurrence": 0,
+      "textRevision": "41c293c115f0"
+    },
+    {
+      "anchor": "partyAfterDeclineAnswers-0009",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyAfterDeclineAnswers",
+      "text": "The player told {context.name}, “Please keep inviting me. That night just didn’t work.”",
+      "occurrence": 0,
+      "textRevision": "d615d7b16d5e"
+    },
+    {
+      "anchor": "partyAfterDeclineAnswers-0010",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyAfterDeclineAnswers",
+      "text": "The player told {context.name}, “To be honest, party meetings aren’t for me right now.”",
+      "occurrence": 0,
+      "textRevision": "a933f27c8100"
+    },
+    {
+      "anchor": "partyAfterDeclineAnswers-0011",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyAfterDeclineAnswers",
+      "text": "To be honest, party meetings aren’t for me right now.",
+      "occurrence": 0,
+      "textRevision": "b9e04f40917c"
+    },
+    {
+      "anchor": "partyAfterDeclineAnswers-0012",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyAfterDeclineAnswers",
+      "text": "When do you usually meet?",
+      "occurrence": 0,
+      "textRevision": "9e440721cff4"
+    },
+    {
+      "anchor": "partyAfterDeclineAnswers-0013",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyAfterDeclineAnswers",
+      "text": "{playerName} asked {otherName} to keep them in mind for meetings.",
+      "occurrence": 0,
+      "textRevision": "318a3b4f4072"
+    },
+    {
+      "anchor": "partyAfterDeclineAnswers-0014",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyAfterDeclineAnswers",
+      "text": "{playerName} told {otherName} party meetings weren’t for them right now.",
+      "occurrence": 0,
+      "textRevision": "e2b01319494f"
+    },
+    {
+      "anchor": "partyAfterDeclineAnswers-0015",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyAfterDeclineAnswers",
+      "text": "“Fair enough. Thanks for being straight with me,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "36bf7bc063f7"
+    },
+    {
+      "anchor": "partyAfterDeclineAnswers-0016",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyAfterDeclineAnswers",
+      "text": "“I appreciate you telling me,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "6a897bc51dda"
+    },
+    {
+      "anchor": "partyAfterDeclineAnswers-0017",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyAfterDeclineAnswers",
+      "text": "“Of course,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "d33dad588caf"
+    },
+    {
+      "anchor": "partyAfterDeclineAnswers-0018",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyAfterDeclineAnswers",
+      "text": "“We meet on {weekday}s at {context.fact(\"startTime\")},” {name} says.",
+      "occurrence": 0,
+      "textRevision": "f20d7d82eb47"
+    },
+    {
+      "anchor": "partyAfterDeclineAnswers-0019",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyAfterDeclineAnswers",
+      "text": "“Will do,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "13e25deff141"
+    },
+    {
+      "anchor": "partyInvitationAnswers-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvitationAnswers",
+      "text": "I’m not sure yet. Can I let you know?",
+      "occurrence": 0,
+      "textRevision": "09519067d672"
+    },
+    {
+      "anchor": "partyInvitationAnswers-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvitationAnswers",
+      "text": "Say no thanks",
+      "occurrence": 0,
+      "textRevision": "0e5f082e2a26"
+    },
+    {
+      "anchor": "partyInvitationAnswers-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvitationAnswers",
+      "text": "Say you’re not sure yet",
+      "occurrence": 0,
+      "textRevision": "fa6c600d1dd9"
+    },
+    {
+      "anchor": "partyInvitationAnswers-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvitationAnswers",
+      "text": "Tell {context.name} you’ll come",
+      "occurrence": 0,
+      "textRevision": "f5c2233f2449"
+    },
+    {
+      "anchor": "partyInvitationAnswers-0005",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvitationAnswers",
+      "text": "Thanks, but I’ll pass on this one.",
+      "occurrence": 0,
+      "textRevision": "44a2f78a849f"
+    },
+    {
+      "anchor": "partyInvitationAnswers-0006",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvitationAnswers",
+      "text": "The invitation stays open; nothing is decided.",
+      "occurrence": 0,
+      "textRevision": "478d447784dc"
+    },
+    {
+      "anchor": "partyInvitationAnswers-0007",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvitationAnswers",
+      "text": "The player accepted {context.name}’s invitation to the {context.fact(\"chapterName\")} meeting.",
+      "occurrence": 0,
+      "textRevision": "855b071065c3"
+    },
+    {
+      "anchor": "partyInvitationAnswers-0008",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvitationAnswers",
+      "text": "The player left {context.name}’s invitation open.",
+      "occurrence": 0,
+      "textRevision": "a2db0e2199a0"
+    },
+    {
+      "anchor": "partyInvitationAnswers-0009",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvitationAnswers",
+      "text": "The player turned down {context.name}’s invitation to the meeting.",
+      "occurrence": 0,
+      "textRevision": "45db20f3cb80"
+    },
+    {
+      "anchor": "partyInvitationAnswers-0010",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvitationAnswers",
+      "text": "This puts the meeting on your calendar as a commitment.",
+      "occurrence": 0,
+      "textRevision": "a8413cc84cdd"
+    },
+    {
+      "anchor": "partyInvitationAnswers-0011",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvitationAnswers",
+      "text": "Turn down this meeting.",
+      "occurrence": 0,
+      "textRevision": "4039c97ac257"
+    },
+    {
+      "anchor": "partyInvitationAnswers-0012",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvitationAnswers",
+      "text": "Yes, I’ll be there.",
+      "occurrence": 0,
+      "textRevision": "bb1491b62ec6"
+    },
+    {
+      "anchor": "partyInvitationAnswers-0013",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvitationAnswers",
+      "text": "{playerName} accepted {otherName}’s invitation to the open meeting.",
+      "occurrence": 0,
+      "textRevision": "70bda0a753f8"
+    },
+    {
+      "anchor": "partyInvitationAnswers-0014",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvitationAnswers",
+      "text": "“Good. {seeYou(day)},” {name} says.",
+      "occurrence": 0,
+      "textRevision": "4a9b04fbdefe"
+    },
+    {
+      "anchor": "partyInvitationAnswers-0015",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvitationAnswers",
+      "text": "“Great. I’ll look for you,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "51c42e1efdb1"
+    },
+    {
+      "anchor": "partyInvitationAnswers-0016",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvitationAnswers",
+      "text": "“No problem. Maybe another time,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "78ee8179e751"
+    },
+    {
+      "anchor": "partyInvitationAnswers-0017",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvitationAnswers",
+      "text": "“Of course. The invitation stands,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "34c0fa70bdf1"
+    },
+    {
+      "anchor": "partyInvitationAnswers-0018",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvitationAnswers",
+      "text": "“Sure. No pressure,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "ca99545380b3"
+    },
+    {
+      "anchor": "partyInvitationAnswers-0019",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvitationAnswers",
+      "text": "“That’s fine. Thanks for picking up,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "c355beb1cfdf"
+    },
+    {
+      "anchor": "partyInvite-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvite",
+      "text": "A call from a local party organizer",
+      "occurrence": 0,
+      "textRevision": "41cf61540ab9"
+    },
+    {
+      "anchor": "partyInvite-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvite",
+      "text": "A local party organizer talking with the player.",
+      "occurrence": 0,
+      "textRevision": "728ce1ce2c21"
+    },
+    {
+      "anchor": "partyInvite-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvite",
+      "text": "An invitation from the {binding.facts.chapterName}",
+      "occurrence": 0,
+      "textRevision": "23935b357d5d"
+    },
+    {
+      "anchor": "partyInvite-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvite",
+      "text": "Decide how involved to be with a local party chapter.",
+      "occurrence": 0,
+      "textRevision": "bc3aa8e3168e"
+    },
+    {
+      "anchor": "partyInvite-0005",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvite",
+      "text": "After the {binding.facts.chapterName} meeting",
+      "occurrence": 0,
+      "textRevision": "3f5ed1c67303"
+    },
+    {
+      "anchor": "partyInvite-0006",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvite",
+      "text": "Joining the {binding.facts.chapterName}",
+      "occurrence": 0,
+      "textRevision": "369f57ab25b6"
+    },
+    {
+      "anchor": "partyJoinAnswers-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyJoinAnswers",
+      "text": "Become a volunteer member. It is not party registration.",
+      "occurrence": 0,
+      "textRevision": "350fd63f46fa"
+    },
+    {
+      "anchor": "partyJoinAnswers-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyJoinAnswers",
+      "text": "Join the {chapter}",
+      "occurrence": 0,
+      "textRevision": "039a3d873d82"
+    },
+    {
+      "anchor": "partyJoinAnswers-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyJoinAnswers",
+      "text": "Keep coming without joining.",
+      "occurrence": 0,
+      "textRevision": "a138d1d0563b"
+    },
+    {
+      "anchor": "partyJoinAnswers-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyJoinAnswers",
+      "text": "Not yet. I’d like to come to a few more meetings first.",
+      "occurrence": 0,
+      "textRevision": "570a673906b9"
+    },
+    {
+      "anchor": "partyJoinAnswers-0005",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyJoinAnswers",
+      "text": "Say not yet",
+      "occurrence": 0,
+      "textRevision": "a4880ea8c438"
+    },
+    {
+      "anchor": "partyJoinAnswers-0006",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyJoinAnswers",
+      "text": "The player joined the {chapter} at {context.name}’s invitation.",
+      "occurrence": 0,
+      "textRevision": "e6754e1c3af3"
+    },
+    {
+      "anchor": "partyJoinAnswers-0007",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyJoinAnswers",
+      "text": "The player told {context.name}, “Not yet. I’d like to come to a few more meetings first.”",
+      "occurrence": 0,
+      "textRevision": "54b1fa9bbc1c"
+    },
+    {
+      "anchor": "partyJoinAnswers-0008",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyJoinAnswers",
+      "text": "Yes. Sign me up.",
+      "occurrence": 0,
+      "textRevision": "7052179ba111"
+    },
+    {
+      "anchor": "partyJoinAnswers-0009",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyJoinAnswers",
+      "text": "{playerName} joined the chapter {otherName} organizes.",
+      "occurrence": 0,
+      "textRevision": "b93d1fcc90c6"
+    },
+    {
+      "anchor": "partyJoinAnswers-0010",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyJoinAnswers",
+      "text": "“Glad to have you,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "d97d711a0536"
+    },
+    {
+      "anchor": "partyJoinAnswers-0011",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyJoinAnswers",
+      "text": "“Take your time,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "7c3111746917"
+    },
+    {
+      "anchor": "partyJoinAnswers-0012",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyJoinAnswers",
+      "text": "“That’s fine. You’re welcome either way,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "d747aae4406e"
+    },
+    {
+      "anchor": "partyJoinAnswers-0013",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyJoinAnswers",
+      "text": "“Welcome aboard. I’ll add you to the list,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "041417d3426d"
+    },
+    {
       "anchor": "passage-0001",
       "sourcePath": "src/simulation/municipal-government.ts",
       "symbol": "passage",
@@ -4699,6 +6091,22 @@
       "textRevision": "fcb46fb2d66a"
     },
     {
+      "anchor": "progressFor-0001",
+      "sourcePath": "src/presentation/people-goals.ts",
+      "symbol": "progressFor",
+      "text": "You filed on {proseDate(campaign.filedAt)}.",
+      "occurrence": 0,
+      "textRevision": "9afc3833a890"
+    },
+    {
+      "anchor": "progressFor-0002",
+      "sourcePath": "src/presentation/people-goals.ts",
+      "symbol": "progressFor",
+      "text": "You have been in touch {since.length===1?\"once\":`${since.length}times`} since you set this.",
+      "occurrence": 0,
+      "textRevision": "582de6165b4c"
+    },
+    {
       "anchor": "projectCampaign-0001",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "projectCampaign",
@@ -4721,6 +6129,38 @@
       "text": "{candidateName} won. The supported term begins {supportedLegislativeTermDates(contest.office.officeKey,contest.electionDate)!.startsAt}; the result itself grants no current office authority.",
       "occurrence": 0,
       "textRevision": "fdcd60cba88c"
+    },
+    {
+      "anchor": "projectDisclosure-0001",
+      "sourcePath": "src/presentation/press-disclosure.ts",
+      "symbol": "projectDisclosure",
+      "text": "Terms are agreed before anything is said. Off the record cannot be published; on background is published only as the exact description you agree.",
+      "occurrence": 0,
+      "textRevision": "a3deb1193093"
+    },
+    {
+      "anchor": "projectLifeContinuation-0001",
+      "sourcePath": "src/presentation/people-continuation.ts",
+      "symbol": "projectLifeContinuation",
+      "text": "You stopped playing {name} on {proseDate(ended.on)}. {person.givenName} goes on living.",
+      "occurrence": 0,
+      "textRevision": "7cb73db860df"
+    },
+    {
+      "anchor": "projectLifeContinuation-0002",
+      "sourcePath": "src/presentation/people-continuation.ts",
+      "symbol": "projectLifeContinuation",
+      "text": "{name} died on {proseDate(ended.on)}.",
+      "occurrence": 0,
+      "textRevision": "b40b770a012f"
+    },
+    {
+      "anchor": "projectLifeContinuation-0003",
+      "sourcePath": "src/presentation/people-continuation.ts",
+      "symbol": "projectLifeContinuation",
+      "text": "{name} has no living child, grandchild, sibling or partner on record to continue as.",
+      "occurrence": 0,
+      "textRevision": "894583b44275"
     },
     {
       "anchor": "projectMeasureBriefing-0001",
@@ -4809,6 +6249,94 @@
       "text": "The bill was enacted; its effective date has not been recorded. Enactment alone does not implement an unmodeled policy effect.",
       "occurrence": 0,
       "textRevision": "7e9e5d00a119"
+    },
+    {
+      "anchor": "projectRecallCards-0001",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "symbol": "projectRecallCards",
+      "text": "You said: “{recorded.stance.statement}”",
+      "occurrence": 0,
+      "textRevision": "06f95fcd4ae6"
+    },
+    {
+      "anchor": "projectRecallCards-0002",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "symbol": "projectRecallCards",
+      "text": "You told {personName(other)}: “{recorded.stance.statement}”",
+      "occurrence": 0,
+      "textRevision": "5bfad94d93ba"
+    },
+    {
+      "anchor": "projectRecallCards-0003",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "symbol": "projectRecallCards",
+      "text": "{STATUS_LINE[entry.status]} You said: {entry.conditions}",
+      "occurrence": 0,
+      "textRevision": "41c6e29e496a"
+    },
+    {
+      "anchor": "projectRecallCards-0004",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "symbol": "projectRecallCards",
+      "text": "{entry.counterpartName} asked you to {entry.task}",
+      "occurrence": 0,
+      "textRevision": "626eb505db83"
+    },
+    {
+      "anchor": "promisedExplain-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "promisedExplain",
+      "text": "Explain why this one matters",
+      "occurrence": 0,
+      "textRevision": "781a712b9b12"
+    },
+    {
+      "anchor": "promisedExplain-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "promisedExplain",
+      "text": "I’m sorry. {promisee}, and I don’t want to go back on that.",
+      "occurrence": 0,
+      "textRevision": "6a3b55ef4a6d"
+    },
+    {
+      "anchor": "promisedExplain-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "promisedExplain",
+      "text": "Say you’d already given your word.",
+      "occurrence": 0,
+      "textRevision": "df056cdc724f"
+    },
+    {
+      "anchor": "promisedExplain-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "promisedExplain",
+      "text": "The player told {context.name}, “I’m sorry. {promisee}, and I don’t want to go back on that.”",
+      "occurrence": 0,
+      "textRevision": "1358b41d7097"
+    },
+    {
+      "anchor": "promisedExplain-0005",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "promisedExplain",
+      "text": "{playerName} explained to {otherName} why they were going out after all.",
+      "occurrence": 0,
+      "textRevision": "0fde94511b2e"
+    },
+    {
+      "anchor": "promisedExplain-0006",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "promisedExplain",
+      "text": "“I understand. Just don’t make it a habit,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "7715b781851e"
+    },
+    {
+      "anchor": "promisedExplain-0007",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "promisedExplain",
+      "text": "“Okay. Tomorrow, then,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "1bb970ce6cae"
     },
     {
       "anchor": "questionLabel-0001",
@@ -4969,6 +6497,166 @@
       "text": "This build has no durable interface store. Pins and private notes were not stored with this life.",
       "occurrence": 0,
       "textRevision": "ae7d44d1e40f"
+    },
+    {
+      "anchor": "recalledAnswers-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "Answer from memory. You may be remembering it wrong.",
+      "occurrence": 0,
+      "textRevision": "aea8b8904b0e"
+    },
+    {
+      "anchor": "recalledAnswers-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "I think I said I’d {lowerFirst(task)}. I’d have to think back.",
+      "occurrence": 0,
+      "textRevision": "07b73e3aa011"
+    },
+    {
+      "anchor": "recalledAnswers-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "I’d rather not get into it now.",
+      "occurrence": 0,
+      "textRevision": "07d6d6341c67"
+    },
+    {
+      "anchor": "recalledAnswers-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "Neither confirm nor deny.",
+      "occurrence": 0,
+      "textRevision": "467511007607"
+    },
+    {
+      "anchor": "recalledAnswers-0005",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "Of course. I said I’d {lowerFirst(task)}.",
+      "occurrence": 0,
+      "textRevision": "9c0734304a01"
+    },
+    {
+      "anchor": "recalledAnswers-0006",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "Say you agreed",
+      "occurrence": 0,
+      "textRevision": "274bbfdb16ea"
+    },
+    {
+      "anchor": "recalledAnswers-0007",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "Say you think you agreed, but you’re not certain",
+      "occurrence": 0,
+      "textRevision": "72530dc5177e"
+    },
+    {
+      "anchor": "recalledAnswers-0008",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "Say you think you agreed, though you can’t quite recall",
+      "occurrence": 0,
+      "textRevision": "22d8166d88ce"
+    },
+    {
+      "anchor": "recalledAnswers-0009",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "Say you’d rather not get into it",
+      "occurrence": 0,
+      "textRevision": "9f77fef44dd0"
+    },
+    {
+      "anchor": "recalledAnswers-0010",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "The player declined to say what had become of the {lowerFirst(task)}.",
+      "occurrence": 0,
+      "textRevision": "dbd5eb621d31"
+    },
+    {
+      "anchor": "recalledAnswers-0011",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "The player told {context.name} they had agreed to {lowerFirst(task)}, having declined.",
+      "occurrence": 0,
+      "textRevision": "cb0fb9cacfe5"
+    },
+    {
+      "anchor": "recalledAnswers-0012",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "The player told {context.name}, from memory, that they thought they had agreed to {lowerFirst(task)}.",
+      "occurrence": 0,
+      "textRevision": "b7912d5c3569"
+    },
+    {
+      "anchor": "recalledAnswers-0013",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "You know you declined.",
+      "occurrence": 0,
+      "textRevision": "6dab1320b7e6"
+    },
+    {
+      "anchor": "recalledAnswers-0014",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "{context.player.givenName} said they had agreed to {lowerFirst(task)}.",
+      "occurrence": 0,
+      "textRevision": "d893c88d2245"
+    },
+    {
+      "anchor": "recalledAnswers-0015",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "“All right. I won’t push,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "bebdaf4277b3"
+    },
+    {
+      "anchor": "recalledAnswers-0016",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "“All right. That’s not how I had it,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "0fc56b6d1668"
+    },
+    {
+      "anchor": "recalledAnswers-0017",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "“That’s how I remember it too,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "8c79a9984f06"
+    },
+    {
+      "anchor": "recalledAnswers-0018",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "“Then I must have got it wrong,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "596704390540"
+    },
+    {
+      "anchor": "recalledAnswers-0019",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "“Understood,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "eb9b017cf020"
+    },
+    {
+      "anchor": "recalledAnswers-0020",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "“We can check between us,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "6601ff0fc399"
     },
     {
       "anchor": "recapSentence-0001",
@@ -5619,6 +7307,198 @@
       "textRevision": "39de11314d2e"
     },
     {
+      "anchor": "reporterQuestion-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestion",
+      "text": "A call from a reporter",
+      "occurrence": 0,
+      "textRevision": "16154fa76b3c"
+    },
+    {
+      "anchor": "reporterQuestion-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestion",
+      "text": "A reporter asking about a promise the player made.",
+      "occurrence": 0,
+      "textRevision": "08c9d79c09d3"
+    },
+    {
+      "anchor": "reporterQuestion-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestion",
+      "text": "A reporter’s question",
+      "occurrence": 0,
+      "textRevision": "dc37a1118c28"
+    },
+    {
+      "anchor": "reporterQuestion-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestion",
+      "text": "Answer, or decline to answer, a reporter's question.",
+      "occurrence": 0,
+      "textRevision": "78fff631408b"
+    },
+    {
+      "anchor": "reporterQuestion-0005",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestion",
+      "text": "The reporter calls back",
+      "occurrence": 0,
+      "textRevision": "bd2136d45870"
+    },
+    {
+      "anchor": "reporterQuestion-0006",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestion",
+      "text": "A reporter asks about your campaign",
+      "occurrence": 0,
+      "textRevision": "eecad1605f0e"
+    },
+    {
+      "anchor": "reporterQuestionFor-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "Confirm it",
+      "occurrence": 0,
+      "textRevision": "3f587de3dc38"
+    },
+    {
+      "anchor": "reporterQuestionFor-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "I don’t discuss private conversations.",
+      "occurrence": 0,
+      "textRevision": "f4b81ee82ed8"
+    },
+    {
+      "anchor": "reporterQuestionFor-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "I’m not going to talk about my evening plans.",
+      "occurrence": 0,
+      "textRevision": "9dcf847b4296"
+    },
+    {
+      "anchor": "reporterQuestionFor-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "No. I haven’t agreed to anything like that.",
+      "occurrence": 0,
+      "textRevision": "1f8508a54d82"
+    },
+    {
+      "anchor": "reporterQuestionFor-0005",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "No. I never made that promise.",
+      "occurrence": 0,
+      "textRevision": "01952e6c98e3"
+    },
+    {
+      "anchor": "reporterQuestionFor-0006",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "Say you told {organizer} yes",
+      "occurrence": 0,
+      "textRevision": "fc1d684436e3"
+    },
+    {
+      "anchor": "reporterQuestionFor-0007",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "The player denied to {context.name} agreeing to go to the {meeting}, though the player had said yes to {organizer}.",
+      "occurrence": 0,
+      "textRevision": "a1bf9456c892"
+    },
+    {
+      "anchor": "reporterQuestionFor-0008",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "The player denied to {context.name} making any promise to {promisee}, though the promise had been made.",
+      "occurrence": 0,
+      "textRevision": "ef91009b608a"
+    },
+    {
+      "anchor": "reporterQuestionFor-0009",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "The player promised {promisee} to {stance} {question}.",
+      "occurrence": 0,
+      "textRevision": "2c949700f467"
+    },
+    {
+      "anchor": "reporterQuestionFor-0010",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "The player told {organizer} they would come to the {meeting} on {proseDate(binding.date!)}.",
+      "occurrence": 0,
+      "textRevision": "8e7fd6425de1"
+    },
+    {
+      "anchor": "reporterQuestionFor-0011",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "Yes. I told {organizer} I’d be there.",
+      "occurrence": 0,
+      "textRevision": "9aeb85678c87"
+    },
+    {
+      "anchor": "reporterQuestionFor-0012",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "Yes. I told {promisee} I would {stance} {question}.",
+      "occurrence": 0,
+      "textRevision": "20de2201c7d5"
+    },
+    {
+      "anchor": "reporterQuestionFor-0013",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "{context.fullName}{of} is asking whether you promised {promisee} you would {stance} {question}. You did, on {proseDate(context.fact(\"statedAt\"))}: “{context.fact(\"commitmentStatement\")}”",
+      "occurrence": 0,
+      "textRevision": "b3822f41151d"
+    },
+    {
+      "anchor": "reporterQuestionFor-0014",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "{context.fullName}{of} is asking whether you told {organizer} you would come to the {meeting} on {proseDate(binding.date!)}. You did.",
+      "occurrence": 0,
+      "textRevision": "a5df667fc1fa"
+    },
+    {
+      "anchor": "reporterQuestionFor-0015",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "“This is {context.fullName}{outlet}. Did you promise {promisee} you would {stance} {question}?”",
+      "occurrence": 0,
+      "textRevision": "fa1ee8b4f120"
+    },
+    {
+      "anchor": "reporterQuestionFor-0016",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "“This is {context.fullName}{outlet}. I understand you told {organizer} you’d come to the {meeting} {day}. Is that right?”",
+      "occurrence": 0,
+      "textRevision": "edb55b1af250"
+    },
+    {
+      "anchor": "reporterQuestionFor-0017",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "“{context.fullName} here{outlet}. I’m trying to confirm something: did you tell {promisee} you’d {stance} {question}?”",
+      "occurrence": 0,
+      "textRevision": "fb8a03b4fa0b"
+    },
+    {
+      "anchor": "reporterQuestionFor-0018",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "“{context.fullName} here{outlet}. Quick question: are you going to the {meeting} {day}? I heard you told {organizer} yes.”",
+      "occurrence": 0,
+      "textRevision": "2b0bc2138ab2"
+    },
+    {
       "anchor": "requirementNoteFor-0001",
       "sourcePath": "src/presentation/legislation-projection.ts",
       "symbol": "requirementNoteFor",
@@ -5721,6 +7601,38 @@
       "text": "“We left it where it was,” {speakerName} says.",
       "occurrence": 0,
       "textRevision": "96bbce16f4ee"
+    },
+    {
+      "anchor": "staffFollowup-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "staffFollowup",
+      "text": "A staff member asking how to handle a pending bill.",
+      "occurrence": 0,
+      "textRevision": "94351ae33023"
+    },
+    {
+      "anchor": "staffFollowup-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "staffFollowup",
+      "text": "Decide who follows a pending measure.",
+      "occurrence": 0,
+      "textRevision": "09673fa7a32b"
+    },
+    {
+      "anchor": "staffFollowup-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "staffFollowup",
+      "text": "Follow-up on {binding.facts.designation}",
+      "occurrence": 0,
+      "textRevision": "7ed90b91ed78"
+    },
+    {
+      "anchor": "staffFollowup-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "staffFollowup",
+      "text": "Your office",
+      "occurrence": 0,
+      "textRevision": "adf74a00af7a"
     },
     {
       "anchor": "threadMovementSentence-0001",
@@ -5849,6 +7761,38 @@
       "text": "There is nothing in the account to spend.",
       "occurrence": 0,
       "textRevision": "1b5c8d4ed244"
+    },
+    {
+      "anchor": "unavailableReason-0001",
+      "sourcePath": "src/presentation/people-goals.ts",
+      "symbol": "unavailableReason",
+      "text": "Nobody you know has been out of touch for a year.",
+      "occurrence": 0,
+      "textRevision": "f33d1c0c7c2d"
+    },
+    {
+      "anchor": "unavailableReason-0002",
+      "sourcePath": "src/presentation/people-goals.ts",
+      "symbol": "unavailableReason",
+      "text": "There is nobody you have met who is an adult, outside your family, and not already partnered — or you are partnered yourself.",
+      "occurrence": 0,
+      "textRevision": "8d131924ec40"
+    },
+    {
+      "anchor": "unavailableReason-0003",
+      "sourcePath": "src/presentation/people-goals.ts",
+      "symbol": "unavailableReason",
+      "text": "You don’t know of any public matter yet. Reading the news helps.",
+      "occurrence": 0,
+      "textRevision": "e420797fb424"
+    },
+    {
+      "anchor": "unavailableReason-0004",
+      "sourcePath": "src/presentation/people-goals.ts",
+      "symbol": "unavailableReason",
+      "text": "You need to be an adult to run for office.",
+      "occurrence": 0,
+      "textRevision": "1067680294ef"
     },
     {
       "anchor": "uncertaintiesFor-0001",

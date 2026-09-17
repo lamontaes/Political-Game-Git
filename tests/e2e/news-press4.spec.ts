@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { expectChosen } from "./support/controls";
 
 test("keyboard route preserves condensed intent and exact confirmed wording", async ({
   page,
@@ -16,7 +17,8 @@ test("keyboard route preserves condensed intent and exact confirmed wording", as
     "not a refusal",
   );
   await page.getByRole("button", { name: /Add context/u }).click();
-  await expect(page.getByLabel("Reporter question being answered")).toHaveValue(
+  await expectChosen(
+    page.getByLabel("Reporter question being answered"),
     "Which details are not yet decided?",
   );
   const expected =

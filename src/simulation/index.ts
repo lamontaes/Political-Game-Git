@@ -11,6 +11,7 @@ export * from "./campaign-compliance-rules";
 export * from "./candidate-qualification";
 export * from "./office-qualification-rules";
 export * from "./office-workflow";
+export * from "./world-setup";
 /**
  * Campaign operations are named one by one on purpose.
  *
@@ -201,6 +202,7 @@ export * from "./politics";
 export * from "./press-interviews";
 export * from "./press-interview-producers";
 export * from "./press-reach";
+export * from "./press";
 export * from "./public-information";
 export * from "./political-belief-formation";
 export * from "./quantity";

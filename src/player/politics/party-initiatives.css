@@ -1,0 +1,120 @@
+/* Politics > Parties: party proposals and party-body decisions (CRUNCH46 UI). */
+
+.pg-party-initiatives {
+  display: grid;
+  gap: var(--pg-space-3);
+  margin: var(--pg-space-4) 0 0;
+  padding: var(--pg-space-3) var(--pg-space-4);
+  color: var(--pg-ivory);
+  background: var(--pg-glass);
+  border: 1px solid var(--pg-hairline);
+  border-radius: var(--pg-radius);
+}
+
+.pg-party-initiatives h2,
+.pg-party-initiatives h3,
+.pg-party-initiatives h4 {
+  margin: 0;
+  font-family: var(--pg-font-display);
+}
+
+.pg-party-initiative-list {
+  display: grid;
+  gap: var(--pg-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pg-party-initiative-list li {
+  display: grid;
+  gap: var(--pg-space-1);
+  padding: var(--pg-space-2) var(--pg-space-3);
+  border: 1px solid var(--pg-hairline);
+  border-radius: var(--pg-radius);
+}
+
+.pg-party-initiative-meta {
+  font-size: 0.85rem;
+  color: var(--pg-ivory-dim);
+}
+
+.pg-party-initiative-actions,
+.pg-party-bodies fieldset {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pg-space-2);
+}
+
+.pg-party-propose {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 18rem);
+  align-items: center;
+  gap: var(--pg-space-2) var(--pg-space-3);
+}
+
+.pg-party-propose h3,
+.pg-party-propose .game-note,
+.pg-party-propose button[type="submit"] {
+  grid-column: 1 / -1;
+}
+
+.pg-party-propose button[type="submit"] {
+  justify-self: start;
+}
+
+.pg-party-propose input {
+  min-width: 0;
+  padding: 0.35rem 0.55rem;
+  font: inherit;
+  color: var(--pg-ivory);
+  background: var(--pg-glass-strong);
+  border: 1px solid var(--pg-hairline);
+  border-radius: 3px;
+}
+
+.pg-party-initiatives button:not(.pg-select) {
+  padding: 0.35rem 0.75rem;
+  font: inherit;
+  font-size: 0.88rem;
+  color: var(--pg-ivory);
+  background: var(--pg-glass-strong);
+  border: 1px solid var(--pg-brass-dim);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.pg-party-initiatives button:not(.pg-select):hover {
+  border-color: var(--pg-brass);
+}
+
+.pg-party-initiatives button:not(.pg-select):focus-visible,
+.pg-party-propose input:focus-visible {
+  outline: 2px solid var(--pg-brass);
+  outline-offset: 2px;
+}
+
+.pg-party-bodies {
+  display: grid;
+  gap: var(--pg-space-2);
+}
+
+.pg-party-bodies fieldset {
+  margin: 0;
+  padding: var(--pg-space-2);
+  border: 1px solid var(--pg-hairline);
+  border-radius: var(--pg-radius);
+}
+
+.pg-party-initiatives-note {
+  min-height: 1.2em;
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--pg-ivory-dim);
+}
+
+@media (max-width: 40rem) {
+  .pg-party-propose {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

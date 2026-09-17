@@ -1,6 +1,16 @@
+import { isPersonAliveAt } from "../vitality-integrity";
+import {
+  householdMembershipsAt,
+  kinshipRelationshipsAt,
+  peopleInHouseholdAt,
+} from "../life-queries";
 import type { EntityId, EventVisibility, IsoDate, World } from "../types";
 import { MORTALITY_CAUSE_KEY } from "./mortality";
-import { pendingDisasterDecisions } from "./disaster";
+import {
+  PROVISIONAL_DISASTER_POLICY,
+  disasterRepairQueue,
+  pendingDisasterDecisions,
+} from "./disaster";
 import { pendingInternationalDecisions } from "./international";
 import { crisisRecordIndex, crisisRecords } from "./records";
 import type {
@@ -106,6 +116,218 @@ export function crisisPersonDeathNotices(
         world.control.personId === death.personId,
       heldOffice: officeDeaths.has(death.id),
     }));
+}
+
+/**
+ * One death reaches one recipient once.
+ *
+ * B (people and information) writes family knowledge and grief from these;
+ * D (governing) reads the office-continuity notice instead. The same death
+ * produces both, and neither is the other's duplicate. `effectKey` is stable
+ * for (death, recipient, relation), so a re-read after any time advance
+ * returns the same key and a consumer that stored it writes nothing again.
+ */
+export interface PersonDeathRecipientNotice {
+  readonly effectKey: string;
+  readonly sequence: number;
+  readonly deathEventId: EntityId;
+  readonly deathRecordId: EntityId;
+  /** The person who died. */
+  readonly personId: EntityId;
+  readonly diedAt: IsoDate;
+  readonly recipientPersonId: EntityId;
+  /** The relation CRISIS can see; never a claim about closeness. */
+  readonly relationKind: string;
+  readonly controlledPerson: boolean;
+  readonly causeKey: string;
+  readonly causeResolved: boolean;
+  /**
+   * Whether the CAUSE may be told to this recipient, which is separate from
+   * the fact of the death. False unless a health disclosure actually reached
+   * them (or was public). Never inferred from the cause key.
+   */
+  readonly disclosable: boolean;
+  /** The disclosure that makes the cause tellable, when one does. */
+  readonly disclosureRecordId: EntityId | null;
+  /** True when this recipient already knows the death event. */
+  readonly alreadyKnew: boolean;
+}
+
+/**
+ * Every living recipient of every death after `afterSequence`: household
+ * members and recorded kin as CRISIS sees them, each once, with the strongest
+ * relation it can name.
+ */
+export function crisisPersonDeathRecipientNotices(
+  world: World,
+  options: { readonly afterSequence?: number } = {},
+): readonly PersonDeathRecipientNotice[] {
+  const notices: PersonDeathRecipientNotice[] = [];
+  for (const death of crisisPersonDeathNotices(world, options)) {
+    const cutoff = {
+      asOfDate: death.diedAt,
+      historySequenceExclusive: world.history.nextSequence,
+    };
+    const relations = new Map<EntityId, string>();
+    for (const relationship of kinshipRelationshipsAt(
+      world,
+      death.personId,
+      cutoff,
+    )) {
+      const other = relationship.personIds.find((id) => id !== death.personId);
+      if (other && !relations.has(other))
+        relations.set(other, relationship.kind);
+    }
+    for (const membership of householdMembershipsAt(
+      world,
+      death.personId,
+      cutoff,
+    )) {
+      for (const memberId of peopleInHouseholdAt(
+        world,
+        membership.household.id,
+        cutoff,
+      )) {
+        if (memberId === death.personId) continue;
+        if (!relations.has(memberId))
+          relations.set(memberId, "household:member");
+      }
+    }
+    const disclosures = crisisRecords(world).filter(
+      (record) =>
+        record.kind === "health-disclosure" &&
+        record.personId === death.personId,
+    );
+    for (const [recipientPersonId, relationKind] of [...relations].sort(
+      (a, b) => a[0].localeCompare(b[0]),
+    )) {
+      if (!world.people[recipientPersonId]) continue;
+      if (!isPersonAliveAt(world, recipientPersonId, cutoff)) continue;
+      const disclosure = disclosures.find(
+        (record) =>
+          record.kind === "health-disclosure" &&
+          (record.access === "public" ||
+            record.recipientIds.includes(recipientPersonId)),
+      );
+      notices.push({
+        effectKey: `crisis:person-death:${death.deathRecordId}:${recipientPersonId}:${relationKind}`,
+        sequence: death.sequence,
+        deathEventId: death.deathEventId,
+        deathRecordId: death.deathRecordId,
+        personId: death.personId,
+        diedAt: death.diedAt,
+        recipientPersonId,
+        relationKind,
+        controlledPerson: death.controlledPerson,
+        causeKey: death.causeKey,
+        causeResolved: death.causeResolved,
+        disclosable: death.causeResolved && disclosure !== undefined,
+        disclosureRecordId: disclosure?.id ?? null,
+        alreadyKnew: world.history.knowledge.some(
+          (record) =>
+            record.personId === recipientPersonId &&
+            record.eventId === death.deathEventId,
+        ),
+      });
+    }
+  }
+  return notices;
+}
+
+/**
+ * What a repair still needs, for D's authorized funding path.
+ *
+ * CRISIS records the decision, the programs and the physical repair queue and
+ * never an amount: the money figure comes from an adopted appropriation on
+ * GOVERNING's side. One request per episode per aid decision, keyed so a
+ * consumer applies it once.
+ */
+export interface RepairFundingRequest {
+  readonly requestKey: string;
+  readonly sequence: number;
+  readonly episodeId: EntityId;
+  readonly stateUsps: string;
+  readonly jurisdictionIds: readonly EntityId[];
+  readonly decisionRecordId: EntityId;
+  /** Null when the decision was recorded without its own public event. */
+  readonly decisionEventId: EntityId | null;
+  readonly decisionStage: string;
+  readonly decidedAt: IsoDate;
+  readonly federallyAssisted: boolean;
+  readonly programs: readonly string[];
+  /** Physical work, not money: units the queue still has to do. */
+  readonly remainingRepairUnits: number;
+  readonly totalRepairUnits: number;
+  readonly weeklyCapacity: {
+    readonly local: number;
+    readonly federallyAssisted: number;
+  };
+  /** Always null here. An amount belongs to an adopted appropriation. */
+  readonly amount: null;
+}
+
+export function crisisRepairFundingRequests(
+  world: World,
+  options: { readonly afterSequence?: number } = {},
+): readonly RepairFundingRequest[] {
+  const after = options.afterSequence ?? -1;
+  const records = crisisRecords(world);
+  const episodes = new Map(
+    records.flatMap((record) =>
+      record.kind === "hazard-episode" ? [[record.id, record] as const] : [],
+    ),
+  );
+  return records.flatMap((record) => {
+    if (record.kind !== "disaster-response" || record.sequence <= after)
+      return [];
+    // An aid decision, not a local response or a follow-up note.
+    if (
+      record.stage !== "federal-declared" &&
+      record.stage !== "federal-denied" &&
+      record.stage !== "state-request"
+    )
+      return [];
+    const episode = episodes.get(record.episodeId);
+    if (!episode || episode.kind !== "hazard-episode") return [];
+    const damages = records.filter(
+      (candidate) =>
+        candidate.kind === "disaster-damage" &&
+        candidate.episodeId === record.episodeId &&
+        candidate.level !== "service-interrupted",
+    );
+    const total = damages.reduce(
+      (sum, damage) =>
+        sum + (damage.kind === "disaster-damage" ? damage.repairUnits : 0),
+      0,
+    );
+    const remaining = disasterRepairQueue(world, record.episodeId).reduce(
+      (sum, entry) => sum + entry.remainingUnits,
+      0,
+    );
+    return [
+      {
+        requestKey: `crisis:repair-funding:${record.episodeId}:${record.id}`,
+        sequence: record.sequence,
+        episodeId: record.episodeId,
+        stateUsps: episode.stateUsps,
+        jurisdictionIds: episode.jurisdictionIds,
+        decisionRecordId: record.id,
+        decisionEventId: record.eventId,
+        decisionStage: record.stage,
+        decidedAt: record.effectiveAt,
+        federallyAssisted: record.stage === "federal-declared",
+        programs: record.programs,
+        remainingRepairUnits: remaining,
+        totalRepairUnits: total,
+        weeklyCapacity: {
+          local: PROVISIONAL_DISASTER_POLICY.weeklyCapacity.local,
+          federallyAssisted:
+            PROVISIONAL_DISASTER_POLICY.weeklyCapacity.federalAssisted,
+        },
+        amount: null,
+      },
+    ];
+  });
 }
 
 export type CrisisEnvelopeKind =

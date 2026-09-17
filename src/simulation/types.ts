@@ -9,6 +9,7 @@ import type {
 import type { WorldContentPacks } from "./runtime-content-packs";
 
 import type { AppearanceMaterial } from "./appearance-material";
+import type { MediaOutletKey, PressRecord } from "./press/records";
 import type {
   NationalElection,
   NationalElectionRecord,
@@ -19,6 +20,8 @@ import type {
   ConstitutionalRuleVersionRecord,
 } from "./constitutional-types";
 import type { PublicFundingMandate } from "./public-fiscal";
+import type { MacroEconomyStore } from "./macro-economy/types";
+import type { PartyRecord, WorldConditionRecord } from "./world-setup/types";
 import type {
   TaxProposalRecord,
   TaxPolicyRecord,
@@ -44,6 +47,8 @@ export interface SimulationMoment {
 }
 
 export type EntityKind =
+  | "world-condition"
+  | "party-record"
   | "constitutional-measure"
   | "constitutional-action"
   | "crisis-record"
@@ -146,6 +151,7 @@ export type EntityKind =
   | "policy-operation"
   | "policy-realization"
   | "publication"
+  | "press-record"
   | "principle"
   | "principle-definition"
   | "proposition-exposure"
@@ -3322,7 +3328,7 @@ export interface CampaignComplianceDocumentRecord {
 // ---------------------------------------------------------------------------
 
 export type PublicationKind =
-  "legislative-development" | "recorded-vote" | "civic-event";
+  "legislative-development" | "recorded-vote" | "civic-event" | "press-story";
 
 /**
  * One edition of a public-information item.
@@ -3340,8 +3346,9 @@ export interface PublicationRecord {
   /** Canonical domain records that substantiate the source event, when any. */
   readonly sourceRecordIds: readonly EntityId[];
   readonly jurisdictionId: EntityId | null;
-  readonly outletKey: "civic-ledger";
-  readonly outletName: "Civic Ledger";
+  /** Civic Ledger, or a PRESS46 media outlet (`media:<outletId>`). */
+  readonly outletKey: "civic-ledger" | MediaOutletKey;
+  readonly outletName: string;
   readonly headline: string;
   readonly body: string;
   readonly publishedAt: IsoDate;
@@ -3697,6 +3704,8 @@ export interface HistoryStore {
   readonly campaignOpponentSteps?: readonly CampaignOpponentStepRecord[];
   /** Optional so pre-NEWS-HELP2 snapshots remain structurally readable. */
   readonly publications?: readonly PublicationRecord[];
+  /** PRESS46: optional so earlier saves read as an empty press history. */
+  readonly pressRecords?: readonly PressRecord[];
   /** CRISIS severe-event records; absent in Worlds written before them. */
   readonly crisisRecords?: readonly CrisisRecord[];
   readonly legislativeMeasures?: readonly LegislativeMeasureRecord[];
@@ -3728,6 +3737,13 @@ export interface HistoryStore {
   readonly legislativeEnactments?: readonly LegislativeEnactmentRecord[];
   /** Optional so pre-CIVIL-AUTHORITY13 snapshots remain structurally readable. */
   readonly personnelRecords?: readonly PersonnelRecord[];
+  /**
+   * WORLD: a save's generated starting conditions and opening version.
+   * Optional so older snapshots, which never had them, stay readable.
+   */
+  readonly worldConditions?: readonly WorldConditionRecord[];
+  /** WORLD: political organization identity, decisions and evolution. */
+  readonly partyRecords?: readonly PartyRecord[];
   /** Optional so pre-GOVERNING-6 snapshots remain structurally readable. */
   readonly publicProgramRecords?: readonly PublicProgramRecord[];
   readonly futureDueItems: readonly FutureDueItem[];
@@ -4562,4 +4578,9 @@ export interface World {
    * a convention.
    */
   readonly setupPriors?: SetupPriorStore;
+  /**
+   * CHANGE macro history (CRUNCH46 08). Optional and additive: a world
+   * written before it existed has no macro history and is never retrofitted.
+   */
+  readonly macroEconomy?: MacroEconomyStore;
 }

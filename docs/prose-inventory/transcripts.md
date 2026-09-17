@@ -529,8 +529,8 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 #### Beat 8 — 2026-03-24, age 34 (episode, civic.the-thing-nobody-else-turned-up-for/you-said-something)
 
 > A couple of months on.
-> You saw Caleb Terrell.
-> You and Edward Todd were in and out of each other's business more than once.
+> You and Devon Lewis were in and out of each other's business more than once.
+> Things came up at home with Caleb Terrell more than once in that time.
 
 The group has settled into eight people and one of them keeps looking at you when a decision needs making. There is a position going that nobody wants and that somebody has to hold.
 
@@ -620,8 +620,8 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 #### Beat 16 — 2026-05-10, age 35 (episode, opening.adult.home.free-time/moment)
 
 > A couple of months on, and you're 35 now.
-> You saw Caleb Terrell.
-> You saw Edward Todd.
+> You and Devon Lewis were in and out of each other's business more than once.
+> Things came up at home with Caleb Terrell more than once in that time.
 
 You're at home with fifteen minutes free.
 

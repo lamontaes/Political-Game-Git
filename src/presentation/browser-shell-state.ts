@@ -1,4 +1,6 @@
 import type { PersonWardrobePreference } from "./person-visual-selection";
+import { readMapPreferences } from "../maps/map-preferences";
+import { guideTerm } from "./guide-terms";
 import {
   DEFAULT_DATABASE_NAME,
   INTERFACE_STORE_NAME,
@@ -72,7 +74,13 @@ const REF_KINDS: readonly ShellRef["kind"][] = [
 
 export interface StoredShellState {
   readonly personWardrobes?: Readonly<Record<string, PersonWardrobePreference>>;
+  /**
+   * The slot-wide notebook older records kept. Read back as written; the
+   * shell hands it to the person who was played when it was written.
+   */
   readonly journal?: PrivateJournal;
+  /** Private notebooks keyed by the played person they belong to. */
+  readonly journals?: Readonly<Record<string, PrivateJournal>>;
   readonly pins: readonly ShellPin[];
   readonly preferences: ShellPreferences;
   readonly progress?: InterfaceProgress;
@@ -82,6 +90,7 @@ export const EMPTY_SHELL_STATE: StoredShellState = {
   pins: [],
   preferences: DEFAULT_PREFERENCES,
   journal: EMPTY_JOURNAL,
+  journals: {},
   personWardrobes: {},
   progress: LEGACY_INTERFACE_PROGRESS,
 };
@@ -185,6 +194,25 @@ function readPreferences(value: unknown): ShellPreferences {
     value.governmentScope === "federal"
       ? value.governmentScope
       : DEFAULT_PREFERENCES.governmentScope;
+  /*
+   * A record written before the Guide existed simply has no learned terms, so
+   * it reads back as a player who has marked none — which is exactly what they
+   * had. Unknown and malformed entries are dropped rather than kept, because a
+   * key no catalog resolves would be an entry the Guide cannot show.
+   */
+  const learnedGuideTermKeys = Array.isArray(value.learnedGuideTermKeys)
+    ? [
+        ...new Set(
+          value.learnedGuideTermKeys
+            .filter(
+              (entry): entry is string =>
+                typeof entry === "string" && entry.trim().length > 0,
+            )
+            .map((entry) => entry.trim())
+            .filter((entry) => guideTerm(entry) !== null),
+        ),
+      ]
+    : DEFAULT_PREFERENCES.learnedGuideTermKeys;
   return {
     peopleView,
     defaultPinSize,
@@ -197,6 +225,9 @@ function readPreferences(value: unknown): ShellPreferences {
     journalYear,
     politicsPlace,
     governmentScope,
+    // Saves written before the map existed have no map field; defaults apply.
+    map: readMapPreferences(value.map),
+    learnedGuideTermKeys,
   };
 }
 
@@ -213,6 +244,7 @@ export function readStoredShellState(value: unknown): StoredShellState | null {
   if (!SHELL_RECORD_VERSIONS.includes(value.version as number)) return null;
   return {
     journal: readJournal(value.journal),
+    journals: readJournals(value.journals),
     personWardrobes: readWardrobes(value.personWardrobes),
     pins: readPins(value.pins),
     preferences: readPreferences(value.preferences),
@@ -254,10 +286,75 @@ export function encodeStoredShellState(
     saveId,
     version: SHELL_RECORD_VERSION,
     journal: readJournal(state.journal),
+    journals: readJournals(state.journals),
     personWardrobes: readWardrobes(state.personWardrobes),
     pins: readPins(state.pins).map((pin) => ({ ref: pin.ref, size: pin.size })),
     preferences: readPreferences(state.preferences),
     progress: readProgress(state.progress),
+  };
+}
+
+function readJournals(
+  value: unknown,
+): Readonly<Record<string, PrivateJournal>> {
+  if (!isRecord(value)) return {};
+  const journals: Record<string, PrivateJournal> = {};
+  for (const [personId, journal] of Object.entries(value)) {
+    if (!personId || !isRecord(journal)) continue;
+    journals[personId] = readJournal(journal);
+  }
+  return journals;
+}
+
+function isEmptyJournal(journal: PrivateJournal): boolean {
+  return journal.ambition === "" && journal.notes.length === 0;
+}
+
+/**
+ * Gives a slot-wide notebook from an older record to the person it was
+ * written by: the save's original controlled person, since notebooks were
+ * slot-wide only before anybody could be continued. Nothing is dropped — a
+ * notebook that person already has keeps its own intentions and gains the old
+ * notes it does not already hold. With nobody to give it to, it stays
+ * unassigned rather than being shown to whoever is played now.
+ */
+export function assignLegacyJournal(
+  stored: Pick<StoredShellState, "journal" | "journals">,
+  originalPersonId: EntityId | null,
+): {
+  readonly journals: Readonly<Record<string, PrivateJournal>>;
+  readonly legacyJournal: PrivateJournal;
+} {
+  const journals = stored.journals ?? {};
+  const legacy = stored.journal ?? EMPTY_JOURNAL;
+  if (isEmptyJournal(legacy)) return { journals, legacyJournal: EMPTY_JOURNAL };
+  if (originalPersonId === null) return { journals, legacyJournal: legacy };
+  const existing = journals[originalPersonId];
+  if (!existing) {
+    return {
+      journals: { ...journals, [originalPersonId]: legacy },
+      legacyJournal: EMPTY_JOURNAL,
+    };
+  }
+  const held = new Set(existing.notes.map((note) => note.id));
+  const ambition =
+    existing.ambition === ""
+      ? legacy.ambition
+      : legacy.ambition === "" || existing.ambition.includes(legacy.ambition)
+        ? existing.ambition
+        : `${existing.ambition}\n\n${legacy.ambition}`;
+  return {
+    journals: {
+      ...journals,
+      [originalPersonId]: {
+        ambition,
+        notes: [
+          ...existing.notes,
+          ...legacy.notes.filter((note) => !held.has(note.id)),
+        ],
+      },
+    },
+    legacyJournal: EMPTY_JOURNAL,
   };
 }
 

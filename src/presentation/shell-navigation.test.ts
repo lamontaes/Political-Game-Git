@@ -7,6 +7,7 @@ import {
   LEGACY_INTERFACE_PROGRESS,
   activeView,
   canGoBack,
+  conversationSuspended,
   isPinned,
   refKey,
   sameRef,
@@ -312,6 +313,24 @@ describe("preferences", () => {
     expect(restored.pins).toHaveLength(1);
   });
 
+  it("sets the map view through one validated action", () => {
+    const next = shellReducer(INITIAL_SHELL_STATE, {
+      type: "set-map-preferences",
+      preferences: {
+        mode: "senate",
+        stateUsps: null,
+        labels: false,
+        presentation: "map",
+      },
+    });
+    expect(next.preferences.map.mode).toBe("senate");
+    expect(next.preferences.map.labels).toBe(false);
+    expect(next.preferences.peopleView).toBe(
+      INITIAL_SHELL_STATE.preferences.peopleView,
+    );
+    expect(next.history).toEqual(INITIAL_SHELL_STATE.history);
+  });
+
   it("follows and unfollows a represented outlet without touching navigation", () => {
     const followed = shellReducer(INITIAL_SHELL_STATE, {
       type: "toggle-news-outlet-follow",
@@ -448,5 +467,211 @@ describe("interface progress", () => {
       preferences: DEFAULT_PREFERENCES,
     });
     expect(restored.progress).toEqual(LEGACY_INTERFACE_PROGRESS);
+  });
+});
+
+/**
+ * CRUNCH47 A1 — what Back means, and what is waiting when it lands.
+ *
+ * The recorded defect: a household conversation started from People, then
+ * Politics and its Issues and budget tab, then ONE press of the workspace's
+ * Back left the player on the tab they had passed through on the way in. Two
+ * levels had been stacked for one workspace, because a tab dispatched the same
+ * action a menu entry does.
+ */
+describe("the workspace, its tabs, and a conversation waiting in the room", () => {
+  const HOUSEHOLD = "household-obligation" as const;
+
+  /** People, then a conversation in the room with somebody from that list. */
+  function pendingFromPeople(): ShellState {
+    return run([
+      { type: "go-to-surface", surface: "people" },
+      { type: "set-conversation", subject: HOUSEHOLD, addressee: ALICE },
+      { type: "talk-in-scene", personId: ALICE },
+    ]);
+  }
+
+  it("switches a Politics tab without adding a level to come back through", () => {
+    const hub = run([
+      { type: "go-to-surface", surface: "work", section: "campaign" },
+    ]);
+    expect(hub.history).toHaveLength(2);
+
+    const issues = shellReducer(hub, {
+      type: "go-to-subroute",
+      surface: "politics",
+    });
+    expect(activeView(issues)).toEqual({ surface: "politics" });
+    expect(issues.history).toHaveLength(2);
+
+    const transit = shellReducer(issues, {
+      type: "go-to-subroute",
+      surface: "transit",
+    });
+    expect(activeView(transit)).toEqual({ surface: "transit" });
+    expect(transit.history).toHaveLength(2);
+
+    // And one Back leaves the hub rather than walking the tabs backwards.
+    expect(activeView(shellReducer(transit, { type: "back" }))).toEqual({
+      surface: "scene",
+    });
+  });
+
+  it("still adds a level for a menu entry, so Back returns to the last place", () => {
+    const state = run([
+      { type: "go-to-surface", surface: "politics" },
+      { type: "go-to-surface", surface: "news" },
+    ]);
+    expect(state.history).toHaveLength(3);
+    expect(activeView(shellReducer(state, { type: "back" }))).toEqual({
+      surface: "politics",
+    });
+  });
+
+  it("brings one Back from a Politics tab to the conversation still waiting", () => {
+    const browsing = run(
+      [
+        { type: "go-to-surface", surface: "work", section: "campaign" },
+        { type: "go-to-subroute", surface: "politics" },
+      ],
+      pendingFromPeople(),
+    );
+    expect(conversationSuspended(browsing)).toBe(true);
+    expect(browsing.conversation).toEqual({
+      subject: HOUSEHOLD,
+      addressee: ALICE,
+    });
+
+    const back = shellReducer(browsing, { type: "back" });
+    expect(activeView(back)).toEqual({ surface: "scene" });
+    // The same conversation, not a new one: nothing about it was discarded.
+    expect(back.conversation).toEqual(browsing.conversation);
+    expect(conversationSuspended(back)).toBe(false);
+  });
+
+  it("returns to the waiting conversation without discarding the way there", () => {
+    const browsing = run(
+      [{ type: "go-to-surface", surface: "politics" }],
+      pendingFromPeople(),
+    );
+    const resumed = shellReducer(browsing, { type: "resume-conversation" });
+    expect(activeView(resumed)).toEqual({ surface: "scene" });
+    expect(resumed.conversation).toEqual(browsing.conversation);
+    // People is still underneath, so the next Back behaves as it always did.
+    expect(activeView(shellReducer(resumed, { type: "back" }))).toEqual({
+      surface: "people",
+    });
+  });
+
+  it("does nothing on a return with no conversation to return to", () => {
+    const browsing = run([{ type: "go-to-surface", surface: "politics" }]);
+    expect(shellReducer(browsing, { type: "resume-conversation" })).toBe(
+      browsing,
+    );
+  });
+
+  it("ends a conversation once, and says so by identity", () => {
+    const ended = shellReducer(pendingFromPeople(), {
+      type: "end-conversation",
+    });
+    expect(ended.conversation).toBeNull();
+    expect(shellReducer(ended, { type: "end-conversation" })).toBe(ended);
+  });
+
+  it("keeps a drilldown's own parent, so Back returns to the list it came from", () => {
+    const state = run([
+      { type: "go-to-surface", surface: "politics" },
+      { type: "open-entity", ref: bill },
+    ]);
+    expect(state.history).toHaveLength(3);
+    expect(activeView(shellReducer(state, { type: "back" }))).toEqual({
+      surface: "politics",
+    });
+  });
+
+  it("drops a drilldown when a tab of the workspace under it is pressed", () => {
+    // The tab belongs to the hub below the record, not to the record.
+    const state = run([
+      { type: "go-to-surface", surface: "politics" },
+      { type: "open-entity", ref: bill },
+      { type: "go-to-subroute", surface: "government" },
+    ]);
+    expect(activeView(state)).toEqual({ surface: "government" });
+    expect(state.history).toEqual([
+      { surface: "scene" },
+      { surface: "government" },
+    ]);
+  });
+
+  it("never replaces the room at the base with a subroute", () => {
+    const state = shellReducer(INITIAL_SHELL_STATE, {
+      type: "go-to-subroute",
+      surface: "politics",
+    });
+    expect(state.history).toEqual([
+      { surface: "scene" },
+      { surface: "politics" },
+    ]);
+  });
+
+  it("never replaces the room a conversation is waiting in either", () => {
+    // Started from People, so the room the line waits on is a pushed level.
+    const waiting = pendingFromPeople();
+    expect(activeView(waiting)).toEqual({ surface: "scene" });
+
+    const state = shellReducer(waiting, {
+      type: "go-to-subroute",
+      surface: "politics",
+    });
+    // The room is still under it, so one Back still lands on the conversation.
+    expect(activeView(shellReducer(state, { type: "back" }))).toEqual({
+      surface: "scene",
+    });
+    expect(shellReducer(state, { type: "back" }).conversation).toEqual(
+      waiting.conversation,
+    );
+  });
+
+  it("closes one transient layer at a time, and the workspace last", () => {
+    const layered = run([
+      { type: "go-to-surface", surface: "people" },
+      { type: "open-quick-dossier", personId: BOB },
+      { type: "toggle-pin", ref: person },
+      // Asking to leave clears a pin menu, so the question is opened first.
+      { type: "ask-leave" },
+      { type: "toggle-pin-menu", key: refKey(person) },
+    ]);
+
+    const noQuestion = shellReducer(layered, { type: "escape" });
+    expect(noQuestion.confirmingLeave).toBe(false);
+    expect(noQuestion.activePinMenuKey).toBe(refKey(person));
+
+    const noPinMenu = shellReducer(noQuestion, { type: "escape" });
+    expect(noPinMenu.activePinMenuKey).toBeNull();
+    expect(noPinMenu.quickDossierPersonId).toBe(BOB);
+
+    const noCard = shellReducer(noPinMenu, { type: "escape" });
+    expect(noCard.quickDossierPersonId).toBeNull();
+    expect(activeView(noCard)).toEqual({ surface: "people" });
+
+    const menu = shellReducer(noCard, { type: "toggle-navigation" });
+    const noMenu = shellReducer(menu, { type: "escape" });
+    expect(noMenu.navigation).toBe("closed");
+    expect(activeView(noMenu)).toEqual({ surface: "people" });
+
+    const closed = shellReducer(noMenu, { type: "escape" });
+    expect(activeView(closed)).toEqual({ surface: "scene" });
+    // At the base of the room there is no layer left, and nothing happens.
+    expect(shellReducer(closed, { type: "escape" })).toBe(closed);
+  });
+
+  it("leaves the conversation alone when Escape closes the workspace over it", () => {
+    const browsing = run(
+      [{ type: "go-to-surface", surface: "politics" }],
+      pendingFromPeople(),
+    );
+    const escaped = shellReducer(browsing, { type: "escape" });
+    expect(activeView(escaped)).toEqual({ surface: "scene" });
+    expect(escaped.conversation).toEqual(browsing.conversation);
   });
 });

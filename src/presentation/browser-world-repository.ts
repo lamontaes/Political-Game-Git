@@ -1,5 +1,6 @@
 import { migrateUnpinnedAppearanceCatalog } from "../simulation/person-appearance";
 import { ageOnDate } from "../simulation/dates";
+import { controlHandoffs } from "../simulation/people-continuation";
 import {
   currentLifeCutoff,
   householdMembershipsAt,
@@ -1328,11 +1329,19 @@ function residenceSummary(
     : null;
 }
 
+/**
+ * Whose life the save is listed under: the controlled character, or — in a
+ * world being observed after a played life ended — the last one played.
+ */
 function controlledPlayer(world: World): Person {
-  if (world.control.kind !== "person") {
+  const personId =
+    world.control.kind === "person"
+      ? world.control.personId
+      : (controlHandoffs(world).at(-1)?.fromPersonId ?? null);
+  if (personId === null) {
     throw new Error("A saved game needs a character the player controls.");
   }
-  const player = world.people[world.control.personId];
+  const player = world.people[personId];
   if (!player) {
     throw new Error("The saved game's character is missing from its world.");
   }

@@ -448,6 +448,45 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
     ],
   },
   {
+    sourcePath: "src/presentation/contextual-scene-families.ts",
+    domain: "conversation",
+    bank: "contextual-scene",
+    symbols: [
+      "homeEvening",
+      "favor",
+      "partyInvite",
+      "campaignReaction",
+      "staffFollowup",
+      "reporterQuestion",
+      "reporterQuestionFor",
+      "cameBackAnswers",
+      "memoryCorrectedAnswers",
+      "promisedExplain",
+      "recalledAnswers",
+      "bereavedAnswers",
+      "meetUpAnswers",
+      "partyInvitationAnswers",
+      "partyJoinAnswers",
+      "partyAfterDeclineAnswers",
+    ],
+    surface: "status",
+    reachability: "PLAYER_REACHABLE",
+    reachabilityReason:
+      "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+    grounding: [
+      {
+        key: "scene-binding",
+        description:
+          "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+      },
+      {
+        key: "claim-stance",
+        description:
+          "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+      },
+    ],
+  },
+  {
     sourcePath: "src/presentation/conversation-subjects.ts",
     domain: "conversation",
     bank: "commit-contract",
@@ -516,6 +555,97 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
         key: "eligible-selected-person-intent",
         description:
           "The conversation projection checks current presence, exact saved topic, age/context and prior consent before offering an action.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/presentation/press-disclosure.ts",
+    domain: "life",
+    bank: "press-disclosure",
+    symbols: ["TERM_LABEL", "projectDisclosure"],
+    surface: "option-label",
+    reachability: "CURRENTLY_UNREACHABLE",
+    reachabilityReason:
+      "CRUNCH47 B2 adapter: who the played person could talk to, on what terms, and what they actually hold to say or hand over. UI mounts it in the press context; until then no ordinary route renders it.",
+    grounding: [
+      {
+        key: "terms-and-holdings",
+        description:
+          "The outlet's own policy on each arrangement, the exact agreed description, and the events this person knows or the records they have discovered.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/presentation/people-contacts.ts",
+    domain: "life",
+    bank: "contacts",
+    symbols: ["projectContacts", "outstandingWith"],
+    surface: "option-label",
+    reachability: "CURRENTLY_UNREACHABLE",
+    reachabilityReason:
+      "CRUNCH47 B1 adapter: who the played person can reach, by what channel, and what is outstanding. UI mounts it; until then no ordinary route renders it.",
+    grounding: [
+      {
+        key: "recorded-overlap",
+        description:
+          "The household, kinship, work and group records the two people actually share, and the last meaningful interaction between them.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/presentation/people-recall-cards.ts",
+    domain: "life",
+    bank: "recall-cards",
+    symbols: ["STATUS_LINE", "projectRecallCards"],
+    surface: "status",
+    reachability: "CURRENTLY_UNREACHABLE",
+    reachabilityReason:
+      "CRUNCH47 B1 adapter: what the played person remembers being asked and having said. UI mounts it; until then no ordinary route renders it.",
+    grounding: [
+      {
+        key: "request-and-claim",
+        description:
+          "The saved request with its terms and status, and the player's own recorded answers, each named by the event it happened in.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/presentation/people-continuation.ts",
+    domain: "life",
+    bank: "life-continuation",
+    symbols: ["RELATION_LABEL", "projectLifeContinuation"],
+    surface: "status",
+    reachability: "CURRENTLY_UNREACHABLE",
+    reachabilityReason:
+      "PEOPLE P5 adapter: the heading, choice labels and wait disclosure a played life's end shows. UI mounts it; until then no ordinary route renders it.",
+    grounding: [
+      {
+        key: "life-end-and-family",
+        description:
+          "The recorded death or retirement, its date, and the living relatives the kinship records name, with their real ages and playable dates.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/presentation/people-goals.ts",
+    domain: "life",
+    bank: "personal-aims",
+    symbols: [
+      "FAMILY_LABEL",
+      "objectiveFor",
+      "unavailableReason",
+      "opportunitiesFor",
+      "progressFor",
+    ],
+    surface: "option-label",
+    reachability: "CURRENTLY_UNREACHABLE",
+    reachabilityReason:
+      "PEOPLE P2 adapter: private aim labels, opportunities and progress. UI mounts it; until then no ordinary route renders it.",
+    grounding: [
+      {
+        key: "private-aim",
+        description:
+          "The controlled character's own goal record and the real eligibility, conversation and public-matter records its opportunities come from.",
       },
     ],
   },

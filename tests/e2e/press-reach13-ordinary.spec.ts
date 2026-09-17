@@ -87,6 +87,9 @@ test("ordinary News press route establishes a reporter, records the NPC decision
     .click();
   await panel.getByRole("button", { name: "Record published report" }).click();
 
+  // Published reports are read in the outlet directory, apart from the
+  // press office where they were arranged.
+  await openNewsContext(page, "directory");
   const article = page.locator(".public-information-article").first();
   await expect(article).toBeVisible();
   await expect(article).toContainText(wording);

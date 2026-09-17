@@ -49,7 +49,7 @@ test("normal civilian career offer, keyboard consent, work, resignation and save
     !composed,
     "Offices/Work entry not present on this tree - needs UI's actual composition (LifePathsPanel mounting CareerPathsPanel); proven working against it separately, see docs/integration/career-path7-ui-combined.md",
   );
-  await openElsewhere(page, "work");
+  await openElsewhere(page, "jobs");
   const career = page.getByRole("region", {
     name: "Career opportunities",
     exact: true,
@@ -89,7 +89,7 @@ test("normal civilian career offer, keyboard consent, work, resignation and save
   await expect(
     activities.getByTestId("venue-activity-completed"),
   ).toBeVisible();
-  await openElsewhere(page, "work");
+  await openElsewhere(page, "jobs");
   await career
     .getByRole("button", { name: "Wait one day", exact: true })
     .click();
@@ -114,7 +114,7 @@ test("normal civilian career offer, keyboard consent, work, resignation and save
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
-  await openElsewhere(page, "work");
+  await openElsewhere(page, "jobs");
   await expect(
     career.getByText(
       "Completed shift recorded. No written submission was required.",

@@ -15,6 +15,9 @@ async function passDays(page: Page, days: number) {
 test("normal dated education offer, period progression, interruption and repeated saving", async ({
   page,
 }) => {
+  // Twenty passed days, two reloads and three trips through the menu sit
+  // past the default budget on a loaded runner; the assertions are unchanged.
+  test.setTimeout(90_000);
   await page.goto("/?seed=ui-edu-path7-normal");
   await startLife(page, {
     place: "Lexington",
@@ -24,7 +27,7 @@ test("normal dated education offer, period progression, interruption and repeate
     household: "lives-alone",
   });
   await enterLife(page);
-  await openElsewhere(page, "work");
+  await openElsewhere(page, "jobs");
   const education = page.getByRole("region", {
     name: "Real education options",
     exact: true,
@@ -65,7 +68,7 @@ test("normal dated education offer, period progression, interruption and repeate
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
-  await openElsewhere(page, "work");
+  await openElsewhere(page, "jobs");
   await expect(study).toContainText("Interrupted");
   await test.info().attach("saved-study-world.json", {
     body: JSON.stringify(await readSavedLegislativeWorld(page)),
@@ -78,7 +81,7 @@ test("normal dated education offer, period progression, interruption and repeate
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
-  await openElsewhere(page, "work");
+  await openElsewhere(page, "jobs");
   await expect(study).toContainText("period 1 of 1");
 });
 
@@ -96,7 +99,7 @@ test("normal invitation pointer refusal preserves time and survives saving", asy
   await enterLife(page);
   await saveLife(page);
   const before = await readSavedLegislativeWorld(page);
-  await openElsewhere(page, "work");
+  await openElsewhere(page, "jobs");
   const invitations = page.getByRole("region", {
     name: "Invitations",
     exact: true,
@@ -122,7 +125,7 @@ test("normal invitation pointer refusal preserves time and survives saving", asy
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
-  await openElsewhere(page, "work");
+  await openElsewhere(page, "jobs");
   await expect(invitations).toHaveCount(0);
   await saveLife(page);
   expect(await readSavedLegislativeWorld(page)).toEqual(after);

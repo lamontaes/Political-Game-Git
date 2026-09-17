@@ -133,6 +133,9 @@ test.describe("A life can stand for something", () => {
   test("deliberately selects the Senate and preserves the campaign while browsing and reloading", async ({
     page,
   }) => {
+    // A fresh browser, the creator, a browse and a reload: about 25 s on a
+    // quiet host, so the default budget is decided by runner load.
+    test.setTimeout(90_000);
     await freshBrowser(page);
     await beginAdultLifeIn(page, "Kentucky");
     const browser = page.getByTestId("campaign-office-browser");
@@ -339,6 +342,9 @@ test.describe("A life can stand for something", () => {
   test("reaches election day by living the weeks, and carries on afterwards", async ({
     page,
   }) => {
+    // Living to election day is 27 shell days plus the creator: about 25 s on
+    // a quiet host, so the default budget is decided by runner load.
+    test.setTimeout(90_000);
     const errors = watchForErrors(page);
     await freshBrowser(page);
     await beginAdultLifeIn(page, "Kentucky");
@@ -392,6 +398,9 @@ test.describe("A life can stand for something", () => {
   });
 
   test("keeps the campaign through a save and a reload", async ({ page }) => {
+    // Living to election day is 27 shell days plus the creator: about 25 s on
+    // a quiet host, so the default budget is decided by runner load.
+    test.setTimeout(90_000);
     const errors = watchForErrors(page);
     await freshBrowser(page);
     await beginAdultLifeIn(page, "Kentucky");
@@ -424,6 +433,8 @@ test.describe("P85D integration through ordinary player controls", () => {
     test(`resolves election day through the ${activation} Work day control`, async ({
       page,
     }) => {
+      // Same 27-day path as above; the budget follows the sibling winner case.
+      test.setTimeout(90_000);
       const errors = watchForErrors(page);
       await freshBrowser(page);
       await page.goto("/?seed=p85c-owner-clock");
