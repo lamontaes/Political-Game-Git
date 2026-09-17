@@ -59,6 +59,8 @@ const OFFICES = [
 export function establishOpeningOfficeholders(
   world: World,
   playerPersonId: EntityId,
+  /** `datedTerms: false` replays a pre-game-calendar opening exactly. */
+  options: { readonly datedTerms?: boolean } = {},
 ): World {
   const player = world.people[playerPersonId];
   if (!player) throw new Error("Opening requires an existing player.");
@@ -163,7 +165,7 @@ export function establishOpeningOfficeholders(
   // states materialize only when a producer needs them, never on a read.
   const stateUsps = homeStateUsps(next, playerPersonId);
   const withState = stateUsps
-    ? ensureStateExecutiveIncumbent(next, playerPersonId, stateUsps)
+    ? ensureStateExecutiveIncumbent(next, playerPersonId, stateUsps, options)
     : next;
   // The actual local governments of the home place, once; never a fictional
   // city for a place that has no government of its own.

@@ -60,7 +60,11 @@ export function generateOpeningLife(
     conditioned,
     macroStartForHistory(macroStartingConditions(conditioned)),
   );
-  const staffed = establishOpeningOfficeholders(economic, game.playerPersonId);
+  // A legacy replay descriptor keeps its prior construction exactly: its
+  // opening governor holds a recorded tenure, not GOVERNING's dated term.
+  const staffed = establishOpeningOfficeholders(economic, game.playerPersonId, {
+    datedTerms: session.setup.worldOpeningVersion !== undefined,
+  });
   return {
     ...session,
     phase: "world",

@@ -114,6 +114,7 @@ function wholeYears(value: unknown): number | null {
 export function stateExecutiveTermWindow(
   office: StateExecutiveOffice,
   onDate: IsoDate,
+  options: { readonly gameCalendar?: boolean } = {},
 ): StateExecutiveTermWindow {
   const resolution = resolveNationwideRuleCapability({
     scope: { kind: "state", stateUsps: office.stateUsps },
@@ -127,7 +128,10 @@ export function stateExecutiveTermWindow(
     // No admitted law: the office runs on its verified or disclosed game
     // calendar (state-executive-term-rules). Saves that already recorded an
     // unknown-start tenure keep it; only new tenures are dated this way.
-    const rule = stateExecutiveTermRule(office.stateUsps);
+    const rule =
+      options.gameCalendar === false
+        ? null
+        : stateExecutiveTermRule(office.stateUsps);
     if (rule) {
       const window = regularTermWindowOn(rule, onDate);
       return {
@@ -228,6 +232,13 @@ export function ensureStateExecutiveIncumbent(
   world: World,
   subjectPersonId: EntityId,
   stateUsps: string,
+  /**
+   * `datedTerms: false` keeps an opening tenure undated, as worlds built
+   * before the game calendar existed recorded it. A replay of one of those
+   * descriptors has to rebuild exactly what it built then, so the caller that
+   * knows it is replaying says so; ordinary new games date the term.
+   */
+  options: { readonly datedTerms?: boolean } = {},
 ): World {
   const office = stateExecutiveOffice(stateUsps);
   if (!office) return world;
@@ -238,7 +249,9 @@ export function ensureStateExecutiveIncumbent(
   if (world.history.events.some((event) => event.stableKey.startsWith(prefix)))
     return world;
 
-  const window = stateExecutiveTermWindow(office, world.currentDate);
+  const window = stateExecutiveTermWindow(office, world.currentDate, {
+    gameCalendar: options.datedTerms !== false,
+  });
   const tenureKey = `${prefix}${window.startsAt ?? `recorded-${world.currentDate}`}`;
   const holderKey = `${tenureKey}:holder`;
   let next = registerStateJurisdiction(world, office);

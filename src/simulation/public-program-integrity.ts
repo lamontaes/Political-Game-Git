@@ -1,4 +1,5 @@
 import { createStableId } from "./ids";
+import { eventById } from "./event-index";
 import type {
   EntityId,
   IsoDate,
@@ -96,7 +97,7 @@ export function assertPublicProgramIntegrity(
       fail(record, "program key must be namespace:name.");
     if (!world.jurisdictions[record.jurisdictionId])
       fail(record, "names a missing jurisdiction.");
-    const event = world.history.events.find((e) => e.id === record.eventId);
+    const event = eventById(world, record.eventId);
     if (
       !event ||
       event.type !== `${PUBLIC_PROGRAM_EVENT_PREFIX}${record.kind}` ||
