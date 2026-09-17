@@ -17,7 +17,8 @@ import {
  */
 
 async function freshBrowser(page: Page) {
-  await page.goto("/");
+  // WebKit's first load of the dev server is slow; give it room.
+  await page.goto("/", { timeout: 120_000 });
   await page.evaluate(async () => {
     const databases = (await indexedDB.databases?.()) ?? [];
     await Promise.all(
