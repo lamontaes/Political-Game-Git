@@ -6,6 +6,14 @@ import {
   npcHealthDisclosureHandler,
 } from "./health";
 import {
+  DISASTER_FEDERAL_REVIEW_KEY,
+  DISASTER_REPAIR_CYCLE_KEY,
+  DISASTER_STATE_REVIEW_KEY,
+  disasterFederalReviewHandler,
+  disasterRepairCycleHandler,
+  disasterStateReviewHandler,
+} from "./disaster";
+import {
   MORTALITY_DEATH_KEY,
   MORTALITY_WINDOW_KEY,
   mortalityDeathHandler,
@@ -22,6 +30,7 @@ export * from "./health-queries";
 export * from "./offices";
 export * from "./continuity";
 export * from "./notices";
+export * from "./disaster";
 
 /** Every CRISIS due-item handler, for composition into the production registry. */
 export function createCrisisTransitionRegistry() {
@@ -30,5 +39,8 @@ export function createCrisisTransitionRegistry() {
     [MORTALITY_DEATH_KEY, mortalityDeathHandler],
     [HEALTH_REVIEW_KEY, healthReviewHandler],
     [NPC_DISCLOSURE_KEY, npcHealthDisclosureHandler],
+    [DISASTER_STATE_REVIEW_KEY, disasterStateReviewHandler],
+    [DISASTER_FEDERAL_REVIEW_KEY, disasterFederalReviewHandler],
+    [DISASTER_REPAIR_CYCLE_KEY, disasterRepairCycleHandler],
   ]);
 }

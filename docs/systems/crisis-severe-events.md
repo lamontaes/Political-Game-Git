@@ -81,6 +81,52 @@ President/Vice President, opening federal tenures, state executives and
 Congress seats. CRISIS never ends a term, names a successor, invokes the 25th
 Amendment or schedules a vacancy election.
 
+## K4 flood and severe-storm chain
+
+`declareHazardEpisode` declares one episode on the current day with explicit
+family, magnitude (`minor`…`catastrophic`), state and affected jurisdictions,
+and a stated basis. The first wave predicts no local annual hazards; nothing
+declares an episode by chance.
+
+1. **Damage** is drawn per represented record located in the affected
+   jurisdictions: household locations, dwellings and organization profiles.
+   Production openings hold almost no such records, so damage counts are small
+   and honest; nothing counts unrepresented homes or people. Residents of a
+   damaged home may be injured (a K2 episode with `injury` origin) and, for a
+   destroyed home in a major or catastrophic event, may die
+   (`crisis-injury:<family>`). A `disaster-assessment` freezes the counts.
+2. **Local response** is recorded the same day (public event).
+3. **Governor request.** Three days later the current governor decides. An
+   NPC governor requests federal help for major or catastrophic events, or a
+   moderate event that destroyed a home; a player governor decides with
+   `decideStateDisasterRequest` inside the 30-day window of 44 CFR 206.36(a)
+   and otherwise lapses. No recorded governor means no request, said so.
+4. **Federal decision.** Ten days after a request the current President
+   declares (major or catastrophic) or denies (NPC), or a player President
+   decides with `decideFederalDisasterDeclaration`. No recorded President
+   leaves the request undecided, said so.
+5. **Repairs.** Weekly cycles apply finite repair capacity to the oldest
+   damage first: 2 units locally, 8 once a declaration exists. Damaged homes
+   need 2 units, destroyed 8. Interrupted organizations carry lost-service
+   days, not repair work.
+6. **Follow-up.** Once recorded repairs are done and the request chain has
+   settled, a public recovery review closes the episode.
+
+A declaration never changes the assessment, approval never repairs on the
+spot, and a denial or missing request leaves the disaster and its damage in
+history. CRISIS records programs (`public-assistance`, …) but never an amount:
+money moves only through GOVERNING's public-account writers.
+
+All numbers above are `crunch46-provisional-v1` authored balancing
+(`PROVISIONAL_DISASTER_POLICY`), not empirical damage curves or FEMA
+thresholds. Pending player decisions appear in `pendingDisasterDecisions` and
+`crisisProtectedDecisions`.
+
+CHANGE reads `disaster-damage` (from the assessment: counts with units and an
+ordinal severity), `aid-decision` (declared/denied, programs, `amount: null`)
+and `repair-progress` envelopes (in-progress, repaired, and `ended` at
+follow-up).
+
 ## Read-only projections
 
 | Export                                                    | Consumer      | Meaning                                                                       |

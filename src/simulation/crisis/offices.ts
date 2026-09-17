@@ -125,3 +125,53 @@ export function publicOfficesHeldBy(
   }
   return refs.sort((a, b) => a.officeKey.localeCompare(b.officeKey));
 }
+
+export interface OfficeHolder {
+  readonly personId: EntityId;
+  readonly officeKey: string;
+  readonly title: string;
+}
+
+/** The person currently holding a state's chief executive office, if any. */
+export function currentGovernorOf(
+  world: World,
+  stateUsps: string,
+): OfficeHolder | null {
+  const holder = currentStateExecutiveHolders(world).find(
+    (candidate) => candidate.stateUsps === stateUsps,
+  );
+  return holder
+    ? {
+        personId: holder.personId,
+        officeKey: holder.officeKey,
+        title: holder.title,
+      }
+    : null;
+}
+
+/** The person currently holding the Presidency, if the World records one. */
+export function currentPresidentOf(world: World): OfficeHolder | null {
+  const elected = nationalOfficeHolder(world, "president");
+  if (elected)
+    return {
+      personId: elected.plan.personId,
+      officeKey: "us-president",
+      title: "President of the United States",
+    };
+  const latest = world.history.events
+    .filter(
+      (event) =>
+        event.type === "world.office-tenure" &&
+        event.tags.includes("office:us-president") &&
+        event.occurredAt <= world.currentDate,
+    )
+    .at(-1);
+  const personId = latest?.participants.find(
+    (participant) => participant.role === "focus:subject",
+  )?.personId;
+  if (!personId) return null;
+  const ref = openingFederalOffices(world, personId).find(
+    (office) => office.officeKey === "us-president",
+  );
+  return ref ? { personId, officeKey: ref.officeKey, title: ref.title } : null;
+}

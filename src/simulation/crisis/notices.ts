@@ -1,8 +1,11 @@
 import type { EntityId, EventVisibility, IsoDate, World } from "../types";
 import { MORTALITY_CAUSE_KEY } from "./mortality";
-import { crisisRecords } from "./records";
+import { pendingDisasterDecisions } from "./disaster";
+import { crisisRecordIndex, crisisRecords } from "./records";
 import type {
   CrisisRecord,
+  HazardEpisodeRecord,
+  HazardMagnitude,
   OfficeRef,
   OfficialContinuityChange,
 } from "./types";
@@ -202,9 +205,103 @@ function envelopeFor(
         },
         knowledgeSourceIds: [],
       };
+    case "disaster-assessment": {
+      const episode = hazardOf(world, record.episodeId);
+      return {
+        ...base,
+        originEventId: episode.eventId!,
+        kind: "disaster-damage",
+        geographyIds: episode.jurisdictionIds,
+        actorIds: [],
+        subjectIds: [episode.id],
+        payload: {
+          hazard: episode.family,
+          severity: episode.magnitude,
+          severityOrdinal: SEVERITY_ORDINAL[episode.magnitude],
+          intensity: SEVERITY_ORDINAL[episode.magnitude] / 3,
+          exposedHouseholds: record.exposed.household,
+          exposedDwellings: record.exposed.dwelling,
+          exposedOrganizations: record.exposed.organization,
+          householdsDamaged: record.damaged.household,
+          householdsDestroyed: record.destroyed.household,
+          dwellingsDamaged: record.damaged.dwelling,
+          dwellingsDestroyed: record.destroyed.dwelling,
+          organizationsInterrupted: record.damaged.organization,
+          injuredPeople: record.injuredPersonIds.length,
+          deceasedPeople: record.deceasedPersonIds.length,
+          repairUnits: record.totalRepairUnits,
+          units: {
+            households: "represented household records",
+            dwellings: "represented dwelling records",
+            organizations: "represented organization records",
+            repairUnits: "authored repair-effort units",
+          },
+        },
+        knowledgeSourceIds: [],
+      };
+    }
+    case "disaster-response": {
+      if (
+        record.stage !== "federal-declared" &&
+        record.stage !== "federal-denied" &&
+        record.stage !== "follow-up"
+      )
+        return null;
+      const episode = hazardOf(world, record.episodeId);
+      return {
+        ...base,
+        originEventId: record.eventId!,
+        kind: record.stage === "follow-up" ? "repair-progress" : "aid-decision",
+        geographyIds: episode.jurisdictionIds,
+        actorIds: record.actorPersonId ? [record.actorPersonId] : [],
+        subjectIds: [episode.id],
+        payload:
+          record.stage === "follow-up"
+            ? { status: "ended", remainingRepairUnits: 0 }
+            : {
+                decision:
+                  record.stage === "federal-declared" ? "declared" : "denied",
+                programs: record.programs,
+                amount: null,
+              },
+        knowledgeSourceIds: [],
+      };
+    }
+    case "repair-progress": {
+      const episode = hazardOf(world, record.episodeId);
+      return {
+        ...base,
+        originEventId: episode.eventId!,
+        kind: "repair-progress",
+        geographyIds: episode.jurisdictionIds,
+        actorIds: [],
+        subjectIds: [record.damageId],
+        payload: {
+          status: record.remainingUnits === 0 ? "repaired" : "in-progress",
+          unitsApplied: record.unitsApplied,
+          remainingUnits: record.remainingUnits,
+          funding: record.funding,
+        },
+        knowledgeSourceIds: [],
+      };
+    }
     default:
       return null;
   }
+}
+
+const SEVERITY_ORDINAL: Record<HazardMagnitude, number> = {
+  minor: 0,
+  moderate: 1,
+  major: 2,
+  catastrophic: 3,
+};
+
+function hazardOf(world: World, episodeId: EntityId): HazardEpisodeRecord {
+  const record = crisisRecordIndex(world).get(episodeId);
+  if (!record || record.kind !== "hazard-episode")
+    throw new Error(`Unknown hazard episode: ${episodeId}`);
+  return record;
 }
 
 /**
@@ -231,7 +328,11 @@ export function crisisEnvelopesBetween(
 export interface CrisisProtectedDecision {
   readonly key: string;
   readonly personId: EntityId;
-  readonly kind: "own-health-disclosure" | "controlled-person-died";
+  readonly kind:
+    | "own-health-disclosure"
+    | "controlled-person-died"
+    | "disaster-state-request"
+    | "disaster-federal-declaration";
   readonly sinceSequence: number;
 }
 
@@ -259,6 +360,17 @@ export function crisisProtectedDecisions(
         sinceSequence: record.sequence,
       });
   }
+  for (const pending of pendingDisasterDecisions(world))
+    if (pending.sequence > afterSequence)
+      decisions.push({
+        key: `crisis:decision:${pending.decision}:${pending.episodeId}`,
+        personId,
+        kind:
+          pending.decision === "state-request"
+            ? "disaster-state-request"
+            : "disaster-federal-declaration",
+        sinceSequence: pending.sequence,
+      });
   for (const death of world.history.personDeaths)
     if (death.sequence > afterSequence && death.personId === personId)
       decisions.push({

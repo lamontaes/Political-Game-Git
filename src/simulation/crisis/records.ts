@@ -7,6 +7,8 @@ import {
   CRISIS_RECORD_SCHEMA,
   type CrisisRecord,
   type CrisisRecordInput,
+  type DisasterDamageRecord,
+  type HazardEpisodeRecord as HazardRecord,
   type HealthAccess,
   type HealthDisclosureRecord,
   type HealthEpisodeRecord,
@@ -150,6 +152,8 @@ export function assertCrisisIntegrity(world: World): void {
   const episodes = new Map<EntityId, HealthEpisodeRecord>();
   const latestState = new Map<EntityId, HealthStateRecord>();
   const latestDisclosure = new Map<EntityId, HealthDisclosureRecord>();
+  const hazards = new Map<EntityId, HazardRecord>();
+  const damages = new Map<EntityId, DisasterDamageRecord>();
   let previousSequence = -1;
   for (const record of records) {
     if (record.schemaVersion !== CRISIS_RECORD_SCHEMA)
@@ -255,6 +259,48 @@ export function assertCrisisIntegrity(world: World): void {
         )
           fail(record, "unknown disclosure decider");
         latestDisclosure.set(record.episodeId, record);
+        break;
+      }
+      case "hazard-episode":
+        if (
+          record.jurisdictionIds.length === 0 ||
+          record.jurisdictionIds.some((id) => !world.jurisdictions[id]) ||
+          !/^[A-Z]{2}$/.test(record.stateUsps) ||
+          record.endsAt <= record.effectiveAt ||
+          !record.basis.trim()
+        )
+          fail(record, "malformed hazard episode");
+        hazards.set(record.id, record);
+        break;
+      case "disaster-damage": {
+        const episode = hazards.get(record.episodeId);
+        if (
+          !episode ||
+          !episode.jurisdictionIds.includes(record.jurisdictionId) ||
+          !Number.isSafeInteger(record.repairUnits) ||
+          record.repairUnits <= 0 ||
+          (record.level === "service-interrupted") !==
+            (record.targetKind === "organization")
+        )
+          fail(record, "malformed disaster damage");
+        damages.set(record.id, record);
+        break;
+      }
+      case "disaster-assessment":
+      case "disaster-response":
+        if (!hazards.has(record.episodeId))
+          fail(record, "response for an unknown hazard episode");
+        break;
+      case "repair-progress": {
+        const damage = damages.get(record.damageId);
+        if (
+          !damage ||
+          damage.episodeId !== record.episodeId ||
+          record.unitsApplied <= 0 ||
+          record.remainingUnits < 0 ||
+          record.remainingUnits >= damage.repairUnits
+        )
+          fail(record, "malformed repair progress");
         break;
       }
       case "official-continuity": {

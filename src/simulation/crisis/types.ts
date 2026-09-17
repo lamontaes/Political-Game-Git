@@ -143,7 +143,180 @@ export interface OfficialContinuityRecord extends CrisisRecordBase {
   readonly sourceRecordId: EntityId;
 }
 
+export type HazardFamily = "flood" | "severe-storm";
+export type HazardMagnitude = "minor" | "moderate" | "major" | "catastrophic";
+
+/**
+ * A declared physical hazard. The first wave does not predict local annual
+ * hazards: an episode is declared with its geography, explicit magnitude and
+ * the basis for declaring it.
+ */
+export interface HazardEpisodeRecord extends CrisisRecordBase {
+  readonly kind: "hazard-episode";
+  readonly family: HazardFamily;
+  readonly magnitude: HazardMagnitude;
+  readonly stateUsps: string;
+  readonly jurisdictionIds: readonly EntityId[];
+  readonly endsAt: IsoDate;
+  readonly basis: string;
+  readonly sourceReference: string | null;
+}
+
+export type DisasterTargetKind = "household" | "dwelling" | "organization";
+export type DisasterDamageLevel =
+  "damaged" | "destroyed" | "service-interrupted";
+
+/** Damage to one represented record. Never a count of unrepresented things. */
+export interface DisasterDamageRecord extends CrisisRecordBase {
+  readonly kind: "disaster-damage";
+  readonly episodeId: EntityId;
+  readonly targetKind: DisasterTargetKind;
+  readonly targetId: EntityId;
+  readonly jurisdictionId: EntityId;
+  readonly level: DisasterDamageLevel;
+  /** Authored repair effort; for an interruption, the days of lost service. */
+  readonly repairUnits: number;
+}
+
+export interface DisasterAssessmentRecord extends CrisisRecordBase {
+  readonly kind: "disaster-assessment";
+  readonly episodeId: EntityId;
+  readonly exposed: Readonly<Record<DisasterTargetKind, number>>;
+  readonly damaged: Readonly<Record<DisasterTargetKind, number>>;
+  readonly destroyed: Readonly<Record<DisasterTargetKind, number>>;
+  readonly injuredPersonIds: readonly EntityId[];
+  readonly deceasedPersonIds: readonly EntityId[];
+  readonly totalRepairUnits: number;
+}
+
+export type DisasterResponseStage =
+  | "local-response"
+  | "state-request"
+  | "no-state-request"
+  | "federal-declared"
+  | "federal-denied"
+  | "federal-not-requested"
+  | "follow-up";
+
+export interface DisasterResponseRecord extends CrisisRecordBase {
+  readonly kind: "disaster-response";
+  readonly episodeId: EntityId;
+  readonly stage: DisasterResponseStage;
+  readonly actorPersonId: EntityId | null;
+  readonly officeKey: string | null;
+  readonly decidedBy: "player" | "npc-rule" | "institution" | "lapse";
+  readonly reason: string;
+  readonly programs: readonly string[];
+}
+
+export interface RepairProgressRecord extends CrisisRecordBase {
+  readonly kind: "repair-progress";
+  readonly episodeId: EntityId;
+  readonly damageId: EntityId;
+  readonly unitsApplied: number;
+  readonly remainingUnits: number;
+  readonly funding: "local" | "federal-assisted";
+}
+
+export type CrisisOptionKey = "diplomatic" | "economic" | "force-posture";
+export type IntelligenceConfidence = "low" | "moderate" | "high";
+export type TensionLevel = "low" | "elevated" | "high" | "severe";
+
+/**
+ * An international crisis between the United States and an abstract,
+ * authored counterparty. The World represents no foreign governments yet, so
+ * actors are labeled fictional placeholders and never name a real state.
+ */
+export interface InternationalCrisisRecord extends CrisisRecordBase {
+  readonly kind: "international-crisis";
+  readonly counterpartyLabel: string;
+  readonly allyLabels: readonly string[];
+  readonly subject: string;
+  readonly tension: TensionLevel;
+  readonly basis: string;
+}
+
+export interface IntelligenceAssessmentRecord extends CrisisRecordBase {
+  readonly kind: "intelligence-assessment";
+  readonly crisisId: EntityId;
+  readonly confidence: IntelligenceConfidence;
+  /** What the assessment judges likely, which may be wrong. */
+  readonly assessedIntent: "probing" | "coercive" | "preparing-force";
+  readonly cycle: number;
+}
+
+export interface CrisisOptionsRecord extends CrisisRecordBase {
+  readonly kind: "crisis-options";
+  readonly crisisId: EntityId;
+  readonly cycle: number;
+  readonly options: readonly {
+    readonly key: CrisisOptionKey;
+    readonly forceCapable: boolean;
+    readonly advisers: string;
+    readonly risk: "lower" | "moderate" | "higher";
+    readonly legal: string;
+  }[];
+  readonly recommended: CrisisOptionKey;
+}
+
+export interface CrisisDecisionRecord extends CrisisRecordBase {
+  readonly kind: "crisis-decision";
+  readonly crisisId: EntityId;
+  readonly cycle: number;
+  readonly option: CrisisOptionKey;
+  readonly deciderPersonId: EntityId | null;
+  readonly decidedBy: "player" | "npc-rule" | "institution";
+}
+
+export interface CounterpartyResponseRecord extends CrisisRecordBase {
+  readonly kind: "counterparty-response";
+  readonly crisisId: EntityId;
+  readonly cycle: number;
+  readonly counterparty: "de-escalated" | "held" | "escalated";
+  readonly allies: "supported" | "stood-aside";
+  readonly tensionAfter: TensionLevel;
+  readonly ended: boolean;
+}
+
+export type WarPowersStage =
+  | "forces-introduced"
+  | "report-submitted"
+  | "authorization-absent"
+  | "withdrawal-extension-certified"
+  | "forces-withdrawn";
+
+/** 50 U.S.C. §§1543–1544 clock, only for a represented introduction of forces. */
+export interface WarPowersRecord extends CrisisRecordBase {
+  readonly kind: "war-powers";
+  readonly crisisId: EntityId;
+  readonly stage: WarPowersStage;
+  readonly reportDueAt: IsoDate;
+  readonly terminationAt: IsoDate | null;
+  readonly note: string;
+}
+
+export interface ViolenceAttemptRecord extends CrisisRecordBase {
+  readonly kind: "violence-attempt";
+  readonly targetPersonId: EntityId;
+  /** Earlier canonical evidence of threat or intent; required. */
+  readonly threatEvidenceIds: readonly EntityId[];
+  readonly outcome: "unharmed" | "injured" | "killed";
+  readonly basis: string;
+}
+
 export type CrisisRecord =
+  | InternationalCrisisRecord
+  | IntelligenceAssessmentRecord
+  | CrisisOptionsRecord
+  | CrisisDecisionRecord
+  | CounterpartyResponseRecord
+  | WarPowersRecord
+  | ViolenceAttemptRecord
+  | HazardEpisodeRecord
+  | DisasterDamageRecord
+  | DisasterAssessmentRecord
+  | DisasterResponseRecord
+  | RepairProgressRecord
   | MortalityWindowRecord
   | MortalityCalibrationRecord
   | HealthEpisodeRecord
