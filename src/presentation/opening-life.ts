@@ -11,7 +11,9 @@ import {
   ensurePartyGoverningBodies,
   ensureHazardProduction,
   macroStartingConditions,
+  CRUNCH46_WORLD_OPENING_VERSION,
 } from "../simulation";
+import { ensureCrisisMortality } from "../simulation/crisis/mortality";
 import {
   ensureMacroEconomyStarted,
   macroStartForHistory,
@@ -66,7 +68,16 @@ export function generateOpeningLife(
       // the executives exist so they receive an affiliation in the same pass.
       // The hazard stream schedules its first monthly sample for a current
       // opening that has something exposed; a legacy save gets none.
-      world: ensureHazardProduction(
+      // CRUNCH47: the mortality model belongs to the world the player is
+      // handed, not to whichever control they happen to press first. It used
+      // to start only inside passOrdinaryDays, so a current opening shipped
+      // without it and paths that move time another way — waiting for a
+      // scheduled activity, a conversation, a venue — left a life that could
+      // not die. Starting it here costs the clock's hot path nothing, and the
+      // version gate keeps a legacy replay byte-identical: those saves still
+      // start it on their first ordinary-day pass, as before.
+      world: ensureOpeningMortality(
+        ensureHazardProduction(
         ensureLivingWorldDevelopments(
           // Standing chapter committees exist only in current openings.
           ensurePartyGoverningBodies(
@@ -78,9 +89,20 @@ export function generateOpeningLife(
           ),
           game.playerPersonId,
         ),
+        ),
+        session.setup.worldOpeningVersion ?? LEGACY_WORLD_OPENING_VERSION,
       ),
     },
   };
+}
+
+/** Only a current opening; a legacy descriptor must rebuild its exact bytes. */
+function ensureOpeningMortality(
+  world: World,
+  openingVersion: string,
+): World {
+  if (openingVersion !== CRUNCH46_WORLD_OPENING_VERSION) return world;
+  return ensureCrisisMortality(world);
 }
 
 export function moveOpeningLife(
