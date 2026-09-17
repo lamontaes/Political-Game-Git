@@ -277,10 +277,14 @@ export function TitleScreen({
           type="button"
           data-testid="open-saves"
           onClick={onOpenSaves}
-          disabled={saves.length === 0}
+          disabled={savesUnavailable}
         >
           Saved games
-          {saves.length > 0 ? <small>{saves.length} saved</small> : null}
+          <small>
+            {saves.length > 0
+              ? `${saves.length} saved`
+              : "None yet \u00b7 import one"}
+          </small>
         </button>
         <button
           type="button"

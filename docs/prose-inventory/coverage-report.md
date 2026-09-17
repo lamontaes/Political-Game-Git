@@ -10,9 +10,9 @@ needs a person's judgement is the honest state of the check.
 | INVENTORIED | 2780 |
 | INTENTIONALLY_NON_PLAYER_FACING | 6413 |
 | DIAGNOSTIC_OR_TEST | 6426 |
-| **NEEDS_CLASSIFICATION** | **7904** |
+| **NEEDS_CLASSIFICATION** | **7906** |
 
-Scanned 909 files holding 92119 string
+Scanned 909 files holding 92130 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -278,6 +278,7 @@ literals in total; the table counts only those that read like a sentence.
 | 6 | `src/player/ModeledAccountHistory.tsx` |
 | 6 | `src/player/ModularCharacter.tsx` |
 | 6 | `src/player/SceneBackdrop.tsx` |
+| 6 | `src/player/TitleScreen.tsx` |
 | 6 | `src/player/VenueActivityPanel.tsx` |
 | 6 | `src/player/opening-life/OpeningLifePanel.tsx` |
 | 6 | `src/presentation/calendar-time-control.ts` |
@@ -322,7 +323,6 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/education/catalog.ts` |
 | 4 | `src/persistence/sqlite-world-repository.ts` |
 | 4 | `src/player/CreatorBirthdayFields.tsx` |
-| 4 | `src/player/TitleScreen.tsx` |
 | 4 | `src/player/WardrobeFigure.tsx` |
 | 4 | `src/player/WorldOrientationPanel.tsx` |
 | 4 | `src/player/politics/GovernmentBrowser.tsx` |

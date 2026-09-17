@@ -2105,6 +2105,12 @@ function SavesScreen({
           {problem}
         </p>
       ) : null}
+      {saves.length === 0 && !savesUnavailable ? (
+        <p className="game-note" data-testid="saves-empty">
+          No lives are saved in this browser yet. You can import a saved life
+          below.
+        </p>
+      ) : null}
       <ul>
         {saves.map((save) => (
           <li key={save.saveId} data-testid="save-entry">
