@@ -475,17 +475,27 @@ export function continueAsRelative(
     next = openEstate(next, input.predecessorId);
   }
   // What the successor is told: the family facts of this change, nothing else.
+  // What a successor is told, and what being chosen does not entitle them to.
+  //
+  // Anybody who takes up a life learns that the person died: it is a family
+  // notice, and it is what makes the choice legible. What the dead person
+  // owned is a different matter. Taking control of somebody's life is not
+  // inheritance and not permission, so the estate is disclosed only to the
+  // family whose business it already is (Q47-010). An unrelated successor is
+  // told nothing about it, and nothing else private travels either way.
+  const family =
+    candidate.relation === "child" ||
+    candidate.relation === "grandchild" ||
+    candidate.relation === "sibling" ||
+    candidate.relation === "partner";
+  const estateEventId = next.history.events.find(
+    (event) =>
+      event.stableKey ===
+      `${PEOPLE_CONTINUATION_VERSION}:estate:${input.predecessorId}`,
+  )?.id;
   const disclosed = [
     end.eventId,
-    ...(reason === "death"
-      ? [
-          next.history.events.find(
-            (event) =>
-              event.stableKey ===
-              `${PEOPLE_CONTINUATION_VERSION}:estate:${input.predecessorId}`,
-          )!.id,
-        ]
-      : []),
+    ...(reason === "death" && family && estateEventId ? [estateEventId] : []),
   ];
   for (const eventId of disclosed) {
     const already = next.history.knowledge.some(

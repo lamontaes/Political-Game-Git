@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 3093 |
 | INTENTIONALLY_NON_PLAYER_FACING | 6629 |
-| DIAGNOSTIC_OR_TEST | 6521 |
-| **NEEDS_CLASSIFICATION** | **8677** |
+| DIAGNOSTIC_OR_TEST | 6530 |
+| **NEEDS_CLASSIFICATION** | **8684** |
 
-Scanned 925 files holding 96266 string
+Scanned 925 files holding 96330 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -185,6 +185,7 @@ literals in total; the table counts only those that read like a sentence.
 | 14 | `src/player/CivilPersonnelPanel.tsx` |
 | 14 | `src/player/PreparedAppearanceControls.tsx` |
 | 14 | `src/player/TransitWorkspace.tsx` |
+| 14 | `src/presentation/childhood.ts` |
 | 14 | `src/presentation/legislation-analysis.ts` |
 | 14 | `src/presentation/pose-control-plate.ts` |
 | 14 | `src/presentation/surface-projection.ts` |
@@ -277,7 +278,6 @@ literals in total; the table counts only those that read like a sentence.
 | 7 | `src/player/TitleTableau.tsx` |
 | 7 | `src/player/education-study-display.ts` |
 | 7 | `src/presentation/candidate-review.ts` |
-| 7 | `src/presentation/childhood.ts` |
 | 7 | `src/presentation/civil-personnel-evidence.ts` |
 | 7 | `src/presentation/life-talk-conversation.ts` |
 | 7 | `src/presentation/player-calendar.ts` |
