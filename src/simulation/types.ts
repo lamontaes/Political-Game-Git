@@ -1,6 +1,8 @@
+import type { CrisisRecord } from "./crisis/types";
 import type { WorldContentPacks } from "./runtime-content-packs";
 
 import type { AppearanceMaterial } from "./appearance-material";
+import type { MediaOutletKey, PressRecord } from "./press/records";
 import type {
   NationalElection,
   NationalElectionRecord,
@@ -11,6 +13,8 @@ import type {
   ConstitutionalRuleVersionRecord,
 } from "./constitutional-types";
 import type { PublicFundingMandate } from "./public-fiscal";
+import type { MacroEconomyStore } from "./macro-economy/types";
+import type { PartyRecord, WorldConditionRecord } from "./world-setup/types";
 import type {
   TaxProposalRecord,
   TaxPolicyRecord,
@@ -36,8 +40,11 @@ export interface SimulationMoment {
 }
 
 export type EntityKind =
+  | "world-condition"
+  | "party-record"
   | "constitutional-measure"
   | "constitutional-action"
+  | "crisis-record"
   | "constitutional-rule-version"
   | "tax-proposal"
   | "tax-policy"
@@ -119,6 +126,7 @@ export type EntityKind =
   | "person-death"
   | "person-functional-capacity"
   | "personnel-record"
+  | "public-program-record"
   | "personal-value"
   | "personality-tendency"
   | "personality-tendency-definition"
@@ -131,6 +139,7 @@ export type EntityKind =
   | "policy-operation"
   | "policy-realization"
   | "publication"
+  | "press-record"
   | "principle"
   | "principle-definition"
   | "proposition-exposure"
@@ -2619,6 +2628,12 @@ export type ResourceFlowBasisReference =
       readonly mandate: PublicFundingMandate;
       readonly operationKey: string;
     }
+  | {
+      readonly kind: "public-program";
+      /** The earlier commitment that authorizes this installment. */
+      readonly commitmentId: EntityId;
+      readonly installmentIndex: number;
+    }
   | { readonly kind: "work"; readonly workRelationshipId: EntityId }
   | { readonly kind: "care"; readonly careResponsibilityId: EntityId }
   | { readonly kind: "housing"; readonly housingTenureId: EntityId }
@@ -3301,7 +3316,7 @@ export interface CampaignComplianceDocumentRecord {
 // ---------------------------------------------------------------------------
 
 export type PublicationKind =
-  "legislative-development" | "recorded-vote" | "civic-event";
+  "legislative-development" | "recorded-vote" | "civic-event" | "press-story";
 
 /**
  * One edition of a public-information item.
@@ -3319,8 +3334,9 @@ export interface PublicationRecord {
   /** Canonical domain records that substantiate the source event, when any. */
   readonly sourceRecordIds: readonly EntityId[];
   readonly jurisdictionId: EntityId | null;
-  readonly outletKey: "civic-ledger";
-  readonly outletName: "Civic Ledger";
+  /** Civic Ledger, or a PRESS46 media outlet (`media:<outletId>`). */
+  readonly outletKey: "civic-ledger" | MediaOutletKey;
+  readonly outletName: string;
   readonly headline: string;
   readonly body: string;
   readonly publishedAt: IsoDate;
@@ -3330,6 +3346,105 @@ export interface PublicationRecord {
   /** Null on the first edition; required on a correction. */
   readonly correctionNote: string | null;
 }
+
+// ---------------------------------------------------------------------------
+// Public programs — appropriation, commitment, installment and capacity outturn
+// ---------------------------------------------------------------------------
+
+/** Where a program figure came from. A fixture or game profile says so. */
+export interface PublicProgramBasis {
+  readonly kind: "sourced" | "game-profile" | "authored-fixture";
+  readonly note: string;
+}
+
+export type PublicProgramPurpose = "operating" | "maintenance" | "grant";
+
+export interface PublicProgramInstallmentPlan {
+  readonly dueAt: IsoDate;
+  readonly amount: MoneyAmount;
+  readonly purpose: PublicProgramPurpose;
+}
+
+interface PublicProgramRecordBase {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  /** `namespace:name`, e.g. `transit:bus-service`. */
+  readonly programKey: string;
+  readonly jurisdictionId: EntityId;
+  readonly recordedAt: IsoDate;
+  /** The ordinary event written with this record. */
+  readonly eventId: EntityId;
+}
+
+/** What the service has to work with, as declared; never a forecast. */
+export interface PublicProgramCapacityRecord extends PublicProgramRecordBase {
+  readonly kind: "capacity";
+  readonly serviceLabel: string;
+  readonly unitLabel: string;
+  readonly unitsTotal: number;
+  readonly unitsOperational: number;
+  readonly monthlyOperatingNeed: MoneyAmount;
+  /** Share of scheduled trips reliably completed, in thousandths, if observed. */
+  readonly completedPermille: number | null;
+  /** Declared cost to return one unit to service; null when nobody knows. */
+  readonly restorationCostPerUnit: MoneyAmount | null;
+  readonly basis: PublicProgramBasis;
+}
+
+/** Spending authority on an existing public account. Not cash. */
+export interface PublicProgramAppropriationRecord extends PublicProgramRecordBase {
+  readonly kind: "appropriation";
+  readonly accountOrganizationId: EntityId;
+  readonly amount: MoneyAmount;
+  readonly availableFrom: IsoDate;
+  readonly availableThrough: IsoDate;
+  /** The enacted measure that adopted it, when one did. */
+  readonly sourceMeasureId?: EntityId | null;
+  readonly basis: PublicProgramBasis;
+}
+
+/** One office's decision to commit part of an appropriation, including $0. */
+export interface PublicProgramCommitmentRecord extends PublicProgramRecordBase {
+  readonly kind: "commitment";
+  readonly appropriationId: EntityId;
+  readonly alternativeKey: string;
+  readonly alternativeTitle: string;
+  readonly decidedByPersonId: EntityId;
+  /** The standing that let this person decide, in words. */
+  readonly authority: string;
+  readonly recipientOrganizationId: EntityId | null;
+  readonly installments: readonly PublicProgramInstallmentPlan[];
+  /** Days from payment to delivered maintenance, when the purpose has one. */
+  readonly deliveryLeadDays: number | null;
+}
+
+/** What happened when an installment fell due. Written once. */
+export interface PublicProgramInstallmentRecord extends PublicProgramRecordBase {
+  readonly kind: "installment";
+  readonly commitmentId: EntityId;
+  readonly installmentIndex: number;
+  readonly status: "posted" | "failed";
+  readonly resourceFlowId: EntityId | null;
+  readonly reason: string | null;
+}
+
+/** The service's capacity after delivered work. Reads implementation only. */
+export interface PublicProgramCapacityOutturnRecord extends PublicProgramRecordBase {
+  readonly kind: "capacity-outturn";
+  readonly commitmentId: EntityId;
+  readonly installmentId: EntityId;
+  readonly unitsOperational: number;
+  /** Units returned to service; null when no restoration cost was declared. */
+  readonly restoredUnits: number | null;
+}
+
+export type PublicProgramRecord =
+  | PublicProgramCapacityRecord
+  | PublicProgramAppropriationRecord
+  | PublicProgramCommitmentRecord
+  | PublicProgramInstallmentRecord
+  | PublicProgramCapacityOutturnRecord;
 
 // ---------------------------------------------------------------------------
 // Public personnel — sourced procedure steps over LIFE work relationships
@@ -3571,6 +3686,10 @@ export interface HistoryStore {
   readonly campaignComplianceDocuments?: readonly CampaignComplianceDocumentRecord[];
   /** Optional so pre-NEWS-HELP2 snapshots remain structurally readable. */
   readonly publications?: readonly PublicationRecord[];
+  /** PRESS46: optional so earlier saves read as an empty press history. */
+  readonly pressRecords?: readonly PressRecord[];
+  /** CRISIS severe-event records; absent in Worlds written before them. */
+  readonly crisisRecords?: readonly CrisisRecord[];
   readonly legislativeMeasures?: readonly LegislativeMeasureRecord[];
   readonly legislativeActions?: readonly LegislativeActionRecord[];
   readonly committeeReferrals?: readonly CommitteeReferralRecord[];
@@ -3600,6 +3719,15 @@ export interface HistoryStore {
   readonly legislativeEnactments?: readonly LegislativeEnactmentRecord[];
   /** Optional so pre-CIVIL-AUTHORITY13 snapshots remain structurally readable. */
   readonly personnelRecords?: readonly PersonnelRecord[];
+  /**
+   * WORLD: a save's generated starting conditions and opening version.
+   * Optional so older snapshots, which never had them, stay readable.
+   */
+  readonly worldConditions?: readonly WorldConditionRecord[];
+  /** WORLD: political organization identity, decisions and evolution. */
+  readonly partyRecords?: readonly PartyRecord[];
+  /** Optional so pre-GOVERNING-6 snapshots remain structurally readable. */
+  readonly publicProgramRecords?: readonly PublicProgramRecord[];
   readonly futureDueItems: readonly FutureDueItem[];
   readonly futureDueItemStates: readonly FutureDueItemStateRecord[];
   readonly events: readonly HistoricalEvent[];
@@ -4432,4 +4560,9 @@ export interface World {
    * a convention.
    */
   readonly setupPriors?: SetupPriorStore;
+  /**
+   * CHANGE macro history (CRUNCH46 08). Optional and additive: a world
+   * written before it existed has no macro history and is never retrofitted.
+   */
+  readonly macroEconomy?: MacroEconomyStore;
 }

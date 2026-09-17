@@ -1,3 +1,6 @@
+import { crisisAmbientHandler } from "./crisis/ambient";
+import { crisisEntityAvailableAt, crisisEntityExists } from "./crisis/records";
+import { eventById } from "./event-index";
 import {
   nationalEntityExists,
   nationalEntityAvailableAt,
@@ -362,6 +365,13 @@ export function scheduledFutureDueItemsThrough(
     .sort(compareDueItems);
 }
 
+function handlerFor(
+  registry: FutureTransitionHandlerRegistry,
+  transitionKey: FutureTransitionKey,
+): FutureTransitionHandler | undefined {
+  return registry.get(transitionKey) ?? crisisAmbientHandler(transitionKey);
+}
+
 export function resolveFutureDueItemsThrough(
   world: World,
   throughDate: IsoDate,
@@ -375,7 +385,7 @@ export function resolveFutureDueItemsThrough(
     throughDate,
   );
   for (const item of initiallyDue) {
-    if (!registry.get(item.transitionKey)) {
+    if (!handlerFor(registry, item.transitionKey)) {
       throw new Error(
         `Missing future-transition handler for due item ${item.id}: ${item.transitionKey}`,
       );
@@ -389,7 +399,7 @@ export function resolveFutureDueItemsThrough(
       throughDate,
     )[0];
     if (!item) return working;
-    const handler = registry.get(item.transitionKey);
+    const handler = handlerFor(registry, item.transitionKey);
     if (!handler) {
       throw new Error(
         `Missing future-transition handler for due item ${item.id}: ${item.transitionKey}`,
@@ -476,13 +486,28 @@ export function futureTransitionHistoryRecords(
   ];
 }
 
+const ID_INDEX = new WeakMap<
+  readonly { readonly id: EntityId }[],
+  Set<EntityId>
+>();
+
+function idsOf(records: readonly { readonly id: EntityId }[]): Set<EntityId> {
+  let ids = ID_INDEX.get(records);
+  if (!ids) {
+    ids = new Set(records.map((record) => record.id));
+    ID_INDEX.set(records, ids);
+  }
+  return ids;
+}
+
 export function futureTransitionEntityExists(
   world: World,
   id: EntityId,
 ): boolean {
+  // Indexed per (immutable) history array; the scan was quadratic on long saves.
   return (
-    world.history.futureDueItems.some((record) => record.id === id) ||
-    world.history.futureDueItemStates.some((record) => record.id === id)
+    idsOf(world.history.futureDueItems).has(id) ||
+    idsOf(world.history.futureDueItemStates).has(id)
   );
 }
 
@@ -628,9 +653,7 @@ export function assertFutureTransitionIntegrity(
       }
       assertOptional(state.context, "Future due-item context");
       if (state.outcomeEventId !== null) {
-        const event = world.history.events.find(
-          (candidate) => candidate.id === state.outcomeEventId,
-        );
+        const event = eventById(world, state.outcomeEventId);
         if (
           !event ||
           event.sequence <= item.sequence ||
@@ -665,15 +688,41 @@ export function assertFutureTransitionIntegrity(
   }
 }
 
+/*
+ * GOVERNING profile: the clock asked for "the latest state of this due item"
+ * once per item, and each answer filtered and sorted every state in history.
+ * With one scan per item and one pass per resolved item, the resolver's cost
+ * grew with the square of a life. States are appended in sequence order and
+ * the array is replaced rather than edited, so one index per array is exact.
+ */
+const LATEST_DUE_STATE = new WeakMap<
+  readonly FutureDueItemStateRecord[],
+  Map<EntityId, FutureDueItemStateRecord>
+>();
+
+function latestDueStateIndex(
+  states: readonly FutureDueItemStateRecord[],
+): Map<EntityId, FutureDueItemStateRecord> {
+  let index = LATEST_DUE_STATE.get(states);
+  if (!index) {
+    index = new Map<EntityId, FutureDueItemStateRecord>();
+    for (const record of states) {
+      const current = index.get(record.dueItemId);
+      if (!current || record.sequence > current.sequence)
+        index.set(record.dueItemId, record);
+    }
+    LATEST_DUE_STATE.set(states, index);
+  }
+  return index;
+}
+
 function latestDueItemStateAtCurrentFrontier(
   world: World,
   dueItemId: EntityId,
 ): FutureDueItemStateRecord | null {
   return (
-    world.history.futureDueItemStates
-      .filter((record) => record.dueItemId === dueItemId)
-      .sort(bySequence)
-      .at(-1) ?? null
+    latestDueStateIndex(world.history.futureDueItemStates).get(dueItemId) ??
+    null
   );
 }
 
@@ -742,6 +791,8 @@ function canonicalEntityAvailable(
   if (vitalityEntityExists(world, id)) {
     return vitalityEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
   }
+  if (crisisEntityExists(world, id))
+    return crisisEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
   if (nationalEntityExists(world, id))
     return nationalEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
   if (electionContestEntityExists(world, id)) {
@@ -779,7 +830,7 @@ function canonicalEntityAvailable(
       causalRecord.sequence < sequenceExclusive
     );
   }
-  const event = world.history.events.find((record) => record.id === id);
+  const event = eventById(world, id);
   return !!(
     event &&
     event.recordedAt <= asOfDate &&

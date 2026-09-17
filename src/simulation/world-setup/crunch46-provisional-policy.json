@@ -1,0 +1,65 @@
+{
+  "policyVersion": "crunch46-provisional-v1",
+  "provenanceClass": "authored-calibration",
+  "authority": "CRUNCH46 section 13 (director-authored initial balancing), Drive 1u70OSFIy2uBgePzq8AqV_L2onGgeKjzvcodOFTiSre0, read 2026-09-16.",
+  "transcription": "Transcribed from the section 13 text. The director's separate crunch46-provisional-policy.json bundle was not locatable on Drive at receipt; any difference from that bundle is a transcription conflict to report, not a silent blend.",
+  "disclaimer": "Explicit authored first-playable parameters. Not fitted empirical estimates, forecasts, real-world frequencies or owner-chosen weights.",
+  "regimes": {
+    "order": ["near-reference", "modest", "major"],
+    "frequency": { "near-reference": 0.7, "modest": 0.25, "major": 0.05 },
+    "note": "Starting-variation frequency only; not a future-crisis quota or difficulty distribution."
+  },
+  "political": {
+    "units": "Democratic two-party-share percentage points",
+    "nationalSwingSd": { "near-reference": 1.5, "modest": 3.5, "major": 7.5 },
+    "censusRegionResidualSd": {
+      "near-reference": 0.8,
+      "modest": 1.8,
+      "major": 3.5
+    },
+    "stateResidualSd": { "near-reference": 0.8, "modest": 1.4, "major": 2.5 },
+    "seatResidualSd": { "near-reference": 1.5, "modest": 2.5, "major": 4.0 },
+    "logitEpsilon": 0.000001,
+    "swingToLogitDivisor": 25,
+    "seatFlipCap": null
+  },
+  "macro": {
+    "baselineRealOutputIndex": 100,
+    "growthAnchorAnnualPct": 2.0,
+    "unemploymentReferencePct": 4.6,
+    "inflationReference12mPct": 2.7,
+    "baselineRealIncomeIndex": 100,
+    "housingSupplyDemandRatioNeutral": 1.0,
+    "policyRateRangePct": [3.5, 3.75],
+    "volatilityScale": { "near-reference": 0.5, "modest": 1, "major": 2.5 },
+    "startup": {
+      "growth": "g = 2 + scale * cycle",
+      "unemployment": "u = logistic(logit(0.046) - 0.20 * scale * cycle) * 100",
+      "inflation": "pi = 2.7 + 0.6 * scale * cost",
+      "housingRatio": "exp(0.06 * scale * housing)",
+      "creditTightness": "logistic(0.4 * scale * credit)"
+    },
+    "startupCoefficients": {
+      "unemploymentCycleLogit": -0.2,
+      "inflationCost": 0.6,
+      "housingLog": 0.06,
+      "creditLogit": 0.4
+    },
+    "monthly": {
+      "growthPersistence": 0.85,
+      "inflationPersistence": 0.95,
+      "okunLaggedGrowth": 0.04,
+      "inflationAnchorPct": 2.0,
+      "innovationSdPp": {
+        "growth": 0.15,
+        "unemployment": 0.04,
+        "inflation": 0.04
+      },
+      "owner": "CHANGE (monthly transitions are not WORLD's writer)"
+    }
+  },
+  "media": {
+    "activeAssignmentCapacity": { "small": 1, "standard": 3, "major": 8 },
+    "owner": "PRESS"
+  }
+}

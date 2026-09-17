@@ -36,6 +36,8 @@ import {
   COHERENT_APPEARANCE_RECIPE_VERSION,
   LEGACY_APPEARANCE_RECIPE_VERSION,
 } from "../simulation/person-appearance";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "../simulation/world-setup/types";
+import type { WorldOpeningVersion } from "../simulation/world-setup/types";
 
 /**
  * Starting a life.
@@ -167,6 +169,13 @@ export interface NewGameSetup {
   /** Explicit fresh-candidate complete-recipe initialization; absent replays keep old behavior. */
   readonly appearanceOutfitVersion?:
     "complete-outfit-v1" | "complete-outfit-v2";
+  /**
+   * The public-world opening this setup builds (officeholders, Congress,
+   * parties, starting conditions). Absent means the legacy opening, so a
+   * replay link written before the field rebuilds what it described.
+   * New Game stamps the current version.
+   */
+  readonly worldOpeningVersion?: WorldOpeningVersion;
 }
 
 export interface NewGame {
@@ -200,6 +209,7 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   gender: "unstated",
   appearanceRecipeVersion: COHERENT_APPEARANCE_RECIPE_VERSION,
   givenNameGenerationVersion: DISTINCT_GIVEN_NAME_GENERATION_VERSION,
+  worldOpeningVersion: CRUNCH46_WORLD_OPENING_VERSION,
   questionnaire: "short",
   priors: [],
 };

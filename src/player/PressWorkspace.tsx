@@ -29,6 +29,7 @@ import {
   type EntityId,
   type World,
 } from "../simulation";
+import { PressDeskPanel } from "./PressDeskPanel";
 import { PressInterviewPanel } from "./PressInterviewPanel";
 import {
   composePressRequestPitch,
@@ -142,6 +143,13 @@ export function PressWorkspace({
       <h3>Press interviews</h3>
       {problem ? <p role="status">{problem}</p> : null}
       {requestNotice ? <p role="status">{requestNotice}</p> : null}
+      {controlledPersonId ? (
+        <PressDeskPanel
+          world={world}
+          personId={controlledPersonId}
+          onWorldChange={onWorldChange}
+        />
+      ) : null}
       {controlledPersonId ? (
         <details data-testid="press-request-form">
           <summary>Request a press exchange</summary>

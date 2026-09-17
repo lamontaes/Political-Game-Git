@@ -22,6 +22,11 @@ import {
   COHERENT_APPEARANCE_RECIPE_VERSION,
   LEGACY_APPEARANCE_RECIPE_VERSION,
 } from "../simulation/person-appearance";
+import {
+  CRUNCH46_WORLD_OPENING_VERSION,
+  LEGACY_WORLD_OPENING_VERSION,
+} from "../simulation/world-setup/types";
+import type { WorldOpeningVersion } from "../simulation/world-setup/types";
 
 /**
  * What makes one new game a different new game from another.
@@ -208,6 +213,9 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
   const givenNameGenerationVersion = setup.givenNameGenerationVersion;
   const appearanceCatalogGeneration = setup.appearanceCatalogGeneration;
   const extras = {
+    ...(setup.worldOpeningVersion === undefined
+      ? {}
+      : { worldOpeningVersion: setup.worldOpeningVersion }),
     ...(setup.appearanceOutfitVersion === undefined
       ? {}
       : { appearanceOutfitVersion: setup.appearanceOutfitVersion }),
@@ -330,7 +338,19 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     record.appearanceOutfitVersion !== "complete-outfit-v2"
   )
     return null;
+  // Absent is the legacy opening; an unknown opening is a descriptor from a
+  // build this one cannot reproduce, so it is refused rather than guessed.
+  const worldOpeningVersion = record.worldOpeningVersion;
+  if (
+    worldOpeningVersion !== undefined &&
+    worldOpeningVersion !== LEGACY_WORLD_OPENING_VERSION &&
+    worldOpeningVersion !== CRUNCH46_WORLD_OPENING_VERSION
+  )
+    return null;
   const base: NewGameSetup = {
+    ...(worldOpeningVersion === undefined
+      ? {}
+      : { worldOpeningVersion: worldOpeningVersion as WorldOpeningVersion }),
     ...(record.appearanceOutfitVersion === undefined
       ? {}
       : { appearanceOutfitVersion: record.appearanceOutfitVersion }),

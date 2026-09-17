@@ -1,6 +1,14 @@
 import { assertWorldContentPacks } from "./runtime-content-packs";
+import { applyCongressTurnover } from "./living-world/congress-turnover";
+import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
 import { assertAppearanceMaterial } from "./appearance-material";
 import { applyNationalTermTransitions } from "./national-election-consumer";
+import {
+  assertCrisisIntegrity,
+  crisisEntityAvailableAt,
+  crisisEntityExists,
+  crisisRecords,
+} from "./crisis/records";
 import {
   assertNationalElectionIntegrity,
   nationalHistoryRecords,
@@ -15,6 +23,10 @@ import {
 } from "./constitutional-process";
 import { assertPublicPaymentIntegrity } from "./public-fiscal";
 import {
+  assertPublicProgramIntegrity,
+  publicProgramRecords,
+} from "./public-program-integrity";
+import {
   assertTaxIntegrity,
   taxEntityExists,
   taxEntityAvailableAt,
@@ -28,6 +40,7 @@ import {
   simulationMomentOnLocalDate,
 } from "./dates";
 import { assertSetupPriorIntegrity, clonePriors } from "./setup-priors";
+import { assertMacroEconomyIntegrity } from "./macro-economy/store";
 import {
   assertCausalEffectIntegrity,
   assertCausalMechanismCatalogIntegrity,
@@ -65,6 +78,12 @@ import {
   evidenceEntityExists,
   evidenceHistoryRecords,
 } from "./evidence-integrity";
+import {
+  assertPressIntegrity,
+  pressEntityAvailableAt,
+  pressEntityExists,
+  pressHistoryRecords,
+} from "./press/integrity";
 import {
   assertPublicInformationIntegrity,
   publicInformationEntityAvailableAt,
@@ -165,6 +184,10 @@ import {
   personnelHistoryRecords,
 } from "./civil-personnel-integrity";
 import { assertLegislativePoliticsIntegrity } from "./legislative-politics-integrity";
+import {
+  assertWorldSetupIntegrity,
+  worldSetupHistoryRecords,
+} from "./world-setup/integrity";
 import {
   legislativePoliticsHistoryRecords,
   legislativePoliticsEntityExists,
@@ -490,7 +513,21 @@ export function createWorld(input: CreateWorldInput): World {
   return world;
 }
 
+/*
+ * GOVERNING profile: writers validate the World they receive and the World
+ * they return, so one object was being checked again by the next writer.
+ * Worlds are immutable values; an object that passed once is remembered.
+ * A World built by spreading is a new object and is always checked.
+ */
+const VALIDATED_WORLDS = new WeakSet<World>();
+
 export function assertWorldIntegrity(world: World): void {
+  if (VALIDATED_WORLDS.has(world)) return;
+  validateWorldIntegrity(world);
+  VALIDATED_WORLDS.add(world);
+}
+
+function validateWorldIntegrity(world: World): void {
   assertJsonSafe(world, "world");
   if (world.contentPacks !== undefined)
     assertWorldContentPacks(world.contentPacks);
@@ -549,6 +586,7 @@ export function assertWorldIntegrity(world: World): void {
     assertSetupPriorIntegrity(world.setupPriors);
   }
   validateHistoryIntegrity(world);
+  if (world.macroEconomy !== undefined) assertMacroEconomyIntegrity(world);
 }
 
 export function recordWorldEvent(
@@ -614,7 +652,9 @@ export function recordWorldEvent(
       !constitutionalEntityExists(world, entityId) &&
       !legislationEntityExists(world, entityId) &&
       !legislativePoliticsEntityExists(world, entityId) &&
-      !publicInformationEntityExists(world, entityId)
+      !publicInformationEntityExists(world, entityId) &&
+      !pressEntityExists(world, entityId) &&
+      !crisisEntityExists(world, entityId)
     ) {
       throw new Error(
         `Historical event references a missing entity: ${entityId}`,
@@ -669,6 +709,18 @@ export function recordWorldEvent(
         `Historical event references an unavailable causal/effect entity: ${entityId}`,
       );
     }
+    if (
+      crisisEntityExists(world, entityId) &&
+      !crisisEntityAvailableAt(
+        world,
+        entityId,
+        occurredAt,
+        world.history.nextSequence,
+      )
+    )
+      throw new Error(
+        `Historical event references an unavailable CRISIS entity: ${entityId}`,
+      );
     if (
       incidentEntityExists(world, entityId) &&
       !incidentEntityAvailableAt(
@@ -847,6 +899,19 @@ export function recordWorldEvent(
         `Historical event references an unavailable publication entity: ${entityId}`,
       );
     }
+    if (
+      pressEntityExists(world, entityId) &&
+      !pressEntityAvailableAt(
+        world,
+        entityId,
+        occurredAt,
+        world.history.nextSequence,
+      )
+    ) {
+      throw new Error(
+        `Historical event references an unavailable press entity: ${entityId}`,
+      );
+    }
     const involvedPerson = world.people[entityId];
     if (involvedPerson && occurredAt < involvedPerson.birthDate) {
       throw new Error(
@@ -966,7 +1031,14 @@ export function advanceWorld(
     actionSequence: actionSequence + 1,
   };
 
-  return recordWorldEvent(applyNationalTermTransitions(advanced), {
+  const continued = applyGovernorTurnover(
+    world.currentDate,
+    applyCongressTurnover(
+      world.currentDate,
+      applyNationalTermTransitions(advanced),
+    ),
+  );
+  return recordWorldEvent(continued, {
     stableKey: `action:${actionSequence}:time-advanced:${world.currentDate}:${days}:${nextDate}`,
     type: "simulation.time-advanced",
     occurredAt: nextDate,
@@ -1563,7 +1635,11 @@ function validateHistoryIntegrity(world: World): void {
     ...draftLineageHistoryRecords(world),
     ...futureTransitionHistoryRecords(world),
     ...publicInformationHistoryRecords(world),
+    ...pressHistoryRecords(world),
     ...personnelHistoryRecords(world),
+    ...worldSetupHistoryRecords(world),
+    ...crisisRecords(world),
+    ...publicProgramRecords(world),
     ...(history.districtResidenceIntervals ?? []),
     ...(history.officeWorkflowPreferences ?? []),
     ...(history.officeVoteInstructions ?? []),
@@ -1701,6 +1777,9 @@ function validateHistoryIntegrity(world: World): void {
   assertDraftLineageIntegrity(world);
   assertFutureTransitionIntegrity(world, ids);
   assertPublicInformationIntegrity(world, ids);
+  assertPressIntegrity(world, ids);
+  for (const record of crisisRecords(world)) assertUniqueId(ids, record.id);
+  assertCrisisIntegrity(world);
   for (const interval of history.districtResidenceIntervals ?? []) {
     assertUniqueId(ids, interval.id);
     if (!world.people[interval.personId]) {
@@ -1795,6 +1874,8 @@ function validateHistoryIntegrity(world: World): void {
     }
   }
   assertPersonnelIntegrity(world, ids);
+  assertWorldSetupIntegrity(world, ids);
+  assertPublicProgramIntegrity(world, ids);
   assertUniqueStableKeys(history.events, "event");
   assertUniqueStableKeys(history.memories, "memory");
   assertUniqueStableKeys(history.knowledge, "knowledge");
@@ -1940,7 +2021,9 @@ function validateHistoryIntegrity(world: World): void {
         !constitutionalEntityExists(world, involvedId) &&
         !legislationEntityExists(world, involvedId) &&
         !legislativePoliticsEntityExists(world, involvedId) &&
-        !publicInformationEntityExists(world, involvedId)
+        !publicInformationEntityExists(world, involvedId) &&
+        !pressEntityExists(world, involvedId) &&
+        !crisisEntityExists(world, involvedId)
       ) {
         throw new Error(
           `Historical event references a missing involved entity: ${event.id}`,
@@ -2173,6 +2256,19 @@ function validateHistoryIntegrity(world: World): void {
       ) {
         throw new Error(
           `Historical event references an unavailable publication entity: ${event.id}`,
+        );
+      }
+      if (
+        pressEntityExists(world, involvedId) &&
+        !pressEntityAvailableAt(
+          world,
+          involvedId,
+          event.occurredAt,
+          event.sequence,
+        )
+      ) {
+        throw new Error(
+          `Historical event references an unavailable press entity: ${event.id}`,
         );
       }
       const involvedPerson = world.people[involvedId];
@@ -3414,6 +3510,15 @@ function validateEventContext(world: World, context: EventContext): void {
   }
 }
 
+/*
+ * GOVERNING profile: every write re-walked every record in history to prove it
+ * was JSON-safe, so the cost of writing one record grew with the length of a
+ * life. History records are immutable and are replaced rather than edited, so
+ * an object that has already been walked stays safe: it is remembered and not
+ * walked again, and a write pays only for what it actually added.
+ */
+const JSON_SAFE = new WeakSet<object>();
+
 function assertJsonSafe(
   value: unknown,
   path: string,
@@ -3438,6 +3543,7 @@ function assertJsonSafe(
   if (ancestors.has(value)) {
     throw new Error(`Cyclic value is not JSON-safe at ${path}.`);
   }
+  if (JSON_SAFE.has(value)) return;
 
   const prototype = Object.getPrototypeOf(value);
   if (
@@ -3459,6 +3565,7 @@ function assertJsonSafe(
     }
   }
   ancestors.delete(value);
+  JSON_SAFE.add(value);
 }
 
 function cloneFact(fact: PersonFact): PersonFact {

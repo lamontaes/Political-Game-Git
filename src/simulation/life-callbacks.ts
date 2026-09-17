@@ -1,3 +1,4 @@
+import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
 import {
   lifeRequestDetails,
   lifeRequestDetailsTag,
@@ -53,6 +54,9 @@ import type {
  */
 
 export const LIFE_CALLBACK_TRANSITION_KEY = "life:callback" as const;
+
+/** The event written when somebody raises an earlier choice again. */
+export const LIFE_CALLBACK_EVENT = "life.earlier-choice-returned" as const;
 
 /**
  * What it reads like when it comes back.
@@ -454,6 +458,9 @@ export function lifeCallbackTransitionHandler(
   // A row that said "this option is punished" would be the game deciding an
   // NPC's mind for them; this is the NPC reading their own history.
   if (counterpartId !== undefined) {
+    // Their temperament is part of what they weigh, so it must be on record
+    // before they weigh it (PEOPLE P2).
+    world = ensurePeopleTraits(world, [counterpartId]);
     const raised = counterpartRaisesIt(
       world,
       personId,
@@ -511,7 +518,7 @@ export function lifeCallbackTransitionHandler(
         kind: "event",
         input: {
           stableKey: `${stableKey}:event`,
-          type: "life.earlier-choice-returned",
+          type: LIFE_CALLBACK_EVENT,
           occurredAt: dueItem.dueAt,
           recordedAt: dueItem.dueAt,
           jurisdictionId: origin.context.location?.jurisdictionId ?? null,
@@ -644,6 +651,29 @@ function counterpartRaisesIt(
     }),
   );
 
+  considerations.push(
+    ...traitConsiderations(world, counterpartId, dueItem.stableKey, [
+      {
+        optionKey: "raise-it",
+        trait: "conflict",
+        pole: "high",
+        explanation: "They tend to say it when something bothers them.",
+      },
+      {
+        optionKey: "let-it-lie",
+        trait: "conflict",
+        pole: "low",
+        explanation:
+          "They tend to let a disagreement settle rather than press it.",
+      },
+      {
+        optionKey: "raise-it",
+        trait: "reliability",
+        pole: "high",
+        explanation: "They follow through on things and expect the same.",
+      },
+    ]),
+  );
   const evaluation = evaluateDecision(world, {
     stableKey: `${dueItem.stableKey}:raises-it`,
     decisionType: "life.raise-earlier-matter",

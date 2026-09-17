@@ -1,4 +1,4 @@
-node_modules/
+node_modules
 dist/
 coverage/
 .playwright/
@@ -23,3 +23,8 @@ art/generated/candidates/art-desk/
 # Local agent-run-receipt artifacts (scripts/agent-run-receipt.mjs): per-run
 # checkout-identity receipts and logs, never tracked historical evidence.
 .agent-receipts/
+
+# Storm Events publisher bytes: 243 MB of NCEI .gz files kept outside the
+# repository. artifact-lock.json pins every file by sha256; the compiler reads
+# them with --raw-dir.
+data/source/storm-events-2000-2024/raw/
