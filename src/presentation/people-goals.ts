@@ -1,3 +1,4 @@
+import { proseDate } from "./prose-dates";
 import {
   ageOnDate,
   candidacyEligibility,
@@ -390,7 +391,7 @@ function progressFor(
   if (family === "seek-office") {
     const campaign = campaignForCandidate(world, personId);
     return campaign && campaign.filedAt >= record.createdAt
-      ? [`You filed on ${campaign.filedAt}.`]
+      ? [`You filed on ${proseDate(campaign.filedAt)}.`]
       : [];
   }
   if (!record.targetEntityId || family === "civic-issue") return [];

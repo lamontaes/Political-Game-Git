@@ -1,4 +1,4 @@
-import { addDays, ageOnDate, makeIsoDate } from "./dates";
+import { ageOnDate, makeIsoDate } from "./dates";
 import { advanceWorld } from "./world";
 import { kinshipRelationshipsAt } from "./life-queries";
 import { childrenOf, grandchildrenOf } from "./people-family";
@@ -11,6 +11,7 @@ import type {
   IsoDate,
   World,
 } from "./types";
+import { playerRequiredWorkIds, releasePlayerRequiredWork } from "./time-work";
 import { isPersonAliveAt } from "./vitality-integrity";
 import { recordWorldEvent } from "./world";
 
@@ -444,7 +445,11 @@ export function continueAsRelative(
     occurredAt: next.currentDate,
     recordedAt: next.currentDate,
     jurisdictionId: successor.homeJurisdictionId,
-    involvedEntityIds: [input.predecessorId, input.successorId],
+    involvedEntityIds: [
+      input.predecessorId,
+      input.successorId,
+      ...playerRequiredWorkIds(next, input.predecessorId),
+    ],
     participants: [
       {
         personId: input.predecessorId,
@@ -465,6 +470,11 @@ export function continueAsRelative(
       motivation: null,
       immediateReaction: null,
     },
+  });
+  next = releasePlayerRequiredWork(next, {
+    personId: input.predecessorId,
+    stableKeyPrefix: `${PEOPLE_CONTINUATION_VERSION}:released-work:${input.predecessorId}:${input.successorId}`,
+    outcomeEventId: next.history.events.at(-1)!.id,
   });
   return { ...next, control: { kind: "person", personId: input.successorId } };
 }
@@ -487,7 +497,10 @@ export function keepObserving(world: World, predecessorId: EntityId): World {
     occurredAt: next.currentDate,
     recordedAt: next.currentDate,
     jurisdictionId: next.people[predecessorId]!.homeJurisdictionId,
-    involvedEntityIds: [predecessorId],
+    involvedEntityIds: [
+      predecessorId,
+      ...playerRequiredWorkIds(next, predecessorId),
+    ],
     participants: [
       { personId: predecessorId, role: "other:played-before", detail: null },
     ],
@@ -503,6 +516,11 @@ export function keepObserving(world: World, predecessorId: EntityId): World {
       motivation: null,
       immediateReaction: null,
     },
+  });
+  next = releasePlayerRequiredWork(next, {
+    personId: predecessorId,
+    stableKeyPrefix: `${PEOPLE_CONTINUATION_VERSION}:released-work:${predecessorId}`,
+    outcomeEventId: next.history.events.at(-1)!.id,
   });
   return { ...next, control: { kind: "observer" } };
 }

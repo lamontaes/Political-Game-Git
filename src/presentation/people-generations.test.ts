@@ -3,6 +3,7 @@ import {
   enterSupportedTerm,
   recordedTermFixture,
 } from "../../tests/fixtures/recorded-legislative-term";
+import { openedLifeWithAdultChild } from "../../tests/fixtures/people-heir";
 import {
   addDays,
   ageOnDate,
@@ -32,6 +33,7 @@ import { recordPersonDeath } from "../simulation/vitality";
 import { resolveActiveMemberSeat } from "./legislative-member-seat";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
+import { openOrdinaryLife } from "./ordinary-life";
 import {
   continueAs,
   observeWorld,
@@ -370,5 +372,64 @@ describe("PEOPLE P5 edges", () => {
     expect(continued.history.workRelationships).toEqual(
       dead.history.workRelationships,
     );
+  });
+});
+
+describe("PEOPLE P5 on an opened ordinary life", () => {
+  // The player's own open work asks the player for action; after a handoff it
+  // must stop asking, or the world cannot be saved (UI46 report).
+  const fixture = openedLifeWithAdultChild("people-gen-open", 62);
+  const g1 = fixture.playerPersonId;
+  const child = { world: fixture.world, childPersonId: fixture.childPersonId };
+  const playerWork = (world: World, personId: EntityId) =>
+    world.history.workItems.filter((item) => {
+      const state = world.history.workItemStates
+        .filter((entry) => entry.workItemId === item.id)
+        .at(-1);
+      return (
+        state?.status === "active" &&
+        state.playerRequirement !== "none" &&
+        state.assignedPersonIds.includes(personId)
+      );
+    });
+
+  it("the opened life has player-required work to release", () => {
+    expect(playerWork(child.world, g1).length).toBeGreaterThan(0);
+  });
+
+  it("continuing after retirement leaves a valid, saveable world", () => {
+    const retired = retireFromPlay(child.world, g1);
+    const next = continueAs(retired, g1, child.childPersonId);
+    assertWorldIntegrity(next);
+    expect(playerWork(next, g1)).toEqual([]);
+    expectAppendedOnly(retired, next);
+    // The work is still g1's; only the demand on the player is gone.
+    for (const item of playerWork(child.world, g1)) {
+      const state = next.history.workItemStates
+        .filter((entry) => entry.workItemId === item.id)
+        .at(-1)!;
+      expect(state.assignedPersonIds).toContain(g1);
+      expect(state.status).toBe("active");
+    }
+    const reopened = deserializeWorld(serializeWorld(next));
+    expect(serializeWorld(reopened)).toBe(serializeWorld(next));
+  });
+
+  it("keeping on observing after a death leaves a valid, saveable world", () => {
+    const watching = observeWorld(die(child.world, g1), g1);
+    assertWorldIntegrity(watching);
+    expect(playerWork(watching, g1)).toEqual([]);
+    const reopened = deserializeWorld(serializeWorld(watching));
+    expect(serializeWorld(reopened)).toBe(serializeWorld(watching));
+  });
+
+  it("a successor who then opens their own ordinary life is valid too", () => {
+    const next = continueAs(
+      retireFromPlay(child.world, g1),
+      g1,
+      child.childPersonId,
+    );
+    const theirs = openOrdinaryLife(next, child.childPersonId);
+    assertWorldIntegrity(theirs);
   });
 });
