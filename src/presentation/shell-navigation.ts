@@ -1,6 +1,11 @@
 import type { PersonWardrobePreference } from "./person-visual-selection";
 import type { EntityId } from "../simulation";
 import type { GovernmentPlace, GovernmentScope } from "./politics-government";
+import {
+  DEFAULT_MAP_PREFERENCES,
+  readMapPreferences,
+  type MapPreferences,
+} from "../maps/map-preferences";
 
 /**
  * The shared shell: what is open, how you got there, and how you get back.
@@ -71,6 +76,8 @@ export type ShellSurface =
   | "politics"
   /** Public government by place, level and branch (Politics hub). */
   | "government"
+  /** Politics → Government → Map: who holds each seat, drawn by place. */
+  | "government-map"
   | "transit"
   | "tax"
   /** Who governs home, and standing for the state's executive office. */
@@ -174,6 +181,11 @@ export interface ShellPreferences {
    */
   readonly politicsPlace: GovernmentPlace;
   readonly governmentScope: GovernmentScope;
+  /**
+   * How Politics → Government → Map was last left: layer, focused state,
+   * labels and map-or-list. The map's history date is never saved.
+   */
+  readonly map: MapPreferences;
 }
 
 /**
@@ -207,6 +219,7 @@ export const DEFAULT_PREFERENCES: ShellPreferences = {
   journalYear: null,
   politicsPlace: "here",
   governmentScope: "local",
+  map: DEFAULT_MAP_PREFERENCES,
 };
 
 /** Private player writing, never simulation facts or NPC knowledge. */
@@ -353,6 +366,10 @@ export type ShellAction =
   | {
       readonly type: "set-reader-preferences";
       readonly patch: Partial<ReaderPreferences>;
+    }
+  | {
+      readonly type: "set-map-preferences";
+      readonly preferences: MapPreferences;
     }
   | { readonly type: "set-people-category"; readonly category: string }
   | { readonly type: "set-people-query"; readonly query: string }
@@ -675,6 +692,15 @@ export function shellReducer(
         preferences: { ...state.preferences, ...patch },
       };
     }
+
+    case "set-map-preferences":
+      return {
+        ...state,
+        preferences: {
+          ...state.preferences,
+          map: readMapPreferences(action.preferences),
+        },
+      };
 
     case "set-default-pin-size":
       return {

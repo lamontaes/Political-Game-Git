@@ -91,6 +91,8 @@ import { ExecutiveWorkWorkspace } from "./ExecutiveWorkWorkspace";
 import { resolveExecutiveOffice } from "../simulation/executive-work-context";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import {
+  lazy,
+  Suspense,
   useCallback,
   useEffect,
   useLayoutEffect,
@@ -246,6 +248,9 @@ import { WorldOrientationEntry } from "./WorldOrientationEntry";
 import { useWorldOrientation } from "./useWorldOrientation";
 import { PartyChapterSurface } from "./PartyChapterSurface";
 import { PartyInitiativesPanel } from "./politics/PartyInitiativesPanel";
+
+/* The map carries its geometry; it loads only when a player opens it. */
+const PoliticalMap = lazy(() => import("../maps/PoliticalMap"));
 import {
   projectPartyChapter,
   projectPartyChapters,
@@ -2636,6 +2641,7 @@ function PlayingScreen({
      */
     const politicsSurfaces: readonly string[] = [
       "government",
+      "government-map",
       "municipal",
       "parties",
       "politics",
@@ -3370,6 +3376,10 @@ function renderWorkspace({
   const onLegislativeChange = (next: World) =>
     onWorldChange(publishLegislativeTransition(session.world, next));
   const pinnedRef = (ref: ShellRef) => isPinned(shell, ref);
+  /* People the player pinned, highlighted on the map. */
+  const pinnedPersonIds = shell.pins.flatMap((pin) =>
+    pin.ref.kind === "person" ? [pin.ref.id] : [],
+  );
   const togglePin = (ref: ShellRef) => dispatch({ type: "toggle-pin", ref });
   /* Only a record this world has can be pinned; a missing one says so below. */
   const entityPinToggle = (ref: ShellRef, testid: string) => {
@@ -3501,7 +3511,7 @@ function renderWorkspace({
    */
   const politicsTabs = (
     active: PoliticsTab,
-    section?: "budget" | "transit" | "tax" | "overview" | "records",
+    section?: "budget" | "transit" | "tax" | "overview" | "map" | "records",
   ) => {
     const goTo = (tab: PoliticsTab) => {
       if (tab === "office")
@@ -3540,6 +3550,7 @@ function renderWorkspace({
         : active === "government"
           ? [
               { key: "overview", label: "Who governs" },
+              { key: "map", label: "Map" },
               { key: "records", label: "Local meetings and records" },
             ]
           : [];
@@ -3561,9 +3572,11 @@ function renderWorkspace({
                 ? "municipal"
                 : key === "overview"
                   ? "government"
-                  : key === "transit"
-                    ? "transit"
-                    : "tax";
+                  : key === "map"
+                    ? "government-map"
+                    : key === "transit"
+                      ? "transit"
+                      : "tax";
           dispatch({ type: "go-to-surface", surface });
         }}
       />
@@ -3960,6 +3973,39 @@ function renderWorkspace({
               openEntity({ kind: "measure", id: measureId })
             }
           />
+        </>,
+        "Politics",
+      );
+
+    case "government-map":
+      return frame(
+        "Government map",
+        "government-map-workspace",
+        <>
+          {politicsTabs("government", "map")}
+          <Suspense
+            fallback={
+              <p className="game-note" role="status">
+                Loading the map…
+              </p>
+            }
+          >
+            <PoliticalMap
+              world={session.world}
+              personId={session.personId}
+              preferences={shell.preferences.map}
+              onPreferencesChange={(preferences) =>
+                dispatch({ type: "set-map-preferences", preferences })
+              }
+              onOpenPerson={(personId) =>
+                dispatch({ type: "open-quick-dossier", personId })
+              }
+              onOpenMeasure={(measureId) =>
+                openEntity({ kind: "measure", id: measureId })
+              }
+              focus={{ personIds: pinnedPersonIds }}
+            />
+          </Suspense>
         </>,
         "Politics",
       );

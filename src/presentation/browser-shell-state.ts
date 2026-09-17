@@ -1,4 +1,5 @@
 import type { PersonWardrobePreference } from "./person-visual-selection";
+import { readMapPreferences } from "../maps/map-preferences";
 import {
   DEFAULT_DATABASE_NAME,
   INTERFACE_STORE_NAME,
@@ -197,6 +198,8 @@ function readPreferences(value: unknown): ShellPreferences {
     journalYear,
     politicsPlace,
     governmentScope,
+    // Saves written before the map existed have no map field; defaults apply.
+    map: readMapPreferences(value.map),
   };
 }
 
