@@ -436,6 +436,8 @@ describe("the shell's own store", () => {
       journalYear: null,
       politicsPlace: "here",
       governmentScope: "local",
+      // Guide terms arrived later too: an older record has marked none.
+      learnedGuideTermKeys: [],
     });
   });
 

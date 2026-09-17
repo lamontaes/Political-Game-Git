@@ -84,6 +84,8 @@ export type ShellSurface =
   | "parties"
   | "journal"
   | "patch-notes"
+  /** The term catalog, searchable: what the words on the other screens mean. */
+  | "guide"
   | "options";
 
 /**
@@ -176,6 +178,17 @@ export interface ShellPreferences {
    */
   readonly politicsPlace: GovernmentPlace;
   readonly governmentScope: GovernmentScope;
+  /**
+   * Guide terms this player has marked as learned.
+   *
+   * A human presentation preference and nothing else: it decides how much
+   * inline help a term carries on the surfaces that mention it, and every
+   * entry stays fully readable in the Guide either way. It is deliberately
+   * NOT character knowledge — the person in the world does not become better
+   * informed because the player read a definition, and no political outcome,
+   * conversation or simulation record may read this list.
+   */
+  readonly learnedGuideTermKeys: readonly string[];
 }
 
 /**
@@ -209,6 +222,7 @@ export const DEFAULT_PREFERENCES: ShellPreferences = {
   journalYear: null,
   politicsPlace: "here",
   governmentScope: "local",
+  learnedGuideTermKeys: [],
 };
 
 /** Private player writing, never simulation facts or NPC knowledge. */
@@ -417,6 +431,12 @@ export type ShellAction =
   | { readonly type: "set-people-query"; readonly query: string }
   | { readonly type: "set-default-pin-size"; readonly size: PinSize }
   | { readonly type: "toggle-news-outlet-follow"; readonly outletKey: string }
+  /** Marks a Guide term learned, or learned no longer. Presentation only. */
+  | {
+      readonly type: "set-guide-term-learned";
+      readonly semanticKey: string;
+      readonly learned: boolean;
+    }
   /** Restores pins and preferences read back from storage. */
   | {
       readonly type: "restore";
@@ -857,6 +877,28 @@ export function shellReducer(
             : [...state.preferences.followedNewsOutletKeys, outletKey],
         },
         announcement: followed ? "Outlet unfollowed." : "Outlet followed.",
+      };
+    }
+
+    case "set-guide-term-learned": {
+      const semanticKey = action.semanticKey.trim();
+      if (!semanticKey) return state;
+      const learned =
+        state.preferences.learnedGuideTermKeys.includes(semanticKey);
+      if (learned === action.learned) return state;
+      return {
+        ...state,
+        preferences: {
+          ...state.preferences,
+          learnedGuideTermKeys: action.learned
+            ? [...state.preferences.learnedGuideTermKeys, semanticKey]
+            : state.preferences.learnedGuideTermKeys.filter(
+                (candidate) => candidate !== semanticKey,
+              ),
+        },
+        announcement: action.learned
+          ? "Term marked as learned."
+          : "Term no longer marked as learned.",
       };
     }
 
