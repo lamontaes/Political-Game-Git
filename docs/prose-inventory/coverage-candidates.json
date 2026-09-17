@@ -2065,7 +2065,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "listRows",
-      "line": 468,
+      "line": 473,
       "text": "{row.label} {row.summary}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2073,7 +2073,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "markers",
-      "line": 506,
+      "line": 511,
       "text": "Home: {player.homeLabel??\"\"}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2081,7 +2081,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "markers",
-      "line": 515,
+      "line": 520,
       "text": "You are here: {player.hereLabel??\"\"}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2089,7 +2089,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "quickTargets",
-      "line": 548,
+      "line": 553,
       "text": "My home",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2097,7 +2097,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "quickTargets",
-      "line": 551,
+      "line": 556,
       "text": "Where I am",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2105,7 +2105,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 600,
+      "line": 605,
       "text": "United States",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2113,7 +2113,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 605,
+      "line": 610,
       "text": "As recorded on {proseDate(shownDate)}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2121,7 +2121,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 606,
+      "line": 611,
       "text": "Today, {proseDate(shownDate)}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2129,7 +2129,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 610,
+      "line": 615,
       "text": "Map controls",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2137,7 +2137,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 611,
+      "line": 616,
       "text": "Color by",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2145,7 +2145,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 621,
+      "line": 626,
       "text": "Choose a state first",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2153,7 +2153,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 670,
+      "line": 675,
       "text": "Zoom in",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2161,7 +2161,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 679,
+      "line": 684,
       "text": "Zoom out",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2169,7 +2169,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 699,
+      "line": 704,
       "text": "Fit selection",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2177,7 +2177,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 699,
+      "line": 704,
       "text": "Reset view",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2185,7 +2185,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 755,
+      "line": 760,
       "text": "This save has no earlier recorded day to show.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2193,7 +2193,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 756,
+      "line": 761,
       "text": "From {proseDate(earliest)}. Past days show what this save recorded then; nothing is recolored by later changes.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2201,7 +2201,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 779,
+      "line": 784,
       "text": "{view.x} {view.y} {view.w} {view.h}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2209,7 +2209,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 781,
+      "line": 786,
       "text": "{MAP_MODE_LABEL[mode]} map. Use the list to choose a place with the keyboard. Arrow keys pan, plus and minus zoom, zero resets.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2217,7 +2217,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 796,
+      "line": 801,
       "text": "scale({scaleHint}) rotate(45)",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2225,7 +2225,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 822,
+      "line": 827,
       "text": "scale({scaleHint}) rotate(-45)",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2233,7 +2233,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 880,
+      "line": 885,
       "text": "{regionLabel(layer,feature)}: {region?.summary??\"\"}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2241,7 +2241,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 927,
+      "line": 932,
       "text": "Alaska (not to scale)",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2249,7 +2249,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 928,
+      "line": 933,
       "text": "Hawaii (not to scale)",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2257,7 +2257,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 960,
+      "line": 965,
       "text": "pg-map-marker pg-map-marker-{marker.kind}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2265,7 +2265,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 961,
+      "line": 966,
       "text": "translate({marker.x} {marker.y}) scale({scaleHint})",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2273,7 +2273,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 1031,
+      "line": 1036,
       "text": "{selection.stateUsps===\"DC\"?\"Federaldistrict\":\"State\"} · Census GEOID {selection.geoid}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2281,7 +2281,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 1032,
+      "line": 1037,
       "text": "{stateNameForUsps(selection.stateUsps)} · Census GEOID {selection.geoid}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2289,7 +2289,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 1034,
+      "line": 1039,
       "text": " · districts as of {selectionFeature.sessionYear}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2297,7 +2297,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 1037,
+      "line": 1042,
       "text": " · {placeTypeLabel(selectionFeature?.lsad)}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2305,7 +2305,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 1082,
+      "line": 1087,
       "text": " · {(candidate.voteShare*100).toFixed(1)}% of the vote in this save",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2313,7 +2313,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 1160,
+      "line": 1165,
       "text": "Name, number or holder",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2321,7 +2321,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 1161,
+      "line": 1166,
       "text": "State, district or holder",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2329,7 +2329,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 1167,
+      "line": 1172,
       "text": "Showing {LIST_LIMIT} of {listRows.length}. Type to narrow the list.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2337,7 +2337,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "PoliticalMap",
-      "line": 1168,
+      "line": 1173,
       "text": "{listRows.length} shown.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2345,7 +2345,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "placeTypeLabel",
-      "line": 1202,
+      "line": 1207,
       "text": "Census-designated place (no municipal government of its own)",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2353,7 +2353,7 @@
     {
       "sourcePath": "src/maps/PoliticalMap.tsx",
       "enclosingSymbol": "placeTypeLabel",
-      "line": 1204,
+      "line": 1209,
       "text": "Incorporated place",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6649,7 +6649,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PlayerGame",
-      "line": 459,
+      "line": 479,
       "text": "That replay address could not be rebuilt.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6657,7 +6657,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PlayerGame",
-      "line": 492,
+      "line": 512,
       "text": "{result.reason} This life is still here — keep it again to store it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6665,7 +6665,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "keepThisWorld",
-      "line": 566,
+      "line": 586,
       "text": "Your life was saved, but your pins and display preferences could not be kept.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6673,7 +6673,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "keepThisWorld",
-      "line": 571,
+      "line": 591,
       "text": "This game could not be saved just now.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6681,7 +6681,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "continueMostRecent",
-      "line": 583,
+      "line": 603,
       "text": "There is nothing to continue yet.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6689,7 +6689,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "continueMostRecent",
-      "line": 588,
+      "line": 608,
       "text": "Saved games could not be read.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6697,7 +6697,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "loadSave",
-      "line": 597,
+      "line": 617,
       "text": "That saved game could not be opened.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6705,7 +6705,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "loadSave",
-      "line": 603,
+      "line": 623,
       "text": "That saved game could not be opened.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6713,7 +6713,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "deleteSave",
-      "line": 615,
+      "line": 635,
       "text": "That saved game could not be removed just now.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6721,7 +6721,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "leaveGame",
-      "line": 649,
+      "line": 669,
       "text": "{flushed.reason} This life is still here — leaving now would lose what is not saved.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6729,7 +6729,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PlayerGame",
-      "line": 720,
+      "line": 740,
       "text": "Patch notes",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6737,7 +6737,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PlayerGame",
-      "line": 767,
+      "line": 787,
       "text": "This life could not be started.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6745,7 +6745,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "summaryText",
-      "line": 1134,
+      "line": 1154,
       "text": "Custom start",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6753,7 +6753,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "summaryText",
-      "line": 1134,
+      "line": 1154,
       "text": "Start a life",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6761,7 +6761,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "summaryText",
-      "line": 1137,
+      "line": 1157,
       "text": "A name you'll be given",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6769,7 +6769,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "summaryText",
-      "line": 1138,
+      "line": 1158,
       "text": "age {setup.startAge}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6777,7 +6777,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "summaryText",
-      "line": 1139,
+      "line": 1159,
       "text": "born {proseDate(birthDate)}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6785,7 +6785,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "summaryText",
-      "line": 1147,
+      "line": 1167,
       "text": "Lives alone",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6793,7 +6793,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "summaryText",
-      "line": 1147,
+      "line": 1167,
       "text": "Shares a home",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6801,7 +6801,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "summaryText",
-      "line": 1149,
+      "line": 1169,
       "text": "Legislative staff",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6809,7 +6809,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "summaryText",
-      "line": 1151,
+      "line": 1171,
       "text": "Judicial office practice",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6817,7 +6817,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "summaryText",
-      "line": 1153,
+      "line": 1173,
       "text": "State agency director",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6825,7 +6825,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "summaryText",
-      "line": 1154,
+      "line": 1174,
       "text": "Everyday life",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6833,7 +6833,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "summaryText",
-      "line": 1159,
+      "line": 1179,
       "text": "Discover through play",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6841,7 +6841,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "summaryText",
-      "line": 1160,
+      "line": 1180,
       "text": "Answering a few questions",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6849,7 +6849,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1166,
+      "line": 1186,
       "text": "game-title game-setup game-creator{onReady&&(finishedQuestions||!questionnaireScreenFor(committed))?\"game-creator--appearance\":\"\"}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6857,7 +6857,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1257,
+      "line": 1277,
       "text": "game-choices game-choices-inline",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6865,7 +6865,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1281,
+      "line": 1301,
       "text": "creator-group creator-group-name",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6873,7 +6873,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1346,
+      "line": 1366,
       "text": "Choose a gender first; Randomize name then draws a name for it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6881,7 +6881,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1347,
+      "line": 1367,
       "text": "Type a first and last name, or use Randomize name.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6889,7 +6889,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1422,
+      "line": 1442,
       "text": "Type a state",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6897,7 +6897,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1461,
+      "line": 1481,
       "text": "Type a city or town",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6905,7 +6905,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1546,
+      "line": 1566,
       "text": "game-choices game-choices-inline",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6913,7 +6913,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1607,
+      "line": 1627,
       "text": "Statewide start.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6921,7 +6921,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1608,
+      "line": 1628,
       "text": "County-wide start; a specific town is not selected.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6929,7 +6929,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1621,
+      "line": 1641,
       "text": "{fact.text} · {fact.asOf.slice(0,4)}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6937,7 +6937,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1633,
+      "line": 1653,
       "text": "{fact.text} · {fact.geography} · {fact.asOf}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6945,7 +6945,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1685,
+      "line": 1705,
       "text": "Play the early years one at a time.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6953,7 +6953,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1686,
+      "line": 1706,
       "text": "Only for a character under eighteen.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6961,7 +6961,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1745,
+      "line": 1765,
       "text": "A legislative staff start is not available for this selected place yet.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6969,7 +6969,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1747,
+      "line": 1767,
       "text": "Available for characters {LEGISLATIVE_OFFICE_MINIMUM_AGE} and older.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6977,7 +6977,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1748,
+      "line": 1768,
       "text": "Working for a state legislature.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6985,7 +6985,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1798,
+      "line": 1818,
       "text": "Available for characters {STATE_AGENCY_START_MINIMUM_AGE} and older.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6993,7 +6993,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1799,
+      "line": 1819,
       "text": "A fictional state agency with existing staff. Its charter makes you the appointing authority; personnel procedures apply only where acquired law supports them.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7001,7 +7001,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1800,
+      "line": 1820,
       "text": "Available only in a state whose personnel procedures the game has compiled.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7009,7 +7009,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1818,
+      "line": 1838,
       "text": "One adult raising you, and no other children.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7017,7 +7017,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1819,
+      "line": 1839,
       "text": "You live on your own.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7025,7 +7025,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1835,
+      "line": 1855,
       "text": "A brother or a sister in the house too.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7033,7 +7033,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1836,
+      "line": 1856,
       "text": "One other adult shares the household.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7041,7 +7041,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1964,
+      "line": 1984,
       "text": ", which was supplied to reproduce an earlier one.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7049,7 +7049,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1965,
+      "line": 1985,
       "text": ", drawn fresh for this session.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7057,7 +7057,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PHASE_LINE",
-      "line": 2000,
+      "line": 2020,
       "text": "Somewhere to start",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7065,7 +7065,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PHASE_LINE",
-      "line": 2001,
+      "line": 2021,
       "text": "A little wider",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7073,7 +7073,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PHASE_LINE",
-      "line": 2002,
+      "line": 2022,
       "text": "Nearly there",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7081,7 +7081,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "QuestionnaireScreenView",
-      "line": 2021,
+      "line": 2041,
       "text": "game-title game-setup game-creator",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7089,7 +7089,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SavesScreen",
-      "line": 2121,
+      "line": 2141,
       "text": " · {save.residence.name}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7097,7 +7097,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "passDays",
-      "line": 2407,
+      "line": 2427,
       "text": "{stoppedEarlyLabel(report.target)} {report.outcome}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7105,7 +7105,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "talk",
-      "line": 2573,
+      "line": 2593,
       "text": "[data-testid=\"conversation-intents\"] button, [data-testid=\"talk-back\"]",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7113,7 +7113,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "workHint",
-      "line": 2600,
+      "line": 2620,
       "text": "School, and anything waiting on you",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7121,7 +7121,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "workHint",
-      "line": 2602,
+      "line": 2622,
       "text": "your office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7129,7 +7129,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "workHint",
-      "line": 2603,
+      "line": 2623,
       "text": "running for office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7137,7 +7137,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "workHint",
-      "line": 2604,
+      "line": 2624,
       "text": "jobs and study",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7145,7 +7145,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "destinations",
-      "line": 2624,
+      "line": 2644,
       "text": "Today, what is next, and your time",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7153,7 +7153,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "destinations",
-      "line": 2632,
+      "line": 2652,
       "text": "Who you know, and how",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7161,7 +7161,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "destinations",
-      "line": 2657,
+      "line": 2677,
       "text": "Who governs where you are, at every level",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7169,7 +7169,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "destinations",
-      "line": 2679,
+      "line": 2699,
       "text": "Published public records",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7177,7 +7177,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "destinations",
-      "line": 2687,
+      "line": 2707,
       "text": "Chapters, and what is still open",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7185,48 +7185,8 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "destinations",
-      "line": 2695,
-      "text": "Who you are",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/player/PlayerGame.tsx",
-      "enclosingSymbol": "destinations",
-      "line": 2696,
-      "text": "Identity, household, what you have done",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/player/PlayerGame.tsx",
-      "enclosingSymbol": "destinations",
-      "line": 2704,
-      "text": "Money and property",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/player/PlayerGame.tsx",
-      "enclosingSymbol": "destinations",
-      "line": 2705,
-      "text": "Yours, the household’s, the committee’s",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/player/PlayerGame.tsx",
-      "enclosingSymbol": "destinations",
-      "line": 2713,
-      "text": "Jobs and study",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/player/PlayerGame.tsx",
-      "enclosingSymbol": "destinations",
       "line": 2715,
-      "text": "School, and anything waiting on you",
+      "text": "Who you are",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -7234,6 +7194,46 @@
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "destinations",
       "line": 2716,
+      "text": "Identity, household, what you have done",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/PlayerGame.tsx",
+      "enclosingSymbol": "destinations",
+      "line": 2724,
+      "text": "Money and property",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/PlayerGame.tsx",
+      "enclosingSymbol": "destinations",
+      "line": 2725,
+      "text": "Yours, the household’s, the committee’s",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/PlayerGame.tsx",
+      "enclosingSymbol": "destinations",
+      "line": 2733,
+      "text": "Jobs and study",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/PlayerGame.tsx",
+      "enclosingSymbol": "destinations",
+      "line": 2735,
+      "text": "School, and anything waiting on you",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/PlayerGame.tsx",
+      "enclosingSymbol": "destinations",
+      "line": 2736,
       "text": "Offers, terms, study and hiring",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7241,7 +7241,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "destinations",
-      "line": 2726,
+      "line": 2746,
       "text": "Where you are, where you can go, and what is on there",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7249,7 +7249,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "destinations",
-      "line": 2734,
+      "line": 2754,
       "text": "Settings this game actually reads, and patch notes",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7257,7 +7257,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "dossierFor",
-      "line": 2762,
+      "line": 2782,
       "text": "Here in the room with you.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7265,7 +7265,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "openTheBill",
-      "line": 2793,
+      "line": 2813,
       "text": "This work is not available in the current world.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7273,7 +7273,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PlayingScreen",
-      "line": 3167,
+      "line": 3187,
       "text": "Everyone here",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7281,7 +7281,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PlayingScreen",
-      "line": 3173,
+      "line": 3193,
       "text": " · {pendingLine}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7289,7 +7289,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PlayingScreen",
-      "line": 3188,
+      "line": 3208,
       "text": "life-hud-note life-hud-note--problem",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7297,7 +7297,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PlayingScreen",
-      "line": 3196,
+      "line": 3216,
       "text": "life-hud-note life-hud-note--outcome",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7305,7 +7305,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PlayingScreen",
-      "line": 3241,
+      "line": 3261,
       "text": "life-hud-note life-hud-note--problem",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7313,7 +7313,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "subItems",
-      "line": 3542,
+      "line": 3558,
       "text": "Budget and constitution",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7321,7 +7321,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "subItems",
-      "line": 3552,
+      "line": 3568,
       "text": "Who governs",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7329,7 +7329,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "subItems",
-      "line": 3554,
+      "line": 3570,
       "text": "Local meetings and records",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7337,7 +7337,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 3789,
+      "line": 3805,
       "text": "Money and property",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7345,7 +7345,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 3789,
+      "line": 3805,
       "text": "Who you are",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7353,7 +7353,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 3862,
+      "line": 3878,
       "text": "Local party chapters",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7361,7 +7361,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 3982,
+      "line": 3998,
       "text": "Government map",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7369,7 +7369,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 4053,
+      "line": 4069,
       "text": "Budget & economy",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7377,7 +7377,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 4059,
+      "line": 4075,
       "text": "Transit service",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7385,7 +7385,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 4100,
+      "line": 4116,
       "text": "Taxes and public receipts",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7393,7 +7393,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 4147,
+      "line": 4163,
       "text": "Patch notes",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7401,7 +7401,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "legislativeOffice",
-      "line": 4277,
+      "line": 4293,
       "text": "a measure this world no longer holds",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7409,7 +7409,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "legislativeOffice",
-      "line": 4285,
+      "line": 4301,
       "text": " has it next. ",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7417,7 +7417,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "legislativeOffice",
-      "line": 4288,
+      "line": 4304,
       "text": " It needs {workingGate.thresholdLabel}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7425,7 +7425,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "legislativeOffice",
-      "line": 4295,
+      "line": 4311,
       "text": "another measure",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7433,7 +7433,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "legislativeOffice",
-      "line": 4304,
+      "line": 4320,
       "text": "Close the bill",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7441,7 +7441,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "legislativeOffice",
-      "line": 4304,
+      "line": 4320,
       "text": "Look at what is moving",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7449,7 +7449,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "legislativeOffice",
-      "line": 4344,
+      "line": 4360,
       "text": "Unpin {workingName??\"themeasureyouareworkingon\"}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7457,7 +7457,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "legislativeOffice",
-      "line": 4345,
+      "line": 4361,
       "text": "Pin {workingName??\"themeasureyouareworkingon\"}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7465,7 +7465,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "legislativeOffice",
-      "line": 4360,
+      "line": 4376,
       "text": "ui-action ui-action--rail",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7473,7 +7473,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "legislativeOffice",
-      "line": 4371,
+      "line": 4387,
       "text": "Unpin {assignmentName??\"thisbill\"}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7481,7 +7481,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "legislativeOffice",
-      "line": 4372,
+      "line": 4388,
       "text": "Pin {assignmentName??\"thisbill\"}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7489,7 +7489,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 4412,
+      "line": 4428,
       "text": "Your court",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7497,7 +7497,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 4431,
+      "line": 4447,
       "text": "Your office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7505,7 +7505,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 4448,
+      "line": 4464,
       "text": "Your office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7513,7 +7513,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 4458,
+      "line": 4474,
       "text": "Running for office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7521,7 +7521,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 4477,
+      "line": 4493,
       "text": "The state's top office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7529,7 +7529,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 4495,
+      "line": 4511,
       "text": "Jobs and study",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7537,7 +7537,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 4519,
+      "line": 4535,
       "text": "Your office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7545,7 +7545,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 4530,
+      "line": 4546,
       "text": "Your office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7553,7 +7553,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 4536,
+      "line": 4552,
       "text": "Jobs and study",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7561,7 +7561,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 4572,
+      "line": 4588,
       "text": "Judicial office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7569,7 +7569,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 4574,
+      "line": 4590,
       "text": "Executive office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7577,7 +7577,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 4576,
+      "line": 4592,
       "text": "Legislative office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7585,7 +7585,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 4578,
+      "line": 4594,
       "text": "Growing up",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7593,7 +7593,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "StoryView",
-      "line": 4649,
+      "line": 4665,
       "text": "game-story life-moment",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7601,7 +7601,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "StoryView",
-      "line": 4661,
+      "line": 4677,
       "text": "game-story life-moment",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7609,7 +7609,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "StoryView",
-      "line": 4672,
+      "line": 4688,
       "text": "game-scene-header life-moment-head",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7617,7 +7617,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "StoryView",
-      "line": 4681,
+      "line": 4697,
       "text": " · {moment.placeName}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7625,7 +7625,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "StoryView",
-      "line": 4714,
+      "line": 4730,
       "text": "game-choices life-choices",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7633,7 +7633,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "StoryView",
-      "line": 4719,
+      "line": 4735,
       "text": "ui-action ui-action--choice",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7641,7 +7641,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "StoryView",
-      "line": 4745,
+      "line": 4761,
       "text": "ui-action ui-action--choice ui-action--quiet",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7649,7 +7649,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "StoryView",
-      "line": 4751,
+      "line": 4767,
       "text": "Let the year run on",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7657,7 +7657,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "StoryView",
-      "line": 4751,
+      "line": 4767,
       "text": "Let time pass",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7665,7 +7665,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "StoryView",
-      "line": 4754,
+      "line": 4770,
       "text": "Come back to it when something needs you.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7673,7 +7673,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "StoryView",
-      "line": 4755,
+      "line": 4771,
       "text": "{describeTimeCommandPreview(quietPreview)}. Stops early for anything that needs you.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7681,7 +7681,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "StoryView",
-      "line": 4784,
+      "line": 4800,
       "text": "Close the journal",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7689,7 +7689,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "StoryView",
-      "line": 4785,
+      "line": 4801,
       "text": "Open the journal — everything that has happened",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7697,7 +7697,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "TodayView",
-      "line": 4929,
+      "line": 4945,
       "text": "game-day pg-today",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7705,7 +7705,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "TodayView",
-      "line": 4932,
+      "line": 4948,
       "text": " · {today.placeName}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7713,7 +7713,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "TodayView",
-      "line": 4957,
+      "line": 4973,
       "text": "ui-action ui-action--subtle pg-today-link",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7721,7 +7721,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "TodayView",
-      "line": 4995,
+      "line": 5011,
       "text": "From today",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7729,7 +7729,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "TodayView",
-      "line": 4998,
+      "line": 5014,
       "text": "ui-action ui-action--subtle",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7737,7 +7737,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "TodayView",
-      "line": 5008,
+      "line": 5024,
       "text": "ui-action ui-action--subtle",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7745,7 +7745,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "TodayView",
-      "line": 5018,
+      "line": 5034,
       "text": "ui-action ui-action--subtle",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7753,7 +7753,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PassDayControl",
-      "line": 5067,
+      "line": 5083,
       "text": "game-choices pg-pass-day",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7761,7 +7761,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PassDayControl",
-      "line": 5082,
+      "line": 5098,
       "text": "{stoppedEarlyLabel(report.target)} {report.outcome}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7769,7 +7769,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PassDayControl",
-      "line": 5091,
+      "line": 5107,
       "text": "Time is passing…",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7777,7 +7777,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PassDayControl",
-      "line": 5093,
+      "line": 5109,
       "text": "{skipToLabel(target.target)}. Stops early for anything protected.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7785,7 +7785,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PassDayControl",
-      "line": 5094,
+      "line": 5110,
       "text": "Move to tomorrow.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7793,7 +7793,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "WorkLayout",
-      "line": 5149,
+      "line": 5165,
       "text": "On this page",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -8657,7 +8657,7 @@
     {
       "sourcePath": "src/player/ShellNav.tsx",
       "enclosingSymbol": "place",
-      "line": 269,
+      "line": 293,
       "text": "Somewhere on record",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -8665,7 +8665,7 @@
     {
       "sourcePath": "src/player/ShellNav.tsx",
       "enclosingSymbol": "ShellNav",
-      "line": 357,
+      "line": 381,
       "text": "Time, place and navigation",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -8673,7 +8673,7 @@
     {
       "sourcePath": "src/player/ShellNav.tsx",
       "enclosingSymbol": "ShellNav",
-      "line": 368,
+      "line": 392,
       "text": "{playerName}. {dateLabel}. {place}. Open navigation.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -8681,7 +8681,7 @@
     {
       "sourcePath": "src/player/ShellNav.tsx",
       "enclosingSymbol": "ShellNav",
-      "line": 384,
+      "line": 408,
       "text": "This life has not been saved yet.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -8689,7 +8689,7 @@
     {
       "sourcePath": "src/player/ShellNav.tsx",
       "enclosingSymbol": "ShellNav",
-      "line": 417,
+      "line": 441,
       "text": "Move time",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -8697,7 +8697,7 @@
     {
       "sourcePath": "src/player/ShellNav.tsx",
       "enclosingSymbol": "ShellNav",
-      "line": 428,
+      "line": 452,
       "text": "{passTargets.day}. Your routine runs; stops early for anything protected.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -8705,7 +8705,7 @@
     {
       "sourcePath": "src/player/ShellNav.tsx",
       "enclosingSymbol": "ShellNav",
-      "line": 429,
+      "line": 453,
       "text": "Let the day run through your routine. Stops for anything that needs you.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -8713,7 +8713,7 @@
     {
       "sourcePath": "src/player/ShellNav.tsx",
       "enclosingSymbol": "ShellNav",
-      "line": 445,
+      "line": 469,
       "text": "{passTargets.week}. Your routine runs; stops early for anything protected.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -8721,7 +8721,7 @@
     {
       "sourcePath": "src/player/ShellNav.tsx",
       "enclosingSymbol": "ShellNav",
-      "line": 446,
+      "line": 470,
       "text": "Let the week run through your routine. Stops for anything that needs you.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -8729,7 +8729,7 @@
     {
       "sourcePath": "src/player/ShellNav.tsx",
       "enclosingSymbol": "ShellNav",
-      "line": 496,
+      "line": 520,
       "text": "Main navigation",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -8737,7 +8737,7 @@
     {
       "sourcePath": "src/player/ShellNav.tsx",
       "enclosingSymbol": "ShellNav",
-      "line": 594,
+      "line": 618,
       "text": "pg-nav-flyout pg-nav-confirm",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -8745,7 +8745,7 @@
     {
       "sourcePath": "src/player/ShellNav.tsx",
       "enclosingSymbol": "ShellNav",
-      "line": 608,
+      "line": 632,
       "text": "ui-action ui-action--primary",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -8753,7 +8753,7 @@
     {
       "sourcePath": "src/player/ShellNav.tsx",
       "enclosingSymbol": "ShellNav",
-      "line": 631,
+      "line": 655,
       "text": "ui-action ui-action--subtle",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
