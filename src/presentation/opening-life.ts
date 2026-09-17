@@ -3,12 +3,15 @@ import {
   ensureHomePartyChapters,
   ensureLivingWorldDevelopments,
   ensureLivingWorldOpening,
+  ensurePressOpening,
   personName,
   ageOnDate,
   ensureWorldStartingConditions,
   LEGACY_WORLD_OPENING_VERSION,
   generatePoliticalStartingConditions,
   ensurePartyGoverningBodies,
+  worldOpeningVersionOf,
+  CRUNCH46_WORLD_OPENING_VERSION,
 } from "../simulation";
 import type { World, EntityId } from "../simulation";
 import { createNewGameWorld } from "./new-game";
@@ -50,24 +53,31 @@ export function generateOpeningLife(
     conditioned,
     game.playerPersonId,
   );
+  // Congress, the national parties and public affiliations, once, after
+  // the executives exist so they receive an affiliation in the same pass.
+  const developed = ensureLivingWorldDevelopments(
+    // Standing chapter committees exist only in current openings.
+    ensurePartyGoverningBodies(
+      ensureHomePartyChapters(
+        ensureLivingWorldOpening(staffed, game.playerPersonId),
+        game.playerPersonId,
+      ),
+      game.playerPersonId,
+    ),
+    game.playerPersonId,
+  );
   return {
     ...session,
     phase: "world",
     game: {
       ...game,
-      // Congress, the national parties and public affiliations, once, after
-      // the executives exist so they receive an affiliation in the same pass.
-      world: ensureLivingWorldDevelopments(
-        // Standing chapter committees exist only in current openings.
-        ensurePartyGoverningBodies(
-          ensureHomePartyChapters(
-            ensureLivingWorldOpening(staffed, game.playerPersonId),
-            game.playerPersonId,
-          ),
-          game.playerPersonId,
-        ),
-        game.playerPersonId,
-      ),
+      // CRUNCH46 PRESS: the national media seed pack and its desk, once, and
+      // only in a recognized new opening. A legacy descriptor keeps its prior
+      // construction exactly.
+      world:
+        worldOpeningVersionOf(developed) === CRUNCH46_WORLD_OPENING_VERSION
+          ? ensurePressOpening(developed, game.playerPersonId)
+          : developed,
     },
   };
 }

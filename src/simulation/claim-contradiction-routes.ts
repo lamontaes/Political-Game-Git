@@ -1,4 +1,5 @@
 import type { ClaimStance } from "./claim-stances";
+import { pressMatterContradictionRoute } from "./press/claim-route";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "./types";
 
 /**
@@ -38,4 +39,7 @@ export interface ContradictionRoute {
   ): ContradictionEvidence | null;
 }
 
-export const CONTRADICTION_ROUTES: readonly ContradictionRoute[] = [];
+export const CONTRADICTION_ROUTES: readonly ContradictionRoute[] = [
+  // CRUNCH46 PRESS: a denial to a reporter meets a published finding or the ledger.
+  pressMatterContradictionRoute,
+];

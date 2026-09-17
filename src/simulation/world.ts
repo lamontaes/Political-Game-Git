@@ -66,6 +66,12 @@ import {
   evidenceHistoryRecords,
 } from "./evidence-integrity";
 import {
+  assertPressIntegrity,
+  pressEntityAvailableAt,
+  pressEntityExists,
+  pressHistoryRecords,
+} from "./press/integrity";
+import {
   assertPublicInformationIntegrity,
   publicInformationEntityAvailableAt,
   publicInformationEntityExists,
@@ -618,7 +624,8 @@ export function recordWorldEvent(
       !constitutionalEntityExists(world, entityId) &&
       !legislationEntityExists(world, entityId) &&
       !legislativePoliticsEntityExists(world, entityId) &&
-      !publicInformationEntityExists(world, entityId)
+      !publicInformationEntityExists(world, entityId) &&
+      !pressEntityExists(world, entityId)
     ) {
       throw new Error(
         `Historical event references a missing entity: ${entityId}`,
@@ -849,6 +856,19 @@ export function recordWorldEvent(
     ) {
       throw new Error(
         `Historical event references an unavailable publication entity: ${entityId}`,
+      );
+    }
+    if (
+      pressEntityExists(world, entityId) &&
+      !pressEntityAvailableAt(
+        world,
+        entityId,
+        occurredAt,
+        world.history.nextSequence,
+      )
+    ) {
+      throw new Error(
+        `Historical event references an unavailable press entity: ${entityId}`,
       );
     }
     const involvedPerson = world.people[entityId];
@@ -1567,6 +1587,7 @@ function validateHistoryIntegrity(world: World): void {
     ...draftLineageHistoryRecords(world),
     ...futureTransitionHistoryRecords(world),
     ...publicInformationHistoryRecords(world),
+    ...pressHistoryRecords(world),
     ...personnelHistoryRecords(world),
     ...worldSetupHistoryRecords(world),
     ...(history.districtResidenceIntervals ?? []),
@@ -1706,6 +1727,7 @@ function validateHistoryIntegrity(world: World): void {
   assertDraftLineageIntegrity(world);
   assertFutureTransitionIntegrity(world, ids);
   assertPublicInformationIntegrity(world, ids);
+  assertPressIntegrity(world, ids);
   for (const interval of history.districtResidenceIntervals ?? []) {
     assertUniqueId(ids, interval.id);
     if (!world.people[interval.personId]) {
@@ -1946,7 +1968,8 @@ function validateHistoryIntegrity(world: World): void {
         !constitutionalEntityExists(world, involvedId) &&
         !legislationEntityExists(world, involvedId) &&
         !legislativePoliticsEntityExists(world, involvedId) &&
-        !publicInformationEntityExists(world, involvedId)
+        !publicInformationEntityExists(world, involvedId) &&
+        !pressEntityExists(world, involvedId)
       ) {
         throw new Error(
           `Historical event references a missing involved entity: ${event.id}`,
@@ -2179,6 +2202,19 @@ function validateHistoryIntegrity(world: World): void {
       ) {
         throw new Error(
           `Historical event references an unavailable publication entity: ${event.id}`,
+        );
+      }
+      if (
+        pressEntityExists(world, involvedId) &&
+        !pressEntityAvailableAt(
+          world,
+          involvedId,
+          event.occurredAt,
+          event.sequence,
+        )
+      ) {
+        throw new Error(
+          `Historical event references an unavailable press entity: ${event.id}`,
         );
       }
       const involvedPerson = world.people[involvedId];

@@ -1,3 +1,4 @@
+import { createPressTransitionRegistry } from "./press/transitions";
 import {
   supportedLegislativeTermDates,
   scheduleLegislativeTerm,
@@ -1884,6 +1885,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         // CRUNCH46 WORLD: party governing bodies meet and may change.
         [PARTY_BODY_REVIEW_TRANSITION_KEY, partyBodyReviewTransitionHandler],
       ]),
+      // CRUNCH46 PRESS: newsroom desk, story steps, procedures, bookkeeping.
+      createPressTransitionRegistry(),
       LIFE_TRANSITION_HANDLERS,
     ),
   );

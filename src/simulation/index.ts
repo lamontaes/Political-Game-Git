@@ -112,6 +112,7 @@ export * from "./politics";
 export * from "./press-interviews";
 export * from "./press-interview-producers";
 export * from "./press-reach";
+export * from "./press";
 export * from "./public-information";
 export * from "./political-belief-formation";
 export * from "./quantity";
