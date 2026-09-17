@@ -1,10 +1,10 @@
 {
-  "digest": "5016729eb46e9062",
+  "digest": "dc95d37cc183416b",
   "counts": {
-    "total": 3158,
+    "total": 3186,
     "byDomain": {
       "campaign": 24,
-      "conversation": 372,
+      "conversation": 400,
       "governing": 197,
       "legislative": 94,
       "life": 1737,
@@ -24,20 +24,20 @@
       "option-witnessed": 54,
       "prompt": 130,
       "scene-line": 219,
-      "status": 564,
+      "status": 592,
       "thread-recap": 32
     },
     "byReachability": {
       "CURRENTLY_UNREACHABLE": 369,
       "DEV_FIXTURE_ONLY": 110,
       "LEGACY_OR_WITHDRAWN": 90,
-      "PLAYER_REACHABLE": 2162,
+      "PLAYER_REACHABLE": 2190,
       "UNKNOWN": 69,
       "WITHHELD_BY_GROUNDING": 358
     },
     "byRealization": {
-      "static": 2524,
-      "templated": 634
+      "static": 2533,
+      "templated": 653
     }
   },
   "records": [
@@ -6584,6 +6584,45 @@
       "contextRevision": "ca7b14b8141d"
     },
     {
+      "id": "prose:conversation:contextual-scene:favor-0010#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "favor-0010",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "favor",
+      "text": "{binding.facts.speakerGiven??\"Somebody\"} wants to meet",
+      "realization": "templated",
+      "slots": [
+        "binding.facts.speakerGiven??\"Somebody\""
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "favor",
+        "anchor": "favor-0010"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "dd4473cfb6dc",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
       "id": "prose:conversation:contextual-scene:homeEvening-0001#text",
       "domain": "conversation",
       "bank": "contextual-scene",
@@ -6731,6 +6770,1046 @@
         "computed"
       ],
       "textRevision": "42c22a984778",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0001#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "Agreed to meet {spoken}.",
+      "realization": "templated",
+      "slots": [
+        "spoken"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "39c88d28f91c",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0002#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "Ask what it’s about",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "555c97fc0fc3",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0003#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "Could not make it.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "f45ede27ef21",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0004#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0004",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "Find out before you answer.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0004"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "28472ce73176",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0005#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0005",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "I can’t at the moment. I’m sorry.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0005"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "54bface4df0b",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0006#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0006",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "I can’t do {spoken}. Could you do {proseDate(later)}?",
+      "realization": "templated",
+      "slots": [
+        "proseDate(later)",
+        "spoken"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0006"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "c07a0e08ce6e",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0007#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0007",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "Offer a different day",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0007"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "b1c3c9625394",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0008#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0008",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "Offered {later} instead.",
+      "realization": "templated",
+      "slots": [
+        "later"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0008"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "945143e992cd",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0009#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0009",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "Put it on the calendar.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0009"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "291ee5de3c70",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0010#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0010",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "Say you can’t",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0010"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "1cbae73a9372",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0011#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0011",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "Say you could do {proseDate(later)} instead.",
+      "realization": "templated",
+      "slots": [
+        "proseDate(later)"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0011"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "236adda3a848",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0012#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0012",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "Say {spoken} works",
+      "realization": "templated",
+      "slots": [
+        "spoken"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0012"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "85f3e71a4b1a",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0013#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0013",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "The player agreed to meet {context.name} {spoken}.",
+      "realization": "templated",
+      "slots": [
+        "context.name",
+        "spoken"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0013"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "c213e2175a61",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0014#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0014",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "The player asked {context.name} what the meeting was about.",
+      "realization": "templated",
+      "slots": [
+        "context.name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0014"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "4a247275c2ba",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0015#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0015",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "The player offered {context.name} {proseDate(later)} instead.",
+      "realization": "templated",
+      "slots": [
+        "context.name",
+        "proseDate(later)"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0015"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "c2fb7d53c508",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0016#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0016",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "The player turned down meeting {context.name}.",
+      "realization": "templated",
+      "slots": [
+        "context.name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0016"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "fb6c278f6c35",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0017#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0017",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "Turn it down for now.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0017"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "947f362d86af",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0018#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0018",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "What’s it about?",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0018"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "631fcd2add7d",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0019#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0019",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "{playerName} and {otherName} arranged to meet.",
+      "realization": "templated",
+      "slots": [
+        "otherName",
+        "playerName"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0019"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "c9f1ecf17c04",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0020#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0020",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "{spoken.charAt(0).toUpperCase()}{spoken.slice(1)} works. I’ll be there.",
+      "realization": "templated",
+      "slots": [
+        "spoken.charAt(0).toUpperCase()",
+        "spoken.slice(1)"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0020"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "a7bedcc235d2",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0021#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0021",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "“Another time, then,” {name} says.",
+      "realization": "templated",
+      "slots": [
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0021"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "0ee9a680dda4",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0022#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0022",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "“Good. It’s been too long,” {name} says.",
+      "realization": "templated",
+      "slots": [
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0022"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "4d3a90ed9880",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0023#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0023",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "“Let me look at that and come back to you,” {name} says.",
+      "realization": "templated",
+      "slots": [
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0023"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "9bf36bf714d8",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0024#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0024",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "“Maybe. I’ll check,” {name} says.",
+      "realization": "templated",
+      "slots": [
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0024"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "5aaf563c50d8",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0025#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0025",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "“Nothing in particular. I just thought of you,” {name} says.",
+      "realization": "templated",
+      "slots": [
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0025"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "400dc925b7a3",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0026#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0026",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "“That’s settled, then,” {name} says.",
+      "realization": "templated",
+      "slots": [
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0026"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "a9a01ba42746",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:meetUpAnswers-0027#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "meetUpAnswers-0027",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "meetUpAnswers",
+      "text": "“Understood. Take care of yourself,” {name} says.",
+      "realization": "templated",
+      "slots": [
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "meetUpAnswers",
+        "anchor": "meetUpAnswers-0027"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "e9f9ee136770",
       "contextRevision": "ca7b14b8141d"
     },
     {

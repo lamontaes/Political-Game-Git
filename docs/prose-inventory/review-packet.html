@@ -50,12 +50,12 @@ h2 .count { color:var(--accent); }
 </head><body><main>
 <header>
 <h1>Our Civic Duty — player-facing prose review packet</h1>
-<p>Current main <code data-provenance="head-sha">d91956946c31cb5f8de075ccc136e2556c92bb79</code> &middot; inventory digest <code>5016729eb46e9062</code> &middot; generated for owner prose review</p>
+<p>Current main <code data-provenance="head-sha">434e16726a53a8174e8ff99f5c1e0b432b91e6a5</code> &middot; inventory digest <code>dc95d37cc183416b</code> &middot; generated for owner prose review</p>
 <p>Every item is keyed by its stable semantic ID. Marks belong to the ID, not to a position on the page.</p>
 </header>
 <div class="summary">
-<div><b>3158</b> templates<ul><li><b>369</b> CURRENTLY_UNREACHABLE</li><li><b>110</b> DEV_FIXTURE_ONLY</li><li><b>90</b> LEGACY_OR_WITHDRAWN</li><li><b>2162</b> PLAYER_REACHABLE</li><li><b>69</b> UNKNOWN</li><li><b>358</b> WITHHELD_BY_GROUNDING</li></ul></div>
-<div><b>270</b> review warnings<ul><li><b>39</b> and-it-scaffold</li><li><b>1</b> anonymous-actor</li><li><b>9</b> label-restated-in-description</li><li><b>24</b> rather-than-scaffold</li><li><b>10</b> third-person-player</li><li><b>187</b> vague-referent</li></ul></div>
+<div><b>3186</b> templates<ul><li><b>369</b> CURRENTLY_UNREACHABLE</li><li><b>110</b> DEV_FIXTURE_ONLY</li><li><b>90</b> LEGACY_OR_WITHDRAWN</li><li><b>2190</b> PLAYER_REACHABLE</li><li><b>69</b> UNKNOWN</li><li><b>358</b> WITHHELD_BY_GROUNDING</li></ul></div>
+<div><b>271</b> review warnings<ul><li><b>39</b> and-it-scaffold</li><li><b>1</b> anonymous-actor</li><li><b>9</b> label-restated-in-description</li><li><b>24</b> rather-than-scaffold</li><li><b>10</b> third-person-player</li><li><b>188</b> vague-referent</li></ul></div>
 <div><b>0</b> hard errors</div>
 </div>
 <div class="toolbar">
@@ -41201,7 +41201,7 @@ h2 .count { color:var(--accent); }
 </article>
 </section>
 <section class="group" data-group="status">
-<h2>status <span class="count">564</span></h2>
+<h2>status <span class="count">592</span></h2>
 <article class="item" id="prose:campaign:campaign-status:detail-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="a session on the doors" data-text-revision="85275d6e29bc" data-context-revision="15862db75231">
 <div class="top"><code class="sid">prose:campaign:campaign-status:detail-0001#text</code></div>
 <p class="prose">A session on the doors</p>
@@ -42494,6 +42494,23 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
+<article class="item" id="prose:conversation:contextual-scene:favor-0010#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="vague-referent" data-text="{binding.facts.speakergiven??&quot;somebody&quot;} wants to meet" data-text-revision="dd4473cfb6dc" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:favor-0010#text</code><span class="flag" title="Uses &quot;somebody&quot;. Legitimate in dialogue; a defect when it stands in for a fact the packet has.">vague-referent</span></div>
+<p class="prose">{binding.facts.speakerGiven??&quot;Somebody&quot;} wants to meet</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; favor</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+<dt>Slots</dt><dd>binding.facts.speakerGiven??&quot;Somebody&quot;</dd>
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:favor-0010#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
 <article class="item" id="prose:conversation:contextual-scene:homeEvening-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="know where each of them will be." data-text-revision="6a0a0fc8b4ca" data-context-revision="ca7b14b8141d">
 <div class="top"><code class="sid">prose:conversation:contextual-scene:homeEvening-0001#text</code></div>
 <p class="prose">Know where each of them will be.</p>
@@ -42555,6 +42572,465 @@ h2 .count { color:var(--accent); }
 <dt>Slots</dt><dd>binding.date?&quot;evening&quot;:&quot;plans&quot;</dd>
 </dl>
 <div class="marks" data-id="prose:conversation:contextual-scene:homeEvening-0004#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0001#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="agreed to meet {spoken}." data-text-revision="39c88d28f91c" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0001#text</code></div>
+<p class="prose">Agreed to meet {spoken}.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+<dt>Slots</dt><dd>spoken</dd>
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0001#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0002#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="ask what it’s about" data-text-revision="555c97fc0fc3" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0002#text</code></div>
+<p class="prose">Ask what it’s about</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0002#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0003#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="could not make it." data-text-revision="f45ede27ef21" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0003#text</code></div>
+<p class="prose">Could not make it.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0003#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0004#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="find out before you answer." data-text-revision="28472ce73176" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0004#text</code></div>
+<p class="prose">Find out before you answer.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0004#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0005#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="i can’t at the moment. i’m sorry." data-text-revision="54bface4df0b" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0005#text</code></div>
+<p class="prose">I can’t at the moment. I’m sorry.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0005#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0006#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="i can’t do {spoken}. could you do {prosedate(later)}?" data-text-revision="c07a0e08ce6e" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0006#text</code></div>
+<p class="prose">I can’t do {spoken}. Could you do {proseDate(later)}?</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+<dt>Slots</dt><dd>proseDate(later), spoken</dd>
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0006#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0007#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="offer a different day" data-text-revision="b1c3c9625394" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0007#text</code></div>
+<p class="prose">Offer a different day</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0007#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0008#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="offered {later} instead." data-text-revision="945143e992cd" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0008#text</code></div>
+<p class="prose">Offered {later} instead.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+<dt>Slots</dt><dd>later</dd>
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0008#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0009#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="put it on the calendar." data-text-revision="291ee5de3c70" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0009#text</code></div>
+<p class="prose">Put it on the calendar.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0009#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0010#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="say you can’t" data-text-revision="1cbae73a9372" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0010#text</code></div>
+<p class="prose">Say you can’t</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0010#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0011#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="say you could do {prosedate(later)} instead." data-text-revision="236adda3a848" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0011#text</code></div>
+<p class="prose">Say you could do {proseDate(later)} instead.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+<dt>Slots</dt><dd>proseDate(later)</dd>
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0011#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0012#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="say {spoken} works" data-text-revision="85f3e71a4b1a" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0012#text</code></div>
+<p class="prose">Say {spoken} works</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+<dt>Slots</dt><dd>spoken</dd>
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0012#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0013#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="the player agreed to meet {context.name} {spoken}." data-text-revision="c213e2175a61" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0013#text</code></div>
+<p class="prose">The player agreed to meet {context.name} {spoken}.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+<dt>Slots</dt><dd>context.name, spoken</dd>
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0013#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0014#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="the player asked {context.name} what the meeting was about." data-text-revision="4a247275c2ba" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0014#text</code></div>
+<p class="prose">The player asked {context.name} what the meeting was about.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+<dt>Slots</dt><dd>context.name</dd>
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0014#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0015#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="the player offered {context.name} {prosedate(later)} instead." data-text-revision="c2fb7d53c508" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0015#text</code></div>
+<p class="prose">The player offered {context.name} {proseDate(later)} instead.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+<dt>Slots</dt><dd>context.name, proseDate(later)</dd>
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0015#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0016#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="the player turned down meeting {context.name}." data-text-revision="fb6c278f6c35" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0016#text</code></div>
+<p class="prose">The player turned down meeting {context.name}.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+<dt>Slots</dt><dd>context.name</dd>
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0016#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0017#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="turn it down for now." data-text-revision="947f362d86af" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0017#text</code></div>
+<p class="prose">Turn it down for now.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0017#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0018#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="what’s it about?" data-text-revision="631fcd2add7d" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0018#text</code></div>
+<p class="prose">What’s it about?</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0018#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0019#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{playername} and {othername} arranged to meet." data-text-revision="c9f1ecf17c04" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0019#text</code></div>
+<p class="prose">{playerName} and {otherName} arranged to meet.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+<dt>Slots</dt><dd>otherName, playerName</dd>
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0019#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0020#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="{spoken.charat(0).touppercase()}{spoken.slice(1)} works. i’ll be there." data-text-revision="a7bedcc235d2" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0020#text</code></div>
+<p class="prose">{spoken.charAt(0).toUpperCase()}{spoken.slice(1)} works. I’ll be there.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+<dt>Slots</dt><dd>spoken.charAt(0).toUpperCase(), spoken.slice(1)</dd>
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0020#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0021#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="“another time, then,” {name} says." data-text-revision="0ee9a680dda4" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0021#text</code></div>
+<p class="prose">“Another time, then,” {name} says.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+<dt>Slots</dt><dd>name</dd>
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0021#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0022#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="“good. it’s been too long,” {name} says." data-text-revision="4d3a90ed9880" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0022#text</code></div>
+<p class="prose">“Good. It’s been too long,” {name} says.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+<dt>Slots</dt><dd>name</dd>
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0022#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0023#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="“let me look at that and come back to you,” {name} says." data-text-revision="9bf36bf714d8" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0023#text</code></div>
+<p class="prose">“Let me look at that and come back to you,” {name} says.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+<dt>Slots</dt><dd>name</dd>
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0023#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0024#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="“maybe. i’ll check,” {name} says." data-text-revision="5aaf563c50d8" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0024#text</code></div>
+<p class="prose">“Maybe. I’ll check,” {name} says.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+<dt>Slots</dt><dd>name</dd>
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0024#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0025#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="“nothing in particular. i just thought of you,” {name} says." data-text-revision="400dc925b7a3" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0025#text</code></div>
+<p class="prose">“Nothing in particular. I just thought of you,” {name} says.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+<dt>Slots</dt><dd>name</dd>
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0025#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0026#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="“that’s settled, then,” {name} says." data-text-revision="a9a01ba42746" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0026#text</code></div>
+<p class="prose">“That’s settled, then,” {name} says.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+<dt>Slots</dt><dd>name</dd>
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0026#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:conversation:contextual-scene:meetUpAnswers-0027#text" data-surface="status" data-reach="PLAYER_REACHABLE" data-flags="" data-text="“understood. take care of yourself,” {name} says." data-text-revision="e9f9ee136770" data-context-revision="ca7b14b8141d">
+<div class="top"><code class="sid">prose:conversation:contextual-scene:meetUpAnswers-0027#text</code></div>
+<p class="prose">“Understood. Take care of yourself,” {name} says.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/contextual-scene-families.ts &middot; meetUpAnswers</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.</dd>
+<dt>Grounded by</dt><dd>scene-binding, claim-stance</dd>
+<dt>Slots</dt><dd>name</dd>
+</dl>
+<div class="marks" data-id="prose:conversation:contextual-scene:meetUpAnswers-0027#text">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>

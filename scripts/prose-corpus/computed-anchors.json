@@ -3835,6 +3835,14 @@
       "textRevision": "47c6c3ef2109"
     },
     {
+      "anchor": "favor-0010",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "favor",
+      "text": "{binding.facts.speakerGiven??\"Somebody\"} wants to meet",
+      "occurrence": 0,
+      "textRevision": "dd4473cfb6dc"
+    },
+    {
       "anchor": "fileForOffice-0001",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "fileForOffice",
@@ -4097,6 +4105,222 @@
       "text": "the mayor",
       "occurrence": 0,
       "textRevision": "04663a8f5d7a"
+    },
+    {
+      "anchor": "meetUpAnswers-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "Agreed to meet {spoken}.",
+      "occurrence": 0,
+      "textRevision": "39c88d28f91c"
+    },
+    {
+      "anchor": "meetUpAnswers-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "Ask what it’s about",
+      "occurrence": 0,
+      "textRevision": "555c97fc0fc3"
+    },
+    {
+      "anchor": "meetUpAnswers-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "Could not make it.",
+      "occurrence": 0,
+      "textRevision": "f45ede27ef21"
+    },
+    {
+      "anchor": "meetUpAnswers-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "Find out before you answer.",
+      "occurrence": 0,
+      "textRevision": "28472ce73176"
+    },
+    {
+      "anchor": "meetUpAnswers-0005",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "I can’t at the moment. I’m sorry.",
+      "occurrence": 0,
+      "textRevision": "54bface4df0b"
+    },
+    {
+      "anchor": "meetUpAnswers-0006",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "I can’t do {spoken}. Could you do {proseDate(later)}?",
+      "occurrence": 0,
+      "textRevision": "c07a0e08ce6e"
+    },
+    {
+      "anchor": "meetUpAnswers-0007",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "Offer a different day",
+      "occurrence": 0,
+      "textRevision": "b1c3c9625394"
+    },
+    {
+      "anchor": "meetUpAnswers-0008",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "Offered {later} instead.",
+      "occurrence": 0,
+      "textRevision": "945143e992cd"
+    },
+    {
+      "anchor": "meetUpAnswers-0009",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "Put it on the calendar.",
+      "occurrence": 0,
+      "textRevision": "291ee5de3c70"
+    },
+    {
+      "anchor": "meetUpAnswers-0010",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "Say you can’t",
+      "occurrence": 0,
+      "textRevision": "1cbae73a9372"
+    },
+    {
+      "anchor": "meetUpAnswers-0011",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "Say you could do {proseDate(later)} instead.",
+      "occurrence": 0,
+      "textRevision": "236adda3a848"
+    },
+    {
+      "anchor": "meetUpAnswers-0012",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "Say {spoken} works",
+      "occurrence": 0,
+      "textRevision": "85f3e71a4b1a"
+    },
+    {
+      "anchor": "meetUpAnswers-0013",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "The player agreed to meet {context.name} {spoken}.",
+      "occurrence": 0,
+      "textRevision": "c213e2175a61"
+    },
+    {
+      "anchor": "meetUpAnswers-0014",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "The player asked {context.name} what the meeting was about.",
+      "occurrence": 0,
+      "textRevision": "4a247275c2ba"
+    },
+    {
+      "anchor": "meetUpAnswers-0015",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "The player offered {context.name} {proseDate(later)} instead.",
+      "occurrence": 0,
+      "textRevision": "c2fb7d53c508"
+    },
+    {
+      "anchor": "meetUpAnswers-0016",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "The player turned down meeting {context.name}.",
+      "occurrence": 0,
+      "textRevision": "fb6c278f6c35"
+    },
+    {
+      "anchor": "meetUpAnswers-0017",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "Turn it down for now.",
+      "occurrence": 0,
+      "textRevision": "947f362d86af"
+    },
+    {
+      "anchor": "meetUpAnswers-0018",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "What’s it about?",
+      "occurrence": 0,
+      "textRevision": "631fcd2add7d"
+    },
+    {
+      "anchor": "meetUpAnswers-0019",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "{playerName} and {otherName} arranged to meet.",
+      "occurrence": 0,
+      "textRevision": "c9f1ecf17c04"
+    },
+    {
+      "anchor": "meetUpAnswers-0020",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "{spoken.charAt(0).toUpperCase()}{spoken.slice(1)} works. I’ll be there.",
+      "occurrence": 0,
+      "textRevision": "a7bedcc235d2"
+    },
+    {
+      "anchor": "meetUpAnswers-0021",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "“Another time, then,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "0ee9a680dda4"
+    },
+    {
+      "anchor": "meetUpAnswers-0022",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "“Good. It’s been too long,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "4d3a90ed9880"
+    },
+    {
+      "anchor": "meetUpAnswers-0023",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "“Let me look at that and come back to you,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "9bf36bf714d8"
+    },
+    {
+      "anchor": "meetUpAnswers-0024",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "“Maybe. I’ll check,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "5aaf563c50d8"
+    },
+    {
+      "anchor": "meetUpAnswers-0025",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "“Nothing in particular. I just thought of you,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "400dc925b7a3"
+    },
+    {
+      "anchor": "meetUpAnswers-0026",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "“That’s settled, then,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "a9a01ba42746"
+    },
+    {
+      "anchor": "meetUpAnswers-0027",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "meetUpAnswers",
+      "text": "“Understood. Take care of yourself,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "e9f9ee136770"
     },
     {
       "anchor": "memoryCorrectedAnswers-0001",

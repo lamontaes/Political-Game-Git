@@ -464,6 +464,7 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
       "promisedExplain",
       "recalledAnswers",
       "bereavedAnswers",
+      "meetUpAnswers",
       "partyInvitationAnswers",
       "partyJoinAnswers",
       "partyAfterDeclineAnswers",
@@ -554,6 +555,23 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
         key: "eligible-selected-person-intent",
         description:
           "The conversation projection checks current presence, exact saved topic, age/context and prior consent before offering an action.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/presentation/people-contacts.ts",
+    domain: "life",
+    bank: "contacts",
+    symbols: ["projectContacts", "outstandingWith"],
+    surface: "option-label",
+    reachability: "CURRENTLY_UNREACHABLE",
+    reachabilityReason:
+      "CRUNCH47 B1 adapter: who the played person can reach, by what channel, and what is outstanding. UI mounts it; until then no ordinary route renders it.",
+    grounding: [
+      {
+        key: "recorded-overlap",
+        description:
+          "The household, kinship, work and group records the two people actually share, and the last meaningful interaction between them.",
       },
     ],
   },

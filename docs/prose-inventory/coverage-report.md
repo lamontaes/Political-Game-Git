@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 3019 |
-| INTENTIONALLY_NON_PLAYER_FACING | 6603 |
-| DIAGNOSTIC_OR_TEST | 6455 |
-| **NEEDS_CLASSIFICATION** | **8604** |
+| INVENTORIED | 3056 |
+| INTENTIONALLY_NON_PLAYER_FACING | 6616 |
+| DIAGNOSTIC_OR_TEST | 6473 |
+| **NEEDS_CLASSIFICATION** | **8660** |
 
-Scanned 914 files holding 95412 string
+Scanned 917 files holding 95799 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -32,7 +32,7 @@ literals in total; the table counts only those that read like a sentence.
 
 | Candidates | File |
 | --- | --- |
-| 468 | `src/presentation/contextual-scene-families.ts` |
+| 470 | `src/presentation/contextual-scene-families.ts` |
 | 341 | `src/simulation/legislation-administration-families.ts` |
 | 290 | `src/simulation/legislation-infrastructure-families.ts` |
 | 269 | `src/simulation/legislation-fiscal-families.ts` |
@@ -52,9 +52,9 @@ literals in total; the table counts only those that read like a sentence.
 | 71 | `src/player/PersonAppearanceControls.tsx` |
 | 69 | `src/simulation/character-history.ts` |
 | 64 | `src/simulation/press/desk.ts` |
+| 61 | `src/presentation/contextual-scene-producers.ts` |
 | 61 | `src/simulation/press-interviews.ts` |
 | 59 | `src/presentation/legislative-dialogue-motifs.ts` |
-| 58 | `src/presentation/contextual-scene-producers.ts` |
 | 54 | `src/presentation/run-c-working-document.ts` |
 | 53 | `src/simulation/civil-personnel.ts` |
 | 51 | `src/simulation/campaigns.ts` |
@@ -65,6 +65,7 @@ literals in total; the table counts only those that read like a sentence.
 | 48 | `src/simulation/legislation-scenarios.ts` |
 | 48 | `src/simulation/life-episodes.ts` |
 | 48 | `src/simulation/life-sources.ts` |
+| 46 | `src/simulation/people-contact.ts` |
 | 45 | `src/content/content-export.ts` |
 | 45 | `src/player/DocketWorkspace.tsx` |
 | 45 | `src/simulation/legislative-politics.ts` |
@@ -317,6 +318,7 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/presentation/browser-world-repository-protocol.ts` |
 | 5 | `src/presentation/municipal-governing.ts` |
 | 5 | `src/presentation/national-election-results.ts` |
+| 5 | `src/presentation/people-contacts.ts` |
 | 5 | `src/presentation/place-travel.ts` |
 | 5 | `src/presentation/title-lectern-scene.ts` |
 | 5 | `src/presentation/world-recap.ts` |

@@ -23,6 +23,11 @@ import { evaluateDecision } from "../simulation/decisions";
 import { lifeRequestDetails } from "../simulation/life-request-details";
 import { LIFE_CALLBACK_EVENT } from "../simulation/life-callbacks";
 import { offerBereavementScene } from "../simulation/people-bereavement";
+import {
+  contactBases,
+  contactProposals,
+  produceReachingOut,
+} from "../simulation/people-contact";
 import { requestBehindCallback } from "../simulation/people-recall";
 import {
   LIFE_OPPORTUNITY_TAG_PREFIX,
@@ -109,6 +114,9 @@ export function refreshContextualScenes(
     produceHomeEvening,
     produceRecalledRequest,
     produceFavor,
+    // Last of the request scenes: while somebody is waiting on an answer about
+    // meeting, that is the conversation this family is holding.
+    produceMeetUp,
     producePartyInvite,
     produceCampaignReaction,
     produceStaffFollowup,
@@ -494,6 +502,55 @@ function produceRecalledRequest(world: World, personId: EntityId): World {
     );
   }
   return world;
+}
+
+/**
+ * An old friend who got back in touch, and the answer the player owes them.
+ *
+ * The reaching out is the world's: it happens while time passes, whether or
+ * not the player ever opened that person's page. What is bound here is only
+ * the conversation it deserves.
+ */
+function produceMeetUp(world: World, personId: EntityId): World {
+  const reached = produceReachingOut(world, personId);
+  const open = contactProposals(reached, personId).find(
+    (proposal) => !proposal.answered && proposal.toPersonId === personId,
+  );
+  if (!open) return reached;
+  if (sceneAlreadyBound(reached, personId, "favor", "meet-up", open.eventId)) {
+    return reached;
+  }
+  const speaker = reached.people[open.fromPersonId];
+  if (!speaker) return reached;
+  const basis = contactBases(reached, personId).find(
+    (entry) => entry.personId === open.fromPersonId,
+  );
+  const facts: Record<string, string> = {
+    speakerGiven: speaker.givenName,
+    purpose: open.purpose,
+  };
+  if (basis?.lastContactOn) facts.lastContactOn = basis.lastContactOn;
+  return recordSceneBinding(
+    reached,
+    {
+      version: 1,
+      family: "favor",
+      variant: "meet-up",
+      playerPersonId: personId,
+      speakerPersonId: speaker.id,
+      relationship: relationshipLabel(reached, personId, speaker.id),
+      place: "By phone",
+      jurisdictionId: reached.people[personId]!.homeJurisdictionId,
+      request: `Whether to meet ${personName(speaker)} on ${open.on}.`,
+      sourceEntityIds: [open.eventId],
+      facts,
+      knownRecordIds: [open.eventId],
+      target: null,
+      date: open.on,
+      expiresAt: open.on,
+    },
+    `${personName(speaker)} asked to meet.`,
+  );
 }
 
 function produceFavor(world: World, personId: EntityId): World {
