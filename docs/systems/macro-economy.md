@@ -76,7 +76,11 @@ No local sector source is compiled yet, so exposure is recorded as
   unemployment, 12-month inflation, housing ratio and the jurisdiction's
   modeled-account receipts, outlays and balance per month. Card, graph and
   table share one series; gaps are labeled, never zero. UI mounts it.
-- PRESS stories cite release event ids; MAPS and CAMPAIGN read the selectors.
+- `publicConcernsAt(world, jurisdictionId, asOf)`: the latest released
+  figure per indicator as a citable concern (rising/falling/steady/unknown
+  against the previous release, authored ±0.05 pp steady band). Released
+  figures only; CAMPAIGN staff plans show up to three.
+- PRESS stories cite release event ids; MAPS reads the selectors.
 
 Not yet connected, and not claimed: household wages, jobs or housing
 effects, campaign concern ranking, governing-brief budget consequences and

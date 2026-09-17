@@ -1,4 +1,4 @@
-import type { IsoDate, World } from "../types";
+import type { EntityId, IsoDate, World } from "../types";
 import { monthKeyOf } from "./store";
 import type {
   MacroMonthRecord,
@@ -90,4 +90,84 @@ export function publicMacroShocksAt(
 /** Which recorded month a date falls in, for callers that label periods. */
 export function macroMonthKey(date: IsoDate): string {
   return monthKeyOf(date);
+}
+
+export interface PublicEconomicConcern {
+  readonly concernKey: string;
+  readonly label: string;
+  /** The public release event the concern rests on. */
+  readonly releaseId: EntityId;
+  readonly releasedOn: IsoDate;
+  readonly indicator: MacroReleaseIndicator;
+  readonly direction: "rising" | "falling" | "steady" | "unknown";
+}
+
+const CONCERN_LABELS: Readonly<Record<MacroReleaseIndicator, string>> = {
+  "unemployment-rate": "Jobs and unemployment",
+  "consumer-price-inflation-12m": "Rising prices",
+  "real-output-growth-annualized-quarterly": "Economic growth",
+};
+
+/**
+ * Authored reading band: a change smaller than this between two releases of
+ * the same figure is reported as steady rather than as a movement.
+ */
+const STEADY_BAND_PP = 0.05;
+
+/**
+ * What the public has been told about the economy, as concerns a campaign
+ * or office can cite. Only released figures count; the model's unreleased
+ * state never appears. The jurisdiction's own releases come first when they
+ * exist; today releases are national, so every place hears the national
+ * figures. Newest first; empty before anything has been released.
+ */
+export function publicConcernsAt(
+  world: World,
+  jurisdictionId: EntityId,
+  asOf: IsoDate,
+): readonly PublicEconomicConcern[] {
+  const local = macroScopeForJurisdiction(jurisdictionId);
+  const released = macroReleasesAt(world, asOf).filter(
+    (release) => release.value !== null,
+  );
+  const scopeFor = (indicator: MacroReleaseIndicator): MacroScopeKey =>
+    released.some((r) => r.indicator === indicator && r.scope === local)
+      ? local
+      : "national";
+  const concerns: PublicEconomicConcern[] = [];
+  for (const indicator of Object.keys(
+    CONCERN_LABELS,
+  ) as MacroReleaseIndicator[]) {
+    const scope = scopeFor(indicator);
+    const series = released.filter(
+      (release) => release.indicator === indicator && release.scope === scope,
+    );
+    const latest = series.at(-1);
+    if (!latest) continue;
+    const previous = series.at(-2);
+    const change =
+      previous && previous.value !== null
+        ? latest.value! - previous.value
+        : null;
+    concerns.push({
+      concernKey: `economy:${indicator}`,
+      label: CONCERN_LABELS[indicator],
+      releaseId: latest.eventId,
+      releasedOn: latest.releasedAt,
+      indicator,
+      direction:
+        change === null
+          ? "unknown"
+          : change > STEADY_BAND_PP
+            ? "rising"
+            : change < -STEADY_BAND_PP
+              ? "falling"
+              : "steady",
+    });
+  }
+  return concerns.sort(
+    (left, right) =>
+      right.releasedOn.localeCompare(left.releasedOn) ||
+      left.indicator.localeCompare(right.indicator),
+  );
 }

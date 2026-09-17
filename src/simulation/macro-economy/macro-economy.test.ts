@@ -31,6 +31,7 @@ import {
   macroConditionsAt,
   macroMonthHistory,
   macroReleasesAt,
+  publicConcernsAt,
 } from "./readers";
 import type { MacroStartingConditions } from "./types";
 
@@ -325,6 +326,43 @@ describe("CHANGE canonical macro history", { timeout: 1_800_000 }, () => {
     expect(JSON.stringify(later)).toBe(before);
     // Reads between advances (d150 was read above) do not alter d400.
     expect(macroOnly(d400())).toBe(macroOnly(oneJump()));
+  });
+
+  it("offers campaigns only released figures as public concerns", () => {
+    const home = (w: World) =>
+      w.people[w.control.kind === "person" ? w.control.personId : ""]!
+        .homeJurisdictionId;
+    expect(publicConcernsAt(base, home(base), base.currentDate)).toEqual([]);
+    const later = d400();
+    const concerns = publicConcernsAt(later, home(later), later.currentDate);
+    expect(concerns.map((c) => c.indicator).sort()).toEqual([
+      "consumer-price-inflation-12m",
+      "real-output-growth-annualized-quarterly",
+      "unemployment-rate",
+    ]);
+    const releases = macroReleasesAt(later, later.currentDate);
+    for (const concern of concerns) {
+      const series = releases.filter((r) => r.indicator === concern.indicator);
+      expect(concern.releaseId).toBe(series.at(-1)!.eventId);
+      expect(concern.releasedOn).toBe(series.at(-1)!.releasedAt);
+    }
+    for (let i = 1; i < concerns.length; i += 1) {
+      expect(concerns[i - 1]!.releasedOn >= concerns[i]!.releasedOn).toBe(true);
+    }
+    const unemployment = concerns.find(
+      (c) => c.indicator === "unemployment-rate",
+    )!;
+    const [prev, last] = releases
+      .filter((r) => r.indicator === "unemployment-rate")
+      .slice(-2);
+    const change = last!.value! - prev!.value!;
+    expect(unemployment.direction).toBe(
+      change > 0.05 ? "rising" : change < -0.05 ? "falling" : "steady",
+    );
+    // A first release has nothing to compare with.
+    const firstMonth = addDays(base.currentDate, 40);
+    const early = publicConcernsAt(later, home(later), firstMonth);
+    expect(early.every((c) => c.direction === "unknown")).toBe(true);
   });
 
   it("an adequate-housing start never reads as a shortage", () => {
