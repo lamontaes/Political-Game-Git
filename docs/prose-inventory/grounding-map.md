@@ -30,6 +30,7 @@ declare is reported as undeclared rather than filled in from a guess.
 | `life/formative` | 177 | 0 | 0 | persistent-cast |
 | `life/introduction` | 10 | 0 | 0 | — |
 | `life/life-continuation` | 6 | 0 | 0 | — |
+| `life/office-answer` | 17 | 0 | 0 | candidacy |
 | `life/opening-conversation-intents` | 16 | 0 | 0 | — |
 | `life/opening-conversation-replies` | 59 | 0 | 0 | — |
 | `life/personal-aims` | 18 | 0 | 0 | — |
@@ -58,7 +59,7 @@ count is how many families' declared grounding touches each one.
 | Persistent cast identity | 3 |
 | Incidents and locality | 1 |
 | Time elapsed | 2 |
-| Candidacy, election and office | 1 |
+| Candidacy, election and office | 2 |
 | Legislative measure and chamber | 1 |
 
 ## Withheld scenes and the evidence each one is missing
