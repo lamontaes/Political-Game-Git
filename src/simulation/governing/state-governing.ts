@@ -851,11 +851,11 @@ function applyConsequence(
         stableKey: `${matter.stableKey}:report`,
         dueAt: addDays(world.currentDate, days),
         transitionKey: GOVERNING_FOLLOW_UP,
-        entityIds: [matter.id, decisionEventId],
+        entityIds: [matter.id, decisionEventId].sort(),
         jurisdictionId: office.jurisdictionId,
         provenance: {
           kind: "simulated",
-          sourceEntityIds: [matter.id, decisionEventId],
+          sourceEntityIds: [matter.id, decisionEventId].sort(),
         },
       });
     }
@@ -887,6 +887,7 @@ function recordDecision(
     involvedEntityIds: [
       office.holderPersonId,
       office.organizationId,
+      ...(matter.workItemId ? [matter.workItemId] : []),
       ...(option?.personId ? [option.personId] : []),
       ...(deciderPersonId !== office.holderPersonId ? [deciderPersonId] : []),
     ],
