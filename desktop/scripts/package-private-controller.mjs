@@ -124,6 +124,8 @@ for (const name of [
 const CONTROLLER_FILES = [
   "main.mjs",
   "hub-model.mjs",
+  "build-catalog.mjs",
+  "build-catalog.json",
   "worker-watch.mjs",
   "artdesk-host.mjs",
   "preload.cjs",
