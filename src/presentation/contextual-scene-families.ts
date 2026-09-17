@@ -13,6 +13,12 @@ import {
   openProposal,
 } from "../simulation/people-contact";
 import { recalledRequest } from "../simulation/people-recall";
+import {
+  decideStudyPeerOutcome,
+  recordStudyAnswer,
+  studyAnswered,
+} from "../simulation/people-study";
+import type { StudyPeerOutcome } from "../simulation/people-study";
 import { requestPropositionKey } from "../simulation/people-request-route";
 import type { BoundScene, SceneFamily } from "../simulation/scene-bindings";
 import { scheduledActivityState } from "../simulation/time-work";
@@ -2242,6 +2248,165 @@ const reporterQuestion: SceneFamilyDefinition = {
   room: withoutSpeakerOthers,
 };
 
+/* -------------------------------------------------------------------------- */
+/* 7. Somebody in your class                                                    */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * The education scene from the F47.1 authoring cargo, adapted to the engine's
+ * own contracts.
+ *
+ * The cargo's rule is followed exactly here: the other person decides what
+ * they mean before a line is chosen, and the lines for one meaning are
+ * alternatives for that meaning only. Agreeing, offering a narrower part and
+ * turning it down never share a reply list, so the array can never read a
+ * refusal out as though it were a yes.
+ *
+ * Sharing a class is not a friendship, and being turned down costs nothing
+ * academically. Both are negative controls the cargo names, and both are held
+ * by the records rather than by the wording.
+ */
+function studyPeerAnswers(context: SceneContext): SceneAnswer[] {
+  const playerId = context.binding.playerPersonId;
+  const peerId = context.binding.speakerPersonId;
+  const task = context.has("availableTask")
+    ? context.fact("availableTask")
+    : "the part that is still open";
+  const answer = (outcome: StudyPeerOutcome): readonly string[] => {
+    switch (outcome) {
+      case "agrees":
+        return [
+          "\u201cYes. Let\u2019s work out who is doing what,\u201d {name} says.",
+          "\u201cI\u2019d like that. We should agree on the work before we start,\u201d {name} says.",
+        ];
+      case "counterproposes":
+        return [
+          `\u201cWe already have the main work divided up. Would you be interested in ${task}?\u201d {name} asks.`,
+        ];
+      case "declines":
+        return [
+          "\u201cI\u2019ve already committed to another group,\u201d {name} says.",
+          "\u201cI don\u2019t think we\u2019re looking for the same kind of project,\u201d {name} says.",
+        ];
+    }
+  };
+  // Decided here, once, before any wording is picked.
+  const decided = decideStudyPeerOutcome(context.world, {
+    personId: playerId,
+    peerPersonId: peerId,
+  }).outcome;
+  const settle =
+    (outcome: StudyPeerOutcome, statement: string) => (world: World) =>
+      recordStudyAnswer(world, {
+        personId: playerId,
+        peerPersonId: peerId,
+        outcome,
+        statement,
+      }).world;
+  return [
+    {
+      key: "offer",
+      label: "Suggest working together",
+      description: "Propose it. They may say no.",
+      statement: "Would you like to work on it together?",
+      replies: says(context, answer(decided)),
+      record: `The player asked ${context.name} about working on the coursework together.`,
+      apply: settle(
+        decided,
+        decided === "agrees"
+          ? "Yes. Let\u2019s work out who is doing what."
+          : decided === "counterproposes"
+            ? `We already have the main work divided up. Would you be interested in ${task}?`
+            : "I\u2019ve already committed to another group.",
+      ),
+      ...(decided === "agrees"
+        ? {
+            relationship: {
+              kind: "work:shared-coursework" as const,
+              change: "formed" as const,
+              significance: "minor" as const,
+              summary: ({
+                playerName,
+                otherName,
+              }: {
+                playerName: string;
+                otherName: string;
+              }) => `${playerName} and ${otherName} agreed to work together.`,
+            },
+          }
+        : {}),
+    },
+    {
+      key: "ask",
+      label: "Ask what they want to do",
+      description: "Find out before committing to anything.",
+      followUp: true,
+      statement: "What part are you interested in?",
+      replies: says(context, [
+        `\u201cI was going to start with ${task}, if nobody else has,\u201d {name} says.`,
+      ]),
+      record: `The player asked ${context.name} which part of the work interested them.`,
+    },
+    {
+      key: "keep-looking",
+      label: "Keep looking",
+      description: "Turn this one down. The class is unaffected.",
+      statement: "I think I\u2019m going to look for a different group.",
+      replies: says(context, [
+        "\u201cThat\u2019s fair. Good luck with it,\u201d {name} says.",
+        "\u201cUnderstood. See you in class,\u201d {name} says.",
+      ]),
+      record: `The player told ${context.name} they would look for a different group.`,
+      apply: settle(
+        "declines",
+        "I think I\u2019m going to look for a different group.",
+      ),
+    },
+  ];
+}
+
+const studyPeer: SceneFamilyDefinition = {
+  family: "study-peer",
+  eventType: "conversation.study-turn",
+  setting: "After a class",
+  socialContext: "Two people on the same programme, talking about the work.",
+  motivation: "Decide whether to work on the coursework together.",
+  interactionTags: ["conversation.study", "relationship.shared-work"],
+  topic: (binding) => `Working with ${binding.facts.peerGiven ?? "somebody"}`,
+  briefing(context) {
+    const programme = context.has("programName")
+      ? ` on ${context.fact("programName")}`
+      : "";
+    return `${context.fullName} is on the same programme${programme}. Nothing has been agreed; answering takes no time, and the work itself would have its own hours.`;
+  },
+  opening(context) {
+    const programme = context.has("programName")
+      ? context.fact("programName")
+      : "the programme";
+    return says(context, [
+      `You recognize {name} from ${programme}. They ask whether you have chosen a project group.`,
+      `{name} catches you after ${programme}. \u201cHave you found anyone to work with yet?\u201d`,
+    ]);
+  },
+  answers: studyPeerAnswers,
+  settled(context, answer) {
+    const lines: Record<string, string> = {
+      offer: "\u201cWe\u2019ll speak about it,\u201d {name} says.",
+      "keep-looking": "\u201cSee you in class,\u201d {name} says.",
+    };
+    return fill(lines[answer ?? ""] ?? "\u201cOkay,\u201d {name} says.", {
+      name: context.name,
+    });
+  },
+  relevant: (world, bound) =>
+    !studyAnswered(
+      world,
+      bound.binding.playerPersonId,
+      bound.binding.speakerPersonId,
+    ),
+  room: withoutSpeakerOthers,
+};
+
 export const SCENE_FAMILY_DEFINITIONS: Readonly<
   Record<SceneFamily, SceneFamilyDefinition>
 > = {
@@ -2251,6 +2416,7 @@ export const SCENE_FAMILY_DEFINITIONS: Readonly<
   "campaign-reaction": campaignReaction,
   "staff-followup": staffFollowup,
   "reporter-question": reporterQuestion,
+  "study-peer": studyPeer,
 };
 
 /** When a situation stops being offered, counted from a date. */

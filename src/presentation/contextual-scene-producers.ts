@@ -29,6 +29,7 @@ import {
   produceReachingOut,
 } from "../simulation/people-contact";
 import { requestBehindCallback } from "../simulation/people-recall";
+import { studyAnswered, studyPeers } from "../simulation/people-study";
 import {
   LIFE_OPPORTUNITY_TAG_PREFIX,
   lifeOpportunitiesFor,
@@ -113,6 +114,7 @@ export function refreshContextualScenes(
     offerBereavementScene,
     produceHomeEvening,
     produceRecalledRequest,
+    produceStudyPeer,
     produceFavor,
     // Last of the request scenes: while somebody is waiting on an answer about
     // meeting, that is the conversation this family is holding.
@@ -551,6 +553,55 @@ function produceMeetUp(world: World, personId: EntityId): World {
     },
     `${personName(speaker)} asked to meet.`,
   );
+}
+
+/**
+ * Somebody on the same programme asks about working together (F47.1).
+ *
+ * Bound only from records: the player's own active enrollment and another
+ * person actually enrolled on it. No class, no group and no classmate is
+ * invented, so a life with no studies simply never sees this.
+ */
+function produceStudyPeer(world: World, personId: EntityId): World {
+  for (const peer of studyPeers(world, personId)) {
+    if (studyAnswered(world, personId, peer.personId)) continue;
+    if (
+      sceneAlreadyBound(
+        world,
+        personId,
+        "study-peer",
+        "coursework",
+        peer.personId,
+      )
+    ) {
+      continue;
+    }
+    return recordSceneBinding(
+      world,
+      {
+        version: 1,
+        family: "study-peer",
+        variant: "coursework",
+        playerPersonId: personId,
+        speakerPersonId: peer.personId,
+        relationship: relationshipLabel(world, personId, peer.personId),
+        place: "After a class",
+        jurisdictionId: world.people[personId]!.homeJurisdictionId,
+        request: `Whether to work with ${peer.name} on the coursework.`,
+        sourceEntityIds: [peer.personId, peer.organizationId],
+        facts: {
+          peerGiven: peer.givenName,
+          programName: peer.programName,
+        },
+        knownRecordIds: [],
+        target: null,
+        date: null,
+        expiresAt: addDays(world.currentDate, 30),
+      },
+      `${peer.name} asked about working together.`,
+    );
+  }
+  return world;
 }
 
 function produceFavor(world: World, personId: EntityId): World {
