@@ -4,7 +4,9 @@ import {
   createDemoWorld,
   createWorld,
   crisisRecords,
+  declareHazardEpisode,
   discloseHealthEpisode,
+  homeStateUsps,
   type EntityId,
   type Person,
   type World,
@@ -135,7 +137,7 @@ describe("public events", () => {
     expect(publicCrisisEvents(withEpisode())).toEqual([]);
   });
 
-  it("reads the public record in the event's own words", () => {
+  it("does not relabel a public health disclosure as an emergency", () => {
     const ill = withEpisode();
     const told = discloseHealthEpisode(ill, {
       stableKey: "player:public",
@@ -144,9 +146,26 @@ describe("public events", () => {
       recipientIds: [],
       decidedByPersonId: patient,
     });
-    const events = publicCrisisEvents(told);
-    expect(events).toHaveLength(1);
-    expect(events[0]!.summary).toBe("A health episode was made public.");
+    expect(publicCrisisEvents(told)).toEqual([]);
+  });
+
+  it("reads the declared hazard in the event's own words", () => {
+    const struck = declareHazardEpisode(world, {
+      stableKey: "shell-read-flood",
+      family: "flood",
+      magnitude: "major",
+      stateUsps: homeStateUsps(world, patient)!,
+      jurisdictionIds: [world.people[patient]!.homeJurisdictionId],
+      durationDays: 3,
+      basis: "Test hazard.",
+      sourceReference: null,
+    });
+    const events = publicCrisisEvents(struck);
+    expect(events.map((entry) => entry.summary)).toContain(
+      "Flooding struck the area (major).",
+    );
+    // Prose, never an ISO date.
+    expect(events[0]!.dateLabel).not.toMatch(/^\d{4}-/);
   });
 });
 

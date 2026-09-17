@@ -1,6 +1,5 @@
 import {
   addDays,
-  crisisEnvelopesBetween,
   crisisProtectedDecisions,
   crisisRecordIndex,
   crisisRecords,
@@ -11,6 +10,7 @@ import {
   pendingDisasterDecisions,
   pendingInternationalDecisions,
   personName,
+  stateJurisdictionForKey,
   type CrisisOptionKey,
   type EntityId,
   type HazardEpisodeRecord,
@@ -168,6 +168,11 @@ export function knownHealthNotices(
   });
 }
 
+/** What a player calls the state. A USPS code is data, not a place name. */
+function stateNameFor(usps: string): string {
+  return stateJurisdictionForKey(`US-${usps}`)?.name ?? usps;
+}
+
 const HAZARD_TEXT: Record<HazardEpisodeRecord["family"], string> = {
   flood: "flood",
   "severe-storm": "severe storm",
@@ -245,7 +250,7 @@ export function authorityDecisions(world: World): readonly AuthorityDecision[] {
   for (const pending of pendingDisasterDecisions(world)) {
     const episode = hazardEpisode(world, pending.episodeId);
     if (!episode) continue;
-    const where = `${HAZARD_TEXT[episode.family]} in ${episode.stateUsps}`;
+    const where = `${HAZARD_TEXT[episode.family]} in ${stateNameFor(episode.stateUsps)}`;
     const detail = [
       `Declared ${proseDate(episode.effectiveAt)}, magnitude ${episode.magnitude}.`,
       ...damageSentences(world, episode.id),
@@ -333,8 +338,26 @@ export interface PublicCrisisEvent {
 }
 
 /**
+ * The declared-emergency record kinds. An emergency is a hazard the World
+ * declared, the official response to one, an international dispute and what
+ * was done about it. A health disclosure is public information about a
+ * person, not an emergency, so it stays on the health sections where the
+ * player met it and is never relabelled as one here.
+ */
+const PUBLIC_EMERGENCY_KINDS = new Set([
+  "hazard-episode",
+  "disaster-response",
+  "international-crisis",
+  "crisis-decision",
+  "counterparty-response",
+  "war-powers",
+]);
+
+/**
  * What an ordinary resident can read: the public record of the last `days`
- * days, with no decision attached to it.
+ * days, with no decision attached to it. Read from the records themselves
+ * rather than the consumer envelope, because the envelope drops the declared
+ * hazard and the state request — the two things a resident notices first.
  */
 export function publicCrisisEvents(
   world: World,
@@ -342,17 +365,23 @@ export function publicCrisisEvents(
 ): readonly PublicCrisisEvent[] {
   const from: IsoDate = addDays(world.currentDate, -Math.max(1, days));
   const to: IsoDate = addDays(world.currentDate, 1);
-  return crisisEnvelopesBetween(world, from, to, {
-    visibility: ["public"],
-  }).flatMap((envelope) => {
-    const event = world.history.events.find(
-      (candidate) => candidate.id === envelope.originEventId,
-    );
+  const events = new Map(
+    world.history.events.map((event) => [event.id, event] as const),
+  );
+  return crisisRecords(world).flatMap((record) => {
+    if (
+      record.visibility !== "public" ||
+      !PUBLIC_EMERGENCY_KINDS.has(record.kind) ||
+      record.effectiveAt < from ||
+      record.effectiveAt >= to
+    )
+      return [];
+    const event = record.eventId === null ? null : events.get(record.eventId);
     if (!event) return [];
     return [
       {
-        key: `${envelope.recordId}:${envelope.kind}`,
-        dateLabel: proseDate(envelope.effectiveMoment),
+        key: record.id,
+        dateLabel: proseDate(record.effectiveAt),
         summary: event.summary,
       },
     ];

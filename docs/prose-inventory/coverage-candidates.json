@@ -2,7 +2,7 @@
   "counts": {
     "INVENTORIED": 2780,
     "INTENTIONALLY_NON_PLAYER_FACING": 6499,
-    "DIAGNOSTIC_OR_TEST": 6515,
+    "DIAGNOSTIC_OR_TEST": 6517,
     "NEEDS_CLASSIFICATION": 8045
   },
   "needsClassification": [
@@ -2857,7 +2857,7 @@
     {
       "sourcePath": "src/player/CrisisNoticesPanel.tsx",
       "enclosingSymbol": "CrisisNoticesPanel",
-      "line": 152,
+      "line": 157,
       "text": "Who to tell",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2865,7 +2865,7 @@
     {
       "sourcePath": "src/player/CrisisNoticesPanel.tsx",
       "enclosingSymbol": "CrisisNoticesPanel",
-      "line": 154,
+      "line": 159,
       "text": "Choose someone",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2873,7 +2873,7 @@
     {
       "sourcePath": "src/player/CrisisNoticesPanel.tsx",
       "enclosingSymbol": "CrisisNoticesPanel",
-      "line": 178,
+      "line": 183,
       "text": "Choose who to tell first.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2881,7 +2881,7 @@
     {
       "sourcePath": "src/player/CrisisNoticesPanel.tsx",
       "enclosingSymbol": "CrisisNoticesPanel",
-      "line": 188,
+      "line": 193,
       "text": "They were told.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2889,7 +2889,7 @@
     {
       "sourcePath": "src/player/CrisisNoticesPanel.tsx",
       "enclosingSymbol": "CrisisNoticesPanel",
-      "line": 210,
+      "line": 216,
       "text": "It was disclosed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11169,7 +11169,7 @@
     {
       "sourcePath": "src/presentation/crisis-shell.ts",
       "enclosingSymbol": "HAZARD_TEXT",
-      "line": 173,
+      "line": 178,
       "text": "severe storm",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11177,7 +11177,7 @@
     {
       "sourcePath": "src/presentation/crisis-shell.ts",
       "enclosingSymbol": "plural",
-      "line": 212,
+      "line": 217,
       "text": "{count} {count===1?one:many}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11185,7 +11185,7 @@
     {
       "sourcePath": "src/presentation/crisis-shell.ts",
       "enclosingSymbol": "damageSentences",
-      "line": 218,
+      "line": 223,
       "text": "No damage assessment has been recorded yet.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11193,7 +11193,7 @@
     {
       "sourcePath": "src/presentation/crisis-shell.ts",
       "enclosingSymbol": "parts",
-      "line": 224,
+      "line": 229,
       "text": "{plural(homesDamaged,\"recordedhomedamaged\",\"recordedhomesdamaged\")}, {plural(homesDestroyed,\"destroyed\",\"destroyed\")}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11201,7 +11201,7 @@
     {
       "sourcePath": "src/presentation/crisis-shell.ts",
       "enclosingSymbol": "damageSentences",
-      "line": 228,
+      "line": 233,
       "text": "{plural(assessment.injuredPersonIds.length,\"person\",\"people\")} recorded as injured.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11209,7 +11209,7 @@
     {
       "sourcePath": "src/presentation/crisis-shell.ts",
       "enclosingSymbol": "damageSentences",
-      "line": 232,
+      "line": 237,
       "text": "{plural(assessment.deceasedPersonIds.length,\"person\",\"people\")} recorded as killed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11217,7 +11217,7 @@
     {
       "sourcePath": "src/presentation/crisis-shell.ts",
       "enclosingSymbol": "OPTION_LABEL",
-      "line": 238,
+      "line": 243,
       "text": "Pursue talks",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11225,7 +11225,7 @@
     {
       "sourcePath": "src/presentation/crisis-shell.ts",
       "enclosingSymbol": "OPTION_LABEL",
-      "line": 239,
+      "line": 244,
       "text": "Impose economic measures",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11233,7 +11233,7 @@
     {
       "sourcePath": "src/presentation/crisis-shell.ts",
       "enclosingSymbol": "OPTION_LABEL",
-      "line": 240,
+      "line": 245,
       "text": "Move forces toward the dispute",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11241,15 +11241,15 @@
     {
       "sourcePath": "src/presentation/crisis-shell.ts",
       "enclosingSymbol": "where",
-      "line": 248,
-      "text": "{HAZARD_TEXT[episode.family]} in {episode.stateUsps}",
+      "line": 253,
+      "text": "{HAZARD_TEXT[episode.family]} in {stateNameFor(episode.stateUsps)}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/presentation/crisis-shell.ts",
       "enclosingSymbol": "detail",
-      "line": 250,
+      "line": 255,
       "text": "Declared {proseDate(episode.effectiveAt)}, magnitude {episode.magnitude}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11257,7 +11257,7 @@
     {
       "sourcePath": "src/presentation/crisis-shell.ts",
       "enclosingSymbol": "authorityDecisions",
-      "line": 259,
+      "line": 264,
       "text": "Whether to ask for a federal disaster declaration after the {where}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11265,7 +11265,7 @@
     {
       "sourcePath": "src/presentation/crisis-shell.ts",
       "enclosingSymbol": "authorityDecisions",
-      "line": 264,
+      "line": 269,
       "text": "Ask the President for a declaration",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11273,7 +11273,7 @@
     {
       "sourcePath": "src/presentation/crisis-shell.ts",
       "enclosingSymbol": "authorityDecisions",
-      "line": 270,
+      "line": 275,
       "text": "Do not ask",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11281,7 +11281,7 @@
     {
       "sourcePath": "src/presentation/crisis-shell.ts",
       "enclosingSymbol": "authorityDecisions",
-      "line": 280,
+      "line": 285,
       "text": "Whether to declare a major disaster after the {where}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11289,7 +11289,7 @@
     {
       "sourcePath": "src/presentation/crisis-shell.ts",
       "enclosingSymbol": "authorityDecisions",
-      "line": 285,
+      "line": 290,
       "text": "Declare a major disaster",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11297,7 +11297,7 @@
     {
       "sourcePath": "src/presentation/crisis-shell.ts",
       "enclosingSymbol": "authorityDecisions",
-      "line": 291,
+      "line": 296,
       "text": "Deny the request",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11305,7 +11305,7 @@
     {
       "sourcePath": "src/presentation/crisis-shell.ts",
       "enclosingSymbol": "authorityDecisions",
-      "line": 308,
+      "line": 313,
       "text": "What to do about the {crisis.subject} dispute with {crisis.counterpartyLabel}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11313,7 +11313,7 @@
     {
       "sourcePath": "src/presentation/crisis-shell.ts",
       "enclosingSymbol": "authorityDecisions",
-      "line": 310,
+      "line": 315,
       "text": "Tension is {state.tension}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11321,7 +11321,7 @@
     {
       "sourcePath": "src/presentation/crisis-shell.ts",
       "enclosingSymbol": "authorityDecisions",
-      "line": 313,
+      "line": 318,
       "text": "Intelligence judges the intent {assessment.assessedIntent.replace(\"-\",\"\")}, at {assessment.confidence} confidence.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11329,7 +11329,7 @@
     {
       "sourcePath": "src/presentation/crisis-shell.ts",
       "enclosingSymbol": "STOP_TEXT",
-      "line": 372,
+      "line": 401,
       "text": "a health matter only you can disclose",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11337,7 +11337,7 @@
     {
       "sourcePath": "src/presentation/crisis-shell.ts",
       "enclosingSymbol": "STOP_TEXT",
-      "line": 376,
+      "line": 405,
       "text": "a federal disaster request only the governor can make",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11345,7 +11345,7 @@
     {
       "sourcePath": "src/presentation/crisis-shell.ts",
       "enclosingSymbol": "STOP_TEXT",
-      "line": 380,
+      "line": 409,
       "text": "a disaster declaration only the President can decide",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11353,7 +11353,7 @@
     {
       "sourcePath": "src/presentation/crisis-shell.ts",
       "enclosingSymbol": "STOP_TEXT",
-      "line": 384,
+      "line": 413,
       "text": "an international decision only the President can make",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11361,7 +11361,7 @@
     {
       "sourcePath": "src/presentation/crisis-shell.ts",
       "enclosingSymbol": "list",
-      "line": 413,
+      "line": 442,
       "text": "{unique.slice(0,-1).join(\",\")} and {unique.at(-1)!}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11369,7 +11369,7 @@
     {
       "sourcePath": "src/presentation/crisis-shell.ts",
       "enclosingSymbol": "crisisStopAfter",
-      "line": 415,
+      "line": 444,
       "text": "While time was passing, something came up that only you can decide: {list}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68794,7 +68794,7 @@
       "sourcePath": "src/presentation/crisis-shell.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 21
+      "count": 23
     },
     {
       "sourcePath": "src/presentation/crisis-international.test.ts",

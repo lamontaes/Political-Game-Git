@@ -147,51 +147,57 @@ export function CrisisNoticesPanel({
                 <div className="game-choices">
                   {episode.disclosures.map((disclosure) =>
                     disclosure.access === "specific-people" ? (
-                      <p key={disclosure.access}>
-                        <GameSelect
-                          aria-label="Who to tell"
-                          value={chosen}
-                          placeholder="Choose someone"
-                          onChange={(event) =>
-                            setRecipient((current) => ({
-                              ...current,
-                              [episode.episodeId]: event.target
-                                .value as EntityId,
-                            }))
-                          }
-                        >
-                          {people.map((person) => (
-                            <option
-                              key={person.personId}
-                              value={person.personId}
-                            >
-                              {person.name}
-                            </option>
-                          ))}
-                        </GameSelect>
-                        <button
-                          type="button"
-                          className="ui-action"
-                          aria-disabled={chosen === "" || undefined}
-                          onClick={() =>
-                            chosen === ""
-                              ? setNotice("Choose who to tell first.")
-                              : act(
-                                  () =>
-                                    disclose(
-                                      world,
-                                      episode.episodeId,
-                                      personId,
-                                      "specific-people",
-                                      [chosen],
-                                    ),
-                                  "They were told.",
-                                )
-                          }
-                        >
-                          {disclosure.label}
-                        </button>
-                      </p>
+                      people.length === 0 ? (
+                        <p key={disclosure.access} className="game-note">
+                          There is nobody you know well enough to tell yet.
+                        </p>
+                      ) : (
+                        <p key={disclosure.access}>
+                          <GameSelect
+                            aria-label="Who to tell"
+                            value={chosen}
+                            placeholder="Choose someone"
+                            onChange={(event) =>
+                              setRecipient((current) => ({
+                                ...current,
+                                [episode.episodeId]: event.target
+                                  .value as EntityId,
+                              }))
+                            }
+                          >
+                            {people.map((person) => (
+                              <option
+                                key={person.personId}
+                                value={person.personId}
+                              >
+                                {person.name}
+                              </option>
+                            ))}
+                          </GameSelect>
+                          <button
+                            type="button"
+                            className="ui-action"
+                            aria-disabled={chosen === "" || undefined}
+                            onClick={() =>
+                              chosen === ""
+                                ? setNotice("Choose who to tell first.")
+                                : act(
+                                    () =>
+                                      disclose(
+                                        world,
+                                        episode.episodeId,
+                                        personId,
+                                        "specific-people",
+                                        [chosen],
+                                      ),
+                                    "They were told.",
+                                  )
+                            }
+                          >
+                            {disclosure.label}
+                          </button>
+                        </p>
+                      )
                     ) : (
                       <button
                         key={disclosure.access}
