@@ -14,6 +14,7 @@ import type { EntityId, World } from "../simulation";
 import { pinKindLabel } from "./ShellPinRail";
 import { PersonPortrait } from "./PersonPortrait";
 import { projectPersonContact } from "../presentation/person-contact";
+import { personTraits } from "../simulation/people-traits";
 import "./people-web.css";
 
 /**
@@ -214,6 +215,15 @@ export function PersonCard({
   const alive =
     web.nodes.find((node) => node.personId === dossier.personId)?.alive !==
     false;
+  /* Temperament is shown for other people only, never for the one played. */
+  const played =
+    world.control.kind === "person" ? world.control.personId : null;
+  const traitLabels =
+    isYou || dossier.personId === played || !world.people[dossier.personId]
+      ? []
+      : personTraits(world, dossier.personId).flatMap((trait) =>
+          trait.label === null ? [] : [trait.label],
+        );
   const unavailableReasons = [
     !isYou && onTalk && !contact.talk.available ? contact.talk.reason : null,
     !isYou && !contact.travel.available && !presentNow
@@ -273,6 +283,15 @@ export function PersonCard({
                 data-testid="dossier-relation"
               >
                 You
+              </p>
+            ) : null}
+            {traitLabels.length > 0 ? (
+              <p
+                className="pg-person-card-traits"
+                data-testid="person-card-traits"
+                aria-label={`Temperament: ${traitLabels.join(", ")}`}
+              >
+                {traitLabels.join(" · ")}
               </p>
             ) : null}
             {!alive ? (

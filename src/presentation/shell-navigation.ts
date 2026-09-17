@@ -274,7 +274,16 @@ export interface ShellState {
   readonly peopleQuery: string;
   readonly preferences: ShellPreferences;
   readonly personWardrobes: Readonly<Record<string, PersonWardrobePreference>>;
-  readonly journal: PrivateJournal;
+  /**
+   * Private notebooks, one per played person in this slot, so a character
+   * continued after another never reads the predecessor's notes.
+   */
+  readonly journals: Readonly<Record<string, PrivateJournal>>;
+  /**
+   * A slot-wide notebook from before notebooks were kept per person that
+   * could not yet be given to anyone. Kept and written back, never dropped.
+   */
+  readonly legacyJournal: PrivateJournal;
   readonly progress: InterfaceProgress;
   /** Announced to assistive technology after a navigation action. */
   readonly announcement: string;
@@ -292,7 +301,8 @@ export const INITIAL_SHELL_STATE: ShellState = {
   preferences: DEFAULT_PREFERENCES,
   announcement: "",
   personWardrobes: {},
-  journal: EMPTY_JOURNAL,
+  journals: {},
+  legacyJournal: EMPTY_JOURNAL,
   progress: INITIAL_INTERFACE_PROGRESS,
 };
 
@@ -301,7 +311,11 @@ export type ShellAction =
       readonly type: "set-person-wardrobe";
       readonly preference: PersonWardrobePreference;
     }
-  | { readonly type: "set-journal"; readonly journal: PrivateJournal }
+  | {
+      readonly type: "set-journal";
+      readonly personId: EntityId;
+      readonly journal: PrivateJournal;
+    }
   | { readonly type: "toggle-navigation" }
   | {
       readonly type: "open-nav-submenu";
@@ -364,7 +378,8 @@ export type ShellAction =
       readonly personWardrobes?: Readonly<
         Record<string, PersonWardrobePreference>
       >;
-      readonly journal?: PrivateJournal;
+      readonly journals?: Readonly<Record<string, PrivateJournal>>;
+      readonly legacyJournal?: PrivateJournal;
       readonly pins: readonly ShellPin[];
       readonly preferences: ShellPreferences;
       readonly progress?: InterfaceProgress;
@@ -710,13 +725,17 @@ export function shellReducer(
         },
       };
     case "set-journal":
-      return { ...state, journal: action.journal };
+      return {
+        ...state,
+        journals: { ...state.journals, [action.personId]: action.journal },
+      };
     case "restore":
       return {
         ...state,
         pins: action.pins,
         preferences: action.preferences,
-        journal: action.journal ?? EMPTY_JOURNAL,
+        journals: action.journals ?? {},
+        legacyJournal: action.legacyJournal ?? EMPTY_JOURNAL,
         personWardrobes: action.personWardrobes ?? {},
         progress: action.progress ?? LEGACY_INTERFACE_PROGRESS,
       };

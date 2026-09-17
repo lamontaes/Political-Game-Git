@@ -681,6 +681,19 @@ describe("private Journal storage", () => {
       notes: [],
     });
   });
+
+  it("keeps notebooks apart per played person", async () => {
+    const { store } = storeWith();
+    const mine = { ambition: "Mine", notes: [] };
+    const theirs = { ambition: "Theirs", notes: [] };
+    await store.write(SLOT, {
+      ...EMPTY_SHELL_STATE,
+      journals: { "person-a": mine, "person-b": theirs, "": theirs },
+    });
+    const read = await store.read(SLOT);
+    expect(read?.journals).toEqual({ "person-a": mine, "person-b": theirs });
+    expect(read?.journal).toEqual({ ambition: "", notes: [] });
+  });
 });
 
 it("persists per-person wardrobe without discarding an unavailable family and rejects another-person key", async () => {
