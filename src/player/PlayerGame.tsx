@@ -88,6 +88,7 @@ import { CivilPersonnelPanel } from "./CivilPersonnelPanel";
 import { JudicialOfficeWork } from "./JudicialOfficeWork";
 import { judicialOfficeContexts } from "../simulation/judicial-office-work";
 import { ExecutiveWorkWorkspace } from "./ExecutiveWorkWorkspace";
+import { CampaignLifePanel } from "./CampaignLifePanel";
 import { resolveExecutiveOffice } from "../simulation/executive-work-context";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import {
@@ -3849,6 +3850,11 @@ function renderWorkspace({
         "parties-workspace",
         <>
           {politicsTabs("parties")}
+          <CampaignLifePanel
+            world={session.world}
+            personId={session.personId}
+            onWorldChange={onWorldChange}
+          />
           {chapters.length > 0 ? (
             <>{chapters.map(chapterSurface)}</>
           ) : (
