@@ -1,6 +1,7 @@
 import { saveLife } from "./support/creator";
 import { expect, test } from "./fixtures";
 import { enterLife, goTo, openNewsContext, startLife } from "./support/creator";
+import { optionEntries } from "./support/controls";
 import {
   reachMemberOffice,
   readSavedLegislativeWorld as savedWorld,
@@ -140,11 +141,13 @@ test("opening the normal press request form creates no request or consent", asyn
   await expect(
     form.getByRole("button", { name: "Send request" }),
   ).toBeDisabled();
-  await expect(
-    form
-      .getByRole("combobox", { name: "Reporter", exact: true })
-      .locator("option"),
-  ).toHaveCount(1);
+  // The reporter choice is the game's own select; read its options the way
+  // a player sees them (opening and closing the list changes no World).
+  expect(
+    await optionEntries(
+      form.getByRole("combobox", { name: "Reporter", exact: true }),
+    ),
+  ).toHaveLength(1);
   await form.locator("summary").click();
   await save(page);
   expect(await savedWorld(page)).toEqual(before);
