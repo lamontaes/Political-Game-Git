@@ -153,6 +153,19 @@ function render(state) {
   $("return-main").hidden = state.selectedTrack === "main";
   $("cancel-build").hidden = !building;
   $("return-title").hidden = state.activeTab !== "play" || !state.loaded;
+  const download = state.lastDownload;
+  const showDownload = state.activeTab === "artdesk" && Boolean(download);
+  $("download-note").hidden = !showDownload;
+  $("reveal-download").hidden = !(showDownload && download.revealable);
+  if (showDownload)
+    $("download-note").textContent =
+      download.state === "completed"
+        ? `Saved ${download.name}`
+        : download.state === "cancelled"
+          ? `Download cancelled: ${download.name}`
+          : `Download failed: ${download.name}`;
+  $("check-updates").hidden = state.activeTab !== "play";
+  document.querySelector(".track").hidden = state.activeTab !== "play";
 }
 
 for (const button of document.querySelectorAll("[data-tab]"))
@@ -223,6 +236,7 @@ $("return-title").addEventListener("click", async () => {
     $("return-title").disabled = false;
   }
 });
+$("reveal-download").addEventListener("click", () => hub.revealDownload());
 $("apply").addEventListener("click", () => hub.apply(last?.selectedTrack));
 $("return-main").addEventListener("click", () => hub.returnMain());
 $("cancel-build").addEventListener("click", () => hub.cancelBuild());

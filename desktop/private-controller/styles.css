@@ -363,3 +363,8 @@ th {
 #enroll-dialog ol {
   padding-left: 20px;
 }
+
+/* Author display rules must not revive hidden chrome controls. */
+body.chrome [hidden] {
+  display: none !important;
+}

@@ -76,9 +76,9 @@ function runQuiet(command, args, options = {}) {
 }
 
 /**
- * Where a bench download (an original or edited raster the owner asked for)
- * may land: only from the running bench origin, only raster/archive names,
- * never outside the downloads folder.
+ * Where a bench download (an original or edited raster, a brief or an edit
+ * bundle the owner asked for) may land: only from the running bench origin,
+ * only those file types, never outside the downloads folder.
  */
 export function artDeskDownloadPath({
   filename,
@@ -93,7 +93,9 @@ export function artDeskDownloadPath({
   if (source.startsWith("blob:") && !source.startsWith(`blob:${benchOrigin}/`))
     return null;
   const base = path.basename(String(filename ?? ""));
-  if (!/^[^/\\]+\.(png|jpe?g|webp|zip)$/i.test(base)) return null;
+  // Rasters and archives, plus the text records the desk hands out: a
+  // producer brief (.md) and an edit bundle manifest (.json).
+  if (!/^[^/\\]+\.(png|jpe?g|webp|zip|md|json)$/i.test(base)) return null;
   const resolved = path.resolve(downloadsDir, base);
   if (!resolved.startsWith(path.resolve(downloadsDir) + path.sep)) return null;
   return resolved;

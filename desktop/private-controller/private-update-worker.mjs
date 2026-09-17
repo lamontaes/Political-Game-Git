@@ -310,18 +310,29 @@ async function main() {
     // A preview can only be packaged if its own revision carries the desktop
     // shell and client provenance the packager needs. Branches that predate
     // them fail here, in seconds, instead of after a full dependency install.
-    const missingShell = [];
-    for (const required of DESKTOP_SHELL_FILES) {
-      try {
+    // One listing: a git error is a failure, only a successful listing that
+    // lacks a file means the revision predates the shell.
+    const present = new Set(
+      (
         await capture(
           "/usr/bin/git",
-          ["cat-file", "-e", `${targetRevision}:${required}`],
+          [
+            "ls-tree",
+            "--name-only",
+            targetRevision,
+            "--",
+            ...DESKTOP_SHELL_FILES,
+          ],
           { cwd: repositoryPath, label: "Checking the desktop shell" },
-        );
-      } catch {
-        missingShell.push(required);
-      }
-    }
+        )
+      )
+        .split("\n")
+        .map((line) => line.trim())
+        .filter(Boolean),
+    );
+    const missingShell = DESKTOP_SHELL_FILES.filter(
+      (file) => !present.has(file),
+    );
     if (missingShell.length > 0)
       return fail(
         `This build predates the desktop app (${missingShell.join(", ")} missing at ${targetRevision.slice(0, 12)}), so it can't be previewed here. The current verified build is unchanged.`,

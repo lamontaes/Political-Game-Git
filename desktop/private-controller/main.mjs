@@ -365,6 +365,7 @@ const hub = {
   views: new Map(), // local pages and the Art Desk view
   play: new Map(), // track id -> { view, revision }
   lastPlay: null, // the track whose game was last on screen
+  lastDownload: null, // { state, name, path, at } of the latest Art Desk download
   activeTab: "play",
   worker: null,
   workerTrack: null,
@@ -425,6 +426,14 @@ function publicState() {
       message: checks[selected]?.message ?? null,
       latestRevision: hub.remote[selected]?.revision ?? null,
     },
+    lastDownload: hub.lastDownload
+      ? {
+          state: hub.lastDownload.state,
+          name: hub.lastDownload.name,
+          at: hub.lastDownload.at,
+          revealable: Boolean(hub.lastDownload.path),
+        }
+      : null,
     tracks,
     phase: hub.phase[selected] ?? null,
     building: hub.workerTrack,
@@ -683,8 +692,21 @@ function artDeskView(url) {
     },
   });
   const contents = view.webContents;
-  contents.session.setPermissionRequestHandler((_wc, _p, callback) =>
-    callback(false),
+  // Only one permission: writing text to the clipboard (Copy brief), and only
+  // from the bench origin. Everything else stays refused.
+  const benchPage = (candidate) =>
+    typeof candidate === "string" &&
+    (candidate === origin || candidate.startsWith(`${origin}/`));
+  contents.session.setPermissionRequestHandler(
+    (_wc, permission, callback, details) =>
+      callback(
+        permission === "clipboard-sanitized-write" &&
+          benchPage(details?.requestingUrl),
+      ),
+  );
+  contents.session.setPermissionCheckHandler(
+    (_wc, permission, requestingOrigin) =>
+      permission === "clipboard-sanitized-write" && benchPage(requestingOrigin),
   );
   // Authenticated transport to the bench: only this view's requests to the
   // bench origin carry the per-launch capability.
@@ -720,9 +742,26 @@ function artDeskView(url) {
       }
       mkdirSync(path.dirname(dest), { recursive: true });
       item.setSavePath(dest);
-      item.once("done", (_event, state) =>
-        logLine(`Art Desk download ${state}: ${dest}`),
-      );
+      item.once("done", (_event, state) => {
+        logLine(`Art Desk download ${state}: ${dest}`);
+        // completed | cancelled | interrupted — cancel is not a failure.
+        hub.lastDownload = {
+          state,
+          name: path.basename(dest),
+          path: state === "completed" ? dest : null,
+          at: new Date().toISOString(),
+        };
+        const page = hub.views.get("artdesk")?.webContents;
+        if (page && !page.isDestroyed())
+          void page
+            .executeJavaScript(
+              `window.dispatchEvent(new CustomEvent("ocd:download-result", { detail: ${JSON.stringify(
+                { state, name: path.basename(dest) },
+              )} }))`,
+            )
+            .catch(() => undefined);
+        broadcast();
+      });
     });
   }
   void contents.loadURL(url);
@@ -1264,6 +1303,12 @@ handle("hub:return-to-title", async () => {
         message:
           "This game build has no Return to title yet; use the game's own menu.",
       };
+});
+handle("hub:reveal-download", () => {
+  const target = hub.lastDownload?.path;
+  if (!target || !existsSync(target)) return { ok: false };
+  shell.showItemInFolder(target);
+  return { ok: true };
 });
 handle("hub:copy-text", (text) => {
   // Only the exact ref/SHA lines the chooser shows; nothing else crosses.

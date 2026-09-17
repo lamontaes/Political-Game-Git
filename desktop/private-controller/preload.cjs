@@ -16,6 +16,7 @@ contextBridge.exposeInMainWorld("ocdHub", {
   checkUpdates: invoke("hub:check-updates"),
   copyText: invoke("hub:copy-text"),
   returnToTitle: invoke("hub:return-to-title"),
+  revealDownload: invoke("hub:reveal-download"),
   apply: invoke("hub:apply"),
   rollback: invoke("hub:rollback"),
   returnMain: invoke("hub:return-main"),

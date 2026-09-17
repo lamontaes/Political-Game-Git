@@ -27,12 +27,43 @@ test("bench originals and edits land in the downloads folder", () => {
   );
 });
 
+test("briefs and edit bundles download under meaningful names", () => {
+  assert.equal(
+    artDeskDownloadPath({
+      filename: "school-corridor-fountain-brief.md",
+      url: `${benchOrigin}/__dev/artbench/brief?requestId=x&download=1`,
+      benchOrigin,
+      downloadsDir,
+    }),
+    path.join(downloadsDir, "school-corridor-fountain-brief.md"),
+  );
+  assert.ok(
+    artDeskDownloadPath({
+      filename: "x-cand-1-edit-bundle.json",
+      url: `blob:${benchOrigin}/abc`,
+      benchOrigin,
+      downloadsDir,
+    }),
+  );
+  assert.equal(
+    artDeskDownloadPath({
+      filename: "brief.md",
+      url: "https://example.invalid/brief.md",
+      benchOrigin,
+      downloadsDir,
+    }),
+    null,
+  );
+});
+
 test("foreign origins, other types and traversal are refused", () => {
   const base = { benchOrigin, downloadsDir };
   for (const [filename, url] of [
     ["a.png", "https://example.invalid/a.png"],
     ["a.png", "blob:http://127.0.0.1:9999/x"],
     ["a.exe", `${benchOrigin}/a.exe`],
+    ["a.html", `${benchOrigin}/a.html`],
+    ["a.command", `${benchOrigin}/a.command`],
     ["../../a.png", `${benchOrigin}/x`],
     ["", `${benchOrigin}/x`],
   ]) {
