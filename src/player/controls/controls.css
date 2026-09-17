@@ -350,6 +350,16 @@ body:where(.pg-game) button:where(:hover:not(:disabled)) {
   background: var(--pg-control-bg);
 }
 
+/*
+ * The developer focus ring (styles.css, brown) is hard to see on navy. This
+ * selector outranks `button:focus-visible` by one element, while a skin's own
+ * `.class:focus-visible` ring still wins.
+ */
+body:where(.pg-game) button:focus-visible {
+  outline: 3px solid var(--pg-control-focus);
+  outline-offset: 2px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   body:where(.pg-game) button,
   .pg-select,
