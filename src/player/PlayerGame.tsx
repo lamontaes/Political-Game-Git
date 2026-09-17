@@ -231,9 +231,11 @@ import {
   canGoBack,
   isPinned,
   type ShellAction,
+  type ShellPin,
   type ShellRef,
   type ShellState,
 } from "../presentation/shell-navigation";
+import type { PoliticalMapFocus } from "../maps/PoliticalMap";
 import { useShell } from "./useShell";
 import {
   stateAgencyStartAvailableFor,
@@ -248,9 +250,6 @@ import { WorldOrientationEntry } from "./WorldOrientationEntry";
 import { useWorldOrientation } from "./useWorldOrientation";
 import { PartyChapterSurface } from "./PartyChapterSurface";
 import { PartyInitiativesPanel } from "./politics/PartyInitiativesPanel";
-
-/* The map carries its geometry; it loads only when a player opens it. */
-const PoliticalMap = lazy(() => import("../maps/PoliticalMap"));
 import {
   projectPartyChapter,
   projectPartyChapters,
@@ -289,6 +288,27 @@ import {
   SaveTransferControls,
 } from "./SaveTransferControls";
 import { PoliticsWorkspace } from "./ConstitutionalWorkspace";
+
+/* The map carries its geometry; it loads only when a player opens it. */
+const PoliticalMap = lazy(() => import("../maps/PoliticalMap"));
+
+/*
+ * The map recomputes pinned-seat highlights whenever its focus object changes,
+ * so one focus is kept per pins array (the reducer replaces it only when the
+ * pins change) instead of a fresh object on every render.
+ */
+const mapFocusByPins = new WeakMap<readonly ShellPin[], PoliticalMapFocus>();
+function mapFocusForPins(pins: readonly ShellPin[]): PoliticalMapFocus {
+  const cached = mapFocusByPins.get(pins);
+  if (cached) return cached;
+  const focus: PoliticalMapFocus = {
+    personIds: pins.flatMap((pin) =>
+      pin.ref.kind === "person" ? [pin.ref.id] : [],
+    ),
+  };
+  mapFocusByPins.set(pins, focus);
+  return focus;
+}
 
 /**
  * The game.
@@ -3376,10 +3396,6 @@ function renderWorkspace({
   const onLegislativeChange = (next: World) =>
     onWorldChange(publishLegislativeTransition(session.world, next));
   const pinnedRef = (ref: ShellRef) => isPinned(shell, ref);
-  /* People the player pinned, highlighted on the map. */
-  const pinnedPersonIds = shell.pins.flatMap((pin) =>
-    pin.ref.kind === "person" ? [pin.ref.id] : [],
-  );
   const togglePin = (ref: ShellRef) => dispatch({ type: "toggle-pin", ref });
   /* Only a record this world has can be pinned; a missing one says so below. */
   const entityPinToggle = (ref: ShellRef, testid: string) => {
@@ -4003,7 +4019,7 @@ function renderWorkspace({
               onOpenMeasure={(measureId) =>
                 openEntity({ kind: "measure", id: measureId })
               }
-              focus={{ personIds: pinnedPersonIds }}
+              focus={mapFocusForPins(shell.pins)}
             />
           </Suspense>
         </>,
