@@ -16,10 +16,14 @@ import {
 import type {
   CampaignActionKind,
   EntityId,
+  FutureTransitionHandlerRegistry,
   MoneyAmount,
   World,
 } from "../simulation";
+import { CampaignLifePanel } from "./CampaignLifePanel";
+import { CampaignWeekPanel } from "./CampaignWeekPanel";
 import { DIAGNOSTICS } from "./diagnostics-profile";
+import { OpponentActivityPanel } from "./OpponentActivityPanel";
 
 /**
  * Running for something.
@@ -45,6 +49,8 @@ export interface CampaignWorkspaceProps {
   readonly world: World;
   readonly personId: EntityId;
   readonly onWorldChange: (world: World) => void;
+  /** Passed through to party and community work; the default registry otherwise. */
+  readonly transitionHandlers?: FutureTransitionHandlerRegistry;
 }
 
 function money(amount: MoneyAmount): string {
@@ -117,6 +123,7 @@ export function CampaignWorkspace({
   world,
   personId,
   onWorldChange,
+  transitionHandlers,
 }: CampaignWorkspaceProps) {
   const [selectedOfficeKey, setSelectedOfficeKey] = useState<string | null>(
     null,
@@ -219,6 +226,12 @@ export function CampaignWorkspace({
         <p className="game-note" data-testid="campaign-unavailable">
           {view.unavailableReason}
         </p>
+        <CampaignLifePanel
+          world={world}
+          personId={personId}
+          onWorldChange={onWorldChange}
+          transitionHandlers={transitionHandlers}
+        />
       </section>
     );
   }
@@ -429,6 +442,14 @@ export function CampaignWorkspace({
             </p>
           ) : null}
 
+          {view.phase === "active" ? (
+            <CampaignWeekPanel
+              world={world}
+              personId={personId}
+              onWorldChange={onWorldChange}
+            />
+          ) : null}
+
           {strategy && view.offers.length > 0 ? (
             <section
               className="game-campaign-strategy"
@@ -560,6 +581,10 @@ export function CampaignWorkspace({
             </section>
           ) : null}
 
+          {view.phase === "active" ? (
+            <OpponentActivityPanel world={world} personId={personId} />
+          ) : null}
+
           {view.sessions.length > 0 ? (
             <ul className="game-campaign-log" data-testid="campaign-log">
               {view.sessions.map((session) => (
@@ -593,6 +618,13 @@ export function CampaignWorkspace({
           ) : null}
         </>
       ) : null}
+
+      <CampaignLifePanel
+        world={world}
+        personId={personId}
+        onWorldChange={onWorldChange}
+        transitionHandlers={transitionHandlers}
+      />
 
       {problem ? (
         <p className="game-problem" data-testid="campaign-problem">
