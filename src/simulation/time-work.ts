@@ -1,4 +1,5 @@
 import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
+import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { applyNationalTermTransitions } from "./national-election-consumer";
 import { applyCongressTurnover } from "./living-world/congress-turnover";
 import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
@@ -1642,10 +1643,12 @@ function setCurrentMoment(
   // CRISIS records the death or capacity change; the office consequence is
   // GOVERNING's, and it runs on the same date boundary so a death reaches the
   // office the day it happens. The consumer applies each notice once.
-  return applyCrisisOfficeContinuity(
-    applyGovernorTurnover(
-      crossedFrom,
-      applyCongressTurnover(crossedFrom, moved),
+  return applyCrisisRepairFunding(
+    applyCrisisOfficeContinuity(
+      applyGovernorTurnover(
+        crossedFrom,
+        applyCongressTurnover(crossedFrom, moved),
+      ),
     ),
   );
 }
