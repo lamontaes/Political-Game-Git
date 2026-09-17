@@ -96,9 +96,14 @@ export function generateOpeningLife(
  * what WORLD's unchanged-hash control depends on.
  */
 function openedWorld(world: World, playerPersonId: EntityId): World {
-  return worldOpeningVersionOf(world) === CRUNCH46_WORLD_OPENING_VERSION
+  return pressOpeningApplies(world)
     ? ensurePressOpening(world, playerPersonId)
     : world;
+}
+
+/** Whether this world is an opening of the version the press setup is for. */
+export function pressOpeningApplies(world: World): boolean {
+  return worldOpeningVersionOf(world) === CRUNCH46_WORLD_OPENING_VERSION;
 }
 
 export function moveOpeningLife(
