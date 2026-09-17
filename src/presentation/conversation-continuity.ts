@@ -1,5 +1,13 @@
 import type { EntityId, World } from "../simulation";
 import {
+  activeSceneBinding,
+  familyOfSubject,
+  isContextualSceneSubject,
+  replaySceneProgress,
+  sceneTurnTag,
+} from "./contextual-scenes";
+import {
+  contextualSceneContract,
   advanceHouseholdObligation,
   advanceNeighborhoodMeeting,
   advanceSchoolProject,
@@ -36,6 +44,30 @@ import type { ConversationOutcome } from "./conversation-consequences";
  * history has the progress, which is what makes reload work rather than a
  * separate thing that has to be kept in step.
  */
+
+/** The fixed vocabulary a subject's turns are recorded in. */
+function subjectContract(subject: ConversationSubjectKey) {
+  if (isContextualSceneSubject(subject)) {
+    return contextualSceneContract(subject);
+  }
+  const opening = openingProgress(subject);
+  return opening ? conversationCommitContract(opening) : null;
+}
+
+/**
+ * For a contextual subject, the tag of the scene currently offered: its turns
+ * are that scene's, not every scene the family ever had. `false` when the
+ * family has no scene now; `null` for every other subject.
+ */
+function contextualSceneTag(
+  world: World,
+  personId: EntityId,
+  subject: ConversationSubjectKey,
+): string | null | false {
+  if (!isContextualSceneSubject(subject)) return null;
+  const bound = activeSceneBinding(world, personId, familyOfSubject(subject));
+  return bound ? sceneTurnTag(bound.eventId) : false;
+}
 
 /** The initial state of each subject, before anything has been said. */
 function openingProgress(
@@ -106,14 +138,16 @@ export function recordedConversationTurns(
   personId: EntityId,
   subject: ConversationSubjectKey,
 ): readonly RecordedConversationTurn[] {
-  const opening = openingProgress(subject);
-  if (!opening) return [];
-  const contract = conversationCommitContract(opening);
+  const contract = subjectContract(subject);
+  if (!contract) return [];
+  const sceneTag = contextualSceneTag(world, personId, subject);
+  if (sceneTag === false) return [];
   return world.history.events
     .filter(
       (event) =>
         event.type === contract.eventType &&
         event.tags.includes(contract.subjectTag) &&
+        (sceneTag === null || event.tags.includes(sceneTag)) &&
         event.involvedEntityIds.includes(personId),
     )
     .sort((left, right) => left.sequence - right.sequence)
@@ -165,6 +199,12 @@ export function conversationProgressFromHistory(
   personId: EntityId,
   subject: ConversationSubjectKey,
 ): ConversationProgress | null {
+  if (isContextualSceneSubject(subject)) {
+    // A contextual scene's progress belongs to its saved binding, and is
+    // replayed from that binding's own turns.
+    const bound = activeSceneBinding(world, personId, familyOfSubject(subject));
+    return bound ? replaySceneProgress(world, bound) : null;
+  }
   let progress = openingProgress(subject, world, personId);
   if (!progress) return null;
   for (const turn of recordedConversationTurns(world, personId, subject)) {
@@ -217,14 +257,16 @@ export function openConversationSessionStart(
   personId: EntityId,
   subject: ConversationSubjectKey,
 ): number | null {
-  const opening = openingProgress(subject);
-  if (!opening) return null;
-  const contract = conversationCommitContract(opening);
+  const contract = subjectContract(subject);
+  if (!contract) return null;
+  const sceneTag = contextualSceneTag(world, personId, subject);
+  if (sceneTag === false) return null;
   const turns = world.history.events
     .filter(
       (event) =>
         event.type === contract.eventType &&
         event.tags.includes(contract.subjectTag) &&
+        (sceneTag === null || event.tags.includes(sceneTag)) &&
         event.involvedEntityIds.includes(personId) &&
         event.occurredAt === world.currentDate,
     )

@@ -3,6 +3,7 @@ import {
   PUBLIC_MEETING_KEY,
 } from "../simulation/life-opportunities";
 import type { World } from "../simulation/types";
+import type { ContextualSceneProgress } from "./contextual-scenes";
 export type RunBConversationPhase =
   | "opening"
   | "clarifying-condition"
@@ -351,6 +352,7 @@ export function isNeighborhoodMeetingConversationProgress(
 }
 
 export type ConversationProgress =
+  | ContextualSceneProgress
   | RunBConversationProgress
   | RunCLegislativeConversationProgress
   | LegislativeBargainingProgress

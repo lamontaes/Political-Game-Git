@@ -57,6 +57,10 @@ import {
 } from "./life";
 import { LIFE_TRANSITION_HANDLERS } from "./life-callbacks";
 import {
+  CLAIM_CONTRADICTION_TRANSITION_KEY,
+  claimContradictionTransitionHandler,
+} from "./claim-contradictions";
+import {
   CHAPTER_OUTREACH_TRANSITION_KEY,
   chapterOutreachTransitionHandler,
 } from "./living-world/party-chapters";
@@ -1871,6 +1875,11 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         [CHAPTER_OUTREACH_TRANSITION_KEY, chapterOutreachTransitionHandler],
         // ALIVE43 W3: background public developments take their next step.
         [DEVELOPMENT_STEP_TRANSITION_KEY, developmentStepTransitionHandler],
+        // PROSE B: an earlier answer may meet evidence once the world holds it.
+        [
+          CLAIM_CONTRADICTION_TRANSITION_KEY,
+          claimContradictionTransitionHandler,
+        ],
       ]),
       LIFE_TRANSITION_HANDLERS,
     ),
