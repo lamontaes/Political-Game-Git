@@ -1,5 +1,6 @@
 import { assertWorldContentPacks } from "./runtime-content-packs";
 import { applyCongressTurnover } from "./living-world/congress-turnover";
+import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
 import { assertAppearanceMaterial } from "./appearance-material";
 import { applyNationalTermTransitions } from "./national-election-consumer";
 import {
@@ -981,9 +982,12 @@ export function advanceWorld(
     actionSequence: actionSequence + 1,
   };
 
-  const continued = applyCongressTurnover(
+  const continued = applyGovernorTurnover(
     world.currentDate,
-    applyNationalTermTransitions(advanced),
+    applyCongressTurnover(
+      world.currentDate,
+      applyNationalTermTransitions(advanced),
+    ),
   );
   return recordWorldEvent(continued, {
     stableKey: `action:${actionSequence}:time-advanced:${world.currentDate}:${days}:${nextDate}`,

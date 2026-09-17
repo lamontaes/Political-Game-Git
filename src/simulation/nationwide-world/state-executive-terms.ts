@@ -203,7 +203,7 @@ export function planOrdinaryStateExecutiveTerm(
     planned.control.kind === "person" && planned.control.personId === winner;
   if (
     controlled ||
-    qualificationBlocksFor(planned, winner, identity).length > 0
+    routineQualificationBlocks(planned, winner, identity).length > 0
   )
     return planned;
   return recordElectedExecutiveQualification(planned, {
@@ -376,6 +376,28 @@ function qualificationBlocksFor(
     officeKey: identity.officeKey,
     alreadyACandidate: false,
   }).blocks;
+}
+
+/**
+ * What stops a non-player winner in the ordinary course: a requirement the
+ * game can actually test and that fails. A requirement the game does not
+ * record for anyone (an elector or citizenship clause) stays unverified, as
+ * the qualification note says, rather than leaving the office unfilled; and a
+ * person whose recorded home is the state itself does live in the state.
+ */
+function routineQualificationBlocks(
+  world: World,
+  personId: EntityId,
+  identity: StateExecutiveIdentity,
+): readonly CandidacyBlock[] {
+  const stateId = stateJurisdictionForKey(identity.jurisdictionKey)?.id;
+  const livesInState = world.people[personId]?.homeJurisdictionId === stateId;
+  return qualificationBlocksFor(world, personId, identity).filter(
+    (block) =>
+      block.kind !== "unproved-sourced-qualification" &&
+      block.kind !== "unproved-district-residence" &&
+      !(block.kind === "lives-elsewhere" && livesInState),
+  );
 }
 
 /** The most recent state executive contest this person stood in, and where it stands. */

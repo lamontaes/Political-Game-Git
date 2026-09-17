@@ -7,6 +7,7 @@ import {
   homeStateUsps,
   makeCurrencyCode,
   nextRegularElection,
+  regularFieldClosed,
   STATE_EXECUTIVE_GAME_PROFILE_NOTE,
   stateExecutiveIdentity,
   stateExecutiveTermRule,
@@ -86,7 +87,11 @@ export function stateExecutiveOfficeCalendar(
 ): StateExecutiveOfficeCalendar | null {
   const rule = stateExecutiveTermRule(stateUsps);
   if (!rule) return null;
-  const nextElection = nextRegularElection(rule, addDays(world.currentDate, 1));
+  // A filing stands in the next regular election whose candidate field is
+  // still open; once a field closes, the office's next cycle is the one.
+  let nextElection = nextRegularElection(rule, addDays(world.currentDate, 1));
+  if (regularFieldClosed(world, nextElection))
+    nextElection = nextRegularElection(rule, addDays(nextElection, 1));
   const term = termDatesAfterElection(rule, nextElection);
   const bases = Object.values(rule.basis);
   const basis = bases.every((b) => b === "verified")

@@ -170,6 +170,8 @@ export * from "./nationwide-world/state-executive-candidacy-packs";
 export * from "./nationwide-world/state-executives";
 export * from "./nationwide-world/state-executive-terms";
 export * from "./nationwide-world/state-executive-term-rules";
+export * from "./nationwide-world/state-executive-turnover";
+export * from "./nationwide-world/state-executive-turnover-calendar";
 export * from "./governing/state-governing";
 export * from "./governing/state-disposition";
 export * from "./nationwide-world/residence-duration";

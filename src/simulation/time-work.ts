@@ -1,5 +1,6 @@
 import { applyNationalTermTransitions } from "./national-election-consumer";
 import { applyCongressTurnover } from "./living-world/congress-turnover";
+import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
 import { workStatusAt } from "./life-queries";
 import {
   addDays,
@@ -1561,13 +1562,14 @@ function appendWorkState(world: World, state: WorkItemStateRecord): World {
 }
 
 function setCurrentMoment(world: World, moment: SimulationMoment): World {
-  return applyCongressTurnover(
+  const moved = applyNationalTermTransitions({
+    ...world,
+    currentDate: moment.date,
+    currentMoment: cloneMoment(moment),
+  });
+  return applyGovernorTurnover(
     world.currentDate,
-    applyNationalTermTransitions({
-      ...world,
-      currentDate: moment.date,
-      currentMoment: cloneMoment(moment),
-    }),
+    applyCongressTurnover(world.currentDate, moved),
   );
 }
 
