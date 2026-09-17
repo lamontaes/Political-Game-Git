@@ -5,8 +5,8 @@ import type { World } from "../../../src/simulation";
 
 /** Replay the banked ordinary entry; never inject a World, seat or result. */
 export async function reachMemberOffice(page: Page) {
-  // PT3: running for office lives in Work, beside the day's time control.
-  await goTo(page, "elsewhere-work");
+  // Running for office lives in Politics → Campaigns, beside the time control.
+  await goTo(page, "elsewhere-campaign");
   // E's office browser requires a deliberate choice; preserve the original
   // House scenario rather than relying on the former implicit default.
   const house = page

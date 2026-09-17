@@ -50,6 +50,11 @@ import { GovernmentBrowser } from "./politics/GovernmentBrowser";
 import { NewsDesk } from "./news/NewsDesk";
 import "./controls/controls.css";
 import { PoliticsTabs, type PoliticsTab } from "./politics/PoliticsTabs";
+import { issuesPlaceForSelection } from "../presentation/politics-government";
+import {
+  ISSUE_WITHHELD,
+  politicsIssueAccess,
+} from "../presentation/politics-issues";
 import { municipalVenueForActivity } from "../presentation/municipal-venue";
 import { resolveActivityVenueScene } from "../presentation/scene-venues";
 import { publishLegislativeTransition } from "../presentation/publish-legislative-transition";
@@ -2482,14 +2487,15 @@ function PlayingScreen({
    * could not tell anybody whether what they were hunting for was behind it.
    * The hint is now built from what the Work surface will actually mount.
    */
+  const holdsOffice =
+    !capabilities.formativeYears &&
+    (judicialOfficeContexts(session.world).length > 0 ||
+      resolveExecutiveOffice(session.world) !== null ||
+      capabilities.legislation);
   const workHint = capabilities.formativeYears
     ? "School, and anything waiting on you"
     : [
-        judicialOfficeContexts(session.world).length > 0 ||
-        resolveExecutiveOffice(session.world) ||
-        capabilities.legislation
-          ? "your office"
-          : null,
+        holdsOffice ? "your office" : null,
         capabilities.campaign ? "running for office" : null,
         "jobs and study",
       ]
@@ -2549,14 +2555,16 @@ function PlayingScreen({
             group: "politics",
           }
         : {
+            // Politics opens on the office held, or on Campaigns without one.
             surface: "work",
-            section: "office",
+            section: holdsOffice ? "office" : "campaign",
             label: "Politics",
             hint: workHint,
             testid: "nav-politics",
             open:
               politicsSurfaces.includes(openSurface ?? "") ||
-              (openSurface === "work" && section === "office"),
+              (openSurface === "work" &&
+                (section === "office" || section === "campaign")),
             group: "politics",
           },
     );
@@ -2624,7 +2632,7 @@ function PlayingScreen({
       group: "options",
     });
     return entries;
-  }, [capabilities.formativeYears, workHint, openSurface, view]);
+  }, [capabilities.formativeYears, holdsOffice, workHint, openSurface, view]);
 
   const openEntity = useCallback(
     (ref: ShellRef) => {
@@ -3300,19 +3308,35 @@ function renderWorkspace({
       if (tab === "office")
         dispatch({ type: "go-to-surface", surface: "work", section: "office" });
       else if (tab === "campaigns")
-        dispatch({ type: "go-to-surface", surface: "candidacy" });
+        dispatch({
+          type: "go-to-surface",
+          surface: "work",
+          section: "campaign",
+        });
       else if (tab === "government")
         dispatch({ type: "go-to-surface", surface: "government" });
       else if (tab === "parties")
         dispatch({ type: "go-to-surface", surface: "parties" });
       else dispatch({ type: "go-to-surface", surface: "politics" });
     };
+    /*
+     * Transit and tax configuration are an office's tools: offered only to a
+     * life whose office can use them or that has such a record to follow.
+     */
+    const access =
+      active === "issues"
+        ? politicsIssueAccess(session.world, session.personId)
+        : null;
     const subItems =
       active === "issues"
         ? [
             { key: "budget", label: "Budget and constitution" },
-            { key: "transit", label: "Transit" },
-            { key: "tax", label: "Taxes" },
+            ...(access?.transit || section === "transit"
+              ? [{ key: "transit", label: "Transit" }]
+              : []),
+            ...(access?.tax || section === "tax"
+              ? [{ key: "tax", label: "Taxes" }]
+              : []),
           ]
         : active === "government"
           ? [
@@ -3711,11 +3735,16 @@ function renderWorkspace({
           <GovernmentBrowser
             world={session.world}
             personId={session.personId}
+            place={shell.preferences.politicsPlace}
+            scope={shell.preferences.governmentScope}
+            onSelectionChange={(patch) =>
+              dispatch({ type: "set-reader-preferences", patch })
+            }
             onOpenPerson={(holderId) =>
               dispatch({ type: "open-quick-dossier", personId: holderId })
             }
-            onOpenLocalRecords={() =>
-              dispatch({ type: "go-to-surface", surface: "municipal" })
+            onOpenMeasure={(measureId) =>
+              openEntity({ kind: "measure", id: measureId })
             }
           />
         </>,
@@ -3723,19 +3752,27 @@ function renderWorkspace({
       );
 
     case "politics": {
-      const homeJurisdictionId =
-        session.world.people[session.personId]?.homeJurisdictionId;
-      const homePlaceName = homeJurisdictionId
-        ? (session.world.jurisdictions[homeJurisdictionId]?.name ?? null)
-        : null;
+      // Issues follows the place and level chosen in Government.
+      const issuesPlace = issuesPlaceForSelection(
+        session.world,
+        session.personId,
+        {
+          place: shell.preferences.politicsPlace,
+          scope: shell.preferences.governmentScope,
+        },
+      );
       return frame(
         "Politics",
         "politics-workspace",
         <>
           {politicsTabs("issues", "budget")}
-          {homePlaceName ? (
-            <p className="game-note" data-testid="politics-budget-scope">
-              Public finances for your home, {homePlaceName}.
+          <p className="game-note" data-testid="politics-budget-scope">
+            Public finances shown for {issuesPlace.label}. Change the place in
+            Government.
+          </p>
+          {issuesPlace.note ? (
+            <p className="game-note" role="status">
+              {issuesPlace.note}
             </p>
           ) : null}
           {(session.world.history.nationalElections ?? []).map((election) => (
@@ -3745,18 +3782,14 @@ function renderWorkspace({
               electionId={election.id}
             />
           ))}
-          {homeJurisdictionId ? (
+          {issuesPlace.jurisdictionId ? (
             <PoliticsWorkspace
               world={session.world}
-              jurisdictionId={homeJurisdictionId}
+              jurisdictionId={issuesPlace.jurisdictionId}
               personId={session.personId}
               onWorldChange={onWorldChange}
             />
-          ) : (
-            <p className="game-note" role="status">
-              This life has no home jurisdiction to inspect.
-            </p>
-          )}
+          ) : null}
         </>,
         "Budget & economy",
       );
@@ -3768,42 +3801,47 @@ function renderWorkspace({
         "transit-workspace",
         <>
           {politicsTabs("issues", "transit")}
-          <TransitWorkspace
-            world={session.world}
-            personId={session.personId}
-            onWorldChange={onWorldChange}
-            onOpenTaxWork={() =>
-              dispatch({ type: "go-to-surface", surface: "tax" })
-            }
-            onContinue={(days) => {
-              if (days !== 1 && days !== 7) return;
-              const result = simulateCalendarDays(
-                session.world,
-                session.personId,
-                days,
-                shell.preferences.interruptions,
-              );
-              if (result.world !== session.world) onWorldChange(result.world);
-            }}
-            onOpenBill={(docketKey) => {
-              const bill = projectTransitWork(
-                session.world,
-                session.personId,
-              ).bills.find((entry) => entry.bill.docketKey === docketKey)?.bill;
-              if (!bill) return;
-              if (capabilities.legislativeScenarioKey === bill.scenarioKey) {
-                onWorldChange(
-                  selectDocketBill(
-                    session.world,
-                    bill.scenarioKey,
-                    session.personId,
-                    docketKey,
-                  ),
+          {!politicsIssueAccess(session.world, session.personId).transit ? (
+            <p className="game-note" data-testid="transit-withheld">
+              {ISSUE_WITHHELD.transit}
+            </p>
+          ) : (
+            <TransitWorkspace
+              world={session.world}
+              personId={session.personId}
+              onWorldChange={onWorldChange}
+              onContinue={(days) => {
+                if (days !== 1 && days !== 7) return;
+                const result = simulateCalendarDays(
+                  session.world,
+                  session.personId,
+                  days,
+                  shell.preferences.interruptions,
                 );
-                dispatch({ type: "go-to-surface", surface: "work" });
-              } else openEntity({ kind: "measure", id: bill.measureId });
-            }}
-          />
+                if (result.world !== session.world) onWorldChange(result.world);
+              }}
+              onOpenBill={(docketKey) => {
+                const bill = projectTransitWork(
+                  session.world,
+                  session.personId,
+                ).bills.find(
+                  (entry) => entry.bill.docketKey === docketKey,
+                )?.bill;
+                if (!bill) return;
+                if (capabilities.legislativeScenarioKey === bill.scenarioKey) {
+                  onWorldChange(
+                    selectDocketBill(
+                      session.world,
+                      bill.scenarioKey,
+                      session.personId,
+                      docketKey,
+                    ),
+                  );
+                  dispatch({ type: "go-to-surface", surface: "work" });
+                } else openEntity({ kind: "measure", id: bill.measureId });
+              }}
+            />
+          )}
         </>,
         "Politics",
       );
@@ -3814,36 +3852,20 @@ function renderWorkspace({
         "tax-workspace",
         <>
           {politicsTabs("issues", "tax")}
-          <TaxWorkWorkspace
-            world={session.world}
-            personId={session.personId}
-            onWorldChange={onWorldChange}
-            onOpenMeasure={(measureId) =>
-              openEntity({ kind: "measure", id: measureId })
-            }
-          />
-        </>,
-        "Politics",
-      );
-
-    case "candidacy":
-      return frame(
-        "Who governs here, and the state's top office",
-        "candidacy-workspace",
-        <>
-          {politicsTabs("campaigns")}
-          <NationwideCandidacyWorkspace
-            world={session.world}
-            personId={session.personId}
-            onWorldChange={onWorldChange}
-            onOpenCampaign={() =>
-              dispatch({
-                type: "go-to-surface",
-                surface: "work",
-                section: "office",
-              })
-            }
-          />
+          {politicsIssueAccess(session.world, session.personId).tax ? (
+            <TaxWorkWorkspace
+              world={session.world}
+              personId={session.personId}
+              onWorldChange={onWorldChange}
+              onOpenMeasure={(measureId) =>
+                openEntity({ kind: "measure", id: measureId })
+              }
+            />
+          ) : (
+            <p className="game-note" data-testid="tax-withheld">
+              {ISSUE_WITHHELD.tax}
+            </p>
+          )}
         </>,
         "Politics",
       );
@@ -3897,6 +3919,7 @@ function renderWorkspace({
         </>,
       );
 
+    case "candidacy":
     case "work": {
       /*
        * Work, for every life, in one predictable order.
@@ -4116,15 +4139,24 @@ function renderWorkspace({
        * Politics holds the office and the campaign; Personal holds ordinary
        * jobs, study and hiring. Same canonical panels, mounted once each;
        * the section only decides which half of the one Work record opens.
-       * Growing up has no office, so School is the whole of it.
+       * Growing up has no office, so School is the whole of it. Politics
+       * splits the office from the campaign: Your office holds the office
+       * alone and Campaigns every campaign surface, so neither tab repeats
+       * the other. An older saved "candidacy" view lands on Campaigns.
        */
-      const half: "office" | "jobs" | "all" = capabilities.formativeYears
-        ? "jobs"
-        : view.section === "office" || view.section === "jobs"
-          ? view.section
-          : "all";
+      const half: "office" | "campaign" | "jobs" | "all" =
+        capabilities.formativeYears
+          ? "jobs"
+          : view.surface === "candidacy"
+            ? "campaign"
+            : view.section === "office" ||
+                view.section === "campaign" ||
+                view.section === "jobs"
+              ? view.section
+              : "all";
       const sections: WorkSection[] = [];
-      if (half !== "jobs" && offices.length > 0) {
+      const officeHalf = half === "office" || half === "all";
+      if (officeHalf && offices.length > 0) {
         sections.push({
           key: "office",
           title: "Your court",
@@ -4143,7 +4175,7 @@ function renderWorkspace({
             </>
           ),
         });
-      } else if (half !== "jobs" && executive) {
+      } else if (officeHalf && executive) {
         sections.push({
           key: "office",
           title: "Your office",
@@ -4157,7 +4189,7 @@ function renderWorkspace({
           ),
         });
       } else if (
-        half !== "jobs" &&
+        officeHalf &&
         legislative &&
         capabilities.legislativeScenarioKey
       ) {
@@ -4167,7 +4199,10 @@ function renderWorkspace({
           body: legislativeOffice(capabilities.legislativeScenarioKey),
         });
       }
-      if (half !== "jobs" && !capabilities.formativeYears) {
+      if (
+        (half === "campaign" || half === "all") &&
+        !capabilities.formativeYears
+      ) {
         sections.push({
           key: "campaign",
           title: "Running for office",
@@ -4186,7 +4221,25 @@ function renderWorkspace({
           ),
         });
       }
-      if (half !== "office") {
+      if (half === "campaign") {
+        sections.push({
+          key: "statewide",
+          title: "The state's top office",
+          body: (
+            <NationwideCandidacyWorkspace
+              world={session.world}
+              personId={session.personId}
+              onWorldChange={onWorldChange}
+              onOpenCampaign={() => {
+                const heading = document.getElementById("pg-work-campaign");
+                heading?.scrollIntoView({ block: "start" });
+                heading?.focus();
+              }}
+            />
+          ),
+        });
+      }
+      if (half === "jobs" || half === "all") {
         sections.push({
           key: "paths",
           title: capabilities.formativeYears ? "School" : "Jobs and study",
@@ -4216,29 +4269,34 @@ function renderWorkspace({
           title: "Your office",
           body: (
             <p className="game-note" data-testid="no-office">
-              You hold no office in this life yet. Running for one starts below
-              when the game supports it here.
+              You hold no office in this life yet. Running for one is under
+              Campaigns when the game supports it here.
             </p>
           ),
         });
       }
       return frame(
         half === "office"
-          ? "Your office and campaigns"
-          : half === "jobs"
-            ? capabilities.formativeYears
-              ? "School"
-              : "Jobs and study"
-            : "Work",
-        offices.length > 0
-          ? "judicial-office-section"
-          : executive
-            ? "executive-office-section"
-            : legislative
-              ? "office-section"
-              : "personal-work-section",
+          ? "Your office"
+          : half === "campaign"
+            ? "Campaigns"
+            : half === "jobs"
+              ? capabilities.formativeYears
+                ? "School"
+                : "Jobs and study"
+              : "Work",
+        half === "campaign"
+          ? "candidacy-workspace"
+          : offices.length > 0
+            ? "judicial-office-section"
+            : executive
+              ? "executive-office-section"
+              : legislative
+                ? "office-section"
+                : "personal-work-section",
         <>
           {half === "office" ? politicsTabs("office") : null}
+          {half === "campaign" ? politicsTabs("campaigns") : null}
           <WorkLayout
             roleSentence={role.sentence}
             pending={
@@ -4258,15 +4316,17 @@ function renderWorkspace({
             }
           />
         </>,
-        offices.length > 0
-          ? "Judicial office"
-          : executive
-            ? "Executive office"
-            : legislative
-              ? "Legislative office"
-              : capabilities.formativeYears
-                ? "Growing up"
-                : undefined,
+        half === "campaign"
+          ? "Politics"
+          : offices.length > 0
+            ? "Judicial office"
+            : executive
+              ? "Executive office"
+              : legislative
+                ? "Legislative office"
+                : capabilities.formativeYears
+                  ? "Growing up"
+                  : undefined,
       );
     }
 
@@ -4760,7 +4820,7 @@ function PassDayControl({
 }
 
 interface WorkSection {
-  readonly key: "office" | "campaign" | "paths" | "personnel";
+  readonly key: "office" | "campaign" | "statewide" | "paths" | "personnel";
   readonly title: string;
   readonly body: ReactNode;
 }

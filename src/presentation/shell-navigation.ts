@@ -1,5 +1,6 @@
 import type { PersonWardrobePreference } from "./person-visual-selection";
 import type { EntityId } from "../simulation";
+import type { GovernmentPlace, GovernmentScope } from "./politics-government";
 
 /**
  * The shared shell: what is open, how you got there, and how you get back.
@@ -95,8 +96,10 @@ export type ShellSurface =
 export type ShellSection =
   | "identity"
   | "finances"
-  /** Politics: the office held, and running for one. */
+  /** Politics: the office held. */
   | "office"
+  /** Politics: running for office, every campaign surface in one place. */
+  | "campaign"
   /** Personal: ordinary jobs, study and hiring. */
   | "jobs"
   /** News: reading comes first; these are its other contexts. */
@@ -131,6 +134,8 @@ export type ReaderPreferences = Pick<
   | "newsOutletKey"
   | "journalView"
   | "journalYear"
+  | "politicsPlace"
+  | "governmentScope"
 >;
 
 export interface ShellPin {
@@ -163,6 +168,12 @@ export interface ShellPreferences {
   readonly journalView: JournalView;
   /** A four-digit year the Journal is filtered to, or null for all years. */
   readonly journalYear: string | null;
+  /**
+   * The place and level chosen in Politics → Government. Issues and budget
+   * follows the same selection, so the two tabs never disagree about where.
+   */
+  readonly politicsPlace: GovernmentPlace;
+  readonly governmentScope: GovernmentScope;
 }
 
 /**
@@ -194,6 +205,8 @@ export const DEFAULT_PREFERENCES: ShellPreferences = {
   newsOutletKey: null,
   journalView: "chapters",
   journalYear: null,
+  politicsPlace: "here",
+  governmentScope: "local",
 };
 
 /** Private player writing, never simulation facts or NPC knowledge. */
