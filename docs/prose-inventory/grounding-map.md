@@ -14,7 +14,8 @@ declare is reported as undeclared rather than filled in from a guess.
 | --- | --- | --- | --- | --- |
 | `campaign/campaign-status` | 24 | 0 | 0 | candidacy |
 | `conversation/commit-contract` | 110 | 0 | 0 | — |
-| `conversation/conversation-subject` | 61 | 0 | 0 | — |
+| `conversation/contextual-scene` | 126 | 0 | 0 | — |
+| `conversation/conversation-subject` | 64 | 0 | 0 | — |
 | `conversation/conversation-turn` | 24 | 0 | 0 | — |
 | `governing/municipal-attendance-and-work` | 40 | 0 | 0 | activity-evidence, work-standing |
 | `governing/municipal-authority-refusals` | 19 | 0 | 0 | — |
@@ -28,8 +29,10 @@ declare is reported as undeclared rather than filled in from a guess.
 | `life/episode` | 1020 | 71 | 0 | activity-evidence, age, colleague-identity, elapsed-time, enrollment, household-kinship, incident-locality, persistent-cast, work-standing |
 | `life/formative` | 177 | 0 | 0 | persistent-cast |
 | `life/introduction` | 10 | 0 | 0 | — |
+| `life/life-continuation` | 3 | 0 | 0 | — |
 | `life/opening-conversation-intents` | 16 | 0 | 0 | — |
 | `life/opening-conversation-replies` | 59 | 0 | 0 | — |
+| `life/personal-aims` | 18 | 0 | 0 | — |
 | `narration/connective` | 43 | 0 | 0 | elapsed-time |
 | `narration/thread-recap` | 32 | 0 | 0 | — |
 | `ordinary/work-item` | 4 | 0 | 4 | — |
