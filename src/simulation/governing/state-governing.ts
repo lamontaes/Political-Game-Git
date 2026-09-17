@@ -194,47 +194,19 @@ export function chiefOfStaffFor(
 }
 
 /** Qualitative, seeded from the person: never a number shown to the player. */
-export interface StaffAssessment {
-  readonly background: string;
-  readonly strength: string;
-  readonly caution: string;
-  /** Internal weight for outcomes; never rendered. */
-  readonly steadiness: number;
-}
+import {
+  generateStaffCandidateHistory,
+  staffAssessment,
+  staffKnowsLegislature,
+} from "./staff-evidence";
+import type { StaffAssessment } from "./staff-evidence";
 
-const BACKGROUNDS = [
-  "Ran a state agency division for years",
-  "Managed a statewide campaign",
-  "Served as a senior legislative aide",
-  "Came from local government administration",
-  "Worked on budget analysis for the legislature",
-] as const;
-const STRENGTHS = [
-  "keeps a large office moving on schedule",
-  "has working relationships with legislators of both parties",
-  "reads a budget quickly and spots trouble early",
-  "is trusted by agency career staff",
-  "handles the press calmly under pressure",
-] as const;
-const CAUTIONS = [
-  "has little experience with the legislature",
-  "tends to centralize decisions",
-  "is new to this state's agencies",
-  "can be slow when a matter is politically sensitive",
-  "has a thin network outside the capital",
-] as const;
-
-export function staffAssessment(personId: EntityId): StaffAssessment {
-  const rng = new SeededRng(
-    `${STATE_GOVERNING_VERSION}:assessment:${personId}`,
-  );
-  return {
-    background: rng.pick(BACKGROUNDS),
-    strength: rng.pick(STRENGTHS),
-    caution: rng.pick(CAUTIONS),
-    steadiness: rng.integer(1, 4),
-  };
-}
+export type { StaffAssessment } from "./staff-evidence";
+export {
+  staffAssessment,
+  staffCareerEvidence,
+  staffKnowsLegislature,
+} from "./staff-evidence";
 
 /* ------------------------------------------------------------------ *
  * Agenda vocabulary
@@ -322,7 +294,7 @@ function optionsFor(
         .flatMap(({ personId }) => {
           const person = world.people[personId];
           if (!person) return [];
-          const assessment = staffAssessment(personId);
+          const assessment = staffAssessment(world, personId);
           return [
             {
               key: `hire:${personId}`,
@@ -595,7 +567,7 @@ export function staffRecommendation(
   if (!office) return null;
   const chief = chiefOfStaffFor(world, office);
   if (!chief || matter.options.length === 0) return null;
-  const assessment = staffAssessment(chief);
+  const assessment = staffAssessment(world, chief);
   const rng = new SeededRng(`${matter.stableKey}:recommendation:${chief}`);
   switch (matter.family) {
     case "chief-of-staff":
@@ -728,9 +700,18 @@ function createCandidates(
         },
       ],
     }).world;
-    personIds.push(
-      createStableId("person", `${next.id}:life-context-v1:${stableKey}`),
+    const personId = createStableId(
+      "person",
+      `${next.id}:life-context-v1:${stableKey}`,
     );
+    // A candidate arrives with a working life already in the record, so the
+    // assessment offered to the player is a reading rather than an invention.
+    next = generateStaffCandidateHistory(next, {
+      personId,
+      stableKey,
+      jurisdictionId: office.jurisdictionId,
+    });
+    personIds.push(personId);
   }
   return { world: next, personIds };
 }
@@ -1393,7 +1374,7 @@ function implementationOutcome(
 ): FollowUpOutcome {
   const pace = tagValue(decision, "choice:");
   const chief = office ? chiefOfStaffFor(world, office) : null;
-  const steadiness = chief ? staffAssessment(chief).steadiness : 0;
+  const steadiness = chief ? staffAssessment(world, chief).steadiness : 0;
   const funded =
     office && matter.subjectKey
       ? world.history.events.some(
@@ -1436,9 +1417,7 @@ function budgetOutcome(
 ): FollowUpOutcome & { readonly funded: string | null } {
   const choice = tagValue(decision, "choice:budget:");
   const chief = office ? chiefOfStaffFor(world, office) : null;
-  const skilled = chief
-    ? staffAssessment(chief).strength.includes("legislators")
-    : false;
+  const skilled = chief ? staffKnowsLegislature(world, chief) : false;
   if (!choice || choice === "hold-flat")
     return {
       tag: "budget:passed-flat",

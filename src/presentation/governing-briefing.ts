@@ -136,7 +136,7 @@ export function projectGoverningBriefing(
       chief && chiefPerson
         ? {
             name: personName(chiefPerson),
-            background: staffAssessment(chief).background,
+            background: staffAssessment(world, chief).background,
           }
         : null,
     significant: open.slice(0, BRIEFING_SIGNIFICANT_LIMIT),
