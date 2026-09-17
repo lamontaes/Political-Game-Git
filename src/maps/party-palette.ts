@@ -1,9 +1,10 @@
 /**
  * Party color slots keyed by the World's actual party organization ids.
  *
- * WORLD owns the order (`partyColorOrder`, party-registry). Until that reader
- * lands on main this module mirrors its published rule: the setting's parties
- * in their authored order, then any other party by founding date and id.
+ * WORLD owns the order (`partyColorOrder`, party-registry): national party
+ * units ever recorded, setting parties first, merged or dissolved parties
+ * keeping their slot. Any other party id shown (a state or local unit) follows
+ * by founding date and id.
  * A slot is only a color; it never implies a party count, a two-party
  * system, or a side.
  */
@@ -13,6 +14,7 @@ import { organizationProfileHistory } from "../simulation/life-queries";
 import {
   LIVING_WORLD_KEYS,
   LIVING_WORLD_SCENARIO_PROFILE,
+  partyColorOrder,
 } from "../simulation/living-world";
 
 /** Fill tokens for slots; beyond the last, colors repeat with a pattern index. */
@@ -25,16 +27,6 @@ export interface PartySlot {
   readonly patternIndex: number;
 }
 
-function settingOrder(world: World): EntityId[] {
-  return LIVING_WORLD_SCENARIO_PROFILE.majorParties.flatMap((party) => {
-    const stableKey = LIVING_WORLD_KEYS.nationalParty(party.key);
-    const organization = world.history.organizations.find(
-      (candidate) => candidate.stableKey === stableKey,
-    );
-    return organization ? [organization.id] : [];
-  });
-}
-
 /**
  * Stable slot for every party id the caller will show. Ids not recognized as
  * a setting party follow in founding order, so a party founded later never
@@ -45,7 +37,7 @@ export function partySlots(
   partyIds: Iterable<EntityId>,
 ): ReadonlyMap<EntityId, PartySlot> {
   const wanted = new Set(partyIds);
-  const setting = settingOrder(world);
+  const setting = partyColorOrder(world);
   const rest = [...wanted]
     .filter((id) => !setting.includes(id))
     .sort((a, b) => {
