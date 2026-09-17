@@ -4,6 +4,7 @@ import {
   type CreatorAppearanceChoice,
 } from "../presentation/creator-appearance-preview";
 import { PRODUCTION_CHARACTER_LIBRARY } from "../presentation/visual-integration";
+import { proseDate } from "../presentation/prose-dates";
 import { projectLocationSurfaces } from "../presentation/location-surfaces";
 import { locationReviewVisuals } from "../presentation/location-art-review";
 import { PressWorkspace } from "./PressWorkspace";
@@ -2085,7 +2086,7 @@ function SavesScreen({
               <span>
                 {save.playerAge}
                 {save.residence ? ` · ${save.residence.name}` : ""} ·{" "}
-                {save.currentMoment.date}
+                {proseDate(save.currentMoment.date)}
               </span>
             </div>
             <div className="game-saves-actions">

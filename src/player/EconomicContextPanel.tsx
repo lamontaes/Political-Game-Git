@@ -12,6 +12,7 @@ import {
   type EconomicGraphRecordClass,
 } from "../presentation/economic-graphs";
 export { LEXINGTON_ECONOMIC_BINDING } from "../presentation/economic-context-bindings";
+import { proseDate } from "../presentation/prose-dates";
 import "./economic-context-panel.css";
 
 const DEFAULT_PROVIDER = createEconomicContextBrowserProvider();
@@ -161,7 +162,7 @@ export function EconomicContextView({
           <p className="economic-context-kicker">How the place is doing</p>
           <h2 id="economic-context-title">{context.placeLabel}</h2>
         </div>
-        <span>{context.simulationDate}</span>
+        <span>{proseDate(context.simulationDate)}</span>
       </header>
 
       {diagnostics ? (

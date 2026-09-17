@@ -585,6 +585,7 @@
 
 .pg-workspace-head {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
@@ -592,19 +593,36 @@
   border-bottom: 1px solid var(--pg-hairline);
 }
 
+.pg-workspace-head > :first-child {
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+
 .pg-workspace-head h2 {
   margin: 0.1rem 0 0;
   font-size: 1.25rem;
+  overflow-wrap: anywhere;
 }
 
 .pg-workspace-controls {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: flex-end;
   gap: 0.4rem;
+  margin-left: auto;
 }
 
+/*
+ * At 1024x768 the body is narrower than some records (tables, wide forms).
+ * The body may shrink inside the column and scrolls sideways itself, so a
+ * wide record never pushes the frame's controls out of reach.
+ */
 .pg-workspace-body {
+  min-width: 0;
+  min-height: 0;
   padding: 0.9rem 1.1rem 1.2rem;
+  overflow-x: auto;
   overflow-y: auto;
 }
 

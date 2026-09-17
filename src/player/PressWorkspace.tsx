@@ -43,6 +43,8 @@ import {
   type PressRequestStance,
 } from "../presentation/press-request";
 import { GameSelect } from "./controls/GameSelect";
+import { proseDate } from "../presentation/prose-dates";
+import { formatMinute } from "../presentation/player-calendar";
 
 /** Normal saved-world consumer; arrangements and adviser content remain domain-owned. */
 export function PressWorkspace({
@@ -631,10 +633,9 @@ function PressRequestActions({
             </p>
           )}
           <p>
-            Proposed start: {start.date} at{" "}
-            {String(Math.floor(start.minuteOfDay / 60)).padStart(2, "0")}:
-            {String(start.minuteOfDay % 60).padStart(2, "0")}. This plan does
-            not establish anyone’s arrival.
+            Proposed start: {proseDate(start.date)} at{" "}
+            {formatMinute(start.minuteOfDay)}. This plan does not establish
+            anyone’s arrival.
           </p>
           <button
             type="button"

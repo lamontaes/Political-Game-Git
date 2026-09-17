@@ -20,6 +20,7 @@ import {
   walkOpeningNeighborhood,
 } from "../../presentation/life-scene-flow";
 import { formatMinute } from "../../presentation/player-calendar";
+import { proseDate } from "../../presentation/prose-dates";
 import { openingLifeLocation } from "../../presentation/life-scene-flow";
 import {
   lifeReflectionOffer,
@@ -129,7 +130,7 @@ export function LifeScenePanel({
       const clock =
         after.date === beforeMoment.date
           ? `${formatMinute(beforeMoment.minuteOfDay)} → ${formatMinute(after.minuteOfDay)}`
-          : `${formatMinute(beforeMoment.minuteOfDay)} → ${formatMinute(after.minuteOfDay)}, ${after.date}`;
+          : `${formatMinute(beforeMoment.minuteOfDay)} → ${formatMinute(after.minuteOfDay)}, ${proseDate(after.date)}`;
       const moved =
         afterPlace && afterPlace !== beforePlace ? ` · ${afterPlace}` : "";
       setProblem(null);

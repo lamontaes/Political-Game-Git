@@ -432,8 +432,8 @@ export function CalendarWorkspaceSurface({
 
   /* Releasing a hold spends no time, so it does not wait on the runner. */
   function applyNow(result: {
-      readonly world: World;
-      readonly outcome: string;
+    readonly world: World;
+    readonly outcome: string;
   }) {
     setOutcome(result.outcome);
     if (result.world !== world) onWorldChange(result.world);
@@ -492,17 +492,17 @@ export function CalendarWorkspaceSurface({
                   >
                     <CalendarEntryDetail entry={entry} />
                     {horizon !== "history" ? (
-                  <CalendarEventActions
-                    selected={entry}
-                    onOpen={onOpen}
+                      <CalendarEventActions
+                        selected={entry}
+                        onOpen={onOpen}
                         runner={runner}
                         onReport={report}
                         onApplyNow={applyNow}
-                    world={world}
-                    personId={personId}
-                    interruptions={interruptions}
-                  />
-                ) : null}
+                        world={world}
+                        personId={personId}
+                        interruptions={interruptions}
+                      />
+                    ) : null}
                   </div>
                 ) : null}
               </CalendarEntryRow>
@@ -836,18 +836,18 @@ function CalendarEventActions({
         Open event record
       </button>
       {skip ? (
-      <button
-        type="button"
-        className="ui-action"
-        data-testid="calendar-advance-event"
+        <button
+          type="button"
+          className="ui-action"
+          data-testid="calendar-advance-event"
           aria-disabled={busy}
-        onClick={() =>
+          onClick={() =>
             runner.submit(
               { kind: "until-activity", activityId: selected.activityId },
               onReport,
-          )
-        }
-      >
+            )
+          }
+        >
           {skipToLabel(skip.target)}
           <small>
             {describeInterval(
@@ -855,7 +855,7 @@ function CalendarEventActions({
             )}{" "}
             from now, to when it starts. {PROTECTED_STOP_NOTE}
           </small>
-      </button>
+        </button>
       ) : null}
       <button
         type="button"
@@ -883,12 +883,12 @@ function CalendarEventActions({
         onClick={() =>
           runner.perform(
             (current) =>
-            simulateAuthorizedCalendarActivity(
+              simulateAuthorizedCalendarActivity(
                 current,
-              personId,
-              selected.activityId,
-              interruptions,
-            ),
+                personId,
+                selected.activityId,
+                interruptions,
+              ),
             onReport,
           )
         }

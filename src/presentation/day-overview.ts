@@ -6,6 +6,7 @@ import type { EntityId, World } from "../simulation";
 import { currentOpeningLifeScene } from "./life-scene-flow";
 import { formatMinute, projectPlayerCalendar } from "./player-calendar";
 import { projectOrdinaryDay } from "./ordinary-life";
+import { proseDate } from "./prose-dates";
 import { completedActivityHere } from "./scene-venues";
 
 /**
@@ -85,7 +86,7 @@ export function projectToday(world: World, personId: EntityId): TodayOverview {
           when:
             upcoming.start.date === moment.date
               ? formatMinute(upcoming.start.minuteOfDay)
-              : `${upcoming.start.date}, ${formatMinute(upcoming.start.minuteOfDay)}`,
+              : `${proseDate(upcoming.start.date)}, ${formatMinute(upcoming.start.minuteOfDay)}`,
           title: upcoming.title,
           locationLabel: upcoming.locationLabel,
         }
