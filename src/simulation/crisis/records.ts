@@ -146,7 +146,38 @@ function fail(record: CrisisRecord, message: string): never {
 export function assertCrisisIntegrity(world: World): void {
   const records = crisisRecords(world);
   if (records.length === 0) return;
-  const sequences = referenceSequences(world);
+  const validated = VALIDATED.get(records);
+  if (
+    validated &&
+    validated.worldId === world.id &&
+    validated.currentDate <= world.currentDate &&
+    validated.nextSequence <= world.history.nextSequence
+  )
+    return;
+  validateCrisisRecords(world, records);
+  VALIDATED.set(records, {
+    worldId: world.id,
+    currentDate: world.currentDate,
+    nextSequence: world.history.nextSequence,
+  });
+}
+
+/**
+ * Records are immutable and append-only: a record array that validated
+ * against a World stays valid as that World only moves forward.
+ */
+const VALIDATED = new WeakMap<
+  readonly CrisisRecord[],
+  { worldId: EntityId; currentDate: IsoDate; nextSequence: number }
+>();
+
+function validateCrisisRecords(
+  world: World,
+  records: readonly CrisisRecord[],
+): void {
+  let sequencesCache: ReadonlyMap<EntityId, number> | null = null;
+  const sequenceOf = (id: EntityId) =>
+    (sequencesCache ??= referenceSequences(world)).get(id);
   const eventsById = new Map(world.history.events.map((e) => [e.id, e]));
   const keys = new Set<string>();
   const episodes = new Map<EntityId, HealthEpisodeRecord>();
@@ -171,7 +202,7 @@ export function assertCrisisIntegrity(world: World): void {
     if (effectiveAt > recordedAt || recordedAt > world.currentDate)
       fail(record, "impossible chronology");
     for (const parent of record.causalParentIds) {
-      const sequence = sequences.get(parent);
+      const sequence = sequenceOf(parent);
       if (sequence === undefined || sequence >= record.sequence)
         fail(record, `causal parent is missing or later: ${parent}`);
     }
