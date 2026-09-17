@@ -446,6 +446,27 @@ export function chooseAdultOption(
 }
 
 /**
+ * Whether this adult situation can be answered right now, by the same test
+ * `chooseAdultOption` applies. A conversation that fronts a situation asks
+ * this before offering an answer the writer would refuse.
+ */
+export function adultSituationOpen(
+  world: World,
+  personId: EntityId,
+  situationKey: string,
+): boolean {
+  if (!isAdultSituationKey(situationKey) || !world.people[personId]) {
+    return false;
+  }
+  const context = buildAdultLifeContext(world, personId);
+  return eligibleCandidates(
+    context,
+    playedAdultKeys(world, personId),
+    playedAdultDates(world, personId),
+  ).some((candidate) => candidate.key === situationKey);
+}
+
+/**
  * Lets a stretch of ordinary time go by without manufacturing an event for it.
  *
  * Nothing is invented to fill the gap, and that has not changed. What has
