@@ -298,12 +298,45 @@ export function ShellNav({
    * only by hovering.
    */
   const flyoutRef = useRef<HTMLDivElement>(null);
+  const clusterRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     if (!open) return;
     const first =
       flyoutRef.current?.querySelector<HTMLElement>('[role="menuitem"]');
     first?.focus();
   }, [open, state.navigation]);
+
+  /*
+   * Escape leaves the layer the keyboard is actually in.
+   *
+   * The menu opens over the room and puts the keyboard inside itself, and
+   * there was no way back out of it from the keyboard at all: the only thing
+   * that closed it was clicking the portrait again. From a submenu Escape
+   * goes up one level, which is the same move as its own Back; from the top
+   * level it closes the menu and gives the portrait the focus it took, so
+   * the keyboard is left somewhere rather than nowhere. It is handled on this
+   * element rather than on the document, so Escape anywhere else in the game
+   * still belongs to whatever layer the player is in.
+   */
+  const onNavKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    if (event.key !== "Escape") return;
+    if (state.confirmingLeave) {
+      event.preventDefault();
+      event.stopPropagation();
+      dispatch({ type: "cancel-leave" });
+      clusterRef.current?.focus();
+      return;
+    }
+    if (!open) return;
+    event.preventDefault();
+    event.stopPropagation();
+    if (state.navigation === "primary") {
+      dispatch({ type: "toggle-navigation" });
+      clusterRef.current?.focus();
+      return;
+    }
+    dispatch({ type: "open-nav-primary" });
+  };
 
   const go = (entry: ShellDestination) =>
     dispatch({
@@ -381,11 +414,13 @@ export function ShellNav({
       aria-label="Time, place and navigation"
       data-state={open ? "open" : raised ? "near" : "rest"}
       data-testid="shell-nav"
+      onKeyDown={onNavKeyDown}
     >
       <div className="pg-nav-row" ref={rowRef}>
         <button
           type="button"
           className="pg-nav-cluster"
+          ref={clusterRef}
           data-testid="shell-nav-cluster"
           aria-expanded={open}
           aria-controls={open ? "pg-nav-flyout" : undefined}

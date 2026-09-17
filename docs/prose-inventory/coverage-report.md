@@ -12,7 +12,7 @@ needs a person's judgement is the honest state of the check.
 | DIAGNOSTIC_OR_TEST | 6485 |
 | **NEEDS_CLASSIFICATION** | **8037** |
 
-Scanned 915 files holding 92748 string
+Scanned 915 files holding 92753 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why

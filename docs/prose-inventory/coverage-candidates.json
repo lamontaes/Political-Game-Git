@@ -7681,7 +7681,7 @@
     {
       "sourcePath": "src/player/ShellNav.tsx",
       "enclosingSymbol": "ShellNav",
-      "line": 381,
+      "line": 414,
       "text": "Time, place and navigation",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7689,7 +7689,7 @@
     {
       "sourcePath": "src/player/ShellNav.tsx",
       "enclosingSymbol": "ShellNav",
-      "line": 392,
+      "line": 427,
       "text": "{playerName}. {dateLabel}. {place}. Open navigation.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7697,7 +7697,7 @@
     {
       "sourcePath": "src/player/ShellNav.tsx",
       "enclosingSymbol": "ShellNav",
-      "line": 408,
+      "line": 443,
       "text": "This life has not been saved yet.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7705,7 +7705,7 @@
     {
       "sourcePath": "src/player/ShellNav.tsx",
       "enclosingSymbol": "ShellNav",
-      "line": 441,
+      "line": 476,
       "text": "Move time",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7713,7 +7713,7 @@
     {
       "sourcePath": "src/player/ShellNav.tsx",
       "enclosingSymbol": "ShellNav",
-      "line": 452,
+      "line": 487,
       "text": "{passTargets.day}. Your routine runs; stops early for anything protected.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7721,7 +7721,7 @@
     {
       "sourcePath": "src/player/ShellNav.tsx",
       "enclosingSymbol": "ShellNav",
-      "line": 453,
+      "line": 488,
       "text": "Let the day run through your routine. Stops for anything that needs you.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7729,7 +7729,7 @@
     {
       "sourcePath": "src/player/ShellNav.tsx",
       "enclosingSymbol": "ShellNav",
-      "line": 469,
+      "line": 504,
       "text": "{passTargets.week}. Your routine runs; stops early for anything protected.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7737,7 +7737,7 @@
     {
       "sourcePath": "src/player/ShellNav.tsx",
       "enclosingSymbol": "ShellNav",
-      "line": 470,
+      "line": 505,
       "text": "Let the week run through your routine. Stops for anything that needs you.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7745,7 +7745,7 @@
     {
       "sourcePath": "src/player/ShellNav.tsx",
       "enclosingSymbol": "ShellNav",
-      "line": 520,
+      "line": 555,
       "text": "Main navigation",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7753,7 +7753,7 @@
     {
       "sourcePath": "src/player/ShellNav.tsx",
       "enclosingSymbol": "ShellNav",
-      "line": 618,
+      "line": 653,
       "text": "pg-nav-flyout pg-nav-confirm",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7761,7 +7761,7 @@
     {
       "sourcePath": "src/player/ShellNav.tsx",
       "enclosingSymbol": "ShellNav",
-      "line": 632,
+      "line": 667,
       "text": "ui-action ui-action--primary",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7769,7 +7769,7 @@
     {
       "sourcePath": "src/player/ShellNav.tsx",
       "enclosingSymbol": "ShellNav",
-      "line": 655,
+      "line": 690,
       "text": "ui-action ui-action--subtle",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."

@@ -10,6 +10,7 @@ import {
   openShellMenu,
   shellIdentity,
   startLife,
+  waitForClockIdle,
 } from "./support/creator";
 import {
   candidacyPacks,
@@ -120,11 +121,30 @@ function watchForErrors(page: Page): string[] {
   return errors;
 }
 
+/**
+ * Presses one of the game's time controls and lets it finish.
+ *
+ * Neither clock disables itself while a command runs any more — the control
+ * keeps focus and marks itself busy instead — and the runner ignores a submit
+ * while one is in flight, so one press can never move the clock twice. The
+ * consequence for a test is that a press issued on top of a running command is
+ * simply lost: a loop that fires as fast as it can counts days it never
+ * advanced. A player waits for "Time is passing…" to go; so does this.
+ */
+async function pressTime(page: Page, testid: string) {
+  const control = page.getByTestId(testid);
+  await expect(control).not.toHaveAttribute("aria-busy", "true");
+  await waitForClockIdle(page);
+  await control.click();
+  await expect(control).not.toHaveAttribute("aria-busy", "true");
+  await waitForClockIdle(page);
+}
+
 /** Gets on with the week until the election has been decided, or gives up. */
 async function liveUntilDecided(page: Page, maxDays = 45) {
   for (let day = 0; day < maxDays; day += 1) {
     if (await page.getByTestId("campaign-result").isVisible()) return true;
-    await page.getByTestId("shell-pass-day").click();
+    await pressTime(page, "shell-pass-day");
   }
   return page.getByTestId("campaign-result").isVisible();
 }
@@ -347,7 +367,7 @@ test.describe("A life can stand for something", () => {
     await page.getByTestId("campaign-outreach").click();
     await expect(page.getByTestId("campaign-memo")).toBeVisible();
     // A second afternoon, a day later, because a day only holds so much.
-    await page.getByTestId("pass-day").click();
+    await pressTime(page, "pass-day");
     await page.getByTestId("campaign-outreach").click();
 
     // Nobody presses "hold the election". The world reaches the date.
@@ -365,7 +385,7 @@ test.describe("A life can stand for something", () => {
     const afterword = await page.getByTestId("campaign-afterword").innerText();
     await openDay(page);
     const before = (await page.getByTestId("day-date").textContent()) ?? "";
-    await page.getByTestId("shell-pass-day").click();
+    await pressTime(page, "shell-pass-day");
     await expect(page.getByTestId("day-date")).not.toHaveText(before);
     await expect(page.getByTestId("play-screen")).toBeVisible();
 
@@ -438,12 +458,18 @@ test.describe("P85D integration through ordinary player controls", () => {
       await fileCandidacy(page);
       const before = (await page.getByTestId("day-date").textContent()) ?? "";
       const passDay = page.getByTestId("pass-day");
+      await waitForClockIdle(page);
+      await expect(passDay).toHaveAttribute("aria-busy", "false");
       if (activation === "keyboard") {
         await passDay.focus();
         await page.keyboard.press("Enter");
       } else {
         await passDay.click();
       }
+      // The press has to land before the corner clock takes over the loop:
+      // the runner ignores a second command while the first is in flight.
+      await expect(passDay).toHaveAttribute("aria-busy", "false");
+      await waitForClockIdle(page);
       expect(await liveUntilDecided(page)).toBe(true);
       await expect(page.getByTestId("campaign-result")).toBeVisible();
       await expect(page.getByTestId("day-date")).not.toHaveText(before);
@@ -469,7 +495,7 @@ test.describe("P85D integration through ordinary player controls", () => {
     await fileCandidacy(page);
     await page.getByTestId("campaign-fundraising").click();
     for (let day = 0; day < 3; day += 1) {
-      await page.getByTestId("pass-day").click();
+      await pressTime(page, "pass-day");
       await page.getByTestId("campaign-outreach").click();
     }
     expect(await liveUntilDecided(page)).toBe(true);
@@ -480,7 +506,7 @@ test.describe("P85D integration through ordinary player controls", () => {
     // The ordinary shell clock processes the same pending term transition.
     for (let step = 0; step < 52; step += 1) {
       if (await page.getByTestId("office-section").isVisible()) break;
-      await page.getByTestId("shell-pass-week").click();
+      await pressTime(page, "shell-pass-week");
     }
     await expect(page.getByTestId("office-section")).toContainText(
       "Kentucky legislature",
