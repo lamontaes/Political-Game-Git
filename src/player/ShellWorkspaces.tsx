@@ -1,4 +1,5 @@
 import { UX39CalendarGrid, useCalendarDateOrder } from "./UX39CalendarGrid";
+import { PinToggle } from "./controls/PinToggle";
 import { calendarDisplayDate } from "./ux39-calendar-dates";
 import {
   EconomicContextPanel,
@@ -290,18 +291,13 @@ export function PeopleWorkspace({
                     <small>{person.context}</small>
                   ) : null}
                 </button>
-                <button
-                  type="button"
+                <PinToggle
                   className="ui-action ui-action--rail"
-                  data-testid={`people-pin-${person.personId}`}
-                  aria-pressed={pinned}
-                  aria-label={
-                    pinned ? `Unpin ${person.name}` : `Pin ${person.name}`
-                  }
-                  onClick={() => dispatch({ type: "toggle-pin", ref })}
-                >
-                  {pinned ? "★" : "☆"}
-                </button>
+                  pinned={pinned}
+                  name={person.name}
+                  testid={`people-pin-${person.personId}`}
+                  onToggle={() => dispatch({ type: "toggle-pin", ref })}
+                />
               </li>
             );
           })}

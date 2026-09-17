@@ -50,6 +50,7 @@ import { PlacesWorkspace } from "./PlacesWorkspace";
 import { GovernmentBrowser } from "./politics/GovernmentBrowser";
 import { NewsDesk } from "./news/NewsDesk";
 import "./controls/controls.css";
+import { PinToggle } from "./controls/PinToggle";
 import { PoliticsTabs, type PoliticsTab } from "./politics/PoliticsTabs";
 import { municipalVenueForActivity } from "../presentation/municipal-venue";
 import { resolveActivityVenueScene } from "../presentation/scene-venues";
@@ -201,6 +202,7 @@ import type { ConversationAddressee } from "../presentation/run-b-conversation";
 import type { ConversationSubjectKey } from "../presentation/run-b-conversation-progress";
 import { openConversationWith } from "../presentation/person-conversation-entry";
 import {
+  labelForRef,
   projectPersonDossier,
   type PersonDossier,
 } from "../presentation/person-dossier";
@@ -2785,7 +2787,7 @@ function PlayingScreen({
         subject: subject ?? entry.subject,
         addressee: personId,
       });
-      dispatch({ type: "go-to-scene" });
+      dispatch({ type: "talk-in-scene", personId });
     },
     [session.world, session.personId, dispatch],
   );
@@ -2906,6 +2908,18 @@ function PlayingScreen({
                       onBack={() => {
                         const facing = conversation.addressee;
                         setConversation(null);
+                        // Started from a record: Back returns to that record.
+                        if (canGoBack(shell)) {
+                          dispatch({ type: "back" });
+                          requestAnimationFrame(() =>
+                            document
+                              .querySelector<HTMLElement>(
+                                ".pg-workspace-controls button",
+                              )
+                              ?.focus(),
+                          );
+                          return;
+                        }
                         if (facing !== "everyone") setReturnFocusTo(facing);
                       }}
                       transitionHandlers={createCampaignElectionTransitionRegistry()}
@@ -3188,6 +3202,21 @@ function renderWorkspace({
     onWorldChange(publishLegislativeTransition(session.world, next));
   const pinnedRef = (ref: ShellRef) => isPinned(shell, ref);
   const togglePin = (ref: ShellRef) => dispatch({ type: "toggle-pin", ref });
+  /* Only a record this world has can be pinned; a missing one says so below. */
+  const entityPinToggle = (ref: ShellRef, testid: string) => {
+    const label = labelForRef(session.world, ref);
+    if (label === null) return null;
+    return (
+      <p className="pg-entity-pin">
+        <PinToggle
+          pinned={pinnedRef(ref)}
+          name={label}
+          testid={testid}
+          onToggle={() => togglePin(ref)}
+        />
+      </p>
+    );
+  };
   /*
    * A local party chapter. Each button is an explicit choice routed to W's
    * writers; opening the surface or its pin changes nothing. Going to a
@@ -3428,11 +3457,14 @@ function renderWorkspace({
       return frame(
         "Commitment",
         "commitment-workspace",
-        <CommitmentSurface
-          world={session.world}
-          personId={session.personId}
-          activityId={view.ref.id}
-        />,
+        <>
+          {entityPinToggle(view.ref, "commitment-pin")}
+          <CommitmentSurface
+            world={session.world}
+            personId={session.personId}
+            activityId={view.ref.id}
+          />
+        </>,
         "Calendar",
       );
     }
@@ -3440,11 +3472,14 @@ function renderWorkspace({
       return frame(
         "Measure",
         "measure-workspace",
-        <MeasureSurface
-          world={session.world}
-          personId={session.personId}
-          measureId={view.ref.id}
-        />,
+        <>
+          {entityPinToggle(view.ref, "measure-pin")}
+          <MeasureSurface
+            world={session.world}
+            personId={session.personId}
+            measureId={view.ref.id}
+          />
+        </>,
         "Legislation",
       );
     }
@@ -3563,6 +3598,7 @@ function renderWorkspace({
               onWorldChange={onWorldChange}
               onOpenEntity={openEntity}
               onTogglePin={togglePin}
+              isPinned={pinnedRef}
             />
           )}
           <PersonalWorkspace
@@ -3607,6 +3643,7 @@ function renderWorkspace({
            */
           onOpenEntity={(ref) => openEntity(ref)}
           onTogglePin={(ref) => togglePin(ref)}
+          isPinned={pinnedRef}
           transitionHandlers={createCampaignElectionTransitionRegistry()}
         />,
       );

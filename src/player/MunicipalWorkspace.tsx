@@ -1,4 +1,5 @@
 import "./MunicipalWorkspace.css";
+import { PinToggle } from "./controls/PinToggle";
 import { projectMunicipalGoverning } from "../presentation/municipal-governing";
 import { municipalCapacitySourceUrl } from "../simulation/municipal-capacity";
 import { municipalVenueForActivity } from "../presentation/municipal-venue";
@@ -267,20 +268,13 @@ export function MunicipalWorkspace({
               {stateDisplayName(view.government.state)}
             </span>
             {onTogglePinGovernment ? (
-              <button
-                type="button"
+              <PinToggle
                 className="ui-action"
-                data-testid="municipal-pin"
-                aria-pressed={pinned}
-                aria-label={
-                  pinned
-                    ? `Unpin ${view.government.displayName}`
-                    : `Pin ${view.government.displayName}`
-                }
-                onClick={() => onTogglePinGovernment(view.government.key)}
-              >
-                {pinned ? "★ Pinned" : "☆ Pin this government"}
-              </button>
+                pinned={pinned}
+                name={view.government.displayName}
+                testid="municipal-pin"
+                onToggle={() => onTogglePinGovernment(view.government.key)}
+              />
             ) : null}
           </p>
 
