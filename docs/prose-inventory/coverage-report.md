@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2781 |
-| INTENTIONALLY_NON_PLAYER_FACING | 6444 |
-| DIAGNOSTIC_OR_TEST | 6461 |
-| **NEEDS_CLASSIFICATION** | **8061** |
+| INTENTIONALLY_NON_PLAYER_FACING | 6482 |
+| DIAGNOSTIC_OR_TEST | 6497 |
+| **NEEDS_CLASSIFICATION** | **8122** |
 
-Scanned 925 files holding 93281 string
+Scanned 930 files holding 93934 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -81,6 +81,7 @@ literals in total; the table counts only those that read like a sentence.
 | 39 | `src/simulation/player-model.ts` |
 | 39 | `src/simulation/voice-bands.ts` |
 | 37 | `src/simulation/setup-opening-bank.ts` |
+| 36 | `src/simulation/governing/public-program.ts` |
 | 36 | `src/simulation/world-metrics.ts` |
 | 35 | `src/simulation/campaign-compliance.generated.ts` |
 | 35 | `src/simulation/mind-catalog.ts` |
@@ -123,6 +124,7 @@ literals in total; the table counts only those that read like a sentence.
 | 24 | `src/simulation/life-circumstances.ts` |
 | 24 | `src/ui/ContentBrowserView.tsx` |
 | 23 | `src/simulation/congressional-procedural-claims.ts` |
+| 23 | `src/simulation/governing/office-continuity.ts` |
 | 22 | `src/player/ShellNav.tsx` |
 | 22 | `src/presentation/press-request.ts` |
 | 21 | `src/presentation/title-tableau.ts` |
@@ -407,6 +409,7 @@ literals in total; the table counts only those that read like a sentence.
 | 2 | `src/simulation/nationwide-world/rules-capability-binding.ts` |
 | 2 | `src/simulation/office-qualifications.generated.ts` |
 | 2 | `src/simulation/place-county-relations.generated.ts` |
+| 2 | `src/simulation/public-program-integrity.ts` |
 | 2 | `src/ui/LifePaths2Proof.tsx` |
 | 2 | `src/ui/PeopleList.tsx` |
 | 1 | `src/player/LifeStartTransition.tsx` |
