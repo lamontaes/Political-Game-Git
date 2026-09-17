@@ -7771,6 +7771,198 @@
       "textRevision": "4946cc09e83a"
     },
     {
+      "anchor": "studyPeer-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPeer",
+      "text": "After a class",
+      "occurrence": 0,
+      "textRevision": "03e062d408d9"
+    },
+    {
+      "anchor": "studyPeer-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPeer",
+      "text": "Decide whether to work on the coursework together.",
+      "occurrence": 0,
+      "textRevision": "9b963d1f5b46"
+    },
+    {
+      "anchor": "studyPeer-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPeer",
+      "text": "Two people on the same programme, talking about the work.",
+      "occurrence": 0,
+      "textRevision": "90c534a140a0"
+    },
+    {
+      "anchor": "studyPeer-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPeer",
+      "text": "Working with {binding.facts.peerGiven??\"somebody\"}",
+      "occurrence": 0,
+      "textRevision": "666e93934001"
+    },
+    {
+      "anchor": "studyPeerAnswers-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPeerAnswers",
+      "text": "Ask what they want to do",
+      "occurrence": 0,
+      "textRevision": "5605615b7aa3"
+    },
+    {
+      "anchor": "studyPeerAnswers-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPeerAnswers",
+      "text": "Find out before committing to anything.",
+      "occurrence": 0,
+      "textRevision": "35b80e28169b"
+    },
+    {
+      "anchor": "studyPeerAnswers-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPeerAnswers",
+      "text": "I think I’m going to look for a different group.",
+      "occurrence": 0,
+      "textRevision": "39683bf9ff92"
+    },
+    {
+      "anchor": "studyPeerAnswers-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPeerAnswers",
+      "text": "I think I’m going to look for a different group.",
+      "occurrence": 1,
+      "textRevision": "39683bf9ff92"
+    },
+    {
+      "anchor": "studyPeerAnswers-0005",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPeerAnswers",
+      "text": "I’ve already committed to another group.",
+      "occurrence": 0,
+      "textRevision": "343d2c16dade"
+    },
+    {
+      "anchor": "studyPeerAnswers-0006",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPeerAnswers",
+      "text": "Keep looking",
+      "occurrence": 0,
+      "textRevision": "cd73787563d8"
+    },
+    {
+      "anchor": "studyPeerAnswers-0007",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPeerAnswers",
+      "text": "Propose it. They may say no.",
+      "occurrence": 0,
+      "textRevision": "ab3a6f0dfa10"
+    },
+    {
+      "anchor": "studyPeerAnswers-0008",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPeerAnswers",
+      "text": "Suggest working together",
+      "occurrence": 0,
+      "textRevision": "71c1c1cdc494"
+    },
+    {
+      "anchor": "studyPeerAnswers-0009",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPeerAnswers",
+      "text": "The player asked {context.name} about working on the coursework together.",
+      "occurrence": 0,
+      "textRevision": "bf40e3e847b3"
+    },
+    {
+      "anchor": "studyPeerAnswers-0010",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPeerAnswers",
+      "text": "The player asked {context.name} which part of the work interested them.",
+      "occurrence": 0,
+      "textRevision": "c793260fe6d3"
+    },
+    {
+      "anchor": "studyPeerAnswers-0011",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPeerAnswers",
+      "text": "The player told {context.name} they would look for a different group.",
+      "occurrence": 0,
+      "textRevision": "ce31a08221b6"
+    },
+    {
+      "anchor": "studyPeerAnswers-0012",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPeerAnswers",
+      "text": "Turn this one down. The class is unaffected.",
+      "occurrence": 0,
+      "textRevision": "87029164582c"
+    },
+    {
+      "anchor": "studyPeerAnswers-0013",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPeerAnswers",
+      "text": "We already have the main work divided up. Would you be interested in {task}?",
+      "occurrence": 0,
+      "textRevision": "2d64f80b1374"
+    },
+    {
+      "anchor": "studyPeerAnswers-0014",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPeerAnswers",
+      "text": "What part are you interested in?",
+      "occurrence": 0,
+      "textRevision": "71694c0017d8"
+    },
+    {
+      "anchor": "studyPeerAnswers-0015",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPeerAnswers",
+      "text": "Would you like to work on it together?",
+      "occurrence": 0,
+      "textRevision": "e9c7f209ab4b"
+    },
+    {
+      "anchor": "studyPeerAnswers-0016",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPeerAnswers",
+      "text": "Yes. Let’s work out who is doing what.",
+      "occurrence": 0,
+      "textRevision": "6de84b749ad4"
+    },
+    {
+      "anchor": "studyPeerAnswers-0017",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPeerAnswers",
+      "text": "{playerName} and {otherName} agreed to work together.",
+      "occurrence": 0,
+      "textRevision": "613865a4d7e2"
+    },
+    {
+      "anchor": "studyPeerAnswers-0018",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPeerAnswers",
+      "text": "“I was going to start with {task}, if nobody else has,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "8d2c6182c665"
+    },
+    {
+      "anchor": "studyPeerAnswers-0019",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPeerAnswers",
+      "text": "“That’s fair. Good luck with it,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "55e524ee4acb"
+    },
+    {
+      "anchor": "studyPeerAnswers-0020",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPeerAnswers",
+      "text": "“Understood. See you in class,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "8ada371b6249"
+    },
+    {
       "anchor": "threadMovementSentence-0001",
       "sourcePath": "src/presentation/life-narration.ts",
       "symbol": "threadMovementSentence",
