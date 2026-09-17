@@ -2,7 +2,7 @@
   "counts": {
     "INVENTORIED": 2946,
     "INTENTIONALLY_NON_PLAYER_FACING": 6458,
-    "DIAGNOSTIC_OR_TEST": 6366,
+    "DIAGNOSTIC_OR_TEST": 6371,
     "NEEDS_CLASSIFICATION": 8332
   },
   "needsClassification": [
@@ -20161,7 +20161,7 @@
     {
       "sourcePath": "src/presentation/people-goals.ts",
       "enclosingSymbol": "targetsFor",
-      "line": 282,
+      "line": 283,
       "text": "Any office you can run for",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -20169,7 +20169,7 @@
     {
       "sourcePath": "src/presentation/people-goals.ts",
       "enclosingSymbol": "setPersonalGoalStatus",
-      "line": 506,
+      "line": 507,
       "text": "Done, by the player's own account.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -20177,7 +20177,7 @@
     {
       "sourcePath": "src/presentation/people-goals.ts",
       "enclosingSymbol": "setPersonalGoalStatus",
-      "line": 508,
+      "line": 509,
       "text": "Dropped by the player.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -20185,7 +20185,7 @@
     {
       "sourcePath": "src/presentation/people-goals.ts",
       "enclosingSymbol": "setPersonalGoalStatus",
-      "line": 510,
+      "line": 511,
       "text": "Paused by the player.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -56361,7 +56361,7 @@
     {
       "sourcePath": "src/simulation/people-continuation.ts",
       "enclosingSymbol": "retireControlledCharacter",
-      "line": 204,
+      "line": 205,
       "text": "The player stopped playing {personName(person)}, who goes on living.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -56369,7 +56369,7 @@
     {
       "sourcePath": "src/simulation/people-continuation.ts",
       "enclosingSymbol": "retireControlledCharacter",
-      "line": 207,
+      "line": 208,
       "text": "A change of who is played, not an event in the world.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -56377,7 +56377,7 @@
     {
       "sourcePath": "src/simulation/people-continuation.ts",
       "enclosingSymbol": "openEstate",
-      "line": 339,
+      "line": 340,
       "text": "Whose estate it is",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -56385,7 +56385,7 @@
     {
       "sourcePath": "src/simulation/people-continuation.ts",
       "enclosingSymbol": "openEstate",
-      "line": 352,
+      "line": 353,
       "text": "{personName(person)} held nothing individually; there is nothing to settle.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -56393,7 +56393,7 @@
     {
       "sourcePath": "src/simulation/people-continuation.ts",
       "enclosingSymbol": "openEstate",
-      "line": 353,
+      "line": 354,
       "text": "{personName(person)}'s individually held {held===1?\"holdingis\":`${held}holdingsare`} pending settlement. Nothing has been passed on.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -56401,7 +56401,7 @@
     {
       "sourcePath": "src/simulation/people-continuation.ts",
       "enclosingSymbol": "openEstate",
-      "line": 356,
+      "line": 357,
       "text": "What a person owned alone waits to be settled.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -56409,7 +56409,7 @@
     {
       "sourcePath": "src/simulation/people-continuation.ts",
       "enclosingSymbol": "continueAsRelative",
-      "line": 459,
+      "line": 464,
       "text": "Play continued as {personName(successor)}, after {personName(predecessor)}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -56417,7 +56417,7 @@
     {
       "sourcePath": "src/simulation/people-continuation.ts",
       "enclosingSymbol": "continueAsRelative",
-      "line": 462,
+      "line": 467,
       "text": "A change of who is played, not an event in the world.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -56425,7 +56425,7 @@
     {
       "sourcePath": "src/simulation/people-continuation.ts",
       "enclosingSymbol": "keepObserving",
-      "line": 497,
+      "line": 510,
       "text": "The player kept watching the world after {personName(next.people[predecessorId]!)}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -56433,7 +56433,7 @@
     {
       "sourcePath": "src/simulation/people-continuation.ts",
       "enclosingSymbol": "keepObserving",
-      "line": 500,
+      "line": 513,
       "text": "A change of who is played, not an event in the world.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -70052,7 +70052,7 @@
       "sourcePath": "src/presentation/people-generations.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 12
+      "count": 17
     },
     {
       "sourcePath": "src/presentation/people-directory.ts",
