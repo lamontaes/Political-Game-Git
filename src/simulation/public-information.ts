@@ -1,9 +1,11 @@
 import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
 import { personName } from "./people";
+import { mediaOutletKey } from "./press/records";
 import {
   CIVIC_PUBLICATION_OUTLET_KEY,
   CIVIC_PUBLICATION_OUTLET_NAME,
+  mediaOutletForKey,
   resolvePublicationSource,
 } from "./public-information-integrity";
 import type {
@@ -21,6 +23,11 @@ export interface PublishPublicEventInput {
   readonly sourceEventId: EntityId;
   readonly publishedAt?: string;
   readonly recordedAt?: string;
+  /**
+   * PRESS46: the media outlet whose reporter wrote a `press.story-published`
+   * event. Omitted for Civic Ledger's record of a public occurrence.
+   */
+  readonly outletId?: EntityId;
 }
 
 export interface CorrectPublicationInput {
@@ -55,7 +62,7 @@ export interface PublicInformationDigestItem {
   readonly sourceRecordIds: readonly EntityId[];
   readonly kind: PublicationKind;
   /** Stable outlet identity carried by the canonical publication record. */
-  readonly outletKey: typeof CIVIC_PUBLICATION_OUTLET_KEY;
+  readonly outletKey: PublicationRecord["outletKey"];
   readonly outletName: string;
   readonly jurisdictionId: EntityId | null;
   readonly jurisdictionName: string | null;
@@ -109,6 +116,12 @@ export function publishPublicEvent(
   const recordedAt = makeIsoDate(input.recordedAt ?? world.currentDate);
   assertPublicationChronology(world, sourceEvent, publishedAt, recordedAt);
   const copy = canonicalPublicationCopy(world, sourceEvent, source.kind);
+  const outlet = input.outletId
+    ? mediaOutletForKey(world, mediaOutletKey(input.outletId))
+    : null;
+  if (input.outletId && !outlet) {
+    throw new Error(`No such media outlet: ${input.outletId}`);
+  }
   const publication: PublicationRecord = {
     id: createStableId("publication", `${world.id}:${input.stableKey}`),
     stableKey: input.stableKey,
@@ -117,8 +130,10 @@ export function publishPublicEvent(
     sourceEventId: sourceEvent.id,
     sourceRecordIds: source.sourceRecordIds,
     jurisdictionId: sourceEvent.jurisdictionId,
-    outletKey: CIVIC_PUBLICATION_OUTLET_KEY,
-    outletName: CIVIC_PUBLICATION_OUTLET_NAME,
+    outletKey: outlet
+      ? mediaOutletKey(outlet.id)
+      : CIVIC_PUBLICATION_OUTLET_KEY,
+    outletName: outlet ? outlet.name : CIVIC_PUBLICATION_OUTLET_NAME,
     headline: copy.headline,
     body: copy.body,
     publishedAt,
@@ -275,6 +290,10 @@ function canonicalPublicationCopy(
 ): { readonly headline: string; readonly body: string } {
   if (kind === "civic-event") {
     return { headline: event.summary, body: event.summary };
+  }
+  if (kind === "press-story") {
+    // The reporter's story event already carries the exact copy.
+    return { headline: event.summary, body: event.context.socialContext! };
   }
   const action = (world.history.legislativeActions ?? []).find(
     (candidate) => candidate.eventId === event.id,

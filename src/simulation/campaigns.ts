@@ -1,3 +1,4 @@
+import { createPressTransitionRegistry } from "./press/transitions";
 import {
   supportedLegislativeTermDates,
   scheduleLegislativeTerm,
@@ -1878,6 +1879,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
           claimContradictionTransitionHandler,
         ],
       ]),
+      // CRUNCH46 PRESS: newsroom desk, story steps, procedures, bookkeeping.
+      createPressTransitionRegistry(),
       LIFE_TRANSITION_HANDLERS,
     ),
   );
