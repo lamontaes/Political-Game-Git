@@ -221,7 +221,8 @@ function contactChannels(
 
 export interface ContactProposal {
   readonly eventId: EntityId;
-  readonly activityId: EntityId;
+  /** The confirmed meeting, once there is one. */
+  readonly activityId: EntityId | null;
   readonly fromPersonId: EntityId;
   readonly toPersonId: EntityId;
   readonly on: IsoDate;
@@ -261,11 +262,11 @@ export function contactProposals(
       const to = event.participants.find(
         (entry) => entry.role === "focus:asked-of",
       )?.personId;
-      const activityId = holdFor(world, event.id);
+      const activityId = meetingFor(world, event.id);
       const on = event.tags
         .find((tag) => tag.startsWith("contact.on:"))
         ?.slice("contact.on:".length) as IsoDate | undefined;
-      if (!from || !to || !activityId || !on) return [];
+      if (!from || !to || !on) return [];
       const answered = world.history.events.some(
         (candidate) =>
           [
@@ -373,25 +374,10 @@ export function proposeContact(
     },
   });
   const proposedEvent = next.history.events.at(-1)!;
-  next = createScheduledActivity(next, {
-    stableKey: `${input.stableKey}:hold`,
-    title: `Meeting with ${personName(asker)}`,
-    summary: input.purpose,
-    kind: "tentative",
-    start,
-    end,
-    participantPersonIds: [input.toPersonId],
-    responsiblePersonId: null,
-    location: {
-      locationKey: CONTACT_LOCATION_KEY,
-      label: "Arranged in person",
-      jurisdictionId: asked.homeJurisdictionId,
-    },
-    sourceEntityIds: [proposedEvent.id],
-    flexibility: { kind: "fixed" },
-    access: { kind: "private", personIds: [input.toPersonId] },
-  });
-  const activity = next.history.scheduledActivities.at(-1)!;
+  // A request is not a commitment, so nothing is put on anybody's evening
+  // until they say yes. Asking must not quietly occupy a night.
+  void start;
+  void end;
   next = recordEventKnowledge(next, {
     stableKey: `${input.stableKey}:told`,
     personId: input.toPersonId,
@@ -420,7 +406,7 @@ export function proposeContact(
     world: next,
     proposal: {
       eventId: proposedEvent.id,
-      activityId: activity.id,
+      activityId: null,
       fromPersonId: input.fromPersonId,
       toPersonId: input.toPersonId,
       on: input.on,
@@ -430,11 +416,13 @@ export function proposeContact(
   };
 }
 
-/** The hold that was put on a calendar for this proposal. */
-function holdFor(world: World, proposalEventId: EntityId): EntityId | null {
+/** The meeting this proposal led to, once somebody agreed to it. */
+function meetingFor(world: World, proposalEventId: EntityId): EntityId | null {
   return (
-    world.history.scheduledActivities.find((activity) =>
-      activity.sourceEntityIds.includes(proposalEventId),
+    world.history.scheduledActivities.find(
+      (activity) =>
+        activity.kind === "confirmed" &&
+        activity.sourceEntityIds.includes(proposalEventId),
     )?.id ?? null
   );
 }
@@ -471,7 +459,7 @@ export function answerContact(
   const to = proposal.participants.find(
     (entry) => entry.role === "focus:asked-of",
   )!.personId;
-  const activityId = holdFor(world, proposal.id);
+  const meetingId = meetingFor(world, proposal.id);
   const on = proposal.tags
     .find((tag) => tag.startsWith("contact.on:"))!
     .slice("contact.on:".length) as IsoDate;
@@ -536,11 +524,13 @@ export function answerContact(
     },
   });
   const answerEvent = next.history.events.at(-1)!;
+  // Nothing was held for a mere request; only an agreed meeting can be here,
+  // and that only when an answer is being replaced.
   if (
-    activityId &&
-    scheduledActivityState(next, activityId).status === "scheduled"
+    meetingId &&
+    scheduledActivityState(next, meetingId).status === "scheduled"
   ) {
-    next = cancelScheduledActivity(next, activityId);
+    next = cancelScheduledActivity(next, meetingId);
   }
   if (input.answer === "accept") {
     const start = simulationMomentAtLocalTime({
@@ -815,9 +805,12 @@ export function lapseStaleProposals(world: World): World {
         immediateReaction: null,
       },
     });
-    const hold = holdFor(next, event.id);
-    if (hold && scheduledActivityState(next, hold).status === "scheduled") {
-      next = cancelScheduledActivity(next, hold);
+    const meeting = meetingFor(next, event.id);
+    if (
+      meeting &&
+      scheduledActivityState(next, meeting).status === "scheduled"
+    ) {
+      next = cancelScheduledActivity(next, meeting);
     }
   }
   return next;

@@ -102,11 +102,12 @@ describe("PEOPLE P3: reaching somebody", () => {
     expect(asked.currentMoment).toEqual(world.currentMoment);
     const proposal = contactProposals(asked, player)[0]!;
     expect(proposal.answered).toBe(false);
-    const hold = asked.history.scheduledActivities.find((activity) =>
-      activity.sourceEntityIds.includes(proposal.eventId),
-    )!;
-    expect(hold.kind).toBe("tentative");
-    expect(hold.participantPersonIds).toEqual([other]);
+    // Asking holds nobody's evening: a request is not a commitment.
+    expect(
+      asked.history.scheduledActivities.filter((activity) =>
+        activity.sourceEntityIds.includes(proposal.eventId),
+      ),
+    ).toEqual([]);
     // They were told, and nobody else was.
     const knew = asked.history.knowledge.filter(
       (entry) => entry.eventId === proposal.eventId,

@@ -1,13 +1,13 @@
 {
-  "digest": "23f16ffb8e8a3e6a",
+  "digest": "5b275f979898a028",
   "counts": {
-    "total": 3189,
+    "total": 3194,
     "byDomain": {
       "campaign": 24,
       "conversation": 400,
       "governing": 197,
       "legislative": 94,
-      "life": 1740,
+      "life": 1745,
       "narration": 75,
       "ordinary": 4,
       "setup": 618,
@@ -19,7 +19,7 @@
       "callback": 41,
       "connective": 53,
       "option-description": 436,
-      "option-label": 470,
+      "option-label": 475,
       "option-memory": 436,
       "option-witnessed": 54,
       "prompt": 130,
@@ -28,7 +28,7 @@
       "thread-recap": 32
     },
     "byReachability": {
-      "CURRENTLY_UNREACHABLE": 372,
+      "CURRENTLY_UNREACHABLE": 377,
       "DEV_FIXTURE_ONLY": 110,
       "LEGACY_OR_WITHDRAWN": 90,
       "PLAYER_REACHABLE": 2190,
@@ -36,7 +36,7 @@
       "WITHHELD_BY_GROUNDING": 358
     },
     "byRealization": {
-      "static": 2536,
+      "static": 2541,
       "templated": 653
     }
   },
@@ -101567,6 +101567,166 @@
       ],
       "textRevision": "1067680294ef",
       "contextRevision": "e1c104310c89"
+    },
+    {
+      "id": "prose:life:press-disclosure:TERM_LABEL-0001#text",
+      "domain": "life",
+      "bank": "press-disclosure",
+      "stableKey": "TERM_LABEL-0001",
+      "field": "text",
+      "surface": "option-label",
+      "sourcePath": "src/presentation/press-disclosure.ts",
+      "sourceSymbol": "TERM_LABEL",
+      "text": "Off the record",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "CRUNCH47 B2 adapter: who the played person could talk to, on what terms, and what they actually hold to say or hand over. UI mounts it in the press context; until then no ordinary route renders it.",
+      "grounding": [
+        {
+          "key": "terms-and-holdings",
+          "description": "The outlet's own policy on each arrangement, the exact agreed description, and the events this person knows or the records they have discovered.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "TERM_LABEL",
+        "anchor": "TERM_LABEL-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "9121669c0f5c",
+      "contextRevision": "b3c51cdf7636"
+    },
+    {
+      "id": "prose:life:press-disclosure:TERM_LABEL-0002#text",
+      "domain": "life",
+      "bank": "press-disclosure",
+      "stableKey": "TERM_LABEL-0002",
+      "field": "text",
+      "surface": "option-label",
+      "sourcePath": "src/presentation/press-disclosure.ts",
+      "sourceSymbol": "TERM_LABEL",
+      "text": "On background",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "CRUNCH47 B2 adapter: who the played person could talk to, on what terms, and what they actually hold to say or hand over. UI mounts it in the press context; until then no ordinary route renders it.",
+      "grounding": [
+        {
+          "key": "terms-and-holdings",
+          "description": "The outlet's own policy on each arrangement, the exact agreed description, and the events this person knows or the records they have discovered.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "TERM_LABEL",
+        "anchor": "TERM_LABEL-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "d5b8e01ff0c6",
+      "contextRevision": "b3c51cdf7636"
+    },
+    {
+      "id": "prose:life:press-disclosure:TERM_LABEL-0003#text",
+      "domain": "life",
+      "bank": "press-disclosure",
+      "stableKey": "TERM_LABEL-0003",
+      "field": "text",
+      "surface": "option-label",
+      "sourcePath": "src/presentation/press-disclosure.ts",
+      "sourceSymbol": "TERM_LABEL",
+      "text": "On deep background",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "CRUNCH47 B2 adapter: who the played person could talk to, on what terms, and what they actually hold to say or hand over. UI mounts it in the press context; until then no ordinary route renders it.",
+      "grounding": [
+        {
+          "key": "terms-and-holdings",
+          "description": "The outlet's own policy on each arrangement, the exact agreed description, and the events this person knows or the records they have discovered.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "TERM_LABEL",
+        "anchor": "TERM_LABEL-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "cf2984558c63",
+      "contextRevision": "b3c51cdf7636"
+    },
+    {
+      "id": "prose:life:press-disclosure:TERM_LABEL-0004#text",
+      "domain": "life",
+      "bank": "press-disclosure",
+      "stableKey": "TERM_LABEL-0004",
+      "field": "text",
+      "surface": "option-label",
+      "sourcePath": "src/presentation/press-disclosure.ts",
+      "sourceSymbol": "TERM_LABEL",
+      "text": "On the record",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "CRUNCH47 B2 adapter: who the played person could talk to, on what terms, and what they actually hold to say or hand over. UI mounts it in the press context; until then no ordinary route renders it.",
+      "grounding": [
+        {
+          "key": "terms-and-holdings",
+          "description": "The outlet's own policy on each arrangement, the exact agreed description, and the events this person knows or the records they have discovered.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "TERM_LABEL",
+        "anchor": "TERM_LABEL-0004"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "0a3737a1606e",
+      "contextRevision": "b3c51cdf7636"
+    },
+    {
+      "id": "prose:life:press-disclosure:projectDisclosure-0001#text",
+      "domain": "life",
+      "bank": "press-disclosure",
+      "stableKey": "projectDisclosure-0001",
+      "field": "text",
+      "surface": "option-label",
+      "sourcePath": "src/presentation/press-disclosure.ts",
+      "sourceSymbol": "projectDisclosure",
+      "text": "Terms are agreed before anything is said. Off the record cannot be published; on background is published only as the exact description you agree.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "CRUNCH47 B2 adapter: who the played person could talk to, on what terms, and what they actually hold to say or hand over. UI mounts it in the press context; until then no ordinary route renders it.",
+      "grounding": [
+        {
+          "key": "terms-and-holdings",
+          "description": "The outlet's own policy on each arrangement, the exact agreed description, and the events this person knows or the records they have discovered.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "projectDisclosure",
+        "anchor": "projectDisclosure-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "a3deb1193093",
+      "contextRevision": "b3c51cdf7636"
     },
     {
       "id": "prose:life:recall-cards:STATUS_LINE-0001#text",

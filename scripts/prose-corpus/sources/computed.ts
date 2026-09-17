@@ -559,6 +559,23 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
     ],
   },
   {
+    sourcePath: "src/presentation/press-disclosure.ts",
+    domain: "life",
+    bank: "press-disclosure",
+    symbols: ["TERM_LABEL", "projectDisclosure"],
+    surface: "option-label",
+    reachability: "CURRENTLY_UNREACHABLE",
+    reachabilityReason:
+      "CRUNCH47 B2 adapter: who the played person could talk to, on what terms, and what they actually hold to say or hand over. UI mounts it in the press context; until then no ordinary route renders it.",
+    grounding: [
+      {
+        key: "terms-and-holdings",
+        description:
+          "The outlet's own policy on each arrangement, the exact agreed description, and the events this person knows or the records they have discovered.",
+      },
+    ],
+  },
+  {
     sourcePath: "src/presentation/people-contacts.ts",
     domain: "life",
     bank: "contacts",

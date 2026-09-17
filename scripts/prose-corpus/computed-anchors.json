@@ -2491,6 +2491,38 @@
       "textRevision": "412d3c6d230d"
     },
     {
+      "anchor": "TERM_LABEL-0001",
+      "sourcePath": "src/presentation/press-disclosure.ts",
+      "symbol": "TERM_LABEL",
+      "text": "Off the record",
+      "occurrence": 0,
+      "textRevision": "9121669c0f5c"
+    },
+    {
+      "anchor": "TERM_LABEL-0002",
+      "sourcePath": "src/presentation/press-disclosure.ts",
+      "symbol": "TERM_LABEL",
+      "text": "On background",
+      "occurrence": 0,
+      "textRevision": "d5b8e01ff0c6"
+    },
+    {
+      "anchor": "TERM_LABEL-0003",
+      "sourcePath": "src/presentation/press-disclosure.ts",
+      "symbol": "TERM_LABEL",
+      "text": "On deep background",
+      "occurrence": 0,
+      "textRevision": "cf2984558c63"
+    },
+    {
+      "anchor": "TERM_LABEL-0004",
+      "sourcePath": "src/presentation/press-disclosure.ts",
+      "symbol": "TERM_LABEL",
+      "text": "On the record",
+      "occurrence": 0,
+      "textRevision": "0a3737a1606e"
+    },
+    {
       "anchor": "act-0001",
       "sourcePath": "src/player/MunicipalWorkspace.tsx",
       "symbol": "act",
@@ -6129,6 +6161,14 @@
       "text": "{candidateName} won. The supported term begins {supportedLegislativeTermDates(contest.office.officeKey,contest.electionDate)!.startsAt}; the result itself grants no current office authority.",
       "occurrence": 0,
       "textRevision": "fdcd60cba88c"
+    },
+    {
+      "anchor": "projectDisclosure-0001",
+      "sourcePath": "src/presentation/press-disclosure.ts",
+      "symbol": "projectDisclosure",
+      "text": "Terms are agreed before anything is said. Off the record cannot be published; on background is published only as the exact description you agree.",
+      "occurrence": 0,
+      "textRevision": "a3deb1193093"
     },
     {
       "anchor": "projectLifeContinuation-0001",
