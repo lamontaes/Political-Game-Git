@@ -26,6 +26,7 @@ import {
   openLegislativeWork,
 } from "./legislation-world";
 import { createNewGameWorld } from "./new-game";
+import { observeWorld, retireFromPlay } from "./people-continuation";
 import { resolvePlayerCapabilities } from "./player-capabilities";
 import { householdConversationRoom, openOrdinaryLife } from "./ordinary-life";
 import {
@@ -413,6 +414,31 @@ describe("What a saved game is", () => {
     if (outcome.status === "saved") {
       expect(outcome.summary.residence?.name).toBe("Kentucky");
     }
+  });
+});
+
+describe("A world being observed", () => {
+  it("saves and opens again with nobody played, listed under the last life", async () => {
+    const { store } = storeWith();
+    const game = createNewGameWorld({
+      placeKey: "kentucky",
+      startAge: 30,
+      depth: "summarize-earlier-life",
+      startingLife: "ordinary-life",
+      household: "shares-a-home",
+      seed: "observed",
+      givenName: null,
+      familyName: null,
+    });
+    const played = game.playerPersonId;
+    const observed = observeWorld(retireFromPlay(game.world, played), played);
+    expect(observed.control).toEqual({ kind: "observer" });
+    const saveId = store.newSaveId(observed);
+    const outcome = await store.save(observed, saveId);
+    if (outcome.status !== "saved") throw new Error(outcome.reason);
+    expect(outcome.summary.playerPersonId).toBe(played);
+    const loaded = await store.load(saveId);
+    expect(loaded?.control).toEqual({ kind: "observer" });
   });
 });
 
