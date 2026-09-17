@@ -2,6 +2,7 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type KeyboardEvent,
 } from "react";
@@ -994,6 +995,11 @@ export function ArtDeskView() {
                     {lineageSentence({
                       state: "not-recorded",
                       steps: selectedCard.lineage,
+                      declaredParentId:
+                        (selectedCard.leadCandidateId
+                          ? projection?.candidates[selectedCard.leadCandidateId]
+                              ?.parentCandidateId
+                          : null) ?? null,
                     })}
                   </p>
                 ) : null}
@@ -1367,6 +1373,14 @@ function RequestDetail({
     window.addEventListener("ocd:download-result", onResult);
     return () => window.removeEventListener("ocd:download-result", onResult);
   }, []);
+  const downloadTicket = useRef(0);
+  const viewedIdRef = useRef<string | null>(viewed?.candidateId ?? null);
+  useEffect(() => {
+    // The status line belongs to one version. Carrying it onto the next one
+    // would show a verified hash and a filename for bytes nobody fetched.
+    viewedIdRef.current = viewed?.candidateId ?? null;
+    setOriginalNote("");
+  }, [viewed?.candidateId]);
   // The detail's subject is the version on screen. A newer delivery on the
   // same card is announced above; it never renames what is being reviewed.
   const subject = card
@@ -1393,7 +1407,18 @@ function RequestDetail({
    */
   async function downloadOriginal() {
     if (!viewed || !originalName) return;
-    setOriginalNote(`Preparing ${originalName}…`);
+    // One fetch owns the status line: a read that finishes after the owner
+    // moved on must not report itself against the version now on screen.
+    const ticket = (downloadTicket.current += 1);
+    const subjectId = viewed.candidateId;
+    const report = (note: string) => {
+      if (
+        downloadTicket.current === ticket &&
+        viewedIdRef.current === subjectId
+      )
+        setOriginalNote(note);
+    };
+    report(`Preparing ${originalName}…`);
     try {
       const response = await fetch(
         originalUrl(viewed.candidateId, viewed.sha256),
@@ -1427,11 +1452,11 @@ function RequestDetail({
       anchor.click();
       anchor.remove();
       setTimeout(() => URL.revokeObjectURL(url), 30_000);
-      setOriginalNote(
-        `${originalName}: ${bytes.byteLength.toLocaleString()} bytes, hash verified, handed to the browser to save.`,
+      report(
+        `${originalName}: ${bytes.byteLength.toLocaleString()} bytes, hash verified, and handed to the browser as a download. Whether a file reached disk is not confirmed here — check your downloads.`,
       );
     } catch (error) {
-      setOriginalNote(
+      report(
         `Download failed for ${originalName}: ${error instanceof Error ? error.message : String(error)}.`,
       );
     }
@@ -1508,7 +1533,7 @@ function RequestDetail({
       <h2 data-testid="art-desk-detail-heading">{heading}</h2>
       {subject?.newer ? (
         <p className="art-desk-warning" data-testid="art-desk-newer-candidate">
-          A newer version arrived while you were looking at this one:{" "}
+          A newer version of this asset is waiting for review:{" "}
           {subject.newer.title} ({shortDate(subject.newer.at)}).{" "}
           <button
             type="button"

@@ -108,6 +108,12 @@ export interface LineageRecord {
   readonly state: LineageState;
   /** Newest first: this version and its declared parents. */
   readonly steps: readonly LineageStep[];
+  /**
+   * The parent this version declared, when the record names one. It is set
+   * even when that parent is absent from the record, so a missing parent is
+   * reported as unresolved rather than as never declared.
+   */
+  readonly declaredParentId: string | null;
 }
 
 export interface ArtDeskCard {
@@ -287,7 +293,11 @@ export function lineageOfCandidate(
   candidate: ProjectedCandidate,
 ): LineageRecord {
   const steps = lineageOf(projection, candidate);
-  return { state: lineageStateOf(candidate, steps), steps };
+  return {
+    state: lineageStateOf(candidate, steps),
+    steps,
+    declaredParentId: candidate.parentCandidateId ?? null,
+  };
 }
 
 /** Plain sentence for a lineage record, for the detail view. */
@@ -299,9 +309,10 @@ export function lineageSentence(record: LineageRecord): string {
       .join(" → ")}.`;
   if (record.state === "original")
     return "Recorded as the original; nothing came before it here.";
-  return `Lineage is not recorded for this version: it arrived as a ${
-    record.steps[0]?.stage ?? "version"
-  } with no declared parent. Nothing is inferred from its filename or timing.`;
+  const stage = record.steps[0]?.stage ?? "version";
+  if (record.declaredParentId)
+    return `Lineage is not recorded for this version: it arrived as a ${stage} declaring parent ${record.declaredParentId}, and that parent is not in this record. Nothing is inferred from its filename or timing.`;
+  return `Lineage is not recorded for this version: it arrived as a ${stage} with no declared parent. Nothing is inferred from its filename or timing.`;
 }
 
 /** The version a card leads with: newest awaiting review, else newest. */

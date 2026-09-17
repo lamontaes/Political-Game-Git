@@ -367,6 +367,24 @@ describe("Art Desk lineage honesty", () => {
     expect(artDeskCards(view)[0]!.lineageState).toBe("not-recorded");
   });
 
+  it("says a declared parent is missing rather than that none was declared", () => {
+    // The parent id is on the record; the parent itself is not in this
+    // projection. Reporting "no declared parent" would deny the record.
+    const view = projection([
+      ingest("cand-lost", "upscale", {
+        parent: "cand-absent",
+        family: corridor,
+      }),
+    ]);
+    const record = lineageOfCandidate(view, view.candidates["cand-lost"]!);
+    expect(record.state).toBe("not-recorded");
+    expect(record.declaredParentId).toBe("cand-absent");
+    const sentence = lineageSentence(record);
+    expect(sentence).toContain("declaring parent cand-absent");
+    expect(sentence).toContain("not in this record");
+    expect(sentence).not.toContain("no declared parent");
+  });
+
   it("calls a recorded original an original rather than a missing chain", () => {
     const view = projection([
       ingest("cand-native", "original", { family: corridor }),
