@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import { expect, test, type Page } from "@playwright/test";
 import {
   enterLife,
@@ -6,17 +7,6 @@ import {
   saveLife,
   startLife,
 } from "./support/creator";
-import { openedLifeWithAdultChild } from "../fixtures/people-heir";
-import {
-  createBrowserWorldRecord,
-  type BrowserSaveStore,
-} from "../../src/presentation/browser-world-repository";
-import {
-  exportPortableSave,
-  serializePortableSave,
-} from "../../src/presentation/portable-save";
-import type { EntityId } from "../../src/simulation";
-import { personName } from "../../src/simulation/people";
 
 /**
  * UI46: what follows a played life, reached the way a player reaches it.
@@ -153,31 +143,18 @@ test("an observed world saves, reloads and continues as itself", async ({
  * Saved games is only offered once something is saved, so a first life is
  * started and kept before the import, exactly as a player would have to.
  */
-async function heirSaveFile(): Promise<{
-  readonly buffer: Buffer;
+function heirSaveFile(outFile: string): {
   readonly playerName: string;
   readonly childName: string;
   readonly childPersonId: string;
-}> {
-  const { world, playerPersonId, childPersonId } = openedLifeWithAdultChild();
-  const record = createBrowserWorldRecord(world, "2026-09-17T00:00:00.000Z");
-  // The export reads the slot through the store it is given. This one holds
-  // the fixture record and has no browser database, so the file says the
-  // interface state was unavailable rather than inventing any.
-  const store = {
-    indexedDB: undefined,
-    databaseName: "ui46-heir-export",
-    inspectRecord: async (saveId: EntityId) =>
-      saveId === record.saveId ? record : null,
-  } as unknown as BrowserSaveStore;
-  const exported = await exportPortableSave(store, record.saveId);
-  if (exported.status !== "ok") throw new Error(exported.reason);
-  return {
-    buffer: Buffer.from(serializePortableSave(exported.bundle)),
-    playerName: personName(world.people[playerPersonId]!),
-    childName: personName(world.people[childPersonId]!),
-    childPersonId,
-  };
+} {
+  return JSON.parse(
+    execFileSync(
+      process.execPath,
+      ["--import", "tsx", "tests/e2e/support/people-heir-save.ts", outFile],
+      { encoding: "utf8" },
+    ),
+  ) as ReturnType<typeof heirSaveFile>;
 }
 
 test("continue as an adult child, then save and reload as them", async ({
@@ -186,7 +163,8 @@ test("continue as an adult child, then save and reload as them", async ({
   test.setTimeout(300_000);
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
-  const heir = await heirSaveFile();
+  const file = testInfo.outputPath("heir.ocd-life.json");
+  const heir = heirSaveFile(file);
 
   // A first life, kept, so Saved games opens.
   await beginAdultWhoSharesAHome(page);
@@ -198,13 +176,7 @@ test("continue as an adult child, then save and reload as them", async ({
   await expect(page.getByTestId("saves-screen")).toBeVisible();
   const chooser = page.waitForEvent("filechooser");
   await page.getByTestId("import-save").click();
-  await (
-    await chooser
-  ).setFiles({
-    name: "heir.ocd-life.json",
-    mimeType: "application/json",
-    buffer: heir.buffer,
-  });
+  await (await chooser).setFiles(file);
   await expect(
     page.getByText("Imported as a new save of the same life.", {
       exact: false,
