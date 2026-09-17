@@ -175,6 +175,16 @@ function readPreferences(value: unknown): ShellPreferences {
     typeof value.journalYear === "string" && /^\d{4}$/.test(value.journalYear)
       ? value.journalYear
       : DEFAULT_PREFERENCES.journalYear;
+  const politicsPlace =
+    value.politicsPlace === "home" || value.politicsPlace === "here"
+      ? value.politicsPlace
+      : DEFAULT_PREFERENCES.politicsPlace;
+  const governmentScope =
+    value.governmentScope === "local" ||
+    value.governmentScope === "state" ||
+    value.governmentScope === "federal"
+      ? value.governmentScope
+      : DEFAULT_PREFERENCES.governmentScope;
   return {
     peopleView,
     defaultPinSize,
@@ -185,6 +195,8 @@ function readPreferences(value: unknown): ShellPreferences {
     newsOutletKey,
     journalView,
     journalYear,
+    politicsPlace,
+    governmentScope,
   };
 }
 

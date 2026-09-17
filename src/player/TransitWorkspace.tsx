@@ -135,18 +135,7 @@ export function TransitWorkspace({
           }}
         >
           <h3>Propose added service</h3>
-          <label>
-            Total amount provided (USD)
-            <input
-              type="number"
-              required
-              step="0.01"
-              min="200"
-              max="40000000"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-            />
-          </label>
+          <h4>1. Objective: which service to add</h4>
           <fieldset>
             <legend>Service period</legend>
             {TRANSIT_SERVICE_CHOICES.map((c) => (
@@ -163,6 +152,25 @@ export function TransitWorkspace({
               </label>
             ))}
           </fieldset>
+          <h4>2. Proposal: how much to provide</h4>
+          <label>
+            Total amount provided (USD)
+            <input
+              type="number"
+              required
+              step="0.01"
+              min="200"
+              max="40000000"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+            />
+          </label>
+          <h4>3. Commitment: file it</h4>
+          <p>
+            Filing starts the ordinary legislative steps; nothing is spent until
+            the appropriation is enacted, effective and paid from collected
+            public cash.
+          </p>
           <button type="submit">File transit appropriation</button>
         </form>
       )}

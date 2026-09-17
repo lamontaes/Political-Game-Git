@@ -313,8 +313,8 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     });
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await enterLife(page);
-    // PT3: running for office is in Work, not stacked under the day.
-    await openElsewhere(page, "work");
+    // Running for office is in Politics → Campaigns, not stacked under the day.
+    await openElsewhere(page, "campaign");
     await expect(page.getByTestId("work-section-campaign")).toBeVisible();
 
     // The owner saw the refusal here. There must now be something to file for,
@@ -334,7 +334,7 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
       gender: "male",
     });
     await enterLife(page);
-    await openElsewhere(page, "work");
+    await openElsewhere(page, "campaign");
 
     await fileCandidacy(page);
     await page.getByTestId("campaign-fundraising").click();
@@ -364,7 +364,7 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
       gender: "male",
     });
     await enterLife(page);
-    await openElsewhere(page, "work");
+    await openElsewhere(page, "campaign");
     await fileCandidacy(page);
 
     // Spend the actual available time, rather than assuming a fixed session
@@ -403,7 +403,7 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     await page.reload();
     await page.getByTestId("continue").click();
     await enterLife(page);
-    await openElsewhere(page, "work");
+    await openElsewhere(page, "campaign");
     await expect(page.getByTestId("day-date")).toHaveText(exhausted);
     await expect(page.getByTestId("campaign-fundraising")).toBeDisabled();
 
@@ -415,7 +415,7 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     if (await refusal.isVisible())
       await expect(refusal).not.toContainText(/spoken for|no time|too late/i);
 
-    await openElsewhere(page, "work");
+    await openElsewhere(page, "campaign");
     await page.getByTestId("pass-day").focus();
     await page.keyboard.press("Space");
     await expect(page.getByTestId("day-date")).not.toHaveText(exhausted);
@@ -457,7 +457,7 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     await page.reload();
     await page.getByTestId("continue").click();
     await enterLife(page);
-    await openElsewhere(page, "work");
+    await openElsewhere(page, "campaign");
     await expect(page.getByTestId("day-date")).toHaveText(morning);
     await expect(page.getByTestId("campaign-fundraising")).toBeEnabled();
     await page.getByTestId("campaign-outreach").focus();
@@ -480,7 +480,7 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
       gender: "male",
     });
     await enterLife(page);
-    await openElsewhere(page, "work");
+    await openElsewhere(page, "campaign");
     await fileCandidacy(page);
     const opponentLine = (
       await page.getByTestId("campaign-opponents").innerText()

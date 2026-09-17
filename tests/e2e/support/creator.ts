@@ -233,13 +233,15 @@ export async function openShellMenu(page: Page): Promise<void> {
 /**
  * Political destinations that live inside the Politics hub.
  *
- * The menu carries one Politics entry; the office, campaigns, government and
+ * The menu carries one Politics entry; the office, campaigns (every campaign
+ * surface, including running for the legislature), government and
  * local records, parties, and the budget with transit and taxes are tabs of
  * the hub. A test that asks for one of the older destination names reaches
  * the same screen the way a player now does: Politics, then the tab.
  */
 const POLITICS_HUB: Readonly<Record<string, readonly string[]>> = {
   "elsewhere-work": ["politics-tab-office"],
+  "elsewhere-campaign": ["politics-tab-campaigns"],
   "nav-politics-government": ["politics-tab-government"],
   "nav-municipal": ["politics-tab-government", "politics-sub-records"],
   "nav-parties": ["politics-tab-parties"],
@@ -360,9 +362,10 @@ export async function shellIdentity(page: Page): Promise<string> {
  */
 export async function openElsewhere(
   page: Page,
-  key: "day" | "people" | "work",
+  key: "day" | "people" | "work" | "campaign",
 ): Promise<void> {
   if (key === "work") return openPoliticsHub(page, "elsewhere-work");
+  if (key === "campaign") return openPoliticsHub(page, "elsewhere-campaign");
   const control = await revealShellDestination(
     page,
     key === "day" ? "nav-calendar" : `elsewhere-${key}`,

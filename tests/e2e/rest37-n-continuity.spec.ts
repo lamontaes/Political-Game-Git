@@ -40,7 +40,7 @@ test("recorded result enters its supported term through ordinary Work and files/
   await page.getByTestId("continue").focus();
   await page.keyboard.press("Enter");
   await enterLife(page);
-  await openElsewhere(page, "work");
+  await openElsewhere(page, "campaign");
   await expect(page.getByTestId("campaign-afterword")).toContainText(
     "2027-01-01",
   );

@@ -105,7 +105,15 @@ for (const size of SIZES) {
         page.getByTestId(`government-branch-${branch}`),
       ).toBeVisible();
     }
-    await expect(browser).not.toContainText(/vacan/i);
+    // Local government invents no vacancy; only a saved record may state one.
+    for (const branch of ["legislative", "executive", "judicial"]) {
+      await expect(
+        page.getByTestId(`government-branch-${branch}`),
+      ).not.toContainText(/vacan/i);
+    }
+    await expect(page.getByTestId("government-represented-by")).toContainText(
+      "Represented by",
+    );
     await page.screenshot({ path: info.outputPath("02-government-local.png") });
 
     // Scope by keyboard.
@@ -142,10 +150,12 @@ for (const size of SIZES) {
     // The hub reaches every existing political surface.
     await page.getByTestId("politics-tab-issues").click();
     await expect(page.getByTestId("politics-workspace")).toBeVisible();
-    await page.getByTestId("politics-sub-transit").click();
-    await expect(page.getByTestId("transit-workspace")).toBeVisible();
-    await page.getByTestId("politics-sub-tax").click();
-    await expect(page.getByTestId("tax-workspace")).toBeVisible();
+    await expect(page.getByTestId("politics-budget-scope")).toContainText(
+      "Alamo",
+    );
+    // A citizen without the authority is not offered the configuration forms.
+    await expect(page.getByTestId("politics-sub-transit")).toHaveCount(0);
+    await expect(page.getByTestId("politics-sub-tax")).toHaveCount(0);
     await page.getByTestId("politics-tab-campaigns").click();
     await expect(page.getByTestId("candidacy-workspace")).toBeVisible();
     await page.getByTestId("politics-tab-parties").click();

@@ -227,9 +227,8 @@ test("an Alaska member funds added transit service from a collected tax and sees
     path: shotPath("civic-transit-unfunded.png"),
     fullPage: true,
   });
-  await transit(page)
-    .getByRole("button", { name: "Open taxes and public receipts" })
-    .click();
+  // Taxes are reached once, from the Issues and budget sections.
+  await goTo(page, "nav-politics-tax", "politics");
   for (
     let day = 0;
     day < 60 &&
