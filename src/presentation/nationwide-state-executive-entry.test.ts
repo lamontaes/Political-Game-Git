@@ -10,7 +10,24 @@ import {
   stateJurisdictionForKey,
   unadmittedRuleCapabilityResolver,
 } from "../simulation";
-import type { EntityId, RuleCapabilityResolver, World } from "../simulation";
+import type {
+  EntityId,
+  FutureTransitionHandlerRegistry,
+  RuleCapabilityResolver,
+  World,
+} from "../simulation";
+import {
+  ELECTION_CONTEST_TRANSITION_KEY,
+  campaignElectionTransitionHandler,
+  createFutureTransitionHandlerRegistry,
+  decideGoverningMatter,
+  electionContestResult,
+  governingMatters,
+  governingOfficeForPerson,
+  resolveCampaignElectionFromRecordedInput,
+  stateExecutiveTermRule,
+  termDatesAfterElection,
+} from "../simulation";
 import { resolveExecutiveOffice } from "../simulation/executive-work-context";
 import { receiveExecutiveWork } from "../simulation/executive-work";
 import { receiveExecutiveWorkIfCurrentOffice } from "../simulation/incident-response";
@@ -20,6 +37,7 @@ import {
   qualifyForStateExecutiveTerm,
   stateExecutiveCandidacyForPerson,
   stateExecutiveEntryStatus,
+  stateExecutiveOfficeCalendar,
 } from "./nationwide-candidacy";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -51,21 +69,74 @@ function adultLifeIn(usps: string, seed: string) {
   };
 }
 
-function runToElection(world: World, personId: EntityId): World {
+function daysBetween(from: string, to: string): number {
+  return Math.round((Date.parse(to) - Date.parse(from)) / 86_400_000);
+}
+
+function runToElection(
+  world: World,
+  personId: EntityId,
+  handlers?: FutureTransitionHandlerRegistry,
+): World {
   let next = world;
   for (
-    let day = 0;
-    day < 40 && projectCampaign(next, personId).phase === "active";
-    day += 1
+    let step = 0;
+    step < 60 && projectCampaign(next, personId).phase === "active";
+    step += 1
   )
-    next = passOrdinaryDays(next);
+    next = passOrdinaryDays(next, 30, handlers ? { handlers } : {});
   return next;
 }
 
 function passUntil(world: World, date: string): World {
   let next = world;
-  while (next.currentDate < date) next = passOrdinaryDays(next);
+  for (let step = 0; step < 200 && next.currentDate < date; step += 1)
+    next = passOrdinaryDays(
+      next,
+      Math.max(1, Math.min(30, daysBetween(next.currentDate, date))),
+    );
   return next;
+}
+
+/**
+ * Test fixture only: a supplied result so every state's entry route can be
+ * exercised with the player as winner. Not a forecast and not a real result.
+ */
+function suppliedWin(personId: EntityId): FutureTransitionHandlerRegistry {
+  return createFutureTransitionHandlerRegistry([
+    [
+      ELECTION_CONTEST_TRANSITION_KEY,
+      (atDate, due) => {
+        const contest = (atDate.history.electionContests ?? []).find((c) =>
+          due.entityIds.includes(c.id),
+        );
+        if (!contest || !contest.candidatePersonIds.includes(personId))
+          return campaignElectionTransitionHandler(atDate, due);
+        const resolved = resolveCampaignElectionFromRecordedInput(atDate, {
+          contestId: contest.id,
+          winnerPersonId: personId,
+          tallies: contest.candidatePersonIds.map((candidatePersonId) => ({
+            candidatePersonId,
+            votes: candidatePersonId === personId ? 2 : 1,
+            voteShare: candidatePersonId === personId ? 2 / 3 : 1 / 3,
+          })),
+          provenance: {
+            method: "authored",
+            sourceEntityIds: [],
+            note: "Supplied fictional test result; not a forecast.",
+          },
+        });
+        return {
+          world: resolved,
+          status: "resolved",
+          reasonKey: null,
+          context: "Supplied recorded-result fixture.",
+          outcomeEventId: electionContestResult(resolved, contest.id)!
+            .outcomeEventId,
+        };
+      },
+    ],
+  ]);
 }
 
 /** Test fixture only. Not a sourced term rule for any state. */
@@ -101,66 +172,112 @@ afterEach(() => bindRuleCapabilityResolver(unadmittedRuleCapabilityResolver));
 
 const outcomes: Record<string, string> = {};
 
-describe("NATIONWIDE ordinary state executive entry, current composition data", () => {
+describe("GOVERNING all-fifty-state campaign -> office -> work (supplied win fixture)", () => {
   it.each([...US_STATE_USPS])(
-    "%s: filing, a real contest and the honest term outcome, through reopen",
+    "%s: cycle filing, result, qualification, dated entry, first matters, a recorded consequence, reopen",
     (usps) => {
-      const { world, personId } = adultLifeIn(usps, `nationwide-entry-${usps}`);
+      const { world, personId } = adultLifeIn(usps, `governing-entry-${usps}`);
       const identity = stateExecutiveIdentity(usps)!;
       const candidacy = stateExecutiveCandidacyForPerson(world, personId)!;
       expect(candidacy.identity.officeKey).toBe(identity.officeKey);
-
       if (!candidacy.eligible) {
-        // Refused with the RULES sentence, and nothing is written.
+        // Refused with the exact RULES sentence, and nothing is written.
         expect(candidacy.blocks.length).toBeGreaterThan(0);
         expect(() => fileForStateExecutiveOffice(world, personId)).toThrow(
           candidacy.blocks[0]!.reason,
         );
-        outcomes[usps] = `refused:${candidacy.blocks[0]!.kind}`;
+        outcomes[usps] =
+          `UNFINISHED refused:${candidacy.blocks[0]!.kind}: ${candidacy.blocks[0]!.reason}`;
         return;
       }
+      const calendar = stateExecutiveOfficeCalendar(world, usps)!;
+      const rule = stateExecutiveTermRule(usps)!;
 
+      // Filing stands in the office's own regular election, not a fixed
+      // number of days away.
       const filed = fileForStateExecutiveOffice(world, personId);
-      expect(projectCampaign(filed, personId).phase).toBe("active");
+      const contest = filed.history.electionContests!.at(-1)!;
+      expect(contest.electionDate).toBe(calendar.nextElection);
+      expect(daysBetween(world.currentDate, contest.electionDate)).not.toBe(28);
       expect(stateExecutiveEntryStatus(filed, personId).kind).toBe(
         "pending-election",
       );
 
-      const decided = runToElection(filed, personId);
-      const status = stateExecutiveEntryStatus(decided, personId);
-      const phase = projectCampaign(decided, personId).phase;
-      expect(["won", "lost"]).toContain(phase);
-      // Never occupied on election night, whoever won.
-      expect(
-        decided.history.workRelationships.some(
-          (relationship) => relationship.kind === "employment:executive-office",
-        ),
-      ).toBe(false);
-      if (phase === "lost") {
-        expect(status.kind).toBe("lost");
-        outcomes[usps] = "lost";
-      } else {
-        expect(status.kind).toBe("won-term-unavailable");
-        if (status.kind === "won-term-unavailable") {
-          expect(status.missing.length).toBeGreaterThan(0);
-          outcomes[usps] = `won; missing ${status.missing.join(",")}`;
-        }
-      }
+      const decided = runToElection(filed, personId, suppliedWin(personId));
+      expect(projectCampaign(decided, personId).phase).toBe("won");
+      // Never occupied on election night.
+      expect(governingOfficeForPerson(decided, personId)).toBeNull();
+      const planned = stateExecutiveEntryStatus(decided, personId);
+      expect(planned.kind).toBe("awaiting-qualification");
+      if (planned.kind !== "awaiting-qualification") return;
+      const expected = termDatesAfterElection(rule, contest.electionDate);
+      expect(planned.startsAt).toBe(expected.startsAt);
+      expect(planned.endsAt).toBe(expected.endsAt);
 
-      // The opening governor still holds the office.
+      const qualified = qualifyForStateExecutiveTerm(decided, personId);
+      const entered = passUntil(qualified, planned.startsAt);
+      expect(stateExecutiveEntryStatus(entered, personId).kind).toBe(
+        "in-office",
+      );
+      const office = governingOfficeForPerson(entered, personId)!;
+      expect(office.officeKey).toBe(identity.officeKey);
+      expect(office.termStartedAt).toBe(planned.startsAt);
       expect(
-        currentPublicOfficeholders(decided).find(
+        currentPublicOfficeholders(entered).find(
           (holder) => holder.officeKey === identity.officeKey,
         )?.personId,
-      ).not.toBe(personId);
+      ).toBe(personId);
 
-      const reopened = deserializeWorld(serializeWorld(decided));
-      expect(stateExecutiveEntryStatus(reopened, personId)).toEqual(status);
-      expect(() => qualifyForStateExecutiveTerm(reopened, personId)).toThrow(
-        /no planned state executive term/,
+      // The day after entry the office has its first matters.
+      const working = passOrdinaryDays(entered, 2);
+      // Matters of the office's previous holder stay on record; the new
+      // governor's own first matters are these.
+      const mine = (w: World) =>
+        governingMatters(w, office.officeKey).filter(
+          (m) => m.holderPersonId === personId,
+        );
+      const opening = mine(working);
+      expect(opening.map((m) => m.family).sort()).toEqual([
+        "agenda",
+        "chief-of-staff",
+      ]);
+      expect(opening.every((m) => m.workItemId !== null)).toBe(true);
+
+      // Team, agenda and one consequential executive task.
+      const cos = opening.find((m) => m.family === "chief-of-staff")!;
+      expect(cos.options).toHaveLength(3);
+      let next = decideGoverningMatter(working, cos.id, cos.options[0]!.key);
+      expect(next.ok).toBe(true);
+      const agenda = mine(next.world).find((m) => m.family === "agenda")!;
+      const priority = agenda.options.find((o) => o.key !== "priority:none")!;
+      next = decideGoverningMatter(next.world, agenda.id, priority.key);
+      expect(next.ok).toBe(true);
+      const task = mine(next.world).find((m) => m.family === "implementation")!;
+      expect(task.status).toBe("open");
+      next = decideGoverningMatter(next.world, task.id, "pace:fast");
+      expect(next.ok).toBe(true);
+      const reported = passOrdinaryDays(next.world, 61);
+      const outcome = reported.history.events.find(
+        (event) =>
+          event.type === "governing.outcome" &&
+          event.tags.includes(`matter:${task.id}`),
       );
+      expect(outcome?.visibility).toBe("public");
+
+      const reopened = deserializeWorld(serializeWorld(reported));
+      expect(governingOfficeForPerson(reopened, personId)?.officeKey).toBe(
+        office.officeKey,
+      );
+      // The three matters decided above survive a reopen unchanged.
+      for (const decided of [cos.id, agenda.id, task.id])
+        expect(mine(reopened).find((m) => m.id === decided)?.status).toBe(
+          "decided",
+        );
+      outcomes[usps] =
+        `in office ${planned.startsAt} (${rule.basis.commencement}); ` +
+        (outcome!.tags.find((tag) => tag.startsWith("implementation:")) ?? "");
     },
-    60_000,
+    240_000,
   );
 
   it("refuses another state's governorship as living elsewhere", () => {
@@ -179,7 +296,11 @@ describe("NATIONWIDE ordinary state executive entry, current composition data", 
   });
 
   it("reports the per-state outcome summary", () => {
-    console.info(`[nationwide-entry outcomes] ${JSON.stringify(outcomes)}`);
+    console.info(
+      `[governing-entry outcomes]\n${Object.entries(outcomes)
+        .map(([usps, text]) => `${usps}: ${text}`)
+        .join("\n")}`,
+    );
     expect(Object.keys(outcomes)).toHaveLength(50);
   });
 });
@@ -216,8 +337,9 @@ describe("NATIONWIDE ordinary state executive entry once term facts are admitted
     const planned = stateExecutiveEntryStatus(world, personId);
     expect(planned.kind).toBe("awaiting-qualification");
     if (planned.kind !== "awaiting-qualification") return;
-    expect(planned.startsAt).toBe("2026-03-01");
-    expect(planned.endsAt).toBe("2030-03-01");
+    // The admitted fixture's reference start follows the regular election.
+    expect(planned.startsAt).toBe("2030-03-01");
+    expect(planned.endsAt).toBe("2034-03-01");
     expect(planned.qualificationBlocks).toEqual([]);
     expect(resolveExecutiveOffice(world)).toBeNull();
 
@@ -301,7 +423,7 @@ describe("NATIONWIDE ordinary state executive entry once term facts are admitted
       expect(stateExecutiveEntryStatus(decided, personId).kind).toBe("lost");
       expect(() => qualifyForStateExecutiveTerm(decided, personId)).toThrow();
       expect(
-        resolveExecutiveOffice(passUntil(decided, "2026-03-02")),
+        resolveExecutiveOffice(passUntil(decided, "2030-03-02")),
       ).toBeNull();
       return;
     }

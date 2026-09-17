@@ -13,6 +13,7 @@ import type { MeasureBriefing } from "../presentation/legislation-projection";
 import { applyLegislativeStep } from "../presentation/legislation-session";
 import {
   applyLegislativeCommand,
+  institutionOwnsStep,
   recordedInstitutionalStepRequiresWait,
 } from "../presentation/legislation-world";
 import type { LegislativeAssignment } from "../presentation/legislation-world";
@@ -60,6 +61,11 @@ export function LegislationWorkspace({
           assignment,
           option.actionKey,
         );
+        const institutionActs = institutionOwnsStep(
+          world,
+          assignment,
+          option.actionKey,
+        );
         const reason = legislativeProcedureRefusal(
           world,
           assignment.procedure,
@@ -73,6 +79,14 @@ export function LegislationWorkspace({
                 label: `Wait for the other chamber: ${option.label}`,
               }
             : {}),
+          ...(institutionActs
+            ? {
+                playerMayAct: false,
+                label: `Wait while ${option.actorLabel} acts`,
+                detail:
+                  "This step is not your office's to take. Waiting lets time pass until they act.",
+              }
+            : {}),
           ...(reason ? { disabledReason: reason } : {}),
         };
       }),
@@ -84,7 +98,9 @@ export function LegislationWorkspace({
       const result = applyLegislativeCommand(world, assignment, {
         kind: recordedInstitutionalStepRequiresWait(world, assignment, step)
           ? "await-institutional-record"
-          : "take-step",
+          : institutionOwnsStep(world, assignment, step)
+            ? "await-institution"
+            : "take-step",
         step,
       });
       setMessage(result.message);
@@ -285,7 +301,9 @@ function MeasureView({
           </p>
           {briefing.sponsorName ? (
             <p className="legislation-sponsor">
-              Your office's bill. Sponsored by {briefing.sponsorName}.
+              {briefing.sponsoredByPlayer
+                ? "Your bill. You are its sponsor."
+                : `Your office's bill, sponsored by ${briefing.sponsorName}.`}
             </p>
           ) : null}
         </div>

@@ -4,6 +4,10 @@ import {
   scheduleLegislativeTerm,
   createLegislativeTermTransitionRegistry,
 } from "./legislative-office-terms";
+import { STATE_GOVERNING_HANDLERS } from "./governing/state-governing";
+import { PUBLIC_PROGRAM_HANDLERS } from "./governing/public-program";
+import { OFFICE_CONTINUITY_HANDLERS } from "./governing/office-continuity";
+import { GOVERNOR_TURNOVER_HANDLERS } from "./nationwide-world/state-executive-turnover";
 import {
   createNationalElectionTransitionRegistry,
   linkedNationalUnitTransition,
@@ -11,6 +15,7 @@ import {
 import { createTransitTransitionRegistry } from "./transit-service";
 import { settlePublicResourcePayment } from "./public-fiscal";
 import { createTaxTransitionHandlerRegistry } from "./tax-policy";
+import { createCrisisTransitionRegistry } from "./crisis";
 import { composeExecutiveWorkHandlers } from "./executive-work";
 import { LIFE_PATHS2_HANDLERS } from "./life-paths2";
 import { requireCandidacyPack } from "./candidacy-packs";
@@ -56,6 +61,8 @@ import {
   recordWorkStatus,
 } from "./life";
 import { LIFE_TRANSITION_HANDLERS } from "./life-callbacks";
+import { PEOPLE_CONTACT_HANDLERS } from "./people-contact";
+import { PEOPLE_FAMILY_HANDLERS } from "./people-family-plan";
 import {
   CLAIM_CONTRADICTION_TRANSITION_KEY,
   claimContradictionTransitionHandler,
@@ -65,9 +72,17 @@ import {
   chapterOutreachTransitionHandler,
 } from "./living-world/party-chapters";
 import {
+  MACRO_MONTHLY_STEP_KEY,
+  macroMonthlyStepHandler,
+} from "./macro-economy/producer";
+import {
   DEVELOPMENT_STEP_TRANSITION_KEY,
   developmentStepTransitionHandler,
 } from "./living-world/developments";
+import {
+  PARTY_BODY_REVIEW_TRANSITION_KEY,
+  partyBodyReviewTransitionHandler,
+} from "./living-world/party-evolution";
 import { workStatusAt, workStatusHistory } from "./life-queries";
 import {
   lifePlaceByJurisdictionId,
@@ -1867,8 +1882,15 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
       ),
       createTaxTransitionHandlerRegistry(),
       LIFE_PATHS2_HANDLERS,
+      // CRUNCH46 CRISIS: mortality windows, deaths and health reviews.
+      createCrisisTransitionRegistry(),
       createFutureTransitionHandlerRegistry([
         [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
+        // GOVERNING: state office matters, their deadlines and reports.
+        ...STATE_GOVERNING_HANDLERS,
+        ...GOVERNOR_TURNOVER_HANDLERS,
+        ...PUBLIC_PROGRAM_HANDLERS,
+        ...OFFICE_CONTINUITY_HANDLERS,
         // ALIVE43 W2: a local chapter organizer acts while ordinary time passes.
         [CHAPTER_OUTREACH_TRANSITION_KEY, chapterOutreachTransitionHandler],
         // ALIVE43 W3: background public developments take their next step.
@@ -1878,9 +1900,17 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
           CLAIM_CONTRADICTION_TRANSITION_KEY,
           claimContradictionTransitionHandler,
         ],
+        // CRUNCH46 CHANGE: canonical macro history closes each month once.
+        [MACRO_MONTHLY_STEP_KEY, macroMonthlyStepHandler],
+        // CRUNCH46 WORLD: party governing bodies meet and may change.
+        [PARTY_BODY_REVIEW_TRANSITION_KEY, partyBodyReviewTransitionHandler],
       ]),
       // CRUNCH46 PRESS: newsroom desk, story steps, procedures, bookkeeping.
       createPressTransitionRegistry(),
+      // CRUNCH47 PEOPLE: somebody answers a request to meet, in their own time.
+      PEOPLE_CONTACT_HANDLERS,
+      // CRUNCH47 PEOPLE: a family two people agreed to, on the day it lands.
+      PEOPLE_FAMILY_HANDLERS,
       LIFE_TRANSITION_HANDLERS,
     ),
   );

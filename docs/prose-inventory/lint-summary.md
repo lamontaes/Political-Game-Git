@@ -1,6 +1,6 @@
 # Prose diagnostics — current main baseline
 
-**0 hard errors. 268 review warnings.**
+**0 hard errors. 273 review warnings.**
 
 A hard error is objectively wrong: an ID collision, a slot the record's own
 grounding cannot bind, a withheld record with no reason. A review warning is a
@@ -13,7 +13,7 @@ defect than the one it was aimed at.
 
 | Family | Count |
 | --- | --- |
-| vague-referent | 185 |
+| vague-referent | 190 |
 | and-it-scaffold | 39 |
 | rather-than-scaffold | 24 |
 | third-person-player | 10 |
@@ -22,10 +22,10 @@ defect than the one it was aimed at.
 
 ## Repetition
 
-- 3097 templates, 2882 distinct texts.
-- 81 exact duplicate groups.
-- 90 normalized duplicate groups.
-- 34 near-duplicate clusters (Jaccard ≥ 0.72).
+- 3194 templates, 2977 distinct texts.
+- 83 exact duplicate groups.
+- 93 normalized duplicate groups.
+- 35 near-duplicate clusters (Jaccard ≥ 0.72).
 
 Exact duplicate text at two semantic locations is not itself a defect: each
 keeps its own ID, and two banks may legitimately both offer "Say nothing".
@@ -40,10 +40,10 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `there is a` | 20 | 4 |
 | `it is not` | 18 | 4 |
 | `out of the` | 18 | 5 |
+| `asked you to` | 17 | 5 |
+| `the player asked` | 17 | 2 |
 | `you want to` | 17 | 4 |
-| `asked you to` | 16 | 4 |
 | `the end of` | 16 | 5 |
-| `the player asked` | 16 | 2 |
 | `you tell you` | 16 | 1 |
 | `at the end` | 15 | 4 |
 | `at the end of` | 15 | 4 |
@@ -66,18 +66,18 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | --- | --- |
 | `no time passes` | 111 |
 | `no instrument read` | 21 |
-| `the player asked` | 16 |
+| `the player asked` | 17 |
 | `you tell you` | 16 |
 | `there is a` | 12 |
 | `the bill is` | 10 |
 | `that file is` | 9 |
+| `the player told` | 9 |
 | `you put the` | 9 |
+| `you said you` | 9 |
 | `say you will` | 8 |
 | `you took the` | 8 |
 | `ask about the` | 7 |
 | `ask for a` | 7 |
 | `stay out of` | 7 |
-| `you said you` | 7 |
-| `you told them` | 7 |
 
 Every finding with its exact semantic ID is in `lint-findings.json`.

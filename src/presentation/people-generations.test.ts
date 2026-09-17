@@ -3,6 +3,7 @@ import {
   enterSupportedTerm,
   recordedTermFixture,
 } from "../../tests/fixtures/recorded-legislative-term";
+import { openedLifeWithAdultChild } from "../../tests/fixtures/people-heir";
 import {
   addDays,
   ageOnDate,
@@ -32,9 +33,11 @@ import { recordPersonDeath } from "../simulation/vitality";
 import { resolveActiveMemberSeat } from "./legislative-member-seat";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
+import { openOrdinaryLife } from "./ordinary-life";
 import {
   continueAs,
   observeWorld,
+  pendingCommandsInvalidatedBy,
   projectLifeContinuation,
   retireFromPlay,
 } from "./people-continuation";
@@ -176,13 +179,23 @@ describe("PEOPLE P5 three generations, two handoffs", () => {
     const view = projectLifeContinuation(dead, g1)!;
     expect(view.ended).toBe("death");
     expect(view.heading).toMatch(/died on/);
+    const prominent = view.choices.filter((choice) => choice.prominent);
+    // Family first, in the order the record puts them in.
     expect(
-      view.choices.map((choice) => [choice.personId, choice.relation]),
+      prominent.slice(0, 2).map((choice) => [choice.personId, choice.relation]),
     ).toEqual([
       [g2, "child"],
       [g3, "grandchild"],
     ]);
-    expect(view.choices.every((choice) => choice.availableNow)).toBe(true);
+    // Anybody else prominent is somebody this life was actually bound to, and
+    // the choice says what passed between them.
+    for (const choice of prominent.slice(2)) {
+      expect(["someone they taught", "someone they kept up with"]).toContain(
+        choice.relation,
+      );
+      expect(choice.connection).toBeTruthy();
+    }
+    expect(prominent.every((choice) => choice.availableNow)).toBe(true);
     expect(view.recordPersonId).toBe(g1);
     expect(view.canKeepObserving).toBe(true);
     expect(view.noSuccessorReason).toBeNull();
@@ -370,5 +383,129 @@ describe("PEOPLE P5 edges", () => {
     expect(continued.history.workRelationships).toEqual(
       dead.history.workRelationships,
     );
+  });
+});
+
+describe("PEOPLE P5 on an opened ordinary life", () => {
+  // The player's own open work asks the player for action; after a handoff it
+  // must stop asking, or the world cannot be saved (UI46 report).
+  const fixture = openedLifeWithAdultChild("people-gen-open", 62);
+  const g1 = fixture.playerPersonId;
+  const child = { world: fixture.world, childPersonId: fixture.childPersonId };
+  const playerWork = (world: World, personId: EntityId) =>
+    world.history.workItems.filter((item) => {
+      const state = world.history.workItemStates
+        .filter((entry) => entry.workItemId === item.id)
+        .at(-1);
+      return (
+        state?.status === "active" &&
+        state.playerRequirement !== "none" &&
+        state.assignedPersonIds.includes(personId)
+      );
+    });
+
+  it("the opened life has player-required work to release", () => {
+    expect(playerWork(child.world, g1).length).toBeGreaterThan(0);
+  });
+
+  it("continuing after retirement leaves a valid, saveable world", () => {
+    const retired = retireFromPlay(child.world, g1);
+    const next = continueAs(retired, g1, child.childPersonId);
+    assertWorldIntegrity(next);
+    expect(playerWork(next, g1)).toEqual([]);
+    expectAppendedOnly(retired, next);
+    // The work is still g1's; only the demand on the player is gone.
+    for (const item of playerWork(child.world, g1)) {
+      const state = next.history.workItemStates
+        .filter((entry) => entry.workItemId === item.id)
+        .at(-1)!;
+      expect(state.assignedPersonIds).toContain(g1);
+      expect(state.status).toBe("active");
+    }
+    const reopened = deserializeWorld(serializeWorld(next));
+    expect(serializeWorld(reopened)).toBe(serializeWorld(next));
+  });
+
+  it("keeping on observing after a death leaves a valid, saveable world", () => {
+    const watching = observeWorld(die(child.world, g1), g1);
+    assertWorldIntegrity(watching);
+    expect(playerWork(watching, g1)).toEqual([]);
+    const reopened = deserializeWorld(serializeWorld(watching));
+    expect(serializeWorld(reopened)).toBe(serializeWorld(watching));
+  });
+
+  it("a successor who then opens their own ordinary life is valid too", () => {
+    const next = continueAs(
+      retireFromPlay(child.world, g1),
+      g1,
+      child.childPersonId,
+    );
+    const theirs = openOrdinaryLife(next, child.childPersonId);
+    assertWorldIntegrity(theirs);
+  });
+});
+
+describe("PEOPLE B1: a predecessor's queued command cannot still apply", () => {
+  const fixture = openedLifeWithAdultChild("people-marker", 62);
+  const g1 = fixture.playerPersonId;
+
+  it("says nothing has changed hands until it has", () => {
+    expect(pendingCommandsInvalidatedBy(fixture.world)).toBeNull();
+  });
+
+  it("moves forward on retirement, on continuing, and on observing", () => {
+    const retired = retireFromPlay(fixture.world, g1);
+    const afterRetire = pendingCommandsInvalidatedBy(retired)!;
+    expect(afterRetire.kind).toBe("retired");
+    expect(afterRetire.predecessorPersonId).toBe(g1);
+    expect(afterRetire.successorPersonId).toBeNull();
+
+    const continued = continueAs(retired, g1, fixture.childPersonId);
+    const afterContinue = pendingCommandsInvalidatedBy(continued)!;
+    expect(afterContinue.kind).toBe("continued");
+    expect(afterContinue.successorPersonId).toBe(fixture.childPersonId);
+    expect(afterContinue.sequence).toBeGreaterThan(afterRetire.sequence);
+    expect(afterContinue.occurredOn).toBe(continued.currentDate);
+
+    const watching = observeWorld(
+      die(continued, fixture.childPersonId),
+      fixture.childPersonId,
+    );
+    const afterObserve = pendingCommandsInvalidatedBy(watching)!;
+    expect(afterObserve.kind).toBe("observing");
+    expect(afterObserve.sequence).toBeGreaterThan(afterContinue.sequence);
+    // Stable across a save, so a marker captured before a reload still holds.
+    const reopened = deserializeWorld(serializeWorld(watching));
+    expect(pendingCommandsInvalidatedBy(reopened)).toEqual(afterObserve);
+  });
+
+  it("offers the people the life was bound to first, then the wider choice", () => {
+    const dead = die(fixture.world, g1);
+    const view = projectLifeContinuation(dead, g1)!;
+    const prominent = view.choices.filter((choice) => choice.prominent);
+    expect(prominent.map((choice) => choice.personId)).toContain(
+      fixture.childPersonId,
+    );
+    expect(
+      prominent.every(
+        (choice) => choice.relation !== "no connection on record",
+      ),
+    ).toBe(true);
+    const wider = view.choices.filter((choice) => !choice.prominent);
+    // The wider choice is offered, and never dressed up as a relationship.
+    expect(wider.length).toBeGreaterThan(0);
+    for (const choice of wider) {
+      expect(choice.relation).toBe("no connection on record");
+      expect(choice.connection).toBeNull();
+      expect(dead.people[choice.personId]).toBeTruthy();
+    }
+    // Choosing one of them is an ordinary continuation.
+    const stranger = wider.find((choice) => choice.availableNow)!;
+    const next = continueAs(dead, g1, stranger.personId);
+    expect(next.control).toEqual({
+      kind: "person",
+      personId: stranger.personId,
+    });
+    assertWorldIntegrity(next);
   });
 });

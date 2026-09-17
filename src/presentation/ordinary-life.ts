@@ -1,6 +1,7 @@
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
 import { refreshContextualScenes } from "./contextual-scene-producers";
 import { migrateLegacyStudyProgression } from "../simulation/education-study-progression";
+import { ensureCrisisMortality } from "../simulation/crisis/mortality";
 import {
   activeChildAuthoritiesAt,
   currentLifeCutoff,
@@ -263,7 +264,9 @@ function advanceOrdinaryDays(
         ordinaryHandlers,
       )
     : ordinaryHandlers;
-  const migrated = migrateLegacyStudyProgression(world);
+  // CRUNCH46 CRISIS: every advancing World carries the mortality model; an
+  // older save starts exposure at its next month boundary.
+  const migrated = ensureCrisisMortality(migrateLegacyStudyProgression(world));
   const wholeDays = Math.max(1, Math.trunc(days));
   const morning = simulationMomentAtLocalTime({
     date: addDays(migrated.currentDate, wholeDays),

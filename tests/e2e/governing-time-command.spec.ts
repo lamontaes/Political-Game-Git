@@ -7,7 +7,8 @@ import { enterLife, goTo, startLife as walkCreator } from "./support/creator";
  */
 
 async function freshBrowser(page: Page) {
-  await page.goto("/");
+  // WebKit's first load of the dev server is slow; give it room.
+  await page.goto("/", { timeout: 120_000 });
   await page.evaluate(async () => {
     const databases = (await indexedDB.databases?.()) ?? [];
     await Promise.all(
@@ -32,6 +33,7 @@ const MONTH_DATE = /to ([A-Z][a-z]+ \d{1,2}, \d{4})/;
 test("the quiet stretch discloses its end date and lands there once", async ({
   page,
 }) => {
+  test.setTimeout(240_000);
   await freshBrowser(page);
   await page.goto("/?seed=governing-time-command");
   await walkCreator(page, { place: "Lexington", state: "Kentucky", age: 41 });

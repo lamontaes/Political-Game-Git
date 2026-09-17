@@ -117,7 +117,21 @@ export interface NationalTermState extends NationalRecordBase {
   readonly outcomeEventId: EntityId | null;
   readonly reason: string | null;
 }
+/**
+ * U.S. Const. amend. XXV, § 1: on the President's death the Vice President
+ * becomes President. Written once, by GOVERNING, from a recorded death.
+ */
+export interface NationalSuccession extends NationalRecordBase {
+  readonly kind: "succession";
+  readonly vacatedPlanId: EntityId;
+  readonly successorPlanId: EntityId;
+  readonly personId: EntityId;
+  readonly deathRecordId: EntityId;
+  readonly effectiveAt: SimulationMoment;
+  readonly basis: "us-const-amend-xxv-s1";
+}
 export type NationalElectionRecord =
+  | NationalSuccession
   | NationalContestLink
   | NationalUnitResult
   | NationalCertification

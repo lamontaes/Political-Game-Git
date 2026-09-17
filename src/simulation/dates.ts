@@ -18,7 +18,18 @@ function utcDate(year: number, month: number, day: number): Date {
   return date;
 }
 
+const VALID_ISO_DATES_LIMIT = 100_000;
+const VALID_ISO_DATES = new Set<string>();
+
 export function makeIsoDate(value: string): IsoDate {
+  if (VALID_ISO_DATES.has(value)) return value as IsoDate;
+  const date = validateIsoDate(value);
+  if (VALID_ISO_DATES.size >= VALID_ISO_DATES_LIMIT) VALID_ISO_DATES.clear();
+  VALID_ISO_DATES.add(value);
+  return date;
+}
+
+function validateIsoDate(value: string): IsoDate {
   const match = ISO_DATE_PATTERN.exec(value);
 
   if (!match) {
@@ -75,25 +86,29 @@ export function addDays(date: IsoDate, days: number): IsoDate {
   );
 }
 
+/*
+ * GOVERNING profile: integrity checks compare dates constantly on long saves.
+ * The day number of a valid date string never changes, so it is remembered.
+ */
+const EPOCH_DAY_CACHE_LIMIT = 100_000;
+const EPOCH_DAY_CACHE = new Map<string, number>();
+
+function epochDayOf(date: string): number {
+  const cached = EPOCH_DAY_CACHE.get(date);
+  if (cached !== undefined) return cached;
+  const valid = makeIsoDate(date);
+  const parts = ISO_DATE_PATTERN.exec(valid);
+  if (!parts) throw new Error("Unable to compare invalid ISO dates.");
+  const day =
+    utcDate(Number(parts[1]), Number(parts[2]), Number(parts[3])).getTime() /
+    86_400_000;
+  if (EPOCH_DAY_CACHE.size >= EPOCH_DAY_CACHE_LIMIT) EPOCH_DAY_CACHE.clear();
+  EPOCH_DAY_CACHE.set(date, day);
+  return day;
+}
+
 export function daysBetween(start: IsoDate, end: IsoDate): number {
-  const startDate = makeIsoDate(start);
-  const endDate = makeIsoDate(end);
-  const startParts = ISO_DATE_PATTERN.exec(startDate);
-  const endParts = ISO_DATE_PATTERN.exec(endDate);
-  if (!startParts || !endParts) {
-    throw new Error("Unable to compare invalid ISO dates.");
-  }
-  const startTime = utcDate(
-    Number(startParts[1]),
-    Number(startParts[2]),
-    Number(startParts[3]),
-  ).getTime();
-  const endTime = utcDate(
-    Number(endParts[1]),
-    Number(endParts[2]),
-    Number(endParts[3]),
-  ).getTime();
-  const difference = (endTime - startTime) / 86_400_000;
+  const difference = epochDayOf(end) - epochDayOf(start);
   if (!Number.isSafeInteger(difference)) {
     throw new Error("Date difference exceeds safe integer precision.");
   }
@@ -138,7 +153,29 @@ function timeZoneFormatter(timeZone: string): Intl.DateTimeFormat {
   return formatter;
 }
 
+/*
+ * GOVERNING profile: `formatToParts` dominated long-save time advances, and
+ * this function is pure in (epochMinute, timeZone). A bounded memo keeps the
+ * answers without changing them.
+ */
+const LOCAL_PARTS_CACHE_LIMIT = 100_000;
+const LOCAL_PARTS_CACHE = new Map<string, LocalMinuteParts>();
+
 function localMinutePartsAt(
+  epochMinute: number,
+  timeZone: string,
+): LocalMinuteParts {
+  const key = `${timeZone}|${epochMinute}`;
+  const cached = LOCAL_PARTS_CACHE.get(key);
+  if (cached) return cached;
+  const parts = computeLocalMinutePartsAt(epochMinute, timeZone);
+  if (LOCAL_PARTS_CACHE.size >= LOCAL_PARTS_CACHE_LIMIT)
+    LOCAL_PARTS_CACHE.clear();
+  LOCAL_PARTS_CACHE.set(key, parts);
+  return parts;
+}
+
+function computeLocalMinutePartsAt(
   epochMinute: number,
   timeZone: string,
 ): LocalMinuteParts {
@@ -313,10 +350,34 @@ export function simulationMomentOnLocalDate(
 }
 
 export function assertSimulationMoment(moment: SimulationMoment): void {
+  if (
+    EPOCH_MINUTE_CACHE.has(
+      `${moment.date}|${moment.minuteOfDay}|${moment.timeZone}|${moment.utcOffsetMinutes}`,
+    )
+  )
+    return;
   makeSimulationMoment(moment);
 }
 
+/*
+ * A moment's validity and instant depend only on its four fields, so a
+ * validated tuple's epoch minute is remembered.
+ */
+const EPOCH_MINUTE_CACHE_LIMIT = 100_000;
+const EPOCH_MINUTE_CACHE = new Map<string, number>();
+
 export function simulationMomentEpochMinute(moment: SimulationMoment): number {
+  const key = `${moment.date}|${moment.minuteOfDay}|${moment.timeZone}|${moment.utcOffsetMinutes}`;
+  const cached = EPOCH_MINUTE_CACHE.get(key);
+  if (cached !== undefined) return cached;
+  const minute = computeSimulationMomentEpochMinute(moment);
+  if (EPOCH_MINUTE_CACHE.size >= EPOCH_MINUTE_CACHE_LIMIT)
+    EPOCH_MINUTE_CACHE.clear();
+  EPOCH_MINUTE_CACHE.set(key, minute);
+  return minute;
+}
+
+function computeSimulationMomentEpochMinute(moment: SimulationMoment): number {
   assertSimulationMoment(moment);
   const localMinute = absoluteLocalMinute(moment.date, moment.minuteOfDay);
   const instantMinute = localMinute - moment.utcOffsetMinutes;
