@@ -274,6 +274,10 @@ describe("ALIVE43 W1 opening world: Congress and parties", () => {
     // 535 persistent members are about 1.4 KB each. A per-member
     // participation and state record would add another ~0.8 MB.
     expect(added).toBeLessThan(1_500_000);
-    expect(a.world.history.organizationParticipations.length).toBeLessThan(10);
+    // Seats stay roll tags: no per-member participations. The only
+    // participations are the opening's handful of named people (executives,
+    // chapter organizers and, in current openings, the WORLD46 standing
+    // chapter committees: four members with a role and an affiliation each).
+    expect(a.world.history.organizationParticipations.length).toBeLessThan(40);
   });
 });

@@ -45,11 +45,13 @@ export interface OrientationPerson {
 
 export interface OrientationPartyCount {
   readonly partyOrganizationId: EntityId | null;
+  /** True for members with no recorded party: style it, don't color it. */
+  readonly noParty: boolean;
   readonly label: string;
   readonly members: number;
   /**
-   * Fixed color slot for this party: its position in the projection's party
-   * list, never its rank in a chamber, so a party keeps its color between the
+   * Fixed color slot for this party: its position in the save's permanent
+   * party color order, never its rank in a chamber, so a party keeps its color between the
    * Senate and the House and when counts change. Members with no party take
    * the slot after the listed parties.
    */
@@ -97,7 +99,10 @@ export function projectOrientationView(
     orientation.parties.map((party) => [party.organizationId, party]),
   );
   const slots = new Map<EntityId | null, number>(
-    orientation.parties.map((party, index) => [party.organizationId, index]),
+    (
+      orientation.partyColorOrder ??
+      orientation.parties.map((party) => party.organizationId)
+    ).map((organizationId, index) => [organizationId, index]),
   );
   return {
     dateLabel: proseDate(orientation.asOf),
@@ -173,6 +178,7 @@ function chamberFor(
     parties: [...chamber.totals.byParty]
       .map((entry) => ({
         partyOrganizationId: entry.partyOrganizationId,
+        noParty: entry.partyOrganizationId === null,
         label: entry.partyOrganizationId
           ? (parties.get(entry.partyOrganizationId)?.name ?? "Another party")
           : "No party",

@@ -1,5 +1,11 @@
 import type { SeededRng } from "../rng";
 import {
+  detExp,
+  logistic,
+  logit,
+  standardNormal,
+} from "../world-setup/deterministic-math";
+import {
   CRUNCH46_PROVISIONAL_POLICY as POLICY,
   type MacroRegime,
 } from "./policy";
@@ -21,32 +27,9 @@ export function roundMacro(value: number): number {
   return Object.is(rounded, -0) ? 0 : rounded;
 }
 
-/**
- * One standard normal draw from a deterministic stream (Box–Muller, cosine
- * branch only, so each call consumes exactly two uniforms).
- */
-export function standardNormal(rng: SeededRng): number {
-  let u1 = rng.next();
-  while (u1 <= 0) u1 = rng.next();
-  const u2 = rng.next();
-  return Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
-}
-
-export function drawRegime(rng: SeededRng): MacroRegime {
-  const roll = rng.next();
-  const weights = POLICY.regimeWeights;
-  if (roll < weights["near-reference"]) return "near-reference";
-  if (roll < weights["near-reference"] + weights.modest) return "modest";
-  return "major";
-}
-
-export function logistic(value: number): number {
-  return 1 / (1 + Math.exp(-value));
-}
-
-export function logit(probability: number): number {
-  return Math.log(probability / (1 - probability));
-}
+// Engine-independent math shared with WORLD's startup kernel, so a save
+// replays to the same bits in Node, a browser or the desktop app.
+export { logistic, logit, standardNormal };
 
 export interface MacroLatents {
   readonly cycle: number;
@@ -89,7 +72,7 @@ export function startValuesFromLatents(
         startup.inflationCostCoefficient * scale * latents.cost,
     ),
     housingSupplyDemandRatio: roundMacro(
-      Math.exp(startup.housingLogCoefficient * scale * latents.housing),
+      detExp(startup.housingLogCoefficient * scale * latents.housing),
     ),
     creditTightness: roundMacro(
       logistic(startup.creditLogisticCoefficient * scale * latents.credit),
@@ -180,10 +163,10 @@ export function stepMonth(
     inflationPct,
     // Continuous annual rates compound monthly into strictly positive levels.
     realOutputIndex: roundMacro(
-      previous.realOutputIndex * Math.exp(growthPct / 100 / 12),
+      previous.realOutputIndex * detExp(growthPct / 100 / 12),
     ),
     priceIndex: roundMacro(
-      previous.priceIndex * Math.exp(inflationPct / 100 / 12),
+      previous.priceIndex * detExp(inflationPct / 100 / 12),
     ),
   };
 }

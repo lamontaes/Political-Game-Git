@@ -27,7 +27,10 @@ Branch `claude/change-world-that-changes`, base `fed321f7`.
 1. Done in source: section-13 kernel, store and integrity, monthly producer,
    W3 trade-disruption shock, releases and News, readers, Budget panel
    adapter, tests, 30-year performance check.
-2. Next: opening hook after WORLD lands; release declaration; CRISIS reader.
+2. Done in source: stacked on WORLD `0abaf8ef`; the opening hook starts
+   macro history from WORLD's persisted record; the kernel uses WORLD's
+   engine-independent math; release declaration `change-world-economy`.
+   Next: CRISIS disaster reader.
 3. Then: GOVERNING fiscal/capacity consumers (revenue shortfall/windfall,
    service backlog/recovery); source-derived state sector exposure (needs a
    BEA state GDP-by-industry acquisition); campaign concern and governing

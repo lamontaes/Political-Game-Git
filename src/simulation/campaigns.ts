@@ -67,6 +67,10 @@ import {
   DEVELOPMENT_STEP_TRANSITION_KEY,
   developmentStepTransitionHandler,
 } from "./living-world/developments";
+import {
+  PARTY_BODY_REVIEW_TRANSITION_KEY,
+  partyBodyReviewTransitionHandler,
+} from "./living-world/party-evolution";
 import { workStatusAt, workStatusHistory } from "./life-queries";
 import {
   lifePlaceByJurisdictionId,
@@ -1874,6 +1878,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         [DEVELOPMENT_STEP_TRANSITION_KEY, developmentStepTransitionHandler],
         // CRUNCH46 CHANGE: canonical macro history closes each month once.
         [MACRO_MONTHLY_STEP_KEY, macroMonthlyStepHandler],
+        // CRUNCH46 WORLD: party governing bodies meet and may change.
+        [PARTY_BODY_REVIEW_TRANSITION_KEY, partyBodyReviewTransitionHandler],
       ]),
       LIFE_TRANSITION_HANDLERS,
     ),

@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
+import type { NewGameSetup } from "../../presentation/new-game";
+import { macroStartingConditions } from "../world-setup/conditions";
 import {
   generateOpeningLife,
   prepareOpeningLife,
@@ -13,7 +15,6 @@ import type { World } from "../types";
 import { advanceWorld, recordWorldEvent } from "../world";
 import {
   annualizedQuarterlyGrowthPct,
-  drawRegime,
   standardNormal,
   startValuesFromLatents,
   stepMonth,
@@ -53,16 +54,21 @@ function fixtureStart(
   };
 }
 
-function life(seed: string): World {
-  return generateOpeningLife(
-    prepareOpeningLife({
-      ...DEFAULT_NEW_GAME_SETUP,
-      seed,
-      placeKey: "lexington-fayette",
-      startAge: 34,
-      questionnaire: "skipped" as const,
-    }),
-  ).game!.world;
+/**
+ * A legacy-descriptor life: WORLD writes no starting record, so CHANGE starts
+ * nothing on its own and the tests below can supply controlled starts.
+ */
+function life(seed: string, seeded = false): World {
+  const setup: NewGameSetup = {
+    ...DEFAULT_NEW_GAME_SETUP,
+    seed,
+    placeKey: "lexington-fayette",
+    startAge: 34,
+    questionnaire: "skipped" as const,
+  };
+  if (!seeded)
+    delete (setup as { worldOpeningVersion?: unknown }).worldOpeningVersion;
+  return generateOpeningLife(prepareOpeningLife(setup)).game!.world;
 }
 
 function started(seed: string, start?: Partial<MacroStartingConditions>) {
@@ -194,20 +200,11 @@ describe("section 13 kernel arithmetic", () => {
     expect(twelveMonthChangePct(103, 100)).toBeCloseTo(3, 6);
   });
 
-  it("draws regimes and normals deterministically per stream", () => {
-    const draw = (key: string) => {
-      const rng = new SeededRng("seed").fork(key);
-      return [drawRegime(rng), standardNormal(rng)];
-    };
-    expect(draw("a")).toEqual(draw("a"));
-    const regimes = new Map<string, number>();
-    for (let index = 0; index < 4000; index += 1) {
-      const regime = drawRegime(new SeededRng("dist").fork(String(index)));
-      regimes.set(regime, (regimes.get(regime) ?? 0) + 1);
-    }
-    expect(regimes.get("near-reference")! / 4000).toBeCloseTo(0.7, 1);
-    expect(regimes.get("modest")! / 4000).toBeCloseTo(0.25, 1);
-    expect(regimes.get("major")! / 4000).toBeGreaterThan(0.02);
+  it("draws normals deterministically per stream", () => {
+    const draw = (key: string) =>
+      standardNormal(new SeededRng("seed").fork(key));
+    expect(draw("a")).toBe(draw("a"));
+    expect(draw("a")).not.toBe(draw("b"));
   });
 });
 
@@ -235,6 +232,26 @@ describe("CHANGE canonical macro history", { timeout: 1_800_000 }, () => {
         (item) => item.transitionKey === MACRO_MONTHLY_STEP_KEY,
       ),
     ).toBe(false);
+  });
+
+  it("starts from WORLD's persisted draw in an ordinary seeded opening", () => {
+    const seeded = life("change-macro-world", true);
+    const record = macroStartingConditions(seeded)!;
+    expect(record).not.toBeNull();
+    const store = seeded.macroEconomy!;
+    expect(store.start.regime).toBe(record.regime);
+    expect(store.start.latents).toEqual(record.latents);
+    expect(store.start.initial).toEqual(record.initial);
+    expect(store.months).toEqual([]);
+    const recomputed = startValuesFromLatents(record.regime, record.latents);
+    for (const key of Object.keys(recomputed) as (keyof typeof recomputed)[]) {
+      expect(recomputed[key]).toBeCloseTo(record.initial[key], 5);
+    }
+    expect(
+      seeded.history.futureDueItems.filter(
+        (item) => item.transitionKey === MACRO_MONTHLY_STEP_KEY,
+      ),
+    ).toHaveLength(1);
   });
 
   it("records each crossed month exactly once, with releases published to News", () => {

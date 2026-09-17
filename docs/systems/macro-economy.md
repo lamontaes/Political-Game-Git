@@ -10,7 +10,9 @@ shared World-schema registration.
 `World.macroEconomy` (optional, additive, `change-macro/v1`) holds:
 
 - `start` — WORLD's persisted section-13 draw (`crunch46-macro-start/v1`),
-  copied once and cited. CHANGE never draws it again. Without that record
+  copied once and cited (`macroStartForHistory`, called from
+  `generateOpeningLife` right after `ensureWorldStartingConditions`). CHANGE
+  never draws it again. Without that record
   (older saves, worlds WORLD did not seed) CHANGE writes and schedules
   nothing; saves are never retrofitted.
 - `months[]` — one record per scope per closed calendar month:
@@ -40,7 +42,8 @@ Section 13 of CRUNCH46 (`crunch46-provisional-v1`), stored verbatim in
 `src/simulation/macro-economy/policy.ts`: startup kernel, monthly transitions
 (growth persistence 0.85, lagged unemployment coefficient 0.04, inflation
 persistence 0.95, innovation SDs 0.15/0.04/0.04 pp), continuous-rate index
-compounding, and published discrete rates computed from recorded levels:
+compounding (using WORLD's engine-independent `detExp`, logistic and normal
+draws from `world-setup/deterministic-math.ts`), and published discrete rates computed from recorded levels:
 quarterly annualized output growth from quarterly mean index ratios, and
 12-month inflation only once twelve recorded months exist. Every stored
 number is rounded to 1e-6.

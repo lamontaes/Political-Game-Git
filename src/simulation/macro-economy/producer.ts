@@ -9,6 +9,8 @@ import type {
   World,
 } from "../types";
 import { recordWorldEvent } from "../world";
+import type { MacroStartingConditionsRecord } from "../world-setup/types";
+import { detExp } from "../world-setup/deterministic-math";
 import {
   annualizedQuarterlyGrowthPct,
   drawInnovations,
@@ -67,6 +69,25 @@ function scheduleStep(world: World, monthKey: string): World {
     jurisdictionId: null,
     provenance: { kind: "initialization", reference: stepKey(monthKey) },
   });
+}
+
+/**
+ * WORLD's persisted record, as CHANGE cites it. A record written under a
+ * different policy version is not silently reinterpreted.
+ */
+export function macroStartForHistory(
+  record: MacroStartingConditionsRecord | null,
+): MacroStartingConditions | null {
+  if (!record || record.policyVersion !== MACRO_POLICY_VERSION) return null;
+  return {
+    contractVersion: record.contractVersion,
+    policyVersion: MACRO_POLICY_VERSION,
+    regime: record.regime,
+    volatilityScale: record.volatilityScale,
+    latents: { ...record.latents },
+    initial: { ...record.initial },
+    effectiveDate: record.effectiveDate,
+  };
 }
 
 /**
@@ -363,7 +384,7 @@ function localMonth(
     // Local price levels are not modeled; the national level applies.
     inflationPct: national.inflationPct,
     realOutputIndex: roundMacro(
-      prior.realOutputIndex * Math.exp(growthPct / 100 / 12),
+      prior.realOutputIndex * detExp(growthPct / 100 / 12),
     ),
     priceIndex: national.priceIndex,
     realIncomeIndex: null,

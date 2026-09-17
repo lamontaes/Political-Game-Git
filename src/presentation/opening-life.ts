@@ -5,7 +5,16 @@ import {
   ensureLivingWorldOpening,
   personName,
   ageOnDate,
+  ensureWorldStartingConditions,
+  LEGACY_WORLD_OPENING_VERSION,
+  generatePoliticalStartingConditions,
+  ensurePartyGoverningBodies,
+  macroStartingConditions,
 } from "../simulation";
+import {
+  ensureMacroEconomyStarted,
+  macroStartForHistory,
+} from "../simulation/macro-economy";
 import type { World, EntityId } from "../simulation";
 import { createNewGameWorld } from "./new-game";
 import type { NewGameSetup, NewGame } from "./new-game";
@@ -34,10 +43,19 @@ export function generateOpeningLife(
 ): OpeningLifeSession {
   if (session.game) return session;
   const game = createNewGameWorld(session.setup);
-  const staffed = establishOpeningOfficeholders(
-    game.world,
-    game.playerPersonId,
+  // Begin persists this save's generated starting conditions first, so every
+  // later opening step reads the same world. A legacy descriptor writes none.
+  const conditioned = ensureWorldStartingConditions(game.world, {
+    openingVersion:
+      session.setup.worldOpeningVersion ?? LEGACY_WORLD_OPENING_VERSION,
+    political: generatePoliticalStartingConditions,
+  });
+  // CHANGE: macro history starts from WORLD's persisted draw, or not at all.
+  const economic = ensureMacroEconomyStarted(
+    conditioned,
+    macroStartForHistory(macroStartingConditions(conditioned)),
   );
+  const staffed = establishOpeningOfficeholders(economic, game.playerPersonId);
   return {
     ...session,
     phase: "world",
@@ -46,8 +64,12 @@ export function generateOpeningLife(
       // Congress, the national parties and public affiliations, once, after
       // the executives exist so they receive an affiliation in the same pass.
       world: ensureLivingWorldDevelopments(
-        ensureHomePartyChapters(
-          ensureLivingWorldOpening(staffed, game.playerPersonId),
+        // Standing chapter committees exist only in current openings.
+        ensurePartyGoverningBodies(
+          ensureHomePartyChapters(
+            ensureLivingWorldOpening(staffed, game.playerPersonId),
+            game.playerPersonId,
+          ),
           game.playerPersonId,
         ),
         game.playerPersonId,

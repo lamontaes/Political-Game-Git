@@ -167,6 +167,10 @@ import {
 } from "./civil-personnel-integrity";
 import { assertLegislativePoliticsIntegrity } from "./legislative-politics-integrity";
 import {
+  assertWorldSetupIntegrity,
+  worldSetupHistoryRecords,
+} from "./world-setup/integrity";
+import {
   legislativePoliticsHistoryRecords,
   legislativePoliticsEntityExists,
 } from "./legislative-politics";
@@ -1566,6 +1570,7 @@ function validateHistoryIntegrity(world: World): void {
     ...futureTransitionHistoryRecords(world),
     ...publicInformationHistoryRecords(world),
     ...personnelHistoryRecords(world),
+    ...worldSetupHistoryRecords(world),
     ...(history.districtResidenceIntervals ?? []),
     ...(history.officeWorkflowPreferences ?? []),
     ...(history.officeVoteInstructions ?? []),
@@ -1797,6 +1802,7 @@ function validateHistoryIntegrity(world: World): void {
     }
   }
   assertPersonnelIntegrity(world, ids);
+  assertWorldSetupIntegrity(world, ids);
   assertUniqueStableKeys(history.events, "event");
   assertUniqueStableKeys(history.memories, "memory");
   assertUniqueStableKeys(history.knowledge, "knowledge");

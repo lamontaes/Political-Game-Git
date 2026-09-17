@@ -12,19 +12,21 @@ import type { World } from "../simulation/types";
 import { advanceWorld } from "../simulation/world";
 import { macroPeriodLabel, projectMacroConditions } from "./macro-conditions";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import type { NewGameSetup } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { forbiddenPlayerPhrasesIn } from "./player-copy";
 
+/** A legacy-descriptor life: no WORLD starting record, so no macro history. */
 function life(seed: string): World {
-  return generateOpeningLife(
-    prepareOpeningLife({
-      ...DEFAULT_NEW_GAME_SETUP,
-      seed,
-      placeKey: "lexington-fayette",
-      startAge: 34,
-      questionnaire: "skipped" as const,
-    }),
-  ).game!.world;
+  const setup: NewGameSetup = {
+    ...DEFAULT_NEW_GAME_SETUP,
+    seed,
+    placeKey: "lexington-fayette",
+    startAge: 34,
+    questionnaire: "skipped" as const,
+  };
+  delete (setup as { worldOpeningVersion?: unknown }).worldOpeningVersion;
+  return generateOpeningLife(prepareOpeningLife(setup)).game!.world;
 }
 
 /** Test-only stand-in for WORLD's persisted starting draw. */
