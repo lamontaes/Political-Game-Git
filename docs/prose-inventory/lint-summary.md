@@ -1,6 +1,6 @@
 # Prose diagnostics — current main baseline
 
-**0 hard errors. 266 review warnings.**
+**0 hard errors. 268 review warnings.**
 
 A hard error is objectively wrong: an ID collision, a slot the record's own
 grounding cannot bind, a withheld record with no reason. A review warning is a
@@ -13,8 +13,8 @@ defect than the one it was aimed at.
 
 | Family | Count |
 | --- | --- |
-| vague-referent | 184 |
-| and-it-scaffold | 38 |
+| vague-referent | 185 |
+| and-it-scaffold | 39 |
 | rather-than-scaffold | 24 |
 | third-person-player | 10 |
 | label-restated-in-description | 9 |
@@ -22,10 +22,10 @@ defect than the one it was aimed at.
 
 ## Repetition
 
-- 2947 templates, 2732 distinct texts.
+- 3101 templates, 2886 distinct texts.
 - 81 exact duplicate groups.
 - 90 normalized duplicate groups.
-- 28 near-duplicate clusters (Jaccard ≥ 0.72).
+- 34 near-duplicate clusters (Jaccard ≥ 0.72).
 
 Exact duplicate text at two semantic locations is not itself a defect: each
 keeps its own ID, and two banks may legitimately both offer "Say nothing".
@@ -38,18 +38,18 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `in front of` | 24 | 7 |
 | `no instrument read` | 22 | 1 |
 | `there is a` | 20 | 4 |
+| `it is not` | 18 | 4 |
 | `out of the` | 18 | 5 |
-| `it is not` | 17 | 3 |
 | `you want to` | 17 | 4 |
 | `asked you to` | 16 | 4 |
+| `the end of` | 16 | 5 |
+| `the player asked` | 16 | 2 |
 | `you tell you` | 16 | 1 |
-| `the player asked` | 15 | 1 |
+| `at the end` | 15 | 4 |
+| `at the end of` | 15 | 4 |
 | `a long time` | 14 | 4 |
 | `instrument read establishes` | 14 | 2 |
-| `the end of` | 14 | 4 |
 | `the two of` | 14 | 4 |
-| `at the end` | 13 | 3 |
-| `at the end of` | 13 | 3 |
 | `existing saves are` | 13 | 1 |
 | `existing saves are unchanged` | 13 | 1 |
 | `saves are unchanged` | 13 | 1 |
@@ -66,8 +66,8 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | --- | --- |
 | `no time passes` | 111 |
 | `no instrument read` | 21 |
+| `the player asked` | 16 |
 | `you tell you` | 16 |
-| `the player asked` | 15 |
 | `there is a` | 12 |
 | `the bill is` | 10 |
 | `that file is` | 9 |

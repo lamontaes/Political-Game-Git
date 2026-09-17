@@ -1,3 +1,4 @@
+import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
 import {
   lifeRequestDetails,
   lifeRequestDetailsTag,
@@ -454,6 +455,9 @@ export function lifeCallbackTransitionHandler(
   // A row that said "this option is punished" would be the game deciding an
   // NPC's mind for them; this is the NPC reading their own history.
   if (counterpartId !== undefined) {
+    // Their temperament is part of what they weigh, so it must be on record
+    // before they weigh it (PEOPLE P2).
+    world = ensurePeopleTraits(world, [counterpartId]);
     const raised = counterpartRaisesIt(
       world,
       personId,
@@ -644,6 +648,29 @@ function counterpartRaisesIt(
     }),
   );
 
+  considerations.push(
+    ...traitConsiderations(world, counterpartId, dueItem.stableKey, [
+      {
+        optionKey: "raise-it",
+        trait: "conflict",
+        pole: "high",
+        explanation: "They tend to say it when something bothers them.",
+      },
+      {
+        optionKey: "let-it-lie",
+        trait: "conflict",
+        pole: "low",
+        explanation:
+          "They tend to let a disagreement settle rather than press it.",
+      },
+      {
+        optionKey: "raise-it",
+        trait: "reliability",
+        pole: "low",
+        explanation: "They follow through on things and expect the same.",
+      },
+    ]),
+  );
   const evaluation = evaluateDecision(world, {
     stableKey: `${dueItem.stableKey}:raises-it`,
     decisionType: "life.raise-earlier-matter",

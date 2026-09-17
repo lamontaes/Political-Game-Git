@@ -11,6 +11,12 @@ import {
 } from "./conversation-subjects";
 import { schoolConversationRoom } from "./formative-play";
 import {
+  CONTEXTUAL_SCENE_SUBJECT,
+  placeholderSceneProgress,
+  sceneRoom,
+} from "./contextual-scenes";
+import type { SceneFamily } from "../simulation/scene-bindings";
+import {
   lifeTalkConversationRoom,
   lifeTalkSessionStart,
   lifeTalkTurnCount,
@@ -79,6 +85,15 @@ interface SubjectWiring {
  * office is worse than an unreachable subject.
  */
 const WIRINGS: readonly SubjectWiring[] = [
+  // PROSE B: situations the world has made answerable, each bound to its own
+  // saved facts. First, so a specific situation is offered before small talk.
+  ...(Object.keys(CONTEXTUAL_SCENE_SUBJECT) as SceneFamily[]).map(
+    (family): SubjectWiring => ({
+      subject: CONTEXTUAL_SCENE_SUBJECT[family],
+      room: (world, personId) => sceneRoom(world, personId, family),
+      opening: () => placeholderSceneProgress(CONTEXTUAL_SCENE_SUBJECT[family]),
+    }),
+  ),
   {
     subject: "life-talk",
     room: lifeTalkConversationRoom,

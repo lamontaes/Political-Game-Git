@@ -1,3 +1,4 @@
+import { createPressTransitionRegistry } from "./press/transitions";
 import {
   supportedLegislativeTermDates,
   scheduleLegislativeTerm,
@@ -55,6 +56,10 @@ import {
   recordWorkStatus,
 } from "./life";
 import { LIFE_TRANSITION_HANDLERS } from "./life-callbacks";
+import {
+  CLAIM_CONTRADICTION_TRANSITION_KEY,
+  claimContradictionTransitionHandler,
+} from "./claim-contradictions";
 import {
   CHAPTER_OUTREACH_TRANSITION_KEY,
   chapterOutreachTransitionHandler,
@@ -1868,7 +1873,14 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         [CHAPTER_OUTREACH_TRANSITION_KEY, chapterOutreachTransitionHandler],
         // ALIVE43 W3: background public developments take their next step.
         [DEVELOPMENT_STEP_TRANSITION_KEY, developmentStepTransitionHandler],
+        // PROSE B: an earlier answer may meet evidence once the world holds it.
+        [
+          CLAIM_CONTRADICTION_TRANSITION_KEY,
+          claimContradictionTransitionHandler,
+        ],
       ]),
+      // CRUNCH46 PRESS: newsroom desk, story steps, procedures, bookkeeping.
+      createPressTransitionRegistry(),
       LIFE_TRANSITION_HANDLERS,
     ),
   );
