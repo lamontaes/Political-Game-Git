@@ -2,6 +2,7 @@ import { addDays } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { stateJurisdictionForKey } from "../life-places";
 import type { IsoDate, World } from "../types";
+import { scheduleGoverningSeasons } from "../governing/governing-calendar";
 import { US_STATE_USPS } from "./state-executive-candidacy-packs";
 import {
   ensureStateJurisdiction,
@@ -108,8 +109,14 @@ export function scheduleNextFieldClose(
 export function applyGovernorTurnover(before: IsoDate, world: World): World {
   if (world.currentDate <= before) return world;
   let next = world;
-  for (const office of materializedOffices(world))
+  for (const office of materializedOffices(world)) {
     next = scheduleNextFieldClose(next, office.stateUsps, next.currentDate);
+    next = scheduleGoverningSeasons(
+      next,
+      office.officeKey,
+      stateJurisdictionForKey(`US-${office.stateUsps}`)!.id,
+    );
+  }
   return next;
 }
 

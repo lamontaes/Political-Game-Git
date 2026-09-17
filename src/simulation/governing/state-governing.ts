@@ -10,7 +10,7 @@ import { FISCAL_INSTRUMENT_FAMILIES } from "../legislation-fiscal-families";
 import { PUBLIC_ADMINISTRATION_FAMILIES } from "../legislation-administration-families";
 import { drawCanonicalName, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
-import { SeededRng } from "../rng";
+import { SeededRng, pickDistinct } from "../rng";
 import { createWorkItem, workItemState } from "../time-work";
 import type {
   EntityId,
@@ -27,6 +27,11 @@ import {
   type StateExecutiveHolderRecord,
 } from "../nationwide-world/state-executives";
 import { stateExecutiveTermRule } from "../nationwide-world/state-executive-term-rules";
+import {
+  GOVERNING_SEASON,
+  STATE_GOVERNING_CALENDAR,
+  scheduleGoverningSeasons,
+} from "./governing-calendar";
 
 /**
  * STATE GOVERNING — the shared practical loop every governorship runs.
@@ -41,6 +46,13 @@ import { stateExecutiveTermRule } from "../nationwide-world/state-executive-term
  *   E2 chief-of-staff appointment -> staff relationship -> delegation
  *   E1 agenda priority            -> agency implementation matter
  *   G1 agency implementation      -> dated progress or problem report
+ *   E4 budget priorities          -> legislature's response on the clock
+ *   E3 bill presented             -> sign, return, or law without signature;
+ *                                    a signed bill becomes agency work
+ *
+ * Budget season, bill presentment dates, the action deadline and what an
+ * unsigned bill does are the disclosed calendar in
+ * `STATE_GOVERNING_CALENDAR`, not compiled state law.
  *
  * These are the office's own staffing and management choices. They claim no
  * statutory power: hiring personal staff and directing a priority are ordinary
@@ -62,7 +74,7 @@ export const GOVERNING_NPC_DECISION = "governing:npc-decision" as const;
 export const GOVERNING_FOLLOW_UP = "governing:follow-up" as const;
 
 export type GoverningMatterFamily =
-  "chief-of-staff" | "agenda" | "implementation";
+  "chief-of-staff" | "agenda" | "implementation" | "budget" | "bill";
 
 export interface GoverningOffice {
   readonly officeKey: string;
@@ -273,6 +285,8 @@ function subjectLabel(subjectKey: string | null): string {
   ).toLowerCase();
 }
 
+const BUDGET_FLAT = "budget:hold-flat";
+
 function optionsFor(
   world: World,
   family: GoverningMatterFamily,
@@ -329,6 +343,58 @@ function optionsFor(
         },
       ];
     }
+    case "budget": {
+      const keys = event.tags
+        .filter((tag) => tag.startsWith("program:"))
+        .map((tag) => tag.slice("program:".length));
+      return [
+        ...keys.flatMap((familyKey) => {
+          const title = programFamilyTitle(familyKey);
+          return title
+            ? [
+                {
+                  key: `budget:${familyKey}`,
+                  label: `Put more into ${title.toLowerCase()}`,
+                  effect: `The budget you send the legislature asks for more for ${title.toLowerCase()}.`,
+                  tradeoff:
+                    "Other requests wait, and legislators may cut it back.",
+                  personId: null,
+                  assessment: null,
+                },
+              ]
+            : [];
+        }),
+        {
+          key: BUDGET_FLAT,
+          label: "Hold spending where it is",
+          effect: "The budget you send keeps this year's priorities.",
+          tradeoff: "Easier to pass, and nothing new gets done.",
+          personId: null,
+          assessment: null,
+        },
+      ];
+    }
+    case "bill":
+      return [
+        {
+          key: "bill:sign",
+          label: "Sign it",
+          effect: "It becomes law, and the agencies are told to carry it out.",
+          tradeoff:
+            "Its supporters are pleased; the work lands on your office.",
+          personId: null,
+          assessment: null,
+        },
+        {
+          key: "bill:return",
+          label: "Send it back unsigned",
+          effect:
+            "It goes back to the legislature, which may try to pass it over your objection.",
+          tradeoff: "You stop it for now, and its supporters notice.",
+          personId: null,
+          assessment: null,
+        },
+      ];
     case "implementation":
       return [
         {
@@ -380,6 +446,18 @@ const FAMILY_TEXT: Record<
     ask: "Agencies are asking what the governor wants done first.",
     ifIgnored: "Agencies keep their current plans. No priority is set.",
   },
+  budget: {
+    title: () => "Set the budget request",
+    ask: "The budget office needs your priorities before the request goes to the legislature.",
+    ifIgnored:
+      "The budget office sends a request that keeps this year's priorities.",
+  },
+  bill: {
+    title: (subject) => `A bill on ${subject} is on your desk`,
+    ask: "The legislature passed it and sent it to you.",
+    ifIgnored:
+      "In this game, a bill the governor does not act on becomes law without a signature.",
+  },
   implementation: {
     title: (subject) => `Direct the agencies on ${subject}`,
     ask: "The agencies are ready to act on your priority and need to know how fast to move.",
@@ -391,6 +469,8 @@ const DEADLINE_DAYS: Record<GoverningMatterFamily, number> = {
   "chief-of-staff": 21,
   agenda: 30,
   implementation: 30,
+  budget: 30,
+  bill: 10,
 };
 
 function isFamily(value: string | null): value is GoverningMatterFamily {
@@ -499,6 +579,42 @@ export function staffRecommendation(
         reason: `${assessment.background}, and thinks ${pick.label.toLowerCase()} is where the office can show results.`,
       };
     }
+    case "budget": {
+      const priority = currentPriority(world, office);
+      const match = priority
+        ? matter.options.find((o) => o.key === `budget:${priority}`)
+        : undefined;
+      return match
+        ? {
+            optionKey: match.key,
+            byPersonId: chief,
+            reason: "It matches the priority you already set.",
+          }
+        : {
+            optionKey: BUDGET_FLAT,
+            byPersonId: chief,
+            reason: "Nothing on the list is a stated priority yet.",
+          };
+    }
+    case "bill":
+      return matter.subjectKey &&
+        currentPriority(world, office) === matter.subjectKey
+        ? {
+            optionKey: "bill:sign",
+            byPersonId: chief,
+            reason: "It moves the office's own priority.",
+          }
+        : rng.integer(0, 3) > 0
+          ? {
+              optionKey: "bill:sign",
+              byPersonId: chief,
+              reason: `${assessment.background}, and sees no reason to pick this fight.`,
+            }
+          : {
+              optionKey: "bill:return",
+              byPersonId: chief,
+              reason: "Thinks the agencies cannot absorb it this year.",
+            };
     case "implementation":
       return assessment.steadiness >= 2
         ? {
@@ -512,6 +628,24 @@ export function staffRecommendation(
             reason: "Thinks the agencies are ready and delay costs momentum.",
           };
   }
+}
+
+/** The office's current first priority, from its latest agenda decision. */
+export function currentPriority(
+  world: World,
+  office: GoverningOffice,
+): string | null {
+  const decision = [...world.history.events]
+    .reverse()
+    .find(
+      (event) =>
+        event.type === GOVERNING_MATTER_DECIDED &&
+        event.tags.includes(`office:${office.officeKey}`) &&
+        event.tags.includes("matter-family:agenda") &&
+        event.involvedEntityIds.includes(office.holderPersonId),
+    );
+  const choice = decision ? tagValue(decision, "choice:priority:") : null;
+  return choice && choice !== "none" ? choice : null;
 }
 
 /* ------------------------------------------------------------------ *
@@ -762,8 +896,11 @@ function decisionSummary(
   const who = holder ? personName(holder) : office.title;
   if (!option)
     return {
-      summary: `${matter.title}: no decision was made by the deadline. ${matter.ifIgnored}`,
-      visibility: "limited",
+      summary:
+        matter.family === "bill"
+          ? `A bill on ${subjectLabel(matter.subjectKey)} became law without the signature of ${who}, ${office.title}.`
+          : `${matter.title}: no decision was made by the deadline. ${matter.ifIgnored}`,
+      visibility: matter.family === "bill" ? "public" : "limited",
     };
   switch (matter.family) {
     case "chief-of-staff": {
@@ -781,6 +918,26 @@ function decisionSummary(
           }
         : {
             summary: `${who}, ${office.title}, made ${option.label.toLowerCase()} the office's first priority.`,
+            visibility: "public",
+          };
+    case "budget":
+      return option.key === BUDGET_FLAT
+        ? {
+            summary: `${who}, ${office.title}, sent the legislature a budget that holds spending where it is.`,
+            visibility: "public",
+          }
+        : {
+            summary: `${who}, ${office.title}, asked the legislature for more money for ${subjectLabel(option.key.slice("budget:".length))}.`,
+            visibility: "public",
+          };
+    case "bill":
+      return option.key === "bill:sign"
+        ? {
+            summary: `${who}, ${office.title}, signed a bill on ${subjectLabel(matter.subjectKey)} into law.`,
+            visibility: "public",
+          }
+        : {
+            summary: `${who}, ${office.title}, sent back a bill on ${subjectLabel(matter.subjectKey)} unsigned.`,
             visibility: "public",
           };
     case "implementation":
@@ -803,7 +960,17 @@ function applyConsequence(
   option: GoverningMatterOption | null,
   decisionEventId: EntityId,
 ): World {
-  if (!option) return world;
+  if (!option) {
+    // A lapsed bill still becomes law, so the agencies still get the work.
+    return matter.family === "bill" && matter.subjectKey
+      ? openMatter(world, office, {
+          family: "implementation",
+          instance: `law:${matter.id}`,
+          subjectKey: matter.subjectKey,
+          sourceEventId: decisionEventId,
+        })
+      : world;
+  }
   switch (matter.family) {
     case "chief-of-staff": {
       if (!option.personId || !world.people[option.personId]) return world;
@@ -844,6 +1011,17 @@ function applyConsequence(
         sourceEventId: decisionEventId,
       });
     }
+    case "budget":
+      return scheduleFollowUp(world, office, matter, decisionEventId, 90);
+    case "bill":
+      return option.key === "bill:sign"
+        ? openMatter(world, office, {
+            family: "implementation",
+            instance: `law:${matter.id}`,
+            subjectKey: matter.subjectKey,
+            sourceEventId: decisionEventId,
+          })
+        : scheduleFollowUp(world, office, matter, decisionEventId, 21);
     case "implementation": {
       if (option.key === "pace:hold") return world;
       const days = option.key === "pace:fast" ? 60 : 120;
@@ -860,6 +1038,26 @@ function applyConsequence(
       });
     }
   }
+}
+
+function scheduleFollowUp(
+  world: World,
+  office: GoverningOffice,
+  matter: GoverningMatter,
+  decisionEventId: EntityId,
+  days: number,
+): World {
+  return scheduleFutureDueItem(world, {
+    stableKey: `${matter.stableKey}:report`,
+    dueAt: addDays(world.currentDate, days),
+    transitionKey: GOVERNING_FOLLOW_UP,
+    entityIds: [matter.id, decisionEventId].sort(),
+    jurisdictionId: office.jurisdictionId,
+    provenance: {
+      kind: "simulated",
+      sourceEntityIds: [matter.id, decisionEventId].sort(),
+    },
+  });
 }
 
 function recordDecision(
@@ -1118,7 +1316,108 @@ export function governingNpcDecisionHandler(
 
 export type ImplementationResult = "progress" | "problem" | "stalled";
 
-/** A dated agency report: the recorded consequence of an implementation decision. */
+interface FollowUpOutcome {
+  readonly tag: string;
+  readonly summary: string;
+}
+
+function implementationOutcome(
+  world: World,
+  matter: GoverningMatter,
+  decision: HistoricalEvent,
+  office: GoverningOffice | null,
+  rng: SeededRng,
+): FollowUpOutcome {
+  const pace = tagValue(decision, "choice:");
+  const chief = office ? chiefOfStaffFor(world, office) : null;
+  const steadiness = chief ? staffAssessment(chief).steadiness : 0;
+  const funded =
+    office && matter.subjectKey
+      ? world.history.events.some(
+          (event) =>
+            event.type === GOVERNING_OUTCOME &&
+            event.tags.includes(`office:${office.officeKey}`) &&
+            event.tags.includes(`funded:${matter.subjectKey}`),
+        )
+      : false;
+  // A careful plan, a steady chief of staff and money the legislature
+  // actually approved all lower the chance of an early problem; an office
+  // that changed hands lets the work stall.
+  const roll =
+    rng.integer(0, 10) +
+    (pace === "pace:careful" ? 3 : 0) +
+    steadiness +
+    (funded ? 2 : 0);
+  const result: ImplementationResult = !office
+    ? "stalled"
+    : roll >= 6
+      ? "progress"
+      : "problem";
+  const subject = subjectLabel(matter.subjectKey);
+  return {
+    tag: `implementation:${result}`,
+    summary:
+      result === "progress"
+        ? `State agencies reported steady early progress on ${subject}.`
+        : result === "problem"
+          ? `State agencies reported delays and a staffing gap in the early work on ${subject}.`
+          : `Work on ${subject} stalled after the office changed hands.`,
+  };
+}
+
+function budgetOutcome(
+  world: World,
+  decision: HistoricalEvent,
+  office: GoverningOffice | null,
+  rng: SeededRng,
+): FollowUpOutcome & { readonly funded: string | null } {
+  const choice = tagValue(decision, "choice:budget:");
+  const chief = office ? chiefOfStaffFor(world, office) : null;
+  const skilled = chief
+    ? staffAssessment(chief).strength.includes("legislators")
+    : false;
+  if (!choice || choice === "hold-flat")
+    return {
+      tag: "budget:passed-flat",
+      summary: "The legislature passed a budget that holds spending steady.",
+      funded: null,
+    };
+  const subject = subjectLabel(choice);
+  const passed = rng.integer(0, 10) + (skilled ? 3 : 0) >= 5;
+  return passed
+    ? {
+        tag: "budget:passed-with-request",
+        summary: `The legislature passed a budget with more money for ${subject}, as the governor asked.`,
+        funded: choice,
+      }
+    : {
+        tag: "budget:request-cut",
+        summary: `The legislature passed a budget that cut the governor's request for ${subject}.`,
+        funded: null,
+      };
+}
+
+function returnedBillOutcome(
+  matter: GoverningMatter,
+  rng: SeededRng,
+): FollowUpOutcome & { readonly overridden: boolean } {
+  const subject = subjectLabel(matter.subjectKey);
+  const overridden =
+    rng.integer(0, 100) < STATE_GOVERNING_CALENDAR.overrideSucceedsPercent;
+  return overridden
+    ? {
+        tag: "bill:overridden",
+        summary: `The legislature passed the bill on ${subject} over the governor's objection.`,
+        overridden,
+      }
+    : {
+        tag: "bill:returned-stands",
+        summary: `The legislature did not pass the bill on ${subject} again; it does not become law.`,
+        overridden,
+      };
+}
+
+/** A dated follow-up: the recorded consequence of an earlier decision. */
 export function governingFollowUpHandler(
   world: World,
   due: FutureDueItem,
@@ -1128,27 +1427,30 @@ export function governingFollowUpHandler(
   if (!matter || !decision)
     return resolved(world, "No decided matter stands behind this report.");
   const office = governingOfficeByKey(world, matter.officeKey);
-  const pace = tagValue(decision, "choice:");
+  const currentOffice =
+    office && office.holderPersonId === matter.holderPersonId ? office : null;
   const rng = new SeededRng(`${due.stableKey}:outcome`);
-  const chief = office ? chiefOfStaffFor(world, office) : null;
-  const steadiness = chief ? staffAssessment(chief).steadiness : 0;
-  // A careful plan and a steady chief of staff both lower the chance of an
-  // early problem; an office that changed hands lets the work stall.
-  const roll =
-    rng.integer(0, 10) + (pace === "pace:careful" ? 3 : 0) + steadiness;
-  const result: ImplementationResult = !office
-    ? "stalled"
-    : roll >= 6
-      ? "progress"
-      : "problem";
-  const subject = subjectLabel(matter.subjectKey);
-  const summary =
-    result === "progress"
-      ? `State agencies reported steady early progress on ${subject}.`
-      : result === "problem"
-        ? `State agencies reported delays and a staffing gap in the early work on ${subject}.`
-        : `Work on ${subject} stalled after the office changed hands.`;
-  const next = recordWorldEvent(world, {
+  let outcome: FollowUpOutcome;
+  let extraTags: string[] = [];
+  let reopen: "implementation" | null = null;
+  if (matter.family === "budget") {
+    const budget = budgetOutcome(world, decision, currentOffice, rng);
+    outcome = budget;
+    if (budget.funded) extraTags = [`funded:${budget.funded}`];
+  } else if (matter.family === "bill") {
+    const returned = returnedBillOutcome(matter, rng);
+    outcome = returned;
+    if (returned.overridden) reopen = "implementation";
+  } else {
+    outcome = implementationOutcome(
+      world,
+      matter,
+      decision,
+      currentOffice,
+      rng,
+    );
+  }
+  let next = recordWorldEvent(world, {
     stableKey: `${due.stableKey}:outcome`,
     type: GOVERNING_OUTCOME,
     occurredAt: world.currentDate,
@@ -1159,7 +1461,7 @@ export function governingFollowUpHandler(
       {
         personId: matter.holderPersonId,
         role: "focus:responsible-office",
-        detail: result,
+        detail: outcome.tag,
       },
     ],
     personFactConstraints: [],
@@ -1167,18 +1469,73 @@ export function governingFollowUpHandler(
     tags: [
       STATE_GOVERNING_VERSION,
       `office:${matter.officeKey}`,
-      `implementation:${result}`,
+      outcome.tag,
       `matter:${matter.id}`,
       `decision:${decision.id}`,
       ...(matter.subjectKey ? [`subject:${matter.subjectKey}`] : []),
+      ...extraTags,
     ],
-    summary,
+    summary: outcome.summary,
     context: emptyContext(),
   });
-  return resolved(next, summary);
+  if (reopen && currentOffice && matter.subjectKey)
+    next = openMatter(next, currentOffice, {
+      family: "implementation",
+      instance: `law:${matter.id}`,
+      subjectKey: matter.subjectKey,
+      sourceEventId: next.history.events.at(-1)!.id,
+    });
+  return resolved(next, outcome.summary);
+}
+
+/* ------------------------------------------------------------------ *
+ * Seasons
+ * ------------------------------------------------------------------ */
+
+export function governingSeasonHandler(
+  world: World,
+  due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  const match =
+    /^state-governing\/v1:season:(.+):(budget|bill):(\d{4}-\d{2}-\d{2})$/.exec(
+      due.stableKey,
+    );
+  if (!match) return resolved(world, "Not a season item.");
+  const [, officeKey, kind] = match;
+  const office = governingOfficeByKey(world, officeKey!);
+  let next = world;
+  if (office) {
+    const rng = new SeededRng(`${due.stableKey}:subject`);
+    const pool = PROGRAM_FAMILIES.map((family) => family.familyKey);
+    if (kind === "budget") {
+      const priority = currentPriority(world, office);
+      const programKeys = [
+        ...(priority ? [priority] : []),
+        ...pickDistinct(
+          rng.fork("budget"),
+          pool.filter((key) => key !== priority),
+          priority ? 1 : 2,
+        ),
+      ];
+      next = openMatter(next, office, {
+        family: "budget",
+        instance: due.dueAt,
+        programKeys,
+      });
+    } else {
+      next = openMatter(next, office, {
+        family: "bill",
+        instance: due.dueAt,
+        subjectKey: rng.pick(pool),
+      });
+    }
+    next = scheduleGoverningSeasons(next, officeKey!, office.jurisdictionId);
+  }
+  return resolved(next, `The ${kind} season arrived.`);
 }
 
 export const STATE_GOVERNING_HANDLERS = [
+  [GOVERNING_SEASON, governingSeasonHandler],
   [GOVERNING_TRANSITION, governingTransitionHandler],
   [GOVERNING_DEADLINE, governingDeadlineHandler],
   [GOVERNING_NPC_DECISION, governingNpcDecisionHandler],
