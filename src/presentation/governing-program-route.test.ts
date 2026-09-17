@@ -35,7 +35,8 @@ import {
 } from "../simulation/resources";
 import { publicTaxAccountForJurisdiction } from "../simulation/tax-policy";
 import { deserializeWorld, serializeWorld } from "../simulation";
-import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import { DEFAULT_NEW_GAME_SETUP, createNewGameWorld } from "./new-game";
+import { establishOpeningOfficeholders } from "./opening-officeholders";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 import {
@@ -286,3 +287,35 @@ function appropriationKey(world: World): string {
   );
   return record?.programKey ?? "";
 }
+
+describe("GOVERNING D1: a pre-calendar opening replays exactly", () => {
+  it("keeps an undated opening tenure when the caller says it is replaying", () => {
+    // Built without the opening officeholders, so each call below is the
+    // first one to write the tenure.
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed: "legacy-replay-governor",
+    });
+    const dated = establishOpeningOfficeholders(
+      game.world,
+      game.playerPersonId,
+    );
+    const legacy = establishOpeningOfficeholders(
+      game.world,
+      game.playerPersonId,
+      { datedTerms: false },
+    );
+    const tenureKey = (w: World) =>
+      w.history.events.find(
+        (event) =>
+          event.type === "world.office-tenure" &&
+          event.stableKey.includes("governor:tenure:"),
+      )?.stableKey ?? null;
+    // The ordinary new game dates the term from the office's game calendar.
+    expect(tenureKey(dated)).toMatch(/governor:tenure:\d{4}-\d{2}-\d{2}$/);
+    // A replay of a descriptor written before that calendar existed keeps the
+    // key it had, so the same person is drawn.
+    expect(tenureKey(legacy)).toMatch(/governor:tenure:recorded-/);
+    expect(tenureKey(legacy)).not.toBe(tenureKey(dated));
+  }, 600_000);
+});

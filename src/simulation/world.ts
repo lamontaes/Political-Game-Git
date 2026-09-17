@@ -3443,6 +3443,15 @@ function validateEventContext(world: World, context: EventContext): void {
   }
 }
 
+/*
+ * GOVERNING profile: every write re-walked every record in history to prove it
+ * was JSON-safe, so the cost of writing one record grew with the length of a
+ * life. History records are immutable and are replaced rather than edited, so
+ * an object that has already been walked stays safe: it is remembered and not
+ * walked again, and a write pays only for what it actually added.
+ */
+const JSON_SAFE = new WeakSet<object>();
+
 function assertJsonSafe(
   value: unknown,
   path: string,
@@ -3467,6 +3476,7 @@ function assertJsonSafe(
   if (ancestors.has(value)) {
     throw new Error(`Cyclic value is not JSON-safe at ${path}.`);
   }
+  if (JSON_SAFE.has(value)) return;
 
   const prototype = Object.getPrototypeOf(value);
   if (
@@ -3488,6 +3498,7 @@ function assertJsonSafe(
     }
   }
   ancestors.delete(value);
+  JSON_SAFE.add(value);
 }
 
 function cloneFact(fact: PersonFact): PersonFact {

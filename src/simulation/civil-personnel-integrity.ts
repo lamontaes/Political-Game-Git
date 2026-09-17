@@ -1,4 +1,5 @@
 import { CIVIL_PERSONNEL_SOURCE_PROJECTION } from "./civil-personnel-sources.generated";
+import { eventById } from "./event-index";
 import { addDays, daysBetween, makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
 import { activeOrganizationParticipationsAt } from "./life-queries";
@@ -171,7 +172,7 @@ export function assertPersonnelIntegrity(
       fail(record, "identity does not match its stable key.");
     if (record.recordedAt > world.currentDate)
       fail(record, "is recorded after the current world date.");
-    const event = world.history.events.find((e) => e.id === record.eventId);
+    const event = eventById(world, record.eventId);
     if (
       !event ||
       event.type !== `civil-personnel.${record.kind}` ||
