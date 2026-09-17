@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2781 |
-| INTENTIONALLY_NON_PLAYER_FACING | 6482 |
-| DIAGNOSTIC_OR_TEST | 6497 |
-| **NEEDS_CLASSIFICATION** | **8122** |
+| INTENTIONALLY_NON_PLAYER_FACING | 6567 |
+| DIAGNOSTIC_OR_TEST | 6564 |
+| **NEEDS_CLASSIFICATION** | **8206** |
 
-Scanned 930 files holding 93934 string
+Scanned 952 files holding 95495 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -87,6 +87,7 @@ literals in total; the table counts only those that read like a sentence.
 | 35 | `src/simulation/mind-catalog.ts` |
 | 35 | `src/simulation/rule-capability-resolver.ts` |
 | 35 | `src/ui/PoliticalProfile.tsx` |
+| 34 | `src/simulation/crisis/international.ts` |
 | 34 | `src/simulation/living-world/party-chapters.ts` |
 | 34 | `src/simulation/mind.ts` |
 | 34 | `src/simulation/person-stress-harness.ts` |
@@ -127,6 +128,7 @@ literals in total; the table counts only those that read like a sentence.
 | 23 | `src/simulation/governing/office-continuity.ts` |
 | 22 | `src/player/ShellNav.tsx` |
 | 22 | `src/presentation/press-request.ts` |
+| 22 | `src/simulation/crisis/disaster.ts` |
 | 21 | `src/presentation/title-tableau.ts` |
 | 21 | `src/simulation/legislation-content-contracts.ts` |
 | 21 | `src/simulation/life-favors.ts` |
@@ -217,6 +219,7 @@ literals in total; the table counts only those that read like a sentence.
 | 11 | `src/presentation/modeled-account-history.ts` |
 | 11 | `src/presentation/person-dossier.ts` |
 | 11 | `src/presentation/scene-placement.ts` |
+| 11 | `src/simulation/crisis/health.ts` |
 | 11 | `src/simulation/political-belief-formation.ts` |
 | 11 | `src/simulation/tax-policy.ts` |
 | 11 | `src/ui/SceneAuthoringProofView.tsx` |
@@ -318,6 +321,8 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/presentation/title-lectern-scene.ts` |
 | 5 | `src/presentation/world-recap.ts` |
 | 5 | `src/simulation/causal-effects.ts` |
+| 5 | `src/simulation/crisis/mortality.ts` |
+| 5 | `src/simulation/crisis/offices.ts` |
 | 5 | `src/simulation/government-units.generated.ts` |
 | 5 | `src/simulation/incident-response.fixture.ts` |
 | 5 | `src/simulation/life-callbacks.ts` |
@@ -342,6 +347,7 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/presentation/place-hometown-population.ts` |
 | 4 | `src/presentation/social-invitation.ts` |
 | 4 | `src/presentation/title-ambient.ts` |
+| 4 | `src/simulation/crisis/notices.ts` |
 | 4 | `src/simulation/governing/state-disposition.ts` |
 | 4 | `src/simulation/living-world/congress-turnover.ts` |
 | 4 | `src/simulation/nationwide-world/state-executive-term-rules.ts` |
@@ -366,6 +372,7 @@ literals in total; the table counts only those that read like a sentence.
 | 3 | `src/presentation/scheduled-activity-choice.ts` |
 | 3 | `src/presentation/setup-questionnaire-flow.ts` |
 | 3 | `src/simulation/candidacy.ts` |
+| 3 | `src/simulation/crisis/continuity.ts` |
 | 3 | `src/simulation/demo-jurisdiction-context.ts` |
 | 3 | `src/simulation/judicial-gameplay-kernels.ts` |
 | 3 | `src/simulation/legislation-drafting.ts` |

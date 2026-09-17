@@ -1,3 +1,4 @@
+import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
 import { applyNationalTermTransitions } from "./national-election-consumer";
 import { applyCongressTurnover } from "./living-world/congress-turnover";
 import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
@@ -1638,9 +1639,11 @@ function setCurrentMoment(
     currentDate: moment.date,
     currentMoment: cloneMoment(moment),
   });
-  return applyGovernorTurnover(
-    crossedFrom,
-    applyCongressTurnover(crossedFrom, moved),
+  return applyCrisisOfficeContinuity(
+    applyGovernorTurnover(
+      crossedFrom,
+      applyCongressTurnover(crossedFrom, moved),
+    ),
   );
 }
 
