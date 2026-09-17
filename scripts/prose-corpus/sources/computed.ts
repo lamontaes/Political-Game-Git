@@ -448,6 +448,38 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
     ],
   },
   {
+    sourcePath: "src/presentation/contextual-scene-families.ts",
+    domain: "conversation",
+    bank: "contextual-scene",
+    symbols: [
+      "homeEvening",
+      "favor",
+      "partyInvite",
+      "campaignReaction",
+      "staffFollowup",
+      "reporterQuestion",
+      "reporterQuestionFor",
+      "cameBackAnswers",
+      "memoryCorrectedAnswers",
+    ],
+    surface: "status",
+    reachability: "PLAYER_REACHABLE",
+    reachabilityReason:
+      "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+    grounding: [
+      {
+        key: "scene-binding",
+        description:
+          "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+      },
+      {
+        key: "claim-stance",
+        description:
+          "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+      },
+    ],
+  },
+  {
     sourcePath: "src/presentation/conversation-subjects.ts",
     domain: "conversation",
     bank: "commit-contract",
