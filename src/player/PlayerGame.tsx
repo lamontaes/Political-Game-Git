@@ -3344,7 +3344,7 @@ function PlayingScreen({
                       dispatch({ type: "go-to-scene" });
                     }}
                   >
-                    Continue playing
+                    Who could be played next
                   </button>
                 ) : null}
               </div>
