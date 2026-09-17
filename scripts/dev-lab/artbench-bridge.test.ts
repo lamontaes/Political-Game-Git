@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { authorityFrom, parseActor } from "./artbench-bridge";
+import {
+  authorityFrom,
+  briefDownloadStem,
+  parseActor,
+} from "./artbench-bridge";
 
 describe("artbench bridge identity boundary", () => {
   it("refuses missing or malformed actors instead of defaulting to the owner", () => {
@@ -30,5 +34,19 @@ describe("artbench bridge identity boundary", () => {
     expect(
       authorityFrom({ hostToken: null, ownerCapability: "cap-1" }, expected),
     ).toBe("session-capability");
+  });
+});
+
+describe("brief download names", () => {
+  it("uses the page's readable stem and never a path or quote", () => {
+    expect(briefDownloadStem("school-corridor-b-review-3840", "inbox")).toBe(
+      "school-corridor-b-review-3840",
+    );
+    expect(briefDownloadStem('../../etc/"passwd"', "inbox")).toBe("etc-passwd");
+    expect(briefDownloadStem("Élan café", "inbox")).toBe("lan-caf");
+    expect(briefDownloadStem(null, "env-park-community-pavilion")).toBe(
+      "env-park-community-pavilion",
+    );
+    expect(briefDownloadStem("", "..")).toBe("asset");
   });
 });

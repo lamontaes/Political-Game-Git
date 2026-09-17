@@ -42,6 +42,15 @@ import {
   type RequestDraftMode,
 } from "../authoring/artbench-request-draft";
 import { ART_DESK_CONTRACT_ID } from "../authoring/asset-review";
+import {
+  ART_DESK_TABS,
+  artDeskCards,
+  familyLabel,
+  filterCards,
+  tabCounts,
+  type ArtDeskCard,
+  type ArtDeskTab,
+} from "../authoring/art-desk-cards";
 import "./art-desk.css";
 
 const INPUTS_ROUTE = "/__dev/art-desk/inputs";
@@ -211,6 +220,48 @@ const STATUS_LABEL: Record<CandidateStatus, string> = {
   "in-game": "in game",
 };
 
+const TAB_STORAGE_KEY = "ocd-art-desk-tab";
+
+/** A plain, readable file stem for a brief: "school-corridor-b-review". */
+export function briefFileStem(label: string): string {
+  const stem = label
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 60)
+    .replace(/-+$/g, "");
+  return stem || "asset";
+}
+
+function storedTab(): ArtDeskTab {
+  try {
+    const value = window.localStorage.getItem(TAB_STORAGE_KEY);
+    return ART_DESK_TABS.some((tab) => tab.key === value)
+      ? (value as ArtDeskTab)
+      : "needs-review";
+  } catch {
+    return "needs-review";
+  }
+}
+
+function cardTestId(card: ArtDeskCard): string {
+  return card.key.startsWith("request:")
+    ? `art-desk-row-${card.requestId}`
+    : `art-desk-card-${card.key.replace(/^inbox:/, "").replace(/[^A-Za-z0-9-]+/g, "-")}`;
+}
+
+function shortDate(iso: string | null): string {
+  if (!iso) return "";
+  const date = new Date(iso);
+  return Number.isNaN(date.getTime())
+    ? ""
+    : date.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+}
+
+const MORE_FILTER_FACETS = ["region", "season", "family", "custom"] as const;
+
 export function ArtDeskView() {
   const privateAuthoring = localReviewOn();
   const [bench, setBench] = useState<BenchState | null>(null);
@@ -234,6 +285,20 @@ export function ArtDeskView() {
   const [showNewRequest, setShowNewRequest] = useState<RequestDraftMode | null>(
     null,
   );
+  const [tab, setTabState] = useState<ArtDeskTab>(storedTab);
+  const [selectedCardKey, setSelectedCardKey] = useState<string | null>(null);
+  const [assetType, setAssetType] = useState<string>("all");
+  const [showMore, setShowMore] = useState(false);
+  const [showQa, setShowQa] = useState(false);
+  const [advancedOpen, setAdvancedOpen] = useState(false);
+  const setTab = (next: ArtDeskTab) => {
+    setTabState(next);
+    try {
+      window.localStorage.setItem(TAB_STORAGE_KEY, next);
+    } catch {
+      /* the tab simply isn't remembered */
+    }
+  };
 
   const reload = useCallback(async () => {
     const [state, receipt] = await Promise.all([
@@ -285,7 +350,9 @@ export function ArtDeskView() {
     null;
 
   useEffect(() => {
-    if (!selectedRequest) return;
+    // The lane view (Advanced) keeps its own selection; the card view below
+    // chooses the viewed version from the selected card.
+    if (!advancedOpen || !selectedRequest) return;
     if (
       viewedCandidateId &&
       selectedRequest.candidateIds.includes(viewedCandidateId)
@@ -296,11 +363,93 @@ export function ArtDeskView() {
         selectedRequest.candidateIds.at(-1) ??
         null,
     );
-  }, [selectedRequest, viewedCandidateId]);
+  }, [advancedOpen, selectedRequest, viewedCandidateId]);
 
   const viewed =
     (viewedCandidateId && projection?.candidates[viewedCandidateId]) || null;
   const viewedBytes = viewed ? bench?.bytes[viewed.candidateId] : undefined;
+
+  const cards = useMemo(
+    () => (projection ? artDeskCards(projection) : []),
+    [projection],
+  );
+  const counts4 = useMemo(() => tabCounts(cards, showQa), [cards, showQa]);
+  const assetTypes = useMemo(
+    () =>
+      [
+        ...new Set(cards.map((card) => card.assetType).filter(Boolean)),
+      ].sort() as string[],
+    [cards],
+  );
+  const visibleCards = useMemo(() => {
+    const byFacet = facet
+      ? cards.filter((card) => {
+          const lead = card.leadCandidateId
+            ? projection?.candidates[card.leadCandidateId]
+            : undefined;
+          const values = [
+            ...(lead?.tags[facet.key] ?? []),
+            ...(lead?.inheritedTags?.[facet.key] ?? []),
+          ];
+          return values.includes(facet.value);
+        })
+      : cards;
+    const byUntagged = untagged
+      ? byFacet.filter((card) => {
+          const lead = card.leadCandidateId
+            ? projection?.candidates[card.leadCandidateId]
+            : undefined;
+          return lead ? Object.keys(lead.tags).length === 0 : false;
+        })
+      : byFacet;
+    return filterCards(byUntagged, {
+      tab,
+      text: query,
+      status,
+      assetType,
+      showQa,
+    });
+  }, [
+    cards,
+    facet,
+    untagged,
+    tab,
+    query,
+    status,
+    assetType,
+    showQa,
+    projection,
+  ]);
+  const selectedCard =
+    visibleCards.find((card) => card.key === selectedCardKey) ??
+    visibleCards[0] ??
+    null;
+  const moreFilterCount =
+    (facet ? 1 : 0) + (untagged ? 1 : 0) + (showQa ? 1 : 0);
+  const clearFilters = () => {
+    setFacet(null);
+    setUntagged(false);
+    setShowQa(false);
+    setQuery("");
+    setStatus("all");
+    setAssetType("all");
+  };
+  const detailRequest = advancedOpen
+    ? selectedRequest
+    : selectedCard && projection
+      ? (projection.requests[selectedCard.requestId] ?? null)
+      : null;
+
+  useEffect(() => {
+    if (advancedOpen || !selectedCard) return;
+    if (
+      viewedCandidateId &&
+      (selectedCard.lineage.some((s) => s.candidateId === viewedCandidateId) ||
+        selectedCard.otherVersions.includes(viewedCandidateId))
+    )
+      return;
+    setViewedCandidateId(selectedCard.leadCandidateId);
+  }, [advancedOpen, selectedCard, viewedCandidateId]);
 
   const contractHashes = useCallback(
     async (request: AssetRequest, sceneId: string | undefined) => {
@@ -454,6 +603,27 @@ export function ArtDeskView() {
 
   function onKey(event: KeyboardEvent<HTMLDivElement>) {
     if (isTextTarget(event.target)) return;
+    if (
+      !advancedOpen &&
+      (event.key === "ArrowDown" ||
+        event.key === "j" ||
+        event.key === "ArrowUp" ||
+        event.key === "k")
+    ) {
+      event.preventDefault();
+      const keys = visibleCards.map((card) => card.key);
+      const at = selectedCard ? keys.indexOf(selectedCard.key) : 0;
+      const next =
+        event.key === "ArrowDown" || event.key === "j"
+          ? Math.min(keys.length - 1, at + 1)
+          : Math.max(0, at - 1);
+      const card = visibleCards[next];
+      if (card) {
+        setSelectedCardKey(card.key);
+        setViewedCandidateId(card.leadCandidateId);
+      }
+      return;
+    }
     const ids = requestRows.map((r) => r.request.requestId);
     const index = selectedRequest
       ? ids.indexOf(selectedRequest.request.requestId)
@@ -493,73 +663,118 @@ export function ArtDeskView() {
   };
   const sync = bench?.sync;
 
+  const syncLine = sync
+    ? sync.status === "ok"
+      ? `Drive exchange synced${sync.lastSuccessAt ? ` ${shortDate(sync.lastSuccessAt)}` : ""}`
+      : sync.status === "needs-mirror"
+        ? "Drive exchange not on this Mac"
+        : sync.status === "error"
+          ? "Drive exchange error"
+          : "Drive exchange not synced yet"
+    : "Drive exchange —";
+  const packLine =
+    pack.status === "verified"
+      ? "Private pack ready"
+      : `Private pack ${pack.status}`;
+
+  const detail =
+    detailRequest && projection && bench ? (
+      <RequestDetail
+        key={detailRequest.request.requestId}
+        request={detailRequest}
+        projection={projection}
+        bench={bench}
+        pack={pack}
+        viewed={viewed}
+        viewedBytes={viewedBytes}
+        busy={busy}
+        showIds={showIds}
+        onToggleIds={() => setShowIds((v) => !v)}
+        onView={setViewedCandidateId}
+        onDecide={decide}
+        onIntake={intake}
+        onSelect={async (candidateId) => {
+          const result = await postEvent("candidate.selected", {
+            requestId: detailRequest.request.requestId,
+            candidateId,
+          });
+          setMessage(
+            result.ok
+              ? `Chose ${candidateId.slice(0, 13)}… as the current version.`
+              : result.message,
+          );
+          await reload();
+        }}
+        onTags={async (candidate, tags) => {
+          const result = await postEvent("tags.set", {
+            entity: "candidate",
+            entityId: candidate.candidateId,
+            tags,
+            baseVersion: candidate.tagsVersion,
+          });
+          setMessage(
+            result.ok
+              ? `Tags saved for ${candidate.candidateId.slice(0, 13)}… (event ${result.body.events[0]?.eventId}).`
+              : `Tags not saved: ${result.message}`,
+          );
+          await reload();
+          return result.ok;
+        }}
+      />
+    ) : (
+      <article className="art-desk-detail" data-testid="art-desk-detail">
+        <p>
+          {bench ? "Nothing matches these filters." : "Loading the Art Desk…"}
+        </p>
+      </article>
+    );
+
   return (
     <div
-      className="art-desk"
+      className="art-desk art-desk--human"
       data-testid="art-desk"
       tabIndex={0}
       onKeyDown={onKey}
     >
-      <header className="art-desk-header">
-        <p className="eyebrow">
-          Private authoring · {projection?.contractVersion ?? "loading"}
-        </p>
-        <h1>Art Desk</h1>
-        <p>
-          Requests, candidates, decisions and integration hand-offs are
-          immutable events in the project data root; this screen is a
-          rebuildable view. Previews do not write saves. Unapproved pixels never
-          replace accepted game art.
-        </p>
-        <p
-          className="art-desk-pack"
-          data-testid="art-desk-pack"
-          data-pack-status={pack.status}
-        >
-          <strong>Private pack: {pack.status}.</strong> {pack.note}
-          {inputs && bench ? (
-            <span className="art-desk-meta" data-testid="art-desk-inputs">
-              {" "}
-              Receipt read {inputs.checkedAt};{" "}
-              {Object.keys(bench.projection.candidates).length} candidate(s),{" "}
-              {
-                Object.values(bench.bytes).filter((b) => b.state === "verified")
-                  .length
-              }{" "}
-              with verified bytes; store {bench.store.storeId.slice(0, 14)}… (
-              {bench.store.dataRootLabel}).
-            </span>
-          ) : (
-            <span className="art-desk-meta" data-testid="art-desk-loading">
-              {" "}
-              Bench data not loaded yet.
-            </span>
-          )}
-        </p>
-        {sync ? (
-          <p
-            className="art-desk-sync"
-            data-testid="art-desk-sync"
-            data-sync-status={sync.status}
-          >
-            <strong>Drive exchange: {sync.status}.</strong>{" "}
-            {sync.driveRootPresent
-              ? `Mirror ${sync.driveRoot} present.`
-              : "No Drive-for-desktop mirror of 80_ARTBENCH_EXCHANGE on this machine; decisions queue durably in the outbox."}{" "}
-            Last success {sync.lastSuccessAt ?? "never"}; {sync.pendingOutbox}{" "}
-            unsynced event(s); {sync.pendingBatches.length} partial batch(es);{" "}
-            {sync.processedBatches} batch(es) ingested; {sync.exportedEvents}{" "}
-            exported, {sync.importedEvents} read back.
-            {sync.lastError ? ` Last error: ${sync.lastError}` : ""}{" "}
+      <header className="art-desk-header art-desk-header--compact">
+        <div className="art-desk-titlebar">
+          <h1>Art Desk</h1>
+          <p className="art-desk-connection" data-testid="art-desk-connection">
+            <span data-pack-status={pack.status}>{packLine}</span>
+            {" · "}
+            <span data-sync-status={sync?.status ?? "unknown"}>{syncLine}</span>
+            {sync && sync.pendingOutbox > 0
+              ? ` · ${sync.pendingOutbox} to send`
+              : ""}{" "}
             <button
               type="button"
+              className="art-desk-quiet"
               disabled={busy}
               onClick={() => void syncNow()}
             >
               Sync now
             </button>
           </p>
-        ) : null}
+        </div>
+        <nav className="art-desk-tabs" aria-label="Art Desk sections">
+          {ART_DESK_TABS.map((item) => (
+            <button
+              key={item.key}
+              type="button"
+              aria-current={
+                !advancedOpen && tab === item.key ? "page" : undefined
+              }
+              data-testid={`art-desk-tab-${item.key}`}
+              onClick={() => {
+                setAdvancedOpen(false);
+                setTab(item.key);
+              }}
+            >
+              {item.label}{" "}
+              <span className="art-desk-count">{counts4[item.key]}</span>
+            </button>
+          ))}
+        </nav>
         <div className="art-desk-toolbar">
           <label>
             Search{" "}
@@ -578,31 +793,53 @@ export function ArtDeskView() {
                 setStatus(event.target.value as CandidateStatus | "all")
               }
             >
-              <option value="all">any</option>
+              <option value="all">Any</option>
               {Object.entries(STATUS_LABEL).map(([key, label]) => (
                 <option key={key} value={key}>
-                  {label} ({counts.statuses[key] ?? 0})
+                  {label[0]!.toUpperCase() + label.slice(1)} (
+                  {counts.statuses[key] ?? 0})
                 </option>
               ))}
             </select>
           </label>
           <label>
-            <input
-              type="checkbox"
-              checked={untagged}
-              onChange={(event) => setUntagged(event.target.checked)}
-            />{" "}
-            Untagged only ({counts.untagged})
+            Asset type{" "}
+            <select
+              aria-label="Asset type"
+              data-testid="art-desk-asset-type"
+              value={assetType}
+              onChange={(event) => setAssetType(event.target.value)}
+            >
+              <option value="all">Any</option>
+              {assetTypes.map((type) => (
+                <option key={type} value={type}>
+                  {type.replace(/-/g, " ")}
+                </option>
+              ))}
+            </select>
           </label>
-          {facet ? (
+          <button
+            type="button"
+            data-testid="art-desk-more-filters"
+            aria-expanded={showMore}
+            onClick={() => setShowMore((v) => !v)}
+          >
+            More filters{moreFilterCount ? ` (${moreFilterCount})` : ""}
+          </button>
+          {moreFilterCount ||
+          query ||
+          status !== "all" ||
+          assetType !== "all" ? (
             <button
               type="button"
-              onClick={() => setFacet(null)}
-              aria-label={`Clear tag filter ${facet.key}: ${facet.value}`}
+              className="art-desk-quiet"
+              data-testid="art-desk-clear-filters"
+              onClick={clearFilters}
             >
-              ✕ {facet.key}: {facet.value}
+              Clear all
             </button>
           ) : null}
+          <span className="art-desk-toolbar-spacer" />
           <button
             type="button"
             data-testid="art-desk-new-request-open"
@@ -618,12 +855,12 @@ export function ArtDeskView() {
             data-testid="art-desk-related-request-open"
             aria-pressed={showNewRequest === "related"}
             disabled={
-              !selectedRequest || selectedRequest.request.requestId === "inbox"
+              !detailRequest || detailRequest.request.requestId === "inbox"
             }
             title={
-              selectedRequest
-                ? `Copies ${selectedRequest.request.requestId}'s target, criteria and scope`
-                : "Select a request first"
+              detailRequest
+                ? `Variant of ${detailRequest.request.title}`
+                : "Select an asset first"
             }
             onClick={() =>
               setShowNewRequest((v) => (v === "related" ? null : "related"))
@@ -632,65 +869,70 @@ export function ArtDeskView() {
             Create related variant
           </button>
         </div>
-        <nav aria-label="Art Desk lanes">
-          <button
-            type="button"
-            aria-pressed={lane === "all"}
-            onClick={() => setLane("all")}
-          >
-            All ({rows.length})
-          </button>
-          {REQUEST_LANES.map((key) => (
-            <button
-              key={key}
-              type="button"
-              aria-pressed={lane === key}
-              onClick={() => setLane(key)}
-              data-testid={`art-desk-lane-${key}`}
-            >
-              {LANE_LABELS[key]} ({counts.lanes[key] ?? 0})
-            </button>
-          ))}
-        </nav>
-        {Object.keys(counts.tags).length > 0 ? (
-          <div className="art-desk-facets" data-testid="art-desk-facets">
-            {Object.entries(counts.tags).map(([key, values]) => (
-              <span key={key} className="art-desk-facet">
-                <span className="art-desk-meta">{key}:</span>{" "}
-                {Object.entries(values).map(([value, count]) => (
-                  <button
-                    key={value}
-                    type="button"
-                    className="art-desk-chip"
-                    aria-pressed={facet?.key === key && facet.value === value}
-                    onClick={() =>
-                      setFacet(
-                        facet?.key === key && facet.value === value
-                          ? null
-                          : { key, value },
-                      )
-                    }
-                  >
-                    {value} ({count})
-                  </button>
-                ))}
-              </span>
+        {showMore ? (
+          <div className="art-desk-more" data-testid="art-desk-more-drawer">
+            <label>
+              <input
+                type="checkbox"
+                checked={untagged}
+                onChange={(event) => setUntagged(event.target.checked)}
+              />{" "}
+              Untagged only ({counts.untagged})
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                data-testid="art-desk-show-qa"
+                checked={showQa}
+                onChange={(event) => setShowQa(event.target.checked)}
+              />{" "}
+              Show test requests
+            </label>
+            {MORE_FILTER_FACETS.filter((key) => counts.tags[key]).map((key) => (
+              <label key={key}>
+                {key === "custom"
+                  ? "Source and notes"
+                  : key[0]!.toUpperCase() + key.slice(1)}{" "}
+                <select
+                  aria-label={`Filter by ${key}`}
+                  data-testid={`art-desk-filter-${key}`}
+                  value={facet?.key === key ? facet.value : ""}
+                  onChange={(event) =>
+                    setFacet(
+                      event.target.value
+                        ? { key, value: event.target.value }
+                        : null,
+                    )
+                  }
+                >
+                  <option value="">Any</option>
+                  {Object.entries(counts.tags[key] ?? {}).map(
+                    ([value, count]) => (
+                      <option key={value} value={value}>
+                        {key === "family" ? familyLabel(value) : value} ({count}
+                        )
+                      </option>
+                    ),
+                  )}
+                </select>
+              </label>
             ))}
           </div>
         ) : null}
         {showNewRequest && projection ? (
           <NewRequestForm
-            key={`${showNewRequest}:${showNewRequest === "related" ? (selectedRequest?.request.requestId ?? "") : ""}`}
+            key={`${showNewRequest}:${showNewRequest === "related" ? (detailRequest?.request.requestId ?? "") : ""}`}
             mode={showNewRequest}
             projection={projection}
-            related={showNewRequest === "related" ? selectedRequest : null}
+            related={showNewRequest === "related" ? detailRequest : null}
             relatedCandidate={showNewRequest === "related" ? viewed : null}
             onCancel={() => setShowNewRequest(null)}
             onDone={async (created) => {
               setShowNewRequest(null);
               await reload();
               if (created) {
-                setLane("all");
+                setTab("library");
+                setSelectedCardKey(`request:${created}`);
                 setSelectedRequestId(created);
               }
             }}
@@ -698,163 +940,300 @@ export function ArtDeskView() {
           />
         ) : null}
       </header>
-      <div className="art-desk-layout">
-        <ol className="art-desk-list" data-testid="art-desk-list">
-          {requestRows.map((row) => {
-            const lead =
-              (row.selectedCandidateId &&
-                projection?.candidates[row.selectedCandidateId]) ||
-              (row.candidateIds.at(-1) &&
-                projection?.candidates[row.candidateIds.at(-1)!]) ||
-              undefined;
-            const requestId = row.request.requestId;
-            return (
-              <li key={requestId}>
-                <button
-                  type="button"
-                  className="art-desk-row"
-                  aria-pressed={
-                    selectedRequest?.request.requestId === requestId
-                  }
-                  data-testid={`art-desk-row-${requestId}`}
-                  onClick={() => {
-                    setSelectedRequestId(requestId);
-                    setViewedCandidateId(
-                      row.selectedCandidateId ??
-                        row.candidateIds.at(-1) ??
-                        null,
-                    );
-                  }}
-                >
-                  <Thumb
-                    candidate={lead}
-                    bytes={lead ? bench?.bytes[lead.candidateId] : undefined}
-                    testId={`art-desk-thumb-${requestId}`}
-                  />
-                  <span className="art-desk-row-copy">
-                    <strong>{row.request.title}</strong>
-                    <span>{row.request.consumer.playerVisibleUse}</span>
-                    <span className="art-desk-meta">
-                      {LANE_LABELS[row.lane]} · {row.candidateIds.length}{" "}
-                      candidate{row.candidateIds.length === 1 ? "" : "s"}
-                      {row.qa ? " · QA" : ""}
-                      {row.source === "qa" ? " · QA, disposable" : ""}
-                      {row.source === "event" && requestId !== "inbox"
-                        ? " · bench request"
-                        : ""}
+      {advancedOpen ? null : (
+        <div className="art-desk-layout">
+          <ol
+            className="art-desk-list art-desk-cards"
+            data-testid="art-desk-list"
+          >
+            {visibleCards.length === 0 && bench ? (
+              <li className="art-desk-empty">
+                {tab === "needs-review"
+                  ? "Nothing is waiting for your review."
+                  : "Nothing here yet."}
+              </li>
+            ) : null}
+            {visibleCards.map((card) => {
+              const lead = card.leadCandidateId
+                ? projection?.candidates[card.leadCandidateId]
+                : undefined;
+              return (
+                <li key={card.key}>
+                  <button
+                    type="button"
+                    className="art-desk-row art-desk-card"
+                    aria-pressed={selectedCard?.key === card.key}
+                    data-testid={cardTestId(card)}
+                    data-card-status={card.status ?? "none"}
+                    onClick={() => {
+                      setSelectedCardKey(card.key);
+                      setSelectedRequestId(card.requestId);
+                      setViewedCandidateId(card.leadCandidateId);
+                    }}
+                  >
+                    <Thumb
+                      candidate={lead}
+                      bytes={lead ? bench?.bytes[lead.candidateId] : undefined}
+                      testId={
+                        card.key.startsWith("request:")
+                          ? `art-desk-thumb-${card.requestId}`
+                          : `${cardTestId(card)}-thumb`
+                      }
+                    />
+                    <span className="art-desk-row-copy">
+                      <strong>{card.title}</strong>
+                      <span className="art-desk-card-change">
+                        {card.change}
+                      </span>
+                      <span className="art-desk-meta">
+                        <span
+                          className={`art-desk-badge art-desk-badge--${card.status ?? "none"}`}
+                        >
+                          {card.statusLabel}
+                        </span>{" "}
+                        {card.versionCount} version
+                        {card.versionCount === 1 ? "" : "s"}
+                        {card.updatedAt
+                          ? ` · ${shortDate(card.updatedAt)}`
+                          : ""}
+                        {card.qa ? " · test" : ""}
+                      </span>
                     </span>
-                  </span>
-                </button>
-              </li>
-            );
-          })}
-        </ol>
-        {selectedRequest && projection && bench ? (
-          <RequestDetail
-            key={selectedRequest.request.requestId}
-            request={selectedRequest}
-            projection={projection}
-            bench={bench}
-            pack={pack}
-            viewed={viewed}
-            viewedBytes={viewedBytes}
-            busy={busy}
-            showIds={showIds}
-            onToggleIds={() => setShowIds((v) => !v)}
-            onView={setViewedCandidateId}
-            onDecide={decide}
-            onIntake={intake}
-            onSelect={async (candidateId) => {
-              const result = await postEvent("candidate.selected", {
-                requestId: selectedRequest.request.requestId,
-                candidateId,
-              });
-              setMessage(
-                result.ok
-                  ? `Selected ${candidateId.slice(0, 13)}… as the current revision.`
-                  : result.message,
+                  </button>
+                </li>
               );
-              await reload();
-            }}
-            onTags={async (candidate, tags) => {
-              const result = await postEvent("tags.set", {
-                entity: "candidate",
-                entityId: candidate.candidateId,
-                tags,
-                baseVersion: candidate.tagsVersion,
-              });
-              setMessage(
-                result.ok
-                  ? `Tags saved for ${candidate.candidateId.slice(0, 13)}… (event ${result.body.events[0]?.eventId}).`
-                  : `Tags not saved: ${result.message}`,
-              );
-              await reload();
-              return result.ok;
-            }}
-          />
-        ) : (
-          <article className="art-desk-detail" data-testid="art-desk-detail">
-            <p>
-              {bench
-                ? "No request matches the current filters."
-                : "Loading the bench…"}
-            </p>
-          </article>
-        )}
-      </div>
-      {lane === "approved-awaiting-integration" && projection ? (
-        <section
-          className="art-desk-queue"
-          data-testid="art-desk-integration-queue"
-        >
-          <h2>Prepare for integration</h2>
-          {projection.integrationQueue.length === 0 ? (
-            <p>Nothing queued. Approving a candidate enqueues it once.</p>
-          ) : null}
-          <ul>
-            {projection.integrationQueue.map((item) => (
-              <li
-                key={item.itemId}
-                data-testid={`art-desk-integration-${item.itemId}`}
+            })}
+          </ol>
+          <div className="art-desk-detail-column">
+            {selectedCard && selectedCard.lineage.length > 1 ? (
+              <details
+                className="art-desk-asset-lineage"
+                data-testid="art-desk-asset-lineage"
               >
-                <strong>{item.state}</strong> · {item.requestId} ·{" "}
-                {item.candidateId.slice(0, 13)}… · sha{" "}
-                {item.sha256.slice(0, 12)}… · consumer {item.consumerId} · at
-                approval {item.tagsState} · current tags{" "}
-                {Object.keys(item.currentTags).length
-                  ? JSON.stringify(item.currentTags)
-                  : "none"}
-                {item.qa ? " · QA, not cargo" : ""}
-                {item.missingFacts.length
-                  ? ` · outstanding: ${item.missingFacts.join("; ")}`
-                  : ""}
-                {item.receipts.length
-                  ? ` · receipts: ${item.receipts.map((r) => `${r.state} ${JSON.stringify(r.receipt)}`).join("; ")}`
-                  : ""}
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-      {projection && projection.conflicts.length > 0 ? (
-        <section className="art-desk-queue" data-testid="art-desk-conflicts">
-          <h2>Tag conflicts (kept, not overwritten)</h2>
-          <ul>
-            {projection.conflicts.map((conflict) => (
-              <li key={conflict.eventId}>
-                {conflict.entity} {conflict.entityId.slice(0, 13)}…:{" "}
-                {conflict.author.id} wrote against version{" "}
-                {conflict.baseVersion}, current {conflict.currentVersion}:{" "}
-                {JSON.stringify(conflict.attempted)}
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
+                <summary>
+                  How this asset was made ({selectedCard.lineage.length} steps)
+                </summary>
+                <ol>
+                  {[...selectedCard.lineage].reverse().map((step) => (
+                    <li key={step.candidateId}>
+                      <button
+                        type="button"
+                        aria-pressed={viewedCandidateId === step.candidateId}
+                        onClick={() => setViewedCandidateId(step.candidateId)}
+                      >
+                        {step.stage[0]!.toUpperCase() + step.stage.slice(1)} ·{" "}
+                        {step.width}×{step.height} · {shortDate(step.at)}
+                      </button>
+                    </li>
+                  ))}
+                </ol>
+                {selectedCard.otherVersions.length ? (
+                  <p className="art-desk-meta">
+                    Also {selectedCard.otherVersions.length} other version
+                    {selectedCard.otherVersions.length === 1 ? "" : "s"} of this
+                    asset, listed below.
+                  </p>
+                ) : null}
+              </details>
+            ) : null}
+            {detail}
+          </div>
+        </div>
+      )}
+      <details
+        className="art-desk-advanced"
+        data-testid="art-desk-advanced"
+        open={advancedOpen}
+        onToggle={(event) =>
+          setAdvancedOpen((event.target as HTMLDetailsElement).open)
+        }
+      >
+        <summary>
+          Advanced: all requests by lane, queue, history and store
+        </summary>
+        {advancedOpen ? (
+          <>
+            <p
+              className="art-desk-pack"
+              data-testid="art-desk-pack"
+              data-pack-status={pack.status}
+            >
+              <strong>Private pack: {pack.status}.</strong> {pack.note}
+              {inputs && bench ? (
+                <span className="art-desk-meta" data-testid="art-desk-inputs">
+                  {" "}
+                  Receipt read {inputs.checkedAt};{" "}
+                  {Object.keys(bench.projection.candidates).length}{" "}
+                  candidate(s),{" "}
+                  {
+                    Object.values(bench.bytes).filter(
+                      (b) => b.state === "verified",
+                    ).length
+                  }{" "}
+                  with verified bytes; store {bench.store.storeId.slice(0, 14)}…
+                  ({bench.store.dataRootLabel}).
+                </span>
+              ) : (
+                <span className="art-desk-meta" data-testid="art-desk-loading">
+                  {" "}
+                  Bench data not loaded yet.
+                </span>
+              )}
+            </p>
+            {sync ? (
+              <p
+                className="art-desk-sync"
+                data-testid="art-desk-sync"
+                data-sync-status={sync.status}
+              >
+                <strong>Drive exchange: {sync.status}.</strong>{" "}
+                {sync.driveRootPresent
+                  ? `Mirror ${sync.driveRoot} present.`
+                  : "No Drive-for-desktop mirror of 80_ARTBENCH_EXCHANGE on this machine; decisions queue durably in the outbox."}{" "}
+                Last success {sync.lastSuccessAt ?? "never"};{" "}
+                {sync.pendingOutbox} unsynced event(s);{" "}
+                {sync.pendingBatches.length} partial batch(es);{" "}
+                {sync.processedBatches} batch(es) ingested;{" "}
+                {sync.exportedEvents} exported, {sync.importedEvents} read back.
+                {sync.lastError ? ` Last error: ${sync.lastError}` : ""}
+              </p>
+            ) : null}
+            <nav aria-label="Art Desk lanes">
+              <button
+                type="button"
+                aria-pressed={lane === "all"}
+                onClick={() => setLane("all")}
+              >
+                All ({rows.length})
+              </button>
+              {REQUEST_LANES.map((key) => (
+                <button
+                  key={key}
+                  type="button"
+                  aria-pressed={lane === key}
+                  onClick={() => setLane(key)}
+                  data-testid={`art-desk-lane-${key}`}
+                >
+                  {LANE_LABELS[key]} ({counts.lanes[key] ?? 0})
+                </button>
+              ))}
+            </nav>
+            <div className="art-desk-layout">
+              <ol className="art-desk-list" data-testid="art-desk-list">
+                {requestRows.map((row) => {
+                  const lead =
+                    (row.selectedCandidateId &&
+                      projection?.candidates[row.selectedCandidateId]) ||
+                    (row.candidateIds.at(-1) &&
+                      projection?.candidates[row.candidateIds.at(-1)!]) ||
+                    undefined;
+                  const requestId = row.request.requestId;
+                  return (
+                    <li key={requestId}>
+                      <button
+                        type="button"
+                        className="art-desk-row"
+                        aria-pressed={
+                          selectedRequest?.request.requestId === requestId
+                        }
+                        data-testid={`art-desk-row-${requestId}`}
+                        onClick={() => {
+                          setSelectedRequestId(requestId);
+                          setViewedCandidateId(
+                            row.selectedCandidateId ??
+                              row.candidateIds.at(-1) ??
+                              null,
+                          );
+                        }}
+                      >
+                        <Thumb
+                          candidate={lead}
+                          bytes={
+                            lead ? bench?.bytes[lead.candidateId] : undefined
+                          }
+                          testId={`art-desk-thumb-${requestId}`}
+                        />
+                        <span className="art-desk-row-copy">
+                          <strong>{row.request.title}</strong>
+                          <span>{row.request.consumer.playerVisibleUse}</span>
+                          <span className="art-desk-meta">
+                            {LANE_LABELS[row.lane]} · {row.candidateIds.length}{" "}
+                            candidate
+                            {row.candidateIds.length === 1 ? "" : "s"}
+                            {row.qa ? " · QA" : ""}
+                            {row.source === "qa" ? " · QA, disposable" : ""}
+                            {row.source === "event" && requestId !== "inbox"
+                              ? " · bench request"
+                              : ""}
+                          </span>
+                        </span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ol>
+              {detail}
+            </div>
+            {projection ? (
+              <section
+                className="art-desk-queue"
+                data-testid="art-desk-integration-queue"
+              >
+                <h2>Prepare for integration</h2>
+                {projection.integrationQueue.length === 0 ? (
+                  <p>Nothing queued. Approving a candidate enqueues it once.</p>
+                ) : null}
+                <ul>
+                  {projection.integrationQueue.map((item) => (
+                    <li
+                      key={item.itemId}
+                      data-testid={`art-desk-integration-${item.itemId}`}
+                    >
+                      <strong>{item.state}</strong> · {item.requestId} ·{" "}
+                      {item.candidateId.slice(0, 13)}… · sha{" "}
+                      {item.sha256.slice(0, 12)}… · consumer {item.consumerId} ·
+                      at approval {item.tagsState} · current tags{" "}
+                      {Object.keys(item.currentTags).length
+                        ? JSON.stringify(item.currentTags)
+                        : "none"}
+                      {item.qa ? " · QA, not cargo" : ""}
+                      {item.missingFacts.length
+                        ? ` · outstanding: ${item.missingFacts.join("; ")}`
+                        : ""}
+                      {item.receipts.length
+                        ? ` · receipts: ${item.receipts.map((r) => `${r.state} ${JSON.stringify(r.receipt)}`).join("; ")}`
+                        : ""}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
+            {projection && projection.conflicts.length > 0 ? (
+              <section
+                className="art-desk-queue"
+                data-testid="art-desk-conflicts"
+              >
+                <h2>Tag conflicts (kept, not overwritten)</h2>
+                <ul>
+                  {projection.conflicts.map((conflict) => (
+                    <li key={conflict.eventId}>
+                      {conflict.entity} {conflict.entityId.slice(0, 13)}…:{" "}
+                      {conflict.author.id} wrote against version{" "}
+                      {conflict.baseVersion}, current {conflict.currentVersion}:{" "}
+                      {JSON.stringify(conflict.attempted)}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
+          </>
+        ) : null}
+      </details>
       <footer className="art-desk-pager">
         <span>
-          {requestRows.length} request(s) ·{" "}
-          {filteredRows.filter((r) => r.candidate).length} candidate(s) shown
+          {advancedOpen
+            ? `${requestRows.length} request(s) · ${filteredRows.filter((r) => r.candidate).length} candidate(s) shown`
+            : `${visibleCards.length} asset(s) shown`}
         </span>
         <p role="status" data-testid="art-desk-status">
           {message}
@@ -927,7 +1306,32 @@ function RequestDetail({
       ? ["standing-neutral"]
       : [],
   });
-  const briefUrl = `${BENCH}/brief?requestId=${encodeURIComponent(requestId)}${viewed ? `&candidateId=${encodeURIComponent(viewed.candidateId)}` : ""}`;
+  const briefName = briefFileStem(
+    isInbox
+      ? (viewed?.provenance.itemId ??
+          viewed?.provenance.originalName?.replace(/\.[^.]+$/, "") ??
+          "unassigned")
+      : r.title,
+  );
+  const briefUrl = `${BENCH}/brief?requestId=${encodeURIComponent(requestId)}${viewed ? `&candidateId=${encodeURIComponent(viewed.candidateId)}` : ""}&name=${encodeURIComponent(briefName)}`;
+  const [briefNote, setBriefNote] = useState("");
+  useEffect(() => {
+    // The private hub reports how a download ended; a plain browser does not.
+    const onResult = (event: Event) => {
+      const detail = (event as CustomEvent<{ state?: string; name?: string }>)
+        .detail;
+      if (!detail?.name?.includes("brief")) return;
+      setBriefNote(
+        detail.state === "completed"
+          ? `Saved ${detail.name} in Downloads › Our Civic Duty Art Desk.`
+          : detail.state === "cancelled"
+            ? "Download cancelled."
+            : `Download failed for ${detail.name}.`,
+      );
+    };
+    window.addEventListener("ocd:download-result", onResult);
+    return () => window.removeEventListener("ocd:download-result", onResult);
+  }, []);
   const parent = viewed?.parentCandidateId
     ? projection.candidates[viewed.parentCandidateId]
     : undefined;
@@ -1032,8 +1436,25 @@ function RequestDetail({
           type="button"
           data-testid="art-desk-copy-brief"
           onClick={async () => {
-            const text = await (await fetch(briefUrl)).text();
-            await navigator.clipboard?.writeText(text).catch(() => undefined);
+            setBriefNote("Copying…");
+            try {
+              const response = await fetch(briefUrl);
+              if (!response.ok)
+                throw new Error(
+                  `the brief could not be read (${response.status})`,
+                );
+              const text = await response.text();
+              if (!navigator.clipboard)
+                throw new Error("this window has no clipboard access");
+              await navigator.clipboard.writeText(text);
+              setBriefNote(
+                `Copied the brief (${text.length.toLocaleString()} characters).`,
+              );
+            } catch (error) {
+              setBriefNote(
+                `Could not copy: ${error instanceof Error ? error.message : String(error)}. Use Download brief instead.`,
+              );
+            }
           }}
         >
           Copy brief
@@ -1042,9 +1463,17 @@ function RequestDetail({
           className="art-desk-linkbutton"
           href={`${briefUrl}&download=1`}
           data-testid="art-desk-download-brief"
+          onClick={() => setBriefNote(`Downloading ${briefName}-brief.md…`)}
         >
           Download brief
         </a>
+        <span
+          role="status"
+          className="art-desk-meta"
+          data-testid="art-desk-brief-status"
+        >
+          {briefNote}
+        </span>
         <label className="art-desk-upload">
           {isInbox ? "Upload to inbox" : "Upload candidate(s)"}
           <input

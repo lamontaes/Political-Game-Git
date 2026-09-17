@@ -1,12 +1,21 @@
 import { existsSync, rmSync } from "node:fs";
 import { resolve } from "node:path";
 
-import { expect, test } from "./fixtures";
+import { expect, test, type Page } from "./fixtures";
+
+/** The per-request lane view, diagnostics and queue live under Advanced. */
+async function openAdvanced(page: Page) {
+  const advanced = page.getByTestId("art-desk-advanced");
+  if ((await advanced.getAttribute("open")) === null)
+    await advanced.locator("summary").click();
+  await expect(page.getByTestId("art-desk-lane-needs-review")).toBeVisible();
+}
 
 test("private Art Desk reviews the durable queue without writing saves", async ({
   page,
 }) => {
   await page.goto("/art-desk.html");
+  await openAdvanced(page);
   await expect(page.getByTestId("art-desk")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Art Desk" })).toBeVisible();
   await expect(page.getByTestId("art-desk-lane-needs-review")).toHaveAttribute(
@@ -52,6 +61,7 @@ test("new requests stay independent of a selected row; related variants copy del
   page,
 }) => {
   await page.goto("/art-desk.html");
+  await openAdvanced(page);
   await page
     .getByTestId("art-desk-row-env-neighborhood-doorstep-generic")
     .click();
@@ -178,6 +188,7 @@ test("an existing raster round-trips upload → reload → same candidate → fu
 
   try {
     await page.goto("/art-desk.html");
+    await openAdvanced(page);
     await expect(page.getByTestId("art-desk-inputs")).toBeVisible();
     await expect(page.getByTestId("art-desk-pack")).toHaveAttribute(
       "data-pack-status",
@@ -224,6 +235,7 @@ test("an existing raster round-trips upload → reload → same candidate → fu
 
     // Reload: the association must come back from the sidecar, not React state.
     await page.reload();
+    await openAdvanced(page);
     await expect(page.getByTestId("art-desk-inputs")).toBeVisible();
     await page.getByTestId(`art-desk-row-${QA_REQUEST.requestId}`).click();
     const uploadedId = await page.evaluate(async (prefix) => {

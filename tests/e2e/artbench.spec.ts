@@ -5,6 +5,14 @@ import { createRequire } from "node:module";
 
 import { expect, test, type Page } from "./fixtures";
 
+/** The per-request lane view, diagnostics and queue live under Advanced. */
+async function openAdvanced(page: Page) {
+  const advanced = page.getByTestId("art-desk-advanced");
+  if ((await advanced.getAttribute("open")) === null)
+    await advanced.locator("summary").click();
+  await expect(page.getByTestId("art-desk-lane-needs-review")).toBeVisible();
+}
+
 /**
  * Combined owner journey on an isolated data root (PG_ARTBENCH_DATA_ROOT is
  * set by scripts/dev-lab/verify-server.ts's webServer command through the
@@ -163,6 +171,7 @@ test("the owner journey: brief → batch → restart → filter → approve → 
   );
   try {
     await page.goto("/art-desk.html");
+    await openAdvanced(page);
     await expect(page.getByTestId("art-desk-inputs")).toBeVisible();
     await expect(page.getByTestId("art-desk-sync")).toBeVisible();
 
@@ -229,6 +238,7 @@ test("the owner journey: brief → batch → restart → filter → approve → 
 
     // 3. Restart the page: all nine distinct candidates and their history survive.
     await page.reload();
+    await openAdvanced(page);
     await expect(page.getByTestId("art-desk-inputs")).toBeVisible();
     await page.getByTestId("art-desk-lane-needs-review").click();
     await page.getByTestId(`art-desk-row-${QA_REQUEST_ID}`).click();

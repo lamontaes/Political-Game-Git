@@ -79,6 +79,26 @@ export const OWNER_CAPABILITY_HEADER = "x-ocd-owner-capability";
  * malformed actor is refused on events; uploads without one are recorded as
  * unattributed worker uploads (still never approval).
  */
+/**
+ * A readable name the page chose, reduced to a safe ASCII stem; the request
+ * id is the fallback. Never a path, never a quote.
+ */
+export function briefDownloadStem(
+  name: string | null,
+  requestId: string,
+): string {
+  const clean = (value: string, pattern: RegExp) =>
+    value
+      .replace(pattern, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 60);
+  return (
+    clean((name ?? "").toLowerCase(), /[^a-z0-9-]+/g) ||
+    clean(requestId, /[^A-Za-z0-9._-]+/g).replace(/^\.+/, "") ||
+    "asset"
+  );
+}
+
 export function parseActor(
   raw: unknown,
 ): { ok: true; actor: ArtbenchActor } | { ok: false; message: string } {
@@ -417,9 +437,13 @@ export function createArtbenchHandler(store: ArtbenchStore) {
         response.setHeader("Content-Type", "text/markdown; charset=utf-8");
         response.setHeader("Cache-Control", "no-store");
         if (url.searchParams.get("download") === "1") {
+          const stem = briefDownloadStem(
+            url.searchParams.get("name"),
+            requestId,
+          );
           response.setHeader(
             "Content-Disposition",
-            `attachment; filename="${requestId}-brief.md"`,
+            `attachment; filename="${stem}-brief.md"`,
           );
         }
         response.end(text);
