@@ -301,7 +301,7 @@ test("closing a person card returns focus to the row that opened it", async ({
     household: "shares-a-home",
   });
   await enterLife(page);
-  await goTo(page, "nav-people");
+  await goTo(page, "elsewhere-people");
   const row = page
     .getByTestId("people-list")
     .locator('button[data-testid^="people-person-"]')
