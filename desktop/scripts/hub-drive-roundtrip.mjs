@@ -27,6 +27,11 @@ import { fileURLToPath, URL } from "node:url";
 
 import { _electron as electron } from "playwright";
 
+import {
+  EXCHANGE_FOLDERS,
+  readDriveItemId,
+} from "../private-controller/drive-exchange.mjs";
+
 const args = process.argv.slice(2);
 const value = (name) => {
   const index = args.indexOf(name);
@@ -130,6 +135,15 @@ writeFileSync(
     installId: "hub-drive-roundtrip",
     artDeskBranch: branch,
     artbenchDriveRoot: qaRoot,
+    // A dedicated QA exchange is a different set of Drive folders, so the
+    // hub's configured identities are overridden with the QA folders' own
+    // ids; a QA root with no Drive identity resolves by name and says so.
+    artbenchExchangeFolderIds: Object.fromEntries(
+      EXCHANGE_FOLDERS.map((folder) => [
+        folder.key,
+        readDriveItemId(path.join(qaRoot, folder.name)),
+      ]).filter(([, id]) => id),
+    ),
   })}\n`,
 );
 
