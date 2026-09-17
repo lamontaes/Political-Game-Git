@@ -82,7 +82,9 @@ writes one `official-continuity` record with the offices frozen as held just
 before the change, plus an ordinary `crisis.officeholder-*` event (public for
 a death). Office detection reads what the World already represents: elected
 President/Vice President, opening federal tenures, state executives and
-Congress seats. CRISIS never ends a term, names a successor, invokes the 25th
+Congress seats. Office keys are `us-president`, `us-vice-president`,
+`us-chief-justice`, the state executive's own office key, and Congress seat
+keys (`us-house:KY-03`, `us-senate:KY:class-2`). CRISIS never ends a term, names a successor, invokes the 25th
 Amendment or schedules a vacancy election.
 
 ## K4 flood and severe-storm chain
