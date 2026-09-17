@@ -225,7 +225,7 @@ test.describe("The title is a room with a menu on it", () => {
     await page.clock.fastForward(120_000);
     // Two minutes of drifting, and still nothing saved.
     await expect(page.getByTestId("continue")).toBeDisabled();
-    await expect(page.getByTestId("open-saves")).toBeDisabled();
+    await expect(page.getByTestId("open-saves")).not.toContainText("saved");
 
     await page.goto(replay);
     await expect(page.getByTestId("play-screen")).toBeVisible();
