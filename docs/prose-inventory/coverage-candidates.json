@@ -2,7 +2,7 @@
   "counts": {
     "INVENTORIED": 2780,
     "INTENTIONALLY_NON_PLAYER_FACING": 6465,
-    "DIAGNOSTIC_OR_TEST": 6498,
+    "DIAGNOSTIC_OR_TEST": 6505,
     "NEEDS_CLASSIFICATION": 7983
   },
   "needsClassification": [
@@ -9521,7 +9521,7 @@
     {
       "sourcePath": "src/player/politics/PartyInitiativesPanel.tsx",
       "enclosingSymbol": "commandRefusal",
-      "line": 79,
+      "line": 109,
       "text": "That could not be done.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9529,7 +9529,7 @@
     {
       "sourcePath": "src/player/politics/PartyInitiativesPanel.tsx",
       "enclosingSymbol": "run",
-      "line": 116,
+      "line": 146,
       "text": "Nothing changed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9537,7 +9537,7 @@
     {
       "sourcePath": "src/player/politics/PartyInitiativesPanel.tsx",
       "enclosingSymbol": "propose",
-      "line": 140,
+      "line": 170,
       "text": "Give the new party a name first.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9545,7 +9545,7 @@
     {
       "sourcePath": "src/player/politics/PartyInitiativesPanel.tsx",
       "enclosingSymbol": "propose",
-      "line": 145,
+      "line": 175,
       "text": "No place in this game fits that level.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9553,7 +9553,7 @@
     {
       "sourcePath": "src/player/politics/PartyInitiativesPanel.tsx",
       "enclosingSymbol": "proposed",
-      "line": 155,
+      "line": 185,
       "text": "You proposed forming {trimmed}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9561,7 +9561,7 @@
     {
       "sourcePath": "src/player/politics/PartyInitiativesPanel.tsx",
       "enclosingSymbol": "PartyInitiativesPanel",
-      "line": 185,
+      "line": 215,
       "text": " · Adopted on {item.adoptedOnLabel}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9569,7 +9569,7 @@
     {
       "sourcePath": "src/player/politics/PartyInitiativesPanel.tsx",
       "enclosingSymbol": "PartyInitiativesPanel",
-      "line": 211,
+      "line": 241,
       "text": "The proposal was decided and adopted.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9577,7 +9577,7 @@
     {
       "sourcePath": "src/player/politics/PartyInitiativesPanel.tsx",
       "enclosingSymbol": "PartyInitiativesPanel",
-      "line": 212,
+      "line": 242,
       "text": "Recorded your answer: {action.label}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9585,7 +9585,7 @@
     {
       "sourcePath": "src/player/politics/PartyInitiativesPanel.tsx",
       "enclosingSymbol": "PartyInitiativesPanel",
-      "line": 214,
+      "line": 244,
       "text": "Not decided yet: this proposal does not meet its conditions.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9593,7 +9593,7 @@
     {
       "sourcePath": "src/player/politics/PartyInitiativesPanel.tsx",
       "enclosingSymbol": "PartyInitiativesPanel",
-      "line": 215,
+      "line": 245,
       "text": "Nothing changed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9601,7 +9601,7 @@
     {
       "sourcePath": "src/player/politics/PartyInitiativesPanel.tsx",
       "enclosingSymbol": "PartyInitiativesPanel",
-      "line": 317,
+      "line": 366,
       "text": "Recorded your choice: {option.label}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68622,7 +68622,7 @@
       "sourcePath": "src/player/politics/PartyInitiativesPanel.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 16
+      "count": 23
     },
     {
       "sourcePath": "src/player/person-card-placement.test.ts",

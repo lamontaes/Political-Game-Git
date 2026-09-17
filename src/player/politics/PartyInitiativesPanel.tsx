@@ -7,6 +7,7 @@ import {
   proposeNewParty,
   takePartyInitiativeAction,
 } from "../../presentation/party-initiatives";
+import { partyBodyDecisions } from "../../simulation";
 import type { EntityId, PartyUnitLevel, World } from "../../simulation";
 import { GameSelect } from "../controls/GameSelect";
 
@@ -44,9 +45,11 @@ function isNationalKind(kind: string): boolean {
 }
 
 /**
- * The places this World already holds that fit a level: states for a state
- * party, other places for a local one, and none for a national one (it is not
- * tied to a place). The player's own home place, or its state, comes first.
+ * The places this World already holds that fit a level: every state for a
+ * state party (the player's own first), the local places inside the player's
+ * own state for a local one, and none for a national one (it is not tied to a
+ * place). The home state comes from the World's recorded parent, never from a
+ * display label.
  */
 export function partyJurisdictionChoices(
   world: World,
@@ -56,21 +59,48 @@ export function partyJurisdictionChoices(
   if (level === "national") return [];
   const homeId = world.people[personId]?.homeJurisdictionId ?? null;
   const home = homeId ? world.jurisdictions[homeId] : undefined;
-  const homeState = home?.parentName ?? home?.name.split(", ")[1] ?? null;
+  const homeState = !home
+    ? null
+    : isStateKind(home.kind)
+      ? home.name
+      : home.parentName;
   const rank = (choice: PartyJurisdictionChoice) =>
-    choice.value === homeId ? 0 : choice.label === homeState ? 1 : 2;
+    choice.value === homeId || choice.label === homeState ? 0 : 1;
   return world.jurisdictionOrder
     .flatMap((id) => {
       const place = world.jurisdictions[id];
       if (!place || isNationalKind(place.kind)) return [];
       const fits =
-        level === "state" ? isStateKind(place.kind) : !isStateKind(place.kind);
+        level === "state"
+          ? isStateKind(place.kind)
+          : !isStateKind(place.kind) &&
+            homeState !== null &&
+            (id === homeId || place.parentName === homeState);
       return fits ? [{ value: id, label: place.name }] : [];
     })
     .sort(
       (left, right) =>
         rank(left) - rank(right) || left.label.localeCompare(right.label),
     );
+}
+
+/**
+ * The option a body already adopted on a question today, if any. A body
+ * decides a question once a day from this panel; asking again the same day
+ * would only stack identical records.
+ */
+export function decidedToday(
+  world: World,
+  organizationId: EntityId,
+  questionKey: string,
+): string | null {
+  const today = world.currentDate.slice(0, 10);
+  const decisions = partyBodyDecisions(world, organizationId).filter(
+    (decision) =>
+      decision.questionKey === questionKey &&
+      decision.decidedAt.slice(0, 10) === today,
+  );
+  return decisions.at(-1)?.adoptedOptionKey ?? null;
 }
 
 /** The reason a refused command gives, in words a player can read. */
@@ -297,32 +327,52 @@ export function PartyInitiativesPanel({
               data-testid={`party-body-${body.organizationId}`}
             >
               <h4>{body.name}</h4>
-              {body.questions.map((question) => (
-                <fieldset key={question.key}>
-                  <legend>{question.label}</legend>
-                  {question.options.map((option) => (
-                    <button
-                      key={option.key}
-                      type="button"
-                      data-testid={`party-body-choice-${body.organizationId}-${question.key}-${option.key}`}
-                      onClick={() =>
-                        run(
-                          () =>
-                            decideInPartyBody(
-                              world,
-                              body.organizationId,
-                              question.key,
-                              option.key,
-                            ),
-                          `Recorded your choice: ${option.label}.`,
-                        )
-                      }
-                    >
-                      {option.label}
-                    </button>
-                  ))}
-                </fieldset>
-              ))}
+              {body.questions.map((question) => {
+                const decided = decidedToday(
+                  world,
+                  body.organizationId,
+                  question.key,
+                );
+                const decidedLabel = question.options.find(
+                  (option) => option.key === decided,
+                )?.label;
+                return (
+                  <fieldset key={question.key}>
+                    <legend>{question.label}</legend>
+                    {decided !== null ? (
+                      <p
+                        className="game-note"
+                        data-testid={`party-body-decided-${body.organizationId}-${question.key}`}
+                      >
+                        Decided today: {decidedLabel ?? decided}
+                      </p>
+                    ) : null}
+                    {decided !== null
+                      ? null
+                      : question.options.map((option) => (
+                          <button
+                            key={option.key}
+                            type="button"
+                            data-testid={`party-body-choice-${body.organizationId}-${question.key}-${option.key}`}
+                            onClick={() =>
+                              run(
+                                () =>
+                                  decideInPartyBody(
+                                    world,
+                                    body.organizationId,
+                                    question.key,
+                                    option.key,
+                                  ),
+                                `Recorded your choice: ${option.label}.`,
+                              ) && headingRef.current?.focus()
+                            }
+                          >
+                            {option.label}
+                          </button>
+                        ))}
+                  </fieldset>
+                );
+              })}
             </section>
           ))}
         </div>

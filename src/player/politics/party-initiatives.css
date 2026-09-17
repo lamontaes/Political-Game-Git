@@ -73,7 +73,7 @@
   border-radius: 3px;
 }
 
-.pg-party-initiatives button {
+.pg-party-initiatives button:not(.pg-select) {
   padding: 0.35rem 0.75rem;
   font: inherit;
   font-size: 0.88rem;
@@ -84,11 +84,11 @@
   cursor: pointer;
 }
 
-.pg-party-initiatives button:hover {
+.pg-party-initiatives button:not(.pg-select):hover {
   border-color: var(--pg-brass);
 }
 
-.pg-party-initiatives button:focus-visible,
+.pg-party-initiatives button:not(.pg-select):focus-visible,
 .pg-party-propose input:focus-visible {
   outline: 2px solid var(--pg-brass);
   outline-offset: 2px;
