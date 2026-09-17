@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2780 |
-| INTENTIONALLY_NON_PLAYER_FACING | 6413 |
-| DIAGNOSTIC_OR_TEST | 6426 |
-| **NEEDS_CLASSIFICATION** | **7904** |
+| INTENTIONALLY_NON_PLAYER_FACING | 6465 |
+| DIAGNOSTIC_OR_TEST | 6498 |
+| **NEEDS_CLASSIFICATION** | **7980** |
 
-Scanned 909 files holding 92119 string
+Scanned 930 files holding 93322 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -66,6 +66,7 @@ literals in total; the table counts only those that read like a sentence.
 | 48 | `src/simulation/life-sources.ts` |
 | 45 | `src/content/content-export.ts` |
 | 45 | `src/simulation/legislative-politics.ts` |
+| 45 | `src/simulation/living-world/party-evolution.ts` |
 | 45 | `src/simulation/time-work.ts` |
 | 44 | `src/player/ShellWorkspaces.tsx` |
 | 43 | `src/presentation/funded-service-capability.ts` |
@@ -80,12 +81,12 @@ literals in total; the table counts only those that read like a sentence.
 | 39 | `src/simulation/player-model.ts` |
 | 39 | `src/simulation/voice-bands.ts` |
 | 37 | `src/simulation/setup-opening-bank.ts` |
+| 36 | `src/simulation/living-world/party-chapters.ts` |
 | 36 | `src/simulation/world-metrics.ts` |
 | 35 | `src/simulation/campaign-compliance.generated.ts` |
 | 35 | `src/simulation/mind-catalog.ts` |
 | 35 | `src/simulation/rule-capability-resolver.ts` |
 | 35 | `src/ui/PoliticalProfile.tsx` |
-| 34 | `src/simulation/living-world/party-chapters.ts` |
 | 34 | `src/simulation/mind.ts` |
 | 34 | `src/simulation/person-stress-harness.ts` |
 | 33 | `src/content/adapters/life-episodes.ts` |
@@ -162,12 +163,14 @@ literals in total; the table counts only those that read like a sentence.
 | 16 | `src/player/PressInterviewPanel.tsx` |
 | 16 | `src/player/WorkingDocumentWorkspace.tsx` |
 | 16 | `src/presentation/run-a-projection.ts` |
+| 16 | `src/simulation/living-world/opening.ts` |
 | 16 | `src/simulation/policy-semantics.ts` |
 | 16 | `src/simulation/transit-funding.ts` |
 | 16 | `src/ui/EventHistory.tsx` |
 | 16 | `src/ui/SceneDebugOverlay.tsx` |
 | 15 | `src/presentation/conversation-subjects.ts` |
 | 15 | `src/presentation/legislation-docket.ts` |
+| 15 | `src/presentation/party-initiatives.ts` |
 | 15 | `src/presentation/personal-record.ts` |
 | 15 | `src/simulation/narrative-threads.ts` |
 | 15 | `src/simulation/nationwide-world/state-executive-candidacy-packs.ts` |
@@ -181,7 +184,6 @@ literals in total; the table counts only those that read like a sentence.
 | 14 | `src/presentation/surface-projection.ts` |
 | 14 | `src/simulation/education-study-progression.ts` |
 | 14 | `src/simulation/incidents.ts` |
-| 14 | `src/simulation/living-world/opening.ts` |
 | 14 | `src/simulation/municipal-public-work.ts` |
 | 14 | `src/simulation/public-fiscal.ts` |
 | 14 | `src/ui/CandidateAdmissionReview.tsx` |
@@ -245,6 +247,7 @@ literals in total; the table counts only those that read like a sentence.
 | 8 | `src/player/PinRail.tsx` |
 | 8 | `src/player/PlayerOffice.tsx` |
 | 8 | `src/player/UX39CalendarGrid.tsx` |
+| 8 | `src/player/politics/PartyInitiativesPanel.tsx` |
 | 8 | `src/presentation/legislative-bargaining-world.ts` |
 | 8 | `src/presentation/legislative-office-context.ts` |
 | 8 | `src/presentation/ordinary-life.ts` |
@@ -392,6 +395,7 @@ literals in total; the table counts only those that read like a sentence.
 | 2 | `src/simulation/legislative-institutions.ts` |
 | 2 | `src/simulation/legislative-term-rules.ts` |
 | 2 | `src/simulation/life-eligibility.ts` |
+| 2 | `src/simulation/living-world/party-registry.ts` |
 | 2 | `src/simulation/measure-numbering.ts` |
 | 2 | `src/simulation/nationwide-world/rules-capability-binding.ts` |
 | 2 | `src/simulation/nationwide-world/state-executive-terms.ts` |
@@ -433,5 +437,7 @@ literals in total; the table counts only those that read like a sentence.
 | 1 | `src/simulation/public-information-integrity.ts` |
 | 1 | `src/simulation/setup-questionnaire.ts` |
 | 1 | `src/simulation/situation-selection.ts` |
+| 1 | `src/simulation/world-setup/integrity.ts` |
+| 1 | `src/simulation/world-setup/political-start.ts` |
 
 Each candidate is listed in full, with its reason, in `coverage-candidates.json`.

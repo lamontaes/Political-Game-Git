@@ -245,6 +245,7 @@ import { WorldOrientationPanel } from "./WorldOrientationPanel";
 import { WorldOrientationEntry } from "./WorldOrientationEntry";
 import { useWorldOrientation } from "./useWorldOrientation";
 import { PartyChapterSurface } from "./PartyChapterSurface";
+import { PartyInitiativesPanel } from "./politics/PartyInitiativesPanel";
 import {
   projectPartyChapter,
   projectPartyChapters,
@@ -3856,6 +3857,11 @@ function renderWorkspace({
               No local party chapters are recorded where you live.
             </p>
           )}
+          <PartyInitiativesPanel
+            world={session.world}
+            personId={session.personId}
+            onWorldChange={(next) => onWorldChange(next)}
+          />
         </>,
       );
     }
