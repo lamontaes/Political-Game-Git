@@ -287,3 +287,29 @@ test("Return to title from Options and from the desktop hub request", async ({
     }),
   ).toBe(false);
 });
+
+test("closing a person card returns focus to the row that opened it", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await freshBrowser(page);
+  await startLife(page, {
+    route: "custom",
+    state: "Nevada",
+    place: "Alamo",
+    age: 34,
+    household: "shares-a-home",
+  });
+  await enterLife(page);
+  await goTo(page, "nav-people");
+  const row = page
+    .getByTestId("people-list")
+    .locator('button[data-testid^="people-person-"]')
+    .first();
+  await row.focus();
+  await page.keyboard.press("Enter");
+  await expect(page.getByTestId("quick-dossier")).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(page.getByTestId("quick-dossier")).toHaveCount(0);
+  await expect(row).toBeFocused();
+});

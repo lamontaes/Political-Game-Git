@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import type { PersonDossier } from "../presentation/person-dossier";
 import type { ShellRef } from "../presentation/shell-navigation";
@@ -46,6 +46,7 @@ export function QuickDossier({
   readonly talkUnavailable?: string | null;
 }) {
   const [expanded, setExpanded] = useState(false);
+  useReturnFocusToOpener();
   return (
     <PersonCard
       world={world}
@@ -68,6 +69,28 @@ export function QuickDossier({
       onOpenLink={onOpenLink}
     />
   );
+}
+
+/*
+ * The card takes focus when it opens. When it closes, focus goes back to the
+ * control that opened it (a list row, a map entry, a pin), unless something
+ * else has already placed focus deliberately, such as the scene's own return.
+ */
+function useReturnFocusToOpener(): void {
+  useEffect(() => {
+    const opener =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+    return () => {
+      if (!opener) return;
+      requestAnimationFrame(() => {
+        const current = document.activeElement;
+        const lost = current === null || current === document.body;
+        if (lost && opener.isConnected) opener.focus();
+      });
+    };
+  }, []);
 }
 
 export function FullDossier({
