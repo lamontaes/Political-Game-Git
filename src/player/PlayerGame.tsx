@@ -58,6 +58,9 @@ import {
   skipToLabel,
   stoppedEarlyLabel,
 } from "../presentation/time-target-label";
+import { authorityDecisions } from "../presentation/crisis-shell";
+import { CrisisNoticesPanel } from "./CrisisNoticesPanel";
+import { useCrisisStop } from "./use-crisis-stop";
 import {
   TimeCommandProvider,
   useTimeCommand,
@@ -2514,16 +2517,26 @@ function PlayingScreen({
     onWorldChange,
   });
   const { submit: submitTime } = timeRunner;
+  /*
+   * CRISIS raises decisions nobody else may make: disclosing an illness of
+   * your own, a governor's federal request, a President's declaration or
+   * international choice. A skip that passed one says so here and opens the
+   * surface that holds the real decision, so it cannot be buried under the
+   * routine outcome.
+   */
+  const crisisStop = useCrisisStop(session.world);
   const passDays = useCallback(
-    (days: 1 | 7) =>
+    (days: 1 | 7) => {
+      crisisStop.watch();
       submitTime({ kind: "days", days }, (report) =>
         setPassOutcome(
           report.stoppedEarly && report.target
             ? `${stoppedEarlyLabel(report.target)} ${report.outcome}`
             : report.outcome,
         ),
-      ),
-    [submitTime],
+      );
+    },
+    [crisisStop, submitTime],
   );
   const passTargets = useMemo(() => {
     const day = previewTimeCommand(session.world, session.personId, {
@@ -3471,6 +3484,42 @@ function PlayingScreen({
                   </button>
                 </p>
               ) : null}
+              {crisisStop.stop ? (
+                <p
+                  className="life-hud-note life-hud-note--problem"
+                  role="status"
+                  data-testid="crisis-stop"
+                >
+                  {crisisStop.stop.sentence}
+                  <button
+                    type="button"
+                    className="ui-action"
+                    data-testid="crisis-stop-open"
+                    onClick={() => {
+                      crisisStop.clear();
+                      dispatch(
+                        crisisStop.stop?.target === "authority"
+                          ? {
+                              type: "go-to-surface",
+                              surface: "work",
+                              section: "office",
+                            }
+                          : { type: "go-to-surface", surface: "personal" },
+                      );
+                    }}
+                  >
+                    Go to it
+                  </button>
+                  <button
+                    type="button"
+                    className="life-hud-dismiss"
+                    aria-label="Dismiss"
+                    onClick={crisisStop.clear}
+                  >
+                    ✕
+                  </button>
+                </p>
+              ) : null}
               {recap ? (
                 <WorldRecapPanel
                   recap={recap}
@@ -4125,28 +4174,36 @@ function renderWorkspace({
             onOpenPerson={openPerson}
           />
           {view.section !== "finances" && (
-            <PersonalGoalsPanel
-              world={session.world}
-              personId={session.personId}
-              onWorldChange={onWorldChange}
-              onOpportunity={(opportunity) => {
-                if (opportunity.kind === "talk" && opportunity.personId) {
-                  talkTo(
-                    opportunity.personId,
-                    (opportunity.subject ?? undefined) as
-                      ConversationSubjectKey | undefined,
-                  );
-                } else if (opportunity.kind === "read-news") {
-                  dispatch({ type: "go-to-surface", surface: "news" });
-                } else {
-                  dispatch({
-                    type: "go-to-surface",
-                    surface: "work",
-                    section: "campaign",
-                  });
-                }
-              }}
-            />
+            <>
+              <PersonalGoalsPanel
+                world={session.world}
+                personId={session.personId}
+                onWorldChange={onWorldChange}
+                onOpportunity={(opportunity) => {
+                  if (opportunity.kind === "talk" && opportunity.personId) {
+                    talkTo(
+                      opportunity.personId,
+                      (opportunity.subject ?? undefined) as
+                        ConversationSubjectKey | undefined,
+                    );
+                  } else if (opportunity.kind === "read-news") {
+                    dispatch({ type: "go-to-surface", surface: "news" });
+                  } else {
+                    dispatch({
+                      type: "go-to-surface",
+                      surface: "work",
+                      section: "campaign",
+                    });
+                  }
+                }}
+              />
+              <CrisisNoticesPanel
+                world={session.world}
+                personId={session.personId}
+                onWorldChange={onWorldChange}
+                scope="personal"
+              />
+            </>
           )}
           <details data-testid="personal-life-choices">
             <summary>Your day, choices and pending favors</summary>
@@ -4775,6 +4832,26 @@ function renderWorkspace({
               : "all";
       const sections: WorkSection[] = [];
       const officeHalf = half === "office" || half === "all";
+      /*
+       * A disaster request or an international choice belongs to whoever
+       * actually holds the office being asked, so the section exists only
+       * while one is pending. A resident reads the same emergency as a public
+       * event under Who you are and is never shown a decision to make.
+       */
+      if (officeHalf && authorityDecisions(session.world).length > 0) {
+        sections.push({
+          key: "crisis",
+          title: "Decisions only you can make",
+          body: (
+            <CrisisNoticesPanel
+              world={session.world}
+              personId={session.personId}
+              onWorldChange={onWorldChange}
+              scope="authority"
+            />
+          ),
+        });
+      }
       if (officeHalf && offices.length > 0) {
         sections.push({
           key: "office",
@@ -4809,12 +4886,12 @@ function renderWorkspace({
                 onWorldChange={onWorldChange}
               />
               {executive ? (
-            <ExecutiveWorkWorkspace
-              world={session.world}
-              onWorldChange={onWorldChange}
-              onClose={close}
-              handlers={createCampaignElectionTransitionRegistry()}
-            />
+                <ExecutiveWorkWorkspace
+                  world={session.world}
+                  onWorldChange={onWorldChange}
+                  onClose={close}
+                  handlers={createCampaignElectionTransitionRegistry()}
+                />
               ) : null}
             </>
           ),
@@ -5023,6 +5100,7 @@ function StoryView({
       }),
     [session.world, session.personId],
   );
+  const crisisStop = useCrisisStop(session.world);
 
   if (completedActivityHere(session.world, session.personId))
     return (
@@ -5127,7 +5205,10 @@ function StoryView({
             data-testid="story-let-time-pass"
             aria-disabled={runner.pending || undefined}
             aria-busy={runner.pending}
-            onClick={() => runner.submit({ kind: "quiet-stretch" })}
+            onClick={() => {
+              crisisStop.watch();
+              runner.submit({ kind: "quiet-stretch" });
+            }}
           >
             {moment.formativeYears ? "Let the year run on" : "Let time pass"}
             <small data-testid="story-let-time-pass-target">
@@ -5138,6 +5219,15 @@ function StoryView({
           </button>
         )}
       </div>
+
+      {crisisStop.stop ? (
+        <p className="game-note" role="status" data-testid="story-crisis-stop">
+          {crisisStop.stop.sentence}{" "}
+          {crisisStop.stop.target === "authority"
+            ? "It is waiting in your office."
+            : "It is waiting under Who you are."}
+        </p>
+      ) : null}
 
       {moment.openThreads.length > 0 ? (
         <ul className="game-pending" data-testid="story-open">
@@ -5490,7 +5580,8 @@ function PassDayControl({
 }
 
 interface WorkSection {
-  readonly key: "office" | "campaign" | "statewide" | "paths" | "personnel";
+  readonly key:
+    "office" | "campaign" | "statewide" | "paths" | "personnel" | "crisis";
   readonly title: string;
   readonly body: ReactNode;
 }
