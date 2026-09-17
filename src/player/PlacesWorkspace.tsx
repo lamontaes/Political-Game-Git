@@ -160,7 +160,7 @@ export function PlacesWorkspace({
     setProblem("That offer is not supported.");
   }
 
-  /* The calendar entry and the government an offer names, when it names one. */
+  /* The calendar entry an offer names, and the government on its inspect row. */
   function pinTargets(offer: PlacesOfferView) {
     const targets: {
       ref: PlacesEntityRef;
@@ -169,15 +169,21 @@ export function PlacesWorkspace({
       testid: string;
     }[] = [];
     const activityId = offer.activityId ?? offer.meetingId;
-    if (activityId) {
+    const commitment: PlacesEntityRef = {
+      kind: "commitment",
+      id: activityId ?? "",
+    };
+    const commitmentName = activityId ? labelForRef(world, commitment) : null;
+    if (activityId && commitmentName !== null) {
       targets.push({
-        ref: { kind: "commitment", id: activityId },
-        name: offer.title,
+        ref: commitment,
+        name: commitmentName,
         noun: offer.meetingId ? "meeting" : "activity",
         testid: `places-offer-${offer.id}-pin-commitment`,
       });
     }
-    const governmentKey = offer.inspectGovernmentKey ?? offer.governmentKey;
+    // Once per government: its own inspect row, not every meeting it holds.
+    const governmentKey = offer.inspectGovernmentKey;
     if (governmentKey) {
       const ref: PlacesEntityRef = { kind: "government", id: governmentKey };
       const name = labelForRef(world, ref);

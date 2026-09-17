@@ -449,12 +449,18 @@ export function shellReducer(
      * The room goes on top of the history rather than replacing it. Talking
      * from the person card over a workspace also keeps that person's record
      * underneath, because the card itself is a layer and not a place Back can
-     * return to. Talking from the room leaves the history as it is.
+     * return to. Talking from the room settles the history on the room alone.
      */
     case "talk-in-scene": {
       const current = currentView(state);
       if (current.surface === "scene") {
-        return { ...settled(state), announcement: "Back in the room." };
+        // The room is where this conversation started; an older way here
+        // (a record talked from earlier) is not where its Back should lead.
+        return {
+          ...settled(state),
+          history: [{ surface: "scene" }],
+          announcement: "Back in the room.",
+        };
       }
       const record: ShellView = {
         surface: "entity",

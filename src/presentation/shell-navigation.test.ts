@@ -97,6 +97,18 @@ describe("the shell's navigation", () => {
     expect(activeView(back)).toEqual({ surface: "entity", ref: person });
   });
 
+  it("does not send Back from a room conversation to an older record", () => {
+    const talking = run([
+      { type: "go-to-surface", surface: "people" },
+      { type: "open-entity", ref: person },
+      { type: "talk-in-scene", personId: ALICE },
+      { type: "open-quick-dossier", personId: ALICE },
+      { type: "talk-in-scene", personId: ALICE },
+    ]);
+    expect(talking.history).toEqual([{ surface: "scene" }]);
+    expect(canGoBack(talking)).toBe(false);
+  });
+
   it("leaves the history alone when the conversation starts in the room", () => {
     const talking = run([
       { type: "open-quick-dossier", personId: ALICE },
