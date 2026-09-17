@@ -114,6 +114,7 @@ function wholeYears(value: unknown): number | null {
 export function stateExecutiveTermWindow(
   office: StateExecutiveOffice,
   onDate: IsoDate,
+  options: { readonly gameCalendar?: boolean } = {},
 ): StateExecutiveTermWindow {
   const resolution = resolveNationwideRuleCapability({
     scope: { kind: "state", stateUsps: office.stateUsps },
@@ -127,7 +128,10 @@ export function stateExecutiveTermWindow(
     // No admitted law: the office runs on its verified or disclosed game
     // calendar (state-executive-term-rules). Saves that already recorded an
     // unknown-start tenure keep it; only new tenures are dated this way.
-    const rule = stateExecutiveTermRule(office.stateUsps);
+    const rule =
+      options.gameCalendar === false
+        ? null
+        : stateExecutiveTermRule(office.stateUsps);
     if (rule) {
       const window = regularTermWindowOn(rule, onDate);
       return {
@@ -228,6 +232,13 @@ export function ensureStateExecutiveIncumbent(
   world: World,
   subjectPersonId: EntityId,
   stateUsps: string,
+  /**
+   * `datedTerms: false` keeps an opening tenure undated, as worlds built
+   * before the game calendar existed recorded it. A replay of one of those
+   * descriptors has to rebuild exactly what it built then, so the caller that
+   * knows it is replaying says so; ordinary new games date the term.
+   */
+  options: { readonly datedTerms?: boolean } = {},
 ): World {
   const office = stateExecutiveOffice(stateUsps);
   if (!office) return world;
@@ -238,7 +249,9 @@ export function ensureStateExecutiveIncumbent(
   if (world.history.events.some((event) => event.stableKey.startsWith(prefix)))
     return world;
 
-  const window = stateExecutiveTermWindow(office, world.currentDate);
+  const window = stateExecutiveTermWindow(office, world.currentDate, {
+    gameCalendar: options.datedTerms !== false,
+  });
   const tenureKey = `${prefix}${window.startsAt ?? `recorded-${world.currentDate}`}`;
   const holderKey = `${tenureKey}:holder`;
   let next = registerStateJurisdiction(world, office);
@@ -351,6 +364,35 @@ export interface StateExecutiveHolderRecord {
  * whose recorded term has ended is history, not a present holder. An office
  * the World never materialized is absent here, which is not a vacancy.
  */
+/**
+ * The office-consequence record that vacates an office, named here so the
+ * holder reader can honour a resignation without importing the governing
+ * writer that produces one.
+ */
+export const OFFICE_CONSEQUENCE_EVENT_TYPE = "governing.office-consequence";
+export const OFFICE_TERM_CLOSED_TAG = "term-closed:";
+
+/** The date this office was given up, when a resignation is on record. */
+export function stateExecutiveVacatedOn(
+  world: World,
+  officeKey: string,
+): IsoDate | null {
+  for (const event of world.history.events) {
+    if (
+      event.type !== OFFICE_CONSEQUENCE_EVENT_TYPE ||
+      !event.tags.includes(`office:${officeKey}`)
+    )
+      continue;
+    const closed = event.tags.find((tag) =>
+      tag.startsWith(OFFICE_TERM_CLOSED_TAG),
+    );
+    const effectiveAt = closed?.split(":").at(-1);
+    if (effectiveAt && effectiveAt <= world.currentDate)
+      return makeIsoDate(effectiveAt);
+  }
+  return null;
+}
+
 export function currentStateExecutiveHolders(
   world: World,
 ): readonly StateExecutiveHolderRecord[] {
@@ -362,6 +404,7 @@ export function currentStateExecutiveHolders(
       (candidate) => candidate.stableKey === office.organizationStableKey,
     );
     if (!organization) continue;
+    if (stateExecutiveVacatedOn(world, office.officeKey)) continue;
     const elected = world.history.workRelationships
       .filter(
         (relationship) =>
