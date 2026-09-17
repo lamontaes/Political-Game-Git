@@ -308,6 +308,15 @@ check(
   (await page.getByTestId("save-entry").count()) === afterCount,
 );
 
+// Opening a life gives its save-wide journal to the person it was written as
+// (journals are kept per played person), so after a reopen the same writing is
+// read from that person's notebook. Nothing else about the interface may move.
+const seededPersonId = interfaceSeed.state.pins[0].ref.id;
+const reopenedWireState = (state) => ({
+  ...wireState(state),
+  journal: state.journals?.[seededPersonId] ?? state.journal,
+});
+
 // Reopen both same-life slots using the real UI, not just raw record presence.
 for (let index = 0; index < 2; index += 1) {
   await page
@@ -351,7 +360,7 @@ check(
 check(
   "transfer: reopen preserves complete interface in both slots",
   reopened.interfaces.filter((state) =>
-    isDeepStrictEqual(wireState(state), wireState(interfaceSeed.state)),
+    isDeepStrictEqual(reopenedWireState(state), wireState(interfaceSeed.state)),
   ).length === 2,
 );
 
