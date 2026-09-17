@@ -216,7 +216,6 @@ import { measureById } from "../simulation";
 import { measureGate } from "../simulation/legislation";
 import { ConversationStarters, SceneConversation } from "./SceneConversation";
 import { InvokerFocusReturn } from "./PersonSceneActionMenu";
-import type { ConversationAddressee } from "../presentation/run-b-conversation";
 import type { ConversationSubjectKey } from "../presentation/run-b-conversation-progress";
 import { openConversationWith } from "../presentation/person-conversation-entry";
 import {
@@ -2340,16 +2339,14 @@ function PlayingScreen({
   /**
    * The conversation the player asked for, and who they are facing in it.
    *
-   * Held beside the shell rather than inside it because it is not a place — it
-   * is a thing happening in the room. The addressee travels with it, which is
-   * the whole repair: the recorded defect was a selected person being dropped
-   * on the way to a generic surface. PT3: it is drawn in ONE place, the
+   * It is still not a place — it is a thing happening in the room — but the
+   * shell holds the record now, because the shell is what has to answer where
+   * Back goes while it is waiting. The addressee travels with it, which is the
+   * original repair: the recorded defect was a selected person being dropped on
+   * the way to a generic surface. PT3: it is drawn in ONE place, the
    * conversation box in the room, whichever control started it.
    */
-  const [conversation, setConversation] = useState<{
-    readonly subject: ConversationSubjectKey;
-    readonly addressee: ConversationAddressee;
-  } | null>(null);
+  const conversation = shell.conversation;
   /**
    * Whose Talk-to control the room should focus when a conversation closes.
    *
@@ -2892,7 +2889,8 @@ function PlayingScreen({
       );
       if (entry.kind === "unavailable") return;
       setReturnFocusPrefer(invoker);
-      setConversation({
+      dispatch({
+        type: "set-conversation",
         subject: subject ?? entry.subject,
         addressee: personId,
       });
@@ -3061,10 +3059,12 @@ function PlayingScreen({
                         subject={conversation.subject}
                         addressee={conversation.addressee}
                         onWorldChange={onWorldChange}
-                        onChange={(next) => setConversation(next)}
+                        onChange={(next) =>
+                          dispatch({ type: "set-conversation", ...next })
+                        }
                         onBack={() => {
                           const facing = conversation.addressee;
-                          setConversation(null);
+                          dispatch({ type: "end-conversation" });
                           // Started from a record: Back returns to that record.
                           if (canGoBack(shell)) {
                             dispatch({ type: "back" });
@@ -3158,7 +3158,7 @@ function PlayingScreen({
                 type="button"
                 className="pg-talk-return"
                 data-testid="conversation-return"
-                onClick={() => dispatch({ type: "go-to-scene" })}
+                onClick={() => dispatch({ type: "resume-conversation" })}
               >
                 Return to conversation
                 <small>
@@ -3503,6 +3503,12 @@ function renderWorkspace({
    * The Politics hub (UI DECISION FOLLOW-THROUGH): one tab strip over the
    * existing political surfaces. Tabs only navigate; every mechanism stays in
    * the surface that owns it.
+   *
+   * CRUNCH47 A1: a tab is a subroute of the hub, not a second place to come
+   * back through. Menu entries still add a level; these replace the one the
+   * hub already occupies, so one Back from any tab leaves the hub — and lands
+   * on a conversation waiting in the room rather than on the tab passed
+   * through on the way in.
    */
   const politicsTabs = (
     active: PoliticsTab,
@@ -3510,18 +3516,22 @@ function renderWorkspace({
   ) => {
     const goTo = (tab: PoliticsTab) => {
       if (tab === "office")
-        dispatch({ type: "go-to-surface", surface: "work", section: "office" });
+        dispatch({
+          type: "go-to-subroute",
+          surface: "work",
+          section: "office",
+        });
       else if (tab === "campaigns")
         dispatch({
-          type: "go-to-surface",
+          type: "go-to-subroute",
           surface: "work",
           section: "campaign",
         });
       else if (tab === "government")
-        dispatch({ type: "go-to-surface", surface: "government" });
+        dispatch({ type: "go-to-subroute", surface: "government" });
       else if (tab === "parties")
-        dispatch({ type: "go-to-surface", surface: "parties" });
-      else dispatch({ type: "go-to-surface", surface: "politics" });
+        dispatch({ type: "go-to-subroute", surface: "parties" });
+      else dispatch({ type: "go-to-subroute", surface: "politics" });
     };
     /*
      * Transit and tax configuration are an office's tools: offered only to a
@@ -3569,7 +3579,7 @@ function renderWorkspace({
                   : key === "transit"
                     ? "transit"
                     : "tax";
-          dispatch({ type: "go-to-surface", surface });
+          dispatch({ type: "go-to-subroute", surface });
         }}
       />
     );
@@ -3883,7 +3893,8 @@ function renderWorkspace({
           }
           onContextChange={(context) =>
             dispatch({
-              type: "go-to-surface",
+              // A News context is a section of the News desk, not a level.
+              type: "go-to-subroute",
               surface: "news",
               ...(context === "read"
                 ? {}
