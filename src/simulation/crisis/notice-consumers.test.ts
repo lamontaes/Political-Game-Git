@@ -137,7 +137,6 @@ describe("one death reaches each consumer exactly once", () => {
     world = discloseHealthEpisode(world, {
       stableKey: "notice:disclosure",
       episodeId,
-      personId: family.subject,
       access: "specific-people",
       recipientIds: [family.child],
       decidedByPersonId: family.subject,
