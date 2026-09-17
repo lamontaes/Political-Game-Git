@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 2781 |
 | INTENTIONALLY_NON_PLAYER_FACING | 6489 |
-| DIAGNOSTIC_OR_TEST | 6495 |
-| **NEEDS_CLASSIFICATION** | **8141** |
+| DIAGNOSTIC_OR_TEST | 6527 |
+| **NEEDS_CLASSIFICATION** | **8180** |
 
-Scanned 933 files holding 94092 string
+Scanned 937 files holding 94310 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -83,6 +83,7 @@ literals in total; the table counts only those that read like a sentence.
 | 37 | `src/simulation/setup-opening-bank.ts` |
 | 36 | `src/simulation/governing/public-program.ts` |
 | 36 | `src/simulation/world-metrics.ts` |
+| 35 | `src/presentation/governing-office-desk.ts` |
 | 35 | `src/simulation/campaign-compliance.generated.ts` |
 | 35 | `src/simulation/mind-catalog.ts` |
 | 35 | `src/simulation/rule-capability-resolver.ts` |
@@ -331,6 +332,7 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/education/catalog.ts` |
 | 4 | `src/persistence/sqlite-world-repository.ts` |
 | 4 | `src/player/CreatorBirthdayFields.tsx` |
+| 4 | `src/player/GoverningOfficeDesk.tsx` |
 | 4 | `src/player/WardrobeFigure.tsx` |
 | 4 | `src/player/WorldOrientationPanel.tsx` |
 | 4 | `src/player/politics/GovernmentBrowser.tsx` |
