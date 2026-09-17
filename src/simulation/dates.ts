@@ -18,7 +18,18 @@ function utcDate(year: number, month: number, day: number): Date {
   return date;
 }
 
+const VALID_ISO_DATES_LIMIT = 100_000;
+const VALID_ISO_DATES = new Set<string>();
+
 export function makeIsoDate(value: string): IsoDate {
+  if (VALID_ISO_DATES.has(value)) return value as IsoDate;
+  const date = validateIsoDate(value);
+  if (VALID_ISO_DATES.size >= VALID_ISO_DATES_LIMIT) VALID_ISO_DATES.clear();
+  VALID_ISO_DATES.add(value);
+  return date;
+}
+
+function validateIsoDate(value: string): IsoDate {
   const match = ISO_DATE_PATTERN.exec(value);
 
   if (!match) {
@@ -138,7 +149,29 @@ function timeZoneFormatter(timeZone: string): Intl.DateTimeFormat {
   return formatter;
 }
 
+/*
+ * GOVERNING profile: `formatToParts` dominated long-save time advances, and
+ * this function is pure in (epochMinute, timeZone). A bounded memo keeps the
+ * answers without changing them.
+ */
+const LOCAL_PARTS_CACHE_LIMIT = 100_000;
+const LOCAL_PARTS_CACHE = new Map<string, LocalMinuteParts>();
+
 function localMinutePartsAt(
+  epochMinute: number,
+  timeZone: string,
+): LocalMinuteParts {
+  const key = `${timeZone}|${epochMinute}`;
+  const cached = LOCAL_PARTS_CACHE.get(key);
+  if (cached) return cached;
+  const parts = computeLocalMinutePartsAt(epochMinute, timeZone);
+  if (LOCAL_PARTS_CACHE.size >= LOCAL_PARTS_CACHE_LIMIT)
+    LOCAL_PARTS_CACHE.clear();
+  LOCAL_PARTS_CACHE.set(key, parts);
+  return parts;
+}
+
+function computeLocalMinutePartsAt(
   epochMinute: number,
   timeZone: string,
 ): LocalMinuteParts {

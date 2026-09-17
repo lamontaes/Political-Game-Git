@@ -6,18 +6,25 @@ import {
   fileCampaign,
   homeStateUsps,
   makeCurrencyCode,
+  nextRegularElection,
+  STATE_EXECUTIVE_GAME_PROFILE_NOTE,
   stateExecutiveIdentity,
+  stateExecutiveTermRule,
   stateJurisdictionForKey,
+  termDatesAfterElection,
 } from "../simulation";
 import type {
   CandidacyBlock,
   EntityId,
+  IsoDate,
   StateExecutiveIdentity,
+  TermRuleSource,
   World,
 } from "../simulation";
 
 export {
   qualifyForStateExecutiveTerm,
+  recoverOffCycleStateExecutiveTerm,
   stateExecutiveEntryStatus,
 } from "../simulation";
 
@@ -58,6 +65,49 @@ export function stateExecutiveCandidacyForPerson(
   };
 }
 
+export interface StateExecutiveOfficeCalendar {
+  /** The next regular general election a filing today would stand in. */
+  readonly nextElection: IsoDate;
+  /** The term that election would win. */
+  readonly termStartsAt: IsoDate;
+  readonly termEndsAt: IsoDate;
+  /** "verified" only when every calendar value is compiled state law. */
+  readonly basis: "verified" | "game-profile" | "mixed";
+  /** Player-facing explanation of where the calendar comes from. */
+  readonly note: string;
+  readonly sources: readonly TermRuleSource[];
+  readonly ruleVersion: string;
+}
+
+/** The office's own election calendar, read without writing anything. */
+export function stateExecutiveOfficeCalendar(
+  world: World,
+  stateUsps: string,
+): StateExecutiveOfficeCalendar | null {
+  const rule = stateExecutiveTermRule(stateUsps);
+  if (!rule) return null;
+  const nextElection = nextRegularElection(rule, addDays(world.currentDate, 1));
+  const term = termDatesAfterElection(rule, nextElection);
+  const bases = Object.values(rule.basis);
+  const basis = bases.every((b) => b === "verified")
+    ? "verified"
+    : bases.every((b) => b === "game-profile")
+      ? "game-profile"
+      : "mixed";
+  return {
+    nextElection,
+    termStartsAt: term.startsAt,
+    termEndsAt: term.endsAt,
+    basis,
+    note:
+      basis === "verified"
+        ? "This office's election day, term length and start date follow the state's own law."
+        : STATE_EXECUTIVE_GAME_PROFILE_NOTE,
+    sources: rule.sources,
+    ruleVersion: rule.ruleVersion,
+  };
+}
+
 /**
  * Standing for governor of one's own state, through the same campaign and
  * contest route a legislative filing uses. The contest is statewide, so it is
@@ -79,7 +129,9 @@ export function fileForStateExecutiveOffice(
   );
   const opponents = ensureCampaignOpponents(registered, {
     stableKey,
-    jurisdictionId: candidacy.jurisdictionId,
+    // Rivals for a statewide office live in the state: in the candidate's own
+    // home place, so a rival who wins can qualify like anyone else.
+    jurisdictionId: person.homeJurisdictionId,
     count: 1,
     excludePersonIds: [personId],
   });
@@ -89,10 +141,13 @@ export function fileForStateExecutiveOffice(
     jurisdictionId: candidacy.jurisdictionId,
     officeKey: candidacy.identity.officeKey,
     districtBinding: null,
-    // The same authored campaign calendar a legislative filing uses; it is not
-    // an admitted real election date, and the term that follows is dated only
-    // by admitted term facts.
-    electionDate: addDays(world.currentDate, 28),
+    // The office's own regular election: verified where the state's law is
+    // compiled, otherwise the game's disclosed calendar. Never a fixed
+    // number of days after filing.
+    electionDate: stateExecutiveOfficeCalendar(
+      world,
+      candidacy.identity.stateUsps,
+    )!.nextElection,
     rivalPersonIds: opponents.personIds,
     existingContestId: null,
     committeeName: `${person.familyName} for ${candidacy.identity.displayName}`,

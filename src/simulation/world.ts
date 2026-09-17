@@ -1,4 +1,5 @@
 import { assertWorldContentPacks } from "./runtime-content-packs";
+import { applyCongressTurnover } from "./living-world/congress-turnover";
 import { assertAppearanceMaterial } from "./appearance-material";
 import { applyNationalTermTransitions } from "./national-election-consumer";
 import {
@@ -490,7 +491,21 @@ export function createWorld(input: CreateWorldInput): World {
   return world;
 }
 
+/*
+ * GOVERNING profile: writers validate the World they receive and the World
+ * they return, so one object was being checked again by the next writer.
+ * Worlds are immutable values; an object that passed once is remembered.
+ * A World built by spreading is a new object and is always checked.
+ */
+const VALIDATED_WORLDS = new WeakSet<World>();
+
 export function assertWorldIntegrity(world: World): void {
+  if (VALIDATED_WORLDS.has(world)) return;
+  validateWorldIntegrity(world);
+  VALIDATED_WORLDS.add(world);
+}
+
+function validateWorldIntegrity(world: World): void {
   assertJsonSafe(world, "world");
   if (world.contentPacks !== undefined)
     assertWorldContentPacks(world.contentPacks);
@@ -966,7 +981,11 @@ export function advanceWorld(
     actionSequence: actionSequence + 1,
   };
 
-  return recordWorldEvent(applyNationalTermTransitions(advanced), {
+  const continued = applyCongressTurnover(
+    world.currentDate,
+    applyNationalTermTransitions(advanced),
+  );
+  return recordWorldEvent(continued, {
     stableKey: `action:${actionSequence}:time-advanced:${world.currentDate}:${days}:${nextDate}`,
     type: "simulation.time-advanced",
     occurredAt: nextDate,
