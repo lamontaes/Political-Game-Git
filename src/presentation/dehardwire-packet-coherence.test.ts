@@ -2,8 +2,6 @@ import { enterSupportedTerm } from "../../tests/fixtures/recorded-legislative-te
 import { describe, expect, it } from "vitest";
 
 import {
-  advanceWorld,
-  createCampaignElectionTransitionRegistry,
   deserializeWorld,
   measureProvisions,
   serializeWorld,
@@ -11,8 +9,11 @@ import {
 import type { World } from "../simulation";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { openOrdinaryLife } from "./ordinary-life";
-import { projectCampaign, spendAnAfternoon } from "./campaign-projection";
-import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
+import { projectCampaign } from "./campaign-projection";
+import {
+  campaignUntilDecided,
+  fileForOffice,
+} from "../../tests/fixtures/campaign-fixture";
 
 import { resolvePlayerCapabilities } from "./player-capabilities";
 import {
@@ -55,18 +56,7 @@ function wonSeatedAndOnTheFloor(seed: string) {
   });
   const personId = built.playerPersonId;
   let world = fileForOffice(openOrdinaryLife(built.world, personId), personId);
-  world = spendAnAfternoon(world, personId, "fundraising");
-  for (let index = 0; index < 3; index += 1) {
-    world = advanceWorld(world, 1, createCampaignElectionTransitionRegistry());
-    world = spendAnAfternoon(world, personId, "outreach");
-  }
-  for (
-    let day = 0;
-    day < 60 && projectCampaign(world, personId).phase === "active";
-    day += 1
-  ) {
-    world = advanceWorld(world, 1, createCampaignElectionTransitionRegistry());
-  }
+  world = campaignUntilDecided(world, personId);
   expect(projectCampaign(world, personId).phase).toBe("won");
   world = enterSupportedTerm(world, personId);
 

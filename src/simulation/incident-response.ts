@@ -2,6 +2,7 @@
  * knowledge and resource records; this module owns no engine or save schema. */
 import { personActionAvailabilityAt } from "./vitality-integrity";
 import { recordCausalProcess } from "./causal-effects";
+import { createCampaignElectionTransitionRegistry } from "./campaigns";
 import { addSimulationMinutes } from "./dates";
 import { activeWorkRelationshipsAt } from "./life-queries";
 import { recordEventKnowledge } from "./records";
@@ -431,7 +432,13 @@ export function attendIncidentBriefing(w: World, activityId: EntityId): World {
   );
   if (!a) throw new Error("An incident briefing is required.");
   office(w, a.location.jurisdictionId);
-  let next = performScheduledActivity(w, activityId);
+  // An officeholder may also be campaigning; a briefing that crosses a date
+  // must answer weekly and election due items, so use the full registry.
+  let next = performScheduledActivity(
+    w,
+    activityId,
+    createCampaignElectionTransitionRegistry(),
+  );
   const state = scheduledActivityState(next, activityId);
   if (state?.status !== "completed" || !state.outcomeEventId) return next;
   const outcome = event(next, state.outcomeEventId);

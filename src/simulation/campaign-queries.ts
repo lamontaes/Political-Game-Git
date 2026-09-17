@@ -1,3 +1,10 @@
+import type {
+  CampaignLifeActivityRecord,
+  CampaignLifeOutcomeRecord,
+  CampaignOpponentRecord,
+  CampaignOpponentStepRecord,
+  CampaignWeeklyPlanRecord,
+} from "./campaign-life-types";
 import { resourcePositionAt } from "./resource-queries";
 import type { ResourcePositionSnapshot } from "./resource-queries";
 import type {
@@ -177,6 +184,36 @@ export function campaignTreasuryPosition(
 
 /* -------------------------------------------------------------------------- */
 
+export function campaignLifeActivityRecords(
+  world: World,
+): readonly CampaignLifeActivityRecord[] {
+  return world.history.campaignLifeActivities ?? [];
+}
+
+export function campaignLifeOutcomeRecords(
+  world: World,
+): readonly CampaignLifeOutcomeRecord[] {
+  return world.history.campaignLifeOutcomes ?? [];
+}
+
+export function campaignWeeklyPlanRecords(
+  world: World,
+): readonly CampaignWeeklyPlanRecord[] {
+  return world.history.campaignWeeklyPlans ?? [];
+}
+
+export function campaignOpponentRecords(
+  world: World,
+): readonly CampaignOpponentRecord[] {
+  return world.history.campaignOpponents ?? [];
+}
+
+export function campaignOpponentStepRecords(
+  world: World,
+): readonly CampaignOpponentStepRecord[] {
+  return world.history.campaignOpponentSteps ?? [];
+}
+
 export function campaignHistoryRecords(
   world: World,
 ): readonly (
@@ -185,6 +222,11 @@ export function campaignHistoryRecords(
   | CampaignActionRecord
   | CampaignActionResultRecord
   | CampaignComplianceDocumentRecord
+  | CampaignLifeActivityRecord
+  | CampaignLifeOutcomeRecord
+  | CampaignWeeklyPlanRecord
+  | CampaignOpponentRecord
+  | CampaignOpponentStepRecord
 )[] {
   return [
     ...campaigns(world),
@@ -192,6 +234,11 @@ export function campaignHistoryRecords(
     ...campaignActionRecords(world),
     ...campaignActionResultRecords(world),
     ...(world.history.campaignComplianceDocuments ?? []),
+    ...campaignLifeActivityRecords(world),
+    ...campaignLifeOutcomeRecords(world),
+    ...campaignWeeklyPlanRecords(world),
+    ...campaignOpponentRecords(world),
+    ...campaignOpponentStepRecords(world),
   ];
 }
 

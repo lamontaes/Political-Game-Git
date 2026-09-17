@@ -19,6 +19,7 @@ import {
   type EntityId,
   type World,
 } from "../../src/simulation";
+import { composeFutureTransitionHandlerRegistries } from "../../src/simulation/future-transitions";
 
 /** Unranked fictional supplied-result fixture; never an outcome prediction. */
 export function recordedTermFixture(
@@ -72,38 +73,43 @@ export function recordedTermFixture(
     winner === "player"
       ? built.playerPersonId
       : contest.candidatePersonIds.find((id) => id !== built.playerPersonId)!;
+  // The supplied result layers over the full campaign registry: a filed
+  // campaign also schedules weekly rival evaluation, which must still run.
   const world = advanceWorld(
     filed,
     28,
-    createFutureTransitionHandlerRegistry([
-      [
-        "election:contest-resolution",
-        (atDate) => {
-          const resolved = resolveCampaignElectionFromRecordedInput(atDate, {
-            contestId: contest.id,
-            winnerPersonId,
-            tallies: contest.candidatePersonIds.map((candidatePersonId) => ({
-              candidatePersonId,
-              votes: 1,
-              voteShare: 1 / contest.candidatePersonIds.length,
-            })),
-            provenance: {
-              method: "authored",
-              sourceEntityIds: [],
-              note: "Supplied fictional result, including its disposition of equal raw ballot counts. No tie-resolution law or outcome evaluation is modeled by this fixture.",
-            },
-          });
-          return {
-            world: resolved,
-            status: "resolved",
-            reasonKey: null,
-            context: "Supplied recorded-result fixture.",
-            outcomeEventId: electionContestResult(resolved, contest.id)!
-              .outcomeEventId,
-          };
-        },
-      ],
-    ]),
+    composeFutureTransitionHandlerRegistries(
+      createFutureTransitionHandlerRegistry([
+        [
+          "election:contest-resolution",
+          (atDate) => {
+            const resolved = resolveCampaignElectionFromRecordedInput(atDate, {
+              contestId: contest.id,
+              winnerPersonId,
+              tallies: contest.candidatePersonIds.map((candidatePersonId) => ({
+                candidatePersonId,
+                votes: 1,
+                voteShare: 1 / contest.candidatePersonIds.length,
+              })),
+              provenance: {
+                method: "authored",
+                sourceEntityIds: [],
+                note: "Supplied fictional result, including its disposition of equal raw ballot counts. No tie-resolution law or outcome evaluation is modeled by this fixture.",
+              },
+            });
+            return {
+              world: resolved,
+              status: "resolved",
+              reasonKey: null,
+              context: "Supplied recorded-result fixture.",
+              outcomeEventId: electionContestResult(resolved, contest.id)!
+                .outcomeEventId,
+            };
+          },
+        ],
+      ]),
+      createCampaignElectionTransitionRegistry(),
+    ),
   );
   return {
     world,

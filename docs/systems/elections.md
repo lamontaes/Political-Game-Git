@@ -178,7 +178,61 @@ one wins having done nothing and six win after three afternoons on the doors.
 - Contests for any office outside the accepted legislative rule-pack registry. Candidacy
   coverage and playable legislative-work coverage are separate boundaries.
 - Any NPC standing for office on their own initiative. An opponent is
-  materialized when a player files, and does not campaign.
+  materialized when a player files. Since CRUNCH46 it campaigns weekly (see
+  below), but only in contests that carry a player campaign.
+
+## CRUNCH46 campaign and party life (crunch46-campaign-life-v1)
+
+Moderate-depth party and campaign life, added beside the accepted campaign
+family rather than replacing it. The records live in optional history arrays
+(`campaignLifeActivities`, `campaignLifeOutcomes`, `campaignWeeklyPlans`,
+`campaignOpponents`, `campaignOpponentSteps`; types in
+`src/simulation/campaign-life-types.ts`), so older saves load unchanged.
+
+- **Activity families** (`campaign-life-activities.ts`, catalog
+  `campaign-life-catalog.ts`): organization meeting; door canvass or remote
+  phone shift; candidate guidance; fundraiser or support request; town hall.
+  A persistent host (the chapter organizer, or campaign staff) offers or hosts
+  each one on a real evening; the host is a calendar participant, travel is a
+  disclosed journey, and the authored default lengths (60/90/60/30/90, plus
+  support request 30 and town hall 90 as authored defaults for missing content)
+  yield to any actual schedule. Volunteers, donors and community members are
+  persistent generated people, reused on later outcomes. Attendance is not
+  membership, endorsement or a vote. Condensed attendance records the same
+  outcome.
+- **Relationships** follow the PEOPLE contract: `contact:met-at-party-event`
+  (formed/maintained), and `contact:recurring-campaign-contact` (strengthened)
+  only when the same pair met at an earlier campaign-life outcome.
+- **Guidance** reports only what accepted rule sources state. Filing
+  authority, deadlines, fees and petitions are always reported as not
+  established.
+- **Fundraisers** move money from the donor person to the committee only where
+  the state's contribution rules allow it. Kentucky gifts are capped at the
+  pack's $200 unitemized limit because donor employer and occupation are not
+  represented, and before the pack's coverage date they are refused.
+- **Support requests** are decided by the host; a decision never changes a
+  contest, ballot, filing or support.
+- **Weekly plans** (`campaign-weekly-plans.ts`): up to three fact-based
+  proposals (field, communications, relationships), editable allocation, and
+  explicit advertising channel, amount and geography. Channel capacities are
+  authored limits, and reach is not modeled. Unaffordable, over-capacity, empty
+  or unplaceable plans are recorded as refusals, with no money or support
+  moved. Sessions are ordinary campaign actions; unperformed sessions can be let
+  go, and planning a new week releases an ended week's leftovers.
+- **Opponent campaigns** (`campaign-opponents.ts`, due item
+  `campaign:weekly-evaluation`) run each rival once a week with its own
+  committee, treasury and persistent field lead. The step is chosen by
+  `evaluateDecision` from the rival's own records: field event, fundraising,
+  paid message, or party support request. Support moves only through the shared
+  zero-sum writer (`campaign-support.ts`), with the same formulas as the
+  player's work. The player's campaign learns only the public steps.
+- **Organizer outreach** (`campaign:organizer-outreach`) begins after a chapter
+  meeting or a party activity is attended, and repeats every 10–21 days with no
+  quota.
+- **Not yet:** opponent campaigns in GOVERNING's NPC-only contests; reporter
+  invitations (PRESS lookup pending on main); rival party affiliation via
+  WORLD's `affiliationAt`; Nebraska/Minnesota gifts (committee statement and
+  treasurer facts are not represented).
 
 ## Municipal election source authority
 

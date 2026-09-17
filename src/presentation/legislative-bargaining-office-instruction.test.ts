@@ -12,7 +12,10 @@ import {
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { openOrdinaryLife } from "./ordinary-life";
 import { projectCampaign, spendAnAfternoon } from "./campaign-projection";
-import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
+import {
+  campaignUntilDecided,
+  fileForOffice,
+} from "../../tests/fixtures/campaign-fixture";
 import {
   applyLegislativeCommand,
   openLegislativeWork,
@@ -42,13 +45,14 @@ function filedLife(seed: string) {
   return { world, personId };
 }
 
-function playUntilDecided(seed: string, sessions: number) {
+function playUntilDecided(seed: string, campaigned: boolean) {
   const life = filedLife(seed);
-  let world = spendAnAfternoon(life.world, life.personId, "fundraising");
-  for (let index = 0; index < sessions; index += 1) {
-    world = advanceWorld(world, 1, createCampaignElectionTransitionRegistry());
-    world = spendAnAfternoon(world, life.personId, "outreach");
-  }
+  // A played campaign does the ordinary daily work; rivals campaign weekly, so
+  // a few sessions and a wait no longer decide the race. An unplayed one files,
+  // raises money once, and waits for election day.
+  let world = campaigned
+    ? campaignUntilDecided(life.world, life.personId)
+    : spendAnAfternoon(life.world, life.personId, "fundraising");
   for (
     let day = 0;
     day < 60 && projectCampaign(world, life.personId).phase === "active";
@@ -63,7 +67,7 @@ function playUntilDecided(seed: string, sessions: number) {
 }
 
 function wonAndOnTheFloor() {
-  const played = playUntilDecided("p85c-owner-0", 3);
+  const played = playUntilDecided("p85c-owner-0", true);
   expect(projectCampaign(played.world, played.personId).phase).toBe("won");
   const capabilities = resolvePlayerCapabilities(played.world);
   const opened = openLegislativeWork(played.world, {
