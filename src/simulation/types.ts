@@ -1,4 +1,11 @@
 import type { CrisisRecord } from "./crisis/types";
+import type {
+  CampaignLifeActivityRecord,
+  CampaignLifeOutcomeRecord,
+  CampaignOpponentRecord,
+  CampaignOpponentStepRecord,
+  CampaignWeeklyPlanRecord,
+} from "./campaign-life-types";
 import type { WorldContentPacks } from "./runtime-content-packs";
 
 import type { AppearanceMaterial } from "./appearance-material";
@@ -79,6 +86,11 @@ export type EntityKind =
   | "campaign-action"
   | "campaign-action-result"
   | "campaign-compliance-document"
+  | "campaign-life-activity"
+  | "campaign-life-outcome"
+  | "campaign-weekly-plan"
+  | "campaign-opponent"
+  | "campaign-opponent-step"
   | "national-election"
   | "national-election-record"
   | "election-contest"
@@ -3684,6 +3696,12 @@ export interface HistoryStore {
   readonly campaignActions?: readonly CampaignActionRecord[];
   readonly campaignActionResults?: readonly CampaignActionResultRecord[];
   readonly campaignComplianceDocuments?: readonly CampaignComplianceDocumentRecord[];
+  /** CRUNCH46 CAMPAIGN; optional so pre-CRUNCH46 snapshots stay readable. */
+  readonly campaignLifeActivities?: readonly CampaignLifeActivityRecord[];
+  readonly campaignLifeOutcomes?: readonly CampaignLifeOutcomeRecord[];
+  readonly campaignWeeklyPlans?: readonly CampaignWeeklyPlanRecord[];
+  readonly campaignOpponents?: readonly CampaignOpponentRecord[];
+  readonly campaignOpponentSteps?: readonly CampaignOpponentStepRecord[];
   /** Optional so pre-NEWS-HELP2 snapshots remain structurally readable. */
   readonly publications?: readonly PublicationRecord[];
   /** PRESS46: optional so earlier saves read as an empty press history. */

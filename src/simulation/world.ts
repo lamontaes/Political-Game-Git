@@ -1,3 +1,4 @@
+import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
 import { assertWorldContentPacks } from "./runtime-content-packs";
 import { applyCongressTurnover } from "./living-world/congress-turnover";
 import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
@@ -1031,11 +1032,13 @@ export function advanceWorld(
     actionSequence: actionSequence + 1,
   };
 
-  const continued = applyGovernorTurnover(
-    world.currentDate,
-    applyCongressTurnover(
+  const continued = applyCrisisOfficeContinuity(
+    applyGovernorTurnover(
       world.currentDate,
-      applyNationalTermTransitions(advanced),
+      applyCongressTurnover(
+        world.currentDate,
+        applyNationalTermTransitions(advanced),
+      ),
     ),
   );
   return recordWorldEvent(continued, {

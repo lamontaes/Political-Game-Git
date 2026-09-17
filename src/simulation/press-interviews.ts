@@ -1,3 +1,4 @@
+import { createCampaignElectionTransitionRegistry } from "./campaigns";
 import { activeWorkRelationshipsAt } from "./life-queries";
 import { personName } from "./people";
 import { publishPublicEvent } from "./public-information";
@@ -607,7 +608,13 @@ export function completePressInterview(
   const press = requirePressInterview(world, activityId);
   requireEvent(world, activityId, "press.response-confirmed");
   requireNoEvent(world, activityId, "press.interview-completed");
-  let next = performScheduledActivity(world, activityId);
+  // A campaigning interviewee has weekly and election due items; the interview
+  // may cross a date, so it carries the full campaign-aware registry.
+  let next = performScheduledActivity(
+    world,
+    activityId,
+    createCampaignElectionTransitionRegistry(),
+  );
   if (next === world) {
     throw new Error("Another controlled commitment blocks this interview.");
   }

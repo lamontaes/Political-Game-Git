@@ -2,6 +2,7 @@ import {
   CHAPTER_INVITATION_EVENT,
   CHAPTER_MEETING_ATTENDED_EVENT,
   LIVING_WORLD_WRITER_VERSION,
+  ensureCampaignLifeOutreach,
   homePartyChapters,
   recordRelationshipInteraction,
   recordWorldEvent,
@@ -111,7 +112,7 @@ export function attendChapterMeeting(
       interaction.personIds.includes(personId) &&
       interaction.personIds.includes(organizerId),
   );
-  return recordRelationshipInteraction(attended, {
+  const recorded = recordRelationshipInteraction(attended, {
     stableKey: `${stableKey}:met-organizer`,
     personIds: [personId, organizerId],
     eventId: met.id,
@@ -124,4 +125,8 @@ export function attendChapterMeeting(
       : "Met the organizer at a chapter meeting.",
     tags: [LIVING_WORLD_WRITER_VERSION],
   });
+  // The living organizer's follow-up work (a canvass, a phone shift, a town
+  // hall) begins only after an attended and recorded meeting. Returns the same
+  // World when an outreach is already pending.
+  return ensureCampaignLifeOutreach(recorded, personId, chapter.organizationId);
 }
