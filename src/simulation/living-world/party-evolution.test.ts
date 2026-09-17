@@ -423,6 +423,57 @@ describe("WORLD46 party organizations", () => {
     LONG,
   );
 
+  it("a national action materializes the committee it needs, once", () => {
+    const national = nationalParties(base, [])[0]!;
+    expect(partyUnitLeaders(base, national.organizationId)).toHaveLength(0);
+    const member = firstHouseMember(base);
+    const proposed = proposePartyInitiative(base, {
+      initiativeKind: "rename",
+      proposerPersonId: member,
+      subjectOrganizationIds: [national.organizationId],
+      proposedName: "Renamed National Party",
+      reasonKeys: ["test:national-rename"],
+      stableKey: "test:national-rename",
+    });
+    const leaders = partyUnitLeaders(proposed.world, national.organizationId);
+    expect(leaders.length).toBeGreaterThanOrEqual(3);
+    for (const personId of leaders) {
+      // Officers are ordinary generated people with their own affiliation.
+      expect(proposed.world.people[personId]).toBeDefined();
+      expect(publicPartyAffiliation(proposed.world, personId)).toBe(
+        national.organizationId,
+      );
+    }
+    assertWorldIntegrity(proposed.world);
+    // A second national action reuses the same committee.
+    const again = proposePartyInitiative(proposed.world, {
+      initiativeKind: "platform-change",
+      proposerPersonId: member,
+      subjectOrganizationIds: [national.organizationId],
+      proposedPositions: [
+        { questionKey: PARTY_QUESTIONS[0]!.key, optionKey: "cooperate" },
+      ],
+      reasonKeys: ["test:national-platform"],
+      stableKey: "test:national-platform",
+    });
+    expect(partyUnitLeaders(again.world, national.organizationId)).toEqual(
+      leaders,
+    );
+    // And the renaming actually needs one of them to accept it.
+    const accepted = respondToPartyInitiative(proposed.world, {
+      initiativeId: proposed.initiativeId,
+      personId: leaders[0]!,
+      response: "accept",
+      authority: "authorized-leader",
+      actingForOrganizationId: national.organizationId,
+    });
+    const adopted = adoptPartyInitiative(accepted, proposed.initiativeId);
+    expect(adopted.kind).toBe("adopted");
+    expect(organizationNameAt(adopted.world, national.organizationId)).toBe(
+      "Renamed National Party",
+    );
+  });
+
   it("no dispute, no initiative: a member who never lost a vote stays", () => {
     const chapter = homePartyChapters(base)[0]!;
     for (const personId of partyBodyMembers(base, chapter.organizationId)) {
