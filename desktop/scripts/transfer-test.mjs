@@ -115,7 +115,11 @@ const interfaceSeed = await page.evaluate(async (databaseName) => {
     return null;
   }
   const state = {
-    version: 3,
+    // The current stored-interface record version (SHELL_RECORD_VERSION in
+    // src/presentation/browser-shell-state.ts). Older readable versions are
+    // re-encoded at the current one on export, so a seed written at an older
+    // version would not round-trip byte for byte.
+    version: 4,
     pins: [
       {
         ref: { kind: "person", id: record.metadata.playerPersonId },
@@ -135,14 +139,20 @@ const interfaceSeed = await page.evaluate(async (databaseName) => {
         },
       ],
     },
-    // The complete current v3 preference shape: the shell reads interruption
-    // defaults into every stored interface, so a seed without them would not
-    // round-trip byte for byte.
+    // The complete current v3 preference shape: the shell reads a default for
+    // every preference into each stored interface, so a seed missing any of
+    // them would not round-trip byte for byte. Keep this in step with
+    // DEFAULT_PREFERENCES in src/presentation/shell-navigation.ts.
     preferences: {
       peopleView: "web",
       defaultPinSize: "tiny",
       followedNewsOutletKeys: ["civic-ledger", "second-represented-outlet"],
       interruptions: { stopForWorkShifts: false, stopForTentativeHolds: false },
+      proposalLayout: "auto",
+      newsMode: "front",
+      newsOutletKey: null,
+      journalView: "chapters",
+      journalYear: null,
     },
     personWardrobes: {
       [record.metadata.playerPersonId]: {
@@ -215,7 +225,7 @@ const wireState = (state) => ({
   pins: state.pins.map(({ ref, size }) => ({ ref, size })),
 });
 check(
-  "transfer: exported file includes complete validated v3 interface",
+  "transfer: exported file includes the complete validated current interface",
   exportedBundle.interface?.status === "included" &&
     isDeepStrictEqual(
       wireState(exportedBundle.interface.state),
@@ -270,7 +280,11 @@ writeFileSync(
     ...exportedBundle,
     interface: {
       status: "included",
-      state: { ...exportedBundle.interface.state, version: 4 },
+      // One past the current version: unreadable by this build, refused.
+      state: {
+        ...exportedBundle.interface.state,
+        version: exportedBundle.interface.state.version + 1,
+      },
     },
   }),
 );
