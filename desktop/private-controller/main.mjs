@@ -1,4 +1,4 @@
-/* global process, setTimeout, URL, Response */
+/* global AbortSignal, Response, URL, fetch, process, setTimeout */
 /**
  * Our Civic Duty Private — the owner's private development hub.
  *
@@ -46,14 +46,23 @@ import {
   artDeskDownloadPath,
 } from "./artdesk-host.mjs";
 import {
+  chooserLabel,
+  cleanCatalog,
+  cleanPullRequests,
+  projectBuildChooser,
+} from "./build-catalog.mjs";
+import {
   MAIN_TRACK,
   activatePending,
+  cleanChecks,
   cleanHubState,
   emptyHubState,
   playLabel,
+  recordCheck,
   rollback,
   trackId,
   trackProfilePath,
+  updateStatus,
   validBranchName,
   validRevision,
 } from "./hub-model.mjs";
@@ -97,6 +106,9 @@ const appDataRoot = process.env.OCD_CONTROLLER_DATA_ROOT
   : app.getPath("appData");
 const statePath = path.join(dataRoot, "state.json");
 const settingsPath = path.join(dataRoot, "settings.json");
+// Update-check results are written only by this process (the build worker
+// writes state.json), so the two never race on one file.
+const checksPath = path.join(dataRoot, "update-checks.json");
 const home = app.getPath("home");
 const DEFAULT_REPOSITORY = path.join(home, "Documents", "Political Game");
 const DEFAULT_PACK = path.join(
@@ -126,6 +138,26 @@ function readState() {
   } catch {
     return null;
   }
+}
+
+function readChecks() {
+  try {
+    return cleanChecks(JSON.parse(readFileSync(checksPath, "utf8")));
+  } catch {
+    return {};
+  }
+}
+
+function noteCheck(track, outcome, message, revision) {
+  atomicWrite(
+    checksPath,
+    recordCheck(readChecks(), track, {
+      outcome,
+      message,
+      revision: revision ?? hub.remote[track]?.revision ?? null,
+      at: new Date().toISOString(),
+    }),
+  );
 }
 
 function readSettings() {
@@ -332,6 +364,7 @@ const hub = {
   chrome: null,
   views: new Map(), // local pages and the Art Desk view
   play: new Map(), // track id -> { view, revision }
+  lastPlay: null, // the track whose game was last on screen
   activeTab: "play",
   worker: null,
   workerTrack: null,
@@ -365,9 +398,33 @@ function publicState() {
       },
     ]),
   );
+  const checks = readChecks();
+  const shown = shownPlayTrack(state);
+  const selectedBuild = state?.tracks[selected]?.current ?? null;
   return {
     activeTab: hub.activeTab,
     selectedTrack: selected,
+    selectedBuilt: Boolean(selectedBuild),
+    // What is on screen, which is not always what was requested.
+    loaded: shown
+      ? {
+          track: shown,
+          revision: hub.play.get(shown)?.revision ?? null,
+          title: shown === MAIN_TRACK ? "Main game" : shown.slice(7),
+        }
+      : null,
+    update: {
+      ...updateStatus({
+        phase: hub.phase[selected] ?? null,
+        check: checks[selected] ?? null,
+        build: selectedBuild,
+        building: hub.workerTrack === selected,
+      }),
+      checkedAt: checks[selected]?.at ?? null,
+      lastSuccessAt: checks[selected]?.lastSuccessAt ?? null,
+      message: checks[selected]?.message ?? null,
+      latestRevision: hub.remote[selected]?.revision ?? null,
+    },
     tracks,
     phase: hub.phase[selected] ?? null,
     building: hub.workerTrack,
@@ -672,10 +729,21 @@ function artDeskView(url) {
   return view;
 }
 
+/**
+ * The game on screen: the selected track once it has a view; until then the
+ * game that was already showing stays up (and is named) instead of a blank.
+ */
+function shownPlayTrack(state) {
+  const selected = state?.selectedTrack ?? MAIN_TRACK;
+  if (hub.play.has(selected)) return selected;
+  if (hub.lastPlay && hub.play.has(hub.lastPlay)) return hub.lastPlay;
+  return hub.play.has(MAIN_TRACK) ? MAIN_TRACK : null;
+}
+
 function contentForTab() {
   if (hub.activeTab === "play") {
-    const id = readState()?.selectedTrack ?? MAIN_TRACK;
-    return hub.play.get(id)?.view ?? hub.views.get("play-notice");
+    const id = shownPlayTrack(readState());
+    return (id && hub.play.get(id)?.view) || hub.views.get("play-notice");
   }
   if (hub.activeTab === "artdesk")
     return hub.views.get("artdesk") ?? hub.views.get("artdesk-notice");
@@ -714,8 +782,10 @@ function startWorker(track) {
   if (!state.privatePackPath)
     return { ok: false, message: "Choose the private art pack in Settings." };
   if (hub.worker) {
-    if (hub.workerTrack !== track && !hub.queue.some((q) => q.track === track))
-      hub.queue.push({ track });
+    // At most one build per requested target: a repeat click is a no-op.
+    if (hub.workerTrack === track)
+      return { ok: true, message: "Already checking this build." };
+    if (!hub.queue.some((q) => q.track === track)) hub.queue.push({ track });
     return { ok: true, message: "Queued after the current build." };
   }
   hub.phase[track] = { phase: "fetching", message: "Fetching…" };
@@ -813,16 +883,32 @@ function onWorkerEvent(track, event) {
         fetchState: "offline",
       };
     hub.phase[track] = { phase: "failed", message: event.message };
+    noteCheck(
+      track,
+      ["offline", "unsupported", "cancelled"].includes(event.reason)
+        ? event.reason
+        : "failed",
+      event.message,
+    );
   } else if (event.kind === "complete") {
     logLine(event.message);
     hub.phase[track] = { phase: "ready", message: event.message };
+    let outcome =
+      event.outcome === "up-to-date"
+        ? "up-to-date"
+        : event.outcome === "pending"
+          ? "waiting"
+          : "ready";
     if (event.outcome === "pending" && !hub.play.has(track)) {
+      // Never swapped under a running game: this track has no open view.
       atomicWrite(statePath, activatePending(readState(), track));
+      outcome = "ready";
       hub.phase[track] = {
         phase: "ready",
         message: `Ready: ${event.revision.slice(0, 12)} is now the ${track === MAIN_TRACK ? "main" : "preview"} build.`,
       };
     }
+    noteCheck(track, outcome, event.message, event.revision);
     if (readState()?.selectedTrack === track && hub.activeTab === "play")
       void openPlay(track).then(() => {
         layout();
@@ -875,6 +961,8 @@ async function selectTrack(branch) {
     return { ok: false, message: "That branch name is not valid." };
   const id = trackId(branch);
   const state = readState();
+  // Whatever was on screen stays identified while the new choice prepares.
+  hub.lastPlay = shownPlayTrack(state) ?? hub.lastPlay;
   atomicWrite(statePath, { ...state, selectedTrack: id });
   hub.activeTab = "play";
   if (state.tracks[id]) {
@@ -888,8 +976,100 @@ async function selectTrack(branch) {
   return result;
 }
 
-async function listBranches() {
+const catalog = (() => {
+  try {
+    return cleanCatalog(
+      JSON.parse(
+        readFileSync(path.join(appRoot, "build-catalog.json"), "utf8"),
+      ),
+    );
+  } catch {
+    return {};
+  }
+})();
+const pullRequestCache = { at: 0, value: [] };
+
+/** Open PR titles from the public repository; a failure only drops labels. */
+async function openPullRequests(repositoryPath) {
+  if (Date.now() - pullRequestCache.at < 10 * 60 * 1000)
+    return pullRequestCache.value;
+  try {
+    const origin = await git(["remote", "get-url", "origin"], repositoryPath);
+    const match = /github\.com[/:]([\w.-]+)\/([\w.-]+?)(\.git)?$/.exec(
+      origin.trim(),
+    );
+    if (!match) return pullRequestCache.value;
+    const response = await fetch(
+      `https://api.github.com/repos/${match[1]}/${match[2]}/pulls?state=open&per_page=100`,
+      {
+        headers: { accept: "application/vnd.github+json" },
+        signal: AbortSignal.timeout(8000),
+      },
+    );
+    if (!response.ok) return pullRequestCache.value;
+    pullRequestCache.value = cleanPullRequests(await response.json());
+    pullRequestCache.at = Date.now();
+  } catch {
+    /* labels fall back to the authored catalog and branch names */
+  }
+  return pullRequestCache.value;
+}
+
+async function buildChooser() {
   const repositoryPath = await verifiedRepository();
+  const branches = await listBranches(repositoryPath);
+  const commitTimes = {};
+  const merged = new Set();
+  try {
+    const refs = await git(
+      [
+        "for-each-ref",
+        "--format=%(refname:strip=3)\t%(committerdate:unix)",
+        "refs/remotes/origin",
+      ],
+      repositoryPath,
+    );
+    for (const line of refs.split("\n")) {
+      const [name, time] = line.split("\t");
+      if (name && Number(time)) commitTimes[name] = Number(time);
+    }
+    const landed = await git(
+      [
+        "branch",
+        "-r",
+        "--format=%(refname:strip=3)",
+        "--merged",
+        "origin/main",
+      ],
+      repositoryPath,
+    );
+    for (const name of landed.split("\n")) if (name) merged.add(name.trim());
+  } catch {
+    /* dates and merged state are refinements, not requirements */
+  }
+  const unsupported = new Set(
+    Object.entries(readChecks())
+      .filter(([, check]) => check.outcome === "unsupported")
+      .map(([id]) => id.slice("branch:".length)),
+  );
+  const view = projectBuildChooser({
+    branches: branches.map((b) => ({ name: b.name, sha: b.revision })),
+    catalog,
+    pullRequests: await openPullRequests(repositoryPath),
+    commitTimes,
+    merged,
+    unsupported,
+  });
+  const decorate = (item) => ({ ...item, label: chooserLabel(item) });
+  return {
+    main: view.main,
+    previews: view.previews.map(decorate),
+    technical: view.technical.map(decorate),
+  };
+}
+
+async function listBranches(repositoryPathArg) {
+  const repositoryPath = repositoryPathArg ?? (await verifiedRepository());
   const out = await git(["ls-remote", "--heads", "origin"], repositoryPath);
   return out
     .split("\n")
@@ -1050,10 +1230,48 @@ handle("hub:tab", async (tab) => {
   broadcast();
   return { ok: true };
 });
-handle("hub:branches", async () => ({
-  ok: true,
-  branches: await listBranches(),
-}));
+handle("hub:branches", async () => {
+  try {
+    return { ok: true, chooser: await buildChooser() };
+  } catch (error) {
+    return {
+      ok: false,
+      message: `Could not list game builds: ${error instanceof Error ? error.message : String(error)}`,
+    };
+  }
+});
+handle("hub:check-updates", () => {
+  const track = readState()?.selectedTrack ?? MAIN_TRACK;
+  return startWorker(track);
+});
+handle("hub:return-to-title", async () => {
+  const id = shownPlayTrack(readState());
+  const contents = id ? hub.play.get(id)?.view.webContents : null;
+  if (!contents || contents.isDestroyed())
+    return { ok: false, message: "No game is open." };
+  // The game owns the flow (save / return without saving / cancel); the hub
+  // only asks. Navigation, never a reset, reload or delete.
+  const acknowledged = await contents
+    .executeJavaScript(
+      `!window.dispatchEvent(new CustomEvent("ocd:request-return-to-title", { cancelable: true }))`,
+      true,
+    )
+    .catch(() => false);
+  return acknowledged
+    ? { ok: true }
+    : {
+        ok: false,
+        message:
+          "This game build has no Return to title yet; use the game's own menu.",
+      };
+});
+handle("hub:copy-text", (text) => {
+  // Only the exact ref/SHA lines the chooser shows; nothing else crosses.
+  const value = String(text ?? "");
+  if (!/^[A-Za-z0-9._/:@ -]{1,300}$/.test(value)) return { ok: false };
+  clipboard.writeText(value);
+  return { ok: true };
+});
 handle("hub:select-track", (branch) => selectTrack(String(branch ?? "")));
 handle("hub:check", (id) => {
   const track = trackArg(id);
@@ -1287,8 +1505,15 @@ if (!app.requestSingleInstanceLock()) {
         );
       }
     createWindow();
-    const opened = await openPlay(readState().selectedTrack);
+    const startSelection = readState().selectedTrack;
+    const opened = await openPlay(startSelection);
     if (!opened.ok) logLine(opened.message);
+    // A requested preview with no build yet keeps its selection; main plays
+    // meanwhile and is named as what is on screen.
+    if (!readState().tracks[startSelection] && startSelection !== MAIN_TRACK) {
+      const fallback = await openPlay(MAIN_TRACK);
+      if (fallback.ok) hub.lastPlay = MAIN_TRACK;
+    }
     if (!readState().tracks[MAIN_TRACK])
       hub.phase[MAIN_TRACK] = {
         phase: "preparing",

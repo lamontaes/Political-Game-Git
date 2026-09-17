@@ -124,6 +124,16 @@ function cleanTrack(value) {
 }
 
 /**
+ * The track a stored selection may name: main, or any syntactically valid
+ * owner-repository branch, built or not. Nothing else survives a read.
+ */
+export function selectableTrack(id) {
+  if (id === MAIN_TRACK) return MAIN_TRACK;
+  if (typeof id !== "string" || !id.startsWith("branch:")) return MAIN_TRACK;
+  return validBranchName(id.slice("branch:".length)) ? id : MAIN_TRACK;
+}
+
+/**
  * Accepts the hub schema and migrates the schema-1 controller state (one
  * main build) without losing its current/pending/previous records.
  */
@@ -160,10 +170,9 @@ export function cleanHubState(value) {
     }
     tracks[id] = cleaned;
   }
-  const selected =
-    typeof value.selectedTrack === "string" && tracks[value.selectedTrack]
-      ? value.selectedTrack
-      : MAIN_TRACK;
+  // A requested branch is kept even before its first build exists: the
+  // selection is the owner's choice, the build record is separate evidence.
+  const selected = selectableTrack(value.selectedTrack);
   return {
     schema: HUB_STATE_SCHEMA,
     repositoryPath:
@@ -252,4 +261,106 @@ export function playLabel({ track, build, remoteRevision, fetchState }) {
     kind: "unverified-remote",
     text: `${base} · cached ${build.revision.slice(0, 12)} · remote not checked`,
   };
+}
+
+/* --------------------------------------------------------- update checks */
+
+export const CHECK_OUTCOMES = new Set([
+  "up-to-date",
+  "ready",
+  "waiting",
+  "offline",
+  "failed",
+  "unsupported",
+  "cancelled",
+]);
+
+const ISO = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/;
+
+function cleanCheck(value) {
+  if (!value || typeof value !== "object") return null;
+  if (!CHECK_OUTCOMES.has(value.outcome)) return null;
+  if (typeof value.at !== "string" || !ISO.test(value.at)) return null;
+  return {
+    outcome: value.outcome,
+    at: value.at,
+    revision: validRevision(value.revision) ? value.revision : null,
+    lastSuccessAt:
+      typeof value.lastSuccessAt === "string" && ISO.test(value.lastSuccessAt)
+        ? value.lastSuccessAt
+        : null,
+    lastSuccessRevision: validRevision(value.lastSuccessRevision)
+      ? value.lastSuccessRevision
+      : null,
+    message:
+      typeof value.message === "string" ? value.message.slice(0, 400) : "",
+  };
+}
+
+/** Per-track record of the last update check, kept by the hub process only. */
+export function cleanChecks(value) {
+  const out = {};
+  if (!value || typeof value !== "object") return out;
+  for (const [id, check] of Object.entries(value)) {
+    if (selectableTrack(id) !== id) continue;
+    const cleaned = cleanCheck(check);
+    if (cleaned) out[id] = cleaned;
+  }
+  return out;
+}
+
+/**
+ * Records one finished check. A success (the remote was read and the result
+ * is current, ready or waiting) moves the last-success mark; a failure keeps
+ * the previous success so "Up to date" is never claimed from a failed fetch.
+ */
+export function recordCheck(checks, id, { outcome, at, revision, message }) {
+  const previous = checks[id] ?? null;
+  const success = ["up-to-date", "ready", "waiting"].includes(outcome);
+  return {
+    ...checks,
+    [id]: cleanCheck({
+      outcome,
+      at,
+      revision: revision ?? null,
+      message: message ?? "",
+      lastSuccessAt: success ? at : (previous?.lastSuccessAt ?? null),
+      lastSuccessRevision: success
+        ? (revision ?? null)
+        : (previous?.lastSuccessRevision ?? null),
+    }),
+  };
+}
+
+/**
+ * What the hub says about one track's update state. "Up to date" needs a
+ * successful check whose remote revision equals the loaded, verified build;
+ * anything else is Checking / Preparing / Ready / Could not check.
+ */
+export function updateStatus({ phase, check, build, building }) {
+  if (building) {
+    if (!phase || phase.phase === "fetching")
+      return { kind: "checking", text: "Checking for updates…" };
+    return { kind: "preparing", text: "Preparing the update…" };
+  }
+  if (!check) return { kind: "unchecked", text: "Not checked yet" };
+  switch (check.outcome) {
+    case "up-to-date":
+      return build && check.revision === build.revision
+        ? { kind: "current", text: "Up to date" }
+        : { kind: "ready", text: "Ready to use" };
+    case "ready":
+      return { kind: "ready", text: "Ready to use" };
+    case "waiting":
+      return { kind: "waiting", text: "Update ready — restart Play to use it" };
+    case "unsupported":
+      return {
+        kind: "unsupported",
+        text: "This build can't be previewed in the desktop app",
+      };
+    case "cancelled":
+      return { kind: "unchecked", text: "Check cancelled" };
+    default:
+      return { kind: "failed", text: "Could not check" };
+  }
 }

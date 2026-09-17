@@ -34,6 +34,14 @@ const EXPECTED_PACKAGE_NAME = "political-life-rpg";
 const PACK_SCHEMA = "ocd-private-pack/v1";
 // The health check is the hub's own trusted harness, not the target
 // source's copy: a selected branch cannot weaken the check that admits it.
+/** Files a revision must contain for the hub to package it. */
+const DESKTOP_SHELL_FILES = [
+  "desktop/package.json",
+  "desktop/scripts/stage.mjs",
+  "desktop/scripts/package.mjs",
+  "scripts/client-provenance.mjs",
+];
+
 const HARNESS_ROOT = path.join(
   path.dirname(fileURLToPath(import.meta.url)),
   "..",
@@ -299,6 +307,27 @@ async function main() {
       track: id,
       revision: targetRevision,
     });
+    // A preview can only be packaged if its own revision carries the desktop
+    // shell and client provenance the packager needs. Branches that predate
+    // them fail here, in seconds, instead of after a full dependency install.
+    const missingShell = [];
+    for (const required of DESKTOP_SHELL_FILES) {
+      try {
+        await capture(
+          "/usr/bin/git",
+          ["cat-file", "-e", `${targetRevision}:${required}`],
+          { cwd: repositoryPath, label: "Checking the desktop shell" },
+        );
+      } catch {
+        missingShell.push(required);
+      }
+    }
+    if (missingShell.length > 0)
+      return fail(
+        `This build predates the desktop app (${missingShell.join(", ")} missing at ${targetRevision.slice(0, 12)}), so it can't be previewed here. The current verified build is unchanged.`,
+        "unsupported",
+      );
+
     const state = readState(statePath) ?? initialState;
     const existing = state.tracks[id] ?? null;
     const currentRevision = existing?.current?.revision ?? null;

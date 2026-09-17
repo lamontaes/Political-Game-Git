@@ -159,7 +159,7 @@ body.chrome {
   font-size: 12px;
 }
 .track select {
-  max-width: 280px;
+  max-width: 260px;
   background: #26352d;
   color: var(--bar-ink);
   border-color: #3b4c42;
@@ -168,6 +168,33 @@ body.chrome {
   background: #26352d;
   color: var(--bar-ink);
   border-color: #3b4c42;
+}
+.bar button.icon {
+  padding: 4px 8px;
+}
+.status .when {
+  color: var(--bar-muted);
+}
+.pill.current,
+.pill.ready {
+  background: #2f6b45;
+}
+.pill.checking,
+.pill.preparing,
+.pill.waiting {
+  background: #2d4f73;
+}
+.pill.unsupported,
+.pill.unchecked {
+  background: #4a4a4a;
+}
+@media (max-width: 1180px) {
+  .brand small {
+    display: none;
+  }
+  .bar {
+    gap: 8px;
+  }
 }
 .status {
   flex: 1;

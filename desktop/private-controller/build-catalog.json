@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "note": "Authored display names for feature previews in the private hub. Branch refs stay the identity; this only labels them.",
+  "branches": {
+    "claude/ui-decision-follow-through": {
+      "title": "Menus, creator and Calendar improvements",
+      "purpose": "Politics hub, News and Journal readers, the game's own menus and the full-birthday creator."
+    },
+    "claude/desktop-hub": {
+      "title": "Desktop and Art Desk improvements",
+      "purpose": "This private app: build chooser, updates, Art Desk and agent connections."
+    },
+    "antigravity/political-geography-2026": {
+      "title": "Political maps and geographic data",
+      "purpose": "Authoritative geography intake and map data."
+    }
+  }
+}

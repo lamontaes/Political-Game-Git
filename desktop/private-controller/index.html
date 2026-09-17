@@ -42,24 +42,35 @@
         </button>
       </div>
       <div class="track">
-        <label for="track">Source</label>
-        <select id="track" aria-label="Play source">
-          <option value="main">Follow main</option>
+        <label for="track">Game build</label>
+        <select id="track">
+          <option value="main">Main game (recommended)</option>
         </select>
         <button
-          id="refresh-branches"
-          class="ghost"
-          title="Refresh the branch list"
+          id="build-details"
+          class="ghost icon"
+          aria-expanded="false"
+          aria-controls="status"
+          title="Show the exact branch and revision"
         >
-          ↻
+          ⓘ
         </button>
       </div>
       <div id="status" class="status" role="status" aria-live="polite">
         Reading the installed build…
       </div>
+      <button id="copy-ref" class="ghost" hidden>Copy revision</button>
+      <button id="check-updates" class="ghost">Check for updates</button>
+      <button
+        id="return-title"
+        class="ghost"
+        title="Back to the game's title screen; your life is not reset"
+      >
+        Return to title
+      </button>
       <button id="apply" class="primary" hidden>Restart Play on update</button>
-      <button id="return-main" class="ghost" hidden>Return to main</button>
-      <button id="cancel-build" class="ghost" hidden>Cancel build</button>
+      <button id="return-main" class="ghost" hidden>Back to main game</button>
+      <button id="cancel-build" class="ghost" hidden>Cancel</button>
     </div>
     <script src="chrome.mjs" type="module"></script>
   </body>
