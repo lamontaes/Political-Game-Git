@@ -669,7 +669,7 @@ function counterpartRaisesIt(
       {
         optionKey: "raise-it",
         trait: "reliability",
-        pole: "low",
+        pole: "high",
         explanation: "They follow through on things and expect the same.",
       },
     ]),

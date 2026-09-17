@@ -1779,6 +1779,86 @@
       "textRevision": "cace9870daf8"
     },
     {
+      "anchor": "OPTIONS-0001",
+      "sourcePath": "src/presentation/office-response.ts",
+      "symbol": "OPTIONS",
+      "text": "Agree to answer what is asked of you. The office is unaffected.",
+      "occurrence": 0,
+      "textRevision": "9d2190e46cdf"
+    },
+    {
+      "anchor": "OPTIONS-0002",
+      "sourcePath": "src/presentation/office-response.ts",
+      "symbol": "OPTIONS",
+      "text": "Cooperate with the inquiry",
+      "occurrence": 0,
+      "textRevision": "b33330495a1e"
+    },
+    {
+      "anchor": "OPTIONS-0003",
+      "sourcePath": "src/presentation/office-response.ts",
+      "symbol": "OPTIONS",
+      "text": "Decline to cooperate",
+      "occurrence": 0,
+      "textRevision": "e53f2304f48f"
+    },
+    {
+      "anchor": "OPTIONS-0004",
+      "sourcePath": "src/presentation/office-response.ts",
+      "symbol": "OPTIONS",
+      "text": "Explain it yourself",
+      "occurrence": 0,
+      "textRevision": "3df3fdad71b1"
+    },
+    {
+      "anchor": "OPTIONS-0005",
+      "sourcePath": "src/presentation/office-response.ts",
+      "symbol": "OPTIONS",
+      "text": "Leave the office. This is the only answer that ends a term.",
+      "occurrence": 0,
+      "textRevision": "c1386f14b3a9"
+    },
+    {
+      "anchor": "OPTIONS-0006",
+      "sourcePath": "src/presentation/office-response.ts",
+      "symbol": "OPTIONS",
+      "text": "Put your account on the record. The office is unaffected.",
+      "occurrence": 0,
+      "textRevision": "0156d9fefcd7"
+    },
+    {
+      "anchor": "OPTIONS-0007",
+      "sourcePath": "src/presentation/office-response.ts",
+      "symbol": "OPTIONS",
+      "text": "Resign the office",
+      "occurrence": 0,
+      "textRevision": "ba16a7880639"
+    },
+    {
+      "anchor": "OPTIONS-0008",
+      "sourcePath": "src/presentation/office-response.ts",
+      "symbol": "OPTIONS",
+      "text": "Say what happened, in your own words. The office is unaffected.",
+      "occurrence": 0,
+      "textRevision": "29874b8745cb"
+    },
+    {
+      "anchor": "OPTIONS-0009",
+      "sourcePath": "src/presentation/office-response.ts",
+      "symbol": "OPTIONS",
+      "text": "Say you will not take part. That is an answer on the record, not an admission.",
+      "occurrence": 0,
+      "textRevision": "6cd0984ac9de"
+    },
+    {
+      "anchor": "OPTIONS-0010",
+      "sourcePath": "src/presentation/office-response.ts",
+      "symbol": "OPTIONS",
+      "text": "Stand behind your account",
+      "occurrence": 0,
+      "textRevision": "5e2204df8545"
+    },
+    {
       "anchor": "PHASE_SENTENCES-0001",
       "sourcePath": "src/presentation/legislation-projection.ts",
       "symbol": "PHASE_SENTENCES",
@@ -4739,6 +4819,14 @@
       "textRevision": "ff443ef0133d"
     },
     {
+      "anchor": "officeOutcomeLine-0001",
+      "sourcePath": "src/presentation/office-response.ts",
+      "symbol": "officeOutcomeLine",
+      "text": "{result.officeNote} The office is vacant from {proseDate(result.effectiveAt)}.",
+      "occurrence": 0,
+      "textRevision": "5584d44a897f"
+    },
+    {
       "anchor": "onFile-0001",
       "sourcePath": "src/player/SaveTransferControls.tsx",
       "symbol": "onFile",
@@ -6251,6 +6339,14 @@
       "textRevision": "7e9e5d00a119"
     },
     {
+      "anchor": "projectOfficeMatters-0001",
+      "sourcePath": "src/presentation/office-response.ts",
+      "symbol": "projectOfficeMatters",
+      "text": "A body that can look at something is not a body that has found anything.",
+      "occurrence": 0,
+      "textRevision": "8f24ea3e19a0"
+    },
+    {
       "anchor": "projectRecallCards-0001",
       "sourcePath": "src/presentation/people-recall-cards.ts",
       "symbol": "projectRecallCards",
@@ -7633,6 +7729,46 @@
       "text": "Your office",
       "occurrence": 0,
       "textRevision": "adf74a00af7a"
+    },
+    {
+      "anchor": "statementFor-0001",
+      "sourcePath": "src/presentation/office-response.ts",
+      "symbol": "statementFor",
+      "text": "I won't be taking part in that.",
+      "occurrence": 0,
+      "textRevision": "c91d0d7fd3da"
+    },
+    {
+      "anchor": "statementFor-0002",
+      "sourcePath": "src/presentation/office-response.ts",
+      "symbol": "statementFor",
+      "text": "I'll answer whatever they ask.",
+      "occurrence": 0,
+      "textRevision": "edd8b1f9b952"
+    },
+    {
+      "anchor": "statementFor-0003",
+      "sourcePath": "src/presentation/office-response.ts",
+      "symbol": "statementFor",
+      "text": "I'll explain exactly what happened.",
+      "occurrence": 0,
+      "textRevision": "3ecf55eb9795"
+    },
+    {
+      "anchor": "statementFor-0004",
+      "sourcePath": "src/presentation/office-response.ts",
+      "symbol": "statementFor",
+      "text": "I'm resigning as {officeTitle}.",
+      "occurrence": 0,
+      "textRevision": "b51c769f022b"
+    },
+    {
+      "anchor": "statementFor-0005",
+      "sourcePath": "src/presentation/office-response.ts",
+      "symbol": "statementFor",
+      "text": "My account of this stands.",
+      "occurrence": 0,
+      "textRevision": "4946cc09e83a"
     },
     {
       "anchor": "threadMovementSentence-0001",

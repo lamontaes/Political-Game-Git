@@ -1,5 +1,4 @@
-node_modules/
-# A symlinked node_modules (shared between worktrees) must not be tracked either.
+# Matches the directory and a symlinked node_modules shared between worktrees.
 node_modules
 dist/
 coverage/

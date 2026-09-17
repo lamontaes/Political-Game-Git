@@ -168,6 +168,55 @@ describe("PEOPLE P2 persistent personality", () => {
     expect(record.supersedesTendencyId).not.toBeNull();
   });
 
+  it("the dependable end is the high end, and a saved record still means what it says", () => {
+    const event = eventFor(life.world, npc);
+    // Written as somebody who follows through.
+    const dependable = recordTraitChange(life.world, {
+      personId: npc,
+      trait: "reliability",
+      value: 2,
+      eventId: event.id,
+      reason: "Test.",
+    });
+    const record = dependable.history.personalityTendencies.at(-1)!;
+    expect(record.expressionKey).toBe("dependable");
+    expect(personTrait(dependable, npc, "reliability").label).toBe(
+      "Follows through",
+    );
+    // A consumer asking for the high pole gets exactly that person (Q47-004).
+    const leans = [
+      {
+        optionKey: "count-on-them",
+        trait: "reliability" as const,
+        pole: "high" as const,
+        explanation: "They follow through.",
+      },
+      {
+        optionKey: "chase-them",
+        trait: "reliability" as const,
+        pole: "low" as const,
+        explanation: "They let things slip.",
+      },
+    ];
+    expect(
+      traitConsiderations(dependable, npc, "t", leans).map((c) => c.optionKey),
+    ).toEqual(["count-on-them"]);
+    // And the other end is the one that lets things slip.
+    const slips = recordTraitChange(dependable, {
+      personId: npc,
+      trait: "reliability",
+      value: -2,
+      eventId: event.id,
+      reason: "Test.",
+    });
+    expect(slips.history.personalityTendencies.at(-1)!.expressionKey).toBe(
+      "lets-things-slip",
+    );
+    expect(
+      traitConsiderations(slips, npc, "t", leans).map((c) => c.optionKey),
+    ).toEqual(["chase-them"]);
+  });
+
   it("a balanced trait argues for nothing; a leaning one argues for its pole only", () => {
     const event = eventFor(life.world, npc);
     const withLean = recordTraitChange(life.world, {

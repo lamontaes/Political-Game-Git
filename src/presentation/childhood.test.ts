@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { assertWorldIntegrity, serializeWorld } from "../simulation";
 import { formativeIntervalAt } from "../simulation/character-history";
 import {
+  caregiverChoice,
   caregiverFor,
   inChildhood,
   playChildhoodMoment,
@@ -93,6 +94,34 @@ describe("PEOPLE P14: a childhood that is lived before it is directed", () => {
     const moment = projectChildhoodMoment(middle.world, middle.player)!;
     expect(moment.action).toBe("choose");
     expect(moment.note).toMatch(/old enough to be asked/);
+  });
+
+  it("the order the choices are written in does not decide anything", () => {
+    const moment = projectChildhoodMoment(world, player)!;
+    const scene = moment.scene!;
+    const chosen = caregiverChoice(world, player, moment, scene);
+    expect(scene.options.map((option) => option.key)).toContain(chosen);
+    // The same situation with its options written in the opposite order is
+    // still the same situation, and the adult still decides the same thing
+    // (Q47-004: nothing may be read off the position of an option).
+    const reversed = {
+      ...scene,
+      options: [...scene.options].reverse(),
+    };
+    expect(caregiverChoice(world, player, moment, reversed)).toBe(chosen);
+    // An option nobody has classified attracts no leaning at all, rather than
+    // inheriting one from where it happens to sit. It is still a real choice,
+    // so it may be taken; what it must not do is depend on where it sits.
+    const extra = {
+      key: "a-key-nobody-classified",
+      label: "Something else",
+      description: "Something the bank has not classified.",
+    };
+    const front = { ...scene, options: [extra, ...scene.options] };
+    const back = { ...scene, options: [...scene.options, extra] };
+    expect(caregiverChoice(world, player, moment, front)).toBe(
+      caregiverChoice(world, player, moment, back),
+    );
   });
 
   it("agency arrives with age, on the record's own boundaries", () => {

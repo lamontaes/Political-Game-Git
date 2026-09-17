@@ -50,8 +50,14 @@ export const TRAIT_SHAPES: Readonly<Record<PeopleTrait, TraitShape>> = {
   reliability: {
     label: "Keeping commitments",
     description: "How consistently someone follows through on what they said.",
-    low: { key: "dependable", label: "Follows through" },
-    high: { key: "lets-things-slip", label: "Lets things slip" },
+    // High is the dependable end, as every consumer reads it: a lean to
+    // "high" asks for somebody who keeps what they said. The poles were the
+    // wrong way round, which made those consumers read the opposite people
+    // (Q47-004). The stored words are unchanged and still mean what they say,
+    // so a saved "dependable" record still describes somebody who follows
+    // through; only the internal sign it decodes to has been corrected.
+    low: { key: "lets-things-slip", label: "Lets things slip" },
+    high: { key: "dependable", label: "Follows through" },
   },
   risk: {
     label: "Risk",
