@@ -6,6 +6,7 @@ import {
   MODULAR45_GENERATION,
   selectPreparedBody,
   preparedFamily,
+  preparedPartsAt,
 } from "../presentation/engine-people29-data";
 import { GameSelect } from "./controls/GameSelect";
 import "./PersonAppearanceControls.css";
@@ -319,6 +320,14 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
       setMessage(replacement.message);
     }
   }
+  const currentPreparedFamily = preparedFamily(
+    appearance.selection?.bodyFamily,
+  );
+  const calibratedIdentity = currentPreparedFamily
+    ? preparedPartsAt(currentPreparedFamily, appearance.catalogGeneration).some(
+        (p) => p.logicalIdentity,
+      )
+    : false;
   function choose(patch: Partial<PersonVisualSelection>) {
     setPending(null);
     if (!state!.current) return;
@@ -328,6 +337,12 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
         propose(prepared, true);
         return;
       }
+    }
+    if (patch.bodyFamily && calibratedIdentity) {
+      setMessage(
+        "That body has no calibrated fit for the current face and hairstyle. Your appearance is unchanged.",
+      );
+      return;
     }
     const wanted = { ...state!.current, ...patch };
     const options = listPersonVisualSelections({
@@ -348,7 +363,7 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
         o.selection.hairFamily === wanted.hairFamily,
     );
     // A body or face change cannot silently substitute another person's face/hair.
-    if (!next && patch.headFamily) {
+    if (!next && patch.headFamily && !calibratedIdentity) {
       const pair =
         options.find(
           (o) =>
@@ -407,7 +422,7 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
             };
             // Head choices may require their matching painted hair. Preview the pair explicitly.
             const compatibleCandidate =
-              kind === "headFamily"
+              kind === "headFamily" && !calibratedIdentity
                 ? {
                     ...candidate,
                     selection: { ...candidate.selection!, hairFamily: null },
@@ -421,9 +436,15 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
             });
             return {
               value: v,
-              reason: result.ok
-                ? undefined
-                : "No complete matching outfit is available.",
+              reason:
+                kind === "bodyFamily" &&
+                calibratedIdentity &&
+                v &&
+                !selectPreparedBody(appearance, v)
+                  ? "No calibrated fit for this face and hairstyle."
+                  : result.ok
+                    ? undefined
+                    : "No complete matching outfit is available.",
             };
           });
           const title = {

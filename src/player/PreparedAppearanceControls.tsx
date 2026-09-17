@@ -23,6 +23,11 @@ const SKIN_SWATCH_NAMES: readonly string[] = [
 
 const COLOR_NAMES: Readonly<Record<string, string>> = {
   "source-colour": "Original painted color",
+  "hair-black": "Black",
+  "hair-brown": "Brown",
+  "hair-blond": "Blond",
+  "hair-gray": "Gray",
+  "hair-auburn": "Auburn",
   porcelain: "Light",
   "warm-medium": "Warm medium",
   olive: "Olive",

@@ -34,6 +34,10 @@ export interface PreparedPart {
   svgPath: string;
   sha256: string;
   coverageMaskPath?: string | null;
+  introducedGeneration?: number;
+  logicalFamily?: string;
+  logicalIdentity?: string;
+  portraitBounds?: { left: number; top: number; right: number; bottom: number };
   materials: readonly {
     channel: MaterialChannel;
     neutralId: string;
@@ -68,6 +72,7 @@ export const ENGINE_PEOPLE29_FAMILIES =
   input.families as unknown as readonly PreparedFamily[];
 export const PREPARED_FAMILIES = [
   ...ENGINE_PEOPLE29_FAMILIES,
+  ...(modular45.families as unknown as readonly PreparedFamily[]),
   ...(refinement.families as unknown as readonly PreparedFamily[]),
   ...(painted.families as unknown as readonly PreparedFamily[]),
   ...(painted36.families as unknown as readonly PreparedFamily[]),
@@ -124,7 +129,9 @@ export function preparedPartsAt(
   )
     return family.parts.filter((p) => !modular45PartIds.has(p.id));
   return family.parts.filter(
-    (p) => !(supersededAt.has(p.id) && supersededAt.get(p.id)! <= generation),
+    (p) =>
+      (p.introducedGeneration ?? MODULAR45_GENERATION) <= generation &&
+      !(supersededAt.has(p.id) && supersededAt.get(p.id)! <= generation),
   );
 }
 /** Ramps every drawable region of a channel supports at this generation. */
@@ -158,8 +165,28 @@ export const ENGINE_PEOPLE29_TEMPLATES = {
 >;
 export function preparedFamily(bodyFamily: string | undefined) {
   return PREPARED_FAMILIES.find((f) =>
-    f.parts.some((p) => p.kind === "body" && p.id === bodyFamily),
+    f.parts.some(
+      (p) =>
+        p.kind === "body" &&
+        (p.id === bodyFamily || p.logicalFamily === bodyFamily),
+    ),
   );
+}
+/** New calibrated derivatives frame the resolved head/hair; legacy frames stay exact. */
+export function preparedPortraitFrame(
+  family: PreparedFamily,
+  assetIds: readonly string[],
+) {
+  const boxes = family.parts
+    .filter((p) => assetIds.includes(p.id))
+    .flatMap((p) => (p.portraitBounds ? [p.portraitBounds] : []));
+  if (!boxes.length) return family.portraitFrame;
+  const left = Math.min(...boxes.map((b) => b.left)) - 14;
+  const right = Math.max(...boxes.map((b) => b.right)) + 14;
+  const top = Math.min(...boxes.map((b) => b.top)) - 14;
+  const bottom = Math.max(...boxes.map((b) => b.bottom)) + 14;
+  const size = Math.max(right - left, bottom - top);
+  return { x: (left + right - size) / 2, y: (top + bottom - size) / 2, size };
 }
 export function defaultPreparedMaterial(
   family: PreparedFamily,
@@ -223,6 +250,30 @@ export function selectPreparedBody(
   const family = preparedFamily(bodyFamily);
   if (!family) return undefined;
   const previous = preparedFamily(appearance.selection?.bodyFamily);
+  const currentParts = previous
+    ? preparedPartsAt(previous, appearance.catalogGeneration)
+    : [];
+  const destinationParts = preparedPartsAt(
+    family,
+    appearance.catalogGeneration,
+  );
+  const logical = (id: string | undefined | null, kind: string) => {
+    const part = currentParts.find(
+      (p) => p.kind === kind && (p.id === id || p.logicalFamily === id),
+    );
+    if (!part?.logicalIdentity) return undefined;
+    return destinationParts.find(
+      (p) => p.kind === kind && p.logicalIdentity === part.logicalIdentity,
+    )?.logicalFamily;
+  };
+  const calibrated = currentParts.some((p) => p.logicalIdentity);
+  if (
+    calibrated &&
+    (!logical(appearance.selection?.headFamily, "head") ||
+      (appearance.selection?.hairFamily !== null &&
+        !logical(appearance.selection?.hairFamily, "hair-front")))
+  )
+    return undefined;
   const translate = (id: string | undefined | null, kind: string) =>
     id && previous
       ? family.parts.find(
@@ -239,12 +290,14 @@ export function selectPreparedBody(
         )?.id
       : undefined;
   const head =
+    logical(appearance.selection?.headFamily, "head") ??
     translate(appearance.selection?.headFamily, "head") ??
     family.parts.find((p) => p.kind === "head")!.id;
   const hair =
     appearance.selection?.hairFamily === null
       ? null
-      : (translate(appearance.selection?.hairFamily, "hair-front") ??
+      : (logical(appearance.selection?.hairFamily, "hair-front") ??
+        translate(appearance.selection?.hairFamily, "hair-front") ??
         family.parts.find((p) => p.kind === "hair-front")!.id);
   const base = defaultPreparedMaterial(family, appearance.catalogGeneration);
   const material =
@@ -285,6 +338,10 @@ export function generatedPreparedMaterial(
     const regions = preparedPartsAt(family, generation)
       .flatMap((p) => p.materials)
       .filter((m) => m.channel === channel);
+    if (!regions.length) {
+      palettes[channel] = "source-colour";
+      continue;
+    }
     let choices = regions[0]!.ramps
       .map((r) => r.id)
       .filter((id) => regions.every((m) => m.ramps.some((r) => r.id === id)))

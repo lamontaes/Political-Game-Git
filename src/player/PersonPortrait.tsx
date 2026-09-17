@@ -11,7 +11,10 @@ import {
   previewArtRefusal,
 } from "../presentation/art-preview";
 import { gameBuildProfile } from "../presentation/build-profile";
-import { preparedFamily } from "../presentation/engine-people29-data";
+import {
+  preparedFamily,
+  preparedPortraitFrame,
+} from "../presentation/engine-people29-data";
 import { ModularCharacter } from "./ModularCharacter";
 import { personName } from "../simulation";
 import type { EntityId, PersonAppearance, World } from "../simulation";
@@ -117,7 +120,13 @@ export function PersonPortrait({
           visual.plan.layers.find((layer) => layer.kind === "body")?.assetId,
         )
       : undefined;
-  const frame = family?.portraitFrame;
+  const frame =
+    family && visual.kind === "modular"
+      ? preparedPortraitFrame(
+          family,
+          visual.plan.layers.map((l) => l.assetId),
+        )
+      : undefined;
   // Source-authored framing of the existing layers, retaining their material,
   // garment, and identity. No separate portrait picture or saved appearance.
   const portraitPlan =

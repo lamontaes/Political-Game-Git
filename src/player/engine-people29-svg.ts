@@ -1,3 +1,4 @@
+import { remapRasterMaterial } from "./raster-material";
 import type { AppearanceMaterial } from "../simulation/appearance-material";
 import {
   PREPARED_FAMILIES,
@@ -80,12 +81,68 @@ function writeSkinTable(document: XMLDocument, stops: readonly string[]) {
     );
   }
 }
-function materialize(
+async function decodeRaster(uri: string): Promise<ImageData> {
+  const image = new Image();
+  image.src = uri;
+  await image.decode();
+  const canvas = document.createElement("canvas");
+  canvas.width = image.naturalWidth;
+  canvas.height = image.naturalHeight;
+  const context = canvas.getContext("2d", { willReadFrequently: true });
+  if (!context) throw new Error("Raster material canvas unavailable.");
+  context.drawImage(image, 0, 0);
+  return context.getImageData(0, 0, canvas.width, canvas.height);
+}
+async function materializeRaster(
   document: XMLDocument,
   part: PreparedPart,
   material: AppearanceMaterial,
 ) {
-  for (const m of part.materials) {
+  const paint = document.querySelector("image[data-raster-paint]");
+  if (!paint) return false;
+  const original = await decodeRaster(paint.getAttribute("href")!);
+  let pixels: Uint8ClampedArray = original.data;
+  for (const region of part.materials) {
+    const ramp = region.ramps.find(
+      (r) => r.id === material.palettes[region.channel],
+    );
+    if (!ramp) throw new Error("Unsupported raster material ramp.");
+    if (!ramp.stops) continue;
+    const map = document.querySelector(
+      `image[data-material-map="${region.channel}"]`,
+    );
+    if (!map) throw new Error("Missing raster material map.");
+    const decoded = await decodeRaster(map.getAttribute("href")!);
+    if (decoded.width !== original.width || decoded.height !== original.height)
+      throw new Error("Raster material map dimensions differ.");
+    pixels = remapRasterMaterial(pixels, decoded.data, ramp.stops);
+  }
+  const canvas = window.document.createElement("canvas");
+  canvas.width = original.width;
+  canvas.height = original.height;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Raster material canvas unavailable.");
+  ctx.putImageData(
+    new ImageData(
+      new Uint8ClampedArray(pixels),
+      original.width,
+      original.height,
+    ),
+    0,
+    0,
+  );
+  paint.setAttribute("href", canvas.toDataURL("image/png"));
+  for (const map of document.querySelectorAll("image[data-material-map]"))
+    map.remove();
+  return true;
+}
+async function materialize(
+  document: XMLDocument,
+  part: PreparedPart,
+  material: AppearanceMaterial,
+) {
+  const raster = await materializeRaster(document, part, material);
+  for (const m of raster ? [] : part.materials) {
     const ramp = m.ramps.find((r) => r.id === material.palettes[m.channel]);
     if (!ramp) throw new Error("Unsupported tone ramp.");
     if (!document.getElementById(m.maskId))
@@ -162,11 +219,14 @@ export async function renderPreparedSvg(
     const p = family.parts.find((p) => p.id === id);
     if (!p) throw new Error("Unknown prepared part.");
     const d = parse(await source(p.svgPath));
-    materialize(d, p, material);
+    await materialize(d, p, material);
     for (const child of [...d.documentElement.children])
       result.documentElement.appendChild(result.importNode(child, true));
   }
-  if (original.kind === "body") {
+  if (
+    original.kind === "body" ||
+    (original.kind === "head" && original.introducedGeneration !== undefined)
+  ) {
     const ns = "http://www.w3.org/2000/svg";
     const defs = result.createElementNS(ns, "defs");
     const mask = result.createElementNS(ns, "mask");

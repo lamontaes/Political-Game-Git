@@ -75,6 +75,7 @@ export const ENGINE_PEOPLE29_CHARACTER_LIBRARY =
         ...painted36.garments,
         ...audience40.garments,
         ...standing41.garments,
+        ...modular45.garments,
       ],
     } as GarmentFitBankData),
     PEOPLE_VISUAL4_CHARACTER_LIBRARY.skinTone,
@@ -99,7 +100,8 @@ export const ENGINE_PEOPLE29_VISUAL_LIBRARY = new Map([
     review.records.filter(
       (r) =>
         r.asset_id.startsWith("kit41-") ||
-        /^ep(29|34|35|36|40|41)-/.test(r.asset_id),
+        /^ep(29|34|35|36|40|41)-/.test(r.asset_id) ||
+        modular45.assets.some((asset) => asset.asset_id === r.asset_id),
     ),
     Object.fromEntries(
       Object.entries(urls).map(([p, u]) => [p.replace(/^\.\.\/\.\.\//, ""), u]),
