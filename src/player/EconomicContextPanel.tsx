@@ -250,9 +250,12 @@ export function EconomicContextView({
 export function EconomicGraph({
   graph,
   diagnostics = false,
+  valuesTable = true,
 }: {
   readonly graph: EconomicGraphModel;
   readonly diagnostics?: boolean;
+  /** False when the caller shows its own table of the same values. */
+  readonly valuesTable?: boolean;
 }) {
   const values = graph.series.flatMap((series) =>
     series.points.flatMap((point) =>
@@ -331,43 +334,45 @@ export function EconomicGraph({
           </span>
         ))}
       </div>
-      <details>
-        <summary>Exact values</summary>
-        <table>
-          <thead>
-            <tr>
-              <th scope="col">Series</th>
-              <th scope="col">Period</th>
-              {diagnostics ? <th scope="col">Class</th> : null}
-              {diagnostics ? <th scope="col">Release</th> : null}
-              <th scope="col">Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            {graph.series.flatMap((series) =>
-              series.points.map((point) => (
-                <tr key={point.pointKey}>
-                  <th scope="row">{series.label}</th>
-                  <td>{point.period}</td>
-                  {diagnostics ? (
-                    <td>{recordClassLabel(point.recordClass)}</td>
-                  ) : null}
-                  {diagnostics ? (
-                    <td>{point.releaseStatus ?? "Not established"}</td>
-                  ) : null}
-                  <td>
-                    {point.value === null
-                      ? diagnostics
-                        ? `Missing — ${point.missingReason ?? "No value supplied"}`
-                        : "—"
-                      : formatGraphValue(point.value, graph.unit)}
-                  </td>
-                </tr>
-              )),
-            )}
-          </tbody>
-        </table>
-      </details>
+      {valuesTable ? (
+        <details>
+          <summary>Exact values</summary>
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Series</th>
+                <th scope="col">Period</th>
+                {diagnostics ? <th scope="col">Class</th> : null}
+                {diagnostics ? <th scope="col">Release</th> : null}
+                <th scope="col">Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              {graph.series.flatMap((series) =>
+                series.points.map((point) => (
+                  <tr key={point.pointKey}>
+                    <th scope="row">{series.label}</th>
+                    <td>{point.period}</td>
+                    {diagnostics ? (
+                      <td>{recordClassLabel(point.recordClass)}</td>
+                    ) : null}
+                    {diagnostics ? (
+                      <td>{point.releaseStatus ?? "Not established"}</td>
+                    ) : null}
+                    <td>
+                      {point.value === null
+                        ? diagnostics
+                          ? `Missing — ${point.missingReason ?? "No value supplied"}`
+                          : "—"
+                        : formatGraphValue(point.value, graph.unit)}
+                    </td>
+                  </tr>
+                )),
+              )}
+            </tbody>
+          </table>
+        </details>
+      ) : null}
       {/*
         "Drafts, forecasts, simulated history, and outturn remain distinct" is a
         promise the engine makes to its authors about how it keeps its records.
