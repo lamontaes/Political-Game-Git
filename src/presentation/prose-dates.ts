@@ -38,3 +38,16 @@ export function proseMonthYear(iso: IsoDate | string): string {
 export function proseYear(iso: IsoDate | string): string {
   return iso.slice(0, 4);
 }
+
+/** "Tuesday, January 20, 2026": a date a skip or an event lands on. */
+export function proseWeekdayDate(iso: IsoDate | string): string {
+  const date = utcDate(iso);
+  if (!date) return iso;
+  return date.toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}

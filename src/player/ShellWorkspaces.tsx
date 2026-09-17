@@ -56,15 +56,28 @@ import { INTERRUPTION_CATEGORIES } from "../presentation/interruption-policy";
 import { PeopleRelationshipWeb } from "./PeopleRelationshipWeb";
 import { PersonPortrait } from "./PersonPortrait";
 import {
-  advanceCalendarToActivity,
   authorizeCalendarSimulation,
   declineCalendarActivity,
   playCalendarActivity,
   simulateAuthorizedCalendarActivity,
-  simulateCalendarDays,
 } from "../presentation/calendar-time-control";
+import { previewTimeCommand } from "../presentation/time-command";
+import { venueActivities } from "../presentation/venue-activity";
+import { proseWeekdayDate } from "../presentation/prose-dates";
+import {
+  PROTECTED_STOP_NOTE,
+  describeInterval,
+  skipToLabel,
+  stoppedEarlyLabel,
+} from "../presentation/time-target-label";
+import {
+  useTimeCommand,
+  type TimeCommandReport,
+  type TimeCommandRunner,
+} from "./time-command-runner";
 import {
   measureById,
+  simulationMinutesBetween,
   workPendingEntriesFor,
   type EntityId,
   type MoneyAmount,
@@ -396,14 +409,32 @@ export function CalendarWorkspaceSurface({
   const [selectedId, setSelectedId] = useState<EntityId | null>(null);
   const [outcome, setOutcome] = useState<string | null>(null);
   const [tab, setTab] = useState<CalendarTab>("today");
+  const runner = useTimeCommand({
+    world,
+    personId,
+    interruptions,
+    onWorldChange,
+  });
+  const report = (result: TimeCommandReport) =>
+    setOutcome(
+      result.stoppedEarly && result.target
+        ? `${stoppedEarlyLabel(result.target)} ${result.outcome}`
+        : result.outcome,
+    );
+  const dayTarget = previewTimeCommand(world, personId, {
+    kind: "days",
+    days: 1,
+  });
+  const weekTarget = previewTimeCommand(world, personId, {
+    kind: "days",
+    days: 7,
+  });
 
-  function apply(
-    run: () => {
+  /* Releasing a hold spends no time, so it does not wait on the runner. */
+  function applyNow(result: {
       readonly world: World;
       readonly outcome: string;
-    },
-  ) {
-    const result = run();
+  }) {
     setOutcome(result.outcome);
     if (result.world !== world) onWorldChange(result.world);
   }
@@ -454,15 +485,25 @@ export function CalendarWorkspaceSurface({
                 }
                 onTogglePin={() => onTogglePin(ref)}
               >
-                {selectedHere && horizon !== "history" ? (
+                {selectedHere ? (
+                  <div
+                    className="pg-calendar-selection"
+                    data-testid="calendar-selection"
+                  >
+                    <CalendarEntryDetail entry={entry} />
+                    {horizon !== "history" ? (
                   <CalendarEventActions
                     selected={entry}
                     onOpen={onOpen}
-                    onApply={apply}
+                        runner={runner}
+                        onReport={report}
+                        onApplyNow={applyNow}
                     world={world}
                     personId={personId}
                     interruptions={interruptions}
                   />
+                ) : null}
+                  </div>
                 ) : null}
               </CalendarEntryRow>
             );
@@ -551,34 +592,47 @@ export function CalendarWorkspaceSurface({
             }}
           />
           {today}
-          <div className="game-choices" data-testid="calendar-time-controls">
+          <div
+            className="game-choices"
+            data-testid="calendar-time-controls"
+            aria-busy={runner.pending}
+          >
             <button
               type="button"
               className="ui-action"
               data-testid="calendar-simulate-day"
-              onClick={() =>
-                apply(() =>
-                  simulateCalendarDays(world, personId, 1, interruptions),
-                )
-              }
+              aria-disabled={runner.pending || undefined}
+              onClick={() => runner.submit({ kind: "days", days: 1 }, report)}
             >
-              Simulate a day
-              <small>Your routine runs; stops for what needs you.</small>
+              Skip 1 day
+              <small>
+                {dayTarget ? `${skipToLabel(dayTarget.target)}. ` : ""}
+                Your routine runs. {PROTECTED_STOP_NOTE}
+              </small>
             </button>
             <button
               type="button"
               className="ui-action"
               data-testid="calendar-simulate-week"
-              onClick={() =>
-                apply(() =>
-                  simulateCalendarDays(world, personId, 7, interruptions),
-                )
-              }
+              aria-disabled={runner.pending || undefined}
+              onClick={() => runner.submit({ kind: "days", days: 7 }, report)}
             >
-              Simulate a week
-              <small>Same rules, seven days.</small>
+              Skip 7 days
+              <small>
+                {weekTarget ? `${skipToLabel(weekTarget.target)}. ` : ""}
+                Same rules. {PROTECTED_STOP_NOTE}
+              </small>
             </button>
           </div>
+          {runner.pending ? (
+            <p
+              className="game-note"
+              role="status"
+              data-testid="calendar-time-pending"
+            >
+              Time is passing…
+            </p>
+          ) : null}
           {outcome ? (
             <p
               className="game-note pg-calendar-outcome"
@@ -685,19 +739,63 @@ export function CalendarWorkspaceSurface({
   );
 }
 
+/** What a selected entry is, read-only, before anything can be done to it. */
+function CalendarEntryDetail({ entry }: { readonly entry: CalendarEntry }) {
+  const sameDay = entry.start.date === entry.end.date;
+  return (
+    <dl
+      className="pg-calendar-detail"
+      data-testid="calendar-event-detail"
+      data-activity-id={entry.activityId}
+    >
+      <dt>What</dt>
+      <dd>
+        {entry.title} · {entry.kindLabel}
+        {entry.summary ? <span> {entry.summary}</span> : null}
+      </dd>
+      <dt>On the record</dt>
+      <dd data-testid="calendar-event-arrangement">
+        {entry.arrangementNote ??
+          "The record does not say who arranged it or how it reached you."}{" "}
+        {entry.ownershipNote}
+      </dd>
+      <dt>Who is going</dt>
+      <dd data-testid="calendar-event-attendees">
+        {entry.attendeeNames.length > 0
+          ? entry.attendeeNames.join(", ")
+          : "No attendees are on record."}
+      </dd>
+      <dt>Where</dt>
+      <dd>{entry.locationLabel}</dd>
+      <dt>When</dt>
+      <dd data-testid="calendar-event-when">
+        {proseWeekdayDate(entry.start.date)},{" "}
+        {formatMinute(entry.start.minuteOfDay)} to{" "}
+        {sameDay ? "" : `${proseWeekdayDate(entry.end.date)}, `}
+        {formatMinute(entry.end.minuteOfDay)}
+      </dd>
+    </dl>
+  );
+}
+
 function CalendarEventActions({
   selected,
   onOpen,
-  onApply,
+  runner,
+  onReport,
+  onApplyNow,
   world,
   personId,
   interruptions,
 }: {
   readonly selected: CalendarEntry;
   readonly onOpen: (ref: ShellRef) => void;
-  readonly onApply: (
-    run: () => { readonly world: World; readonly outcome: string },
-  ) => void;
+  readonly runner: TimeCommandRunner;
+  readonly onReport: (report: TimeCommandReport) => void;
+  readonly onApplyNow: (result: {
+    readonly world: World;
+    readonly outcome: string;
+  }) => void;
   readonly world: World;
   readonly personId: EntityId;
   readonly interruptions: InterruptionPreferences;
@@ -708,11 +806,27 @@ function CalendarEventActions({
     selected.activityId,
     interruptions,
   );
+  const skip = previewTimeCommand(world, personId, {
+    kind: "until-activity",
+    activityId: selected.activityId,
+  });
+  const venue = venueActivities(world, personId).find(
+    (candidate) => candidate.activity.id === selected.activityId,
+  );
+  const attendNote = venue?.refusal
+    ? venue.refusal
+    : venue?.journey
+      ? `Includes the ${describeInterval(venue.journey.journeyMinutes)} journey to ${selected.locationLabel}. ${venue.journey.costDisclosure}`
+      : null;
+  const busy = runner.pending || undefined;
   return (
-    <div className="game-choices" data-testid="calendar-event-actions">
-      <p>
-        Selected: {selected.title} · {formatMinute(selected.start.minuteOfDay)}
-      </p>
+    <div
+      className="game-choices pg-calendar-actions"
+      role="group"
+      aria-label={`What to do about ${selected.title}`}
+      aria-busy={runner.pending}
+      data-testid="calendar-event-actions"
+    >
       <button
         type="button"
         className="ui-action"
@@ -721,49 +835,61 @@ function CalendarEventActions({
       >
         Open event record
       </button>
+      {skip ? (
       <button
         type="button"
         className="ui-action"
         data-testid="calendar-advance-event"
+          aria-disabled={busy}
         onClick={() =>
-          onApply(() =>
-            advanceCalendarToActivity(
-              world,
-              personId,
-              selected.activityId,
-              interruptions,
-            ),
+            runner.submit(
+              { kind: "until-activity", activityId: selected.activityId },
+              onReport,
           )
         }
       >
-        Advance to this event
+          {skipToLabel(skip.target)}
+          <small>
+            {describeInterval(
+              simulationMinutesBetween(world.currentMoment, skip.target),
+            )}{" "}
+            from now, to when it starts. {PROTECTED_STOP_NOTE}
+          </small>
       </button>
+      ) : null}
       <button
         type="button"
         className="ui-action"
         data-testid="calendar-play-event"
+        aria-disabled={busy}
         onClick={() =>
-          onApply(() =>
-            playCalendarActivity(world, personId, selected.activityId),
+          runner.perform(
+            (current) =>
+              playCalendarActivity(current, personId, selected.activityId),
+            onReport,
           )
         }
       >
-        Play this event
+        Attend
+        {attendNote ? <small>{attendNote}</small> : null}
       </button>
       <button
         type="button"
         className="ui-action"
         data-testid="calendar-simulate-event"
         disabled={!simulation.authorized}
+        aria-disabled={busy}
         aria-describedby={`calendar-simulate-reason-${selected.activityId}`}
         onClick={() =>
-          onApply(() =>
+          runner.perform(
+            (current) =>
             simulateAuthorizedCalendarActivity(
-              world,
+                current,
               personId,
               selected.activityId,
               interruptions,
             ),
+            onReport,
           )
         }
       >
@@ -780,11 +906,13 @@ function CalendarEventActions({
         type="button"
         className="ui-action"
         data-testid="calendar-decline-event"
-        onClick={() =>
-          onApply(() =>
+        aria-disabled={busy}
+        onClick={() => {
+          if (runner.pending) return;
+          onApplyNow(
             declineCalendarActivity(world, personId, selected.activityId),
-          )
-        }
+          );
+        }}
       >
         Decline
       </button>
@@ -815,9 +943,13 @@ export function CommitmentSurface({
   return (
     <div data-testid="commitment-detail" data-activity-id={entry.activityId}>
       <p className="game-band">
-        {entry.start.date} · {formatMinute(entry.start.minuteOfDay)} –{" "}
+        {proseWeekdayDate(entry.start.date)} ·{" "}
+        {formatMinute(entry.start.minuteOfDay)} –{" "}
         {formatMinute(entry.end.minuteOfDay)}
       </p>
+      {entry.arrangementNote ? (
+        <p data-testid="commitment-arrangement">{entry.arrangementNote}</p>
+      ) : null}
       <p className="pg-kicker" data-testid="commitment-kind">
         {entry.kindLabel}
       </p>

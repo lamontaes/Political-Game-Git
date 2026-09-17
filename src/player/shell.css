@@ -755,8 +755,53 @@
   gap: 0.5rem;
 }
 
-.pg-calendar-entry .game-choices {
+.pg-calendar-entry .game-choices,
+.pg-calendar-selection {
   flex: 1 1 100%;
+}
+
+/* Reading first, then acting: the record, a rule, the actions. */
+.pg-calendar-detail {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 0.25rem 0.75rem;
+  margin: 0.35rem 0 0;
+  padding: 0.5rem 0.6rem;
+  border-left: 2px solid var(--pg-hairline);
+  color: var(--run-a-ink);
+}
+
+.pg-calendar-detail dt {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--pg-brass);
+}
+
+.pg-calendar-detail dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.pg-calendar-actions {
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--pg-hairline);
+}
+
+@media (max-width: 480px) {
+  .pg-calendar-detail {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* A time control waiting on a running command keeps focus but not clicks. */
+.ui-action[aria-disabled="true"],
+.pg-nav-day[aria-disabled="true"],
+.transit-continue button[aria-disabled="true"],
+[data-testid="personal-routine"] button[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: progress;
 }
 
 .pg-calendar-open {
@@ -1356,6 +1401,14 @@
 .pg-nav-day:disabled {
   opacity: 0.5;
   cursor: default;
+}
+
+.pg-nav-days-target {
+  flex: 0 0 auto;
+  max-width: 14rem;
+  font-size: 0.68rem;
+  line-height: 1.3;
+  color: var(--pg-ivory-dim);
 }
 
 .pg-nav[data-state="rest"] .pg-nav-days {

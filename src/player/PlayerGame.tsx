@@ -26,17 +26,23 @@ import { OpeningLifeFlow } from "./opening-life/OpeningLifeFlow";
 import { LifeScenePanel } from "./opening-life/LifeScenePanel";
 import { PersonPortrait } from "./PersonPortrait";
 import { useContentViewportCss } from "./overlay-viewport";
-import { simulateCalendarDays } from "../presentation/calendar-time-control";
 import {
   describeTimeCommandPreview,
   previewTimeCommand,
-  submitTimeCommand,
 } from "../presentation/time-command";
 import {
   createWorldChangeGuard,
-  nextTimeRequestId,
   recordStaleWorldChange,
 } from "../presentation/world-change-guard";
+import {
+  skipToLabel,
+  stoppedEarlyLabel,
+} from "../presentation/time-target-label";
+import {
+  TimeCommandProvider,
+  useTimeCommand,
+  useTimeCommandRunner,
+} from "./time-command-runner";
 import {
   conversationExchangeTurns,
   currentExchangeTurn,
@@ -2298,25 +2304,41 @@ function PlayingScreen({
         : current,
     );
   }, [shell.quickDossierPersonId]);
-  const passDays = useCallback(
-    (days: 1 | 7) => {
-      const result = submitTimeCommand(session.world, {
-        requestId: nextTimeRequestId(),
+  /*
+   * The one runner every time control on this screen submits through, so a
+   * running command marks all of them busy at once.
+   */
+  const timeRunner = useTimeCommandRunner({
+    world: session.world,
         personId: session.personId,
-        sourceMoment: session.world.currentMoment,
-        command: { kind: "days", days },
         interruptions: shell.preferences.interruptions,
-      });
-      setPassOutcome(result.receipt.outcome);
-      if (result.world !== session.world) onWorldChange(result.world);
-    },
-    [
-      session.world,
-      session.personId,
-      shell.preferences.interruptions,
       onWorldChange,
-    ],
+  });
+  const { submit: submitTime } = timeRunner;
+  const passDays = useCallback(
+    (days: 1 | 7) =>
+      submitTime({ kind: "days", days }, (report) =>
+        setPassOutcome(
+          report.stoppedEarly && report.target
+            ? `${stoppedEarlyLabel(report.target)} ${report.outcome}`
+            : report.outcome,
+        ),
+      ),
+    [submitTime],
   );
+  const passTargets = useMemo(() => {
+    const day = previewTimeCommand(session.world, session.personId, {
+      kind: "days",
+      days: 1,
+    });
+    const week = previewTimeCommand(session.world, session.personId, {
+      kind: "days",
+      days: 7,
+    });
+    return day && week
+      ? { day: skipToLabel(day.target), week: skipToLabel(week.target) }
+      : undefined;
+  }, [session.world, session.personId]);
 
   const projectedMoment = useMemo(
     () => projectStoryMoment(session.world, session.personId),
@@ -2811,6 +2833,7 @@ function PlayingScreen({
   });
 
   return (
+    <TimeCommandProvider runner={timeRunner}>
     <SavedAppearanceProvider value={shell.personWardrobes}>
       <SavedRenderSnapshotsProvider value={renderSnapshots}>
         <main
@@ -3008,7 +3031,9 @@ function PlayingScreen({
                 {conversation.addressee === "everyone"
                   ? "Everyone here"
                   : session.world.people[conversation.addressee]
-                    ? personName(session.world.people[conversation.addressee]!)
+                      ? personName(
+                          session.world.people[conversation.addressee]!,
+                        )
                     : "Someone"}
                 {pendingLine ? ` · ${pendingLine}` : ""}
               </small>
@@ -3024,7 +3049,10 @@ function PlayingScreen({
               </p>
             ) : null}
             {problem ? (
-              <p className="life-hud-note life-hud-note--problem" role="status">
+                <p
+                  className="life-hud-note life-hud-note--problem"
+                  role="status"
+                >
                 {problem}
               </p>
             ) : null}
@@ -3107,7 +3135,10 @@ function PlayingScreen({
               })
             }
             onLeave={onLeave}
-            {...(capabilities.formativeYears ? {} : { onPassDays: passDays })}
+              {...(capabilities.formativeYears
+                ? {}
+                : { onPassDays: passDays, passTargets })}
+              passing={timeRunner.pending}
           />
 
           <ShellPinRail
@@ -3142,6 +3173,7 @@ function PlayingScreen({
         </main>
       </SavedRenderSnapshotsProvider>
     </SavedAppearanceProvider>
+    </TimeCommandProvider>
   );
 }
 
@@ -3822,16 +3854,6 @@ function renderWorkspace({
             onOpenTaxWork={() =>
               dispatch({ type: "go-to-surface", surface: "tax" })
             }
-            onContinue={(days) => {
-              if (days !== 1 && days !== 7) return;
-              const result = simulateCalendarDays(
-                session.world,
-                session.personId,
-                days,
-                shell.preferences.interruptions,
-              );
-              if (result.world !== session.world) onWorldChange(result.world);
-            }}
             onOpenBill={(docketKey) => {
               const bill = projectTransitWork(
                 session.world,
@@ -4367,6 +4389,11 @@ function StoryView({
   readonly onWorldChange: (world: World) => void;
 }) {
   const [journalOpen, setJournalOpen] = useState(false);
+  const runner = useTimeCommand({
+    world: session.world,
+    personId: session.personId,
+    onWorldChange,
+  });
   const quietPreview = useMemo(
     () =>
       previewTimeCommand(session.world, session.personId, {
@@ -4476,15 +4503,9 @@ function StoryView({
             type="button"
             className="ui-action ui-action--choice ui-action--quiet"
             data-testid="story-let-time-pass"
-            onClick={() => {
-              const result = submitTimeCommand(session.world, {
-                requestId: nextTimeRequestId(),
-                personId: session.personId,
-                sourceMoment: session.world.currentMoment,
-                command: { kind: "quiet-stretch" },
-              });
-              if (result.world !== session.world) onWorldChange(result.world);
-            }}
+            aria-disabled={runner.pending || undefined}
+            aria-busy={runner.pending}
+            onClick={() => runner.submit({ kind: "quiet-stretch" })}
           >
             {moment.formativeYears ? "Let the year run on" : "Let time pass"}
             <small data-testid="story-let-time-pass-target">
@@ -4787,6 +4808,20 @@ function PassDayControl({
     () => (withClock ? projectToday(session.world, session.personId) : null),
     [withClock, session.world, session.personId],
   );
+  const runner = useTimeCommand({
+    world: session.world,
+    personId: session.personId,
+    onWorldChange,
+  });
+  const [outcome, setOutcome] = useState<string | null>(null);
+  const target = useMemo(
+    () =>
+      previewTimeCommand(session.world, session.personId, {
+        kind: "days",
+        days: 1,
+      }),
+    [session.world, session.personId],
+  );
   return (
     <div className="game-choices pg-pass-day">
       {today ? (
@@ -4797,11 +4832,37 @@ function PassDayControl({
       <button
         type="button"
         data-testid="pass-day"
-        onClick={() => onWorldChange(passOrdinaryDays(session.world))}
+        aria-disabled={runner.pending || undefined}
+        aria-busy={runner.pending}
+        onClick={() =>
+          runner.submit({ kind: "days", days: 1 }, (report) =>
+            setOutcome(
+              report.stoppedEarly && report.target
+                ? `${stoppedEarlyLabel(report.target)} ${report.outcome}`
+                : report.outcome,
+            ),
+          )
+        }
       >
         Get on with the day
-        <small>Move to tomorrow.</small>
+        <small>
+          {runner.pending
+            ? "Time is passing…"
+            : target
+              ? `${skipToLabel(target.target)}. Stops early for anything protected.`
+              : "Move to tomorrow."}
+        </small>
       </button>
+      {outcome && !runner.pending ? (
+        <p
+          className="game-note"
+          role="status"
+          data-testid="pass-day-outcome"
+          style={{ whiteSpace: "pre-line" }}
+        >
+          {outcome}
+        </p>
+      ) : null}
     </div>
   );
 }
