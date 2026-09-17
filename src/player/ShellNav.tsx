@@ -337,7 +337,11 @@ export function ShellNav({
         ? 0
         : move === "last"
           ? items.length - 1
-          : (current + move + items.length) % items.length;
+          : current < 0
+            ? move === 1
+              ? 0
+              : items.length - 1
+            : (current + move + items.length) % items.length;
     items[next]?.focus();
   };
 
