@@ -14,6 +14,10 @@ import {
   disasterStateReviewHandler,
 } from "./disaster";
 import {
+  HAZARD_SAMPLE_TRANSITION_KEY,
+  hazardSampleHandler,
+} from "./hazard-producer";
+import {
   INTERNATIONAL_DECISION_KEY,
   INTERNATIONAL_RESPONSE_KEY,
   WAR_POWERS_KEY,
@@ -39,6 +43,7 @@ export * from "./offices";
 export * from "./continuity";
 export * from "./notices";
 export * from "./disaster";
+export * from "./hazard-producer";
 export * from "./international";
 
 /** Every CRISIS due-item handler, for composition into the production registry. */
@@ -48,6 +53,7 @@ export function createCrisisTransitionRegistry() {
     [MORTALITY_DEATH_KEY, mortalityDeathHandler],
     [HEALTH_REVIEW_KEY, healthReviewHandler],
     [NPC_DISCLOSURE_KEY, npcHealthDisclosureHandler],
+    [HAZARD_SAMPLE_TRANSITION_KEY, hazardSampleHandler],
     [DISASTER_STATE_REVIEW_KEY, disasterStateReviewHandler],
     [DISASTER_FEDERAL_REVIEW_KEY, disasterFederalReviewHandler],
     [DISASTER_REPAIR_CYCLE_KEY, disasterRepairCycleHandler],

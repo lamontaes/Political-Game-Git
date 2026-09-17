@@ -14,7 +14,14 @@ import { CRUNCH46_POLICY } from "./policy";
 import {
   ELECTORAL_CALIBRATION,
   applySwing,
+  calibrationRow,
+  calibrationRows,
+  drawPoliticalLatents,
+  generateContest,
   generatePoliticalStartingConditions,
+  generateStateExecutiveAffiliation,
+  referenceReconstruction,
+  zeroPoliticalLatents,
 } from "./political-start";
 import type { StartingRegime } from "./types";
 
@@ -109,8 +116,11 @@ describe("starting regime and macro kernel (crunch46-provisional-v1)", () => {
   });
 });
 
-const certified = ELECTORAL_CALIBRATION.house.filter(
-  (row) => row.democraticTwoPartyShare !== null && !row.ambiguous,
+const houseRows = calibrationRows("us-house");
+const senateRows = calibrationRows("us-senate");
+const governorRows = calibrationRows("state-governor");
+const certified = houseRows.filter(
+  (row) => row.democraticTwoPartyShare !== null,
 );
 
 function flipsAt(swingPp: number): number {
@@ -123,10 +133,126 @@ function flipsAt(swingPp: number): number {
 }
 
 describe("political starting conditions", () => {
-  it("compiled calibration covers every seat", () => {
-    expect(ELECTORAL_CALIBRATION.house).toHaveLength(435);
-    expect(ELECTORAL_CALIBRATION.senate).toHaveLength(100);
+  it("compiled calibration keeps one row per office contest", () => {
+    expect(houseRows).toHaveLength(435);
+    expect(senateRows).toHaveLength(100);
+    expect(governorRows).toHaveLength(50);
+    expect(calibrationRows("us-president")).toHaveLength(51);
     expect(certified.length).toBeGreaterThan(350);
+    // Every row without a margin says why, and no row borrows another office.
+    for (const row of ELECTORAL_CALIBRATION.calibrationRows) {
+      if (row.twoPartyMargin === null) {
+        expect(row.uncertaintyReason, row.contestKey).toBeTruthy();
+        expect(row.democraticTwoPartyShare, row.contestKey).toBeNull();
+      } else {
+        expect(row.uncertaintyReason, row.contestKey).toBeNull();
+        expect(row.democraticTwoPartyShare).not.toBeNull();
+        // A stored margin always agrees with the affiliation the same source
+        // records for that office.
+        expect(
+          row.twoPartyMargin > 0 ? "democratic" : "republican",
+          row.contestKey,
+        ).toBe(row.referenceAffiliation);
+      }
+      expect(row.contestKey.startsWith(row.office)).toBe(true);
+    }
+    // A governor row is a dated snapshot and never carries a contest margin.
+    for (const row of governorRows) {
+      expect(row.twoPartyMargin).toBeNull();
+      expect(row.observedContestType).toBe("dated-officeholder-snapshot");
+      expect(row.referenceDate).toBe(ELECTORAL_CALIBRATION.asOfDate);
+    }
+  });
+
+  it("zero perturbation reconstructs the compiled input affiliations", () => {
+    const record = referenceReconstruction(seedWorld("zero-perturbation"));
+    const byKey = new Map(record.seats.map((seat) => [seat.seatKey, seat]));
+    expect(byKey.size).toBe(535);
+    for (const row of [...houseRows, ...senateRows]) {
+      const seat = byKey.get(row.contestKey)!;
+      expect(seat.affiliation, row.contestKey).toBe(row.referenceAffiliation);
+      expect(seat.referenceWinner).toBe(row.referenceAffiliation);
+    }
+    expect(record.presidency.winner).toBe(record.presidency.referenceWinner);
+    for (const row of governorRows) {
+      const generated = generateStateExecutiveAffiliation(
+        seedWorld("zero-perturbation"),
+        zeroPoliticalLatents("near-reference"),
+        row.stateUsps,
+      );
+      expect(generated.affiliation, row.stateUsps).toBe(
+        row.referenceAffiliation,
+      );
+    }
+  });
+
+  it("a missing margin preserves the recorded affiliation in every world", () => {
+    const withoutMargin = [...houseRows, ...senateRows].filter(
+      (row) => row.democraticTwoPartyShare === null,
+    );
+    expect(withoutMargin.length).toBeGreaterThan(20);
+    // The nine rows CRUNCH47 names, resolved against their own source rows.
+    for (const key of [
+      "us-house:CA-20",
+      "us-house:FL-20",
+      "us-house:IL-15",
+      "us-house:IL-16",
+      "us-house:PA-03",
+      "us-house:TX-09",
+      "us-house:TX-20",
+      "us-house:TX-30",
+      "us-house:WA-04",
+    ]) {
+      const row = calibrationRow(key)!;
+      expect(row.twoPartyMargin, key).toBeNull();
+      expect(row.uncertaintyReason, key).toBeTruthy();
+    }
+    for (const regime of CRUNCH46_POLICY.regimes.order) {
+      for (let i = 0; i < 12; i += 1) {
+        const world = seedWorld(`missing-margin-${regime}-${i}`);
+        const latents = drawPoliticalLatents(world, regime);
+        for (const row of withoutMargin) {
+          const seat = generateContest(world, latents, row);
+          expect(seat.affiliation, row.contestKey).toBe(
+            row.referenceAffiliation,
+          );
+          expect(seat.generatedShare).toBeNull();
+          expect(seat.uncertaintyReason).toBeTruthy();
+        }
+      }
+    }
+  });
+
+  it("a governor off the state's presidential lean keeps their own party", () => {
+    const presidentialLean = (usps: string) => {
+      const row = calibrationRow(`us-president:${usps}`)!;
+      return row.referenceAffiliation;
+    };
+    const crossParty = governorRows.filter(
+      (row) =>
+        row.referenceAffiliation !== null &&
+        row.referenceAffiliation !== presidentialLean(row.stateUsps),
+    );
+    expect(crossParty.length).toBeGreaterThan(5);
+    for (const regime of CRUNCH46_POLICY.regimes.order) {
+      for (let i = 0; i < 8; i += 1) {
+        const world = seedWorld(`governor-${regime}-${i}`);
+        const latents = drawPoliticalLatents(world, regime);
+        for (const row of crossParty) {
+          const generated = generateStateExecutiveAffiliation(
+            world,
+            latents,
+            row.stateUsps,
+          );
+          expect(generated.affiliation, row.stateUsps).toBe(
+            row.referenceAffiliation,
+          );
+          expect(generated.baselineKind).toBe(
+            "reference-affiliation-preserved",
+          );
+        }
+      }
+    }
   });
 
   it("controlled inputs: no swing keeps every certified seat; larger swings flip more", () => {
@@ -165,8 +291,8 @@ describe("political starting conditions", () => {
       string,
       { houseD: number[]; flips: number[]; presidents: Record<string, number> }
     > = {};
-    const referenceHouseD = ELECTORAL_CALIBRATION.house.filter(
-      (row) => row.certifiedWinnerParty === "democratic",
+    const referenceHouseD = houseRows.filter(
+      (row) => row.referenceAffiliation === "democratic",
     ).length;
     for (let i = 0; i < 240; i += 1) {
       const world = seedWorld(`distribution-${i}`);

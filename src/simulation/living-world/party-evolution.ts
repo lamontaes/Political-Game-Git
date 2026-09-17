@@ -126,6 +126,8 @@ export type PartyQuestionKey = (typeof PARTY_QUESTIONS)[number]["key"];
 export const PARTY_BODY_CADENCE = {
   reviewEveryMonths: 3,
   standingCommitteeSize: 4,
+  /** A national committee materialized when a national action needs one. */
+  nationalCommitteeSize: 5,
   /** A unit with no active participant this long is found inactive. */
   inactivityDays: 180,
   /** A dispute must recur at least this often before anyone considers leaving. */
@@ -236,6 +238,101 @@ export function partyUnitLeaders(
         .filter((personId) => living(world, personId, world.currentDate)),
     ),
   ].sort();
+}
+
+/**
+ * A national party's committee, materialized only when an action needs it.
+ *
+ * The setting parties start with no national officers: nobody has been asked
+ * to act for them. When a national action actually requires an authorized
+ * leader, this materializes a small committee through the common person
+ * generator, with the same historical constraints as any other generated
+ * person, and gives each member a public affiliation. It is idempotent, and
+ * it never runs on a read.
+ */
+export function ensurePartyLeadership(
+  world: World,
+  organizationId: EntityId,
+): World {
+  const unit = requireActiveUnit(world, organizationId);
+  if (partyUnitLeaders(world, organizationId).length > 0) return world;
+  const date = world.currentDate;
+  const rng = new SeededRng(world.seed).fork(
+    `${V}:committee:${organizationId}`,
+  );
+  const memberKey = (index: number) =>
+    `${V}:committee:${organizationId}:${index}`;
+  const size = PARTY_BODY_CADENCE.nationalCommitteeSize;
+  let next = createCharacterHistoryContextPeople(
+    world,
+    Array.from({ length: size }, (_, index) => {
+      const personRng = rng.fork(memberKey(index));
+      return {
+        stableKey: memberKey(index),
+        ...drawCanonicalName(personRng.fork("name")),
+        identity: generatePersonIdentity(personRng.fork("identity")),
+        // Adults only: an officer must have been able to hold the role.
+        birthDate: makeIsoDate(
+          `${Number(date.slice(0, 4)) - personRng.integer(30, 76)}-${String(personRng.integer(1, 13)).padStart(2, "0")}-${String(personRng.integer(1, 29)).padStart(2, "0")}`,
+        ),
+        homeJurisdictionId: unit.jurisdictionId ?? world.jurisdictionOrder[0]!,
+      };
+    }),
+  );
+  const provenance = { kind: "generated" as const, generatorKey: V };
+  const transitions = Array.from({ length: size }, (_, index) => {
+    const personId = characterHistoryContextPersonId(next, memberKey(index));
+    return [
+      {
+        kind: "participation" as const,
+        input: {
+          stableKey: `${memberKey(index)}:officer`,
+          personId,
+          organizationId,
+          startedAt: date,
+          initialStatus: "active" as const,
+          kind: PARTY_OFFICER_KIND,
+          roleKind: "leader:officer" as const,
+          context: "Acts for the national organization.",
+          provenance,
+        },
+      },
+      {
+        kind: "participation" as const,
+        input: {
+          stableKey: `${memberKey(index)}:affiliation`,
+          personId,
+          organizationId,
+          startedAt: date,
+          initialStatus: "active" as const,
+          kind: PARTY_AFFILIATION_KIND,
+          roleKind: "member:public-affiliation" as const,
+          context: "Public party affiliation",
+          provenance,
+        },
+      },
+    ];
+  }).flat();
+  next = applyCharacterHistoryPlan(next, {
+    stableKey: `${V}:committee:${organizationId}:plan`,
+    mode: "quick-generated",
+    personId: characterHistoryContextPersonId(next, memberKey(0)),
+    transitions,
+  }).world;
+  return recordWorldEvent(next, {
+    stableKey: `${V}:committee:${organizationId}`,
+    type: "party.committee-formed",
+    occurredAt: date,
+    recordedAt: date,
+    jurisdictionId: unit.jurisdictionId,
+    involvedEntityIds: [organizationId],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [V, `party:${unit.partyKey}`],
+    summary: `${unit.name} named a national committee.`,
+    context: EVENT_CONTEXT,
+  });
 }
 
 export interface PartyOfficerView {
@@ -701,6 +798,19 @@ export function proposePartyInitiative(
   if (kind === "merger" && input.subjectOrganizationIds.length < 2) {
     throw new Error("A merger names at least two units.");
   }
+  // These actions need somebody authorized to answer for the unit. A national
+  // party that has never had officers gets its committee now, not a refusal.
+  let world_ = world;
+  if (
+    kind === "merger" ||
+    kind === "rename" ||
+    kind === "platform-change" ||
+    kind === "dissolution"
+  ) {
+    for (const organizationId of input.subjectOrganizationIds) {
+      world_ = ensurePartyLeadership(world_, organizationId);
+    }
+  }
   if (
     (kind === "founding" || kind === "rename") &&
     !input.proposedName?.trim()
@@ -726,13 +836,13 @@ export function proposePartyInitiative(
       );
     }
   }
-  const count = partyRecords(world).filter(
+  const count = partyRecords(world_).filter(
     (record) => record.kind === "party-initiative",
   ).length;
   const stableKey =
     input.stableKey ??
     `${V}:initiative:${kind}:${input.proposerPersonId}:${count + 1}`;
-  const next = appendPartyRecords(world, [
+  const next = appendPartyRecords(world_, [
     {
       kind: "party-initiative",
       stableKey,
@@ -753,7 +863,7 @@ export function proposePartyInitiative(
       ],
     },
   ]);
-  return { world: next, initiativeId: partyRecordId(world, stableKey) };
+  return { world: next, initiativeId: partyRecordId(world_, stableKey) };
 }
 
 function requireInitiative(world: World, id: EntityId): PartyInitiativeRecord {

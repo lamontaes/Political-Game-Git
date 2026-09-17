@@ -12,6 +12,7 @@ import {
   ensurePartyGoverningBodies,
   worldOpeningVersionOf,
   CRUNCH46_WORLD_OPENING_VERSION,
+  ensureHazardProduction,
   macroStartingConditions,
 } from "../simulation";
 import {
@@ -62,16 +63,20 @@ export function generateOpeningLife(
   const staffed = establishOpeningOfficeholders(economic, game.playerPersonId);
   // Congress, the national parties and public affiliations, once, after
   // the executives exist so they receive an affiliation in the same pass.
-  const developed = ensureLivingWorldDevelopments(
-    // Standing chapter committees exist only in current openings.
-    ensurePartyGoverningBodies(
-      ensureHomePartyChapters(
-        ensureLivingWorldOpening(staffed, game.playerPersonId),
+  // The hazard stream schedules its first monthly sample for a current
+  // opening that has something exposed; a legacy save gets none.
+  const developed = ensureHazardProduction(
+    ensureLivingWorldDevelopments(
+      // Standing chapter committees exist only in current openings.
+      ensurePartyGoverningBodies(
+        ensureHomePartyChapters(
+          ensureLivingWorldOpening(staffed, game.playerPersonId),
+          game.playerPersonId,
+        ),
         game.playerPersonId,
       ),
       game.playerPersonId,
     ),
-    game.playerPersonId,
   );
   return {
     ...session,

@@ -34,16 +34,20 @@ export interface WorldOpeningRecord extends ConditionRecordBase {
   readonly regime: StartingRegime;
 }
 
-/** How a seat's baseline Democratic two-party share was obtained. */
+/** How this contest's starting affiliation was obtained. */
 export type SeatBaselineKind =
   /** Both major parties on the certified ballot: a certified two-party share. */
   | "certified-two-party"
-  /** No certified two-party contest: the state's certified presidential share. */
-  | "state-presidential-proxy"
-  /** No sourced baseline at all: explicitly authored even odds. */
-  | "authored-neutral"
+  /**
+   * The office's own source has no two-major-party margin, so its recorded
+   * affiliation is preserved exactly. Never another office's evidence and
+   * never an invented neutral share (CRUNCH47 C1).
+   */
+  | "reference-affiliation-preserved"
   /** A non-major affiliation keeps its own identity and is not recoded. */
-  | "retained-non-major";
+  | "retained-non-major"
+  /** The compiled source has no row for this contest at all. */
+  | "unrecorded";
 
 export interface GeneratedSeatCondition {
   readonly seatKey: string;
@@ -57,16 +61,15 @@ export interface GeneratedSeatCondition {
   /** Caucus key; null only when the affiliation is itself a caucus party. */
   readonly caucus: string | null;
   readonly referenceWinner: string | null;
+  /** Why no margin-based variation applied; null when one did. */
+  readonly uncertaintyReason: string | null;
 }
 
 export interface GeneratedPresidency {
   readonly baselineKind: "certified-state-presidential";
   readonly electoralVotes: Readonly<Record<string, number>>;
   readonly winner: string;
-  readonly decidedBy:
-    | "electoral-majority"
-    | "contingent-house-delegations"
-    | "authored-even-draw";
+  readonly decidedBy: "electoral-majority" | "electoral-plurality-no-majority";
   readonly referenceWinner: string | null;
   readonly stateWinners: Readonly<Record<string, string>>;
   readonly unitRuleNote: string;

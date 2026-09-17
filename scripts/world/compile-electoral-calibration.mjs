@@ -29,7 +29,7 @@ import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const COMPILER = "scripts/world/compile-electoral-calibration.mjs";
-const COMPILER_VERSION = "1.0.0";
+const COMPILER_VERSION = "1.1.0";
 const SCHEMA = "political-geography-v1";
 const AS_OF = "2026-01-05";
 const CONGRESS = 119;
@@ -1672,6 +1672,90 @@ async function main() {
     `Governors: ${governorsCompiled} compiled from NGA printed terms covering ${AS_OF}; ${governors.length - governorsCompiled} missing/ambiguous.`,
   );
 
+  // Normalized office-specific rows (CRUNCH47 C1). Each office keeps its own
+  // evidence: a state presidential result is not a House district result and
+  // not a governor result.
+  const calibrationRows = [
+    ...house.map((row) =>
+      calibrationRow("us-house", row, {
+        contestKey: row.seatKey,
+        referenceDate: row.electionDate,
+        referenceAffiliation: row.certifiedWinnerParty,
+        sourceRef: `${row.sourceId}#p${row.sourcePage}`,
+      }),
+    ),
+    ...senate.map((row) =>
+      calibrationRow("us-senate", row, {
+        contestKey: row.seatKey,
+        referenceDate: `${row.lastElectionYear}-11-05`,
+        referenceAffiliation: row.certifiedWinnerParty,
+        sourceRef: row.sourceId,
+      }),
+    ),
+    ...presidentialByState.map((row) =>
+      calibrationRow("us-president", row, {
+        contestKey: `us-president:${row.stateUsps}`,
+        referenceDate: "2024-11-05",
+        // The printed elector totals are this contest's deciding tally.
+        contestType:
+          row.democraticTwoPartyShare === null
+            ? "no-two-party-tally"
+            : "two-major-party",
+        referenceAffiliation:
+          row.democraticTwoPartyShare === null
+            ? null
+            : row.democraticTwoPartyShare > 0.5
+              ? "democratic"
+              : "republican",
+        sourceRef: row.sourceId,
+      }),
+    ),
+    ...governors.map((row) =>
+      calibrationRow(
+        "state-governor",
+        {
+          stateUsps: row.stateUsps,
+          democraticTwoPartyShare: null,
+          totalVotes: null,
+          uncontested: false,
+          ambiguous: row.status === "ambiguous",
+          candidateTotalsByParty: {},
+        },
+        {
+          contestKey: `state-governor:${row.stateUsps}`,
+          referenceDate: AS_OF,
+          referenceAffiliation: row.party,
+          sourceRef: (row.sourceIds ?? []).join(","),
+          contestType: "dated-officeholder-snapshot",
+          // The compiled governor input is a dated officeholder snapshot, not
+          // a contest tally: this window has no governor vote margin at all.
+          uncertaintyReason: "no-governor-contest-tally-in-this-source-window",
+        },
+      ),
+    ),
+  ].sort((a, b) => a.contestKey.localeCompare(b.contestKey));
+
+  // A margin must agree with the affiliation the same source records.
+  const disagreeing = calibrationRows.filter(
+    (row) =>
+      row.twoPartyMargin !== null &&
+      row.referenceAffiliation !== null &&
+      (row.twoPartyMargin > 0 ? "democratic" : "republican") !==
+        row.referenceAffiliation,
+  );
+  if (disagreeing.length)
+    throw new Error(
+      `Margin disagrees with the recorded affiliation: ${disagreeing
+        .map((row) => row.contestKey)
+        .join(", ")}`,
+    );
+  checks.push(
+    `Every stored two-party margin agrees with the affiliation its own source records (${calibrationRows.filter((r) => r.twoPartyMargin !== null).length} rows checked).`,
+  );
+  checks.push(
+    `Normalized office rows: ${calibrationRows.length} (${calibrationRows.filter((r) => r.twoPartyMargin !== null).length} with a certified two-party margin, ${calibrationRows.filter((r) => r.twoPartyMargin === null).length} with an explicit uncertainty reason).`,
+  );
+
   const corpus = {
     schema: SCHEMA,
     asOfDate: AS_OF,
@@ -1700,8 +1784,11 @@ async function main() {
         "Printed runoff / ranked-choice round figures when they differ from the November first-choice figures.",
       governors:
         "Party and printed term in progress on asOfDate, from NGA pages captured in September 2026; termStart is the NGA-printed start of that term.",
+      calibrationRows:
+        "One normalized row per office contest: office, contestKey, referenceDate, referenceAffiliation, observedContestType, totalVotes, twoPartyMargin (null when the source prints no two-major-party contest), sourceRef and uncertaintyReason. Offices are separate evidence: a state presidential row is not a House district row and not a governor row. Governor rows are dated officeholder snapshots and carry no margin at all.",
     },
     sources,
+    calibrationRows,
     house,
     senate,
     presidentialByState,
@@ -1785,6 +1872,98 @@ async function main() {
     ),
   );
   if (drift) process.exit(1);
+}
+
+/**
+ * One normalized row per office contest, so a consumer never has to infer the
+ * office from a key or reuse another office's evidence (CRUNCH47 C1).
+ *
+ * `twoPartyMargin` is the certified Democratic minus Republican share, and is
+ * null whenever the printed figures do not contain a two-major-party contest.
+ * `uncertaintyReason` says why it is null. `referenceAffiliation` is what the
+ * source actually records for that office on `referenceDate`.
+ */
+/**
+ * A margin only exists where the printed figures are the tally that decided
+ * the contest. A November two-party share is not the margin of a seat a later
+ * runoff decided, and first-choice figures are not the margin of a
+ * ranked-choice contest whose deciding round the document does not print.
+ */
+const DECIDING_PRINTED_FIGURES = new Set([
+  "plurality-of-printed-totals",
+  "printed-rcv-final-round",
+]);
+
+function decidingFigures(row) {
+  return (
+    row.democraticTwoPartyShare !== null &&
+    !row.ambiguous &&
+    DECIDING_PRINTED_FIGURES.has(row.winnerBasis)
+  );
+}
+
+function contestType(row) {
+  if (row.ambiguous) return "undetermined-by-printed-figures";
+  if (row.winnerBasis === "printed-runoff-count") return "decided-by-runoff";
+  if (decidingFigures(row)) return "two-major-party";
+  if (row.democraticTwoPartyShare !== null)
+    return "no-deciding-two-party-tally";
+  if (row.uncontested) return "unopposed";
+  const parties = Object.keys(row.candidateTotalsByParty ?? {}).filter(
+    (key) => key !== "write-in" && key !== "scattering" && key !== "all-others",
+  );
+  const majors = parties.filter(
+    (key) => key === "democratic" || key === "republican",
+  );
+  if (majors.length === 1) return "single-major-party-on-ballot";
+  if (majors.length === 0) return "no-major-party-on-ballot";
+  return "no-two-party-tally";
+}
+
+function uncertaintyReason(row, type) {
+  if (type === "two-major-party") return null;
+  if (type === "decided-by-runoff")
+    return "decided-by-a-printed-runoff-so-these-figures-are-not-the-margin";
+  if (type === "no-deciding-two-party-tally")
+    return "printed-figures-are-not-the-round-that-decided-this-contest";
+  if (type === "won-by-a-candidate-outside-the-two-major-parties")
+    return "the-seat-was-won-outside-the-two-major-parties-so-their-share-is-not-its-margin";
+  if (type === "undetermined-by-printed-figures")
+    return "printed-figures-do-not-determine-the-outcome";
+  if (type === "unopposed") return "no-opponent-so-no-margin-exists";
+  if (type === "single-major-party-on-ballot")
+    return "only-one-major-party-on-the-ballot";
+  if (type === "no-major-party-on-ballot")
+    return "no-major-party-candidate-in-this-contest";
+  return "no-two-major-party-tally-printed";
+}
+
+const MAJOR_PARTIES = new Set(["democratic", "republican"]);
+
+function calibrationRow(office, row, extra) {
+  const nonMajorWinner =
+    extra.referenceAffiliation !== null &&
+    extra.referenceAffiliation !== undefined &&
+    !MAJOR_PARTIES.has(extra.referenceAffiliation);
+  const type = nonMajorWinner
+    ? "won-by-a-candidate-outside-the-two-major-parties"
+    : (extra.contestType ?? contestType(row));
+  // Only a deciding printed tally yields a margin; everything else is null
+  // with its reason, and the office's recorded affiliation stands alone.
+  const share = type === "two-major-party" ? row.democraticTwoPartyShare : null;
+  return {
+    office,
+    contestKey: extra.contestKey,
+    stateUsps: row.stateUsps,
+    referenceDate: extra.referenceDate,
+    referenceAffiliation: extra.referenceAffiliation,
+    observedContestType: type,
+    totalVotes: row.totalVotes ?? null,
+    twoPartyMargin: share === null ? null : round6(2 * share - 1),
+    democraticTwoPartyShare: share,
+    sourceRef: extra.sourceRef,
+    uncertaintyReason: extra.uncertaintyReason ?? uncertaintyReason(row, type),
+  };
 }
 
 function packageVersion(name) {
