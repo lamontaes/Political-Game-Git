@@ -18,6 +18,7 @@ const sources = optionalGlob(() =>
       "../../art/authoring/engine-people41/families/*/*.svg",
       "../../art/authoring/modular41-head-v2/*.svg",
       "../../art/authoring/modular45/parts/*.svg",
+      "../../art/authoring/modular45/pose/*.svg",
     ],
     { query: "?raw", import: "default" },
   ),

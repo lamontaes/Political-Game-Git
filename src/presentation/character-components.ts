@@ -2485,13 +2485,21 @@ export function resolveCharacterRecipe(
           component.definition.compatible_body_families === undefined ||
           component.definition.compatible_body_families.includes(bodyFamily),
       );
-      const candidates = forBody.filter((component) =>
-        contextCompatible(
-          component.definition,
-          poseFamily,
-          headOrientation ?? "",
-          bodyFamily,
-        ),
+      // A family can also hold one fitted derivative PER FACE (MODULAR45 hair
+      // fronts). The identity stage only asked whether the family reaches this
+      // face; this keeps a derivative fitted to another face off it. No family
+      // in an earlier generation mixes face compatibility, so earlier recipes
+      // resolve exactly as before.
+      const candidates = forBody.filter(
+        (component) =>
+          contextCompatible(
+            component.definition,
+            poseFamily,
+            headOrientation ?? "",
+            bodyFamily,
+          ) &&
+          (component.definition.compatible_head_families === undefined ||
+            component.definition.compatible_head_families.includes(headFamily)),
       );
       if (candidates.length === 0) {
         const code: CharacterRecipeDiagnosticCode =

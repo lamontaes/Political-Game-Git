@@ -99,6 +99,7 @@ const packs = optionalGlob(() =>
     [
       "../../art/authoring/pose41/pack.json",
       "../../art/authoring/modular41-head-v2/pose-pack.json",
+      "../../art/authoring/modular45/pose-pack.json",
     ],
     { eager: true, import: "default" },
   ),
@@ -107,6 +108,8 @@ export const POSE41_VARIANTS = [
   ...(packs["../../art/authoring/pose41/pack.json"]?.variants ?? []),
   ...(packs["../../art/authoring/modular41-head-v2/pose-pack.json"]?.variants ??
     []),
+  // MODULAR45 generation 13: every corrected face x hairstyle (and no hair).
+  ...(packs["../../art/authoring/modular45/pose-pack.json"]?.variants ?? []),
 ] as unknown as readonly Pose41Variant[];
 const sameSet = (a: readonly string[], b: readonly string[]) =>
   a.length === b.length &&
