@@ -24,6 +24,7 @@ import {
 import { createOpeningLifeController } from "../presentation/opening-life";
 import { OpeningLifeFlow } from "./opening-life/OpeningLifeFlow";
 import { LifeScenePanel } from "./opening-life/LifeScenePanel";
+import { PersonPortrait } from "./PersonPortrait";
 import { useContentViewportCss } from "./overlay-viewport";
 import { simulateCalendarDays } from "../presentation/calendar-time-control";
 import {
@@ -3069,6 +3070,14 @@ function PlayingScreen({
             state={shell}
             dispatch={dispatch}
             playerName={moment.personName}
+            portrait={
+              session.world.people[session.personId] ? (
+                <PersonPortrait
+                  world={session.world}
+                  personId={session.personId}
+                />
+              ) : null
+            }
             dateLabel={moment.dateLabel}
             placeName={moment.placeName}
             destinations={destinations}
@@ -3570,6 +3579,7 @@ function renderWorkspace({
               onWorldChange={onWorldChange}
               onTalkTo={(personId) => talkTo(personId)}
               transitionHandlers={createCampaignElectionTransitionRegistry()}
+              variant="workspace"
             />
             <StoryView
               session={session}

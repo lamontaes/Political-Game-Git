@@ -1,4 +1,12 @@
-import { useEffect, useRef, useState, type RefObject } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type KeyboardEvent,
+  type ReactNode,
+  type RefObject,
+} from "react";
 
 import type {
   ShellAction,
@@ -116,17 +124,89 @@ const GROUP_ORDER: readonly ShellDestinationGroup[] = [
   "options",
 ];
 
+/**
+ * Where each entry of the open menu sits around the portrait.
+ *
+ * Entries fan out in rings over the quarter above and to the right of the
+ * portrait, from straight up to a shallow angle that stays clear of the name
+ * label and the day controls. Each ring holds only as many entries as fit
+ * without touching, so a longer list opens a further ring rather than
+ * crowding the first. Offsets are in pixels from the portrait's centre, y
+ * negative upwards.
+ */
+export const FAN_RINGS: readonly { radius: number; capacity: number }[] = [
+  { radius: 175, capacity: 4 },
+  { radius: 285, capacity: 6 },
+  { radius: 400, capacity: 8 },
+];
+const FAN_FROM_DEGREES = 90;
+const FAN_TO_DEGREES = 25;
+
+export function fanLayout(
+  count: number,
+): readonly { x: number; y: number; ring: number }[] {
+  const positions: { x: number; y: number; ring: number }[] = [];
+  let remaining = count;
+  for (const [ring, { radius, capacity }] of FAN_RINGS.entries()) {
+    if (remaining <= 0) break;
+    const here = Math.min(remaining, capacity);
+    // A ring that is not full keeps the spacing of a full one, from the top.
+    const step =
+      (FAN_FROM_DEGREES - FAN_TO_DEGREES) / Math.max(capacity - 1, 1);
+    for (let index = 0; index < here; index += 1) {
+      const radians = ((FAN_FROM_DEGREES - step * index) * Math.PI) / 180;
+      positions.push({
+        x: Math.round(radius * Math.cos(radians)),
+        y: -Math.round(radius * Math.sin(radians)),
+        ring,
+      });
+    }
+    remaining -= here;
+  }
+  return positions;
+}
+
+function fanStyle(
+  layout: readonly { x: number; y: number }[],
+  index: number,
+): CSSProperties {
+  const at = layout[index] ?? { x: 0, y: 0 };
+  return {
+    "--fan-x": `${at.x}px`,
+    "--fan-y": `${at.y}px`,
+    "--fan-order": index,
+  } as CSSProperties;
+}
+
+function initialsOf(name: string): string {
+  const words = name.split(/\s+/).filter(Boolean);
+  const first = words[0]?.charAt(0) ?? "";
+  const last = words.length > 1 ? (words.at(-1)?.charAt(0) ?? "") : "";
+  return `${first}${last}`.toUpperCase();
+}
+
+const MENU_KEYS: Readonly<Record<string, -1 | 1 | "first" | "last">> = {
+  ArrowDown: 1,
+  ArrowRight: 1,
+  ArrowUp: -1,
+  ArrowLeft: -1,
+  Home: "first",
+  End: "last",
+};
+
 /** Which submenu a group opens when it holds several destinations. */
 function submenuFor(group: ShellDestinationGroup): "personal" | "politics" {
   return group === "politics" ? "politics" : "personal";
 }
 
 /**
- * The corner cluster, its hidden-until-opened list, and the day controls.
+ * The corner cluster, its hidden-until-opened menu, and the day controls.
  *
- * Closed, it is who you are, when, and where — plus two quiet controls that
- * move the day or the week through the existing clock. Open, it is the
- * accepted list: Calendar, People, Politics, News, Journal, Personal, Travel,
+ * Closed, it is your own portrait, small, with who you are, when, and where
+ * as its label — plus two quiet controls that move the day or the week
+ * through the existing clock. The portrait grows as the pointer approaches or
+ * the keyboard arrives. Open, the entries fan out around the portrait (a plain
+ * list on narrow or short windows): Calendar, People, Politics, News, Journal, Personal, Travel,
  * Save, Options, Quit. One submenu level at most, drawn darker than its
  * parent. Quit asks about saving first when the life is not saved.
  */
@@ -134,6 +214,7 @@ export function ShellNav({
   state,
   dispatch,
   playerName,
+  portrait = null,
   dateLabel,
   placeName,
   destinations,
@@ -147,6 +228,11 @@ export function ShellNav({
   readonly state: ShellState;
   readonly dispatch: (action: ShellAction) => void;
   readonly playerName: string;
+  /**
+   * The player's own portrait, as the shared portrait component draws it.
+   * Absent when there is no person record to draw; initials stand in.
+   */
+  readonly portrait?: ReactNode;
   readonly dateLabel: string;
   readonly placeName: string | null;
   readonly destinations: readonly ShellDestination[];
@@ -197,11 +283,16 @@ export function ShellNav({
       ...(entry.section ? { section: entry.section } : {}),
     });
 
-  const renderEntry = (entry: ShellDestination, label = entry.label) => (
+  const renderEntry = (
+    entry: ShellDestination,
+    style: CSSProperties,
+    label = entry.label,
+  ) => (
     <button
       key={`${entry.surface}:${entry.section ?? ""}`}
       type="button"
       role="menuitem"
+      style={style}
       data-testid={entry.testid}
       aria-pressed={entry.open}
       onClick={() => go(entry)}
@@ -217,6 +308,38 @@ export function ShellNav({
       : state.navigation === "politics"
         ? "politics"
         : null;
+
+  const primaryGroups = GROUP_ORDER.flatMap((group) => {
+    const entries = destinations.filter((entry) => entry.group === group);
+    return entries.length === 0 ? [] : [{ group, entries }];
+  });
+  const submenuEntries = submenuGroup
+    ? destinations.filter((entry) => entry.group === submenuGroup)
+    : [];
+  const layout = fanLayout(
+    submenuGroup
+      ? submenuEntries.length + 1
+      : primaryGroups.length + (canSave ? 1 : 0) + 1,
+  );
+
+  /* Arrow keys, Home and End move through the entries, in reading order. */
+  const onMenuKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    const move = MENU_KEYS[event.key];
+    if (move === undefined) return;
+    const items = Array.from(
+      event.currentTarget.querySelectorAll<HTMLElement>('[role="menuitem"]'),
+    );
+    if (items.length === 0) return;
+    event.preventDefault();
+    const current = items.indexOf(document.activeElement as HTMLElement);
+    const next =
+      move === "first"
+        ? 0
+        : move === "last"
+          ? items.length - 1
+          : (current + move + items.length) % items.length;
+    items[next]?.focus();
+  };
 
   return (
     <nav
@@ -237,6 +360,7 @@ export function ShellNav({
           onClick={() => dispatch({ type: "toggle-navigation" })}
         >
           <span className="pg-nav-cluster-inner" aria-hidden="true">
+            <span className="pg-nav-avatar-slot" />
             <span className="pg-nav-copy">
               <span
                 className="pg-nav-identity"
@@ -261,6 +385,22 @@ export function ShellNav({
             </span>
           </span>
         </button>
+        {/*
+          The portrait sits over the button's reserved circle rather than
+          inside the button, because a portrait is a figure and a button may
+          only hold phrasing content. It takes no pointer events, so a press on
+          the face is a press on the button beneath it.
+        */}
+        <div
+          className="pg-nav-avatar"
+          data-testid="shell-nav-portrait"
+          data-fallback={portrait ? undefined : "initials"}
+          aria-hidden="true"
+        >
+          {portrait ?? (
+            <span className="pg-nav-initials">{initialsOf(playerName)}</span>
+          )}
+        </div>
         {onPassDays ? (
           <div
             className="pg-nav-days"
@@ -303,6 +443,7 @@ export function ShellNav({
             submenuGroup ? GROUP_LABELS[submenuGroup].label : "Main navigation"
           }
           ref={flyoutRef}
+          onKeyDown={onMenuKeyDown}
         >
           {submenuGroup ? (
             <>
@@ -310,6 +451,7 @@ export function ShellNav({
                 type="button"
                 role="menuitem"
                 data-testid="nav-submenu-back"
+                style={fanStyle(layout, 0)}
                 onClick={() => dispatch({ type: "open-nav-primary" })}
               >
                 ← Back
@@ -317,22 +459,20 @@ export function ShellNav({
               <p className="pg-nav-heading">
                 {GROUP_LABELS[submenuGroup].label}
               </p>
-              {destinations
-                .filter((entry) => entry.group === submenuGroup)
-                .map((entry) => renderEntry(entry))}
+              {submenuEntries.map((entry, index) =>
+                renderEntry(entry, fanStyle(layout, index + 1)),
+              )}
             </>
           ) : (
             <>
-              {GROUP_ORDER.map((group) => {
-                const entries = destinations.filter(
-                  (entry) => entry.group === group,
-                );
-                if (entries.length === 0) return null;
+              {primaryGroups.map(({ group, entries }, index) => {
                 const meta = GROUP_LABELS[group];
+                const style = fanStyle(layout, index);
                 if (entries.length === 1) {
                   const only = entries[0]!;
                   return renderEntry(
                     { ...only, hint: only.hint || meta.hint },
+                    style,
                     meta.label,
                   );
                 }
@@ -342,6 +482,7 @@ export function ShellNav({
                     type="button"
                     role="menuitem"
                     aria-haspopup="menu"
+                    style={style}
                     data-testid={`nav-group-${group}`}
                     aria-pressed={entries.some((entry) => entry.open)}
                     onClick={() =>
@@ -365,6 +506,7 @@ export function ShellNav({
                     type="button"
                     role="menuitem"
                     data-testid={unsaved ? "keep-world" : "save-world"}
+                    style={fanStyle(layout, primaryGroups.length)}
                     onClick={onSave}
                   >
                     Save
@@ -375,6 +517,10 @@ export function ShellNav({
                   type="button"
                   role="menuitem"
                   data-testid="leave-game"
+                  style={fanStyle(
+                    layout,
+                    primaryGroups.length + (canSave ? 1 : 0),
+                  )}
                   onClick={() =>
                     unsaved && canSave
                       ? dispatch({ type: "ask-leave" })

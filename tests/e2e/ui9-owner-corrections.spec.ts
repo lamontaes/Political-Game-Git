@@ -94,13 +94,18 @@ test("UI9-06, UI9-07: a child is told why a walk is refused, and what a walk cos
   await startLife(page, { age: 10, place: "Lexington", state: "Kentucky" });
   await enterLife(page);
   /*
-   * PT3: there is no "Life scenes" menu entry any more — it was a second copy
-   * of the panel already standing in the room. `enterLife` steps into the
-   * continuing life, so the way back to the scene is the panel's own control.
+   * UI46: walks are errands of the life, not of the scene, so they live in
+   * Personal rather than in the room's scene panel. The player reaches them
+   * the way anything else is reached: the cluster, then Personal.
    */
-  await page.getByRole("button", { name: "Return to your day" }).click();
+  await goTo(page, "nav-personal");
+  const personal = page.getByTestId("personal-workspace");
+  await personal
+    .getByTestId("personal-life-choices")
+    .locator("summary")
+    .click();
 
-  const scene = page.getByTestId("opening-life-scene");
+  const scene = personal.getByTestId("opening-life-scene");
   await expect(scene).toBeVisible();
 
   /*
@@ -108,10 +113,10 @@ test("UI9-06, UI9-07: a child is told why a walk is refused, and what a walk cos
    * rather than by a message about checking the calendar. The short walk that
    * IS available stays available.
    */
-  const home = page.getByTestId("life-walk-home");
-  const nearby = page.getByTestId("life-walk-neighborhood");
+  const home = scene.getByTestId("life-walk-home");
+  const nearby = scene.getByTestId("life-walk-neighborhood");
   await expect(home).toBeDisabled();
-  await expect(page.getByTestId("life-walk-home-reason")).toHaveText(
+  await expect(scene.getByTestId("life-walk-home-reason")).toHaveText(
     "You are already home.",
   );
   await expect(nearby).toBeEnabled();
@@ -121,16 +126,16 @@ test("UI9-06, UI9-07: a child is told why a walk is refused, and what a walk cos
    * have to guess whether a walk happened.
    */
   await nearby.click();
-  const outcome = page.getByTestId("life-scene-outcome");
+  const outcome = scene.getByTestId("life-scene-outcome");
   await expect(outcome).toBeVisible();
   await expect(outcome).toContainText("→");
 
   // And now the refusals have swapped over, because the character has moved.
-  await expect(page.getByTestId("life-walk-neighborhood")).toBeDisabled();
-  await expect(page.getByTestId("life-walk-neighborhood-reason")).toHaveText(
+  await expect(scene.getByTestId("life-walk-neighborhood")).toBeDisabled();
+  await expect(scene.getByTestId("life-walk-neighborhood-reason")).toHaveText(
     "You are already out in your neighborhood.",
   );
-  await expect(page.getByTestId("life-walk-home")).toBeEnabled();
+  await expect(scene.getByTestId("life-walk-home")).toBeEnabled();
 });
 
 test("UI9-10: the starting age is derived from the birthday, never a half-typed number", async ({

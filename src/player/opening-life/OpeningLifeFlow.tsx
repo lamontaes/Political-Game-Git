@@ -63,6 +63,7 @@ export function OpeningLifeFlow(props: OpeningLifeFlowProps) {
         ? { onFocusReturned: props.onFocusReturned }
         : {})}
       transitionHandlers={props.transitionHandlers}
+      variant="room"
     />
   );
 }
