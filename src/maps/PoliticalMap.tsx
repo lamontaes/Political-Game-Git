@@ -338,6 +338,11 @@ export function PoliticalMap(props: PoliticalMapProps) {
     [world, personId, selection, asOf],
   );
 
+  // A search typed for one layer means nothing in another; start fresh.
+  useEffect(() => {
+    setQuery("");
+  }, [mode, stateUsps]);
+
   // Selection is cleared when it no longer belongs to the drawn layer.
   useEffect(() => {
     if (selection && selection.layer !== layer) setSelection(null);
