@@ -4,6 +4,7 @@ import {
   resolveCharacterRecipe,
 } from "./character-components";
 import {
+  ENGINE_PEOPLE29_TEMPLATES,
   MODULAR45_GENERATION,
   PREPARED_SKIN_RAMPS,
   generatedPreparedMaterial,
@@ -25,6 +26,10 @@ import {
   PRIVATE_CANDIDATE_ART_AVAILABLE,
 } from "./private-candidate-manifests";
 import type { PersonAppearance } from "../simulation/types";
+import {
+  appearanceAgeState,
+  appearanceForNewPerson,
+} from "./appearance-lifecycle";
 
 // The corrected people generation is owner-private art.
 const needsRepair =
@@ -72,6 +77,16 @@ describe.skipIf(needsRepair)("MODULAR45 corrected people generation", () => {
     expect(thirteen).toContain("ep41-masc-heavy-head-lean-m45");
     expect(thirteen).not.toContain("ep41-masc-heavy-head-lean-v2");
     expect(thirteen).not.toContain("ep41-masc-heavy-body");
+  });
+
+  it("gives every corrected layer a prepared template so materials apply", () => {
+    // Without a template the browser draws the raw file and ignores swatches.
+    const drawn = componentsAtGeneration(library, G)
+      .map((c) => c.assetId)
+      .filter((id) => id.endsWith("-m45"));
+    expect(drawn.length).toBeGreaterThan(100);
+    for (const id of drawn)
+      expect(ENGINE_PEOPLE29_TEMPLATES[id], id).toBeDefined();
   });
 
   it("offers every hairstyle and no hair with every face, independently", () => {
@@ -275,4 +290,92 @@ describe.skipIf(needsRepair)("MODULAR45 corrected people generation", () => {
               ).toBe("ready");
             }
   });
+});
+
+describe("appearance lifecycle interface for PEOPLE", () => {
+  it("derives the life stage from the birth date on read", () => {
+    expect(
+      appearanceAgeState({ birthDate: "2010-06-01" }, "2026-05-31"),
+    ).toMatchObject({
+      stage: "child",
+      supported: false,
+    });
+    expect(
+      appearanceAgeState({ birthDate: "2008-06-01" }, "2026-06-01"),
+    ).toMatchObject({
+      stage: "adult",
+      supported: true,
+    });
+    expect(
+      appearanceAgeState({ birthDate: "1950-01-01" }, "2026-06-01").stage,
+    ).toBe("older");
+    expect(
+      appearanceAgeState({ birthDate: null }, "2026-06-01").supported,
+    ).toBe(false);
+  });
+
+  it.skipIf(needsRepair)(
+    "gives new relatives their own pinned appearance once",
+    () => {
+      const setup = {
+        startKind: "custom",
+        seed: "m45-family",
+        placeKey: "lexington-fayette",
+        startAge: 40,
+        depth: "play-formative-years",
+        startingLife: "ordinary-life",
+        household: "shares-a-home",
+        givenName: "Parent",
+        familyName: "Review",
+        gender: "female",
+        pronouns: "she-her",
+        questionnaire: "skipped",
+        appearanceRecipeVersion: "appearance-recipe-v2",
+        appearanceOutfitVersion: "complete-outfit-v2",
+      } as const;
+      const world = creatorAppearanceDraft(setup, library)!;
+      const parent = world.people[world.personOrder[0]!]!;
+      const add = (id: string, birthDate: string) => ({
+        ...world,
+        people: {
+          ...world.people,
+          [id]: { ...parent, id, birthDate, appearance: undefined },
+        },
+        personOrder: [...world.personOrder, id],
+      });
+      const adultWorld = add("person-adult-child", "1990-01-01");
+      const adult = appearanceForNewPerson(
+        adultWorld,
+        "person-adult-child",
+        { birthDate: "1990-01-01" },
+        library,
+      )!;
+      expect(adult.catalogGeneration).toBe(G);
+      expect(adult.selection).toBeDefined();
+      expect(PREPARED_SKIN_RAMPS).toContain(adult.material!.palettes.skin);
+      const sibling = appearanceForNewPerson(
+        add("person-adult-sibling", "1992-01-01"),
+        "person-adult-sibling",
+        { birthDate: "1992-01-01" },
+        library,
+      )!;
+      expect(sibling.seed).not.toBe(adult.seed);
+      const child = appearanceForNewPerson(
+        add("person-young-child", "2020-01-01"),
+        "person-young-child",
+        { birthDate: "2020-01-01" },
+        library,
+      )!;
+      expect(child.selection).toBeUndefined();
+      expect(child.catalogGeneration).toBe(G);
+      expect(() =>
+        appearanceForNewPerson(
+          world,
+          world.personOrder[0]!,
+          { birthDate: "1986-01-01" },
+          library,
+        ),
+      ).toThrow();
+    },
+  );
 });

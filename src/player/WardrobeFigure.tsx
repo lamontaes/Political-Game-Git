@@ -8,6 +8,7 @@ import {
   type PersonWardrobePreference,
 } from "../presentation/person-visual-selection";
 import { ModularCharacter } from "./ModularCharacter";
+import { GameSelect } from "./controls/GameSelect";
 
 /** The controlled person's actual saved outfit, at a fixed full-body scale. */
 export function WardrobeFigure({
@@ -91,23 +92,29 @@ export function WardrobeFigure({
       <p>
         {pending ? "Preview — not saved." : "Your saved appearance and outfit."}
       </p>
-      <label>
+      <label className="wardrobe-figure-view">
         Outfit view{" "}
-        <select
+        <GameSelect
           aria-label="Outfit view"
           value={effectivePose}
           onChange={(e) => setPose(e.target.value)}
-        >
-          <option
-            value="standing-neutral"
-            disabled={!supportedPoses.includes("standing-neutral")}
-          >
-            Standing
-          </option>
-          {supportedPoses.includes("seated-guest-neutral") ? (
-            <option value="seated-guest-neutral">Seated</option>
-          ) : null}
-        </select>
+          options={[
+            {
+              value: "standing-neutral",
+              label: "Standing",
+              disabled: !supportedPoses.includes("standing-neutral"),
+            },
+            ...(supportedPoses.includes("seated-guest-neutral")
+              ? [
+                  {
+                    value: "seated-guest-neutral",
+                    label: "Seated",
+                    disabled: false,
+                  },
+                ]
+              : []),
+          ]}
+        />
       </label>
       {content}
     </section>

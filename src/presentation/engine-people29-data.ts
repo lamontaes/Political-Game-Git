@@ -143,6 +143,7 @@ export function preparedRampsAt(
 export const ENGINE_PEOPLE29_TEMPLATES = {
   ...input.templates,
   ...headRepair.templates,
+  ...modular45.templates,
   ...kit.templates,
   ...refinement.templates,
   ...painted.templates,
