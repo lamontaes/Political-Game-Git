@@ -5,7 +5,9 @@ import { test } from "node:test";
 import { artDeskDownloadPath } from "../private-controller/artdesk-host.mjs";
 
 const benchOrigin = "http://127.0.0.1:5555";
-const downloadsDir = "/tmp/ocd-downloads";
+// Resolved once so the expectations match the host's own absolute form
+// (Windows adds the drive to a bare "/tmp" path).
+const downloadsDir = path.resolve("/tmp/ocd-downloads");
 
 test("bench originals and edits land in the downloads folder", () => {
   assert.equal(
