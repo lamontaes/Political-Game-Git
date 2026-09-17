@@ -22,6 +22,7 @@ import type {
 } from "../simulation";
 import { CampaignLifePanel } from "./CampaignLifePanel";
 import { CampaignWeekPanel } from "./CampaignWeekPanel";
+import { projectCampaignWeek } from "../simulation";
 import { DIAGNOSTICS } from "./diagnostics-profile";
 import { OpponentActivityPanel } from "./OpponentActivityPanel";
 
@@ -144,6 +145,10 @@ export function CampaignWorkspace({
   );
   const strategyReport = useMemo(
     () => projectLatestCampaignStrategyReport(world, personId),
+    [world, personId],
+  );
+  const weekCommitted = useMemo(
+    () => projectCampaignWeek(world, personId)?.committed != null,
     [world, personId],
   );
   const [problem, setProblem] = useState<string | null>(null);
@@ -442,14 +447,6 @@ export function CampaignWorkspace({
             </p>
           ) : null}
 
-          {view.phase === "active" ? (
-            <CampaignWeekPanel
-              world={world}
-              personId={personId}
-              onWorldChange={onWorldChange}
-            />
-          ) : null}
-
           {strategy && view.offers.length > 0 ? (
             <section
               className="game-campaign-strategy"
@@ -560,6 +557,26 @@ export function CampaignWorkspace({
                 ))}
               </div>
             </section>
+          ) : null}
+
+          {view.phase === "active" ? (
+            // UI decision (CRUNCH46): the per-action plan above stays first;
+            // planning a whole week is a secondary, collapsible block. It opens
+            // by itself while a week is committed so its sessions stay in view.
+            <details
+              className="game-campaign-week-block"
+              data-testid="campaign-week-block"
+              open={weekCommitted || undefined}
+            >
+              <summary data-testid="campaign-week-toggle">
+                Plan the whole week
+              </summary>
+              <CampaignWeekPanel
+                world={world}
+                personId={personId}
+                onWorldChange={onWorldChange}
+              />
+            </details>
           ) : null}
 
           {strategyReport ? (
