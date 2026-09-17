@@ -1,11 +1,11 @@
 {
-  "digest": "5b275f979898a028",
+  "digest": "8148f13488861f0f",
   "counts": {
-    "total": 3194,
+    "total": 3190,
     "byDomain": {
       "campaign": 24,
       "conversation": 400,
-      "governing": 197,
+      "governing": 193,
       "legislative": 94,
       "life": 1745,
       "narration": 75,
@@ -24,20 +24,20 @@
       "option-witnessed": 54,
       "prompt": 130,
       "scene-line": 219,
-      "status": 595,
+      "status": 591,
       "thread-recap": 32
     },
     "byReachability": {
       "CURRENTLY_UNREACHABLE": 377,
       "DEV_FIXTURE_ONLY": 110,
       "LEGACY_OR_WITHDRAWN": 90,
-      "PLAYER_REACHABLE": 2190,
+      "PLAYER_REACHABLE": 2186,
       "UNKNOWN": 69,
       "WITHHELD_BY_GROUNDING": 358
     },
     "byRealization": {
-      "static": 2541,
-      "templated": 653
+      "static": 2539,
+      "templated": 651
     }
   },
   "records": [
@@ -21725,158 +21725,6 @@
         "computed"
       ],
       "textRevision": "a56300e7ca19",
-      "contextRevision": "abc63ee8695e"
-    },
-    {
-      "id": "prose:governing:municipal-workspace:MunicipalWorkspace-0058#text",
-      "domain": "governing",
-      "bank": "municipal-workspace",
-      "stableKey": "MunicipalWorkspace-0058",
-      "field": "text",
-      "surface": "status",
-      "sourcePath": "src/player/MunicipalWorkspace.tsx",
-      "sourceSymbol": "MunicipalWorkspace",
-      "text": "Pin {view.government.displayName}",
-      "realization": "templated",
-      "slots": [
-        "view.government.displayName"
-      ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "UI-core's Municipal route mounts this feature panel for the saved player. Its source-reading labels, inspection boundaries and explicit-action results are displayed here; registration is inventory, not human prose approval.",
-      "grounding": [
-        {
-          "key": "municipal-source-reading",
-          "description": "The exact government identity and individually classified enacted, attributed-report or dated-reference reading; inspection never changes residence or role.",
-          "kind": "requirement"
-        },
-        {
-          "key": "canonical-municipal-records",
-          "description": "The controlled person's saved home-place link, current organization participation, calendar, Work and append-oriented history. Mutations occur only through an activated control.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "MunicipalWorkspace",
-        "anchor": "MunicipalWorkspace-0058"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "1abd8754549c",
-      "contextRevision": "abc63ee8695e"
-    },
-    {
-      "id": "prose:governing:municipal-workspace:MunicipalWorkspace-0059#text",
-      "domain": "governing",
-      "bank": "municipal-workspace",
-      "stableKey": "MunicipalWorkspace-0059",
-      "field": "text",
-      "surface": "status",
-      "sourcePath": "src/player/MunicipalWorkspace.tsx",
-      "sourceSymbol": "MunicipalWorkspace",
-      "text": "Unpin {view.government.displayName}",
-      "realization": "templated",
-      "slots": [
-        "view.government.displayName"
-      ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "UI-core's Municipal route mounts this feature panel for the saved player. Its source-reading labels, inspection boundaries and explicit-action results are displayed here; registration is inventory, not human prose approval.",
-      "grounding": [
-        {
-          "key": "municipal-source-reading",
-          "description": "The exact government identity and individually classified enacted, attributed-report or dated-reference reading; inspection never changes residence or role.",
-          "kind": "requirement"
-        },
-        {
-          "key": "canonical-municipal-records",
-          "description": "The controlled person's saved home-place link, current organization participation, calendar, Work and append-oriented history. Mutations occur only through an activated control.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "MunicipalWorkspace",
-        "anchor": "MunicipalWorkspace-0059"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "3c83191b1910",
-      "contextRevision": "abc63ee8695e"
-    },
-    {
-      "id": "prose:governing:municipal-workspace:MunicipalWorkspace-0060#text",
-      "domain": "governing",
-      "bank": "municipal-workspace",
-      "stableKey": "MunicipalWorkspace-0060",
-      "field": "text",
-      "surface": "status",
-      "sourcePath": "src/player/MunicipalWorkspace.tsx",
-      "sourceSymbol": "MunicipalWorkspace",
-      "text": "★ Pinned",
-      "realization": "static",
-      "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "UI-core's Municipal route mounts this feature panel for the saved player. Its source-reading labels, inspection boundaries and explicit-action results are displayed here; registration is inventory, not human prose approval.",
-      "grounding": [
-        {
-          "key": "municipal-source-reading",
-          "description": "The exact government identity and individually classified enacted, attributed-report or dated-reference reading; inspection never changes residence or role.",
-          "kind": "requirement"
-        },
-        {
-          "key": "canonical-municipal-records",
-          "description": "The controlled person's saved home-place link, current organization participation, calendar, Work and append-oriented history. Mutations occur only through an activated control.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "MunicipalWorkspace",
-        "anchor": "MunicipalWorkspace-0060"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "4316a1e262ba",
-      "contextRevision": "abc63ee8695e"
-    },
-    {
-      "id": "prose:governing:municipal-workspace:MunicipalWorkspace-0061#text",
-      "domain": "governing",
-      "bank": "municipal-workspace",
-      "stableKey": "MunicipalWorkspace-0061",
-      "field": "text",
-      "surface": "status",
-      "sourcePath": "src/player/MunicipalWorkspace.tsx",
-      "sourceSymbol": "MunicipalWorkspace",
-      "text": "☆ Pin this government",
-      "realization": "static",
-      "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "UI-core's Municipal route mounts this feature panel for the saved player. Its source-reading labels, inspection boundaries and explicit-action results are displayed here; registration is inventory, not human prose approval.",
-      "grounding": [
-        {
-          "key": "municipal-source-reading",
-          "description": "The exact government identity and individually classified enacted, attributed-report or dated-reference reading; inspection never changes residence or role.",
-          "kind": "requirement"
-        },
-        {
-          "key": "canonical-municipal-records",
-          "description": "The controlled person's saved home-place link, current organization participation, calendar, Work and append-oriented history. Mutations occur only through an activated control.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "MunicipalWorkspace",
-        "anchor": "MunicipalWorkspace-0061"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "c3868f824680",
       "contextRevision": "abc63ee8695e"
     },
     {
