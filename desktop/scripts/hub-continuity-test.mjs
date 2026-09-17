@@ -252,12 +252,22 @@ let expected;
     foreign.length === 0,
     foreign.slice(0, 3).join(", "),
   );
+  // The collapsed bar names the build in words; the exact SHA lives behind
+  // the technical-detail toggle (CRUNCH47 A2: readable title, SHA separately).
+  const collapsed = await chrome.locator("#status").textContent();
+  check(
+    "B: the bar names the playing build in words",
+    collapsed.includes("Main game"),
+    collapsed,
+  );
+  await chrome.locator("#build-details").click();
   const status = await chrome.locator("#status").textContent();
   check(
-    "B: chrome names the playing build",
+    "B: the technical detail carries the exact revision",
     status.includes(B.revision.slice(0, 12)),
     status,
   );
+  await chrome.locator("#build-details").click();
   if (shots) await play.screenshot({ path: path.join(shots, "b-play.png") });
   // Current private people: open the saved person's wardrobe figure.
   await play.getByTestId("shell-nav-cluster").click();
