@@ -60,6 +60,10 @@ import {
   chapterOutreachTransitionHandler,
 } from "./living-world/party-chapters";
 import {
+  MACRO_MONTHLY_STEP_KEY,
+  macroMonthlyStepHandler,
+} from "./macro-economy/producer";
+import {
   DEVELOPMENT_STEP_TRANSITION_KEY,
   developmentStepTransitionHandler,
 } from "./living-world/developments";
@@ -1868,6 +1872,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         [CHAPTER_OUTREACH_TRANSITION_KEY, chapterOutreachTransitionHandler],
         // ALIVE43 W3: background public developments take their next step.
         [DEVELOPMENT_STEP_TRANSITION_KEY, developmentStepTransitionHandler],
+        // CRUNCH46 CHANGE: canonical macro history closes each month once.
+        [MACRO_MONTHLY_STEP_KEY, macroMonthlyStepHandler],
       ]),
       LIFE_TRANSITION_HANDLERS,
     ),

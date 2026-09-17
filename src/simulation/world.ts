@@ -28,6 +28,7 @@ import {
   simulationMomentOnLocalDate,
 } from "./dates";
 import { assertSetupPriorIntegrity, clonePriors } from "./setup-priors";
+import { assertMacroEconomyIntegrity } from "./macro-economy/store";
 import {
   assertCausalEffectIntegrity,
   assertCausalMechanismCatalogIntegrity,
@@ -549,6 +550,7 @@ export function assertWorldIntegrity(world: World): void {
     assertSetupPriorIntegrity(world.setupPriors);
   }
   validateHistoryIntegrity(world);
+  if (world.macroEconomy !== undefined) assertMacroEconomyIntegrity(world);
 }
 
 export function recordWorldEvent(

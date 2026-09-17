@@ -11,6 +11,7 @@ import type {
   ConstitutionalRuleVersionRecord,
 } from "./constitutional-types";
 import type { PublicFundingMandate } from "./public-fiscal";
+import type { MacroEconomyStore } from "./macro-economy/types";
 import type {
   TaxProposalRecord,
   TaxPolicyRecord,
@@ -4432,4 +4433,9 @@ export interface World {
    * a convention.
    */
   readonly setupPriors?: SetupPriorStore;
+  /**
+   * CHANGE macro history (CRUNCH46 08). Optional and additive: a world
+   * written before it existed has no macro history and is never retrofitted.
+   */
+  readonly macroEconomy?: MacroEconomyStore;
 }
