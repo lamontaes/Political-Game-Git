@@ -2644,10 +2644,11 @@ function PlayingScreen({
          * Back in the room. If a conversation is waiting, the keyboard goes
          * to it — its next choice is the sensible place to be, and Escape
          * from there closes the conversation rather than nothing. Otherwise
-         * the corner cluster, which is the room's one resting control.
+         * the corner cluster, which is the room's one resting control. An
+         * open continuation view comes before either: it is the choice left.
          */
         const talk = document.querySelector<HTMLElement>(
-          '[data-testid="conversation-intents"] button, [data-testid="talk-back"]',
+          '[data-testid="life-continuation-heading"], [data-testid="conversation-intents"] button, [data-testid="talk-back"]',
         );
         (
           talk ??
