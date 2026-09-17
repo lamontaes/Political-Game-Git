@@ -393,11 +393,13 @@ let expected;
       height: img.naturalHeight,
     })),
   );
+  // Private-pack people, whatever generation the staged pack carries: the
+  // point is that the creator draws decoded pack art, not that it is ep4x.
   const currentPeople = creatorLayers.filter((layer) =>
-    /^ep4\d-/.test(layer.assetId ?? ""),
+    /^(ep\d+[-_]|pv\d+_|wave_a_)/.test(layer.assetId ?? ""),
   );
   check(
-    "B: creator draws decoded current private people (ep4x) layers",
+    "B: creator draws decoded private-pack people layers",
     currentPeople.length > 0 && currentPeople.every((layer) => layer.decoded),
     currentPeople
       .map((layer) => `${layer.assetId} ${layer.width}x${layer.height}`)
@@ -405,7 +407,7 @@ let expected;
   );
   if (shots)
     await stage.screenshot({ path: path.join(shots, "b-creator.png") });
-  await chrome.getByRole("button", { name: "Return to main" }).click();
+  await chrome.getByRole("button", { name: "Back to main game" }).click();
   const mainPage = pageFor(/^app:\/\/game\//);
   const mainRecords = await readSavedRecords(mainPage, DATABASE);
   check(
