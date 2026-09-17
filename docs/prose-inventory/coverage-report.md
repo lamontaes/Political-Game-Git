@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 2946 |
-| INTENTIONALLY_NON_PLAYER_FACING | 6458 |
-| DIAGNOSTIC_OR_TEST | 6371 |
-| **NEEDS_CLASSIFICATION** | **8332** |
+| INVENTORIED | 2952 |
+| INTENTIONALLY_NON_PLAYER_FACING | 6602 |
+| DIAGNOSTIC_OR_TEST | 6431 |
+| **NEEDS_CLASSIFICATION** | **8547** |
 
-Scanned 891 files holding 92900 string
+Scanned 908 files holding 94951 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -51,6 +51,7 @@ literals in total; the table counts only those that read like a sentence.
 | 74 | `src/simulation/press-interview-producers.ts` |
 | 71 | `src/player/PersonAppearanceControls.tsx` |
 | 69 | `src/simulation/character-history.ts` |
+| 64 | `src/simulation/press/desk.ts` |
 | 61 | `src/simulation/press-interviews.ts` |
 | 59 | `src/presentation/legislative-dialogue-motifs.ts` |
 | 55 | `src/presentation/contextual-scene-producers.ts` |
@@ -98,6 +99,7 @@ literals in total; the table counts only those that read like a sentence.
 | 32 | `src/simulation/person-context.ts` |
 | 31 | `src/simulation/career-path7.ts` |
 | 31 | `src/simulation/politics.ts` |
+| 31 | `src/simulation/press/procedures.ts` |
 | 30 | `src/presentation/office-onboarding.ts` |
 | 30 | `src/presentation/world-orientation.ts` |
 | 30 | `src/presentation/world39-news.ts` |
@@ -105,8 +107,10 @@ literals in total; the table counts only those that read like a sentence.
 | 29 | `src/presentation/life-conversation.ts` |
 | 29 | `src/presentation/run-d-lite.ts` |
 | 29 | `src/simulation/executive-work.ts` |
+| 29 | `src/simulation/press/matters.ts` |
 | 28 | `src/content/adapters/simulation-catalogs.ts` |
 | 28 | `src/presentation/legislation-session.ts` |
+| 28 | `src/simulation/press/outlets.ts` |
 | 28 | `src/ui/MindProfile.tsx` |
 | 27 | `src/presentation/garment-fit.ts` |
 | 27 | `src/presentation/player-copy.ts` |
@@ -149,6 +153,8 @@ literals in total; the table counts only those that read like a sentence.
 | 18 | `src/player/EconomicContextPanel.tsx` |
 | 18 | `src/player/municipal-directory.ts` |
 | 18 | `src/simulation/living-world/developments.ts` |
+| 18 | `src/simulation/press/responses.ts` |
+| 18 | `src/simulation/press/sources.ts` |
 | 18 | `src/simulation/records.ts` |
 | 18 | `src/ui/ArtDeskView.tsx` |
 | 17 | `src/content/adapters/conversation-subjects.ts` |
@@ -195,6 +201,7 @@ literals in total; the table counts only those that read like a sentence.
 | 13 | `src/presentation/person-contact.ts` |
 | 13 | `src/simulation/civil-personnel-start.ts` |
 | 13 | `src/simulation/election-contests.ts` |
+| 13 | `src/simulation/press/views.ts` |
 | 13 | `src/simulation/resource-integrity.ts` |
 | 12 | `src/content/adapters/ordinary-life.ts` |
 | 12 | `src/player/CampaignWorkspace.tsx` |
@@ -276,6 +283,7 @@ literals in total; the table counts only those that read like a sentence.
 | 7 | `src/simulation/judicial-office-start.ts` |
 | 7 | `src/simulation/legislative-office-terms.ts` |
 | 7 | `src/simulation/people-family.ts` |
+| 7 | `src/simulation/press/records.ts` |
 | 7 | `src/simulation/starting-birthday.ts` |
 | 6 | `src/player/LegislationWorkspace.tsx` |
 | 6 | `src/player/LifeFavorPanel.tsx` |
@@ -343,6 +351,7 @@ literals in total; the table counts only those that read like a sentence.
 | 3 | `src/player/ExecutiveWorkWorkspace.tsx` |
 | 3 | `src/player/JudicialOfficeWork.tsx` |
 | 3 | `src/player/PartyChapterSurface.tsx` |
+| 3 | `src/player/PressDeskPanel.tsx` |
 | 3 | `src/presentation/art-preview.ts` |
 | 3 | `src/presentation/browser-shell-state.ts` |
 | 3 | `src/presentation/economic-context.ts` |
@@ -391,6 +400,8 @@ literals in total; the table counts only those that read like a sentence.
 | 2 | `src/simulation/nationwide-world/state-executive-terms.ts` |
 | 2 | `src/simulation/office-qualifications.generated.ts` |
 | 2 | `src/simulation/place-county-relations.generated.ts` |
+| 2 | `src/simulation/press/claim-route.ts` |
+| 2 | `src/simulation/press/integrity.ts` |
 | 2 | `src/ui/LifePaths2Proof.tsx` |
 | 2 | `src/ui/PeopleList.tsx` |
 | 1 | `src/player/CreatorBirthdayFields.tsx` |

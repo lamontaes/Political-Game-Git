@@ -1,6 +1,7 @@
 import type { WorldContentPacks } from "./runtime-content-packs";
 
 import type { AppearanceMaterial } from "./appearance-material";
+import type { MediaOutletKey, PressRecord } from "./press/records";
 import type {
   NationalElection,
   NationalElectionRecord,
@@ -131,6 +132,7 @@ export type EntityKind =
   | "policy-operation"
   | "policy-realization"
   | "publication"
+  | "press-record"
   | "principle"
   | "principle-definition"
   | "proposition-exposure"
@@ -3301,7 +3303,7 @@ export interface CampaignComplianceDocumentRecord {
 // ---------------------------------------------------------------------------
 
 export type PublicationKind =
-  "legislative-development" | "recorded-vote" | "civic-event";
+  "legislative-development" | "recorded-vote" | "civic-event" | "press-story";
 
 /**
  * One edition of a public-information item.
@@ -3319,8 +3321,9 @@ export interface PublicationRecord {
   /** Canonical domain records that substantiate the source event, when any. */
   readonly sourceRecordIds: readonly EntityId[];
   readonly jurisdictionId: EntityId | null;
-  readonly outletKey: "civic-ledger";
-  readonly outletName: "Civic Ledger";
+  /** Civic Ledger, or a PRESS46 media outlet (`media:<outletId>`). */
+  readonly outletKey: "civic-ledger" | MediaOutletKey;
+  readonly outletName: string;
   readonly headline: string;
   readonly body: string;
   readonly publishedAt: IsoDate;
@@ -3571,6 +3574,8 @@ export interface HistoryStore {
   readonly campaignComplianceDocuments?: readonly CampaignComplianceDocumentRecord[];
   /** Optional so pre-NEWS-HELP2 snapshots remain structurally readable. */
   readonly publications?: readonly PublicationRecord[];
+  /** PRESS46: optional so earlier saves read as an empty press history. */
+  readonly pressRecords?: readonly PressRecord[];
   readonly legislativeMeasures?: readonly LegislativeMeasureRecord[];
   readonly legislativeActions?: readonly LegislativeActionRecord[];
   readonly committeeReferrals?: readonly CommitteeReferralRecord[];
