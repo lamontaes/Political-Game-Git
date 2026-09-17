@@ -10,9 +10,9 @@ needs a person's judgement is the honest state of the check.
 | INVENTORIED | 2780 |
 | INTENTIONALLY_NON_PLAYER_FACING | 6465 |
 | DIAGNOSTIC_OR_TEST | 6498 |
-| **NEEDS_CLASSIFICATION** | **7980** |
+| **NEEDS_CLASSIFICATION** | **7983** |
 
-Scanned 930 files holding 93322 string
+Scanned 930 files holding 93326 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -212,6 +212,7 @@ literals in total; the table counts only those that read like a sentence.
 | 11 | `src/player/PlacesWorkspace.tsx` |
 | 11 | `src/player/PublicInformationPanel.tsx` |
 | 11 | `src/player/news/NewsDesk.tsx` |
+| 11 | `src/player/politics/PartyInitiativesPanel.tsx` |
 | 11 | `src/presentation/modeled-account-history.ts` |
 | 11 | `src/presentation/person-dossier.ts` |
 | 11 | `src/presentation/scene-placement.ts` |
@@ -247,7 +248,6 @@ literals in total; the table counts only those that read like a sentence.
 | 8 | `src/player/PinRail.tsx` |
 | 8 | `src/player/PlayerOffice.tsx` |
 | 8 | `src/player/UX39CalendarGrid.tsx` |
-| 8 | `src/player/politics/PartyInitiativesPanel.tsx` |
 | 8 | `src/presentation/legislative-bargaining-world.ts` |
 | 8 | `src/presentation/legislative-office-context.ts` |
 | 8 | `src/presentation/ordinary-life.ts` |

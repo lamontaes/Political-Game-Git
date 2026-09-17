@@ -84,10 +84,12 @@ test("Parties tab mounts party proposals, reachable by keyboard", async ({
   const decide = item.getByRole("button", { name: "Put it to a decision" });
   await decide.focus();
   await page.keyboard.press("Enter");
-  await expect(status).not.toHaveText(
-    "You proposed forming Silver Valley Party.",
+  // A founding needs a consenting co-organizer; a fresh life has none, so
+  // the decision is refused plainly and the proposal stays open.
+  await expect(status).toHaveText(
+    "Not decided yet: this proposal does not meet its conditions.",
   );
-  await expect(status).not.toBeEmpty();
+  await expect(item).toHaveAttribute("data-stage", "open");
   await page.screenshot({ path: info.outputPath("02-after-decision.png") });
 
   expect(errors).toEqual([]);

@@ -106,13 +106,25 @@ export function PartyInitiativesPanel({
     ? place
     : (places[0]?.value ?? "");
 
-  const run = (command: () => World, done: string): boolean => {
+  /*
+   * A command that changes nothing (a proposal whose conditions are not met,
+   * say) returns the same World; that is reported as such, never as done.
+   */
+  const run = (
+    command: () => World,
+    done: string,
+    unchanged = "Nothing changed.",
+  ): boolean => {
     try {
       if (!controlled) {
         throw new Error("Only the person you are playing can do this.");
       }
       const next = command();
-      if (next !== world) onWorldChange(next);
+      if (next === world) {
+        setNote(unchanged);
+        return false;
+      }
+      onWorldChange(next);
       setNote(done);
       return true;
     } catch (error) {
@@ -196,8 +208,11 @@ export function PartyInitiativesPanel({
                               action,
                             ),
                           action.kind === "adopt"
-                            ? "The proposal was put to a decision."
+                            ? "The proposal was decided and adopted."
                             : `Recorded your answer: ${action.label}.`,
+                          action.kind === "adopt"
+                            ? "Not decided yet: this proposal does not meet its conditions."
+                            : "Nothing changed.",
                         ) && headingRef.current?.focus()
                       }
                     >
