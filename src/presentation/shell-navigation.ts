@@ -98,7 +98,11 @@ export type ShellSection =
   /** Politics: the office held, and running for one. */
   | "office"
   /** Personal: ordinary jobs, study and hiring. */
-  | "jobs";
+  | "jobs"
+  /** News: reading comes first; these are its other contexts. */
+  | "news-around"
+  | "news-directory"
+  | "news-press";
 
 export type ShellView =
   | { readonly surface: ShellSurface; readonly section?: ShellSection }

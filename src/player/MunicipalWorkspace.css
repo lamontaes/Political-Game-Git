@@ -57,7 +57,7 @@
 .municipal-workspace button + button {
   margin-inline-start: 0.5rem;
 }
-.municipal-workspace select {
+.municipal-workspace .pg-select {
   max-width: 100%;
   margin-inline-start: 0.5rem;
 }

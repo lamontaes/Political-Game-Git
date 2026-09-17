@@ -10,6 +10,7 @@ import type {
   PressResponseIntent,
 } from "../simulation";
 import type { EntityId } from "../simulation";
+import { GameSelect } from "./controls/GameSelect";
 
 export interface PressInterviewPanelProps {
   readonly view: PressInterviewProjection;
@@ -271,7 +272,7 @@ export function PressInterviewPanel({
 
           <label>
             Reporter question being answered
-            <select
+            <GameSelect
               value={followUpQuestion}
               onChange={(event) =>
                 setFollowUpQuestion(event.currentTarget.value)
@@ -282,12 +283,12 @@ export function PressInterviewPanel({
                   {question}
                 </option>
               ))}
-            </select>
+            </GameSelect>
           </label>
           {intent === "challenge-premise" && view.knownFacts.length > 0 ? (
             <label>
               Recorded correction
-              <select
+              <GameSelect
                 data-testid="press-correcting-evidence"
                 value={linkedCorrection}
                 onChange={(event) =>
@@ -300,7 +301,7 @@ export function PressInterviewPanel({
                     {fact}
                   </option>
                 ))}
-              </select>
+              </GameSelect>
             </label>
           ) : null}
           {answer.ok ? (

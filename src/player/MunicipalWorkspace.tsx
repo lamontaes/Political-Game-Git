@@ -40,6 +40,7 @@ import {
   resolveMunicipalInspectionKey,
   stateDisplayName,
 } from "./municipal-directory";
+import { GameSelect } from "./controls/GameSelect";
 
 function humanLabel(value: string): string {
   const words = value.toLowerCase().replace(/[_-]/g, " ");
@@ -175,7 +176,7 @@ export function MunicipalWorkspace({
       ) : null}
       <label>
         {"Inspect a government"}
-        <select
+        <GameSelect
           id="municipal-government-select"
           data-testid="municipal-government-select"
           value={selectValue}
@@ -203,7 +204,7 @@ export function MunicipalWorkspace({
                 ))}
             </optgroup>
           ))}
-        </select>
+        </GameSelect>
       </label>
     </div>
   );
@@ -639,7 +640,7 @@ export function MunicipalWorkspace({
                   </p>
                   <label>
                     {"Public session type"}
-                    <select
+                    <GameSelect
                       value={
                         view.availableMeetingSeries.some(
                           (series) => series.seriesKey === selectedSeriesKey,
@@ -657,7 +658,7 @@ export function MunicipalWorkspace({
                           {" ·"} {humanLabel(series.kind)}
                         </option>
                       ))}
-                    </select>
+                    </GameSelect>
                   </label>
                   <button
                     type="button"

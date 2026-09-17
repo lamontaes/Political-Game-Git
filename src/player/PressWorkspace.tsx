@@ -42,6 +42,7 @@ import {
   type PressRequestIntent,
   type PressRequestStance,
 } from "../presentation/press-request";
+import { GameSelect } from "./controls/GameSelect";
 
 /** Normal saved-world consumer; arrangements and adviser content remain domain-owned. */
 export function PressWorkspace({
@@ -187,7 +188,7 @@ export function PressWorkspace({
           >
             <label>
               Public development
-              <select
+              <GameSelect
                 data-testid="press-basis-select"
                 value={basisId}
                 onChange={(event) => {
@@ -201,11 +202,11 @@ export function PressWorkspace({
                     {item.summary}
                   </option>
                 ))}
-              </select>
+              </GameSelect>
             </label>
             <label>
               Reporter
-              <select
+              <GameSelect
                 data-testid="press-reporter-select"
                 value={reporterRoleId}
                 onChange={(event) => setReporterRoleId(event.target.value)}
@@ -219,7 +220,7 @@ export function PressWorkspace({
                     {item.personName} — {item.workRoleTitle}
                   </option>
                 ))}
-              </select>
+              </GameSelect>
             </label>
             {topic && reporters.length === 0 ? (
               <p>
@@ -229,7 +230,7 @@ export function PressWorkspace({
             ) : null}
             <label>
               Channel
-              <select
+              <GameSelect
                 value={channel}
                 onChange={(event) =>
                   setChannel(event.target.value as PressInterviewChannel)
@@ -238,11 +239,11 @@ export function PressWorkspace({
                 {PRESS_INTERVIEW_CHANNELS.map((value) => (
                   <option key={value}>{value}</option>
                 ))}
-              </select>
+              </GameSelect>
             </label>
             <label>
               Record terms
-              <select
+              <GameSelect
                 value={terms}
                 onChange={(event) =>
                   setTerms(event.target.value as PressRecordTerms)
@@ -251,13 +252,13 @@ export function PressWorkspace({
                 {PRESS_RECORD_TERMS.map((value) => (
                   <option key={value}>{value}</option>
                 ))}
-              </select>
+              </GameSelect>
             </label>
             {terms === "on-background" ? (
               attributions.length ? (
                 <label>
                   Proposed attribution
-                  <select
+                  <GameSelect
                     data-testid="press-attribution-select"
                     value={selectedAttribution ?? ""}
                     onChange={(event) => setAttribution(event.target.value)}
@@ -267,7 +268,7 @@ export function PressWorkspace({
                         {choice}
                       </option>
                     ))}
-                  </select>
+                  </GameSelect>
                 </label>
               ) : (
                 <p role="status">
@@ -552,7 +553,7 @@ function PressRequestActions({
         <>
           <label>
             Preparation adviser
-            <select
+            <GameSelect
               value={adviserId}
               onChange={(event) => setAdviserId(event.target.value)}
             >
@@ -562,7 +563,7 @@ function PressRequestActions({
                   {adviser.personName} — {adviser.workRoleTitle}
                 </option>
               ))}
-            </select>
+            </GameSelect>
           </label>
           <button
             type="button"

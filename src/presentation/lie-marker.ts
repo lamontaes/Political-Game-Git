@@ -2,16 +2,16 @@
  * Lie marker seam (OCD-UI-009, UI DECISION FOLLOW-THROUGH).
  *
  * A choice is labelled "Lie" only when the choice itself declares that the
- * player means to deceive. Being wrong, being unsure, or saying something a
- * listener later doubts is not a lie, and the interface never infers intent
- * from how a claim turned out.
+ * player means to deceive. Being wrong, being unsure (`"uncertain"`, an
+ * answer from memory), or saying something a listener later doubts is not a
+ * lie, and the interface never infers intent from how a claim turned out.
  *
- * No producer declares this intent yet: every current conversation choice
- * leaves `truthIntent` undefined, so no marker is shown. A producer that adds
- * deliberate deception sets `truthIntent: "deliberate-deception"` on the
- * option it offers.
+ * The conversation producer (PROSE) sets `truthIntent` only on answers that
+ * carry a proposition; ordinary lines and evasions leave it undefined, and
+ * only `"deliberate-deception"` shows the marker.
  */
-export type ChoiceTruthIntent = "sincere" | "deliberate-deception";
+export type ChoiceTruthIntent =
+  "sincere" | "deliberate-deception" | "uncertain";
 
 export interface ChoiceTruthDeclaration {
   readonly truthIntent?: ChoiceTruthIntent;

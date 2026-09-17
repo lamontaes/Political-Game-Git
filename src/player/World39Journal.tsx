@@ -10,6 +10,7 @@ import { projectWorld39Journal } from "../presentation/world39-journal";
 import { PrivateJournalEditor } from "./PrivateJournalEditor";
 import { world39Date } from "./World39News";
 import "./world39-readers.css";
+import { GameSelect } from "./controls/GameSelect";
 
 /** The root may supply a custom Record UI; the default preserves its exact prose. */
 export function World39Journal({
@@ -80,7 +81,7 @@ export function World39Journal({
         </div>
         <label>
           Year
-          <select
+          <GameSelect
             data-testid="journal-year"
             value={shown.year ?? ""}
             onChange={(event) => chooseYear(event.target.value || null)}
@@ -91,7 +92,7 @@ export function World39Journal({
                 {candidate}
               </option>
             ))}
-          </select>
+          </GameSelect>
         </label>
       </div>
       <div

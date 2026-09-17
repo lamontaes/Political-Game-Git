@@ -16,4 +16,8 @@ describe("Lie marker", () => {
   it("never guesses when a choice declares nothing", () => {
     expect(lieMarkerFor({})).toBeNull();
   });
+
+  it("never marks an answer given from memory", () => {
+    expect(lieMarkerFor({ truthIntent: "uncertain" })).toBeNull();
+  });
 });

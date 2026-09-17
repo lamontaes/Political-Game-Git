@@ -9,10 +9,7 @@ import { locationReviewVisuals } from "../presentation/location-art-review";
 import { PressWorkspace } from "./PressWorkspace";
 import { ContentPackWorkspace } from "./ContentPackWorkspace";
 import { birthdayProblemForSetup } from "../presentation/new-game-birthday";
-import {
-  applyBirthdayPatch,
-  CreatorBirthdayFields,
-} from "./CreatorBirthdayFields";
+import { CreatorBirthdayFields } from "./CreatorBirthdayFields";
 import {
   HOMETOWN_PAGE_SIZE,
   projectHometownPage,
@@ -41,6 +38,7 @@ import { World39Journal } from "./World39Journal";
 import { PlacesWorkspace } from "./PlacesWorkspace";
 import { GovernmentBrowser } from "./politics/GovernmentBrowser";
 import { NewsDesk } from "./news/NewsDesk";
+import "./controls/controls.css";
 import { PoliticsTabs, type PoliticsTab } from "./politics/PoliticsTabs";
 import { municipalVenueForActivity } from "../presentation/municipal-venue";
 import { resolveActivityVenueScene } from "../presentation/scene-venues";
@@ -378,6 +376,12 @@ export function PlayerGame() {
   useEffect(() => {
     void refreshSaves();
   }, [refreshSaves]);
+
+  /* The game's own control skins apply while the game is mounted. */
+  useEffect(() => {
+    document.body.classList.add("pg-game");
+    return () => document.body.classList.remove("pg-game");
+  }, []);
 
   const replayStarted = useRef(false);
   useEffect(() => {
@@ -977,10 +981,7 @@ function SetupScreen({
    * A fresh creator starts unanswered. Blur only puts the committed age back
    * after the player has entered something; an untouched field stays empty.
    */
-  const [ageText, setAgeText] = useState(
-    initialSetup ? String(setup.startAge) : "",
-  );
-  const ageHasCommitted = useRef(initialSetup !== undefined);
+  const [ageChosen, setAgeChosen] = useState(initialSetup !== undefined);
   const custom = setup.startKind === "custom";
   const committed = withCreatorLocation(setup, location);
   const steps: readonly CreatorStep[] = custom
@@ -1015,17 +1016,11 @@ function SetupScreen({
    * Not answering is different from entering an invalid age: both keep Next
    * disabled, but only an entered invalid value needs an error message.
    */
-  const ageChosen = ageText.trim() !== "";
-  const ageParsed = Number(ageText.trim());
   const ageUsable =
     ageChosen &&
-    Number.isSafeInteger(ageParsed) &&
-    ageParsed >= MINIMUM_START_AGE &&
-    ageParsed <= MAXIMUM_START_AGE;
-  const ageProblem =
-    ageChosen && !ageUsable
-      ? `Choose a starting age between ${MINIMUM_START_AGE} and ${MAXIMUM_START_AGE}.`
-      : null;
+    Number.isSafeInteger(setup.startAge) &&
+    setup.startAge >= MINIMUM_START_AGE &&
+    setup.startAge <= MAXIMUM_START_AGE;
   const place = selectedCreatorPlace(location);
   const placeListOpen = creatorPlaceListOpen(location.placeKey, replacingPlace);
 
@@ -1162,6 +1157,39 @@ function SetupScreen({
       {isCurrent("character") ? (
         <section data-testid="creator-stage-character">
           <h2>Your character</h2>
+          {/*
+                Gender, asked rather than decided. Guessing it from the first
+                name would be wrong: the name corpus carries no demographic
+                attribute for anything to be guessed from. Normal Start exposes
+                gender only (owner override) — pronouns derive silently from it
+                and are never a player-facing control here.
+              */}
+          <fieldset className="game-fieldset" data-testid="gender-choices">
+            <legend>Gender</legend>
+            <div className="game-choices game-choices-inline">
+              {GENDER_IDENTITY_KEYS.filter((key) => key !== "unstated").map(
+                (key) => (
+                  <button
+                    key={key}
+                    type="button"
+                    data-testid={`gender-${key}`}
+                    aria-pressed={setup.gender === key}
+                    className={setup.gender === key ? "is-chosen" : undefined}
+                    onClick={() => {
+                      setSetup((now) => ({
+                        ...now,
+                        gender: key,
+                        pronouns: defaultPronounsForGender(key),
+                      }));
+                    }}
+                  >
+                    {GENDER_IDENTITY_LABELS[key]}
+                  </button>
+                ),
+              )}
+            </div>
+          </fieldset>
+
           <div className="creator-group creator-group-name">
             <span className="creator-group-label">Name</span>
             <div className="game-fields">
@@ -1226,82 +1254,16 @@ function SetupScreen({
           </div>
 
           <div className="creator-group">
-            <span className="creator-group-label">Age and birthday</span>
-            <div className="game-fields">
-              <label>
-                Starting age
-                <input
-                  type="number"
-                  data-testid="start-age"
-                  min={MINIMUM_START_AGE}
-                  max={MAXIMUM_START_AGE}
-                  value={ageText}
-                  onChange={(event) => {
-                    const text = event.target.value;
-                    setAgeText(text);
-                    /*
-                     * Commit only a real age. An empty or half-typed field leaves
-                     * the last committed one alone rather than becoming 0.
-                     */
-                    if (text.trim() === "") return;
-                    const parsed = Number(text);
-                    if (!Number.isFinite(parsed)) return;
-                    ageHasCommitted.current = true;
-                    setSetup((now) => ({ ...now, startAge: parsed }));
-                  }}
-                  onBlur={() => {
-                    if (!ageHasCommitted.current) return;
-                    setAgeText(String(setup.startAge));
-                  }}
-                />
-              </label>
-            </div>
             <CreatorBirthdayFields
               setup={setup}
-              onChange={(patch) =>
-                setSetup((now) => applyBirthdayPatch(now, patch))
-              }
+              yearChosen={ageChosen}
+              onChange={(next, yearChosen) => {
+                setSetup(next);
+                if (yearChosen) setAgeChosen(true);
+              }}
             />
           </div>
 
-          {/*
-                Gender, asked rather than decided. Guessing it from the first
-                name would be wrong: the name corpus carries no demographic
-                attribute for anything to be guessed from. Normal Start exposes
-                gender only (owner override) — pronouns derive silently from it
-                and are never a player-facing control here.
-              */}
-          <fieldset className="game-fieldset" data-testid="gender-choices">
-            <legend>Gender</legend>
-            <div className="game-choices game-choices-inline">
-              {GENDER_IDENTITY_KEYS.filter((key) => key !== "unstated").map(
-                (key) => (
-                  <button
-                    key={key}
-                    type="button"
-                    data-testid={`gender-${key}`}
-                    aria-pressed={setup.gender === key}
-                    className={setup.gender === key ? "is-chosen" : undefined}
-                    onClick={() => {
-                      setSetup((now) => ({
-                        ...now,
-                        gender: key,
-                        pronouns: defaultPronounsForGender(key),
-                      }));
-                    }}
-                  >
-                    {GENDER_IDENTITY_LABELS[key]}
-                  </button>
-                ),
-              )}
-            </div>
-          </fieldset>
-
-          {ageProblem ? (
-            <p role="alert" data-testid="creator-age-problem">
-              {ageProblem}
-            </p>
-          ) : null}
           <button
             type="button"
             className="game-creator-next"
@@ -2524,73 +2486,42 @@ function PlayingScreen({
       open: openSurface === "people",
       group: "people",
     });
-    entries.push({
-      surface: "government",
-      label: "Government",
-      hint: "Who governs where you are, at every level",
-      testid: "nav-politics-government",
-      open: openSurface === "government",
-      group: "politics",
-    });
-    if (!capabilities.formativeYears) {
-      entries.push({
-        surface: "work",
-        section: "office",
-        label: "Your office and campaigns",
-        hint: workHint,
-        testid: "elsewhere-work",
-        open: openSurface === "work" && section === "office",
-        group: "politics",
-      });
-    }
-    entries.push({
-      surface: "municipal",
-      label: "Local government",
-      hint: "Public meetings and your municipal work",
-      testid: "nav-municipal",
-      open: openSurface === "municipal",
-      group: "politics",
-    });
-    entries.push({
-      surface: "parties",
-      label: "Local party chapters",
-      hint: "Who organizes them and your invitations",
-      testid: "nav-parties",
-      open: openSurface === "parties",
-      group: "politics",
-    });
-    entries.push({
-      surface: "politics",
-      label: "Budget and constitutional changes",
-      hint: "Public finances and recorded constitutional changes",
-      testid: "nav-politics-budget",
-      open: openSurface === "politics",
-      group: "politics",
-    });
-    entries.push({
-      surface: "transit",
-      label: "Transit service",
-      hint: "Service proposals, public funding and recorded delivery",
-      testid: "nav-politics-transit",
-      open: openSurface === "transit",
-      group: "politics",
-    });
-    entries.push({
-      surface: "tax",
-      label: "Taxes and public receipts",
-      hint: "Tax proposals, their procedure and recorded public receipts",
-      testid: "nav-politics-tax",
-      open: openSurface === "tax",
-      group: "politics",
-    });
-    entries.push({
-      surface: "candidacy",
-      label: "Who governs here, and the state's top office",
-      hint: "Your city and county governments, and standing for your state's executive office",
-      testid: "nav-politics-candidacy",
-      open: openSurface === "candidacy",
-      group: "politics",
-    });
+    /*
+     * Politics is one hub (UI DECISION FOLLOW-THROUGH). Its tab strip reaches
+     * the office, campaigns, government and local records, parties, and the
+     * budget with transit and taxes, so the menu carries a single entry.
+     */
+    const politicsSurfaces: readonly string[] = [
+      "government",
+      "municipal",
+      "parties",
+      "politics",
+      "transit",
+      "tax",
+      "candidacy",
+    ];
+    entries.push(
+      capabilities.formativeYears
+        ? {
+            surface: "government",
+            label: "Politics",
+            hint: "Who governs where you are, at every level",
+            testid: "nav-politics",
+            open: politicsSurfaces.includes(openSurface ?? ""),
+            group: "politics",
+          }
+        : {
+            surface: "work",
+            section: "office",
+            label: "Politics",
+            hint: workHint,
+            testid: "nav-politics",
+            open:
+              politicsSurfaces.includes(openSurface ?? "") ||
+              (openSurface === "work" && section === "office"),
+            group: "politics",
+          },
+    );
     entries.push({
       surface: "news",
       label: "News",
@@ -3666,6 +3597,24 @@ function renderWorkspace({
         "news-workspace",
         <NewsDesk
           world={session.world}
+          context={
+            view.section === "news-around"
+              ? "around"
+              : view.section === "news-directory"
+                ? "directory"
+                : view.section === "news-press"
+                  ? "press"
+                  : "read"
+          }
+          onContextChange={(context) =>
+            dispatch({
+              type: "go-to-surface",
+              surface: "news",
+              ...(context === "read"
+                ? {}
+                : { section: `news-${context}` as const }),
+            })
+          }
           mode={shell.preferences.newsMode}
           outletKey={shell.preferences.newsOutletKey}
           onModeChange={(newsMode) =>
@@ -4250,24 +4199,27 @@ function renderWorkspace({
             : legislative
               ? "office-section"
               : "personal-work-section",
-        <WorkLayout
-          roleSentence={role.sentence}
-          pending={
-            <WorkWorkspace world={session.world} personId={session.personId}>
-              {null}
-            </WorkWorkspace>
-          }
-          sections={sections}
-          timeControl={
-            capabilities.formativeYears ? null : (
-              <PassDayControl
-                session={session}
-                onWorldChange={onWorldChange}
-                withClock
-              />
-            )
-          }
-        />,
+        <>
+          {half === "office" ? politicsTabs("office") : null}
+          <WorkLayout
+            roleSentence={role.sentence}
+            pending={
+              <WorkWorkspace world={session.world} personId={session.personId}>
+                {null}
+              </WorkWorkspace>
+            }
+            sections={sections}
+            timeControl={
+              capabilities.formativeYears ? null : (
+                <PassDayControl
+                  session={session}
+                  onWorldChange={onWorldChange}
+                  withClock
+                />
+              )
+            }
+          />
+        </>,
         offices.length > 0
           ? "Judicial office"
           : executive

@@ -59,6 +59,7 @@ import {
 import { billAnalysis } from "../presentation/legislation-analysis";
 import type { ProposalLayout } from "../presentation/shell-navigation";
 import { ProposalLayoutContext, ProposalView } from "./proposal/ProposalLayout";
+import { GameSelect } from "./controls/GameSelect";
 
 /**
  * The office's bills, and the drafting table beside them.
@@ -194,7 +195,7 @@ function DocketWorkspaceBody({
             <div className="docket-filters" data-testid="docket-filters">
               <label className="docket-filter">
                 <span>Kind of bill</span>
-                <select
+                <GameSelect
                   data-testid="docket-filter-instrument"
                   value={query.instrument ?? ""}
                   onChange={(event) =>
@@ -212,12 +213,12 @@ function DocketWorkspaceBody({
                       {facet.label} ({facet.count})
                     </option>
                   ))}
-                </select>
+                </GameSelect>
               </label>
 
               <label className="docket-filter">
                 <span>Subject</span>
-                <select
+                <GameSelect
                   data-testid="docket-filter-family"
                   value={query.familyKey ?? ""}
                   onChange={(event) =>
@@ -235,12 +236,12 @@ function DocketWorkspaceBody({
                       {facet.label} ({facet.count})
                     </option>
                   ))}
-                </select>
+                </GameSelect>
               </label>
 
               <label className="docket-filter">
                 <span>Still moving</span>
-                <select
+                <GameSelect
                   data-testid="docket-filter-status"
                   value={query.status ?? "all"}
                   onChange={(event) =>
@@ -254,7 +255,7 @@ function DocketWorkspaceBody({
                   <option value="concluded">
                     Finished ({page.concludedCount})
                   </option>
-                </select>
+                </GameSelect>
               </label>
 
               <label className="docket-filter">
@@ -1376,7 +1377,7 @@ function ParameterControl({
     return (
       <label className="drafting-control" htmlFor={controlId}>
         <span className="drafting-control-label">{spec.label}</span>
-        <select
+        <GameSelect
           id={controlId}
           data-testid={controlId}
           value={value.value}
@@ -1389,7 +1390,7 @@ function ParameterControl({
               {choice.label}
             </option>
           ))}
-        </select>
+        </GameSelect>
       </label>
     );
   }
