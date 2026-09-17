@@ -364,6 +364,35 @@ export interface StateExecutiveHolderRecord {
  * whose recorded term has ended is history, not a present holder. An office
  * the World never materialized is absent here, which is not a vacancy.
  */
+/**
+ * The office-consequence record that vacates an office, named here so the
+ * holder reader can honour a resignation without importing the governing
+ * writer that produces one.
+ */
+export const OFFICE_CONSEQUENCE_EVENT_TYPE = "governing.office-consequence";
+export const OFFICE_TERM_CLOSED_TAG = "term-closed:";
+
+/** The date this office was given up, when a resignation is on record. */
+export function stateExecutiveVacatedOn(
+  world: World,
+  officeKey: string,
+): IsoDate | null {
+  for (const event of world.history.events) {
+    if (
+      event.type !== OFFICE_CONSEQUENCE_EVENT_TYPE ||
+      !event.tags.includes(`office:${officeKey}`)
+    )
+      continue;
+    const closed = event.tags.find((tag) =>
+      tag.startsWith(OFFICE_TERM_CLOSED_TAG),
+    );
+    const effectiveAt = closed?.split(":").at(-1);
+    if (effectiveAt && effectiveAt <= world.currentDate)
+      return makeIsoDate(effectiveAt);
+  }
+  return null;
+}
+
 export function currentStateExecutiveHolders(
   world: World,
 ): readonly StateExecutiveHolderRecord[] {
@@ -375,6 +404,7 @@ export function currentStateExecutiveHolders(
       (candidate) => candidate.stableKey === office.organizationStableKey,
     );
     if (!organization) continue;
+    if (stateExecutiveVacatedOn(world, office.officeKey)) continue;
     const elected = world.history.workRelationships
       .filter(
         (relationship) =>
