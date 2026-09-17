@@ -559,6 +559,28 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
     ],
   },
   {
+    sourcePath: "src/presentation/office-response.ts",
+    domain: "life",
+    bank: "office-answer",
+    symbols: [
+      "OPTIONS",
+      "statementFor",
+      "projectOfficeMatters",
+      "officeOutcomeLine",
+    ],
+    surface: "option-label",
+    reachability: "CURRENTLY_UNREACHABLE",
+    reachabilityReason:
+      "CRUNCH47 B2 adapter: what an officeholder can say about a matter, and the office's own answer printed back. UI mounts it in the press context; until then no ordinary route renders it.",
+    grounding: [
+      {
+        key: "matter-and-office",
+        description:
+          "The matter this person is a subject of and actually knows about, the office the work record says they hold, and GOVERNING's own answer about what changed.",
+      },
+    ],
+  },
+  {
     sourcePath: "src/presentation/press-disclosure.ts",
     domain: "life",
     bank: "press-disclosure",
