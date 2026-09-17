@@ -72,6 +72,8 @@ export interface MeasureBriefing {
   readonly summary: string;
   readonly legislatureName: string;
   readonly sponsorName: string | null;
+  /** Whether the controlled character is the bill's own sponsor. */
+  readonly sponsoredByPlayer: boolean;
   /** One sentence: where the bill is right now. */
   readonly whereItStands: string;
   /** One sentence: what most recently happened and why. */
@@ -506,6 +508,11 @@ export function projectMeasureBriefing(
     summary: measure.summary,
     legislatureName: pack.displayName,
     sponsorName: sponsor ? personName(sponsor) : null,
+    sponsoredByPlayer:
+      sponsor !== null &&
+      sponsor !== undefined &&
+      world.control.kind === "person" &&
+      world.control.personId === sponsor.id,
     whereItStands,
     whatJustHappened,
     whoDecidesNext: gate.actorLabel,

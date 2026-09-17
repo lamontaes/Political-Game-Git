@@ -230,7 +230,13 @@ describe("GOVERNING all-fifty-state campaign -> office -> work (supplied win fix
 
       // The day after entry the office has its first matters.
       const working = passOrdinaryDays(entered, 2);
-      const opening = governingMatters(working, office.officeKey);
+      // Matters of the office's previous holder stay on record; the new
+      // governor's own first matters are these.
+      const mine = (w: World) =>
+        governingMatters(w, office.officeKey).filter(
+          (m) => m.holderPersonId === personId,
+        );
+      const opening = mine(working);
       expect(opening.map((m) => m.family).sort()).toEqual([
         "agenda",
         "chief-of-staff",
@@ -242,15 +248,11 @@ describe("GOVERNING all-fifty-state campaign -> office -> work (supplied win fix
       expect(cos.options).toHaveLength(3);
       let next = decideGoverningMatter(working, cos.id, cos.options[0]!.key);
       expect(next.ok).toBe(true);
-      const agenda = governingMatters(next.world, office.officeKey).find(
-        (m) => m.family === "agenda",
-      )!;
+      const agenda = mine(next.world).find((m) => m.family === "agenda")!;
       const priority = agenda.options.find((o) => o.key !== "priority:none")!;
       next = decideGoverningMatter(next.world, agenda.id, priority.key);
       expect(next.ok).toBe(true);
-      const task = governingMatters(next.world, office.officeKey).find(
-        (m) => m.family === "implementation",
-      )!;
+      const task = mine(next.world).find((m) => m.family === "implementation")!;
       expect(task.status).toBe("open");
       next = decideGoverningMatter(next.world, task.id, "pace:fast");
       expect(next.ok).toBe(true);
@@ -266,7 +268,11 @@ describe("GOVERNING all-fifty-state campaign -> office -> work (supplied win fix
       expect(governingOfficeForPerson(reopened, personId)?.officeKey).toBe(
         office.officeKey,
       );
-      expect(governingMatters(reopened, office.officeKey)).toHaveLength(3);
+      expect(
+        mine(reopened).filter((m) =>
+          ["chief-of-staff", "agenda", "implementation"].includes(m.family),
+        ),
+      ).toHaveLength(3);
       outcomes[usps] =
         `in office ${planned.startsAt} (${rule.basis.commencement}); ` +
         (outcome!.tags.find((tag) => tag.startsWith("implementation:")) ?? "");

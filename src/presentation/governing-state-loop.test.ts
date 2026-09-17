@@ -253,7 +253,7 @@ describe("GOVERNING 4: bills and the budget reach the governor", () => {
     const office = governingOfficeForPerson(entered, personId)!;
     // Hire a chief of staff so recommendations and delegation exist.
     const cos = governingMatters(entered, office.officeKey).find(
-      (m) => m.family === "chief-of-staff",
+      (m) => m.family === "chief-of-staff" && m.holderPersonId === personId,
     )!;
     let current = decideGoverningMatter(
       entered,
@@ -261,7 +261,7 @@ describe("GOVERNING 4: bills and the budget reach the governor", () => {
       cos.options[0]!.key,
     ).world;
     const agenda = governingMatters(current, office.officeKey).find(
-      (m) => m.family === "agenda",
+      (m) => m.family === "agenda" && m.holderPersonId === personId,
     )!;
     current = decideGoverningMatter(
       current,
@@ -271,7 +271,10 @@ describe("GOVERNING 4: bills and the budget reach the governor", () => {
 
     const openBill = (w: World) =>
       governingMatters(w, office.officeKey).find(
-        (m) => m.family === "bill" && m.status === "open",
+        (m) =>
+          m.family === "bill" &&
+          m.status === "open" &&
+          m.holderPersonId === personId,
       );
     const lawsFor = (w: World, matterId: string) =>
       governingMatters(w, office.officeKey).filter(
@@ -325,7 +328,10 @@ describe("GOVERNING 4: bills and the budget reach the governor", () => {
     // December: the budget request; the chief of staff handles it.
     current = passTo(current, "2027-12-02");
     const budget = governingMatters(current, office.officeKey).find(
-      (m) => m.family === "budget" && m.status === "open",
+      (m) =>
+        m.family === "budget" &&
+        m.status === "open" &&
+        m.holderPersonId === personId,
     )!;
     expect(budget.options.length).toBeGreaterThanOrEqual(2);
     const delegated = delegateGoverningMatter(current, budget.id);

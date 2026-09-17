@@ -11,6 +11,10 @@ import { PUBLIC_ADMINISTRATION_FAMILIES } from "../legislation-administration-fa
 import { drawCanonicalName, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng, pickDistinct } from "../rng";
+import {
+  COMMITTEE_HEARING_TRANSITION_KEY,
+  committeeHearingTransitionHandler,
+} from "../legislation";
 import { createWorkItem, workItemState } from "../time-work";
 import type {
   EntityId,
@@ -27,6 +31,13 @@ import {
   type StateExecutiveHolderRecord,
 } from "../nationwide-world/state-executives";
 import { stateExecutiveTermRule } from "../nationwide-world/state-executive-term-rules";
+import {
+  LEGISLATIVE_INSTITUTION_STEP,
+  createInstitutionStepHandler,
+  recordGovernorDecisionOnMeasure,
+  scheduleInstitutionStep,
+  type ExecutiveDeskHandler,
+} from "./legislative-clock";
 import {
   GOVERNING_SEASON,
   STATE_GOVERNING_CALENDAR,
@@ -268,6 +279,8 @@ export interface GoverningMatter {
   readonly ifIgnored: string;
   readonly options: readonly GoverningMatterOption[];
   readonly subjectKey: string | null;
+  /** The real bill this matter is about, where a legislature filed one. */
+  readonly measureId: EntityId | null;
   readonly openedEvent: HistoricalEvent;
   readonly workItemId: EntityId | null;
   readonly decision: HistoricalEvent | null;
@@ -277,6 +290,14 @@ export interface GoverningMatter {
 function tagValue(event: HistoricalEvent, prefix: string): string | null {
   const tag = event.tags.find((candidate) => candidate.startsWith(prefix));
   return tag ? tag.slice(prefix.length) : null;
+}
+
+function measureTitle(world: World, measureId: EntityId | null): string | null {
+  if (!measureId) return null;
+  const measure = (world.history.legislativeMeasures ?? []).find(
+    (record) => record.id === measureId,
+  );
+  return measure ? `${measure.designation}, ${measure.shortTitle}` : null;
 }
 
 function subjectLabel(subjectKey: string | null): string {
@@ -490,6 +511,7 @@ function matterFromEvent(
   )?.personId;
   if (!holderPersonId) return null;
   const subjectKey = tagValue(event, "subject:");
+  const measureId = tagValue(event, "measure:") as EntityId | null;
   const decision =
     world.history.events.find(
       (candidate) =>
@@ -509,11 +531,17 @@ function matterFromEvent(
     holderPersonId,
     openedAt: event.occurredAt,
     deadline: makeIsoDate(deadline),
-    title: text.title(subjectLabel(subjectKey)),
+    title: text.title(
+      measureTitle(world, measureId) ?? subjectLabel(subjectKey),
+    ),
     ask: text.ask,
-    ifIgnored: text.ifIgnored,
+    ifIgnored:
+      family === "bill" && measureId
+        ? "No deadline for acting is established for this state's governor in the game, so the bill waits on your desk."
+        : text.ifIgnored,
     options: optionsFor(world, family, event),
     subjectKey,
+    measureId,
     openedEvent: event,
     workItemId: workItem?.id ?? null,
     decision,
@@ -712,6 +740,7 @@ interface OpenMatterInput {
   readonly programKeys?: readonly string[];
   readonly subjectKey?: string | null;
   readonly sourceEventId?: EntityId | null;
+  readonly measureId?: EntityId | null;
 }
 
 function matterStableKey(
@@ -732,7 +761,10 @@ function openMatter(
     return world;
   const deadline = addDays(world.currentDate, DEADLINE_DAYS[input.family]);
   const text = FAMILY_TEXT[input.family];
-  const title = text.title(subjectLabel(input.subjectKey ?? null));
+  const title = text.title(
+    measureTitle(world, input.measureId ?? null) ??
+      subjectLabel(input.subjectKey ?? null),
+  );
   let next = recordWorldEvent(world, {
     stableKey,
     type: GOVERNING_MATTER_OPENED,
@@ -765,6 +797,7 @@ function openMatter(
       `deadline:${deadline}`,
       ...(input.subjectKey ? [`subject:${input.subjectKey}`] : []),
       ...(input.sourceEventId ? [`source-event:${input.sourceEventId}`] : []),
+      ...(input.measureId ? [`measure:${input.measureId}`] : []),
       ...(input.programKeys ?? []).map((key) => `program:${key}`),
     ],
     summary: `${office.title}: ${title}.`,
@@ -791,6 +824,9 @@ function openMatter(
       blocker: null,
       scheduledActivityId: null,
     });
+    // A real bill's action deadline is the state's law, which the game does
+    // not compile: the bill waits on the desk rather than lapsing by rule.
+    if (input.family === "bill" && input.measureId) return next;
     return scheduleFutureDueItem(next, {
       stableKey: `${stableKey}:deadline`,
       dueAt: deadline,
@@ -933,11 +969,11 @@ function decisionSummary(
     case "bill":
       return option.key === "bill:sign"
         ? {
-            summary: `${who}, ${office.title}, signed a bill on ${subjectLabel(matter.subjectKey)} into law.`,
+            summary: `${who}, ${office.title}, signed ${measureTitle(world, matter.measureId) ?? `a bill on ${subjectLabel(matter.subjectKey)}`} into law.`,
             visibility: "public",
           }
         : {
-            summary: `${who}, ${office.title}, sent back a bill on ${subjectLabel(matter.subjectKey)} unsigned.`,
+            summary: `${who}, ${office.title}, ${matter.measureId ? `vetoed ${measureTitle(world, matter.measureId) ?? "the bill"}` : `sent back a bill on ${subjectLabel(matter.subjectKey)} unsigned`}.`,
             visibility: "public",
           };
     case "implementation":
@@ -1013,7 +1049,31 @@ function applyConsequence(
     }
     case "budget":
       return scheduleFollowUp(world, office, matter, decisionEventId, 90);
-    case "bill":
+    case "bill": {
+      if (matter.measureId) {
+        // A real bill: the decision is the governor's legislative act, and
+        // what follows (enactment, or the legislature's override) runs
+        // through the legislature's own steps.
+        const signed = option.key === "bill:sign";
+        let next = recordGovernorDecisionOnMeasure(
+          world,
+          matter.measureId,
+          signed ? "signed" : "vetoed",
+          signed
+            ? "The governor signed the bill."
+            : "The governor vetoed the bill and returned it.",
+        );
+        next = scheduleInstitutionStep(next, matter.measureId);
+        return signed
+          ? openMatter(next, office, {
+              family: "implementation",
+              instance: `law:${matter.id}`,
+              subjectKey: matter.subjectKey,
+              measureId: matter.measureId,
+              sourceEventId: decisionEventId,
+            })
+          : next;
+      }
       return option.key === "bill:sign"
         ? openMatter(world, office, {
             family: "implementation",
@@ -1022,6 +1082,7 @@ function applyConsequence(
             sourceEventId: decisionEventId,
           })
         : scheduleFollowUp(world, office, matter, decisionEventId, 21);
+    }
     case "implementation": {
       if (option.key === "pace:hold") return world;
       const days = option.key === "pace:fast" ? 60 : 120;
@@ -1534,7 +1595,50 @@ export function governingSeasonHandler(
   return resolved(next, `The ${kind} season arrived.`);
 }
 
+/**
+ * A bill on the governor's desk. The player governor gets a bound matter; a
+ * non-player governor acts on an authored disposition where the bill carries
+ * one, and otherwise decides in the ordinary course through the same matter.
+ * Without a materialized governorship, an authored disposition still stands
+ * and nothing is invented.
+ */
+export const governorDesk: ExecutiveDeskHandler = (
+  world,
+  measure,
+  blueprint,
+) => {
+  const stateUsps = blueprint.pack.jurisdictionKey.replace(/^US-/, "");
+  const office = currentGoverningOffices(world).find(
+    (candidate) => candidate.stateUsps === stateUsps,
+  );
+  const alreadyOpen = world.history.events.some(
+    (event) =>
+      event.type === GOVERNING_MATTER_OPENED &&
+      event.tags.includes(`measure:${measure.id}`) &&
+      event.tags.includes("matter-family:bill"),
+  );
+  if (alreadyOpen) return world;
+  if (office && (office.controlledByPlayer || !blueprint.governorAction))
+    return openMatter(world, office, {
+      family: "bill",
+      instance: `measure:${measure.id}`,
+      measureId: measure.id,
+    });
+  if (blueprint.governorAction) {
+    const next = recordGovernorDecisionOnMeasure(
+      world,
+      measure.id,
+      blueprint.governorAction,
+      blueprint.governorRationale,
+    );
+    return scheduleInstitutionStep(next, measure.id);
+  }
+  return world;
+};
+
 export const STATE_GOVERNING_HANDLERS = [
+  [LEGISLATIVE_INSTITUTION_STEP, createInstitutionStepHandler(governorDesk)],
+  [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],
   [GOVERNING_SEASON, governingSeasonHandler],
   [GOVERNING_TRANSITION, governingTransitionHandler],
   [GOVERNING_DEADLINE, governingDeadlineHandler],

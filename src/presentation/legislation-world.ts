@@ -42,6 +42,13 @@ import type {
   World,
 } from "../simulation";
 import { applyLegislativeStep } from "./legislation-session";
+import {
+  LEGISLATIVE_INSTITUTION_STEP,
+  measureStepOwner,
+  scheduleInstitutionStep,
+} from "../simulation/governing/legislative-clock";
+import { futureDueItemStateAt } from "../simulation/future-transitions";
+import { passOrdinaryDays } from "./ordinary-life";
 import { BARGAINING_BRIEF_SCENARIO_KEY } from "./legislative-bargaining-brief";
 import {
   readRecordedLegislativeSitting,
@@ -450,9 +457,90 @@ export function openLegislativeWork(
  * already puts it.
  */
 export type LegislativeCommand = {
-  readonly kind: "take-step" | "await-institutional-record";
+  /**
+   * `await-institution`: the step belongs to the other chamber, a clerk or
+   * the governor; the office waits while the clock runs until they act.
+   */
+  readonly kind:
+    "take-step" | "await-institutional-record" | "await-institution";
   readonly step: MeasureStepKey;
 };
+
+const WAIT_STEPS: readonly MeasureStepKey[] = [
+  "await-executive-decision",
+  "await-next-legislative-day",
+];
+
+/**
+ * Whether the next step belongs to somebody other than this office: the
+ * other chamber, a clerk, or the governor. Recorded-sitting routes keep their
+ * own wait rule.
+ */
+export function institutionOwnsStep(
+  world: World,
+  assignment: LegislativeAssignment,
+  step: MeasureStepKey,
+): boolean {
+  if (assignment.procedure.recordedSittingEventId) return false;
+  if (WAIT_STEPS.includes(step)) return false;
+  const measure = world.history.legislativeMeasures?.find(
+    (entry) => entry.id === assignment.measureId,
+  );
+  if (!measure) return false;
+  const seat = assignment.playerPersonId
+    ? resolveActiveMemberSeat(world, assignment.playerPersonId, {
+        relationshipStableKey: assignment.memberSeatStableKey,
+      })
+    : null;
+  const officeChamber =
+    seat?.kind === "seated" ? seat.seat.chamberKey : measure.originChamberKey;
+  const owner = measureStepOwner(world, measure.id, officeChamber);
+  return owner !== null && owner !== "sponsor-office";
+}
+
+/** Runs the clock until the institution's next scheduled act on the bill. */
+function awaitInstitution(
+  world: World,
+  assignment: LegislativeAssignment,
+): LegislativeCommandResult {
+  const scheduled = scheduleInstitutionStep(world, assignment.measureId);
+  const pending = scheduled.history.futureDueItems
+    .filter(
+      (item) =>
+        item.transitionKey === LEGISLATIVE_INSTITUTION_STEP &&
+        item.entityIds.includes(assignment.measureId) &&
+        futureDueItemStateAt(scheduled, item.id, {
+          asOfDate: scheduled.currentDate,
+          historySequenceExclusive: scheduled.history.nextSequence,
+        })?.status === "scheduled",
+    )
+    .sort((a, b) => a.dueAt.localeCompare(b.dueAt))[0];
+  if (!pending)
+    throw new RegularSessionUnavailableError(
+      "Nothing is scheduled for the institution on this bill; it is not moving this session.",
+    );
+  const before = measurePosition(scheduled, assignment.measureId);
+  const days = Math.max(
+    1,
+    Math.round(
+      (Date.parse(pending.dueAt) - Date.parse(scheduled.currentDate)) /
+        86_400_000,
+    ),
+  );
+  const next = passOrdinaryDays(scheduled, days);
+  const after = measurePosition(next, assignment.measureId);
+  const moved =
+    after.phase !== before.phase ||
+    after.chamberKey !== before.chamberKey ||
+    after.floorStageKey !== before.floorStageKey ||
+    after.hearingHeld !== before.hearingHeld;
+  return {
+    world: next,
+    message: moved
+      ? "Time passed while the institution acted on the bill."
+      : "Time passed. The institution has not acted on the bill yet.",
+  };
+}
 const RECORDED_CHAMBER_STEPS: readonly MeasureStepKey[] = [
   "request-referral",
   "request-committee-hearing",
@@ -495,9 +583,27 @@ export function applyLegislativeCommand(
   assignment: LegislativeAssignment,
   command: LegislativeCommand,
 ): LegislativeCommandResult {
-  if (!["take-step", "await-institutional-record"].includes(command.kind)) {
+  if (
+    !["take-step", "await-institutional-record", "await-institution"].includes(
+      command.kind,
+    )
+  ) {
     throw new Error("That is not something this surface can do.");
   }
+  if (command.kind === "await-institution") {
+    if (!institutionOwnsStep(world, assignment, command.step))
+      throw new RegularSessionUnavailableError(
+        "This step is the office's own to take.",
+      );
+    return awaitInstitution(world, assignment);
+  }
+  if (
+    command.kind === "take-step" &&
+    institutionOwnsStep(world, assignment, command.step)
+  )
+    throw new RegularSessionUnavailableError(
+      "That step belongs to the other chamber, the clerks or the governor. This office can only wait for them.",
+    );
   if (assignment.playerPersonId) {
     const membership = resolveActiveMemberSeat(
       world,
@@ -620,7 +726,11 @@ export function applyLegislativeCommand(
     world,
     command.step,
   );
-  return { world: result.world, message: result.message };
+  // Whatever the institution does next is now on its calendar.
+  const next = assignment.procedure.recordedSittingEventId
+    ? result.world
+    : scheduleInstitutionStep(result.world, assignment.measureId);
+  return { world: next, message: result.message };
 }
 
 function assignmentFor(
