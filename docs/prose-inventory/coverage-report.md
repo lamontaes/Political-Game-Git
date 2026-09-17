@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2781 |
-| INTENTIONALLY_NON_PLAYER_FACING | 6506 |
-| DIAGNOSTIC_OR_TEST | 6519 |
-| **NEEDS_CLASSIFICATION** | **8189** |
+| INTENTIONALLY_NON_PLAYER_FACING | 6510 |
+| DIAGNOSTIC_OR_TEST | 6522 |
+| **NEEDS_CLASSIFICATION** | **8190** |
 
-Scanned 942 files holding 94564 string
+Scanned 942 files holding 94615 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -281,6 +281,7 @@ literals in total; the table counts only those that read like a sentence.
 | 7 | `src/presentation/tax-work.ts` |
 | 7 | `src/presentation/time-target-label.ts` |
 | 7 | `src/simulation/candidate-qualification.ts` |
+| 7 | `src/simulation/governing/office-consequence.ts` |
 | 7 | `src/simulation/judicial-office-start.ts` |
 | 7 | `src/simulation/legislative-office-terms.ts` |
 | 7 | `src/simulation/starting-birthday.ts` |
@@ -303,7 +304,6 @@ literals in total; the table counts only those that read like a sentence.
 | 6 | `src/presentation/ordinary-community.ts` |
 | 6 | `src/presentation/raster-tiers.ts` |
 | 6 | `src/presentation/run-b-fixture.ts` |
-| 6 | `src/simulation/governing/office-consequence.ts` |
 | 6 | `src/simulation/governing/program-governing.ts` |
 | 6 | `src/simulation/names-data.ts` |
 | 6 | `src/simulation/vitality-integrity.ts` |

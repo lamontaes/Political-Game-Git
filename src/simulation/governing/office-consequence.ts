@@ -4,6 +4,33 @@ import { personName } from "../people";
 import type { EntityId, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import { currentGoverningOffices } from "./state-governing";
+import { congressSeats } from "../living-world/congress-seats";
+import { projectCongress } from "../living-world/congress";
+import {
+  LIVING_WORLD_WRITER_VERSION,
+  SEAT_VACANCY_EVENT,
+  congressSeatTitle,
+} from "../living-world/opening";
+import { seatTermWindow } from "../living-world/congress-seats";
+import { stateJurisdictionForKey } from "../life-places";
+import type { CongressSeat } from "../living-world/congress-seats";
+
+/** The tags a seat record carries, so the congress projection reads it. */
+function congressSeatVacancyTags(
+  seat: CongressSeat,
+  onDate: IsoDate,
+): readonly string[] {
+  const window = seatTermWindow(seat, onDate);
+  return [
+    LIVING_WORLD_WRITER_VERSION,
+    OFFICE_CONSEQUENCE_VERSION,
+    `office:${seat.chamberKey}`,
+    `seat:${seat.seatKey}`,
+    `state:${seat.stateUsps}`,
+    `term-start:${window.startsAt}`,
+    `term-end:${window.endExclusive}`,
+  ];
+}
 
 /**
  * What an office does about something said of its holder.
@@ -137,7 +164,98 @@ export function recordOfficeConsequence(
     `consequence:${input.kind}`,
     ...input.evidenceEventIds.map((id) => `evidence:${id}`),
   ];
-  if (input.kind === "resignation" && office && holds) {
+  // An office the player holds may be a governorship, a seat in Congress, or
+  // an ordinary recorded job like a legislative member's. A resignation has
+  // to reach whichever of those this key names, or say plainly that it named
+  // none of them.
+  const seat =
+    input.kind === "resignation" && !holds
+      ? congressSeats().find(
+          (candidate) => candidate.seatKey === input.officeKey,
+        )
+      : undefined;
+  const heldSeat =
+    seat &&
+    projectCongress(world)?.[
+      seat.chamberKey === "us-house" ? "house" : "senate"
+    ].seats.find((row) => row.seatKey === seat.seatKey);
+  const seatIsTheirs =
+    heldSeat?.occupant.kind === "member" &&
+    heldSeat.occupant.member.personId === input.subjectPersonId;
+  const job =
+    input.kind === "resignation" && !holds && !seatIsTheirs
+      ? world.history.workRelationships.find(
+          (relationship) =>
+            (relationship.id === input.officeKey ||
+              relationship.stableKey === input.officeKey) &&
+            relationship.personId === input.subjectPersonId,
+        )
+      : undefined;
+  if (input.kind === "resignation" && seat && seatIsTheirs) {
+    next = recordWorldEvent(world, {
+      stableKey: `${stableKey}:seat-vacant`,
+      type: SEAT_VACANCY_EVENT,
+      occurredAt: input.effectiveAt,
+      recordedAt: world.currentDate,
+      jurisdictionId: stateJurisdictionForKey(`US-${seat.stateUsps}`)!.id,
+      involvedEntityIds: [input.subjectPersonId],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [
+        ...congressSeatVacancyTags(seat, input.effectiveAt),
+        "vacancy-cause:resigned",
+      ],
+      summary: `The seat of the ${congressSeatTitle(seat)} is vacant: the member resigned.`,
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    outcome = {
+      changed: true,
+      kind: "term-closed",
+      workRelationshipId:
+        heldSeat!.occupant.kind === "member"
+          ? heldSeat!.occupant.member.termId
+          : (input.officeKey as EntityId),
+      termRecordId: next.history.events.at(-1)!.id,
+      effectiveAt: input.effectiveAt,
+      note: `${personName(subject)} resigned the seat of the ${congressSeatTitle(seat)}. It is vacant from ${input.effectiveAt} until it is filled.`,
+    };
+    tags.push(
+      `term-closed:${outcome.workRelationshipId}:${outcome.termRecordId}:${input.effectiveAt}`,
+    );
+  } else if (input.kind === "resignation" && job) {
+    const jobStatus = workStatusAt(world, job.id, currentLifeCutoff(world));
+    if (jobStatus && jobStatus.status !== "ended") {
+      next = recordWorkStatus(world, {
+        stableKey: `${stableKey}:job-ended`,
+        workRelationshipId: job.id,
+        effectiveAt: input.effectiveAt,
+        status: "ended",
+        reason: "Resigned the office.",
+        provenance: {
+          kind: "authored",
+          note: `${OFFICE_CONSEQUENCE_VERSION}: the holder resigned this recorded office.`,
+        },
+        supersedesStatusId: jobStatus.id,
+      });
+      outcome = {
+        changed: true,
+        kind: "term-closed",
+        workRelationshipId: job.id,
+        termRecordId: job.id,
+        effectiveAt: input.effectiveAt,
+        note: `${personName(subject)} resigned. The office is vacant from ${input.effectiveAt}; who fills it is decided by rules the game has not compiled for this body.`,
+      };
+      tags.push(`term-closed:${job.id}:${job.id}:${input.effectiveAt}`);
+    }
+  } else if (input.kind === "resignation" && office && holds) {
     // An elected term is a work relationship and ends through the work
     // writer. An opening incumbent's term is a recorded tenure with no
     // relationship behind it; the office is vacated by this record alone,

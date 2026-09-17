@@ -1,9 +1,9 @@
 {
   "counts": {
     "INVENTORIED": 2781,
-    "INTENTIONALLY_NON_PLAYER_FACING": 6506,
-    "DIAGNOSTIC_OR_TEST": 6519,
-    "NEEDS_CLASSIFICATION": 8189
+    "INTENTIONALLY_NON_PLAYER_FACING": 6510,
+    "DIAGNOSTIC_OR_TEST": 6522,
+    "NEEDS_CLASSIFICATION": 8190
   },
   "needsClassification": [
     {
@@ -32497,7 +32497,7 @@
     {
       "sourcePath": "src/simulation/governing/office-consequence.ts",
       "enclosingSymbol": "UNCHANGED",
-      "line": 67,
+      "line": 94,
       "text": "Being asked to explain changes nothing about the office; the term stands.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -32505,7 +32505,7 @@
     {
       "sourcePath": "src/simulation/governing/office-consequence.ts",
       "enclosingSymbol": "UNCHANGED",
-      "line": 69,
+      "line": 96,
       "text": "An answer is recorded, not judged. Nothing about the office changes.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -32513,7 +32513,7 @@
     {
       "sourcePath": "src/simulation/governing/office-consequence.ts",
       "enclosingSymbol": "UNCHANGED",
-      "line": 71,
+      "line": 98,
       "text": "Agreeing to cooperate changes nothing about the office by itself.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -32521,7 +32521,7 @@
     {
       "sourcePath": "src/simulation/governing/office-consequence.ts",
       "enclosingSymbol": "UNCHANGED",
-      "line": 73,
+      "line": 100,
       "text": "Refusing to cooperate is an answer, not a forfeit. The term stands.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -32529,7 +32529,7 @@
     {
       "sourcePath": "src/simulation/governing/office-consequence.ts",
       "enclosingSymbol": "outcome",
-      "line": 131,
+      "line": 158,
       "text": "They do not hold this office, so there is no term to end.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -32537,7 +32537,15 @@
     {
       "sourcePath": "src/simulation/governing/office-consequence.ts",
       "enclosingSymbol": "recordOfficeConsequence",
-      "line": 192,
+      "line": 209,
+      "text": "The seat of the {congressSeatTitle(seat)} is vacant: the member resigned.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/governing/office-consequence.ts",
+      "enclosingSymbol": "recordOfficeConsequence",
+      "line": 310,
       "text": "{personName(subject)}{office&&holds?`,${office.title},`:\"\"} — {outcome.note} They said: {input.statedReason}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -67627,12 +67635,6 @@
       "count": 12
     },
     {
-      "sourcePath": "src/simulation/governing/press-interfaces.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 7
-    },
-    {
       "sourcePath": "src/simulation/governing/outside-mandate-payment.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -67678,13 +67680,19 @@
       "sourcePath": "src/simulation/governing/office-consequence.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 3
+      "count": 7
+    },
+    {
+      "sourcePath": "src/simulation/governing/press-interfaces.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 7
     },
     {
       "sourcePath": "src/simulation/governing/office-consequence.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 8
+      "count": 11
     },
     {
       "sourcePath": "src/simulation/future-transitions.ts",
