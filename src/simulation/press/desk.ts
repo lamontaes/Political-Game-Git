@@ -91,6 +91,9 @@ const EXCLUDED_PREFIXES = [
   "claim.",
   "life.",
   "party.chapter",
+  // Opening world-state records and publication plumbing are not occurrences.
+  "world.",
+  "publication.",
 ];
 
 export function storyLeads(world: World): readonly StoryLeadRecord[] {
@@ -1133,9 +1136,6 @@ export function composeStory(
     ? procedureStatusSentence(world, lead.matterId)
     : null;
   if (status) paragraphs.push(status);
-  paragraphs.push(
-    `Reported by ${personName(world.people[reporterId]!)} for ${outlet.name}.`,
-  );
   const lead0 = publicBasis[0]?.summary ?? basis[0]!.summary;
   const headline =
     lead.family === "follow-up"
@@ -1143,9 +1143,16 @@ export function composeStory(
       : lead.family === "allegation" && publicBasis.length === 0
         ? `${outlet.name} reports an account concerning ${subjectNames(world, lead)}`
         : lead0;
+  // The headline already carries the first public fact; do not print it twice.
+  const body = paragraphs.filter(
+    (paragraph, index) => !(index === 0 && paragraph.trim() === headline.trim()),
+  );
+  body.push(
+    `Reported by ${personName(world.people[reporterId]!)} for ${outlet.name}.`,
+  );
   return {
     headline: headline.trim(),
-    body: paragraphs.join("\n\n"),
+    body: body.join("\n\n"),
     unattributedAssertion,
   };
 }
@@ -1226,6 +1233,9 @@ export function eventIsNewsCandidate(
   if (event.visibility !== "public") return false;
   if (event.occurredAt > world.currentDate) return false;
   if (EXCLUDED_PREFIXES.some((prefix) => event.type.startsWith(prefix))) {
+    return false;
+  }
+  if (event.tags.includes("world.created") || event.tags.includes("life.started")) {
     return false;
   }
   if (

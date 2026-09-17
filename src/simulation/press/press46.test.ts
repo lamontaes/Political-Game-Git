@@ -265,7 +265,7 @@ describe("PRESS46 false public allegation", () => {
       p.outletKey.startsWith("media:"),
     );
     const allegationStory = stories.find((p) =>
-      p.body.includes("This is an allegation, not a finding."),
+      `${p.headline}\n${p.body}`.includes("This is an allegation, not a finding."),
     );
     expect(allegationStory).toBeDefined();
     expect(allegationStory!.body).not.toMatch(/guilty|admitted|proved/i);
