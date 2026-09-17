@@ -133,6 +133,9 @@ test.describe("A life can stand for something", () => {
   test("deliberately selects the Senate and preserves the campaign while browsing and reloading", async ({
     page,
   }) => {
+    // A fresh browser, the creator, a browse and a reload: about 25 s on a
+    // quiet host, so the default budget is decided by runner load.
+    test.setTimeout(90_000);
     await freshBrowser(page);
     await beginAdultLifeIn(page, "Kentucky");
     const browser = page.getByTestId("campaign-office-browser");
