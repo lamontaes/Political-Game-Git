@@ -47,6 +47,27 @@ describe("PEOPLE P2 persistent personality", () => {
     }
   });
 
+  it("a legacy opening (age 30, earlier life summarized) is untouched", () => {
+    const legacy = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed: "world46-legacy-a",
+        startAge: 30,
+        depth: "summarize-earlier-life",
+      }),
+    ).game!.world;
+    expect(
+      legacy.history.personalityTendencies.some((record) =>
+        record.scopeTags.some((tag) => tag.startsWith("people-mind-v1")),
+      ),
+    ).toBe(false);
+    expect(
+      PEOPLE_TRAITS.some(
+        (trait) => legacy.mindCatalog.tendencies[peopleTraitId(trait)],
+      ),
+    ).toBe(false);
+  });
+
   it("seeds once from the person's own stream and never rerolls", () => {
     const others = life.world.personOrder
       .filter((id) => id !== player)

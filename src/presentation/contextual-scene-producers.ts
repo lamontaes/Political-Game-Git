@@ -332,7 +332,7 @@ function producePromisedEvening(
       ({ state }) =>
         state.status === "scheduled" &&
         state.start.date === world.currentDate &&
-        compareSimulationMoments(state.start, world.currentMoment) > 0 &&
+        compareSimulationMoments(state.start, world.currentMoment) >= 0 &&
         state.start.minuteOfDay < occasion.state.end.minuteOfDay &&
         state.end.minuteOfDay + EVENING_CLASH_MINUTES >
           occasion.state.start.minuteOfDay,

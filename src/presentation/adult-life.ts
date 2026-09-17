@@ -1,3 +1,4 @@
+import { refreshContextualScenes } from "./contextual-scene-producers";
 import { passOrdinaryDays } from "./ordinary-life";
 import type { OrdinaryLifeDayAdvance } from "./life-time-handlers";
 import { bindRequestSituation } from "../simulation/adult-situations";
@@ -485,12 +486,19 @@ export function letAdultTimePass(
   // Whose stretch it was is a fact about the world, not an argument the caller
   // has to remember to pass. An observer world has nobody waiting on anything,
   // so nothing is written for one.
-  return advanced.control.kind === "person"
-    ? refreshLifeCircumstances(
-        refreshLifeOpportunities(advanced, advanced.control.personId),
-        advanced.control.personId,
-      )
-    : advanced;
+  if (advanced.control.kind !== "person") return advanced;
+  const personId = advanced.control.personId;
+  const refreshed = refreshLifeCircumstances(
+    refreshLifeOpportunities(advanced, personId),
+    personId,
+  );
+  // A request written just now (an evening in, tonight) is answerable now, so
+  // the situations it opens are bound in the same stretch rather than a day
+  // after the evening it was about (PEOPLE P1). The stretch must really have
+  // passed, as in passOrdinaryDays.
+  return refreshed === advanced || advanced === world
+    ? refreshed
+    : refreshContextualScenes(refreshed, personId);
 }
 
 /**
