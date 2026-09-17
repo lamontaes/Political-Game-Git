@@ -37,22 +37,10 @@
 
       <section class="card" aria-labelledby="people-h">
         <h2 id="people-h">Participants</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Handle</th>
-              <th>Provider</th>
-              <th>Exact session</th>
-              <th>Model / effort</th>
-              <th>Auth · capability</th>
-              <th>Liveness</th>
-            </tr>
-          </thead>
-          <tbody id="participants"></tbody>
-        </table>
+        <div id="participants" class="grid"></div>
         <div class="row" data-spaced>
           <label for="codex-handle" class="muted"
-            >Start a hub-managed Codex worker</label
+            >Start managed Codex worker</label
           >
           <input
             id="codex-handle"
@@ -62,11 +50,11 @@
           />
           <select id="codex-model" aria-label="Codex model"></select>
           <select id="codex-effort" aria-label="Codex effort"></select>
-          <button id="start-codex">Start worker</button>
+          <button id="start-codex">Start managed Codex worker</button>
         </div>
         <div class="row" data-spaced>
           <label for="claude-handle" class="muted"
-            >Start a hub-managed Claude worker</label
+            >Start managed Claude worker</label
           >
           <input
             id="claude-handle"
@@ -84,11 +72,11 @@
             <option value="medium">medium</option>
             <option value="high" selected>high</option>
           </select>
-          <button id="start-claude">Start worker</button>
+          <button id="start-claude">Start managed Claude worker</button>
         </div>
         <div class="row" data-spaced>
           <label for="ext-handle" class="muted"
-            >Enroll an existing session</label
+            >Connect an existing session</label
           >
           <input
             id="ext-handle"
@@ -108,9 +96,25 @@
             size="30"
             spellcheck="false"
           />
-          <button id="enroll">Create enrollment</button>
+          <button id="enroll">Connect existing session</button>
         </div>
-        <pre id="enroll-out" class="log" hidden></pre>
+        <dialog id="enroll-dialog" aria-labelledby="enroll-title">
+          <h2 id="enroll-title">Finish connecting</h2>
+          <p id="enroll-state" class="state-manual-attention" role="status">
+            Waiting for session
+          </p>
+          <ol id="enroll-steps"></ol>
+          <pre id="enroll-out" class="log"></pre>
+          <p class="muted">
+            The token stays in a private file on this Mac. It is never shown
+            here, put in a link, or exported.
+          </p>
+          <div class="row">
+            <button id="enroll-test" class="primary">Test connection</button>
+            <button id="enroll-reveal">Show token file</button>
+            <button id="enroll-close">Close</button>
+          </div>
+        </dialog>
         <p id="people-note" class="muted" role="status"></p>
       </section>
 

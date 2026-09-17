@@ -13,7 +13,13 @@ test("every controller file the hub loads is packaged", () => {
   const packaged = new Set(
     [...list[1].matchAll(/"([^"]+)"/g)].map((match) => match[1]),
   );
-  for (const script of ["main.mjs", "build-catalog.mjs", "chrome.mjs"]) {
+  for (const script of [
+    "main.mjs",
+    "build-catalog.mjs",
+    "chrome.mjs",
+    "agents.mjs",
+    "agents-view.mjs",
+  ]) {
     const source = read(`../private-controller/${script}`);
     const local = [
       ...source.matchAll(/from "\.\/([^"/]+\.m?js)"/g),

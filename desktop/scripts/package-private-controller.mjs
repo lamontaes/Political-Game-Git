@@ -137,6 +137,7 @@ const CONTROLLER_FILES = [
   "settings.mjs",
   "agents.html",
   "agents.mjs",
+  "agents-view.mjs",
   "styles.css",
   "private-update.mjs",
   "private-update-worker.mjs",

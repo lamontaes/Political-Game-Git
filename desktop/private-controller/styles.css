@@ -107,16 +107,25 @@ pre {
 body.chrome {
   background: var(--bar);
   color: var(--bar-ink);
-  height: 58px;
+  height: 92px;
   overflow: hidden;
 }
 .bar {
   display: flex;
   align-items: center;
   gap: 14px;
-  height: 58px;
+  height: 50px;
   padding: 0 14px;
   white-space: nowrap;
+}
+.bar.sub {
+  height: 42px;
+  border-top: 1px solid #26352d;
+}
+.bar .actions {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
 }
 .brand {
   font-family: Georgia, serif;
@@ -159,7 +168,7 @@ body.chrome {
   font-size: 12px;
 }
 .track select {
-  max-width: 260px;
+  max-width: 380px;
   background: #26352d;
   color: var(--bar-ink);
   border-color: #3b4c42;
@@ -188,7 +197,7 @@ body.chrome {
 .pill.unchecked {
   background: #4a4a4a;
 }
-@media (max-width: 1180px) {
+@media (max-width: 1100px) {
   .brand small {
     display: none;
   }
@@ -328,4 +337,29 @@ th {
 }
 .grid > p {
   grid-column: 1 / -1;
+}
+
+/* ---------- agents ---------- */
+.connection {
+  display: grid;
+  gap: 6px;
+}
+.connection h3 {
+  margin: 0;
+  font-size: 15px;
+}
+.connection .state {
+  font-weight: 600;
+}
+#enroll-dialog {
+  max-width: 680px;
+  border: 1px solid #3b4c42;
+  border-radius: 10px;
+  padding: 18px 20px;
+}
+#enroll-dialog::backdrop {
+  background: rgb(0 0 0 / 45%);
+}
+#enroll-dialog ol {
+  padding-left: 20px;
 }

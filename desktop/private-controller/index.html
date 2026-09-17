@@ -41,6 +41,24 @@
           Settings
         </button>
       </div>
+      <div class="actions">
+        <button id="copy-ref" class="ghost" hidden>Copy revision</button>
+        <button id="check-updates" class="ghost">Check for updates</button>
+        <button
+          id="return-title"
+          class="ghost"
+          title="Back to the game's title screen; your life is not reset"
+        >
+          Return to title
+        </button>
+        <button id="apply" class="primary" hidden>
+          Restart Play on update
+        </button>
+        <button id="return-main" class="ghost" hidden>Back to main game</button>
+        <button id="cancel-build" class="ghost" hidden>Cancel</button>
+      </div>
+    </div>
+    <div class="bar sub">
       <div class="track">
         <label for="track">Game build</label>
         <select id="track">
@@ -59,18 +77,6 @@
       <div id="status" class="status" role="status" aria-live="polite">
         Reading the installed build…
       </div>
-      <button id="copy-ref" class="ghost" hidden>Copy revision</button>
-      <button id="check-updates" class="ghost">Check for updates</button>
-      <button
-        id="return-title"
-        class="ghost"
-        title="Back to the game's title screen; your life is not reset"
-      >
-        Return to title
-      </button>
-      <button id="apply" class="primary" hidden>Restart Play on update</button>
-      <button id="return-main" class="ghost" hidden>Back to main game</button>
-      <button id="cancel-build" class="ghost" hidden>Cancel</button>
     </div>
     <script src="chrome.mjs" type="module"></script>
   </body>

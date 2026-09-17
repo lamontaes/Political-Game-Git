@@ -117,7 +117,7 @@ const DEFAULT_PACK = path.join(
   "private-packs",
   "modular41-current",
 );
-const CHROME_HEIGHT = 58;
+const CHROME_HEIGHT = 92;
 
 protocol.registerSchemesAsPrivileged([APP_SCHEME_PRIVILEGES]);
 

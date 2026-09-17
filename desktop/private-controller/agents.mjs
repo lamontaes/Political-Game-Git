@@ -1,10 +1,21 @@
 /* global document, window, setTimeout */
 
+import {
+  CONNECTION_STATES,
+  capabilityLine,
+  connectionState,
+  nextAction,
+  providerActions,
+  providerName,
+} from "./agents-view.mjs";
+
 const hub = window.ocdHub;
 const api = hub.agents;
 const $ = (id) => document.getElementById(id);
 let snapshot = null;
 let refreshTimer = null;
+let dialogHandle = null;
+let dialogTokenFile = null;
 
 function el(tag, text, className) {
   const node = document.createElement(tag);
@@ -68,12 +79,7 @@ function renderProviders(detection) {
         p.installed &&
         ["claude", "codex", "cursor", "antigravity"].includes(p.provider)
       ) {
-        const connect = el(
-          "button",
-          ["cursor", "antigravity"].includes(p.provider)
-            ? "Connect (copy hub entry)"
-            : "Create hub enrollment",
-        );
+        const connect = el("button", providerActions(p.provider).connect);
         connect.addEventListener("click", () => connectClient(p.provider));
         card.append(connect);
       }
@@ -111,27 +117,60 @@ function renderEfforts() {
   if ((model?.efforts ?? []).includes(chosen)) effort.value = chosen;
 }
 
+function runningHandles() {
+  const running = new Set(snapshot?.supervisor?.running ?? []);
+  return (snapshot?.envelopes ?? [])
+    .filter((e) => running.has(e.id))
+    .map((e) => e.to);
+}
+
 function renderParticipants(list) {
-  $("participants").replaceChildren(
-    ...list.map((p) => {
-      const tr = el("tr");
-      tr.append(
+  const busy = runningHandles();
+  const cards = list
+    .filter((p) => p.handle !== "owner")
+    .map((p) => {
+      const state = connectionState(p, { runningHandles: busy });
+      const next = nextAction(state, p);
+      const card = el("section", null, "card connection");
+      card.dataset.handle = p.handle;
+      card.dataset.state = state;
+      const head = el("div", null, "row");
+      head.append(
+        el("h3", `@${p.handle} · ${providerName(p.provider)}`),
         el(
-          "td",
-          `@${p.handle}${p.managed ? (p.attached ? " (hub-managed)" : " (hub-managed, stopped)") : ""}`,
-        ),
-        el("td", p.provider),
-        el("td", p.sessionId, "mono"),
-        el("td", [p.model, p.effort].filter(Boolean).join(" · ") || "unknown"),
-        el("td", `${p.authRoute ?? "unknown"} · ${p.capability}`),
-        el(
-          "td",
-          p.liveness,
-          `state-${p.liveness === "fresh" ? "ready" : "manual-attention"}`,
+          "span",
+          CONNECTION_STATES[state],
+          `state state-${["connected", "running", "idle"].includes(state) ? "ready" : "manual-attention"}`,
         ),
       );
-      return tr;
-    }),
+      card.append(head, el("p", capabilityLine(p), "muted"));
+      const details = el("details");
+      details.append(
+        el("summary", "Details"),
+        kv([
+          ["Exact session", p.sessionId],
+          ["Model", [p.model, p.effort].filter(Boolean).join(" · ")],
+          ["Sign-in", p.authRoute],
+          [
+            "Last call",
+            p.lastSeen ? new Date(p.lastSeen).toLocaleString() : "none yet",
+          ],
+        ]),
+      );
+      card.append(details);
+      if (next.label && next.action !== "none") {
+        const button = el("button", next.label);
+        button.dataset.action = next.action;
+        button.addEventListener("click", () => runAction(next.action, p));
+        card.append(button);
+      }
+      if (next.hint) card.append(el("p", next.hint, "muted"));
+      return card;
+    });
+  $("participants").replaceChildren(
+    ...(cards.length
+      ? cards
+      : [el("p", "No connections yet. Connect one below.", "muted")]),
   );
   const to = $("send-to");
   const current = to.value;
@@ -200,6 +239,56 @@ async function refresh() {
   renderEnvelopes(snapshot.envelopes);
 }
 
+function runAction(action, participant) {
+  if (action === "test") return testConnection(participant.handle);
+  if (action === "send") {
+    $("send-to").value = participant.handle;
+    $("send-text").focus();
+    return;
+  }
+  if (action === "start")
+    return say(
+      `Use "Start managed ${providerName(participant.provider)} worker" below with the handle ${participant.handle}.`,
+    );
+  return undefined;
+}
+
+async function testConnection(handle) {
+  await refresh();
+  const participant = snapshot?.participants?.find((p) => p.handle === handle);
+  const state = connectionState(participant, {
+    runningHandles: runningHandles(),
+  });
+  const text =
+    state === "connected" || state === "idle" || state === "running"
+      ? `Connected: @${handle} answered ${participant?.lastSeen ? new Date(participant.lastSeen).toLocaleTimeString() : "recently"}.`
+      : state === "quiet"
+        ? `@${handle} connected earlier but has not called the hub in the last few minutes.`
+        : `Still waiting: no call from @${handle}'s session has reached the hub yet.`;
+  if (dialogHandle === handle) {
+    $("enroll-state").textContent = text;
+    $("enroll-state").className =
+      state === "waiting" || state === "quiet"
+        ? "state-manual-attention"
+        : "state-ready";
+  }
+  say(text);
+}
+
+function openEnrollDialog({ handle, steps, detail, tokenFile }) {
+  dialogHandle = handle;
+  dialogTokenFile = tokenFile ?? null;
+  $("enroll-title").textContent = `Finish connecting @${handle}`;
+  $("enroll-state").textContent = "Waiting for session";
+  $("enroll-state").className = "state-manual-attention";
+  $("enroll-steps").replaceChildren(...steps.map((step) => el("li", step)));
+  $("enroll-out").textContent = detail ?? "";
+  $("enroll-out").hidden = !detail;
+  $("enroll-reveal").hidden = !dialogTokenFile;
+  $("enroll-dialog").showModal();
+  $("enroll-test").focus();
+}
+
 function scheduleRefresh() {
   if (refreshTimer) return;
   refreshTimer = setTimeout(() => {
@@ -218,22 +307,24 @@ const CONFIG_FILES = {
 async function connectClient(provider) {
   const result = await api.connect(provider);
   if (!result?.handle) return say(result?.message);
-  $("enroll-out").hidden = false;
-  $("enroll-out").textContent = result.clipboard
-    ? [
-        `@${result.handle} is enrolled. Its hub entry is on your clipboard.`,
-        `1. Paste it inside "mcpServers" in ${CONFIG_FILES[provider]} (create the file with {"mcpServers": {}} if it is missing), then reload ${provider}.`,
-        "2. In a new chat there, ask once:",
-        `   ${result.firstPrompt}`,
-        "The connection test passes when that chat's first call arrives (liveness turns fresh).",
-      ].join("\n")
-    : [
-        `@${result.handle} is enrolled. Token file (private): ${result.tokenFile}`,
-        `Room URL: ${result.url}`,
-        `Add it: ${result.snippets?.[provider] ?? ""}`,
-        "Then, in that session, ask once:",
-        `   ${result.firstPrompt}`,
-      ].join("\n");
+  const name = providerName(provider);
+  openEnrollDialog({
+    handle: result.handle,
+    tokenFile: result.tokenFile ?? null,
+    steps: result.clipboard
+      ? [
+          `The hub entry for ${name} is on your clipboard.`,
+          `Paste it inside "mcpServers" in ${CONFIG_FILES[provider]} (create the file with {"mcpServers": {}} if it is missing), then reload ${name}.`,
+          `In a new ${name} chat, ask once: ${result.firstPrompt}`,
+          "Come back and press Test connection.",
+        ]
+      : [
+          `Add the hub to that ${name} session with the command below. It reads the private token file; the token itself is not shown.`,
+          `In that session, ask once: ${result.firstPrompt}`,
+          "Come back and press Test connection.",
+        ],
+    detail: result.clipboard ? null : (result.snippets?.[provider] ?? ""),
+  });
 }
 
 $("detect").addEventListener("click", async () => {
@@ -269,23 +360,31 @@ $("start-claude").addEventListener("click", async () => {
   );
 });
 $("enroll").addEventListener("click", async () => {
+  const provider = $("ext-provider").value;
   const result = await api.enroll({
     handle: $("ext-handle").value.trim(),
-    provider: $("ext-provider").value,
+    provider,
     sessionId: $("ext-session").value.trim(),
   });
   if (!result?.tokenFile) return say(result?.message);
-  $("enroll-out").hidden = false;
-  $("enroll-out").textContent = [
-    `Enrolled @${result.handle}. Token file (private): ${result.tokenFile}`,
-    `Room URL: ${result.url}`,
-    "",
-    ...Object.entries(result.snippets).map(([k, v]) => `# ${k}\n${v}\n`),
-  ].join("\n");
-  say(
-    "The connection test passes when that session makes its first authenticated call (liveness turns fresh).",
-  );
+  openEnrollDialog({
+    handle: result.handle,
+    tokenFile: result.tokenFile,
+    steps: [
+      `Add the hub to that ${providerName(provider)} session with the entry below. It reads the private token file.`,
+      `In that session, ask once: ${result.firstPrompt}`,
+      "Come back and press Test connection.",
+    ],
+    detail: result.snippets?.[provider] ?? "",
+  });
 });
+$("enroll-test").addEventListener("click", () => {
+  if (dialogHandle) void testConnection(dialogHandle);
+});
+$("enroll-reveal").addEventListener("click", () => {
+  if (dialogTokenFile) void hub.revealToken(dialogTokenFile);
+});
+$("enroll-close").addEventListener("click", () => $("enroll-dialog").close());
 $("send").addEventListener("click", async () => {
   const text = $("send-text").value.trim();
   if (!text) return;
