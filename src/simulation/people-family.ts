@@ -66,6 +66,8 @@ export type FamilyAdditionInput =
       readonly givenName?: string;
       /** Optional; otherwise the first named parent's family name. */
       readonly familyName?: string;
+      /** Extra tags the caller needs, such as the plan that led to it. */
+      readonly tags?: readonly string[];
     }
   | {
       readonly kind: "adoption";
@@ -74,6 +76,8 @@ export type FamilyAdditionInput =
       readonly parentPersonIds: readonly EntityId[];
       /** An existing minor in the world. */
       readonly childPersonId: EntityId;
+      /** Extra tags the caller needs, such as the plan that led to it. */
+      readonly tags?: readonly string[];
     };
 
 export interface FamilyAdditionResult {

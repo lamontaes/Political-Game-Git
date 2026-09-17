@@ -1923,6 +1923,30 @@
       "textRevision": "7985cc6382bd"
     },
     {
+      "anchor": "RELATION_LABEL-0001",
+      "sourcePath": "src/presentation/people-continuation.ts",
+      "symbol": "RELATION_LABEL",
+      "text": "no connection on record",
+      "occurrence": 0,
+      "textRevision": "85118d75c88b"
+    },
+    {
+      "anchor": "RELATION_LABEL-0002",
+      "sourcePath": "src/presentation/people-continuation.ts",
+      "symbol": "RELATION_LABEL",
+      "text": "someone they kept up with",
+      "occurrence": 0,
+      "textRevision": "a8e05a56ed09"
+    },
+    {
+      "anchor": "RELATION_LABEL-0003",
+      "sourcePath": "src/presentation/people-continuation.ts",
+      "symbol": "RELATION_LABEL",
+      "text": "someone they taught",
+      "occurrence": 0,
+      "textRevision": "698cbb5f9e2b"
+    },
+    {
       "anchor": "RETURN_SUMMARY-0001",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",

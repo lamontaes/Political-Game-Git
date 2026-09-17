@@ -1631,6 +1631,20 @@
     "evidence": "somebody"
   },
   {
+    "id": "prose:life:life-continuation:RELATION_LABEL-0002#text",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"someone\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "someone"
+  },
+  {
+    "id": "prose:life:life-continuation:RELATION_LABEL-0003#text",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"someone\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "someone"
+  },
+  {
     "id": "prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0013#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",

@@ -214,11 +214,26 @@ export function retireControlledCharacter(
   });
 }
 
-export type SuccessorRelation = "child" | "grandchild" | "sibling" | "partner";
+export type SuccessorRelation =
+  | "child"
+  | "grandchild"
+  | "sibling"
+  | "partner"
+  | "protege"
+  | "close-associate"
+  | "other";
 
 export interface SuccessorCandidate {
   readonly personId: EntityId;
   readonly relation: SuccessorRelation;
+  /**
+   * Whether this is somebody the finished life actually had a bond with, and
+   * so belongs at the top of the list. False for the wider choice, which is
+   * offered but never dressed up as a relationship.
+   */
+  readonly prominent: boolean;
+  /** What the two of them were, in the world's own words, when it can say. */
+  readonly connection: string | null;
   readonly age: number;
   /** Playable today. */
   readonly availableNow: boolean;
@@ -237,7 +252,11 @@ export function successorCandidates(
   if (!world.people[predecessorId]) return [];
   const seen = new Set<EntityId>([predecessorId]);
   const candidates: SuccessorCandidate[] = [];
-  const add = (personId: EntityId, relation: SuccessorRelation) => {
+  const add = (
+    personId: EntityId,
+    relation: SuccessorRelation,
+    connection: string | null = null,
+  ) => {
     if (seen.has(personId)) return;
     seen.add(personId);
     const person = world.people[personId];
@@ -248,6 +267,8 @@ export function successorCandidates(
     candidates.push({
       personId,
       relation,
+      prominent: relation !== "other",
+      connection,
       age,
       availableNow: age >= PLAYABLE_AGE,
       playableOn: age >= PLAYABLE_AGE ? null : playableOn,
@@ -276,7 +297,62 @@ export function successorCandidates(
       "partner",
     );
   }
+  // Somebody they taught, or somebody they kept up with for years. Not family,
+  // but not a stranger either, and the owner asked for both to be offered.
+  for (const interaction of meaningfulBonds(world, predecessorId)) {
+    const other = interaction.personIds.find((id) => id !== predecessorId)!;
+    const mentorship = interaction.kind.startsWith("mentorship:");
+    add(other, mentorship ? "protege" : "close-associate", interaction.summary);
+  }
+  // And anybody else alive and old enough. Offered plainly as what it is: a
+  // life this one did not touch, which the player may take up anyway.
+  for (const personId of world.personOrder) {
+    if (candidates.length >= SUCCESSOR_LIST_LIMIT) break;
+    add(personId, "other");
+  }
   return candidates;
+}
+
+/** How many people the choice offers before it stops listing. */
+const SUCCESSOR_LIST_LIMIT = 40;
+/** A bond has to have been worth recording more than once to count. */
+const BOND_INTERACTIONS = 2;
+
+/**
+ * People this life was actually bound to, outside the family: somebody they
+ * mentored, or somebody the record kept returning to. Read from what happened,
+ * never from a friendship number.
+ */
+function meaningfulBonds(world: World, personId: EntityId) {
+  const byPerson = new Map<
+    EntityId,
+    {
+      count: number;
+      latest: (typeof world.history.relationshipInteractions)[number];
+    }
+  >();
+  for (const interaction of world.history.relationshipInteractions) {
+    if (
+      !interaction.personIds.includes(personId) ||
+      interaction.significance === "minor"
+    ) {
+      continue;
+    }
+    const other = interaction.personIds.find((id) => id !== personId);
+    if (!other) continue;
+    const found = byPerson.get(other);
+    byPerson.set(other, {
+      count: (found?.count ?? 0) + 1,
+      latest: interaction,
+    });
+  }
+  return [...byPerson.values()]
+    .filter(
+      (entry) =>
+        entry.count >= BOND_INTERACTIONS ||
+        entry.latest.kind.startsWith("mentorship:"),
+    )
+    .map((entry) => entry.latest);
 }
 
 function addYears(date: IsoDate, years: number): IsoDate {

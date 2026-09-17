@@ -1,13 +1,13 @@
 {
-  "digest": "dc95d37cc183416b",
+  "digest": "23f16ffb8e8a3e6a",
   "counts": {
-    "total": 3186,
+    "total": 3189,
     "byDomain": {
       "campaign": 24,
       "conversation": 400,
       "governing": 197,
       "legislative": 94,
-      "life": 1737,
+      "life": 1740,
       "narration": 75,
       "ordinary": 4,
       "setup": 618,
@@ -24,11 +24,11 @@
       "option-witnessed": 54,
       "prompt": 130,
       "scene-line": 219,
-      "status": 592,
+      "status": 595,
       "thread-recap": 32
     },
     "byReachability": {
-      "CURRENTLY_UNREACHABLE": 369,
+      "CURRENTLY_UNREACHABLE": 372,
       "DEV_FIXTURE_ONLY": 110,
       "LEGACY_OR_WITHDRAWN": 90,
       "PLAYER_REACHABLE": 2190,
@@ -36,7 +36,7 @@
       "WITHHELD_BY_GROUNDING": 358
     },
     "byRealization": {
-      "static": 2533,
+      "static": 2536,
       "templated": 653
     }
   },
@@ -98365,6 +98365,102 @@
       ],
       "textRevision": "8d21a6746a69",
       "contextRevision": "9d5250102a31"
+    },
+    {
+      "id": "prose:life:life-continuation:RELATION_LABEL-0001#text",
+      "domain": "life",
+      "bank": "life-continuation",
+      "stableKey": "RELATION_LABEL-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/people-continuation.ts",
+      "sourceSymbol": "RELATION_LABEL",
+      "text": "no connection on record",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "PEOPLE P5 adapter: the heading, choice labels and wait disclosure a played life's end shows. UI mounts it; until then no ordinary route renders it.",
+      "grounding": [
+        {
+          "key": "life-end-and-family",
+          "description": "The recorded death or retirement, its date, and the living relatives the kinship records name, with their real ages and playable dates.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "RELATION_LABEL",
+        "anchor": "RELATION_LABEL-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "85118d75c88b",
+      "contextRevision": "f312d10d8b38"
+    },
+    {
+      "id": "prose:life:life-continuation:RELATION_LABEL-0002#text",
+      "domain": "life",
+      "bank": "life-continuation",
+      "stableKey": "RELATION_LABEL-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/people-continuation.ts",
+      "sourceSymbol": "RELATION_LABEL",
+      "text": "someone they kept up with",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "PEOPLE P5 adapter: the heading, choice labels and wait disclosure a played life's end shows. UI mounts it; until then no ordinary route renders it.",
+      "grounding": [
+        {
+          "key": "life-end-and-family",
+          "description": "The recorded death or retirement, its date, and the living relatives the kinship records name, with their real ages and playable dates.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "RELATION_LABEL",
+        "anchor": "RELATION_LABEL-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "a8e05a56ed09",
+      "contextRevision": "f312d10d8b38"
+    },
+    {
+      "id": "prose:life:life-continuation:RELATION_LABEL-0003#text",
+      "domain": "life",
+      "bank": "life-continuation",
+      "stableKey": "RELATION_LABEL-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/people-continuation.ts",
+      "sourceSymbol": "RELATION_LABEL",
+      "text": "someone they taught",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "PEOPLE P5 adapter: the heading, choice labels and wait disclosure a played life's end shows. UI mounts it; until then no ordinary route renders it.",
+      "grounding": [
+        {
+          "key": "life-end-and-family",
+          "description": "The recorded death or retirement, its date, and the living relatives the kinship records name, with their real ages and playable dates.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "RELATION_LABEL",
+        "anchor": "RELATION_LABEL-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "698cbb5f9e2b",
+      "contextRevision": "f312d10d8b38"
     },
     {
       "id": "prose:life:life-continuation:projectLifeContinuation-0001#text",

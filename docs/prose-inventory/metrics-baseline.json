@@ -1,7 +1,7 @@
 {
-  "digest": "dc95d37cc183416b",
-  "totalRecords": 3186,
-  "distinctTexts": 2969,
+  "digest": "23f16ffb8e8a3e6a",
+  "totalRecords": 3189,
+  "distinctTexts": 2972,
   "exactDuplicateGroups": 83,
   "normalizedDuplicateGroups": 93,
   "nearDuplicateClusters": 35,
@@ -11,10 +11,10 @@
     "label-restated-in-description": 9,
     "rather-than-scaffold": 24,
     "third-person-player": 10,
-    "vague-referent": 188
+    "vague-referent": 190
   },
   "reachability": {
-    "CURRENTLY_UNREACHABLE": 369,
+    "CURRENTLY_UNREACHABLE": 372,
     "DEV_FIXTURE_ONLY": 110,
     "LEGACY_OR_WITHDRAWN": 90,
     "PLAYER_REACHABLE": 2190,
@@ -2369,6 +2369,9 @@
     "prose:life:introduction:buildLifeIntroduction-0004#text": "6eaa9e09f6b0",
     "prose:life:introduction:householdAbsenceLine-0001#text": "987c404d9518",
     "prose:life:introduction:householdAbsenceLine-0002#text": "8d21a6746a69",
+    "prose:life:life-continuation:RELATION_LABEL-0001#text": "85118d75c88b",
+    "prose:life:life-continuation:RELATION_LABEL-0002#text": "a8e05a56ed09",
+    "prose:life:life-continuation:RELATION_LABEL-0003#text": "698cbb5f9e2b",
     "prose:life:life-continuation:projectLifeContinuation-0001#text": "7cb73db860df",
     "prose:life:life-continuation:projectLifeContinuation-0002#text": "b40b770a012f",
     "prose:life:life-continuation:projectLifeContinuation-0003#text": "894583b44275",
@@ -5557,6 +5560,9 @@
     "prose:life:introduction:buildLifeIntroduction-0004#text": "9d5250102a31",
     "prose:life:introduction:householdAbsenceLine-0001#text": "9d5250102a31",
     "prose:life:introduction:householdAbsenceLine-0002#text": "9d5250102a31",
+    "prose:life:life-continuation:RELATION_LABEL-0001#text": "f312d10d8b38",
+    "prose:life:life-continuation:RELATION_LABEL-0002#text": "f312d10d8b38",
+    "prose:life:life-continuation:RELATION_LABEL-0003#text": "f312d10d8b38",
     "prose:life:life-continuation:projectLifeContinuation-0001#text": "f312d10d8b38",
     "prose:life:life-continuation:projectLifeContinuation-0002#text": "f312d10d8b38",
     "prose:life:life-continuation:projectLifeContinuation-0003#text": "f312d10d8b38",
