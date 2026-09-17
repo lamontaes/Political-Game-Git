@@ -681,6 +681,7 @@ export function ArtDeskView() {
     detailRequest && projection && bench ? (
       <RequestDetail
         key={detailRequest.request.requestId}
+        heading={advancedOpen ? undefined : selectedCard?.title}
         request={detailRequest}
         projection={projection}
         bench={bench}
@@ -1295,7 +1296,10 @@ function RequestDetail({
   onIntake,
   onSelect,
   onTags,
+  heading,
 }: {
+  /** The asset card's name, when the detail is opened from a card. */
+  readonly heading?: string;
   readonly request: ProjectedRequest;
   readonly projection: ArtbenchProjection;
   readonly bench: BenchState;
@@ -1441,8 +1445,12 @@ function RequestDetail({
         if (files.length) void onIntake(files, isInbox ? {} : { requestId });
       }}
     >
-      <h2>{r.title}</h2>
-      <p>{r.consumer.playerVisibleUse}</p>
+      <h2>{heading ?? r.title}</h2>
+      <p>
+        {heading && heading !== r.title
+          ? `${r.title}. ${r.consumer.playerVisibleUse}`
+          : r.consumer.playerVisibleUse}
+      </p>
       <p className="art-desk-meta">
         {LANE_LABELS[request.lane]} · request v{r.requestVersion} · target{" "}
         {r.target.targetClass} ≥{r.target.minimumWidth}px,{" "}
