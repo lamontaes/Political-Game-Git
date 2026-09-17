@@ -10,6 +10,7 @@ import {
   politicalStartingConditions,
   projectCongress,
   publicPartyAffiliation,
+  seatStartingCondition,
   serializeWorld,
   worldOpeningVersionOf,
 } from "../simulation";
@@ -125,6 +126,9 @@ describe("WORLD46 current opening: Peebles and a contrasting home", () => {
       expect(macro.policyVersion).toBe("crunch46-provisional-v1");
       expect(politics.regime).toBe(macro.regime);
       expect(politics.seats).toHaveLength(535);
+      const first = politics.seats[0]!;
+      expect(seatStartingCondition(life.world, first.seatKey)).toEqual(first);
+      expect(seatStartingCondition(life.world, "us-house:ZZ-99")).toBeNull();
     }
   });
 
