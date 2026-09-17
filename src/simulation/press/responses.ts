@@ -1,5 +1,9 @@
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
-import { activeWorkRelationshipsAt } from "../life-queries";
+import {
+  activeWorkRelationshipsAt,
+  householdMembershipsAt,
+  kinshipRelationshipsAt,
+} from "../life-queries";
 import {
   CHAPTER_MEMBERSHIP_KIND,
   homePartyChapters,
@@ -38,17 +42,21 @@ import {
  * penalty; a call for resignation needs a public institutional finding.
  */
 
-const OPTIONS: Readonly<Record<"party" | "staff", readonly MatterResponse[]>> =
-  {
-    party: [
-      "request-explanation",
-      "defend",
-      "distance",
-      "call-for-resignation",
-      "no-action",
-    ],
-    staff: ["maintain-support", "distance", "no-action"],
-  };
+type RespondingRole = "party" | "staff" | "contact";
+
+const OPTIONS: Readonly<Record<RespondingRole, readonly MatterResponse[]>> = {
+  party: [
+    "request-explanation",
+    "defend",
+    "distance",
+    "call-for-resignation",
+    "no-action",
+  ],
+  staff: ["maintain-support", "distance", "no-action"],
+  // The people who actually live with this. They ask, they stand by them, or
+  // they pull back; none of them calls for anybody to resign.
+  contact: ["request-explanation", "defend", "distance", "no-action"],
+};
 
 const LABELS: Readonly<Record<MatterResponse, string>> = {
   deny: "Deny it",
@@ -89,6 +97,37 @@ export function partyContactsForSubject(
       .map((chapter) => chapter.organizerPersonId)
       .filter((id): id is EntityId => id !== null && id !== subjectPersonId),
   );
+}
+
+/**
+ * The people close enough to the subject that a matter about them is also
+ * about the household: kin and the people they live with. They react to what
+ * they actually learned, like everybody else, and they are not the press.
+ */
+export function closeContactsOf(
+  world: World,
+  subjectPersonId: EntityId,
+): readonly EntityId[] {
+  const people = new Set<EntityId>();
+  for (const kin of kinshipRelationshipsAt(world, subjectPersonId)) {
+    const other = kin.personIds.find((id) => id !== subjectPersonId);
+    if (other) people.add(other);
+  }
+  const homes = new Set(
+    householdMembershipsAt(world, subjectPersonId).map(
+      (entry) => entry.household.id,
+    ),
+  );
+  for (const record of world.history.householdMemberships) {
+    if (record.personId !== subjectPersonId && homes.has(record.householdId)) {
+      people.add(record.personId);
+    }
+  }
+  return sortedUnique(
+    [...people].filter(
+      (personId) => !!world.people[personId] && personId !== subjectPersonId,
+    ),
+  ).slice(0, 6);
 }
 
 export function colleaguesOf(
@@ -138,12 +177,15 @@ export function produceMatterResponses(
   );
   let next = world;
   for (const subjectId of matter.subjectPersonIds) {
-    const roles: [EntityId, "party" | "staff"][] = [
+    const roles: [EntityId, RespondingRole][] = [
       ...partyContactsForSubject(next, subjectId).map(
-        (id) => [id, "party"] as [EntityId, "party"],
+        (id) => [id, "party"] as [EntityId, RespondingRole],
       ),
       ...colleaguesOf(next, subjectId).map(
-        (id) => [id, "staff"] as [EntityId, "staff"],
+        (id) => [id, "staff"] as [EntityId, RespondingRole],
+      ),
+      ...closeContactsOf(next, subjectId).map(
+        (id) => [id, "contact"] as [EntityId, RespondingRole],
       ),
     ];
     for (const [actorId, role] of roles) {
@@ -182,7 +224,7 @@ function respond(
     readonly matterId: EntityId;
     readonly subjectId: EntityId;
     readonly actorId: EntityId;
-    readonly role: "party" | "staff";
+    readonly role: RespondingRole;
     readonly knowledgeId: EntityId;
     readonly knownEvent: HistoricalEvent;
     readonly publicFinding: boolean;

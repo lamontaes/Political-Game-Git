@@ -21,6 +21,14 @@ import type {
 import { commitmentPromisee } from "../simulation/claim-contradictions";
 import { evaluateDecision } from "../simulation/decisions";
 import { lifeRequestDetails } from "../simulation/life-request-details";
+import { LIFE_CALLBACK_EVENT } from "../simulation/life-callbacks";
+import { offerBereavementScene } from "../simulation/people-bereavement";
+import {
+  contactBases,
+  contactProposals,
+  produceReachingOut,
+} from "../simulation/people-contact";
+import { requestBehindCallback } from "../simulation/people-recall";
 import {
   LIFE_OPPORTUNITY_TAG_PREFIX,
   lifeOpportunitiesFor,
@@ -102,8 +110,13 @@ export function refreshContextualScenes(
     return world;
   }
   const producers: readonly Producer[] = [
+    offerBereavementScene,
     produceHomeEvening,
+    produceRecalledRequest,
     produceFavor,
+    // Last of the request scenes: while somebody is waiting on an answer about
+    // meeting, that is the conversation this family is holding.
+    produceMeetUp,
     producePartyInvite,
     produceCampaignReaction,
     produceStaffFollowup,
@@ -164,6 +177,14 @@ function produceHomeEvening(world: World, personId: EntityId): World {
   if (!home) return world;
   const promised = producePromisedEvening(world, personId, home);
   if (promised !== world) return promised;
+  // A death in the family is what the room is about this week. Nobody asks
+  // about the calendar over the top of it.
+  const grieving = sceneBindingsFor(world, personId, "home-evening").some(
+    (entry) =>
+      entry.binding.variant === "bereaved" &&
+      entry.binding.expiresAt > world.currentDate,
+  );
+  if (grieving) return world;
   // Only an evening question that was actually talked through spaces the
   // next one; one that lapsed unanswered leaves nothing to space from.
   const recent = sceneBindingsFor(world, personId, "home-evening").some(
@@ -422,6 +443,115 @@ const FAVOR_KINDS = {
   },
   "household-evening": { situation: QUIET_EVENING_KEY, place: "Home" },
 } as const;
+
+/** Days after the asker raises it again that the scene stays answerable. */
+const RECALL_WINDOW_DAYS = 3;
+
+/**
+ * "You said you'd look at that." The request comes back because the person who
+ * made it chose to raise it, which the callback handler has already decided and
+ * written. Nothing here reopens an issue on its own.
+ */
+function produceRecalledRequest(world: World, personId: EntityId): World {
+  const from = addDays(world.currentDate, -RECALL_WINDOW_DAYS);
+  for (const callback of world.history.events) {
+    if (
+      callback.type !== LIFE_CALLBACK_EVENT ||
+      callback.occurredAt < from ||
+      !callback.involvedEntityIds.includes(personId)
+    ) {
+      continue;
+    }
+    if (sceneAlreadyBound(world, personId, "favor", "recalled", callback.id)) {
+      continue;
+    }
+    const entry = requestBehindCallback(world, personId, callback);
+    if (!entry || entry.status === "cancelled") continue;
+    const speaker = world.people[entry.counterpartPersonId];
+    if (!speaker) continue;
+    const facts: Record<string, string> = {
+      task: entry.task,
+      speakerGiven: speaker.givenName,
+      askedOn: entry.askedOn,
+      status: entry.status,
+      requestEventId: entry.requestEventId,
+    };
+    if (entry.answeredOn) facts.answeredOn = entry.answeredOn;
+    if (entry.conditions) facts.condition = entry.conditions;
+    return recordSceneBinding(
+      world,
+      {
+        version: 1,
+        family: "favor",
+        variant: "recalled",
+        playerPersonId: personId,
+        speakerPersonId: speaker.id,
+        relationship: relationshipLabel(world, personId, speaker.id),
+        place: "By phone",
+        jurisdictionId:
+          callback.jurisdictionId ?? world.people[personId]!.homeJurisdictionId,
+        request: `What became of ${entry.task}.`,
+        sourceEntityIds: [callback.id, entry.requestEventId],
+        facts,
+        knownRecordIds: [entry.requestEventId],
+        target: entry.task,
+        date: entry.askedOn,
+        expiresAt: addDays(callback.occurredAt, 14),
+      },
+      `${personName(speaker)} raised the earlier request again.`,
+    );
+  }
+  return world;
+}
+
+/**
+ * An old friend who got back in touch, and the answer the player owes them.
+ *
+ * The reaching out is the world's: it happens while time passes, whether or
+ * not the player ever opened that person's page. What is bound here is only
+ * the conversation it deserves.
+ */
+function produceMeetUp(world: World, personId: EntityId): World {
+  const reached = produceReachingOut(world, personId);
+  const open = contactProposals(reached, personId).find(
+    (proposal) => !proposal.answered && proposal.toPersonId === personId,
+  );
+  if (!open) return reached;
+  if (sceneAlreadyBound(reached, personId, "favor", "meet-up", open.eventId)) {
+    return reached;
+  }
+  const speaker = reached.people[open.fromPersonId];
+  if (!speaker) return reached;
+  const basis = contactBases(reached, personId).find(
+    (entry) => entry.personId === open.fromPersonId,
+  );
+  const facts: Record<string, string> = {
+    speakerGiven: speaker.givenName,
+    purpose: open.purpose,
+  };
+  if (basis?.lastContactOn) facts.lastContactOn = basis.lastContactOn;
+  return recordSceneBinding(
+    reached,
+    {
+      version: 1,
+      family: "favor",
+      variant: "meet-up",
+      playerPersonId: personId,
+      speakerPersonId: speaker.id,
+      relationship: relationshipLabel(reached, personId, speaker.id),
+      place: "By phone",
+      jurisdictionId: reached.people[personId]!.homeJurisdictionId,
+      request: `Whether to meet ${personName(speaker)} on ${open.on}.`,
+      sourceEntityIds: [open.eventId],
+      facts,
+      knownRecordIds: [open.eventId],
+      target: null,
+      date: open.on,
+      expiresAt: open.on,
+    },
+    `${personName(speaker)} asked to meet.`,
+  );
+}
 
 function produceFavor(world: World, personId: EntityId): World {
   for (const opportunity of lifeOpportunitiesFor(world, personId)) {

@@ -2,10 +2,12 @@ import {
   createCampaignElectionTransitionRegistry,
   personName,
 } from "../simulation";
-import type { EntityId, World } from "../simulation";
+import type { EntityId, IsoDate, World } from "../simulation";
 import {
+  CHARACTER_RETIRED_EVENT,
   PLAYABLE_AGE,
   continueAsRelative,
+  controlHandoffs,
   controlledLineage,
   currentGeneration,
   keepObserving,
@@ -32,6 +34,9 @@ const RELATION_LABEL: Readonly<Record<SuccessorRelation, string>> = {
   grandchild: "grandchild",
   sibling: "sibling",
   partner: "partner",
+  protege: "someone they taught",
+  "close-associate": "someone they kept up with",
+  other: "no connection on record",
 };
 
 export interface ContinuationChoice {
@@ -40,6 +45,13 @@ export interface ContinuationChoice {
   readonly name: string;
   /** Their relation to the character whose life ended. */
   readonly relation: string;
+  /**
+   * True for the people this life was actually bound to. The rest are offered
+   * below them, as what they are: other lives, going on anyway.
+   */
+  readonly prominent: boolean;
+  /** What the record says passed between them, when it says anything. */
+  readonly connection: string | null;
   readonly age: number;
   readonly availableNow: boolean;
   /** The button text. */
@@ -89,6 +101,8 @@ export function projectLifeContinuation(
         personId: candidate.personId,
         name: successorName,
         relation: RELATION_LABEL[candidate.relation],
+        prominent: candidate.prominent,
+        connection: candidate.connection,
         age: candidate.age,
         availableNow: candidate.availableNow,
         label: candidate.availableNow
@@ -110,6 +124,7 @@ export function projectLifeContinuation(
         : `You stopped playing ${name} on ${proseDate(ended.on)}. ${person.givenName} goes on living.`,
     choices,
     noSuccessorReason:
+      choices.filter((choice) => choice.prominent).length === 0 &&
       choices.length === 0
         ? `${name} has no living child, grandchild, sibling or partner on record to continue as.`
         : null,
@@ -155,4 +170,64 @@ export function continueAs(
 /** Keep watching the world with nobody played. */
 export function observeWorld(world: World, predecessorId: EntityId): World {
   return keepObserving(world, predecessorId);
+}
+
+/**
+ * The marker A's command runner compares against (CRUNCH47 B1).
+ *
+ * A command queued by one character must not apply after play has moved on.
+ * This returns the last change of hands as a monotonic marker: capture it when
+ * a command is queued, compare before applying, and refuse a result whose
+ * marker has moved. `null` means play has never changed hands, which is itself
+ * a stable answer.
+ *
+ * It says only that the hands changed and when. It does not know what the
+ * command was, and it is never a permission check.
+ */
+export interface ControlMarker {
+  /** The recorded sequence of the handoff event. Only ever increases. */
+  readonly sequence: number;
+  readonly occurredOn: IsoDate;
+  readonly predecessorPersonId: EntityId;
+  readonly successorPersonId: EntityId | null;
+  readonly kind: "continued" | "retired" | "observing";
+}
+
+export function pendingCommandsInvalidatedBy(
+  world: World,
+): ControlMarker | null {
+  const handoff = controlHandoffs(world).at(-1);
+  const retirement = world.history.events
+    .filter((event) => event.type === CHARACTER_RETIRED_EVENT)
+    .at(-1);
+  const handoffEvent = handoff
+    ? world.history.events.find((event) => event.id === handoff.eventId)
+    : undefined;
+  const latest =
+    handoffEvent && retirement
+      ? handoffEvent.sequence >= retirement.sequence
+        ? handoffEvent
+        : retirement
+      : (handoffEvent ?? retirement);
+  if (!latest) return null;
+  if (latest === retirement) {
+    const personId = retirement.participants.find(
+      (entry) => entry.role === "other:retired-from-play",
+    )?.personId;
+    if (!personId) return null;
+    return {
+      sequence: retirement.sequence,
+      occurredOn: retirement.occurredAt,
+      predecessorPersonId: personId,
+      successorPersonId: null,
+      kind: "retired",
+    };
+  }
+  return {
+    sequence: latest.sequence,
+    occurredOn: latest.occurredAt,
+    predecessorPersonId: handoff!.fromPersonId,
+    successorPersonId: handoff!.toPersonId,
+    kind: handoff!.kind === "continued" ? "continued" : "observing",
+  };
 }

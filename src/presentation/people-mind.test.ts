@@ -5,7 +5,11 @@ import {
   serializeWorld,
 } from "../simulation";
 import type { EntityId, World } from "../simulation";
-import { homePartyChapters } from "../simulation/living-world/party-chapters";
+import {
+  CHAPTER_OUTREACH_TRANSITION_KEY,
+  chapterOutreachTransitionHandler,
+  homePartyChapters,
+} from "../simulation/living-world/party-chapters";
 import {
   PEOPLE_TRAITS,
   ensurePeopleTraits,
@@ -17,6 +21,7 @@ import {
   traitConsiderations,
 } from "../simulation/people-traits";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import { declineVenueActivity } from "./scheduled-activity-choice";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { passOrdinaryDays } from "./ordinary-life";
 import {
@@ -200,10 +205,8 @@ describe("PEOPLE P2 persistent personality", () => {
     expect(traitConsiderations(balanced, npc, "t", leans)).toEqual([]);
   });
 
-  it("contrasting organizers in the same world make different outreach decisions", () => {
-    const organizerOf = (world: World): EntityId =>
-      homePartyChapters(world)[0]!.organizerPersonId!;
-    const organizer = organizerOf(life.world);
+  it("contrasting organizers make different outreach decisions", () => {
+    const organizer = homePartyChapters(life.world)[0]!.organizerPersonId!;
     const askedBy = (world: World) =>
       world.history.events.filter(
         (entry) =>
@@ -212,14 +215,22 @@ describe("PEOPLE P2 persistent personality", () => {
             (p) => p.personId === organizer && p.role === "agency:asked",
           ),
       );
-    // Run until this organizer has done something to cite: their first
-    // outreach.
+    // Run only as far as this organizer's first outreach, which is the record
+    // a later change of temperament can cite.
     let base = life.world;
     while (askedBy(base).length === 0) {
       base = passOrdinaryDays(base, 1, { stopForTentativeHolds: true });
       expect(base.currentDate < "2027-01-01").toBe(true);
     }
     const event = askedBy(base)[0]!;
+    // Turn that first invitation down, so the organizer is deciding whether to
+    // ask again rather than waiting on an answer.
+    const invited = base.history.scheduledActivities.find(
+      (activity) =>
+        activity.kind === "tentative" &&
+        activity.sourceEntityIds.includes(event.id),
+    );
+    if (invited) base = declineVenueActivity(base, player, invited.id);
     const shaped = (value: -2 | 2) =>
       recordTraitChange(base, {
         personId: organizer,
@@ -228,19 +239,26 @@ describe("PEOPLE P2 persistent personality", () => {
         eventId: event.id,
         reason: "Test contrast.",
       });
-    const invitationsBy = (world: World) => {
-      let current = world;
-      for (let day = 0; day < 240; day += 1) {
-        current = passOrdinaryDays(current, 1);
-      }
-      return askedBy(current).length;
-    };
-    const outgoing = invitationsBy(shaped(2));
-    const reserved = invitationsBy(shaped(-2));
-    const again = invitationsBy(shaped(2));
-    expect(outgoing).toBe(again);
+    // The decision itself, asked directly of the world rather than simulated
+    // for a year: the same due item, the same day, two temperaments.
+    // The one still waiting to be answered, not the one already spent.
+    const due = [...base.history.futureDueItems]
+      .reverse()
+      .find(
+        (item) =>
+          item.transitionKey === CHAPTER_OUTREACH_TRANSITION_KEY &&
+          item.entityIds.includes(organizer),
+      )!;
+    const decide = (world: World) =>
+      chapterOutreachTransitionHandler(world, due).reasonKey;
+    const outgoing = decide(shaped(2));
+    const reserved = decide(shaped(-2));
+    expect(outgoing).toBe(decide(shaped(2)));
     expect(outgoing).not.toBe(reserved);
-  }, 300_000);
+    expect([outgoing, reserved]).toContain(
+      "party-chapter:organizer-chose-not-now",
+    );
+  });
 });
 
 describe("PEOPLE P2 private aims", () => {

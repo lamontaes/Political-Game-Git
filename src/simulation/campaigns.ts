@@ -61,6 +61,8 @@ import {
   recordWorkStatus,
 } from "./life";
 import { LIFE_TRANSITION_HANDLERS } from "./life-callbacks";
+import { PEOPLE_CONTACT_HANDLERS } from "./people-contact";
+import { PEOPLE_FAMILY_HANDLERS } from "./people-family-plan";
 import {
   CLAIM_CONTRADICTION_TRANSITION_KEY,
   claimContradictionTransitionHandler,
@@ -1905,6 +1907,10 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
       ]),
       // CRUNCH46 PRESS: newsroom desk, story steps, procedures, bookkeeping.
       createPressTransitionRegistry(),
+      // CRUNCH47 PEOPLE: somebody answers a request to meet, in their own time.
+      PEOPLE_CONTACT_HANDLERS,
+      // CRUNCH47 PEOPLE: a family two people agreed to, on the day it lands.
+      PEOPLE_FAMILY_HANDLERS,
       LIFE_TRANSITION_HANDLERS,
     ),
   );

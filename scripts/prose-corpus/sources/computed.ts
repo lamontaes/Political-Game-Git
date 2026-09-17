@@ -462,6 +462,9 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
       "cameBackAnswers",
       "memoryCorrectedAnswers",
       "promisedExplain",
+      "recalledAnswers",
+      "bereavedAnswers",
+      "meetUpAnswers",
       "partyInvitationAnswers",
       "partyJoinAnswers",
       "partyAfterDeclineAnswers",
@@ -552,6 +555,57 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
         key: "eligible-selected-person-intent",
         description:
           "The conversation projection checks current presence, exact saved topic, age/context and prior consent before offering an action.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/presentation/press-disclosure.ts",
+    domain: "life",
+    bank: "press-disclosure",
+    symbols: ["TERM_LABEL", "projectDisclosure"],
+    surface: "option-label",
+    reachability: "CURRENTLY_UNREACHABLE",
+    reachabilityReason:
+      "CRUNCH47 B2 adapter: who the played person could talk to, on what terms, and what they actually hold to say or hand over. UI mounts it in the press context; until then no ordinary route renders it.",
+    grounding: [
+      {
+        key: "terms-and-holdings",
+        description:
+          "The outlet's own policy on each arrangement, the exact agreed description, and the events this person knows or the records they have discovered.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/presentation/people-contacts.ts",
+    domain: "life",
+    bank: "contacts",
+    symbols: ["projectContacts", "outstandingWith"],
+    surface: "option-label",
+    reachability: "CURRENTLY_UNREACHABLE",
+    reachabilityReason:
+      "CRUNCH47 B1 adapter: who the played person can reach, by what channel, and what is outstanding. UI mounts it; until then no ordinary route renders it.",
+    grounding: [
+      {
+        key: "recorded-overlap",
+        description:
+          "The household, kinship, work and group records the two people actually share, and the last meaningful interaction between them.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/presentation/people-recall-cards.ts",
+    domain: "life",
+    bank: "recall-cards",
+    symbols: ["STATUS_LINE", "projectRecallCards"],
+    surface: "status",
+    reachability: "CURRENTLY_UNREACHABLE",
+    reachabilityReason:
+      "CRUNCH47 B1 adapter: what the played person remembers being asked and having said. UI mounts it; until then no ordinary route renders it.",
+    grounding: [
+      {
+        key: "request-and-claim",
+        description:
+          "The saved request with its terms and status, and the player's own recorded answers, each named by the event it happened in.",
       },
     ],
   },
