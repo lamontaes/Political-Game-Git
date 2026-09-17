@@ -1,9 +1,16 @@
 {
   "counts": {
+<<<<<<< HEAD
     "INVENTORIED": 2781,
     "INTENTIONALLY_NON_PLAYER_FACING": 6501,
     "DIAGNOSTIC_OR_TEST": 6509,
     "NEEDS_CLASSIFICATION": 8183
+=======
+    "INVENTORIED": 2785,
+    "INTENTIONALLY_NON_PLAYER_FACING": 6496,
+    "DIAGNOSTIC_OR_TEST": 6332,
+    "NEEDS_CLASSIFICATION": 7850
+>>>>>>> origin/claude/crisis-severe-events
   },
   "needsClassification": [
     {
@@ -16681,7 +16688,7 @@
     {
       "sourcePath": "src/presentation/ordinary-life.ts",
       "enclosingSymbol": "where",
-      "line": 303,
+      "line": 306,
       "text": " in {placeName}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16689,7 +16696,7 @@
     {
       "sourcePath": "src/presentation/ordinary-life.ts",
       "enclosingSymbol": "who",
-      "line": 304,
+      "line": 307,
       "text": " {companionName} is in the next room.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16697,7 +16704,7 @@
     {
       "sourcePath": "src/presentation/ordinary-life.ts",
       "enclosingSymbol": "openingLine",
-      "line": 306,
+      "line": 309,
       "text": "A day{where} with nothing on it that anyone is waiting for.{who}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16705,7 +16712,7 @@
     {
       "sourcePath": "src/presentation/ordinary-life.ts",
       "enclosingSymbol": "openingLine",
-      "line": 308,
+      "line": 311,
       "text": "A day{where}, and a short list of things nobody else is going to do.{who}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16713,7 +16720,7 @@
     {
       "sourcePath": "src/presentation/ordinary-life.ts",
       "enclosingSymbol": "clockTime",
-      "line": 326,
+      "line": 329,
       "text": "{hour}:{minute.toString().padStart(2,\"0\")} {suffix}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16721,7 +16728,7 @@
     {
       "sourcePath": "src/presentation/ordinary-life.ts",
       "enclosingSymbol": "householdConversationRoom",
-      "line": 390,
+      "line": 393,
       "text": "{others.slice(1).map((other)=>other!.givenName).join(\"and\")} {others.length>2?\"are\":\"is\"} in the house too, and the rooms here do not really close.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16729,7 +16736,7 @@
     {
       "sourcePath": "src/presentation/ordinary-life.ts",
       "enclosingSymbol": "neighborhoodConversationRoom",
-      "line": 443,
+      "line": 446,
       "text": "The street",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16737,7 +16744,7 @@
     {
       "sourcePath": "src/presentation/ordinary-life.ts",
       "enclosingSymbol": "neighborhoodConversationRoom",
-      "line": 455,
+      "line": 458,
       "text": "You are standing on a doorstep with the street behind you.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25489,7 +25496,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "campaignSupportDefinition",
+<<<<<<< HEAD
       "line": 234,
+=======
+      "line": 231,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Canonical bounded support for one candidate in one contest at an explicit point in time. Not shown to any player; the campaign reads it only through fallible observations.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25497,7 +25508,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "campaignSupportDefinition",
+<<<<<<< HEAD
       "line": 243,
+=======
+      "line": 240,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Candidate support is contest-specific and cannot be summed across candidates or jurisdictions.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25505,7 +25520,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
+<<<<<<< HEAD
       "line": 540,
+=======
+      "line": 537,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Campaign stable key",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25513,7 +25532,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
+<<<<<<< HEAD
       "line": 541,
+=======
+      "line": 538,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Campaign committee name",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25521,7 +25544,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
+<<<<<<< HEAD
       "line": 542,
+=======
+      "line": 539,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Campaign supporter pool name",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25529,7 +25556,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
+<<<<<<< HEAD
       "line": 543,
+=======
+      "line": 540,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Campaign advertising vendor name",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25537,7 +25568,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "rivals",
+<<<<<<< HEAD
       "line": 574,
+=======
+      "line": 571,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Campaign rivals",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25545,7 +25580,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "staffPersonIds",
+<<<<<<< HEAD
       "line": 578,
+=======
+      "line": 575,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Campaign staff",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25553,7 +25592,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
+<<<<<<< HEAD
       "line": 663,
+=======
+      "line": 660,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "An aggregate pool of supporters. The game has no donor corpus and does not pretend to model individual contributions.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25561,7 +25604,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
+<<<<<<< HEAD
       "line": 673,
+=======
+      "line": 670,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "An aggregate advertising counterparty. The game has no media market and does not pretend to model one.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25569,7 +25616,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
+<<<<<<< HEAD
       "line": 736,
+=======
+      "line": 733,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Campaign volunteer",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25577,7 +25628,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
+<<<<<<< HEAD
       "line": 769,
+=======
+      "line": 766,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Filed for a {option.office.title}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25585,7 +25640,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
+<<<<<<< HEAD
       "line": 775,
+=======
+      "line": 772,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "{candidate.givenName} {candidate.familyName} filed as a candidate for a {option.office.title}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25593,7 +25652,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
+<<<<<<< HEAD
       "line": 780,
+=======
+      "line": 777,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Filing for office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25601,7 +25664,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
+<<<<<<< HEAD
       "line": 783,
+=======
+      "line": 780,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "A public candidacy, on the record from the day it was filed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25609,7 +25676,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
+<<<<<<< HEAD
       "line": 785,
+=======
+      "line": 782,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Put their name on the ballot.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25617,7 +25688,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
+<<<<<<< HEAD
       "line": 786,
+=======
+      "line": 783,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Stand for something they cannot change from outside.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25625,7 +25700,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
+<<<<<<< HEAD
       "line": 788,
+=======
+      "line": 785,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "There is a committee, an empty account, and a date to work towards.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25633,7 +25712,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "participants",
+<<<<<<< HEAD
       "line": 946,
+=======
+      "line": 943,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Campaign activity participants",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25641,7 +25724,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "next",
+<<<<<<< HEAD
       "line": 1186,
+=======
+      "line": 1183,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Campaign field memo",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25649,7 +25736,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "moneyLabel",
+<<<<<<< HEAD
       "line": 1219,
+=======
+      "line": 1216,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "{amount.currency} {(amount.minorUnits/100).toFixed(2)}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25657,7 +25748,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "actionMoney",
+<<<<<<< HEAD
       "line": 1290,
+=======
+      "line": 1287,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Proceeds of a scheduled fundraising session, received by the committee.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25665,7 +25760,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "actionMoney",
+<<<<<<< HEAD
       "line": 1291,
+=======
+      "line": 1288,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "An advertising buy, paid out of the committee's own account.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25673,7 +25772,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "baseOutcomeSummary",
+<<<<<<< HEAD
       "line": 1356,
+=======
+      "line": 1353,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "The committee spent the session on the phones and took in {moneyLabel(money.raisedAmount!)}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25681,7 +25784,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "baseOutcomeSummary",
+<<<<<<< HEAD
       "line": 1358,
+=======
+      "line": 1355,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "The committee placed an advertising buy worth {moneyLabel(money.spentAmount!)}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25689,7 +25796,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "baseOutcomeSummary",
+<<<<<<< HEAD
       "line": 1359,
+=======
+      "line": 1356,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "The campaign spent the session knocking on doors and talking to people who answered.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25697,7 +25808,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "outcomeSummary",
+<<<<<<< HEAD
       "line": 1361,
+=======
+      "line": 1358,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "{baseOutcomeSummary} The approved geography was {action.strategy.geographyLabel}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25705,7 +25820,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
+<<<<<<< HEAD
       "line": 1381,
+=======
+      "line": 1378,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Led a fundraising session",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25713,7 +25832,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
+<<<<<<< HEAD
       "line": 1383,
+=======
+      "line": 1380,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Signed off the advertising buy",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25721,7 +25844,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
+<<<<<<< HEAD
       "line": 1384,
+=======
+      "line": 1381,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Led the door-knocking",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25729,7 +25856,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
+<<<<<<< HEAD
       "line": 1397,
+=======
+      "line": 1394,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Campaign work",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25737,7 +25868,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
+<<<<<<< HEAD
       "line": 1399,
+=======
+      "line": 1396,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Campaign work, on the same clock as the rest of the day.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25745,7 +25880,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
+<<<<<<< HEAD
       "line": 1400,
+=======
+      "line": 1397,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "There are only so many days left before the election.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25753,7 +25892,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
+<<<<<<< HEAD
       "line": 1402,
+=======
+      "line": 1399,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Approve {action.kind} for {action.strategy.geographyLabel} with a {moneyLabel(action.strategy.approvedSpendCeiling)} committee spending ceiling.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25761,7 +25904,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
+<<<<<<< HEAD
       "line": 1404,
+=======
+      "line": 1401,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Spend the session asking people for money.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25769,7 +25916,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
+<<<<<<< HEAD
       "line": 1406,
+=======
+      "line": 1403,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Spend the committee's money reaching people nobody had time to meet.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25777,7 +25928,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
+<<<<<<< HEAD
       "line": 1407,
+=======
+      "line": 1404,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Spend the afternoon meeting people instead.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25785,7 +25940,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
+<<<<<<< HEAD
       "line": 1408,
+=======
+      "line": 1405,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Be in a position to win on the day.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25793,7 +25952,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
+<<<<<<< HEAD
       "line": 1411,
+=======
+      "line": 1408,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "There is more in the account than there was this morning.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25801,7 +25964,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
+<<<<<<< HEAD
       "line": 1413,
+=======
+      "line": 1410,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "There is less in the account, and more people have heard the name.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25809,7 +25976,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
+<<<<<<< HEAD
       "line": 1414,
+=======
+      "line": 1411,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Somebody who had never heard of them now has.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25817,7 +25988,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
+<<<<<<< HEAD
       "line": 1456,
+=======
+      "line": 1453,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Read the field memo",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25825,7 +26000,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
+<<<<<<< HEAD
       "line": 1462,
+=======
+      "line": 1459,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "The field memo puts them somewhere around {Math.round(observed)} percent, give or take four points.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25833,7 +26012,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
+<<<<<<< HEAD
       "line": 1466,
+=======
+      "line": 1463,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Campaign office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25841,7 +26024,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
+<<<<<<< HEAD
       "line": 1467,
+=======
+      "line": 1464,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "A memo left on the desk",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25849,7 +26036,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
+<<<<<<< HEAD
       "line": 1470,
+=======
+      "line": 1467,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Somebody's best estimate from the calls they made, not the electorate itself.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25857,7 +26048,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
+<<<<<<< HEAD
       "line": 1473,
+=======
+      "line": 1470,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Give the candidate something to act on.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25865,7 +26060,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
+<<<<<<< HEAD
       "line": 1474,
+=======
+      "line": 1471,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "It could be wrong, and there is no way to check.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25873,7 +26072,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "terminal",
+<<<<<<< HEAD
       "line": 1727,
+=======
+      "line": 1724,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "They won, and the office follows.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25881,7 +26084,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "terminal",
+<<<<<<< HEAD
       "line": 1728,
+=======
+      "line": 1725,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "They lost. The campaign is over; the life is not.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25889,7 +26096,11 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "campaignElectionTransitionHandler",
+<<<<<<< HEAD
       "line": 1850,
+=======
+      "line": 1847,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "The contest for a {requireElectionContest(closed,campaign.contestId).office.title} was decided.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -28715,6 +28926,678 @@
       "enclosingSymbol": "version",
       "line": 750,
       "text": "{delta.numerator}/{delta.denominatorParts} under {m.designation}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/continuity.ts",
+      "enclosingSymbol": "summaryFor",
+      "line": 26,
+      "text": "Died while holding office: {titles}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/continuity.ts",
+      "enclosingSymbol": "summaryFor",
+      "line": 28,
+      "text": "Became unable to carry out the duties of office: {titles}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/continuity.ts",
+      "enclosingSymbol": "summaryFor",
+      "line": 30,
+      "text": "Became able again to carry out the duties of office: {titles}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/disaster.ts",
+      "enclosingSymbol": "occurred",
+      "line": 270,
+      "text": "Flooding struck the area ({input.magnitude}).",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/disaster.ts",
+      "enclosingSymbol": "occurred",
+      "line": 271,
+      "text": "A severe storm struck the area ({input.magnitude}).",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/disaster.ts",
+      "enclosingSymbol": "declareHazardEpisode",
+      "line": 297,
+      "text": "Local emergency services responded and began assessing damage.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/disaster.ts",
+      "enclosingSymbol": "applyDamage",
+      "line": 405,
+      "text": "Died of injuries suffered when the disaster struck their home.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/disaster.ts",
+      "enclosingSymbol": "applyStateDecision",
+      "line": 599,
+      "text": "The governor did not request federal assistance.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/disaster.ts",
+      "enclosingSymbol": "applyStateDecision",
+      "line": 602,
+      "text": "The state did not ask for a federal disaster declaration.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/disaster.ts",
+      "enclosingSymbol": "next",
+      "line": 609,
+      "text": "The governor requested a federal major-disaster declaration.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/disaster.ts",
+      "enclosingSymbol": "next",
+      "line": 613,
+      "text": "The governor asked the President for a federal disaster declaration.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/disaster.ts",
+      "enclosingSymbol": "applyFederalDecision",
+      "line": 662,
+      "text": "The President declared a major disaster for the affected area.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/disaster.ts",
+      "enclosingSymbol": "applyFederalDecision",
+      "line": 663,
+      "text": "The President denied the request; state and local resources continue.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/disaster.ts",
+      "enclosingSymbol": "applyFederalDecision",
+      "line": 671,
+      "text": "The President declared a major disaster, making federal assistance available.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/disaster.ts",
+      "enclosingSymbol": "applyFederalDecision",
+      "line": 672,
+      "text": "The President denied the request for a federal disaster declaration.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/disaster.ts",
+      "enclosingSymbol": "disasterStateReviewHandler",
+      "line": 703,
+      "text": "Already decided.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/disaster.ts",
+      "enclosingSymbol": "disasterStateReviewHandler",
+      "line": 713,
+      "text": "No governor is recorded for this state, so no request was made.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/disaster.ts",
+      "enclosingSymbol": "disasterStateReviewHandler",
+      "line": 728,
+      "text": "The request window closed without a decision.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/disaster.ts",
+      "enclosingSymbol": "disasterStateReviewHandler",
+      "line": 759,
+      "text": "Damage exceeded what the state expected to handle alone.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/disaster.ts",
+      "enclosingSymbol": "disasterStateReviewHandler",
+      "line": 760,
+      "text": "The governor judged state and local resources sufficient.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/disaster.ts",
+      "enclosingSymbol": "disasterFederalReviewHandler",
+      "line": 773,
+      "text": "Already decided.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/disaster.ts",
+      "enclosingSymbol": "disasterFederalReviewHandler",
+      "line": 777,
+      "text": "Already recorded as undecided.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/disaster.ts",
+      "enclosingSymbol": "disasterFederalReviewHandler",
+      "line": 786,
+      "text": "The request for a federal declaration remains undecided.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/disaster.ts",
+      "enclosingSymbol": "disasterRepairCycleHandler",
+      "line": 906,
+      "text": "Officials reviewed the disaster; no recorded homes needed rebuilding.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/disaster.ts",
+      "enclosingSymbol": "disasterRepairCycleHandler",
+      "line": 907,
+      "text": "Officials reviewed the recovery after recorded repairs were completed.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/health.ts",
+      "enclosingSymbol": "next",
+      "line": 203,
+      "text": "Unable to carry out ordinary work because of a health episode.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/health.ts",
+      "enclosingSymbol": "next",
+      "line": 205,
+      "text": "Able to work with limits during a health episode.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/health.ts",
+      "enclosingSymbol": "next",
+      "line": 206,
+      "text": "Able to carry out ordinary work again.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/health.ts",
+      "enclosingSymbol": "hazard",
+      "line": 304,
+      "text": "No represented change to all-cause hazard.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/health.ts",
+      "enclosingSymbol": "began",
+      "line": 324,
+      "text": "Became acutely unwell.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/health.ts",
+      "enclosingSymbol": "began",
+      "line": 326,
+      "text": "Became seriously unwell.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/health.ts",
+      "enclosingSymbol": "began",
+      "line": 327,
+      "text": "Began living with a long-term health condition.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/health.ts",
+      "enclosingSymbol": "teachRecipients",
+      "line": 436,
+      "text": "Learned about a health episode.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/health.ts",
+      "enclosingSymbol": "disclosed",
+      "line": 520,
+      "text": "A health episode was made public.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/health.ts",
+      "enclosingSymbol": "disclosed",
+      "line": 521,
+      "text": "A health episode was shared with the people responsible.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/health.ts",
+      "enclosingSymbol": "healthReviewHandler",
+      "line": 590,
+      "text": "The episode had already ended.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "occurred",
+      "line": 220,
+      "text": "Tension rose with {input.counterpartyLabel} over {input.subject}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "assessAndAdvise",
+      "line": 300,
+      "text": "The Secretary of State favors direct talks and allied statements.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "assessAndAdvise",
+      "line": 302,
+      "text": "Within ordinary executive foreign-affairs authority.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "assessAndAdvise",
+      "line": 307,
+      "text": "Treasury proposes targeted economic measures with allies.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "assessAndAdvise",
+      "line": 309,
+      "text": "Requires an applicable statutory sanctions authority.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "assessAndAdvise",
+      "line": 315,
+      "text": "The Secretary of Defense proposes moving forces into the region.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "assessAndAdvise",
+      "line": 318,
+      "text": "Introducing forces where hostilities are imminent requires a War Powers report within 48 hours.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "decided",
+      "line": 385,
+      "text": "The administration pursued talks with {crisis.counterpartyLabel}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "decided",
+      "line": 387,
+      "text": "The administration imposed economic measures on {crisis.counterpartyLabel}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "decided",
+      "line": 388,
+      "text": "The administration moved U.S. forces toward the {crisis.subject} dispute.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "WAR_POWERS_TEXT",
+      "line": 421,
+      "text": "U.S. forces were introduced into an area of imminent hostilities.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "WAR_POWERS_TEXT",
+      "line": 423,
+      "text": "The President submitted the required War Powers report to Congress.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "WAR_POWERS_TEXT",
+      "line": 425,
+      "text": "Sixty days passed without a declaration of war or specific authorization from Congress.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "WAR_POWERS_TEXT",
+      "line": 427,
+      "text": "The President certified that up to thirty more days are needed to withdraw forces safely.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "WAR_POWERS_TEXT",
+      "line": 428,
+      "text": "U.S. forces were withdrawn from the area.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "next",
+      "line": 479,
+      "text": "50 U.S.C. §1543(a)(1): written report due within 48 hours.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "next",
+      "line": 481,
+      "text": "50 U.S.C. §1544(b): 60-day period runs from the report.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "next",
+      "line": 483,
+      "text": "50 U.S.C. §1544(b): up to 30 more days on written certification.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "next",
+      "line": 485,
+      "text": "No declaration or specific authorization is recorded in this World.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "next",
+      "line": 486,
+      "text": "Forces are no longer introduced.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "internationalDecisionHandler",
+      "line": 540,
+      "text": "No decision pending.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "internationalResponseHandler",
+      "line": 577,
+      "text": "Nothing to answer.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "responded",
+      "line": 617,
+      "text": "{state.crisis.counterpartyLabel} stepped back.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "responded",
+      "line": 619,
+      "text": "{state.crisis.counterpartyLabel} held its position.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "responded",
+      "line": 620,
+      "text": "{state.crisis.counterpartyLabel} escalated.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "responded",
+      "line": 622,
+      "text": " Allies backed the U.S. response.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "responded",
+      "line": 623,
+      "text": " Allies stood aside.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "responded",
+      "line": 625,
+      "text": " The dispute settled into a standoff.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "beginCycle",
+      "line": 668,
+      "text": "Cycle no longer needed.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "warPowersHandler",
+      "line": 716,
+      "text": "The clock no longer applies.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "attempted",
+      "line": 818,
+      "text": "An attack took a life.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "attempted",
+      "line": 820,
+      "text": "An attack left its target injured.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "attempted",
+      "line": 821,
+      "text": "An attack was attempted; its target was unharmed.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "enclosingSymbol": "recordViolenceAttempt",
+      "line": 845,
+      "text": "Killed in an attack.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/mortality.ts",
+      "enclosingSymbol": "withDeath",
+      "line": 331,
+      "text": "Died. The cause is not represented; ordinary all-cause mortality applied.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/mortality.ts",
+      "enclosingSymbol": "mortalityWindowHandler",
+      "line": 381,
+      "text": "Exposed {newly.length} newly tracked people.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/mortality.ts",
+      "enclosingSymbol": "mortalityDeathHandler",
+      "line": 399,
+      "text": "The person was no longer alive.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/mortality.ts",
+      "enclosingSymbol": "mortalityDeathHandler",
+      "line": 401,
+      "text": "No mortality window is active.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/mortality.ts",
+      "enclosingSymbol": "mortalityDeathHandler",
+      "line": 410,
+      "text": "A later hazard change moved the crossing day.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/notices.ts",
+      "enclosingSymbol": "envelopeFor",
+      "line": 236,
+      "text": "represented household records",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/notices.ts",
+      "enclosingSymbol": "envelopeFor",
+      "line": 237,
+      "text": "represented dwelling records",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/notices.ts",
+      "enclosingSymbol": "envelopeFor",
+      "line": 238,
+      "text": "represented organization records",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/notices.ts",
+      "enclosingSymbol": "envelopeFor",
+      "line": 239,
+      "text": "authored repair-effort units",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/offices.ts",
+      "enclosingSymbol": "OPENING_FEDERAL_TENURES",
+      "line": 19,
+      "text": "President of the United States",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/offices.ts",
+      "enclosingSymbol": "OPENING_FEDERAL_TENURES",
+      "line": 26,
+      "text": "Chief Justice of the United States",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/offices.ts",
+      "enclosingSymbol": "elected",
+      "line": 84,
+      "text": "President of the United States",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/offices.ts",
+      "enclosingSymbol": "elected",
+      "line": 85,
+      "text": "Vice President of the United States",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/crisis/offices.ts",
+      "enclosingSymbol": "currentPresidentOf",
+      "line": 159,
+      "text": "President of the United States",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -32225,16 +33108,8 @@
     {
       "sourcePath": "src/simulation/future-transitions.ts",
       "enclosingSymbol": "createFutureTransitionHandlerRegistry",
-      "line": 108,
+      "line": 110,
       "text": "Future transition key",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/simulation/future-transitions.ts",
-      "enclosingSymbol": "scheduleFutureDueItem",
-      "line": 157,
-      "text": "future due item",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -32242,6 +33117,14 @@
       "sourcePath": "src/simulation/future-transitions.ts",
       "enclosingSymbol": "scheduleFutureDueItem",
       "line": 159,
+      "text": "future due item",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/future-transitions.ts",
+      "enclosingSymbol": "scheduleFutureDueItem",
+      "line": 161,
       "text": "Future transition key",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -32249,7 +33132,7 @@
     {
       "sourcePath": "src/simulation/future-transitions.ts",
       "enclosingSymbol": "entityIds",
-      "line": 167,
+      "line": 169,
       "text": "Future due-item entities",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -32257,7 +33140,7 @@
     {
       "sourcePath": "src/simulation/future-transitions.ts",
       "enclosingSymbol": "setFutureDueItemTerminalState",
-      "line": 244,
+      "line": 246,
       "text": "future due-item state",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -32265,7 +33148,7 @@
     {
       "sourcePath": "src/simulation/future-transitions.ts",
       "enclosingSymbol": "setFutureDueItemTerminalState",
-      "line": 277,
+      "line": 279,
       "text": "Future due-item reason key",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -32273,7 +33156,7 @@
     {
       "sourcePath": "src/simulation/future-transitions.ts",
       "enclosingSymbol": "setFutureDueItemTerminalState",
-      "line": 279,
+      "line": 281,
       "text": "Future due-item context",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -32281,7 +33164,11 @@
     {
       "sourcePath": "src/simulation/future-transitions.ts",
       "enclosingSymbol": "ids",
+<<<<<<< HEAD
       "line": 704,
+=======
+      "line": 698,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Future due-item provenance sources",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61961,7 +62848,7 @@
     {
       "sourcePath": "src/simulation/vitality-integrity.ts",
       "enclosingSymbol": "MORTALITY_OBSOLETE_CONTEXT",
-      "line": 25,
+      "line": 26,
       "text": "The once-valid mortality plan became obsolete after death.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61969,7 +62856,7 @@
     {
       "sourcePath": "src/simulation/vitality-integrity.ts",
       "enclosingSymbol": "MORTALITY_DEATH_CONTEXT",
-      "line": 27,
+      "line": 28,
       "text": "The annual mortality check produced death.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61977,7 +62864,7 @@
     {
       "sourcePath": "src/simulation/vitality-integrity.ts",
       "enclosingSymbol": "MORTALITY_SURVIVAL_CONTEXT",
-      "line": 29,
+      "line": 30,
       "text": "The annual mortality check was survived.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61985,7 +62872,7 @@
     {
       "sourcePath": "src/simulation/vitality-integrity.ts",
       "enclosingSymbol": "personActionAvailabilityAt",
-      "line": 124,
+      "line": 125,
       "text": "The person was deceased at this historical frontier.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -61993,7 +62880,7 @@
     {
       "sourcePath": "src/simulation/vitality-integrity.ts",
       "enclosingSymbol": "personActionAvailabilityAt",
-      "line": 137,
+      "line": 138,
       "text": "The person was functionally incapacitated at this historical frontier.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -62001,7 +62888,7 @@
     {
       "sourcePath": "src/simulation/vitality-integrity.ts",
       "enclosingSymbol": "personActionAvailabilityAt",
-      "line": 149,
+      "line": 150,
       "text": "The person had limited functional capacity; the domain may apply narrower rules.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -62705,7 +63592,11 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "recordWorldEvent",
+<<<<<<< HEAD
       "line": 598,
+=======
+      "line": 584,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Historical event stable key",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -62713,7 +63604,11 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "recordWorldEvent",
+<<<<<<< HEAD
       "line": 599,
+=======
+      "line": 585,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Historical event type",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -62721,7 +63616,11 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "recordWorldEvent",
+<<<<<<< HEAD
       "line": 600,
+=======
+      "line": 586,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Historical event summary",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -62729,7 +63628,11 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "recordWorldEvent",
+<<<<<<< HEAD
       "line": 606,
+=======
+      "line": 592,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Historical event",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -62737,7 +63640,11 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "recordWorldEvent",
+<<<<<<< HEAD
       "line": 899,
+=======
+      "line": 898,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Historical event participant role",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -62745,7 +63652,11 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "recordWorldEvent",
+<<<<<<< HEAD
       "line": 902,
+=======
+      "line": 901,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Event participant detail",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -62753,7 +63664,11 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "advanceWorld",
+<<<<<<< HEAD
       "line": 1007,
+=======
+      "line": 999,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Simulation time advanced {days} days to {nextDate}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -62761,7 +63676,11 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "advanceWorld",
+<<<<<<< HEAD
       "line": 1012,
+=======
+      "line": 1004,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Primary simulation jurisdiction",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -62769,7 +63688,11 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "advanceWorld",
+<<<<<<< HEAD
       "line": 1016,
+=======
+      "line": 1008,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Deterministic simulation clock transition.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -62777,7 +63700,11 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "resolveEntityLabel",
+<<<<<<< HEAD
       "line": 1099,
+=======
+      "line": 1091,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Causal process {causalProcess.kind}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -62785,7 +63712,11 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "resolveEntityLabel",
+<<<<<<< HEAD
       "line": 1104,
+=======
+      "line": 1096,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "{world.metricCatalog.definitions[effectActivation.targetMetricId]?.name??\"Metric\"} effect",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -62793,7 +63724,11 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "resolveEntityLabel",
+<<<<<<< HEAD
       "line": 1110,
+=======
+      "line": 1102,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "{metricObservation.sourceLabel} observation",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -62801,7 +63736,11 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "resolveEntityLabel",
+<<<<<<< HEAD
       "line": 1116,
+=======
+      "line": 1108,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "{world.metricCatalog.definitions[metricState.metricId]?.name??\"Metric\"} state",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -62809,7 +63748,11 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "resolveEntityLabel",
+<<<<<<< HEAD
       "line": 1121,
+=======
+      "line": 1113,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Due transition {dueItem.transitionKey}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -62817,7 +63760,11 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "resolveEntityLabel",
+<<<<<<< HEAD
       "line": 1129,
+=======
+      "line": 1121,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Policy baseline {policyBaseline.seriesKey}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -62825,7 +63772,11 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "resolveEntityLabel",
+<<<<<<< HEAD
       "line": 1134,
+=======
+      "line": 1126,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Policy operation {policyOperation.operation.kind}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -62833,7 +63784,11 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "resolveEntityLabel",
+<<<<<<< HEAD
       "line": 1138,
+=======
+      "line": 1130,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Policy implementation profile",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -62841,7 +63796,11 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "resolveEntityLabel",
+<<<<<<< HEAD
       "line": 1142,
+=======
+      "line": 1134,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Policy estimate {policyEstimate.seriesKey}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -62849,7 +63808,11 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "resolveEntityLabel",
+<<<<<<< HEAD
       "line": 1147,
+=======
+      "line": 1139,
+>>>>>>> origin/claude/crisis-severe-events
       "text": "Policy realization {policyRealization.status}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -65517,6 +66480,30 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertHistoryIdentity. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/world.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateTags. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/ui/CausalTraceView.tsx",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/world.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateSubjectKnowledgeProvenance. Play fails closed rather than showing it.",
       "count": 5
     },
@@ -65557,6 +66544,7 @@
       "count": 1
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/simulation/world.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertHistoryIdentity. Play fails closed rather than showing it.",
@@ -65566,6 +66554,11 @@
       "sourcePath": "src/simulation/world.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateTags. Play fails closed rather than showing it.",
+=======
+      "sourcePath": "src/ui/EducationPathProof.tsx",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+>>>>>>> origin/claude/crisis-severe-events
       "count": 1
     },
     {
@@ -65578,7 +66571,7 @@
       "sourcePath": "src/simulation/world.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 194
+      "count": 195
     },
     {
       "sourcePath": "src/simulation/world.test.ts",
@@ -65589,6 +66582,15 @@
     {
       "sourcePath": "src/simulation/world-metrics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+<<<<<<< HEAD
+=======
+      "reason": "A validation message composed in validateScope. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/world-metrics.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+>>>>>>> origin/claude/crisis-severe-events
       "reason": "A validation message composed in validateStateProvenance. Play fails closed rather than showing it.",
       "count": 3
     },
@@ -65607,12 +66609,15 @@
     {
       "sourcePath": "src/simulation/world-metrics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+<<<<<<< HEAD
       "reason": "A validation message composed in validateScope. Play fails closed rather than showing it.",
       "count": 1
     },
     {
       "sourcePath": "src/simulation/world-metrics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+=======
+>>>>>>> origin/claude/crisis-severe-events
       "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
       "count": 1
     },
@@ -66277,6 +67282,12 @@
       "count": 1
     },
     {
+      "sourcePath": "src/simulation/rule-capability-resolver.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 3
+    },
+    {
       "sourcePath": "src/simulation/policy-semantics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateImplementationFactor. Play fails closed rather than showing it.",
@@ -66355,18 +67366,103 @@
       "count": 9
     },
     {
+<<<<<<< HEAD
+=======
+      "sourcePath": "src/simulation/person-appearance.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/simulation/perception.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 4
     },
     {
+<<<<<<< HEAD
+=======
+      "sourcePath": "src/simulation/pennywise-adaptive-life.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 75
+    },
+    {
+      "sourcePath": "src/simulation/office-workflow.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 6
+    },
+    {
+      "sourcePath": "src/simulation/office-qualification-rules.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 10
+    },
+    {
+      "sourcePath": "src/simulation/p2r1-callbacks.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 10
+    },
+    {
+      "sourcePath": "src/simulation/office-qualification-rules.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 12
+    },
+    {
+      "sourcePath": "src/simulation/nationwide-world/state-executive-terms.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/national-elections.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateNationalRecord. Play fails closed rather than showing it.",
+      "count": 4
+    },
+    {
+      "sourcePath": "src/simulation/national-elections.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 61
+    },
+    {
+      "sourcePath": "src/simulation/national-elections.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 22
+    },
+    {
+      "sourcePath": "src/simulation/national-election-geography.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/national-election-rules.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/nationwide-world/state-executive-terms.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/simulation/people.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 2
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/simulation/people.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -66493,6 +67589,8 @@
       "count": 2
     },
     {
+=======
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/simulation/national-election-consumer.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -66625,6 +67723,7 @@
       "count": 1
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/simulation/mind.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateMindSourceReferences. Play fails closed rather than showing it.",
@@ -66667,6 +67766,8 @@
       "count": 1
     },
     {
+=======
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/simulation/national-elections.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateProvenance. Play fails closed rather than showing it.",
@@ -66715,12 +67816,123 @@
       "count": 1
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/simulation/nationwide-world/state-executive-turnover-calendar.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 1
     },
     {
+=======
+      "sourcePath": "src/simulation/municipal-rule-registry.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 6
+    },
+    {
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 13
+    },
+    {
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 14
+    },
+    {
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/municipal-public-work.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 39
+    },
+    {
+      "sourcePath": "src/simulation/municipal-ordinance-procedure.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 12
+    },
+    {
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 6
+    },
+    {
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/municipal-election-rules.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertMunicipalElectionRulePack. Play fails closed rather than showing it.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/municipal-election-rules.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 23
+    },
+    {
+      "sourcePath": "src/simulation/municipal-election-rules.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 31
+    },
+    {
+      "sourcePath": "src/simulation/municipal-election-rule-packs.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "Compiled municipal election rules, cited to their instruments. Sourced evidence rather than authored prose.",
+      "count": 92
+    },
+    {
+      "sourcePath": "src/simulation/mind.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validatePerceptionSource. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/mind.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateMindProvenance. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/mind.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateMindSourceReferences. Play fails closed rather than showing it.",
+      "count": 10
+    },
+    {
+      "sourcePath": "src/simulation/mind.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 54
+    },
+    {
+      "sourcePath": "src/simulation/municipal-election-rule-packs-matrix.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 54
+    },
+    {
+      "sourcePath": "src/simulation/mind-queries.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 33
+    },
+    {
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/simulation/mind-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validatePerceptionSource. Play fails closed rather than showing it.",
@@ -66733,6 +67945,18 @@
       "count": 2
     },
     {
+      "sourcePath": "src/simulation/mind.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateTrustedCue. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/mind.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertTags. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/mind-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateProvenance. Play fails closed rather than showing it.",
@@ -66741,7 +67965,36 @@
     {
       "sourcePath": "src/simulation/mind.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+<<<<<<< HEAD
       "reason": "A validation message composed in validateMindProvenance. Play fails closed rather than showing it.",
+      "count": 2
+=======
+      "reason": "A validation message composed in validateDecisionContext. Play fails closed rather than showing it.",
+      "count": 17
+    },
+    {
+      "sourcePath": "src/simulation/mind-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateDecisionTrace. Play fails closed rather than showing it.",
+      "count": 5
+>>>>>>> origin/claude/crisis-severe-events
+    },
+    {
+      "sourcePath": "src/simulation/mind-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateRelationshipSources. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/mind-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateTrustedCue. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/people.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 2
     },
     {
@@ -66751,10 +68004,10 @@
       "count": 5
     },
     {
-      "sourcePath": "src/simulation/mind-integrity.ts",
+      "sourcePath": "src/simulation/life-episodes.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateDecisionTrace. Play fails closed rather than showing it.",
-      "count": 5
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 8
     },
     {
       "sourcePath": "src/simulation/mind-integrity.ts",
@@ -66811,12 +68064,15 @@
       "count": 3
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/simulation/living-world/congress-contest-authority.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 3
     },
     {
+=======
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/simulation/life.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateOrganizationProfile. Play fails closed rather than showing it.",
@@ -66861,20 +68117,19 @@
     {
       "sourcePath": "src/simulation/life.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+<<<<<<< HEAD
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 1
+=======
+      "reason": "A validation message composed in validatePerceptionSource. Play fails closed rather than showing it.",
+      "count": 2
+>>>>>>> origin/claude/crisis-severe-events
     },
     {
       "sourcePath": "src/simulation/life.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 81
-    },
-    {
-      "sourcePath": "src/simulation/life-sources.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 4
     },
     {
       "sourcePath": "src/simulation/life-queries.ts",
@@ -66892,6 +68147,12 @@
       "sourcePath": "src/simulation/life-personality.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 4
+    },
+    {
+      "sourcePath": "src/simulation/life-sources.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 4
     },
     {
@@ -66985,6 +68246,39 @@
       "count": 1
     },
     {
+<<<<<<< HEAD
+=======
+      "sourcePath": "src/simulation/life.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateMembership. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateCareState. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/living-world/congress-seats.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/living-world/contract.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/simulation/living-world/developments.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -67047,6 +68341,12 @@
     {
       "sourcePath": "src/simulation/life-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateLoadResolution. Play fails closed rather than showing it.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/life-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 81
     },
@@ -67076,18 +68376,21 @@
     },
     {
       "sourcePath": "src/simulation/life-episodes.ts",
+<<<<<<< HEAD
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in checkRequirement. Play fails closed rather than showing it.",
       "count": 28
     },
     {
       "sourcePath": "src/simulation/life-eligibility.ts",
+=======
+>>>>>>> origin/claude/crisis-severe-events
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 8
+      "reason": "A validation message composed in checkRequirement. Play fails closed rather than showing it.",
+      "count": 28
     },
     {
-      "sourcePath": "src/simulation/life-episodes.ts",
+      "sourcePath": "src/simulation/life-eligibility.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 8
@@ -67127,6 +68430,24 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertRulePackIntegrity. Play fails closed rather than showing it.",
       "count": 31
+    },
+    {
+      "sourcePath": "src/simulation/legislature-rules.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertThresholdRule. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/legislature-rules.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in requireFormalSeatCount. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
     },
     {
       "sourcePath": "src/simulation/legislature-rules.ts",
@@ -67171,6 +68492,7 @@
       "count": 5
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/simulation/legislative-member-decisions.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -67183,6 +68505,8 @@
       "count": 2
     },
     {
+=======
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/simulation/legislative-event-references.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -67207,6 +68531,12 @@
       "count": 2
     },
     {
+      "sourcePath": "src/simulation/legislative-institutions.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
       "sourcePath": "src/simulation/legislation-tax-identity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -67225,9 +68555,15 @@
       "count": 1
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/simulation/legislation.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in requirePhase. Play fails closed rather than showing it.",
+=======
+      "sourcePath": "src/simulation/legislative-member-decisions.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+>>>>>>> origin/claude/crisis-severe-events
       "count": 1
     },
     {
@@ -67237,6 +68573,15 @@
       "count": 1
     },
     {
+<<<<<<< HEAD
+=======
+      "sourcePath": "src/simulation/life-circumstances.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/simulation/legislation-service-families.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -67267,6 +68612,7 @@
       "count": 1
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/simulation/legislation-resilience-families.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
@@ -67294,6 +68640,11 @@
       "sourcePath": "src/simulation/life-circumstances.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+=======
+      "sourcePath": "src/simulation/legislation.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in requirePhase. Play fails closed rather than showing it.",
+>>>>>>> origin/claude/crisis-severe-events
       "count": 1
     },
     {
@@ -67321,12 +68672,15 @@
       "count": 6
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/simulation/incidents.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 31
     },
     {
+=======
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/simulation/legislation-drafting.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -67381,6 +68735,7 @@
       "count": 3
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/simulation/legislation-resilience-families.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -67393,12 +68748,15 @@
       "count": 3
     },
     {
+=======
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/simulation/jurisdiction-hierarchy.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 17
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/simulation/judicial-office-work.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -67411,16 +68769,25 @@
       "count": 20
     },
     {
+=======
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/simulation/judicial-office-start.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
       "count": 1
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/simulation/judicial-office-start.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 3
+=======
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+>>>>>>> origin/claude/crisis-severe-events
     },
     {
       "sourcePath": "src/simulation/judicial-gameplay-kernels.ts",
@@ -67483,6 +68850,7 @@
       "count": 20
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/simulation/history.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -67490,8 +68858,53 @@
     },
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
+=======
+      "sourcePath": "src/simulation/judicial-office-work.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 20
+    },
+    {
+      "sourcePath": "src/simulation/ids.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 3
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-start.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 3
+    },
+    {
+      "sourcePath": "src/simulation/history.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/future-transitions.ts",
+>>>>>>> origin/claude/crisis-severe-events
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/ids.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "Identifier construction.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/incident-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateEvaluation. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/future-transitions.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -67597,6 +69010,7 @@
       "count": 2
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/simulation/governing/office-continuity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -67621,6 +69035,8 @@
       "count": 6
     },
     {
+=======
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/simulation/future-transitions.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -67645,9 +69061,15 @@
       "count": 6
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/simulation/governing/legislative-clock.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+=======
+      "sourcePath": "src/simulation/future-transitions.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertFutureTransitionIntegrity. Play fails closed rather than showing it.",
+>>>>>>> origin/claude/crisis-severe-events
       "count": 6
     },
     {
@@ -67675,6 +69097,7 @@
       "count": 1
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/simulation/future-transitions.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertHistoryIdentity. Play fails closed rather than showing it.",
@@ -67717,6 +69140,8 @@
       "count": 1
     },
     {
+=======
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/simulation/executive-governing-kernels.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -67791,6 +69216,18 @@
     {
       "sourcePath": "src/simulation/evidence-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateProvenanceShape. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/evidence-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateDiscoveryProvenance. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/evidence-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateDiscovery. Play fails closed rather than showing it.",
       "count": 2
     },
@@ -67804,12 +69241,6 @@
       "sourcePath": "src/simulation/evidence-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateArtifactProvenance. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/evidence-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateDiscoveryProvenance. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -67837,10 +69268,17 @@
       "count": 8
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/simulation/election-contests.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertElectionContestIntegrity. Play fails closed rather than showing it.",
       "count": 7
+=======
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 2
+>>>>>>> origin/claude/crisis-severe-events
     },
     {
       "sourcePath": "src/simulation/election-contests.ts",
@@ -67873,22 +69311,10 @@
       "count": 10
     },
     {
-      "sourcePath": "src/simulation/economy.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 12
-    },
-    {
       "sourcePath": "src/simulation/district-residence.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 15
-    },
-    {
-      "sourcePath": "src/simulation/demo.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
     },
     {
       "sourcePath": "src/simulation/demo.ts",
@@ -67903,10 +69329,10 @@
       "count": 12
     },
     {
-      "sourcePath": "src/simulation/demo-jurisdiction-context.ts",
+      "sourcePath": "src/simulation/economy.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 12
     },
     {
       "sourcePath": "src/simulation/dates.ts",
@@ -67918,6 +69344,121 @@
       "sourcePath": "src/simulation/dates.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 3
+    },
+    {
+<<<<<<< HEAD
+      "sourcePath": "src/simulation/education-study-progression.ts",
+=======
+      "sourcePath": "src/simulation/election-contests.ts",
+>>>>>>> origin/claude/crisis-severe-events
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 3
+    },
+    {
+<<<<<<< HEAD
+      "sourcePath": "src/simulation/education-study-terms.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 3
+    },
+    {
+=======
+>>>>>>> origin/claude/crisis-severe-events
+      "sourcePath": "src/simulation/d33-education-continuity.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 14
+    },
+    {
+      "sourcePath": "src/simulation/crisis/records.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateCrisisRecords. Play fails closed rather than showing it.",
+      "count": 35
+    },
+    {
+<<<<<<< HEAD
+      "sourcePath": "src/simulation/decisions.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateConsideration. Play fails closed rather than showing it.",
+      "count": 5
+=======
+      "sourcePath": "src/simulation/crisis/records.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 4
+    },
+    {
+      "sourcePath": "src/simulation/crisis/mortality.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/crisis/notices.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/demo-jurisdiction-context.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/demo.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/crisis/mortality-table.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 4
+    },
+    {
+      "sourcePath": "src/simulation/crisis/international.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 11
+    },
+    {
+      "sourcePath": "src/simulation/crisis/health.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/crisis/hazard.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 7
+    },
+    {
+      "sourcePath": "src/simulation/crisis/health.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 7
+    },
+    {
+      "sourcePath": "src/simulation/election-contests.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertElectionContestIntegrity. Play fails closed rather than showing it.",
+      "count": 7
+    },
+    {
+      "sourcePath": "src/simulation/crisis/disaster.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 3
+    },
+    {
+      "sourcePath": "src/simulation/crisis/fixed-point.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 3
     },
     {
@@ -67933,22 +69474,23 @@
       "count": 3
     },
     {
-      "sourcePath": "src/simulation/d33-education-continuity.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 14
-    },
-    {
-      "sourcePath": "src/simulation/county-government-shares.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 5
-    },
-    {
-      "sourcePath": "src/simulation/decisions.ts",
+      "sourcePath": "src/simulation/crisis/disaster.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateConsideration. Play fails closed rather than showing it.",
-      "count": 5
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 12
+    },
+    {
+      "sourcePath": "src/simulation/crisis/crisis-health-mortality.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 23
+    },
+    {
+      "sourcePath": "src/simulation/crisis/continuity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+>>>>>>> origin/claude/crisis-severe-events
     },
     {
       "sourcePath": "src/simulation/constitutional-saved-world.test.ts",
@@ -68005,6 +69547,12 @@
       "count": 5
     },
     {
+      "sourcePath": "src/simulation/county-government-shares.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 5
+    },
+    {
       "sourcePath": "src/simulation/civil-personnel.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -68053,22 +69601,10 @@
       "count": 21
     },
     {
-      "sourcePath": "src/simulation/civil-personnel-actions.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 3
-    },
-    {
       "sourcePath": "src/simulation/civil-personnel-actions.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 60
-    },
-    {
-      "sourcePath": "src/simulation/character-history.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 5
     },
     {
       "sourcePath": "src/simulation/character-history.ts",
@@ -68089,16 +69625,16 @@
       "count": 66
     },
     {
-      "sourcePath": "src/simulation/causal-effects.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateMetricScope. Play fails closed rather than showing it.",
-      "count": 1
+      "sourcePath": "src/simulation/character-history-context-people.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 5
     },
     {
-      "sourcePath": "src/simulation/causal-effects.ts",
+      "sourcePath": "src/simulation/character-history.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
-      "count": 1
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 5
     },
     {
       "sourcePath": "src/simulation/causal-effects.ts",
@@ -68110,6 +69646,12 @@
       "sourcePath": "src/simulation/causal-effects.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateEffectActivation. Play fails closed rather than showing it.",
+      "count": 3
+    },
+    {
+      "sourcePath": "src/simulation/civil-personnel-actions.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 3
     },
     {
@@ -68131,6 +69673,7 @@
       "count": 64
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/simulation/career-path7.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -68152,25 +69695,36 @@
       "sourcePath": "src/simulation/canonical-json.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "Serialization machinery.",
+=======
+      "sourcePath": "src/simulation/causal-effects.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+>>>>>>> origin/claude/crisis-severe-events
       "count": 2
     },
     {
       "sourcePath": "src/simulation/causal-effects.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "reason": "A validation message composed in assertCausalEffectIntegrity. Play fails closed rather than showing it.",
       "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/career-path7.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 4
+    },
+    {
+      "sourcePath": "src/simulation/career-path7.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 26
     },
     {
       "sourcePath": "src/simulation/canonical-json.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 13
-    },
-    {
-      "sourcePath": "src/simulation/candidate-qualification.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 4
     },
     {
       "sourcePath": "src/simulation/candidate-qualification.test.ts",
@@ -68185,18 +69739,22 @@
       "count": 3
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/simulation/campaigns.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 8
     },
     {
+=======
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/simulation/campaigns.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 39
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/simulation/campaigns.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
@@ -68209,6 +69767,8 @@
       "count": 1
     },
     {
+=======
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/simulation/campaigns.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -68227,6 +69787,15 @@
       "count": 4
     },
     {
+<<<<<<< HEAD
+=======
+      "sourcePath": "src/simulation/candidate-qualification.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 4
+    },
+    {
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/simulation/campaign-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -68235,6 +69804,21 @@
     {
       "sourcePath": "src/simulation/campaign-compliance.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+<<<<<<< HEAD
+=======
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/campaign-queries.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+>>>>>>> origin/claude/crisis-severe-events
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 22
     },
@@ -68251,6 +69835,36 @@
       "count": 1
     },
     {
+      "sourcePath": "src/simulation/campaigns.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/candidacy-packs.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/candidacy.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/causal-effects.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateMetricScope. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/causal-effects.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/campaign-compliance-rules.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -68263,9 +69877,15 @@
       "count": 2
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/simulation/campaign-compliance.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+=======
+      "sourcePath": "src/simulation/canonical-json.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "Serialization machinery.",
+>>>>>>> origin/claude/crisis-severe-events
       "count": 2
     },
     {
@@ -68281,6 +69901,12 @@
       "count": 8
     },
     {
+      "sourcePath": "src/simulation/campaigns.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 8
+    },
+    {
       "sourcePath": "src/simulation/appearance-material.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -68293,12 +69919,15 @@
       "count": 1
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/simulation/campaign-compliance.generated.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 1
     },
     {
+=======
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/simulation/adult-situations.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -68371,6 +70000,7 @@
       "count": 17
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/presentation/ui36-shell.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -68380,6 +70010,29 @@
       "sourcePath": "src/presentation/venue-activity.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
+=======
+      "sourcePath": "src/presentation/ui-core-person-visual.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 3
+    },
+    {
+      "sourcePath": "src/presentation/transit-cash-snapshot.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/presentation/transit-work.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/presentation/transit-cash-snapshot.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+>>>>>>> origin/claude/crisis-severe-events
       "count": 7
     },
     {
@@ -68389,6 +70042,7 @@
       "count": 7
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/presentation/ui-core-person-visual.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -68414,6 +70068,9 @@
     },
     {
       "sourcePath": "src/presentation/transit-cash-snapshot.test.ts",
+=======
+      "sourcePath": "src/presentation/venue-activity.test.ts",
+>>>>>>> origin/claude/crisis-severe-events
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 7
@@ -68473,6 +70130,15 @@
       "count": 12
     },
     {
+<<<<<<< HEAD
+=======
+      "sourcePath": "src/presentation/social-invitation.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/presentation/shell-projections.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -68485,10 +70151,10 @@
       "count": 33
     },
     {
-      "sourcePath": "src/presentation/session-seed.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
+      "sourcePath": "src/presentation/life-conversation-matters.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 18
     },
     {
       "sourcePath": "src/presentation/scene-venues.ts",
@@ -68501,12 +70167,15 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 25
+<<<<<<< HEAD
     },
     {
       "sourcePath": "src/presentation/surface-projection.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 25
+=======
+>>>>>>> origin/claude/crisis-severe-events
     },
     {
       "sourcePath": "src/presentation/scene-transform.ts",
@@ -68518,6 +70187,15 @@
       "sourcePath": "src/presentation/social-invitation.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
+<<<<<<< HEAD
+=======
+      "count": 3
+    },
+    {
+      "sourcePath": "src/presentation/tax-enactment-input.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+>>>>>>> origin/claude/crisis-severe-events
       "count": 3
     },
     {
@@ -68551,7 +70229,17 @@
       "count": 1
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/presentation/social-invitation.ts",
+=======
+      "sourcePath": "src/presentation/session-seed.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/transit-work.ts",
+>>>>>>> origin/claude/crisis-severe-events
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
@@ -68635,6 +70323,27 @@
       "count": 58
     },
     {
+<<<<<<< HEAD
+=======
+      "sourcePath": "src/presentation/run-b-layout.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateRunBSceneLayouts. Play fails closed rather than showing it.",
+      "count": 7
+    },
+    {
+      "sourcePath": "src/presentation/run-a-fixture.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/run-b-fixture.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/presentation/run-b-fixture.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -68685,6 +70394,7 @@
     {
       "sourcePath": "src/presentation/run-a-fixture.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+<<<<<<< HEAD
       "reason": "A key, identifier, tag or citation field rather than something read.",
       "count": 1
     },
@@ -68709,6 +70419,8 @@
     {
       "sourcePath": "src/presentation/run-a-fixture.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+=======
+>>>>>>> origin/claude/crisis-severe-events
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 5
     },
@@ -68719,12 +70431,15 @@
       "count": 10
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/presentation/prose-dates.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 8
     },
     {
+=======
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/presentation/raster-tiers.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -68827,6 +70542,7 @@
       "count": 39
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/presentation/politics-government.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -68839,6 +70555,8 @@
       "count": 1
     },
     {
+=======
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/presentation/playtest34-ordinary-people.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -68899,10 +70617,17 @@
       "count": 12
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/presentation/player-places.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 12
+=======
+      "sourcePath": "src/presentation/place-start-summary.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 4
+>>>>>>> origin/claude/crisis-severe-events
     },
     {
       "sourcePath": "src/presentation/place-hometown-population.test.ts",
@@ -68911,10 +70636,41 @@
       "count": 10
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/presentation/playtest34-c.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 10
+=======
+      "sourcePath": "src/presentation/person-visual.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/place-hometown-population.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/play-scene-context.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/pose-control-plate.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/person-visual-selection.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 11
+>>>>>>> origin/claude/crisis-severe-events
     },
     {
       "sourcePath": "src/presentation/person-visual-selection.test.ts",
@@ -68923,6 +70679,7 @@
       "count": 16
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/presentation/person-render-snapshot.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -68948,6 +70705,9 @@
     },
     {
       "sourcePath": "src/presentation/production-office.ts",
+=======
+      "sourcePath": "src/presentation/person-conversation-entry.ts",
+>>>>>>> origin/claude/crisis-severe-events
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
@@ -68960,12 +70720,6 @@
     },
     {
       "sourcePath": "src/presentation/person-render-snapshot.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 4
-    },
-    {
-      "sourcePath": "src/presentation/place-start-summary.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 4
@@ -68989,6 +70743,21 @@
       "count": 6
     },
     {
+<<<<<<< HEAD
+=======
+      "sourcePath": "src/presentation/people-directory.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/person-render-snapshot.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/presentation/party-chapter-surface.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -69013,7 +70782,35 @@
       "count": 11
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/presentation/person-visual-selection.ts",
+=======
+      "sourcePath": "src/presentation/opening-repair6.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 6
+    },
+    {
+      "sourcePath": "src/presentation/p2r1-grounding.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 6
+    },
+    {
+      "sourcePath": "src/presentation/opening-officeholders.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/ordinary-community.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/opening-life.ts",
+>>>>>>> origin/claude/crisis-severe-events
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 11
@@ -69031,6 +70828,7 @@
       "count": 3
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/presentation/person-conversation-entry.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -69041,6 +70839,12 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
       "count": 1
+=======
+      "sourcePath": "src/presentation/opening-life.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 2
+>>>>>>> origin/claude/crisis-severe-events
     },
     {
       "sourcePath": "src/presentation/opening-repair6.test.ts",
@@ -69145,22 +70949,10 @@
       "count": 11
     },
     {
-      "sourcePath": "src/presentation/new-game-birthday.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 9
-    },
-    {
       "sourcePath": "src/presentation/nationwide-state-executive-entry.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 20
-    },
-    {
-      "sourcePath": "src/presentation/nationwide-prior-terms.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 2
     },
     {
       "sourcePath": "src/presentation/nationwide-news-officeholders.test.ts",
@@ -69181,6 +70973,27 @@
       "count": 9
     },
     {
+<<<<<<< HEAD
+=======
+      "sourcePath": "src/presentation/new-game-birthday.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 9
+    },
+    {
+      "sourcePath": "src/presentation/nationwide-candidacy.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/presentation/nationwide-prior-terms.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 2
+    },
+    {
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/presentation/narrative-life.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -69199,12 +71012,6 @@
       "count": 3
     },
     {
-      "sourcePath": "src/presentation/modular41-repair.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 5
-    },
-    {
       "sourcePath": "src/presentation/modular-gen14-provider.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -69217,10 +71024,10 @@
       "count": 3
     },
     {
-      "sourcePath": "src/presentation/modeled-account-history.test.ts",
+      "sourcePath": "src/presentation/location-surfaces.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 12
+      "count": 2
     },
     {
       "sourcePath": "src/presentation/location-surfaces.test.ts",
@@ -69283,6 +71090,7 @@
       "count": 5
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/presentation/nationwide-residence-duration.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -69290,6 +71098,9 @@
     },
     {
       "sourcePath": "src/presentation/nevada-legislator-qualification.test.ts",
+=======
+      "sourcePath": "src/presentation/modular41-repair.test.ts",
+>>>>>>> origin/claude/crisis-severe-events
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 5
@@ -69301,18 +71112,27 @@
       "count": 12
     },
     {
+      "sourcePath": "src/presentation/modeled-account-history.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 12
+    },
+    {
       "sourcePath": "src/presentation/life-scene-people.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 2
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/presentation/nationwide-candidacy.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 2
     },
     {
+=======
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/presentation/life-scene-flow.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -69337,6 +71157,12 @@
       "count": 6
     },
     {
+      "sourcePath": "src/presentation/life-record.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 3
+    },
+    {
       "sourcePath": "src/presentation/life-narration.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -69355,6 +71181,7 @@
       "count": 3
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/presentation/life-record.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -69379,6 +71206,8 @@
       "count": 14
     },
     {
+=======
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/presentation/legislative-session-window.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -69403,10 +71232,52 @@
       "count": 7
     },
     {
+<<<<<<< HEAD
+=======
+      "sourcePath": "src/presentation/legislative-office-context.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 3
+    },
+    {
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/presentation/legislative-office-context.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 3
+<<<<<<< HEAD
+=======
+    },
+    {
+      "sourcePath": "src/presentation/legislative-multiple-seats.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 14
+>>>>>>> origin/claude/crisis-severe-events
+    },
+    {
+      "sourcePath": "src/presentation/legislative-term-continuity.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 14
+    },
+    {
+      "sourcePath": "src/presentation/legislation-analysis.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/legislation-composition-bank.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/legislative-member-seat.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
     },
     {
       "sourcePath": "src/presentation/legislative-member-seat.test.ts",
@@ -69553,12 +71424,15 @@
       "count": 3
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/presentation/legislative-bargaining-actions.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 2
     },
     {
+=======
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/presentation/legislative-bargaining-actions.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -69571,6 +71445,15 @@
       "count": 3
     },
     {
+<<<<<<< HEAD
+=======
+      "sourcePath": "src/presentation/legislative-bargaining-brief.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 3
+    },
+    {
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/presentation/legislative-authored-sitting.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -69691,6 +71574,7 @@
       "count": 12
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/presentation/legislation-composition.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -69715,6 +71599,8 @@
       "count": 1
     },
     {
+=======
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/presentation/legislation-analysis.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -69761,6 +71647,12 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 8
+    },
+    {
+      "sourcePath": "src/presentation/legislation-composition.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 9
     },
     {
       "sourcePath": "src/presentation/garment-fit.ts",
@@ -69973,10 +71865,23 @@
       "count": 6
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/presentation/engine-people29.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 6
+=======
+      "sourcePath": "src/presentation/crisis-international.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 13
+    },
+    {
+      "sourcePath": "src/presentation/crisis-disaster.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 9
+>>>>>>> origin/claude/crisis-severe-events
     },
     {
       "sourcePath": "src/presentation/creator-name-preview.test.ts",
@@ -70129,12 +72034,6 @@
       "count": 1
     },
     {
-      "sourcePath": "src/presentation/complete-outfit-opening.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/presentation/character-components.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "Character component assembly for the art pipeline; layer and slot vocabulary.",
@@ -70145,6 +72044,12 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 57
+    },
+    {
+      "sourcePath": "src/presentation/catalog-family-label.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 5
     },
     {
       "sourcePath": "src/presentation/candidate-review.ts",
@@ -70195,10 +72100,23 @@
       "count": 35
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/presentation/campaign-integration.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 6
+=======
+      "sourcePath": "src/presentation/campaign-office-discovery.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/presentation/campaign-strategy.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 5
+>>>>>>> origin/claude/crisis-severe-events
     },
     {
       "sourcePath": "src/presentation/calendar-time-control.ts",
@@ -70234,6 +72152,12 @@
       "sourcePath": "src/presentation/campaign-office-discovery.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/complete-outfit-opening.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 1
     },
     {
@@ -70315,10 +72239,17 @@
       "count": 6
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/player/time-command-runner.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 8
+=======
+      "sourcePath": "src/presentation/campaign-integration.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 6
+>>>>>>> origin/claude/crisis-severe-events
     },
     {
       "sourcePath": "src/player/public-information-views.test.ts",
@@ -70399,6 +72330,7 @@
       "count": 3
     },
     {
+<<<<<<< HEAD
       "sourcePath": "src/player/ShellNav.test.tsx",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -70411,6 +72343,8 @@
       "count": 6
     },
     {
+=======
+>>>>>>> origin/claude/crisis-severe-events
       "sourcePath": "src/player/ContentPackWorkspace.tsx",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",

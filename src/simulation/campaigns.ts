@@ -14,6 +14,7 @@ import {
 import { createTransitTransitionRegistry } from "./transit-service";
 import { settlePublicResourcePayment } from "./public-fiscal";
 import { createTaxTransitionHandlerRegistry } from "./tax-policy";
+import { createCrisisTransitionRegistry } from "./crisis";
 import { composeExecutiveWorkHandlers } from "./executive-work";
 import { LIFE_PATHS2_HANDLERS } from "./life-paths2";
 import { requireCandidacyPack } from "./candidacy-packs";
@@ -1866,6 +1867,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
       ),
       createTaxTransitionHandlerRegistry(),
       LIFE_PATHS2_HANDLERS,
+      // CRUNCH46 CRISIS: mortality windows, deaths and health reviews.
+      createCrisisTransitionRegistry(),
       createFutureTransitionHandlerRegistry([
         [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
         // GOVERNING: state office matters, their deadlines and reports.

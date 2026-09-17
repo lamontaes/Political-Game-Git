@@ -1,4 +1,6 @@
 import { eventById } from "./event-index";
+import { crisisAmbientHandler } from "./crisis/ambient";
+import { crisisEntityAvailableAt, crisisEntityExists } from "./crisis/records";
 import {
   nationalEntityExists,
   nationalEntityAvailableAt,
@@ -363,6 +365,13 @@ export function scheduledFutureDueItemsThrough(
     .sort(compareDueItems);
 }
 
+function handlerFor(
+  registry: FutureTransitionHandlerRegistry,
+  transitionKey: FutureTransitionKey,
+): FutureTransitionHandler | undefined {
+  return registry.get(transitionKey) ?? crisisAmbientHandler(transitionKey);
+}
+
 export function resolveFutureDueItemsThrough(
   world: World,
   throughDate: IsoDate,
@@ -376,7 +385,7 @@ export function resolveFutureDueItemsThrough(
     throughDate,
   );
   for (const item of initiallyDue) {
-    if (!registry.get(item.transitionKey)) {
+    if (!handlerFor(registry, item.transitionKey)) {
       throw new Error(
         `Missing future-transition handler for due item ${item.id}: ${item.transitionKey}`,
       );
@@ -390,7 +399,7 @@ export function resolveFutureDueItemsThrough(
       throughDate,
     )[0];
     if (!item) return working;
-    const handler = registry.get(item.transitionKey);
+    const handler = handlerFor(registry, item.transitionKey);
     if (!handler) {
       throw new Error(
         `Missing future-transition handler for due item ${item.id}: ${item.transitionKey}`,
@@ -782,6 +791,8 @@ function canonicalEntityAvailable(
   if (vitalityEntityExists(world, id)) {
     return vitalityEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
   }
+  if (crisisEntityExists(world, id))
+    return crisisEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
   if (nationalEntityExists(world, id))
     return nationalEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
   if (electionContestEntityExists(world, id)) {
