@@ -9,7 +9,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 from fit_core import visible_bounds, union_frame, Box
-from intake import fit_head, fit_hair, pinned_image, digest, IntakeError, canonical
+from intake import fit_recipe, fit_head, fit_hair, pinned_image, digest, IntakeError, canonical
 from rig import validate_profile, body_descriptor
 
 def png(im):
@@ -21,7 +21,7 @@ def emit(root, spec, identifier, kind, layer, paint, maps, ramps, coverage=None)
     defs=''; regions=[]
     for channel,m in maps.items():
         defs+=f'<image id="{identifier}-{channel}-mask" data-material-map="{channel}" width="{width}" height="{height}" href="{uri(m)}"/>'
-        regions.append(dict(channel=channel,maskId=f'{identifier}-{channel}-mask',neutralId='',lightId='',shadowId='',inkId='',ramps=ramps[channel]))
+        regions.append(dict(channel=spec.get('materialChannels',{}).get(channel,channel),mapId=channel,maskId=f'{identifier}-{channel}-mask',neutralId='',lightId='',shadowId='',inkId='',ramps=ramps[channel]))
     svg=(f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}"><defs>{defs}</defs>'
          f'<image data-raster-paint="true" width="{width}" height="{height}" href="{uri(paint)}"/></svg>')
     path=folder/f'{identifier}.svg'; raster=folder/f'{identifier}.png'
@@ -48,7 +48,10 @@ def emit_expressions(root,spec,identifier,head,body,layer,coverage=None):
         if expression not in ('smile',):raise IntakeError('unsupported_expression',expression)
         if source.get('identityOf')!=head['id'] or source['view']!=head['view'] or source['pose']!=head['pose']:
             raise IntakeError('expression_identity_mismatch',expression)
-        paint,maps,recipe=fit_head(root,source,body)
+        # Expressions are registered in the neutral source frame. Re-measuring
+        # their silhouette must not move the head under unchanged hair.
+        neutral=fit_recipe(head,body)
+        paint,maps,recipe=fit_head(root,source,body,registered_transform=neutral['transform'])
         if coverage is not None:
             a=np.array(paint);a[...,3]=np.rint(a[...,3]*coverage).astype('uint8');paint=Image.fromarray(a)
         part,_=emit(root,spec,identifier+'-'+expression,'head-expression',layer,paint,maps,spec['ramps'])
@@ -61,6 +64,11 @@ def prepare(spec,root):
     profile_bodies=[body_descriptor(p,pose) for p in spec.get('bodyProfiles',[]) for pose in p['poses']]
     registry=json.loads((root/spec['registry']).read_text())
     original=copy.deepcopy(registry)
+    proofs=registry.setdefault('preparedProfiles',[])
+    for profile in spec.get('bodyProfiles',[]):
+        proof={'id':profile['id'],'sha256':validate_profile(profile,root),'canonicalSource':canonical(profile).decode()}
+        if not any(p['id']==proof['id'] and p['sha256']==proof['sha256'] for p in proofs):proofs.append(proof)
+    registry['compatibilityAudits']=[*registry.get('compatibilityAudits',[]),{'generation':spec['generation'],'combinations':spec.get('compatibilityAudit',[])}]
     registry.setdefault('families',[]).extend(copy.deepcopy(spec.get('families',[])))
     registry.setdefault('garments',[]).extend(copy.deepcopy(spec.get('garments',[])))
     prior_parts={p['id']:p for ps in registry['familyAdditions'].values() for p in ps}
@@ -70,7 +78,7 @@ def prepare(spec,root):
         for family in r.get('families',[]):
             prior_parts.update({p['id']:p for p in family.get('parts',[])})
     sources={s['id']:s for s in spec['heads']}; bodies={b['id']:b for b in [*spec['bodies'],*profile_bodies]};hairs={h['id']:h for h in spec['hairstyles']}
-    report={'algorithm':'semantic-fit-v1','generation':spec['generation'],'fits':[],'hair':[],'errors':[],'newIds':[]}
+    report={'algorithm':'semantic-fit-v1','generation':spec['generation'],'fits':[],'hair':[],'errors':[],'newIds':[],'closureInputs':spec.get('closureInputs',[])}
     def register(rule,paint,maps,recipe):
         base=copy.deepcopy(assets[rule['previous']]);definition=base['candidate_component']
         for key in rule.get('componentOmit',[]): definition.pop(key,None)

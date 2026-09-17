@@ -45,7 +45,7 @@ const errors: string[] = [];
 page.on("pageerror", (e) => errors.push(e.message));
 const report: Record<string, unknown> = {
   errors,
-  route: "http://127.0.0.1:5487/?art-preview=candidate",
+  route: "http://127.0.0.1:5488/?art-preview=candidate",
   acceptance: "candidate-unapproved",
 };
 try {
@@ -64,12 +64,18 @@ try {
     gender: "male",
   });
   await expect(page.getByTestId("creator-stage-appearance")).toBeVisible();
-  await expect(page.locator('[data-material-state="loading"]')).toHaveCount(0, {
+  await expect(
+    page.locator(
+      '[data-material-state="loading"], [data-material-group-state="loading"]',
+    ),
+  ).toHaveCount(0, {
     timeout: 60000,
   });
-  await expect(page.locator('[data-material-state="unavailable"]')).toHaveCount(
-    0,
-  );
+  await expect(
+    page.locator(
+      '[data-material-state="unavailable"], [data-material-group-state="unavailable"]',
+    ),
+  ).toHaveCount(0);
   report.creatorIds = await page
     .locator("[data-asset-id]")
     .evaluateAll((xs) => xs.map((x) => x.getAttribute("data-asset-id")));
@@ -92,12 +98,15 @@ try {
     }
   }
   const stable = async () => {
-    await expect(page.locator('[data-material-state="loading"]')).toHaveCount(
-      0,
-      { timeout: 60000 },
-    );
     await expect(
-      page.locator('[data-material-state="unavailable"]'),
+      page.locator(
+        '[data-material-state="loading"], [data-material-group-state="loading"]',
+      ),
+    ).toHaveCount(0, { timeout: 60000 });
+    await expect(
+      page.locator(
+        '[data-material-state="unavailable"], [data-material-group-state="unavailable"]',
+      ),
     ).toHaveCount(0);
   };
   const pixels = async () => {
@@ -212,7 +221,7 @@ try {
     const layers = await pixels();
     expect(layers.length).toBeGreaterThan(4);
     if (label !== "Standing")
-      expect(layers.every((layer) => layer.id.startsWith("m47pose-"))).toBe(
+      expect(layers.every((layer) => layer.id.startsWith("m47r1pose-"))).toBe(
         true,
       );
   }
@@ -273,7 +282,7 @@ try {
   );
   const firstWorld = JSON.parse(firstRecords[0]!.payload).world;
   const firstPerson = firstWorld.people[firstWorld.control.personId];
-  expect(firstPerson.appearance.catalogGeneration).toBe(15);
+  expect(firstPerson.appearance.catalogGeneration).toBe(16);
   report.savedAppearance = firstPerson.appearance;
   await page.reload();
   await page.getByTestId("continue").click();
@@ -286,9 +295,11 @@ try {
   report.reloaded = true;
   expect((await saved())[0]!.payload).toBe(firstRecords[0]!.payload);
   report.savedBytesPreserved = true;
-  await expect(page.locator('[data-material-state="unavailable"]')).toHaveCount(
-    0,
-  );
+  await expect(
+    page.locator(
+      '[data-material-state="unavailable"], [data-material-group-state="unavailable"]',
+    ),
+  ).toHaveCount(0);
   await page.screenshot({ path: out + "/reload.png" });
   await openElsewhere(page, "people");
   await stable();
@@ -325,7 +336,7 @@ try {
   await second.screenshot({ path: out + "/second-life.png" });
   await second.close();
   const desk = await context.newPage();
-  await desk.goto("http://127.0.0.1:5487/art-desk.html", {
+  await desk.goto("http://127.0.0.1:5488/art-desk.html", {
     waitUntil: "domcontentloaded",
     timeout: 60000,
   });

@@ -132,7 +132,7 @@ def solve_fit(source: HeadGeometry, target: BodySocket) -> FitResult:
 
 
 def warp_group(layers: Iterable[Image.Image], transform: Fit,
-               size: tuple[int,int]) -> list[Image.Image]:
+               size: tuple[int,int], area=False) -> list[Image.Image]:
     """Apply ONE transform to the head and already-fitted hair/art group.
 
     Premultiply before interpolation so hidden transparent RGB cannot bleed in.
@@ -141,10 +141,22 @@ def warp_group(layers: Iterable[Image.Image], transform: Fit,
     affine=transform.inverse_affine()
     if len(size)!=2 or min(size)<=0:
         raise ValueError('Invalid output canvas')
-    return [im.convert('RGBA').convert('RGBa').transform(size,Image.Transform.AFFINE,affine,Image.Resampling.BICUBIC).convert('RGBA') for im in layers]
+    def warp(im):
+        premultiplied=im.convert('RGBA').convert('RGBa')
+        matrix=affine
+        if area and transform.scale < .5:
+            # Scaled Lanczos support integrates source pixels before subpixel
+            # placement. The legacy fixed 4x4 affine footprint skipped ink.
+            factor=transform.scale*2
+            dimensions=(max(1,round(im.width*factor)),max(1,round(im.height*factor)))
+            premultiplied=premultiplied.resize(dimensions,Image.Resampling.LANCZOS)
+            sx,sy=dimensions[0]/im.width,dimensions[1]/im.height
+            matrix=(affine[0]*sx,0,affine[2]*sx,0,affine[4]*sy,affine[5]*sy)
+        return premultiplied.transform(size,Image.Transform.AFFINE,matrix,Image.Resampling.BICUBIC).convert('RGBA')
+    return [warp(im) for im in layers]
 
 
-def warp_material_group(paint, maps, transform, size):
+def warp_material_group(paint, maps, transform, size, area=False):
     """Resample material ownership conditional on the paint's coverage.
 
     Material weight is not a second silhouette alpha. Filtering it as one would
@@ -157,7 +169,7 @@ def warp_material_group(paint, maps, transform, size):
         pixels=np.array(material.convert('RGBA'))
         pixels[...,3]=np.rint(pixels[...,3]*coverage).astype('uint8')
         weighted.append(Image.fromarray(pixels))
-    result=warp_group([paint,*weighted],transform,size)
+    result=warp_group([paint,*weighted],transform,size,area=area)
     alpha=np.asarray(result[0])[...,3].astype(float)
     normalized=[]
     for material in result[1:]:

@@ -102,6 +102,7 @@ const packs = optionalGlob(() =>
       "../../art/authoring/modular45/pose-pack.json",
       "../../art/authoring/systemic-repair/pose-pack.json",
       "../../art/authoring/modular47/pose-pack.json",
+      "../../art/authoring/modular47-r1/pose-pack.json",
     ],
     { eager: true, import: "default" },
   ),
@@ -115,6 +116,7 @@ export const POSE41_VARIANTS = [
   ...(packs["../../art/authoring/systemic-repair/pose-pack.json"]?.variants ??
     []),
   ...(packs["../../art/authoring/modular47/pose-pack.json"]?.variants ?? []),
+  ...(packs["../../art/authoring/modular47-r1/pose-pack.json"]?.variants ?? []),
 ] as unknown as readonly Pose41Variant[];
 const sameSet = (a: readonly string[], b: readonly string[]) =>
   a.length === b.length &&

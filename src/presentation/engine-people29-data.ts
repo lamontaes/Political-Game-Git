@@ -47,6 +47,8 @@ export interface PreparedPart {
   portraitBounds?: { left: number; top: number; right: number; bottom: number };
   materials: readonly {
     channel: MaterialChannel;
+    /** Separate authored region sharing a palette (for example lip pigment). */
+    mapId?: string;
     neutralId: string;
     lightId: string;
     shadowId: string;
@@ -116,7 +118,13 @@ for (const registry of [headRepair, modular45])
     }[]) {
       const previous = asset.candidate_component?.supersedes_asset_id;
       if (previous && generation.component_ids.includes(asset.asset_id))
-        supersededAt.set(previous, generation.generation);
+        supersededAt.set(
+          previous,
+          Math.min(
+            supersededAt.get(previous) ?? Infinity,
+            generation.generation,
+          ),
+        );
     }
 /** Authored skin ramp ids offered by the corrected generation, light to dark. */
 export const PREPARED_SKIN_RAMPS: readonly string[] = modular45.skinRamps;
@@ -283,7 +291,7 @@ export function selectPreparedBody(
     return undefined;
   const translate = (id: string | undefined | null, kind: string) =>
     id && previous
-      ? family.parts.find(
+      ? destinationParts.find(
           (p) =>
             p.kind === kind &&
             p.id.endsWith(
@@ -298,14 +306,13 @@ export function selectPreparedBody(
       : undefined;
   const head =
     logical(appearance.selection?.headFamily, "head") ??
-    translate(appearance.selection?.headFamily, "head") ??
-    family.parts.find((p) => p.kind === "head")!.id;
+    translate(appearance.selection?.headFamily, "head");
   const hair =
     appearance.selection?.hairFamily === null
       ? null
       : (logical(appearance.selection?.hairFamily, "hair-front") ??
-        translate(appearance.selection?.hairFamily, "hair-front") ??
-        family.parts.find((p) => p.kind === "hair-front")!.id);
+        translate(appearance.selection?.hairFamily, "hair-front"));
+  if (!head || hair === undefined) return undefined;
   const base = defaultPreparedMaterial(family, appearance.catalogGeneration);
   const material =
     appearance.material && previous

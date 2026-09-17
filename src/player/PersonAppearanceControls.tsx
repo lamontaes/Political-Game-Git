@@ -3,7 +3,6 @@ import { KIT41_REGISTRY as kit } from "../presentation/private-candidate-manifes
 import { AppearanceOutfitDialog } from "./AppearanceOutfitDialog";
 import { PreparedAppearanceControls } from "./PreparedAppearanceControls";
 import {
-  MODULAR45_GENERATION,
   PREPARED_FAMILIES,
   selectPreparedBody,
   preparedFamily,
@@ -257,12 +256,10 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
     pinnedGeneration = null;
   }
   const artworkUpdate =
-    MODULAR45_GENERATION !== null &&
     pinnedGeneration !== null &&
-    pinnedGeneration < MODULAR45_GENERATION &&
-    library.catalogGeneration >= MODULAR45_GENERATION &&
-    Boolean(appearance.selection?.bodyFamily.startsWith("ep41-"))
-      ? MODULAR45_GENERATION
+    pinnedGeneration < library.catalogGeneration &&
+    Boolean(preparedFamily(appearance.selection?.bodyFamily))
+      ? library.catalogGeneration
       : null;
   function commit(
     next: PersonAppearance,
@@ -620,9 +617,8 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
           data-testid="appearance-artwork-update"
         >
           <p>
-            Updated artwork is available for this person: better head fit,
-            cleaner joins and matching skin tone. The saved look stays as it is
-            unless you apply the update.
+            Newer artwork is available to preview. Your saved appearance stays
+            as it is unless you apply the update.
           </p>
           <button
             type="button"

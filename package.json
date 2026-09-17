@@ -97,7 +97,9 @@
     "measure:appearance-v2": "PG_CAPTURE_EVIDENCE=1 vitest run scripts/dev-lab/appearance-recipe-v2-proof.test.ts",
     "measure:visual4-wardrobe": "node --import tsx scripts/art-asset-factory/cli-people-visual4-wardrobe.ts",
     "derive:people-visual4": "node --import tsx scripts/art-asset-factory/people-visual4.ts",
-    "kit:art": "node --import tsx scripts/art-asset-factory/cli-kit41.ts"
+    "kit:art": "node --import tsx scripts/art-asset-factory/cli-kit41.ts",
+    "test:modular:public": "node scripts/art-asset-factory/modular_fit/verify.mjs public",
+    "test:modular:private": "node scripts/art-asset-factory/modular_fit/verify.mjs private"
   },
   "dependencies": {
     "react": "19.2.6",

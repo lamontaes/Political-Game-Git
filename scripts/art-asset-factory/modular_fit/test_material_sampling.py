@@ -23,4 +23,15 @@ class MaterialSamplingTests(unittest.TestCase):
         self.assertEqual(result[1].getpixel((10,10))[3],0)
         self.assertEqual(result[1].getpixel((0,0))[3],255)
 
+    def test_area_reduction_preserves_subpixel_ink_energy(self):
+        # One-pixel ink stripes reduced 6.5x should approach area coverage,
+        # rather than intermittently disappearing as their phase changes.
+        a=np.full((260,260,4),255,np.uint8);a[:,::7,:3]=0
+        im=Image.fromarray(a);f=Fit(1/6.5,0,0)
+        legacy=np.array(warp_group([im],f,(40,40))[0])[5:-5,5:-5,0].astype(float)
+        area=np.array(warp_group([im],f,(40,40),area=True)[0])[5:-5,5:-5,0].astype(float)
+        target=255*6/7
+        self.assertLess(abs(area.mean()-target),3)
+        self.assertLess(area.std(),legacy.std()/2)
+
 if __name__=='__main__':unittest.main()

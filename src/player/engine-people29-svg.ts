@@ -22,6 +22,7 @@ const sources = optionalGlob(() =>
       "../../art/authoring/modular45/pose/*.svg",
       "../../art/authoring/modular47/parts/*.svg",
       "../../art/authoring/modular47/pose/*.svg",
+      "../../art/authoring/modular47-r1/parts/*.svg",
     ],
     { query: "?raw", import: "default" },
   ),
@@ -83,7 +84,50 @@ function writeSkinTable(document: XMLDocument, stops: readonly string[]) {
     );
   }
 }
+const decodedRasters = new Map<string, ImageData>();
+const decodingRasters = new Map<string, Promise<ImageData>>();
+const DECODED_RASTER_BYTES = 32 * 1024 * 1024;
+let decodedRasterBytes = 0;
+let rasterDecodeCount = 0;
+export function preparedRasterDiagnostics() {
+  return {
+    decodedBytes: decodedRasterBytes,
+    retainedImages: decodedRasters.size,
+    pendingImages: decodingRasters.size,
+    decodeCount: rasterDecodeCount,
+  };
+}
 async function decodeRaster(uri: string): Promise<ImageData> {
+  const cached = decodedRasters.get(uri);
+  if (cached) {
+    decodedRasters.delete(uri);
+    decodedRasters.set(uri, cached);
+    return cached;
+  }
+  const pending = decodingRasters.get(uri);
+  if (pending) return pending;
+  const task = decodeRasterUncached(uri)
+    .then((pixels) => {
+      if (pixels.data.byteLength <= DECODED_RASTER_BYTES) {
+        while (
+          decodedRasterBytes + pixels.data.byteLength >
+          DECODED_RASTER_BYTES
+        ) {
+          const oldest = decodedRasters.keys().next().value!;
+          decodedRasterBytes -= decodedRasters.get(oldest)!.data.byteLength;
+          decodedRasters.delete(oldest);
+        }
+        decodedRasters.set(uri, pixels);
+        decodedRasterBytes += pixels.data.byteLength;
+      }
+      return pixels;
+    })
+    .finally(() => decodingRasters.delete(uri));
+  decodingRasters.set(uri, task);
+  return task;
+}
+async function decodeRasterUncached(uri: string): Promise<ImageData> {
+  rasterDecodeCount++;
   const image = new Image();
   image.src = uri;
   await image.decode();
@@ -109,9 +153,17 @@ async function materializeRaster(
       (r) => r.id === material.palettes[region.channel],
     );
     if (!ramp) throw new Error("Unsupported raster material ramp.");
-    if (!ramp.stops) continue;
+    // Historical packs explicitly offered an unmapped source-color choice.
+    // Preserve that saved choice; every declared recoloring ramp requires stops.
+    if (
+      !ramp.stops &&
+      ramp.id === "source-colour" &&
+      (part.introducedGeneration ?? 0) <= 15
+    )
+      continue;
+    if (!ramp.stops) throw new Error("Raster material ramp has no stops.");
     const map = document.querySelector(
-      `image[data-material-map="${region.channel}"]`,
+      `image[data-material-map="${region.mapId ?? region.channel}"]`,
     );
     if (!map) throw new Error("Missing raster material map.");
     const decoded = await decodeRaster(map.getAttribute("href")!);
@@ -284,7 +336,6 @@ export async function renderPreparedSvg(
   return new XMLSerializer().serializeToString(result);
 }
 
-const MAX_VARIANTS = 64;
 interface Entry {
   key: string;
   refs: number;
@@ -315,14 +366,8 @@ export function acquirePreparedVariant(
   ]);
   let entry = cache.get(key);
   if (!entry) {
-    while (cache.size >= MAX_VARIANTS) {
-      const idle = [...cache.values()]
-        .filter((e) => e.refs === 0)
-        .sort((a, b) => a.touched - b.touched)[0];
-      if (!idle) throw new Error("Prepared variant cache is full.");
-      cache.delete(idle.key);
-      revoke(idle);
-    }
+    // Only mounted demand is retained. A fixed per-layer cap silently removed
+    // parts of the eleventh person; release below frees every idle entry.
     entry = {
       key,
       refs: 0,
@@ -350,7 +395,7 @@ export function acquirePreparedVariant(
       owned.refs--;
       owned.touched = ++sequence;
       if (owned.refs === 0) {
-        cache.delete(key);
+        if (cache.get(key) === owned) cache.delete(key);
         revoke(owned);
       }
     },

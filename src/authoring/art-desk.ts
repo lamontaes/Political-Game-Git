@@ -57,7 +57,7 @@ export interface ArtDeskState {
   readonly contractVersion: "alive43-art-desk-v1";
   readonly items: readonly ArtDeskItem[];
   readonly privatePack: {
-    readonly status: "supplied" | "input-missing";
+    readonly status: "present-unverified" | "input-missing";
     readonly note: string;
     readonly path?: string;
   };
@@ -169,8 +169,8 @@ function readinessClosed(request: AssetRequest): boolean {
 export function projectArtDesk(inputs: ArtDeskInputs): ArtDeskState {
   const privatePack = inputs.privatePackPath
     ? {
-        status: "supplied" as const,
-        note: "Authorized private pack path supplied to this worktree.",
+        status: "present-unverified" as const,
+        note: "Private candidate registry present. Complete pack integrity is unverified by this screen.",
         path: inputs.privatePackPath,
       }
     : {

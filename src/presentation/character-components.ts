@@ -1,3 +1,4 @@
+import { sha256Text } from "./sha256";
 import { stableHash } from "../simulation/ids";
 import {
   COHERENT_APPEARANCE_RECIPE_VERSION,
@@ -387,7 +388,20 @@ export interface CharacterCatalogGeneration {
  * definitions are frozen by its signature, so an established recipe pinned to
  * a generation is reproducible after the library grows.
  */
+export interface PreparedProfileRecord {
+  readonly id: string;
+  readonly sha256: string;
+  readonly canonicalSource: string;
+}
+export interface ProfileLayerChange {
+  readonly assetId: string;
+  readonly from: number;
+  readonly to: number;
+  readonly reason: string;
+}
 export interface CharacterCatalogData {
+  readonly prepared_profiles?: readonly PreparedProfileRecord[];
+  readonly profile_layer_changes?: readonly ProfileLayerChange[];
   readonly catalog_generation: number;
   readonly slots: readonly CharacterSlotDefinition[];
   readonly generations: readonly CharacterCatalogGeneration[];
@@ -632,12 +646,29 @@ function validateBodyContacts(
 
 function rasterRevisionErrors(
   components: ReadonlyMap<string, CharacterComponent>,
+  catalog: CharacterCatalogData,
 ): string[] {
   const errors: string[] = [];
+  const verified = new Set<string>();
+  for (const record of catalog.prepared_profiles ?? []) {
+    try {
+      const source = JSON.parse(record.canonicalSource);
+      if (
+        source.id !== record.id ||
+        source.schema !== "modular-body-profile-v1" ||
+        sha256Text(record.canonicalSource) !== record.sha256
+      )
+        throw new Error("profile bytes differ");
+      verified.add(record.id + ":" + record.sha256);
+    } catch {
+      errors.push(`Invalid prepared profile registry entry '${record.id}'.`);
+    }
+  }
   const successors = new Set<string>();
   const normalized = (
     definition: CharacterComponentDefinition,
     recalibrated = false,
+    layerChange = false,
   ) => {
     const copy: Record<string, unknown> = { ...definition };
     delete copy.catalog_generation;
@@ -650,10 +681,10 @@ function rasterRevisionErrors(
         "attachment_anchors",
         "contacts",
         "origin",
-        "layer",
       ])
         delete copy[key];
     }
+    if (layerChange) delete copy.layer;
     return canonicalJson(copy);
   };
   for (const component of components.values()) {
@@ -662,18 +693,93 @@ function rasterRevisionErrors(
       profile !== undefined &&
       typeof profile.id === "string" &&
       profile.id.length > 0 &&
-      /^[a-f0-9]{64}$/.test(profile.sha256);
+      /^[a-f0-9]{64}$/.test(profile.sha256) &&
+      verified.has(profile.id + ":" + profile.sha256);
     if (profile !== undefined && !recalibrated)
       errors.push(`Invalid prepared profile on '${component.assetId}'.`);
+    if (recalibrated && component.definition.kind !== "body") {
+      const bodies = [...components.values()].filter(
+        (body) =>
+          body.definition.kind === "body" &&
+          body.definition.catalog_generation <=
+            component.definition.catalog_generation &&
+          (!component.definition.compatible_body_families ||
+            component.definition.compatible_body_families.includes(
+              body.definition.family,
+            )) &&
+          body.definition.prepared_profile?.id === profile.id &&
+          body.definition.prepared_profile.sha256 === profile.sha256,
+      );
+      if (!bodies.length)
+        errors.push(
+          `Incomplete prepared kit: '${component.assetId}' has no matching profiled body.`,
+        );
+    }
+    if (recalibrated && component.definition.kind === "body") {
+      const family = component.definition.family;
+      const heads = new Set(
+        [...components.values()]
+          .filter(
+            (part) =>
+              part.definition.kind === "head" &&
+              part.definition.compatible_body_families?.includes(family),
+          )
+          .map((part) => part.definition.family),
+      );
+      const peers = [...components.values()].filter(
+        (part) =>
+          part.definition.kind !== "body" &&
+          (!part.definition.compatible_body_families ||
+            part.definition.compatible_body_families.includes(family)) &&
+          (!part.definition.compatible_head_families ||
+            part.definition.compatible_head_families.some((head) =>
+              heads.has(head),
+            )),
+      );
+      const requiredKinds = new Set(
+        peers
+          .filter(
+            (part) =>
+              part.definition.catalog_generation <
+              component.definition.catalog_generation,
+          )
+          .map((part) => part.definition.kind),
+      );
+      for (const kind of requiredKinds) {
+        if (
+          !peers.some(
+            (part) =>
+              part.definition.kind === kind &&
+              part.definition.catalog_generation <=
+                component.definition.catalog_generation &&
+              part.definition.prepared_profile?.id === profile.id &&
+              part.definition.prepared_profile.sha256 === profile.sha256,
+          )
+        )
+          errors.push(
+            `Incomplete prepared kit: '${component.assetId}' has no compatible '${kind}'.`,
+          );
+      }
+    }
     const previousId = component.definition.supersedes_asset_id;
     if (previousId === undefined) continue;
     const previous = components.get(previousId);
+    const layerChange = Boolean(
+      recalibrated &&
+      catalog.profile_layer_changes?.some(
+        (change) =>
+          change.assetId === component.assetId &&
+          change.from === previous?.definition.layer &&
+          change.to === component.definition.layer &&
+          change.reason.trim().length > 0,
+      ),
+    );
     if (
       !previous ||
       previous.definition.catalog_generation >=
         component.definition.catalog_generation ||
-      normalized(previous.definition, recalibrated) !==
-        normalized(component.definition, recalibrated)
+      normalized(previous.definition, recalibrated, layerChange) !==
+        normalized(component.definition, recalibrated, layerChange)
     )
       errors.push(
         `Invalid raster revision '${component.assetId}' of '${previousId}': an older component with identical identity/attachment metadata is required.`,
@@ -742,7 +848,7 @@ export function createCharacterComponentLibrary(
       fixture: record.availability === "development-fixture",
     });
   }
-  const revisionErrors = rasterRevisionErrors(components);
+  const revisionErrors = rasterRevisionErrors(components, catalog);
   if (revisionErrors.length) throw new Error(revisionErrors.join("\n"));
   return {
     catalogGeneration: catalog.catalog_generation,
@@ -1284,7 +1390,7 @@ export function validateCharacterComponentLibrary(
     }
   }
 
-  errors.push(...rasterRevisionErrors(byId));
+  errors.push(...rasterRevisionErrors(byId, catalog));
 
   // Complexion is a property of the head family, so identity can fix a
   // complexion by choosing a head and the body must then agree.

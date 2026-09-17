@@ -1,3 +1,4 @@
+import { sha256Text } from "./sha256";
 import { describe, expect, it } from "vitest";
 import fixtureManifest from "../../art/fixtures/valid_character_manifest.json";
 import fixtureCatalog from "../../art/fixtures/valid_character_catalog.json";
@@ -13,7 +14,11 @@ import {
 const original =
   fixtureManifest.assets as unknown as CharacterComponentManifestRecord[];
 const catalog = fixtureCatalog as unknown as CharacterCatalogData;
-const profile = { id: "new-authored-rig", sha256: "a".repeat(64) };
+const canonicalSource = JSON.stringify({
+  id: "new-authored-rig",
+  schema: "modular-body-profile-v1",
+});
+const profile = { id: "new-authored-rig", sha256: sha256Text(canonicalSource) };
 function fixture() {
   const records = original.map((r) => ({
     ...r,
@@ -44,6 +49,7 @@ function fixture() {
     added,
     catalog: {
       ...catalog,
+      prepared_profiles: [{ ...profile, canonicalSource }],
       catalog_generation: 2,
       generations: [
         ...catalog.generations,
@@ -88,6 +94,7 @@ describe("explicit prepared rig revisions", () => {
     for (const prepared_profile of [
       undefined,
       { id: "rig", sha256: "unbound" },
+      { id: "rig", sha256: "f".repeat(64) },
     ]) {
       const f = fixture();
       const records = f.records.map((r) =>
@@ -102,6 +109,7 @@ describe("explicit prepared rig revisions", () => {
   });
   it("a profile never authorizes a different logical identity or pose", () => {
     for (const patch of [
+      { layer: 1 },
       { family: "replacement-identity" },
       { compatible_pose_families: ["invented-view"] },
     ]) {
@@ -117,4 +125,26 @@ describe("explicit prepared rig revisions", () => {
       );
     }
   });
+});
+
+it("rejects an orphan profiled successor before it silently removes hair", () => {
+  const f = fixture();
+  const records = f.records.filter(
+    (r) =>
+      !r.asset_id.endsWith("-prepared") || r.component?.kind === "hair-front",
+  );
+  expect(() => createCharacterComponentLibrary(records, f.catalog)).toThrow(
+    /Incomplete prepared kit/,
+  );
+});
+it("rejects changed bytes behind a declared profile hash", () => {
+  const f = fixture();
+  expect(() =>
+    createCharacterComponentLibrary(f.records, {
+      ...f.catalog,
+      prepared_profiles: [
+        { ...profile, canonicalSource: canonicalSource + " " },
+      ],
+    }),
+  ).toThrow(/profile/);
 });

@@ -26,7 +26,7 @@ page.on("pageerror", (error) =>
   (report.errors as string[]).push(error.message),
 );
 try {
-  await page.goto("http://127.0.0.1:5487/?art-preview=candidate", {
+  await page.goto("http://127.0.0.1:5488/?art-preview=candidate", {
     timeout: 60000,
     waitUntil: "domcontentloaded",
   });
@@ -76,12 +76,18 @@ try {
     .then(() => page.getByTestId("orientation-skip").click())
     .catch(() => {});
   await enterLife(page);
-  await expect(page.locator('[data-material-state="loading"]')).toHaveCount(0, {
+  await expect(
+    page.locator(
+      '[data-material-state="loading"], [data-material-group-state="loading"]',
+    ),
+  ).toHaveCount(0, {
     timeout: 60000,
   });
-  await expect(page.locator('[data-material-state="unavailable"]')).toHaveCount(
-    0,
-  );
+  await expect(
+    page.locator(
+      '[data-material-state="unavailable"], [data-material-group-state="unavailable"]',
+    ),
+  ).toHaveCount(0);
   const ids = await page
     .locator('[data-testid^="scene-person-"] [data-asset-id]')
     .evaluateAll((xs) => xs.map((x) => x.getAttribute("data-asset-id")!));

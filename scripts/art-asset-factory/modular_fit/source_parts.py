@@ -7,6 +7,7 @@ import json
 import sys
 from pathlib import Path
 import numpy as np
+from scipy import ndimage
 from PIL import Image, ImageDraw
 from fit_core import Fit, warp_group, warp_material_group
 from intake import IntakeError, pinned_image, canonical, digest
@@ -26,10 +27,23 @@ def separate(root, descriptor):
         raise IntakeError('invalid_alpha_cleanup','threshold must be 0..32')
     a[a[...,3]<=cutoff]=0
     owner=np.array(pinned_image(root,descriptor['ownershipMask'],descriptor['canvas']).getchannel('R')) if descriptor.get('ownershipMask') else np.array(polygon_mask(descriptor['canvas'],descriptor['ownershipPolygons']))
+    underlap=np.zeros(owner.shape,bool)
+    radius=descriptor.get('underlapPixels',0)
+    if radius:
+        if not isinstance(radius,int) or not 1<=radius<=8 or not descriptor.get('underlapIntoMask'):
+            raise IntakeError('invalid_underlap','bounded padding requires an explicit opposite-layer mask')
+        allowed=np.array(pinned_image(root,descriptor['underlapIntoMask'],descriptor['canvas']).getchannel('R'))>0
+        distance,nearest=ndimage.distance_transform_edt(owner==0,return_indices=True)
+        underlap=(owner==0)&allowed&(distance<=radius)&(a[...,3]>245)
+        # Texture-edge padding belongs beneath the other opaque layer. It never
+        # changes the visible silhouette, pose or original source master.
+        a[underlap,:3]=a[tuple(nearest[:,underlap])][:,:3]
+        owner=owner.copy();owner[underlap]=255
     a[...,3]=np.rint(a[...,3].astype(float)*owner/255).astype('uint8')
     maps={}
     for channel, material in descriptor.get('materials',{}).items():
         region=(np.array(pinned_image(root,material['mask'],descriptor['canvas']).getchannel('R'))>0) if material.get('mask') else (np.array(polygon_mask(descriptor['canvas'],material['polygons']))>0)
+        if radius: region=region | (underlap & region[tuple(nearest)])
         excluded=np.array(polygon_mask(descriptor['canvas'],material.get('protectedPolygons',[])))>0
         rgb=a[...,:3].astype(float)
         # Optional calibrated color bounds refine an authored semantic region;
@@ -48,8 +62,8 @@ def separate(root, descriptor):
         maps[channel]=Image.fromarray(np.dstack([shade,shade,shade,weight]))
     transform=Fit(**descriptor['transform'])
     if not 0<transform.scale<=1:raise IntakeError('native_detail_shortfall','source separation cannot enlarge')
-    if descriptor.get('materialSampling')=='coverage-normalized-v1':
-        results=warp_material_group(Image.fromarray(a),list(maps.values()),transform,tuple(descriptor['outputCanvas']))
+    if descriptor.get('materialSampling') in ('coverage-normalized-v1','coverage-normalized-area-v2'):
+        results=warp_material_group(Image.fromarray(a),list(maps.values()),transform,tuple(descriptor['outputCanvas']),area=descriptor.get('materialSampling')=='coverage-normalized-area-v2')
     else:
         results=warp_group([Image.fromarray(a),*maps.values()],transform,tuple(descriptor['outputCanvas']))
     return results[0],dict(zip(maps,results[1:]))

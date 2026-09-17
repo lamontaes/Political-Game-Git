@@ -85,8 +85,17 @@ def fit_recipe(head, body):
             'calibrationConfidence':head['calibration']['confidence'],
             'acceptance':'candidate-unapproved'}
 
-def fit_head(root, head, body):
-    recipe=fit_recipe(head,body); f=Fit(**recipe['transform'])
+def fit_head(root, head, body, registered_transform=None):
+    recipe=fit_recipe(head,body)
+    if registered_transform is not None:
+        recipe['neutralTransform']=registered_transform
+        recipe['transform']=dict(registered_transform)
+        registered=Fit(**registered_transform)
+        own_geometry=geometry(head)
+        recipe['anatomy']=vars(registered.box(own_geometry.anatomy))
+        recipe['attachment']=registered.point(own_geometry.attachment)
+        recipe['cacheKey']=digest(canonical(recipe))
+    f=Fit(**recipe['transform'])
     paint=pinned_image(root,head['paint'],head['canvas'])
     if head.get('protectedFeatures'):
         pinned_image(root,head['protectedFeatures'],head['canvas'])
@@ -100,8 +109,8 @@ def fit_head(root, head, body):
     a=np.array(paint); a[...,3]=(a[...,3].astype(float)*np.array(mask)/255).round().astype('uint8')
     layers=[Image.fromarray(a)]
     for ref in head.get('materialMaps',{}).values(): layers.append(pinned_image(root,ref,head['canvas']))
-    result=(warp_material_group(layers[0],layers[1:],f,tuple(body['canvas']))
-            if head.get('materialSampling')=='coverage-normalized-v1'
+    result=(warp_material_group(layers[0],layers[1:],f,tuple(body['canvas']),area=head.get('materialSampling')=='coverage-normalized-area-v2')
+            if head.get('materialSampling') in ('coverage-normalized-v1','coverage-normalized-area-v2')
             else warp_group(layers,f,tuple(body['canvas'])))
     if body.get('neckOwnership')=='body-layer':
         # Clean admitted heads end at the anatomical jaw. Their associated body
@@ -138,8 +147,8 @@ def fit_hair(root, hair, head, body, recipe):
     t=Fit(scale,f.scale*(ts['centerX']-k*hs['centerX'])+f.dx,f.scale*(ts['top']-k*hs['top'])+f.dy)
     p=pinned_image(root,hair['paint'],hair['canvas'])
     maps={ch:pinned_image(root,ref,hair['canvas']) for ch,ref in hair['materialMaps'].items()}
-    imgs=(warp_material_group(p,list(maps.values()),t,tuple(body['canvas']))
-          if hair.get('materialSampling')=='coverage-normalized-v1'
+    imgs=(warp_material_group(p,list(maps.values()),t,tuple(body['canvas']),area=hair.get('materialSampling')=='coverage-normalized-area-v2')
+          if hair.get('materialSampling') in ('coverage-normalized-v1','coverage-normalized-area-v2')
           else warp_group([p,*maps.values()],t,tuple(body['canvas'])))
     return imgs[0],dict(zip(maps,imgs[1:])),{'transform':vars(t),'logicalStyle':hair['logicalStyle'],
         'cacheKey':digest(canonical([recipe['cacheKey'],hair,VERSION]))}

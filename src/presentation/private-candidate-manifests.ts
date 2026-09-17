@@ -1,4 +1,6 @@
 import type {
+  PreparedProfileRecord,
+  ProfileLayerChange,
   CharacterCatalogGeneration,
   CharacterComponentManifestRecord,
 } from "./character-components";
@@ -109,6 +111,8 @@ export const MODULAR41_HEADS_REGISTRY: Kit41RegistryManifest = {
  * cleaned garment edges and prepared skin maps. Older generations stay exact.
  */
 export interface Modular45RegistryManifest extends Kit41RegistryManifest {
+  readonly preparedProfiles?: readonly PreparedProfileRecord[];
+  readonly profileLayerChanges?: readonly ProfileLayerChange[];
   /** Authored light-to-dark skin ramp ids, in display order. */
   readonly skinRamps: readonly string[];
 }

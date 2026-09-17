@@ -63,7 +63,11 @@ const review = liftCandidatesForReview(
 export const ENGINE_PEOPLE29_CHARACTER_LIBRARY =
   createCharacterComponentLibrary(
     review.records,
-    review.catalog,
+    {
+      ...review.catalog,
+      prepared_profiles: modular45.preparedProfiles,
+      profile_layer_changes: modular45.profileLayerChanges,
+    },
     createGarmentFitBank({
       ...fit,
       garments: [

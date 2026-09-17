@@ -1,3 +1,4 @@
+import { ENGINE_PEOPLE29_CHARACTER_LIBRARY } from "../presentation/engine-people29-review";
 import { resolveCompleteOutfit } from "../presentation/complete-outfit";
 import { useState } from "react";
 import type { Person, PersonAppearance } from "../simulation/types";
@@ -101,7 +102,8 @@ export function WardrobeFigure({
             )
             .map((layer) => layer.assetId),
           // Only exact private component IDs can match the optional private bank.
-          candidatePreview: true,
+          candidatePreview:
+            libraries.characters === ENGINE_PEOPLE29_CHARACTER_LIBRARY,
         });
         if (source.status === "ready") {
           prepared.set(candidatePose, source);
@@ -124,7 +126,7 @@ export function WardrobeFigure({
           kind: layer.kind,
           slotId: layer.kind,
           layer: layer.layer,
-          released: true,
+          released: false,
           url: layer.url,
           hash: layer.sha256,
           attachmentAnchorId: null,

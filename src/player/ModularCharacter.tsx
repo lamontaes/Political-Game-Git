@@ -1,4 +1,11 @@
-import { useEffect, useState, type CSSProperties } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 import { acquirePreparedVariant } from "./engine-people29-svg";
 import type { AppearanceMaterial } from "../simulation/appearance-material";
 import { ENGINE_PEOPLE29_TEMPLATES } from "../presentation/engine-people29-data";
@@ -19,7 +26,7 @@ interface ModularCharacterProps {
  * exactly as the pure plan computed them; this component adds no geometry.
  * Anchor markers are DOM overlays, never part of any raster.
  */
-export function ModularCharacter({
+function ModularCharacterLayers({
   plan,
   debugAnchors = false,
   testId = "modular-character",
@@ -126,6 +133,120 @@ export function ModularCharacter({
   );
 }
 
+/** Resolve every material layer before showing a person. A rejected layer must
+ * never produce a headless or partially dressed person. */
+const MaterialGroupContext = createContext<ReadonlyMap<string, string> | null>(
+  null,
+);
+interface MaterialGroupLayer {
+  readonly assetId?: string;
+  readonly url?: string | null;
+  readonly material?: AppearanceMaterial;
+}
+export function MaterialGroup({
+  layers,
+  expression = "neutral",
+  children,
+}: {
+  readonly layers: readonly MaterialGroupLayer[];
+  readonly expression?: "neutral" | "smile";
+  readonly children: ReactNode;
+}) {
+  const request = JSON.stringify([layers, expression]);
+  const [result, setResult] = useState<{
+    request: string;
+    urls: Map<string, string>;
+    error?: string;
+  }>();
+  useEffect(() => {
+    const [members, faceExpression] = JSON.parse(request) as [
+      MaterialGroupLayer[],
+      "neutral" | "smile",
+    ];
+    let active = true;
+    const leases: ReturnType<typeof acquirePreparedVariant>[] = [];
+    const ids = members.flatMap((layer) =>
+      layer.assetId ? [layer.assetId] : [],
+    );
+    void Promise.all(
+      members.map(async (layer) => {
+        if (!layer.url) throw new Error("Missing character layer source.");
+        if (
+          !layer.assetId ||
+          !layer.material ||
+          !ENGINE_PEOPLE29_TEMPLATES[layer.assetId]
+        ) {
+          const image = new Image();
+          image.src = layer.url;
+          await image.decode();
+          return;
+        }
+        const lease = acquirePreparedVariant(
+          layer.assetId,
+          layer.material,
+          ids,
+          faceExpression,
+        );
+        leases.push(lease);
+        const url = await lease.url;
+        const image = new Image();
+        image.src = url;
+        await image.decode();
+        return [layer.assetId, url] as const;
+      }),
+    ).then(
+      (values) => {
+        if (active)
+          setResult({
+            request,
+            urls: new Map(values.filter((value) => value !== undefined)),
+          });
+      },
+      (error) => {
+        if (active)
+          setResult({ request, urls: new Map(), error: String(error) });
+      },
+    );
+    return () => {
+      active = false;
+      leases.forEach((lease) => lease.release());
+    };
+  }, [request]);
+  const current = result?.request === request ? result : undefined;
+  if (!current || current.error)
+    return (
+      <span
+        role="status"
+        data-material-group-state={current?.error ? "unavailable" : "loading"}
+        data-diagnostic={current?.error}
+      >
+        {current?.error
+          ? "Character artwork unavailable."
+          : "Loading character artwork…"}
+      </span>
+    );
+  return (
+    <MaterialGroupContext.Provider value={current.urls}>
+      {children}
+    </MaterialGroupContext.Provider>
+  );
+}
+
+export function ModularCharacter(props: ModularCharacterProps) {
+  return (
+    <MaterialGroup
+      layers={props.plan.layers.map((layer) => ({
+        assetId: layer.assetId,
+        url: layer.url,
+        material: props.plan.material,
+      }))}
+      expression={props.expression}
+    >
+      <ModularCharacterLayers {...props} />
+    </MaterialGroup>
+  );
+}
+
 export function MaterialImage({
   assetId,
   material,
@@ -138,8 +259,10 @@ export function MaterialImage({
   drawnIds: readonly string[];
   expression?: "neutral" | "smile";
 }) {
+  const group = useContext(MaterialGroupContext);
+  const groupedUrl = group?.get(assetId);
   const wanted =
-    material && ENGINE_PEOPLE29_TEMPLATES[assetId]
+    !group && material && ENGINE_PEOPLE29_TEMPLATES[assetId]
       ? JSON.stringify([assetId, material, drawnIds, expression])
       : null;
   const [variant, setVariant] = useState<{ key: string; url: string } | null>(
@@ -182,15 +305,23 @@ export function MaterialImage({
     ? variant?.key === wanted
       ? variant.url
       : undefined
-    : props.src;
+    : (groupedUrl ?? props.src);
   return (
     <img
       {...props}
       src={src}
-      data-material-version={wanted ? material!.version : undefined}
-      data-material-parameters={wanted ? JSON.stringify(material) : undefined}
+      data-material-version={material?.version}
+      data-material-parameters={material ? JSON.stringify(material) : undefined}
       data-material-state={
-        wanted ? (error ? "unavailable" : src ? "ready" : "loading") : undefined
+        group
+          ? "ready"
+          : wanted
+            ? error
+              ? "unavailable"
+              : src
+                ? "ready"
+                : "loading"
+            : undefined
       }
     />
   );

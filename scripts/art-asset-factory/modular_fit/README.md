@@ -133,3 +133,30 @@ profile compatibility and material ownership at intake; a successful geometry
 fit cannot establish them. Latest-generation choices exclude parts whose
 profile has no compatible current body, while pinned old generations retain
 their exact prior choices.
+
+## R1 correction verification
+
+`npm run test:modular:public` reports private coverage as NOT_TESTED. For delivery,
+install the matching private pack and run `npm run test:modular:private` with
+`MODULAR_SUPPLIED_EVIDENCE` set to its supplied-source-evidence directory. This mode
+fails when inputs are missing. Its installed-registry tests cover the corrected
+standing/pose cross product and historical generations 12–15; a fixture library is
+used only for isolated malformed-input or expansion tests.
+
+New `coverage-normalized-area-v2` inputs use an area prefilter before the uniform
+subpixel fit. `underlapPixels` requires a pinned `underlapIntoMask` and copies
+bounded edge texture only under declared opaque neighboring source support.
+Expressions inherit the neutral transform while retaining their own measured
+support. These options do not change the historical default sampling path.
+
+Profiles are verified against their canonical source bytes. Changed paint order
+requires an explicit per-component declaration; a partial successor kit refuses
+before it can remove existing hair. The freeze receipt binds prepared metadata,
+profiles, all prepared/corrective/expression bytes and runtime pose sources, in
+addition to catalog membership. Mask preparation requires NumPy, Pillow and SciPy.
+
+The browser remapper preserves alpha and excluded pixels in the decoded array.
+PNG/canvas premultiplication can quantize semitransparent RGB and discards hidden
+RGB at zero alpha. Do not describe the browser round trip as byte-exact. Mounted
+variant demand is retained until release; decoded raster reuse is bounded to
+32 MiB. This is a memory bound, not a promise to cache an entire crowded scene.

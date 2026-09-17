@@ -10,7 +10,7 @@ import { describe, it, expect } from "vitest";
 import { ENGINE_PEOPLE29_CHARACTER_LIBRARY as library } from "./engine-people29-review";
 import {
   ENGINE_PEOPLE29_FAMILIES,
-  selectPreparedBody,
+  defaultPreparedMaterial,
   validatePreparedAppearance,
 } from "./engine-people29-data";
 import { resolveCompleteOutfit, findCompleteOutfit } from "./complete-outfit";
@@ -58,14 +58,18 @@ describe.skipIf(needsPrivateArt)("prepared candidate increment", () => {
     );
     for (const family of ENGINE_PEOPLE29_FAMILIES) {
       const body = family.parts.find((p) => p.kind === "body")!.id;
-      const appearance = selectPreparedBody(
-        {
-          seed: "prepared",
-          recipeVersion: "appearance-recipe-v2",
-          catalogGeneration: 5,
+      const appearance = {
+        seed: "prepared",
+        recipeVersion: "appearance-recipe-v2",
+        catalogGeneration: 5,
+        selection: {
+          bodyFamily: body,
+          headFamily: family.parts.find((p) => p.kind === "head")!.id,
+          hairFamily:
+            family.parts.find((p) => p.kind === "hair-front")?.id ?? null,
         },
-        body,
-      )!;
+        material: defaultPreparedMaterial(family, 5),
+      };
       validatePreparedAppearance(appearance);
       const found = findCompleteOutfit({
         appearance,
@@ -103,9 +107,10 @@ it.skipIf(needsPrivateArt)(
   "freezes source bytes and generation5 while old fresh replay markers reproduce",
   () => {
     // Generation 5 = engine-people29; later additive generations preserve it.
-    // The retained current-bank pack reaches MODULAR41 generation 12; the
-    // MODULAR45 people repair adds generation 13 on top of it.
-    expect(library.catalogGeneration).toBe(13);
+    expect(library.catalogGeneration).toBe(
+      Math.max(...library.generations.map((g) => g.generation)),
+    );
+    expect(library.generations.some((g) => g.generation === 13)).toBe(true);
     for (const asset of data.assets)
       expect(
         createHash("sha256")

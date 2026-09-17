@@ -335,3 +335,15 @@ describe("Art Desk projection and briefs", () => {
     expect(brief.stylePixels[0]?.missingReason).toMatch(/access\/input/);
   });
 });
+
+it("does not mistake a registry path for verified pack integrity", () => {
+  const desk = projectArtDesk({
+    requests: [],
+    claims: emptyClaimDocument(),
+    reviews: emptyReviewDocument(),
+    now,
+    privatePackPath: "art/manifest/registry.json",
+  });
+  expect(desk.privatePack.status).toBe("present-unverified");
+  expect(desk.privatePack.note).toContain("unverified");
+});

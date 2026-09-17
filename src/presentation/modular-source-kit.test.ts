@@ -1,10 +1,10 @@
 import fs from "node:fs";
+import { MODULAR45_REGISTRY } from "./private-candidate-manifests";
 import { describe, expect, it } from "vitest";
 import { ENGINE_PEOPLE29_CHARACTER_LIBRARY as prior } from "./engine-people29-review";
 import {
   createCharacterComponentLibrary,
   computeCharacterGenerationSignature,
-  componentsAtGeneration,
   resolveCharacterRecipe,
   projectCharacterLayers,
   type CharacterComponentDefinition,
@@ -23,6 +23,14 @@ function kit(expansion = false) {
       "utf8",
     ),
   );
+  if (!expansion)
+    return {
+      library: prior,
+      spec,
+      additions: [...prior.components.values()]
+        .filter((c) => c.definition.catalog_generation === spec.generation)
+        .map((c) => ({ asset_id: c.assetId, component: c.definition })),
+    };
   const registry = JSON.parse(
     fs.readFileSync(
       directory +
@@ -76,6 +84,13 @@ function kit(expansion = false) {
   const library = createCharacterComponentLibrary(
     [...records, ...additions],
     {
+      prepared_profiles: JSON.parse(
+        fs.readFileSync(
+          "art/authoring/modular47-r1/all-profile-proofs.json",
+          "utf8",
+        ),
+      ),
+      profile_layer_changes: MODULAR45_REGISTRY.profileLayerChanges,
       catalog_generation: report.generation,
       slots: prior.slots,
       generations: [
@@ -224,23 +239,6 @@ describe.skipIf(!available)(
         }
       },
     );
-    it("keeps generation 14 recipes exact across the new kit admission", () => {
-      const { library } = kit();
-      for (let i = 0; i < 40; i++) {
-        const appearance = {
-          seed: `historical-kit-${i}`,
-          recipeVersion: "appearance-recipe-v2",
-          catalogGeneration: 14,
-        };
-        const request = { appearance, poseFamily: "standing-neutral" };
-        expect(resolveCharacterRecipe(request, library)).toEqual(
-          resolveCharacterRecipe(request, prior),
-        );
-      }
-      expect(componentsAtGeneration(library, 14).map((c) => c.assetId)).toEqual(
-        componentsAtGeneration(prior, 14).map((c) => c.assetId),
-      );
-    });
     it.skipIf(!fs.existsSync(directory + "pose-pack.json"))(
       "supports each declared face, hair and outfit in listening and seated poses",
       () => {

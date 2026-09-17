@@ -6,6 +6,8 @@ from PIL import Image
 from fit_core import *
 
 ROOT=Path(os.environ.get('MODULAR_SUPPLIED_EVIDENCE', '/nonexistent-private-evidence'))
+if os.environ.get('MODULAR_REQUIRE_PRIVATE') == '1' and not ROOT.exists():
+    raise RuntimeError('Required MODULAR_SUPPLIED_EVIDENCE is missing; private verification cannot pass with skipped inputs')
 
 class FitTests(unittest.TestCase):
     def source(self,w=120,h=180,attachment=(300,200),view='front',cal='test-source'):

@@ -1,4 +1,6 @@
-/** Prepared mask weight and shade remap; alpha and excluded pixels stay exact. */
+/** Array operation: alpha and excluded pixels stay exact in the supplied buffer.
+ * Browser PNG/canvas decode and encode use premultiplied alpha; semitransparent
+ * RGB can quantize during that round trip. This is not a byte-exact PNG editor. */
 export function remapRasterMaterial(
   pixels: Uint8ClampedArray,
   map: Uint8ClampedArray,
