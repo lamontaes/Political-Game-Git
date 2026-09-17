@@ -62,7 +62,8 @@ function firstHouseMember(world: World): EntityId {
       candidate.occupant.kind === "member" &&
       candidate.occupant.member.partyOrganizationId !== null,
   )!;
-  return seat.occupant.kind === "member" ? seat.occupant.member.personId : "";
+  if (seat.occupant.kind !== "member") throw new Error("No seated member.");
+  return seat.occupant.member.personId;
 }
 
 function foundParty(
@@ -148,7 +149,8 @@ describe("WORLD46 party organizations", () => {
     const parties = nationalParties(world, []);
     expect(parties).toHaveLength(3);
     expect(parties.map((party) => party.name)).toContain("Civic Renewal Party");
-    const created = result.kind === "adopted" ? result.organizationIds[0]! : "";
+    if (result.kind !== "adopted") throw new Error("Founding was not adopted.");
+    const created = result.organizationIds[0]!;
     expect(partyColorOrder(world).at(-1)).toBe(created);
     expect(partyColorOrder(world).slice(0, 2)).toEqual(partyColorOrder(base));
 
@@ -244,7 +246,7 @@ describe("WORLD46 party organizations", () => {
     const evolution = partyEvolutionRecords(split.world).at(-1)!;
     expect(evolution.change).toBe("split-off");
     expect(evolution.fromOrganizationIds).toEqual([chapter.organizationId]);
-    expect(evolution.movedPersonIds.sort()).toEqual(
+    expect([...evolution.movedPersonIds].sort()).toEqual(
       [proposer, bystander].sort(),
     );
     // The source chapter remains, without the leavers on its body.
