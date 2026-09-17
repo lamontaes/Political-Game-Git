@@ -1,3 +1,4 @@
+import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
 import {
   CLAIM_CONTRADICTION_EVENT,
   CLAIM_EVIDENCE_TAG_PREFIX,
@@ -6,6 +7,7 @@ import {
   contradictionFound,
   type ClaimStance,
 } from "./claim-stances";
+import { CONTRADICTION_ROUTES } from "./claim-contradiction-routes";
 import { addDays } from "./dates";
 import { evaluateDecision } from "./decisions";
 import { scheduleFutureDueItem } from "./future-transitions";
@@ -85,6 +87,11 @@ function checkDate(world: World, stance: ClaimStance): IsoDate | null {
   if ((kind === "promised" || kind === "accepted") && id) {
     return addDays(world.currentDate, REPORTER_CHECK_DAYS);
   }
+  const route = CONTRADICTION_ROUTES.find((entry) => entry.prefix === kind);
+  if (route && id) {
+    const date = route.checkDate(world, stance, id);
+    return date && date > world.currentDate ? date : null;
+  }
   return null;
 }
 
@@ -154,6 +161,50 @@ export function claimContradictionTransitionHandler(
     const basis = promiseBasis(world, kind, id, speakerId);
     if (!basis) return done("promise-missing");
     return promiseCheck(world, stanceEvent, stance, speakerId, basis, done);
+  }
+  const route = CONTRADICTION_ROUTES.find((entry) => entry.prefix === kind);
+  if (route && id) {
+    let next = world;
+    let lastEventId: EntityId | null = null;
+    for (const recipientId of stance.recipientPersonIds) {
+      if (
+        recipientId === speakerId ||
+        !next.people[recipientId] ||
+        dying(next, recipientId) ||
+        contradictionFound(next, stanceEvent.id, recipientId)
+      ) {
+        continue;
+      }
+      const evidence = route.evidenceFor(
+        next,
+        stanceEvent,
+        stance,
+        id,
+        recipientId,
+      );
+      if (!evidence) continue;
+      const found = writeDiscovery(next, {
+        stanceEvent,
+        stance,
+        speakerId,
+        discovererId: recipientId,
+        evidenceEventId: evidence.evidenceEventId,
+        family: "reporter-question",
+        place: "By phone",
+        jurisdictionId:
+          stanceEvent.jurisdictionId ?? fallbackJurisdiction(next),
+        evidenceLabel: evidence.label,
+        facts: {
+          sourceName: evidence.label,
+          questionLabel: stance.proposition,
+        },
+      });
+      next = found.world;
+      lastEventId = found.eventId;
+    }
+    return lastEventId
+      ? done("contradicted", next, lastEventId)
+      : done("no-evidence-yet", next);
   }
   return done("unsupported-proposition");
 }
@@ -373,6 +424,7 @@ function promiseCheck(
   let lastEventId: EntityId | null = null;
   for (const reporterId of reporters) {
     const sourceId = sources[0]!;
+    next = ensurePeopleTraits(next, [sourceId]);
     const evaluation = evaluateDecision(next, {
       stableKey: `claim-check:${stanceEvent.id}:source:${sourceId}:${reporterId}`,
       decisionType: "press.confirm-account",
@@ -399,7 +451,32 @@ function promiseCheck(
         },
       ],
       constraints: [],
-      considerations: [],
+      considerations: traitConsiderations(
+        next,
+        sourceId,
+        `claim-check:${stanceEvent.id}:${reporterId}`,
+        [
+          {
+            optionKey: "confirm",
+            trait: "conflict",
+            pole: "high",
+            explanation: "They don’t mind contradicting someone on the record.",
+          },
+          {
+            optionKey: "decline",
+            trait: "conflict",
+            pole: "low",
+            explanation:
+              "They would rather not get between a reporter and someone they know.",
+          },
+          {
+            optionKey: "decline",
+            trait: "risk",
+            pole: "low",
+            explanation: "Talking to a reporter feels risky to them.",
+          },
+        ],
+      ),
       perceptionIds: [],
       randomness: "close-choices",
       retention: "ephemeral",

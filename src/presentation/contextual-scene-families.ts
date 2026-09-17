@@ -2,6 +2,8 @@ import type { EntityId, IsoDate, LifeSituationKey, World } from "../simulation";
 import { addDays } from "../simulation";
 import {
   acceptChapterInvitation,
+  canJoinPartyChapter,
+  joinPartyChapter,
   projectPartyEncounters,
 } from "../simulation/living-world/party-chapters";
 import { lifeOpportunitiesFor } from "../simulation/life-opportunities";
@@ -236,6 +238,51 @@ function memoryCorrectedAnswers(context: SceneContext): SceneAnswer[] {
 /* 1. Home and time: an evening that is already spoken for                     */
 /* -------------------------------------------------------------------------- */
 
+/** Why the player is going anyway, when a quiet evening was promised. */
+function promisedExplain(
+  context: SceneContext,
+  title: string,
+  attends: {
+    readonly propositionKey: string;
+    readonly proposition: string;
+    readonly beliefEvidenceIds: readonly EntityId[];
+    readonly sourceEntityIds: readonly EntityId[];
+    readonly worldTruth: "unknown";
+  },
+): SceneAnswer {
+  // "Before we made plans" is said only when the record shows the booking
+  // came first.
+  const first = context.has("committedFirst");
+  const promisee = context.has("organizer")
+    ? `I told ${context.fact("organizer")} I’d be there${first ? " before we made plans" : ""}`
+    : `I said yes to the ${title}${first ? " before we made plans" : ""}`;
+  return {
+    key: "explain-why",
+    label: "Explain why this one matters",
+    description: "Say you’d already given your word.",
+    truthIntent: "sincere",
+    statement: `I’m sorry. ${promisee}, and I don’t want to go back on that.`,
+    replies: says(context, [
+      "“I understand. Just don’t make it a habit,” {name} says.",
+      "“Okay. Tomorrow, then,” {name} says.",
+    ]),
+    record: `The player told ${context.name}, “I’m sorry. ${promisee}, and I don’t want to go back on that.”`,
+    stance: {
+      ...attends,
+      asserted: "affirms",
+      speakerBelief: "believes-true",
+      intent: "truthful",
+    },
+    relationship: {
+      kind: "conflict:broken-plan",
+      change: "maintained",
+      significance: "minor",
+      summary: ({ playerName, otherName }) =>
+        `${playerName} explained to ${otherName} why they were going out after all.`,
+    },
+  };
+}
+
 const homeEvening: SceneFamilyDefinition = {
   family: "home-evening",
   eventType: "conversation.home-evening-turn",
@@ -246,11 +293,20 @@ const homeEvening: SceneFamilyDefinition = {
   topic: (binding) =>
     binding.variant === "claim-came-back"
       ? "What you said about that evening"
-      : `Your ${binding.date ? "evening" : "plans"}`,
+      : binding.variant === "promised-evening"
+        ? "Tonight"
+        : `Your ${binding.date ? "evening" : "plans"}`,
   briefing(context) {
     const { binding } = context;
     if (binding.variant === "claim-came-back") {
       return `${context.fullName} saw you leave for the ${context.fact("activityTitle")} after you said you would be home.`;
+    }
+    if (binding.variant === "promised-evening") {
+      const title = context.fact("activityTitle");
+      const times = `${context.fact("startTime")} to ${context.fact("endTime")}`;
+      return context.fact("activityKind") === "confirmed"
+        ? `You told ${context.fullName} you would spend this evening at home together, from ${context.fact("promisedTime")}. You also said you would go to the ${title} tonight, ${times}.`
+        : `You told ${context.fullName} you would spend this evening at home together, from ${context.fact("promisedTime")}. You also have an unanswered invitation to the ${title} tonight, ${times}.`;
     }
     const when = `${proseDate(binding.date!)} at ${context.fact("startTime")}`;
     return binding.variant === "committed-evening"
@@ -263,6 +319,13 @@ const homeEvening: SceneFamilyDefinition = {
       return says(context, [
         `“You told me you’d be home that night. Then I watched you head out to the ${context.fact("activityTitle")},” {name} says.`,
         `“You said you had nothing on. I saw you leave for the ${context.fact("activityTitle")},” {name} says.`,
+      ]);
+    }
+    if (binding.variant === "promised-evening") {
+      const title = context.fact("activityTitle");
+      return says(context, [
+        `“You said you’d be home tonight. Are you still going to the ${title}?” {name} asks.`,
+        `“I thought we were staying in tonight. Is the ${title} still on?” {name} asks.`,
       ]);
     }
     const evening = spokenEvening(binding.date!, context.world.currentDate);
@@ -352,6 +415,96 @@ const homeEvening: SceneFamilyDefinition = {
           },
         ]
       : [];
+
+    if (binding.variant === "promised-evening") {
+      const end = context.fact("endTime");
+      const promised = context.fact("promisedTime");
+      const playerId = binding.playerPersonId;
+      if (context.fact("activityKind") !== "confirmed") {
+        return [
+          {
+            key: "skip-it",
+            label: `Say you’ll skip the ${title}`,
+            description: "Decline that invitation and keep the evening.",
+            statement: "No, I’ll skip it. I said I’d be home.",
+            replies: says(context, [
+              `“Good. See you at ${promised},” {name} says.`,
+              "“Thank you. I was hoping you’d say that,” {name} says.",
+            ]),
+            record: `The player told ${context.name}, “No, I’ll skip it. I said I’d be home,” and declined the ${title}.`,
+            apply: (world) =>
+              declineCalendarActivity(world, playerId, activityId!).world,
+            relationship: {
+              kind: "support:kept-plans",
+              change: "strengthened",
+              significance: "minor",
+              summary: ({ playerName, otherName }) =>
+                `${playerName} kept the evening ${otherName} had asked for.`,
+            },
+          },
+          {
+            key: "still-deciding",
+            label: "Say you haven’t decided",
+            description: "The invitation stays open.",
+            statement: `I might still go to the ${title}. I haven’t decided.`,
+            replies: says(context, [
+              "“You did say you’d be home,” {name} says.",
+              "“Let me know soon, then,” {name} says.",
+            ]),
+            record: `The player told ${context.name}, “I might still go to the ${title}. I haven’t decided.”`,
+          },
+          ...inviteAlong,
+        ];
+      }
+      return [
+        {
+          key: "still-going",
+          label: `Say you’re still going to the ${title}`,
+          description: `It runs until ${end}.`,
+          truthIntent: "sincere",
+          statement: `I’m still going to the ${title}. It ends at ${end}.`,
+          replies: says(context, [
+            "“Okay. I guess we’ll talk another night,” {name} says.",
+            "“You said you’d be home. But okay,” {name} says.",
+          ]),
+          record: `The player told ${context.name}, “I’m still going to the ${title}. It ends at ${end}.”`,
+          stance: {
+            ...attends,
+            asserted: "affirms",
+            speakerBelief: "believes-true",
+            intent: "truthful",
+          },
+          relationship: {
+            kind: "conflict:broken-plan",
+            change: "strained",
+            significance: "minor",
+            summary: ({ playerName, otherName }) =>
+              `${playerName} went back on a quiet evening with ${otherName}.`,
+          },
+        },
+        promisedExplain(context, title, attends),
+        ...inviteAlong,
+        {
+          key: "say-home",
+          label: "Say you’re staying in, as promised",
+          description: `Leave out the ${title}.`,
+          truthIntent: "deliberate-deception",
+          statement: "No. I’m staying in tonight, like I said.",
+          replies: says(context, [
+            `“Good. See you at ${promised},” {name} says.`,
+            "“Good. I was hoping so,” {name} says.",
+          ]),
+          perception: `${context.player.givenName} said they would be home tonight.`,
+          record: `The player told ${context.name}, “No. I’m staying in tonight, like I said,” with the ${title} still on the calendar.`,
+          stance: {
+            ...attends,
+            asserted: "denies",
+            speakerBelief: "believes-true",
+            intent: "deceive",
+          },
+        },
+      ];
+    }
 
     if (binding.variant === "open-evening") {
       return [
@@ -484,6 +637,9 @@ const homeEvening: SceneFamilyDefinition = {
       "explain-why": "“Go. I’ll see you after,” {name} says.",
       "invite-along": "“Maybe next time,” {name} says.",
       "say-home": "“See you then,” {name} says.",
+      "skip-it": "“Thanks,” {name} says.",
+      "still-deciding": "“Tell me when you know,” {name} says.",
+      "still-going": "“Okay,” {name} says, and leaves it there.",
       "say-maybe": "“Let me know,” {name} says.",
       "plan-to-stay-in": "“Okay,” {name} says.",
       "admit-it": "“Okay,” {name} says. “Let’s leave it there.”",
@@ -507,6 +663,7 @@ const homeEvening: SceneFamilyDefinition = {
 const FAVOR_SITUATION: Readonly<Record<string, LifeSituationKey>> = {
   "favour-request": "adult.friend-favour",
   "extra-hours-request": "adult.work-extra-hours",
+  "household-evening": "adult.household-quiet-evening",
 };
 
 function adultChoice(
@@ -532,15 +689,20 @@ const favor: SceneFamilyDefinition = {
   topic: (binding) =>
     binding.variant === "extra-hours-request"
       ? "Extra hours at work"
-      : binding.facts.speakerGiven
-        ? `A favor for ${binding.facts.speakerGiven}`
-        : "A favor",
+      : binding.variant === "household-evening"
+        ? "An evening at home"
+        : binding.facts.speakerGiven
+          ? `A favor for ${binding.facts.speakerGiven}`
+          : "A favor",
   briefing(context) {
     const who = context.relationship
       ? `${context.fullName}, ${context.relationship},`
       : context.fullName;
     if (context.binding.variant === "extra-hours-request") {
       return `${who} is asking whether you can ${context.fact("task")}. Pay and the date are not settled.`;
+    }
+    if (context.binding.variant === "household-evening") {
+      return `${who} will be home this evening and is asking whether you would like to sit and talk, from ${context.fact("startTime")}. Answering takes no time; the evening itself is on your calendar.`;
     }
     const minutes = context.has("minutes")
       ? ` It would take about ${context.fact("minutes")} minutes, done separately; answering takes no time.`
@@ -562,6 +724,48 @@ const favor: SceneFamilyDefinition = {
       FAVOR_SITUATION[context.binding.variant]!,
     );
     const followUps: SceneAnswer[] = [];
+    if (context.binding.variant === "household-evening") {
+      const start = context.fact("startTime");
+      const whatAbout: SceneAnswer = {
+        key: "ask-what-about",
+        label: "Ask if something’s on their mind",
+        description: "Find out before you answer.",
+        followUp: true,
+        statement: "Is something on your mind?",
+        replies: says(context, [
+          "“Nothing in particular. I just thought it would be nice to talk,” {name} says.",
+        ]),
+        record: `The player asked ${context.name}, “Is something on your mind?”`,
+      };
+      if (!open) return [whatAbout];
+      return [
+        {
+          key: "spend-evening",
+          label: "Say you’d like that",
+          description: `Spend the evening together from ${start}.`,
+          statement: "I’d like that.",
+          replies: says(context, [
+            `“Good. See you at ${start},” {name} says.`,
+            "“Good. I’ll be here,” {name} says.",
+          ]),
+          record: `The player agreed to spend the evening at home with ${context.name}.`,
+          apply: adultChoice(context, "spend-it-together"),
+        },
+        {
+          key: "keep-evening",
+          label: "Say you need the evening to yourself",
+          description: "Turn down the evening, kindly.",
+          statement: "I think I need the evening to myself tonight.",
+          replies: says(context, [
+            "“That’s fine. Another time,” {name} says.",
+            "“Of course. I’ll leave you to it,” {name} says.",
+          ]),
+          record: `The player told ${context.name}, “I think I need the evening to myself tonight.”`,
+          apply: adultChoice(context, "keep-it-yours"),
+        },
+        whatAbout,
+      ];
+    }
     if (context.binding.variant === "extra-hours-request") {
       followUps.push({
         key: "ask-pay",
@@ -685,6 +889,8 @@ const favor: SceneFamilyDefinition = {
       "take-hours": "“I’ll let you know about the date,” {name} says.",
       "offer-part": "“Thanks for helping where you can,” {name} says.",
       "decline-hours": "“No hard feelings,” {name} says.",
+      "spend-evening": "“See you tonight,” {name} says.",
+      "keep-evening": "“Another time,” {name} says.",
     };
     return fill(done[answer ?? ""] ?? "“Okay,” {name} says.", {
       name: context.name,
@@ -694,7 +900,10 @@ const favor: SceneFamilyDefinition = {
     lifeOpportunitiesFor(world, bound.binding.playerPersonId).some(
       (entry) => entry.eventId === bound.binding.sourceEntityIds[0],
     ),
-  room: withoutSpeakerOthers,
+  room: (world, bound) =>
+    bound.binding.variant === "household-evening"
+      ? homeRoom(world, bound)
+      : withoutSpeakerOthers(world, bound),
 };
 
 /* -------------------------------------------------------------------------- */
@@ -714,21 +923,216 @@ function invitationOffered(
   );
 }
 
+function partyInvitationAnswers(context: SceneContext): SceneAnswer[] {
+  const [invitationId, activityId] = context.binding.sourceEntityIds;
+  const day = spokenDay(context.binding.date!, context.world.currentDate);
+  const playerId = context.binding.playerPersonId;
+  const question: SceneAnswer = {
+    key: "ask-what-happens",
+    label: "Ask what the meeting is like",
+    description: "Find out before you answer.",
+    followUp: true,
+    statement: "What happens at one of these?",
+    replies: says(context, [
+      `“It’s an open meeting. Anyone can come, and coming doesn’t sign you up for anything. It runs ${context.fact("startTime")} to ${context.fact("endTime")},” {name} says.`,
+    ]),
+    record: `The player asked ${context.name} what the meeting would be like.`,
+  };
+  if (!invitationOffered(context.world, playerId, invitationId)) {
+    return [question];
+  }
+  return [
+    {
+      key: "say-yes",
+      label: `Tell ${context.name} you’ll come`,
+      description: "This puts the meeting on your calendar as a commitment.",
+      statement: "Yes, I’ll be there.",
+      replies: says(context, [
+        "“Great. I’ll look for you,” {name} says.",
+        `“Good. ${seeYou(day)},” {name} says.`,
+      ]),
+      record: `The player accepted ${context.name}’s invitation to the ${context.fact("chapterName")} meeting.`,
+      apply: (world) => acceptChapterInvitation(world, playerId, activityId!),
+      relationship: {
+        kind: "contact:invitation-accepted",
+        change: "strengthened",
+        significance: "minor",
+        summary: ({ playerName, otherName }) =>
+          `${playerName} accepted ${otherName}’s invitation to the open meeting.`,
+      },
+    },
+    {
+      key: "not-sure",
+      label: "Say you’re not sure yet",
+      description: "The invitation stays open; nothing is decided.",
+      statement: "I’m not sure yet. Can I let you know?",
+      replies: says(context, [
+        "“Of course. The invitation stands,” {name} says.",
+        "“Sure. No pressure,” {name} says.",
+      ]),
+      record: `The player left ${context.name}’s invitation open.`,
+    },
+    {
+      key: "no-thanks",
+      label: "Say no thanks",
+      description: "Turn down this meeting.",
+      statement: "Thanks, but I’ll pass on this one.",
+      replies: says(context, [
+        "“No problem. Maybe another time,” {name} says.",
+        "“That’s fine. Thanks for picking up,” {name} says.",
+      ]),
+      record: `The player turned down ${context.name}’s invitation to the meeting.`,
+      apply: (world) =>
+        declineCalendarActivity(world, playerId, activityId!).world,
+    },
+    question,
+  ];
+}
+
+function partyJoinAnswers(context: SceneContext): SceneAnswer[] {
+  const [, chapterId] = context.binding.sourceEntityIds;
+  const playerId = context.binding.playerPersonId;
+  const chapter = context.fact("chapterName");
+  const question: SceneAnswer = {
+    key: "what-joining-means",
+    label: "Ask what joining involves",
+    description: "Find out before you answer.",
+    followUp: true,
+    statement: "What does joining involve?",
+    replies: says(context, [
+      "“You’d be a volunteer member of the chapter. It doesn’t register you with the party or put you on any ballot, and you can leave whenever you like,” {name} says.",
+    ]),
+    record: `The player asked ${context.name} what joining the ${chapter} would involve.`,
+  };
+  if (!canJoinPartyChapter(context.world, playerId, chapterId!)) {
+    return [question];
+  }
+  return [
+    {
+      key: "join",
+      label: `Join the ${chapter}`,
+      description: "Become a volunteer member. It is not party registration.",
+      statement: "Yes. Sign me up.",
+      replies: says(context, [
+        "“Welcome aboard. I’ll add you to the list,” {name} says.",
+        "“Glad to have you,” {name} says.",
+      ]),
+      record: `The player joined the ${chapter} at ${context.name}’s invitation.`,
+      apply: (world) => joinPartyChapter(world, playerId, chapterId!),
+      relationship: {
+        kind: "contact:joined-organization",
+        change: "strengthened",
+        significance: "minor",
+        summary: ({ playerName, otherName }) =>
+          `${playerName} joined the chapter ${otherName} organizes.`,
+      },
+    },
+    {
+      key: "not-yet",
+      label: "Say not yet",
+      description: "Keep coming without joining.",
+      statement: "Not yet. I’d like to come to a few more meetings first.",
+      replies: says(context, [
+        "“That’s fine. You’re welcome either way,” {name} says.",
+        "“Take your time,” {name} says.",
+      ]),
+      record: `The player told ${context.name}, “Not yet. I’d like to come to a few more meetings first.”`,
+    },
+    question,
+  ];
+}
+
+function partyAfterDeclineAnswers(context: SceneContext): SceneAnswer[] {
+  const weekday = context.fact("weekday");
+  return [
+    {
+      key: "keep-inviting",
+      label: "Ask them to keep inviting you",
+      description: "That night just didn’t work.",
+      statement: "Please keep inviting me. That night just didn’t work.",
+      replies: says(context, [
+        "“Will do,” {name} says.",
+        "“Of course,” {name} says.",
+      ]),
+      record: `The player told ${context.name}, “Please keep inviting me. That night just didn’t work.”`,
+      relationship: {
+        kind: "contact:kept-in-touch",
+        change: "maintained",
+        significance: "minor",
+        summary: ({ playerName, otherName }) =>
+          `${playerName} asked ${otherName} to keep them in mind for meetings.`,
+      },
+    },
+    {
+      key: "not-for-me",
+      label: "Say party meetings aren’t for you right now",
+      description: "Be straight about it.",
+      statement: "To be honest, party meetings aren’t for me right now.",
+      replies: says(context, [
+        "“I appreciate you telling me,” {name} says.",
+        "“Fair enough. Thanks for being straight with me,” {name} says.",
+      ]),
+      record: `The player told ${context.name}, “To be honest, party meetings aren’t for me right now.”`,
+      relationship: {
+        kind: "contact:declined-involvement",
+        change: "maintained",
+        significance: "minor",
+        summary: ({ playerName, otherName }) =>
+          `${playerName} told ${otherName} party meetings weren’t for them right now.`,
+      },
+    },
+    {
+      key: "ask-when",
+      label: "Ask when they meet",
+      description: "Find out for another time.",
+      followUp: true,
+      statement: "When do you usually meet?",
+      replies: says(context, [
+        `“We meet on ${weekday}s at ${context.fact("startTime")},” {name} says.`,
+      ]),
+      record: `The player asked ${context.name} when the chapter meets.`,
+    },
+  ];
+}
+
 const partyInvite: SceneFamilyDefinition = {
   family: "party-invite",
   eventType: "conversation.party-invite-turn",
   setting: "A call from a local party organizer",
-  socialContext:
-    "A local party organizer inviting the player to an open meeting.",
-  motivation: "Decide whether to go to an open party meeting.",
+  socialContext: "A local party organizer talking with the player.",
+  motivation: "Decide how involved to be with a local party chapter.",
   interactionTags: ["conversation.party", "relationship.civic"],
-  topic: (binding) => `An invitation from the ${binding.facts.chapterName}`,
+  topic: (binding) =>
+    binding.variant === "join-ask"
+      ? `Joining the ${binding.facts.chapterName}`
+      : binding.variant === "after-decline"
+        ? `The ${binding.facts.chapterName}`
+        : `An invitation from the ${binding.facts.chapterName}`,
   briefing(context) {
-    return `${context.fullName} organizes the ${context.fact("chapterName")}. The open meeting is on ${proseDate(context.binding.date!)}, ${context.fact("startTime")} to ${context.fact("endTime")}, in the community room. Coming is optional, and it doesn’t make you a member.`;
+    const chapter = context.fact("chapterName");
+    if (context.binding.variant === "join-ask") {
+      return `You went to the ${chapter} open meeting, and ${context.fullName}, who organizes it, is asking whether you would like to join. Joining makes you a volunteer member; it is not party registration.`;
+    }
+    if (context.binding.variant === "after-decline") {
+      return `You did not go to the last ${chapter} open meeting. ${context.fullName}, who organizes it, is following up.`;
+    }
+    return `${context.fullName} organizes the ${chapter}. The open meeting is on ${proseDate(context.binding.date!)}, ${context.fact("startTime")} to ${context.fact("endTime")}, in the community room. Coming is optional, and it doesn’t make you a member.`;
   },
   opening(context) {
-    const day = spokenDay(context.binding.date!, context.world.currentDate);
     const chapter = context.fact("chapterName");
+    if (context.binding.variant === "join-ask") {
+      return says(context, [
+        `“Thanks for coming to the meeting. Would you like to join the ${chapter}?” {name} asks.`,
+        "“Good to see you there. Any interest in becoming a member?” {name} asks.",
+      ]);
+    }
+    if (context.binding.variant === "after-decline") {
+      return says(context, [
+        "“No problem about the meeting. I just wanted to check in,” {name} says.",
+        "“Sorry we missed you at the meeting. Everything all right?” {name} asks.",
+      ]);
+    }
+    const day = spokenDay(context.binding.date!, context.world.currentDate);
     const start = context.fact("startTime");
     return [
       `“Hi, this is ${context.fullName}. I organize the ${chapter}. We have an open meeting ${day} at ${start} in the community room, and anyone can come. Would you like to?”`,
@@ -736,87 +1140,46 @@ const partyInvite: SceneFamilyDefinition = {
     ];
   },
   answers(context) {
-    const [invitationId, activityId] = context.binding.sourceEntityIds;
-    const day = spokenDay(context.binding.date!, context.world.currentDate);
-    const playerId = context.binding.playerPersonId;
-    const question: SceneAnswer = {
-      key: "ask-what-happens",
-      label: "Ask what the meeting is like",
-      description: "Find out before you answer.",
-      followUp: true,
-      statement: "What happens at one of these?",
-      replies: says(context, [
-        `“It’s an open meeting. Anyone can come, and coming doesn’t sign you up for anything. It runs ${context.fact("startTime")} to ${context.fact("endTime")},” {name} says.`,
-      ]),
-      record: `The player asked ${context.name} what the meeting would be like.`,
-    };
-    if (!invitationOffered(context.world, playerId, invitationId)) {
-      return [question];
+    if (context.binding.variant === "join-ask")
+      return partyJoinAnswers(context);
+    if (context.binding.variant === "after-decline") {
+      return partyAfterDeclineAnswers(context);
     }
-    return [
-      {
-        key: "say-yes",
-        label: `Tell ${context.name} you’ll come`,
-        description: "This puts the meeting on your calendar as a commitment.",
-        statement: "Yes, I’ll be there.",
-        replies: says(context, [
-          "“Great. I’ll look for you,” {name} says.",
-          `“Good. ${seeYou(day)},” {name} says.`,
-        ]),
-        record: `The player accepted ${context.name}’s invitation to the ${context.fact("chapterName")} meeting.`,
-        apply: (world) => acceptChapterInvitation(world, playerId, activityId!),
-        relationship: {
-          kind: "contact:invitation-accepted",
-          change: "strengthened",
-          significance: "minor",
-          summary: ({ playerName, otherName }) =>
-            `${playerName} accepted ${otherName}’s invitation to the open meeting.`,
-        },
-      },
-      {
-        key: "not-sure",
-        label: "Say you’re not sure yet",
-        description: "The invitation stays open; nothing is decided.",
-        statement: "I’m not sure yet. Can I let you know?",
-        replies: says(context, [
-          "“Of course. The invitation stands,” {name} says.",
-          "“Sure. No pressure,” {name} says.",
-        ]),
-        record: `The player left ${context.name}’s invitation open.`,
-      },
-      {
-        key: "no-thanks",
-        label: "Say no thanks",
-        description: "Turn down this meeting.",
-        statement: "Thanks, but I’ll pass on this one.",
-        replies: says(context, [
-          "“No problem. Maybe another time,” {name} says.",
-          "“That’s fine. Thanks for picking up,” {name} says.",
-        ]),
-        record: `The player turned down ${context.name}’s invitation to the meeting.`,
-        apply: (world) =>
-          declineCalendarActivity(world, playerId, activityId!).world,
-      },
-      question,
-    ];
+    return partyInvitationAnswers(context);
   },
   settled(context, answer) {
-    const day = spokenDay(context.binding.date!, context.world.currentDate);
+    const day = context.binding.date
+      ? spokenDay(context.binding.date, context.world.currentDate)
+      : "on ";
     const lines: Record<string, string> = {
       "say-yes": `“${seeYou(day)},” {name} says.`,
       "not-sure": "“Call me if you decide,” {name} says.",
       "no-thanks": "“Take care,” {name} says.",
+      join: "“Welcome aboard,” {name} says.",
+      "not-yet": "“See you at the next one, I hope,” {name} says.",
+      "keep-inviting": "“Talk soon,” {name} says.",
+      "not-for-me": "“Take care,” {name} says.",
     };
     return fill(lines[answer ?? ""] ?? "“Okay,” {name} says.", {
       name: context.name,
     });
   },
-  relevant: (world, bound) =>
-    invitationOffered(
+  relevant: (world, bound) => {
+    const { binding } = bound;
+    if (binding.variant === "join-ask") {
+      return canJoinPartyChapter(
+        world,
+        binding.playerPersonId,
+        binding.sourceEntityIds[1]!,
+      );
+    }
+    if (binding.variant === "after-decline") return true;
+    return invitationOffered(
       world,
-      bound.binding.playerPersonId,
-      bound.binding.sourceEntityIds[0],
-    ),
+      binding.playerPersonId,
+      binding.sourceEntityIds[0],
+    );
+  },
   room: withoutSpeakerOthers,
 };
 
@@ -831,9 +1194,20 @@ const campaignReaction: SceneFamilyDefinition = {
   socialContext: "A housemate reacting to the player’s election result.",
   motivation: "Talk about how the election went.",
   interactionTags: ["conversation.household", "relationship.shared-household"],
-  topic: () => "After the election",
+  topic: (binding) =>
+    binding.variant === "filed"
+      ? "Your campaign"
+      : binding.variant === "took-office"
+        ? "Your first day"
+        : "After the election",
   briefing(context) {
     const office = officePhrase(context.fact("officeTitle"));
+    if (context.binding.variant === "filed") {
+      return `You filed on ${proseDate(context.fact("filedAt"))} to run for ${office}. The election is on ${proseDate(context.fact("electionDate"))}.`;
+    }
+    if (context.binding.variant === "took-office") {
+      return `Your term for ${office} began on ${proseDate(context.fact("termStart"))}.`;
+    }
     if (context.binding.variant === "lost") {
       return `You lost the election for ${office}.`;
     }
@@ -842,6 +1216,19 @@ const campaignReaction: SceneFamilyDefinition = {
       : `You won the election for ${office}. The record does not yet give a start date for the term.`;
   },
   opening(context) {
+    if (context.binding.variant === "filed") {
+      const office = officePhrase(context.fact("officeTitle"));
+      return says(context, [
+        `“So you’re really running for ${office}?” {name} asks.`,
+        "“You actually filed. What made you decide?” {name} asks.",
+      ]);
+    }
+    if (context.binding.variant === "took-office") {
+      return says(context, [
+        "“Big day. How does it feel?” {name} asks.",
+        "“First day in office. Are you ready?” {name} asks.",
+      ]);
+    }
     if (context.binding.variant === "lost") {
       return says(context, [
         "“I’m sorry about the result. How are you doing?” {name} asks.",
@@ -854,6 +1241,96 @@ const campaignReaction: SceneFamilyDefinition = {
     ]);
   },
   answers(context) {
+    if (context.binding.variant === "filed") {
+      const election = proseDate(context.fact("electionDate"));
+      return [
+        {
+          key: "say-why",
+          label: "Say yes, and when the election is",
+          description: `The election is on ${election}.`,
+          truthIntent: "sincere",
+          statement: `Yes. I filed, and the election is on ${election}. I want to try.`,
+          replies: says(context, [
+            "“Then I hope it goes well,” {name} says.",
+            "“That’s soon. Okay,” {name} says.",
+          ]),
+          record: `The player told ${context.name}, “Yes. I filed, and the election is on ${election}. I want to try.”`,
+        },
+        {
+          key: "ask-for-help",
+          label: `Ask ${context.name} for help`,
+          description: "Ask; don’t assume.",
+          statement: "I could use your help.",
+          replies: says(context, [
+            "“Tell me what that would mean, and I’ll think about it,” {name} says.",
+            "“I’ll see what I can do. No promises yet,” {name} says.",
+          ]),
+          record: `The player asked ${context.name} for help with the campaign.`,
+          relationship: {
+            kind: "support:asked-for-help",
+            change: "maintained",
+            significance: "minor",
+            summary: ({ playerName, otherName }) =>
+              `${playerName} asked ${otherName} for help with the campaign.`,
+          },
+        },
+        {
+          key: "admit-doubt",
+          label: "Admit you’re not sure you can win",
+          description: "Be honest about the odds as you see them.",
+          statement: "I don’t know if I can win. I want to try anyway.",
+          replies: says(context, [
+            "“That’s reason enough,” {name} says.",
+            "“Then try. We’ll see what happens,” {name} says.",
+          ]),
+          record: `The player told ${context.name}, “I don’t know if I can win. I want to try anyway.”`,
+        },
+      ];
+    }
+    if (context.binding.variant === "took-office") {
+      return [
+        {
+          key: "ready",
+          label: "Say you think you’re ready",
+          description: "Sound sure.",
+          statement: "I think so. Ask me again tonight.",
+          replies: says(context, [
+            "“I will,” {name} says.",
+            "“Deal,” {name} says.",
+          ]),
+          record: `The player told ${context.name}, “I think so. Ask me again tonight.”`,
+        },
+        {
+          key: "nervous",
+          label: "Admit you’re nervous",
+          description: "Say how it really feels.",
+          statement: "Honestly, I’m nervous.",
+          replies: says(context, [
+            "“You’d be strange if you weren’t,” {name} says.",
+            "“Good. It means you care about getting it right,” {name} says.",
+          ]),
+          record: `The player told ${context.name}, “Honestly, I’m nervous.”`,
+          relationship: {
+            kind: "support:comfort",
+            change: "strengthened",
+            significance: "minor",
+            summary: ({ playerName, otherName }) =>
+              `${otherName} steadied ${playerName} on the first day in office.`,
+          },
+        },
+        {
+          key: "thank-for-campaign",
+          label: `Thank ${context.name} for putting up with the campaign`,
+          description: "It was a long stretch at home.",
+          statement: "Thanks for putting up with the campaign.",
+          replies: says(context, [
+            "“It was worth it,” {name} says.",
+            "“You can make it up to me,” {name} says.",
+          ]),
+          record: `The player thanked ${context.name} for putting up with the campaign.`,
+        },
+      ];
+    }
     if (context.binding.variant === "lost") {
       return [
         {
@@ -963,6 +1440,12 @@ const campaignReaction: SceneFamilyDefinition = {
       "it-stings": "“Come here,” {name} says.",
       "whats-next": "“One step at a time,” {name} says.",
       "talk-later": "“I’m here when you want to,” {name} says.",
+      "say-why": "“Good luck,” {name} says.",
+      "ask-for-help": "“Let me think about it,” {name} says.",
+      "admit-doubt": "“Go try,” {name} says.",
+      ready: "“Go get them,” {name} says.",
+      nervous: "“You’ll be fine,” {name} says.",
+      "thank-for-campaign": "“Go on, then,” {name} says.",
     };
     return fill(lines[answer ?? ""] ?? "“Okay,” {name} says.", {
       name: context.name,
@@ -1136,8 +1619,14 @@ const reporterQuestion: SceneFamilyDefinition = {
     binding.variant === "claim-came-back" ||
     binding.variant === "memory-corrected"
       ? "The reporter calls back"
-      : "A reporter’s question",
+      : binding.variant === "filing-question"
+        ? "A reporter asks about your campaign"
+        : "A reporter’s question",
   briefing(context) {
+    if (context.binding.variant === "filing-question") {
+      const of = context.has("outlet") ? ` of ${context.fact("outlet")}` : "";
+      return `${context.fullName}${of} is asking why you are running for ${officePhrase(context.fact("officeTitle"))}. Your filing is public.`;
+    }
     if (context.binding.variant === "claim-came-back") {
       return `${context.fullName} has ${context.fact("sourceName")}’s account, which contradicts what you told them.`;
     }
@@ -1158,6 +1647,16 @@ const reporterQuestion: SceneFamilyDefinition = {
       return says(context, [
         "“I checked what you told me, and it doesn’t match the record,” {name} says.",
       ]);
+    }
+    if (context.binding.variant === "filing-question") {
+      const outlet = context.has("outlet")
+        ? ` with ${context.fact("outlet")}`
+        : "";
+      const office = officePhrase(context.fact("officeTitle"));
+      return [
+        `“This is ${context.fullName}${outlet}. You’ve filed to run for ${office}. Why are you running?”`,
+        `“${context.fullName}${outlet} here. I have a question about your campaign for ${office}: what made you decide to run?”`,
+      ];
     }
     return reporterQuestionFor(context).openings;
   },
@@ -1196,6 +1695,42 @@ const reporterQuestion: SceneFamilyDefinition = {
     }
     if (binding.variant === "memory-corrected") {
       return memoryCorrectedAnswers(context);
+    }
+    if (binding.variant === "filing-question") {
+      return [
+        {
+          key: "about-community",
+          label: "Talk about the people you want to serve",
+          description: "Give a plain reason.",
+          statement: "I want to be useful to the people who live here.",
+          replies: says(context, [
+            "“Thank you. That’s helpful,” {name} says.",
+            "“Got it. I may follow up as the race goes on,” {name} says.",
+          ]),
+          record: `The player told ${context.name}, “I want to be useful to the people who live here.”`,
+        },
+        {
+          key: "too-early",
+          label: "Say it’s early",
+          description: "Promise more later, without saying what.",
+          statement: "It’s early. I’ll have more to say soon.",
+          replies: says(context, [
+            "“I’ll hold you to that,” {name} says.",
+            "“Understood. I’ll check back,” {name} says.",
+          ]),
+          record: `The player told ${context.name}, “It’s early. I’ll have more to say soon.”`,
+        },
+        {
+          key: "save-for-interview",
+          label: "Save it for a proper interview",
+          description: "Don’t answer on a quick call.",
+          statement: "I’d rather save that for a proper interview.",
+          replies: says(context, [
+            "“Fair enough. Let me know when you have time,” {name} says.",
+          ]),
+          record: `The player told ${context.name}, “I’d rather save that for a proper interview.”`,
+        },
+      ];
     }
     const question = reporterQuestionFor(context);
     const basis = {
@@ -1257,6 +1792,9 @@ const reporterQuestion: SceneFamilyDefinition = {
       "keep-denying": "“We’ll see,” {name} says.",
       "no-comment-again": "“Understood,” {name} says.",
       "thank-for-correction": "“No problem,” {name} says.",
+      "about-community": "“Thanks for your time,” {name} says.",
+      "too-early": "“Talk soon,” {name} says.",
+      "save-for-interview": "“I’ll be in touch,” {name} says.",
     };
     return fill(lines[answer ?? ""] ?? "“Okay,” {name} says.", {
       name: context.name,
