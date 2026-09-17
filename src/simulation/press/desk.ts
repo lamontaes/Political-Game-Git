@@ -438,15 +438,13 @@ export function recordSubjectResponse(
   input: SubjectResponseInput,
 ): { readonly world: World; readonly eventId: EntityId } {
   const lead = requirePressRecord(world, "story-lead", input.leadId);
-  const latest = latestDisposition(world, lead.id);
-  if (
-    !latest ||
-    latest.decision !== "response-requested" ||
-    latest.responseDueAt === null ||
-    world.currentDate > latest.responseDueAt
-  ) {
+  // The request itself, not whatever was written last: on a story with two
+  // subjects, the first answer must not make the second one late.
+  const request = openResponseRequest(world, lead.id);
+  if (!request) {
     throw new Error("This story is not waiting for a response.");
   }
+  const latest = request;
   if (!lead.subjectPersonIds.includes(input.personId)) {
     throw new Error("Only a story subject can respond to this request.");
   }
@@ -603,10 +601,35 @@ export function pressStoryStepHandler(
   return editorialDecision(next, lead, reporterId);
 }
 
+/**
+ * The response request a subject can still answer: asked, not yet withdrawn by
+ * a later decision, and still inside its own window.
+ */
+function openResponseRequest(world: World, leadId: EntityId) {
+  const dispositions = dispositionsForLead(world, leadId);
+  const request = [...dispositions]
+    .reverse()
+    .find((record) => record.decision === "response-requested");
+  if (!request || request.responseDueAt === null) return null;
+  if (world.currentDate > request.responseDueAt) return null;
+  // A story that has since been published, held, narrowed or dropped is no
+  // longer waiting for anybody.
+  const settled = dispositions.some(
+    (record) =>
+      record.sequence > request.sequence &&
+      record.decision !== "subject-responded",
+  );
+  return settled ? null : request;
+}
+
 function produceNonPlayerResponses(world: World, lead: StoryLeadRecord): World {
   let next = world;
   const controlled =
     world.control.kind === "person" ? world.control.personId : null;
+  // Only while the window is actually open. A step that fires on or after the
+  // deadline finds it closed, and silence is then the answer — which is what
+  // the story already reports as no response, never as an admission.
+  if (!openResponseRequest(next, lead.id)) return next;
   for (const personId of lead.subjectPersonIds) {
     if (personId === controlled || !next.people[personId]) continue;
     const answered = dispositionsForLead(next, lead.id).some(

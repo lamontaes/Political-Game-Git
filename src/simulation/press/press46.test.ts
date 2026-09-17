@@ -490,6 +490,9 @@ describe("PRESS46 established finding, leak and ground rules", () => {
   });
 
   it("surfaces no removal or censure without researched authority", () => {
+    // With GOVERNING's real reader in place this is a sourced "unavailable"
+    // for somebody who is not a member, rather than the stand-in's "unknown".
+    // Either way it is not permission, and nothing surfaces.
     expect(
       canInstitutionAct(concluded, {
         institution: "chamber-floor",
@@ -497,9 +500,6 @@ describe("PRESS46 established finding, leak and ground rules", () => {
         subjectPersonId: fixture.playerId,
         onDate: concluded.currentDate,
       }).status,
-      // GOVERNING's real answer: art. I § 5 reaches sitting members only, so a
-      // person outside Congress reads "unavailable", not the placeholder's
-      // "unknown". Either way no censure is on offer.
     ).not.toBe("available");
     expect(
       concluded.history.events.some((e) =>
