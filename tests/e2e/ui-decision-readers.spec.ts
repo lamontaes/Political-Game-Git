@@ -7,6 +7,7 @@ import {
   saveLife,
   startLife,
 } from "./support/creator";
+import { chooseOption, expectChosen, optionValues } from "./support/controls";
 
 /*
  * UI DECISION FOLLOW-THROUGH, increment 2: News front pages, Journal views,
@@ -99,17 +100,22 @@ for (const size of SIZES) {
     await page.keyboard.press("Escape");
     await expect(card).toHaveCount(0);
 
-    // News opens on the mixed front page; the rest stays reachable.
+    // News opens on the mixed front page and nothing else.
     await goTo(page, "nav-news");
     const front = page.getByTestId("news-front-page");
     await expect(front).toBeVisible();
+    await expect(page.getByTestId("news-section-read")).toHaveAttribute(
+      "aria-current",
+      "page",
+    );
     await expect(page.getByTestId("news-mode-front")).toHaveAttribute(
       "aria-pressed",
       "true",
     );
     await expect(page.getByTestId("news-masthead")).toBeVisible();
-    await expect(page.getByTestId("world39-news")).toBeVisible();
-    await expect(page.getByTestId("press-request-form")).toBeAttached();
+    await expect(page.getByTestId("world39-news")).toHaveCount(0);
+    await expect(page.getByTestId("public-information-panel")).toHaveCount(0);
+    await expect(page.getByTestId("press-request-form")).toHaveCount(0);
     await page.screenshot({ path: info.outputPath("12-news-front.png") });
 
     const onePaper = page.getByTestId("news-mode-publication");
@@ -123,9 +129,22 @@ for (const size of SIZES) {
         "Nothing has been published yet.",
       );
     }
+
+    // Each other context is its own view, and Back returns to the paper.
+    const around = page.getByTestId("news-section-around");
+    await around.focus();
+    await page.keyboard.press("Enter");
+    await expect(page.getByTestId("world39-news")).toBeVisible();
+    await expect(front).toHaveCount(0);
+    await page.getByTestId("news-section-directory").click();
+    await expect(page.getByTestId("public-information-panel")).toBeVisible();
+    await expect(page.getByTestId("world39-news")).toHaveCount(0);
     await page.getByTestId("news-section-press").click();
-    await expect(page.getByTestId("news-press")).toBeInViewport();
+    await expect(page.getByTestId("press-request-form")).toBeVisible();
+    await expect(page.getByTestId("public-information-panel")).toHaveCount(0);
     await page.screenshot({ path: info.outputPath("13-news-press.png") });
+    await page.getByTestId("news-section-read").click();
+    await expect(front).toBeVisible();
 
     // Journal: Chapters by default, Years and a year by choice.
     await goTo(page, "nav-journal-entry");
@@ -138,12 +157,9 @@ for (const size of SIZES) {
     await page.keyboard.press("Space");
     await expect(years).toHaveAttribute("aria-pressed", "true");
     const yearSelect = page.getByTestId("journal-year");
-    const chosenYear = await yearSelect
-      .locator("option")
-      .last()
-      .getAttribute("value");
+    const chosenYear = (await optionValues(yearSelect)).at(-1);
     expect(chosenYear).toMatch(/^\d{4}$/);
-    await yearSelect.selectOption(chosenYear!);
+    await chooseOption(yearSelect, chosenYear!);
     for (const chapter of await page.getByTestId("world39-chapter").all()) {
       await expect(chapter).toHaveAttribute("data-year", chosenYear!);
     }
@@ -157,7 +173,7 @@ for (const size of SIZES) {
       "aria-pressed",
       "true",
     );
-    await expect(page.getByTestId("journal-year")).toHaveValue(chosenYear!);
+    await expectChosen(page.getByTestId("journal-year"), chosenYear!);
     await goTo(page, "nav-news");
     const expectedMode = (await page
       .getByTestId("news-mode-publication")

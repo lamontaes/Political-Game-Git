@@ -1,6 +1,12 @@
 import type { Locator, Page } from "@playwright/test";
+import { chooseOption } from "./support/controls";
 import { expect, test } from "./fixtures";
-import { openShellMenu, saveLife } from "./support/creator";
+import {
+  isPoliticsHubDestination,
+  openPoliticsHub,
+  openShellMenu,
+  saveLife,
+} from "./support/creator";
 import { readSavedLegislativeWorld } from "./support/legislative-entry";
 import { shotPath } from "./support/shot-path";
 
@@ -23,6 +29,7 @@ async function goTo(
   id: string,
   group: "personal" | "politics" | "people" | "journal",
 ): Promise<void> {
+  if (isPoliticsHubDestination(id)) return openPoliticsHub(page, id);
   await openShellMenu(page);
   if (!(await page.getByTestId(id).isVisible()))
     await page.getByTestId(`nav-group-${group}`).click();
@@ -122,7 +129,9 @@ test("an Alaska member funds added transit service from a collected tax and sees
   // Personal: ordinary shop work is the member's only recorded money.
   await goTo(page, "nav-jobs", "personal");
   const careers = page.getByRole("region", { name: "Career opportunities" });
-  await careers.getByRole("combobox").selectOption({ label: "Shop assistant" });
+  await chooseOption(careers.getByRole("combobox"), {
+    label: "Shop assistant",
+  });
   await careers.getByRole("button", { name: "Seek an offer" }).click();
   await careers.getByRole("button", { name: "Accept offer" }).click();
   await expect(careers).toContainText("Accepted. Begin work on or after");

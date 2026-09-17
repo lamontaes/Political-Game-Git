@@ -6,6 +6,8 @@ import {
   openCreator,
   openElsewhere,
   goTo,
+  openNewsContext,
+  chooseStartAge,
 } from "./support/creator";
 
 test("current normal scene and saved-person dossier remain available for owner review", async ({
@@ -65,7 +67,7 @@ test("the rest of the named owner visual set renders on a normal start", async (
   await openCreator(page);
   await page.getByTestId("start-normal").click();
   await expect(page.getByTestId("creator-stage-character")).toBeVisible();
-  await page.getByTestId("start-age").fill("38");
+  await chooseStartAge(page, 38);
   await page.screenshot({
     path: info.outputPath("normal-creator.png"),
     fullPage: true,
@@ -92,6 +94,7 @@ test("the rest of the named owner visual set renders on a normal start", async (
   // than inventing a reporter or a story to fill itself. Publishing into it
   // requires a member seat, which this journey does not have.
   await goTo(page, "nav-news");
+  await openNewsContext(page, "directory");
   await expect(page.getByTestId("public-information-empty")).toBeVisible();
   await page.screenshot({
     path: info.outputPath("normal-news.png"),

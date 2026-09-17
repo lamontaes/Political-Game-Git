@@ -1,6 +1,10 @@
 import { expect, test, type Page } from "./fixtures";
 
-import { chooseStateThenTown, openCreator } from "./support/creator";
+import {
+  chooseStateThenTown,
+  openCreator,
+  chooseStartAge,
+} from "./support/creator";
 
 async function freshBrowser(page: Page) {
   await page.goto("/");
@@ -71,7 +75,7 @@ for (const viewport of [
     await expect(page.getByTestId("begin")).toHaveCount(0);
     await expectFooterInsideViewport(page, viewport);
 
-    await page.getByTestId("start-age").fill("22");
+    await chooseStartAge(page, 22);
     await page.getByTestId("creator-continue-character").click();
     await expect(page.getByTestId("creator-stage-place")).toBeVisible();
     await expect(page.getByTestId("begin")).toHaveCount(0);
@@ -90,7 +94,7 @@ test("bounds long search results and preserves Back/edit with keyboard", async (
   await page.setViewportSize(viewport);
   await freshBrowser(page);
   await reachPlaceSearch(page);
-  await page.getByTestId("start-age").fill("22");
+  await chooseStartAge(page, 22);
   await page.getByTestId("creator-continue-character").click();
   /*
    * A long result list inside one state. The composed creator searches within
@@ -122,7 +126,7 @@ test("bounds long search results and preserves Back/edit with keyboard", async (
 
   await page.getByTestId("creator-summary-character").click();
   await expect(page.getByTestId("creator-stage-character")).toBeVisible();
-  await page.getByTestId("start-age").fill("23");
+  await chooseStartAge(page, 23);
   await page.getByTestId("creator-continue-character").click();
   await expect(page.getByTestId("creator-summary-character")).toContainText(
     "age 23",

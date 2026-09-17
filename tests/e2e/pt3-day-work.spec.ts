@@ -84,7 +84,7 @@ test("Today links into Work instead of carrying it, and reading them costs no ti
 
   // Getting on with the day is the one control that waits, and it does.
   await openShellMenu(page);
-  await page.getByTestId("elsewhere-work").click();
+  await page.getByTestId("nav-politics").click();
   const before = (await page.getByTestId("day-date").textContent()) ?? "";
   await page.getByTestId("pass-day").click();
   await expect(page.getByTestId("day-date")).not.toHaveText(before);

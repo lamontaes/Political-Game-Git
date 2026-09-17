@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { chooseOption } from "./support/controls";
 
 test.describe("municipal feature pointer, keyboard and saved state", () => {
   let browserErrors: string[] = [];
@@ -52,12 +53,12 @@ test.describe("municipal feature pointer, keyboard and saved state", () => {
       await page.reload();
       await expect(page.getByTestId("sequence")).toHaveText(sequence!);
       const selector = page.getByLabel("Inspect a government");
-      await selector.selectOption({ index: 1 });
+      await chooseOption(selector, { index: 1 });
       await expect(
         page.getByText("Library inspection.", { exact: false }),
       ).toBeVisible();
       await expect(page.getByTestId("sequence")).toHaveText(sequence!);
-      await selector.selectOption({ index: 0 });
+      await chooseOption(selector, { index: 0 });
       await page.getByText("Source review", { exact: true }).click();
       const records = page.getByText(
         "Cited public records and meeting material",

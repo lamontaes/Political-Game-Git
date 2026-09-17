@@ -35,9 +35,8 @@ says so.
 - `src/presentation/news-front-page.ts` and `src/player/news/*`: a mixed front
   page (federal and unplaced stories first, newest first) and one outlet's own
   front page, over saved publications only. Mastheads use live text with a
-  stable typographic treatment per outlet. The orientation reader, outlet
-  directory and follows, and the press office are separate labelled sections
-  on the same page, reachable by jump links, so existing routes keep working.
+  stable typographic treatment per outlet. (Superseded by increment 3: the
+  other readers are now separate contexts.)
   Only one outlet (Civic Ledger) exists in saved worlds today, so the one-paper
   choice lists one paper; no outlet is invented.
 - `src/presentation/journal-views.ts`: Chapters (life-record phases by age,
@@ -66,3 +65,49 @@ longer seats the member before 2027, so docket routes that win a seat stop
 at `office-section`/`docket`; worlds now publish from day one, so
 `public-information-empty` specs fail; `world39-news-journal` wording and
 `a39-composed` "Virginia Code" expectations have drifted.
+
+## Increment 3 — accepted separation (PLAYTEST-PORK-01 section A)
+
+- News opens on editorial reading only. Around you, Outlets and follows
+  (directory, search, follows) and Press office are separate contexts, carried
+  as shell sections `news-around`, `news-directory`, `news-press`, so Back
+  returns to the previous context and nothing is stacked under the paper.
+- The menu carries one Politics entry (`nav-politics`), landing on Your office
+  (Government for a child). The hub's tabs are the only route to campaigns,
+  government and local records, parties, and budget with transit and taxes;
+  the office screen now shows the tab strip too. The duplicate menu entries
+  (`elsewhere-work`, `nav-municipal`, `nav-parties`, `nav-politics-*`) are gone.
+- Tests reconciled to the accepted behavior, not deleted: the shared helper
+  `tests/e2e/support/creator.ts` maps each former destination name to the hub
+  tab that now holds it (`openPoliticsHub`, used by `goTo`, `openElsewhere`
+  and `expectNoDestination`), and `openNewsContext` opens the News context a
+  spec works in. Direct menu clicks in individual specs now go through
+  Politics and the tab, by pointer or keyboard as before.
+- No stock in-game controls (section A, required). `src/player/controls/`
+  holds the shared primitives UI owns: `GameSelect` (a drop-in for `<select>`
+  with the same `<option>`/`<optgroup>` children and an `onChange` whose
+  `target.value` is the choice; WAI-ARIA select-only combobox with a
+  viewport-placed listbox, arrows, Home/End, Page keys, typeahead, Enter/Space,
+  Escape, Alt+Arrow, outside-click close and focus kept on the trigger) and
+  `controls.css` (tokens and skins for checkbox, radio, range, number and text
+  inputs, scoped to `body.pg-game`, which PlayerGame sets while mounted).
+  Converted: creator birthday, Journal year, News paper, Docket filters,
+  Local government, press, interviews, private journal, district residence,
+  orientation, life paths, education, careers, personnel and incident panels.
+  Not converted here, by ownership: appearance controls
+  (`PersonAppearanceControls`, `PreparedAppearanceControls`, `WardrobeFigure`,
+  `CreatorAppearanceStep`) belong to MODULAR, which received the API; developer
+  views under `src/ui/` keep native controls. No `confirm`/`alert`/`prompt`
+  and no native date or color input remain in `src/player`.
+- Creator follows gender -> name -> full birthday -> derived age
+  (`src/presentation/creator-full-birthday.ts`). The year sets `startAge`
+  against the start date; month and day stay optional; Randomize birthday
+  draws a deterministic adult birthday from the seed. The save shape is
+  unchanged.
+- Test helpers: `tests/e2e/support/controls.ts` (`chooseOption`,
+  `expectChosen`, `chosenValue`, `optionEntries`, `optionValues`, which work on
+  native and game selects) and `chooseStartAge` in `support/creator.ts`.
+  The old typed-age buffer test (UI9-10) now asserts the derived age instead.
+- Engines: Chromium (system Chrome channel) only. Playwright WebKit is not
+  installed here; installing it (`npx playwright install webkit`) needs the
+  owner's approval, so Safari/WebKit is unverified.

@@ -5,6 +5,7 @@ import {
   goTo,
   saveLife,
   startLife,
+  openNewsContext,
 } from "./support/creator";
 
 /** Wording that describes the save or the engine instead of the place or the life. */
@@ -27,6 +28,7 @@ test("News speaks about the place and the Journal tells the life through save (A
   await saveLife(page);
 
   await goTo(page, "nav-news");
+  await openNewsContext(page, "around");
   const news = page.getByTestId("world39-news");
   await expect(news).toBeVisible();
   await expect(news).toContainText("Around Aurora, Colorado");
@@ -60,6 +62,7 @@ test("News speaks about the place and the Journal tells the life through save (A
   await page.getByTestId("continue").click();
   await enterLife(page);
   await goTo(page, "nav-news");
+  await openNewsContext(page, "around");
   await expect(page.getByTestId("world39-news")).toContainText(
     "Around Aurora, Colorado",
   );
@@ -82,6 +85,7 @@ test("Kentucky regression: Lexington's News names its consolidated government pl
   });
   await enterLife(page);
   await goTo(page, "nav-news");
+  await openNewsContext(page, "around");
   const news = page.getByTestId("world39-news");
   await expect(news).toContainText(
     "Lexington, Kentucky is governed by Lexington-Fayette Urban County Government",

@@ -16,10 +16,8 @@
   min-width: 9rem;
 }
 
-.creator-birthday select {
-  min-height: 2.2rem;
-  padding: 0.25rem 0.5rem;
-  font: inherit;
+.creator-birthday .pg-select {
+  min-width: 7.5rem;
 }
 
 .creator-birthday .game-hint {

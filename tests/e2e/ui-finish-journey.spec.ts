@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "./fixtures";
+import { chooseOption, optionValues } from "./support/controls";
 
 import {
   fillCreator,
@@ -7,6 +8,7 @@ import {
   openShellMenu,
   saveLife,
   startLife,
+  chooseStartAge,
 } from "./support/creator";
 
 /*
@@ -70,15 +72,13 @@ test("group 1: Nevada creator, room, People, Calendar, Politics and back", async
   await openCreator(page);
   await page.getByTestId("start-normal").click();
 
-  // Character: an impossible age is refused here, not three steps later.
+  // Character: the age comes from a birth year, and only possible years are
+  // offered, so an impossible age cannot be entered at all.
   const next = page.getByTestId("creator-continue-character");
-  await page.getByTestId("start-age").fill("1034");
-  await expect(page.getByTestId("creator-age-problem")).toContainText(
-    "Choose a starting age between",
-  );
   await expect(next).toBeDisabled();
-  await page.getByTestId("start-age").fill(String(NEVADA.age));
-  await expect(page.getByTestId("creator-age-problem")).toHaveCount(0);
+  const years = await optionValues(page.getByTestId("start-birth-year"));
+  expect(years[0]).toBe("2021");
+  expect(Number(years[years.length - 1])).toBeGreaterThanOrEqual(1955);
 
   // A visible name draw, then keyboard activation of the same control.
   await page.getByTestId("creator-randomize-name").click();
@@ -93,11 +93,12 @@ test("group 1: Nevada creator, room, People, Calendar, Politics and back", async
   const month = page.getByTestId("start-birth-month");
   const day = page.getByTestId("start-birth-day");
   await expect(day).toBeDisabled();
-  await month.selectOption({ label: "February" });
-  await expect(day.locator("option:not([value=''])")).toHaveCount(29);
-  await month.selectOption({ label: "July" });
-  await expect(day.locator("option:not([value=''])")).toHaveCount(31);
-  await day.selectOption("4");
+  await chooseOption(month, { label: "February" });
+  expect((await optionValues(day)).filter(Boolean)).toHaveLength(29);
+  await chooseOption(month, { label: "July" });
+  expect((await optionValues(day)).filter(Boolean)).toHaveLength(31);
+  await chooseOption(day, "4");
+  await chooseStartAge(page, NEVADA.age);
   await page.getByTestId("gender-female").click();
   await expect(next).toBeEnabled();
   await shot(page, "01-character");
@@ -200,10 +201,7 @@ test("group 1: Nevada creator, room, People, Calendar, Politics and back", async
 
   // Politics: office statuses, then one execute control per intent.
   await openShellMenu(page);
-  await page.getByTestId("nav-group-politics").click();
-  await page
-    .getByRole("menuitem", { name: "Your office and campaigns" })
-    .click();
+  await page.getByRole("menuitem", { name: /^Politics/ }).click();
   const offices = page.getByTestId("campaign-office-browser");
   await expect(offices).toBeVisible();
   for (const statusLine of await offices

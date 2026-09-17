@@ -89,8 +89,8 @@ for (const size of SIZES) {
 
     // Politics → Government, by pointer.
     await openShellMenu(page);
-    await page.getByTestId("nav-group-politics").click();
-    await page.getByTestId("nav-politics-government").click();
+    await page.getByTestId("nav-politics").click();
+    await page.getByTestId("politics-tab-government").click();
     const browser = page.getByTestId("government-browser");
     await expect(browser).toBeVisible();
     await expect(page.getByTestId("politics-tabs")).toBeVisible();

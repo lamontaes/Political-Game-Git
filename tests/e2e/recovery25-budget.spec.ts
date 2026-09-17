@@ -47,12 +47,11 @@ async function continueSavedLife(page: Page): Promise<void> {
   await enterLife(page);
 }
 
-/** #255 groups the Budget destination under the Politics submenu. */
+/** The Budget is the Issues and budget tab of the Politics hub. */
 async function goToBudget(page: Page): Promise<void> {
   await openShellMenu(page);
-  if (!(await page.getByTestId("nav-politics-budget").isVisible()))
-    await page.getByTestId("nav-group-politics").click();
-  await page.getByTestId("nav-politics-budget").click();
+  await page.getByTestId("nav-politics").click();
+  await page.getByTestId("politics-tab-issues").click();
 }
 
 test("normal Politics Budget route preserves exact Lexington scope, date, Back and save", async ({
@@ -72,11 +71,11 @@ test("normal Politics Budget route preserves exact Lexington scope, date, Back a
   await page.keyboard.press("Escape");
   await page.getByTestId("shell-nav-cluster").focus();
   await page.getByTestId("shell-nav-cluster").press("Enter");
-  await page.getByTestId("nav-group-politics").focus();
-  await page.getByTestId("nav-group-politics").press("Enter");
-  await page.getByTestId("nav-politics-budget").focus();
-  await page.getByTestId("nav-politics-budget").press("Enter");
+  await page.getByTestId("nav-politics").focus();
+  await page.getByTestId("nav-politics").press("Enter");
   await expect(page.getByTestId("shell-nav-flyout")).toBeHidden();
+  await page.getByTestId("politics-tab-issues").focus();
+  await page.getByTestId("politics-tab-issues").press("Enter");
   const politics = page.getByTestId("politics-workspace");
   const budget = page.getByTestId("budget-economy-workspace");
   await expect(politics).toBeVisible();

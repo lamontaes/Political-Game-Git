@@ -1,5 +1,11 @@
 import { expect, test } from "./fixtures";
-import { enterLife, goTo, saveLife, startLife } from "./support/creator";
+import {
+  enterLife,
+  goTo,
+  saveLife,
+  startLife,
+  openNewsContext,
+} from "./support/creator";
 import {
   expectRecordedMember,
   reachMemberOffice,
@@ -27,6 +33,7 @@ test("normal legislative publication supports search, clear, help, person, Back,
   });
   await enterLife(page);
   await goTo(page, "nav-news");
+  await openNewsContext(page, "directory");
   await expect(page.getByTestId("public-information-empty")).toBeVisible();
   await page
     .getByRole("button", { name: "Close public information" })
@@ -46,6 +53,7 @@ test("normal legislative publication supports search, clear, help, person, Back,
   expect(publications).toHaveLength(1);
 
   await goTo(page, "nav-news");
+  await openNewsContext(page, "directory");
   const article = page.locator(
     `.public-information-article[data-source-event-id="${introduction!.eventId}"]`,
   );
@@ -109,6 +117,7 @@ test("normal legislative publication supports search, clear, help, person, Back,
   await page.getByTestId("continue").click();
   await enterLife(page);
   await goTo(page, "nav-news");
+  await openNewsContext(page, "directory");
   await expect(article).toBeVisible();
   await expect(person).toHaveAttribute("data-person-id", personId!);
   await saveLife(page);
@@ -146,6 +155,7 @@ test("normal News search stays usable on a narrow viewport after a second public
   );
 
   await goTo(page, "nav-news");
+  await openNewsContext(page, "directory");
   const articles = page.locator(".public-information-article");
   await expect(articles).toHaveCount(2);
   const search = page.getByTestId("public-information-search-input");
@@ -201,6 +211,7 @@ test("normal News keeps For You, outlet following, person Back, and per-life per
   expect(introduction).toBeDefined();
 
   await goTo(page, "nav-news");
+  await openNewsContext(page, "directory");
   const article = page.locator(
     `.public-information-article[data-source-event-id="${introduction!.eventId}"]`,
   );
@@ -250,6 +261,7 @@ test("normal News keeps For You, outlet following, person Back, and per-life per
   await page.getByTestId("continue").click();
   await enterLife(page);
   await goTo(page, "nav-news");
+  await openNewsContext(page, "directory");
   await page.getByTestId("news-view-outlet-civic-ledger").click();
   await expect(page.getByTestId("news-outlet-follow")).toHaveText("Unfollow");
   await page.getByTestId("news-outlet-follow").click();
@@ -277,6 +289,7 @@ test("compact News keeps view and follow controls keyboard reachable", async ({
   await enterLife(page);
   await publishFirstBill(page);
   await goTo(page, "nav-news");
+  await openNewsContext(page, "directory");
 
   const outlet = page.getByTestId("news-view-outlet-civic-ledger");
   await outlet.focus();

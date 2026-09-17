@@ -8,8 +8,11 @@ import {
 } from "../../presentation/news-front-page";
 import { world39Date } from "../World39News";
 import "./news.css";
+import { GameSelect } from "../controls/GameSelect";
 
-const SECTIONS: readonly { key: string; label: string }[] = [
+export type NewsContext = "read" | "around" | "directory" | "press";
+
+const CONTEXTS: readonly { key: NewsContext; label: string }[] = [
   { key: "read", label: "Front page" },
   { key: "around", label: "Around you" },
   { key: "directory", label: "Outlets and follows" },
@@ -17,12 +20,15 @@ const SECTIONS: readonly { key: string; label: string }[] = [
 ];
 
 /**
- * The News desk (OCD-UI-005). Reading comes first, as a front page; the
- * orientation reader, the outlet directory and the player's own press work
- * follow as their own labelled sections, each one jump away.
+ * The News desk (OCD-UI-005). News opens on the front page and nothing else;
+ * the orientation reader, the outlet directory with follows, and the player's
+ * own press office are separate contexts one tab away, never stacked under
+ * the paper.
  */
 export function NewsDesk({
   world,
+  context,
+  onContextChange,
   mode,
   outletKey,
   onModeChange,
@@ -33,6 +39,8 @@ export function NewsDesk({
   press,
 }: {
   readonly world: World;
+  readonly context: NewsContext;
+  readonly onContextChange: (context: NewsContext) => void;
   readonly mode: NewsMode;
   readonly outletKey: string | null;
   readonly onModeChange: (mode: NewsMode) => void;
@@ -45,16 +53,15 @@ export function NewsDesk({
   const page = projectNewsFrontPage(world, mode, outletKey);
   return (
     <div className="pg-news-desk" data-testid="news-desk">
-      <nav aria-label="News sections" className="pg-news-sections">
-        {SECTIONS.map((item) => (
+      <nav aria-label="News" className="pg-news-sections">
+        {CONTEXTS.map((item) => (
           <button
             key={item.key}
             type="button"
+            aria-current={item.key === context ? "page" : undefined}
             data-testid={`news-section-${item.key}`}
             onClick={() => {
-              const target = document.getElementById(`news-desk-${item.key}`);
-              target?.scrollIntoView({ block: "start" });
-              target?.focus({ preventScroll: true });
+              if (item.key !== context) onContextChange(item.key);
             }}
           >
             {item.label}
@@ -62,122 +69,124 @@ export function NewsDesk({
         ))}
       </nav>
 
-      <section
-        id="news-desk-read"
-        tabIndex={-1}
-        aria-label="Front page"
-        className="pg-news-read"
-        data-testid="news-front-page"
-      >
-        <div className="pg-news-switch">
-          <div role="group" aria-label="Front page">
-            <button
-              type="button"
-              aria-pressed={mode === "front"}
-              data-testid="news-mode-front"
-              onClick={() => onModeChange("front")}
-            >
-              All papers
-            </button>
-            <button
-              type="button"
-              aria-pressed={mode === "publication"}
-              data-testid="news-mode-publication"
-              disabled={page.mastheads.length === 0}
-              onClick={() => onModeChange("publication")}
-            >
-              One paper
-            </button>
-          </div>
-          {mode === "publication" && page.mastheads.length > 0 ? (
-            <label>
-              Paper
-              <select
-                data-testid="news-paper-select"
-                value={page.outlet?.outletKey ?? ""}
-                onChange={(event) => onOutletChange(event.target.value)}
+      {context === "read" ? (
+        <section
+          aria-label="Front page"
+          className="pg-news-read"
+          data-testid="news-front-page"
+        >
+          <div className="pg-news-switch">
+            <div role="group" aria-label="Front page">
+              <button
+                type="button"
+                aria-pressed={mode === "front"}
+                data-testid="news-mode-front"
+                onClick={() => onModeChange("front")}
               >
-                {page.mastheads.map((masthead) => (
-                  <option key={masthead.outletKey} value={masthead.outletKey}>
-                    {masthead.outletName}
-                  </option>
-                ))}
-              </select>
-            </label>
-          ) : null}
-        </div>
+                All papers
+              </button>
+              <button
+                type="button"
+                aria-pressed={mode === "publication"}
+                data-testid="news-mode-publication"
+                disabled={page.mastheads.length === 0}
+                onClick={() => onModeChange("publication")}
+              >
+                One paper
+              </button>
+            </div>
+            {mode === "publication" && page.mastheads.length > 0 ? (
+              <label>
+                Paper
+                <GameSelect
+                  data-testid="news-paper-select"
+                  value={page.outlet?.outletKey ?? ""}
+                  onChange={(event) => onOutletChange(event.target.value)}
+                >
+                  {page.mastheads.map((masthead) => (
+                    <option key={masthead.outletKey} value={masthead.outletKey}>
+                      {masthead.outletName}
+                    </option>
+                  ))}
+                </GameSelect>
+              </label>
+            ) : null}
+          </div>
 
-        {page.outlet ? (
-          <header
-            className={`pg-news-masthead pg-news-masthead--${page.outlet.style}`}
-            data-testid="news-masthead"
-          >
-            <h2>{page.outlet.outletName}</h2>
-            <p>{world39Date(world.currentDate)}</p>
-          </header>
-        ) : (
-          <header
-            className="pg-news-masthead pg-news-masthead--front"
-            data-testid="news-masthead"
-          >
-            <h2>The front pages</h2>
-            <p>
-              {world39Date(world.currentDate)}
-              {page.mastheads.length > 0
-                ? ` · ${page.mastheads.map((item) => item.outletName).join(" · ")}`
-                : ""}
+          {page.outlet ? (
+            <header
+              className={`pg-news-masthead pg-news-masthead--${page.outlet.style}`}
+              data-testid="news-masthead"
+            >
+              <h2>{page.outlet.outletName}</h2>
+              <p>{world39Date(world.currentDate)}</p>
+            </header>
+          ) : (
+            <header
+              className="pg-news-masthead pg-news-masthead--front"
+              data-testid="news-masthead"
+            >
+              <h2>The front pages</h2>
+              <p>
+                {world39Date(world.currentDate)}
+                {page.mastheads.length > 0
+                  ? ` · ${page.mastheads.map((item) => item.outletName).join(" · ")}`
+                  : ""}
+              </p>
+            </header>
+          )}
+
+          {page.empty ? (
+            <p className="pg-news-empty" data-testid="news-empty">
+              {page.empty}
             </p>
-          </header>
-        )}
-
-        {page.empty ? (
-          <p className="pg-news-empty" data-testid="news-empty">
-            {page.empty}
-          </p>
-        ) : (
-          <>
-            {page.lead ? (
-              <Story
-                story={page.lead}
-                lead
-                showOutlet={mode === "front"}
-                style={
-                  page.mastheads.find(
-                    (item) => item.outletKey === page.lead!.outletKey,
-                  )?.style ?? 0
-                }
-                onOpenPerson={onOpenPerson}
-              />
-            ) : null}
-            {page.stories.length > 0 ? (
-              <div className="pg-news-columns">
-                {page.stories.map((story) => (
-                  <Story
-                    key={story.id}
-                    story={story}
-                    showOutlet={mode === "front"}
-                    style={
-                      page.mastheads.find(
-                        (item) => item.outletKey === story.outletKey,
-                      )?.style ?? 0
-                    }
-                    onOpenPerson={onOpenPerson}
-                  />
-                ))}
-              </div>
-            ) : null}
-          </>
-        )}
-      </section>
-      <DeskSection id="around" title="Around you">
-        {around}
-      </DeskSection>
-      <DeskSection id="directory" title="Outlets and follows">
-        {directory}
-      </DeskSection>
-      <DeskSection id="press" title="Press office">
-        {press}
-      </DeskSection>
+          ) : (
+            <>
+              {page.lead ? (
+                <Story
+                  story={page.lead}
+                  lead
+                  showOutlet={mode === "front"}
+                  style={
+                    page.mastheads.find(
+                      (item) => item.outletKey === page.lead!.outletKey,
+                    )?.style ?? 0
+                  }
+                  onOpenPerson={onOpenPerson}
+                />
+              ) : null}
+              {page.stories.length > 0 ? (
+                <div className="pg-news-columns">
+                  {page.stories.map((story) => (
+                    <Story
+                      key={story.id}
+                      story={story}
+                      showOutlet={mode === "front"}
+                      style={
+                        page.mastheads.find(
+                          (item) => item.outletKey === story.outletKey,
+                        )?.style ?? 0
+                      }
+                      onOpenPerson={onOpenPerson}
+                    />
+                  ))}
+                </div>
+              ) : null}
+            </>
+          )}
+        </section>
+      ) : (
+        <DeskSection
+          id={context}
+          title={CONTEXTS.find((item) => item.key === context)!.label}
+        >
+          {context === "around"
+            ? around
+            : context === "directory"
+              ? directory
+              : press}
+        </DeskSection>
+      )}
     </div>
   );
 }
@@ -193,8 +202,6 @@ function DeskSection({
 }) {
   return (
     <section
-      id={`news-desk-${id}`}
-      tabIndex={-1}
       className="pg-news-section"
       aria-labelledby={`news-desk-${id}-title`}
       data-testid={`news-${id}`}

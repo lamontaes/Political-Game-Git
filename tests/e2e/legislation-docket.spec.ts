@@ -282,8 +282,12 @@ test.describe("the docket, from the ordinary route", () => {
     await enterLife(page);
 
     await openShellMenu(page);
-    await page.getByTestId("elsewhere-work").focus();
+    await page.getByTestId("nav-politics").focus();
     await page.keyboard.press("Space");
+    await expect(page.getByTestId("politics-tab-office")).toHaveAttribute(
+      "aria-current",
+      "page",
+    );
     await expect(page.getByTestId("docket-list")).toBeVisible();
     await page
       .getByTestId("docket-open-legislative-docket:kentucky:bill-001")

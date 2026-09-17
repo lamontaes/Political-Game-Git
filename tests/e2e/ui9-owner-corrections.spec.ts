@@ -1,10 +1,12 @@
 import { expect, test } from "./fixtures";
+import { chooseOption, expectChosen } from "./support/controls";
 import {
   enterLife,
   goTo,
   openCreator,
   startLife,
   saveLife,
+  chooseStartAge,
 } from "./support/creator";
 
 /**
@@ -131,7 +133,7 @@ test("UI9-06, UI9-07: a child is told why a walk is refused, and what a walk cos
   await expect(page.getByTestId("life-walk-home")).toBeEnabled();
 });
 
-test("UI9-10: clearing the age field and retyping does not leave a leading zero", async ({
+test("UI9-10: the starting age is derived from the birthday, never a half-typed number", async ({
   page,
 }) => {
   await page.goto("/?seed=ui9-age-buffer");
@@ -139,24 +141,20 @@ test("UI9-10: clearing the age field and retyping does not leave a leading zero"
   await page.getByTestId("start-normal").click();
   await expect(page.getByTestId("creator-stage-character")).toBeVisible();
 
-  const age = page.getByTestId("start-age");
-
   /*
-   * The owner's "0-2-5". Clearing the box used to write 0 into the setup
-   * immediately, and because the field was bound to that number it redrew as
-   * "0" — so typing 2 then 5 gave "025" rather than "25". The field now holds
-   * its own text and only a real age is committed.
+   * The owner's "0-2-5" came from a typed age box. The age is now derived
+   * from a chosen birth year and shown, so there is no partial entry to
+   * commit: nothing is chosen until a year is, and a later anniversary makes
+   * the same year one year younger on the day play starts.
    */
-  await age.fill("");
-  await expect(age).toHaveValue("");
-  await age.pressSequentially("25");
-  await expect(age).toHaveValue("25");
-
-  /*
-   * Leaving the field empty is not silently an age of 0: blur puts back the
-   * age the game will actually use, which is the last one that parsed.
-   */
-  await age.fill("");
-  await page.getByLabel("First name", { exact: true }).click();
-  await expect(age).toHaveValue("25");
+  const derived = page.getByTestId("creator-derived-age");
+  await expect(page.getByTestId("creator-continue-character")).toBeDisabled();
+  await expect(derived).toContainText("Choose a birth year");
+  await chooseStartAge(page, 25);
+  await expect(derived).toContainText("age 25,");
+  await chooseOption(page.getByTestId("start-birth-month"), "7");
+  await chooseOption(page.getByTestId("start-birth-day"), "14");
+  await expectChosen(page.getByTestId("start-birth-year"), "2001");
+  await expect(derived).toContainText("age 24,");
+  await expect(page.getByTestId("creator-continue-character")).toBeEnabled();
 });
