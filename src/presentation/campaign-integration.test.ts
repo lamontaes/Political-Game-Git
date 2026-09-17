@@ -15,7 +15,7 @@ import {
   type World,
 } from "../simulation";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
-import { openOrdinaryLife } from "./ordinary-life";
+import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 import { projectCampaign, spendAnAfternoon } from "./campaign-projection";
 import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import {
@@ -142,13 +142,17 @@ describe("a state office does not move its winner's home", () => {
     const state = requireLifePlace("kentucky");
     const earlier = life.world.history;
     let world = spendAnAfternoon(life.world, life.personId, "fundraising");
-    for (let day = 0; day < 3; day += 1) {
-      world = advanceWorld(
-        world,
-        1,
-        createCampaignElectionTransitionRegistry(),
+    // Since CRUNCH46 the rival campaigns every week too, so three afternoons
+    // no longer carry this seat; sixteen mornings of doors still do. Each day
+    // opens through the ordinary-day path so the afternoon is still free.
+    for (let day = 0; day < 16; day += 1) {
+      world = passOrdinaryDays(world, 1);
+      const outreach = projectCampaign(world, life.personId).offers.find(
+        (offer) => offer.kind === "outreach",
       );
-      world = spendAnAfternoon(world, life.personId, "outreach");
+      // A day whose afternoon is already spoken for is simply skipped.
+      if (outreach && outreach.unavailable === null)
+        world = spendAnAfternoon(world, life.personId, "outreach");
     }
     for (
       let day = 0;

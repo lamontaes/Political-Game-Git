@@ -921,6 +921,13 @@ describe("support truth and what the campaign is told about it", () => {
 
 /* -------------------------------------------------------------------------- */
 
+/**
+ * Outreach sessions that carry "probe-3" to a win. Since CRUNCH46 the rival
+ * runs a campaign of their own (a weekly field event or message), so three
+ * afternoons no longer outwork them; twelve do for this seed.
+ */
+const WINNING_SESSIONS = 12;
+
 /** Same fixture, two ways of playing it, one seed that answers differently. */
 function playToElection(seed: string, outreachSessions: number) {
   const filed = fileKentuckyCampaign(seed, 0);
@@ -963,7 +970,7 @@ describe("election day", () => {
   });
 
   it("records a win and hands back a life that carries on", () => {
-    const played = playToElection("probe-3", 3);
+    const played = playToElection("probe-3", WINNING_SESSIONS);
     const state = campaignState(played.world, played.campaign.id);
     expect(state.status).toBe("won");
     expect(state.electionResultId).not.toBeNull();
@@ -1015,7 +1022,7 @@ describe("election day", () => {
 
   it("lets the same seed answer differently depending on the campaign run", () => {
     const idle = playToElection("probe-3", 0);
-    const worked = playToElection("probe-3", 3);
+    const worked = playToElection("probe-3", WINNING_SESSIONS);
     expect(campaignState(idle.world, idle.campaign.id).status).toBe("lost");
     expect(campaignState(worked.world, worked.campaign.id).status).toBe("won");
   });
