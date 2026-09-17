@@ -17,6 +17,10 @@ import {
 } from "./constitutional-process";
 import { assertPublicPaymentIntegrity } from "./public-fiscal";
 import {
+  assertPublicProgramIntegrity,
+  publicProgramRecords,
+} from "./public-program-integrity";
+import {
   assertTaxIntegrity,
   taxEntityExists,
   taxEntityAvailableAt,
@@ -1587,6 +1591,7 @@ function validateHistoryIntegrity(world: World): void {
     ...futureTransitionHistoryRecords(world),
     ...publicInformationHistoryRecords(world),
     ...personnelHistoryRecords(world),
+    ...publicProgramRecords(world),
     ...(history.districtResidenceIntervals ?? []),
     ...(history.officeWorkflowPreferences ?? []),
     ...(history.officeVoteInstructions ?? []),
@@ -1818,6 +1823,7 @@ function validateHistoryIntegrity(world: World): void {
     }
   }
   assertPersonnelIntegrity(world, ids);
+  assertPublicProgramIntegrity(world, ids);
   assertUniqueStableKeys(history.events, "event");
   assertUniqueStableKeys(history.memories, "memory");
   assertUniqueStableKeys(history.knowledge, "knowledge");
