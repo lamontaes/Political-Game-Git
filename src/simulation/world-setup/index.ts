@@ -3,6 +3,7 @@ export {
   ensureWorldStartingConditions,
   macroStartingConditions,
   politicalStartingConditions,
+  seatStartingCondition,
   worldOpeningRecord,
   worldOpeningVersionOf,
 } from "./conditions";

@@ -126,6 +126,23 @@ export function politicalStartingConditions(
 }
 
 /**
+ * One seat's saved starting condition (its generated share and affiliation at
+ * Begin), or null for a legacy save or an unknown seat. A reader only: later
+ * elections and successors are decided by their own writers, which may use
+ * this as the seat's opening lean.
+ */
+export function seatStartingCondition(
+  world: World,
+  seatKey: string,
+): PoliticalStartingConditionsRecord["seats"][number] | null {
+  return (
+    politicalStartingConditions(world)?.seats.find(
+      (seat) => seat.seatKey === seatKey,
+    ) ?? null
+  );
+}
+
+/**
  * Section 13's small startup kernel. It sets modeled initial conditions for
  * the economy writer to start from; it moves no money and writes no history
  * of monthly observations.
