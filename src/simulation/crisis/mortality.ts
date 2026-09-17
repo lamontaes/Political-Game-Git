@@ -34,7 +34,7 @@ import {
 /**
  * K1 ordinary all-cause mortality.
  *
- * On the first of every month one Run A due item exposes every living person
+ * On the first day of each quarter one Run A due item exposes every living person
  * the World holds. Each person's stable threshold −ln(u) is drawn once from a
  * domain-separated fork keyed only by world seed and person, never from UI or
  * shared RNG state. The window finds the exact day, if any, on which that
@@ -49,12 +49,18 @@ export const MORTALITY_CAUSE_KEY = "crisis-mortality:all-cause-unresolved";
 
 const THRESHOLD_VERSION = "crisis-mortality-threshold-v1";
 
-function firstOfNextMonth(date: IsoDate): IsoDate {
+/**
+ * Windows open on the first day of each calendar quarter. Deaths inside a
+ * window are still scheduled on their exact day; the quarter only bounds how
+ * far ahead a pending death item can exist.
+ */
+function firstOfNextQuarter(date: IsoDate): IsoDate {
   const year = Number(date.slice(0, 4));
   const month = Number(date.slice(5, 7));
-  return month === 12
+  const nextQuarterMonth = (Math.floor((month - 1) / 3) + 1) * 3 + 1;
+  return nextQuarterMonth > 12
     ? isoDateFromParts(year + 1, 1, 1)
-    : isoDateFromParts(year, month + 1, 1);
+    : isoDateFromParts(year, nextQuarterMonth, 1);
 }
 
 export function personMortalityThreshold(
@@ -76,7 +82,7 @@ function windowRecords(world: World): readonly MortalityWindowRecord[] {
 
 /**
  * Everything the hazard reads about people, indexed once per immutable
- * record array so a monthly pass is linear in people.
+ * record array so a quarterly pass is linear in people.
  */
 interface MortalityContext {
   readonly starts: ReadonlyMap<EntityId, IsoDate>;
@@ -244,7 +250,7 @@ function windowStableKey(start: IsoDate): string {
 
 /**
  * Starts the model for this World if it is not already running. Existing
- * saves begin exposure at their next month boundary; earlier history is not
+ * saves begin exposure at their next quarter boundary; earlier history is not
  * reinterpreted.
  */
 export function ensureCrisisMortality(world: World): World {
@@ -254,7 +260,7 @@ export function ensureCrisisMortality(world: World): World {
     )
   )
     return world;
-  const start = firstOfNextMonth(world.currentDate);
+  const start = firstOfNextQuarter(world.currentDate);
   const next = scheduleFutureDueItem(world, {
     stableKey: `${windowStableKey(start)}:due`,
     dueAt: start,
@@ -335,7 +341,7 @@ export const mortalityWindowHandler: FutureTransitionHandler = (
   item,
 ) => {
   const start = item.dueAt;
-  const end = firstOfNextMonth(start);
+  const end = firstOfNextQuarter(start);
   const tracked = new Set(mortalityExposureStarts(world).keys());
   const newly = world.personOrder.filter(
     (id) => !tracked.has(id) && alive(world, id, start),

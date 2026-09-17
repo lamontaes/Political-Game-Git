@@ -105,16 +105,43 @@ function* segments(
   }
 }
 
+/**
+ * Checkpoints of the pure accumulation, per profile. A quarterly pass then sums
+ * only the days since the latest checkpoint instead of a whole life.
+ */
+const CHECKPOINTS = new Map<string, { until: IsoDate; total: bigint }>();
+const CHECKPOINT_LIMIT = 50_000;
+
+function profileKey(profile: HazardProfile): string {
+  return JSON.stringify([
+    profile.birthDate,
+    profile.category,
+    profile.exposureStart,
+    profile.multipliers,
+  ]);
+}
+
 /** Hazard units accumulated over [exposureStart, until). */
 export function cumulativeHazardUnits(
   profile: HazardProfile,
   until: IsoDate,
 ): bigint {
   const end = makeIsoDate(until);
+  if (end <= profile.exposureStart) return 0n;
+  const key = profileKey(profile);
+  const checkpoint = CHECKPOINTS.get(key);
+  let from = profile.exposureStart;
   let total = 0n;
-  if (end <= profile.exposureStart) return total;
-  for (const segment of segments(profile, profile.exposureStart, end))
+  if (checkpoint && checkpoint.until <= end) {
+    from = checkpoint.until;
+    total = checkpoint.total;
+  }
+  for (const segment of segments(profile, from, end))
     total += segment.perDay * BigInt(segment.days);
+  if (!checkpoint || checkpoint.until < end) {
+    if (CHECKPOINTS.size >= CHECKPOINT_LIMIT) CHECKPOINTS.clear();
+    CHECKPOINTS.set(key, { until: end, total });
+  }
   return total;
 }
 

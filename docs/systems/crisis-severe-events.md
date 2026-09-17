@@ -37,15 +37,19 @@ Model `crisis-mortality-hazard-v1`:
 - The category is `equal-mixture` (the mean of the two source hazards) unless
   a `mortality-calibration` record states one. It is never inferred from
   gender identity, name or appearance. Office, party and fame change nothing.
-- On the first of each month a `crisis:mortality-window` due item exposes every
-  living person the World holds (production worlds are mostly lightweight
-  people, including officeholders) and schedules a `crisis:mortality-death`
-  item on the exact crossing day, if it falls in that month. Nothing stores a
-  future death date. A death item re-derives its day when it comes due and
-  cancels itself if a later hazard change moved it.
+- On the first day of each calendar quarter a `crisis:mortality-window` due
+  item exposes every living person the World holds (production worlds are
+  mostly lightweight people, including officeholders) and schedules a
+  `crisis:mortality-death` item on the exact crossing day, if it falls in that
+  quarter. Nothing stores a death date beyond the current quarter. A death
+  item re-derives its day when it comes due and cancels itself if a later
+  hazard change moved it. Quarterly (rather than monthly) windows keep the
+  clock's fixed per-due-item cost down; they do not change any death day.
+- `crisis:*` due items are World processes: the resolver settles them even
+  when a caller advances time with a narrower handler registry.
 - Death uses `recordPersonDeath` with cause
   `crisis-mortality:all-cause-unresolved`. A life table is not a diagnosis.
-- An older save starts exposure at the first month boundary after its first
+- An older save starts exposure at the first quarter boundary after its first
   time advance (`ensureCrisisMortality`, called from `passOrdinaryDays`).
   Earlier history is not reinterpreted.
 

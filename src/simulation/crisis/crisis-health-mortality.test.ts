@@ -182,7 +182,7 @@ describe("CRISIS K1 ordinary mortality in the World", () => {
   );
 
   it(
-    "starts an older save at its next month boundary without rewriting history",
+    "starts an older save at its next quarter boundary without rewriting history",
     () => {
       const legacy = bareWorld("crisis-legacy");
       expect(legacy.history.crisisRecords).toBeUndefined();
@@ -193,6 +193,7 @@ describe("CRISIS K1 ordinary mortality in the World", () => {
       expect(due.transitionKey).toBe("crisis:mortality-window");
       expect(due.dueAt > legacy.currentDate).toBe(true);
       expect(due.dueAt.endsWith("-01")).toBe(true);
+      expect(["01", "04", "07", "10"]).toContain(due.dueAt.slice(5, 7));
       expect(started.history.events).toEqual(legacy.history.events);
     },
     SLOW,
