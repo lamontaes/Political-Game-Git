@@ -12,7 +12,12 @@ import {
   ensurePartyGoverningBodies,
   worldOpeningVersionOf,
   CRUNCH46_WORLD_OPENING_VERSION,
+  macroStartingConditions,
 } from "../simulation";
+import {
+  ensureMacroEconomyStarted,
+  macroStartForHistory,
+} from "../simulation/macro-economy";
 import type { World, EntityId } from "../simulation";
 import { createNewGameWorld } from "./new-game";
 import { proseDate } from "./prose-dates";
@@ -49,10 +54,12 @@ export function generateOpeningLife(
       session.setup.worldOpeningVersion ?? LEGACY_WORLD_OPENING_VERSION,
     political: generatePoliticalStartingConditions,
   });
-  const staffed = establishOpeningOfficeholders(
+  // CHANGE: macro history starts from WORLD's persisted draw, or not at all.
+  const economic = ensureMacroEconomyStarted(
     conditioned,
-    game.playerPersonId,
+    macroStartForHistory(macroStartingConditions(conditioned)),
   );
+  const staffed = establishOpeningOfficeholders(economic, game.playerPersonId);
   // Congress, the national parties and public affiliations, once, after
   // the executives exist so they receive an affiliation in the same pass.
   const developed = ensureLivingWorldDevelopments(
