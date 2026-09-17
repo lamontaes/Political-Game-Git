@@ -1,4 +1,6 @@
 node_modules/
+# A symlinked node_modules (shared between worktrees) must not be tracked either.
+node_modules
 dist/
 coverage/
 .playwright/
