@@ -312,7 +312,7 @@ let expected;
   };
   writeFileSync(statePath, `${JSON.stringify(state, null, 2)}\n`);
   const { app, chrome, pageFor } = await launchHub();
-  const combo = chrome.getByRole("combobox", { name: "Play source" });
+  const combo = chrome.getByRole("combobox", { name: "Game build" });
   await waitFor(
     async () =>
       (await combo.locator("option").allTextContents()).some((t) =>
