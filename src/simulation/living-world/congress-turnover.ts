@@ -4,6 +4,7 @@ import {
 } from "../character-history";
 import type { CharacterHistoryContextPersonInput } from "../character-history";
 import { makeIsoDate } from "../dates";
+import { electionContestResult } from "../election-contests";
 import { stateJurisdictionForKey } from "../life-places";
 import { drawCanonicalName, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
@@ -128,9 +129,107 @@ interface SeatOutcome {
   readonly seat: CongressSeat;
   readonly incumbentPersonId: EntityId | null;
   readonly successorKey: string | null;
+  /** Set when a recorded contest, not the profile, chose this winner. */
+  readonly recordedWinnerPersonId?: EntityId | null;
   readonly party: string;
   readonly caucus: string;
   readonly serviceSince: IsoDate;
+}
+
+/** The world's own contest for this seat and day, if one was scheduled. */
+export function recordedSeatContest(
+  world: World,
+  seat: CongressSeat,
+  electionDay: IsoDate,
+) {
+  return (world.history.electionContests ?? []).find(
+    (contest) =>
+      contest.electionDate === electionDay &&
+      (contest.office.seatKey === seat.seatKey ||
+        contest.office.officeKey === seat.seatKey),
+  );
+}
+
+/**
+ * Whether the sitting member is seeking another term, as a recorded decision
+ * of its own. It is written before the election and read by it, so standing
+ * again, the result, and taking office stay three separate facts.
+ */
+const SEEKS_TERM_EVENT = "election.congress-candidacy-intent";
+
+function seekingKey(seatKey: string, year: number): string {
+  return `${CONGRESS_TURNOVER_VERSION}:seeking:${seatKey}:${year}`;
+}
+
+export function recordSeatCandidacyIntent(
+  world: World,
+  seat: CongressSeat,
+  year: number,
+  incumbentPersonId: EntityId | null,
+  seeking: boolean,
+  reason: string,
+): World {
+  const stableKey = seekingKey(seat.seatKey, year);
+  if (world.history.events.some((event) => event.stableKey === stableKey))
+    return world;
+  const chamberId = livingWorldOrganizationId(
+    world,
+    LIVING_WORLD_KEYS.chamber(seat.chamberKey),
+  );
+  const title = congressSeatTitle(seat);
+  return recordWorldEvent(world, {
+    stableKey,
+    type: SEEKS_TERM_EVENT,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: stateJurisdictionForKey(`US-${seat.stateUsps}`)!.id,
+    involvedEntityIds: [
+      ...new Set([
+        chamberId,
+        ...(incumbentPersonId ? [incumbentPersonId] : []),
+      ]),
+    ].sort(),
+    participants: incumbentPersonId
+      ? [
+          {
+            personId: incumbentPersonId,
+            role: "focus:subject",
+            detail: seeking ? "seeking-another-term" : "not-seeking",
+          },
+        ]
+      : [],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      CONGRESS_TURNOVER_VERSION,
+      `seat:${seat.seatKey}`,
+      `intent:${seeking ? "seeking" : "not-seeking"}`,
+      `provenance:${CONGRESS_TURNOVER_PROFILE.id}`,
+    ],
+    summary: seeking
+      ? `The ${title} is seeking another term.`
+      : `The ${title} is not seeking another term: ${reason}`,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+}
+
+/** The recorded intent, or null when nobody has recorded one. */
+export function seatCandidacyIntent(
+  world: World,
+  seatKey: string,
+  year: number,
+): boolean | null {
+  const event = world.history.events.find(
+    (candidate) => candidate.stableKey === seekingKey(seatKey, year),
+  );
+  return event ? event.tags.includes("intent:seeking") : null;
 }
 
 function decideSeat(
@@ -140,7 +239,7 @@ function decideSeat(
   year: number,
   newStart: IsoDate,
   electionDay: IsoDate,
-): SeatOutcome {
+): SeatOutcome | null {
   const rng = new SeededRng(world.seed).fork(
     `${CONGRESS_TURNOVER_VERSION}:${seat.seatKey}:${year}`,
   );
@@ -158,10 +257,39 @@ function decideSeat(
     aliveOn(world, incumbent, electionDay) &&
     ageOn(person.birthDate, electionDay) <
       CONGRESS_TURNOVER_PROFILE.retirementAge;
-  const returns =
-    eligible &&
-    rng.integer(0, 1000) <
-      CONGRESS_TURNOVER_PROFILE.incumbentReturnPermille[seat.chamberKey];
+  // A contest this world actually scheduled decides its own seat. The
+  // turnover profile is a fallback for seats nobody contested here, and it
+  // never overwrites a recorded result.
+  const contest = recordedSeatContest(world, seat, electionDay);
+  if (contest) {
+    const result = electionContestResult(world, contest.id);
+    if (!result) return null;
+    const incumbentWon = result.winnerPersonId === incumbent;
+    return {
+      seat,
+      incumbentPersonId: incumbentWon ? result.winnerPersonId : null,
+      successorKey: null,
+      recordedWinnerPersonId: result.winnerPersonId,
+      party: incumbentWon ? (recordedParty ?? "none") : "none",
+      caucus: incumbentWon ? (recordedCaucus ?? "none") : "none",
+      serviceSince: incumbentWon
+        ? ((record
+            ? (tagValue(record, "service-since:") as IsoDate | null)
+            : null) ??
+          record?.occurredAt ??
+          newStart)
+        : newStart,
+    };
+  }
+  const intent = seatCandidacyIntent(world, seat.seatKey, year);
+  // Standing again is its own recorded decision. Only the contest that
+  // follows decides whether they keep the seat.
+  const seeking =
+    intent ??
+    (eligible &&
+      rng.integer(0, 1000) <
+        CONGRESS_TURNOVER_PROFILE.incumbentReturnPermille[seat.chamberKey]);
+  const returns = eligible && seeking;
   if (returns && incumbent) {
     return {
       seat,
@@ -204,16 +332,57 @@ function holdCongressElection(world: World, year: number): World {
     (seat) => seatTermWindow(seat, electionDay).endExclusive === newStart,
   );
   const latest = latestSeatRecords(world);
-  const outcomes = seats.map((seat) =>
-    decideSeat(
-      world,
+  let intents = world;
+  for (const seat of seats) {
+    const record = latest.get(seat.seatKey);
+    const incumbent =
+      record?.type === SEAT_TENURE_EVENT
+        ? (record.participants.find((p) => p.role === "focus:subject")
+            ?.personId ?? null)
+        : null;
+    const person = incumbent ? intents.people[incumbent] : undefined;
+    const rng = new SeededRng(intents.seed).fork(
+      `${CONGRESS_TURNOVER_VERSION}:intent:${seat.seatKey}:${year}`,
+    );
+    const tooOld =
+      person !== undefined &&
+      ageOn(person.birthDate, electionDay) >=
+        CONGRESS_TURNOVER_PROFILE.retirementAge;
+    const alive = incumbent ? aliveOn(intents, incumbent, electionDay) : false;
+    const seeking =
+      incumbent !== null &&
+      alive &&
+      !tooOld &&
+      rng.integer(0, 1000) <
+        CONGRESS_TURNOVER_PROFILE.incumbentReturnPermille[seat.chamberKey];
+    intents = recordSeatCandidacyIntent(
+      intents,
+      seat,
+      year,
+      incumbent,
+      seeking,
+      !incumbent
+        ? "the seat has no sitting member."
+        : !alive
+          ? "the seat is vacant."
+          : tooOld
+            ? `they are ${CONGRESS_TURNOVER_PROFILE.retirementAge} or older.`
+            : "they are standing down.",
+    );
+  }
+  // A seat whose own contest has not been decided yet is left undecided here:
+  // no winner is invented to fill it.
+  const outcomes = seats.flatMap((seat) => {
+    const decided = decideSeat(
+      intents,
       seat,
       latest.get(seat.seatKey),
       year,
       newStart,
       electionDay,
-    ),
-  );
+    );
+    return decided ? [decided] : [];
+  });
   const inputs: CharacterHistoryContextPersonInput[] = outcomes.flatMap(
     (outcome) => {
       if (!outcome.successorKey) return [];
@@ -236,11 +405,12 @@ function holdCongressElection(world: World, year: number): World {
   );
   let next =
     inputs.length > 0
-      ? createCharacterHistoryContextPeople(world, inputs)
-      : world;
+      ? createCharacterHistoryContextPeople(intents, inputs)
+      : intents;
   const returning = outcomes.filter((o) => o.incumbentPersonId).length;
   const winnerIds = outcomes.map(
     (outcome) =>
+      outcome.recordedWinnerPersonId ??
       outcome.incumbentPersonId ??
       characterHistoryContextPersonId(next, outcome.successorKey!),
   );
