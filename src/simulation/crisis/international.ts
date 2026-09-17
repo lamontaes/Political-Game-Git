@@ -1,4 +1,4 @@
-import { addDays } from "../dates";
+import { addDays, daysBetween, makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { SeededRng } from "../rng";
 import type {
@@ -7,6 +7,7 @@ import type {
   FutureDueItem,
   FutureTransitionHandler,
   FutureTransitionHandlerResult,
+  IsoDate,
   World,
 } from "../types";
 import { isPersonAliveAt, recordPersonDeath } from "../vitality";
@@ -56,7 +57,20 @@ export const PROVISIONAL_INTERNATIONAL_POLICY = Object.freeze({
   optionsAfterDays: 2,
   responseAfterDays: 5,
   nextCycleAfterDays: 14,
+  /**
+   * A computational checkpoint, not a narrative ending (CRUNCH47 C2). After
+   * this many cycles the crisis keeps running at the slower review interval
+   * below; only an actual settlement, withdrawal, lapse or escalation record
+   * ends it.
+   */
   maxCycles: 3,
+  /** Review interval once a crisis has passed its cycle checkpoint. */
+  checkpointReviewAfterDays: 30,
+  /**
+   * With no recorded movement for this long, the dispute lapses. That lapse
+   * is itself a record, not an expiry of the crisis's existence.
+   */
+  lapseAfterQuietDays: 180,
   /** Counterparty response shares in millionths: de-escalate, hold (rest escalates). */
   counterparty: {
     diplomatic: { deEscalate: 350_000, hold: 450_000 },
@@ -539,7 +553,16 @@ export const internationalDecisionHandler: FutureTransitionHandler = (
   if (state.ended || !state.awaitingDecision)
     return settled(world, "cancelled", "No decision pending.");
   const president = currentPresidentOf(world);
-  if (president && controlledBy(world, president.personId))
+  if (president && controlledBy(world, president.personId)) {
+    // A demand nobody answers is the quiet case: after the authored period
+    // the dispute lapses on a record rather than waiting forever.
+    const since = lastMovementAt(world, crisisId);
+    if (
+      daysBetween(makeIsoDate(since), makeIsoDate(world.currentDate)) >=
+      PROVISIONAL_INTERNATIONAL_POLICY.lapseAfterQuietDays
+    ) {
+      return lapse(world, crisisId, state.cycle);
+    }
     return settled(
       scheduleFutureDueItem(world, {
         stableKey: `${state.crisis.stableKey}:decision:${state.cycle}:${dueIndex(item) + 1}:due`,
@@ -552,6 +575,7 @@ export const internationalDecisionHandler: FutureTransitionHandler = (
       "resolved",
       "awaiting-player",
     );
+  }
   const option = state.options.at(-1)!.recommended;
   return settled(
     applyDecision(
@@ -599,8 +623,11 @@ export const internationalResponseHandler: FutureTransitionHandler = (
           ? Math.max(rank - 1, 0)
           : rank
     ]!;
-  const lastCycle = state.cycle + 1 >= policy.maxCycles;
-  const ended = counterparty === "de-escalated" || lastCycle;
+  // The cycle cap is a checkpoint: past it the crisis is reviewed less often
+  // rather than declared over. Only the counterparty stepping back ends it
+  // here; a lapse is recorded separately when nothing moves for a long time.
+  const pastCheckpoint = state.cycle + 1 >= policy.maxCycles;
+  const ended = counterparty === "de-escalated";
   const key = `${state.crisis.stableKey}:response:${state.cycle}`;
   const responded = event(world, {
     stableKey: `${key}:event`,
@@ -621,8 +648,8 @@ export const internationalResponseHandler: FutureTransitionHandler = (
       (allies === "supported"
         ? " Allies backed the U.S. response."
         : " Allies stood aside.") +
-      (ended && counterparty !== "de-escalated"
-        ? " The dispute settled into a standoff."
+      (pastCheckpoint && !ended
+        ? " The dispute settled into a standoff, still unresolved."
         : ""),
   });
   let next = appendCrisisRecord(responded.world, {
@@ -646,7 +673,12 @@ export const internationalResponseHandler: FutureTransitionHandler = (
     const cycle = state.cycle + 1;
     next = scheduleFutureDueItem(next, {
       stableKey: `${state.crisis.stableKey}:cycle:${cycle}:due`,
-      dueAt: addDays(world.currentDate, policy.nextCycleAfterDays),
+      dueAt: addDays(
+        world.currentDate,
+        pastCheckpoint
+          ? policy.checkpointReviewAfterDays
+          : policy.nextCycleAfterDays,
+      ),
       transitionKey: INTERNATIONAL_DECISION_KEY,
       entityIds: [crisisId],
       jurisdictionId: null,
@@ -655,6 +687,68 @@ export const internationalResponseHandler: FutureTransitionHandler = (
   }
   return settled(next, "resolved", counterparty);
 };
+
+/**
+ * A dispute nobody has moved for a long time lapses. The lapse is a recorded
+ * outcome — the crisis ends because something is written, never because a
+ * counter ran out (CRUNCH47 C2).
+ */
+function lapse(
+  world: World,
+  crisisId: EntityId,
+  cycle: number,
+): FutureTransitionHandlerResult {
+  const state = internationalCrisisState(world, crisisId);
+  const key = `${state.crisis.stableKey}:lapsed:${cycle}`;
+  const recorded = event(world, {
+    stableKey: `${key}:event`,
+    type: "crisis.international-response",
+    involvedEntityIds: [crisisId],
+    visibility: "public",
+    tags: [
+      `counterparty:held`,
+      `tension:${state.tension}`,
+      "resolution:lapsed",
+    ],
+    summary: `The dispute with ${state.crisis.counterpartyLabel} lapsed without a settlement; neither side has moved on it.`,
+  });
+  let next = appendCrisisRecord(recorded.world, {
+    kind: "counterparty-response",
+    stableKey: key,
+    effectiveAt: world.currentDate,
+    causalParentIds: [state.crisis.id],
+    visibility: "public",
+    eventId: recorded.eventId,
+    crisisId,
+    cycle,
+    counterparty: "held",
+    allies: "stood-aside",
+    tensionAfter: state.tension,
+    ended: true,
+  });
+  if (state.forcesIn)
+    next = warPowersStage(
+      next,
+      crisisId,
+      "forces-withdrawn",
+      crisisRecordId(next, key),
+    );
+  return settled(next, "resolved", "lapsed");
+}
+
+/** The last time anybody actually moved on this crisis. */
+function lastMovementAt(world: World, crisisId: EntityId): IsoDate {
+  const moved = crisisRecords(world).filter(
+    (record) =>
+      (record.kind === "counterparty-response" ||
+        record.kind === "crisis-decision") &&
+      (record as unknown as { crisisId: EntityId }).crisisId === crisisId,
+  );
+  return (
+    moved.at(-1)?.effectiveAt ??
+    crisisRecords(world).find((record) => record.id === crisisId)!.effectiveAt
+  );
+}
 
 /** Starts a new intelligence and options cycle when its due item arrives. */
 function beginCycle(
@@ -666,6 +760,16 @@ function beginCycle(
   const cycle = Number(/:cycle:(\d+):due$/.exec(item.stableKey)![1]);
   if (state.ended || state.options.some((o) => o.cycle === cycle))
     return settled(world, "cancelled", "Cycle no longer needed.");
+  // Past the checkpoint, a dispute with no recorded movement lapses.
+  if (
+    cycle >= PROVISIONAL_INTERNATIONAL_POLICY.maxCycles &&
+    daysBetween(
+      makeIsoDate(lastMovementAt(world, crisisId)),
+      makeIsoDate(world.currentDate),
+    ) >= PROVISIONAL_INTERNATIONAL_POLICY.lapseAfterQuietDays
+  ) {
+    return lapse(world, crisisId, cycle);
+  }
   return settled(
     assessAndAdvise(world, crisisId, cycle),
     "resolved",

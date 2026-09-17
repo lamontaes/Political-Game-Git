@@ -6,7 +6,11 @@ import {
 } from "../life-queries";
 import type { EntityId, EventVisibility, IsoDate, World } from "../types";
 import { MORTALITY_CAUSE_KEY } from "./mortality";
-import { pendingDisasterDecisions } from "./disaster";
+import {
+  PROVISIONAL_DISASTER_POLICY,
+  disasterRepairQueue,
+  pendingDisasterDecisions,
+} from "./disaster";
 import { pendingInternationalDecisions } from "./international";
 import { crisisRecordIndex, crisisRecords } from "./records";
 import type {
@@ -228,6 +232,102 @@ export function crisisPersonDeathRecipientNotices(
     }
   }
   return notices;
+}
+
+/**
+ * What a repair still needs, for D's authorized funding path.
+ *
+ * CRISIS records the decision, the programs and the physical repair queue and
+ * never an amount: the money figure comes from an adopted appropriation on
+ * GOVERNING's side. One request per episode per aid decision, keyed so a
+ * consumer applies it once.
+ */
+export interface RepairFundingRequest {
+  readonly requestKey: string;
+  readonly sequence: number;
+  readonly episodeId: EntityId;
+  readonly stateUsps: string;
+  readonly jurisdictionIds: readonly EntityId[];
+  readonly decisionRecordId: EntityId;
+  /** Null when the decision was recorded without its own public event. */
+  readonly decisionEventId: EntityId | null;
+  readonly decisionStage: string;
+  readonly decidedAt: IsoDate;
+  readonly federallyAssisted: boolean;
+  readonly programs: readonly string[];
+  /** Physical work, not money: units the queue still has to do. */
+  readonly remainingRepairUnits: number;
+  readonly totalRepairUnits: number;
+  readonly weeklyCapacity: {
+    readonly local: number;
+    readonly federallyAssisted: number;
+  };
+  /** Always null here. An amount belongs to an adopted appropriation. */
+  readonly amount: null;
+}
+
+export function crisisRepairFundingRequests(
+  world: World,
+  options: { readonly afterSequence?: number } = {},
+): readonly RepairFundingRequest[] {
+  const after = options.afterSequence ?? -1;
+  const records = crisisRecords(world);
+  const episodes = new Map(
+    records.flatMap((record) =>
+      record.kind === "hazard-episode" ? [[record.id, record] as const] : [],
+    ),
+  );
+  return records.flatMap((record) => {
+    if (record.kind !== "disaster-response" || record.sequence <= after)
+      return [];
+    // An aid decision, not a local response or a follow-up note.
+    if (
+      record.stage !== "federal-declared" &&
+      record.stage !== "federal-denied" &&
+      record.stage !== "state-request"
+    )
+      return [];
+    const episode = episodes.get(record.episodeId);
+    if (!episode || episode.kind !== "hazard-episode") return [];
+    const damages = records.filter(
+      (candidate) =>
+        candidate.kind === "disaster-damage" &&
+        candidate.episodeId === record.episodeId &&
+        candidate.level !== "service-interrupted",
+    );
+    const total = damages.reduce(
+      (sum, damage) =>
+        sum + (damage.kind === "disaster-damage" ? damage.repairUnits : 0),
+      0,
+    );
+    const remaining = disasterRepairQueue(world, record.episodeId).reduce(
+      (sum, entry) => sum + entry.remainingUnits,
+      0,
+    );
+    return [
+      {
+        requestKey: `crisis:repair-funding:${record.episodeId}:${record.id}`,
+        sequence: record.sequence,
+        episodeId: record.episodeId,
+        stateUsps: episode.stateUsps,
+        jurisdictionIds: episode.jurisdictionIds,
+        decisionRecordId: record.id,
+        decisionEventId: record.eventId,
+        decisionStage: record.stage,
+        decidedAt: record.effectiveAt,
+        federallyAssisted: record.stage === "federal-declared",
+        programs: record.programs,
+        remainingRepairUnits: remaining,
+        totalRepairUnits: total,
+        weeklyCapacity: {
+          local: PROVISIONAL_DISASTER_POLICY.weeklyCapacity.local,
+          federallyAssisted:
+            PROVISIONAL_DISASTER_POLICY.weeklyCapacity.federalAssisted,
+        },
+        amount: null,
+      },
+    ];
+  });
 }
 
 export type CrisisEnvelopeKind =
