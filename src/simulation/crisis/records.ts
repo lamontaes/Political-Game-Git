@@ -154,6 +154,7 @@ export function assertCrisisIntegrity(world: World): void {
   const latestDisclosure = new Map<EntityId, HealthDisclosureRecord>();
   const hazards = new Map<EntityId, HazardRecord>();
   const damages = new Map<EntityId, DisasterDamageRecord>();
+  const crises = new Set<EntityId>();
   let previousSequence = -1;
   for (const record of records) {
     if (record.schemaVersion !== CRISIS_RECORD_SCHEMA)
@@ -303,6 +304,40 @@ export function assertCrisisIntegrity(world: World): void {
           fail(record, "malformed repair progress");
         break;
       }
+      case "international-crisis":
+        if (
+          !record.counterpartyLabel.trim() ||
+          !record.subject.trim() ||
+          !record.basis.trim()
+        )
+          fail(record, "malformed international crisis");
+        crises.add(record.id);
+        break;
+      case "intelligence-assessment":
+      case "crisis-options":
+      case "crisis-decision":
+      case "counterparty-response":
+      case "war-powers":
+        if (!crises.has(record.crisisId))
+          fail(record, "record for an unknown international crisis");
+        if (
+          record.kind === "war-powers" &&
+          record.terminationAt !== null &&
+          record.terminationAt < record.effectiveAt
+        )
+          fail(record, "war powers termination precedes its record");
+        break;
+      case "violence-attempt":
+        if (!world.people[record.targetPersonId])
+          fail(record, "missing attempt target");
+        if (
+          record.threatEvidenceIds.length === 0 ||
+          record.threatEvidenceIds.some(
+            (id) => !record.causalParentIds.includes(id),
+          )
+        )
+          fail(record, "attempt lacks its threat evidence");
+        break;
       case "official-continuity": {
         const source =
           world.history.personDeaths.find(

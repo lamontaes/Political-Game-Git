@@ -1,11 +1,13 @@
 import type { EntityId, EventVisibility, IsoDate, World } from "../types";
 import { MORTALITY_CAUSE_KEY } from "./mortality";
 import { pendingDisasterDecisions } from "./disaster";
+import { pendingInternationalDecisions } from "./international";
 import { crisisRecordIndex, crisisRecords } from "./records";
 import type {
   CrisisRecord,
   HazardEpisodeRecord,
   HazardMagnitude,
+  TensionLevel,
   OfficeRef,
   OfficialContinuityChange,
 } from "./types";
@@ -267,6 +269,42 @@ function envelopeFor(
         knowledgeSourceIds: [],
       };
     }
+    case "counterparty-response":
+    case "crisis-decision": {
+      const crisis = crisisRecordIndex(world).get(record.crisisId);
+      if (!crisis || crisis.kind !== "international-crisis") return null;
+      const escalated =
+        record.kind === "counterparty-response"
+          ? record.counterparty === "escalated"
+          : record.option === "force-posture";
+      if (!escalated) return null;
+      const tension =
+        record.kind === "counterparty-response"
+          ? record.tensionAfter
+          : crisis.tension;
+      return {
+        ...base,
+        originEventId: record.eventId!,
+        kind: "international-conflict-spillover",
+        geographyIds: [],
+        actorIds:
+          record.kind === "crisis-decision" && record.deciderPersonId
+            ? [record.deciderPersonId]
+            : [],
+        subjectIds: [crisis.id],
+        payload: {
+          trigger:
+            record.kind === "crisis-decision"
+              ? "force-posture"
+              : "counterparty-escalation",
+          tension,
+          severityOrdinal: TENSION_ORDINAL[tension],
+          intensity: TENSION_ORDINAL[tension] / 3,
+          amount: null,
+        },
+        knowledgeSourceIds: [],
+      };
+    }
     case "repair-progress": {
       const episode = hazardOf(world, record.episodeId);
       return {
@@ -289,6 +327,13 @@ function envelopeFor(
       return null;
   }
 }
+
+const TENSION_ORDINAL: Record<TensionLevel, number> = {
+  low: 0,
+  elevated: 1,
+  high: 2,
+  severe: 3,
+};
 
 const SEVERITY_ORDINAL: Record<HazardMagnitude, number> = {
   minor: 0,
@@ -332,7 +377,8 @@ export interface CrisisProtectedDecision {
     | "own-health-disclosure"
     | "controlled-person-died"
     | "disaster-state-request"
-    | "disaster-federal-declaration";
+    | "disaster-federal-declaration"
+    | "international-decision";
   readonly sinceSequence: number;
 }
 
@@ -369,6 +415,14 @@ export function crisisProtectedDecisions(
           pending.decision === "state-request"
             ? "disaster-state-request"
             : "disaster-federal-declaration",
+        sinceSequence: pending.sequence,
+      });
+  for (const pending of pendingInternationalDecisions(world))
+    if (pending.sequence > afterSequence)
+      decisions.push({
+        key: `crisis:decision:international:${pending.crisisId}:${pending.sequence}`,
+        personId,
+        kind: "international-decision",
         sinceSequence: pending.sequence,
       });
   for (const death of world.history.personDeaths)

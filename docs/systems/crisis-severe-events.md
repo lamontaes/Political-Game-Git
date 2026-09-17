@@ -127,6 +127,47 @@ ordinal severity), `aid-decision` (declared/denied, programs, `amount: null`)
 and `repair-progress` envelopes (in-progress, repaired, and `ended` at
 follow-up).
 
+## K5 international crisis, first depth
+
+The World represents no foreign governments yet, so `declareInternationalCrisis`
+names an authored, fictional counterparty and allies (“a foreign government”)
+and never a real state. The player is not the cause: the World declares the
+incident, and the player decides only while holding the Presidency.
+
+1. **Incident** (public) and an **intelligence assessment** (limited) with a
+   drawn confidence and an assessed intent that can be wrong.
+2. **Options** two days later: diplomatic, economic (both non-force) and
+   force posture (force-capable), with adviser positions, risk and legal notes
+   and a recommendation.
+3. **Decision.** An NPC President takes the recommendation; a player President
+   decides with `decideInternationalCrisis`; with no President recorded, the
+   departments continue diplomatically and the record says so.
+4. **Responses** five days later: the counterparty de-escalates, holds or
+   escalates and allies support or stand aside, each drawn independently of
+   the player. Tension moves with the answer. Up to three cycles run fourteen
+   days apart; a de-escalation ends the crisis, and after the third cycle it
+   settles into a standoff.
+5. **War Powers**, only when force posture introduces forces: a report the
+   next day (§1543(a), within 48 hours); after 60 days without a recorded
+   declaration or authorization (§1544(b)) an NPC President certifies the
+   30-day safe-withdrawal extension and forces leave at its end; a player
+   President may certify with `certifyWarPowersExtension`, and otherwise forces
+   leave at day 60. Forces also leave when the crisis ends. Diplomatic and
+   economic decisions start no clock.
+
+CHANGE receives `international-conflict-spillover` envelopes for a force
+decision or a counterparty escalation (tension ordinal, `amount: null`).
+
+`recordViolenceAttempt` records an abstract attempt on a person's life. It
+requires earlier canonical threat evidence, describes no method, and has
+unharmed, injured (a serious, publicly known K2 episode) and killed
+(`crisis-violence:attempt`, with the ordinary continuity notice) outcomes.
+Nothing schedules attempts; there is no quota.
+
+Timings and response shares are `crunch46-provisional-v1`
+(`PROVISIONAL_INTERNATIONAL_POLICY`); the statutory 48-hour, 60-day and 30-day
+periods come from 50 U.S.C. §§1543–1544.
+
 ## Read-only projections
 
 | Export                                                    | Consumer      | Meaning                                                                       |

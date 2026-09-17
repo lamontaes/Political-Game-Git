@@ -34,8 +34,8 @@ crisis in progress.
 1. K1 + K2 + K3 notices — implemented, 17 tests.
 2. K4 flood/severe-storm chain — implemented, 6 route tests through
    `passOrdinaryDays` on a production opening.
-3. K5 international crisis (one non-force, one force-capable route with War
-   Powers clocks) — after K4.
+3. K5 international crisis (non-force and force-capable routes, War Powers
+   clocks) and abstract violence attempts — implemented, 6 route tests.
 
 ## Open decisions and limits
 
