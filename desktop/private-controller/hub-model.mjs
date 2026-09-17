@@ -351,8 +351,16 @@ export function recordCheck(checks, id, { outcome, at, revision, message }) {
  * anything else is Checking / Preparing / Ready / Could not check.
  */
 export function updateStatus({ phase, check, build, building }) {
+  // A recorded terminal failure outranks a worker that is still winding down:
+  // an offline or refused check must not keep reading "Checking for updates…".
+  const settledFailure =
+    check && ["offline", "failed", "unsupported"].includes(check.outcome);
   // A worker that already reported its outcome is finishing, not building.
-  if (building && !["failed", "ready"].includes(phase?.phase)) {
+  if (
+    building &&
+    !settledFailure &&
+    !["failed", "ready"].includes(phase?.phase)
+  ) {
     if (!phase || phase.phase === "fetching")
       return { kind: "checking", text: "Checking for updates…" };
     return { kind: "preparing", text: "Preparing the update…" };
