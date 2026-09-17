@@ -136,11 +136,34 @@ What this says, and what it does not:
   year 1): the time is inside the clock, resolving due items. A developed
   30-year history is therefore not reachable by extrapolating a fresh life, and
   this profile stops at 3 years rather than pretending otherwise.
-- **The dominant handler is not yet attributed.** This run measures the clock
-  as a whole. Naming which handler (mortality windows, party reviews, the
-  hazard sampler, development steps, macro months) carries the growth needs a
-  per-handler measurement, and that is the next step of this work, not a
-  conclusion of this one.
+- **Attributed, with GOVERNING.** D wrapped each keyed handler on its own
+  branch; this script now does the same, so the two lanes compare per key.
+  Second run (seed `world47-attribution`, startAge 30, 2 years):
+
+  |                                             | year 1      | year 2       | per-call growth |
+  | ------------------------------------------- | ----------- | ------------ | --------------- |
+  | advance, whole                              | 27.4 s      | 101.4 s      |                 |
+  | inside keyed handlers                       | 14.2 s      | 57.0 s       |                 |
+  | outside, shared write path                  | 13.2 s      | 44.4 s       |                 |
+  | party-chapter:organizer-outreach (CAMPAIGN) | 6.09 s / 37 | 24.81 s / 42 | 165 → 591 ms    |
+  | economy:monthly-step (CHANGE)               | 2.43 s / 12 | 12.43 s / 12 | 203 → 1036 ms   |
+  | living-world:development-step (WORLD)       | 2.94 s / 22 | 11.15 s / 20 | 134 → 557 ms    |
+  | crisis:hazard-sample (WORLD)                | 1.65 s / 12 | 5.79 s / 12  | 137 → 483 ms    |
+  | party-life:body-review (WORLD)              | 1.04 s / 8  | 2.83 s / 8   | 130 → 354 ms    |
+  | crisis:disaster-state-review                | 0.005 s / 5 | 0.005 s / 5  | flat            |
+
+  Call counts are flat and per-call cost multiplies for every handler that
+  writes, including ones whose own logic does nothing history-dependent. The
+  only flat handler is the one that usually writes nothing. The cost is
+  therefore per write, in the shared full-World validation, not in any lane's
+  logic; D owns that path and is fixing it once there rather than having each
+  lane cache around it.
+
+- **A long skip is currently not playable on a developed save**: 1,095 days on
+  top of that two-year history took 1,497 s (25 minutes) on this machine.
+- **Reads are cheap and flat**: projectCongress 6.2 ms, projectWorldOrientation
+  5.5 ms, projectMacroConditions 23.2 ms, death notices 0.7 ms, standalone
+  integrity 73 ms. The surface is not the problem.
 - **One repeated scan was found and fixed here**: the hazard sampler filtered
   the whole compiled episode array per state, family and month, and recomputed
   the represented-exposure scan twice per month. The catalog is now indexed
