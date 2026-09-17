@@ -17,6 +17,7 @@ import {
   facetCounts,
   filterCatalog,
 } from "../../src/authoring/artbench";
+import { candidateNotes } from "../../src/authoring/art-desk-cards";
 import { tinyPng } from "./art-desk-inputs.test";
 import { hashBytes } from "./art-desk-inputs";
 import { ArtbenchError, ArtbenchStore } from "./artbench-store";
@@ -255,6 +256,49 @@ describe("artbench store: intake, alternatives, lineage and decisions", () => {
     expect(after.assets[c.assetId].currentApprovedCandidateId).toBe(a);
     expect(after.requests["env-a"].selectedCandidateId).toBe(c.candidateId);
     expect(store.original(a).bytes.length).toBeGreaterThan(0);
+  });
+
+  it("shows an edited reimport with the parent's note and tags beside its own", () => {
+    const original = store.ingest(
+      tinyPng(6, 6),
+      { requestId: "env-b", note: "Native plate from the approved master." },
+      OWNER,
+    );
+    store.setTags({
+      entity: "candidate",
+      entityId: original.candidate.candidateId,
+      tags: { region: ["alaska"], season: ["winter"] },
+      baseVersion: 0,
+      author: OWNER,
+    });
+    const edited = store.ingest(
+      tinyPng(7, 6),
+      {
+        requestId: "env-b",
+        parentCandidateId: original.candidate.candidateId,
+        editKind: "crop",
+        note: "Cropped to 16:9 outside the bench.",
+      },
+      OWNER,
+    );
+    const projection = store.projection();
+    const notes = candidateNotes(projection, edited.candidate);
+    expect(notes.own).toBe("Cropped to 16:9 outside the bench.");
+    expect(notes.inherited).toEqual([
+      {
+        candidateId: original.candidate.candidateId,
+        stage: "original",
+        note: "Native plate from the approved master.",
+      },
+    ]);
+    expect(notes.inheritedTags).toEqual({
+      region: ["alaska"],
+      season: ["winter"],
+    });
+    // New bytes and its own review state, on the same asset.
+    expect(edited.candidate.sha256).not.toBe(original.candidate.sha256);
+    expect(edited.candidate.status).toBe("awaiting-review");
+    expect(edited.candidate.assetId).toBe(original.candidate.assetId);
   });
 
   it("surfaces tag conflicts instead of last-writer-wins", () => {

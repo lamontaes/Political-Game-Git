@@ -11,6 +11,7 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import type { Plugin } from "vite";
 
 import type { ArtbenchActor } from "../../src/authoring/artbench";
+import { originalDownloadName } from "../../src/authoring/art-desk-cards";
 import { isLoopbackAddress, originAllowed } from "./art-desk-bridge";
 import {
   ArtbenchError,
@@ -410,7 +411,7 @@ export function createArtbenchHandler(store: ArtbenchStore) {
       }
       if (route === "original" && method === "GET") {
         const candidateId = url.searchParams.get("candidateId") ?? "";
-        const { bytes, filename, candidate } = store.original(candidateId);
+        const { bytes, candidate } = store.original(candidateId);
         response.statusCode = 200;
         response.setHeader(
           "Content-Type",
@@ -421,9 +422,14 @@ export function createArtbenchHandler(store: ArtbenchStore) {
         response.setHeader("X-Artbench-Sha256", candidate.sha256);
         response.setHeader("X-Artbench-Candidate", candidate.candidateId);
         if (url.searchParams.get("download") === "1") {
+          // A readable name plus the recorded hash: the bytes stay identifiable.
           response.setHeader(
             "Content-Disposition",
-            `attachment; filename="${filename}"`,
+            `attachment; filename="${originalDownloadName(
+              url.searchParams.get("name") ?? candidate.candidateId,
+              candidate.sha256,
+              candidate.container,
+            )}"`,
           );
         }
         response.end(bytes);
