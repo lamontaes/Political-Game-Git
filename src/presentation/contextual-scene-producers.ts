@@ -1,4 +1,8 @@
 import {
+  ensurePeopleTraits,
+  traitConsiderations,
+} from "../simulation/people-traits";
+import {
   addDays,
   ageOnDate,
   campaignForCandidate,
@@ -17,16 +21,23 @@ import type {
 import { commitmentPromisee } from "../simulation/claim-contradictions";
 import { evaluateDecision } from "../simulation/decisions";
 import { lifeRequestDetails } from "../simulation/life-request-details";
-import { lifeOpportunitiesFor } from "../simulation/life-opportunities";
+import {
+  LIFE_OPPORTUNITY_TAG_PREFIX,
+  lifeOpportunitiesFor,
+} from "../simulation/life-opportunities";
 import {
   activePartnershipsAt,
   activeWorkRelationshipsAt,
   currentLifeCutoff,
   organizationProfileAt,
+  workStatusHistory,
 } from "../simulation/life-queries";
 import {
   CHAPTER_ACCEPTED_EVENT,
   CHAPTER_INVITATION_EVENT,
+  CHAPTER_MEETING_ATTENDED_EVENT,
+  canJoinPartyChapter,
+  homePartyChapters,
   projectPartyEncounters,
 } from "../simulation/living-world/party-chapters";
 import { describePersonContext } from "../simulation/person-context";
@@ -151,6 +162,8 @@ function partnerAmong(
 function produceHomeEvening(world: World, personId: EntityId): World {
   const home = adultHousemates(world, personId);
   if (!home) return world;
+  const promised = producePromisedEvening(world, personId, home);
+  if (promised !== world) return promised;
   // Only an evening question that was actually talked through spaces the
   // next one; one that lapsed unanswered leaves nothing to space from.
   const recent = sceneBindingsFor(world, personId, "home-evening").some(
@@ -170,7 +183,8 @@ function produceHomeEvening(world: World, personId: EntityId): World {
       (activity) =>
         (activity.kind === "confirmed" || activity.kind === "tentative") &&
         activity.participantPersonIds.includes(personId) &&
-        !activity.participantPersonIds.includes(speakerId),
+        !activity.participantPersonIds.includes(speakerId) &&
+        !isRequestOccasion(world, activity.sourceEntityIds),
     )
     .map((activity) => ({
       activity,
@@ -237,6 +251,154 @@ function produceHomeEvening(world: World, personId: EntityId): World {
   );
 }
 
+/**
+ * An occasion somebody asked the player to — an evening in, a Saturday
+ * invitation — is the request's own calendar entry, not a plan to ask about.
+ */
+function isRequestOccasion(
+  world: World,
+  sourceIds: readonly EntityId[],
+): boolean {
+  return world.history.events.some(
+    (event) =>
+      sourceIds.includes(event.id) &&
+      event.tags.some((tag) => tag.startsWith(LIFE_OPPORTUNITY_TAG_PREFIX)),
+  );
+}
+
+const QUIET_EVENING_KEY = "adult.household-quiet-evening";
+/** How close another plan may end to the promised evening and still clash. */
+const EVENING_CLASH_MINUTES = 60;
+
+/**
+ * "You said you'd be home tonight." Bound only when the record holds both
+ * halves: the player agreed today to spend the evening with a housemate, and
+ * another plan of the player's the same evening runs into it.
+ */
+function producePromisedEvening(
+  world: World,
+  personId: EntityId,
+  home: {
+    readonly jurisdictionId: EntityId;
+    readonly ids: readonly EntityId[];
+  },
+): World {
+  const promise = world.history.events
+    .filter(
+      (event) =>
+        event.occurredAt === world.currentDate &&
+        event.tags.includes(QUIET_EVENING_KEY) &&
+        event.tags.includes("choice.spend-it-together") &&
+        event.participants.some(
+          (entry) =>
+            entry.personId === personId && entry.role === "agency:actor",
+        ),
+    )
+    .at(-1);
+  if (!promise) return world;
+  const speakerId = promise.participants.find(
+    (entry) => entry.role === "presence:participant",
+  )?.personId;
+  if (!speakerId || !home.ids.includes(speakerId)) return world;
+  const occasion = world.history.scheduledActivities
+    .filter(
+      (activity) =>
+        activity.participantPersonIds.includes(personId) &&
+        isRequestOccasion(world, activity.sourceEntityIds),
+    )
+    .map((activity) => ({
+      activity,
+      state: scheduledActivityState(world, activity.id),
+    }))
+    .find(
+      ({ state }) =>
+        state.status === "scheduled" && state.start.date === world.currentDate,
+    );
+  if (!occasion) return world;
+  const clash = world.history.scheduledActivities
+    .filter(
+      (activity) =>
+        (activity.kind === "confirmed" || activity.kind === "tentative") &&
+        activity.id !== occasion.activity.id &&
+        activity.participantPersonIds.includes(personId) &&
+        !activity.participantPersonIds.includes(speakerId) &&
+        !isRequestOccasion(world, activity.sourceEntityIds),
+    )
+    .map((activity) => ({
+      activity,
+      state: scheduledActivityState(world, activity.id),
+    }))
+    .find(
+      ({ state }) =>
+        state.status === "scheduled" &&
+        state.start.date === world.currentDate &&
+        compareSimulationMoments(state.start, world.currentMoment) >= 0 &&
+        state.start.minuteOfDay < occasion.state.end.minuteOfDay &&
+        state.end.minuteOfDay + EVENING_CLASH_MINUTES >
+          occasion.state.start.minuteOfDay,
+    );
+  if (!clash) return world;
+  if (
+    sceneAlreadyBound(
+      world,
+      personId,
+      "home-evening",
+      "promised-evening",
+      clash.activity.id,
+    )
+  ) {
+    return world;
+  }
+  const { activity, state } = clash;
+  const invitation = sourceInvitation(world, activity.sourceEntityIds);
+  const organizerId = invitation?.participants.find(
+    (entry) => entry.role === "agency:asked",
+  )?.personId;
+  const created = world.history.scheduledActivityStates.find(
+    (record) => record.activityId === activity.id,
+  );
+  const facts: Record<string, string> = {
+    activityTitle: activity.title,
+    activityKind: activity.kind,
+    startTime: formatMinute(state.start.minuteOfDay),
+    endTime: formatMinute(state.end.minuteOfDay),
+    promisedTime: formatMinute(occasion.state.start.minuteOfDay),
+  };
+  if (created && created.sequence < promise.sequence) {
+    facts.committedFirst = "yes";
+  }
+  if (invitation) facts.openToGuests = "yes";
+  if (organizerId && world.people[organizerId]) {
+    facts.organizer = personName(world.people[organizerId]!);
+  }
+  if (partnerAmong(world, personId, [speakerId])) facts.partner = "yes";
+  return recordSceneBinding(
+    world,
+    {
+      version: 1,
+      family: "home-evening",
+      variant: "promised-evening",
+      playerPersonId: personId,
+      speakerPersonId: speakerId,
+      relationship: relationshipLabel(world, personId, speakerId),
+      place: "Home",
+      jurisdictionId: home.jurisdictionId,
+      request: `Whether the player is still going to the ${activity.title} after agreeing to spend the evening at home.`,
+      sourceEntityIds: [
+        activity.id,
+        promise.id,
+        ...(invitation ? [invitation.id] : []),
+      ],
+      facts,
+      knownRecordIds: [promise.id],
+      target: activity.title,
+      date: state.start.date,
+      expiresAt: state.start.date,
+    },
+    `${personName(world.people[speakerId]!)} is asking about tonight.`,
+  );
+}
+
 /** The chapter invitation behind a meeting, when that is what it is. */
 function sourceInvitation(
   world: World,
@@ -258,6 +420,7 @@ const FAVOR_KINDS = {
     situation: "adult.work-extra-hours",
     place: "At work",
   },
+  "household-evening": { situation: QUIET_EVENING_KEY, place: "Home" },
 } as const;
 
 function produceFavor(world: World, personId: EntityId): World {
@@ -284,6 +447,15 @@ function produceFavor(world: World, personId: EntityId): World {
     };
     if (details.condition) facts.condition = details.condition;
     if (details.minutes) facts.minutes = String(details.minutes);
+    if (kind === "household-evening") {
+      const occasion = world.history.scheduledActivities.find((activity) =>
+        activity.sourceEntityIds.includes(event.id),
+      );
+      if (!occasion) continue;
+      facts.startTime = formatMinute(
+        scheduledActivityState(world, occasion.id).start.minuteOfDay,
+      );
+    }
     return recordSceneBinding(
       world,
       {
@@ -313,6 +485,161 @@ function produceFavor(world: World, personId: EntityId): World {
 /* 3. An organizer's invitation --------------------------------------------- */
 
 function producePartyInvite(world: World, personId: EntityId): World {
+  for (const produce of [
+    produceChapterInvitation,
+    produceChapterJoinAsk,
+    produceChapterAfterDecline,
+  ]) {
+    const next = produce(world, personId);
+    if (next !== world) return next;
+  }
+  return world;
+}
+
+const PARTY_FOLLOW_UP_WINDOW_DAYS = 3;
+const WEEKDAY_NAMES = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+] as const;
+
+/** The home chapter an invitation event came from. */
+function chapterOfInvitation(world: World, invitation: HistoricalEvent) {
+  return (
+    homePartyChapters(world).find((chapter) =>
+      invitation.involvedEntityIds.includes(chapter.organizationId),
+    ) ?? null
+  );
+}
+
+/** "Thanks for coming. Want to join?" — after a meeting the player attended. */
+function produceChapterJoinAsk(world: World, personId: EntityId): World {
+  const from = addDays(world.currentDate, -PARTY_FOLLOW_UP_WINDOW_DAYS);
+  for (const attended of world.history.events) {
+    if (
+      attended.type !== CHAPTER_MEETING_ATTENDED_EVENT ||
+      attended.occurredAt < from ||
+      !attended.involvedEntityIds.includes(personId)
+    ) {
+      continue;
+    }
+    const invitationId = attended.tags
+      .find((tag) => tag.startsWith("invitation:"))
+      ?.slice("invitation:".length);
+    const invitation = world.history.events.find(
+      (event) => event.id === invitationId,
+    );
+    const chapter = invitation ? chapterOfInvitation(world, invitation) : null;
+    if (!chapter?.organizerPersonId) continue;
+    const organizer = world.people[chapter.organizerPersonId];
+    if (!organizer) continue;
+    if (!canJoinPartyChapter(world, personId, chapter.organizationId)) continue;
+    if (
+      sceneAlreadyBound(
+        world,
+        personId,
+        "party-invite",
+        "join-ask",
+        attended.id,
+      )
+    ) {
+      continue;
+    }
+    return recordSceneBinding(
+      world,
+      {
+        version: 1,
+        family: "party-invite",
+        variant: "join-ask",
+        playerPersonId: personId,
+        speakerPersonId: organizer.id,
+        relationship: relationshipLabel(world, personId, organizer.id),
+        place: "By phone",
+        jurisdictionId: chapter.jurisdictionId,
+        request: `Whether the player wants to join the ${chapter.name}.`,
+        sourceEntityIds: [attended.id, chapter.organizationId],
+        facts: { chapterName: chapter.name },
+        knownRecordIds: [attended.id],
+        target: chapter.name,
+        date: null,
+        expiresAt: addDays(attended.occurredAt, 14),
+      },
+      `${personName(organizer)} is following up after the meeting.`,
+    );
+  }
+  return world;
+}
+
+/** "No problem about the meeting." — after an invitation declined or let go. */
+function produceChapterAfterDecline(world: World, personId: EntityId): World {
+  const from = addDays(world.currentDate, -PARTY_FOLLOW_UP_WINDOW_DAYS);
+  for (const declined of world.history.events) {
+    if (
+      (declined.type !== "life.scheduled-activity-declined" &&
+        declined.type !== "life.social-invitation-declined") ||
+      declined.occurredAt < from ||
+      !declined.involvedEntityIds.includes(personId)
+    ) {
+      continue;
+    }
+    const meeting = world.history.scheduledActivities.find((activity) =>
+      declined.involvedEntityIds.includes(activity.id),
+    );
+    const invitation = meeting
+      ? sourceInvitation(world, meeting.sourceEntityIds)
+      : null;
+    const chapter = invitation ? chapterOfInvitation(world, invitation) : null;
+    if (!meeting || !chapter?.organizerPersonId) continue;
+    const organizer = world.people[chapter.organizerPersonId];
+    if (!organizer) continue;
+    if (
+      sceneAlreadyBound(
+        world,
+        personId,
+        "party-invite",
+        "after-decline",
+        declined.id,
+      )
+    ) {
+      continue;
+    }
+    const start = scheduledActivityState(world, meeting.id).start;
+    const weekday =
+      WEEKDAY_NAMES[new Date(`${start.date}T00:00:00Z`).getUTCDay()]!;
+    return recordSceneBinding(
+      world,
+      {
+        version: 1,
+        family: "party-invite",
+        variant: "after-decline",
+        playerPersonId: personId,
+        speakerPersonId: organizer.id,
+        relationship: relationshipLabel(world, personId, organizer.id),
+        place: "By phone",
+        jurisdictionId: chapter.jurisdictionId,
+        request: `How the player feels about ${chapter.name} meetings after not coming.`,
+        sourceEntityIds: [declined.id, chapter.organizationId],
+        facts: {
+          chapterName: chapter.name,
+          weekday,
+          startTime: formatMinute(start.minuteOfDay),
+        },
+        knownRecordIds: [declined.id],
+        target: chapter.name,
+        date: null,
+        expiresAt: addDays(declined.occurredAt, 7),
+      },
+      `${personName(organizer)} is checking in after the meeting.`,
+    );
+  }
+  return world;
+}
+
+function produceChapterInvitation(world: World, personId: EntityId): World {
   for (const chapter of projectPartyEncounters(world, personId)) {
     if (!chapter.organizerPersonId) continue;
     const organizer = world.people[chapter.organizerPersonId];
@@ -365,6 +692,160 @@ function producePartyInvite(world: World, personId: EntityId): World {
 function produceCampaignReaction(world: World, personId: EntityId): World {
   const home = adultHousemates(world, personId);
   if (!home) return world;
+  for (const produce of [
+    produceTookOffice,
+    produceElectionResult,
+    produceFiled,
+  ]) {
+    const next = produce(world, personId, home);
+    if (next !== world) return next;
+  }
+  return world;
+}
+
+type Home = {
+  readonly jurisdictionId: EntityId;
+  readonly ids: readonly EntityId[];
+};
+
+/** "So you're really running?" — within a week of the player's filing. */
+function produceFiled(world: World, personId: EntityId, home: Home): World {
+  const campaign = campaignForCandidate(world, personId);
+  if (!campaign || campaignState(world, campaign.id).status !== "active") {
+    return world;
+  }
+  if (
+    campaign.filedAt <
+    addDays(world.currentDate, -CAMPAIGN_REACTION_WINDOW_DAYS)
+  ) {
+    return world;
+  }
+  if (
+    sceneAlreadyBound(
+      world,
+      personId,
+      "campaign-reaction",
+      "filed",
+      campaign.filingEventId,
+    )
+  ) {
+    return world;
+  }
+  const contest = (world.history.electionContests ?? []).find(
+    (record) => record.id === campaign.contestId,
+  );
+  if (!contest) return world;
+  const partner = partnerAmong(world, personId, home.ids);
+  const speakerId = partner ?? home.ids[0]!;
+  const facts: Record<string, string> = {
+    officeTitle: contest.office.title,
+    filedAt: campaign.filedAt,
+    electionDate: contest.electionDate,
+  };
+  if (partner) facts.partner = "yes";
+  return recordSceneBinding(
+    world,
+    {
+      version: 1,
+      family: "campaign-reaction",
+      variant: "filed",
+      playerPersonId: personId,
+      speakerPersonId: speakerId,
+      relationship: relationshipLabel(world, personId, speakerId),
+      place: "Home",
+      jurisdictionId: home.jurisdictionId,
+      request: `Whether the player is really running for ${contest.office.title}.`,
+      sourceEntityIds: [campaign.filingEventId, campaign.id],
+      facts,
+      knownRecordIds: [campaign.filingEventId],
+      target: contest.office.title,
+      date: contest.electionDate,
+      expiresAt: addDays(campaign.filedAt, CAMPAIGN_REACTION_WINDOW_DAYS),
+    },
+    `${personName(world.people[speakerId]!)} heard about the filing.`,
+  );
+}
+
+/** "Big day." — within a week of an elected seat actually starting. */
+function produceTookOffice(
+  world: World,
+  personId: EntityId,
+  home: Home,
+): World {
+  const from = addDays(world.currentDate, -CAMPAIGN_REACTION_WINDOW_DAYS);
+  for (const seat of world.history.workRelationships) {
+    if (
+      seat.personId !== personId ||
+      seat.provenance.kind !== "simulated-event" ||
+      seat.startedAt > world.currentDate ||
+      seat.startedAt < from
+    ) {
+      continue;
+    }
+    const outcome = world.history.events.find(
+      (event) =>
+        seat.provenance.kind === "simulated-event" &&
+        event.id === seat.provenance.eventId &&
+        event.type === "election.contest-resolved",
+    );
+    if (!outcome) continue;
+    const statuses = workStatusHistory(world, seat.id);
+    if (statuses.at(-1)?.status !== "active") continue;
+    // An office that merely existed from the day of the result is not a new
+    // term beginning; only a dated entry after the result counts.
+    if (seat.startedAt <= outcome.occurredAt) continue;
+    if (
+      sceneAlreadyBound(
+        world,
+        personId,
+        "campaign-reaction",
+        "took-office",
+        seat.id,
+      )
+    ) {
+      continue;
+    }
+    const contest = (world.history.electionContests ?? []).find((record) =>
+      outcome.involvedEntityIds.includes(record.id),
+    );
+    if (!contest) continue;
+    const partner = partnerAmong(world, personId, home.ids);
+    const speakerId = partner ?? home.ids[0]!;
+    const facts: Record<string, string> = {
+      officeTitle: contest.office.title,
+      termStart: seat.startedAt,
+    };
+    if (partner) facts.partner = "yes";
+    return recordSceneBinding(
+      world,
+      {
+        version: 1,
+        family: "campaign-reaction",
+        variant: "took-office",
+        playerPersonId: personId,
+        speakerPersonId: speakerId,
+        relationship: relationshipLabel(world, personId, speakerId),
+        place: "Home",
+        jurisdictionId: home.jurisdictionId,
+        request: "How the first day in office feels.",
+        sourceEntityIds: [seat.id, outcome.id],
+        facts,
+        knownRecordIds: [outcome.id],
+        target: contest.office.title,
+        date: seat.startedAt,
+        expiresAt: addDays(seat.startedAt, CAMPAIGN_REACTION_WINDOW_DAYS),
+      },
+      `${personName(world.people[speakerId]!)} is marking the first day in office.`,
+    );
+  }
+  return world;
+}
+
+function produceElectionResult(
+  world: World,
+  personId: EntityId,
+  home: Home,
+): World {
   const from = addDays(world.currentDate, -CAMPAIGN_REACTION_WINDOW_DAYS);
   const results = world.history.events.filter(
     (event) =>
@@ -644,7 +1125,7 @@ function produceReporterQuestion(world: World, personId: EntityId): World {
         ),
     )
     .at(-1);
-  if (!promise) return world;
+  if (!promise) return produceFilingQuestion(world, personId);
   const promisee = world.people[promise.promiseeId]!;
   const journalist = currentJournalists(world, personId).find(
     (entry) => entry.personId !== promise.promiseeId,
@@ -659,6 +1140,9 @@ function produceReporterQuestion(world: World, personId: EntityId): World {
   if (world.history.events.some((event) => event.stableKey === tipKey)) {
     return world;
   }
+  // The promisee's temperament weighs on whether they talk (PEOPLE P2). The
+  // records are written only when a reporter could actually be told.
+  world = ensurePeopleTraits(world, [promisee.id]);
   const evaluation = evaluateDecision(world, {
     stableKey: `${tipKey}:decision`,
     decisionType: "press.mention-a-promise",
@@ -668,6 +1152,26 @@ function produceReporterQuestion(world: World, personId: EntityId): World {
       historySequenceExclusive: world.history.nextSequence,
     },
     subject: { kind: "context:life", key: "mention-a-promise", entityId: null },
+    considerations: traitConsiderations(world, promisee.id, tipKey, [
+      {
+        optionKey: "mention",
+        trait: "sociability",
+        pole: "high",
+        explanation: "They talk to a lot of people.",
+      },
+      {
+        optionKey: "keep-quiet",
+        trait: "sociability",
+        pole: "low",
+        explanation: "They keep things to themselves.",
+      },
+      {
+        optionKey: "keep-quiet",
+        trait: "reliability",
+        pole: "low",
+        explanation: "They keep a confidence.",
+      },
+    ]),
     options: [
       {
         key: "mention",
@@ -681,7 +1185,6 @@ function produceReporterQuestion(world: World, personId: EntityId): World {
       },
     ],
     constraints: [],
-    considerations: [],
     perceptionIds: [],
     randomness: "close-choices",
     retention: "ephemeral",
@@ -782,4 +1285,86 @@ function produceReporterQuestion(world: World, personId: EntityId): World {
     },
     `${reporterName} has a question.`,
   );
+}
+
+const FILING_QUESTION_WINDOW_DAYS = 14;
+
+/**
+ * "Why are you running?" A filing is public, so a reporter needs no source to
+ * ask about it.
+ */
+function produceFilingQuestion(world: World, personId: EntityId): World {
+  const campaign = campaignForCandidate(world, personId);
+  if (!campaign || campaignState(world, campaign.id).status !== "active") {
+    return world;
+  }
+  if (
+    campaign.filedAt < addDays(world.currentDate, -FILING_QUESTION_WINDOW_DAYS)
+  ) {
+    return world;
+  }
+  const filing = world.history.events.find(
+    (event) => event.id === campaign.filingEventId,
+  );
+  if (!filing || filing.visibility !== "public") return world;
+  if (
+    sceneAlreadyBound(
+      world,
+      personId,
+      "reporter-question",
+      "filing-question",
+      filing.id,
+    )
+  ) {
+    return world;
+  }
+  const contest = (world.history.electionContests ?? []).find(
+    (record) => record.id === campaign.contestId,
+  );
+  const journalist = currentJournalists(world, personId)[0];
+  if (!contest || !journalist) return world;
+  const reporter = world.people[journalist.personId]!;
+  const outlet = outletOf(world, journalist);
+  return recordSceneBinding(
+    world,
+    {
+      version: 1,
+      family: "reporter-question",
+      variant: "filing-question",
+      playerPersonId: personId,
+      speakerPersonId: reporter.id,
+      relationship: relationshipLabel(world, personId, reporter.id),
+      place: "By phone",
+      jurisdictionId:
+        filing.jurisdictionId ?? world.people[personId]!.homeJurisdictionId,
+      request: `Why the player is running for ${contest.office.title}.`,
+      sourceEntityIds: [filing.id],
+      facts: {
+        officeTitle: contest.office.title,
+        ...(outlet ? { outlet } : {}),
+      },
+      knownRecordIds: [filing.id],
+      target: contest.office.title,
+      date: null,
+      expiresAt: addDays(world.currentDate, 7),
+    },
+    `${personName(reporter)} has a question about the campaign.`,
+  );
+}
+
+/** A reporter's outlet, named the way it is said on the phone. */
+function outletOf(
+  world: World,
+  journalist: { readonly personId: EntityId; readonly workRoleId: EntityId },
+): string | undefined {
+  const work = activeWorkRelationshipsAt(
+    world,
+    journalist.personId,
+    currentLifeCutoff(world),
+  ).find((entry) => entry.role.id === journalist.workRoleId);
+  const organizationId = work?.relationship.organizationId ?? null;
+  const name = organizationId
+    ? organizationProfileAt(world, organizationId)?.name
+    : undefined;
+  return name?.replace(/\s*\(fictional\)\s*$/i, "");
 }

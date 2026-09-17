@@ -1607,6 +1607,7 @@ function validateInitialWorkResponsibility(
   requirement: WorkPlayerRequirement,
   waitingOnPersonIds: readonly EntityId[],
   blocker: string | null,
+  answersToCurrentControl = true,
 ): void {
   if (assignedPersonIds.length === 0) {
     throw new Error("Active work requires at least one responsible person.");
@@ -1614,6 +1615,7 @@ function validateInitialWorkResponsibility(
   const controlledPersonId =
     world.control.kind === "person" ? world.control.personId : null;
   if (
+    answersToCurrentControl &&
     requirement !== "none" &&
     (!controlledPersonId || !assignedPersonIds.includes(controlledPersonId))
   ) {
@@ -1992,6 +1994,14 @@ export function assertTimeWorkIntegrity(
     workById.set(item.id, item);
   }
   const workStates = new Map<EntityId, WorkItemStateRecord[]>();
+  // Who is played can change (PEOPLE continuation). A superseded state was
+  // valid for the person played when it was recorded; only an item's current
+  // state must answer to the person played now.
+  const latestStateIds = new Set([
+    ...new Map(
+      world.history.workItemStates.map((state) => [state.workItemId, state.id]),
+    ).values(),
+  ]);
   for (const state of world.history.workItemStates) {
     assertIdentity(ids, world, state, "work-item-state");
     const item = workById.get(state.workItemId);
@@ -2027,6 +2037,7 @@ export function assertTimeWorkIntegrity(
       state.playerRequirement,
       state.waitingOnPersonIds,
       state.blocker,
+      latestStateIds.has(state.id),
     );
     if (state.status !== "active" && state.playerRequirement !== "none") {
       throw new Error(
@@ -2146,4 +2157,64 @@ function assertUniqueKeys(
       throw new Error(`Duplicate ${label} stable key: ${record.stableKey}`);
     keys.add(record.stableKey);
   }
+}
+
+/**
+ * When play stops being in a person's hands (a played life ended, or the
+ * player moved on), their open work stops waiting on the player. Each active
+ * item that asked the player for a decision or action gets one appended state
+ * that asks nothing; it stays theirs, and nothing earlier is rewritten.
+ *
+ * Call it before `world.control` moves, with the event that records the move;
+ * that event must involve every released item ({@link playerRequiredWorkIds}).
+ */
+/** Active work that is waiting on this person as the player. */
+export function playerRequiredWorkIds(
+  world: World,
+  personId: EntityId,
+): readonly EntityId[] {
+  return world.history.workItems
+    .filter((item) => {
+      const state = latestWorkStateUnchecked(world, item.id);
+      return (
+        !!state &&
+        state.status === "active" &&
+        state.playerRequirement !== "none" &&
+        state.assignedPersonIds.includes(personId)
+      );
+    })
+    .map((item) => item.id);
+}
+
+export function releasePlayerRequiredWork(
+  world: World,
+  input: {
+    readonly personId: EntityId;
+    readonly stableKeyPrefix: string;
+    readonly outcomeEventId: EntityId;
+  },
+): World {
+  let next = world;
+  for (const itemId of playerRequiredWorkIds(world, input.personId)) {
+    const item = world.history.workItems.find((entry) => entry.id === itemId)!;
+    const previous = latestWorkStateUnchecked(next, item.id)!;
+    const stableKey = `${input.stableKeyPrefix}:${item.id}`;
+    next = appendWorkState(next, {
+      id: createStableId("work-item-state", `${next.id}:${stableKey}`),
+      stableKey,
+      sequence: next.history.nextSequence,
+      workItemId: item.id,
+      recordedAt: cloneMoment(next.currentMoment),
+      status: "active",
+      assignedPersonIds: previous.assignedPersonIds,
+      playerRequirement: "none",
+      waitingOnPersonIds: previous.waitingOnPersonIds,
+      blocker: previous.blocker,
+      completedEffortMinutes: previous.completedEffortMinutes,
+      scheduledActivityId: previous.scheduledActivityId,
+      outcomeEventId: input.outcomeEventId,
+      supersedesStateId: previous.id,
+    });
+  }
+  return next;
 }

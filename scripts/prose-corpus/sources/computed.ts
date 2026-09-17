@@ -461,6 +461,10 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
       "reporterQuestionFor",
       "cameBackAnswers",
       "memoryCorrectedAnswers",
+      "promisedExplain",
+      "partyInvitationAnswers",
+      "partyJoinAnswers",
+      "partyAfterDeclineAnswers",
     ],
     surface: "status",
     reachability: "PLAYER_REACHABLE",
@@ -548,6 +552,46 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
         key: "eligible-selected-person-intent",
         description:
           "The conversation projection checks current presence, exact saved topic, age/context and prior consent before offering an action.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/presentation/people-continuation.ts",
+    domain: "life",
+    bank: "life-continuation",
+    symbols: ["RELATION_LABEL", "projectLifeContinuation"],
+    surface: "status",
+    reachability: "CURRENTLY_UNREACHABLE",
+    reachabilityReason:
+      "PEOPLE P5 adapter: the heading, choice labels and wait disclosure a played life's end shows. UI mounts it; until then no ordinary route renders it.",
+    grounding: [
+      {
+        key: "life-end-and-family",
+        description:
+          "The recorded death or retirement, its date, and the living relatives the kinship records name, with their real ages and playable dates.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/presentation/people-goals.ts",
+    domain: "life",
+    bank: "personal-aims",
+    symbols: [
+      "FAMILY_LABEL",
+      "objectiveFor",
+      "unavailableReason",
+      "opportunitiesFor",
+      "progressFor",
+    ],
+    surface: "option-label",
+    reachability: "CURRENTLY_UNREACHABLE",
+    reachabilityReason:
+      "PEOPLE P2 adapter: private aim labels, opportunities and progress. UI mounts it; until then no ordinary route renders it.",
+    grounding: [
+      {
+        key: "private-aim",
+        description:
+          "The controlled character's own goal record and the real eligibility, conversation and public-matter records its opportunities come from.",
       },
     ],
   },
