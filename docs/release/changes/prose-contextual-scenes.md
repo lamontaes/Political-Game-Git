@@ -1,0 +1,19 @@
+---
+id: prose-contextual-scenes
+impact: minor
+section: Added
+title: People bring up what is actually happening in your life, and a lie can come back.
+---
+
+The people around you now start real conversations about real things: a
+housemate asks where you'll be on an evening you already have plans, a local
+party organizer calls to invite you to an open meeting, somebody close reacts
+when an election is decided, a friend or coworker asks a specific favor, a
+staff member asks what to do about a pending bill, and a reporter asks about a
+promise you made.
+
+Some answers can now be a deliberate lie, clearly marked before you choose it.
+Nobody finds out by magic. A lie is only discovered when someone who heard it
+later learns otherwise, such as a housemate seeing you leave or a source
+confirming your promise to a reporter, and then they bring it up with you.
+Talking still takes no time.

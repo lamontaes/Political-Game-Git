@@ -2747,6 +2747,126 @@
       "textRevision": "6eaa9e09f6b0"
     },
     {
+      "anchor": "cameBackAnswers-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "cameBackAnswers",
+      "text": "Admit it",
+      "occurrence": 0,
+      "textRevision": "7fe076c26a77"
+    },
+    {
+      "anchor": "cameBackAnswers-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "cameBackAnswers",
+      "text": "Deny it",
+      "occurrence": 0,
+      "textRevision": "fd2996abc3f6"
+    },
+    {
+      "anchor": "cameBackAnswers-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "cameBackAnswers",
+      "text": "Say you knew otherwise when you said it.",
+      "occurrence": 0,
+      "textRevision": "b250ecf95202"
+    },
+    {
+      "anchor": "cameBackAnswers-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "cameBackAnswers",
+      "text": "Stand by what you said.",
+      "occurrence": 0,
+      "textRevision": "05f8752104d8"
+    },
+    {
+      "anchor": "cameBackAnswers-0005",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "cameBackAnswers",
+      "text": "The player admitted to {context.name} that the earlier answer was not true.",
+      "occurrence": 0,
+      "textRevision": "060f6157aee3"
+    },
+    {
+      "anchor": "cameBackAnswers-0006",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "cameBackAnswers",
+      "text": "The player knew “{said}” was untrue when they said it.",
+      "occurrence": 0,
+      "textRevision": "410984a0956b"
+    },
+    {
+      "anchor": "cameBackAnswers-0007",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "cameBackAnswers",
+      "text": "The player stood by the earlier answer to {context.name}, knowing it was not true.",
+      "occurrence": 0,
+      "textRevision": "a07ccfccd240"
+    },
+    {
+      "anchor": "cameBackAnswers-0008",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "cameBackAnswers",
+      "text": "The player told {context.name}: “{said}”",
+      "occurrence": 0,
+      "textRevision": "8cf8ad4308a4"
+    },
+    {
+      "anchor": "cameBackAnswers-0009",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "cameBackAnswers",
+      "text": "{context.player.givenName} stood by an answer that {context.name} knows was not true.",
+      "occurrence": 0,
+      "textRevision": "7afc42e99ee6"
+    },
+    {
+      "anchor": "cameBackAnswers-0010",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "cameBackAnswers",
+      "text": "{playerName} admitted to {otherName} that they had not told the truth.",
+      "occurrence": 0,
+      "textRevision": "1e3141123733"
+    },
+    {
+      "anchor": "cameBackAnswers-0011",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "cameBackAnswers",
+      "text": "{playerName} repeated a denial {otherName} knew was false.",
+      "occurrence": 0,
+      "textRevision": "df6f0d9976ff"
+    },
+    {
+      "anchor": "campaignReaction-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "campaignReaction",
+      "text": "A housemate reacting to the player’s election result.",
+      "occurrence": 0,
+      "textRevision": "43fe005d83f9"
+    },
+    {
+      "anchor": "campaignReaction-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "campaignReaction",
+      "text": "After the election",
+      "occurrence": 0,
+      "textRevision": "9bace6952238"
+    },
+    {
+      "anchor": "campaignReaction-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "campaignReaction",
+      "text": "Home, after the result",
+      "occurrence": 0,
+      "textRevision": "3a6fad14324d"
+    },
+    {
+      "anchor": "campaignReaction-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "campaignReaction",
+      "text": "Talk about how the election went.",
+      "occurrence": 0,
+      "textRevision": "bcc100d6b097"
+    },
+    {
       "anchor": "commitConversationTurn-0001",
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "symbol": "commitConversationTurn",
@@ -3174,9 +3294,9 @@
       "anchor": "dialogue-0003",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "dialogue",
-      "text": "You can ask {world.people[speaker.personId]!.givenName} about the errands.",
+      "text": "“Have you looked at what needs doing this week?” {name} asks.",
       "occurrence": 0,
-      "textRevision": "2f483d429d5c"
+      "textRevision": "ec7bf32bd84e"
     },
     {
       "anchor": "dialogue-0004",
@@ -3185,6 +3305,14 @@
       "text": "“What can you take on?” {world.people[speaker.personId]!.givenName} asks.",
       "occurrence": 0,
       "textRevision": "d11dd365158d"
+    },
+    {
+      "anchor": "dialogue-0005",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "dialogue",
+      "text": "“Can we sort out this week’s errands?” {name} asks.",
+      "occurrence": 0,
+      "textRevision": "a9593576d559"
     },
     {
       "anchor": "directory-0001",
@@ -3339,6 +3467,54 @@
       "textRevision": "f8d2dd95956e"
     },
     {
+      "anchor": "favor-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "favor",
+      "text": "A favor",
+      "occurrence": 0,
+      "textRevision": "6ece2e163739"
+    },
+    {
+      "anchor": "favor-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "favor",
+      "text": "A favor for {binding.facts.speakerGiven}",
+      "occurrence": 0,
+      "textRevision": "10037ce93246"
+    },
+    {
+      "anchor": "favor-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "favor",
+      "text": "A person the player knows asked for a specific favor.",
+      "occurrence": 0,
+      "textRevision": "a9e6c933e2dc"
+    },
+    {
+      "anchor": "favor-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "favor",
+      "text": "Answer a specific request.",
+      "occurrence": 0,
+      "textRevision": "cc6c8cfff87b"
+    },
+    {
+      "anchor": "favor-0005",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "favor",
+      "text": "Answering a request for help",
+      "occurrence": 0,
+      "textRevision": "561010970b55"
+    },
+    {
+      "anchor": "favor-0006",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "favor",
+      "text": "Extra hours at work",
+      "occurrence": 0,
+      "textRevision": "aca560c4c3af"
+    },
+    {
       "anchor": "fileForOffice-0001",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "fileForOffice",
@@ -3361,6 +3537,38 @@
       "text": "{person.familyName} for the {option.chamberName}",
       "occurrence": 0,
       "textRevision": "8e074194b004"
+    },
+    {
+      "anchor": "homeEvening-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "homeEvening",
+      "text": "Know where each of them will be.",
+      "occurrence": 0,
+      "textRevision": "6a0a0fc8b4ca"
+    },
+    {
+      "anchor": "homeEvening-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "homeEvening",
+      "text": "Two people who live together, talking about an evening.",
+      "occurrence": 0,
+      "textRevision": "a0dcd2aaf639"
+    },
+    {
+      "anchor": "homeEvening-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "homeEvening",
+      "text": "What you said about that evening",
+      "occurrence": 0,
+      "textRevision": "9e73fcf8b21e"
+    },
+    {
+      "anchor": "homeEvening-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "homeEvening",
+      "text": "Your {binding.date?\"evening\":\"plans\"}",
+      "occurrence": 0,
+      "textRevision": "42c22a984778"
     },
     {
       "anchor": "householdAbsenceLine-0001",
@@ -3569,6 +3777,54 @@
       "text": "the mayor",
       "occurrence": 0,
       "textRevision": "04663a8f5d7a"
+    },
+    {
+      "anchor": "memoryCorrectedAnswers-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "memoryCorrectedAnswers",
+      "text": "I had that wrong. Thanks for checking.",
+      "occurrence": 0,
+      "textRevision": "9dec8c0efd67"
+    },
+    {
+      "anchor": "memoryCorrectedAnswers-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "memoryCorrectedAnswers",
+      "text": "Thank them for the correction",
+      "occurrence": 0,
+      "textRevision": "8a3967a88282"
+    },
+    {
+      "anchor": "memoryCorrectedAnswers-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "memoryCorrectedAnswers",
+      "text": "The player thanked {context.name} for correcting an answer given from memory.",
+      "occurrence": 0,
+      "textRevision": "0b4a155aea6d"
+    },
+    {
+      "anchor": "memoryCorrectedAnswers-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "memoryCorrectedAnswers",
+      "text": "You answered from memory and got it wrong.",
+      "occurrence": 0,
+      "textRevision": "68f1f671937a"
+    },
+    {
+      "anchor": "memoryCorrectedAnswers-0005",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "memoryCorrectedAnswers",
+      "text": "“It happens. I just wanted it right,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "e528cdf2df11"
+    },
+    {
+      "anchor": "memoryCorrectedAnswers-0006",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "memoryCorrectedAnswers",
+      "text": "“No harm done,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "41b96294cb20"
     },
     {
       "anchor": "municipalActionAuthority-0001",
@@ -3958,17 +4214,17 @@
       "anchor": "openingBeat-0014",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "openingBeat",
-      "text": "You can ask {world.people[speaker.personId]!.givenName} about the posted meeting.",
+      "text": "“Did you see the notice about the public meeting?” {name} asks.",
       "occurrence": 0,
-      "textRevision": "b89d47f43614"
+      "textRevision": "ee50fda113d7"
     },
     {
       "anchor": "openingBeat-0015",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "openingBeat",
-      "text": "You can ask {world.people[speaker.personId]!.givenName} about the unfinished work.",
+      "text": "“Nobody has started the last part of the project, and it’s due at the end of next week,” {name} says.",
       "occurrence": 0,
-      "textRevision": "d1b4bfabb593"
+      "textRevision": "2efbda78ff6c"
     },
     {
       "anchor": "openingBeat-0016",
@@ -3977,6 +4233,22 @@
       "text": "“All right,” {world.people[speaker.personId]!.givenName} says.",
       "occurrence": 0,
       "textRevision": "8b0f431cd3db"
+    },
+    {
+      "anchor": "openingBeat-0017",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "openingBeat",
+      "text": "“There’s a public meeting posted. Did you see it?” {name} asks.",
+      "occurrence": 0,
+      "textRevision": "212b1221d49d"
+    },
+    {
+      "anchor": "openingBeat-0018",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "openingBeat",
+      "text": "“We still haven’t split up the last part of the project. It’s due at the end of next week,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "1b8c22ba4527"
     },
     {
       "anchor": "openingFacts-0001",
@@ -4569,6 +4841,38 @@
       "text": "That saved world could not be read. Existing saves are unchanged.",
       "occurrence": 1,
       "textRevision": "0970cdfa09a0"
+    },
+    {
+      "anchor": "partyInvite-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvite",
+      "text": "A call from a local party organizer",
+      "occurrence": 0,
+      "textRevision": "41cf61540ab9"
+    },
+    {
+      "anchor": "partyInvite-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvite",
+      "text": "A local party organizer inviting the player to an open meeting.",
+      "occurrence": 0,
+      "textRevision": "4f3cf1091272"
+    },
+    {
+      "anchor": "partyInvite-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvite",
+      "text": "An invitation from the {binding.facts.chapterName}",
+      "occurrence": 0,
+      "textRevision": "23935b357d5d"
+    },
+    {
+      "anchor": "partyInvite-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "partyInvite",
+      "text": "Decide whether to go to an open party meeting.",
+      "occurrence": 0,
+      "textRevision": "47edd75cfb5f"
     },
     {
       "anchor": "passage-0001",
@@ -5651,6 +5955,190 @@
       "textRevision": "39de11314d2e"
     },
     {
+      "anchor": "reporterQuestion-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestion",
+      "text": "A call from a reporter",
+      "occurrence": 0,
+      "textRevision": "16154fa76b3c"
+    },
+    {
+      "anchor": "reporterQuestion-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestion",
+      "text": "A reporter asking about a promise the player made.",
+      "occurrence": 0,
+      "textRevision": "08c9d79c09d3"
+    },
+    {
+      "anchor": "reporterQuestion-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestion",
+      "text": "A reporter’s question",
+      "occurrence": 0,
+      "textRevision": "dc37a1118c28"
+    },
+    {
+      "anchor": "reporterQuestion-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestion",
+      "text": "Answer, or decline to answer, a reporter's question.",
+      "occurrence": 0,
+      "textRevision": "78fff631408b"
+    },
+    {
+      "anchor": "reporterQuestion-0005",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestion",
+      "text": "The reporter calls back",
+      "occurrence": 0,
+      "textRevision": "bd2136d45870"
+    },
+    {
+      "anchor": "reporterQuestionFor-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "Confirm it",
+      "occurrence": 0,
+      "textRevision": "3f587de3dc38"
+    },
+    {
+      "anchor": "reporterQuestionFor-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "I don’t discuss private conversations.",
+      "occurrence": 0,
+      "textRevision": "f4b81ee82ed8"
+    },
+    {
+      "anchor": "reporterQuestionFor-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "I’m not going to talk about my evening plans.",
+      "occurrence": 0,
+      "textRevision": "9dcf847b4296"
+    },
+    {
+      "anchor": "reporterQuestionFor-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "No. I haven’t agreed to anything like that.",
+      "occurrence": 0,
+      "textRevision": "1f8508a54d82"
+    },
+    {
+      "anchor": "reporterQuestionFor-0005",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "No. I never made that promise.",
+      "occurrence": 0,
+      "textRevision": "01952e6c98e3"
+    },
+    {
+      "anchor": "reporterQuestionFor-0006",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "Say you told {organizer} yes",
+      "occurrence": 0,
+      "textRevision": "fc1d684436e3"
+    },
+    {
+      "anchor": "reporterQuestionFor-0007",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "The player denied to {context.name} agreeing to go to the {meeting}, though the player had said yes to {organizer}.",
+      "occurrence": 0,
+      "textRevision": "a1bf9456c892"
+    },
+    {
+      "anchor": "reporterQuestionFor-0008",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "The player denied to {context.name} making any promise to {promisee}, though the promise had been made.",
+      "occurrence": 0,
+      "textRevision": "ef91009b608a"
+    },
+    {
+      "anchor": "reporterQuestionFor-0009",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "The player promised {promisee} to {stance} {question}.",
+      "occurrence": 0,
+      "textRevision": "2c949700f467"
+    },
+    {
+      "anchor": "reporterQuestionFor-0010",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "The player told {organizer} they would come to the {meeting} on {proseDate(binding.date!)}.",
+      "occurrence": 0,
+      "textRevision": "8e7fd6425de1"
+    },
+    {
+      "anchor": "reporterQuestionFor-0011",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "Yes. I told {organizer} I’d be there.",
+      "occurrence": 0,
+      "textRevision": "9aeb85678c87"
+    },
+    {
+      "anchor": "reporterQuestionFor-0012",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "Yes. I told {promisee} I would {stance} {question}.",
+      "occurrence": 0,
+      "textRevision": "20de2201c7d5"
+    },
+    {
+      "anchor": "reporterQuestionFor-0013",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "{context.fullName}{of} is asking whether you promised {promisee} you would {stance} {question}. You did, on {proseDate(context.fact(\"statedAt\"))}: “{context.fact(\"commitmentStatement\")}”",
+      "occurrence": 0,
+      "textRevision": "b3822f41151d"
+    },
+    {
+      "anchor": "reporterQuestionFor-0014",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "{context.fullName}{of} is asking whether you told {organizer} you would come to the {meeting} on {proseDate(binding.date!)}. You did.",
+      "occurrence": 0,
+      "textRevision": "a5df667fc1fa"
+    },
+    {
+      "anchor": "reporterQuestionFor-0015",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "“This is {context.fullName}{outlet}. Did you promise {promisee} you would {stance} {question}?”",
+      "occurrence": 0,
+      "textRevision": "fa1ee8b4f120"
+    },
+    {
+      "anchor": "reporterQuestionFor-0016",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "“This is {context.fullName}{outlet}. I understand you told {organizer} you’d come to the {meeting} {day}. Is that right?”",
+      "occurrence": 0,
+      "textRevision": "edb55b1af250"
+    },
+    {
+      "anchor": "reporterQuestionFor-0017",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "“{context.fullName} here{outlet}. I’m trying to confirm something: did you tell {promisee} you’d {stance} {question}?”",
+      "occurrence": 0,
+      "textRevision": "fb8a03b4fa0b"
+    },
+    {
+      "anchor": "reporterQuestionFor-0018",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "reporterQuestionFor",
+      "text": "“{context.fullName} here{outlet}. Quick question: are you going to the {meeting} {day}? I heard you told {organizer} yes.”",
+      "occurrence": 0,
+      "textRevision": "2b0bc2138ab2"
+    },
+    {
       "anchor": "requirementNoteFor-0001",
       "sourcePath": "src/presentation/legislation-projection.ts",
       "symbol": "requirementNoteFor",
@@ -5753,6 +6241,38 @@
       "text": "“We left it where it was,” {speakerName} says.",
       "occurrence": 0,
       "textRevision": "96bbce16f4ee"
+    },
+    {
+      "anchor": "staffFollowup-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "staffFollowup",
+      "text": "A staff member asking how to handle a pending bill.",
+      "occurrence": 0,
+      "textRevision": "94351ae33023"
+    },
+    {
+      "anchor": "staffFollowup-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "staffFollowup",
+      "text": "Decide who follows a pending measure.",
+      "occurrence": 0,
+      "textRevision": "09673fa7a32b"
+    },
+    {
+      "anchor": "staffFollowup-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "staffFollowup",
+      "text": "Follow-up on {binding.facts.designation}",
+      "occurrence": 0,
+      "textRevision": "7ed90b91ed78"
+    },
+    {
+      "anchor": "staffFollowup-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "staffFollowup",
+      "text": "Your office",
+      "occurrence": 0,
+      "textRevision": "adf74a00af7a"
     },
     {
       "anchor": "threadMovementSentence-0001",

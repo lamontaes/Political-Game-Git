@@ -1,4 +1,5 @@
 import type { ChoiceTruthDeclaration } from "./lie-marker";
+import { isContextualSceneProgress } from "./contextual-scenes";
 import {
   assertNpcAutonomousApplication,
   assertWorldIntegrity,
@@ -287,6 +288,11 @@ export interface ConversationResolvedResponse {
   /** A subject may return its own progress and outcome-bound commit hooks. */
   readonly progress?: ConversationProgress;
   readonly commit?: ConversationCommitContract;
+  /**
+   * Further tags for this turn's event, supplied by the subject: the scene a
+   * contextual turn belongs to, and a factual answer's saved stance.
+   */
+  readonly extraTags?: readonly string[];
 }
 
 export function createConversationSessionDescriptor(
@@ -683,6 +689,7 @@ export function commitConversationTurn(
       // The conversation this turn belongs to, so a reader can group five turns
       // into the exchange they actually were.
       `conversation.session.${input.session.sessionKey}`,
+      ...(resolved.extraTags ?? []),
     ],
     summary: eventSummary,
     context: {
@@ -2721,6 +2728,8 @@ function conversationEventSummary(
 function conversationSubjectEntityIds(
   progress: ConversationProgress,
 ): readonly EntityId[] {
+  // A contextual turn names its scene by tag; events are not entities.
+  if (isContextualSceneProgress(progress)) return [];
   if (isLegislativeBargainingProgress(progress)) {
     return [progress.subjectFacts.measureId];
   }

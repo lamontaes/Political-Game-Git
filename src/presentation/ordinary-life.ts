@@ -1,4 +1,5 @@
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
+import { refreshContextualScenes } from "./contextual-scene-producers";
 import { migrateLegacyStudyProgression } from "../simulation/education-study-progression";
 import {
   activeChildAuthoritiesAt,
@@ -224,6 +225,25 @@ export function passOrdinaryDays(
   world: World,
   days = 1,
   supplied: PassOrdinaryDaysOptions | FutureTransitionHandlerRegistry = {},
+): World {
+  const advanced = advanceOrdinaryDays(world, days, supplied);
+  // A stretch that actually passed is a transition at which the world may bind
+  // the situations it has made answerable (PROSE B). A refused advance writes
+  // nothing.
+  if (
+    advanced === world ||
+    advanced.control.kind !== "person" ||
+    compareSimulationMoments(advanced.currentMoment, world.currentMoment) <= 0
+  ) {
+    return advanced;
+  }
+  return refreshContextualScenes(advanced, advanced.control.personId);
+}
+
+function advanceOrdinaryDays(
+  world: World,
+  days: number,
+  supplied: PassOrdinaryDaysOptions | FutureTransitionHandlerRegistry,
 ): World {
   // Retain the existing S three-argument registry adapter while accepting UI36
   // interruption preferences. Neither caller loses ordinary due handlers.
