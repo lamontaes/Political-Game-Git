@@ -13,6 +13,17 @@
   --pg-orientation-series-0: #3987e5;
   --pg-orientation-series-1: #d95926;
   --pg-orientation-series-2: #199e70;
+  /*
+   * Slots 3-7 for saves with more parties, stepped for the same dark ground
+   * (every one >= 3:1 against #121d2e); legends still carry each name.
+   */
+  --pg-party-series-3: #9a6fe3;
+  --pg-party-series-4: #d6a520;
+  --pg-party-series-5: #d9589a;
+  --pg-party-series-6: #45adb8;
+  --pg-party-series-7: #93a337;
+  /* No recorded party: neutral and hatched, never a party color. */
+  --pg-party-none: #8b93a1;
   --pg-orientation-open: #4a5466;
   color: var(--run-a-ink);
   background: linear-gradient(180deg, rgb(18 29 46 / 94%), rgb(11 19 32 / 96%));
@@ -147,6 +158,40 @@
 .pg-orientation-bar [data-series="2"],
 .pg-orientation-legend [data-series="2"]::before {
   background: var(--pg-orientation-series-2);
+}
+
+.pg-orientation-bar [data-series="3"],
+.pg-orientation-legend [data-series="3"]::before {
+  background: var(--pg-party-series-3);
+}
+
+.pg-orientation-bar [data-series="4"],
+.pg-orientation-legend [data-series="4"]::before {
+  background: var(--pg-party-series-4);
+}
+
+.pg-orientation-bar [data-series="5"],
+.pg-orientation-legend [data-series="5"]::before {
+  background: var(--pg-party-series-5);
+}
+
+.pg-orientation-bar [data-series="6"],
+.pg-orientation-legend [data-series="6"]::before {
+  background: var(--pg-party-series-6);
+}
+
+.pg-orientation-bar [data-series="7"],
+.pg-orientation-legend [data-series="7"]::before {
+  background: var(--pg-party-series-7);
+}
+
+.pg-orientation-bar [data-no-party="true"],
+.pg-orientation-legend [data-no-party="true"]::before {
+  background: repeating-linear-gradient(
+    135deg,
+    var(--pg-party-none) 0 3px,
+    rgb(18 29 46 / 70%) 3px 5px
+  );
 }
 
 .pg-orientation-legend {

@@ -7,6 +7,7 @@ import {
 } from "./browser-shell-state";
 import { DEFAULT_PREFERENCES, refKey } from "./shell-navigation";
 import type { ShellRef } from "./shell-navigation";
+import { DEFAULT_MAP_PREFERENCES } from "../maps/map-preferences";
 import type { EntityId } from "../simulation";
 import {
   cancelFutureDueItem,
@@ -436,7 +437,47 @@ describe("the shell's own store", () => {
       journalYear: null,
       politicsPlace: "here",
       governmentScope: "local",
+      map: DEFAULT_MAP_PREFERENCES,
     });
+  });
+
+  it("loads a record saved before the map existed, and keeps a saved map view", () => {
+    const old = readStoredShellState({
+      version: 4,
+      pins: [],
+      preferences: { peopleView: "list", governmentScope: "federal" },
+    });
+    expect(old?.preferences.peopleView).toBe("list");
+    expect(old?.preferences.governmentScope).toBe("federal");
+    expect(old?.preferences.map).toEqual(DEFAULT_MAP_PREFERENCES);
+
+    const saved = readStoredShellState({
+      version: 4,
+      pins: [],
+      preferences: {
+        map: {
+          mode: "senate",
+          stateUsps: null,
+          labels: false,
+          presentation: "list",
+          asOf: "2026-01-01",
+        },
+      },
+    });
+    // The history date is never part of the saved view.
+    expect(saved?.preferences.map).toEqual({
+      mode: "senate",
+      stateUsps: null,
+      labels: false,
+      presentation: "list",
+    });
+
+    const damaged = readStoredShellState({
+      version: 4,
+      pins: [],
+      preferences: { map: "not a map" },
+    });
+    expect(damaged?.preferences.map).toEqual(DEFAULT_MAP_PREFERENCES);
   });
 
   it("keeps the Politics place and level, and falls back from unknown values", async () => {

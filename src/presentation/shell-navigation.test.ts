@@ -312,6 +312,24 @@ describe("preferences", () => {
     expect(restored.pins).toHaveLength(1);
   });
 
+  it("sets the map view through one validated action", () => {
+    const next = shellReducer(INITIAL_SHELL_STATE, {
+      type: "set-map-preferences",
+      preferences: {
+        mode: "senate",
+        stateUsps: null,
+        labels: false,
+        presentation: "map",
+      },
+    });
+    expect(next.preferences.map.mode).toBe("senate");
+    expect(next.preferences.map.labels).toBe(false);
+    expect(next.preferences.peopleView).toBe(
+      INITIAL_SHELL_STATE.preferences.peopleView,
+    );
+    expect(next.history).toEqual(INITIAL_SHELL_STATE.history);
+  });
+
   it("follows and unfollows a represented outlet without touching navigation", () => {
     const followed = shellReducer(INITIAL_SHELL_STATE, {
       type: "toggle-news-outlet-follow",
