@@ -7,6 +7,8 @@ import {
   TITLE_AMBIENT_HOLD_MS,
   titleAmbientCycle,
   titleAmbientFrame,
+  titleCameraClassName,
+  titleStageDrifts,
   type TitleAmbientRoom,
 } from "./title-ambient";
 import { TITLE_TABLEAU_REGISTRY } from "./title-tableau";
@@ -190,5 +192,25 @@ describe("The presentation an ambient room resolves to", () => {
         SCENE_REGISTRY,
       ),
     ).toBeNull();
+  });
+});
+
+describe("Title stage drift through a crossfade", () => {
+  it("keeps the leaving stage drifting and starts the arriving one", () => {
+    expect(titleStageDrifts("leaving", true)).toBe(true);
+    expect(titleStageDrifts("arriving", true)).toBe(true);
+    expect(titleStageDrifts("showing", true)).toBe(true);
+    expect(titleCameraClassName(titleStageDrifts("leaving", true))).toContain(
+      "title-tableau-camera--drift",
+    );
+  });
+
+  it("keeps every stage still under reduced motion", () => {
+    for (const role of ["leaving", "arriving", "showing"] as const) {
+      expect(titleStageDrifts(role, false)).toBe(false);
+      expect(titleCameraClassName(titleStageDrifts(role, false))).not.toContain(
+        "--drift",
+      );
+    }
   });
 });

@@ -8,6 +8,7 @@ import {
   openCreator,
   openNewsContext,
   startLife,
+  answerCharacterBasics,
 } from "./support/creator";
 
 /*
@@ -150,6 +151,8 @@ for (const size of SIZES) {
     await expect(page.getByTestId("creator-derived-age")).toContainText(
       "You begin at age",
     );
+    // Gender and name are required too (CRUNCH46 R7).
+    await answerCharacterBasics(page);
     await expect(page.getByTestId("creator-continue-character")).toBeEnabled();
   });
 

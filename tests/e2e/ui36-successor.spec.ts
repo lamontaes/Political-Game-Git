@@ -24,6 +24,7 @@ test("UI36 non-Kentucky journey: quiet room, one card, conversation, News and re
   await page.goto("/?art-preview=candidate");
   await openCreator(page);
   await page.getByTestId("start-normal").click();
+  await page.getByTestId("gender-female").click();
   await page.getByLabel("First name", { exact: true }).fill("Maya");
   await page.getByLabel("Last name", { exact: true }).fill("Rivera");
   await chooseOption(page.getByTestId("start-birth-month"), "4");

@@ -9,7 +9,7 @@ import {
   openElsewhere,
   startLife as walkCreator,
   chooseCreatorLocation,
-  chooseStartAge,
+  completeCharacterStep,
 } from "./support/creator";
 
 /**
@@ -220,7 +220,7 @@ test.describe("The calibration is a set of situations, not a quiz", () => {
     await freshBrowser(page);
     await openCreator(page);
     await page.getByTestId("start-normal").click();
-    await chooseStartAge(page, 31);
+    await completeCharacterStep(page, 31);
     await page.getByTestId("creator-continue-character").click();
     await chooseCreatorLocation(
       page,

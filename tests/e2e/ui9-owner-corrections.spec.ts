@@ -7,6 +7,7 @@ import {
   startLife,
   saveLife,
   chooseStartAge,
+  answerCharacterBasics,
 } from "./support/creator";
 
 /**
@@ -156,5 +157,6 @@ test("UI9-10: the starting age is derived from the birthday, never a half-typed 
   await chooseOption(page.getByTestId("start-birth-day"), "14");
   await expectChosen(page.getByTestId("start-birth-year"), "2001");
   await expect(derived).toContainText("age 24,");
+  await answerCharacterBasics(page);
   await expect(page.getByTestId("creator-continue-character")).toBeEnabled();
 });

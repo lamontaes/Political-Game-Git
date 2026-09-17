@@ -143,6 +143,45 @@ export async function chooseStartAge(page: Page, age: number): Promise<void> {
   );
 }
 
+/**
+ * The rest of the character step a new life requires (CRUNCH46 R7): a gender,
+ * a first and last name (typed, or drawn for that gender) and a month and day.
+ * Call it before `chooseStartAge`, which keeps the year against that month
+ * and day.
+ */
+export async function answerCharacterBasics(
+  page: Page,
+  life: Pick<CreatorLife, "gender" | "givenName" | "familyName"> = {},
+): Promise<void> {
+  await page.getByTestId(`gender-${life.gender ?? "female"}`).click();
+  if (life.givenName || life.familyName) {
+    await page
+      .getByLabel("First name", { exact: true })
+      .fill(life.givenName ?? "Avery");
+    await page
+      .getByLabel("Last name", { exact: true })
+      .fill(life.familyName ?? "Morgan");
+  } else {
+    await page.getByTestId("creator-randomize-name").click();
+  }
+  const month = page.getByTestId("start-birth-month");
+  if (!(await month.getAttribute("data-value"))) {
+    await chooseOption(month, "1");
+    await chooseOption(page.getByTestId("start-birth-day"), "1");
+  }
+}
+
+/** The whole character step: basics, then the birth year for `age`. */
+export async function completeCharacterStep(
+  page: Page,
+  age: number,
+  life: Pick<CreatorLife, "gender" | "givenName" | "familyName"> = {},
+): Promise<void> {
+  await answerCharacterBasics(page, life);
+  await chooseStartAge(page, age);
+  await expect(page.getByTestId("creator-continue-character")).toBeEnabled();
+}
+
 export async function fillCreator(
   page: Page,
   life: CreatorLife,
@@ -156,12 +195,7 @@ export async function fillCreator(
   await page.getByTestId(custom ? "start-custom" : "start-normal").click();
 
   await expect(page.getByTestId("creator-stage-character")).toBeVisible();
-  await chooseStartAge(page, life.age);
-  if (life.givenName)
-    await page.getByLabel("First name", { exact: true }).fill(life.givenName);
-  if (life.familyName)
-    await page.getByLabel("Last name", { exact: true }).fill(life.familyName);
-  if (life.gender) await page.getByTestId(`gender-${life.gender}`).click();
+  await completeCharacterStep(page, life.age, life);
   await page.getByTestId("creator-continue-character").click();
 
   await chooseCreatorLocation(page, life, custom);
