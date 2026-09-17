@@ -178,6 +178,35 @@ function stateMonthRate(
   return row?.episodesPerExposureYear ?? null;
 }
 
+/**
+ * Episodes indexed once by state, family and month. The catalog holds
+ * thousands of rows and the sampler asks for one narrow slice per state per
+ * family per month; scanning the whole array each time showed up as repeated
+ * work in the long-history profile.
+ */
+let episodeIndex: Map<string, StormEpisode[]> | null = null;
+function episodesFor(
+  stateFips: string,
+  family: string,
+  month: number,
+): readonly StormEpisode[] {
+  if (episodeIndex === null) {
+    episodeIndex = new Map();
+    for (const episode of STORM_CATALOG.episodes) {
+      const states = new Set(
+        episode.affectedAreas.map((area) => area.stateFips),
+      );
+      for (const state of states) {
+        const key = `${state}|${episode.family}|${episode.month}`;
+        const bucket = episodeIndex.get(key);
+        if (bucket) bucket.push(episode);
+        else episodeIndex.set(key, [episode]);
+      }
+    }
+  }
+  return episodeIndex.get(`${stateFips}|${family}|${month}`) ?? [];
+}
+
 const countiesInState = new Map<string, number>();
 function countyCount(stateUsps: string): number {
   const known = countiesInState.get(stateUsps);
@@ -271,13 +300,10 @@ export function sampleMonthlyHazards(
         ]),
       );
       const count = poisson(stream.fork("count"), rate);
-      const candidates = STORM_CATALOG.episodes.filter(
-        (episode) =>
-          episode.family === sourceFamily &&
-          episode.month === month &&
-          episode.affectedAreas.some(
-            (area) => area.stateFips === stateFipsOf(stateUsps),
-          ),
+      const candidates = episodesFor(
+        stateFipsOf(stateUsps),
+        sourceFamily,
+        month,
       );
       if (candidates.length === 0) continue;
       for (let index = 0; index < count; index += 1) {
@@ -425,7 +451,8 @@ export function hazardSampleHandler(
     });
     declared += 1;
   }
-  const areas = representedHazardAreas(next);
+  // The exposure scan is the expensive part; one per handler call.
+  const areas = representedHazardAreas(world);
   const following = firstOfNextMonth(addDays(monthStart, 1));
   if (areas.length > 0) {
     next = scheduleFutureDueItem(next, {
