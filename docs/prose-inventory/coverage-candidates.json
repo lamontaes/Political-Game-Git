@@ -28009,7 +28009,7 @@
     {
       "sourcePath": "src/simulation/crisis/mortality.ts",
       "enclosingSymbol": "withDeath",
-      "line": 325,
+      "line": 331,
       "text": "Died. The cause is not represented; ordinary all-cause mortality applied.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -28017,7 +28017,7 @@
     {
       "sourcePath": "src/simulation/crisis/mortality.ts",
       "enclosingSymbol": "mortalityWindowHandler",
-      "line": 375,
+      "line": 381,
       "text": "Exposed {newly.length} newly tracked people.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -28025,7 +28025,7 @@
     {
       "sourcePath": "src/simulation/crisis/mortality.ts",
       "enclosingSymbol": "mortalityDeathHandler",
-      "line": 393,
+      "line": 399,
       "text": "The person was no longer alive.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -28033,7 +28033,7 @@
     {
       "sourcePath": "src/simulation/crisis/mortality.ts",
       "enclosingSymbol": "mortalityDeathHandler",
-      "line": 395,
+      "line": 401,
       "text": "No mortality window is active.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -28041,7 +28041,7 @@
     {
       "sourcePath": "src/simulation/crisis/mortality.ts",
       "enclosingSymbol": "mortalityDeathHandler",
-      "line": 404,
+      "line": 410,
       "text": "A later hazard change moved the crossing day.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
