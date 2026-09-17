@@ -5550,9 +5550,9 @@
       "anchor": "progressFor-0001",
       "sourcePath": "src/presentation/people-goals.ts",
       "symbol": "progressFor",
-      "text": "You filed on {campaign.filedAt}.",
+      "text": "You filed on {proseDate(campaign.filedAt)}.",
       "occurrence": 0,
-      "textRevision": "8f48456330a3"
+      "textRevision": "9afc3833a890"
     },
     {
       "anchor": "progressFor-0002",

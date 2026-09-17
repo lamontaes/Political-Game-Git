@@ -1,5 +1,5 @@
 {
-  "digest": "485518d4ef076eff",
+  "digest": "50b1f178ab818ede",
   "counts": {
     "total": 3097,
     "byDomain": {
@@ -98212,10 +98212,10 @@
       "surface": "option-label",
       "sourcePath": "src/presentation/people-goals.ts",
       "sourceSymbol": "progressFor",
-      "text": "You filed on {campaign.filedAt}.",
+      "text": "You filed on {proseDate(campaign.filedAt)}.",
       "realization": "templated",
       "slots": [
-        "campaign.filedAt"
+        "proseDate(campaign.filedAt)"
       ],
       "reachability": "CURRENTLY_UNREACHABLE",
       "reachabilityReason": "PEOPLE P2 adapter: private aim labels, opportunities and progress. UI mounts it; until then no ordinary route renders it.",
@@ -98234,7 +98234,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "8f48456330a3",
+      "textRevision": "9afc3833a890",
       "contextRevision": "e1c104310c89"
     },
     {

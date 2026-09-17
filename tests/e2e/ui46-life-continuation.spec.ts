@@ -112,22 +112,10 @@ test("retire from play, then keep observing a read-only world", async ({
   expect(errors).toEqual([]);
 });
 
-/*
- * KNOWN DEFECT, outside the UI lane. An observed World cannot be written:
- * `createWorldSnapshot` runs `assertWorldIntegrity`, and time-work's
- * `validateInitialWorkResponsibility` requires every player-required work
- * state (the opening household week, for one) to be assigned to the
- * CURRENTLY controlled person. `keepObserving` (and `continueAsRelative`)
- * move control without releasing the predecessor's player-required work, so
- * the snapshot throws "Player-required work must be assigned to the
- * controlled person." and Save reports that the game could not be saved.
- * Marked as an expected failure so it starts failing loudly once the
- * simulation side is repaired.
- */
+/* An observed World saves, reloads and opens as itself. */
 test("an observed world saves, reloads and continues as itself", async ({
   page,
 }) => {
-  test.fail();
   test.setTimeout(240_000);
   await beginAdultWhoSharesAHome(page);
   await retireAndKeepObserving(page);

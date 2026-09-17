@@ -418,39 +418,29 @@ describe("What a saved game is", () => {
 });
 
 describe("A world being observed", () => {
-  /*
-   * KNOWN DEFECT (PEOPLE/simulation): a world whose ordinary life was opened,
-   * as every played world is, holds player-required work for the character.
-   * `keepObserving` moves control without releasing it, so the save's
-   * integrity check throws. Expected to fail until that is repaired; remove
-   * `.fails` then.
-   */
-  it.fails(
-    "saves and opens again with nobody played, listed under the last life",
-    async () => {
-      const { store } = storeWith();
-      const game = createNewGameWorld({
-        placeKey: "kentucky",
-        startAge: 30,
-        depth: "summarize-earlier-life",
-        startingLife: "ordinary-life",
-        household: "shares-a-home",
-        seed: "observed",
-        givenName: null,
-        familyName: null,
-      });
-      const played = game.playerPersonId;
-      const opened = openOrdinaryLife(game.world, played);
-      const observed = observeWorld(retireFromPlay(opened, played), played);
-      expect(observed.control).toEqual({ kind: "observer" });
-      const saveId = store.newSaveId(observed);
-      const outcome = await store.save(observed, saveId);
-      if (outcome.status !== "saved") throw new Error(outcome.reason);
-      expect(outcome.summary.playerPersonId).toBe(played);
-      const loaded = await store.load(saveId);
-      expect(loaded?.control).toEqual({ kind: "observer" });
-    },
-  );
+  it("saves and opens again with nobody played, listed under the last life", async () => {
+    const { store } = storeWith();
+    const game = createNewGameWorld({
+      placeKey: "kentucky",
+      startAge: 30,
+      depth: "summarize-earlier-life",
+      startingLife: "ordinary-life",
+      household: "shares-a-home",
+      seed: "observed",
+      givenName: null,
+      familyName: null,
+    });
+    const played = game.playerPersonId;
+    const opened = openOrdinaryLife(game.world, played);
+    const observed = observeWorld(retireFromPlay(opened, played), played);
+    expect(observed.control).toEqual({ kind: "observer" });
+    const saveId = store.newSaveId(observed);
+    const outcome = await store.save(observed, saveId);
+    if (outcome.status !== "saved") throw new Error(outcome.reason);
+    expect(outcome.summary.playerPersonId).toBe(played);
+    const loaded = await store.load(saveId);
+    expect(loaded?.control).toEqual({ kind: "observer" });
+  });
 });
 
 describe("A save slot is not a world", () => {
