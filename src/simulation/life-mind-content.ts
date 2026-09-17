@@ -5,6 +5,7 @@ import {
 } from "./mind-catalog";
 import type { MindCatalog } from "./types";
 import { canonicalJson } from "./canonical-json";
+import { peopleTraitDefinitions } from "./people-trait-definitions";
 
 /** Authored fictional-life content, not a psychometric or empirical model. */
 export const LIFE_MIND_CONTENT_VERSION = "opening-life-mind-v1";
@@ -89,13 +90,20 @@ export function createLifeMindCatalog(): MindCatalog {
   });
 }
 
-/** Exact definitions, not a prefix loophole. Older empty saves remain valid. */
+/**
+ * Exact definitions, not a prefix loophole. Older empty saves remain valid.
+ * The PEOPLE traits are admitted too: a world gains them, exactly as defined,
+ * the first time one of its people's temperaments is written.
+ */
 export function assertLifeMindContent(catalog: MindCatalog): void {
   const allowed = createLifeMindCatalog();
+  const people = new Map(
+    peopleTraitDefinitions().map((definition) => [definition.id, definition]),
+  );
   for (const id of catalog.tendencyOrder) {
     if (
       canonicalJson(catalog.tendencies[id]) !==
-      canonicalJson(allowed.tendencies[id])
+      canonicalJson(allowed.tendencies[id] ?? people.get(id))
     ) {
       throw new Error(`Unsupported production personality definition: ${id}`);
     }
