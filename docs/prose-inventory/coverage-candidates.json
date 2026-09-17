@@ -2,8 +2,8 @@
   "counts": {
     "INVENTORIED": 2781,
     "INTENTIONALLY_NON_PLAYER_FACING": 6489,
-    "DIAGNOSTIC_OR_TEST": 6539,
-    "NEEDS_CLASSIFICATION": 8180
+    "DIAGNOSTIC_OR_TEST": 6542,
+    "NEEDS_CLASSIFICATION": 8182
   },
   "needsClassification": [
     {
@@ -3585,7 +3585,23 @@
     {
       "sourcePath": "src/player/GoverningOfficeDesk.tsx",
       "enclosingSymbol": "ProgramCard",
-      "line": 210,
+      "line": 186,
+      "text": "A program with no recorded name",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/GoverningOfficeDesk.tsx",
+      "enclosingSymbol": "ProgramCard",
+      "line": 189,
+      "text": "Nothing on record names this service. It is filed only as {program.programKey}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/GoverningOfficeDesk.tsx",
+      "enclosingSymbol": "ProgramCard",
+      "line": 220,
       "text": "{commitment.decidedOnLine} Decided by {commitment.decidedByName}. {commitment.authority}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -70027,12 +70043,6 @@
       "count": 7
     },
     {
-      "sourcePath": "src/player/GoverningOfficeDesk.test.tsx",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 9
-    },
-    {
       "sourcePath": "src/presentation/civil-personnel-entry.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -70343,6 +70353,12 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 14
+    },
+    {
+      "sourcePath": "src/player/GoverningOfficeDesk.test.tsx",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 12
     },
     {
       "sourcePath": "src/player/ContentPackWorkspace.tsx",

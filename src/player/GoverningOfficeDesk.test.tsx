@@ -79,6 +79,22 @@ function withTransitProgram(world: World, jurisdictionId: EntityId) {
   }).world;
 }
 
+/** An appropriation with no capacity record: the service has no name. */
+function withUnnamedProgram(world: World, jurisdictionId: EntityId) {
+  const next = ensureTaxPublicAccount(world, jurisdictionId);
+  const account = publicTaxAccountForJurisdiction(next, jurisdictionId)!;
+  return recordProgramAppropriation(next, {
+    edition: "desk-render-unnamed",
+    programKey: "transit:state-bus",
+    jurisdictionId,
+    accountOrganizationId: account.organizationId,
+    amount: money(2_000_000_00, "USD"),
+    availableFrom: next.currentDate,
+    availableThrough: addDays(next.currentDate, 364),
+    basis: FIXTURE,
+  }).world;
+}
+
 const render = (world: World, personId: EntityId) =>
   renderToStaticMarkup(
     <GoverningOfficeDesk
@@ -128,5 +144,21 @@ describe("GoverningOfficeDesk", () => {
     expect(html).toContain('data-testid="office-program-uncommitted"');
     expect(html).toContain('data-testid="office-program-no-options"');
     expect(html).not.toContain('data-testid="office-program-commitment"');
+  }, 120_000);
+
+  it("never titles a program with its record key when nothing names the service", () => {
+    const { world } = coloradoLife("desk-render-unnamed");
+    const office = currentGoverningOffices(world)[0]!;
+    const html = render(
+      withUnnamedProgram(world, office.jurisdictionId),
+      office.holderPersonId,
+    );
+
+    expect(html).toContain('data-testid="office-program-unnamed"');
+    expect(html).toContain("<h5>A program with no recorded name</h5>");
+    expect(html).not.toContain("<h5>transit:state-bus</h5>");
+    expect(html).toContain(
+      "No capacity record establishes what this service has to work with.",
+    );
   }, 120_000);
 });

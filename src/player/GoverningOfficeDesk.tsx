@@ -178,7 +178,17 @@ export function GoverningOfficeDesk({
 function ProgramCard({ program }: { readonly program: OfficeProgram }) {
   return (
     <li className="office-program" data-testid="office-program">
-      <h5>{program.serviceLabel ?? program.programKey}</h5>
+      {/*
+        A service is named by its capacity record. Without one there is no
+        name in the World, and the program's record key is not a name, so the
+        heading says as much rather than titling the panel with an identifier.
+      */}
+      <h5>{program.serviceLabel ?? "A program with no recorded name"}</h5>
+      {program.serviceLabel ? null : (
+        <p className="game-note" data-testid="office-program-unnamed">
+          {`Nothing on record names this service. It is filed only as ${program.programKey}.`}
+        </p>
+      )}
       <ul className="office-program-objective">
         {program.objectiveLines.map((line, index) => (
           <li key={`${index}-${line}`}>{line}</li>
