@@ -144,43 +144,48 @@ const disasterKey = (episodeId: EntityId, jurisdictionId: EntityId) =>
 export const CRISIS_ORIGIN_READER: MacroOriginReader = {
   key: "crisis-envelopes",
   origins: (world, throughDate) =>
-    crisisEnvelopes(world, throughDate).flatMap((envelope) => {
-      const intensity = payloadNumber(envelope, "intensity");
-      if (intensity === null) return [];
-      if (envelope.kind === "disaster-damage") {
-        const episodeId = envelope.subjectIds[0];
-        if (!episodeId) return [];
-        return envelope.geographyIds.map((jurisdictionId) => ({
-          dedupeKey: disasterKey(episodeId, jurisdictionId),
-          kind: "disaster-reconstruction" as const,
-          originEventId: envelope.originEventId,
-          geographyIds: [jurisdictionId],
-          scope: `jurisdiction:${jurisdictionId}` as const,
-          intensity,
-          beginsAt: envelope.effectiveMoment,
-          persistence: "until-origin-ends" as const,
-          observedState: observed(envelope),
-          causalParents: [envelope.originEventId, ...envelope.causalParents],
-        }));
-      }
-      if (envelope.kind === "international-conflict-spillover") {
-        return [
-          {
-            dedupeKey: `${MACRO_ECONOMY_CONTRACT_VERSION}:crisis:conflict:${envelope.recordId}`,
-            kind: "international-conflict-spillover" as const,
+    crisisEnvelopes(world, throughDate).flatMap(
+      (envelope): readonly MacroShockOrigin[] => {
+        const intensity = payloadNumber(envelope, "intensity");
+        if (intensity === null) return [];
+        if (envelope.kind === "disaster-damage") {
+          const episodeId = envelope.subjectIds[0];
+          if (!episodeId) return [];
+          return envelope.geographyIds.map((jurisdictionId) => ({
+            dedupeKey: disasterKey(episodeId, jurisdictionId),
+            kind: "disaster-reconstruction" as const,
             originEventId: envelope.originEventId,
-            geographyIds: [],
-            scope: "national" as const,
+            geographyIds: [jurisdictionId],
+            scope: `jurisdiction:${jurisdictionId}` as const,
             intensity,
             beginsAt: envelope.effectiveMoment,
-            persistence: "geometric" as const,
+            persistence: "until-origin-ends" as const,
             observedState: observed(envelope),
             causalParents: [envelope.originEventId, ...envelope.causalParents],
-          },
-        ];
-      }
-      return [];
-    }),
+          }));
+        }
+        if (envelope.kind === "international-conflict-spillover") {
+          return [
+            {
+              dedupeKey: `${MACRO_ECONOMY_CONTRACT_VERSION}:crisis:conflict:${envelope.recordId}`,
+              kind: "international-conflict-spillover" as const,
+              originEventId: envelope.originEventId,
+              geographyIds: [],
+              scope: "national" as const,
+              intensity,
+              beginsAt: envelope.effectiveMoment,
+              persistence: "geometric" as const,
+              observedState: observed(envelope),
+              causalParents: [
+                envelope.originEventId,
+                ...envelope.causalParents,
+              ],
+            },
+          ];
+        }
+        return [];
+      },
+    ),
   ends: (world, throughDate) =>
     crisisEnvelopes(world, throughDate).flatMap((envelope) => {
       const episodeId = envelope.subjectIds[0];
