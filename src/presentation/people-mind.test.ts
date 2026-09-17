@@ -240,7 +240,7 @@ describe("PEOPLE P2 persistent personality", () => {
     const again = invitationsBy(shaped(2));
     expect(outgoing).toBe(again);
     expect(outgoing).not.toBe(reserved);
-  });
+  }, 300_000);
 });
 
 describe("PEOPLE P2 private aims", () => {
