@@ -383,8 +383,12 @@ test("the owner journey: brief → batch → restart → filter → approve → 
       "data-candidate-id",
       upscaled!.candidateId,
     );
+    await expect(page.getByTestId("art-desk-lineage")).toHaveAttribute(
+      "data-lineage-state",
+      "chain",
+    );
     await expect(page.getByTestId("art-desk-lineage")).toContainText(
-      "upscale of",
+      "original → upscale",
     );
     await expect(page.getByTestId("art-desk-decisions")).toContainText(
       "Awaiting review",

@@ -2,6 +2,7 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type KeyboardEvent,
 } from "react";
@@ -45,9 +46,17 @@ import { ART_DESK_CONTRACT_ID } from "../authoring/asset-review";
 import {
   ART_DESK_TABS,
   artDeskCards,
+  assetFileStem,
+  candidateNotes,
+  cardIsUntagged,
+  cardMatchesFacet,
   familyLabel,
   filterCards,
+  lineageOfCandidate,
+  lineageSentence,
+  originalDownloadName,
   tabCounts,
+  viewedCandidateView,
   type ArtDeskCard,
   type ArtDeskTab,
 } from "../authoring/art-desk-cards";
@@ -101,12 +110,8 @@ function localReviewOn(): boolean {
   return typeof __PG_BUILD_IDENTITY__ !== "undefined";
 }
 
-function originalUrl(
-  candidateId: string,
-  sha: string,
-  download = false,
-): string {
-  return `${BENCH}/original?candidateId=${encodeURIComponent(candidateId)}&v=${sha.slice(0, 12)}${download ? "&download=1" : ""}`;
+function originalUrl(candidateId: string, sha: string): string {
+  return `${BENCH}/original?candidateId=${encodeURIComponent(candidateId)}&v=${sha.slice(0, 12)}`;
 }
 
 async function getJson<T>(url: string): Promise<T | null> {
@@ -221,19 +226,6 @@ const STATUS_LABEL: Record<CandidateStatus, string> = {
 };
 
 const TAB_STORAGE_KEY = "ocd-art-desk-tab";
-
-/** A plain, readable file stem for a brief: "school-corridor-b-review". */
-export function briefFileStem(label: string): string {
-  const stem = label
-    .normalize("NFKD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 60)
-    .replace(/-+$/g, "");
-  return stem || "asset";
-}
 
 function storedTab(): ArtDeskTab {
   try {
@@ -382,26 +374,12 @@ export function ArtDeskView() {
     [cards],
   );
   const visibleCards = useMemo(() => {
+    // A tag recorded on any version of the asset belongs to the card, so the
+    // facet chips and the untagged filter read every candidate, not the lead.
     const byFacet = facet
-      ? cards.filter((card) => {
-          const lead = card.leadCandidateId
-            ? projection?.candidates[card.leadCandidateId]
-            : undefined;
-          const values = [
-            ...(lead?.tags[facet.key] ?? []),
-            ...(lead?.inheritedTags?.[facet.key] ?? []),
-          ];
-          return values.includes(facet.value);
-        })
+      ? cards.filter((card) => cardMatchesFacet(card, facet.key, facet.value))
       : cards;
-    const byUntagged = untagged
-      ? byFacet.filter((card) => {
-          const lead = card.leadCandidateId
-            ? projection?.candidates[card.leadCandidateId]
-            : undefined;
-          return lead ? Object.keys(lead.tags).length === 0 : false;
-        })
-      : byFacet;
+    const byUntagged = untagged ? byFacet.filter(cardIsUntagged) : byFacet;
     return filterCards(byUntagged, {
       tab,
       text: query,
@@ -409,17 +387,7 @@ export function ArtDeskView() {
       assetType,
       showQa,
     });
-  }, [
-    cards,
-    facet,
-    untagged,
-    tab,
-    query,
-    status,
-    assetType,
-    showQa,
-    projection,
-  ]);
+  }, [cards, facet, untagged, tab, query, status, assetType, showQa]);
   const selectedCard =
     visibleCards.find((card) => card.key === selectedCardKey) ??
     visibleCards[0] ??
@@ -681,7 +649,7 @@ export function ArtDeskView() {
     detailRequest && projection && bench ? (
       <RequestDetail
         key={detailRequest.request.requestId}
-        heading={advancedOpen ? undefined : selectedCard?.title}
+        card={advancedOpen ? undefined : (selectedCard ?? undefined)}
         request={detailRequest}
         projection={projection}
         bench={bench}
@@ -1006,14 +974,35 @@ export function ArtDeskView() {
             })}
           </ol>
           <div className="art-desk-detail-column">
-            {selectedCard && selectedCard.lineage.length > 1 ? (
+            {selectedCard?.lineageState ? (
               <details
                 className="art-desk-asset-lineage"
                 data-testid="art-desk-asset-lineage"
+                data-lineage-state={selectedCard.lineageState}
               >
                 <summary>
-                  How this asset was made ({selectedCard.lineage.length} steps)
+                  {selectedCard.lineageState === "chain"
+                    ? `How this asset was made (${selectedCard.lineage.length} steps)`
+                    : selectedCard.lineageState === "original"
+                      ? "How this asset was made (the recorded original)"
+                      : "How this asset was made (not recorded)"}
                 </summary>
+                {selectedCard.lineageState === "not-recorded" ? (
+                  <p
+                    className="art-desk-warning"
+                    data-testid="art-desk-asset-lineage-unrecorded"
+                  >
+                    {lineageSentence({
+                      state: "not-recorded",
+                      steps: selectedCard.lineage,
+                      declaredParentId:
+                        (selectedCard.leadCandidateId
+                          ? projection?.candidates[selectedCard.leadCandidateId]
+                              ?.parentCandidateId
+                          : null) ?? null,
+                    })}
+                  </p>
+                ) : null}
                 <ol>
                   {[...selectedCard.lineage].reverse().map((step) => (
                     <li key={step.candidateId}>
@@ -1296,10 +1285,10 @@ function RequestDetail({
   onIntake,
   onSelect,
   onTags,
-  heading,
+  card,
 }: {
-  /** The asset card's name, when the detail is opened from a card. */
-  readonly heading?: string;
+  /** The asset card this detail was opened from, in the card view. */
+  readonly card?: ArtDeskCard;
   readonly request: ProjectedRequest;
   readonly projection: ArtbenchProjection;
   readonly bench: BenchState;
@@ -1347,7 +1336,7 @@ function RequestDetail({
       ? ["standing-neutral"]
       : [],
   });
-  const briefName = briefFileStem(
+  const briefName = assetFileStem(
     isInbox
       ? (viewed?.provenance.itemId ??
           viewed?.provenance.originalName?.replace(/\.[^.]+$/, "") ??
@@ -1356,26 +1345,126 @@ function RequestDetail({
   );
   const briefUrl = `${BENCH}/brief?requestId=${encodeURIComponent(requestId)}${viewed ? `&candidateId=${encodeURIComponent(viewed.candidateId)}` : ""}&name=${encodeURIComponent(briefName)}`;
   const [briefNote, setBriefNote] = useState("");
+  const [originalNote, setOriginalNote] = useState("");
   useEffect(() => {
     // The private hub reports how a download ended; a plain browser does not.
     const onResult = (event: Event) => {
       const detail = (event as CustomEvent<{ state?: string; name?: string }>)
         .detail;
-      if (!detail?.name?.includes("brief")) return;
+      if (!detail?.name?.includes("brief")) {
+        if (detail?.name)
+          setOriginalNote(
+            detail.state === "completed"
+              ? `Saved ${detail.name} in Downloads › Our Civic Duty Art Desk.`
+              : detail.state === "cancelled"
+                ? "Download cancelled."
+                : detail.state === "refused"
+                  ? `The desktop app would not save ${detail.name}. Its download policy does not allow this file.`
+                  : `Download failed for ${detail.name}.`,
+          );
+        return;
+      }
       setBriefNote(
         detail.state === "completed"
           ? `Saved ${detail.name} in Downloads › Our Civic Duty Art Desk.`
           : detail.state === "cancelled"
             ? "Download cancelled."
-            : `Download failed for ${detail.name}.`,
+            : detail.state === "refused"
+              ? `The desktop app would not save ${detail.name}. Its download policy does not allow this file.`
+              : `Download failed for ${detail.name}.`,
       );
     };
     window.addEventListener("ocd:download-result", onResult);
     return () => window.removeEventListener("ocd:download-result", onResult);
   }, []);
+  const downloadTicket = useRef(0);
+  const viewedIdRef = useRef<string | null>(viewed?.candidateId ?? null);
+  useEffect(() => {
+    // The status line belongs to one version. Carrying it onto the next one
+    // would show a verified hash and a filename for bytes nobody fetched.
+    viewedIdRef.current = viewed?.candidateId ?? null;
+    setOriginalNote("");
+  }, [viewed?.candidateId]);
+  // The detail's subject is the version on screen. A newer delivery on the
+  // same card is announced above; it never renames what is being reviewed.
+  const subject = card
+    ? viewedCandidateView(card, projection, viewed?.candidateId ?? null)
+    : null;
+  const heading = subject?.title ?? r.title;
+  const lineage = viewed ? lineageOfCandidate(projection, viewed) : null;
+  const notes = candidateNotes(projection, viewed ?? undefined);
+  const originalName = viewed
+    ? originalDownloadName(
+        subject?.title ?? r.title,
+        viewed.sha256,
+        viewed.container,
+      )
+    : null;
   const parent = viewed?.parentCandidateId
     ? projection.candidates[viewed.parentCandidateId]
     : undefined;
+
+  /**
+   * Fetch the recorded bytes, check them against the recorded hash, then hand
+   * the browser a named file. The owner is told what happened either way; a
+   * refused or corrupted read is never presented as a saved download.
+   */
+  async function downloadOriginal() {
+    if (!viewed || !originalName) return;
+    // One fetch owns the status line: a read that finishes after the owner
+    // moved on must not report itself against the version now on screen.
+    const ticket = (downloadTicket.current += 1);
+    const subjectId = viewed.candidateId;
+    const report = (note: string) => {
+      if (
+        downloadTicket.current === ticket &&
+        viewedIdRef.current === subjectId
+      )
+        setOriginalNote(note);
+    };
+    report(`Preparing ${originalName}…`);
+    try {
+      const response = await fetch(
+        originalUrl(viewed.candidateId, viewed.sha256),
+        { cache: "no-store" },
+      );
+      if (!response.ok) {
+        const body = (await response.json().catch(() => null)) as {
+          message?: string;
+        } | null;
+        throw new Error(
+          body?.message ?? `the bench refused the read (${response.status})`,
+        );
+      }
+      const bytes = await response.arrayBuffer();
+      const hash = await sha256Hex(bytes);
+      if (hash !== viewed.sha256)
+        throw new Error(
+          `the served bytes hash ${hash.slice(0, 12)}…, not the recorded ${viewed.sha256.slice(0, 12)}…`,
+        );
+      const url = URL.createObjectURL(
+        new Blob([bytes], {
+          type:
+            response.headers.get("Content-Type") ?? "application/octet-stream",
+        }),
+      );
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = originalName;
+      anchor.rel = "noopener";
+      document.body.append(anchor);
+      anchor.click();
+      anchor.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 30_000);
+      report(
+        `${originalName}: ${bytes.byteLength.toLocaleString()} bytes, hash verified, and handed to the browser as a download. Whether a file reached disk is not confirmed here — check your downloads.`,
+      );
+    } catch (error) {
+      report(
+        `Download failed for ${originalName}: ${error instanceof Error ? error.message : String(error)}.`,
+      );
+    }
+  }
   const blocker = !viewed
     ? "Upload or select a candidate first."
     : isInbox
@@ -1445,9 +1534,21 @@ function RequestDetail({
         if (files.length) void onIntake(files, isInbox ? {} : { requestId });
       }}
     >
-      <h2>{heading ?? r.title}</h2>
+      <h2 data-testid="art-desk-detail-heading">{heading}</h2>
+      {subject?.newer ? (
+        <p className="art-desk-warning" data-testid="art-desk-newer-candidate">
+          A newer version of this asset is waiting for review:{" "}
+          {subject.newer.title} ({shortDate(subject.newer.at)}).{" "}
+          <button
+            type="button"
+            onClick={() => onView(subject.newer!.candidateId)}
+          >
+            Show the newer version
+          </button>
+        </p>
+      ) : null}
       <p>
-        {heading && heading !== r.title
+        {heading !== r.title
           ? `${r.title}. ${r.consumer.playerVisibleUse}`
           : r.consumer.playerVisibleUse}
       </p>
@@ -1692,17 +1793,54 @@ function RequestDetail({
               Both stay as history; decide again to settle it.
             </p>
           ) : null}
-          {parent ? (
-            <p className="art-desk-meta" data-testid="art-desk-lineage">
-              {viewed.editKind} of {parent.candidateId} (rev {parent.revision},{" "}
-              {parent.width}×{parent.height}
-              {parent.hasAlpha ? " α" : ""})
-              {viewed.note ? ` · "${viewed.note}"` : ""}{" "}
-              <button type="button" onClick={() => setCompare((v) => !v)}>
-                {compare ? "Hide parent" : "Compare with parent"}
-              </button>
+          {lineage ? (
+            <p
+              className={
+                lineage.state === "not-recorded"
+                  ? "art-desk-warning"
+                  : "art-desk-meta"
+              }
+              data-testid="art-desk-lineage"
+              data-lineage-state={lineage.state}
+            >
+              {lineageSentence(lineage)}
+              {parent ? (
+                <>
+                  {" "}
+                  Parent {parent.candidateId} (rev {parent.revision},{" "}
+                  {parent.width}×{parent.height}
+                  {parent.hasAlpha ? " α" : ""}).{" "}
+                  <button type="button" onClick={() => setCompare((v) => !v)}>
+                    {compare ? "Hide parent" : "Compare with parent"}
+                  </button>
+                </>
+              ) : null}
             </p>
           ) : null}
+          <div className="art-desk-meta" data-testid="art-desk-notes">
+            {notes.inherited.length ? (
+              <p data-testid="art-desk-inherited-note">
+                Carried forward from the {notes.inherited[0]!.stage} it was
+                edited from: “{notes.inherited[0]!.note}”
+                {notes.inherited.length > 1
+                  ? ` (+${notes.inherited.length - 1} earlier note${notes.inherited.length > 2 ? "s" : ""})`
+                  : ""}
+              </p>
+            ) : null}
+            {notes.own ? (
+              <p data-testid="art-desk-edit-note">
+                This version's note: “{notes.own}”
+              </p>
+            ) : null}
+            {Object.keys(notes.inheritedTags).length ? (
+              <p data-testid="art-desk-inherited-tags">
+                Tags carried forward:{" "}
+                {Object.entries(notes.inheritedTags)
+                  .map(([key, values]) => `${key}: ${values.join(", ")}`)
+                  .join(" · ")}
+              </p>
+            ) : null}
+          </div>
           <div className="art-desk-actions">
             <button
               type="button"
@@ -1737,16 +1875,23 @@ function RequestDetail({
               </button>
             ) : null}
             {viewedBytes?.state === "verified" ? (
-              <a
-                className="art-desk-linkbutton"
-                href={originalUrl(viewed.candidateId, viewed.sha256, true)}
+              <button
+                type="button"
                 data-testid="art-desk-download-original"
-                download
+                data-download-name={originalName ?? undefined}
+                onClick={() => void downloadOriginal()}
               >
                 Download original ({viewed.width}×{viewed.height}{" "}
                 {viewed.container})
-              </a>
+              </button>
             ) : null}
+            <span
+              role="status"
+              className="art-desk-meta"
+              data-testid="art-desk-original-status"
+            >
+              {originalNote}
+            </span>
             {blocker ? (
               <span className="art-desk-meta" data-testid="art-desk-blocker">
                 {blocker}

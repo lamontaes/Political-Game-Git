@@ -530,7 +530,6 @@ export class ArtbenchStore {
 
   original(candidateId: string): {
     readonly bytes: Buffer;
-    readonly filename: string;
     readonly candidate: ProjectedCandidate;
   } {
     const candidate = this.projection().candidates[candidateId];
@@ -545,11 +544,9 @@ export class ArtbenchStore {
       throw new ArtbenchError(409, "bytes-unavailable", state.note);
     }
     const absolute = this.resolveStorage(candidate)!;
-    return {
-      bytes: readFileSync(absolute),
-      filename: `${candidate.requestId}__${candidate.candidateId.slice(0, 8)}__${candidate.sha256.slice(0, 12)}.${candidate.container}`,
-      candidate,
-    };
+    // The saved name is the caller's business: the Art Desk builds a readable
+    // one from the asset's name plus this hash (originalDownloadName).
+    return { bytes: readFileSync(absolute), candidate };
   }
 
   /* ---------------------------------------------------------------- */

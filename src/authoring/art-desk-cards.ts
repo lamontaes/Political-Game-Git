@@ -94,10 +94,34 @@ export interface LineageStep {
   readonly status: CandidateStatus;
 }
 
+/**
+ * What the record actually says about how a version came to be.
+ *
+ * `chain` — the version declares a parent, so the steps are the real chain.
+ * `original` — the version is a recorded original with nothing before it.
+ * `not-recorded` — the version is a derived stage whose parent was never
+ * declared. Nothing here guesses one from a filename, a time or a likeness.
+ */
+export type LineageState = "chain" | "original" | "not-recorded";
+
+export interface LineageRecord {
+  readonly state: LineageState;
+  /** Newest first: this version and its declared parents. */
+  readonly steps: readonly LineageStep[];
+  /**
+   * The parent this version declared, when the record names one. It is set
+   * even when that parent is absent from the record, so a missing parent is
+   * reported as unresolved rather than as never declared.
+   */
+  readonly declaredParentId: string | null;
+}
+
 export interface ArtDeskCard {
   readonly key: string;
   readonly requestId: string;
   readonly title: string;
+  /** The asset's name without the latest stage's purpose suffix. */
+  readonly baseTitle: string;
   /** Short purpose line: what the latest version changed. */
   readonly change: string;
   readonly status: CandidateStatus | null;
@@ -105,12 +129,16 @@ export interface ArtDeskCard {
   readonly leadCandidateId: string | null;
   /** Newest first: the lead and its parents back to the original. */
   readonly lineage: readonly LineageStep[];
+  /** What the record says about the lead's lineage; null with no lead. */
+  readonly lineageState: LineageState | null;
   /** Other versions of the same asset that are not on the lead's line. */
   readonly otherVersions: readonly string[];
   readonly versionCount: number;
   readonly updatedAt: string | null;
   readonly family: string | null;
   readonly assetType: string | null;
+  /** Every tag value on any of the card's versions, by facet. */
+  readonly facets: Readonly<Record<string, readonly string[]>>;
   readonly qa: boolean;
   readonly tabs: readonly ArtDeskTab[];
 }
@@ -132,6 +160,50 @@ function assetTypeOf(candidate: ProjectedCandidate | undefined): string | null {
     tagValue(candidate.tags, "assetType") ??
     tagValue(candidate.inheritedTags, "assetType")
   );
+}
+
+/**
+ * Every tag value carried by any version of the card, by facet. A region,
+ * season or source tag recorded on a version that is not the lead still
+ * belongs to the asset, so filters must see it.
+ */
+function facetsOf(
+  candidates: readonly ProjectedCandidate[],
+): Record<string, string[]> {
+  const facets: Record<string, string[]> = {};
+  for (const candidate of candidates) {
+    for (const tags of [candidate.tags, candidate.inheritedTags]) {
+      for (const [key, values] of Object.entries(tags ?? {})) {
+        const known = (facets[key] ??= []);
+        for (const value of values)
+          if (!known.includes(value)) known.push(value);
+      }
+    }
+  }
+  for (const values of Object.values(facets)) values.sort();
+  return facets;
+}
+
+/** True when the card carries this exact tag value on any of its versions. */
+export function cardMatchesFacet(
+  card: ArtDeskCard,
+  key: string,
+  value: string,
+): boolean {
+  return (card.facets[key] ?? []).includes(value);
+}
+
+/** True when no version of the card carries any tag at all. */
+export function cardIsUntagged(card: ArtDeskCard): boolean {
+  return Object.values(card.facets).every((values) => values.length === 0);
+}
+
+/** Every version id on the card: the lead's line and the versions beside it. */
+export function cardCandidateIds(card: ArtDeskCard): string[] {
+  return [
+    ...card.lineage.map((step) => step.candidateId),
+    ...card.otherVersions,
+  ];
 }
 
 function humanize(slug: string): string {
@@ -203,6 +275,46 @@ function lineageOf(
   return steps;
 }
 
+function lineageStateOf(
+  candidate: ProjectedCandidate,
+  steps: readonly LineageStep[],
+): LineageState {
+  if (steps.length > 1) return "chain";
+  return candidate.editKind === "original" ? "original" : "not-recorded";
+}
+
+/**
+ * The declared chain behind one version, and what the record says about it.
+ * A missing parent stays missing: a derived version with no declared parent
+ * reports `not-recorded`, never a flat original.
+ */
+export function lineageOfCandidate(
+  projection: ArtbenchProjection,
+  candidate: ProjectedCandidate,
+): LineageRecord {
+  const steps = lineageOf(projection, candidate);
+  return {
+    state: lineageStateOf(candidate, steps),
+    steps,
+    declaredParentId: candidate.parentCandidateId ?? null,
+  };
+}
+
+/** Plain sentence for a lineage record, for the detail view. */
+export function lineageSentence(record: LineageRecord): string {
+  if (record.state === "chain")
+    return `${record.steps.length} recorded steps: ${[...record.steps]
+      .reverse()
+      .map((step) => step.stage)
+      .join(" → ")}.`;
+  if (record.state === "original")
+    return "Recorded as the original; nothing came before it here.";
+  const stage = record.steps[0]?.stage ?? "version";
+  if (record.declaredParentId)
+    return `Lineage is not recorded for this version: it arrived as a ${stage} declaring parent ${record.declaredParentId}, and that parent is not in this record. Nothing is inferred from its filename or timing.`;
+  return `Lineage is not recorded for this version: it arrived as a ${stage} with no declared parent. Nothing is inferred from its filename or timing.`;
+}
+
 /** The version a card leads with: newest awaiting review, else newest. */
 function leadOf(
   candidates: readonly ProjectedCandidate[],
@@ -231,6 +343,17 @@ function tabsFor(
   return tabs;
 }
 
+/**
+ * A delivery that named no scene family. The file it arrived as is shown as a
+ * file, never as the asset's name — a filename is not an identity.
+ */
+export function unlabelledDeliveryTitle(
+  candidate: ProjectedCandidate | undefined,
+): string {
+  const file = candidate?.provenance.originalName?.trim();
+  return file ? `Unlabelled delivery (file ${file})` : "Unlabelled delivery";
+}
+
 function stageTitle(base: string, lead: ProjectedCandidate | undefined) {
   if (!lead) return base;
   return `${base} — ${deliveryPurpose(lead) ?? STAGE_LABELS[lead.editKind]}`;
@@ -254,12 +377,19 @@ function cardFor(
   const lineage = lead ? lineageOf(projection, lead) : [];
   const onLine = new Set(lineage.map((step) => step.candidateId));
   const status = lead?.status ?? null;
+  const facets = facetsOf([
+    ...candidates,
+    ...lineage
+      .map((step) => projection.candidates[step.candidateId])
+      .filter((c): c is ProjectedCandidate => Boolean(c)),
+  ]);
   return {
     key,
     requestId: request.request.requestId,
     title:
       (lead && DELIVERY_DISPLAY_NAMES[lead.candidateId]) ??
       stageTitle(baseTitle, lead),
+    baseTitle,
     change: conciseChange(lead),
     status,
     statusLabel: status
@@ -269,6 +399,7 @@ function cardFor(
         : "No version yet",
     leadCandidateId: lead?.candidateId ?? null,
     lineage,
+    lineageState: lead ? lineageStateOf(lead, lineage) : null,
     otherVersions: candidates
       .map((c) => c.candidateId)
       .filter((id) => !onLine.has(id)),
@@ -279,7 +410,11 @@ function cardFor(
     ]).size,
     updatedAt: lead?.ingestedAt ?? null,
     family,
-    assetType: assetTypeOf(lead),
+    assetType:
+      assetTypeOf(lead) ??
+      candidates.map((c) => assetTypeOf(c)).find(Boolean) ??
+      null,
+    facets,
     qa: isQaRequest(request) || candidates.some((c) => c.qa),
     tabs: tabsFor(lane, status),
   };
@@ -329,9 +464,7 @@ export function artDeskCards(projection: ArtbenchProjection): ArtDeskCard[] {
           `inbox:${key}`,
           request,
           members,
-          family
-            ? familyLabel(family)
-            : (lead?.provenance.originalName ?? "Unassigned delivery"),
+          family ? familyLabel(family) : unlabelledDeliveryTitle(lead),
           family,
           lead?.status === "awaiting-review" ? "needs-review" : "inbox",
         ),
@@ -414,4 +547,159 @@ export function tabCounts(
     for (const tab of card.tabs) counts[tab] += 1;
   }
   return counts;
+}
+
+/** What one version of an asset is called: its own name, never a sibling's. */
+export function candidateDisplayName(
+  card: ArtDeskCard,
+  candidate: ProjectedCandidate | undefined,
+): string {
+  if (!candidate) return card.baseTitle;
+  return (
+    DELIVERY_DISPLAY_NAMES[candidate.candidateId] ??
+    `${card.baseTitle} — ${deliveryPurpose(candidate) ?? STAGE_LABELS[candidate.editKind]}`
+  );
+}
+
+export interface ViewedCandidateView {
+  /** The name of the version actually on screen. */
+  readonly title: string;
+  readonly candidateId: string | null;
+  readonly stage: string | null;
+  readonly status: CandidateStatus | null;
+  /** A version that arrived after the viewed one and is still unreviewed. */
+  readonly newer: {
+    readonly candidateId: string;
+    readonly title: string;
+    readonly at: string;
+  } | null;
+}
+
+/**
+ * The detail's own subject. While a version is being viewed it keeps its
+ * identity even when a newer delivery lands on the same card; the newer
+ * arrival is reported separately instead of renaming what is on screen.
+ */
+export function viewedCandidateView(
+  card: ArtDeskCard,
+  projection: ArtbenchProjection,
+  viewedCandidateId: string | null,
+): ViewedCandidateView {
+  const ids = cardCandidateIds(card);
+  const viewed =
+    (viewedCandidateId && ids.includes(viewedCandidateId)
+      ? projection.candidates[viewedCandidateId]
+      : undefined) ??
+    (card.leadCandidateId
+      ? projection.candidates[card.leadCandidateId]
+      : undefined);
+  const arrivals = ids
+    .map((id) => projection.candidates[id])
+    .filter((c): c is ProjectedCandidate => Boolean(c))
+    .filter(
+      (c) =>
+        viewed &&
+        c.candidateId !== viewed.candidateId &&
+        c.status === "awaiting-review" &&
+        (c.ingestedAt.localeCompare(viewed.ingestedAt) > 0 ||
+          (c.ingestedAt === viewed.ingestedAt && c.revision > viewed.revision)),
+    )
+    .sort(
+      (a, b) =>
+        b.ingestedAt.localeCompare(a.ingestedAt) || b.revision - a.revision,
+    );
+  const newest = arrivals[0];
+  return {
+    title: viewed ? candidateDisplayName(card, viewed) : card.title,
+    candidateId: viewed?.candidateId ?? null,
+    stage: viewed ? STAGE_LABELS[viewed.editKind] : null,
+    status: viewed?.status ?? null,
+    newer: newest
+      ? {
+          candidateId: newest.candidateId,
+          title: candidateDisplayName(card, newest),
+          at: newest.ingestedAt,
+        }
+      : null,
+  };
+}
+
+export interface CandidateNotes {
+  /** The note this version arrived with, if any. */
+  readonly own: string | null;
+  /** Notes from the declared parents, nearest parent first. */
+  readonly inherited: readonly {
+    readonly candidateId: string;
+    readonly stage: string;
+    readonly note: string;
+  }[];
+  /** Tags carried forward from the parent at intake. */
+  readonly inheritedTags: TagSet;
+}
+
+/**
+ * An edited reimport is new bytes with its own review state, but it is still
+ * the same asset: the notes and tags of the versions it came from are carried
+ * forward here rather than being lost at the edit.
+ */
+export function candidateNotes(
+  projection: ArtbenchProjection,
+  candidate: ProjectedCandidate | undefined,
+): CandidateNotes {
+  if (!candidate) return { own: null, inherited: [], inheritedTags: {} };
+  const inherited: {
+    candidateId: string;
+    stage: string;
+    note: string;
+  }[] = [];
+  const seen = new Set<string>([candidate.candidateId]);
+  let parent = candidate.parentCandidateId
+    ? projection.candidates[candidate.parentCandidateId]
+    : undefined;
+  while (parent && !seen.has(parent.candidateId)) {
+    seen.add(parent.candidateId);
+    if (parent.note?.trim())
+      inherited.push({
+        candidateId: parent.candidateId,
+        stage: STAGE_LABELS[parent.editKind],
+        note: parent.note.trim(),
+      });
+    parent = parent.parentCandidateId
+      ? projection.candidates[parent.parentCandidateId]
+      : undefined;
+  }
+  return {
+    own: candidate.note?.trim() || null,
+    inherited,
+    inheritedTags: candidate.inheritedTags ?? {},
+  };
+}
+
+/** A readable, filesystem-safe stem for a download, or "asset". */
+export function assetFileStem(label: string): string {
+  const stem = label
+    .normalize("NFKD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 60)
+    .replace(/-+$/g, "");
+  return stem || "asset";
+}
+
+/**
+ * The saved name of a downloaded original: the human name of the version plus
+ * the recorded hash's first 12 characters, so the bytes stay identifiable.
+ */
+export function originalDownloadName(
+  displayName: string | null | undefined,
+  sha256: string,
+  container: string,
+): string {
+  const hash = /^[0-9a-f]+$/i.test(sha256)
+    ? sha256.slice(0, 12).toLowerCase()
+    : "";
+  const extension = assetFileStem(container || "bin");
+  return `${assetFileStem(displayName ?? "")}${hash ? `-${hash}` : ""}.${extension}`;
 }

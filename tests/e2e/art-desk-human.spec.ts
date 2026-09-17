@@ -178,4 +178,16 @@ test("the human Art Desk: named cards, lineage, small filters, brief copy and do
   expect(download.suggestedFilename()).toBe(`corridor-fix-${stamp}-brief.md`);
   const saved = await download.path();
   expect(readFileSync(saved, "utf8")).toBe(served);
+
+  // Download original: a readable name that keeps the hash, and a real signal.
+  const [image] = await Promise.all([
+    page.waitForEvent("download"),
+    page.getByTestId("art-desk-download-original").click(),
+  ]);
+  expect(image.suggestedFilename()).toMatch(
+    /^school-corridor-fountain-fix-[0-9a-f]{12}\.png$/,
+  );
+  await expect(page.getByTestId("art-desk-original-status")).toContainText(
+    "hash verified",
+  );
 });
