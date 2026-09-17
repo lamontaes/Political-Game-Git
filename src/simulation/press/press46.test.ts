@@ -52,6 +52,7 @@ import {
   MEDIA_ACTIVE_ASSIGNMENT_CAPACITY,
 } from "./index";
 import { recordEvidenceDiscovery } from "../evidence";
+import { contradictionFound } from "../claim-stances";
 
 const KENTUCKY_PACK = "us-ky-general-assembly-v1:candidacy";
 const KY = KENTUCKY_CONTEXT.jurisdiction.id;
@@ -265,7 +266,9 @@ describe("PRESS46 false public allegation", () => {
       p.outletKey.startsWith("media:"),
     );
     const allegationStory = stories.find((p) =>
-      `${p.headline}\n${p.body}`.includes("This is an allegation, not a finding."),
+      `${p.headline}\n${p.body}`.includes(
+        "This is an allegation, not a finding.",
+      ),
     );
     expect(allegationStory).toBeDefined();
     expect(allegationStory!.body).not.toMatch(/guilty|admitted|proved/i);
@@ -511,6 +514,21 @@ describe("PRESS46 established finding, leak and ground rules", () => {
         expect(knowledge.personId).toBe(response.actorPersonId);
       }
     }
+  });
+
+  it("lets the reporter holding the leaked ledger discover the lie", () => {
+    const stanceEvent = concluded.history.events.find(
+      (e) =>
+        e.type === "press.subject-responded" &&
+        e.tags.some((t) => t.startsWith("claim.stance.v1:")) &&
+        e.participants.some((p) => p.personId === fixture.playerId),
+    )!;
+    const leadReporter = assignedReporter(concluded, leadId)!;
+    // The tip stayed with the reporter who received the ledger.
+    expect(leadReporter).toBe(reporterId);
+    expect(
+      contradictionFound(concluded, stanceEvent.id, leadReporter),
+    ).not.toBeNull();
   });
 
   it("round-trips the whole matter through a save", () => {

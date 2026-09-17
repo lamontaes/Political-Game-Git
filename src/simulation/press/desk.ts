@@ -77,6 +77,7 @@ export const PRESS_DESK_INTERVALS = {
   responseWindowDays: 2,
   routinePublishDays: 1,
   holdRecheckDays: 7,
+  routineItemsPerSweep: 1,
 } as const;
 
 const RESPONSE_REQUESTED_EVENT = "press.response-requested";
@@ -1145,7 +1146,8 @@ export function composeStory(
         : lead0;
   // The headline already carries the first public fact; do not print it twice.
   const body = paragraphs.filter(
-    (paragraph, index) => !(index === 0 && paragraph.trim() === headline.trim()),
+    (paragraph, index) =>
+      !(index === 0 && paragraph.trim() === headline.trim()),
   );
   body.push(
     `Reported by ${personName(world.people[reporterId]!)} for ${outlet.name}.`,
@@ -1235,7 +1237,10 @@ export function eventIsNewsCandidate(
   if (EXCLUDED_PREFIXES.some((prefix) => event.type.startsWith(prefix))) {
     return false;
   }
-  if (event.tags.includes("world.created") || event.tags.includes("life.started")) {
+  if (
+    event.tags.includes("world.created") ||
+    event.tags.includes("life.started")
+  ) {
     return false;
   }
   if (
@@ -1278,7 +1283,15 @@ function sweepOutlet(
     0,
     capacity - activeAssignments(next, outlet.id).length,
   );
-  for (const { event } of routed.slice(0, free)) {
+  // Authored editorial attention: one routine item per weekly review; items
+  // about a matter or a named person may use the rest of the free capacity.
+  let routineTaken = 0;
+  const chosen = routed.slice(0, free).filter(({ priority }) => {
+    if (priority >= 2) return true;
+    routineTaken += 1;
+    return routineTaken <= PRESS_DESK_INTERVALS.routineItemsPerSweep;
+  });
+  for (const { event } of chosen) {
     const matterId = matterIdOf(event);
     const followed = matterId
       ? publishedStoryOnMatter(next, outlet.id, matterId)
@@ -1426,6 +1439,18 @@ function chooseReporter(
     reporterIsCurrent(world, role),
   );
   if (current.length === 0) return null;
+  // A tip stays with the reporter the source actually talked to.
+  const tipped = pressRecordsOfKind(world, "source-contribution")
+    .filter((contribution) =>
+      lead.basisEventIds.includes(contribution.contributionEventId),
+    )
+    .map(
+      (contribution) =>
+        requirePressRecord(world, "source-agreement", contribution.agreementId)
+          .reporterPersonId,
+    );
+  const tippedRole = current.find((role) => tipped.includes(role.personId));
+  if (tippedRole) return tippedRole;
   const load = (role: ReporterRoleRecord) =>
     activeAssignments(world, outlet.id).filter(
       (item) => assignedReporter(world, item.id) === role.personId,

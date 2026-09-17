@@ -67,10 +67,34 @@ export function pressEntityAvailableAt(
  * derived fields (usability, attribution, capacity) must agree with the rules
  * that derive them.
  */
+/**
+ * Press records are append-only and reference only earlier history, so an
+ * unchanged record array that already passed stays valid as the World grows.
+ * A loaded or edited save is a new array and is checked in full.
+ */
+const VALIDATED = new WeakMap<readonly PressRecord[], World["id"]>();
+
 export function assertPressIntegrity(world: World, ids: Set<EntityId>): void {
   const records = pressHistoryRecords(world);
   if (records.length === 0) return;
+  if (VALIDATED.get(records) === world.id) {
+    for (const record of records) {
+      if (ids.has(record.id)) {
+        throw new Error(`Duplicate entity ID: ${record.id}`);
+      }
+      ids.add(record.id);
+    }
+    return;
+  }
+  validatePressRecords(world, records, ids);
+  VALIDATED.set(records, world.id);
+}
 
+export function validatePressRecords(
+  world: World,
+  records: readonly PressRecord[],
+  ids: Set<EntityId>,
+): void {
   const sequenceOf = new Map<EntityId, number>();
   const note = (list: readonly { id: EntityId; sequence: number }[]) => {
     for (const item of list) sequenceOf.set(item.id, item.sequence);

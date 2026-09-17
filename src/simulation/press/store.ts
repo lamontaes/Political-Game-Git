@@ -1,7 +1,7 @@
 import { makeIsoDate } from "../dates";
 import { createStableId } from "../ids";
 import type { EntityId, World } from "../types";
-import { assertWorldIntegrity } from "../world";
+import { validatePressRecords } from "./integrity";
 import type {
   PressRecord,
   PressRecordInput,
@@ -59,7 +59,8 @@ export function pressRecordId(world: World, stableKey: string): EntityId {
 
 /**
  * The single append boundary for the family. Identity, sequence and recording
- * date come from the World; the full World integrity check runs afterwards.
+ * date come from the World. The family is validated here; the full World check
+ * runs at every other writer and after every due-item handler.
  */
 export function appendPressRecord<K extends PressRecordKind>(
   world: World,
@@ -88,6 +89,6 @@ export function appendPressRecord<K extends PressRecordKind>(
       pressRecords: [...pressRecords(world), record],
     },
   };
-  assertWorldIntegrity(next);
+  validatePressRecords(next, next.history.pressRecords!, new Set());
   return { world: next, record };
 }
