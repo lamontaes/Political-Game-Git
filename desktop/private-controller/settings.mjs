@@ -26,11 +26,30 @@ function render(state) {
   const ids = state.identities ?? {};
   $("id-hub").textContent =
     `${ids.hub?.revision ?? "unknown"}${ids.hub?.desktopDirty ? " (uncommitted desktop changes)" : ""} · ${ids.hub?.signing ?? ""}`;
+  const requested = state.tracks[state.selectedTrack] ?? null;
+  $("id-requested").textContent =
+    `${state.selectedTrack === "main" ? "Follow main" : state.selectedTrack.slice(7)}${
+      state.selectedBuilt
+        ? state.selectedPresent
+          ? ""
+          : " · its cached payload is missing from disk"
+        : " · not built yet"
+    }`;
   $("id-game").textContent = ids.game
-    ? `${ids.game.track} · ${ids.game.revision} · client ${ids.game.clientTreeSha256} · ${ids.game.architecture}`
+    ? `${ids.game.revision} · client ${ids.game.clientTreeSha256} · ${ids.game.architecture}${requested?.pending ? ` · ${requested.pending.revision} waiting for a restart` : ""}`
     : "No verified build yet";
+  // What is actually running, never merged with what was requested or staged.
+  $("id-loaded").textContent = ids.loaded
+    ? `${ids.loaded.title} · ${ids.loaded.revision ?? "revision unknown"}${
+        ids.loaded.revision &&
+        ids.loaded.selectedBuildRevision &&
+        ids.loaded.revision !== ids.loaded.selectedBuildRevision
+          ? ` · its track's staged build is now ${ids.loaded.selectedBuildRevision}`
+          : ""
+      }`
+    : "No game view open";
   $("id-bench").textContent = ids.bench
-    ? `${ids.bench.branch} @ ${ids.bench.revision}${ids.bench.requestedRevision && ids.bench.requestedRevision !== ids.bench.revision ? ` (newer ${ids.bench.requestedRevision} waiting)` : ""} · records ${ids.bench.recordRoot}`
+    ? `${ids.bench.branch} · requested ${ids.bench.requestedRevision ?? "unknown"} · running ${ids.bench.revision ?? "unknown"} · records ${ids.bench.recordRoot}`
     : "Not started";
   $("id-pack").textContent = ids.privatePack
     ? `${ids.privatePack.packId} · manifest ${ids.privatePack.manifestSha256}`
@@ -39,7 +58,12 @@ function render(state) {
     const tr = document.createElement("tr");
     tr.append(
       cell(id === "main" ? "Follow main" : id.slice(7)),
-      cell(short(track.current)),
+      cell(
+        track.currentPresent
+          ? short(track.current)
+          : `${short(track.current)} · missing from disk (${track.currentAbsentReason ?? "unknown"})`,
+      ),
+      cell(track.open ? (track.openRevision ?? "open") : "—"),
       cell(short(track.pending)),
       cell(short(track.previous)),
       cell(

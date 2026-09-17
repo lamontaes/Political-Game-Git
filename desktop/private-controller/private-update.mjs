@@ -1,7 +1,9 @@
+import { existsSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import { URL } from "node:url";
 
 export const CONTROLLER_STATE_SCHEMA = 1;
+export const EXPECTED_BUILD_PROFILE = "internal-art-review";
 export const EXPECTED_REPOSITORY = "github.com/lamontaes/Political-Game-Git";
 
 export function canonicalRepository(value) {
@@ -66,6 +68,47 @@ export function controllerPaths(dataRoot, revision, inputTag = null) {
       "Our Civic Duty Internal Art Review.app",
     ),
   };
+}
+
+/**
+ * Whether a recorded build's payload is still on disk and is the build the
+ * record claims. A state record is not evidence: an .app the owner deleted,
+ * a half-copied payload, or an application whose own identity names another
+ * revision or profile must read as absent so the hub rebuilds instead of
+ * calling it verified. Path and fs only, so both processes can ask.
+ */
+export function buildPresentOnDisk(build) {
+  if (!build || typeof build !== "object")
+    return { ok: false, reason: "no-record" };
+  if (!validateRevision(build.revision))
+    return { ok: false, reason: "invalid-record-revision" };
+  if (typeof build.appPath !== "string" || !path.isAbsolute(build.appPath))
+    return { ok: false, reason: "invalid-record-path" };
+  const appPath = path.resolve(build.appPath);
+  try {
+    if (!statSync(appPath).isDirectory())
+      return { ok: false, reason: "missing-application" };
+  } catch {
+    return { ok: false, reason: "missing-application" };
+  }
+  const resources = path.join(appPath, "Contents", "Resources");
+  if (!existsSync(path.join(resources, "client", "index.html")))
+    return { ok: false, reason: "missing-client" };
+  let identity = null;
+  try {
+    identity = JSON.parse(
+      readFileSync(path.join(resources, "build-identity.json"), "utf8"),
+    );
+  } catch {
+    return { ok: false, reason: "unreadable-identity" };
+  }
+  if (!identity || typeof identity !== "object")
+    return { ok: false, reason: "unreadable-identity" };
+  if (identity.revision !== build.revision)
+    return { ok: false, reason: "revision-mismatch" };
+  if (identity.profile !== EXPECTED_BUILD_PROFILE)
+    return { ok: false, reason: "profile-mismatch" };
+  return { ok: true, reason: null };
 }
 
 export function cleanControllerState(value) {

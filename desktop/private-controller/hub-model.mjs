@@ -238,10 +238,23 @@ export function rollback(state, id) {
 /**
  * The label shown beside Play. A cached build is only "latest" when it equals
  * the freshly resolved remote SHA; otherwise it is the last known-good build.
+ * `present` is the caller's disk evidence for the recorded build: a record
+ * whose payload is gone is never labelled verified.
  */
-export function playLabel({ track, build, remoteRevision, fetchState }) {
+export function playLabel({
+  track,
+  build,
+  remoteRevision,
+  fetchState,
+  present = true,
+}) {
   if (!build) return { kind: "none", text: "No verified build yet" };
   const base = track === MAIN_TRACK ? "Main" : "Branch preview";
+  if (!present)
+    return {
+      kind: "needs-rebuild",
+      text: `${base} · cached build ${build.revision.slice(0, 12)} is missing from disk · needs rebuilding`,
+    };
   if (fetchState === "offline")
     return {
       kind: "last-good",
@@ -345,23 +358,61 @@ export function updateStatus({ phase, check, build, building }) {
     return { kind: "preparing", text: "Preparing the update…" };
   }
   if (!check) return { kind: "unchecked", text: "Not checked yet" };
+  // The persisted message travels as a detail so a restarted hub, whose
+  // in-memory phase is empty, can still say what happened and when.
+  const at = (kind, text) => ({
+    kind,
+    text,
+    detail: check.message ? check.message : null,
+  });
   switch (check.outcome) {
     case "up-to-date":
       return build && check.revision === build.revision
-        ? { kind: "current", text: "Up to date" }
-        : { kind: "ready", text: "Ready to use" };
+        ? at("current", "Up to date")
+        : at("ready", "Ready to use");
     case "ready":
-      return { kind: "ready", text: "Ready to use" };
+      return at("ready", "Ready to use");
     case "waiting":
-      return { kind: "waiting", text: "Update ready — restart Play to use it" };
+      return at("waiting", "Update ready — restart Play to use it");
+    case "offline":
+      return at(
+        "offline",
+        "Offline — could not reach the project remote; showing the last known-good build",
+      );
     case "unsupported":
-      return {
-        kind: "unsupported",
-        text: "This build can't be previewed in the desktop app",
-      };
+      return at(
+        "unsupported",
+        "This build can't be previewed in the desktop app",
+      );
     case "cancelled":
-      return { kind: "unchecked", text: "Check cancelled" };
+      return at("unchecked", "Check cancelled");
     default:
-      return { kind: "failed", text: "Could not check" };
+      return at("failed", "Could not check");
   }
+}
+
+/* ------------------------------------------------- superseded requests */
+
+/**
+ * A monotonic request counter. Long jobs capture a token and act only while
+ * it is still current, so a slow selection or chooser response that finishes
+ * after a later one can never replace what the owner chose last.
+ */
+export function createGeneration() {
+  let current = 0;
+  return {
+    begin: () => ++current,
+    current: () => current,
+    isCurrent: (token) => token === current,
+  };
+}
+
+/**
+ * Queued builds worth keeping after a new selection: the selection itself and
+ * main. Anything else the owner has already moved past is dropped.
+ */
+export function prunedQueue(queue, selectedTrack) {
+  return (queue ?? []).filter(
+    (entry) => entry?.track === selectedTrack || entry?.track === MAIN_TRACK,
+  );
 }

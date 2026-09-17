@@ -6,6 +6,9 @@ const track = $("track");
 const status = $("status");
 const TECHNICAL = "__technical__";
 let chooser = null;
+// Chooser listings are requested on every focus; only the newest response is
+// allowed to paint, so a slow earlier one cannot replace it.
+let chooserRequest = 0;
 let showTechnical = false;
 let showDetails = false;
 let last = null;
@@ -121,8 +124,13 @@ function render(state) {
       }`;
   } else {
     html += `<strong>${esc(item.title)}</strong>`;
-    if (state.phase?.message && update.kind !== "current")
-      html += ` · ${esc(state.phase.message)}`;
+    // A recorded build whose payload is gone says so here, not "verified".
+    if (selected?.currentPresent === false)
+      html += ` · ${esc(selected.label.text)}`;
+    // After a hub restart there is no in-memory phase; the persisted check
+    // message is what actually happened, so it stays visible.
+    const note = state.phase?.message ?? update.detail ?? update.message;
+    if (note && update.kind !== "current") html += ` · ${esc(note)}`;
   }
   const checked = timeText(update.lastSuccessAt);
   if (!showDetails)
@@ -145,8 +153,9 @@ function render(state) {
   const building = state.building === state.selectedTrack;
   const check = $("check-updates");
   check.disabled = building;
-  check.textContent =
-    update.kind === "failed" ? "Try again" : "Check for updates";
+  check.textContent = ["failed", "offline"].includes(update.kind)
+    ? "Try again"
+    : "Check for updates";
   $("copy-ref").hidden = !showDetails;
   $("build-details").setAttribute("aria-expanded", String(showDetails));
   $("apply").hidden = !(selected?.pending && selected.open);
@@ -185,7 +194,9 @@ document.querySelector(".tabs").addEventListener("keydown", (event) => {
 });
 
 async function loadChooser() {
+  const token = ++chooserRequest;
   const result = await hub.branches();
+  if (token !== chooserRequest) return;
   if (!result?.ok) {
     status.textContent = result?.message ?? "Could not list game builds.";
     return;

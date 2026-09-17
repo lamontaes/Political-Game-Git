@@ -56,8 +56,10 @@ import {
   activatePending,
   cleanChecks,
   cleanHubState,
+  createGeneration,
   emptyHubState,
   playLabel,
+  prunedQueue,
   recordCheck,
   rollback,
   trackId,
@@ -66,7 +68,11 @@ import {
   validBranchName,
   validRevision,
 } from "./hub-model.mjs";
-import { buildRecord, repositoryIsExpected } from "./private-update.mjs";
+import {
+  buildPresentOnDisk,
+  buildRecord,
+  repositoryIsExpected,
+} from "./private-update.mjs";
 import {
   SILENCE_NOTICE_MS,
   createSilenceWatch,
@@ -382,22 +388,30 @@ function publicState() {
   const state = readState();
   const selected = state?.selectedTrack ?? MAIN_TRACK;
   const tracks = Object.fromEntries(
-    Object.entries(state?.tracks ?? {}).map(([id, track]) => [
-      id,
-      {
-        ...track,
-        open: hub.play.has(id),
-        openRevision: hub.play.get(id)?.revision ?? null,
-        remote: hub.remote[id] ?? null,
-        phase: hub.phase[id] ?? null,
-        label: playLabel({
-          track: id,
-          build: track.current,
-          remoteRevision: hub.remote[id]?.revision ?? null,
-          fetchState: hub.remote[id]?.fetchState ?? null,
-        }),
-      },
-    ]),
+    Object.entries(state?.tracks ?? {}).map(([id, track]) => {
+      // A state record is not a payload: ask the disk before calling a
+      // cached build verified.
+      const present = buildPresentOnDisk(track.current);
+      return [
+        id,
+        {
+          ...track,
+          open: hub.play.has(id),
+          openRevision: hub.play.get(id)?.revision ?? null,
+          currentPresent: present.ok,
+          currentAbsentReason: present.reason,
+          remote: hub.remote[id] ?? null,
+          phase: hub.phase[id] ?? null,
+          label: playLabel({
+            track: id,
+            build: track.current,
+            remoteRevision: hub.remote[id]?.revision ?? null,
+            fetchState: hub.remote[id]?.fetchState ?? null,
+            present: present.ok,
+          }),
+        },
+      ];
+    }),
   );
   const checks = readChecks();
   const shown = shownPlayTrack(state);
@@ -406,6 +420,7 @@ function publicState() {
     activeTab: hub.activeTab,
     selectedTrack: selected,
     selectedBuilt: Boolean(selectedBuild),
+    selectedPresent: tracks[selected]?.currentPresent ?? false,
     // What is on screen, which is not always what was requested.
     loaded: shown
       ? {
@@ -458,6 +473,17 @@ function publicState() {
             }
           : null;
       })(),
+      // What is on screen, kept apart from the staged build for this track:
+      // the two differ while a verified update waits for a restart.
+      loaded: shown
+        ? {
+            track: shown,
+            title: shown === MAIN_TRACK ? "Main game" : shown.slice(7),
+            revision: hub.play.get(shown)?.revision ?? null,
+            selectedBuildRevision:
+              state?.tracks[shown]?.current?.revision ?? null,
+          }
+        : null,
       bench:
         hub.artdesk?.status?.state === "ready"
           ? {
@@ -502,6 +528,14 @@ function logLine(message) {
 }
 
 /* ----------------------------------------------------------- game views */
+
+/**
+ * The owner's latest Play choice. Selecting takes a token; every step that
+ * resumes after an await checks it, so a slow job for an abandoned choice
+ * cannot open a view, start a build or re-lay out over the newer one.
+ */
+const selection = createGeneration();
+const SUPERSEDED = "A newer choice replaced this one; nothing was changed.";
 
 const contentRoots = new Map(); // track id -> client directory
 const configuredSessions = new Set();
@@ -558,7 +592,7 @@ async function standaloneGameRunning() {
   }
 }
 
-async function openPlay(id) {
+async function openPlay(id, stillWanted = () => true) {
   const state = readState();
   const track = state?.tracks[id];
   if (!track)
@@ -570,28 +604,22 @@ async function openPlay(id) {
       message:
         "The standalone game is running with the same save profile. Close it first; its own save guard stays in control.",
     };
-  // Only one branch preview is kept alive next to main.
-  for (const other of [...hub.play.keys()])
-    if (other !== MAIN_TRACK && other !== id) {
-      const closed = await closePlay(other);
-      if (!closed)
-        return {
-          ok: false,
-          message: "The open branch preview kept its unsaved life.",
-        };
-    }
+  if (!stillWanted()) return { ok: false, message: SUPERSEDED };
+  // The incoming payload is validated and its view built BEFORE anything on
+  // screen is disturbed: a build that cannot open leaves the previous preview
+  // exactly where it was.
   const clientRoot = path.join(
     track.current.appPath,
     "Contents",
     "Resources",
     "client",
   );
-  if (!existsSync(path.join(clientRoot, "index.html")))
+  const present = buildPresentOnDisk(track.current);
+  if (!present.ok)
     return {
       ok: false,
-      message: "The cached build is incomplete; rebuild this track.",
+      message: `The cached build is not usable (${present.reason}); rebuild this track.`,
     };
-  contentRoots.set(id, clientRoot);
   const view = new WebContentsView({
     webPreferences: {
       session: sessionForTrack(id),
@@ -622,6 +650,24 @@ async function openPlay(id) {
     });
     if (choice === 1) event.preventDefault();
   });
+  // Only one branch preview is kept alive next to main. The incoming view
+  // already exists, so a refusal here costs the owner nothing on screen.
+  for (const other of [...hub.play.keys()])
+    if (other !== MAIN_TRACK && other !== id) {
+      const closed = await closePlay(other);
+      if (!closed) {
+        contents.close();
+        return {
+          ok: false,
+          message: "The open branch preview kept its unsaved life.",
+        };
+      }
+    }
+  if (!stillWanted()) {
+    contents.close();
+    return { ok: false, message: SUPERSEDED };
+  }
+  contentRoots.set(id, clientRoot);
   hub.play.set(id, { view, revision: track.current.revision });
   contents.once("destroyed", () => {
     if (hub.play.get(id)?.view === view) hub.play.delete(id);
@@ -999,13 +1045,20 @@ async function selectTrack(branch) {
   if (branch !== MAIN_TRACK && !validBranchName(branch))
     return { ok: false, message: "That branch name is not valid." };
   const id = trackId(branch);
+  const token = selection.begin();
+  const current = () => selection.isCurrent(token);
   const state = readState();
   // Whatever was on screen stays identified while the new choice prepares.
   hub.lastPlay = shownPlayTrack(state) ?? hub.lastPlay;
   atomicWrite(statePath, { ...state, selectedTrack: id });
   hub.activeTab = "play";
+  // Queued builds for choices the owner has moved past are dropped; main and
+  // the live selection keep their place.
+  const kept = prunedQueue(hub.queue, id);
+  hub.queue.splice(0, hub.queue.length, ...kept);
   if (state.tracks[id]) {
-    const opened = await openPlay(id);
+    const opened = await openPlay(id, current);
+    if (!current()) return { ok: false, message: SUPERSEDED };
     if (!opened.ok) logLine(opened.message);
   }
   // Explicitly selecting an owner-repository branch authorizes preparing it.
