@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { proseDate } from "./prose-dates";
 import {
   assertWorldIntegrity,
   deserializeWorld,
@@ -33,7 +34,9 @@ describe("OPENING-LIFE1 opening lifecycle", () => {
       const view = projectOpeningLife(world, playerPersonId);
       expect(view.age).toBe(startAge);
       expect(view.name).toBeTruthy();
-      expect(view.date).toBe(world.currentDate);
+      // The identity line says the date the American way, never as ISO.
+      expect(view.date).toBe(proseDate(world.currentDate));
+      expect(view.date).toMatch(/^[A-Z][a-z]+ \d{1,2}, \d{4}$/);
       expect(view.officeholders).toHaveLength(2);
       expect(
         new Set(view.officeholders.map((holder) => holder.personId)).size,

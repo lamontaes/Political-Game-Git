@@ -1,4 +1,6 @@
 import { SocialInvitationPanel } from "../presentation/SocialInvitationPanel";
+import { proseDate } from "../presentation/prose-dates";
+import { formatMinute } from "../presentation/player-calendar";
 import { useState } from "react";
 import { CareerPathsPanel } from "./CareerPathsPanel";
 import { EducationOptionsPanel } from "./EducationOptionsPanel";
@@ -374,9 +376,8 @@ export function LifePathsPanel({
               return (
                 <div key={a.id}>
                   <p>
-                    {state.start.date},{" "}
-                    {Math.floor(state.start.minuteOfDay / 60)}:
-                    {String(state.start.minuteOfDay % 60).padStart(2, "0")} —{" "}
+                    {proseDate(state.start.date)},{" "}
+                    {formatMinute(state.start.minuteOfDay)} —{" "}
                     {path.sessionMinutes / 60} hours. Attending advances the
                     clock to the end of this session.
                   </p>

@@ -1,5 +1,6 @@
 import { UX39CalendarGrid, useCalendarDateOrder } from "./UX39CalendarGrid";
 import { calendarDisplayDate } from "./ux39-calendar-dates";
+import { proseDate } from "../presentation/prose-dates";
 import {
   EconomicContextPanel,
   LEXINGTON_ECONOMIC_BINDING,
@@ -819,8 +820,8 @@ export function CommitmentSurface({
   return (
     <div data-testid="commitment-detail" data-activity-id={entry.activityId}>
       <p className="game-band">
-        {entry.start.date} · {formatMinute(entry.start.minuteOfDay)} –{" "}
-        {formatMinute(entry.end.minuteOfDay)}
+        {proseDate(entry.start.date)} · {formatMinute(entry.start.minuteOfDay)}{" "}
+        – {formatMinute(entry.end.minuteOfDay)}
       </p>
       <p className="pg-kicker" data-testid="commitment-kind">
         {entry.kindLabel}

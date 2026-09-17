@@ -1,5 +1,7 @@
 import "./MunicipalWorkspace.css";
 import { projectMunicipalGoverning } from "../presentation/municipal-governing";
+import { proseDate } from "../presentation/prose-dates";
+import { formatMinute } from "../presentation/player-calendar";
 import { municipalCapacitySourceUrl } from "../simulation/municipal-capacity";
 import { municipalVenueForActivity } from "../presentation/municipal-venue";
 import type { ReactNode } from "react";
@@ -697,14 +699,9 @@ export function MunicipalWorkspace({
                   <h4>{meeting.title}</h4>
                   <p>{meeting.summary}</p>
                   <p>
-                    {state!.start.date}
-                    {" ·"}{" "}
-                    {String(Math.floor(state!.start.minuteOfDay / 60)).padStart(
-                      2,
-                      "0",
-                    )}
-                    {":"}
-                    {String(state!.start.minuteOfDay % 60).padStart(2, "0")}
+                    {proseDate(state!.start.date)}
+                    {" · "}
+                    {formatMinute(state!.start.minuteOfDay)}
                   </p>
                   <p>
                     {
@@ -1078,7 +1075,7 @@ export function MunicipalWorkspace({
                     ? row.partTimeEmployees.value
                     : "Unknown"}{" "}
                   {"part-time employees; observed "}
-                  {row.referenceDate}
+                  {proseDate(row.referenceDate)}
                   {". Full-time equivalent: unknown."}{" "}
                   {municipalCapacitySourceUrl(row.evidence.artifactId) && (
                     <a
