@@ -40,6 +40,27 @@ export interface ArtDeskCoverage {
   readonly note: string;
 }
 
+/**
+ * What the identified server found when it looked for a candidate's bytes.
+ * `unchecked` means no receipt has been read yet; it is never treated as
+ * present.
+ */
+export type ArtDeskCandidateBytes =
+  "unchecked" | "verified" | "missing" | "hash-mismatch" | "not-a-raster";
+
+export interface ArtDeskCandidateInput {
+  readonly sha256: string;
+  readonly path: string;
+  readonly sceneId?: string;
+  readonly bytes?: ArtDeskCandidateBytes;
+  readonly source?: "generation-batch" | "upload-sidecar";
+  readonly raster?: {
+    readonly container: "png" | "jpg";
+    readonly width: number;
+    readonly height: number;
+  };
+}
+
 export interface ArtDeskItem {
   readonly request: AssetRequest;
   readonly lane: ArtDeskLane;
@@ -50,18 +71,55 @@ export interface ArtDeskItem {
   readonly warnings: readonly string[];
   readonly candidateSha256?: string;
   readonly candidateThumbPath?: string;
+  /** Server-verified state of the recorded candidate's bytes. */
+  readonly candidateBytes: ArtDeskCandidateBytes;
+  /** True only when bytes are present, decoded and hash to the recorded value. */
+  readonly candidateVerified: boolean;
+  readonly candidateSource?: ArtDeskCandidateInput["source"];
+  readonly candidateRaster?: ArtDeskCandidateInput["raster"];
+  /** Disposable QA request from the private sidecar; never production coverage. */
+  readonly disposable: boolean;
   readonly sceneId?: string;
+}
+
+/**
+ * Pack identity state as the identified server reported it. `unknown` is the
+ * browser's state before any receipt arrives; it is neither supplied nor
+ * missing and says so.
+ */
+export type ArtDeskPrivatePackStatus =
+  | "unknown"
+  | "not-configured"
+  | "missing"
+  | "invalid"
+  | "incomplete"
+  | "verified";
+
+export interface ArtDeskPrivatePackReceipt {
+  readonly status: ArtDeskPrivatePackStatus;
+  readonly note: string;
+  readonly packId?: string;
+  readonly manifestSha256?: string;
+  readonly filesTotal?: number;
+  readonly filesPresent?: number;
+  readonly checkedAt?: string;
 }
 
 export interface ArtDeskState {
   readonly contractVersion: "alive43-art-desk-v1";
   readonly items: readonly ArtDeskItem[];
-  readonly privatePack: {
-    readonly status: "supplied" | "input-missing";
-    readonly note: string;
-    readonly path?: string;
+  readonly privatePack: ArtDeskPrivatePackReceipt;
+}
+
+export function unknownPrivatePackReceipt(): ArtDeskPrivatePackReceipt {
+  return {
+    status: "unknown",
+    note: "Private pack state has not been read from the identified server yet.",
   };
 }
+
+const PRIVATE_PACK_INPUT_MISSING: ReadonlySet<ArtDeskPrivatePackStatus> =
+  new Set(["unknown", "not-configured", "missing", "invalid", "incomplete"]);
 
 export interface ArtDeskReconciliation {
   readonly documentVersion: 1;
@@ -80,17 +138,11 @@ export interface ArtDeskInputs {
   readonly readiness?: AssetReadinessDeclaration;
   readonly now: string;
   readonly releasedAssetIds?: ReadonlySet<string>;
-  readonly candidateByRequest?: Readonly<
-    Record<
-      string,
-      {
-        readonly sha256: string;
-        readonly path: string;
-        readonly sceneId?: string;
-      }
-    >
-  >;
-  readonly privatePackPath?: string;
+  readonly candidateByRequest?: Readonly<Record<string, ArtDeskCandidateInput>>;
+  /** Receipt from the identified server; omitted means not yet read. */
+  readonly privatePack?: ArtDeskPrivatePackReceipt;
+  /** Request ids that came from the disposable QA sidecar. */
+  readonly disposableRequestIds?: ReadonlySet<string>;
   readonly reconciliation?: ArtDeskReconciliation;
 }
 
@@ -162,21 +214,43 @@ function laneFor(item: {
   return "needs-your-review";
 }
 
+function candidateCoverageNote(candidate: ArtDeskCandidateInput): string {
+  switch (candidate.bytes) {
+    case "verified":
+      return candidate.raster
+        ? `Candidate bytes present and hash-verified: ${candidate.raster.width}×${candidate.raster.height} ${candidate.raster.container}.`
+        : "Candidate bytes present and hash-verified.";
+    case "missing":
+      return "Candidate hash is recorded. Its private bytes are not in this checkout; the record is history, not reviewable pixels.";
+    case "hash-mismatch":
+      return "Candidate hash is recorded, but the bytes on disk hash differently. Not reviewable as this candidate.";
+    case "not-a-raster":
+      return "Candidate hash is recorded and matches, but the bytes do not decode as PNG or JPEG.";
+    default:
+      return "Candidate hash is recorded. Bytes have not been verified by the identified server yet.";
+  }
+}
+
+/** A decision may bind only a candidate whose bytes the server verified. */
+export function decisionBlocker(item: ArtDeskItem): string | null {
+  if (!item.candidateSha256) {
+    return "Approve/reject binds exact candidate bytes. Upload a candidate first.";
+  }
+  if (item.candidateBytes === "unchecked") {
+    return "Candidate bytes are not verified yet; wait for the identified server's receipt.";
+  }
+  if (!item.candidateVerified) {
+    return `Candidate bytes are ${item.candidateBytes}; a decision binds present, decoded, hash-verified bytes.`;
+  }
+  return null;
+}
+
 function readinessClosed(request: AssetRequest): boolean {
   return request.status === "withdrawn-already-covered";
 }
 
 export function projectArtDesk(inputs: ArtDeskInputs): ArtDeskState {
-  const privatePack = inputs.privatePackPath
-    ? {
-        status: "supplied" as const,
-        note: "Authorized private pack path supplied to this worktree.",
-        path: inputs.privatePackPath,
-      }
-    : {
-        status: "input-missing" as const,
-        note: "Authorized private MODULAR41 pack was not handed to this isolated worktree. That is an access/input problem, not proof modern people are absent from the bank.",
-      };
+  const privatePack = inputs.privatePack ?? unknownPrivatePackReceipt();
 
   const items = inputs.requests.map((raw) => {
     const hold =
@@ -252,7 +326,7 @@ export function projectArtDesk(inputs: ArtDeskInputs): ArtDeskState {
       coverage = {
         disposition: "candidate",
         sha256: candidate.sha256,
-        note: "Candidate bytes present for exact-hash review.",
+        note: candidateCoverageNote(candidate),
       };
     } else if (TERMINAL_ASSET_REQUEST_STATUSES.includes(request.status)) {
       coverage = {
@@ -281,10 +355,22 @@ export function projectArtDesk(inputs: ArtDeskInputs): ArtDeskState {
       );
     }
     if (
-      privatePack.status === "input-missing" &&
+      PRIVATE_PACK_INPUT_MISSING.has(privatePack.status) &&
       request.requestId.startsWith(PEOPLE_REQUEST_PREFIX)
     ) {
       warnings.push(privatePack.note);
+    }
+    if (candidate && candidate.bytes === "hash-mismatch") {
+      warnings.push(
+        "Bytes on disk are not the recorded candidate; nothing here can be approved until the record and the file agree.",
+      );
+    }
+    const disposable =
+      inputs.disposableRequestIds?.has(request.requestId) ?? false;
+    if (disposable) {
+      warnings.push(
+        "Disposable QA request from the private sidecar. Its candidate is bench proof, not production art, and never counts as coverage.",
+      );
     }
     if (
       latestReview &&
@@ -303,6 +389,7 @@ export function projectArtDesk(inputs: ArtDeskInputs): ArtDeskState {
       coverage.disposition !== "candidate" &&
       coverage.disposition !== "public-released" &&
       coverage.disposition !== "private-usable" &&
+      !disposable &&
       !request.requestId.startsWith(PEOPLE_REQUEST_PREFIX);
 
     const itemCore = {
@@ -313,6 +400,11 @@ export function projectArtDesk(inputs: ArtDeskInputs): ArtDeskState {
       warnings,
       candidateSha256: candidate?.sha256,
       candidateThumbPath: candidate?.path,
+      candidateBytes: candidate?.bytes ?? "unchecked",
+      candidateVerified: candidate?.bytes === "verified",
+      candidateSource: candidate?.source,
+      candidateRaster: candidate?.raster,
+      disposable,
       sceneId: candidate?.sceneId ?? request.scope?.familyId,
     };
     return {

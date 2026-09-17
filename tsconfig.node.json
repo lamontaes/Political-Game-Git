@@ -22,6 +22,7 @@
     "scripts/prose-eval/**/*.ts",
     "scripts/release/**/*.ts",
     "scripts/source/**/*.ts",
+    "src/authoring/**/*.ts",
     "src/cli/**/*.ts",
     "src/education/**/*.ts",
     "src/fiscal-authority/**/*.ts",
@@ -41,5 +42,5 @@
     "tests/source/**/*.ts",
     "vite.config.ts"
   ],
-  "exclude": ["src/presentation/**/*.test.ts"]
+  "exclude": ["src/presentation/**/*.test.ts", "src/authoring/**/*.test.ts"]
 }
