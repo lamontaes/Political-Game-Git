@@ -24,6 +24,8 @@ import path from "node:path";
 
 import { _electron as electron } from "playwright";
 
+import { chooseStartAge } from "./creator-drive.mjs";
+
 import {
   readSavedRecords,
   sameSavedIdentity,
@@ -356,7 +358,9 @@ let expected;
   await branchPage.getByTestId("setup-screen").waitFor();
   await branchPage.getByTestId("start-normal").click();
   await branchPage.getByTestId("creator-stage-character").waitFor();
-  await branchPage.getByTestId("start-age").fill("29");
+  // The accepted creator derives age from the full birthday, so the proof
+  // answers gender, name and birthday the way a player does.
+  await chooseStartAge(branchPage, 29);
   await branchPage.getByTestId("creator-continue-character").click();
   await branchPage.getByTestId("state-search").fill("Kentucky");
   await branchPage.getByTestId("state-KY").click();
