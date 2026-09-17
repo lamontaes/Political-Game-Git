@@ -1,0 +1,98 @@
+/*
+ * The press desk in the Press office context of News. The paper's own styling
+ * belongs to the front page; this is the player's working surface, so it uses
+ * the shell's tokens rather than a second palette.
+ */
+
+.pg-press-desk {
+  display: grid;
+  gap: var(--pg-space-3, 0.75rem);
+}
+
+.pg-press-desk > h3 {
+  margin: 0;
+  font-family: var(--pg-font-display, Georgia, serif);
+  font-size: 1.1rem;
+}
+
+.pg-press-desk-group {
+  display: grid;
+  gap: var(--pg-space-2, 0.5rem);
+  padding-top: var(--pg-space-2, 0.5rem);
+  border-top: 1px solid var(--pg-hairline, rgba(244, 236, 224, 0.16));
+}
+
+.pg-press-desk-group > h4 {
+  margin: 0;
+  font-family: var(--pg-font-display, Georgia, serif);
+  font-size: 0.98rem;
+  letter-spacing: 0.01em;
+}
+
+.pg-press-desk-list {
+  display: grid;
+  gap: var(--pg-space-2, 0.5rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pg-press-desk-list .pg-press-desk-list {
+  gap: var(--pg-space-1, 0.25rem);
+  padding-left: var(--pg-space-3, 0.75rem);
+}
+
+.pg-press-desk-line {
+  margin: 0;
+}
+
+.pg-press-desk-card,
+.pg-press-desk-story {
+  display: grid;
+  gap: var(--pg-space-2, 0.5rem);
+  padding: var(--pg-space-3, 0.75rem);
+  border: 1px solid var(--pg-hairline, rgba(244, 236, 224, 0.16));
+  border-radius: var(--pg-radius, 3px);
+  background: rgba(11, 19, 32, 0.45);
+}
+
+.pg-press-desk-card blockquote,
+.pg-press-desk-story blockquote {
+  margin: 0;
+  padding-left: var(--pg-space-3, 0.75rem);
+  border-left: 2px solid var(--pg-brass-dim, rgba(194, 155, 72, 0.45));
+  font-family: var(--pg-font-display, Georgia, serif);
+}
+
+.pg-press-desk-answers {
+  display: grid;
+  gap: var(--pg-space-1, 0.25rem);
+  margin: 0;
+  padding: var(--pg-space-2, 0.5rem);
+  border: 1px solid var(--pg-hairline, rgba(244, 236, 224, 0.16));
+  border-radius: var(--pg-radius, 3px);
+}
+
+.pg-press-desk-answers label {
+  display: flex;
+  align-items: baseline;
+  gap: var(--pg-space-2, 0.5rem);
+}
+
+.pg-press-desk-corrections {
+  padding-left: var(--pg-space-3, 0.75rem);
+  border-left: 2px solid var(--pg-brass-dim, rgba(194, 155, 72, 0.45));
+  font-size: 0.9rem;
+}
+
+.pg-press-desk-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--pg-space-2, 0.5rem);
+}
+
+.pg-press-desk :focus-visible {
+  outline: 2px solid var(--pg-brass, #c29b48);
+  outline-offset: 2px;
+}
