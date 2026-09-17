@@ -2,10 +2,7 @@
  * Ordinary elected occupancy consumes a recorded result as provenance, then a
  * supplied dated term and recorded qualification. The result date is not the
  * office start. */
-import {
-  executiveRulePackById,
-  executiveRulePackForOfficeKey,
-} from "./executive-authority-rule-packs";
+import { executiveRulePackById } from "./executive-authority-rule-packs";
 import {
   electionContestById,
   electionContestResult,
@@ -29,11 +26,13 @@ import {
   EXECUTIVE_ENTRY,
   EXECUTIVE_QUALIFICATION,
   EXECUTIVE_TERM_END,
+  electedExecutiveOfficeForKey,
   electedExecutiveTermForRelationship,
   recordedExecutiveQualification,
   resolveExecutiveOffice,
 } from "./executive-work-context";
 import { isPersonAliveAt } from "./vitality-integrity";
+import { scheduleGoverningTransition } from "./governing/state-governing";
 import type {
   EntityId,
   FutureDueItem,
@@ -254,6 +253,11 @@ export function electedExecutiveTermTransitionHandler(
       },
       supersedesStatusId: status.id,
     });
+    next = scheduleGoverningTransition(next, {
+      relationshipId: term.relationship.id,
+      entryDate: due.dueAt,
+      jurisdictionId: term.governing.id,
+    });
   } else if (due.transitionKey === EXECUTIVE_ELECTED_TERM_EXPIRY) {
     if (status.status !== "ended")
       next = recordWorkStatus(next, {
@@ -300,13 +304,11 @@ function requireElectedExecutiveContest(world: World, contestId: EntityId) {
   if (!contest) {
     throw new Error("The contest behind this result is missing.");
   }
-  const pack = executiveRulePackForOfficeKey(contest.office.officeKey);
-  if (!pack) {
-    throw new Error(
-      "That office is not one the accepted executive authority packs establish.",
-    );
+  const office = electedExecutiveOfficeForKey(contest.office.officeKey);
+  if (!office) {
+    throw new Error("That office is not an elected executive office.");
   }
-  const jurisdiction = stateJurisdictionForKey(pack.jurisdictionKey);
+  const jurisdiction = stateJurisdictionForKey(office.jurisdictionKey);
   if (!jurisdiction) {
     throw new Error(
       "This office has no supported governing jurisdiction in this World.",
@@ -323,7 +325,7 @@ function requireElectedExecutiveContest(world: World, contestId: EntityId) {
   if (!outcome || outcome.type !== "election.contest-resolved") {
     throw new Error("The recorded election result names no public outcome.");
   }
-  return { contest, result, pack, jurisdiction, outcome };
+  return { contest, result, office, jurisdiction, outcome };
 }
 
 /**
@@ -341,7 +343,7 @@ export function planElectedExecutiveOfficeTerm(
     readonly termNote: string;
   },
 ): World {
-  const { contest, result, pack, jurisdiction, outcome } =
+  const { contest, result, office, jurisdiction, outcome } =
     requireElectedExecutiveContest(world, input.contestId);
   const startsAt = makeIsoDate(input.startsAt);
   const endsAt = makeIsoDate(input.endsAt);
@@ -376,7 +378,7 @@ export function planElectedExecutiveOfficeTerm(
         },
         jurisdictionOrder: [...world.jurisdictionOrder, jurisdiction.id],
       };
-  const bodyKey = `executive-office:${pack.packId}`;
+  const bodyKey = office.bodyKey;
   const existing = next.history.organizations.find(
     (organization) => organization.stableKey === bodyKey,
   );
@@ -386,8 +388,8 @@ export function planElectedExecutiveOfficeTerm(
       formedAt: next.currentDate,
       provenance: { kind: "simulated-event", eventId: outcome.id },
       initialProfile: {
-        name: pack.office.title,
-        classification: `service:${pack.office.officeKey}`,
+        name: office.title,
+        classification: `service:${office.officeKey}`,
         locationJurisdictionId: jurisdiction.id,
       },
     });
@@ -410,8 +412,8 @@ export function planElectedExecutiveOfficeTerm(
     economicRisk: "organization-borne",
     provenance: { kind: "simulated-event", eventId: outcome.id },
     initialRole: {
-      title: pack.office.title,
-      occupationClassification: `service:${pack.office.officeKey}`,
+      title: office.title,
+      occupationClassification: `service:${office.officeKey}`,
       locationJurisdictionId: jurisdiction.id,
       timeDemand: {
         expectedWeekly: { minimumHours: 35, maximumHours: 45 },
@@ -452,7 +454,7 @@ export function recordElectedExecutiveQualification(
     readonly qualificationNote: string;
   },
 ): World {
-  const { contest, result, pack, jurisdiction } =
+  const { contest, result, office, jurisdiction } =
     requireElectedExecutiveContest(world, input.contestId);
   if (input.personId !== result.winnerPersonId) {
     throw new Error("Only the recorded winner can be qualified for this term.");
@@ -485,7 +487,7 @@ export function recordElectedExecutiveQualification(
     ],
     personFactConstraints: [],
     visibility: "public",
-    tags: [`office:${pack.office.officeKey}`],
+    tags: [`office:${office.officeKey}`],
     summary: "Recorded qualification for a dated executive term was entered.",
     context: {
       location: null,

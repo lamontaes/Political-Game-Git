@@ -32,12 +32,10 @@ describe("NATIONWIDE News names the home-state governor the World produced", () 
     );
     expect(governor).toBeDefined();
     expect(governor!.title).toBe("Governor of Nevada");
-    expect(governor!.startedAt).toBeNull();
-    expect(governor!.termFactsUnknown.length).toBeGreaterThan(0);
-    expect(governor!.sentence).toBe(
-      `${governor!.personName} serves as Governor of Nevada.`,
-    );
-    expect(governor!.sentence).not.toMatch(/since/);
+    // Dated by the game's disclosed office calendar.
+    expect(governor!.startedAt).toBe("2023-01-02");
+    expect(governor!.termFactsUnknown).toEqual([]);
+    expect(governor!.sentence).toMatch(/served as Governor of Nevada since/);
     expect(
       news.unfilledOffices.map((office) => office.displayName),
     ).not.toContain("Governor of Nevada");

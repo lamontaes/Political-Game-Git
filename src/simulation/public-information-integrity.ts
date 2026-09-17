@@ -95,10 +95,19 @@ export function publicInformationEntityExists(
   world: World,
   entityId: EntityId,
 ): boolean {
-  return (world.history.publications ?? []).some(
-    (publication) => publication.id === entityId,
-  );
+  const publications = world.history.publications ?? [];
+  let ids = PUBLICATION_IDS.get(publications);
+  if (!ids) {
+    ids = new Set(publications.map((publication) => publication.id));
+    PUBLICATION_IDS.set(publications, ids);
+  }
+  return ids.has(entityId);
 }
+
+const PUBLICATION_IDS = new WeakMap<
+  readonly { readonly id: EntityId }[],
+  Set<EntityId>
+>();
 
 export function publicInformationEntityAvailableAt(
   world: World,

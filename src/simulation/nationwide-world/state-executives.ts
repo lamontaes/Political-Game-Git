@@ -19,6 +19,10 @@ import {
 } from "./rule-capability-port";
 import type { RuleFieldKey } from "./rule-capability-port";
 import {
+  regularTermWindowOn,
+  stateExecutiveTermRule,
+} from "./state-executive-term-rules";
+import {
   STATE_GOVERNMENT_STRUCTURE_SOURCE,
   US_STATE_USPS,
   stateExecutiveIdentity,
@@ -119,6 +123,21 @@ export function stateExecutiveTermWindow(
     fields: STATE_EXECUTIVE_TERM_FIELDS,
   });
   const unknownFields = unadmittedRuleFields(resolution);
+  if (unknownFields.length > 0) {
+    // No admitted law: the office runs on its verified or disclosed game
+    // calendar (state-executive-term-rules). Saves that already recorded an
+    // unknown-start tenure keep it; only new tenures are dated this way.
+    const rule = stateExecutiveTermRule(office.stateUsps);
+    if (rule) {
+      const window = regularTermWindowOn(rule, onDate);
+      return {
+        startsAt: window.startsAt,
+        endExclusive: window.endsAt,
+        ruleVersion: rule.ruleVersion,
+        unknownFields: [],
+      };
+    }
+  }
   const years = admittedRuleField(resolution, "term.years");
   const start = admittedRuleField(resolution, "term.start");
   const duration = wholeYears(years?.value);
