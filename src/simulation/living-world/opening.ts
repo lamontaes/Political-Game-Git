@@ -29,8 +29,17 @@ import {
   seatTermWindow,
 } from "./congress-seats";
 import type { CongressSeat, SeatTermWindow } from "./congress-seats";
+import { LIVING_WORLD_WRITER_VERSION } from "./opening-keys";
+import { SETTING_PARTY_NAMES } from "./party-registry";
+import { politicalStartingConditions } from "../world-setup/conditions";
+import {
+  generateStateExecutiveAffiliation,
+  latentsFromRecord,
+} from "../world-setup/political-start";
+import { appendPartyRecords } from "../world-setup/party-store";
+import type { PoliticalStartingConditionsRecord } from "../world-setup/types";
 
-export const LIVING_WORLD_WRITER_VERSION = "living-world-v1";
+export { LIVING_WORLD_WRITER_VERSION };
 const V = LIVING_WORLD_WRITER_VERSION;
 
 /** Present exactly once in a save whose public world W established. */
@@ -52,7 +61,7 @@ export const CHAMBER_NAMES: Readonly<Record<ChamberKey, string>> = {
 };
 
 const CAUCUS_NAMES: Readonly<
-  Record<ChamberKey, Readonly<Record<MajorPartyKey, string>>>
+  Record<ChamberKey, Readonly<Record<string, string>>>
 > = {
   "us-house": {
     democratic: "House Democratic Caucus",
@@ -63,6 +72,17 @@ const CAUCUS_NAMES: Readonly<
     republican: "Senate Republican Conference",
   },
 };
+
+function caucusName(chamber: ChamberKey, party: string, partyName: string) {
+  return (
+    CAUCUS_NAMES[chamber][party] ??
+    `${chamber === "us-house" ? "House" : "Senate"} ${partyName.replace(/ Party$/, "")} Caucus`
+  );
+}
+
+function partyName(party: string): string {
+  return SETTING_PARTY_NAMES[party] ?? party;
+}
 
 /** Public identification with a party. Not registration, belief or a vote. */
 export const PARTY_AFFILIATION_KIND = "affiliation:political-party" as const;
@@ -118,7 +138,7 @@ type SeatPlan =
       readonly window: SeatTermWindow;
       readonly memberKey: string;
       readonly party: MajorPartyKey | null;
-      readonly caucus: MajorPartyKey;
+      readonly caucus: MajorPartyKey | null;
       readonly serviceSince: IsoDate;
       readonly birthDate: IsoDate;
     };
@@ -149,6 +169,14 @@ export function ensureLivingWorldOpening(
   const rng = new SeededRng(world.seed).fork(LIVING_WORLD_OPENING_KEY);
   const plans: SeatPlan[] = [];
   const scenarioTags: string[] = [];
+  // A current opening reads the save's generated conditions; a legacy save or
+  // replay keeps the authored alive43 profile draw it always had.
+  const political = politicalStartingConditions(world);
+  const generatedSeats = new Map(
+    (political?.seats ?? []).map((seat) => [seat.seatKey, seat]),
+  );
+  const majorParty = (affiliation: string) =>
+    affiliation === "democratic" || affiliation === "republican";
 
   for (const chamberKey of ["us-house", "us-senate"] as const) {
     const chamberRng = rng.fork(`chamber:${chamberKey}`);
@@ -165,6 +193,13 @@ export function ensureLivingWorldOpening(
       ).map((seat) => seat.seatKey),
     );
     const filled = seats.filter((seat) => !vacant.has(seat.seatKey));
+    if (political) {
+      for (const seat of seats) {
+        if (!generatedSeats.has(seat.seatKey)) {
+          throw new Error(`No generated condition for ${seat.seatKey}.`);
+        }
+      }
+    }
     const independent = new Set(
       pickDistinct(
         chamberRng.fork("independents"),
@@ -184,9 +219,11 @@ export function ensureLivingWorldOpening(
         Math.round((affiliated.length * permille) / 1000),
       ).map((seat) => seat.seatKey),
     );
-    scenarioTags.push(
-      `scenario:${chamberKey}:first-party-permille:${permille}`,
-    );
+    if (!political) {
+      scenarioTags.push(
+        `scenario:${chamberKey}:first-party-permille:${permille}`,
+      );
+    }
 
     for (const seat of seats) {
       const window = seatTermWindow(seat, date);
@@ -202,15 +239,27 @@ export function ensureLivingWorldOpening(
         });
         continue;
       }
-      const party = independent.has(seat.seatKey)
-        ? null
-        : firstParty.has(seat.seatKey)
-          ? PROFILE.majorParties[0].key
-          : PROFILE.majorParties[1].key;
-      // An independent's caucus is a modeled circumstance of this save.
-      const caucus =
-        party ??
-        seatRng.fork("caucus").pick(PROFILE.majorParties.map((p) => p.key));
+      const generated = generatedSeats.get(seat.seatKey);
+      let party: MajorPartyKey | null;
+      let caucus: MajorPartyKey | null;
+      if (generated) {
+        // Non-major affiliations keep their own identity: no party record,
+        // and the caucus the certified record gives them.
+        party = majorParty(generated.affiliation)
+          ? generated.affiliation
+          : null;
+        caucus = generated.caucus;
+      } else {
+        party = independent.has(seat.seatKey)
+          ? null
+          : firstParty.has(seat.seatKey)
+            ? PROFILE.majorParties[0].key
+            : PROFILE.majorParties[1].key;
+        // An independent's caucus is a modeled circumstance of this save.
+        caucus =
+          party ??
+          seatRng.fork("caucus").pick(PROFILE.majorParties.map((p) => p.key));
+      }
       const minimumAge = MINIMUM_AGE[seat.chamberKey];
       const termStartYear = Number(window.startsAt.slice(0, 4));
       const ageAtTermStart = seatRng.integer(minimumAge + 7, 81);
@@ -273,7 +322,7 @@ export function ensureLivingWorldOpening(
   };
   const setting: LifeRecordProvenance = {
     kind: "authored",
-    note: `${PROFILE.id}: a real institution named as setting data for this fictional save. Its record date is the earliest date the save needs, not a historical founding date.`,
+    note: `${political ? political.contractVersion : PROFILE.id}: a real institution named as setting data for this fictional save. Its record date is the earliest date the save needs, not a historical founding date.`,
   };
   const transitions: CharacterHistoryTransition[] = [];
   const organization = (
@@ -306,16 +355,19 @@ export function ensureLivingWorldOpening(
       "sector:federal-legislature",
     );
   }
-  for (const party of PROFILE.majorParties) {
+  const partyKeys = political
+    ? settingPartiesFor(political)
+    : PROFILE.majorParties.map((party) => party.key);
+  for (const party of partyKeys) {
     organization(
-      LIVING_WORLD_KEYS.nationalParty(party.key),
-      party.name,
+      LIVING_WORLD_KEYS.nationalParty(party),
+      partyName(party),
       "membership:political-party",
     );
     for (const chamberKey of ["us-house", "us-senate"] as const) {
       organization(
-        LIVING_WORLD_KEYS.caucus(chamberKey, party.key),
-        CAUCUS_NAMES[chamberKey][party.key],
+        LIVING_WORLD_KEYS.caucus(chamberKey, party),
+        caucusName(chamberKey, party, partyName(party)),
         "membership:legislative-caucus",
       );
     }
@@ -336,9 +388,12 @@ export function ensureLivingWorldOpening(
   }
 
   for (const holder of executives) {
-    const party = rng
-      .fork(`executive:${holder.personId}`)
-      .pick(PROFILE.majorParties.map((p) => p.key));
+    const party = political
+      ? executiveAffiliation(world, political, holder)
+      : rng
+          .fork(`executive:${holder.personId}`)
+          .pick(PROFILE.majorParties.map((p) => p.key));
+    if (party === null || !partyKeys.includes(party)) continue;
     transitions.push({
       kind: "participation",
       input: {
@@ -427,12 +482,38 @@ export function ensureLivingWorldOpening(
         ...seatTags,
         `service-since:${plan.serviceSince}`,
         `${SEAT_PARTY_TAG}${plan.party ?? "none"}`,
-        `${SEAT_CAUCUS_TAG}${plan.caucus}`,
+        `${SEAT_CAUCUS_TAG}${plan.caucus ?? "none"}`,
         "provenance:fictional-initial-tenure",
       ],
       summary: `${personName(next.people[personId]!)} serves as ${title} in this fictional world.`,
       context,
     });
+  }
+
+  if (political) {
+    scenarioTags.push(
+      `scenario:${political.contractVersion}`,
+      `scenario:regime:${political.regime}`,
+    );
+    // Current openings name their national parties as persistent party units.
+    next = appendPartyRecords(
+      next,
+      partyKeys.map((party) => ({
+        kind: "party-unit" as const,
+        stableKey: `${V}:party-unit:${party}`,
+        organizationId: livingWorldOrganizationId(
+          next,
+          LIVING_WORLD_KEYS.nationalParty(party),
+        ),
+        partyKey: party,
+        level: "national" as const,
+        parentOrganizationId: null,
+        jurisdictionId: null,
+        establishedAt: earliest,
+        origin: "setting" as const,
+      })),
+      { validate: false },
+    );
   }
 
   return recordWorldEvent(next, {
@@ -449,11 +530,13 @@ export function ensureLivingWorldOpening(
     visibility: "public",
     tags: [
       V,
-      PROFILE.id,
+      ...(political ? [] : [PROFILE.id]),
       `contract:${LIVING_WORLD_CONTRACT_VERSION}`,
       ...scenarioTags,
     ],
-    summary: `This save's public world was established from ${PROFILE.id}. ${Object.values(CONGRESS_SEAT_SOURCES).length} institutional sources.`,
+    summary: political
+      ? `This save's public world was generated from its starting conditions (${political.contractVersion}). ${Object.values(CONGRESS_SEAT_SOURCES).length} institutional sources.`
+      : `This save's public world was established from ${PROFILE.id}. ${Object.values(CONGRESS_SEAT_SOURCES).length} institutional sources.`,
     context: {
       location: null,
       socialContext: null,
@@ -468,6 +551,34 @@ export function ensureLivingWorldOpening(
 interface ExecutiveHolder {
   readonly personId: EntityId;
   readonly startedAt: IsoDate;
+  /** Null for the President. */
+  readonly stateUsps: string | null;
+}
+
+/** The major parties a generated opening seats, in setting order. */
+function settingPartiesFor(
+  political: PoliticalStartingConditionsRecord,
+): readonly string[] {
+  const present = new Set([
+    ...political.seats.map((seat) => seat.affiliation),
+    ...political.seats.flatMap((seat) => (seat.caucus ? [seat.caucus] : [])),
+    political.presidency.winner,
+  ]);
+  return Object.keys(SETTING_PARTY_NAMES).filter((party) => present.has(party));
+}
+
+function executiveAffiliation(
+  world: World,
+  political: PoliticalStartingConditionsRecord,
+  holder: ExecutiveHolder,
+): string | null {
+  if (holder.stateUsps === null) return political.presidency.winner;
+  const generated = generateStateExecutiveAffiliation(
+    world,
+    latentsFromRecord(political),
+    holder.stateUsps,
+  );
+  return generated.affiliation;
 }
 
 /** The president and state executives the opening seated, without a party. */
@@ -486,12 +597,13 @@ function executiveHoldersNeedingAffiliation(
       (p) => p.role === "focus:subject",
     )?.personId;
     if (personId && world.people[personId])
-      holders.push({ personId, startedAt: event.occurredAt });
+      holders.push({ personId, startedAt: event.occurredAt, stateUsps: null });
   }
   for (const holder of currentStateExecutiveHolders(world)) {
     holders.push({
       personId: holder.personId,
       startedAt: holder.startedAt ?? world.currentDate,
+      stateUsps: holder.stateUsps,
     });
   }
   return holders.filter(

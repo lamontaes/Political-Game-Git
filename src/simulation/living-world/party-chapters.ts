@@ -41,10 +41,9 @@ import type {
   World,
 } from "../types";
 import { recordWorldEvent } from "../world";
-import { LIVING_WORLD_SCENARIO_PROFILE as PROFILE } from "./contract";
 import type { MajorPartyKey } from "./contract";
+import { activePartyUnitsAt, partyUnits } from "./party-registry";
 import {
-  LIVING_WORLD_KEYS,
   LIVING_WORLD_WRITER_VERSION,
   PARTY_AFFILIATION_KIND,
   livingWorldOrganizationId,
@@ -80,10 +79,17 @@ const OUTREACH = {
   memoryDays: 28,
 } as const;
 
-const PARTY_PLURALS: Readonly<Record<MajorPartyKey, string>> = {
+const PARTY_PLURALS: Readonly<Record<string, string>> = {
   democratic: "Democrats",
   republican: "Republicans",
 };
+
+function chapterName(area: string, partyKey: string, partyName: string) {
+  const plural = PARTY_PLURALS[partyKey];
+  return plural ? `${area} ${plural}` : `${area} chapter, ${partyName}`;
+}
+
+const CHAPTER_KEY_PREFIX = `${LIVING_WORLD_WRITER_VERSION}:chapter:home:`;
 
 export function chapterStableKey(party: MajorPartyKey): string {
   return `${LIVING_WORLD_WRITER_VERSION}:chapter:home:${party}`;
@@ -114,28 +120,18 @@ export function ensureHomePartyChapters(
 ): World {
   const player = world.people[playerPersonId];
   if (!player) throw new Error("Home party chapters need an existing player.");
+  // Written once for a new life: any home chapter means it already ran.
   if (
-    world.history.organizations.some(
-      (organization) =>
-        organization.stableKey ===
-        chapterStableKey(PROFILE.majorParties[0].key),
+    world.history.organizations.some((organization) =>
+      organization.stableKey.startsWith(CHAPTER_KEY_PREFIX),
     )
   )
     return world;
-  const nationalPartyIds = PROFILE.majorParties.map((party) =>
-    livingWorldOrganizationId(
-      world,
-      LIVING_WORLD_KEYS.nationalParty(party.key),
-    ),
-  );
-  if (
-    !nationalPartyIds.every((id) =>
-      world.history.organizations.some(
-        (organization) => organization.id === id,
-      ),
-    )
-  )
-    return world;
+  // Every national party the opening established, however many there are.
+  const parties = activePartyUnitsAt(world, world.currentDate, {
+    level: "national",
+  }).filter((unit) => unit.origin === "setting");
+  if (parties.length === 0) return world;
 
   const county = homeLocalGovernmentUnits(world, playerPersonId).counties[0];
   const area = county
@@ -153,10 +149,10 @@ export function ensureHomePartyChapters(
 
   let next = createCharacterHistoryContextPeople(
     world,
-    PROFILE.majorParties.map((party) => {
-      const personRng = rng.fork(chapterOrganizerKey(party.key));
+    parties.map((party) => {
+      const personRng = rng.fork(chapterOrganizerKey(party.partyKey));
       return {
-        stableKey: chapterOrganizerKey(party.key),
+        stableKey: chapterOrganizerKey(party.partyKey),
         ...drawCanonicalName(personRng.fork("name")),
         identity: generatePersonIdentity(personRng.fork("identity")),
         birthDate: makeIsoDate(
@@ -167,15 +163,15 @@ export function ensureHomePartyChapters(
     }),
   );
 
-  for (const [index, party] of PROFILE.majorParties.entries()) {
-    const stableKey = chapterStableKey(party.key);
+  for (const party of parties) {
+    const stableKey = chapterStableKey(party.partyKey);
     next = createOrganization(next, {
       stableKey,
       formedAt: date,
       detailLevel: "lightweight",
       provenance,
       initialProfile: {
-        name: `${area} ${PARTY_PLURALS[party.key]}`,
+        name: chapterName(area, party.partyKey, party.name),
         classification: "membership:party-chapter",
         locationJurisdictionId: player.homeJurisdictionId,
       },
@@ -183,10 +179,10 @@ export function ensureHomePartyChapters(
     const chapterId = livingWorldOrganizationId(next, stableKey);
     const organizerId = characterHistoryContextPersonId(
       next,
-      chapterOrganizerKey(party.key),
+      chapterOrganizerKey(party.partyKey),
     );
     next = createOrganizationParticipation(next, {
-      stableKey: `${chapterOrganizerKey(party.key)}:role`,
+      stableKey: `${chapterOrganizerKey(party.partyKey)}:role`,
       personId: organizerId,
       organizationId: chapterId,
       startedAt: date,
@@ -196,9 +192,9 @@ export function ensureHomePartyChapters(
       provenance,
     });
     next = createOrganizationParticipation(next, {
-      stableKey: `${chapterOrganizerKey(party.key)}:affiliation`,
+      stableKey: `${chapterOrganizerKey(party.partyKey)}:affiliation`,
       personId: organizerId,
-      organizationId: nationalPartyIds[index]!,
+      organizationId: party.organizationId,
       startedAt: date,
       kind: PARTY_AFFILIATION_KIND,
       roleKind: "member:public-affiliation",
@@ -222,16 +218,25 @@ export function ensureHomePartyChapters(
   return next;
 }
 
-/** The player's home chapters, in profile order. Pure. */
+/**
+ * The player's home chapters, in party order. Pure. A chapter whose party
+ * merged or dissolved drops out from that date; its history stays.
+ */
 export function homePartyChapters(world: World): readonly HomePartyChapter[] {
-  return PROFILE.majorParties.flatMap((party) => {
+  const active = new Set(
+    activePartyUnitsAt(world).map((unit) => unit.organizationId),
+  );
+  return partyUnits(world).flatMap((unit) => {
+    if (
+      unit.level !== "local" ||
+      !active.has(unit.organizationId) ||
+      unit.parentOrganizationId === null
+    )
+      return [];
     const organization = world.history.organizations.find(
-      (candidate) => candidate.stableKey === chapterStableKey(party.key),
+      (candidate) => candidate.id === unit.organizationId,
     );
-    if (!organization) return [];
-    const profile = world.history.organizationProfiles
-      .filter((record) => record.organizationId === organization.id)
-      .at(-1)!;
+    if (!organization?.stableKey.startsWith(CHAPTER_KEY_PREFIX)) return [];
     const organizer = world.history.organizationParticipations.find(
       (participation) =>
         participation.organizationId === organization.id &&
@@ -242,13 +247,10 @@ export function homePartyChapters(world: World): readonly HomePartyChapter[] {
     return [
       {
         organizationId: organization.id,
-        partyKey: party.key,
-        partyOrganizationId: livingWorldOrganizationId(
-          world,
-          LIVING_WORLD_KEYS.nationalParty(party.key),
-        ),
-        name: profile.name,
-        jurisdictionId: profile.locationJurisdictionId!,
+        partyKey: unit.partyKey,
+        partyOrganizationId: unit.parentOrganizationId,
+        name: unit.name,
+        jurisdictionId: unit.jurisdictionId!,
         organizerPersonId: organizer?.personId ?? null,
       },
     ];

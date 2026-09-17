@@ -6,7 +6,19 @@ import {
   ensurePressOpening,
   personName,
   ageOnDate,
+  ensureWorldStartingConditions,
+  LEGACY_WORLD_OPENING_VERSION,
+  generatePoliticalStartingConditions,
+  ensurePartyGoverningBodies,
+  ensureHazardProduction,
+  macroStartingConditions,
+  worldOpeningVersionOf,
+  CRUNCH46_WORLD_OPENING_VERSION,
 } from "../simulation";
+import {
+  ensureMacroEconomyStarted,
+  macroStartForHistory,
+} from "../simulation/macro-economy";
 import type { World, EntityId } from "../simulation";
 import { createNewGameWorld } from "./new-game";
 import type { NewGameSetup, NewGame } from "./new-game";
@@ -35,10 +47,19 @@ export function generateOpeningLife(
 ): OpeningLifeSession {
   if (session.game) return session;
   const game = createNewGameWorld(session.setup);
-  const staffed = establishOpeningOfficeholders(
-    game.world,
-    game.playerPersonId,
+  // Begin persists this save's generated starting conditions first, so every
+  // later opening step reads the same world. A legacy descriptor writes none.
+  const conditioned = ensureWorldStartingConditions(game.world, {
+    openingVersion:
+      session.setup.worldOpeningVersion ?? LEGACY_WORLD_OPENING_VERSION,
+    political: generatePoliticalStartingConditions,
+  });
+  // CHANGE: macro history starts from WORLD's persisted draw, or not at all.
+  const economic = ensureMacroEconomyStarted(
+    conditioned,
+    macroStartForHistory(macroStartingConditions(conditioned)),
   );
+  const staffed = establishOpeningOfficeholders(economic, game.playerPersonId);
   return {
     ...session,
     phase: "world",
@@ -46,19 +67,37 @@ export function generateOpeningLife(
       ...game,
       // Congress, the national parties and public affiliations, once, after
       // the executives exist so they receive an affiliation in the same pass.
-      // CRUNCH46 PRESS: the national media seed pack and its desk, once.
-      world: ensurePressOpening(
-        ensureLivingWorldDevelopments(
-          ensureHomePartyChapters(
-            ensureLivingWorldOpening(staffed, game.playerPersonId),
+      // The hazard stream schedules its first monthly sample for a current
+      // opening that has something exposed; a legacy save gets none.
+      world: openedWorld(
+        ensureHazardProduction(
+          ensureLivingWorldDevelopments(
+            // Standing chapter committees exist only in current openings.
+            ensurePartyGoverningBodies(
+              ensureHomePartyChapters(
+                ensureLivingWorldOpening(staffed, game.playerPersonId),
+                game.playerPersonId,
+              ),
+              game.playerPersonId,
+            ),
             game.playerPersonId,
           ),
-          game.playerPersonId,
         ),
         game.playerPersonId,
       ),
     },
   };
+}
+
+/**
+ * The press seed pack runs only for an opening of the current version; a
+ * legacy replay descriptor keeps exactly the world it always built, which is
+ * what WORLD's unchanged-hash control depends on.
+ */
+function openedWorld(world: World, playerPersonId: EntityId): World {
+  return worldOpeningVersionOf(world) === CRUNCH46_WORLD_OPENING_VERSION
+    ? ensurePressOpening(world, playerPersonId)
+    : world;
 }
 
 export function moveOpeningLife(

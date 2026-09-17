@@ -11,6 +11,7 @@ import {
 import { createTransitTransitionRegistry } from "./transit-service";
 import { settlePublicResourcePayment } from "./public-fiscal";
 import { createTaxTransitionHandlerRegistry } from "./tax-policy";
+import { createCrisisTransitionRegistry } from "./crisis";
 import { composeExecutiveWorkHandlers } from "./executive-work";
 import { LIFE_PATHS2_HANDLERS } from "./life-paths2";
 import { requireCandidacyPack } from "./candidacy-packs";
@@ -67,9 +68,17 @@ import {
   chapterOutreachTransitionHandler,
 } from "./living-world/party-chapters";
 import {
+  MACRO_MONTHLY_STEP_KEY,
+  macroMonthlyStepHandler,
+} from "./macro-economy/producer";
+import {
   DEVELOPMENT_STEP_TRANSITION_KEY,
   developmentStepTransitionHandler,
 } from "./living-world/developments";
+import {
+  PARTY_BODY_REVIEW_TRANSITION_KEY,
+  partyBodyReviewTransitionHandler,
+} from "./living-world/party-evolution";
 import { workStatusAt, workStatusHistory } from "./life-queries";
 import {
   lifePlaceByJurisdictionId,
@@ -1869,6 +1878,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
       ),
       createTaxTransitionHandlerRegistry(),
       LIFE_PATHS2_HANDLERS,
+      // CRUNCH46 CRISIS: mortality windows, deaths and health reviews.
+      createCrisisTransitionRegistry(),
       createFutureTransitionHandlerRegistry([
         [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
         // ALIVE43 W2: a local chapter organizer acts while ordinary time passes.
@@ -1880,6 +1891,10 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
           CLAIM_CONTRADICTION_TRANSITION_KEY,
           claimContradictionTransitionHandler,
         ],
+        // CRUNCH46 CHANGE: canonical macro history closes each month once.
+        [MACRO_MONTHLY_STEP_KEY, macroMonthlyStepHandler],
+        // CRUNCH46 WORLD: party governing bodies meet and may change.
+        [PARTY_BODY_REVIEW_TRANSITION_KEY, partyBodyReviewTransitionHandler],
       ]),
       // CRUNCH46 PRESS: newsroom desk, story steps, procedures, bookkeeping.
       createPressTransitionRegistry(),

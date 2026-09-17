@@ -1,3 +1,4 @@
+import type { CrisisRecord } from "./crisis/types";
 import type { WorldContentPacks } from "./runtime-content-packs";
 
 import type { AppearanceMaterial } from "./appearance-material";
@@ -12,6 +13,8 @@ import type {
   ConstitutionalRuleVersionRecord,
 } from "./constitutional-types";
 import type { PublicFundingMandate } from "./public-fiscal";
+import type { MacroEconomyStore } from "./macro-economy/types";
+import type { PartyRecord, WorldConditionRecord } from "./world-setup/types";
 import type {
   TaxProposalRecord,
   TaxPolicyRecord,
@@ -37,8 +40,11 @@ export interface SimulationMoment {
 }
 
 export type EntityKind =
+  | "world-condition"
+  | "party-record"
   | "constitutional-measure"
   | "constitutional-action"
+  | "crisis-record"
   | "constitutional-rule-version"
   | "tax-proposal"
   | "tax-policy"
@@ -3576,6 +3582,8 @@ export interface HistoryStore {
   readonly publications?: readonly PublicationRecord[];
   /** PRESS46: optional so earlier saves read as an empty press history. */
   readonly pressRecords?: readonly PressRecord[];
+  /** CRISIS severe-event records; absent in Worlds written before them. */
+  readonly crisisRecords?: readonly CrisisRecord[];
   readonly legislativeMeasures?: readonly LegislativeMeasureRecord[];
   readonly legislativeActions?: readonly LegislativeActionRecord[];
   readonly committeeReferrals?: readonly CommitteeReferralRecord[];
@@ -3605,6 +3613,13 @@ export interface HistoryStore {
   readonly legislativeEnactments?: readonly LegislativeEnactmentRecord[];
   /** Optional so pre-CIVIL-AUTHORITY13 snapshots remain structurally readable. */
   readonly personnelRecords?: readonly PersonnelRecord[];
+  /**
+   * WORLD: a save's generated starting conditions and opening version.
+   * Optional so older snapshots, which never had them, stay readable.
+   */
+  readonly worldConditions?: readonly WorldConditionRecord[];
+  /** WORLD: political organization identity, decisions and evolution. */
+  readonly partyRecords?: readonly PartyRecord[];
   readonly futureDueItems: readonly FutureDueItem[];
   readonly futureDueItemStates: readonly FutureDueItemStateRecord[];
   readonly events: readonly HistoricalEvent[];
@@ -4437,4 +4452,9 @@ export interface World {
    * a convention.
    */
   readonly setupPriors?: SetupPriorStore;
+  /**
+   * CHANGE macro history (CRUNCH46 08). Optional and additive: a world
+   * written before it existed has no macro history and is never retrofitted.
+   */
+  readonly macroEconomy?: MacroEconomyStore;
 }

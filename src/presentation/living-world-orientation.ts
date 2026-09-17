@@ -4,6 +4,7 @@ import {
   homeLocalGovernmentStatus,
   homeStateUsps,
   nationalParties,
+  partyColorOrder,
   projectCongress,
   publicPartyAffiliation,
 } from "../simulation";
@@ -46,6 +47,12 @@ export interface WorldOrientation {
     readonly governments: readonly LocalityGovernmentView[];
   } | null;
   readonly parties: readonly PartyView[];
+  /**
+   * Every national party the save ever recorded, in permanent order. Color
+   * and legend slots key on this, so a later founding, merger or dissolution
+   * never moves another party's color. Absent in hand-built fixtures.
+   */
+  readonly partyColorOrder?: readonly EntityId[];
   /** Filled by W3 producers; empty until then. */
   readonly publicMatters: readonly never[];
 }
@@ -145,6 +152,7 @@ export function projectWorldOrientation(
       })),
     },
     parties: nationalParties(world, holderIds),
+    partyColorOrder: partyColorOrder(world),
     publicMatters: [],
   };
 }

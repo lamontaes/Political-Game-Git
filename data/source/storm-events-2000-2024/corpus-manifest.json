@@ -1,0 +1,459 @@
+{
+  "asOf": "2024-12-31",
+  "canonicalSha256": "5d5ae553ff00c301252a5ecbdd23243a618bad2a1ec4a2e28f16b324e58fa692",
+  "compiler": {
+    "name": "scripts/world/compile-storm-events.mjs",
+    "version": "1.0.0"
+  },
+  "corpusId": "storm-events-2000-2024",
+  "corpusPath": "data/source/storm-events-2000-2024/corpus.json",
+  "coverage": {
+    "boundedSampleReason": "The episodes array is NOT the whole window. It is every episode of a contiguous recent sub-window, complete within that sub-window. It is not a sample of 2000-2024 and must not be counted as one. Use counts, monthlyCatalog and stateFootprintProfile for anything that needs the whole window.",
+    "counts": {
+      "countyRowsKept": 522662,
+      "detailRowsRead": 1520489,
+      "episodesCompiled": 145897,
+      "zoneRowsSeparate": 11019
+    },
+    "isCompleteUniverse": false,
+    "missingYears": [],
+    "perYear": {
+      "2000": {
+        "countyRowsKept": {
+          "flash-flood": 2731,
+          "flood": 414,
+          "thunderstorm-wind": 12289
+        },
+        "detailRowsRead": 52007,
+        "episodes": {
+          "flash-flood": 1260,
+          "flood": 286,
+          "thunderstorm-wind": 5748
+        }
+      },
+      "2001": {
+        "countyRowsKept": {
+          "flash-flood": 2874,
+          "flood": 468,
+          "thunderstorm-wind": 11927
+        },
+        "detailRowsRead": 48875,
+        "episodes": {
+          "flash-flood": 1446,
+          "flood": 323,
+          "thunderstorm-wind": 5527
+        }
+      },
+      "2002": {
+        "countyRowsKept": {
+          "flash-flood": 3220,
+          "flood": 362,
+          "thunderstorm-wind": 11992
+        },
+        "detailRowsRead": 50936,
+        "episodes": {
+          "flash-flood": 1401,
+          "flood": 252,
+          "thunderstorm-wind": 5702
+        }
+      },
+      "2003": {
+        "countyRowsKept": {
+          "flash-flood": 3861,
+          "flood": 11,
+          "thunderstorm-wind": 11994
+        },
+        "detailRowsRead": 52956,
+        "episodes": {
+          "flash-flood": 2270,
+          "flood": 7,
+          "thunderstorm-wind": 5679
+        }
+      },
+      "2004": {
+        "countyRowsKept": {
+          "flash-flood": 4329,
+          "flood": 0,
+          "thunderstorm-wind": 11886
+        },
+        "detailRowsRead": 52409,
+        "episodes": {
+          "flash-flood": 2262,
+          "flood": 0,
+          "thunderstorm-wind": 5589
+        }
+      },
+      "2005": {
+        "countyRowsKept": {
+          "flash-flood": 2762,
+          "flood": 43,
+          "thunderstorm-wind": 12274
+        },
+        "detailRowsRead": 53976,
+        "episodes": {
+          "flash-flood": 1790,
+          "flood": 23,
+          "thunderstorm-wind": 5705
+        }
+      },
+      "2006": {
+        "countyRowsKept": {
+          "flash-flood": 2564,
+          "flood": 1129,
+          "thunderstorm-wind": 13879
+        },
+        "detailRowsRead": 56400,
+        "episodes": {
+          "flash-flood": 1579,
+          "flood": 573,
+          "thunderstorm-wind": 7063
+        }
+      },
+      "2007": {
+        "countyRowsKept": {
+          "flash-flood": 3658,
+          "flood": 1762,
+          "thunderstorm-wind": 13016
+        },
+        "detailRowsRead": 59011,
+        "episodes": {
+          "flash-flood": 1176,
+          "flood": 579,
+          "thunderstorm-wind": 3176
+        }
+      },
+      "2008": {
+        "countyRowsKept": {
+          "flash-flood": 3792,
+          "flood": 2467,
+          "thunderstorm-wind": 17156
+        },
+        "detailRowsRead": 71190,
+        "episodes": {
+          "flash-flood": 1186,
+          "flood": 769,
+          "thunderstorm-wind": 3509
+        }
+      },
+      "2009": {
+        "countyRowsKept": {
+          "flash-flood": 4001,
+          "flood": 1962,
+          "thunderstorm-wind": 13371
+        },
+        "detailRowsRead": 57398,
+        "episodes": {
+          "flash-flood": 1309,
+          "flood": 676,
+          "thunderstorm-wind": 3027
+        }
+      },
+      "2010": {
+        "countyRowsKept": {
+          "flash-flood": 3906,
+          "flood": 2603,
+          "thunderstorm-wind": 15798
+        },
+        "detailRowsRead": 62809,
+        "episodes": {
+          "flash-flood": 1287,
+          "flood": 806,
+          "thunderstorm-wind": 3427
+        }
+      },
+      "2011": {
+        "countyRowsKept": {
+          "flash-flood": 3348,
+          "flood": 3708,
+          "thunderstorm-wind": 21268
+        },
+        "detailRowsRead": 79091,
+        "episodes": {
+          "flash-flood": 1102,
+          "flood": 1037,
+          "thunderstorm-wind": 3833
+        }
+      },
+      "2012": {
+        "countyRowsKept": {
+          "flash-flood": 2245,
+          "flood": 967,
+          "thunderstorm-wind": 16227
+        },
+        "detailRowsRead": 64503,
+        "episodes": {
+          "flash-flood": 850,
+          "flood": 409,
+          "thunderstorm-wind": 3365
+        }
+      },
+      "2013": {
+        "countyRowsKept": {
+          "flash-flood": 4404,
+          "flood": 2074,
+          "thunderstorm-wind": 14340
+        },
+        "detailRowsRead": 59986,
+        "episodes": {
+          "flash-flood": 1413,
+          "flood": 704,
+          "thunderstorm-wind": 2986
+        }
+      },
+      "2014": {
+        "countyRowsKept": {
+          "flash-flood": 3184,
+          "flood": 1863,
+          "thunderstorm-wind": 13818
+        },
+        "detailRowsRead": 59475,
+        "episodes": {
+          "flash-flood": 1114,
+          "flood": 679,
+          "thunderstorm-wind": 2891
+        }
+      },
+      "2015": {
+        "countyRowsKept": {
+          "flash-flood": 5029,
+          "flood": 2559,
+          "thunderstorm-wind": 14385
+        },
+        "detailRowsRead": 57907,
+        "episodes": {
+          "flash-flood": 1355,
+          "flood": 753,
+          "thunderstorm-wind": 3019
+        }
+      },
+      "2016": {
+        "countyRowsKept": {
+          "flash-flood": 3537,
+          "flood": 1625,
+          "thunderstorm-wind": 15651
+        },
+        "detailRowsRead": 56005,
+        "episodes": {
+          "flash-flood": 1049,
+          "flood": 605,
+          "thunderstorm-wind": 3145
+        }
+      },
+      "2017": {
+        "countyRowsKept": {
+          "flash-flood": 3527,
+          "flood": 2436,
+          "thunderstorm-wind": 16465
+        },
+        "detailRowsRead": 57041,
+        "episodes": {
+          "flash-flood": 1037,
+          "flood": 749,
+          "thunderstorm-wind": 3014
+        }
+      },
+      "2018": {
+        "countyRowsKept": {
+          "flash-flood": 4345,
+          "flood": 4782,
+          "thunderstorm-wind": 14616
+        },
+        "detailRowsRead": 62699,
+        "episodes": {
+          "flash-flood": 1301,
+          "flood": 1141,
+          "thunderstorm-wind": 3081
+        }
+      },
+      "2019": {
+        "countyRowsKept": {
+          "flash-flood": 4028,
+          "flood": 4888,
+          "thunderstorm-wind": 18615
+        },
+        "detailRowsRead": 67864,
+        "episodes": {
+          "flash-flood": 1204,
+          "flood": 1210,
+          "thunderstorm-wind": 3413
+        }
+      },
+      "2020": {
+        "countyRowsKept": {
+          "flash-flood": 3485,
+          "flood": 2672,
+          "thunderstorm-wind": 19311
+        },
+        "detailRowsRead": 61281,
+        "episodes": {
+          "flash-flood": 913,
+          "flood": 753,
+          "thunderstorm-wind": 3069
+        }
+      },
+      "2021": {
+        "countyRowsKept": {
+          "flash-flood": 4748,
+          "flood": 1970,
+          "thunderstorm-wind": 15517
+        },
+        "detailRowsRead": 61389,
+        "episodes": {
+          "flash-flood": 1208,
+          "flood": 604,
+          "thunderstorm-wind": 2852
+        }
+      },
+      "2022": {
+        "countyRowsKept": {
+          "flash-flood": 2981,
+          "flood": 1838,
+          "thunderstorm-wind": 17576
+        },
+        "detailRowsRead": 69887,
+        "episodes": {
+          "flash-flood": 1016,
+          "flood": 597,
+          "thunderstorm-wind": 3073
+        }
+      },
+      "2023": {
+        "countyRowsKept": {
+          "flash-flood": 3518,
+          "flood": 2774,
+          "thunderstorm-wind": 21218
+        },
+        "detailRowsRead": 75593,
+        "episodes": {
+          "flash-flood": 1005,
+          "flood": 738,
+          "thunderstorm-wind": 3320
+        }
+      },
+      "2024": {
+        "countyRowsKept": {
+          "flash-flood": 4459,
+          "flood": 2262,
+          "thunderstorm-wind": 19898
+        },
+        "detailRowsRead": 69801,
+        "episodes": {
+          "flash-flood": 1020,
+          "flood": 620,
+          "thunderstorm-wind": 3238
+        }
+      }
+    },
+    "universeDescription": "Every county-based (CZ_TYPE = C) Flood, Flash Flood and Thunderstorm Wind detail row the NOAA NCEI Storm Events Database publishes for calendar years 2000 through 2024, in the annual bulk details revision pinned by this domain's artifact lock. Zone-based rows of the same families are counted but excluded. Every other event type in the product is out of scope.",
+    "windowYears": { "firstYear": 2000, "lastYear": 2024 }
+  },
+  "inputClass": "production",
+  "inputs": [
+    {
+      "artifactId": "ncei-details-2000",
+      "sha256": "a4ca5b02ad766bf50db2b192c127b625018f66bb9fb4d9746677d39ba2e392ab"
+    },
+    {
+      "artifactId": "ncei-details-2001",
+      "sha256": "77a84aa66aaa9f7f95a15ecb2d18451bc05be801ea10f606d2e83fb44f737e51"
+    },
+    {
+      "artifactId": "ncei-details-2002",
+      "sha256": "6f941b2ea120245e2e924093032c91c3377e7d1ea2c9163593456facb9ebe185"
+    },
+    {
+      "artifactId": "ncei-details-2003",
+      "sha256": "f6d23ba4043394a517c8c6b0db8346f940a1de3fb8cac76eee773c5797243e3c"
+    },
+    {
+      "artifactId": "ncei-details-2004",
+      "sha256": "b0827cd69b8d0ddc1446d8a322132502a05af19b1193c15eae118f13396844e3"
+    },
+    {
+      "artifactId": "ncei-details-2005",
+      "sha256": "d68e3cbfbe5fb79f720eccea372c53585614bab618f3c2a4433e47767f54e55f"
+    },
+    {
+      "artifactId": "ncei-details-2006",
+      "sha256": "a958ea15688b3346fd69efe53e91b4d57a26f8e6f99e1ddcc3b92c2eb2d57d0b"
+    },
+    {
+      "artifactId": "ncei-details-2007",
+      "sha256": "e8289daa871946230862e2ca0d119195df7108e4a680fe83e3d419f3f21a7524"
+    },
+    {
+      "artifactId": "ncei-details-2008",
+      "sha256": "c97260e82760b17bc571d55e1ca1f5073ccc0558b774313d46dddc3e1ef39b37"
+    },
+    {
+      "artifactId": "ncei-details-2009",
+      "sha256": "c04d6e0173153475440cb614bd019287986c74c311c61864478f9087d7d1b357"
+    },
+    {
+      "artifactId": "ncei-details-2010",
+      "sha256": "d109f8a6ab1a71e70f60fe42d30a0e31f370c904e248a51e5fe85573f904878e"
+    },
+    {
+      "artifactId": "ncei-details-2011",
+      "sha256": "be3b40cd098a879be12c2c3e614700560bd537e6178bba8b1aaf099f665dda40"
+    },
+    {
+      "artifactId": "ncei-details-2012",
+      "sha256": "673db47f6dc9e97e06ffec3b628f5341c128f594d9b247bd07bad2e8397ebac3"
+    },
+    {
+      "artifactId": "ncei-details-2013",
+      "sha256": "4fa4036ed1c7ea9a779d5a5841d18de08596c423920189a9e6173488d1a98260"
+    },
+    {
+      "artifactId": "ncei-details-2014",
+      "sha256": "410b457b1b9628cfd63292848a626482a88714c8bd8c45d56a0469f9de05d078"
+    },
+    {
+      "artifactId": "ncei-details-2015",
+      "sha256": "c4a5a24b8c69ad2b6b867790ce298f5b642a60516c9fce5550a8d2f67cd7bf2e"
+    },
+    {
+      "artifactId": "ncei-details-2016",
+      "sha256": "d8e1389897df3557e74ba36820357f6962a7c0ca922595400fe74d883f7a5036"
+    },
+    {
+      "artifactId": "ncei-details-2017",
+      "sha256": "bd3ca72b71544222cba8aa2b29eb3f0efe050d3330a0c408e208befb66881750"
+    },
+    {
+      "artifactId": "ncei-details-2018",
+      "sha256": "19702480f50cd2a8dacce5e57891feba156afb87b1ea5cbb4eaeda69d2b964a4"
+    },
+    {
+      "artifactId": "ncei-details-2019",
+      "sha256": "f5043ecc776818b0feffdf1e0fcbaf63329db0635eab1057c7b8ba00ef332e3b"
+    },
+    {
+      "artifactId": "ncei-details-2020",
+      "sha256": "895c56fd46991c4d9a135d67558dc4b447a02a2314efac0ace645135b98f9c9d"
+    },
+    {
+      "artifactId": "ncei-details-2021",
+      "sha256": "60c1daf96dbe8eafd48c80df5b70df51a0125ab95d467ee7009a646761d57715"
+    },
+    {
+      "artifactId": "ncei-details-2022",
+      "sha256": "7d6b79d0049a6edec96b061738289daddba90be26fc9afe7b0a6fd617f21452e"
+    },
+    {
+      "artifactId": "ncei-details-2023",
+      "sha256": "713784bed40d9e5a95b1d6240a654f865f3ef97703713105c7b35437270da134"
+    },
+    {
+      "artifactId": "ncei-details-2024",
+      "sha256": "2070b83eccab041b36360ab73645b9a249c3eefc5b92b5b3fc0cbba4d9fcc09c"
+    }
+  ],
+  "jsonFormatter": "prettier 3.9.6",
+  "parser": { "name": "ncei-storm-events-details-csv", "version": "1.0.0" },
+  "recordCount": 9941,
+  "runtimeArtifactIsByteIdenticalToCorpus": true,
+  "runtimeArtifactPath": "src/simulation/crisis/storm-catalog.generated.json",
+  "schema": "storm-events-corpus-manifest/v1"
+}

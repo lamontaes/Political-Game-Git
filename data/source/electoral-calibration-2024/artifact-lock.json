@@ -1,0 +1,509 @@
+{
+  "artifacts": [
+    {
+      "byteLength": 602172,
+      "id": "clerk-2020",
+      "localPath": "data/source/electoral-calibration-2024/raw/statistics2020.pdf",
+      "mediaType": "application/pdf",
+      "retrievedAt": "2026-09-17T03:05:00Z",
+      "sha256": "666b2a1f673f263087c141c4d44b0dce47cbddc8f4df27fbc8b415cf05842b76",
+      "url": "https://clerk.house.gov/member_info/electionInfo/2020/statistics2020.pdf"
+    },
+    {
+      "byteLength": 457678,
+      "id": "clerk-2022",
+      "localPath": "data/source/electoral-calibration-2024/raw/statistics2022.pdf",
+      "mediaType": "application/pdf",
+      "retrievedAt": "2026-09-17T03:05:00Z",
+      "sha256": "ef9b8cefcc44bebbdc4928bf346b50e00a72dd3bb54a71ed93ec60d4ebf47690",
+      "url": "https://clerk.house.gov/member_info/electionInfo/2022/statistics2022.pdf"
+    },
+    {
+      "byteLength": 608100,
+      "id": "clerk-2024",
+      "localPath": "data/source/electoral-calibration-2024/raw/statistics2024.pdf",
+      "mediaType": "application/pdf",
+      "retrievedAt": "2026-09-17T03:07:00Z",
+      "sha256": "d4ba800fc17135b616ae556c92861080ab962d95916ace34b546c5aac824aec4",
+      "url": "https://clerk.house.gov/member_info/electionInfo/2024/statistics2024.pdf"
+    },
+    {
+      "byteLength": 95042,
+      "id": "nga-ak",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/alaska.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "c49793c91e75610f688552a3f45e19f0750ac4ab77db3784fb097f3ec6538321",
+      "url": "https://www.nga.org/governors/alaska/"
+    },
+    {
+      "byteLength": 95837,
+      "id": "nga-al",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/alabama.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "4ae906799649e76c852573bf30c1a72e65237d349e8ada3339094414cf1e70f6",
+      "url": "https://www.nga.org/governors/alabama/"
+    },
+    {
+      "byteLength": 95358,
+      "id": "nga-ar",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/arkansas.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "dd616dfd9603a3fe5292633048501afdc54beb7d0b9f73b813c54c4950c50968",
+      "url": "https://www.nga.org/governors/arkansas/"
+    },
+    {
+      "byteLength": 94213,
+      "id": "nga-az",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/arizona.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "455b551fd69affa44a53d890c53cd32f760f0164a47e851f750f39321083e229",
+      "url": "https://www.nga.org/governors/arizona/"
+    },
+    {
+      "byteLength": 94120,
+      "id": "nga-ca",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/california.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "7188f1ce50bb20171f6ac8f22b51865e736ee1ac23df0a6a61ac386ebe2f432d",
+      "url": "https://www.nga.org/governors/california/"
+    },
+    {
+      "byteLength": 94078,
+      "id": "nga-co",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/colorado.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "490083242baca2c6cd7461b062bbab15f8787d71860cbdb21e4d0bc34558f344",
+      "url": "https://www.nga.org/governors/colorado/"
+    },
+    {
+      "byteLength": 95690,
+      "id": "nga-ct",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/connecticut.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "e35cd8e84dc2c0d435ffa8be19b05bee8ddb3337f96ee67eed54857a89ccd9ba",
+      "url": "https://www.nga.org/governors/connecticut/"
+    },
+    {
+      "byteLength": 94504,
+      "id": "nga-de",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/delaware.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "2a5bd9bb1f71477dd0d0012897b34870b240402d640a8cd7b66dfc2d288dfff5",
+      "url": "https://www.nga.org/governors/delaware/"
+    },
+    {
+      "byteLength": 94506,
+      "id": "nga-fl",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/florida.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "4ea735cf511c2b4a7d03bb14a491253e740e7e84fb929fc06c16b9907762ea8c",
+      "url": "https://www.nga.org/governors/florida/"
+    },
+    {
+      "byteLength": 94199,
+      "id": "nga-ga",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/georgia.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "151cdea92180358496679a1c158abf7c1dd2e7aada16fc1acb165a6a25e6b954",
+      "url": "https://www.nga.org/governors/georgia/"
+    },
+    {
+      "byteLength": 140628,
+      "id": "nga-governors-index",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/governors-index.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "d4ec2066ef731ccf9afbcaa9d366f0e2b83268eb591d9d5285985667be57438d",
+      "url": "https://www.nga.org/governors/"
+    },
+    {
+      "byteLength": 96684,
+      "id": "nga-hi",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/hawaii.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "e296150294cd03e1a2425f2f6bfe8104dd09f1fda0ae55ec9f288b00df199f6a",
+      "url": "https://www.nga.org/governors/hawaii/"
+    },
+    {
+      "byteLength": 95070,
+      "id": "nga-ia",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/iowa.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "8b116030825bb86ab9ecfe0a31a2df3d023729e4b805bebe59fc3d4fb54188cd",
+      "url": "https://www.nga.org/governors/iowa/"
+    },
+    {
+      "byteLength": 94825,
+      "id": "nga-id",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/idaho.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "0d01511cd736924f11178a0657c8db74adf9e38a9cb1a8c1be2cd3a0179ebc4b",
+      "url": "https://www.nga.org/governors/idaho/"
+    },
+    {
+      "byteLength": 94508,
+      "id": "nga-il",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/illinois.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "fd1de21c964d74cf7e0da1ff405000ff404e0241192becac950dff89312b1d43",
+      "url": "https://www.nga.org/governors/illinois/"
+    },
+    {
+      "byteLength": 95526,
+      "id": "nga-in",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/indiana.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "0b7a10c86c56955ee9e09d92f76f05974715c652c91fef758d367421161488b4",
+      "url": "https://www.nga.org/governors/indiana/"
+    },
+    {
+      "byteLength": 93873,
+      "id": "nga-ks",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/kansas.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "0fe69a564c72079fe749bfa61dd51aef9cd9010ddd166f4574ef2efc18d9da6b",
+      "url": "https://www.nga.org/governors/kansas/"
+    },
+    {
+      "byteLength": 98194,
+      "id": "nga-ky",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/kentucky.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "3ba2cd3b3b66aee09befbf462b280ab4be8dbbf59c64679e4f28bc7ea26ac220",
+      "url": "https://www.nga.org/governors/kentucky/"
+    },
+    {
+      "byteLength": 94313,
+      "id": "nga-la",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/louisiana.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "3c9ad0eb4cfd61bc50a41296d9b4b3d90a4800c3efc3d149fd16e40ed32cebdb",
+      "url": "https://www.nga.org/governors/louisiana/"
+    },
+    {
+      "byteLength": 95707,
+      "id": "nga-ma",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/massachusetts.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "5256ac2f88ff324a02dda557146f9dd6d4582fbbc560694c298d243a3b2b7f2d",
+      "url": "https://www.nga.org/governors/massachusetts/"
+    },
+    {
+      "byteLength": 95718,
+      "id": "nga-md",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/maryland.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "ebd2105a3b96cd592bd18628fbc234411eb807ae35c247aba6e19128c0ac2f32",
+      "url": "https://www.nga.org/governors/maryland/"
+    },
+    {
+      "byteLength": 96789,
+      "id": "nga-me",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/maine.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "de4366115602abe00f0b637c6261ff12f81f1bf64ef04ddaef53a1d3f3332fcf",
+      "url": "https://www.nga.org/governors/maine/"
+    },
+    {
+      "byteLength": 94519,
+      "id": "nga-mi",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/michigan.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "0f3e4106ef292b0ac35c27f8359e6ed824f5bc0870d55b81212faf9305674879",
+      "url": "https://www.nga.org/governors/michigan/"
+    },
+    {
+      "byteLength": 94581,
+      "id": "nga-mn",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/minnesota.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "3d72fecb618e998104cf07be24bb956e726402b38cde84e9360ea4a3537d4066",
+      "url": "https://www.nga.org/governors/minnesota/"
+    },
+    {
+      "byteLength": 94943,
+      "id": "nga-mo",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/missouri.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "68ff388c70adb1cc922ed418a675d5182eee7540c7418f9441858a9f7c139422",
+      "url": "https://www.nga.org/governors/missouri/"
+    },
+    {
+      "byteLength": 96260,
+      "id": "nga-ms",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/mississippi.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "57363d0e33a11b47dfb8ecb5d3ed5d47bacf5d01242542d035dfeae5e1b71f32",
+      "url": "https://www.nga.org/governors/mississippi/"
+    },
+    {
+      "byteLength": 94023,
+      "id": "nga-mt",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/montana.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "2d0827f44c14771adf5dee20715248d01b64fad58d120209b981465ab4540418",
+      "url": "https://www.nga.org/governors/montana/"
+    },
+    {
+      "byteLength": 95158,
+      "id": "nga-nc",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/north-carolina.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "4d92f2e8eb7a6f8feac48b2f14d53399fbd5d3b49614410cffe10447f6bbe0ed",
+      "url": "https://www.nga.org/governors/north-carolina/"
+    },
+    {
+      "byteLength": 94975,
+      "id": "nga-nd",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/north-dakota.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "cdf640bb0a238f40c76f337257a545ffc2c58cfc2435fbc99bb6e68784862da7",
+      "url": "https://www.nga.org/governors/north-dakota/"
+    },
+    {
+      "byteLength": 94177,
+      "id": "nga-ne",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/nebraska.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "b09884fa079d3542ec93923095f6e4e08ae4d0d0a643f87a7746266872bf50ba",
+      "url": "https://www.nga.org/governors/nebraska/"
+    },
+    {
+      "byteLength": 96578,
+      "id": "nga-nh",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/new-hampshire.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "523f07585080fd8e5ce4f7c023e2227d547b54358e5b2f8924a36f836b91baa7",
+      "url": "https://www.nga.org/governors/new-hampshire/"
+    },
+    {
+      "byteLength": 93827,
+      "id": "nga-nj",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/new-jersey.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "a328b0533a970ed532dfb59a75a77b7ec0920e83cb6c9266337cc11981cea25a",
+      "url": "https://www.nga.org/governors/new-jersey/"
+    },
+    {
+      "byteLength": 109748,
+      "id": "nga-nj-predecessor",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/governor_phil-murphy.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "699dd77dd9a243b88b30f928ccbac103012ec48fdb7a98efdf0c85cb53d1b4dc",
+      "url": "https://www.nga.org/governor/phil-murphy/"
+    },
+    {
+      "byteLength": 94965,
+      "id": "nga-nm",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/new-mexico.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "344b5e7386edeb00d96e91f82f67394df0e9d0d31be0c9a7bbf05148e575d0db",
+      "url": "https://www.nga.org/governors/new-mexico/"
+    },
+    {
+      "byteLength": 94719,
+      "id": "nga-nv",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/nevada.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "eaabf9aed436a401eedef7b4907b37e05afb8f701f72d6b657a8dea8301c7916",
+      "url": "https://www.nga.org/governors/nevada/"
+    },
+    {
+      "byteLength": 94160,
+      "id": "nga-ny",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/new-york.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "a6dd1a1d00d0495fb826a65ffcd5d732a14b2a525b2248773c70d39f2e493d1c",
+      "url": "https://www.nga.org/governors/new-york/"
+    },
+    {
+      "byteLength": 94361,
+      "id": "nga-oh",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/ohio.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "3b9db472cd53bc815d20dbd1d961c69b4b881741de0291d9b08bb798e8b9a4f2",
+      "url": "https://www.nga.org/governors/ohio/"
+    },
+    {
+      "byteLength": 94261,
+      "id": "nga-ok",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/oklahoma.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "57b39f13a9afea9d8983fd002db06d7be0219ba843d88d1ba2457f70fbaff36f",
+      "url": "https://www.nga.org/governors/oklahoma/"
+    },
+    {
+      "byteLength": 95470,
+      "id": "nga-or",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/oregon.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "595dd8bd8a37eeb7ef96767bb6b6967ca36face728995d366ba36abf565628f6",
+      "url": "https://www.nga.org/governors/oregon/"
+    },
+    {
+      "byteLength": 97173,
+      "id": "nga-pa",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/pennsylvania.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "c811b37d120540202402673a4774bd3caedd232c0c230183f0945d1f30f5e4ef",
+      "url": "https://www.nga.org/governors/pennsylvania/"
+    },
+    {
+      "byteLength": 95427,
+      "id": "nga-ri",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/rhode-island.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "70d0df146158f3088644bcdaf71da12c31fe08bc348fc08192bd820b36ed6edd",
+      "url": "https://www.nga.org/governors/rhode-island/"
+    },
+    {
+      "byteLength": 97076,
+      "id": "nga-sc",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/south-carolina.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "c64830d65e5f9a64c3c0b8888200d79a26cfcddfba0334db3b02e9db5eddadcf",
+      "url": "https://www.nga.org/governors/south-carolina/"
+    },
+    {
+      "byteLength": 94692,
+      "id": "nga-sd",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/south-dakota.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "c9e651f0a2340285a3c0a3cb6ccc7f58834f04bfcf81b212c92d3d0fe82c8b61",
+      "url": "https://www.nga.org/governors/south-dakota/"
+    },
+    {
+      "byteLength": 94548,
+      "id": "nga-tn",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/tennessee.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "91c0b6fd0b5816f25ccbc5c06dd79c08349f33fa167595c59ec930848ea9cc7b",
+      "url": "https://www.nga.org/governors/tennessee/"
+    },
+    {
+      "byteLength": 93464,
+      "id": "nga-tx",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/texas.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "da705064c13e93507eb8ab094120f02cb7e5791fbdc52fd151f635396edfd881",
+      "url": "https://www.nga.org/governors/texas/"
+    },
+    {
+      "byteLength": 94994,
+      "id": "nga-ut",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/utah.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "bc9c71fca5d01f4ffd3eec5b9afa91d47c533ab010c891543620ec0283351b0c",
+      "url": "https://www.nga.org/governors/utah/"
+    },
+    {
+      "byteLength": 92787,
+      "id": "nga-va",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/virginia.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "3a2c05e73bdfdeacc8d7972e5a98181b5584ea709f9520976607206c96ca0c4f",
+      "url": "https://www.nga.org/governors/virginia/"
+    },
+    {
+      "byteLength": 106150,
+      "id": "nga-va-predecessor",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/governor_glenn-youngkin.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "b2d086e92486ca05bb9f0352a932a4651277ccd1186246986c0817bb574452d6",
+      "url": "https://www.nga.org/governor/glenn-youngkin/"
+    },
+    {
+      "byteLength": 95601,
+      "id": "nga-vt",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/vermont.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "2db842491140365891e90d6f838d887cdf3802793789bb77703471d30ed2207b",
+      "url": "https://www.nga.org/governors/vermont/"
+    },
+    {
+      "byteLength": 94171,
+      "id": "nga-wa",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/washington.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "c418069698def35a266763aec4d3261c0fe49084da1dfdac91f8deb5dd6071a9",
+      "url": "https://www.nga.org/governors/washington/"
+    },
+    {
+      "byteLength": 94678,
+      "id": "nga-wi",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/wisconsin.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "c53b2d66acd65ecce82a8e0fbea62c0d41701864a88d0961242752f528b2bd33",
+      "url": "https://www.nga.org/governors/wisconsin/"
+    },
+    {
+      "byteLength": 94626,
+      "id": "nga-wv",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/west-virginia.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "6c61fb06e089076ca50612de356cfbdfffef6c9364d5a0c11854cb5edd38ca78",
+      "url": "https://www.nga.org/governors/west-virginia/"
+    },
+    {
+      "byteLength": 94830,
+      "id": "nga-wy",
+      "localPath": "data/source/electoral-calibration-2024/raw/nga/wyoming.html",
+      "mediaType": "text/html",
+      "retrievedAt": "2026-09-17T03:10:22Z",
+      "sha256": "e28ee2f27d6fc4598899d21d7b2db80348a960af896e08023c8efd70df97e017",
+      "url": "https://www.nga.org/governors/wyoming/"
+    }
+  ],
+  "schema": "electoral-calibration-artifact-lock/v1"
+}

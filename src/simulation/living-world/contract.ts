@@ -33,8 +33,14 @@ export const LIVING_WORLD_SCENARIO_PROFILE = {
 } as const;
 
 export type ChamberKey = "us-house" | "us-senate";
-export type MajorPartyKey =
+/** The two parties the legacy (alive43) opening profile seats. */
+export type LegacyProfilePartyKey =
   (typeof LIVING_WORLD_SCENARIO_PROFILE.majorParties)[number]["key"];
+/**
+ * A party's key in this save. Any number of parties exists; the key is a
+ * persistent organization's, never a slot in a fixed pair.
+ */
+export type MajorPartyKey = string;
 
 export interface PublicHolderView {
   readonly personId: EntityId;

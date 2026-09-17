@@ -5,6 +5,7 @@ import { projectModeledAccountHistory } from "../presentation/modeled-account-hi
 import type { EntityId, World } from "../simulation";
 import { DIAGNOSTICS } from "./diagnostics-profile";
 import { EconomicContextPanel, EconomicGraph } from "./EconomicContextPanel";
+import { MacroConditionsPanel } from "./MacroConditionsPanel";
 import { ModeledAccountHistory } from "./ModeledAccountHistory";
 import "./budget-economy-workspace.css";
 
@@ -58,6 +59,8 @@ export function BudgetEconomyWorkspace({
         move time. Reference observations and this save&rsquo;s government
         history remain separately labeled.
       </p>
+
+      <MacroConditionsPanel world={world} jurisdictionId={jurisdictionId} />
 
       <section
         className="budget-economy-availability"
