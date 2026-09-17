@@ -7,6 +7,11 @@
  * a surface reads, and serialization. Every number printed is measured on
  * this machine in this run; nothing here is scaled from a fresh life.
  *
+ * With a per-key wrapper over the composed registry it also attributes the
+ * clock's cost: time inside each keyed handler against time in the shared
+ * resolve-and-write path outside them (GOVERNING's method, so the two lanes'
+ * numbers are comparable per key rather than as totals).
+ *
  *   node --import tsx scripts/dev-lab/profile-long-history.ts [years] [seed]
  */
 import { performance } from "node:perf_hooks";
@@ -44,7 +49,43 @@ function sizes(world: World) {
   };
 }
 
-const registry = createCampaignElectionTransitionRegistry();
+const base = createCampaignElectionTransitionRegistry();
+const handlerMs = new Map<string, { ms: number; calls: number }>();
+/** Times each keyed handler; everything else is the shared write path. */
+const registry: typeof base = {
+  ...base,
+  get: (key) => {
+    const handler = base.get(key);
+    if (!handler) return handler;
+    return (world, item) => {
+      const startedAt = performance.now();
+      const result = handler(world, item);
+      const seen = handlerMs.get(key) ?? { ms: 0, calls: 0 };
+      handlerMs.set(key, {
+        ms: seen.ms + (performance.now() - startedAt),
+        calls: seen.calls + 1,
+      });
+      return result;
+    };
+  },
+};
+
+function handlerSplit(totalMs: number) {
+  const rows = [...handlerMs.entries()]
+    .map(([key, value]) => ({
+      key,
+      seconds: Math.round(value.ms) / 1000,
+      calls: value.calls,
+    }))
+    .sort((a, b) => b.seconds - a.seconds);
+  const inside = rows.reduce((sum, row) => sum + row.seconds, 0);
+  handlerMs.clear();
+  return {
+    insideHandlersSeconds: Math.round(inside * 10) / 10,
+    outsideHandlersSeconds: Math.round((totalMs / 1000 - inside) * 10) / 10,
+    topHandlers: rows.slice(0, 6),
+  };
+}
 
 const openedAt = performance.now();
 const game = generateOpeningLife(
@@ -63,7 +104,8 @@ for (let year = 1; year <= years; year += 1) {
   const startedAt = performance.now();
   world = advanceWorld(world, 365, registry);
   const advanceMs = ms(startedAt);
-  if (year % 5 === 0 || year === 1) {
+  const split = handlerSplit(advanceMs);
+  if (year % 5 === 0 || year === 1 || year <= 3) {
     const integrityAt = performance.now();
     assertWorldIntegrity(world);
     const integrityMs = ms(integrityAt);
@@ -72,13 +114,14 @@ for (let year = 1; year <= years; year += 1) {
     steps.push({
       year,
       advanceMs,
+      ...split,
       integrityMs,
       serializeMs: ms(serializeAt),
       saveBytes: payload.length,
       ...sizes(world),
     });
   } else {
-    steps.push({ year, advanceMs });
+    steps.push({ year, advanceMs, ...split });
   }
 }
 
