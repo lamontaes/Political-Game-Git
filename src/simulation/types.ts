@@ -11,6 +11,7 @@ import type {
   ConstitutionalRuleVersionRecord,
 } from "./constitutional-types";
 import type { PublicFundingMandate } from "./public-fiscal";
+import type { PartyRecord, WorldConditionRecord } from "./world-setup/types";
 import type {
   TaxProposalRecord,
   TaxPolicyRecord,
@@ -36,6 +37,8 @@ export interface SimulationMoment {
 }
 
 export type EntityKind =
+  | "world-condition"
+  | "party-record"
   | "constitutional-measure"
   | "constitutional-action"
   | "constitutional-rule-version"
@@ -3600,6 +3603,13 @@ export interface HistoryStore {
   readonly legislativeEnactments?: readonly LegislativeEnactmentRecord[];
   /** Optional so pre-CIVIL-AUTHORITY13 snapshots remain structurally readable. */
   readonly personnelRecords?: readonly PersonnelRecord[];
+  /**
+   * WORLD: a save's generated starting conditions and opening version.
+   * Optional so older snapshots, which never had them, stay readable.
+   */
+  readonly worldConditions?: readonly WorldConditionRecord[];
+  /** WORLD: political organization identity, decisions and evolution. */
+  readonly partyRecords?: readonly PartyRecord[];
   readonly futureDueItems: readonly FutureDueItem[];
   readonly futureDueItemStates: readonly FutureDueItemStateRecord[];
   readonly events: readonly HistoricalEvent[];
