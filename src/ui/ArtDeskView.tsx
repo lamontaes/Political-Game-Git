@@ -1358,7 +1358,9 @@ function RequestDetail({
               ? `Saved ${detail.name} in Downloads › Our Civic Duty Art Desk.`
               : detail.state === "cancelled"
                 ? "Download cancelled."
-                : `Download failed for ${detail.name}.`,
+                : detail.state === "refused"
+                  ? `The desktop app would not save ${detail.name}. Its download policy does not allow this file.`
+                  : `Download failed for ${detail.name}.`,
           );
         return;
       }
@@ -1367,7 +1369,9 @@ function RequestDetail({
           ? `Saved ${detail.name} in Downloads › Our Civic Duty Art Desk.`
           : detail.state === "cancelled"
             ? "Download cancelled."
-            : `Download failed for ${detail.name}.`,
+            : detail.state === "refused"
+              ? `The desktop app would not save ${detail.name}. Its download policy does not allow this file.`
+              : `Download failed for ${detail.name}.`,
       );
     };
     window.addEventListener("ocd:download-result", onResult);
