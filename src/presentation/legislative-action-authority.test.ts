@@ -23,6 +23,7 @@ import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 import { projectCampaign, spendAnAfternoon } from "./campaign-projection";
 import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import {
+  institutionOwnsStep,
   applyLegislativeCommand,
   openLegislativeWork,
   type LegislativeAssignment,
@@ -140,8 +141,12 @@ function walkToFloorOf(
     );
     const chosen = steps.find((key) => key !== "offer-amendment") ?? steps[0];
     if (!chosen) break;
+    // Steps outside the member's own chamber belong to the institution; the
+    // member waits while the clock runs them.
     next = applyLegislativeCommand(next, assignment, {
-      kind: "take-step",
+      kind: institutionOwnsStep(next, assignment, chosen)
+        ? "await-institution"
+        : "take-step",
       step: chosen,
     }).world;
   }

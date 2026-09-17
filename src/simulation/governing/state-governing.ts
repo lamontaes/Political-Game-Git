@@ -33,7 +33,9 @@ import {
 import { stateExecutiveTermRule } from "../nationwide-world/state-executive-term-rules";
 import {
   LEGISLATIVE_INSTITUTION_STEP,
+  authoredMeasuresForJurisdiction,
   createInstitutionStepHandler,
+  fileLegislatureMeasure,
   recordGovernorDecisionOnMeasure,
   scheduleInstitutionStep,
   type ExecutiveDeskHandler,
@@ -1582,6 +1584,13 @@ export function governingSeasonHandler(
         family: "budget",
         instance: due.dueAt,
         programKeys,
+      });
+    } else if (authoredMeasuresForJurisdiction(office.jurisdictionId).length) {
+      // A legislature with written measures files a real bill; it reaches
+      // the governor through the legislative clock.
+      next = fileLegislatureMeasure(next, {
+        jurisdictionId: office.jurisdictionId,
+        intakeKey: `${office.officeKey}:${due.dueAt}`,
       });
     } else {
       next = openMatter(next, office, {

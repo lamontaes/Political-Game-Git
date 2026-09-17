@@ -7,6 +7,7 @@ import {
   availableMeasureSteps,
   COMMITTEE_HEARING_TRANSITION_KEY,
   enrollMeasure,
+  introduceMeasure,
   measureActions,
   measurePosition,
   nextMeasureStableKey,
@@ -36,9 +37,20 @@ import {
   type LegislativeBlueprint,
   type SeatedBody,
 } from "../legislation-scenarios";
-import { chamberByKey, floorStageByKey } from "../legislature-rules";
+import {
+  chamberByKey,
+  defaultOriginChamber,
+  floorStageByKey,
+} from "../legislature-rules";
 import type { LegislativeRulePack } from "../legislature-rules";
-import { personName } from "../people";
+import { drawCanonicalName, personName } from "../people";
+import { generatePersonIdentity } from "../person-identity";
+import { SeededRng } from "../rng";
+import {
+  characterHistoryContextPersonId,
+  createCharacterHistoryContextPeople,
+} from "../character-history";
+import { nextMeasureDesignation } from "../measure-numbering";
 import type {
   EntityId,
   FutureDueItem,
@@ -104,6 +116,34 @@ export function measureStepOwner(
     default:
       return null;
   }
+}
+
+/**
+ * Whether the controlled character's office carries this bill: they sponsor
+ * it, or their legislative office opened it. Every other bill is moved
+ * entirely by its (non-player) sponsor and the institution.
+ */
+export function playerOfficeHoldsMeasure(
+  world: World,
+  measure: LegislativeMeasureRecord,
+): boolean {
+  if (world.control.kind !== "person") return false;
+  if (measure.sponsorPersonId === world.control.personId) return true;
+  return measure.stableKey.startsWith("legislative-work:");
+}
+
+function effectiveOwner(
+  world: World,
+  measure: LegislativeMeasureRecord,
+): MeasureStepOwner | null {
+  const owner = measureStepOwner(world, measure.id, measure.originChamberKey);
+  if (owner === "sponsor-office" && !playerOfficeHoldsMeasure(world, measure))
+    // A non-player sponsor's requests go through on the clock; a veto
+    // override is left to a later, decision-backed producer.
+    return measurePosition(world, measure.id).phase === "awaiting-override"
+      ? null
+      : "institution";
+  return owner;
 }
 
 /* ------------------------------------------------------------------ *
@@ -253,7 +293,7 @@ export function applyInstitutionStep(
   const measure = requireMeasure(world, measureId);
   const blueprint = legislativeBlueprintForMeasure(world, measure);
   const pack = blueprint.pack;
-  const owner = measureStepOwner(world, measureId, measure.originChamberKey);
+  const owner = effectiveOwner(world, measure);
   if (owner === null || owner === "sponsor-office") return { kind: "idle" };
   const session = measureSessionIsClosed(world, measureId);
   if (session.closed)
@@ -500,7 +540,7 @@ export function scheduleInstitutionStep(
   excludeDueItemId: EntityId | null = null,
 ): World {
   const measure = requireMeasure(world, measureId);
-  const owner = measureStepOwner(world, measureId, measure.originChamberKey);
+  const owner = effectiveOwner(world, measure);
   if (owner === null || owner === "sponsor-office") return world;
   if (pendingInstitutionStep(world, measureId, excludeDueItemId)) return world;
   if (measureSessionIsClosed(world, measureId).closed) return world;
@@ -576,4 +616,86 @@ export function createInstitutionStepHandler(
         );
     }
   };
+}
+
+/* ------------------------------------------------------------------ *
+ * Intake: the legislature files its own bills
+ * ------------------------------------------------------------------ */
+
+export const LEGISLATIVE_INTAKE_VERSION = "legislative-intake/v1";
+
+/** The authored measures a state's legislature can file, if any. */
+export function authoredMeasuresForJurisdiction(
+  jurisdictionId: EntityId,
+): readonly LegislativeBlueprint[] {
+  return legislativeScenarioKeysForPlace(jurisdictionId).map((key) =>
+    legislativeBlueprint(key),
+  );
+}
+
+/**
+ * A non-player member files one of the legislature's written measures, which
+ * then moves on the clock. Refused (World unchanged) when the state has no
+ * written measures, the session's sourced limit has passed, or this intake
+ * already ran.
+ */
+export function fileLegislatureMeasure(
+  world: World,
+  input: {
+    readonly jurisdictionId: EntityId;
+    readonly intakeKey: string;
+  },
+): World {
+  const authored = authoredMeasuresForJurisdiction(input.jurisdictionId);
+  if (authored.length === 0 || !world.jurisdictions[input.jurisdictionId])
+    return world;
+  const stableKey = `${LEGISLATIVE_INTAKE_VERSION}:${input.intakeKey}`;
+  if (
+    (world.history.legislativeMeasures ?? []).some(
+      (measure) => measure.stableKey === stableKey,
+    )
+  )
+    return world;
+  const rng = new SeededRng(world.seed).fork(stableKey);
+  const blueprint = rng.pick(authored);
+  const pack = blueprint.pack;
+  const limit = pack.session.regularSessionLatestAdjournment;
+  if (limit) {
+    const year = Number(world.currentDate.slice(0, 4));
+    const boundary = year % 2 ? limit.value.oddYear : limit.value.evenYear;
+    const closes = `${year}-${String(boundary.month).padStart(2, "0")}-${String(boundary.day).padStart(2, "0")}`;
+    if (world.currentDate > closes) return world;
+  }
+  const sponsorKey = `${stableKey}:sponsor`;
+  const age = rng.integer(34, 70);
+  let next = createCharacterHistoryContextPeople(world, [
+    {
+      stableKey: sponsorKey,
+      ...drawCanonicalName(rng.fork("name")),
+      identity: generatePersonIdentity(rng.fork("identity")),
+      birthDate: makeIsoDate(
+        `${Number(world.currentDate.slice(0, 4)) - age}-${String(rng.integer(1, 13)).padStart(2, "0")}-${String(rng.integer(1, 29)).padStart(2, "0")}`,
+      ),
+      homeJurisdictionId: input.jurisdictionId,
+    },
+  ]);
+  const sponsorPersonId = characterHistoryContextPersonId(next, sponsorKey);
+  const originChamberKey = defaultOriginChamber(pack).chamberKey;
+  next = introduceMeasure(next, {
+    stableKey,
+    jurisdictionId: input.jurisdictionId,
+    rulePackId: pack.packId,
+    designation: nextMeasureDesignation(next, {
+      jurisdictionId: input.jurisdictionId,
+      originChamberKey,
+    }),
+    shortTitle: blueprint.shortTitle,
+    summary: blueprint.summary,
+    origin: "member-introduction",
+    subjectClass: blueprint.subjectClass,
+    sponsorPersonId,
+    originChamberKey,
+  });
+  const measure = next.history.legislativeMeasures!.at(-1)!;
+  return scheduleInstitutionStep(next, measure.id);
 }
