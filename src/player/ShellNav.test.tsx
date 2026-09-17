@@ -104,7 +104,7 @@ describe("ShellNav portrait hub", () => {
     const html = render(sub);
     expect(html).toContain('data-level="submenu"');
     expect(html).toMatch(
-      /data-testid="nav-submenu-back" style="--fan-x:0px;--fan-y:-175px/,
+      /data-testid="nav-submenu-back" style="--fan-x:0px;--fan-y:-170px/,
     );
     expect(html).toContain('data-testid="nav-finances"');
   });
@@ -114,9 +114,10 @@ describe("fanLayout", () => {
   it("fills the inner ring first, straight up, then opens a further ring", () => {
     const layout = fanLayout(10);
     expect(layout).toHaveLength(10);
-    expect(layout[0]).toEqual({ x: 0, y: -175, ring: 0 });
-    expect(layout.filter((at) => at.ring === 0)).toHaveLength(4);
-    expect(layout.filter((at) => at.ring === 1)).toHaveLength(6);
+    expect(layout[0]).toEqual({ x: 0, y: -170, ring: 0 });
+    expect(layout.filter((at) => at.ring === 0)).toHaveLength(3);
+    expect(layout.filter((at) => at.ring === 1)).toHaveLength(5);
+    expect(layout.filter((at) => at.ring === 2)).toHaveLength(2);
     // Everything opens up and to the right of the portrait.
     for (const at of layout) {
       expect(at.x).toBeGreaterThanOrEqual(0);
@@ -125,7 +126,8 @@ describe("fanLayout", () => {
   });
 
   it("keeps neighbours on a ring far enough apart that entries never touch", () => {
-    const entry = 3.9 * 16;
+    // An entry's width plus a visible margin between neighbours.
+    const entry = 3.9 * 16 + 4;
     const layout = fanLayout(18);
     for (const ring of FAN_RINGS.keys()) {
       const points = layout.filter((at) => at.ring === ring);

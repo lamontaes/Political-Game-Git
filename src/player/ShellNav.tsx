@@ -135,9 +135,10 @@ const GROUP_ORDER: readonly ShellDestinationGroup[] = [
  * negative upwards.
  */
 export const FAN_RINGS: readonly { radius: number; capacity: number }[] = [
-  { radius: 175, capacity: 4 },
-  { radius: 285, capacity: 6 },
-  { radius: 400, capacity: 8 },
+  { radius: 170, capacity: 3 },
+  { radius: 275, capacity: 5 },
+  { radius: 380, capacity: 7 },
+  { radius: 480, capacity: 9 },
 ];
 const FAN_FROM_DEGREES = 90;
 const FAN_TO_DEGREES = 25;

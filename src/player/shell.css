@@ -2047,8 +2047,9 @@
     position: absolute;
     left: calc(var(--pg-nav-pad) + 1px + var(--pg-nav-avatar) / 2);
     bottom: calc(var(--pg-nav-pad) + 1px + var(--pg-nav-avatar) / 2);
-    width: 0;
-    height: 0;
+    /* One pixel at the portrait's centre: an empty box reads as hidden. */
+    width: 1px;
+    height: 1px;
     min-width: 0;
     max-height: none;
     margin: 0;
