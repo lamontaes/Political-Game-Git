@@ -136,3 +136,29 @@ Gaps to close, in order:
 10. Peer asks: PRESS `recordOutsideMandatePublicPayment` + `canInstitutionAct`;
     CRISIS K3 succession consuming `crisisOfficeContinuityNotices`;
     CHANGE read access to fiscal records.
+
+### Progress against that list (2026-09-17)
+
+- Done: items 1–4 and 6 (legislative clock, step ownership, continuing
+  intake, closed sessions, governor desk bound to real measures, sponsor line).
+- Done: item 8 as `publicProgramRecords` (`governing/public-program.ts`):
+  capacity, appropriation, commitment, installment and capacity outturn, with
+  money moving only through the existing public account. The game profile
+  `public-program/v1` gives a sitting governor, or a municipal mayor or
+  manager, the power to commit an adopted appropriation. Nothing in
+  production declares a program yet; a budget or ordinance route has to
+  create them.
+- Done: item 10.
+  - PRESS: `recordOutsideMandatePublicPayment` and `canInstitutionAct`.
+  - CRISIS: K3 `applyOfficeContinuityNotices` with a national succession
+    record (amend. XXV §1).
+  - CHANGE reads the program records, on its branch
+    `claude/change-public-service`.
+  - K3 production wiring (`applyCrisisOfficeContinuity` in the clock) waits
+    until #271 and #266 are both on main; the CRISIS proof branch is
+    `claude/crisis-governing-proof`.
+- Open: items 5, 7 and 9, plus a player surface for program decisions.
+- Blocked by design, with the missing rule named in play:
+  - Senate appointments, governors' successors and the 3 U.S.C. §19 line.
+  - The special-election interval is the labelled game profile
+    `ocd-house-special-election-game-profile/v1`.
