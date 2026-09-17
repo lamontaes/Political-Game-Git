@@ -479,6 +479,63 @@ describe("PEOPLE B1: a predecessor's queued command cannot still apply", () => {
     expect(pendingCommandsInvalidatedBy(reopened)).toEqual(afterObserve);
   });
 
+  it("taking up an unrelated life tells you of the death and nothing about the estate", () => {
+    const dead = die(fixture.world, g1);
+    const view = projectLifeContinuation(dead, g1)!;
+    const stranger = view.choices.find(
+      (choice) => !choice.prominent && choice.availableNow,
+    )!;
+    const next = continueAs(dead, g1, stranger.personId);
+    const estate = next.history.events.find(
+      (event) => event.type === ESTATE_OPENED_EVENT,
+    )!;
+    const death = next.history.personDeaths.find((d) => d.personId === g1)!;
+    const knows = (eventId: string) =>
+      next.history.knowledge.some(
+        (entry) =>
+          entry.personId === stranger.personId && entry.eventId === eventId,
+      );
+    // They are told a person died, which is what makes the choice legible.
+    expect(knows(death.eventId)).toBe(true);
+    // What that person owned is not their business (Q47-010). Being chosen to
+    // play a life is not inheritance and not permission.
+    expect(knows(estate.id)).toBe(false);
+    // Nothing else of the dead person's travels either.
+    const theirs = next.history.knowledge.filter(
+      (entry) => entry.personId === stranger.personId,
+    );
+    const before = new Set(dead.history.knowledge.map((entry) => entry.id));
+    expect(
+      theirs.filter((entry) => !before.has(entry.id)).map((e) => e.eventId),
+    ).toEqual([death.eventId]);
+    expect(
+      next.history.personalityTendencies.filter((t) => t.personId === g1),
+    ).toEqual(
+      dead.history.personalityTendencies.filter((t) => t.personId === g1),
+    );
+    assertWorldIntegrity(next);
+  });
+
+  it("a relative is told about the estate, because it is already their business", () => {
+    const dead = die(fixture.world, g1);
+    const next = continueAs(dead, g1, fixture.childPersonId);
+    const estate = next.history.events.find(
+      (event) => event.type === ESTATE_OPENED_EVENT,
+    )!;
+    expect(
+      next.history.knowledge.some(
+        (entry) =>
+          entry.personId === fixture.childPersonId &&
+          entry.eventId === estate.id,
+      ),
+    ).toBe(true);
+    // And it is still only a pending record: nothing moved.
+    expect(estate.tags).toContain("estate.pending-disposition");
+    expect(next.history.resourcePositions).toEqual(
+      dead.history.resourcePositions,
+    );
+  });
+
   it("offers the people the life was bound to first, then the wider choice", () => {
     const dead = die(fixture.world, g1);
     const view = projectLifeContinuation(dead, g1)!;

@@ -2,8 +2,8 @@
   "counts": {
     "INVENTORIED": 3093,
     "INTENTIONALLY_NON_PLAYER_FACING": 6629,
-    "DIAGNOSTIC_OR_TEST": 6521,
-    "NEEDS_CLASSIFICATION": 8677
+    "DIAGNOSTIC_OR_TEST": 6530,
+    "NEEDS_CLASSIFICATION": 8684
   },
   "needsClassification": [
     {
@@ -10041,7 +10041,7 @@
     {
       "sourcePath": "src/presentation/childhood.ts",
       "enclosingSymbol": "projectChildhoodMoment",
-      "line": 98,
+      "line": 99,
       "text": "See what happened",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10049,7 +10049,7 @@
     {
       "sourcePath": "src/presentation/childhood.ts",
       "enclosingSymbol": "projectChildhoodMoment",
-      "line": 100,
+      "line": 101,
       "text": "{years.personName} is {years.age}. {caregiverName??\"Theadultathome\"} decides these things; what stays is what {years.personName} remembers of them.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10057,40 +10057,96 @@
     {
       "sourcePath": "src/presentation/childhood.ts",
       "enclosingSymbol": "projectChildhoodMoment",
-      "line": 102,
+      "line": 103,
       "text": "{years.personName} is {years.age}, old enough to be asked and young enough to be steered.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/presentation/childhood.ts",
-      "enclosingSymbol": "considerations",
-      "line": 180,
-      "text": "They would rather deal with it directly.",
+      "enclosingSymbol": "OPTION_LEANS",
+      "line": 176,
+      "text": "They would rather have it said out loud.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/presentation/childhood.ts",
-      "enclosingSymbol": "considerations",
-      "line": 186,
-      "text": "They would rather let it settle by itself.",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/presentation/childhood.ts",
-      "enclosingSymbol": "considerations",
-      "line": 192,
+      "enclosingSymbol": "OPTION_LEANS",
+      "line": 181,
       "text": "They see things through.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/presentation/childhood.ts",
-      "enclosingSymbol": "considerations",
-      "line": 198,
-      "text": "They are willing to let it ride.",
+      "enclosingSymbol": "OPTION_LEANS",
+      "line": 188,
+      "text": "They push a child towards other children.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/childhood.ts",
+      "enclosingSymbol": "OPTION_LEANS",
+      "line": 195,
+      "text": "They believe in pulling your weight.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/childhood.ts",
+      "enclosingSymbol": "OPTION_LEANS",
+      "line": 202,
+      "text": "They would rather it were shared.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/childhood.ts",
+      "enclosingSymbol": "OPTION_LEANS",
+      "line": 209,
+      "text": "They want the child settled among people.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/childhood.ts",
+      "enclosingSymbol": "OPTION_LEANS",
+      "line": 217,
+      "text": "They would rather let it settle by itself.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/childhood.ts",
+      "enclosingSymbol": "OPTION_LEANS",
+      "line": 224,
+      "text": "They see no need to push a child forward.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/childhood.ts",
+      "enclosingSymbol": "OPTION_LEANS",
+      "line": 231,
+      "text": "They think a child should be left their own space.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/childhood.ts",
+      "enclosingSymbol": "OPTION_LEANS",
+      "line": 238,
+      "text": "They would rather it were kept than spent.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/childhood.ts",
+      "enclosingSymbol": "OPTION_LEANS",
+      "line": 245,
+      "text": "They see no harm in spending it now.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -57321,7 +57377,7 @@
     {
       "sourcePath": "src/simulation/people-continuation.ts",
       "enclosingSymbol": "continueAsRelative",
-      "line": 540,
+      "line": 550,
       "text": "Play continued as {personName(successor)}, after {personName(predecessor)}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -57329,7 +57385,7 @@
     {
       "sourcePath": "src/simulation/people-continuation.ts",
       "enclosingSymbol": "continueAsRelative",
-      "line": 543,
+      "line": 553,
       "text": "A change of who is played, not an event in the world.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -57337,7 +57393,7 @@
     {
       "sourcePath": "src/simulation/people-continuation.ts",
       "enclosingSymbol": "keepObserving",
-      "line": 586,
+      "line": 596,
       "text": "The player kept watching the world after {personName(next.people[predecessorId]!)}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -57345,7 +57401,7 @@
     {
       "sourcePath": "src/simulation/people-continuation.ts",
       "enclosingSymbol": "keepObserving",
-      "line": 589,
+      "line": 599,
       "text": "A change of who is played, not an event in the world.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -57625,15 +57681,7 @@
     {
       "sourcePath": "src/simulation/people-trait-definitions.ts",
       "enclosingSymbol": "TRAIT_SHAPES",
-      "line": 53,
-      "text": "Follows through",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/simulation/people-trait-definitions.ts",
-      "enclosingSymbol": "TRAIT_SHAPES",
-      "line": 54,
+      "line": 59,
       "text": "Lets things slip",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -57641,7 +57689,15 @@
     {
       "sourcePath": "src/simulation/people-trait-definitions.ts",
       "enclosingSymbol": "TRAIT_SHAPES",
-      "line": 58,
+      "line": 60,
+      "text": "Follows through",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/people-trait-definitions.ts",
+      "enclosingSymbol": "TRAIT_SHAPES",
+      "line": 64,
       "text": "How willing someone is to take a chance.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -57649,7 +57705,7 @@
     {
       "sourcePath": "src/simulation/people-trait-definitions.ts",
       "enclosingSymbol": "TRAIT_SHAPES",
-      "line": 60,
+      "line": 66,
       "text": "Takes chances",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -57657,7 +57713,7 @@
     {
       "sourcePath": "src/simulation/people-trait-definitions.ts",
       "enclosingSymbol": "BALANCED_TRAIT",
-      "line": 66,
+      "line": 72,
       "text": "Neither, much",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -57665,7 +57721,7 @@
     {
       "sourcePath": "src/simulation/people-trait-definitions.ts",
       "enclosingSymbol": "peopleTraitDefinition",
-      "line": 80,
+      "line": 86,
       "text": "{shape.description} A fictional behavior tendency, not a measurement.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -57673,7 +57729,7 @@
     {
       "sourcePath": "src/simulation/people-trait-definitions.ts",
       "enclosingSymbol": "peopleTraitDefinition",
-      "line": 85,
+      "line": 91,
       "text": "Leans {shape.low.label.toLowerCase()}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -57681,7 +57737,7 @@
     {
       "sourcePath": "src/simulation/people-trait-definitions.ts",
       "enclosingSymbol": "peopleTraitDefinition",
-      "line": 90,
+      "line": 96,
       "text": "No marked lean either way.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -57689,7 +57745,7 @@
     {
       "sourcePath": "src/simulation/people-trait-definitions.ts",
       "enclosingSymbol": "peopleTraitDefinition",
-      "line": 95,
+      "line": 101,
       "text": "Leans {shape.high.label.toLowerCase()}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -72902,7 +72958,7 @@
       "sourcePath": "src/presentation/people-mind.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 14
+      "count": 18
     },
     {
       "sourcePath": "src/presentation/people-memory.test.ts",
@@ -72932,7 +72988,7 @@
       "sourcePath": "src/presentation/people-generations.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 21
+      "count": 23
     },
     {
       "sourcePath": "src/presentation/people-family-plan.test.ts",
@@ -74051,12 +74107,6 @@
       "count": 4
     },
     {
-      "sourcePath": "src/presentation/childhood.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 7
-    },
-    {
       "sourcePath": "src/presentation/character-render-plan.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -74126,6 +74176,12 @@
       "sourcePath": "src/presentation/campaign-projection.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 10
+    },
+    {
+      "sourcePath": "src/presentation/childhood.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 10
     },
     {

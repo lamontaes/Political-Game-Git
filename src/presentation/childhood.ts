@@ -10,6 +10,7 @@ import {
   ensurePeopleTraits,
   traitConsiderations,
 } from "../simulation/people-traits";
+import type { PeopleTrait } from "../simulation/people-trait-definitions";
 import type { DecisionConsideration } from "../simulation/types";
 import { chooseFormativeOption, projectFormativeYears } from "./formative-play";
 import type { FormativeScene, FormativeYears } from "./formative-play";
@@ -147,6 +148,106 @@ export function playChildhoodMoment(
 }
 
 /**
+ * What each choice actually is, so a temperament can bear on its meaning.
+ *
+ * The first defect this replaces was reading the option list by position, as
+ * if the first choice were always the forthright one and the last always the
+ * cautious one (Q47-004). Nothing guarantees that, so a caregiver's
+ * temperament was being applied to whichever option happened to be written
+ * first. Now an option only attracts a leaning when the bank's own key says
+ * what it is, and a key nobody has classified simply attracts none — which
+ * leaves the decision to the rest of the situation rather than to the order.
+ */
+const OPTION_LEANS: Readonly<
+  Record<
+    string,
+    readonly {
+      readonly trait: PeopleTrait;
+      readonly pole: "low" | "high";
+      readonly explanation: string;
+    }[]
+  >
+> = {
+  // Meeting it directly.
+  "say-what-happened": [
+    {
+      trait: "conflict",
+      pole: "high",
+      explanation: "They would rather have it said out loud.",
+    },
+    {
+      trait: "reliability",
+      pole: "high",
+      explanation: "They see things through.",
+    },
+  ],
+  "join-in": [
+    {
+      trait: "sociability",
+      pole: "high",
+      explanation: "They push a child towards other children.",
+    },
+  ],
+  "make-yourself-useful": [
+    {
+      trait: "reliability",
+      pole: "high",
+      explanation: "They believe in pulling your weight.",
+    },
+  ],
+  share: [
+    {
+      trait: "sociability",
+      pole: "high",
+      explanation: "They would rather it were shared.",
+    },
+  ],
+  "settle-in": [
+    {
+      trait: "sociability",
+      pole: "high",
+      explanation: "They want the child settled among people.",
+    },
+  ],
+  // Holding back.
+  "stay-quiet": [
+    {
+      trait: "conflict",
+      pole: "low",
+      explanation: "They would rather let it settle by itself.",
+    },
+  ],
+  "hang-back": [
+    {
+      trait: "sociability",
+      pole: "low",
+      explanation: "They see no need to push a child forward.",
+    },
+  ],
+  "keep-your-corner": [
+    {
+      trait: "sociability",
+      pole: "low",
+      explanation: "They think a child should be left their own space.",
+    },
+  ],
+  "put-it-away": [
+    {
+      trait: "risk",
+      pole: "low",
+      explanation: "They would rather it were kept than spent.",
+    },
+  ],
+  spend: [
+    {
+      trait: "risk",
+      pole: "high",
+      explanation: "They see no harm in spending it now.",
+    },
+  ],
+};
+
+/**
  * What the adult responsible decides, from who they are.
  *
  * The same decision machinery every other NPC uses. A caregiver who avoids a
@@ -172,32 +273,14 @@ export function caregiverChoice(
     withTraits,
     caregiverId,
     `childhood:${personId}:${scene.situationKey}`,
-    [
-      {
-        optionKey: options[0]!.key,
-        trait: "conflict",
-        pole: "high",
-        explanation: "They would rather deal with it directly.",
-      },
-      {
-        optionKey: options.at(-1)!.key,
-        trait: "conflict",
-        pole: "low",
-        explanation: "They would rather let it settle by itself.",
-      },
-      {
-        optionKey: options[0]!.key,
-        trait: "reliability",
-        pole: "high",
-        explanation: "They see things through.",
-      },
-      {
-        optionKey: options.at(-1)!.key,
-        trait: "risk",
-        pole: "high",
-        explanation: "They are willing to let it ride.",
-      },
-    ],
+    options.flatMap((option) =>
+      (OPTION_LEANS[option.key] ?? []).map((lean) => ({
+        optionKey: option.key,
+        trait: lean.trait,
+        pole: lean.pole,
+        explanation: lean.explanation,
+      })),
+    ),
   );
   const evaluation = evaluateDecision(withTraits, {
     stableKey: `childhood:${personId}:${scene.situationKey}:${withTraits.currentDate}`,
