@@ -167,7 +167,7 @@ test("group 1: Nevada creator, room, People, Calendar, Politics and back", async
     "",
   );
   expect(otherId).not.toBe("");
-  await other.locator("text").click();
+  await other.locator(".pg-relationship-web-label-hit").click();
   await expect(page.getByTestId("quick-dossier")).toHaveAttribute(
     "data-person-id",
     otherId,

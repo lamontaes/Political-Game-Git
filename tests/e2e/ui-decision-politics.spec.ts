@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "./fixtures";
 
-import { openShellMenu, startLife } from "./support/creator";
+import { enterLife, openShellMenu, startLife } from "./support/creator";
 
 /*
  * UI DECISION FOLLOW-THROUGH, increment 1: the Politics hub, its Government
@@ -71,7 +71,7 @@ for (const size of SIZES) {
       age: 34,
       calibration: "skipped",
     });
-    await expect(page.getByTestId("play-screen")).toBeVisible();
+    await enterLife(page);
     const day = await shellDate(page);
 
     // A person clicked in the room gets the card beside them.
