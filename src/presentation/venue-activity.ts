@@ -15,6 +15,7 @@ import {
   type World,
 } from "../simulation";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
+import { recordDomainAttendance } from "./activity-attendance";
 import { openingLifeLocation } from "./life-scene-flow";
 import { sceneVenueForLocationKey } from "./scene-venues";
 
@@ -163,12 +164,22 @@ export function venueActivities(
     });
 }
 
+export interface PerformVenueActivityOptions {
+  /**
+   * How a domain that booked the activity records it once it completes.
+   * "condensed" produces the same outcome with less of the evening shown.
+   */
+  readonly attendance?: "attended" | "condensed";
+}
+
 export function performVenueActivity(
   world: World,
   personId: EntityId,
   activityId: EntityId,
   transitionHandlers: FutureTransitionHandlerRegistry = createCampaignElectionTransitionRegistry(),
+  options?: PerformVenueActivityOptions,
 ): World {
+  const attendance = options?.attendance ?? "attended";
   const entry = venueActivities(world, personId, transitionHandlers).find(
     ({ activity }) => activity.id === activityId,
   );
@@ -188,7 +199,14 @@ export function performVenueActivity(
         : world;
     if (compareSimulationMoments(waited.currentMoment, start) < 0)
       return waited;
-    return performScheduledActivity(waited, activityId, transitionHandlers);
+    // Domain hook: a completed party/campaign activity records its outcome;
+    // every other activity (including a bare journey) comes back unchanged.
+    return recordDomainAttendance(
+      performScheduledActivity(waited, activityId, transitionHandlers),
+      personId,
+      activityId,
+      attendance,
+    );
   }
 
   // Resolve the legitimate ordinary windows crossed while waiting to depart.
@@ -265,5 +283,13 @@ export function performVenueActivity(
     !canPersonAccess(refreshed.activity.access, personId)
   )
     return arrived;
-  return performScheduledActivity(arrived, activityId, transitionHandlers);
+  // Domain hook: once the destination itself has completed, the domain that
+  // booked it (a party/campaign activity) records what happened there. A
+  // no-op, returning the same World, for every other activity.
+  return recordDomainAttendance(
+    performScheduledActivity(arrived, activityId, transitionHandlers),
+    personId,
+    activityId,
+    attendance,
+  );
 }

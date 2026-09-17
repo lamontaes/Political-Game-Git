@@ -1,3 +1,6 @@
+import { assertCampaignLifeIntegrity } from "./campaign-life-integrity";
+import { assertCampaignOpponentIntegrity } from "./campaign-opponent-integrity";
+import { assertCampaignWeeklyPlanIntegrity } from "./campaign-weekly-plan-integrity";
 import { candidacyPackById } from "./candidacy-packs";
 import {
   campaignActionRecords,
@@ -40,6 +43,40 @@ export const CAMPAIGN_ACTION_KINDS = [
 /** The classification a campaign committee's organization profile must carry. */
 export const CAMPAIGN_ORGANIZATION_CLASSIFICATION = "custom:political-campaign";
 
+export type CampaignRecordKind =
+  | "campaign"
+  | "campaign-state"
+  | "campaign-action"
+  | "campaign-action-result"
+  | "campaign-compliance-document"
+  | "campaign-life-activity"
+  | "campaign-life-outcome"
+  | "campaign-weekly-plan"
+  | "campaign-opponent"
+  | "campaign-opponent-step";
+
+/** Shared identity rule for every campaign-family record, old and CRUNCH46. */
+export function assertCampaignRecordIdentity(
+  ids: Set<EntityId>,
+  world: World,
+  record: {
+    readonly id: EntityId;
+    readonly stableKey: string;
+    readonly sequence: number;
+  },
+  kind: CampaignRecordKind,
+): void {
+  assertIdentity(ids, world, record, kind);
+}
+
+/** Shared ordering rule for every campaign-family record list. */
+export function assertCampaignRecordsOrdered(
+  records: readonly { readonly sequence: number; readonly stableKey: string }[],
+  label: string,
+): void {
+  assertOrdered(records, label);
+}
+
 function assertIdentity(
   ids: Set<EntityId>,
   world: World,
@@ -48,12 +85,7 @@ function assertIdentity(
     readonly stableKey: string;
     readonly sequence: number;
   },
-  kind:
-    | "campaign"
-    | "campaign-state"
-    | "campaign-action"
-    | "campaign-action-result"
-    | "campaign-compliance-document",
+  kind: CampaignRecordKind,
 ): void {
   if (ids.has(record.id)) {
     throw new Error(`Duplicate campaign history identity: ${record.id}`);
@@ -632,6 +664,10 @@ export function assertCampaignIntegrity(
 
   const actionById = assertCampaignActions(world, ids, campaignById);
   assertCampaignActionResults(world, ids, campaignById, actionById);
+  // CRUNCH46 CAMPAIGN families.
+  assertCampaignLifeIntegrity(world, ids, campaignById);
+  assertCampaignWeeklyPlanIntegrity(world, ids, campaignById, actionById);
+  assertCampaignOpponentIntegrity(world, ids, campaignById);
 
   const complianceById = new Map<EntityId, CampaignComplianceDocumentRecord>();
   for (const filingRecord of complianceDocuments) {

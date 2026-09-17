@@ -196,3 +196,168 @@
     padding: 0.8rem;
   }
 }
+
+/*
+ * CRUNCH46 CAMPAIGN: party and community work, the week's plan, and what the
+ * other campaigns have done in public. Same card language as the plan above.
+ */
+.game-campaign-life,
+.game-campaign-opponent-activity {
+  display: grid;
+  gap: 0.6rem;
+  margin: 1rem 0;
+  border: 1px solid var(--pg-brass-dim, rgba(205, 174, 98, 0.46));
+  border-radius: 0.65rem;
+  padding: 1rem;
+  background: var(--pg-glass, rgba(13, 24, 38, 0.72));
+}
+
+.game-campaign-life h3,
+.game-campaign-life h4,
+.game-campaign-life p,
+.game-campaign-opponent-activity h3,
+.game-campaign-opponent-activity p {
+  margin: 0;
+}
+
+.game-campaign-life h4 {
+  color: var(--pg-brass, #f4d68a);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.game-campaign-life-list,
+.game-campaign-week-sessions {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.game-campaign-life-list > li,
+.game-campaign-week-sessions > li {
+  display: grid;
+  gap: 0.25rem;
+  border: 1px solid rgba(200, 212, 223, 0.18);
+  border-radius: 0.45rem;
+  padding: 0.65rem 0.7rem;
+}
+
+.game-campaign-life-list > li[data-state="offered"],
+.game-campaign-week-sessions > li[data-holding="true"] {
+  border-color: rgba(224, 189, 103, 0.88);
+}
+
+.game-campaign-life-line,
+.game-campaign-week-sessions > li > span {
+  display: block;
+  color: var(--pg-ivory-dim, rgba(225, 232, 238, 0.76));
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+/* A session's buttons stay a spaced row, not the plain block spans above. */
+.game-campaign-week-sessions > li > span.game-campaign-life-actions {
+  display: flex;
+}
+
+/* Its own list: the shared campaign log colour is too dark on this card. */
+.game-campaign-opponent-list {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--pg-ivory, #eef2f5);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.game-campaign-life-state {
+  display: block;
+  font-weight: 600;
+}
+
+.game-campaign-life-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.3rem;
+}
+
+.game-campaign-life-outcome {
+  display: grid;
+  gap: 0.3rem;
+  margin-top: 0.35rem;
+  border-left: 2px solid var(--pg-brass-dim, rgba(205, 174, 98, 0.46));
+  padding-left: 0.6rem;
+}
+
+.game-campaign-life-outcome ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.game-campaign-life-requests {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.game-campaign-life button:focus-visible,
+.game-campaign-week button:focus-visible {
+  outline: 2px solid #f4d68a;
+  outline-offset: 2px;
+}
+
+.game-campaign-strategy label.game-campaign-week-count,
+.game-campaign-strategy label.game-campaign-week-amount {
+  grid-template-columns: minmax(0, 1fr) 6rem;
+  align-items: center;
+  cursor: default;
+}
+
+.game-campaign-strategy label.game-campaign-week-amount small {
+  grid-column: 1 / -1;
+}
+
+.game-campaign-week input[type="number"],
+.game-campaign-week input[type="text"] {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  border: 1px solid rgba(200, 212, 223, 0.36);
+  border-radius: 0.35rem;
+  padding: 0.3rem 0.45rem;
+  background: rgba(9, 15, 26, 0.6);
+  color: inherit;
+  font: inherit;
+}
+
+.game-campaign-week > .ui-action,
+.game-campaign-week-committed > .ui-action {
+  justify-self: start;
+}
+
+@media (max-width: 720px) {
+  .game-campaign-life,
+  .game-campaign-opponent-activity {
+    padding: 0.8rem;
+  }
+}
+
+/* CRUNCH46: the weekly plan is a secondary, collapsible block. */
+.game-campaign-week-block {
+  margin-block: 0.75rem;
+}
+
+.game-campaign-week-block > summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding-block: 0.4rem;
+}
+
+.game-campaign-week-block > summary:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}

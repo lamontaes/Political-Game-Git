@@ -16,10 +16,15 @@ import {
 import type {
   CampaignActionKind,
   EntityId,
+  FutureTransitionHandlerRegistry,
   MoneyAmount,
   World,
 } from "../simulation";
+import { CampaignLifePanel } from "./CampaignLifePanel";
+import { CampaignWeekPanel } from "./CampaignWeekPanel";
+import { projectCampaignWeek } from "../simulation";
 import { DIAGNOSTICS } from "./diagnostics-profile";
+import { OpponentActivityPanel } from "./OpponentActivityPanel";
 
 /**
  * Running for something.
@@ -45,6 +50,8 @@ export interface CampaignWorkspaceProps {
   readonly world: World;
   readonly personId: EntityId;
   readonly onWorldChange: (world: World) => void;
+  /** Passed through to party and community work; the default registry otherwise. */
+  readonly transitionHandlers?: FutureTransitionHandlerRegistry;
 }
 
 function money(amount: MoneyAmount): string {
@@ -117,6 +124,7 @@ export function CampaignWorkspace({
   world,
   personId,
   onWorldChange,
+  transitionHandlers,
 }: CampaignWorkspaceProps) {
   const [selectedOfficeKey, setSelectedOfficeKey] = useState<string | null>(
     null,
@@ -137,6 +145,10 @@ export function CampaignWorkspace({
   );
   const strategyReport = useMemo(
     () => projectLatestCampaignStrategyReport(world, personId),
+    [world, personId],
+  );
+  const weekCommitted = useMemo(
+    () => projectCampaignWeek(world, personId)?.committed != null,
     [world, personId],
   );
   const [problem, setProblem] = useState<string | null>(null);
@@ -219,6 +231,12 @@ export function CampaignWorkspace({
         <p className="game-note" data-testid="campaign-unavailable">
           {view.unavailableReason}
         </p>
+        <CampaignLifePanel
+          world={world}
+          personId={personId}
+          onWorldChange={onWorldChange}
+          transitionHandlers={transitionHandlers}
+        />
       </section>
     );
   }
@@ -541,6 +559,26 @@ export function CampaignWorkspace({
             </section>
           ) : null}
 
+          {view.phase === "active" ? (
+            // UI decision (CRUNCH46): the per-action plan above stays first;
+            // planning a whole week is a secondary, collapsible block. It opens
+            // by itself while a week is committed so its sessions stay in view.
+            <details
+              className="game-campaign-week-block"
+              data-testid="campaign-week-block"
+              open={weekCommitted || undefined}
+            >
+              <summary data-testid="campaign-week-toggle">
+                Plan the whole week
+              </summary>
+              <CampaignWeekPanel
+                world={world}
+                personId={personId}
+                onWorldChange={onWorldChange}
+              />
+            </details>
+          ) : null}
+
           {strategyReport ? (
             <section
               className="game-campaign-strategy-report"
@@ -558,6 +596,10 @@ export function CampaignWorkspace({
                 <p className="game-note">{strategyReport.observedResult}</p>
               ) : null}
             </section>
+          ) : null}
+
+          {view.phase === "active" ? (
+            <OpponentActivityPanel world={world} personId={personId} />
           ) : null}
 
           {view.sessions.length > 0 ? (
@@ -593,6 +635,13 @@ export function CampaignWorkspace({
           ) : null}
         </>
       ) : null}
+
+      <CampaignLifePanel
+        world={world}
+        personId={personId}
+        onWorldChange={onWorldChange}
+        transitionHandlers={transitionHandlers}
+      />
 
       {problem ? (
         <p className="game-problem" data-testid="campaign-problem">
