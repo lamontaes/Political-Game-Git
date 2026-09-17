@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2781 |
-| INTENTIONALLY_NON_PLAYER_FACING | 6501 |
-| DIAGNOSTIC_OR_TEST | 6509 |
-| **NEEDS_CLASSIFICATION** | **8183** |
+| INTENTIONALLY_NON_PLAYER_FACING | 6506 |
+| DIAGNOSTIC_OR_TEST | 6519 |
+| **NEEDS_CLASSIFICATION** | **8189** |
 
-Scanned 939 files holding 94462 string
+Scanned 942 files holding 94564 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -303,6 +303,7 @@ literals in total; the table counts only those that read like a sentence.
 | 6 | `src/presentation/ordinary-community.ts` |
 | 6 | `src/presentation/raster-tiers.ts` |
 | 6 | `src/presentation/run-b-fixture.ts` |
+| 6 | `src/simulation/governing/office-consequence.ts` |
 | 6 | `src/simulation/governing/program-governing.ts` |
 | 6 | `src/simulation/names-data.ts` |
 | 6 | `src/simulation/vitality-integrity.ts` |
