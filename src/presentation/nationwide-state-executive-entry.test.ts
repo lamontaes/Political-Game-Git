@@ -268,11 +268,11 @@ describe("GOVERNING all-fifty-state campaign -> office -> work (supplied win fix
       expect(governingOfficeForPerson(reopened, personId)?.officeKey).toBe(
         office.officeKey,
       );
-      expect(
-        mine(reopened).filter((m) =>
-          ["chief-of-staff", "agenda", "implementation"].includes(m.family),
-        ),
-      ).toHaveLength(3);
+      // The three matters decided above survive a reopen unchanged.
+      for (const decided of [cos.id, agenda.id, task.id])
+        expect(mine(reopened).find((m) => m.id === decided)?.status).toBe(
+          "decided",
+        );
       outcomes[usps] =
         `in office ${planned.startsAt} (${rule.basis.commencement}); ` +
         (outcome!.tags.find((tag) => tag.startsWith("implementation:")) ?? "");
