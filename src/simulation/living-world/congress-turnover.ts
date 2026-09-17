@@ -239,6 +239,11 @@ function holdCongressElection(world: World, year: number): World {
       ? createCharacterHistoryContextPeople(world, inputs)
       : world;
   const returning = outcomes.filter((o) => o.incumbentPersonId).length;
+  const winnerIds = outcomes.map(
+    (outcome) =>
+      outcome.incumbentPersonId ??
+      characterHistoryContextPersonId(next, outcome.successorKey!),
+  );
   next = recordWorldEvent(next, {
     stableKey: resultsKey(year),
     type: CONGRESS_RESULTS_EVENT,
@@ -248,11 +253,10 @@ function holdCongressElection(world: World, year: number): World {
     involvedEntityIds: [
       livingWorldOrganizationId(next, LIVING_WORLD_KEYS.chamber("us-house")),
       livingWorldOrganizationId(next, LIVING_WORLD_KEYS.chamber("us-senate")),
+      ...new Set(winnerIds),
     ],
-    participants: outcomes.map((outcome) => ({
-      personId:
-        outcome.incumbentPersonId ??
-        characterHistoryContextPersonId(next, outcome.successorKey!),
+    participants: outcomes.map((outcome, index) => ({
+      personId: winnerIds[index]!,
       role: "focus:winner" as const,
       detail: [
         outcome.seat.seatKey,
