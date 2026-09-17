@@ -1,15 +1,7 @@
 {
   "generatedFrom": "src/player/PlayerGame.tsx",
   "note": "Runtime (value-import) reachability from ordinary play. Type-only imports are erased before a player runs the game and are not counted.",
-<<<<<<< HEAD
-<<<<<<< HEAD
-  "runtimeReachableModules": 517,
-=======
-  "runtimeReachableModules": 495,
->>>>>>> origin/claude/crisis-severe-events
-=======
-  "runtimeReachableModules": 496,
->>>>>>> origin/claude/campaign-party-life
+  "runtimeReachableModules": 550,
   "fixtureNamedModulesOnRuntimeSpine": [
     "src/environment/scenes/committee-room-fixture.ts",
     "src/environment/scenes/office-council-staff-fixture.ts",

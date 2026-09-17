@@ -7,30 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-<<<<<<< HEAD
-<<<<<<< HEAD
-| INVENTORIED | 2781 |
-| INTENTIONALLY_NON_PLAYER_FACING | 6501 |
-| DIAGNOSTIC_OR_TEST | 6509 |
-| **NEEDS_CLASSIFICATION** | **8183** |
+| INVENTORIED | 2789 |
+| INTENTIONALLY_NON_PLAYER_FACING | 6733 |
+| DIAGNOSTIC_OR_TEST | 6686 |
+| **NEEDS_CLASSIFICATION** | **8533** |
 
-Scanned 939 files holding 94462 string
-=======
-| INVENTORIED | 2785 |
-| INTENTIONALLY_NON_PLAYER_FACING | 6496 |
-| DIAGNOSTIC_OR_TEST | 6332 |
-| **NEEDS_CLASSIFICATION** | **7850** |
-
-Scanned 890 files holding 91899 string
->>>>>>> origin/claude/crisis-severe-events
-=======
-| INVENTORIED | 2793 |
-| INTENTIONALLY_NON_PLAYER_FACING | 6558 |
-| DIAGNOSTIC_OR_TEST | 6396 |
-| **NEEDS_CLASSIFICATION** | **8032** |
-
-Scanned 892 files holding 92697 string
->>>>>>> origin/claude/campaign-party-life
+Scanned 983 files holding 98214 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -88,11 +70,8 @@ literals in total; the table counts only those that read like a sentence.
 | 45 | `src/content/content-export.ts` |
 | 45 | `src/simulation/legislative-politics.ts` |
 | 45 | `src/simulation/time-work.ts` |
-<<<<<<< HEAD
 | 44 | `src/player/ShellWorkspaces.tsx` |
-=======
 | 44 | `src/presentation/campaign-life-surface.ts` |
->>>>>>> origin/claude/campaign-party-life
 | 43 | `src/presentation/funded-service-capability.ts` |
 | 43 | `src/presentation/legislative-bargaining-brief.ts` |
 | 43 | `src/presentation/scene-consumers.ts` |
@@ -100,11 +79,7 @@ literals in total; the table counts only those that read like a sentence.
 | 42 | `src/presentation/world-orientation.ts` |
 | 42 | `src/simulation/demo.ts` |
 | 42 | `src/simulation/life-paths2-catalog.ts` |
-<<<<<<< HEAD
-=======
 | 41 | `src/simulation/campaign-weekly-plans.ts` |
-| 40 | `src/player/ShellWorkspaces.tsx` |
->>>>>>> origin/claude/campaign-party-life
 | 40 | `src/simulation/decisions.ts` |
 | 40 | `src/simulation/governing/public-program.ts` |
 | 40 | `src/ui/SceneGalleryView.tsx` |
@@ -158,11 +133,7 @@ literals in total; the table counts only those that read like a sentence.
 | 23 | `src/simulation/governing/office-continuity.ts` |
 | 22 | `src/player/ShellNav.tsx` |
 | 22 | `src/presentation/press-request.ts` |
-<<<<<<< HEAD
-=======
 | 22 | `src/simulation/crisis/disaster.ts` |
-| 21 | `src/player/TaxWorkWorkspace.tsx` |
->>>>>>> origin/claude/crisis-severe-events
 | 21 | `src/presentation/title-tableau.ts` |
 | 21 | `src/simulation/legislation-content-contracts.ts` |
 | 21 | `src/simulation/life-favors.ts` |
@@ -269,13 +240,10 @@ literals in total; the table counts only those that read like a sentence.
 | 10 | `src/presentation/player-calendar.ts` |
 | 10 | `src/presentation/production-world.ts` |
 | 10 | `src/presentation/relationship-web.ts` |
-<<<<<<< HEAD
+| 10 | `src/simulation/campaign-life-catalog.ts` |
 | 10 | `src/simulation/governing/legislative-clock.ts` |
 | 10 | `src/simulation/living-world/congress-turnover.ts` |
 | 10 | `src/simulation/nationwide-world/state-executive-turnover.ts` |
-=======
-| 10 | `src/simulation/campaign-life-catalog.ts` |
->>>>>>> origin/claude/campaign-party-life
 | 10 | `src/simulation/office-qualification-rules.ts` |
 | 10 | `src/simulation/press-reach.ts` |
 | 10 | `src/simulation/setup-questionnaire-bank.ts` |
@@ -389,13 +357,10 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/presentation/party-chapter-surface.ts` |
 | 4 | `src/presentation/place-hometown-population.ts` |
 | 4 | `src/presentation/social-invitation.ts` |
-<<<<<<< HEAD
 | 4 | `src/presentation/title-ambient.ts` |
+| 4 | `src/simulation/crisis/notices.ts` |
 | 4 | `src/simulation/governing/state-disposition.ts` |
 | 4 | `src/simulation/nationwide-world/state-executive-term-rules.ts` |
-=======
-| 4 | `src/simulation/crisis/notices.ts` |
->>>>>>> origin/claude/crisis-severe-events
 | 4 | `src/simulation/person-identity.ts` |
 | 4 | `src/simulation/portability-fixture.ts` |
 | 4 | `src/simulation/relationship-integration.ts` |
