@@ -52,7 +52,7 @@ async function passWeeksUntil(
 
 test("a Colorado life wins the governorship, takes office and governs", async ({
   page,
-}) => {
+}, testInfo) => {
   test.setTimeout(600_000);
   await freshBrowser(page);
   await page.goto("/?seed=gov-win-CO-1");
@@ -101,6 +101,9 @@ test("a Colorado life wins the governorship, takes office and governs", async ({
   await expect(briefing).toContainText("Governor of Colorado");
   const matters = briefing.getByTestId("governing-matter");
   await expect(matters).toHaveCount(2);
+  await page.screenshot({
+    path: testInfo.outputPath("governing-briefing-first-day.png"),
+  });
 
   // Team: choose a chief of staff from three people with assessments.
   const staffCard = matters.filter({ hasText: "Choose a chief of staff" });
@@ -133,6 +136,10 @@ test("a Colorado life wins the governorship, takes office and governs", async ({
     12,
   );
 
+  await briefing.scrollIntoViewIfNeeded();
+  await page.screenshot({
+    path: testInfo.outputPath("governing-briefing-report.png"),
+  });
   await saveLife(page);
   await page.reload();
   await page.getByTestId("continue").click();
