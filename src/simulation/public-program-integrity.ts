@@ -127,6 +127,12 @@ export function assertPublicProgramIntegrity(
           !world.history.organizations.some(
             (o) => o.id === record.accountOrganizationId,
           ) ||
+          (record.sourceMeasureId != null &&
+            !(world.history.legislativeMeasures ?? []).some(
+              (measure) =>
+                measure.id === record.sourceMeasureId &&
+                measure.sequence < record.sequence,
+            )) ||
           !record.basis.note.trim()
         )
           fail(record, "declares an impossible appropriation.");

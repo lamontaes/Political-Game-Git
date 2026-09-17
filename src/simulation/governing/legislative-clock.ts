@@ -1,4 +1,14 @@
 import { addDays, makeIsoDate } from "../dates";
+import { compileBillDraft } from "../legislation-drafting";
+import { recordDraftLineage } from "../legislation-draft-lineage";
+import {
+  programVariant,
+  standingAuthority,
+} from "../legislation-program-families";
+import { recordFiledProvision } from "../legislative-politics";
+import { legislativeWorkKey } from "../legislative-work-key";
+import { rulePackById } from "../legislature-rule-packs";
+import { appropriationFromEnactedMeasure } from "./program-governing";
 import {
   scheduleFutureDueItem,
   futureDueItemStateAt,
@@ -481,7 +491,12 @@ export function applyInstitutionStep(
     );
   if (steps.includes("record-enactment"))
     return applied(
-      recordEnactment(world, { stableKey: key("enactment"), measureId }),
+      // Enactment is also where an appropriation becomes spending authority
+      // the executive can commit; a measure without an amount writes nothing.
+      appropriationFromEnactedMeasure(
+        recordEnactment(world, { stableKey: key("enactment"), measureId }),
+        measureId,
+      ),
       "record-enactment",
     );
   return { kind: "idle" };
@@ -697,5 +712,75 @@ export function fileLegislatureMeasure(
     originChamberKey,
   });
   const measure = next.history.legislativeMeasures!.at(-1)!;
+  if (blueprint.subjectClass === "appropriation")
+    next = attachAppropriationClauses(next, measure, stableKey);
   return scheduleInstitutionStep(next, measure.id);
+}
+
+/**
+ * An appropriation bill has to say how much. The clauses come from the
+ * drafting family's own configuration, so the filed text, its amount and its
+ * authority are the same objects a player's draft would produce — not a number
+ * written here.
+ */
+function attachAppropriationClauses(
+  world: World,
+  measure: LegislativeMeasureRecord,
+  stableKey: string,
+): World {
+  const authority = standingAuthority("standing:rural-transit-assistance");
+  if (!authority) return world;
+  let draft;
+  try {
+    draft = compileBillDraft({
+      familyKey: "appropriations",
+      variantKey: "single-programme",
+      parameterValues: programVariant("appropriations", "single-programme")
+        .variant.defaults,
+      scenarioKey: legislativeWorkKey(rulePackById(measure.rulePackId)),
+      jurisdictionId: measure.jurisdictionId,
+      rulePackId: measure.rulePackId,
+      designation: measure.designation,
+      filedOn: world.currentDate,
+      predicateAuthority: authority,
+    });
+  } catch {
+    return world;
+  }
+  let next = world;
+  for (const clause of draft.clauses)
+    next = recordFiledProvision(next, {
+      stableKey: `${stableKey}:${clause.provisionKey}`,
+      measureId: measure.id,
+      provisionKey: clause.provisionKey,
+      sectionNumber: clause.sectionNumber,
+      heading: clause.heading,
+      text: clause.text,
+      ...(clause.fiscalPeriod !== undefined
+        ? { fiscalPeriod: clause.fiscalPeriod }
+        : {}),
+      beneficiary: clause.beneficiary,
+      applicationScope: {
+        jurisdictionId: measure.jurisdictionId,
+        segmentKey: null,
+      },
+      ...(clause.fiscalExposureLabel !== null
+        ? {
+            fiscalExposureLabel: clause.fiscalExposureLabel,
+            fiscalExposureMinorUnits: clause.fiscalExposureMinorUnits,
+          }
+        : {}),
+    });
+  return recordDraftLineage(next, {
+    stableKey: `${stableKey}:lineage`,
+    measureId: measure.id,
+    familyKey: draft.familyKey,
+    familyVersion: draft.familyVersion,
+    variantKey: draft.variantKey,
+    compiledAt: draft.filedOn,
+    parameterValues: draft.parameterValues,
+    authorityKey: authority.authorityKey,
+    provenanceNote:
+      "Authored appropriation configuration filed by a non-player legislature. Not a statute and not a claim about any real program.",
+  });
 }

@@ -11,6 +11,10 @@ import {
 import { createWorkItem, workItemState } from "../time-work";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import {
+  municipalGovernmentByKey,
+  primaryReading,
+} from "../municipal-government";
+import {
   municipalGovernmentJurisdictionId,
   municipalStanding,
 } from "../municipal-public-work";
@@ -383,6 +387,7 @@ export function recordProgramAppropriation(
     readonly availableFrom: IsoDate;
     readonly availableThrough: IsoDate;
     readonly basis: PublicProgramBasis;
+    readonly sourceMeasureId?: EntityId | null;
     readonly edition: string;
   },
 ): { world: World; id: EntityId } {
@@ -455,23 +460,68 @@ export function programAuthority(
     personId,
     residentPlaceGeoid: null,
   });
-  const role = standing.roles.find(
-    (r) => r === "mayor" || r === "professional-manager",
-  );
-  if (role)
+  const government = municipalGovernmentByKey(office.governmentKey);
+  const reading = government ? primaryReading(government) : null;
+  if (!reading)
     return {
-      status: "available",
-      basis: `${role === "mayor" ? "Mayor" : "Manager"}: administers the adopted budget (${PUBLIC_PROGRAM_VERSION} game profile).`,
+      status: "unknown",
+      reason: "This government's own record is not compiled.",
     };
-  if (standing.roles.some((r) => r === "member" || r === "presiding-member"))
+  // Who executes an adopted budget is a fact about this government. Where the
+  // record names the role, it decides; where it shows a manager, the manager
+  // administers and a mayor's title alone does not; where it shows neither,
+  // the game says so instead of choosing.
+  const namedExecutor = reading.budget?.prepares?.join(" ").toLowerCase() ?? "";
+  const hasManager = reading.manager !== null;
+  const strongMayor =
+    reading.mayor?.structuralPosition === "SEPARATE_CHIEF_EXECUTIVE" ||
+    reading.form === "MAYOR_COUNCIL";
+  const isManager = standing.roles.includes("professional-manager");
+  const isMayor = standing.roles.includes("mayor");
+  const basis = (role: string, why: string) => ({
+    status: "available" as const,
+    basis: `${role}: ${why} (${PUBLIC_PROGRAM_VERSION} game profile over ${office.governmentKey}'s compiled record).`,
+  });
+  if (namedExecutor.includes("manager") && isManager)
+    return basis(
+      reading.manager?.title ?? "Manager",
+      "the record names this role as preparing the budget",
+    );
+  if (namedExecutor.includes("mayor") && isMayor)
+    return basis("Mayor", "the record names the mayor as preparing the budget");
+  if (hasManager)
+    return isManager
+      ? basis(
+          reading.manager?.title ?? "Manager",
+          "this government has an appointed manager who administers the adopted budget",
+        )
+      : {
+          status: "unavailable",
+          reason: `${office.governmentKey} has ${reading.manager?.title ?? "a manager"}, who administers the adopted budget. A mayor or member does not commit it here.`,
+        };
+  if (strongMayor && isMayor)
+    return basis(
+      "Mayor",
+      "the record shows a separately elected chief executive",
+    );
+  if (
+    standing.roles.some(
+      (role) => role === "member" || role === "presiding-member",
+    )
+  )
     return {
       status: "unavailable",
       reason:
         "A council seat votes on the budget; committing adopted money belongs to the executive.",
     };
+  if (standing.roles.length === 0)
+    return {
+      status: "unavailable",
+      reason: "This person holds no office in this government.",
+    };
   return {
-    status: "unavailable",
-    reason: "This person holds no office in this government.",
+    status: "unknown",
+    reason: `Whether ${office.governmentKey}'s ${standing.roles[0]} commits adopted money is not compiled: the record shows no manager and no separately elected executive.`,
   };
 }
 

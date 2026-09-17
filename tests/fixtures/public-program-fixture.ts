@@ -69,12 +69,26 @@ export function city(seed: string, cash: number) {
   const government = municipalGovernmentForLifePlace(place)!;
   const jurisdictionId = place.context.jurisdiction.id;
   let world = createScenarioWorld(seed, place.context, { peopleCount: 8 });
-  const [mayor, member] = world.personOrder as [EntityId, EntityId];
-  world = { ...world, control: { kind: "person", personId: mayor } };
+  const [manager, mayor, member] = world.personOrder as [
+    EntityId,
+    EntityId,
+    EntityId,
+  ];
+  world = { ...world, control: { kind: "person", personId: manager } };
   world = installMunicipalGovernment(world, {
     governmentKey: government.key,
     jurisdictionId,
     formedAt: world.currentDate,
+  });
+  // This city's record shows an appointed manager and a mayor who presides
+  // over the body. Both are seated so the authority rule can be shown either
+  // way: the manager administers the adopted budget, the mayor does not.
+  world = seatMunicipalMember(world, {
+    governmentKey: government.key,
+    personId: manager,
+    startedAt: world.currentDate,
+    role: "professional-manager",
+    seatLabel: "Authored test manager",
   });
   world = seatMunicipalMember(world, {
     governmentKey: government.key,
@@ -156,6 +170,7 @@ export function city(seed: string, cash: number) {
   }).world;
   return {
     world,
+    manager,
     mayor,
     member,
     operator,

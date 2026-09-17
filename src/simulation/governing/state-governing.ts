@@ -5,9 +5,6 @@ import { createStableId } from "../ids";
 import { createWorkRelationship } from "../life";
 import { stateJurisdictionForKey } from "../life-places";
 import { activeWorkRelationshipsAt } from "../life-queries";
-import { SERVICE_FAMILIES } from "../legislation-service-families";
-import { FISCAL_INSTRUMENT_FAMILIES } from "../legislation-fiscal-families";
-import { PUBLIC_ADMINISTRATION_FAMILIES } from "../legislation-administration-families";
 import { drawCanonicalName, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng, pickDistinct } from "../rng";
@@ -22,6 +19,7 @@ import type {
   FutureTransitionHandlerResult,
   HistoricalEvent,
   IsoDate,
+  PublicProgramAppropriationRecord,
   World,
   WorkItemStateRecord,
 } from "../types";
@@ -87,7 +85,12 @@ export const GOVERNING_NPC_DECISION = "governing:npc-decision" as const;
 export const GOVERNING_FOLLOW_UP = "governing:follow-up" as const;
 
 export type GoverningMatterFamily =
-  "chief-of-staff" | "agenda" | "implementation" | "budget" | "bill";
+  | "chief-of-staff"
+  | "agenda"
+  | "implementation"
+  | "budget"
+  | "bill"
+  | "program";
 
 export interface GoverningOffice {
   readonly officeKey: string;
@@ -200,7 +203,18 @@ import {
   staffKnowsLegislature,
 } from "./staff-evidence";
 import type { StaffAssessment } from "./staff-evidence";
+import { PROGRAM_FAMILIES, programFamilyTitle } from "./program-families";
+import {
+  openAppropriationsFor,
+  programAlternativesFor,
+  programOperatorOrganization,
+} from "./program-governing";
+import {
+  commitPublicProgram,
+  forecastProgramAlternative,
+} from "./public-program";
 
+export { PROGRAM_FAMILIES, programFamilyTitle } from "./program-families";
 export type { StaffAssessment } from "./staff-evidence";
 export {
   staffAssessment,
@@ -211,19 +225,6 @@ export {
 /* ------------------------------------------------------------------ *
  * Agenda vocabulary
  * ------------------------------------------------------------------ */
-
-const PROGRAM_FAMILIES = [
-  ...SERVICE_FAMILIES,
-  ...FISCAL_INSTRUMENT_FAMILIES,
-  ...PUBLIC_ADMINISTRATION_FAMILIES,
-];
-
-export function programFamilyTitle(familyKey: string): string | null {
-  return (
-    PROGRAM_FAMILIES.find((family) => family.familyKey === familyKey)?.title ??
-    null
-  );
-}
 
 /* ------------------------------------------------------------------ *
  * Matter records
@@ -255,6 +256,8 @@ export interface GoverningMatter {
   readonly subjectKey: string | null;
   /** The real bill this matter is about, where a legislature filed one. */
   readonly measureId: EntityId | null;
+  /** The adopted appropriation this matter commits, for a program matter. */
+  readonly appropriationId: EntityId | null;
   readonly openedEvent: HistoricalEvent;
   readonly workItemId: EntityId | null;
   readonly decision: HistoricalEvent | null;
@@ -369,6 +372,34 @@ function optionsFor(
         },
       ];
     }
+    case "program": {
+      const appropriationId = tagValue(
+        event,
+        "appropriation:",
+      ) as EntityId | null;
+      const appropriation = (world.history.publicProgramRecords ?? []).find(
+        (record): record is PublicProgramAppropriationRecord =>
+          record.id === appropriationId && record.kind === "appropriation",
+      );
+      if (!appropriation) return [];
+      return programAlternativesFor(world, appropriation).map((alternative) => {
+        const forecast = forecastProgramAlternative(
+          world,
+          appropriation,
+          alternative,
+        );
+        return {
+          key: `program:${alternative.key}`,
+          label: alternative.title,
+          effect: forecast.lines[0] ?? "Nothing is committed.",
+          tradeoff:
+            forecast.lines.slice(1).join(" ") ||
+            "The rest of the appropriation stays uncommitted.",
+          personId: null,
+          assessment: null,
+        };
+      });
+    }
     case "bill":
       return [
         {
@@ -453,6 +484,12 @@ const FAMILY_TEXT: Record<
     ifIgnored:
       "In this game, a bill the governor does not act on becomes law without a signature.",
   },
+  program: {
+    title: (subject) => `Commit the money adopted for ${subject}`,
+    ask: "Money has been adopted for this. What it pays for, and when, is your decision.",
+    ifIgnored:
+      "Nothing is committed, and the money stays unspent until the appropriation lapses.",
+  },
   implementation: {
     title: (subject) => `Direct the agencies on ${subject}`,
     ask: "The agencies are ready to act on your priority and need to know how fast to move.",
@@ -466,6 +503,7 @@ const DEADLINE_DAYS: Record<GoverningMatterFamily, number> = {
   implementation: 30,
   budget: 30,
   bill: 10,
+  program: 45,
 };
 
 function isFamily(value: string | null): value is GoverningMatterFamily {
@@ -486,6 +524,7 @@ function matterFromEvent(
   if (!holderPersonId) return null;
   const subjectKey = tagValue(event, "subject:");
   const measureId = tagValue(event, "measure:") as EntityId | null;
+  const appropriationId = tagValue(event, "appropriation:") as EntityId | null;
   const decision =
     world.history.events.find(
       (candidate) =>
@@ -516,6 +555,7 @@ function matterFromEvent(
     options: optionsFor(world, family, event),
     subjectKey,
     measureId,
+    appropriationId,
     openedEvent: event,
     workItemId: workItem?.id ?? null,
     decision,
@@ -617,6 +657,28 @@ export function staffRecommendation(
               byPersonId: chief,
               reason: "Thinks the agencies cannot absorb it this year.",
             };
+    case "program": {
+      // The advice is about money that exists: a steady chief spreads it over
+      // months; a cautious one waits. Either way it is one fallible view.
+      const spread = matter.options.find(
+        (option) => option.key === "program:operate-three-months",
+      );
+      const hold = matter.options.find(
+        (option) => option.key === "program:no-action",
+      );
+      const pick =
+        assessment.steadiness >= 2 ? (spread ?? hold) : (hold ?? spread);
+      return pick
+        ? {
+            optionKey: pick.key,
+            byPersonId: chief,
+            reason:
+              pick.key === "program:no-action"
+                ? "Nothing here has to be committed this week, and the money keeps."
+                : "Paying it out month by month keeps a failed payment from taking the whole year with it.",
+          }
+        : null;
+    }
     case "implementation":
       return assessment.steadiness >= 2
         ? {
@@ -724,6 +786,7 @@ interface OpenMatterInput {
   readonly subjectKey?: string | null;
   readonly sourceEventId?: EntityId | null;
   readonly measureId?: EntityId | null;
+  readonly appropriationId?: EntityId | null;
 }
 
 function matterStableKey(
@@ -781,6 +844,9 @@ function openMatter(
       ...(input.subjectKey ? [`subject:${input.subjectKey}`] : []),
       ...(input.sourceEventId ? [`source-event:${input.sourceEventId}`] : []),
       ...(input.measureId ? [`measure:${input.measureId}`] : []),
+      ...(input.appropriationId
+        ? [`appropriation:${input.appropriationId}`]
+        : []),
       ...(input.programKeys ?? []).map((key) => `program:${key}`),
     ],
     summary: `${office.title}: ${title}.`,
@@ -860,12 +926,45 @@ export function openTransitionMatters(world: World, officeKey: string): World {
     instance: "first-year",
     programKeys,
   });
-  return next;
+  // Money the government has already adopted is waiting for this office.
+  return openProgramMatters(next, office);
 }
 
 /* ------------------------------------------------------------------ *
  * Deciding
  * ------------------------------------------------------------------ */
+
+/**
+ * Every appropriation this office could still commit gets one matter. The
+ * money exists because a measure enacted it; the decision is what it pays for.
+ */
+export function openProgramMatters(
+  world: World,
+  office: GoverningOffice,
+): World {
+  let next = world;
+  for (const appropriation of openAppropriationsFor(
+    world,
+    office.jurisdictionId,
+  )) {
+    const instance = `appropriation:${appropriation.id}`;
+    if (
+      next.history.events.some(
+        (event) =>
+          event.type === GOVERNING_MATTER_OPENED &&
+          event.stableKey === matterStableKey(office, "program", instance),
+      )
+    )
+      continue;
+    next = openMatter(next, office, {
+      family: "program",
+      instance,
+      appropriationId: appropriation.id,
+      subjectKey: appropriation.programKey.split(":")[0] ?? null,
+    });
+  }
+  return next;
+}
 
 export type GoverningDecisionMode = "player" | "delegated" | "officeholder";
 
@@ -957,6 +1056,16 @@ function decisionSummary(
           }
         : {
             summary: `${who}, ${office.title}, ${matter.measureId ? `vetoed ${measureTitle(world, matter.measureId) ?? "the bill"}` : `sent back a bill on ${subjectLabel(matter.subjectKey)} unsigned`}.`,
+            visibility: "public",
+          };
+    case "program":
+      return option.key === "program:no-action"
+        ? {
+            summary: `${who}, ${office.title}, committed none of the money adopted for ${subjectLabel(matter.subjectKey)} yet.`,
+            visibility: "limited",
+          }
+        : {
+            summary: `${who}, ${office.title}, committed money adopted for ${subjectLabel(matter.subjectKey)}: ${option.label.toLowerCase()}.`,
             visibility: "public",
           };
     case "implementation":
@@ -1065,6 +1174,34 @@ function applyConsequence(
             sourceEventId: decisionEventId,
           })
         : scheduleFollowUp(world, office, matter, decisionEventId, 21);
+    }
+    case "program": {
+      const appropriation = (world.history.publicProgramRecords ?? []).find(
+        (record): record is PublicProgramAppropriationRecord =>
+          record.id === matter.appropriationId &&
+          record.kind === "appropriation",
+      );
+      if (!appropriation) return world;
+      const alternative = programAlternativesFor(world, appropriation).find(
+        (candidate) => `program:${candidate.key}` === option.key,
+      );
+      if (!alternative) return world;
+      const operator = programOperatorOrganization(
+        world,
+        appropriation.programKey,
+        appropriation.jurisdictionId,
+      );
+      const committed = commitPublicProgram(operator.world, {
+        appropriationId: appropriation.id,
+        alternative,
+        personId: office.holderPersonId,
+        office: { kind: "state-executive" },
+        recipientOrganizationId:
+          alternative.installments.length > 0 ? operator.organizationId : null,
+      });
+      // A refusal is truthful: the money stays uncommitted and the office is
+      // told why through the decision record already written.
+      return committed.ok ? committed.world : world;
     }
     case "implementation": {
       if (option.key === "pace:hold") return world;
@@ -1181,7 +1318,13 @@ function openMatterForPlayer(
   if (matter.status !== "open") return "That matter has already been settled.";
   if (controlledPersonId(world) !== matter.holderPersonId)
     return "Only the officeholder can decide this.";
-  if (world.currentDate > matter.deadline) return "The deadline has passed.";
+  // A bill bound to a real measure waits on the desk: the game compiles no
+  // action deadline for it, so the matter's own date cannot refuse a decision.
+  if (
+    world.currentDate > matter.deadline &&
+    !(matter.family === "bill" && matter.measureId)
+  )
+    return "The deadline has passed.";
   return matter;
 }
 
@@ -1530,6 +1673,39 @@ export function governingFollowUpHandler(
   return resolved(next, outcome.summary);
 }
 
+/**
+ * Said once a year, in the office's own record: this state's legislature is
+ * not compiled, so no bill reaches this desk. It names what is missing rather
+ * than filling the desk with an unbound bill.
+ */
+function recordMissingLegislatureNote(
+  world: World,
+  office: GoverningOffice,
+  onDate: IsoDate,
+): World {
+  const stableKey = `${STATE_GOVERNING_VERSION}:${office.officeKey}:no-legislature:${onDate.slice(0, 4)}`;
+  if (world.history.events.some((event) => event.stableKey === stableKey))
+    return world;
+  return recordWorldEvent(world, {
+    stableKey,
+    type: GOVERNING_OUTCOME,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: office.jurisdictionId,
+    involvedEntityIds: [office.holderPersonId],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "limited",
+    tags: [
+      STATE_GOVERNING_VERSION,
+      `office:${office.officeKey}`,
+      "governing:no-compiled-legislature",
+    ],
+    summary: `No bill reached ${office.title} this session: the game has not compiled ${office.stateUsps}'s legislature, so it files no measures. The office's other work is unaffected.`,
+    context: emptyContext(),
+  });
+}
+
 /* ------------------------------------------------------------------ *
  * Seasons
  * ------------------------------------------------------------------ */
@@ -1572,12 +1748,11 @@ export function governingSeasonHandler(
         intakeKey: `${office.officeKey}:${due.dueAt}`,
       });
     } else {
-      next = openMatter(next, office, {
-        family: "bill",
-        instance: due.dueAt,
-        subjectKey: rng.pick(pool),
-      });
+      // No bill is invented for a legislature the game has not compiled. The
+      // office's other work continues, and the gap is stated once a year.
+      next = recordMissingLegislatureNote(next, office, due.dueAt);
     }
+    next = openProgramMatters(next, office);
     next = scheduleGoverningSeasons(next, officeKey!, office.jurisdictionId);
   }
   return resolved(next, `The ${kind} season arrived.`);
@@ -1624,8 +1799,24 @@ export const governorDesk: ExecutiveDeskHandler = (
   return world;
 };
 
+/**
+ * The legislature's own step, plus the office consequence of it: a bill that
+ * enacted an appropriation puts that money in front of its executive the same
+ * day, rather than waiting for the next season.
+ */
+const institutionStepWithProgramMatters = (() => {
+  const step = createInstitutionStepHandler(governorDesk);
+  return (world: World, due: FutureDueItem): FutureTransitionHandlerResult => {
+    const result = step(world, due);
+    let next = result.world;
+    for (const office of currentGoverningOffices(next))
+      next = openProgramMatters(next, office);
+    return { ...result, world: next };
+  };
+})();
+
 export const STATE_GOVERNING_HANDLERS = [
-  [LEGISLATIVE_INSTITUTION_STEP, createInstitutionStepHandler(governorDesk)],
+  [LEGISLATIVE_INSTITUTION_STEP, institutionStepWithProgramMatters],
   [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],
   [GOVERNING_SEASON, governingSeasonHandler],
   [GOVERNING_TRANSITION, governingTransitionHandler],

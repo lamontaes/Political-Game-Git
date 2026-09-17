@@ -3390,6 +3390,8 @@ export interface PublicProgramAppropriationRecord extends PublicProgramRecordBas
   readonly amount: MoneyAmount;
   readonly availableFrom: IsoDate;
   readonly availableThrough: IsoDate;
+  /** The enacted measure that adopted it, when one did. */
+  readonly sourceMeasureId?: EntityId | null;
   readonly basis: PublicProgramBasis;
 }
 

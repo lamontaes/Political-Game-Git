@@ -56,7 +56,7 @@ describe("GOVERNING 6: public programs keep appropriation, commitment, cash and 
     const committed = commitPublicProgram(g.world, {
       appropriationId: g.appropriationId,
       alternative: DRAFT_A,
-      personId: g.mayor,
+      personId: g.manager,
       office: { kind: "municipal", governmentKey: g.governmentKey },
       recipientOrganizationId: g.operator,
     });
@@ -90,7 +90,7 @@ describe("GOVERNING 6: public programs keep appropriation, commitment, cash and 
     const again = commitPublicProgram(world, {
       appropriationId: g.appropriationId,
       alternative: DRAFT_A,
-      personId: g.mayor,
+      personId: g.manager,
       office: { kind: "municipal", governmentKey: g.governmentKey },
       recipientOrganizationId: g.operator,
     });
@@ -104,7 +104,7 @@ describe("GOVERNING 6: public programs keep appropriation, commitment, cash and 
     const committed = commitPublicProgram(g.world, {
       appropriationId: g.appropriationId,
       alternative: DRAFT_B,
-      personId: g.mayor,
+      personId: g.manager,
       office: { kind: "municipal", governmentKey: g.governmentKey },
       recipientOrganizationId: g.operator,
     });
@@ -125,7 +125,7 @@ describe("GOVERNING 6: public programs keep appropriation, commitment, cash and 
     const committed = commitPublicProgram(g.world, {
       appropriationId: g.appropriationId,
       alternative: NO_ACTION,
-      personId: g.mayor,
+      personId: g.manager,
       office: { kind: "municipal", governmentKey: g.governmentKey },
       recipientOrganizationId: null,
     });
@@ -141,7 +141,7 @@ describe("GOVERNING 6: public programs keep appropriation, commitment, cash and 
     const committed = commitPublicProgram(g.world, {
       appropriationId: g.appropriationId,
       alternative: DRAFT_A,
-      personId: g.mayor,
+      personId: g.manager,
       office: { kind: "municipal", governmentKey: g.governmentKey },
       recipientOrganizationId: g.operator,
     });
@@ -176,12 +176,23 @@ describe("GOVERNING 6: public programs keep appropriation, commitment, cash and 
       recipientOrganizationId: g.operator,
     });
     expect(asMember.ok).toBe(false);
-    if (!asMember.ok) expect(asMember.reason).toMatch(/council seat/);
+    if (!asMember.ok) expect(asMember.reason).toMatch(/manager|council seat/i);
     expect(asMember.world).toBe(g.world);
-    const asGovernor = commitPublicProgram(g.world, {
+    // This city's record shows an appointed manager: a mayor's title alone is
+    // not authority to commit the adopted budget.
+    const asMayor = commitPublicProgram(g.world, {
       appropriationId: g.appropriationId,
       alternative: DRAFT_A,
       personId: g.mayor,
+      office: { kind: "municipal", governmentKey: g.governmentKey },
+      recipientOrganizationId: g.operator,
+    });
+    expect(asMayor.ok).toBe(false);
+    if (!asMayor.ok) expect(asMayor.reason).toMatch(/manager/i);
+    const asGovernor = commitPublicProgram(g.world, {
+      appropriationId: g.appropriationId,
+      alternative: DRAFT_A,
+      personId: g.manager,
       office: { kind: "state-executive" },
       recipientOrganizationId: g.operator,
     });
@@ -201,7 +212,7 @@ describe("GOVERNING 6: public programs keep appropriation, commitment, cash and 
     const unaffordable = commitPublicProgram(g.world, {
       appropriationId: g.appropriationId,
       alternative: huge,
-      personId: g.mayor,
+      personId: g.manager,
       office: { kind: "municipal", governmentKey: g.governmentKey },
       recipientOrganizationId: g.operator,
     });
@@ -211,7 +222,7 @@ describe("GOVERNING 6: public programs keep appropriation, commitment, cash and 
     const lapsed = commitPublicProgram(late, {
       appropriationId: g.appropriationId,
       alternative: DRAFT_A,
-      personId: g.mayor,
+      personId: g.manager,
       office: { kind: "municipal", governmentKey: g.governmentKey },
       recipientOrganizationId: g.operator,
     });
@@ -262,7 +273,7 @@ describe("GOVERNING 6: public programs keep appropriation, commitment, cash and 
     const committed = commitPublicProgram(world, {
       appropriationId: parks.id,
       alternative: repair,
-      personId: g.mayor,
+      personId: g.manager,
       office: { kind: "municipal", governmentKey: g.governmentKey },
       recipientOrganizationId: g.operator,
     });

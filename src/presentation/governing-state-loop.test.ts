@@ -276,54 +276,31 @@ describe("GOVERNING 4: bills and the budget reach the governor", () => {
           m.status === "open" &&
           m.holderPersonId === personId,
       );
-    const lawsFor = (w: World, matterId: string) =>
-      governingMatters(w, office.officeKey).filter(
-        (m) =>
-          m.family === "implementation" &&
-          m.openedEvent.tags.some((t) => t.startsWith("source-event:")) &&
-          m.stableKey.includes(`law:${matterId}`),
+
+    // Colorado's legislature is not compiled, so no bill reaches this desk.
+    // The office says that plainly instead of inventing one, and the rest of
+    // its work carries on.
+    current = passTo(current, "2027-05-01");
+    expect(openBill(current)).toBeUndefined();
+    const notesForThisOffice = (w: World) =>
+      w.history.events.filter(
+        (event) =>
+          event.tags.includes("governing:no-compiled-legislature") &&
+          event.tags.includes(`office:${office.officeKey}`),
       );
-
-    // February: a bill arrives with a ten-day deadline; sign it.
-    current = passTo(current, "2027-02-16");
-    const first = openBill(current)!;
-    expect(first.deadline).toBe("2027-02-25");
-    expect(first.options.map((o) => o.key)).toEqual([
-      "bill:sign",
-      "bill:return",
-    ]);
-    current = decideGoverningMatter(current, first.id, "bill:sign").world;
-    expect(lawsFor(current, first.id)).toHaveLength(1);
-
-    // March: send it back; the legislature answers three weeks later.
-    current = passTo(current, "2027-03-16");
-    const second = openBill(current)!;
-    current = decideGoverningMatter(current, second.id, "bill:return").world;
-    current = passTo(current, "2027-04-10");
-    const answer = current.history.events.find(
-      (e) =>
-        e.type === "governing.outcome" &&
-        e.tags.includes(`matter:${second.id}`),
-    )!;
-    expect(answer.visibility).toBe("public");
+    const note = notesForThisOffice(current)[0]!;
+    expect(note.summary).toContain("has not compiled");
+    expect(note.summary).toContain("other work is unaffected");
+    // Said once for the session, not once a day.
+    // Once per session for this office, not once a bill day.
+    const noteKeys = notesForThisOffice(current).map((e) => e.stableKey);
+    expect(new Set(noteKeys).size).toBe(noteKeys.length);
+    expect(noteKeys.filter((key) => key.endsWith(":2027"))).toHaveLength(1);
     expect(
-      answer.tags.some((t) =>
-        ["bill:overridden", "bill:returned-stands"].includes(t),
+      governingMatters(current, office.officeKey).some(
+        (m) => m.family === "implementation",
       ),
     ).toBe(true);
-
-    // April: leave it; it becomes law without a signature and still becomes
-    // agency work.
-    current = passTo(current, "2027-04-16");
-    const third = openBill(current)!;
-    current = passTo(current, "2027-05-01");
-    const lapsed = governingMatters(current, office.officeKey).find(
-      (m) => m.id === third.id,
-    )!;
-    expect(lapsed.status).toBe("lapsed");
-    expect(lapsed.decision!.visibility).toBe("public");
-    expect(lapsed.decision!.summary).toContain("without the signature");
-    expect(lawsFor(current, third.id)).toHaveLength(1);
 
     // December: the budget request; the chief of staff handles it.
     current = passTo(current, "2027-12-02");
