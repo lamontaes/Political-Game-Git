@@ -13,6 +13,7 @@ import { createRequire } from "node:module";
 import os from "node:os";
 import path from "node:path";
 import { isDeepStrictEqual } from "node:util";
+import { chooseStartAge } from "./creator-drive.mjs";
 
 const require = createRequire(
   path.join(
@@ -61,7 +62,7 @@ await page.getByTestId("new-game").click();
 await page.getByTestId("setup-screen").waitFor();
 await page.getByTestId("start-normal").click();
 await page.getByTestId("creator-stage-character").waitFor();
-await page.getByTestId("start-age").fill("27");
+await chooseStartAge(page, 27);
 await page.getByTestId("creator-continue-character").click();
 await page.getByTestId("creator-stage-place").waitFor();
 await page.getByTestId("state-search").fill("Kentucky");

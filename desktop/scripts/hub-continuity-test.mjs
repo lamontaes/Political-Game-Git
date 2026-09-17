@@ -29,6 +29,7 @@ import {
   sameSavedIdentity,
   savedIdentity,
 } from "./saved-identity-proof.mjs";
+import { chooseStartAge } from "./creator-drive.mjs";
 
 const args = process.argv.slice(2);
 const value = (name) => {
@@ -150,7 +151,7 @@ async function createAndKeepLife(page) {
   await page.getByTestId("setup-screen").waitFor();
   await page.getByTestId("start-normal").click();
   await page.getByTestId("creator-stage-character").waitFor();
-  await page.getByTestId("start-age").fill("31");
+  await chooseStartAge(page, 31);
   await page.getByTestId("creator-continue-character").click();
   await page.getByTestId("creator-stage-place").waitFor();
   await page.getByTestId("state-search").fill("Kentucky");
@@ -336,7 +337,7 @@ let expected;
   await branchPage.getByTestId("setup-screen").waitFor();
   await branchPage.getByTestId("start-normal").click();
   await branchPage.getByTestId("creator-stage-character").waitFor();
-  await branchPage.getByTestId("start-age").fill("29");
+  await chooseStartAge(branchPage, 29);
   await branchPage.getByTestId("creator-continue-character").click();
   await branchPage.getByTestId("state-search").fill("Kentucky");
   await branchPage.getByTestId("state-KY").click();

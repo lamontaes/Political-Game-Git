@@ -28,6 +28,7 @@ import {
   savedIdentity,
   sameSavedIdentity,
 } from "./saved-identity-proof.mjs";
+import { chooseStartAge } from "./creator-drive.mjs";
 
 const require = createRequire(
   path.join(
@@ -147,7 +148,7 @@ async function assertVisiblePerson(page, expected) {
   await page.getByTestId("setup-screen").waitFor();
   await page.getByTestId("start-normal").click();
   await page.getByTestId("creator-stage-character").waitFor();
-  await page.getByTestId("start-age").fill("27");
+  await chooseStartAge(page, 27);
   await page.getByTestId("creator-continue-character").click();
   await page.getByTestId("creator-stage-place").waitFor();
   await page.getByTestId("state-search").fill("Kentucky");
