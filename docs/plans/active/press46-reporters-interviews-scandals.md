@@ -102,3 +102,27 @@ Stored as `crunch46-provisional-v1`:
 - CHANGE: `economy.release-published` events (R5 leads).
 - CRISIS: public events (R7 leads).
 - UI: `PressDeskPanel` mounted inside `PressWorkspace` only.
+
+## Merge requirement with WORLD (claude/world46-seeded-parties @ 02ba5830)
+
+A legacy replay descriptor (no `worldOpeningVersion`) must rebuild the
+`fed321f7` world byte-for-byte; `src/presentation/world46-opening.test.ts` pins
+those hashes. When this branch meets WORLD, gate the press opening in
+`generateOpeningLife` like the other current-opening steps. The gate means old
+replays get no outlets and no weekly desk sweep:
+
+```ts
+import {
+  CRUNCH46_WORLD_OPENING_VERSION,
+  worldOpeningVersionOf,
+} from "../simulation";
+
+// wrap the ensureLivingWorldDevelopments(...) result:
+(world) =>
+  worldOpeningVersionOf(world) === CRUNCH46_WORLD_OPENING_VERSION
+    ? ensurePressOpening(world, game.playerPersonId)
+    : world;
+```
+
+The helpers do not exist on `fed321f7`, so this branch cannot carry the gate
+before the merge.
