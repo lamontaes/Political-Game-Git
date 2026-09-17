@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
   addDays,
+  advanceWorld,
   assertWorldIntegrity,
+  createCampaignElectionTransitionRegistry,
   createPartnership,
   serializeWorld,
 } from "../simulation";
@@ -130,10 +132,15 @@ describe("PEOPLE B1: deciding to have a family", () => {
     expect(plan.resolvesOn! > current.currentDate).toBe(true);
     // Nothing exists until that day.
     expect(childrenOf(current, player)).toEqual([]);
-    let later = current;
-    while (later.currentDate < plan.resolvesOn!) {
-      later = passOrdinaryDays(later, 30);
-    }
+    // The long wait is run through the clock itself rather than day by day:
+    // the point is the dated resolution, not the months in between, and a
+    // composed world charges for every simulated day.
+    const handlers = createCampaignElectionTransitionRegistry();
+    const later = advanceWorld(
+      current,
+      daysBetween(current.currentDate, plan.resolvesOn!),
+      handlers,
+    );
     const arrived = familyPlans(later, player)[0]!;
     expect(arrived.childPersonId).toBeTruthy();
     const child = arrived.childPersonId!;
@@ -149,8 +156,15 @@ describe("PEOPLE B1: deciding to have a family", () => {
     );
     assertWorldIntegrity(later);
     // And it happens once, however long the world runs on.
-    const onwards = passOrdinaryDays(later, 30);
+    const onwards = advanceWorld(later, 30, handlers);
     expect(childrenOf(onwards, player)).toEqual(childrenOf(later, player));
     expect(serializeWorld(onwards).length).toBeGreaterThan(0);
   });
 });
+
+function daysBetween(from: string, to: string): number {
+  return Math.round(
+    (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) /
+      86_400_000,
+  );
+}
