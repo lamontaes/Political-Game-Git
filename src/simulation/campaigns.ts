@@ -109,12 +109,10 @@ import type {
   World,
   WorldMetricDefinition,
   WorldMetricObservationRecord,
-  WorldMetricStateRecord,
 } from "./types";
 import {
   createWorldMetricCatalog,
   createWorldMetricDefinition,
-  mostRecentWorldMetricStateAt,
   recordWorldMetricObservation,
   recordWorldMetricState,
 } from "./world-metrics";
