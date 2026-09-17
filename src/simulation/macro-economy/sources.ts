@@ -1,3 +1,5 @@
+import { crisisEnvelopesBetween, type CrisisEnvelope } from "../crisis/notices";
+import { addDays, makeIsoDate } from "../dates";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import type { MacroShockKind } from "./policy";
 import type { MacroScopeKey } from "./types";
@@ -114,13 +116,89 @@ export const W3_INTERNATIONAL_ORIGIN_READER: MacroOriginReader = {
     }),
 };
 
+const CRISIS_FROM = makeIsoDate("1900-01-01");
+
+function crisisEnvelopes(world: World, through: IsoDate) {
+  // CRISIS reads [from, to); CHANGE's through date is inclusive.
+  return crisisEnvelopesBetween(world, CRISIS_FROM, addDays(through, 1));
+}
+
+function payloadNumber(envelope: CrisisEnvelope, key: string): number | null {
+  const value = envelope.payload[key];
+  return typeof value === "number" && Number.isFinite(value) ? value : null;
+}
+
+function observed(envelope: CrisisEnvelope): "public" | "not-public" {
+  return envelope.visibility === "public" ? "public" : "not-public";
+}
+
+const disasterKey = (episodeId: EntityId, jurisdictionId: EntityId) =>
+  `${MACRO_ECONOMY_CONTRACT_VERSION}:crisis:disaster:${episodeId}:${jurisdictionId}`;
+
 /**
- * CRISIS supplies typed disaster/public-health/conflict records (agreed
- * envelope: originEventId, kind, effectiveMoment, geographyIds, actorIds,
- * typed payload with units, visibility, schemaVersion, causalParents).
- * Its reader is registered here when that lane lands; until then no
- * disaster shock exists, rather than an invented one.
+ * CRISIS typed envelopes (crisis-envelope-v1). Only physical disaster damage
+ * and escalated international crises move the economy; aid decisions carry
+ * no amount and repair progress only ends the disruption. A disaster acts on
+ * each affected jurisdiction's own layer, never on the national record.
  */
+export const CRISIS_ORIGIN_READER: MacroOriginReader = {
+  key: "crisis-envelopes",
+  origins: (world, throughDate) =>
+    crisisEnvelopes(world, throughDate).flatMap((envelope) => {
+      const intensity = payloadNumber(envelope, "intensity");
+      if (intensity === null) return [];
+      if (envelope.kind === "disaster-damage") {
+        const episodeId = envelope.subjectIds[0];
+        if (!episodeId) return [];
+        return envelope.geographyIds.map((jurisdictionId) => ({
+          dedupeKey: disasterKey(episodeId, jurisdictionId),
+          kind: "disaster-reconstruction" as const,
+          originEventId: envelope.originEventId,
+          geographyIds: [jurisdictionId],
+          scope: `jurisdiction:${jurisdictionId}` as const,
+          intensity,
+          beginsAt: envelope.effectiveMoment,
+          persistence: "until-origin-ends" as const,
+          observedState: observed(envelope),
+          causalParents: [envelope.originEventId, ...envelope.causalParents],
+        }));
+      }
+      if (envelope.kind === "international-conflict-spillover") {
+        return [
+          {
+            dedupeKey: `${MACRO_ECONOMY_CONTRACT_VERSION}:crisis:conflict:${envelope.recordId}`,
+            kind: "international-conflict-spillover" as const,
+            originEventId: envelope.originEventId,
+            geographyIds: [],
+            scope: "national" as const,
+            intensity,
+            beginsAt: envelope.effectiveMoment,
+            persistence: "geometric" as const,
+            observedState: observed(envelope),
+            causalParents: [envelope.originEventId, ...envelope.causalParents],
+          },
+        ];
+      }
+      return [];
+    }),
+  ends: (world, throughDate) =>
+    crisisEnvelopes(world, throughDate).flatMap((envelope) => {
+      const episodeId = envelope.subjectIds[0];
+      if (
+        envelope.kind !== "repair-progress" ||
+        envelope.payload.status !== "ended" ||
+        !episodeId
+      )
+        return [];
+      return envelope.geographyIds.map((jurisdictionId) => ({
+        dedupeKey: disasterKey(episodeId, jurisdictionId),
+        endEventId: envelope.originEventId,
+        endedAt: envelope.effectiveMoment,
+      }));
+    }),
+};
+
 export const MACRO_ORIGIN_READERS: readonly MacroOriginReader[] = [
   W3_INTERNATIONAL_ORIGIN_READER,
+  CRISIS_ORIGIN_READER,
 ];

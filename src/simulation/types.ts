@@ -1,3 +1,4 @@
+import type { CrisisRecord } from "./crisis/types";
 import type { WorldContentPacks } from "./runtime-content-packs";
 
 import type { AppearanceMaterial } from "./appearance-material";
@@ -42,6 +43,7 @@ export type EntityKind =
   | "party-record"
   | "constitutional-measure"
   | "constitutional-action"
+  | "crisis-record"
   | "constitutional-rule-version"
   | "tax-proposal"
   | "tax-policy"
@@ -3575,6 +3577,8 @@ export interface HistoryStore {
   readonly campaignComplianceDocuments?: readonly CampaignComplianceDocumentRecord[];
   /** Optional so pre-NEWS-HELP2 snapshots remain structurally readable. */
   readonly publications?: readonly PublicationRecord[];
+  /** CRISIS severe-event records; absent in Worlds written before them. */
+  readonly crisisRecords?: readonly CrisisRecord[];
   readonly legislativeMeasures?: readonly LegislativeMeasureRecord[];
   readonly legislativeActions?: readonly LegislativeActionRecord[];
   readonly committeeReferrals?: readonly CommitteeReferralRecord[];

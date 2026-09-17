@@ -57,9 +57,13 @@ the eleven shock kinds and awaits director confirmation.
 - W3 international development subject 0 (shipping delays) → national
   trade disruption, active until W3 records `development-eased`, then
   decaying geometrically. The fishing-rights subject moves nothing.
-- CRISIS disaster, public-health and conflict records plug into
-  `MACRO_ORIGIN_READERS` when that lane lands (agreed envelope). Until then
-  no such shock exists.
+- CRISIS `crisis-envelope-v1` (branch `claude/change-crisis-reader`, stacked
+  on CRISIS PR #271): each `disaster-damage` episode becomes one
+  disaster-reconstruction shock per affected jurisdiction at CRISIS's 0–1
+  intensity, active until the episode's `repair-progress` "ended" follow-up,
+  then decaying. An escalated `international-conflict-spillover` becomes a
+  national geometric shock. Aid decisions carry no amount and move nothing;
+  no dollars are read from CRISIS.
 
 A jurisdiction layer materializes only when a shock names that jurisdiction:
 national movement plus local impulses, with no independent random economy.
