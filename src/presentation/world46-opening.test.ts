@@ -90,6 +90,8 @@ describe("WORLD46 opening version gate", () => {
       const kentucky = open(legacySetup("kentucky", "world46-legacy-a"));
       const legacyPeebles = open(legacySetup(peebles.key, "world46-legacy-b"));
       expect(worldOpeningVersionOf(kentucky.world)).toBeNull();
+      // PRESS setup belongs to the new opening only; a legacy replay has none.
+      expect(kentucky.world.history.pressRecords ?? []).toHaveLength(0);
       expect(sha256(serializeWorld(kentucky.world))).toBe(
         FED321F7_LEGACY.kentucky,
       );
@@ -118,6 +120,8 @@ describe("WORLD46 current opening: Peebles and a contrasting home", () => {
 
   it("persists its opening version and generated conditions at Begin", () => {
     for (const life of [peeblesLife, contrast]) {
+      // The press opening runs once, behind the recognized opening version.
+      expect((life.world.history.pressRecords ?? []).length).toBeGreaterThan(0);
       expect(worldOpeningVersionOf(life.world)).toBe(
         CRUNCH46_WORLD_OPENING_VERSION,
       );
