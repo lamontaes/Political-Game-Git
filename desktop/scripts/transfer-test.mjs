@@ -153,6 +153,14 @@ const interfaceSeed = await page.evaluate(async (databaseName) => {
       newsOutletKey: null,
       journalView: "chapters",
       journalYear: null,
+      politicsPlace: "here",
+      governmentScope: "local",
+      map: {
+        mode: "house",
+        stateUsps: null,
+        labels: true,
+        presentation: "map",
+      },
     },
     personWardrobes: {
       [record.metadata.playerPersonId]: {
