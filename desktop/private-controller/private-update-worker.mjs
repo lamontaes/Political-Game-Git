@@ -25,6 +25,7 @@ import {
 } from "./hub-model.mjs";
 import {
   assessUpdateTarget,
+  buildPresentOnDisk,
   buildRecord,
   controllerPaths,
   repositoryIsExpected,
@@ -363,10 +364,13 @@ async function main() {
     });
     const samePack =
       existing?.current?.privatePack?.manifestSha256 === pack.manifestSha256;
+    // A recorded build only counts as already done when its payload is
+    // actually on disk and names this revision and profile; otherwise this
+    // falls through and rebuilds instead of reporting a build that is gone.
     const pendingMatches =
       existing?.pending?.revision === targetRevision &&
       existing.pending.privatePack?.manifestSha256 === pack.manifestSha256 &&
-      existsSync(existing.pending.appPath);
+      buildPresentOnDisk(existing.pending).ok;
     if (pendingMatches) {
       writeState(statePath, { ...state, repositoryPath });
       return emit(
@@ -375,7 +379,11 @@ async function main() {
         { outcome: "pending", track: id, revision: targetRevision },
       );
     }
-    if (assessment.action === "none" && samePack) {
+    if (
+      assessment.action === "none" &&
+      samePack &&
+      buildPresentOnDisk(existing?.current).ok
+    ) {
       writeState(statePath, { ...state, repositoryPath });
       return emit("complete", `This is already the current ${label} build.`, {
         outcome: "up-to-date",

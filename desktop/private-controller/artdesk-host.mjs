@@ -16,6 +16,12 @@
  * stable path and a per-launch capability, as environment variables:
  *   PG_ART_DESK_RECORD_ROOT  absolute directory owned by the hub (0700)
  *   PG_ART_DESK_TOKEN        random per-launch token
+ * Exchange-identity seam (X-A, 2026-09-17): when the hub has bound the
+ * exchange to its configured Drive folder ids it also hands the bench the
+ * resolved folders, so a renamed folder is still the right one:
+ *   PG_ARTBENCH_EXCHANGE_INBOX / _CATALOG / _EVENTS  absolute folder paths
+ * The bench writer owns whether its store prefers these over its own
+ * name-based discovery under PG_ARTBENCH_DRIVE_ROOT.
  * The hub's Art Desk view sends that token on every bench request as the
  * X-OCD-Art-Desk-Token header. The bench writer owns the record schema and
  * decides when its bridge requires the header and uses the root.
@@ -26,7 +32,14 @@ export const ART_DESK_PROJECT = "ocd";
 
 import { spawn } from "node:child_process";
 import { createHash, randomBytes } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import {
+  chmodSync,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
 import { createServer } from "node:net";
 import path from "node:path";
 
@@ -113,6 +126,21 @@ export class ArtDeskHost {
     this.status = { state: "idle", message: "Art Desk is not started." };
   }
 
+  /**
+   * The durable record root is the hub's, not whichever writer reaches it
+   * first: it is created 0700 at hub start, the way the agents directory is,
+   * so the bench never gets to make it world-readable. mkdirSync leaves an
+   * existing directory's permissions alone, so a root some earlier writer
+   * already created loosely is tightened here rather than trusted.
+   */
+  ensureRecordRoot() {
+    mkdirSync(this.recordRoot, { recursive: true, mode: 0o700 });
+    for (const directory of [path.dirname(this.recordRoot), this.recordRoot])
+      if ((statSync(directory).mode & 0o777) !== 0o700)
+        chmodSync(directory, 0o700);
+    return this.recordRoot;
+  }
+
   #set(state, message, extra = {}) {
     this.status = { state, message, ...extra };
     this.onStatus(this.status);
@@ -143,6 +171,7 @@ export class ArtDeskHost {
     revision,
     packPath,
     driveRoot = null,
+    exchangeFolders = null,
   }) {
     if (!validBranchName(branch) || !validRevision(revision))
       throw new Error(
@@ -223,7 +252,7 @@ export class ArtDeskHost {
         );
         writeFileSync(lockMarker, `${lockHash}\n`);
       }
-      mkdirSync(this.recordRoot, { recursive: true, mode: 0o700 });
+      this.ensureRecordRoot();
       this.token = randomBytes(32).toString("base64url");
       const port = await freePort();
       this.#set("starting", "Starting the identified Art Desk server…");
@@ -245,6 +274,13 @@ export class ArtDeskHost {
             PG_ART_DESK_RECORD_ROOT: this.recordRoot,
             PG_ART_DESK_TOKEN: this.token,
             ...(driveRoot ? { PG_ARTBENCH_DRIVE_ROOT: driveRoot } : {}),
+            ...(exchangeFolders
+              ? {
+                  PG_ARTBENCH_EXCHANGE_INBOX: exchangeFolders.inbox,
+                  PG_ARTBENCH_EXCHANGE_CATALOG: exchangeFolders.catalog,
+                  PG_ARTBENCH_EXCHANGE_EVENTS: exchangeFolders.events,
+                }
+              : {}),
             BROWSER: "none",
           },
           stdio: ["ignore", "pipe", "pipe"],

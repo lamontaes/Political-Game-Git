@@ -1,10 +1,17 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import test from "node:test";
+import { setTimeout as delay } from "node:timers/promises";
+import { fileURLToPath, URL } from "node:url";
 
 import {
+  barPill,
   cleanChecks,
   cleanHubState,
+  createGeneration,
   emptyHubState,
+  playLabel,
+  prunedQueue,
   recordCheck,
   selectableTrack,
   updateStatus,
@@ -23,6 +30,9 @@ const build = (revision) => ({
   clientTreeSha256: "c".repeat(64),
   privatePack: { packId: "p", manifestSha256: "d".repeat(64) },
 });
+
+const OFFLINE_TEXT =
+  "Offline — could not reach the project remote; showing the last known-good build";
 
 const mainOnly = () => ({
   ...emptyHubState("/repo"),
@@ -99,7 +109,7 @@ test("a failed check keeps the last success and never reads as up to date", () =
   assert.equal(check.lastSuccessRevision, SHA_A);
   assert.deepEqual(
     updateStatus({ check, build: build(SHA_A), building: false }),
-    { kind: "failed", text: "Could not check" },
+    { kind: "offline", text: OFFLINE_TEXT, detail: "Offline" },
   );
 });
 
@@ -137,4 +147,165 @@ test("checks from hostile files are dropped", () => {
     }),
     {},
   );
+});
+
+test("offline reads differently from a failed check and keeps its message", () => {
+  const checks = cleanChecks(
+    recordCheck({}, "main", {
+      outcome: "offline",
+      at: "2026-09-17T02:00:00.000Z",
+      message: "Could not reach origin.",
+    }),
+  );
+  const offline = updateStatus({
+    check: checks.main,
+    build: build(SHA_A),
+    building: false,
+  });
+  assert.equal(offline.kind, "offline");
+  assert.match(offline.text, /^Offline/);
+  // After a hub restart there is no phase; the persisted message is the text.
+  assert.equal(offline.detail, "Could not reach origin.");
+  const failed = updateStatus({
+    check: cleanChecks(
+      recordCheck({}, "main", {
+        outcome: "failed",
+        at: "2026-09-17T02:00:00.000Z",
+        message: "Packaging failed.",
+      }),
+    ).main,
+    build: build(SHA_A),
+    building: false,
+  });
+  assert.equal(failed.kind, "failed");
+  assert.equal(failed.text, "Could not check");
+  assert.notEqual(failed.text, offline.text);
+  assert.equal(failed.detail, "Packaging failed.");
+});
+
+test("a build whose payload is gone is never labelled verified", () => {
+  const present = playLabel({
+    track: "main",
+    build: build(SHA_A),
+    remoteRevision: SHA_A,
+    fetchState: "online",
+    present: true,
+  });
+  assert.equal(present.kind, "latest");
+  const absent = playLabel({
+    track: "main",
+    build: build(SHA_A),
+    remoteRevision: SHA_A,
+    fetchState: "online",
+    present: false,
+  });
+  assert.equal(absent.kind, "needs-rebuild");
+  assert.match(absent.text, /missing from disk/);
+});
+
+test("a superseded selection neither opens nor starts a build", async () => {
+  const selection = createGeneration();
+  const opened = [];
+  const started = [];
+  // Stands in for openPlay: it awaits, then refuses if the choice moved on.
+  const openPlay = async (id, stillWanted) => {
+    await delay(id === "slow" ? 25 : 0);
+    if (!stillWanted()) return { ok: false, message: "superseded" };
+    opened.push(id);
+    return { ok: true };
+  };
+  const select = async (id) => {
+    const token = selection.begin();
+    const current = () => selection.isCurrent(token);
+    const result = await openPlay(id, current);
+    if (!current()) return "superseded";
+    started.push(id);
+    return result.ok ? "opened" : "refused";
+  };
+  const first = select("slow");
+  assert.equal(await select("fast"), "opened");
+  assert.equal(await first, "superseded");
+  assert.deepEqual(opened, ["fast"]);
+  assert.deepEqual(started, ["fast"]);
+});
+
+test("a new selection drops queued builds it has moved past", () => {
+  const queue = [
+    { track: "branch:feature/a" },
+    { track: "main" },
+    { track: "branch:feature/b" },
+  ];
+  assert.deepEqual(prunedQueue(queue, "branch:feature/b"), [
+    { track: "main" },
+    { track: "branch:feature/b" },
+  ]);
+  assert.deepEqual(prunedQueue(queue, "main"), [{ track: "main" }]);
+  assert.deepEqual(prunedQueue([], "main"), []);
+});
+
+test("openPlay validates and builds the incoming view before closing any preview", () => {
+  const source = readFileSync(
+    fileURLToPath(new URL("../private-controller/main.mjs", import.meta.url)),
+    "utf8",
+  );
+  const start = source.indexOf("async function openPlay(");
+  const end = source.indexOf("/** Close a Play view", start);
+  assert.ok(start > 0 && end > start);
+  const body = source.slice(start, end);
+  const guard = body.indexOf("buildPresentOnDisk(track.current)");
+  const view = body.indexOf("new WebContentsView(");
+  const close = body.indexOf("await closePlay(other)");
+  const register = body.indexOf("hub.play.set(id");
+  assert.ok(guard > 0 && view > 0 && close > 0 && register > 0);
+  // A refused payload returns while the previous preview is still on screen.
+  assert.ok(guard < close, "the payload guard must precede closing a preview");
+  assert.ok(view < close, "the incoming view must exist before a close");
+  assert.ok(close < register);
+  // selectTrack hands its liveness check down, so a stale open is refused.
+  assert.match(source, /openPlay\(id, current\)/);
+});
+
+test("a missing payload takes the pill away from a verified reading", () => {
+  const status = { kind: "current", text: "Up to date" };
+  const present = barPill({
+    update: status,
+    selectedBuilt: true,
+    track: { currentPresent: true, label: { kind: "latest" } },
+  });
+  assert.deepEqual(present, status);
+  const absent = barPill({
+    update: status,
+    selectedBuilt: true,
+    track: { currentPresent: false, currentAbsentReason: "missing-client" },
+  });
+  assert.equal(absent.kind, "needs-rebuild");
+  assert.match(absent.text, /missing from disk/);
+  assert.notEqual(absent.text, "Up to date");
+  // A track with nothing built yet keeps the check's own reading.
+  assert.deepEqual(
+    barPill({
+      update: status,
+      selectedBuilt: false,
+      track: { currentPresent: false },
+    }),
+    status,
+  );
+});
+
+test("the hub resolves the pill and marks a superseded selection", () => {
+  const source = readFileSync(
+    fileURLToPath(new URL("../private-controller/main.mjs", import.meta.url)),
+    "utf8",
+  );
+  // publicState must hand the renderer an already-resolved pill.
+  assert.match(source, /barPill\(\{\s*update: status/);
+  // A superseded selection is flagged so no renderer paints it as a failure.
+  assert.match(source, /superseded: true/);
+  const chrome = readFileSync(
+    fileURLToPath(new URL("../private-controller/chrome.mjs", import.meta.url)),
+    "utf8",
+  );
+  assert.match(chrome, /token !== selectRequest \|\| result\?\.superseded/);
+  // The renderer paints the pill it was given; it does not re-derive one.
+  assert.ok(!/pill needs-rebuild/.test(chrome));
 });

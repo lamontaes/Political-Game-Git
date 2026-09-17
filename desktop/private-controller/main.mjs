@@ -52,12 +52,21 @@ import {
   projectBuildChooser,
 } from "./build-catalog.mjs";
 import {
+  configuredExchangeFolders,
+  exchangeFolderIdOverride,
+  exchangeSummary,
+  resolveExchangeFolders,
+} from "./drive-exchange.mjs";
+import {
   MAIN_TRACK,
   activatePending,
+  barPill,
   cleanChecks,
   cleanHubState,
+  createGeneration,
   emptyHubState,
   playLabel,
+  prunedQueue,
   recordCheck,
   rollback,
   trackId,
@@ -66,7 +75,11 @@ import {
   validBranchName,
   validRevision,
 } from "./hub-model.mjs";
-import { buildRecord, repositoryIsExpected } from "./private-update.mjs";
+import {
+  buildPresentOnDisk,
+  buildRecord,
+  repositoryIsExpected,
+} from "./private-update.mjs";
 import {
   SILENCE_NOTICE_MS,
   createSilenceWatch,
@@ -183,6 +196,14 @@ function readSettings() {
       typeof value.artbenchDriveRoot === "string" &&
       path.isAbsolute(value.artbenchDriveRoot)
         ? value.artbenchDriveRoot
+        : null,
+    // Per-install override of the configured exchange folder identities
+    // (another Drive account, a dedicated QA exchange); unset uses the
+    // owner's configured folders.
+    artbenchExchangeFolderIds:
+      value.artbenchExchangeFolderIds &&
+      typeof value.artbenchExchangeFolderIds === "object"
+        ? value.artbenchExchangeFolderIds
         : null,
   };
 }
@@ -375,6 +396,7 @@ const hub = {
   log: [],
   artdesk: null,
   agents: null,
+  exchange: null, // the Art Desk exchange as last resolved, or its refusal
   quitting: false,
 };
 
@@ -382,22 +404,30 @@ function publicState() {
   const state = readState();
   const selected = state?.selectedTrack ?? MAIN_TRACK;
   const tracks = Object.fromEntries(
-    Object.entries(state?.tracks ?? {}).map(([id, track]) => [
-      id,
-      {
-        ...track,
-        open: hub.play.has(id),
-        openRevision: hub.play.get(id)?.revision ?? null,
-        remote: hub.remote[id] ?? null,
-        phase: hub.phase[id] ?? null,
-        label: playLabel({
-          track: id,
-          build: track.current,
-          remoteRevision: hub.remote[id]?.revision ?? null,
-          fetchState: hub.remote[id]?.fetchState ?? null,
-        }),
-      },
-    ]),
+    Object.entries(state?.tracks ?? {}).map(([id, track]) => {
+      // A state record is not a payload: ask the disk before calling a
+      // cached build verified.
+      const present = buildPresentOnDisk(track.current);
+      return [
+        id,
+        {
+          ...track,
+          open: hub.play.has(id),
+          openRevision: hub.play.get(id)?.revision ?? null,
+          currentPresent: present.ok,
+          currentAbsentReason: present.reason,
+          remote: hub.remote[id] ?? null,
+          phase: hub.phase[id] ?? null,
+          label: playLabel({
+            track: id,
+            build: track.current,
+            remoteRevision: hub.remote[id]?.revision ?? null,
+            fetchState: hub.remote[id]?.fetchState ?? null,
+            present: present.ok,
+          }),
+        },
+      ];
+    }),
   );
   const checks = readChecks();
   const shown = shownPlayTrack(state);
@@ -406,6 +436,7 @@ function publicState() {
     activeTab: hub.activeTab,
     selectedTrack: selected,
     selectedBuilt: Boolean(selectedBuild),
+    selectedPresent: tracks[selected]?.currentPresent ?? false,
     // What is on screen, which is not always what was requested.
     loaded: shown
       ? {
@@ -415,12 +446,25 @@ function publicState() {
         }
       : null,
     update: {
-      ...updateStatus({
-        phase: hub.phase[selected] ?? null,
-        check: checks[selected] ?? null,
-        build: selectedBuild,
-        building: hub.workerTrack === selected,
-      }),
+      ...(() => {
+        const status = updateStatus({
+          phase: hub.phase[selected] ?? null,
+          check: checks[selected] ?? null,
+          build: selectedBuild,
+          building: hub.workerTrack === selected,
+        });
+        // A remote check says nothing about the disk: the pill is resolved
+        // here against the payload evidence above, so no renderer can paint
+        // "Up to date" for a build that is not there.
+        return {
+          ...status,
+          ...barPill({
+            update: status,
+            selectedBuilt: Boolean(selectedBuild),
+            track: tracks[selected],
+          }),
+        };
+      })(),
       checkedAt: checks[selected]?.at ?? null,
       lastSuccessAt: checks[selected]?.lastSuccessAt ?? null,
       message: checks[selected]?.message ?? null,
@@ -458,6 +502,17 @@ function publicState() {
             }
           : null;
       })(),
+      // What is on screen, kept apart from the staged build for this track:
+      // the two differ while a verified update waits for a restart.
+      loaded: shown
+        ? {
+            track: shown,
+            title: shown === MAIN_TRACK ? "Main game" : shown.slice(7),
+            revision: hub.play.get(shown)?.revision ?? null,
+            selectedBuildRevision:
+              state?.tracks[shown]?.current?.revision ?? null,
+          }
+        : null,
       bench:
         hub.artdesk?.status?.state === "ready"
           ? {
@@ -470,6 +525,7 @@ function publicState() {
       privatePack: state?.tracks[selected]?.current?.privatePack ?? null,
     },
     artdesk: hub.artdesk?.status ?? null,
+    artdeskExchange: hub.exchange,
     log: hub.log.slice(-60),
     architecture: process.arch,
     hubVersion: app.getVersion(),
@@ -502,6 +558,16 @@ function logLine(message) {
 }
 
 /* ----------------------------------------------------------- game views */
+
+/**
+ * The owner's latest Play choice. Selecting takes a token; every step that
+ * resumes after an await checks it, so a slow job for an abandoned choice
+ * cannot open a view, start a build or re-lay out over the newer one.
+ */
+const selection = createGeneration();
+const SUPERSEDED = "A newer choice replaced this one; nothing was changed.";
+/** A refusal the owner never needs to see: it is marked, logged, not painted. */
+const superseded = () => ({ ok: false, superseded: true, message: SUPERSEDED });
 
 const contentRoots = new Map(); // track id -> client directory
 const configuredSessions = new Set();
@@ -558,7 +624,7 @@ async function standaloneGameRunning() {
   }
 }
 
-async function openPlay(id) {
+async function openPlay(id, stillWanted = () => true) {
   const state = readState();
   const track = state?.tracks[id];
   if (!track)
@@ -570,28 +636,22 @@ async function openPlay(id) {
       message:
         "The standalone game is running with the same save profile. Close it first; its own save guard stays in control.",
     };
-  // Only one branch preview is kept alive next to main.
-  for (const other of [...hub.play.keys()])
-    if (other !== MAIN_TRACK && other !== id) {
-      const closed = await closePlay(other);
-      if (!closed)
-        return {
-          ok: false,
-          message: "The open branch preview kept its unsaved life.",
-        };
-    }
+  if (!stillWanted()) return superseded();
+  // The incoming payload is validated and its view built BEFORE anything on
+  // screen is disturbed: a build that cannot open leaves the previous preview
+  // exactly where it was.
   const clientRoot = path.join(
     track.current.appPath,
     "Contents",
     "Resources",
     "client",
   );
-  if (!existsSync(path.join(clientRoot, "index.html")))
+  const present = buildPresentOnDisk(track.current);
+  if (!present.ok)
     return {
       ok: false,
-      message: "The cached build is incomplete; rebuild this track.",
+      message: `The cached build is not usable (${present.reason}); rebuild this track.`,
     };
-  contentRoots.set(id, clientRoot);
   const view = new WebContentsView({
     webPreferences: {
       session: sessionForTrack(id),
@@ -622,6 +682,24 @@ async function openPlay(id) {
     });
     if (choice === 1) event.preventDefault();
   });
+  // Only one branch preview is kept alive next to main. The incoming view
+  // already exists, so a refusal here costs the owner nothing on screen.
+  for (const other of [...hub.play.keys()])
+    if (other !== MAIN_TRACK && other !== id) {
+      const closed = await closePlay(other);
+      if (!closed) {
+        contents.close();
+        return {
+          ok: false,
+          message: "The open branch preview kept its unsaved life.",
+        };
+      }
+    }
+  if (!stillWanted()) {
+    contents.close();
+    return superseded();
+  }
+  contentRoots.set(id, clientRoot);
   hub.play.set(id, { view, revision: track.current.revision });
   contents.once("destroyed", () => {
     if (hub.play.get(id)?.view === view) hub.play.delete(id);
@@ -737,7 +815,19 @@ function artDeskView(url) {
           path.join(app.getPath("downloads"), "Our Civic Duty Art Desk"),
       });
       if (!dest) {
+        // Refused by policy. Say so: a silent preventDefault reads to the
+        // owner as a download that saved nothing for no reason.
         event.preventDefault();
+        const refusedName = path.basename(String(item.getFilename() ?? ""));
+        logLine(`Art Desk download refused: ${refusedName}`);
+        hub.lastDownload = {
+          state: "refused",
+          name: refusedName,
+          path: null,
+          at: new Date().toISOString(),
+        };
+        reportDownloadResult({ state: "refused", name: refusedName });
+        broadcast();
         return;
       }
       mkdirSync(path.dirname(dest), { recursive: true });
@@ -751,21 +841,26 @@ function artDeskView(url) {
           path: state === "completed" ? dest : null,
           at: new Date().toISOString(),
         };
-        const page = hub.views.get("artdesk")?.webContents;
-        if (page && !page.isDestroyed())
-          void page
-            .executeJavaScript(
-              `window.dispatchEvent(new CustomEvent("ocd:download-result", { detail: ${JSON.stringify(
-                { state, name: path.basename(dest) },
-              )} }))`,
-            )
-            .catch(() => undefined);
+        reportDownloadResult({ state, name: path.basename(dest) });
         broadcast();
       });
     });
   }
   void contents.loadURL(url);
   return view;
+}
+
+/** Tell the Art Desk page how its own download ended, including a refusal. */
+function reportDownloadResult(detail) {
+  const page = hub.views.get("artdesk")?.webContents;
+  if (!page || page.isDestroyed()) return;
+  void page
+    .executeJavaScript(
+      `window.dispatchEvent(new CustomEvent("ocd:download-result", { detail: ${JSON.stringify(
+        detail,
+      )} }))`,
+    )
+    .catch(() => undefined);
 }
 
 /**
@@ -999,13 +1094,25 @@ async function selectTrack(branch) {
   if (branch !== MAIN_TRACK && !validBranchName(branch))
     return { ok: false, message: "That branch name is not valid." };
   const id = trackId(branch);
+  const token = selection.begin();
+  const current = () => selection.isCurrent(token);
   const state = readState();
   // Whatever was on screen stays identified while the new choice prepares.
   hub.lastPlay = shownPlayTrack(state) ?? hub.lastPlay;
   atomicWrite(statePath, { ...state, selectedTrack: id });
   hub.activeTab = "play";
+  // Queued builds for choices the owner has moved past are dropped; main and
+  // the live selection keep their place.
+  const kept = prunedQueue(hub.queue, id);
+  hub.queue.splice(0, hub.queue.length, ...kept);
   if (state.tracks[id]) {
-    const opened = await openPlay(id);
+    const opened = await openPlay(id, current);
+    if (!current()) {
+      // The owner's log is where an abandoned choice is accounted for; the
+      // bar belongs to the choice that won.
+      logLine(`${branch}: ${SUPERSEDED}`);
+      return superseded();
+    }
     if (!opened.ok) logLine(opened.message);
   }
   // Explicitly selecting an owner-repository branch authorizes preparing it.
@@ -1127,18 +1234,46 @@ async function listBranches(repositoryPathArg) {
 /* -------------------------------------------------------------- art desk */
 
 /**
+ * The exchange handed to the bench, with each folder bound to its configured
+ * Drive identity rather than to a name under whatever parent is chosen. A
+ * mismatch or a missing folder throws, so the Art Desk refuses to start and
+ * says why instead of quietly trading work through the wrong folder.
+ *
  * An isolated (test) data root must never reach the owner's real Drive
  * exchange through the bench's default discovery: unless a root is set
- * explicitly, it gets a local fixture exchange inside the data root.
+ * explicitly, it gets a local fixture exchange inside the data root, whose
+ * folders can only ever resolve by name.
  */
-function artbenchDriveRoot() {
-  if (settings.artbenchDriveRoot) return settings.artbenchDriveRoot;
-  if (process.env.OCD_CONTROLLER_DATA_ROOT) {
-    const fixture = path.join(dataRoot, "fixture-drive-exchange");
-    mkdirSync(fixture, { recursive: true });
-    return fixture;
+function artbenchExchange() {
+  const folders = configuredExchangeFolders(
+    exchangeFolderIdOverride(settings.artbenchExchangeFolderIds),
+  );
+  const root = settings.artbenchDriveRoot;
+  try {
+    if (root) {
+      const resolved = resolveExchangeFolders(root, { folders });
+      for (const note of resolved.notes) logLine(`Art Desk exchange: ${note}`);
+      hub.exchange = exchangeSummary(resolved);
+      return resolved;
+    }
+    if (process.env.OCD_CONTROLLER_DATA_ROOT) {
+      const fixture = path.join(dataRoot, "fixture-drive-exchange");
+      for (const folder of folders)
+        mkdirSync(path.join(fixture, folder.name), { recursive: true });
+      const resolved = resolveExchangeFolders(fixture, { folders });
+      for (const note of resolved.notes) logLine(`Art Desk exchange: ${note}`);
+      hub.exchange = exchangeSummary(resolved);
+      return resolved;
+    }
+    hub.exchange = null;
+    return null;
+  } catch (error) {
+    hub.exchange = exchangeSummary(
+      error instanceof Error ? error : new Error(String(error)),
+    );
+    logLine(`Art Desk exchange: ${hub.exchange.message}`);
+    throw error;
   }
-  return null;
 }
 
 async function startArtDesk() {
@@ -1146,6 +1281,7 @@ async function startArtDesk() {
   if (!state?.privatePackPath)
     return { ok: false, message: "Choose the private art pack in Settings." };
   try {
+    const exchange = artbenchExchange();
     const repositoryPath = await verifiedRepository();
     const branch = settings.artDeskBranch;
     await git(
@@ -1185,7 +1321,8 @@ async function startArtDesk() {
       branch,
       revision,
       packPath: state.privatePackPath,
-      driveRoot: artbenchDriveRoot(),
+      driveRoot: exchange?.root ?? null,
+      exchangeFolders: exchange?.paths ?? null,
     });
     const existing = hub.views.get("artdesk");
     if (
@@ -1531,6 +1668,13 @@ if (!app.requestSingleInstanceLock()) {
       env: toolEnvironment(),
       onStatus: () => broadcast(),
     });
+    // The Art Desk's durable record root belongs to the hub: create it 0700
+    // now rather than leaving its permissions to the first writer.
+    try {
+      hub.artdesk.ensureRecordRoot();
+    } catch (error) {
+      logLine(`Art Desk record root unavailable: ${error.message}`);
+    }
     hub.agents = new AgentsHost({
       dataRoot,
       installId: settings.installId,

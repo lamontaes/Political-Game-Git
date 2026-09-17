@@ -197,6 +197,12 @@ body.chrome {
 .pill.unchecked {
   background: #4a4a4a;
 }
+.pill.offline {
+  background: #8a5a1c;
+}
+.pill.needs-rebuild {
+  background: #9b2f25;
+}
 @media (max-width: 1100px) {
   .brand small {
     display: none;
@@ -289,6 +295,8 @@ section.card {
   color: var(--warn);
 }
 .state-unavailable,
+.state-needs-rebuild,
+.state-offline,
 .state-unsupported,
 .state-failed,
 .state-blocked,
