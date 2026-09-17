@@ -103,8 +103,9 @@ it.skipIf(needsPrivateArt)(
   "freezes source bytes and generation5 while old fresh replay markers reproduce",
   () => {
     // Generation 5 = engine-people29; later additive generations preserve it.
-    // The retained current-bank pack finishes at MODULAR41 generation 12.
-    expect(library.catalogGeneration).toBe(12);
+    // The retained current-bank pack reaches MODULAR41 generation 12; the
+    // MODULAR45 people repair adds generation 13 on top of it.
+    expect(library.catalogGeneration).toBe(13);
     for (const asset of data.assets)
       expect(
         createHash("sha256")

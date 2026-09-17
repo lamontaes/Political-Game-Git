@@ -3,19 +3,24 @@ import { KIT41_REGISTRY as kit } from "../presentation/private-candidate-manifes
 import { AppearanceOutfitDialog } from "./AppearanceOutfitDialog";
 import { PreparedAppearanceControls } from "./PreparedAppearanceControls";
 import {
+  MODULAR45_GENERATION,
   selectPreparedBody,
   preparedFamily,
 } from "../presentation/engine-people29-data";
+import { GameSelect } from "./controls/GameSelect";
 import "./PersonAppearanceControls.css";
 import { useMemo, useState, useRef, type ReactNode } from "react";
 import type { World, PersonAppearance } from "../simulation/types";
 import { resolveCharacterRecipe } from "../presentation/character-components";
 import {
   commitCompleteOutfit,
+  commitCorrectedGeneration,
   findCompleteOutfit,
+  proposeCorrectedGeneration,
   resolveCompleteOutfit,
   type OutfitFamilies,
 } from "../presentation/complete-outfit";
+import { resolveAppearanceCatalogGeneration } from "../presentation/character-components";
 import {
   listPersonVisualSelections,
   listPersonWardrobeFamilies,
@@ -145,6 +150,8 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
     appearance: PersonAppearance;
     families: OutfitFamilies;
     source: PersonAppearance;
+    /** An explicit move to newer corrected artwork, not an outfit edit. */
+    artworkUpdate?: boolean;
   } | null>(null);
   const label = (v: string) =>
     /^ep(?:29|34|35|36|40|41)-/.test(v)
@@ -233,17 +240,48 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
       </p>
     );
   const appearance = person.appearance;
-  function commit(next: PersonAppearance, families: OutfitFamilies) {
+  let pinnedGeneration: number | null = null;
+  try {
+    pinnedGeneration = resolveAppearanceCatalogGeneration(
+      appearance,
+      library.catalogGeneration,
+    );
+  } catch {
+    pinnedGeneration = null;
+  }
+  const artworkUpdate =
+    MODULAR45_GENERATION !== null &&
+    pinnedGeneration !== null &&
+    pinnedGeneration < MODULAR45_GENERATION &&
+    library.catalogGeneration >= MODULAR45_GENERATION &&
+    Boolean(appearance.selection?.bodyFamily.startsWith("ep41-"))
+      ? MODULAR45_GENERATION
+      : null;
+  function commit(
+    next: PersonAppearance,
+    families: OutfitFamilies,
+    update = false,
+  ) {
     try {
       props.onWorldChange(
-        commitCompleteOutfit(world, personId, next, {
-          library,
-          poseFamily,
-          families,
-        }),
+        update
+          ? commitCorrectedGeneration(world, personId, next, {
+              library,
+              poseFamily,
+              families,
+            })
+          : commitCompleteOutfit(world, personId, next, {
+              library,
+              poseFamily,
+              families,
+            }),
       );
       setPending(null);
-      setMessage("Appearance and outfit changed together.");
+      setMessage(
+        update
+          ? "This person now uses the updated artwork."
+          : "Appearance and outfit changed together.",
+      );
     } catch {
       setMessage(
         "That outfit is unavailable. Your saved appearance has not changed.",
@@ -393,29 +431,63 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
             headFamily: "Face",
             hairFamily: "Hairstyle",
           }[kind];
+          const current =
+            (pending?.source === appearance
+              ? pending.appearance.selection?.[kind]
+              : state.current?.[kind]) ?? null;
+          const randomize = (
+            <button
+              type="button"
+              className="appearance-randomize"
+              aria-label={`Randomize ${title.toLowerCase()}`}
+              disabled={choices.filter((c) => !c.reason).length < 2}
+              onClick={() => {
+                const available = choices.filter(
+                  (c) => !c.reason && c.value !== state.current?.[kind],
+                );
+                if (available.length)
+                  choose({ [kind]: pick(available).value ?? null });
+              }}
+            >
+              Randomize {title.toLowerCase()}
+            </button>
+          );
           if (
-            kind === "hairFamily" &&
+            kind !== "bodyFamily" &&
             state.current?.bodyFamily.startsWith("ep41-")
           ) {
-            const selected =
-              pending?.source === appearance
-                ? pending.appearance.selection?.hairFamily
-                : state.current.hairFamily;
+            const query = kind === "hairFamily" ? hairQuery : "";
             const shown = choices.filter(({ value }) =>
               value === null
-                ? "no hair".includes(hairQuery.trim().toLowerCase())
+                ? "no hair".includes(query.trim().toLowerCase())
                 : label(value)
                     .toLowerCase()
-                    .includes(hairQuery.trim().toLowerCase()),
+                    .includes(query.trim().toLowerCase()),
             );
+            const hairCompatible = (headFamily: string) =>
+              state.current!.hairFamily === null ||
+              listPersonVisualSelections({
+                appearance,
+                library,
+                poseFamily,
+                selectionFilter: {
+                  bodyFamily: state.current!.bodyFamily,
+                  headFamily,
+                  hairFamily: state.current!.hairFamily,
+                },
+              }).length > 0;
             return (
               <fieldset
                 key={kind}
                 className="appearance-hair-choices"
-                data-testid="person-appearance-hair-grid"
+                data-testid={
+                  kind === "hairFamily"
+                    ? "person-appearance-hair-grid"
+                    : "person-appearance-face-grid"
+                }
               >
-                <legend>Hairstyle</legend>
-                {choices.length > 10 ? (
+                <legend>{title}</legend>
+                {kind === "hairFamily" && choices.length > 10 ? (
                   <label>
                     Find a hairstyle
                     <input
@@ -427,41 +499,47 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
                 ) : null}
                 <div className="appearance-hair-grid">
                   {shown.map(({ value, reason }) => {
-                    const hairFamily = value ?? null;
-                    const previewAppearance = {
-                      ...appearance,
-                      selection: { ...state.current!, hairFamily },
-                    };
+                    const chosen = value ?? null;
+                    const selection =
+                      kind === "hairFamily"
+                        ? { ...state.current!, hairFamily: chosen }
+                        : {
+                            ...state.current!,
+                            headFamily: chosen!,
+                            hairFamily: hairCompatible(chosen!)
+                              ? state.current!.hairFamily
+                              : null,
+                          };
                     return (
                       <label
-                        key={value ?? "none"}
+                        key={chosen ?? "none"}
                         className="appearance-hair-choice"
                         title={reason}
                       >
                         <input
                           type="radio"
-                          name={`person-hairstyle-${personId}`}
-                          value={value ?? ""}
-                          checked={selected === hairFamily}
+                          className="appearance-visually-hidden"
+                          name={`person-${kind}-${personId}`}
+                          value={chosen ?? ""}
+                          checked={current === chosen}
                           disabled={Boolean(reason)}
-                          onChange={() => choose({ hairFamily })}
+                          onChange={() => choose({ [kind]: chosen })}
                         />
                         <span
                           className="appearance-hair-preview"
                           aria-hidden="true"
                         >
-                          {hairFamily === null ? (
-                            <span className="appearance-no-hair">○</span>
-                          ) : (
-                            props.renderHairThumbnail?.(previewAppearance)
-                          )}
+                          {props.renderHairThumbnail?.({
+                            ...appearance,
+                            selection,
+                          })}
                         </span>
                         <span className="appearance-hair-label">
-                          {hairFamily === null ? "No hair" : label(hairFamily)}
+                          {chosen === null ? "No hair" : label(chosen)}
                         </span>
-                        {selected === hairFamily ? (
+                        {current === chosen ? (
                           <span className="appearance-hair-selected">
-                            Selected
+                            ✓ Selected
                           </span>
                         ) : null}
                         {reason ? <small>Unavailable: {reason}</small> : null}
@@ -469,64 +547,30 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
                     );
                   })}
                 </div>
-                {shown.length === 0 ? <p>No matching hairstyle.</p> : null}
-                <button
-                  type="button"
-                  aria-label="Randomize hairstyle"
-                  disabled={
-                    choices.filter((choice) => !choice.reason).length < 2
-                  }
-                  onClick={() => {
-                    const available = choices.filter(
-                      (choice) => !choice.reason && choice.value !== selected,
-                    );
-                    if (available.length)
-                      choose({ hairFamily: pick(available).value ?? null });
-                  }}
-                >
-                  Randomize hairstyle
-                </button>
+                {shown.length === 0 ? (
+                  <p>No matching {title.toLowerCase()}.</p>
+                ) : null}
+                {randomize}
               </fieldset>
             );
           }
           return (
-            <label key={kind}>
-              {title}
-              <select
+            <label key={kind} className="appearance-select-field">
+              <span className="appearance-choice-title">{title}</span>
+              <GameSelect
                 aria-label={title}
                 data-testid={`person-appearance-${kind}`}
-                value={
-                  (pending?.source === appearance
-                    ? pending.appearance.selection?.[kind]
-                    : state.current?.[kind]) ?? ""
-                }
+                value={current ?? ""}
                 onChange={(e) => choose({ [kind]: e.target.value || null })}
-              >
-                {choices.map(({ value: v, reason }) => (
-                  <option
-                    key={v ?? "none"}
-                    value={v ?? ""}
-                    disabled={Boolean(reason)}
-                  >
-                    {v === null ? "No hair" : label(v)}
-                    {reason ? " — unavailable" : ""}
-                  </option>
-                ))}
-              </select>
-              <button
-                type="button"
-                aria-label={`Randomize ${title.toLowerCase()}`}
-                disabled={choices.filter((c) => !c.reason).length < 2}
-                onClick={() => {
-                  const available = choices.filter(
-                    (c) => !c.reason && c.value !== state.current?.[kind],
-                  );
-                  if (available.length)
-                    choose({ [kind]: pick(available).value });
-                }}
-              >
-                Randomize {title.toLowerCase()}
-              </button>
+                options={choices.map(({ value: v, reason }) => ({
+                  value: v ?? "",
+                  label:
+                    (v === null ? "No hair" : label(v)) +
+                    (reason ? " — unavailable" : ""),
+                  disabled: Boolean(reason),
+                }))}
+              />
+              {randomize}
               {choices.some((c) => c.reason) ? (
                 <small>
                   Unavailable choices have no complete matching outfit in this
@@ -543,6 +587,45 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
           cancel the preview.
         </p>
       ) : null}
+      {artworkUpdate !== null ? (
+        <div
+          className="appearance-artwork-update"
+          data-testid="appearance-artwork-update"
+        >
+          <p>
+            Updated artwork is available for this person: better head fit,
+            cleaner joins and matching skin tone. The saved look stays as it is
+            unless you apply the update.
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              const proposal = proposeCorrectedGeneration(
+                appearance,
+                artworkUpdate,
+                library,
+                poseFamily,
+              );
+              if (proposal.ok && proposal.appearance) {
+                setPending({
+                  appearance: proposal.appearance,
+                  families: proposal.families,
+                  source: appearance,
+                  artworkUpdate: true,
+                });
+                setMessage("Review the updated artwork before applying it.");
+              } else
+                setMessage(
+                  proposal.ok
+                    ? "No newer artwork is available for this person."
+                    : proposal.message,
+                );
+            }}
+          >
+            Preview updated artwork
+          </button>
+        </div>
+      ) : null}
       <PreparedAppearanceControls
         appearance={appearance}
         onChange={(next) => commit(next, state.families ?? {})}
@@ -552,7 +635,7 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
         {(["top", "bottom", "footwear"] as const).map((kind) => {
           const value = state.families?.[kind] ?? "";
           return (
-            <label key={kind}>
+            <label key={kind} className="appearance-select-field">
               {
                 {
                   top: "Shirt style",
@@ -560,7 +643,7 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
                   footwear: "Shoes",
                 }[kind]
               }
-              <select
+              <GameSelect
                 aria-label={
                   {
                     top: "Shirt style",
@@ -582,19 +665,24 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
                   if (result.ok) commit(appearance, result.families);
                   else setMessage(result.message);
                 }}
-              >
-                <option value="">Current default</option>
-                {value && !state.supported[kind].includes(value) ? (
-                  <option value={value} disabled>
-                    Saved choice needs recovery
-                  </option>
-                ) : null}
-                {state.supported[kind].map((v) => (
-                  <option key={v} value={v}>
-                    {label(v)}
-                  </option>
-                ))}
-              </select>
+                options={[
+                  { value: "", label: "Current default", disabled: false },
+                  ...(value && !state.supported[kind].includes(value)
+                    ? [
+                        {
+                          value,
+                          label: "Saved choice needs recovery",
+                          disabled: true,
+                        },
+                      ]
+                    : []),
+                  ...state.supported[kind].map((v) => ({
+                    value: v,
+                    label: label(v),
+                    disabled: false,
+                  })),
+                ]}
+              />
               <button
                 type="button"
                 aria-label={`Randomize ${kind === "top" ? "shirt" : kind === "bottom" ? "pants" : "shoes"}`}
@@ -685,7 +773,13 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
             pending.appearance.selection?.bodyFamily ??
               state.current!.bodyFamily,
           )}
-          onApply={() => commit(pending.appearance, pending.families)}
+          onApply={() =>
+            commit(
+              pending.appearance,
+              pending.families,
+              Boolean(pending.artworkUpdate),
+            )
+          }
           onCancel={() => {
             setPending(null);
             setMessage("Your appearance is unchanged.");

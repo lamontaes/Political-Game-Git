@@ -91,9 +91,9 @@ function materialize(
       throw new Error("Missing prepared material mask.");
     // Prepared skin map (MODULAR45): an authored ramp writes the gradient
     // table; the unmapped painting removes the overlay so its pixels are exact.
+    // A garment carrying painted skin has the skin map as its second region.
     const overlays = [...document.querySelectorAll("image[data-skin-overlay]")];
-    if (overlays.length) {
-      if (m.channel !== "skin") throw new Error("Skin map on another channel.");
+    if (m.channel === "skin" && overlays.length) {
       if (!ramp.stops) for (const overlay of overlays) overlay.remove();
       else writeSkinTable(document, ramp.stops);
     } else if (ramp.stops) throw new Error("Part has no prepared skin map.");
@@ -114,6 +114,11 @@ function materialize(
         e.setAttribute("fill", ramp[tone]);
     }
   }
+  if (
+    document.querySelector("image[data-skin-overlay]") &&
+    !part.materials.some((m) => m.channel === "skin")
+  )
+    throw new Error("Skin map without a skin region.");
   for (const f of part.features ?? []) {
     const kind = f.id.split("-")[0] as FeatureKind;
     const p = material.features[kind];
