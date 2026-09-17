@@ -14,7 +14,7 @@
  * Usage:
  *   node scripts/hub-continuity-test.mjs --hub <hub executable>
  *     --build-a <Internal Art Review.app> --build-b <Internal Art Review.app>
- *     [--data-root <dir>] [--screenshot-dir <dir>]
+ *     [--pack <private pack dir>] [--data-root <dir>] [--screenshot-dir <dir>]
  */
 
 import assert from "node:assert/strict";
@@ -42,7 +42,7 @@ const buildA = value("--build-a");
 const buildB = value("--build-b");
 if (!hubExecutable || !buildA || !buildB) {
   console.error(
-    "Usage: node scripts/hub-continuity-test.mjs --hub <exe> --build-a <app> --build-b <app> [--data-root <dir>] [--screenshot-dir <dir>]",
+    "Usage: node scripts/hub-continuity-test.mjs --hub <exe> --build-a <app> --build-b <app> [--pack <dir>] [--data-root <dir>] [--screenshot-dir <dir>]",
   );
   process.exit(2);
 }
@@ -61,6 +61,22 @@ const identityOf = (app) =>
       "utf8",
     ),
   );
+/*
+ * The pack the delivery claims, stamped into the record: L2 asks that a
+ * staged build prove code revision and pack identity from the record alone,
+ * so a proof that leaves it null cannot demonstrate the promise.
+ */
+const packPath = value("--pack");
+const packRecord = packPath
+  ? JSON.parse(readFileSync(path.join(packPath, "pack.json"), "utf8"))
+  : null;
+const packStamp = packRecord
+  ? {
+      packId: String(packRecord.packId),
+      manifestSha256: String(packRecord.manifestSha256),
+    }
+  : null;
+
 const record = (app) => {
   const identity = identityOf(app);
   return {
@@ -71,7 +87,7 @@ const record = (app) => {
     architecture: "arm64 (fixture record)",
     installedAt: new Date().toISOString(),
     clientTreeSha256: identity.clientTreeSha256 ?? "unknown",
-    privatePack: null,
+    privatePack: packStamp,
   };
 };
 const A = record(buildA);
@@ -249,6 +265,16 @@ let expected;
       sameSavedIdentity(expected, savedIdentity(records.worlds[0])),
     JSON.stringify({ worldId: expected.worldId, personId: expected.personId }),
   );
+  if (packStamp) {
+    const stamped = JSON.parse(readFileSync(statePath, "utf8")).tracks?.main
+      ?.current?.privatePack;
+    check(
+      "B: the activated record names the pack it was built with",
+      stamped?.packId === packStamp.packId &&
+        stamped?.manifestSha256 === packStamp.manifestSha256,
+      JSON.stringify(stamped),
+    );
+  }
   check(
     "B: Play made no request outside the packaged origin",
     foreign.length === 0,
