@@ -1,10 +1,10 @@
 {
-  "digest": "48846df365db7ed0",
+  "digest": "a444a96bfa97e2a6",
   "counts": {
-    "total": 3207,
+    "total": 3231,
     "byDomain": {
       "campaign": 24,
-      "conversation": 400,
+      "conversation": 424,
       "governing": 193,
       "legislative": 94,
       "life": 1762,
@@ -24,20 +24,20 @@
       "option-witnessed": 54,
       "prompt": 130,
       "scene-line": 219,
-      "status": 591,
+      "status": 615,
       "thread-recap": 32
     },
     "byReachability": {
       "CURRENTLY_UNREACHABLE": 394,
       "DEV_FIXTURE_ONLY": 110,
       "LEGACY_OR_WITHDRAWN": 90,
-      "PLAYER_REACHABLE": 2186,
+      "PLAYER_REACHABLE": 2210,
       "UNKNOWN": 69,
       "WITHHELD_BY_GROUNDING": 358
     },
     "byRealization": {
-      "static": 2554,
-      "templated": 653
+      "static": 2569,
+      "templated": 662
     }
   },
   "records": [
@@ -12357,6 +12357,914 @@
         "computed"
       ],
       "textRevision": "adf74a00af7a",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:studyPeer-0001#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "studyPeer-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "studyPeer",
+      "text": "After a class",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "studyPeer",
+        "anchor": "studyPeer-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "03e062d408d9",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:studyPeer-0002#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "studyPeer-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "studyPeer",
+      "text": "Decide whether to work on the coursework together.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "studyPeer",
+        "anchor": "studyPeer-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "9b963d1f5b46",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:studyPeer-0003#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "studyPeer-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "studyPeer",
+      "text": "Two people on the same programme, talking about the work.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "studyPeer",
+        "anchor": "studyPeer-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "90c534a140a0",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:studyPeer-0004#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "studyPeer-0004",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "studyPeer",
+      "text": "Working with {binding.facts.peerGiven??\"somebody\"}",
+      "realization": "templated",
+      "slots": [
+        "binding.facts.peerGiven??\"somebody\""
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "studyPeer",
+        "anchor": "studyPeer-0004"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "666e93934001",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:studyPeerAnswers-0001#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "studyPeerAnswers-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "studyPeerAnswers",
+      "text": "Ask what they want to do",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "studyPeerAnswers",
+        "anchor": "studyPeerAnswers-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "5605615b7aa3",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:studyPeerAnswers-0002#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "studyPeerAnswers-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "studyPeerAnswers",
+      "text": "Find out before committing to anything.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "studyPeerAnswers",
+        "anchor": "studyPeerAnswers-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "35b80e28169b",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:studyPeerAnswers-0003#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "studyPeerAnswers-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "studyPeerAnswers",
+      "text": "I think I’m going to look for a different group.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "studyPeerAnswers",
+        "anchor": "studyPeerAnswers-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "39683bf9ff92",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:studyPeerAnswers-0004#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "studyPeerAnswers-0004",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "studyPeerAnswers",
+      "text": "I think I’m going to look for a different group.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "studyPeerAnswers",
+        "anchor": "studyPeerAnswers-0004"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "39683bf9ff92",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:studyPeerAnswers-0005#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "studyPeerAnswers-0005",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "studyPeerAnswers",
+      "text": "I’ve already committed to another group.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "studyPeerAnswers",
+        "anchor": "studyPeerAnswers-0005"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "343d2c16dade",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:studyPeerAnswers-0006#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "studyPeerAnswers-0006",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "studyPeerAnswers",
+      "text": "Keep looking",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "studyPeerAnswers",
+        "anchor": "studyPeerAnswers-0006"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "cd73787563d8",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:studyPeerAnswers-0007#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "studyPeerAnswers-0007",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "studyPeerAnswers",
+      "text": "Propose it. They may say no.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "studyPeerAnswers",
+        "anchor": "studyPeerAnswers-0007"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "ab3a6f0dfa10",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:studyPeerAnswers-0008#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "studyPeerAnswers-0008",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "studyPeerAnswers",
+      "text": "Suggest working together",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "studyPeerAnswers",
+        "anchor": "studyPeerAnswers-0008"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "71c1c1cdc494",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:studyPeerAnswers-0009#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "studyPeerAnswers-0009",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "studyPeerAnswers",
+      "text": "The player asked {context.name} about working on the coursework together.",
+      "realization": "templated",
+      "slots": [
+        "context.name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "studyPeerAnswers",
+        "anchor": "studyPeerAnswers-0009"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "bf40e3e847b3",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:studyPeerAnswers-0010#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "studyPeerAnswers-0010",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "studyPeerAnswers",
+      "text": "The player asked {context.name} which part of the work interested them.",
+      "realization": "templated",
+      "slots": [
+        "context.name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "studyPeerAnswers",
+        "anchor": "studyPeerAnswers-0010"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "c793260fe6d3",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:studyPeerAnswers-0011#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "studyPeerAnswers-0011",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "studyPeerAnswers",
+      "text": "The player told {context.name} they would look for a different group.",
+      "realization": "templated",
+      "slots": [
+        "context.name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "studyPeerAnswers",
+        "anchor": "studyPeerAnswers-0011"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "ce31a08221b6",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:studyPeerAnswers-0012#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "studyPeerAnswers-0012",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "studyPeerAnswers",
+      "text": "Turn this one down. The class is unaffected.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "studyPeerAnswers",
+        "anchor": "studyPeerAnswers-0012"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "87029164582c",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:studyPeerAnswers-0013#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "studyPeerAnswers-0013",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "studyPeerAnswers",
+      "text": "We already have the main work divided up. Would you be interested in {task}?",
+      "realization": "templated",
+      "slots": [
+        "task"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "studyPeerAnswers",
+        "anchor": "studyPeerAnswers-0013"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "2d64f80b1374",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:studyPeerAnswers-0014#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "studyPeerAnswers-0014",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "studyPeerAnswers",
+      "text": "What part are you interested in?",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "studyPeerAnswers",
+        "anchor": "studyPeerAnswers-0014"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "71694c0017d8",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:studyPeerAnswers-0015#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "studyPeerAnswers-0015",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "studyPeerAnswers",
+      "text": "Would you like to work on it together?",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "studyPeerAnswers",
+        "anchor": "studyPeerAnswers-0015"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "e9c7f209ab4b",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:studyPeerAnswers-0016#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "studyPeerAnswers-0016",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "studyPeerAnswers",
+      "text": "Yes. Let’s work out who is doing what.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "studyPeerAnswers",
+        "anchor": "studyPeerAnswers-0016"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "6de84b749ad4",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:studyPeerAnswers-0017#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "studyPeerAnswers-0017",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "studyPeerAnswers",
+      "text": "{playerName} and {otherName} agreed to work together.",
+      "realization": "templated",
+      "slots": [
+        "otherName",
+        "playerName"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "studyPeerAnswers",
+        "anchor": "studyPeerAnswers-0017"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "613865a4d7e2",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:studyPeerAnswers-0018#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "studyPeerAnswers-0018",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "studyPeerAnswers",
+      "text": "“I was going to start with {task}, if nobody else has,” {name} says.",
+      "realization": "templated",
+      "slots": [
+        "name",
+        "task"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "studyPeerAnswers",
+        "anchor": "studyPeerAnswers-0018"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "8d2c6182c665",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:studyPeerAnswers-0019#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "studyPeerAnswers-0019",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "studyPeerAnswers",
+      "text": "“That’s fair. Good luck with it,” {name} says.",
+      "realization": "templated",
+      "slots": [
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "studyPeerAnswers",
+        "anchor": "studyPeerAnswers-0019"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "55e524ee4acb",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:studyPeerAnswers-0020#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "studyPeerAnswers-0020",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "studyPeerAnswers",
+      "text": "“Understood. See you in class,” {name} says.",
+      "realization": "templated",
+      "slots": [
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "studyPeerAnswers",
+        "anchor": "studyPeerAnswers-0020"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "8ada371b6249",
       "contextRevision": "ca7b14b8141d"
     },
     {
