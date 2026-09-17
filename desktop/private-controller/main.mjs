@@ -815,7 +815,19 @@ function artDeskView(url) {
           path.join(app.getPath("downloads"), "Our Civic Duty Art Desk"),
       });
       if (!dest) {
+        // Refused by policy. Say so: a silent preventDefault reads to the
+        // owner as a download that saved nothing for no reason.
         event.preventDefault();
+        const refusedName = path.basename(String(item.getFilename() ?? ""));
+        logLine(`Art Desk download refused: ${refusedName}`);
+        hub.lastDownload = {
+          state: "refused",
+          name: refusedName,
+          path: null,
+          at: new Date().toISOString(),
+        };
+        reportDownloadResult({ state: "refused", name: refusedName });
+        broadcast();
         return;
       }
       mkdirSync(path.dirname(dest), { recursive: true });
@@ -829,21 +841,26 @@ function artDeskView(url) {
           path: state === "completed" ? dest : null,
           at: new Date().toISOString(),
         };
-        const page = hub.views.get("artdesk")?.webContents;
-        if (page && !page.isDestroyed())
-          void page
-            .executeJavaScript(
-              `window.dispatchEvent(new CustomEvent("ocd:download-result", { detail: ${JSON.stringify(
-                { state, name: path.basename(dest) },
-              )} }))`,
-            )
-            .catch(() => undefined);
+        reportDownloadResult({ state, name: path.basename(dest) });
         broadcast();
       });
     });
   }
   void contents.loadURL(url);
   return view;
+}
+
+/** Tell the Art Desk page how its own download ended, including a refusal. */
+function reportDownloadResult(detail) {
+  const page = hub.views.get("artdesk")?.webContents;
+  if (!page || page.isDestroyed()) return;
+  void page
+    .executeJavaScript(
+      `window.dispatchEvent(new CustomEvent("ocd:download-result", { detail: ${JSON.stringify(
+        detail,
+      )} }))`,
+    )
+    .catch(() => undefined);
 }
 
 /**
