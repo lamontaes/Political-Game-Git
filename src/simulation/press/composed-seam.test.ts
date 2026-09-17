@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
+import type { NewGameSetup } from "../../presentation/new-game";
 import {
   generateOpeningLife,
   prepareOpeningLife,
@@ -164,9 +165,10 @@ describe("B2 seam: public-fund misuse is reachable, and moves money once", () =>
 });
 
 describe("B2 seam: a newsroom only where the opening is a current one", () => {
-  function opening(setup: Partial<typeof DEFAULT_NEW_GAME_SETUP>) {
+  // DEFAULT_NEW_GAME_SETUP omits the seed, so the seed is required here.
+  function opening(setup: Partial<NewGameSetup> & { seed: string }) {
     return generateOpeningLife(
-      prepareOpeningLife({ ...DEFAULT_NEW_GAME_SETUP, ...setup })!,
+      prepareOpeningLife({ ...DEFAULT_NEW_GAME_SETUP, ...setup }),
     ).game!.world;
   }
 
