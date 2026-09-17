@@ -2310,9 +2310,9 @@ function PlayingScreen({
    */
   const timeRunner = useTimeCommandRunner({
     world: session.world,
-        personId: session.personId,
-        interruptions: shell.preferences.interruptions,
-      onWorldChange,
+    personId: session.personId,
+    interruptions: shell.preferences.interruptions,
+    onWorldChange,
   });
   const { submit: submitTime } = timeRunner;
   const passDays = useCallback(
@@ -2834,20 +2834,20 @@ function PlayingScreen({
 
   return (
     <TimeCommandProvider runner={timeRunner}>
-    <SavedAppearanceProvider value={shell.personWardrobes}>
-      <SavedRenderSnapshotsProvider value={renderSnapshots}>
-        <main
-          className="life-shell"
-          data-testid="play-screen"
-          data-scene-id={sceneId ?? ""}
-          data-scene-purpose={playScene.purpose}
-        >
-          <InvokerFocusReturn
-            personId={conversation ? null : returnFocusTo}
-            prefer={returnFocusPrefer}
-            onDone={clearReturnFocus}
-          />
-          {/*
+      <SavedAppearanceProvider value={shell.personWardrobes}>
+        <SavedRenderSnapshotsProvider value={renderSnapshots}>
+          <main
+            className="life-shell"
+            data-testid="play-screen"
+            data-scene-id={sceneId ?? ""}
+            data-scene-purpose={playScene.purpose}
+          >
+            <InvokerFocusReturn
+              personId={conversation ? null : returnFocusTo}
+              prefer={returnFocusPrefer}
+              onDone={clearReturnFocus}
+            />
+            {/*
         THE ROOM IS THE SURFACE.
 
         The scene — with the generated household standing on its own anchors —
@@ -2855,324 +2855,324 @@ function PlayingScreen({
         people this life has are a rail on the right, and everything else is a
         quiet cluster in the corner that grows as you reach for it.
       */}
-          {previewBanner ? (
-            /*
-             * Said out loud, on the screen, for as long as the mode is on.
-             * A preview that looked like the game would be worse than no
-             * preview: somebody would screenshot unreleased art as if it had
-             * been approved. `role="status"` so it is announced rather than
-             * only seen.
-             */
-            <p
-              className="art-preview-banner"
-              role="status"
-              data-testid="art-preview-banner"
-            >
-              {previewBanner}
-            </p>
-          ) : null}
-          <SceneBackdrop
-            sceneId={sceneId}
-            visualLibrary={sceneVisuals}
-            people={scenePeople}
-            surfaces={surfaceProjection}
-            /*
-             * UI9-03. The people in the room ARE the selection surface now.
-             * The rail that used to sit above them filled itself from whoever
-             * was present, which made it a second automatic roster nobody
-             * asked for; the one rail that persists is the pin rail, and it
-             * only ever holds what the player put there.
-             */
-            selectedPersonId={shell.quickDossierPersonId}
-            onSelectPerson={(personId) => {
-              const button = document.querySelector<HTMLElement>(
-                `[data-testid="scene-person-${personId}"]`,
-              );
-              const box = button?.getBoundingClientRect();
-              setCardAnchor(
-                box
-                  ? {
-                      personId: personId as EntityId,
-                      rect: {
-                        left: box.left,
-                        top: box.top,
-                        width: box.width,
-                        height: box.height,
-                      },
-                    }
-                  : null,
-              );
-              dispatch({
-                type: "open-quick-dossier",
-                personId: personId as EntityId,
-              });
-            }}
-          >
-            {view.surface === "scene" ? (
-              <OpeningLifeFlow
-                key={session.world.id}
-                world={session.world}
-                playerPersonId={session.personId}
-                onWorldChange={onWorldChange}
-                transitionHandlers={createCampaignElectionTransitionRegistry()}
-                onTalkTo={(personId) => talkTo(personId, undefined, "panel")}
-                returnFocusTo={returnFocusTo}
-                onFocusReturned={() => setReturnFocusTo(null)}
-                foreground={
-                  conversation && view.surface === "scene" ? (
-                    <SceneConversation
-                      key={conversation.subject}
-                      world={session.world}
-                      playerPersonId={session.personId}
-                      subject={conversation.subject}
-                      addressee={conversation.addressee}
-                      onWorldChange={onWorldChange}
-                      onChange={(next) => setConversation(next)}
-                      onBack={() => {
-                        const facing = conversation.addressee;
-                        setConversation(null);
-                        // Started from a record: Back returns to that record.
-                        if (canGoBack(shell)) {
-                          dispatch({ type: "back" });
-                          requestAnimationFrame(() =>
-                            document
-                              .querySelector<HTMLElement>(
-                                ".pg-workspace-controls button",
-                              )
-                              ?.focus(),
-                          );
-                          return;
-                        }
-                        if (facing !== "everyone") setReturnFocusTo(facing);
-                      }}
-                      transitionHandlers={createCampaignElectionTransitionRegistry()}
-                    />
-                  ) : showOrientation ? (
-                    <WorldOrientationPanel
-                      view={orientation.view}
-                      homeStateUsps={orientation.homeStateUsps}
-                      mode="first"
-                      onClose={() => dispatch({ type: "finish-orientation" })}
-                      onOpenPerson={(personId) =>
-                        dispatch({ type: "open-quick-dossier", personId })
+            {previewBanner ? (
+              /*
+               * Said out loud, on the screen, for as long as the mode is on.
+               * A preview that looked like the game would be worse than no
+               * preview: somebody would screenshot unreleased art as if it had
+               * been approved. `role="status"` so it is announced rather than
+               * only seen.
+               */
+              <p
+                className="art-preview-banner"
+                role="status"
+                data-testid="art-preview-banner"
+              >
+                {previewBanner}
+              </p>
+            ) : null}
+            <SceneBackdrop
+              sceneId={sceneId}
+              visualLibrary={sceneVisuals}
+              people={scenePeople}
+              surfaces={surfaceProjection}
+              /*
+               * UI9-03. The people in the room ARE the selection surface now.
+               * The rail that used to sit above them filled itself from whoever
+               * was present, which made it a second automatic roster nobody
+               * asked for; the one rail that persists is the pin rail, and it
+               * only ever holds what the player put there.
+               */
+              selectedPersonId={shell.quickDossierPersonId}
+              onSelectPerson={(personId) => {
+                const button = document.querySelector<HTMLElement>(
+                  `[data-testid="scene-person-${personId}"]`,
+                );
+                const box = button?.getBoundingClientRect();
+                setCardAnchor(
+                  box
+                    ? {
+                        personId: personId as EntityId,
+                        rect: {
+                          left: box.left,
+                          top: box.top,
+                          width: box.width,
+                          height: box.height,
+                        },
                       }
-                    />
-                  ) : null
+                    : null,
+                );
+                dispatch({
+                  type: "open-quick-dossier",
+                  personId: personId as EntityId,
+                });
+              }}
+            >
+              {view.surface === "scene" ? (
+                <OpeningLifeFlow
+                  key={session.world.id}
+                  world={session.world}
+                  playerPersonId={session.personId}
+                  onWorldChange={onWorldChange}
+                  transitionHandlers={createCampaignElectionTransitionRegistry()}
+                  onTalkTo={(personId) => talkTo(personId, undefined, "panel")}
+                  returnFocusTo={returnFocusTo}
+                  onFocusReturned={() => setReturnFocusTo(null)}
+                  foreground={
+                    conversation && view.surface === "scene" ? (
+                      <SceneConversation
+                        key={conversation.subject}
+                        world={session.world}
+                        playerPersonId={session.personId}
+                        subject={conversation.subject}
+                        addressee={conversation.addressee}
+                        onWorldChange={onWorldChange}
+                        onChange={(next) => setConversation(next)}
+                        onBack={() => {
+                          const facing = conversation.addressee;
+                          setConversation(null);
+                          // Started from a record: Back returns to that record.
+                          if (canGoBack(shell)) {
+                            dispatch({ type: "back" });
+                            requestAnimationFrame(() =>
+                              document
+                                .querySelector<HTMLElement>(
+                                  ".pg-workspace-controls button",
+                                )
+                                ?.focus(),
+                            );
+                            return;
+                          }
+                          if (facing !== "everyone") setReturnFocusTo(facing);
+                        }}
+                        transitionHandlers={createCampaignElectionTransitionRegistry()}
+                      />
+                    ) : showOrientation ? (
+                      <WorldOrientationPanel
+                        view={orientation.view}
+                        homeStateUsps={orientation.homeStateUsps}
+                        mode="first"
+                        onClose={() => dispatch({ type: "finish-orientation" })}
+                        onOpenPerson={(personId) =>
+                          dispatch({ type: "open-quick-dossier", personId })
+                        }
+                      />
+                    ) : null
+                  }
+                />
+              ) : null}
+            </SceneBackdrop>
+
+            {selectedDossier ? (
+              <QuickDossier
+                world={session.world}
+                playerId={session.personId}
+                dossier={selectedDossier}
+                anchor={
+                  cardAnchor?.personId === selectedDossier.personId
+                    ? cardAnchor.rect
+                    : null
+                }
+                pinned={isPinned(shell, {
+                  kind: "person",
+                  id: selectedDossier.personId,
+                })}
+                onClose={() => dispatch({ type: "close-quick-dossier" })}
+                onTogglePin={() =>
+                  dispatch({
+                    type: "toggle-pin",
+                    ref: { kind: "person", id: selectedDossier.personId },
+                  })
+                }
+                onOpenLink={openEntity}
+                onOpenPerson={(personId) =>
+                  dispatch({ type: "open-quick-dossier", personId })
+                }
+                onTalk={() => talkTo(selectedDossier.personId)}
+                onMeet={() => dispatch({ type: "go-to-scene" })}
+                onTravel={() => {
+                  const next = travelTowardsPerson(
+                    session.world,
+                    session.personId,
+                    selectedDossier.personId,
+                    {
+                      presentPersonIds,
+                      handlers: interruptionHandlers(
+                        shell.preferences.interruptions,
+                      ),
+                    },
+                  );
+                  if (next !== session.world) {
+                    onWorldChange(next);
+                    dispatch({ type: "go-to-scene" });
+                  }
+                }}
+                onFullRecord={() =>
+                  openEntity({ kind: "person", id: selectedDossier.personId })
+                }
+                presentPersonIds={presentPersonIds}
+                talkUnavailable={
+                  inspectTalkEntry?.kind === "unavailable"
+                    ? inspectTalkEntry.reason
+                    : null
                 }
               />
             ) : null}
-          </SceneBackdrop>
 
-          {selectedDossier ? (
-            <QuickDossier
-              world={session.world}
-              playerId={session.personId}
-              dossier={selectedDossier}
-              anchor={
-                cardAnchor?.personId === selectedDossier.personId
-                  ? cardAnchor.rect
-                  : null
-              }
-              pinned={isPinned(shell, {
-                kind: "person",
-                id: selectedDossier.personId,
-              })}
-              onClose={() => dispatch({ type: "close-quick-dossier" })}
-              onTogglePin={() =>
-                dispatch({
-                  type: "toggle-pin",
-                  ref: { kind: "person", id: selectedDossier.personId },
-                })
-              }
-              onOpenLink={openEntity}
-              onOpenPerson={(personId) =>
-                dispatch({ type: "open-quick-dossier", personId })
-              }
-              onTalk={() => talkTo(selectedDossier.personId)}
-              onMeet={() => dispatch({ type: "go-to-scene" })}
-              onTravel={() => {
-                const next = travelTowardsPerson(
-                  session.world,
-                  session.personId,
-                  selectedDossier.personId,
-                  {
-                    presentPersonIds,
-                    handlers: interruptionHandlers(
-                      shell.preferences.interruptions,
-                    ),
-                  },
-                );
-                if (next !== session.world) {
-                  onWorldChange(next);
-                  dispatch({ type: "go-to-scene" });
-                }
-              }}
-              onFullRecord={() =>
-                openEntity({ kind: "person", id: selectedDossier.personId })
-              }
-              presentPersonIds={presentPersonIds}
-              talkUnavailable={
-                inspectTalkEntry?.kind === "unavailable"
-                  ? inspectTalkEntry.reason
-                  : null
-              }
-            />
-          ) : null}
-
-          {conversation && view.surface !== "scene" ? (
-            <button
-              type="button"
-              className="pg-talk-return"
-              data-testid="conversation-return"
-              onClick={() => dispatch({ type: "go-to-scene" })}
-            >
-              Return to conversation
-              <small>
-                {conversation.addressee === "everyone"
-                  ? "Everyone here"
-                  : session.world.people[conversation.addressee]
+            {conversation && view.surface !== "scene" ? (
+              <button
+                type="button"
+                className="pg-talk-return"
+                data-testid="conversation-return"
+                onClick={() => dispatch({ type: "go-to-scene" })}
+              >
+                Return to conversation
+                <small>
+                  {conversation.addressee === "everyone"
+                    ? "Everyone here"
+                    : session.world.people[conversation.addressee]
                       ? personName(
                           session.world.people[conversation.addressee]!,
                         )
-                    : "Someone"}
-                {pendingLine ? ` · ${pendingLine}` : ""}
-              </small>
-            </button>
-          ) : null}
-
-          {workspace}
-
-          <div className="life-hud" data-testid="life-hud">
-            {notice ? (
-              <p className="life-hud-note" role="status">
-                {notice}
-              </p>
+                      : "Someone"}
+                  {pendingLine ? ` · ${pendingLine}` : ""}
+                </small>
+              </button>
             ) : null}
-            {problem ? (
+
+            {workspace}
+
+            <div className="life-hud" data-testid="life-hud">
+              {notice ? (
+                <p className="life-hud-note" role="status">
+                  {notice}
+                </p>
+              ) : null}
+              {problem ? (
                 <p
                   className="life-hud-note life-hud-note--problem"
                   role="status"
                 >
-                {problem}
-              </p>
-            ) : null}
-            {passOutcome ? (
-              <p
-                className="life-hud-note life-hud-note--outcome"
-                role="status"
-                data-testid="pass-outcome"
-              >
-                {passOutcome}
-                <button
-                  type="button"
-                  className="life-hud-dismiss"
-                  aria-label="Dismiss"
-                  onClick={() => setPassOutcome(null)}
+                  {problem}
+                </p>
+              ) : null}
+              {passOutcome ? (
+                <p
+                  className="life-hud-note life-hud-note--outcome"
+                  role="status"
+                  data-testid="pass-outcome"
                 >
-                  ✕
-                </button>
-              </p>
-            ) : null}
-            {recap ? (
-              <WorldRecapPanel
-                recap={recap}
-                onDismiss={(throughSequence) =>
-                  dispatch({ type: "acknowledge-recap", throughSequence })
-                }
-                onOpenNews={() =>
-                  dispatch({ type: "go-to-surface", surface: "news" })
-                }
-                onOpenPerson={(personId) =>
-                  dispatch({ type: "open-quick-dossier", personId })
-                }
-              />
-            ) : null}
-            {session.unsavedSeed !== null ? (
-              <p className="sr-only" data-testid="unsaved-note">
-                This life has not been saved yet.
-              </p>
-            ) : null}
-            <p className="sr-only" role="status">
-              {shell.announcement}
-            </p>
-          </div>
-
-          {scenePeople
-            .filter((person) => person.wardrobeRefusal)
-            .map((person) => (
-              <p
-                key={person.personId}
-                role="status"
-                className="life-hud-note life-hud-note--problem"
-              >
-                {person.name}: {person.wardrobeRefusal}
-              </p>
-            ))}
-          <ShellNav
-            state={shell}
-            dispatch={dispatch}
-            playerName={moment.personName}
-            portrait={
-              session.world.people[session.personId] ? (
-                <PersonPortrait
-                  world={session.world}
-                  personId={session.personId}
+                  {passOutcome}
+                  <button
+                    type="button"
+                    className="life-hud-dismiss"
+                    aria-label="Dismiss"
+                    onClick={() => setPassOutcome(null)}
+                  >
+                    ✕
+                  </button>
+                </p>
+              ) : null}
+              {recap ? (
+                <WorldRecapPanel
+                  recap={recap}
+                  onDismiss={(throughSequence) =>
+                    dispatch({ type: "acknowledge-recap", throughSequence })
+                  }
+                  onOpenNews={() =>
+                    dispatch({ type: "go-to-surface", surface: "news" })
+                  }
+                  onOpenPerson={(personId) =>
+                    dispatch({ type: "open-quick-dossier", personId })
+                  }
                 />
-              ) : null
-            }
-            dateLabel={moment.dateLabel}
-            placeName={moment.placeName}
-            destinations={destinations}
-            canSave={!savesUnavailable}
-            unsaved={session.saveId === null}
-            onSave={() =>
-              onKeep({
-                pins: shell.pins,
-                preferences: shell.preferences,
-                journal: shell.journal,
-                personWardrobes: shell.personWardrobes,
-                progress: shell.progress,
-              })
-            }
-            onLeave={onLeave}
+              ) : null}
+              {session.unsavedSeed !== null ? (
+                <p className="sr-only" data-testid="unsaved-note">
+                  This life has not been saved yet.
+                </p>
+              ) : null}
+              <p className="sr-only" role="status">
+                {shell.announcement}
+              </p>
+            </div>
+
+            {scenePeople
+              .filter((person) => person.wardrobeRefusal)
+              .map((person) => (
+                <p
+                  key={person.personId}
+                  role="status"
+                  className="life-hud-note life-hud-note--problem"
+                >
+                  {person.name}: {person.wardrobeRefusal}
+                </p>
+              ))}
+            <ShellNav
+              state={shell}
+              dispatch={dispatch}
+              playerName={moment.personName}
+              portrait={
+                session.world.people[session.personId] ? (
+                  <PersonPortrait
+                    world={session.world}
+                    personId={session.personId}
+                  />
+                ) : null
+              }
+              dateLabel={moment.dateLabel}
+              placeName={moment.placeName}
+              destinations={destinations}
+              canSave={!savesUnavailable}
+              unsaved={session.saveId === null}
+              onSave={() =>
+                onKeep({
+                  pins: shell.pins,
+                  preferences: shell.preferences,
+                  journal: shell.journal,
+                  personWardrobes: shell.personWardrobes,
+                  progress: shell.progress,
+                })
+              }
+              onLeave={onLeave}
               {...(capabilities.formativeYears
                 ? {}
                 : { onPassDays: passDays, passTargets })}
               passing={timeRunner.pending}
-          />
+            />
 
-          <ShellPinRail
-            world={session.world}
-            state={shell}
-            dispatch={dispatch}
-            onOpen={openEntity}
-          />
+            <ShellPinRail
+              world={session.world}
+              state={shell}
+              dispatch={dispatch}
+              onOpen={openEntity}
+            />
 
-          <PlayerVersion />
+            <PlayerVersion />
 
-          {floorSeat ? (
-            <div
-              className="production-floor-layer"
-              data-testid="production-floor"
-            >
-              <button
-                type="button"
-                className="ui-action"
-                data-testid="leave-floor"
-                onClick={() => setFloorSeat(null)}
+            {floorSeat ? (
+              <div
+                className="production-floor-layer"
+                data-testid="production-floor"
               >
-                Put the bill down and go back
-              </button>
-              <MeasureFloorSurface
-                world={session.world}
-                seat={floorSeat}
-                onWorldChange={onWorldChange}
-              />
-            </div>
-          ) : null}
-        </main>
-      </SavedRenderSnapshotsProvider>
-    </SavedAppearanceProvider>
+                <button
+                  type="button"
+                  className="ui-action"
+                  data-testid="leave-floor"
+                  onClick={() => setFloorSeat(null)}
+                >
+                  Put the bill down and go back
+                </button>
+                <MeasureFloorSurface
+                  world={session.world}
+                  seat={floorSeat}
+                  onWorldChange={onWorldChange}
+                />
+              </div>
+            ) : null}
+          </main>
+        </SavedRenderSnapshotsProvider>
+      </SavedAppearanceProvider>
     </TimeCommandProvider>
   );
 }
