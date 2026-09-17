@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2781 |
-| INTENTIONALLY_NON_PLAYER_FACING | 6489 |
-| DIAGNOSTIC_OR_TEST | 6495 |
-| **NEEDS_CLASSIFICATION** | **8139** |
+| INTENTIONALLY_NON_PLAYER_FACING | 6501 |
+| DIAGNOSTIC_OR_TEST | 6509 |
+| **NEEDS_CLASSIFICATION** | **8183** |
 
-Scanned 933 files holding 94085 string
+Scanned 939 files holding 94462 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -43,8 +43,8 @@ literals in total; the table counts only those that read like a sentence.
 | 128 | `src/simulation/legislation.ts` |
 | 119 | `src/simulation/opening-life-content.ts` |
 | 117 | `src/simulation/civil-personnel-actions.ts` |
-| 104 | `src/simulation/governing/state-governing.ts` |
 | 101 | `src/simulation/adult-situations.ts` |
+| 99 | `src/simulation/governing/state-governing.ts` |
 | 87 | `src/simulation/policy.ts` |
 | 84 | `src/simulation/life-paths2.ts` |
 | 76 | `src/presentation/legislative-bargaining.ts` |
@@ -77,11 +77,11 @@ literals in total; the table counts only those that read like a sentence.
 | 42 | `src/simulation/demo.ts` |
 | 42 | `src/simulation/life-paths2-catalog.ts` |
 | 40 | `src/simulation/decisions.ts` |
+| 40 | `src/simulation/governing/public-program.ts` |
 | 40 | `src/ui/SceneGalleryView.tsx` |
 | 39 | `src/simulation/player-model.ts` |
 | 39 | `src/simulation/voice-bands.ts` |
 | 37 | `src/simulation/setup-opening-bank.ts` |
-| 36 | `src/simulation/governing/public-program.ts` |
 | 36 | `src/simulation/world-metrics.ts` |
 | 35 | `src/simulation/campaign-compliance.generated.ts` |
 | 35 | `src/simulation/mind-catalog.ts` |
@@ -110,6 +110,7 @@ literals in total; the table counts only those that read like a sentence.
 | 28 | `src/ui/MindProfile.tsx` |
 | 27 | `src/presentation/garment-fit.ts` |
 | 27 | `src/presentation/player-copy.ts` |
+| 27 | `src/simulation/governing/staff-evidence.ts` |
 | 27 | `src/simulation/transit-service.ts` |
 | 26 | `src/simulation/life-content-92c.ts` |
 | 26 | `src/ui/DeveloperReviewHub.tsx` |
@@ -231,6 +232,9 @@ literals in total; the table counts only those that read like a sentence.
 | 10 | `src/presentation/player-calendar.ts` |
 | 10 | `src/presentation/production-world.ts` |
 | 10 | `src/presentation/relationship-web.ts` |
+| 10 | `src/simulation/governing/legislative-clock.ts` |
+| 10 | `src/simulation/living-world/congress-turnover.ts` |
+| 10 | `src/simulation/nationwide-world/state-executive-turnover.ts` |
 | 10 | `src/simulation/office-qualification-rules.ts` |
 | 10 | `src/simulation/press-reach.ts` |
 | 10 | `src/simulation/setup-questionnaire-bank.ts` |
@@ -244,7 +248,6 @@ literals in total; the table counts only those that read like a sentence.
 | 9 | `src/presentation/surface-binding.ts` |
 | 9 | `src/simulation/campaign-compliance.ts` |
 | 9 | `src/simulation/constitutional-process.ts` |
-| 9 | `src/simulation/governing/legislative-clock.ts` |
 | 9 | `src/simulation/national-election-consumer.ts` |
 | 9 | `src/ui/LocationCompositionReview.tsx` |
 | 8 | `src/player/CareerPathsPanel.tsx` |
@@ -300,6 +303,7 @@ literals in total; the table counts only those that read like a sentence.
 | 6 | `src/presentation/ordinary-community.ts` |
 | 6 | `src/presentation/raster-tiers.ts` |
 | 6 | `src/presentation/run-b-fixture.ts` |
+| 6 | `src/simulation/governing/program-governing.ts` |
 | 6 | `src/simulation/names-data.ts` |
 | 6 | `src/simulation/vitality-integrity.ts` |
 | 6 | `src/ui/ProductionOfficeProofView.tsx` |
@@ -323,7 +327,6 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/simulation/incident-response.fixture.ts` |
 | 5 | `src/simulation/life-callbacks.ts` |
 | 5 | `src/simulation/municipal-election-rules.ts` |
-| 5 | `src/simulation/nationwide-world/state-executive-turnover.ts` |
 | 5 | `src/simulation/service-delivery-response.ts` |
 | 5 | `src/ui/ScenePresentationProofView.tsx` |
 | 4 | `src/districts/query.ts` |
@@ -344,7 +347,6 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/presentation/social-invitation.ts` |
 | 4 | `src/presentation/title-ambient.ts` |
 | 4 | `src/simulation/governing/state-disposition.ts` |
-| 4 | `src/simulation/living-world/congress-turnover.ts` |
 | 4 | `src/simulation/nationwide-world/state-executive-term-rules.ts` |
 | 4 | `src/simulation/person-identity.ts` |
 | 4 | `src/simulation/portability-fixture.ts` |

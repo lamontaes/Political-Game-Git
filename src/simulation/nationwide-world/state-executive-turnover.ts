@@ -11,7 +11,9 @@ import { drawCanonicalName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
 import { scheduleFutureDueItem } from "../future-transitions";
+import { recordWorldEvent } from "../world";
 import type {
+  EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
   IsoDate,
@@ -61,6 +63,62 @@ function pad(value: number): string {
   return value.toString().padStart(2, "0");
 }
 
+const GOVERNOR_INTENT_EVENT = "election.governor-candidacy-intent";
+
+/** The recorded decision to stand again, or not, for one office and year. */
+export function recordGovernorCandidacyIntent(
+  world: World,
+  input: {
+    readonly office: {
+      readonly officeKey: string;
+      readonly displayName: string;
+    };
+    readonly year: number;
+    readonly incumbentPersonId: EntityId | null;
+    readonly seeking: boolean;
+    readonly reason: string;
+  },
+): World {
+  const stableKey = `${GOVERNOR_TURNOVER_PROFILE.id}:intent:${input.office.officeKey}:${input.year}`;
+  if (world.history.events.some((event) => event.stableKey === stableKey))
+    return world;
+  return recordWorldEvent(world, {
+    stableKey,
+    type: GOVERNOR_INTENT_EVENT,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: null,
+    involvedEntityIds: input.incumbentPersonId ? [input.incumbentPersonId] : [],
+    participants: input.incumbentPersonId
+      ? [
+          {
+            personId: input.incumbentPersonId,
+            role: "focus:subject",
+            detail: input.seeking ? "seeking-another-term" : "not-seeking",
+          },
+        ]
+      : [],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      GOVERNOR_TURNOVER_PROFILE.id,
+      `office:${input.office.officeKey}`,
+      `intent:${input.seeking ? "seeking" : "not-seeking"}`,
+    ],
+    summary: input.seeking
+      ? `The ${input.office.displayName} is seeking another term.`
+      : `The ${input.office.displayName} is not on the ballot: ${input.reason}`,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+}
+
 /** Opens the regular contest for one office, once, when its field closes. */
 function openRegularContest(
   world: World,
@@ -85,17 +143,33 @@ function openRegularContest(
     (record) => record.officeKey === office.officeKey,
   );
   const incumbent = holder ? world.people[holder.personId] : undefined;
-  const incumbentRuns =
+  const eligible =
     incumbent !== undefined &&
     world.control.kind === "person" &&
     world.control.personId !== incumbent.id &&
     ageOn(incumbent.birthDate, electionDay) <
       GOVERNOR_TURNOVER_PROFILE.retirementAge &&
     recordedTermsInOffice(world, incumbent.id, office.officeKey) <
-      GOVERNOR_TURNOVER_PROFILE.incumbentStepsDownAfterTerms &&
+      GOVERNOR_TURNOVER_PROFILE.incumbentStepsDownAfterTerms;
+  const incumbentRuns =
+    eligible &&
     rng.integer(0, 1000) < GOVERNOR_TURNOVER_PROFILE.incumbentRunsPermille;
   const challengers = incumbentRuns ? 1 : 2;
-  let next = ensureStateJurisdiction(world, stateUsps);
+  // Standing again is a decision of its own, recorded before the contest and
+  // separate from both its result and taking office.
+  let next = recordGovernorCandidacyIntent(world, {
+    office,
+    year,
+    incumbentPersonId: incumbent?.id ?? null,
+    seeking: incumbentRuns,
+    reason:
+      incumbent === undefined
+        ? "no sitting governor is on record."
+        : !eligible
+          ? "they cannot or will not stand again under this game profile."
+          : "they are standing down.",
+  });
+  next = ensureStateJurisdiction(next, stateUsps);
   const stateId = stateJurisdictionForKey(`US-${stateUsps}`)!.id;
   const inputs = Array.from({ length: challengers }, (_, index) => {
     const stableKey = `${key}:candidate:${index}`;
