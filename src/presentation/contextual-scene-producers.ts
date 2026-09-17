@@ -22,6 +22,7 @@ import { commitmentPromisee } from "../simulation/claim-contradictions";
 import { evaluateDecision } from "../simulation/decisions";
 import { lifeRequestDetails } from "../simulation/life-request-details";
 import { LIFE_CALLBACK_EVENT } from "../simulation/life-callbacks";
+import { offerBereavementScene } from "../simulation/people-bereavement";
 import { requestBehindCallback } from "../simulation/people-recall";
 import {
   LIFE_OPPORTUNITY_TAG_PREFIX,
@@ -104,6 +105,7 @@ export function refreshContextualScenes(
     return world;
   }
   const producers: readonly Producer[] = [
+    offerBereavementScene,
     produceHomeEvening,
     produceRecalledRequest,
     produceFavor,
@@ -167,6 +169,14 @@ function produceHomeEvening(world: World, personId: EntityId): World {
   if (!home) return world;
   const promised = producePromisedEvening(world, personId, home);
   if (promised !== world) return promised;
+  // A death in the family is what the room is about this week. Nobody asks
+  // about the calendar over the top of it.
+  const grieving = sceneBindingsFor(world, personId, "home-evening").some(
+    (entry) =>
+      entry.binding.variant === "bereaved" &&
+      entry.binding.expiresAt > world.currentDate,
+  );
+  if (grieving) return world;
   // Only an evening question that was actually talked through spaces the
   // next one; one that lapsed unanswered leaves nothing to space from.
   const recent = sceneBindingsFor(world, personId, "home-evening").some(

@@ -145,7 +145,7 @@ describe("PEOPLE P4: a request raised again", () => {
     }
   });
 
-  const settle = (world: World, player: EntityId) => {
+  const settle = (world: World) => {
     let next = world;
     for (let day = 0; day < 4; day += 1) next = letAdultTimePass(next, 1);
     return next;
@@ -154,11 +154,9 @@ describe("PEOPLE P4: a request raised again", () => {
   it("a lie and a mistake are told apart by the same evidence", () => {
     const lied = settle(
       say(declined.later, declined.player, "scene-favor", "claim-yes"),
-      declined.player,
     );
     const mistaken = settle(
       say(declined.later, declined.player, "scene-favor", "think-so"),
-      declined.player,
     );
     const foundIn = (world: World) =>
       world.history.events.filter(
@@ -208,7 +206,6 @@ describe("PEOPLE P4: a request raised again", () => {
     ]);
     const guessed = settle(
       say(agreed.later, agreed.player, "scene-favor", "think-so"),
-      agreed.player,
     );
     expect(
       guessed.history.events.filter(

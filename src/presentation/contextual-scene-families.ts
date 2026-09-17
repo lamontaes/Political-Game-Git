@@ -240,6 +240,79 @@ function memoryCorrectedAnswers(context: SceneContext): SceneAnswer[] {
 /* 1. Home and time: an evening that is already spoken for                     */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * After a death in the family (CRUNCH47 B1).
+ *
+ * Nothing here is required and nothing is measured. These are things one
+ * person might say to another who lost the same person: remembering them,
+ * offering to take something on, admitting there is nothing to say, or leaving
+ * it for now. Anybody may say any of them, and the world records only that
+ * they were said.
+ */
+function bereavedAnswers(context: SceneContext): SceneAnswer[] {
+  const given = context.fact("deceasedGiven");
+  return [
+    {
+      key: "remember-them",
+      label: `Say something about ${given}`,
+      description: "Remember them out loud.",
+      statement: `I keep coming back to the small things about ${given}.`,
+      replies: says(context, [
+        "“So do I. That’s the part that gets me,” {name} says.",
+        "“Tell me one. I’d like to hear it,” {name} says.",
+      ]),
+      record: `The player and ${context.name} remembered ${given} together.`,
+      relationship: {
+        kind: "support:grieved-together",
+        change: "strengthened",
+        significance: "meaningful",
+        summary: ({ playerName, otherName }) =>
+          `${playerName} and ${otherName} talked about ${given}.`,
+      },
+    },
+    {
+      key: "offer-help",
+      label: "Offer to take something on",
+      description: "There are arrangements, and you can carry some of them.",
+      statement: "Tell me what needs doing. I can take some of it.",
+      replies: says(context, [
+        "“That would help. I’ll write you a list,” {name} says.",
+        "“Thank you. I didn’t want to ask,” {name} says.",
+      ]),
+      record: `The player offered ${context.name} to take on some of the arrangements for ${given}.`,
+      relationship: {
+        kind: "support:offered-help",
+        change: "strengthened",
+        significance: "meaningful",
+        summary: ({ playerName, otherName }) =>
+          `${playerName} offered to carry some of what ${otherName} was left with.`,
+      },
+    },
+    {
+      key: "nothing-to-say",
+      label: "Say you don’t know what to say",
+      description: "Be honest about that much.",
+      statement: "I don’t know what to say about it yet.",
+      replies: says(context, [
+        "“Nobody does. It’s all right,” {name} says.",
+        "“You don’t have to,” {name} says.",
+      ]),
+      record: `The player told ${context.name} they had no words for it yet.`,
+    },
+    {
+      key: "leave-it",
+      label: "Leave it for now",
+      description: "Not tonight.",
+      statement: "Not tonight. I can’t.",
+      replies: says(context, [
+        "“All right. I’m here,” {name} says.",
+        "“Another time,” {name} says.",
+      ]),
+      record: `The player left it for another time with ${context.name}.`,
+    },
+  ];
+}
+
 /** Why the player is going anyway, when a quiet evening was promised. */
 function promisedExplain(
   context: SceneContext,
@@ -293,13 +366,21 @@ const homeEvening: SceneFamilyDefinition = {
   motivation: "Know where each of them will be.",
   interactionTags: ["conversation.household", "relationship.shared-household"],
   topic: (binding) =>
-    binding.variant === "claim-came-back"
-      ? "What you said about that evening"
-      : binding.variant === "promised-evening"
-        ? "Tonight"
-        : `Your ${binding.date ? "evening" : "plans"}`,
+    binding.variant === "bereaved"
+      ? `${binding.facts.deceasedGiven ?? "Someone"}`
+      : binding.variant === "claim-came-back"
+        ? "What you said about that evening"
+        : binding.variant === "promised-evening"
+          ? "Tonight"
+          : `Your ${binding.date ? "evening" : "plans"}`,
   briefing(context) {
     const { binding } = context;
+    if (binding.variant === "bereaved") {
+      const relation = context.has("relation")
+        ? ` — their ${context.fact("relation")}`
+        : "";
+      return `${context.fact("deceasedName")} has died. ${context.fullName}${relation} is here, and the two of you have not spoken about it.`;
+    }
     if (binding.variant === "claim-came-back") {
       return `${context.fullName} saw you leave for the ${context.fact("activityTitle")} after you said you would be home.`;
     }
@@ -317,6 +398,13 @@ const homeEvening: SceneFamilyDefinition = {
   },
   opening(context) {
     const { binding } = context;
+    if (binding.variant === "bereaved") {
+      const given = context.fact("deceasedGiven");
+      return says(context, [
+        `“I keep thinking I should call ${given},” {name} says.`,
+        `“It still doesn’t seem real, about ${given},” {name} says.`,
+      ]);
+    }
     if (binding.variant === "claim-came-back") {
       return says(context, [
         `“You told me you’d be home that night. Then I watched you head out to the ${context.fact("activityTitle")},” {name} says.`,
@@ -343,6 +431,7 @@ const homeEvening: SceneFamilyDefinition = {
   },
   answers(context) {
     const { binding } = context;
+    if (binding.variant === "bereaved") return bereavedAnswers(context);
     if (binding.variant === "claim-came-back") {
       return cameBackAnswers(
         context,
@@ -646,16 +735,26 @@ const homeEvening: SceneFamilyDefinition = {
       "plan-to-stay-in": "“Okay,” {name} says.",
       "admit-it": "“Okay,” {name} says. “Let’s leave it there.”",
       "keep-denying": "{name} doesn’t answer that.",
+      "remember-them": "“I’m glad we talked about it,” {name} says.",
+      "offer-help": "“I’ll let you know,” {name} says.",
+      "nothing-to-say": "“That’s all right,” {name} says.",
+      "leave-it": "“Goodnight,” {name} says.",
     };
     return fill(lines[answer ?? ""] ?? "“Okay,” {name} says.", {
       name: context.name,
     });
   },
   relevant: (world, bound) =>
+    bound.binding.variant === "bereaved" ||
     bound.binding.variant === "claim-came-back" ||
     scheduledActivityState(world, bound.binding.sourceEntityIds[0]!).status ===
       "scheduled",
-  room: homeRoom,
+  room: (world, bound) =>
+    // A death reaches people who do not live here; the room follows whoever
+    // is actually being spoken to.
+    bound.binding.variant === "bereaved"
+      ? (homeRoom(world, bound) ?? withoutSpeakerOthers(world, bound))
+      : homeRoom(world, bound),
 };
 
 /* -------------------------------------------------------------------------- */

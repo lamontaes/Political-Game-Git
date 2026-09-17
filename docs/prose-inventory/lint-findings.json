@@ -63,6 +63,20 @@
     "evidence": "somebody"
   },
   {
+    "id": "prose:conversation:contextual-scene:bereavedAnswers-0007#text",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "something"
+  },
+  {
+    "id": "prose:conversation:contextual-scene:bereavedAnswers-0009#text",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "something"
+  },
+  {
     "id": "prose:conversation:contextual-scene:reporterQuestionFor-0017#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",

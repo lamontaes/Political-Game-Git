@@ -1,10 +1,10 @@
 {
-  "digest": "05dbf318640f99e8",
+  "digest": "5016729eb46e9062",
   "counts": {
-    "total": 3132,
+    "total": 3158,
     "byDomain": {
       "campaign": 24,
-      "conversation": 346,
+      "conversation": 372,
       "governing": 197,
       "legislative": 94,
       "life": 1737,
@@ -24,20 +24,20 @@
       "option-witnessed": 54,
       "prompt": 130,
       "scene-line": 219,
-      "status": 538,
+      "status": 564,
       "thread-recap": 32
     },
     "byReachability": {
       "CURRENTLY_UNREACHABLE": 369,
       "DEV_FIXTURE_ONLY": 110,
       "LEGACY_OR_WITHDRAWN": 90,
-      "PLAYER_REACHABLE": 2136,
+      "PLAYER_REACHABLE": 2162,
       "UNKNOWN": 69,
       "WITHHELD_BY_GROUNDING": 358
     },
     "byRealization": {
-      "static": 2514,
-      "templated": 618
+      "static": 2524,
+      "templated": 634
     }
   },
   "records": [
@@ -4599,6 +4599,1005 @@
       ],
       "textRevision": "30075e37c876",
       "contextRevision": "867c7169c2d1"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:bereavedAnswers-0001#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "bereavedAnswers-0001",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "bereavedAnswers",
+      "text": "Be honest about that much.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "bereavedAnswers",
+        "anchor": "bereavedAnswers-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "5f828795d161",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:bereavedAnswers-0002#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "bereavedAnswers-0002",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "bereavedAnswers",
+      "text": "I don’t know what to say about it yet.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "bereavedAnswers",
+        "anchor": "bereavedAnswers-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "02dbcbcf9da1",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:bereavedAnswers-0003#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "bereavedAnswers-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "bereavedAnswers",
+      "text": "I keep coming back to the small things about {given}.",
+      "realization": "templated",
+      "slots": [
+        "given"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "bereavedAnswers",
+        "anchor": "bereavedAnswers-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "8ed0602a1eb2",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:bereavedAnswers-0004#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "bereavedAnswers-0004",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "bereavedAnswers",
+      "text": "Leave it for now",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "bereavedAnswers",
+        "anchor": "bereavedAnswers-0004"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "6808b0c01557",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:bereavedAnswers-0005#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "bereavedAnswers-0005",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "bereavedAnswers",
+      "text": "Not tonight.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "bereavedAnswers",
+        "anchor": "bereavedAnswers-0005"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "f76d5f14ed28",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:bereavedAnswers-0006#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "bereavedAnswers-0006",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "bereavedAnswers",
+      "text": "Not tonight. I can’t.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "bereavedAnswers",
+        "anchor": "bereavedAnswers-0006"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "771b86b9b019",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:bereavedAnswers-0007#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "bereavedAnswers-0007",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "bereavedAnswers",
+      "text": "Offer to take something on",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "bereavedAnswers",
+        "anchor": "bereavedAnswers-0007"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "94caf7dbf882",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:bereavedAnswers-0008#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "bereavedAnswers-0008",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "bereavedAnswers",
+      "text": "Remember them out loud.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "bereavedAnswers",
+        "anchor": "bereavedAnswers-0008"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "50930ad4df82",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:bereavedAnswers-0009#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "bereavedAnswers-0009",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "bereavedAnswers",
+      "text": "Say something about {given}",
+      "realization": "templated",
+      "slots": [
+        "given"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "bereavedAnswers",
+        "anchor": "bereavedAnswers-0009"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "3fb2732efb74",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:bereavedAnswers-0010#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "bereavedAnswers-0010",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "bereavedAnswers",
+      "text": "Say you don’t know what to say",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "bereavedAnswers",
+        "anchor": "bereavedAnswers-0010"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "9428367bbcfa",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:bereavedAnswers-0011#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "bereavedAnswers-0011",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "bereavedAnswers",
+      "text": "Tell me what needs doing. I can take some of it.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "bereavedAnswers",
+        "anchor": "bereavedAnswers-0011"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "6438f49ccbb7",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:bereavedAnswers-0012#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "bereavedAnswers-0012",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "bereavedAnswers",
+      "text": "The player and {context.name} remembered {given} together.",
+      "realization": "templated",
+      "slots": [
+        "context.name",
+        "given"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "bereavedAnswers",
+        "anchor": "bereavedAnswers-0012"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "7dd270b3fa0c",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:bereavedAnswers-0013#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "bereavedAnswers-0013",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "bereavedAnswers",
+      "text": "The player left it for another time with {context.name}.",
+      "realization": "templated",
+      "slots": [
+        "context.name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "bereavedAnswers",
+        "anchor": "bereavedAnswers-0013"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "17f2cf49fc2a",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:bereavedAnswers-0014#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "bereavedAnswers-0014",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "bereavedAnswers",
+      "text": "The player offered {context.name} to take on some of the arrangements for {given}.",
+      "realization": "templated",
+      "slots": [
+        "context.name",
+        "given"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "bereavedAnswers",
+        "anchor": "bereavedAnswers-0014"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "b4f497a63095",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:bereavedAnswers-0015#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "bereavedAnswers-0015",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "bereavedAnswers",
+      "text": "The player told {context.name} they had no words for it yet.",
+      "realization": "templated",
+      "slots": [
+        "context.name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "bereavedAnswers",
+        "anchor": "bereavedAnswers-0015"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "bf11aeb4035b",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:bereavedAnswers-0016#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "bereavedAnswers-0016",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "bereavedAnswers",
+      "text": "There are arrangements, and you can carry some of them.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "bereavedAnswers",
+        "anchor": "bereavedAnswers-0016"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "de19303333b0",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:bereavedAnswers-0017#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "bereavedAnswers-0017",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "bereavedAnswers",
+      "text": "{playerName} and {otherName} talked about {given}.",
+      "realization": "templated",
+      "slots": [
+        "given",
+        "otherName",
+        "playerName"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "bereavedAnswers",
+        "anchor": "bereavedAnswers-0017"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "bc61f8924310",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:bereavedAnswers-0018#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "bereavedAnswers-0018",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "bereavedAnswers",
+      "text": "{playerName} offered to carry some of what {otherName} was left with.",
+      "realization": "templated",
+      "slots": [
+        "otherName",
+        "playerName"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "bereavedAnswers",
+        "anchor": "bereavedAnswers-0018"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "c76a2a293496",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:bereavedAnswers-0019#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "bereavedAnswers-0019",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "bereavedAnswers",
+      "text": "“All right. I’m here,” {name} says.",
+      "realization": "templated",
+      "slots": [
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "bereavedAnswers",
+        "anchor": "bereavedAnswers-0019"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "624c221573a7",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:bereavedAnswers-0020#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "bereavedAnswers-0020",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "bereavedAnswers",
+      "text": "“Another time,” {name} says.",
+      "realization": "templated",
+      "slots": [
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "bereavedAnswers",
+        "anchor": "bereavedAnswers-0020"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "330d49ddd9c2",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:bereavedAnswers-0021#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "bereavedAnswers-0021",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "bereavedAnswers",
+      "text": "“Nobody does. It’s all right,” {name} says.",
+      "realization": "templated",
+      "slots": [
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "bereavedAnswers",
+        "anchor": "bereavedAnswers-0021"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "248c4c6cd4e7",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:bereavedAnswers-0022#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "bereavedAnswers-0022",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "bereavedAnswers",
+      "text": "“So do I. That’s the part that gets me,” {name} says.",
+      "realization": "templated",
+      "slots": [
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "bereavedAnswers",
+        "anchor": "bereavedAnswers-0022"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "a035e921e758",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:bereavedAnswers-0023#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "bereavedAnswers-0023",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "bereavedAnswers",
+      "text": "“Tell me one. I’d like to hear it,” {name} says.",
+      "realization": "templated",
+      "slots": [
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "bereavedAnswers",
+        "anchor": "bereavedAnswers-0023"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "d64d1c10f431",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:bereavedAnswers-0024#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "bereavedAnswers-0024",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "bereavedAnswers",
+      "text": "“Thank you. I didn’t want to ask,” {name} says.",
+      "realization": "templated",
+      "slots": [
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "bereavedAnswers",
+        "anchor": "bereavedAnswers-0024"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "4344ab1c815b",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:bereavedAnswers-0025#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "bereavedAnswers-0025",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "bereavedAnswers",
+      "text": "“That would help. I’ll write you a list,” {name} says.",
+      "realization": "templated",
+      "slots": [
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "bereavedAnswers",
+        "anchor": "bereavedAnswers-0025"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "e576d3f45977",
+      "contextRevision": "ca7b14b8141d"
+    },
+    {
+      "id": "prose:conversation:contextual-scene:bereavedAnswers-0026#text",
+      "domain": "conversation",
+      "bank": "contextual-scene",
+      "stableKey": "bereavedAnswers-0026",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "sourceSymbol": "bereavedAnswers",
+      "text": "“You don’t have to,” {name} says.",
+      "realization": "templated",
+      "slots": [
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "SceneConversation renders these topics, briefings, openings, choices and replies when a bound contextual scene is started from People or by talking to its speaker.",
+      "grounding": [
+        {
+          "key": "scene-binding",
+          "description": "The saved scene binding: speaker, relationship, request, place, source records, bound facts and date.",
+          "kind": "requirement"
+        },
+        {
+          "key": "claim-stance",
+          "description": "For a factual answer, the saved proposition, the player's recorded belief and the exact words.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "bereavedAnswers",
+        "anchor": "bereavedAnswers-0026"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "b8679caf695d",
+      "contextRevision": "ca7b14b8141d"
     },
     {
       "id": "prose:conversation:contextual-scene:cameBackAnswers-0001#text",

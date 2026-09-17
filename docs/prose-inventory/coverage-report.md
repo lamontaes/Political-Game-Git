@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 2992 |
-| INTENTIONALLY_NON_PLAYER_FACING | 6602 |
-| DIAGNOSTIC_OR_TEST | 6442 |
-| **NEEDS_CLASSIFICATION** | **8588** |
+| INVENTORIED | 3019 |
+| INTENTIONALLY_NON_PLAYER_FACING | 6603 |
+| DIAGNOSTIC_OR_TEST | 6455 |
+| **NEEDS_CLASSIFICATION** | **8604** |
 
-Scanned 912 files holding 95234 string
+Scanned 914 files holding 95412 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -32,7 +32,7 @@ literals in total; the table counts only those that read like a sentence.
 
 | Candidates | File |
 | --- | --- |
-| 461 | `src/presentation/contextual-scene-families.ts` |
+| 468 | `src/presentation/contextual-scene-families.ts` |
 | 341 | `src/simulation/legislation-administration-families.ts` |
 | 290 | `src/simulation/legislation-infrastructure-families.ts` |
 | 269 | `src/simulation/legislation-fiscal-families.ts` |
@@ -247,6 +247,7 @@ literals in total; the table counts only those that read like a sentence.
 | 9 | `src/simulation/campaign-compliance.ts` |
 | 9 | `src/simulation/constitutional-process.ts` |
 | 9 | `src/simulation/national-election-consumer.ts` |
+| 9 | `src/simulation/people-bereavement.ts` |
 | 9 | `src/ui/LocationCompositionReview.tsx` |
 | 8 | `src/player/CareerPathsPanel.tsx` |
 | 8 | `src/player/NationwideCandidacyWorkspace.tsx` |
