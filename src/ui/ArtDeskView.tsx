@@ -1118,6 +1118,43 @@ export function ArtDeskView() {
                 </button>
               ))}
             </nav>
+            {facet ? (
+              <button
+                type="button"
+                onClick={() => setFacet(null)}
+                aria-label={`Clear tag filter ${facet.key}: ${facet.value}`}
+              >
+                ✕ {facet.key}: {facet.value}
+              </button>
+            ) : null}
+            {Object.keys(counts.tags).length > 0 ? (
+              <div className="art-desk-facets" data-testid="art-desk-facets">
+                {Object.entries(counts.tags).map(([key, values]) => (
+                  <span key={key} className="art-desk-facet">
+                    <span className="art-desk-meta">{key}:</span>{" "}
+                    {Object.entries(values).map(([value, count]) => (
+                      <button
+                        key={value}
+                        type="button"
+                        className="art-desk-chip"
+                        aria-pressed={
+                          facet?.key === key && facet.value === value
+                        }
+                        onClick={() =>
+                          setFacet(
+                            facet?.key === key && facet.value === value
+                              ? null
+                              : { key, value },
+                          )
+                        }
+                      >
+                        {value} ({count})
+                      </button>
+                    ))}
+                  </span>
+                ))}
+              </div>
+            ) : null}
             <div className="art-desk-layout">
               <ol className="art-desk-list" data-testid="art-desk-list">
                 {requestRows.map((row) => {
