@@ -9,6 +9,10 @@ import {
 } from "../presentation/person-visual-selection";
 import { ModularCharacter } from "./ModularCharacter";
 import { GameSelect } from "./controls/GameSelect";
+import {
+  resolvePose41,
+  type Pose41Resolution,
+} from "../presentation/pose41-adapter";
 import { PREPARED_FAMILIES } from "../presentation/engine-people29-data";
 
 /** The controlled person's actual saved outfit, at a fixed full-body scale. */
@@ -37,7 +41,7 @@ export function WardrobeFigure({
         poseFamily,
       }).ok,
   );
-  const effectivePose = supportedPoses.includes(pose)
+  let effectivePose = supportedPoses.includes(pose)
     ? pose
     : (supportedPoses[0] ?? "standing-neutral");
   let content;
@@ -49,34 +53,118 @@ export function WardrobeFigure({
           poseFamily: effectivePose,
         })
       : undefined;
-    const plan = buildCharacterRenderPlan({
-      personId: person.id,
-      appearance: person.appearance as PersonAppearance,
-      library: libraries.characters,
-      visualLibrary: libraries.visuals,
-      wardrobe,
-      plate: { width: 300, height: 560 },
-      anchor: {
-        id: "own-wardrobe",
-        xPercent: 50,
-        yPercent: 52,
-        scale: 1,
+    const buildPlan = (poseFamily: string) =>
+      buildCharacterRenderPlan({
+        personId: person.id,
+        appearance: person.appearance as PersonAppearance,
+        library: libraries.characters,
+        visualLibrary: libraries.visuals,
+        wardrobe,
+        plate: { width: 300, height: 560 },
+        anchor: {
+          id: "own-wardrobe",
+          xPercent: 50,
+          yPercent: 52,
+          scale: 1,
+          poseFamily,
+          depth: 1,
+          bodyWidthPercent: fillPreview ? 90 : 70,
+        },
+      });
+    let plan = buildPlan("standing-neutral");
+    const prepared = new Map<
+      string,
+      Extract<Pose41Resolution, { status: "ready" }>
+    >();
+    if (plan.complete) {
+      const idOf = (kind: string) =>
+        plan.layers.find((layer) => layer.kind === kind)?.assetId;
+      for (const candidatePose of [
+        "standing-listening",
+        "seated-guest-neutral",
+      ] as const) {
+        const source = resolvePose41({
+          pose: candidatePose,
+          bodyAssetId: idOf("body") ?? "",
+          headAssetId: idOf("head") ?? "",
+          hairAssetId: idOf("hair-front") ?? null,
+          outfitAssetIds: plan.layers
+            .filter((layer) =>
+              [
+                "top",
+                "bottom",
+                "footwear",
+                "accessory",
+                "eyewear",
+                "facial-hair",
+              ].includes(layer.kind),
+            )
+            .map((layer) => layer.assetId),
+          // Only exact private component IDs can match the optional private bank.
+          candidatePreview: true,
+        });
+        if (source.status === "ready") {
+          prepared.set(candidatePose, source);
+          if (!supportedPoses.includes(candidatePose))
+            supportedPoses.push(candidatePose);
+        }
+      }
+    }
+    effectivePose = supportedPoses.includes(pose)
+      ? pose
+      : (supportedPoses[0] ?? "standing-neutral");
+    const source = prepared.get(effectivePose);
+    if (source) {
+      const box = plan.box;
+      plan = {
+        ...plan,
         poseFamily: effectivePose,
-        depth: 1,
-        bodyWidthPercent: fillPreview ? 90 : 70,
-      },
-    });
+        layers: source.layers.map((layer) => ({
+          assetId: layer.assetId,
+          kind: layer.kind,
+          slotId: layer.kind,
+          layer: layer.layer,
+          released: true,
+          url: layer.url,
+          hash: layer.sha256,
+          attachmentAnchorId: null,
+          leftPercent:
+            box.leftPercent +
+            (layer.x / source.canvas.width) * box.widthPercent,
+          topPercent:
+            box.topPercent +
+            (layer.y / source.canvas.height) * box.heightPercent,
+          widthPercent: (layer.width / source.canvas.width) * box.widthPercent,
+          heightPercent:
+            (layer.height / source.canvas.height) * box.heightPercent,
+          fit: null,
+          bands: null,
+        })),
+      };
+    } else if (effectivePose !== "standing-neutral")
+      plan = buildPlan(effectivePose);
     supportsSmile = plan.layers.some(
       (layer) =>
         layer.kind === "head" &&
         PREPARED_FAMILIES.some((family) =>
           family.parts.some(
-            (part) => part.id === layer.assetId && part.expressionVariants?.smile,
+            (part) =>
+              part.id === layer.assetId && part.expressionVariants?.smile,
           ),
         ),
     );
     content = plan.complete ? (
-      <div className="wardrobe-figure-stage">
+      <div
+        className="wardrobe-figure-stage"
+        style={
+          fillPreview
+            ? {
+                height: "clamp(160px, calc(100dvh - 560px), 400px)",
+                width: "auto",
+              }
+            : undefined
+        }
+      >
         <ModularCharacter
           plan={plan}
           expression={supportsSmile ? expression : "neutral"}
@@ -105,46 +193,70 @@ export function WardrobeFigure({
       <p>
         {pending ? "Preview — not saved." : "Your saved appearance and outfit."}
       </p>
-      <label className="wardrobe-figure-view">
-        Outfit view{" "}
-        <GameSelect
-          aria-label="Outfit view"
-          value={effectivePose}
-          onChange={(e) => setPose(e.target.value)}
-          options={[
-            {
-              value: "standing-neutral",
-              label: "Standing",
-              disabled: !supportedPoses.includes("standing-neutral"),
-            },
-            ...(supportedPoses.includes("seated-guest-neutral")
-              ? [
-                  {
-                    value: "seated-guest-neutral",
-                    label: "Seated",
-                    disabled: false,
-                  },
-                ]
-              : []),
-          ]}
-        />
-      </label>
-      {supportsSmile ? (
+      <div
+        style={
+          fillPreview
+            ? {
+                display: "grid",
+                gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+                gap: "0.5rem",
+                fontSize: "0.75rem",
+              }
+            : undefined
+        }
+      >
         <label className="wardrobe-figure-view">
-          Expression{" "}
+          Outfit view{" "}
           <GameSelect
-            aria-label="Expression preview"
-            value={expression}
-            onChange={(event) =>
-              setExpression(event.target.value === "smile" ? "smile" : "neutral")
-            }
+            aria-label="Outfit view"
+            value={effectivePose}
+            onChange={(e) => setPose(e.target.value)}
             options={[
-              { value: "neutral", label: "Neutral", disabled: false },
-              { value: "smile", label: "Smile", disabled: false },
+              {
+                value: "standing-neutral",
+                label: "Standing",
+                disabled: !supportedPoses.includes("standing-neutral"),
+              },
+              ...(supportedPoses.includes("standing-listening")
+                ? [
+                    {
+                      value: "standing-listening",
+                      label: "Listening",
+                      disabled: false,
+                    },
+                  ]
+                : []),
+              ...(supportedPoses.includes("seated-guest-neutral")
+                ? [
+                    {
+                      value: "seated-guest-neutral",
+                      label: "Seated",
+                      disabled: false,
+                    },
+                  ]
+                : []),
             ]}
           />
         </label>
-      ) : null}
+        {supportsSmile ? (
+          <label className="wardrobe-figure-view">
+            Expression{" "}
+            <GameSelect
+              aria-label="Expression preview"
+              value={expression}
+              onChange={(event) =>
+                setExpression(
+                  event.target.value === "smile" ? "smile" : "neutral",
+                )
+              }
+              options={[
+                { value: "neutral", label: "Neutral", disabled: false },
+                { value: "smile", label: "Smile", disabled: false },
+              ]}
+            />
+          </label>
+        ) : null}
+      </div>
       {content}
     </section>
   );

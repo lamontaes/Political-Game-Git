@@ -282,7 +282,9 @@ describe("Art Desk projection and briefs", () => {
   it("records the bounded generation proof below the environment master floor", () => {
     expect(generationBatch.allowance.paidOverage).toBe(false);
     expect(generationBatch.allowance.requestsAttempted).toHaveLength(2);
-    for (const record of generationBatch.records) {
+    for (const record of generationBatch.records.filter((item) =>
+      generationBatch.allowance.requestsAttempted.includes(item.requestId),
+    )) {
       expect(record.meetsEnvironmentMasterFloor).toBe(false);
       expect(record.width).toBeLessThan(4608);
       expect(record.outputSha256).toMatch(/^[a-f0-9]{64}$/);
@@ -306,8 +308,17 @@ describe("Art Desk projection and briefs", () => {
       ),
     ).toBe(true);
     expect(
-      needs.some((item) => item.request.requestId.startsWith("person-")),
+      needs.some(
+        (item) =>
+          item.request.requestId.startsWith("person-") &&
+          !item.request.requestId.startsWith("person-modular47-"),
+      ),
     ).toBe(false);
+    const modular = needs.filter((item) =>
+      item.request.requestId.startsWith("person-modular47-"),
+    );
+    expect(modular).toHaveLength(26);
+    expect(modular.every((item) => !item.generationEligible)).toBe(true);
   });
 
   it("compiles a brief that leaves unresolved geometry unresolved", () => {

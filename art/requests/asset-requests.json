@@ -29,7 +29,7 @@
           "05_4K_SOURCE_MASTERS/05B_BODY_HEAD_SOURCE_SHEETS",
           "05_4K_SOURCE_MASTERS/05C_PEOPLE_POSE_SOURCE_SHEETS"
         ],
-        "found": "Four standing cells arrived on the Packet 71 body sheet — two standing-neutral and two standing-conversational — in one consistent family measured at 6.8 to 7.2 heads tall. The figures are right. The silhouette is not: it carries a green contour on 67 to 80 percent of its soft-edge pixels, which the approved style authority does not have and which is plainly visible at the ~250 plate pixels a body actually paints at. Reconciled against the preserved assets: seven adult morphologies are now banked and measured - fat, skinny, average and older figures across both presentations, plus a three-pose supplement - as fifty-one morphology-reference components inside a hundred-and-eleven-component review.",
+        "found": "Four standing cells arrived on the Packet 71 body sheet \u2014 two standing-neutral and two standing-conversational \u2014 in one consistent family measured at 6.8 to 7.2 heads tall. The figures are right. The silhouette is not: it carries a green contour on 67 to 80 percent of its soft-edge pixels, which the approved style authority does not have and which is plainly visible at the ~250 plate pixels a body actually paints at. Reconciled against the preserved assets: seven adult morphologies are now banked and measured - fat, skinny, average and older figures across both presentations, plus a three-pose supplement - as fifty-one morphology-reference components inside a hundred-and-eleven-component review.",
         "shortfall": "The cells are banked under art/generated/candidates/ocd-p71/bodies with per-cell measurements in art/qa/p71/source_intake_dispositions.json. Every one is REVISE. No attachment anchors are authored, because D-068 requires them measured from the raster that ships and this raster is being re-exported. The preserved morphologies do not answer it either: every one of the hundred and eleven components reports eligibleAsProductionCharacterBody false, because each source cell sits under the 1696x2528 standing floor and the pipeline never enlarges a raster."
       },
       "target": {
@@ -140,7 +140,7 @@
       },
       "generationRecipe": [
         "Standing bodies at two ages that read clearly as different: roughly middle childhood and roughly mid-adolescence.",
-        "Age is carried by proportion — head-to-body ratio, limb length, shoulder width — not by shrinking an adult.",
+        "Age is carried by proportion \u2014 head-to-body ratio, limb length, shoulder width \u2014 not by shrinking an adult.",
         "Ordinary everyday clothing appropriate to the age, nothing costumed.",
         "True transparency; same rendering language as the adult bodies."
       ],
@@ -218,9 +218,9 @@
         "driveLocationsSearched": [
           "05_4K_SOURCE_MASTERS/05D_SCENE_ENVIRONMENT_MASTERS",
           "05_4K_SOURCE_MASTERS/05Y_REJECTED_HIGH_RES_CALIBRATION",
-          "Our Civic Duty — ChatGPT Continuity/Stage 6.5 Visual Review — Render Evidence"
+          "Our Civic Duty \u2014 ChatGPT Continuity/Stage 6.5 Visual Review \u2014 Render Evidence"
         ],
-        "found": "The 1672x941 illustrated master, banked and registered here. A 5568x3008 Topaz variant exists in Drive and is filed under rejected high-resolution calibration as photoreal drift. A CANDIDATE ARRIVED DURING THIS RUN: Drive root IMG_5189.JPG, 5504x3072 JPEG, uploaded 2026-09-04 14:20. Wood-panelled private study with a fireplace, a large desk, leather wingback chairs and windows onto trees — and, critically, no capitol dome, no state flag and no seal, which is what the generic requirement in this request was about. It clears the 4608px floor. Unclassified Drive-root upload with no managed copy: measured, not ingested. Reconciled against the preserved assets: IMG_5189.JPG, an empty executive-office candidate at 5504x3072, is in the repository and clears the 4608 environment master floor on width.",
+        "found": "The 1672x941 illustrated master, banked and registered here. A 5568x3008 Topaz variant exists in Drive and is filed under rejected high-resolution calibration as photoreal drift. A CANDIDATE ARRIVED DURING THIS RUN: Drive root IMG_5189.JPG, 5504x3072 JPEG, uploaded 2026-09-04 14:20. Wood-panelled private study with a fireplace, a large desk, leather wingback chairs and windows onto trees \u2014 and, critically, no capitol dome, no state flag and no seal, which is what the generic requirement in this request was about. It clears the 4608px floor. Unclassified Drive-root upload with no managed copy: measured, not ingested. Reconciled against the preserved assets: IMG_5189.JPG, an empty executive-office candidate at 5504x3072, is in the repository and clears the 4608 environment master floor on width.",
         "shortfall": "1672 is below the 4608 environment master minimum and is not a production plate. The larger files are a rejected photoreal style and IMG_5189.JPG, and neither is an answer yet: IMG_5189.JPG clears the 4608 floor on width, but its style has not been judged, no environment intake has been run on it and it carries no declared source lineage. Clearing a dimension floor is not acceptance. It is assessed before anything new is commissioned for this room."
       },
       "target": {
@@ -268,7 +268,7 @@
           "05_4K_SOURCE_MASTERS/05D_SCENE_ENVIRONMENT_MASTERS",
           "00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE/10_SCENES"
         ],
-        "found": "No accepted master is a campaign space; the nearest banked rooms are a domestic living room and a public meeting hall. Three swept candidates do bear on this room and are in the repository. IMG_5190.JPG and IMG_5207.JPG, both 5504x3072, are different JPEG bytes that decode to identical pixels — one picture encoded twice, not two variants — and both carry the baked readable text this request forbids: a 'FIELD OFFICE' window sign and 'supplies' printed on two boxes. A blank unlabelled US map outline on the whiteboard is decor rather than information and is acceptable. IMG_5205.JPG, also 5504x3072, is a different room and the closer candidate: a storefront in use as a phone bank, with folding tables, mismatched chairs, desk phones, stacked boxes whose labels are blank, a blank corkboard and a blank whiteboard, empty of people, and no readable text found on inspection. All three are unclassified Drive-root uploads with no managed copy: measured, not ingested.",
+        "found": "No accepted master is a campaign space; the nearest banked rooms are a domestic living room and a public meeting hall. Three swept candidates do bear on this room and are in the repository. IMG_5190.JPG and IMG_5207.JPG, both 5504x3072, are different JPEG bytes that decode to identical pixels \u2014 one picture encoded twice, not two variants \u2014 and both carry the baked readable text this request forbids: a 'FIELD OFFICE' window sign and 'supplies' printed on two boxes. A blank unlabelled US map outline on the whiteboard is decor rather than information and is acceptable. IMG_5205.JPG, also 5504x3072, is a different room and the closer candidate: a storefront in use as a phone bank, with folding tables, mismatched chairs, desk phones, stacked boxes whose labels are blank, a blank corkboard and a blank whiteboard, empty of people, and no readable text found on inspection. All three are unclassified Drive-root uploads with no managed copy: measured, not ingested.",
         "shortfall": "IMG_5190.JPG and IMG_5207.JPG are a revision away rather than a regeneration: the same room without the window sign and the printed box labels, because baked signage text belongs to a declared dynamic surface slot and not to a plate. IMG_5205.JPG needs no revision on inspection, and the remaining blocker for it is assessment rather than generation: it has never been through npm run intake:environment, carries no declared source lineage, has not been judged against the accepted shared-workroom rendering language, and has no human acceptance. Clearing the written criteria is not acceptance. No new storefront may be commissioned until IMG_5205.JPG has been assessed and rejected."
       },
       "target": {
@@ -542,7 +542,7 @@
           "05_4K_SOURCE_MASTERS/05C_PEOPLE_POSE_SOURCE_SHEETS",
           "Drive root IMG_5178.PNG"
         ],
-        "found": "The 5056x3392 eight-pose sheet, measured here. Fully transparent pixels carry zero colour, so the background is clean; the defect is confined to the partially-transparent edge, where 67-80 percent of pixels per cell are green-dominant at a mean of roughly (43,79,30). It totals 8.4 percent of the figure's own opaque area. A CORRECTED SINGLE POSE ARRIVED DURING THIS RUN: Drive root IMG_5192.PNG, 5056x3392 RGBA, uploaded 2026-09-04 14:24. It is the standing-conversational pose from this same family with ZERO green-dominant soft-edge pixels, measured the same way — so the fix is confirmed possible and this request is now about re-exporting the remaining seven poses the same way. It is an unclassified Drive-root upload with no managed copy, so it was measured but NOT ingested. Reconciled against the preserved assets: IMG_5192.PNG is now in the repository rather than only in Drive, and it shows the green contour fix is achievable inside this art family.",
+        "found": "The 5056x3392 eight-pose sheet, measured here. Fully transparent pixels carry zero colour, so the background is clean; the defect is confined to the partially-transparent edge, where 67-80 percent of pixels per cell are green-dominant at a mean of roughly (43,79,30). It totals 8.4 percent of the figure's own opaque area. A CORRECTED SINGLE POSE ARRIVED DURING THIS RUN: Drive root IMG_5192.PNG, 5056x3392 RGBA, uploaded 2026-09-04 14:24. It is the standing-conversational pose from this same family with ZERO green-dominant soft-edge pixels, measured the same way \u2014 so the fix is confirmed possible and this request is now about re-exporting the remaining seven poses the same way. It is an unclassified Drive-root upload with no managed copy, so it was measured but NOT ingested. Reconciled against the preserved assets: IMG_5192.PNG is now in the repository rather than only in Drive, and it shows the green contour fix is achievable inside this art family.",
         "shortfall": "The approved style authority PG_STYLE_REFERENCE_CHARACTER_P005_APPROVED.png has no silhouette stroke of any colour, so this is out of family rather than house style. Removing it here would mean rewriting the colour of pixels I cannot verify the correct value of, which is a repair the pipeline should not make silently. IMG_5192.PNG does not close it: at 5056x3392 it is the same sheet resolution, so a clean re-export at that size still fails the body floor. The ask is a re-export at production resolution, not only a clean edge."
       },
       "target": {
@@ -578,7 +578,7 @@
         "runtimeComponent": "src/player/LegislationWorkspace.tsx",
         "playerVisibleUse": "Speaking at the rostrum lectern in the chamber, or at the lectern in the hearing room or the community hall."
       },
-      "whyNeeded": "Three production rooms now declare a lectern anchor — the chamber rostrum, the hearing room's testimony lectern and the community hall podium — and no released or candidate body can stand at any of them.",
+      "whyNeeded": "Three production rooms now declare a lectern anchor \u2014 the chamber rostrum, the hearing room's testimony lectern and the community hall podium \u2014 and no released or candidate body can stand at any of them.",
       "inventoryCheck": {
         "repositoryPathsSearched": [
           "art/generated/candidates/ocd-p71/bodies/",
@@ -590,7 +590,7 @@
         "driveLocationsSearched": [
           "05_4K_SOURCE_MASTERS/05C_PEOPLE_POSE_SOURCE_SHEETS"
         ],
-        "found": "Eight poses on the Packet 71 sheet, mapped cell by cell: two standing-neutral, two standing-conversational and four seated-guest-neutral. The pose control plate standing-podium-or-lectern__front.svg exists, so the contract and the drawing guide are both already here. Reconciled against the preserved assets: five banked components carry a baked lectern — the fat-man and additional-fat-female lectern-interaction cells, the average-man and older-woman interaction-surface cells, and the skinny-man standing_neutral_back cell.",
+        "found": "Eight poses on the Packet 71 sheet, mapped cell by cell: two standing-neutral, two standing-conversational and four seated-guest-neutral. The pose control plate standing-podium-or-lectern__front.svg exists, so the contract and the drawing guide are both already here. Reconciled against the preserved assets: five banked components carry a baked lectern \u2014 the fat-man and additional-fat-female lectern-interaction cells, the average-man and older-woman interaction-surface cells, and the skinny-man standing_neutral_back cell.",
         "shortfall": "The Packet 71 sheet provides no cell at a lectern, and the five banked lectern components do not answer it either: each carries the lectern baked into the figure and sits under the production body floor, which makes them reference for the pose rather than modular art a scene can compose."
       },
       "target": {
@@ -741,7 +741,9 @@
           "mountain",
           "pacific"
         ],
-        "placeIdentity": { "kind": "generic-reusable" },
+        "placeIdentity": {
+          "kind": "generic-reusable"
+        },
         "exclusions": ["not-a-named-address"],
         "snowCoverPossible": false
       }
@@ -809,7 +811,9 @@
           "south-atlantic",
           "mid-atlantic"
         ],
-        "placeIdentity": { "kind": "generic-reusable" },
+        "placeIdentity": {
+          "kind": "generic-reusable"
+        },
         "exclusions": ["not-a-named-city-park", "winter-is-not-universal-snow"],
         "snowCoverPossible": false,
         "geometryVariant": {
@@ -818,6 +822,1280 @@
           "invalidatesParentAnchors": false
         }
       }
+    },
+    {
+      "requestId": "person-modular47-masc-lean-standing-anatomy",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "candidate-submitted",
+      "title": "Modular anatomy \u00b7 masc-lean \u00b7 standing",
+      "consumer": {
+        "consumerId": "modular47-creator-room-people",
+        "runtimeComponent": "src/player/ModularCharacter.tsx",
+        "playerVisibleUse": "One coherent appearance across creator, room and People surfaces."
+      },
+      "whyNeeded": "Owner-authorized clean modular replacement kit with reusable fitting and independent materials. body-owned neck, arms, hands and exposed ankles.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/authoring/modular45/",
+          "art/authoring/systemic-repair/",
+          "art/authoring/modular47/"
+        ],
+        "driveLocationsSearched": [
+          "04_MODULAR41 \u2014 creator kit / portraits / poses"
+        ],
+        "found": "Historical candidates retained. New source prepared through the hash-pinned modular intake.",
+        "shortfall": "Prior current renders rejected by owner; this is a new candidate awaiting visual acceptance."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 600,
+        "aspectRatio": "600:1200 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "Prepare body-owned neck, arms, hands and exposed ankles from the declared source without runtime per-identity adjustments.",
+        "Preserve skin/hair material separation, source pixels, native head/hair view and historical generations."
+      ],
+      "acceptanceCriteria": [
+        "Source and prepared hashes agree with the matching private pack.",
+        "Actual material/pose/game workflow checks pass.",
+        "Human visual approval remains separate and pending."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "modular47",
+        "variantId": "person-modular47-masc-lean-standing-anatomy",
+        "intendedContext": "private candidate review"
+      },
+      "generationHold": "awaiting-assessment"
+    },
+    {
+      "requestId": "person-modular47-masc-lean-seated-anatomy",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "candidate-submitted",
+      "title": "Modular anatomy \u00b7 masc-lean \u00b7 seated",
+      "consumer": {
+        "consumerId": "modular47-creator-room-people",
+        "runtimeComponent": "src/player/ModularCharacter.tsx",
+        "playerVisibleUse": "One coherent appearance across creator, room and People surfaces."
+      },
+      "whyNeeded": "Owner-authorized clean modular replacement kit with reusable fitting and independent materials. body-owned neck, arms, hands and exposed ankles.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/authoring/modular45/",
+          "art/authoring/systemic-repair/",
+          "art/authoring/modular47/"
+        ],
+        "driveLocationsSearched": [
+          "04_MODULAR41 \u2014 creator kit / portraits / poses"
+        ],
+        "found": "Historical candidates retained. New source prepared through the hash-pinned modular intake.",
+        "shortfall": "Prior current renders rejected by owner; this is a new candidate awaiting visual acceptance."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 600,
+        "aspectRatio": "600:1200 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "Prepare body-owned neck, arms, hands and exposed ankles from the declared source without runtime per-identity adjustments.",
+        "Preserve skin/hair material separation, source pixels, native head/hair view and historical generations."
+      ],
+      "acceptanceCriteria": [
+        "Source and prepared hashes agree with the matching private pack.",
+        "Actual material/pose/game workflow checks pass.",
+        "Human visual approval remains separate and pending."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "modular47",
+        "variantId": "person-modular47-masc-lean-seated-anatomy",
+        "intendedContext": "private candidate review"
+      },
+      "generationHold": "awaiting-assessment"
+    },
+    {
+      "requestId": "person-modular47-masc-average-standing-anatomy",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "candidate-submitted",
+      "title": "Modular anatomy \u00b7 masc-average \u00b7 standing",
+      "consumer": {
+        "consumerId": "modular47-creator-room-people",
+        "runtimeComponent": "src/player/ModularCharacter.tsx",
+        "playerVisibleUse": "One coherent appearance across creator, room and People surfaces."
+      },
+      "whyNeeded": "Owner-authorized clean modular replacement kit with reusable fitting and independent materials. body-owned neck, arms, hands and exposed ankles.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/authoring/modular45/",
+          "art/authoring/systemic-repair/",
+          "art/authoring/modular47/"
+        ],
+        "driveLocationsSearched": [
+          "04_MODULAR41 \u2014 creator kit / portraits / poses"
+        ],
+        "found": "Historical candidates retained. New source prepared through the hash-pinned modular intake.",
+        "shortfall": "Prior current renders rejected by owner; this is a new candidate awaiting visual acceptance."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 600,
+        "aspectRatio": "600:1200 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "Prepare body-owned neck, arms, hands and exposed ankles from the declared source without runtime per-identity adjustments.",
+        "Preserve skin/hair material separation, source pixels, native head/hair view and historical generations."
+      ],
+      "acceptanceCriteria": [
+        "Source and prepared hashes agree with the matching private pack.",
+        "Actual material/pose/game workflow checks pass.",
+        "Human visual approval remains separate and pending."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "modular47",
+        "variantId": "person-modular47-masc-average-standing-anatomy",
+        "intendedContext": "private candidate review"
+      },
+      "generationHold": "awaiting-assessment"
+    },
+    {
+      "requestId": "person-modular47-masc-average-seated-anatomy",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "candidate-submitted",
+      "title": "Modular anatomy \u00b7 masc-average \u00b7 seated",
+      "consumer": {
+        "consumerId": "modular47-creator-room-people",
+        "runtimeComponent": "src/player/ModularCharacter.tsx",
+        "playerVisibleUse": "One coherent appearance across creator, room and People surfaces."
+      },
+      "whyNeeded": "Owner-authorized clean modular replacement kit with reusable fitting and independent materials. body-owned neck, arms, hands and exposed ankles.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/authoring/modular45/",
+          "art/authoring/systemic-repair/",
+          "art/authoring/modular47/"
+        ],
+        "driveLocationsSearched": [
+          "04_MODULAR41 \u2014 creator kit / portraits / poses"
+        ],
+        "found": "Historical candidates retained. New source prepared through the hash-pinned modular intake.",
+        "shortfall": "Prior current renders rejected by owner; this is a new candidate awaiting visual acceptance."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 600,
+        "aspectRatio": "600:1200 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "Prepare body-owned neck, arms, hands and exposed ankles from the declared source without runtime per-identity adjustments.",
+        "Preserve skin/hair material separation, source pixels, native head/hair view and historical generations."
+      ],
+      "acceptanceCriteria": [
+        "Source and prepared hashes agree with the matching private pack.",
+        "Actual material/pose/game workflow checks pass.",
+        "Human visual approval remains separate and pending."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "modular47",
+        "variantId": "person-modular47-masc-average-seated-anatomy",
+        "intendedContext": "private candidate review"
+      },
+      "generationHold": "awaiting-assessment"
+    },
+    {
+      "requestId": "person-modular47-masc-heavy-standing-anatomy",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "candidate-submitted",
+      "title": "Modular anatomy \u00b7 masc-heavy \u00b7 standing",
+      "consumer": {
+        "consumerId": "modular47-creator-room-people",
+        "runtimeComponent": "src/player/ModularCharacter.tsx",
+        "playerVisibleUse": "One coherent appearance across creator, room and People surfaces."
+      },
+      "whyNeeded": "Owner-authorized clean modular replacement kit with reusable fitting and independent materials. body-owned neck, arms, hands and exposed ankles.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/authoring/modular45/",
+          "art/authoring/systemic-repair/",
+          "art/authoring/modular47/"
+        ],
+        "driveLocationsSearched": [
+          "04_MODULAR41 \u2014 creator kit / portraits / poses"
+        ],
+        "found": "Historical candidates retained. New source prepared through the hash-pinned modular intake.",
+        "shortfall": "Prior current renders rejected by owner; this is a new candidate awaiting visual acceptance."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 600,
+        "aspectRatio": "600:1200 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "Prepare body-owned neck, arms, hands and exposed ankles from the declared source without runtime per-identity adjustments.",
+        "Preserve skin/hair material separation, source pixels, native head/hair view and historical generations."
+      ],
+      "acceptanceCriteria": [
+        "Source and prepared hashes agree with the matching private pack.",
+        "Actual material/pose/game workflow checks pass.",
+        "Human visual approval remains separate and pending."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "modular47",
+        "variantId": "person-modular47-masc-heavy-standing-anatomy",
+        "intendedContext": "private candidate review"
+      },
+      "generationHold": "awaiting-assessment"
+    },
+    {
+      "requestId": "person-modular47-masc-heavy-seated-anatomy",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "candidate-submitted",
+      "title": "Modular anatomy \u00b7 masc-heavy \u00b7 seated",
+      "consumer": {
+        "consumerId": "modular47-creator-room-people",
+        "runtimeComponent": "src/player/ModularCharacter.tsx",
+        "playerVisibleUse": "One coherent appearance across creator, room and People surfaces."
+      },
+      "whyNeeded": "Owner-authorized clean modular replacement kit with reusable fitting and independent materials. body-owned neck, arms, hands and exposed ankles.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/authoring/modular45/",
+          "art/authoring/systemic-repair/",
+          "art/authoring/modular47/"
+        ],
+        "driveLocationsSearched": [
+          "04_MODULAR41 \u2014 creator kit / portraits / poses"
+        ],
+        "found": "Historical candidates retained. New source prepared through the hash-pinned modular intake.",
+        "shortfall": "Prior current renders rejected by owner; this is a new candidate awaiting visual acceptance."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 600,
+        "aspectRatio": "600:1200 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "Prepare body-owned neck, arms, hands and exposed ankles from the declared source without runtime per-identity adjustments.",
+        "Preserve skin/hair material separation, source pixels, native head/hair view and historical generations."
+      ],
+      "acceptanceCriteria": [
+        "Source and prepared hashes agree with the matching private pack.",
+        "Actual material/pose/game workflow checks pass.",
+        "Human visual approval remains separate and pending."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "modular47",
+        "variantId": "person-modular47-masc-heavy-seated-anatomy",
+        "intendedContext": "private candidate review"
+      },
+      "generationHold": "awaiting-assessment"
+    },
+    {
+      "requestId": "person-modular47-fem-lean-standing-anatomy",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "candidate-submitted",
+      "title": "Modular anatomy \u00b7 fem-lean \u00b7 standing",
+      "consumer": {
+        "consumerId": "modular47-creator-room-people",
+        "runtimeComponent": "src/player/ModularCharacter.tsx",
+        "playerVisibleUse": "One coherent appearance across creator, room and People surfaces."
+      },
+      "whyNeeded": "Owner-authorized clean modular replacement kit with reusable fitting and independent materials. body-owned neck, arms, hands and exposed ankles.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/authoring/modular45/",
+          "art/authoring/systemic-repair/",
+          "art/authoring/modular47/"
+        ],
+        "driveLocationsSearched": [
+          "04_MODULAR41 \u2014 creator kit / portraits / poses"
+        ],
+        "found": "Historical candidates retained. New source prepared through the hash-pinned modular intake.",
+        "shortfall": "Prior current renders rejected by owner; this is a new candidate awaiting visual acceptance."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 600,
+        "aspectRatio": "600:1200 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "Prepare body-owned neck, arms, hands and exposed ankles from the declared source without runtime per-identity adjustments.",
+        "Preserve skin/hair material separation, source pixels, native head/hair view and historical generations."
+      ],
+      "acceptanceCriteria": [
+        "Source and prepared hashes agree with the matching private pack.",
+        "Actual material/pose/game workflow checks pass.",
+        "Human visual approval remains separate and pending."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "modular47",
+        "variantId": "person-modular47-fem-lean-standing-anatomy",
+        "intendedContext": "private candidate review"
+      },
+      "generationHold": "awaiting-assessment"
+    },
+    {
+      "requestId": "person-modular47-fem-lean-seated-anatomy",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "candidate-submitted",
+      "title": "Modular anatomy \u00b7 fem-lean \u00b7 seated",
+      "consumer": {
+        "consumerId": "modular47-creator-room-people",
+        "runtimeComponent": "src/player/ModularCharacter.tsx",
+        "playerVisibleUse": "One coherent appearance across creator, room and People surfaces."
+      },
+      "whyNeeded": "Owner-authorized clean modular replacement kit with reusable fitting and independent materials. body-owned neck, arms, hands and exposed ankles.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/authoring/modular45/",
+          "art/authoring/systemic-repair/",
+          "art/authoring/modular47/"
+        ],
+        "driveLocationsSearched": [
+          "04_MODULAR41 \u2014 creator kit / portraits / poses"
+        ],
+        "found": "Historical candidates retained. New source prepared through the hash-pinned modular intake.",
+        "shortfall": "Prior current renders rejected by owner; this is a new candidate awaiting visual acceptance."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 600,
+        "aspectRatio": "600:1200 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "Prepare body-owned neck, arms, hands and exposed ankles from the declared source without runtime per-identity adjustments.",
+        "Preserve skin/hair material separation, source pixels, native head/hair view and historical generations."
+      ],
+      "acceptanceCriteria": [
+        "Source and prepared hashes agree with the matching private pack.",
+        "Actual material/pose/game workflow checks pass.",
+        "Human visual approval remains separate and pending."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "modular47",
+        "variantId": "person-modular47-fem-lean-seated-anatomy",
+        "intendedContext": "private candidate review"
+      },
+      "generationHold": "awaiting-assessment"
+    },
+    {
+      "requestId": "person-modular47-fem-average-standing-anatomy",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "candidate-submitted",
+      "title": "Modular anatomy \u00b7 fem-average \u00b7 standing",
+      "consumer": {
+        "consumerId": "modular47-creator-room-people",
+        "runtimeComponent": "src/player/ModularCharacter.tsx",
+        "playerVisibleUse": "One coherent appearance across creator, room and People surfaces."
+      },
+      "whyNeeded": "Owner-authorized clean modular replacement kit with reusable fitting and independent materials. body-owned neck, arms, hands and exposed ankles.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/authoring/modular45/",
+          "art/authoring/systemic-repair/",
+          "art/authoring/modular47/"
+        ],
+        "driveLocationsSearched": [
+          "04_MODULAR41 \u2014 creator kit / portraits / poses"
+        ],
+        "found": "Historical candidates retained. New source prepared through the hash-pinned modular intake.",
+        "shortfall": "Prior current renders rejected by owner; this is a new candidate awaiting visual acceptance."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 600,
+        "aspectRatio": "600:1200 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "Prepare body-owned neck, arms, hands and exposed ankles from the declared source without runtime per-identity adjustments.",
+        "Preserve skin/hair material separation, source pixels, native head/hair view and historical generations."
+      ],
+      "acceptanceCriteria": [
+        "Source and prepared hashes agree with the matching private pack.",
+        "Actual material/pose/game workflow checks pass.",
+        "Human visual approval remains separate and pending."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "modular47",
+        "variantId": "person-modular47-fem-average-standing-anatomy",
+        "intendedContext": "private candidate review"
+      },
+      "generationHold": "awaiting-assessment"
+    },
+    {
+      "requestId": "person-modular47-fem-average-seated-anatomy",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "candidate-submitted",
+      "title": "Modular anatomy \u00b7 fem-average \u00b7 seated",
+      "consumer": {
+        "consumerId": "modular47-creator-room-people",
+        "runtimeComponent": "src/player/ModularCharacter.tsx",
+        "playerVisibleUse": "One coherent appearance across creator, room and People surfaces."
+      },
+      "whyNeeded": "Owner-authorized clean modular replacement kit with reusable fitting and independent materials. body-owned neck, arms, hands and exposed ankles.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/authoring/modular45/",
+          "art/authoring/systemic-repair/",
+          "art/authoring/modular47/"
+        ],
+        "driveLocationsSearched": [
+          "04_MODULAR41 \u2014 creator kit / portraits / poses"
+        ],
+        "found": "Historical candidates retained. New source prepared through the hash-pinned modular intake.",
+        "shortfall": "Prior current renders rejected by owner; this is a new candidate awaiting visual acceptance."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 600,
+        "aspectRatio": "600:1200 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "Prepare body-owned neck, arms, hands and exposed ankles from the declared source without runtime per-identity adjustments.",
+        "Preserve skin/hair material separation, source pixels, native head/hair view and historical generations."
+      ],
+      "acceptanceCriteria": [
+        "Source and prepared hashes agree with the matching private pack.",
+        "Actual material/pose/game workflow checks pass.",
+        "Human visual approval remains separate and pending."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "modular47",
+        "variantId": "person-modular47-fem-average-seated-anatomy",
+        "intendedContext": "private candidate review"
+      },
+      "generationHold": "awaiting-assessment"
+    },
+    {
+      "requestId": "person-modular47-fem-heavy-standing-anatomy",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "candidate-submitted",
+      "title": "Modular anatomy \u00b7 fem-heavy \u00b7 standing",
+      "consumer": {
+        "consumerId": "modular47-creator-room-people",
+        "runtimeComponent": "src/player/ModularCharacter.tsx",
+        "playerVisibleUse": "One coherent appearance across creator, room and People surfaces."
+      },
+      "whyNeeded": "Owner-authorized clean modular replacement kit with reusable fitting and independent materials. body-owned neck, arms, hands and exposed ankles.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/authoring/modular45/",
+          "art/authoring/systemic-repair/",
+          "art/authoring/modular47/"
+        ],
+        "driveLocationsSearched": [
+          "04_MODULAR41 \u2014 creator kit / portraits / poses"
+        ],
+        "found": "Historical candidates retained. New source prepared through the hash-pinned modular intake.",
+        "shortfall": "Prior current renders rejected by owner; this is a new candidate awaiting visual acceptance."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 600,
+        "aspectRatio": "600:1200 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "Prepare body-owned neck, arms, hands and exposed ankles from the declared source without runtime per-identity adjustments.",
+        "Preserve skin/hair material separation, source pixels, native head/hair view and historical generations."
+      ],
+      "acceptanceCriteria": [
+        "Source and prepared hashes agree with the matching private pack.",
+        "Actual material/pose/game workflow checks pass.",
+        "Human visual approval remains separate and pending."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "modular47",
+        "variantId": "person-modular47-fem-heavy-standing-anatomy",
+        "intendedContext": "private candidate review"
+      },
+      "generationHold": "awaiting-assessment"
+    },
+    {
+      "requestId": "person-modular47-fem-heavy-seated-anatomy",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "candidate-submitted",
+      "title": "Modular anatomy \u00b7 fem-heavy \u00b7 seated",
+      "consumer": {
+        "consumerId": "modular47-creator-room-people",
+        "runtimeComponent": "src/player/ModularCharacter.tsx",
+        "playerVisibleUse": "One coherent appearance across creator, room and People surfaces."
+      },
+      "whyNeeded": "Owner-authorized clean modular replacement kit with reusable fitting and independent materials. body-owned neck, arms, hands and exposed ankles.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/authoring/modular45/",
+          "art/authoring/systemic-repair/",
+          "art/authoring/modular47/"
+        ],
+        "driveLocationsSearched": [
+          "04_MODULAR41 \u2014 creator kit / portraits / poses"
+        ],
+        "found": "Historical candidates retained. New source prepared through the hash-pinned modular intake.",
+        "shortfall": "Prior current renders rejected by owner; this is a new candidate awaiting visual acceptance."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 600,
+        "aspectRatio": "600:1200 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "Prepare body-owned neck, arms, hands and exposed ankles from the declared source without runtime per-identity adjustments.",
+        "Preserve skin/hair material separation, source pixels, native head/hair view and historical generations."
+      ],
+      "acceptanceCriteria": [
+        "Source and prepared hashes agree with the matching private pack.",
+        "Actual material/pose/game workflow checks pass.",
+        "Human visual approval remains separate and pending."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "modular47",
+        "variantId": "person-modular47-fem-heavy-seated-anatomy",
+        "intendedContext": "private candidate review"
+      },
+      "generationHold": "awaiting-assessment"
+    },
+    {
+      "requestId": "person-modular47-face-rowan",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "candidate-submitted",
+      "title": "Modular face \u00b7 rowan",
+      "consumer": {
+        "consumerId": "modular47-creator-room-people",
+        "runtimeComponent": "src/player/ModularCharacter.tsx",
+        "playerVisibleUse": "One coherent appearance across creator, room and People surfaces."
+      },
+      "whyNeeded": "Owner-authorized clean modular replacement kit with reusable fitting and independent materials. face, ears and jaw; no baked hair or neck.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/authoring/modular45/",
+          "art/authoring/systemic-repair/",
+          "art/authoring/modular47/"
+        ],
+        "driveLocationsSearched": [
+          "04_MODULAR41 \u2014 creator kit / portraits / poses"
+        ],
+        "found": "Historical candidates retained. New source prepared through the hash-pinned modular intake.",
+        "shortfall": "Prior current renders rejected by owner; this is a new candidate awaiting visual acceptance."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 1254,
+        "aspectRatio": "1254:1254 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "Prepare face, ears and jaw; no baked hair or neck from the declared source without runtime per-identity adjustments.",
+        "Preserve skin/hair material separation, source pixels, native head/hair view and historical generations."
+      ],
+      "acceptanceCriteria": [
+        "Source and prepared hashes agree with the matching private pack.",
+        "Actual material/pose/game workflow checks pass.",
+        "Human visual approval remains separate and pending."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "modular47",
+        "variantId": "person-modular47-face-rowan",
+        "intendedContext": "private candidate review"
+      },
+      "generationHold": "awaiting-assessment"
+    },
+    {
+      "requestId": "person-modular47-face-ellis",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "candidate-submitted",
+      "title": "Modular face \u00b7 ellis",
+      "consumer": {
+        "consumerId": "modular47-creator-room-people",
+        "runtimeComponent": "src/player/ModularCharacter.tsx",
+        "playerVisibleUse": "One coherent appearance across creator, room and People surfaces."
+      },
+      "whyNeeded": "Owner-authorized clean modular replacement kit with reusable fitting and independent materials. face, ears and jaw; no baked hair or neck.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/authoring/modular45/",
+          "art/authoring/systemic-repair/",
+          "art/authoring/modular47/"
+        ],
+        "driveLocationsSearched": [
+          "04_MODULAR41 \u2014 creator kit / portraits / poses"
+        ],
+        "found": "Historical candidates retained. New source prepared through the hash-pinned modular intake.",
+        "shortfall": "Prior current renders rejected by owner; this is a new candidate awaiting visual acceptance."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 1254,
+        "aspectRatio": "1254:1254 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "Prepare face, ears and jaw; no baked hair or neck from the declared source without runtime per-identity adjustments.",
+        "Preserve skin/hair material separation, source pixels, native head/hair view and historical generations."
+      ],
+      "acceptanceCriteria": [
+        "Source and prepared hashes agree with the matching private pack.",
+        "Actual material/pose/game workflow checks pass.",
+        "Human visual approval remains separate and pending."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "modular47",
+        "variantId": "person-modular47-face-ellis",
+        "intendedContext": "private candidate review"
+      },
+      "generationHold": "awaiting-assessment"
+    },
+    {
+      "requestId": "person-modular47-face-june",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "candidate-submitted",
+      "title": "Modular face \u00b7 june",
+      "consumer": {
+        "consumerId": "modular47-creator-room-people",
+        "runtimeComponent": "src/player/ModularCharacter.tsx",
+        "playerVisibleUse": "One coherent appearance across creator, room and People surfaces."
+      },
+      "whyNeeded": "Owner-authorized clean modular replacement kit with reusable fitting and independent materials. face, ears and jaw; no baked hair or neck.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/authoring/modular45/",
+          "art/authoring/systemic-repair/",
+          "art/authoring/modular47/"
+        ],
+        "driveLocationsSearched": [
+          "04_MODULAR41 \u2014 creator kit / portraits / poses"
+        ],
+        "found": "Historical candidates retained. New source prepared through the hash-pinned modular intake.",
+        "shortfall": "Prior current renders rejected by owner; this is a new candidate awaiting visual acceptance."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 1254,
+        "aspectRatio": "1254:1254 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "Prepare face, ears and jaw; no baked hair or neck from the declared source without runtime per-identity adjustments.",
+        "Preserve skin/hair material separation, source pixels, native head/hair view and historical generations."
+      ],
+      "acceptanceCriteria": [
+        "Source and prepared hashes agree with the matching private pack.",
+        "Actual material/pose/game workflow checks pass.",
+        "Human visual approval remains separate and pending."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "modular47",
+        "variantId": "person-modular47-face-june",
+        "intendedContext": "private candidate review"
+      },
+      "generationHold": "awaiting-assessment"
+    },
+    {
+      "requestId": "person-modular47-face-kai",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "candidate-submitted",
+      "title": "Modular face \u00b7 kai",
+      "consumer": {
+        "consumerId": "modular47-creator-room-people",
+        "runtimeComponent": "src/player/ModularCharacter.tsx",
+        "playerVisibleUse": "One coherent appearance across creator, room and People surfaces."
+      },
+      "whyNeeded": "Owner-authorized clean modular replacement kit with reusable fitting and independent materials. face, ears and jaw; no baked hair or neck.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/authoring/modular45/",
+          "art/authoring/systemic-repair/",
+          "art/authoring/modular47/"
+        ],
+        "driveLocationsSearched": [
+          "04_MODULAR41 \u2014 creator kit / portraits / poses"
+        ],
+        "found": "Historical candidates retained. New source prepared through the hash-pinned modular intake.",
+        "shortfall": "Prior current renders rejected by owner; this is a new candidate awaiting visual acceptance."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 1254,
+        "aspectRatio": "1254:1254 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "Prepare face, ears and jaw; no baked hair or neck from the declared source without runtime per-identity adjustments.",
+        "Preserve skin/hair material separation, source pixels, native head/hair view and historical generations."
+      ],
+      "acceptanceCriteria": [
+        "Source and prepared hashes agree with the matching private pack.",
+        "Actual material/pose/game workflow checks pass.",
+        "Human visual approval remains separate and pending."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "modular47",
+        "variantId": "person-modular47-face-kai",
+        "intendedContext": "private candidate review"
+      },
+      "generationHold": "awaiting-assessment"
+    },
+    {
+      "requestId": "person-modular47-face-mira",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "candidate-submitted",
+      "title": "Modular face \u00b7 mira",
+      "consumer": {
+        "consumerId": "modular47-creator-room-people",
+        "runtimeComponent": "src/player/ModularCharacter.tsx",
+        "playerVisibleUse": "One coherent appearance across creator, room and People surfaces."
+      },
+      "whyNeeded": "Owner-authorized clean modular replacement kit with reusable fitting and independent materials. face, ears and jaw; no baked hair or neck.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/authoring/modular45/",
+          "art/authoring/systemic-repair/",
+          "art/authoring/modular47/"
+        ],
+        "driveLocationsSearched": [
+          "04_MODULAR41 \u2014 creator kit / portraits / poses"
+        ],
+        "found": "Historical candidates retained. New source prepared through the hash-pinned modular intake.",
+        "shortfall": "Prior current renders rejected by owner; this is a new candidate awaiting visual acceptance."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 1254,
+        "aspectRatio": "1254:1254 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "Prepare face, ears and jaw; no baked hair or neck from the declared source without runtime per-identity adjustments.",
+        "Preserve skin/hair material separation, source pixels, native head/hair view and historical generations."
+      ],
+      "acceptanceCriteria": [
+        "Source and prepared hashes agree with the matching private pack.",
+        "Actual material/pose/game workflow checks pass.",
+        "Human visual approval remains separate and pending."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "modular47",
+        "variantId": "person-modular47-face-mira",
+        "intendedContext": "private candidate review"
+      },
+      "generationHold": "awaiting-assessment"
+    },
+    {
+      "requestId": "person-modular47-face-nadia",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "candidate-submitted",
+      "title": "Modular face \u00b7 nadia",
+      "consumer": {
+        "consumerId": "modular47-creator-room-people",
+        "runtimeComponent": "src/player/ModularCharacter.tsx",
+        "playerVisibleUse": "One coherent appearance across creator, room and People surfaces."
+      },
+      "whyNeeded": "Owner-authorized clean modular replacement kit with reusable fitting and independent materials. face, ears and jaw; no baked hair or neck.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/authoring/modular45/",
+          "art/authoring/systemic-repair/",
+          "art/authoring/modular47/"
+        ],
+        "driveLocationsSearched": [
+          "04_MODULAR41 \u2014 creator kit / portraits / poses"
+        ],
+        "found": "Historical candidates retained. New source prepared through the hash-pinned modular intake.",
+        "shortfall": "Prior current renders rejected by owner; this is a new candidate awaiting visual acceptance."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 1254,
+        "aspectRatio": "1254:1254 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "Prepare face, ears and jaw; no baked hair or neck from the declared source without runtime per-identity adjustments.",
+        "Preserve skin/hair material separation, source pixels, native head/hair view and historical generations."
+      ],
+      "acceptanceCriteria": [
+        "Source and prepared hashes agree with the matching private pack.",
+        "Actual material/pose/game workflow checks pass.",
+        "Human visual approval remains separate and pending."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "modular47",
+        "variantId": "person-modular47-face-nadia",
+        "intendedContext": "private candidate review"
+      },
+      "generationHold": "awaiting-assessment"
+    },
+    {
+      "requestId": "person-modular47-face-avery",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "candidate-submitted",
+      "title": "Modular face \u00b7 avery",
+      "consumer": {
+        "consumerId": "modular47-creator-room-people",
+        "runtimeComponent": "src/player/ModularCharacter.tsx",
+        "playerVisibleUse": "One coherent appearance across creator, room and People surfaces."
+      },
+      "whyNeeded": "Owner-authorized clean modular replacement kit with reusable fitting and independent materials. face, ears and jaw; no baked hair or neck.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/authoring/modular45/",
+          "art/authoring/systemic-repair/",
+          "art/authoring/modular47/"
+        ],
+        "driveLocationsSearched": [
+          "04_MODULAR41 \u2014 creator kit / portraits / poses"
+        ],
+        "found": "Historical candidates retained. New source prepared through the hash-pinned modular intake.",
+        "shortfall": "Prior current renders rejected by owner; this is a new candidate awaiting visual acceptance."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 1254,
+        "aspectRatio": "1254:1254 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "Prepare face, ears and jaw; no baked hair or neck from the declared source without runtime per-identity adjustments.",
+        "Preserve skin/hair material separation, source pixels, native head/hair view and historical generations."
+      ],
+      "acceptanceCriteria": [
+        "Source and prepared hashes agree with the matching private pack.",
+        "Actual material/pose/game workflow checks pass.",
+        "Human visual approval remains separate and pending."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "modular47",
+        "variantId": "person-modular47-face-avery",
+        "intendedContext": "private candidate review"
+      },
+      "generationHold": "awaiting-assessment"
+    },
+    {
+      "requestId": "person-modular47-hair-coily-crop",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "candidate-submitted",
+      "title": "Modular hair \u00b7 coily-crop \u00b7 front",
+      "consumer": {
+        "consumerId": "modular47-creator-room-people",
+        "runtimeComponent": "src/player/ModularCharacter.tsx",
+        "playerVisibleUse": "One coherent appearance across creator, room and People surfaces."
+      },
+      "whyNeeded": "Owner-authorized clean modular replacement kit with reusable fitting and independent materials. hair-only layer in the declared native view.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/authoring/modular45/",
+          "art/authoring/systemic-repair/",
+          "art/authoring/modular47/"
+        ],
+        "driveLocationsSearched": [
+          "04_MODULAR41 \u2014 creator kit / portraits / poses"
+        ],
+        "found": "Historical candidates retained. New source prepared through the hash-pinned modular intake.",
+        "shortfall": "Prior current renders rejected by owner; this is a new candidate awaiting visual acceptance."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 1254,
+        "aspectRatio": "1254:1254 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "Prepare hair-only layer in the declared native view from the declared source without runtime per-identity adjustments.",
+        "Preserve skin/hair material separation, source pixels, native head/hair view and historical generations."
+      ],
+      "acceptanceCriteria": [
+        "Source and prepared hashes agree with the matching private pack.",
+        "Actual material/pose/game workflow checks pass.",
+        "Human visual approval remains separate and pending."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "modular47",
+        "variantId": "person-modular47-hair-coily-crop",
+        "intendedContext": "private candidate review"
+      },
+      "generationHold": "awaiting-assessment"
+    },
+    {
+      "requestId": "person-modular47-hair-coily-crop-left",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "candidate-submitted",
+      "title": "Modular hair \u00b7 coily-crop \u00b7 three-quarter-left",
+      "consumer": {
+        "consumerId": "modular47-creator-room-people",
+        "runtimeComponent": "src/player/ModularCharacter.tsx",
+        "playerVisibleUse": "One coherent appearance across creator, room and People surfaces."
+      },
+      "whyNeeded": "Owner-authorized clean modular replacement kit with reusable fitting and independent materials. hair-only layer in the declared native view.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/authoring/modular45/",
+          "art/authoring/systemic-repair/",
+          "art/authoring/modular47/"
+        ],
+        "driveLocationsSearched": [
+          "04_MODULAR41 \u2014 creator kit / portraits / poses"
+        ],
+        "found": "Historical candidates retained. New source prepared through the hash-pinned modular intake.",
+        "shortfall": "Prior current renders rejected by owner; this is a new candidate awaiting visual acceptance."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 1254,
+        "aspectRatio": "1254:1254 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "Prepare hair-only layer in the declared native view from the declared source without runtime per-identity adjustments.",
+        "Preserve skin/hair material separation, source pixels, native head/hair view and historical generations."
+      ],
+      "acceptanceCriteria": [
+        "Source and prepared hashes agree with the matching private pack.",
+        "Actual material/pose/game workflow checks pass.",
+        "Human visual approval remains separate and pending."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "modular47",
+        "variantId": "person-modular47-hair-coily-crop-left",
+        "intendedContext": "private candidate review"
+      },
+      "generationHold": "awaiting-assessment"
+    },
+    {
+      "requestId": "person-modular47-hair-coily-crop-right",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "candidate-submitted",
+      "title": "Modular hair \u00b7 coily-crop \u00b7 three-quarter-right",
+      "consumer": {
+        "consumerId": "modular47-creator-room-people",
+        "runtimeComponent": "src/player/ModularCharacter.tsx",
+        "playerVisibleUse": "One coherent appearance across creator, room and People surfaces."
+      },
+      "whyNeeded": "Owner-authorized clean modular replacement kit with reusable fitting and independent materials. hair-only layer in the declared native view.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/authoring/modular45/",
+          "art/authoring/systemic-repair/",
+          "art/authoring/modular47/"
+        ],
+        "driveLocationsSearched": [
+          "04_MODULAR41 \u2014 creator kit / portraits / poses"
+        ],
+        "found": "Historical candidates retained. New source prepared through the hash-pinned modular intake.",
+        "shortfall": "Prior current renders rejected by owner; this is a new candidate awaiting visual acceptance."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 1254,
+        "aspectRatio": "1254:1254 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "Prepare hair-only layer in the declared native view from the declared source without runtime per-identity adjustments.",
+        "Preserve skin/hair material separation, source pixels, native head/hair view and historical generations."
+      ],
+      "acceptanceCriteria": [
+        "Source and prepared hashes agree with the matching private pack.",
+        "Actual material/pose/game workflow checks pass.",
+        "Human visual approval remains separate and pending."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "modular47",
+        "variantId": "person-modular47-hair-coily-crop-right",
+        "intendedContext": "private candidate review"
+      },
+      "generationHold": "awaiting-assessment"
+    },
+    {
+      "requestId": "person-modular47-hair-short-waves-front",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "candidate-submitted",
+      "title": "Modular hair \u00b7 short-waves \u00b7 front",
+      "consumer": {
+        "consumerId": "modular47-creator-room-people",
+        "runtimeComponent": "src/player/ModularCharacter.tsx",
+        "playerVisibleUse": "One coherent appearance across creator, room and People surfaces."
+      },
+      "whyNeeded": "Owner-authorized clean modular replacement kit with reusable fitting and independent materials. hair-only layer in the declared native view.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/authoring/modular45/",
+          "art/authoring/systemic-repair/",
+          "art/authoring/modular47/"
+        ],
+        "driveLocationsSearched": [
+          "04_MODULAR41 \u2014 creator kit / portraits / poses"
+        ],
+        "found": "Historical candidates retained. New source prepared through the hash-pinned modular intake.",
+        "shortfall": "Prior current renders rejected by owner; this is a new candidate awaiting visual acceptance."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 1254,
+        "aspectRatio": "1254:1254 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "Prepare hair-only layer in the declared native view from the declared source without runtime per-identity adjustments.",
+        "Preserve skin/hair material separation, source pixels, native head/hair view and historical generations."
+      ],
+      "acceptanceCriteria": [
+        "Source and prepared hashes agree with the matching private pack.",
+        "Actual material/pose/game workflow checks pass.",
+        "Human visual approval remains separate and pending."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "modular47",
+        "variantId": "person-modular47-hair-short-waves-front",
+        "intendedContext": "private candidate review"
+      },
+      "generationHold": "awaiting-assessment"
+    },
+    {
+      "requestId": "person-modular47-hair-short-waves-right",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "candidate-submitted",
+      "title": "Modular hair \u00b7 short-waves \u00b7 three-quarter-right",
+      "consumer": {
+        "consumerId": "modular47-creator-room-people",
+        "runtimeComponent": "src/player/ModularCharacter.tsx",
+        "playerVisibleUse": "One coherent appearance across creator, room and People surfaces."
+      },
+      "whyNeeded": "Owner-authorized clean modular replacement kit with reusable fitting and independent materials. hair-only layer in the declared native view.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/authoring/modular45/",
+          "art/authoring/systemic-repair/",
+          "art/authoring/modular47/"
+        ],
+        "driveLocationsSearched": [
+          "04_MODULAR41 \u2014 creator kit / portraits / poses"
+        ],
+        "found": "Historical candidates retained. New source prepared through the hash-pinned modular intake.",
+        "shortfall": "Prior current renders rejected by owner; this is a new candidate awaiting visual acceptance."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 1254,
+        "aspectRatio": "1254:1254 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "Prepare hair-only layer in the declared native view from the declared source without runtime per-identity adjustments.",
+        "Preserve skin/hair material separation, source pixels, native head/hair view and historical generations."
+      ],
+      "acceptanceCriteria": [
+        "Source and prepared hashes agree with the matching private pack.",
+        "Actual material/pose/game workflow checks pass.",
+        "Human visual approval remains separate and pending."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "modular47",
+        "variantId": "person-modular47-hair-short-waves-right",
+        "intendedContext": "private candidate review"
+      },
+      "generationHold": "awaiting-assessment"
+    },
+    {
+      "requestId": "person-modular47-hair-swept-pixie-front",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "candidate-submitted",
+      "title": "Modular hair \u00b7 swept-pixie \u00b7 front",
+      "consumer": {
+        "consumerId": "modular47-creator-room-people",
+        "runtimeComponent": "src/player/ModularCharacter.tsx",
+        "playerVisibleUse": "One coherent appearance across creator, room and People surfaces."
+      },
+      "whyNeeded": "Owner-authorized clean modular replacement kit with reusable fitting and independent materials. hair-only layer in the declared native view.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/authoring/modular45/",
+          "art/authoring/systemic-repair/",
+          "art/authoring/modular47/"
+        ],
+        "driveLocationsSearched": [
+          "04_MODULAR41 \u2014 creator kit / portraits / poses"
+        ],
+        "found": "Historical candidates retained. New source prepared through the hash-pinned modular intake.",
+        "shortfall": "Prior current renders rejected by owner; this is a new candidate awaiting visual acceptance."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 1382,
+        "aspectRatio": "1382:1138 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "Prepare hair-only layer in the declared native view from the declared source without runtime per-identity adjustments.",
+        "Preserve skin/hair material separation, source pixels, native head/hair view and historical generations."
+      ],
+      "acceptanceCriteria": [
+        "Source and prepared hashes agree with the matching private pack.",
+        "Actual material/pose/game workflow checks pass.",
+        "Human visual approval remains separate and pending."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "modular47",
+        "variantId": "person-modular47-hair-swept-pixie-front",
+        "intendedContext": "private candidate review"
+      },
+      "generationHold": "awaiting-assessment"
+    },
+    {
+      "requestId": "person-modular47-expansion-green-shirt",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "candidate-submitted",
+      "title": "Expansion garment \u00b7 green crewneck",
+      "consumer": {
+        "consumerId": "modular47-creator-room-people",
+        "runtimeComponent": "src/player/ModularCharacter.tsx",
+        "playerVisibleUse": "One coherent appearance across creator, room and People surfaces."
+      },
+      "whyNeeded": "Owner-authorized clean modular replacement kit with reusable fitting and independent materials. separate garment prepared against a new real body profile.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/authoring/modular45/",
+          "art/authoring/systemic-repair/",
+          "art/authoring/modular47/"
+        ],
+        "driveLocationsSearched": [
+          "04_MODULAR41 \u2014 creator kit / portraits / poses"
+        ],
+        "found": "Historical candidates retained. New source prepared through the hash-pinned modular intake.",
+        "shortfall": "Prior current renders rejected by owner; this is a new candidate awaiting visual acceptance."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 600,
+        "aspectRatio": "600:1200 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "Prepare separate garment prepared against a new real body profile from the declared source without runtime per-identity adjustments.",
+        "Preserve skin/hair material separation, source pixels, native head/hair view and historical generations."
+      ],
+      "acceptanceCriteria": [
+        "Source and prepared hashes agree with the matching private pack.",
+        "Actual material/pose/game workflow checks pass.",
+        "Human visual approval remains separate and pending."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "modular47",
+        "variantId": "person-modular47-expansion-green-shirt",
+        "intendedContext": "private candidate review"
+      },
+      "generationHold": "awaiting-assessment"
     }
   ]
 }

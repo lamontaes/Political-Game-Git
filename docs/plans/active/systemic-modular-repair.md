@@ -154,3 +154,59 @@ normal game workflow, not merely contact sheets or named-character repairs.
   then admit real new face/hair/clothing/body source through data, Art Desk
   candidates and matching private/source delivery. Historical e50/fead and
   previous private packs remain preserved.
+
+### Complete clean-kit candidate receipt — 2026-09-17
+
+This entry supersedes the intermediate draft counts above. Generation 15 is now
+appended to the private candidate registry; generation 14 and prior records are
+unchanged. It is not an approved art release or a LAND deployment.
+
+- Six replacement body profiles retain masculine/feminine lean, average and
+  heavy choices. Six independent neutral/smile faces, two hairstyle families
+  with authored matching views, short/long tops and independent skin/hair
+  materials produce 138 catalog parts. Prepared poses add 432 combinations and
+  528 layers for listening and seated views. Standing/listening artwork reuse
+  is explicitly declared; seated artwork is independently painted. Native
+  three-quarter hair follows the turned face; full 90-degree views are not
+  fabricated from frontal caps.
+- New paint and ownership masks replace latest-character pixels. Neck/chest
+  belong to the body, garments exclude skin, and clothing-specific correctives
+  preserve cuffs and hands. Inspected all six standing/seated body types, 36
+  head/collar combinations, both garment sets and independent material changes.
+- After fitter checkpoint 867e755b, genuinely new Avery face, swept-pixie hair
+  and green-shirt body/outfit were generated and calibrated. Thirteen new
+  head/body pairings, 38 hair fits and four body/garment parts resolve through
+  data only. Thirteen frozen fitter/source files and five runtime renderer
+  hashes remain identical. The extra expansion body explicitly supports only
+  standing and remains separate from the complete six-body main kit.
+- Browser proof passes creator face/hair/body/material controls with pointer
+  and keyboard, Cancel/Apply, neutral/smile and three-pose round trips, room,
+  conversation, card/pin, People, Save/Continue and separate-life isolation.
+  A disposable generation-14 save fixture retains exact appearance records.
+  Smaller 1280×720 and 1024×768 viewports keep the full figure visible.
+- Twenty-six exact-hash Art Desk candidates are awaiting assessment. Fixed its
+  hard-coded absent-pack input using optional local registry evidence; existing
+  review/transport behavior is unchanged. UI owner received this scoped overlap
+  notice asynchronously. Private pixels and old generations are not in Git.
+- Validation: 43 Python tests including all 27 supplied tests; 40 TypeScript
+  component/profile/kit/Art Desk tests; typecheck; changed-file lint/format;
+  validate:art, inventory:art, qa:art (11,294 images), release:check. Test failures
+  during development were repaired and final focused suites passed. Browser
+  receipts record zero page errors. No owner saves were touched.
+- Private delivery staged with 12,748 files / 1,535,702,002 bytes, including raw
+  masters, masks, source-specific preparation scripts and expansion receipts.
+  Final source SHA, pack hashes, clean-install verification and remote links
+  belong to the matching delivery manifest/DELIVERY.md outside Git.
+- Architecture audit: offline preparation remains separate from pure simulation;
+  shared profile/data contracts own new geometry and identities. No simulation
+  semantics, background art, portrait-only pipeline, or competing LAND changed.
+  Historical source commits e50a4c1a, fead1149 and 867e755b remain ancestors.
+- Acceptance: agent visually inspected candidate; human visual approval and
+  receiving UI/LAND acknowledgment remain pending. This plan stays active for
+  that acceptance boundary. Former $20 cap retired by owner; built-in included
+  tools only, no purchases, resets, API-key billing or subagents.
+
+LEARN: clothing and skin must have complementary source ownership, not broad
+color-threshold overlap. Preserve rejected masks outside active runtime globs.
+Keep actual browser material pixels and full-figure containment in verification;
+geometric fit and catalog tests cannot establish visible seam quality alone.

@@ -52,6 +52,16 @@ const LANE_LABEL: Record<ArtDeskLane, string> = {
 
 const PAGE_SIZE = 8;
 
+// Optional private input evidence; absence remains explicit in source-only builds.
+const installedModularRegistry = Object.keys(
+  import.meta.glob(
+    "../../art/manifest/character_candidate_modular45_registry.json",
+  ),
+)[0];
+const installedPrivatePack = installedModularRegistry
+  ? { path: installedModularRegistry.replace(/^\.\.\/\.\.\//, "") }
+  : null;
+
 async function sha256Hex(data: BufferSource | string): Promise<string> {
   const bytes =
     typeof data === "string" ? new TextEncoder().encode(data) : data;
@@ -204,7 +214,7 @@ export function ArtDeskView() {
       reviews: reviews.reviews ? reviews : emptyReviewDocument(),
       now: new Date().toISOString(),
       reconciliation: reconciliationSeed as ArtDeskReconciliation,
-      privatePackPath: undefined,
+      privatePackPath: installedPrivatePack?.path,
       candidateByRequest: { ...fromBatch, ...sessionCandidates },
     });
   }, [requests, claims, reviews, sessionCandidates]);
@@ -247,7 +257,7 @@ export function ArtDeskView() {
       }
       const brief = compileAssetBrief({
         request: item.request,
-        stylePixels: [privatePackInputState(null)],
+        stylePixels: [privatePackInputState(installedPrivatePack)],
       });
       const fitContractHash = await sha256Hex(brief.derivativeNote);
       const sceneContractHash = await sha256Hex(
@@ -503,7 +513,7 @@ function ArtDeskDetail({
 }) {
   const brief = compileAssetBrief({
     request: item.request,
-    stylePixels: [privatePackInputState(null)],
+    stylePixels: [privatePackInputState(installedPrivatePack)],
     bodyPoseFamilies: item.request.requestId.startsWith("person-")
       ? ["standing-neutral"]
       : [],

@@ -53,11 +53,11 @@ and neck ownership. Source body/garment paint and declared foot/pelvis contacts
 remain retained. A frontal standing/listening identity is not a generated side
 view. Pose contacts, seams and portrait crops still require visual acceptance.
 
-The private delivery includes a data-only admission rehearsal using a real
+The historical e50 private delivery included a data-only admission rehearsal using a real
 held-out prepared head from the supplied bundle and an explicitly synthetic new
 body socket. Its receipt hashes the fitter and renderer before/after, registers
 an additional logical family, and runs through the existing outfit resolver.
-It is expansion evidence, not a claim of newly painted production art.
+That historical receipt is superseded by the CRUNCH47 real-source proof below.
 
 LEARN: geometric PASS is not seam/material acceptance. Keep machine fit receipts,
 exact pixel invariants, the normal browser route, and visual sheets as separate
@@ -90,6 +90,28 @@ the same face frame; neutral remains the default and identity is unchanged.
 These paths prepare private candidates. Automated success does not promote art
 or establish human visual acceptance. The real expansion receipt must freeze
 fitter/renderer hashes before admitting genuinely new source paint through data.
+
+The CRUNCH47 private pack supplies `art/authoring/modular47/expansion-proof.json`:
+newly painted Avery face, swept-pixie hair and a green-shirt body/outfit enter
+through calibrated source data after checkpoint 867e755b. Thirteen new head/body
+pairs, 38 hair fits and four new body/garment parts use unchanged fitter and
+renderer hashes. The extra body declares standing only; unpainted poses refuse.
+It remains an expansion specimen outside the main six-body generation-15 kit.
+The main kit has standing, listening and seated coverage, neutral/smile faces,
+two garment options, independent skin/hair materials and matching native hair
+views. Listening intentionally reuses compatible standing body artwork through
+an explicit pose declaration. No named-character conditional exists in the fitter.
+
+Private source recipes, raw masters, masks, profile landmarks, material ramps,
+generation hashes and all preparation scripts travel with the matching pack.
+The calibration reads the retained generation-14 registry so it remains
+reproducible after generation 15 is appended. Use the no-overwrite installer on
+a fresh matching checkout; do not replace another owner's installed private pack.
+
+LEARN: complete private banks can exceed Git's default 1 MiB subprocess output
+buffer. Raise the bounded capacity while preserving complete identity hashing.
+Validate actual viewport containment and installed input evidence in the browser;
+asset-fit tests alone cannot detect clipped preview feet or stale missing-pack text.
 
 Native head view is explicit. A body socket lists `supportedHeadViews`; each
 hair source must still match its head's exact authored view and source pose.

@@ -2,6 +2,7 @@ import fs from "node:fs";
 import { chromium, expect } from "@playwright/test";
 import {
   fillCreator,
+  saveLife,
   enterLife,
   openShellMenu,
   openElsewhere,
@@ -18,6 +19,27 @@ const context = await browser.newContext({
   viewport: { width: 1280, height: 860 },
 });
 const page = await context.newPage();
+const saved = async () =>
+  page.evaluate(async () => {
+    const names = await indexedDB.databases();
+    const name = names.find((d) => d.name?.endsWith("-art-preview"))!.name!;
+    return new Promise<{ id: string; payload: string }[]>((resolve, reject) => {
+      const request = indexedDB.open(name);
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => {
+        const db = request.result;
+        const get = db.transaction("worlds").objectStore("worlds").getAll();
+        get.onsuccess = () => {
+          db.close();
+          resolve(get.result.filter((r) => r.payload));
+        };
+        get.onerror = () => {
+          db.close();
+          reject(get.error);
+        };
+      };
+    });
+  });
 page.setDefaultTimeout(25000);
 const errors: string[] = [];
 page.on("pageerror", (e) => errors.push(e.message));
@@ -119,7 +141,7 @@ try {
     exact: true,
   });
   await hairColor.click();
-  await page.getByRole("option", { name: "Black", exact: true }).click();
+  await page.getByRole("option", { name: /^Black/ }).click();
   const black = await pixels();
   await hairColor.focus();
   await page.keyboard.press("Enter");
@@ -161,6 +183,41 @@ try {
   await page.keyboard.press("Enter");
   expect(await pixels()).not.toEqual(beforeBody);
   report.bodyApplyKeyboard = true;
+  const expression = page
+    .getByRole("combobox", { name: "Expression preview" })
+    .first();
+  const neutral = await pixels();
+  await expression.click();
+  await page.getByRole("option", { name: "Smile", exact: true }).click();
+  const smile = await pixels();
+  expect(headHash(smile)).not.toBe(headHash(neutral));
+  await page.screenshot({ path: out + "/creator-smile.png", fullPage: true });
+  await expression.focus();
+  await page.keyboard.press("Enter");
+  await page.keyboard.press("Home");
+  await page.keyboard.press("Enter");
+  expect(await pixels()).toEqual(neutral);
+  report.expressionRoundTrip = true;
+  const pose = page
+    .getByRole("combobox", { name: "Outfit view", exact: true })
+    .first();
+  for (const label of ["Listening", "Seated", "Standing"]) {
+    await pose.click();
+    await page.getByRole("option", { name: label, exact: true }).click();
+    await stable();
+    await page.screenshot({
+      path: out + "/creator-" + label.toLowerCase() + ".png",
+      fullPage: true,
+    });
+    const layers = await pixels();
+    expect(layers.length).toBeGreaterThan(4);
+    if (label !== "Standing")
+      expect(layers.every((layer) => layer.id.startsWith("m47pose-"))).toBe(
+        true,
+      );
+  }
+  expect(await pixels()).toEqual(neutral);
+  report.poseRoundTrip = true;
   await page.getByTestId("begin").focus();
   await page.keyboard.press("Enter");
   await page
@@ -171,12 +228,53 @@ try {
   await enterLife(page);
   await page.screenshot({ path: out + "/room.png" });
   report.room = true;
+  const npc = page.locator('[data-testid^="scene-person-"]').first();
+  await expect(npc).toBeVisible();
+  const npcId = (await npc.getAttribute("data-testid"))!.replace(
+    "scene-person-",
+    "",
+  );
+  const roomMaterials = await npc
+    .locator("img[data-kind=head]")
+    .first()
+    .getAttribute("data-material-parameters");
+  await npc.click();
+  await expect(page.getByTestId("quick-dossier")).toBeVisible();
+  await page.getByTestId("quick-dossier-pin").focus();
+  await page.keyboard.press("Enter");
+  await expect(page.getByTestId("quick-dossier-pin")).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+  await page.screenshot({ path: out + "/person-card-pin.png" });
+  await page.getByTestId("dossier-talk").click();
+  await expect(page.getByTestId("person-portrait").first()).toBeVisible();
+  await stable();
+  const conversationHead = page
+    .getByTestId(`talk-face-${npcId}`)
+    .locator("img[data-kind=head]");
+  expect(await conversationHead.getAttribute("data-material-parameters")).toBe(
+    roomMaterials,
+  );
+  await page.screenshot({ path: out + "/conversation.png" });
+  report.conversation = { npcId, sameMaterial: true };
+  report.pinKeyboard = true;
+  await page.keyboard.press("Escape");
   await openShellMenu(page);
   const keep = page.getByTestId("keep-world");
   if (await keep.count()) await keep.click();
   else await page.getByTestId("save-world").click();
   await expect(page.getByText("Saved.", { exact: true })).toBeVisible();
   report.disposableSave = true;
+  const firstRecords = await saved();
+  fs.writeFileSync(
+    out + "/saved-records.json",
+    JSON.stringify(firstRecords, null, 2),
+  );
+  const firstWorld = JSON.parse(firstRecords[0]!.payload).world;
+  const firstPerson = firstWorld.people[firstWorld.control.personId];
+  expect(firstPerson.appearance.catalogGeneration).toBe(15);
+  report.savedAppearance = firstPerson.appearance;
   await page.reload();
   await page.getByTestId("continue").click();
   await page
@@ -186,6 +284,8 @@ try {
     .catch(() => {});
   await enterLife(page);
   report.reloaded = true;
+  expect((await saved())[0]!.payload).toBe(firstRecords[0]!.payload);
+  report.savedBytesPreserved = true;
   await expect(page.locator('[data-material-state="unavailable"]')).toHaveCount(
     0,
   );
@@ -195,6 +295,57 @@ try {
   expect(await page.getByTestId("person-portrait").count()).toBeGreaterThan(0);
   await page.screenshot({ path: out + "/people.png" });
   report.peoplePortraits = true;
+  const second = await context.newPage();
+  await second.goto(String(report.route), {
+    waitUntil: "domcontentloaded",
+    timeout: 60000,
+  });
+  await fillCreator(second, {
+    age: 42,
+    givenName: "Independent",
+    familyName: "Life",
+    state: "Iowa",
+    place: "Mona",
+    route: "custom",
+    household: "shares-a-home",
+    gender: "female",
+  });
+  await second.getByTestId("begin").click();
+  await second
+    .getByTestId("orientation-skip")
+    .waitFor({ state: "visible", timeout: 10000 })
+    .then(() => second.getByTestId("orientation-skip").click())
+    .catch(() => {});
+  await enterLife(second);
+  await saveLife(second);
+  const both = await saved();
+  expect(both.length).toBeGreaterThanOrEqual(2);
+  expect(both.some((r) => r.payload === firstRecords[0]!.payload)).toBe(true);
+  report.separateLives = true;
+  await second.screenshot({ path: out + "/second-life.png" });
+  await second.close();
+  const desk = await context.newPage();
+  await desk.goto("http://127.0.0.1:5487/art-desk.html", {
+    waitUntil: "domcontentloaded",
+    timeout: 60000,
+  });
+  await desk
+    .getByRole("textbox", { name: "Search requests" })
+    .fill("modular47");
+  await expect(
+    desk.getByTestId(
+      "art-desk-row-person-modular47-masc-lean-standing-anatomy",
+    ),
+  ).toBeVisible();
+  await desk
+    .getByTestId("art-desk-row-person-modular47-masc-lean-standing-anatomy")
+    .click();
+  await expect(desk.getByTestId("art-desk-candidate-preview")).toBeVisible();
+  await desk.screenshot({ path: out + "/art-desk.png" });
+  report.artDesk = true;
+  expect((await saved()).length).toBe(both.length);
+  await desk.close();
+  expect(errors).toEqual([]);
 } catch (e) {
   report.failure = String(e);
   fs.writeFileSync(
