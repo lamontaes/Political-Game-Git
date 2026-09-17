@@ -74,7 +74,7 @@ describe("WORLD39 saved-world readers", () => {
       expect(source?.tags.some((tag) => tag.startsWith("matter:"))).toBe(true);
     }
     // The two federal holders plus the home state's executive the opening
-    // writer produced; its term dates are not established, so no start is shown.
+    // writer produced; its term is dated by the game's office calendar.
     const kentucky = stateExecutiveOffice("KY")!;
     expect(model.officeholders.map((holder) => holder.officeKey)).toEqual([
       "us-president",
@@ -85,7 +85,7 @@ describe("WORLD39 saved-world readers", () => {
       model.officeholders.find(
         (holder) => holder.officeKey === kentucky.officeKey,
       )?.startedAt,
-    ).toBeNull();
+    ).toBe("2023-01-02");
     for (const holder of model.officeholders) {
       expect(world.people[holder.personId]).toBeDefined();
       expect(

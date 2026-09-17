@@ -31,16 +31,30 @@ function fixture(onDate: string) {
   return { world, assignment };
 }
 
+/** A bill the office files in the session under test (2037). */
+function filedIn2037(onDate: string) {
+  const { world } = fixture(onDate);
+  const scenario = createLegislativeScenario("kentucky");
+  const opened = openLegislativeWork(world, {
+    scenarioKey: "kentucky",
+    playerPersonId: scenario.playerPersonId,
+    jurisdictionId: world.history.legislativeMeasures![0]!.jurisdictionId,
+  });
+  return opened;
+}
+
 describe("P12 sourced regular-session outer boundary", () => {
   it("refuses the reported March 31, 2037 action without expiring or replacing the bill", () => {
     const { world, assignment } = fixture("2037-03-31");
     const before = serializeWorld(world);
+    // The scenario's bill was filed in 2026: its session ended long ago, so it
+    // does not move again (the reported contradiction).
     expect(() =>
       applyLegislativeCommand(world, assignment, {
         kind: "take-step",
         step: "request-referral",
       }),
-    ).toThrow(/2037-03-30/);
+    ).toThrow(/session ended on 2026-04-15/);
     expect(serializeWorld(world)).toBe(before);
     expect(serializeWorld(deserializeWorld(before))).toBe(before);
     expect(
@@ -50,7 +64,7 @@ describe("P12 sourced regular-session outer boundary", () => {
     ).toBe(true);
   });
   it("keeps the inclusive outer deadline distinct from proof that a session convened", () => {
-    const { world, assignment } = fixture("2037-03-30");
+    const { world, assignment } = filedIn2037("2037-03-30");
     expect(
       regularSessionWindow(assignment.procedure.pack, world.currentDate).kind,
     ).toBe("within-outer-limit");
@@ -70,7 +84,7 @@ describe("P12 sourced regular-session outer boundary", () => {
     ).toBe("past-outer-limit");
   });
   it("checks the actual future hearing date before scheduling or advancing time", () => {
-    const { world, assignment } = fixture("2037-03-25");
+    const { world, assignment } = filedIn2037("2037-03-25");
     const referred = applyLegislativeCommand(world, assignment, {
       kind: "take-step",
       step: "request-referral",
