@@ -102,7 +102,7 @@ async function openDay(page: Page) {
  * campaign's act-then-sleep loop does not bounce between two screens.
  */
 async function openCampaign(page: Page) {
-  await openElsewhere(page, "work");
+  await openElsewhere(page, "campaign");
   await expect(page.getByTestId("work-section-campaign")).toBeVisible();
 }
 
@@ -388,6 +388,7 @@ test.describe("A life can stand for something", () => {
       // A recorded result precedes the supported term; it grants no current office.
       await openElsewhere(page, "work");
       await expect(page.getByTestId("office-section")).toHaveCount(0);
+      await openElsewhere(page, "campaign");
       await expect(page.getByTestId("campaign-afterword")).toContainText(
         /supported term begins/,
       );
@@ -484,6 +485,8 @@ test.describe("P85D integration through ordinary player controls", () => {
     }
     expect(await liveUntilDecided(page)).toBe(true);
     await expect(page.getByTestId("campaign-afterword")).toContainText("won.");
+    // The office is its own Politics tab, apart from the campaign.
+    await openElsewhere(page, "work");
     await expect(page.getByTestId("office-section")).toHaveCount(0);
     // The ordinary shell clock processes the same pending term transition.
     for (let step = 0; step < 52; step += 1) {

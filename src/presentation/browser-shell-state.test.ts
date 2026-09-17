@@ -434,6 +434,36 @@ describe("the shell's own store", () => {
       newsOutletKey: null,
       journalView: "chapters",
       journalYear: null,
+      politicsPlace: "here",
+      governmentScope: "local",
+    });
+  });
+
+  it("keeps the Politics place and level, and falls back from unknown values", async () => {
+    const { store } = storeWith();
+    await store.write(SLOT, {
+      pins: [],
+      preferences: {
+        ...DEFAULT_PREFERENCES,
+        politicsPlace: "home",
+        governmentScope: "state",
+      },
+    });
+    expect((await store.read(SLOT))?.preferences).toMatchObject({
+      politicsPlace: "home",
+      governmentScope: "state",
+    });
+    await store.write(SLOT, {
+      pins: [],
+      preferences: {
+        ...DEFAULT_PREFERENCES,
+        politicsPlace: "moon",
+        governmentScope: "galactic",
+      } as unknown as typeof DEFAULT_PREFERENCES,
+    });
+    expect((await store.read(SLOT))?.preferences).toMatchObject({
+      politicsPlace: "here",
+      governmentScope: "local",
     });
   });
 

@@ -8,6 +8,7 @@ import {
   openCreator,
   openNewsContext,
   startLife,
+  answerCharacterBasics,
 } from "./support/creator";
 
 /*
@@ -150,6 +151,8 @@ for (const size of SIZES) {
     await expect(page.getByTestId("creator-derived-age")).toContainText(
       "You begin at age",
     );
+    // Gender and name are required too (CRUNCH46 R7).
+    await answerCharacterBasics(page);
     await expect(page.getByTestId("creator-continue-character")).toBeEnabled();
   });
 
@@ -198,3 +201,115 @@ for (const size of SIZES) {
     }
   });
 }
+
+test("Return to title from Options and from the desktop hub request", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await freshBrowser(page);
+  await startLife(page, {
+    route: "custom",
+    state: "Nevada",
+    place: "Alamo",
+    age: 34,
+    household: "shares-a-home",
+  });
+  await enterLife(page);
+
+  // The hub's request opens the same save-first question; Stay reports a cancel.
+  const request = () =>
+    page.evaluate(() => {
+      const result = new Promise<string | null>((resolve) => {
+        window.addEventListener(
+          "ocd:return-to-title-result",
+          (event) =>
+            resolve((event as CustomEvent<{ outcome: string }>).detail.outcome),
+          { once: true },
+        );
+        setTimeout(() => resolve(null), 15_000);
+      });
+      const event = new CustomEvent("ocd:request-return-to-title", {
+        cancelable: true,
+      });
+      window.dispatchEvent(event);
+      (
+        window as unknown as { __ocdResult: Promise<string | null> }
+      ).__ocdResult = result;
+      return event.defaultPrevented;
+    });
+  const outcome = () =>
+    page.evaluate(
+      () =>
+        (window as unknown as { __ocdResult: Promise<string | null> })
+          .__ocdResult,
+    );
+
+  expect(await request()).toBe(true);
+  await expect(page.getByTestId("leave-confirm")).toBeVisible();
+  // A second request while the question is open is ignored.
+  expect(
+    await page.evaluate(() => {
+      const event = new CustomEvent("ocd:request-return-to-title", {
+        cancelable: true,
+      });
+      window.dispatchEvent(event);
+      return event.defaultPrevented;
+    }),
+  ).toBe(false);
+  await page.getByTestId("leave-cancel").click();
+  expect(await outcome()).toBe("cancelled");
+  await expect(page.getByTestId("play-screen")).toBeVisible();
+
+  // Options offers the same action for a person at the keyboard.
+  await goTo(page, "nav-options");
+  const action = page.getByTestId("return-to-title");
+  await action.focus();
+  await page.keyboard.press("Enter");
+  await expect(page.getByTestId("leave-confirm")).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(page.getByTestId("leave-confirm")).toBeHidden();
+
+  // Save first during a Return to title saves and then shows the title.
+  expect(await request()).toBe(true);
+  await page.getByTestId("leave-save-first").click();
+  expect(await outcome()).toBe("title");
+  await expect(page.getByTestId("title-tableau")).toBeVisible();
+  await expect(page.getByTestId("play-screen")).toHaveCount(0);
+
+  // On the title screen the request is not acknowledged.
+  expect(
+    await page.evaluate(() => {
+      const event = new CustomEvent("ocd:request-return-to-title", {
+        cancelable: true,
+      });
+      window.dispatchEvent(event);
+      return event.defaultPrevented;
+    }),
+  ).toBe(false);
+});
+
+test("closing a person card returns focus to the row that opened it", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await freshBrowser(page);
+  await startLife(page, {
+    route: "custom",
+    state: "Nevada",
+    place: "Alamo",
+    age: 34,
+    household: "shares-a-home",
+  });
+  await enterLife(page);
+  await goTo(page, "elsewhere-people");
+  const row = page
+    .getByTestId("people-list")
+    .locator('button[data-testid^="people-person-"]')
+    .first();
+  await row.focus();
+  await page.keyboard.press("Enter");
+  await expect(page.getByTestId("quick-dossier")).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(page.getByTestId("quick-dossier")).toHaveCount(0);
+  await expect(row).toBeFocused();
+});

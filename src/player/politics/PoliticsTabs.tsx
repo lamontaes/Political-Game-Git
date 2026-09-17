@@ -46,6 +46,14 @@ export interface PoliticsSubItem {
   readonly testid: string;
 }
 
+/**
+ * On a phone the strip scrolls sideways; a tab reached by keyboard is brought
+ * fully into view rather than left half-clipped at the strip's edge.
+ */
+function revealInStrip(event: { currentTarget: HTMLElement }): void {
+  event.currentTarget.scrollIntoView?.({ block: "nearest", inline: "nearest" });
+}
+
 export function PoliticsTabs({
   active,
   onSelect,
@@ -79,6 +87,7 @@ export function PoliticsTabs({
               onClick={() => {
                 if (item.tab !== active) onSelect(item.tab);
               }}
+              onFocus={revealInStrip}
             >
               {item.label}
             </button>

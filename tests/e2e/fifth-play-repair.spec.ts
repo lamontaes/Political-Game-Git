@@ -1,6 +1,12 @@
 import { expect, test, type Page } from "./fixtures";
 
-import { enterLife, goTo, openCreator, startLife } from "./support/creator";
+import {
+  enterLife,
+  goTo,
+  openCreator,
+  startLife,
+  completeCharacterStep,
+} from "./support/creator";
 
 /**
  * The fifth human-play repairs: viewport-bound creator, and People surfaces
@@ -32,6 +38,7 @@ async function reachPlaceSearch(page: Page) {
   await openCreator(page);
   await page.getByTestId("start-normal").click();
   await expect(page.getByTestId("creator-stage-character")).toBeVisible();
+  await completeCharacterStep(page, 30);
   await page.getByTestId("creator-continue-character").click();
   await expect(page.getByTestId("creator-stage-place")).toBeVisible();
 }

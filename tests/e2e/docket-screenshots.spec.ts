@@ -54,7 +54,7 @@ test("captures the five-minute click path", async ({ page }) => {
     gender: "male",
   });
   await enterLife(page);
-  await openElsewhere(page, "work");
+  await openElsewhere(page, "campaign");
   await fileCandidacy(page);
   await page.getByTestId("campaign-fundraising").click();
   for (let day = 0; day < 3; day += 1) {

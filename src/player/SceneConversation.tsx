@@ -13,6 +13,7 @@ import {
   projectPlayerConversation,
 } from "../presentation/player-conversation";
 import { formatMinute } from "../presentation/player-calendar";
+import { proseDate } from "../presentation/prose-dates";
 import {
   commitConversationTurn,
   LISTEN_INTENT,
@@ -329,7 +330,7 @@ export function SceneConversation({
           ? null
           : after.date === before.date
             ? `${formatMinute(before.minuteOfDay)} → ${formatMinute(after.minuteOfDay)}`
-            : `${formatMinute(before.minuteOfDay)} → ${formatMinute(after.minuteOfDay)}, ${after.date}`,
+            : `${formatMinute(before.minuteOfDay)} → ${formatMinute(after.minuteOfDay)}, ${proseDate(after.date)}`,
       );
       setTrouble(null);
       setHistoryPage(null);
@@ -683,7 +684,9 @@ export function SceneConversation({
                 <ExchangeTurn
                   turn={turn}
                   dateLabel={
-                    turn.date === world.currentDate ? null : String(turn.date)
+                    turn.date === world.currentDate
+                      ? null
+                      : proseDate(turn.date)
                   }
                 />
               </li>

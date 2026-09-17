@@ -4,6 +4,10 @@ import type oldUnpinned from "../../src/presentation/fixtures/morning23-old-unpi
 import { test, expect } from "./fixtures";
 import { startLife, enterLife, saveLife } from "./support/creator";
 
+/* The corner cluster draws the player's own portrait; these look at another. */
+const OUTSIDE_NAV_PORTRAIT =
+  '[data-testid="person-portrait"]:not([data-testid="shell-nav"] *)';
+
 async function openOwnWardrobe(page: Page) {
   await page.getByTestId("shell-nav-cluster").click();
   await page.getByTestId("nav-group-personal").click();
@@ -55,7 +59,7 @@ for (const seed of [
       page.getByRole("region", { name: /^Conversation with / }),
     ).toBeVisible();
     await page
-      .getByTestId("person-portrait")
+      .locator(OUTSIDE_NAV_PORTRAIT)
       .first()
       .screenshot({ path: info.outputPath("conversation-portrait.png") });
     await page.getByTestId("talk-back").click();
@@ -213,7 +217,7 @@ for (const kind of ["unpinned", "gen2"] as const) {
     if (await talk.isEnabled()) {
       await talk.click();
       await page
-        .getByTestId("person-portrait")
+        .locator(OUTSIDE_NAV_PORTRAIT)
         .first()
         .screenshot({ path: info.outputPath(`old-${kind}-conversation.png`) });
       await page.getByTestId("talk-back").click();

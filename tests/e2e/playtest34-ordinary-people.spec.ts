@@ -9,6 +9,10 @@ import {
 } from "./support/creator";
 import type { World } from "../../src/simulation/types";
 
+/* The corner cluster draws the player's own portrait; these look at another. */
+const OUTSIDE_NAV_PORTRAIT =
+  '[data-testid="person-portrait"]:not([data-testid="shell-nav"] *)';
+
 async function wardrobe(page: Page) {
   await openShellMenu(page);
   await page.getByTestId("nav-group-personal").click();
@@ -121,7 +125,9 @@ for (const [town, gender] of [
     expect((await saved(page)).currentMoment).toEqual(before.currentMoment);
     await page.keyboard.press("Escape");
     const scene = page
-      .locator(`[data-person-id="${id}"] img[data-kind="head"]`)
+      .locator(
+        `[data-person-id="${id}"]:not([data-testid="shell-nav"] *) img[data-kind="head"]`,
+      )
       .first();
     const sceneHead = (await scene.count())
       ? await scene.getAttribute("data-material-parameters")
@@ -140,7 +146,7 @@ for (const [town, gender] of [
       await other.click();
       await expect(page.getByTestId("quick-dossier")).toBeFocused();
       await page.getByTestId("dossier-talk").click();
-      const portrait = page.getByTestId("person-portrait").first();
+      const portrait = page.locator(OUTSIDE_NAV_PORTRAIT).first();
       await expect(portrait).toBeVisible();
       const portraitParts = await rendered(portrait);
       expect(portraitParts.find((p) => p.kind === "head")).toEqual(
@@ -346,7 +352,7 @@ test("ordinary child household preserves each generated parent's canonical figur
     });
     await token.click();
     await page.getByTestId("action-talk").click();
-    const portrait = page.getByTestId("person-portrait").first();
+    const portrait = page.locator(OUTSIDE_NAV_PORTRAIT).first();
     const face = await rendered(portrait);
     expect(face.find((p) => p.kind === "head")).toEqual(
       room.find((p) => p.kind === "head"),
@@ -357,7 +363,7 @@ test("ordinary child household preserves each generated parent's canonical figur
     await page.keyboard.press("Escape");
     await token.click();
     await page.getByTestId("action-inspect").click();
-    const dossierPortrait = page.getByTestId("person-portrait").first();
+    const dossierPortrait = page.locator(OUTSIDE_NAV_PORTRAIT).first();
     const dossierFace = await rendered(dossierPortrait);
     expect(dossierFace.find((p) => p.kind === "head")).toEqual(
       face.find((p) => p.kind === "head"),

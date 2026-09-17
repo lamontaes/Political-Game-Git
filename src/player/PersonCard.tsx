@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { PinToggle } from "./controls/PinToggle";
 
 import {
   EDGE_KIND_LABELS,
@@ -293,18 +294,12 @@ export function PersonCard({
           </div>
         </div>
         <div className="pg-person-card-corner">
-          <button
-            type="button"
-            className="ui-icon-button"
-            aria-pressed={pinned}
-            aria-label={
-              pinned ? `Unpin ${dossier.name}` : `Pin ${dossier.name}`
-            }
-            data-testid={expanded ? "dossier-pin" : "quick-dossier-pin"}
-            onClick={onTogglePin}
-          >
-            <span aria-hidden="true">{pinned ? "★" : "☆"}</span>
-          </button>
+          <PinToggle
+            pinned={pinned}
+            name={dossier.name}
+            testid={expanded ? "dossier-pin" : "quick-dossier-pin"}
+            onToggle={onTogglePin}
+          />
           {onClose ? (
             <button
               type="button"

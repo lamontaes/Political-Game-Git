@@ -80,6 +80,9 @@ test("group 1: Nevada creator, room, People, Calendar, Politics and back", async
   expect(years[0]).toBe("2021");
   expect(Number(years[years.length - 1])).toBeGreaterThanOrEqual(1955);
 
+  // Gender comes first; the name draw then uses it (CRUNCH46 R7).
+  await expect(page.getByTestId("creator-randomize-name")).toBeDisabled();
+  await page.getByTestId("gender-female").click();
   // A visible name draw, then keyboard activation of the same control.
   await page.getByTestId("creator-randomize-name").click();
   const first = page.getByLabel("First name", { exact: true });
@@ -99,7 +102,6 @@ test("group 1: Nevada creator, room, People, Calendar, Politics and back", async
   expect((await optionValues(day)).filter(Boolean)).toHaveLength(31);
   await chooseOption(day, "4");
   await chooseStartAge(page, NEVADA.age);
-  await page.getByTestId("gender-female").click();
   await expect(next).toBeEnabled();
   await shot(page, "01-character");
   await next.click();

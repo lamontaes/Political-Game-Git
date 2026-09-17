@@ -1,3 +1,4 @@
+import { proseDate } from "../presentation/prose-dates";
 import type { LifePathDefinition } from "../simulation/life-paths2-catalog";
 import {
   studyProgressSummary,
@@ -46,7 +47,7 @@ export function studyEnrollmentProgressLabel(
     const tuition = studyTuitionStatus(world, enrollmentId, path);
     const due =
       progress.nextDueDate && status === "active" && !tuition
-        ? ` Next tuition due ${progress.nextDueDate} (${dollars(progress.periodCostMinor)}).`
+        ? ` Next tuition due ${proseDate(progress.nextDueDate)} (${dollars(progress.periodCostMinor)}).`
         : "";
     return `${label}. Year ${progress.academicYear}, period ${progress.periodInYear} of ${progress.total}.${due}`;
   }

@@ -331,10 +331,58 @@
   background: var(--pg-control-accent);
 }
 
+/* ------------------------------------------------------- plain buttons */
+
+/*
+ * A button no workspace skins (Politics, Calendar, News) would otherwise wear
+ * the developer green from styles.css. `body:where(.pg-game) button` outranks
+ * that bare `button` rule and nothing with a class, so every scoped skin keeps
+ * its own look.
+ */
+body:where(.pg-game) button {
+  border-color: var(--pg-control-line);
+  background: var(--pg-control-bg);
+  color: var(--pg-control-ink);
+  transition: border-color 0.15s ease;
+}
+
+body:where(.pg-game) button:where(:hover:not(:disabled)) {
+  border-color: var(--pg-control-accent);
+  background: var(--pg-control-bg);
+}
+
+/*
+ * The developer focus ring (styles.css, brown) is hard to see on navy. This
+ * selector outranks `button:focus-visible` by one element, while a skin's own
+ * `.class:focus-visible` ring still wins.
+ */
+body:where(.pg-game) button:focus-visible {
+  outline: 3px solid var(--pg-control-focus);
+  outline-offset: 2px;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  body:where(.pg-game) button,
   .pg-select,
   .pg-select-caret,
   .pg-game :where(input[type="checkbox"], input[type="radio"])::before {
     transition: none;
   }
+}
+
+/* ------------------------------------------------------------ PinToggle */
+
+.pg-pin-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+}
+
+.pg-pin-toggle[aria-pressed="true"] .pg-pin-icon {
+  color: var(--pg-control-accent);
+}
+
+.pg-pin-icon {
+  flex: none;
 }

@@ -112,9 +112,9 @@ test.describe("The title screen shows the game", () => {
       "true",
     );
 
-    // With nothing saved, the two save controls are off and New game is not.
+    // With nothing saved, Continue is off; Saved games stays open for an import.
     await expect(page.getByTestId("continue")).toBeDisabled();
-    await expect(page.getByTestId("open-saves")).toBeDisabled();
+    await expect(page.getByTestId("open-saves")).toBeEnabled();
     await expect(page.getByTestId("new-game")).toBeEnabled();
 
     await startAndKeepALife(page, 34);

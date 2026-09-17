@@ -147,6 +147,126 @@
   margin: 0;
 }
 
-.pg-government-records {
-  justify-self: start;
+.pg-government-represented {
+  border: 1px solid var(--pg-hairline, rgba(244, 236, 224, 0.16));
+  border-radius: 0.45rem;
+  padding: 0.7rem 0.8rem;
+  background: rgba(13, 24, 38, 0.6);
+}
+
+.pg-government-represented h3 {
+  margin: 0 0 0.3rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f4d68a;
+}
+
+.pg-government-represented ul,
+.pg-government-branch .pg-government-roster,
+.pg-government-branch .pg-government-records-list {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.35rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pg-government-represented li > span,
+.pg-government-represented .pg-government-holder,
+.pg-government-subhead,
+.pg-government-seat-status {
+  display: block;
+}
+
+.pg-government-seat,
+.pg-government-subhead {
+  font-size: 0.86rem;
+}
+
+.pg-government-subhead {
+  margin-top: 0.4rem;
+  font-weight: 650;
+}
+
+.pg-government-seat-status {
+  color: rgba(225, 232, 238, 0.76);
+  font-size: 0.86rem;
+  font-style: italic;
+}
+
+.pg-government-counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.9rem;
+  margin: 0.35rem 0 0;
+  font-size: 0.86rem;
+}
+
+.pg-government-counts div {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.pg-government-counts dt {
+  color: rgba(225, 232, 238, 0.76);
+}
+
+.pg-government-counts dd {
+  margin: 0;
+  font-weight: 650;
+}
+
+.pg-government-roster-all {
+  margin-top: 0.4rem;
+}
+
+.pg-government-roster-all > summary {
+  cursor: pointer;
+}
+
+.pg-government-roster-all .pg-government-roster {
+  max-height: 24rem;
+  overflow-y: auto;
+}
+
+.pg-government-record {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #f1dc9a;
+  font: inherit;
+  text-align: left;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.pg-government-holder:focus-visible,
+.pg-government-record:focus-visible {
+  outline: 2px solid #f4d68a;
+  outline-offset: 2px;
+}
+
+/*
+ * Phone widths: the tab strip is one row that scrolls sideways instead of one
+ * tab per line. Buttons stay in tab order; focusing one scrolls it into view.
+ */
+@media (max-width: 640px) {
+  .pg-politics-tab-list {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+    padding-bottom: 0.2rem;
+  }
+
+  .pg-politics-tab-list > li {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+
+  .pg-politics-tab {
+    white-space: nowrap;
+  }
 }

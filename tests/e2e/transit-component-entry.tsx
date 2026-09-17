@@ -4,7 +4,6 @@ import { suppliedLegislativeSeat } from "../fixtures/supplied-legislative-seat";
 import { BrowserSaveStore } from "../../src/presentation/browser-world-repository";
 import { TransitWorkspace } from "../../src/player/TransitWorkspace";
 import { DocketWorkspace } from "../../src/player/DocketWorkspace";
-import { passOrdinaryDays } from "../../src/presentation/ordinary-life";
 import { resolveActiveMemberSeat } from "../../src/presentation/legislative-member-seat";
 import { projectTransitWork } from "../../src/presentation/transit-work";
 import { selectDocketBill } from "../../src/presentation/legislation-docket-selection";
@@ -85,7 +84,6 @@ function Entry() {
             world={world}
             personId={personId}
             onWorldChange={setWorld}
-            onContinue={(days) => setWorld(passOrdinaryDays(world, days))}
             onOpenBill={(key) => {
               const selected = view.bills.find(
                 (entry) => entry.bill.docketKey === key,

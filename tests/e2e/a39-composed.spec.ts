@@ -113,10 +113,9 @@ test("A39 composed readers, municipal and constitutional routes preserve saved l
   text.constitutional = await page
     .getByTestId("constitutional-workspace")
     .innerText();
-  await navigate(page, "nav-politics-transit", "politics");
-  await expect(
-    page.getByRole("heading", { name: "Transit service", exact: true }),
-  ).toBeVisible();
+  // A citizen without office authority is not offered transit configuration.
+  await navigate(page, "nav-politics-budget", "politics");
+  await expect(page.getByTestId("politics-sub-transit")).toHaveCount(0);
   text.transit = await page.locator("main").innerText();
   await saveLife(page);
   expect(await savedWorld(page)).toBe(before);

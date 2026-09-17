@@ -143,6 +143,45 @@ export async function chooseStartAge(page: Page, age: number): Promise<void> {
   );
 }
 
+/**
+ * The rest of the character step a new life requires (CRUNCH46 R7): a gender,
+ * a first and last name (typed, or drawn for that gender) and a month and day.
+ * Call it before `chooseStartAge`, which keeps the year against that month
+ * and day.
+ */
+export async function answerCharacterBasics(
+  page: Page,
+  life: Pick<CreatorLife, "gender" | "givenName" | "familyName"> = {},
+): Promise<void> {
+  await page.getByTestId(`gender-${life.gender ?? "female"}`).click();
+  if (life.givenName || life.familyName) {
+    await page
+      .getByLabel("First name", { exact: true })
+      .fill(life.givenName ?? "Avery");
+    await page
+      .getByLabel("Last name", { exact: true })
+      .fill(life.familyName ?? "Morgan");
+  } else {
+    await page.getByTestId("creator-randomize-name").click();
+  }
+  const month = page.getByTestId("start-birth-month");
+  if (!(await month.getAttribute("data-value"))) {
+    await chooseOption(month, "1");
+    await chooseOption(page.getByTestId("start-birth-day"), "1");
+  }
+}
+
+/** The whole character step: basics, then the birth year for `age`. */
+export async function completeCharacterStep(
+  page: Page,
+  age: number,
+  life: Pick<CreatorLife, "gender" | "givenName" | "familyName"> = {},
+): Promise<void> {
+  await answerCharacterBasics(page, life);
+  await chooseStartAge(page, age);
+  await expect(page.getByTestId("creator-continue-character")).toBeEnabled();
+}
+
 export async function fillCreator(
   page: Page,
   life: CreatorLife,
@@ -156,12 +195,7 @@ export async function fillCreator(
   await page.getByTestId(custom ? "start-custom" : "start-normal").click();
 
   await expect(page.getByTestId("creator-stage-character")).toBeVisible();
-  await chooseStartAge(page, life.age);
-  if (life.givenName)
-    await page.getByLabel("First name", { exact: true }).fill(life.givenName);
-  if (life.familyName)
-    await page.getByLabel("Last name", { exact: true }).fill(life.familyName);
-  if (life.gender) await page.getByTestId(`gender-${life.gender}`).click();
+  await completeCharacterStep(page, life.age, life);
   await page.getByTestId("creator-continue-character").click();
 
   await chooseCreatorLocation(page, life, custom);
@@ -233,13 +267,15 @@ export async function openShellMenu(page: Page): Promise<void> {
 /**
  * Political destinations that live inside the Politics hub.
  *
- * The menu carries one Politics entry; the office, campaigns, government and
+ * The menu carries one Politics entry; the office, campaigns (every campaign
+ * surface, including running for the legislature), government and
  * local records, parties, and the budget with transit and taxes are tabs of
  * the hub. A test that asks for one of the older destination names reaches
  * the same screen the way a player now does: Politics, then the tab.
  */
 const POLITICS_HUB: Readonly<Record<string, readonly string[]>> = {
   "elsewhere-work": ["politics-tab-office"],
+  "elsewhere-campaign": ["politics-tab-campaigns"],
   "nav-politics-government": ["politics-tab-government"],
   "nav-municipal": ["politics-tab-government", "politics-sub-records"],
   "nav-parties": ["politics-tab-parties"],
@@ -365,9 +401,10 @@ export async function shellIdentity(page: Page): Promise<string> {
  */
 export async function openElsewhere(
   page: Page,
-  key: "day" | "people" | "work" | "jobs",
+  key: "day" | "people" | "work" | "jobs" | "campaign",
 ): Promise<void> {
   if (key === "work") return openPoliticsHub(page, "elsewhere-work");
+  if (key === "campaign") return openPoliticsHub(page, "elsewhere-campaign");
   // "work" is the office half of the old Work record; jobs, study, hiring
   // and invitations are its Personal half, reached as a player reaches them.
   const control = await revealShellDestination(

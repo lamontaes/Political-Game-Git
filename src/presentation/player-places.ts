@@ -16,6 +16,7 @@ import {
   type OpeningWalkOffer,
 } from "./life-scene-flow";
 import { resolveLifeScene } from "./life-scene";
+import { proseDate } from "./prose-dates";
 import { municipalWorkspaceFor } from "./municipal-workspace";
 import { municipalActionAuthority } from "../simulation/municipal-public-work";
 import {
@@ -315,7 +316,7 @@ export function describePlacesOutcome(
   const clock =
     afterMoment.date === beforeMoment.date
       ? `${formatMinute(beforeMoment.minuteOfDay)} → ${formatMinute(afterMoment.minuteOfDay)}`
-      : `${formatMinute(beforeMoment.minuteOfDay)} → ${formatMinute(afterMoment.minuteOfDay)}, ${afterMoment.date}`;
+      : `${formatMinute(beforeMoment.minuteOfDay)} → ${formatMinute(afterMoment.minuteOfDay)}, ${proseDate(afterMoment.date)}`;
   const moved =
     afterPlace && afterPlace !== beforePlace ? ` · ${afterPlace}` : "";
   if (

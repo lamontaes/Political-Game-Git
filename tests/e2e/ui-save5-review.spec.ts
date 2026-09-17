@@ -10,6 +10,10 @@ import {
   chooseStartAge,
 } from "./support/creator";
 
+/* The corner cluster draws the player's own portrait; these look at another. */
+const OUTSIDE_NAV_PORTRAIT =
+  '[data-testid="person-portrait"]:not([data-testid="shell-nav"] *)';
+
 test("current normal scene and saved-person dossier remain available for owner review", async ({
   page,
 }, info) => {
@@ -31,7 +35,7 @@ test("current normal scene and saved-person dossier remain available for owner r
   await expect(page.getByTestId("quick-dossier")).toBeVisible();
   await page.getByTestId("quick-dossier-full").click();
   await expect(page.getByTestId("saved-appearance-controls")).toHaveCount(0);
-  await expect(page.getByTestId("person-portrait")).toBeVisible();
+  await expect(page.locator(OUTSIDE_NAV_PORTRAIT)).toBeVisible();
   await page.screenshot({
     path: info.outputPath("normal-npc-dossier.png"),
     fullPage: true,
@@ -44,7 +48,7 @@ test("current normal scene and saved-person dossier remain available for owner r
   await controls.locator("summary").focus();
   await controls.locator("summary").press("Enter");
   await expect(controls).toHaveAttribute("open", "");
-  await expect(page.getByTestId("person-portrait")).toBeVisible();
+  await expect(page.locator(OUTSIDE_NAV_PORTRAIT)).toBeVisible();
   await page.screenshot({
     path: info.outputPath("normal-own-wardrobe.png"),
     fullPage: true,

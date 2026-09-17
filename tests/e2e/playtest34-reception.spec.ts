@@ -8,6 +8,8 @@ import {
   chooseCreatorLocation,
   goTo,
   chooseStartAge,
+  completeCharacterStep,
+  answerCharacterBasics,
 } from "./support/creator";
 import { readReplaySetup } from "../../src/presentation/new-game-identity";
 import { simulationMinutesBetween } from "../../src/simulation/dates";
@@ -136,6 +138,7 @@ test("towns are alphabetical before the visible limit and changing state does no
   await page.goto("/?seed=p34-town-order&art-preview=candidate");
   await page.getByTestId("new-game").click();
   await page.getByTestId("start-normal").click();
+  await completeCharacterStep(page, 30);
   await page.getByTestId("creator-continue-character").click();
   await page.getByTestId("state-search").fill("Kentucky");
   await page.getByTestId("state-KY").click();
@@ -185,6 +188,7 @@ test("birthday validates through actual creator keyboard/pointer controls and pe
   await chooseOption(page.getByTestId("start-birth-month"), { label: "March" });
   await expectChosen(page.getByTestId("start-birth-month"), "3");
   await expectChosen(page.getByTestId("start-birth-day"), "28");
+  await answerCharacterBasics(page);
   await chooseStartAge(page, 22);
   await page.getByTestId("creator-continue-character").focus();
   await page.keyboard.press("Enter");

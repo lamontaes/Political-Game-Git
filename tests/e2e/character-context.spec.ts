@@ -7,6 +7,7 @@ import {
   startLife as walkCreator,
   chooseCreatorLocation,
   chooseStartAge,
+  answerCharacterBasics,
 } from "./support/creator";
 
 /**
@@ -238,7 +239,7 @@ test.describe("The page says whose life this is", () => {
   test("keeps the chosen character through a reload", async ({ page }) => {
     await freshBrowser(page);
     await openSetup(page, 34);
-    await page.getByTestId("gender-male").click();
+    await answerCharacterBasics(page, { gender: "male" });
     await page.getByTestId("creator-continue-character").click();
     await chooseKentucky(page);
     await page.getByTestId("whoareyou-play").click();
