@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
 import {
+  CRUNCH46_WORLD_OPENING_VERSION,
+  ensureWorldStartingConditions,
+  generatePoliticalStartingConditions,
   LIVING_WORLD_SCENARIO_PROFILE,
   MINIMUM_AGE,
   ageOnDate,
@@ -259,21 +262,39 @@ describe("ALIVE43 W1 opening world: Congress and parties", () => {
       seed: "alive43-w1-a",
     });
     const staffed = establishOpeningOfficeholders(
-      created.world,
+      ensureWorldStartingConditions(created.world, {
+        openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+        political: generatePoliticalStartingConditions,
+      }),
+      created.playerPersonId,
+    );
+    // Measure the Congress step itself. Comparing a whole current opening
+    // against `staffed` would also count party bodies, starting conditions,
+    // macro history, hazard scheduling and any other lane's opening step,
+    // and this budget is about the 535-member snapshot.
+    const congressOnly = ensureLivingWorldOpening(
+      staffed,
       created.playerPersonId,
     );
     const added =
+      serializeWorld(congressOnly).length - serializeWorld(staffed).length;
+    const wholeOpening =
       serializeWorld(a.world).length - serializeWorld(staffed).length;
     console.info(
-      `[alive43-w1] opening ${a.openingMs.toFixed(0)}ms / ${b.openingMs.toFixed(0)}ms; Congress snapshot adds ${added} bytes`,
+      `[alive43-w1] opening ${a.openingMs.toFixed(0)}ms / ${b.openingMs.toFixed(0)}ms; Congress snapshot adds ${added} bytes; the whole current opening adds ${wholeOpening} bytes`,
     );
     // The budget only means something for a save that has the snapshot.
-    expect(projectCongress(a.world)).not.toBeNull();
+    expect(projectCongress(congressOnly)).not.toBeNull();
     expect(projectCongress(staffed)).toBeNull();
     expect(added).toBeGreaterThan(0);
     // 535 persistent members are about 1.4 KB each. A per-member
     // participation and state record would add another ~0.8 MB.
     expect(added).toBeLessThan(1_500_000);
+    // The rest of a current opening — party bodies and their committees, the
+    // saved starting conditions, CHANGE's macro start and the hazard
+    // schedule — is its own budget, stated rather than folded into the one
+    // above. Nothing here is per-seat.
+    expect(wholeOpening - added).toBeLessThan(750_000);
     // Seats stay roll tags: no per-member participations. The only
     // participations are the opening's handful of named people (executives,
     // chapter organizers and, in current openings, the WORLD46 standing
