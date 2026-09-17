@@ -1,9 +1,9 @@
 {
   "counts": {
     "INVENTORIED": 3082,
-    "INTENTIONALLY_NON_PLAYER_FACING": 7045,
-    "DIAGNOSTIC_OR_TEST": 7382,
-    "NEEDS_CLASSIFICATION": 10075
+    "INTENTIONALLY_NON_PLAYER_FACING": 7054,
+    "DIAGNOSTIC_OR_TEST": 7393,
+    "NEEDS_CLASSIFICATION": 10082
   },
   "needsClassification": [
     {
@@ -43695,6 +43695,62 @@
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
+      "sourcePath": "src/simulation/governing/office-consequence.ts",
+      "enclosingSymbol": "UNCHANGED",
+      "line": 94,
+      "text": "Being asked to explain changes nothing about the office; the term stands.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/governing/office-consequence.ts",
+      "enclosingSymbol": "UNCHANGED",
+      "line": 96,
+      "text": "An answer is recorded, not judged. Nothing about the office changes.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/governing/office-consequence.ts",
+      "enclosingSymbol": "UNCHANGED",
+      "line": 98,
+      "text": "Agreeing to cooperate changes nothing about the office by itself.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/governing/office-consequence.ts",
+      "enclosingSymbol": "UNCHANGED",
+      "line": 100,
+      "text": "Refusing to cooperate is an answer, not a forfeit. The term stands.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/governing/office-consequence.ts",
+      "enclosingSymbol": "outcome",
+      "line": 158,
+      "text": "They do not hold this office, so there is no term to end.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/governing/office-consequence.ts",
+      "enclosingSymbol": "recordOfficeConsequence",
+      "line": 209,
+      "text": "The seat of the {congressSeatTitle(seat)} is vacant: the member resigned.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/governing/office-consequence.ts",
+      "enclosingSymbol": "recordOfficeConsequence",
+      "line": 310,
+      "text": "{personName(subject)}{office&&holds?`,${office.title},`:\"\"} — {outcome.note} They said: {input.statedReason}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
       "sourcePath": "src/simulation/governing/office-continuity.ts",
       "enclosingSymbol": "OFFICE_CONTINUITY_SOURCES",
       "line": 78,
@@ -80609,9 +80665,9 @@
   ],
   "excludedSummary": [
     {
-      "sourcePath": "src/simulation/transit-contract-definitions.ts",
+      "sourcePath": "src/simulation/mind-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "reason": "A validation message composed in validatePerceptionSource. Play fails closed rather than showing it.",
       "count": 2
     },
     {
@@ -80627,6 +80683,24 @@
       "count": 3
     },
     {
+      "sourcePath": "src/ui/CausalTraceView.tsx",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/ui/EducationPathProof.tsx",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/ui/ArtDeskView.tsx",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -80637,6 +80711,12 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/world.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateEventContext. Play fails closed rather than showing it.",
+      "count": 3
     },
     {
       "sourcePath": "src/simulation/world.ts",
@@ -80693,64 +80773,10 @@
       "count": 17
     },
     {
-      "sourcePath": "src/simulation/world-setup/policy.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/world.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateFactProvenance. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/world.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertUniqueId. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/world.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertHistoryIdentity. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/world.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateTags. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/ui/CausalTraceView.tsx",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/ui/EducationPathProof.tsx",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/simulation/world-setup/integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 19
-    },
-    {
-      "sourcePath": "src/simulation/world-setup/electoral-calibration.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 7
-    },
-    {
-      "sourcePath": "src/simulation/world-setup/integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertWorldSetupIntegrity. Play fails closed rather than showing it.",
-      "count": 7
     },
     {
       "sourcePath": "src/simulation/world-setup/electoral-calibration-source.test.ts",
@@ -80771,6 +80797,30 @@
       "count": 1
     },
     {
+      "sourcePath": "src/simulation/world-setup/census-regions.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/world-setup/policy.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/world.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateFactProvenance. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/world.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertUniqueId. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/world-metrics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateStateProvenance. Play fails closed rather than showing it.",
@@ -80783,21 +80833,33 @@
       "count": 3
     },
     {
-      "sourcePath": "src/simulation/world.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateEventContext. Play fails closed rather than showing it.",
-      "count": 3
-    },
-    {
       "sourcePath": "src/simulation/world-metrics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateObservationRecord. Play fails closed rather than showing it.",
       "count": 7
     },
     {
+      "sourcePath": "src/simulation/world-setup/electoral-calibration.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 7
+    },
+    {
       "sourcePath": "src/simulation/world-metrics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateStateRecord. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/world.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertHistoryIdentity. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/world.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateTags. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -80810,6 +80872,12 @@
       "sourcePath": "src/simulation/world-metrics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertWorldMetricCatalogIntegrity. Play fails closed rather than showing it.",
+      "count": 7
+    },
+    {
+      "sourcePath": "src/simulation/world-setup/integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertWorldSetupIntegrity. Play fails closed rather than showing it.",
       "count": 7
     },
     {
@@ -80834,18 +80902,6 @@
       "sourcePath": "src/simulation/vitality-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateProvenance. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/world-setup/census-regions.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -80897,6 +80953,24 @@
       "count": 13
     },
     {
+      "sourcePath": "src/simulation/transit-production-boundary.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/transit-funded.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 14
+    },
+    {
+      "sourcePath": "src/simulation/transit-contract-definitions.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 2
+    },
+    {
       "sourcePath": "src/simulation/time-work.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertTimeWorkIntegrity. Play fails closed rather than showing it.",
@@ -80931,18 +81005,6 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateInitialWorkResponsibility. Play fails closed rather than showing it.",
       "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/time-work.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateFocus. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/tax-policy.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 3
     },
     {
       "sourcePath": "src/simulation/tax-policy.ts",
@@ -81031,31 +81093,7 @@
     {
       "sourcePath": "src/simulation/setup-text39-copy.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/setup-young-life-bank.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/setup-young-life-bank.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/setup-text39-copy.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/setup-text39-copy.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
       "count": 2
     },
     {
@@ -81065,10 +81103,52 @@
       "count": 26
     },
     {
+      "sourcePath": "src/simulation/setup-questionnaire-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 3
+    },
+    {
       "sourcePath": "src/simulation/setup-priors.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 7
+    },
+    {
+      "sourcePath": "src/simulation/setup-opening-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/setup-opening-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/setup-questionnaire.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/setup-text39-copy.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/setup-young-life-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/setup-young-life-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
     },
     {
       "sourcePath": "src/simulation/serialization.ts",
@@ -81101,7 +81181,7 @@
       "count": 3
     },
     {
-      "sourcePath": "src/simulation/setup-questionnaire-bank.ts",
+      "sourcePath": "src/simulation/tax-policy.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 3
@@ -81161,6 +81241,12 @@
       "count": 2
     },
     {
+      "sourcePath": "src/simulation/setup-text39-copy.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 2
+    },
+    {
       "sourcePath": "src/simulation/resource-pressure.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -81170,30 +81256,6 @@
       "sourcePath": "src/simulation/resource-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateOutcome. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/setup-opening-bank.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/setup-opening-bank.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/setup-opening-bank.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/setup-questionnaire.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 1
     },
     {
@@ -81227,9 +81289,9 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/transit-production-boundary.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
+      "sourcePath": "src/simulation/setup-opening-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -81281,22 +81343,16 @@
       "count": 14
     },
     {
-      "sourcePath": "src/simulation/transit-funded.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 14
+      "sourcePath": "src/simulation/public-information-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertPublicInformationIntegrity. Play fails closed rather than showing it.",
+      "count": 3
     },
     {
       "sourcePath": "src/simulation/public-information-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 20
-    },
-    {
-      "sourcePath": "src/simulation/public-fiscal.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
     },
     {
       "sourcePath": "src/simulation/public-fiscal.ts",
@@ -81309,6 +81365,12 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertPublicFundingMandate. Play fails closed rather than showing it.",
       "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/people-family.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 15
     },
     {
       "sourcePath": "src/simulation/public-fiscal.test.ts",
@@ -81329,21 +81391,9 @@
       "count": 2
     },
     {
-      "sourcePath": "src/simulation/people.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 3
-    },
-    {
       "sourcePath": "src/simulation/press/store.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 3
-    },
-    {
-      "sourcePath": "src/simulation/public-information-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertPublicInformationIntegrity. Play fails closed rather than showing it.",
       "count": 3
     },
     {
@@ -81357,6 +81407,12 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 6
+    },
+    {
+      "sourcePath": "src/simulation/press/procedures.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
     },
     {
       "sourcePath": "src/simulation/press/press46.test.ts",
@@ -81401,10 +81457,28 @@
       "count": 11
     },
     {
+      "sourcePath": "src/simulation/press-reach.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/press/outlets.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/press-reach.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 44
+    },
+    {
+      "sourcePath": "src/simulation/press-interviews.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in requirePressInterview. Play fails closed rather than showing it.",
+      "count": 3
     },
     {
       "sourcePath": "src/simulation/press-interviews.ts",
@@ -81431,18 +81505,6 @@
       "count": 33
     },
     {
-      "sourcePath": "src/simulation/portability-fixture.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/press-reach.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/simulation/politics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateSubjectKnowledgeProvenance. Play fails closed rather than showing it.",
@@ -81453,12 +81515,6 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validatePropositionExposureProvenance. Play fails closed rather than showing it.",
       "count": 6
-    },
-    {
-      "sourcePath": "src/simulation/politics.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateFormation. Play fails closed rather than showing it.",
-      "count": 5
     },
     {
       "sourcePath": "src/simulation/politics.ts",
@@ -81515,15 +81571,9 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/press/outlets.ts",
+      "sourcePath": "src/simulation/portability-fixture.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/press/procedures.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
       "count": 1
     },
     {
@@ -81531,6 +81581,24 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/policy-semantics.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validatePolicyRealization. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/people-family-plan.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 4
+    },
+    {
+      "sourcePath": "src/simulation/policy-semantics.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateImplementationFactor. Play fails closed rather than showing it.",
+      "count": 4
     },
     {
       "sourcePath": "src/simulation/policy-semantics.ts",
@@ -81548,12 +81616,6 @@
       "sourcePath": "src/simulation/policy-semantics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validatePolicyProvenance. Play fails closed rather than showing it.",
-      "count": 3
-    },
-    {
-      "sourcePath": "src/simulation/press-interviews.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in requirePressInterview. Play fails closed rather than showing it.",
       "count": 3
     },
     {
@@ -81577,12 +81639,6 @@
     {
       "sourcePath": "src/simulation/policy-semantics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validatePolicyRealization. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/policy-semantics.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateUncertainty. Play fails closed rather than showing it.",
       "count": 2
     },
@@ -81593,16 +81649,10 @@
       "count": 5
     },
     {
-      "sourcePath": "src/simulation/policy-semantics.ts",
+      "sourcePath": "src/simulation/politics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validatePolicyAlternative. Play fails closed rather than showing it.",
-      "count": 4
-    },
-    {
-      "sourcePath": "src/simulation/policy-semantics.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateImplementationFactor. Play fails closed rather than showing it.",
-      "count": 4
+      "reason": "A validation message composed in validateFormation. Play fails closed rather than showing it.",
+      "count": 5
     },
     {
       "sourcePath": "src/simulation/policy-semantics.ts",
@@ -81641,6 +81691,12 @@
       "count": 24
     },
     {
+      "sourcePath": "src/simulation/people-continuation.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 9
+    },
+    {
       "sourcePath": "src/simulation/person-context.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -81650,6 +81706,12 @@
       "sourcePath": "src/simulation/perception.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 4
+    },
+    {
+      "sourcePath": "src/simulation/policy-semantics.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validatePolicyAlternative. Play fails closed rather than showing it.",
       "count": 4
     },
     {
@@ -81677,40 +81739,28 @@
       "count": 2
     },
     {
-      "sourcePath": "src/simulation/people-family.ts",
+      "sourcePath": "src/simulation/people.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 15
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 3
     },
     {
-      "sourcePath": "src/simulation/people-family-plan.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/people-family-plan.ts",
+      "sourcePath": "src/simulation/people-traits.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 4
+      "count": 1
     },
     {
-      "sourcePath": "src/simulation/people-continuation.ts",
+      "sourcePath": "src/simulation/people-traits.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 9
+      "count": 1
     },
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 11
-    },
-    {
-      "sourcePath": "src/simulation/people-bereavement.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
     },
     {
       "sourcePath": "src/simulation/pennywise-adaptive-life.test.ts",
@@ -81743,16 +81793,10 @@
       "count": 12
     },
     {
-      "sourcePath": "src/simulation/nationwide-world/state-executive-terms.ts",
+      "sourcePath": "src/simulation/nationwide-world/state-executives.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/nationwide-world/state-executive-turnover.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 2
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
     },
     {
       "sourcePath": "src/simulation/nationwide-world/state-executive-term-rules.ts",
@@ -81771,18 +81815,6 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 5
-    },
-    {
-      "sourcePath": "src/simulation/nationwide-world/local-governments.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/nationwide-world/local-governments.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
     },
     {
       "sourcePath": "src/simulation/national-elections.ts",
@@ -81815,6 +81847,48 @@
       "count": 2
     },
     {
+      "sourcePath": "src/simulation/nationwide-world/state-executive-terms.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/nationwide-world/state-executive-turnover.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/people-family-plan.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/national-election-consumer.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 11
+    },
+    {
+      "sourcePath": "src/simulation/national-election-consumer.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/narrative-threads.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 19
+    },
+    {
+      "sourcePath": "src/simulation/names-data.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/national-election-geography.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
@@ -81830,6 +81904,18 @@
       "sourcePath": "src/simulation/national-elections.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateProvenance. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/nationwide-world/local-governments.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/nationwide-world/local-governments.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 1
     },
     {
@@ -81869,46 +81955,10 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/nationwide-world/state-executives.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/people-continuation.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/people-traits.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/people-traits.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/national-election-consumer.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 11
-    },
-    {
-      "sourcePath": "src/simulation/national-election-consumer.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 5
-    },
-    {
-      "sourcePath": "src/simulation/narrative-threads.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 19
+      "sourcePath": "src/simulation/municipal-rule-registry.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 6
     },
     {
       "sourcePath": "src/simulation/municipal-public-work.ts",
@@ -81947,10 +81997,10 @@
       "count": 6
     },
     {
-      "sourcePath": "src/simulation/municipal-rule-registry.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 6
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
     },
     {
       "sourcePath": "src/simulation/municipal-election-rules.ts",
@@ -81985,31 +82035,7 @@
     {
       "sourcePath": "src/simulation/mind.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateTrustedCue. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/mind.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertTags. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/names-data.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/mind.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateMindProvenance. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/municipal-government.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 2
     },
     {
@@ -82031,16 +82057,76 @@
       "count": 54
     },
     {
+      "sourcePath": "src/simulation/mind-queries.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 33
+    },
+    {
+      "sourcePath": "src/simulation/mind-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateFamilyIdentities. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/mind.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateTrustedCue. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/mind.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertTags. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/people-bereavement.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/people-continuation.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/mind-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateProvenance. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/mind-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateDecisionContext. Play fails closed rather than showing it.",
+      "count": 17
+    },
+    {
+      "sourcePath": "src/simulation/mind-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateDecisionTrace. Play fails closed rather than showing it.",
+      "count": 5
+    },
+    {
       "sourcePath": "src/simulation/mind-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateRelationshipSources. Play fails closed rather than showing it.",
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/mind-integrity.ts",
+      "sourcePath": "src/simulation/public-fiscal.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validatePerceptionSource. Play fails closed rather than showing it.",
-      "count": 2
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/time-work.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateFocus. Play fails closed rather than showing it.",
+      "count": 1
     },
     {
       "sourcePath": "src/simulation/mind-integrity.ts",
@@ -82052,12 +82138,6 @@
       "sourcePath": "src/simulation/mind-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validatePerceptionHistory. Play fails closed rather than showing it.",
-      "count": 5
-    },
-    {
-      "sourcePath": "src/simulation/mind-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateDecisionTrace. Play fails closed rather than showing it.",
       "count": 5
     },
     {
@@ -82083,12 +82163,6 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 56
-    },
-    {
-      "sourcePath": "src/simulation/life-favors.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 4
     },
     {
       "sourcePath": "src/simulation/mind-catalog.ts",
@@ -82133,18 +82207,6 @@
       "count": 20
     },
     {
-      "sourcePath": "src/simulation/macro-economy/kernel.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 3
-    },
-    {
-      "sourcePath": "src/simulation/macro-economy/crisis-origins.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 4
-    },
-    {
       "sourcePath": "src/simulation/living-world/party-evolution.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -82155,6 +82217,30 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 21
+    },
+    {
+      "sourcePath": "src/simulation/life.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateLifeProvenance. Play fails closed rather than showing it.",
+      "count": 3
+    },
+    {
+      "sourcePath": "src/simulation/living-world/congress-contest-authority.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 3
+    },
+    {
+      "sourcePath": "src/simulation/living-world/opening.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 3
+    },
+    {
+      "sourcePath": "src/simulation/macro-economy/kernel.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 3
     },
     {
       "sourcePath": "src/simulation/life.ts",
@@ -82211,10 +82297,34 @@
       "count": 4
     },
     {
+      "sourcePath": "src/simulation/macro-economy/crisis-origins.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 4
+    },
+    {
       "sourcePath": "src/simulation/life-queries.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/incident-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateEvaluation. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/incident-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateConsequencePlan. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life-places.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
     },
     {
       "sourcePath": "src/simulation/life-places.ts",
@@ -82224,24 +82334,6 @@
     },
     {
       "sourcePath": "src/simulation/life-personality.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 3
-    },
-    {
-      "sourcePath": "src/simulation/life.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateLifeProvenance. Play fails closed rather than showing it.",
-      "count": 3
-    },
-    {
-      "sourcePath": "src/simulation/living-world/congress-contest-authority.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 3
-    },
-    {
-      "sourcePath": "src/simulation/living-world/opening.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 3
@@ -82266,12 +82358,6 @@
     },
     {
       "sourcePath": "src/simulation/life-paths2.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 33
-    },
-    {
-      "sourcePath": "src/simulation/mind-queries.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 33
@@ -82310,12 +82396,6 @@
       "sourcePath": "src/simulation/life-paths2.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/life-places.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -82373,12 +82453,6 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/mind-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateFamilyIdentities. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/simulation/life-opportunities.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -82431,6 +82505,12 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 71
+    },
+    {
+      "sourcePath": "src/simulation/life-favors.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 4
     },
     {
       "sourcePath": "src/simulation/life-episodes.ts",
@@ -82495,6 +82575,12 @@
     {
       "sourcePath": "src/simulation/legislature-rules.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in requireFormalSeatCount. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/legislature-rules.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 56
     },
@@ -82531,14 +82617,20 @@
     {
       "sourcePath": "src/simulation/legislative-office-terms.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/legislative-member-decisions.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/legislative-office-terms.ts",
+      "sourcePath": "src/simulation/legislative-institutions.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 5
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
     },
     {
       "sourcePath": "src/simulation/legislative-event-references.test.ts",
@@ -82559,7 +82651,13 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/legislative-member-decisions.ts",
+      "sourcePath": "src/simulation/legislative-office-terms.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life-callbacks.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
@@ -82577,16 +82675,22 @@
       "count": 2
     },
     {
-      "sourcePath": "src/simulation/legislative-institutions.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
       "sourcePath": "src/simulation/legislation-tax-identity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/legislation-service-families.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/legislature-rules.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertThresholdRule. Play fails closed rather than showing it.",
+      "count": 1
     },
     {
       "sourcePath": "src/simulation/legislation-service-families.test.ts",
@@ -82615,7 +82719,19 @@
     {
       "sourcePath": "src/simulation/legislation-service-families.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life-circumstances.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life-content-92c.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
       "count": 1
     },
     {
@@ -82623,36 +82739,6 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/legislation-origination-integrity.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 20
-    },
-    {
-      "sourcePath": "src/simulation/legislation-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertLegislationIntegrity. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/legislation-service-families.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/legislature-rules.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertThresholdRule. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/legislature-rules.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in requireFormalSeatCount. Play fails closed rather than showing it.",
-      "count": 1
     },
     {
       "sourcePath": "src/simulation/legislation-integrity.ts",
@@ -82697,6 +82783,30 @@
       "count": 3
     },
     {
+      "sourcePath": "src/simulation/legislation-administration-families.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 3
+    },
+    {
+      "sourcePath": "src/simulation/legislation-administration-families.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 3
+    },
+    {
+      "sourcePath": "src/simulation/legislation-content-contracts.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 3
+    },
+    {
+      "sourcePath": "src/simulation/legislation-fiscal-families.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 3
+    },
+    {
       "sourcePath": "src/simulation/jurisdiction-hierarchy.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -82715,27 +82825,21 @@
       "count": 20
     },
     {
+      "sourcePath": "src/simulation/legislation-origination-integrity.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 20
+    },
+    {
       "sourcePath": "src/simulation/judicial-office-start.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/life-callbacks.ts",
+      "sourcePath": "src/simulation/legislation-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/life-circumstances.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/life-content-92c.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "reason": "A validation message composed in assertLegislationIntegrity. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -82745,33 +82849,9 @@
       "count": 3
     },
     {
-      "sourcePath": "src/simulation/legislation-administration-families.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 3
-    },
-    {
-      "sourcePath": "src/simulation/legislation-administration-families.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 3
-    },
-    {
-      "sourcePath": "src/simulation/legislation-content-contracts.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 3
-    },
-    {
       "sourcePath": "src/simulation/legislation-content-contracts.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 3
-    },
-    {
-      "sourcePath": "src/simulation/legislation-fiscal-families.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 3
     },
     {
@@ -82823,21 +82903,9 @@
       "count": 19
     },
     {
-      "sourcePath": "src/simulation/incident-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateEvaluation. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/incident-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateConsequencePlan. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/simulation/incident-response.fixture.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
       "count": 1
     },
     {
@@ -82865,6 +82933,12 @@
       "count": 20
     },
     {
+      "sourcePath": "src/simulation/governing/state-governing.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/ids.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "Identifier construction.",
@@ -82873,14 +82947,8 @@
     {
       "sourcePath": "src/simulation/incident-response.fixture.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/history.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 2
     },
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
@@ -82943,16 +83011,34 @@
       "count": 12
     },
     {
+      "sourcePath": "src/simulation/governing/outside-mandate-payment.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 6
+    },
+    {
+      "sourcePath": "src/simulation/governing/office-continuity.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 15
+    },
+    {
+      "sourcePath": "src/simulation/governing/office-consequence.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 7
+    },
+    {
       "sourcePath": "src/simulation/governing/press-interfaces.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 7
     },
     {
-      "sourcePath": "src/simulation/governing/outside-mandate-payment.ts",
+      "sourcePath": "src/simulation/governing/office-consequence.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 6
+      "count": 2
     },
     {
       "sourcePath": "src/simulation/governing/office-continuity.ts",
@@ -82961,10 +83047,10 @@
       "count": 2
     },
     {
-      "sourcePath": "src/simulation/governing/office-continuity.test.ts",
+      "sourcePath": "src/simulation/governing/office-consequence.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 15
+      "count": 11
     },
     {
       "sourcePath": "src/simulation/future-transitions.ts",
@@ -82991,21 +83077,15 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/governing/outside-mandate-payment.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/governing/state-governing.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/simulation/future-transitions.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateDueProvenance. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/history.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 2
     },
     {
@@ -83066,6 +83146,12 @@
       "sourcePath": "src/simulation/executive-governing-kernels.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/governing/outside-mandate-payment.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 1
     },
     {
@@ -83495,12 +83581,6 @@
       "count": 2
     },
     {
-      "sourcePath": "src/simulation/mind-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateProvenance. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
       "sourcePath": "src/simulation/civil-personnel.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -83522,12 +83602,6 @@
       "sourcePath": "src/simulation/civil-personnel.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 17
-    },
-    {
-      "sourcePath": "src/simulation/mind-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateDecisionContext. Play fails closed rather than showing it.",
       "count": 17
     },
     {
@@ -83571,18 +83645,6 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 60
-    },
-    {
-      "sourcePath": "src/simulation/character-history.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 5
-    },
-    {
-      "sourcePath": "src/simulation/character-history.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 10
     },
     {
       "sourcePath": "src/simulation/character-history.test.ts",
@@ -85805,6 +85867,12 @@
       "count": 5
     },
     {
+      "sourcePath": "src/simulation/character-history.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 5
+    },
+    {
       "sourcePath": "src/presentation/creator-character.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
@@ -85826,6 +85894,12 @@
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 10
+    },
+    {
+      "sourcePath": "src/simulation/character-history.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 10
     },
     {
