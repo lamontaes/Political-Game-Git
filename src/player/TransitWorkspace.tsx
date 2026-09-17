@@ -15,6 +15,12 @@ import {
 import { dollarsText, serviceHoursText } from "../simulation/transit-service";
 import { money } from "../simulation/resources";
 import type { EntityId, World, WorldMetricValue } from "../simulation/types";
+import { previewTimeCommand } from "../presentation/time-command";
+import {
+  PROTECTED_STOP_NOTE,
+  skipToLabel,
+} from "../presentation/time-target-label";
+import { useTimeCommand } from "./time-command-runner";
 
 function serviceUnits(value: WorldMetricValue | null) {
   if (!value || value.kind !== "quantity")
@@ -43,14 +49,12 @@ export function TransitWorkspace({
   personId,
   onWorldChange,
   onOpenBill,
-  onContinue,
   onOpenTaxWork,
 }: {
   readonly world: World;
   readonly personId: EntityId;
   readonly onWorldChange: (world: World) => void;
   readonly onOpenBill: (docketKey: string) => void;
-  readonly onContinue: (days: number) => void;
   /** Optional root route to the tax surface, the only producer of public cash. */
   readonly onOpenTaxWork?: () => void;
 }) {
@@ -58,6 +62,20 @@ export function TransitWorkspace({
   const [amount, setAmount] = useState("");
   const [window, setWindow] = useState<"weekday" | "weekend" | "">("");
   const [feedback, setFeedback] = useState<string | null>(null);
+  const [timeOutcome, setTimeOutcome] = useState<string | null>(null);
+  const runner = useTimeCommand({ world, personId, onWorldChange });
+  const dayTarget = previewTimeCommand(world, personId, {
+    kind: "days",
+    days: 1,
+  });
+  const weekTarget = previewTimeCommand(world, personId, {
+    kind: "days",
+    days: 7,
+  });
+  const continueFor = (days: 1 | 7) =>
+    runner.submit({ kind: "days", days }, (report) =>
+      setTimeOutcome(report.outcome),
+    );
   function act(callback: () => World) {
     try {
       onWorldChange(callback());
@@ -297,10 +315,50 @@ export function TransitWorkspace({
           Continue on the existing clock. Other commitments may stop time before
           a service period ends.
         </p>
-        <div className="transit-continue">
-          <button onClick={() => onContinue(1)}>Continue one day</button>
-          <button onClick={() => onContinue(7)}>Continue one week</button>
+        <div className="transit-continue" aria-busy={runner.pending}>
+          <button
+            type="button"
+            aria-disabled={runner.pending || undefined}
+            aria-describedby="transit-continue-day-target"
+            onClick={() => continueFor(1)}
+          >
+            Continue one day
+          </button>
+          <button
+            type="button"
+            aria-disabled={runner.pending || undefined}
+            aria-describedby="transit-continue-week-target"
+            onClick={() => continueFor(7)}
+          >
+            Continue one week
+          </button>
         </div>
+        <p className="game-note" data-testid="transit-continue-targets">
+          {dayTarget ? (
+            <span id="transit-continue-day-target">
+              One day: {skipToLabel(dayTarget.target)}.{" "}
+            </span>
+          ) : null}
+          {weekTarget ? (
+            <span id="transit-continue-week-target">
+              One week: {skipToLabel(weekTarget.target)}.{" "}
+            </span>
+          ) : null}
+          {PROTECTED_STOP_NOTE}
+        </p>
+        {runner.pending ? (
+          <p className="game-note" role="status">
+            Time is passing…
+          </p>
+        ) : timeOutcome ? (
+          <p
+            className="game-note"
+            role="status"
+            style={{ whiteSpace: "pre-line" }}
+          >
+            {timeOutcome}
+          </p>
+        ) : null}
       </div>
       {view.reports.length > 0 && (
         <div className="transit-reports">

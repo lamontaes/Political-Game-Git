@@ -142,6 +142,7 @@ export function ShellNav({
   onSave,
   onLeave,
   onPassDays,
+  passTargets,
   passing = false,
 }: {
   readonly state: ShellState;
@@ -156,6 +157,9 @@ export function ShellNav({
   readonly onLeave: () => void;
   /** Day and week through the canonical clock. Absent while growing up. */
   readonly onPassDays?: (days: 1 | 7) => void;
+  /** Where each skip would land, said before it is pressed. */
+  readonly passTargets?: { readonly day: string; readonly week: string };
+  /** A time command is running; the controls keep focus but take no click. */
   readonly passing?: boolean;
 }) {
   const open = state.navigation !== "closed";
@@ -272,9 +276,16 @@ export function ShellNav({
               type="button"
               className="pg-nav-day"
               data-testid="shell-pass-day"
-              disabled={passing}
-              title="Let the day run through your routine. Stops for anything that needs you."
-              onClick={() => onPassDays(1)}
+              aria-disabled={passing || undefined}
+              aria-describedby={passTargets ? "pg-nav-day-target" : undefined}
+              title={
+                passTargets
+                  ? `${passTargets.day}. Your routine runs; stops early for anything protected.`
+                  : "Let the day run through your routine. Stops for anything that needs you."
+              }
+              onClick={() => {
+                if (!passing) onPassDays(1);
+              }}
             >
               Day <span aria-hidden="true">›</span>
             </button>
@@ -282,12 +293,49 @@ export function ShellNav({
               type="button"
               className="pg-nav-day"
               data-testid="shell-pass-week"
-              disabled={passing}
-              title="Let the week run through your routine. Stops for anything that needs you."
-              onClick={() => onPassDays(7)}
+              aria-disabled={passing || undefined}
+              aria-describedby={passTargets ? "pg-nav-week-target" : undefined}
+              title={
+                passTargets
+                  ? `${passTargets.week}. Your routine runs; stops early for anything protected.`
+                  : "Let the week run through your routine. Stops for anything that needs you."
+              }
+              onClick={() => {
+                if (!passing) onPassDays(7);
+              }}
             >
               Week <span aria-hidden="true">»</span>
             </button>
+            {passTargets && raised ? (
+              <small
+                className="pg-nav-days-target"
+                aria-hidden="true"
+                data-testid="shell-pass-targets"
+              >
+                Day: {passTargets.day.replace(/^Skip to /, "")}
+                <br />
+                Week: {passTargets.week.replace(/^Skip to /, "")}
+              </small>
+            ) : null}
+            {passTargets ? (
+              <>
+                <span className="sr-only" id="pg-nav-day-target">
+                  {passTargets.day}
+                </span>
+                <span className="sr-only" id="pg-nav-week-target">
+                  {passTargets.week}
+                </span>
+              </>
+            ) : null}
+            {passing ? (
+              <span
+                className="sr-only"
+                role="status"
+                data-testid="shell-time-pending"
+              >
+                Time is passing…
+              </span>
+            ) : null}
           </div>
         ) : null}
       </div>
