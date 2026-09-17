@@ -273,6 +273,11 @@ import {
 } from "./ShellWorkspaces";
 import { PlayerVersion } from "./PlayerVersion";
 import { ReturnToTitleAction } from "./ReturnToTitleAction";
+import {
+  RETURN_TO_TITLE_REQUEST_EVENT,
+  reportReturnToTitle,
+  type ReturnToTitleRequest,
+} from "./return-to-title-bridge";
 import { PersonalRoutinePanel } from "./PersonalRoutinePanel";
 import {
   SaveImportControl,
@@ -527,8 +532,8 @@ export function PlayerGame() {
   }
 
   const saveInFlight = useRef(false);
-  async function keepThisWorld(shellState: StoredShellState) {
-    if (!session || !store || saveInFlight.current) return;
+  async function keepThisWorld(shellState: StoredShellState): Promise<boolean> {
+    if (!session || !store || saveInFlight.current) return false;
     saveInFlight.current = true;
     setNotice("Saving…");
     // A slot of its own, so keeping this life never lands on top of another
@@ -543,7 +548,7 @@ export function PlayerGame() {
         // A refused slot is not a broken browser, and saying so would send the
         // player looking for the wrong problem.
         setProblem(outcome.reason);
-        return;
+        return false;
       }
       setSession((current) =>
         current?.world.id === session.world.id
@@ -556,8 +561,10 @@ export function PlayerGame() {
           : "Your life was saved, but your pins and display preferences could not be kept.",
       );
       await refreshSaves();
+      return true;
     } catch {
       setProblem("This game could not be saved just now.");
+      return false;
     } finally {
       saveInFlight.current = false;
     }
@@ -636,6 +643,7 @@ export function PlayerGame() {
         setProblem(
           `${flushed.reason} This life is still here — leaving now would lose what is not saved.`,
         );
+        finishReturnToTitle("save-failed");
         await refreshSaves();
         return;
       }
@@ -643,7 +651,19 @@ export function PlayerGame() {
     setSession(null);
     setScreen({ kind: "title" });
     setNotice(null);
+    finishReturnToTitle("title");
     await refreshSaves();
+  }
+
+  // A Return to title in progress (Options or the desktop hub), so its
+  // outcome can be reported once it is known.
+  const returnToTitleRequest = useRef<ReturnToTitleRequest | null>(null);
+  function finishReturnToTitle(
+    outcome: Parameters<typeof reportReturnToTitle>[1],
+  ) {
+    const request = returnToTitleRequest.current;
+    returnToTitleRequest.current = null;
+    reportReturnToTitle(request, outcome);
   }
 
   /*
@@ -870,6 +890,14 @@ export function PlayerGame() {
       }}
       onKeep={(shellState) => void keepThisWorld(shellState)}
       onLeave={() => void leaveGame()}
+      returnToTitleRequest={returnToTitleRequest}
+      onSaveAndLeave={(shellState) =>
+        void (async () => {
+          if (await keepThisWorld(shellState)) await leaveGame();
+          else finishReturnToTitle("save-failed");
+        })()
+      }
+      onReturnToTitleCancelled={() => finishReturnToTitle("cancelled")}
       savesUnavailable={savesUnavailable}
     />
   );
@@ -2213,6 +2241,9 @@ function PlayingScreen({
   onWorldChange: commitWorld,
   onKeep,
   onLeave,
+  returnToTitleRequest,
+  onSaveAndLeave,
+  onReturnToTitleCancelled,
   savesUnavailable,
   shellStore,
 }: {
@@ -2223,6 +2254,11 @@ function PlayingScreen({
   readonly onWorldChange: (world: World, base?: World) => void;
   readonly onKeep: (shellState: StoredShellState) => void;
   readonly onLeave: () => void;
+  /** Set while a Return to title (Options or desktop hub) is in progress. */
+  readonly returnToTitleRequest: { current: ReturnToTitleRequest | null };
+  /** "Save first" during a Return to title: save, then go to the title. */
+  readonly onSaveAndLeave: (shellState: StoredShellState) => void;
+  readonly onReturnToTitleCancelled: () => void;
   readonly savesUnavailable: boolean;
   /**
    * The one shell-state store for this session.
@@ -2860,6 +2896,45 @@ function PlayingScreen({
     [session.world, session.personId, dispatch],
   );
 
+  const needsLeaveConfirmation = session.saveId === null && !savesUnavailable;
+
+  function leaveNow() {
+    if (returnToTitleRequest.current) {
+      returnToTitleRequest.current.leaving = true;
+    }
+    onLeave();
+  }
+
+  function beginReturnToTitle(fromHub: boolean) {
+    returnToTitleRequest.current = { fromHub, leaving: false };
+    if (needsLeaveConfirmation) dispatch({ type: "ask-leave" });
+    else leaveNow();
+  }
+
+  // The desktop hub asks through a DOM event; see return-to-title-bridge.
+  const beginReturnToTitleRef = useRef(beginReturnToTitle);
+  beginReturnToTitleRef.current = beginReturnToTitle;
+  const leaveFlowOpen = shell.confirmingLeave;
+  useEffect(() => {
+    function onRequest(event: Event) {
+      if (leaveFlowOpen || returnToTitleRequest.current) return;
+      event.preventDefault();
+      beginReturnToTitleRef.current(true);
+    }
+    window.addEventListener(RETURN_TO_TITLE_REQUEST_EVENT, onRequest);
+    return () =>
+      window.removeEventListener(RETURN_TO_TITLE_REQUEST_EVENT, onRequest);
+  }, [leaveFlowOpen, returnToTitleRequest]);
+
+  // Stay or Escape closes the question without leaving.
+  const wasConfirmingLeave = useRef(leaveFlowOpen);
+  useEffect(() => {
+    const closed = wasConfirmingLeave.current && !leaveFlowOpen;
+    wasConfirmingLeave.current = leaveFlowOpen;
+    const request = returnToTitleRequest.current;
+    if (closed && request && !request.leaving) onReturnToTitleCancelled();
+  }, [leaveFlowOpen, returnToTitleRequest, onReturnToTitleCancelled]);
+
   const workspace = renderWorkspace({
     view,
     session,
@@ -2878,10 +2953,10 @@ function PlayingScreen({
     workHint,
     returnToTitle: (
       <ReturnToTitleAction
-        needsConfirmation={session.saveId === null && !savesUnavailable}
+        needsConfirmation={needsLeaveConfirmation}
         confirming={shell.confirmingLeave}
-        onAskConfirmation={() => dispatch({ type: "ask-leave" })}
-        onLeave={onLeave}
+        onAskConfirmation={() => beginReturnToTitle(false)}
+        onLeave={() => beginReturnToTitle(false)}
       />
     ),
   });
@@ -3179,16 +3254,21 @@ function PlayingScreen({
               destinations={destinations}
               canSave={!savesUnavailable}
               unsaved={session.saveId === null}
-              onSave={() =>
-                onKeep({
+              onSave={() => {
+                const shellState = {
                   pins: shell.pins,
                   preferences: shell.preferences,
                   journal: shell.journal,
                   personWardrobes: shell.personWardrobes,
                   progress: shell.progress,
-                })
-              }
-              onLeave={onLeave}
+                };
+                const request = returnToTitleRequest.current;
+                if (request && shell.confirmingLeave) {
+                  request.leaving = true;
+                  onSaveAndLeave(shellState);
+                } else onKeep(shellState);
+              }}
+              onLeave={leaveNow}
               {...(capabilities.formativeYears
                 ? {}
                 : { onPassDays: passDays, passTargets })}
