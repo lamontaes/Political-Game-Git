@@ -1,0 +1,81 @@
+/* Proposal Compare / Read (UI DECISION FOLLOW-THROUGH). */
+
+.pg-proposal {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.pg-proposal-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.pg-proposal-switch button {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  padding: 0.2rem 0.6rem;
+  background: rgba(11, 19, 32, 0.5);
+  color: inherit;
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.pg-proposal-switch button[aria-pressed="true"] {
+  border-color: var(--pg-brass, #c29b48);
+  background: rgba(44, 58, 76, 0.85);
+  font-weight: 650;
+}
+
+.pg-proposal-switch button:focus-visible {
+  outline: 2px solid #f4d68a;
+  outline-offset: 2px;
+}
+
+.pg-proposal-reading {
+  display: grid;
+  gap: 0.7rem;
+  max-width: 44rem;
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.55;
+}
+
+.pg-proposal-reading section {
+  border-inline-start: 3px solid transparent;
+  padding-inline-start: 0.6rem;
+}
+
+.pg-proposal-reading .pg-proposal-changed {
+  border-inline-start-color: rgba(255, 235, 160, 0.6);
+}
+
+.pg-proposal-reading h5 {
+  margin: 0 0 0.2rem;
+  font-size: 0.95rem;
+}
+
+.pg-proposal-reading p {
+  margin: 0;
+}
+
+.pg-proposal-flag {
+  margin-inline-start: 0.5em;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.pg-proposal-note {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.8rem;
+  opacity: 0.75;
+}
+
+.pg-proposal-reading details summary {
+  cursor: pointer;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.8rem;
+}

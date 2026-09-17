@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 
 import { projectBudgetEconomy } from "../presentation/budget-economy";
+import { proseDate } from "../presentation/prose-dates";
 import { projectModeledAccountHistory } from "../presentation/modeled-account-history";
 import type { EntityId, World } from "../simulation";
 import { DIAGNOSTICS } from "./diagnostics-profile";
@@ -50,7 +51,7 @@ export function BudgetEconomyWorkspace({
         </div>
         <p>
           <strong>{model.placeLabel}</strong>
-          <span>{model.simulationDate}</span>
+          <span>{proseDate(model.simulationDate)}</span>
         </p>
       </header>
 

@@ -6,6 +6,8 @@ import {
   openCreator,
   startLife as walkCreator,
   chooseCreatorLocation,
+  chooseStartAge,
+  answerCharacterBasics,
 } from "./support/creator";
 
 /**
@@ -53,7 +55,7 @@ async function openSetup(page: Page, age: number) {
   // are reached without touching the place search.
   await page.getByTestId("start-normal").click();
   await expect(page.getByTestId("creator-stage-character")).toBeVisible();
-  await page.getByTestId("start-age").fill(String(age));
+  await chooseStartAge(page, age);
 }
 
 /** Picks Kentucky, then Lexington, and advances past the place step. */
@@ -237,7 +239,7 @@ test.describe("The page says whose life this is", () => {
   test("keeps the chosen character through a reload", async ({ page }) => {
     await freshBrowser(page);
     await openSetup(page, 34);
-    await page.getByTestId("gender-male").click();
+    await answerCharacterBasics(page, { gender: "male" });
     await page.getByTestId("creator-continue-character").click();
     await chooseKentucky(page);
     await page.getByTestId("whoareyou-play").click();

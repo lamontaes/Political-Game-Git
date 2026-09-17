@@ -6,3 +6,4 @@ export * from "./party-chapters";
 export * from "./developments";
 export * from "./party-registry";
 export * from "./party-evolution";
+export * from "./congress-turnover";

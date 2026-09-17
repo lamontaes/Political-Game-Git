@@ -485,13 +485,28 @@ export function futureTransitionHistoryRecords(
   ];
 }
 
+const ID_INDEX = new WeakMap<
+  readonly { readonly id: EntityId }[],
+  Set<EntityId>
+>();
+
+function idsOf(records: readonly { readonly id: EntityId }[]): Set<EntityId> {
+  let ids = ID_INDEX.get(records);
+  if (!ids) {
+    ids = new Set(records.map((record) => record.id));
+    ID_INDEX.set(records, ids);
+  }
+  return ids;
+}
+
 export function futureTransitionEntityExists(
   world: World,
   id: EntityId,
 ): boolean {
+  // Indexed per (immutable) history array; the scan was quadratic on long saves.
   return (
-    world.history.futureDueItems.some((record) => record.id === id) ||
-    world.history.futureDueItemStates.some((record) => record.id === id)
+    idsOf(world.history.futureDueItems).has(id) ||
+    idsOf(world.history.futureDueItemStates).has(id)
   );
 }
 

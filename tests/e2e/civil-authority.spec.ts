@@ -1,4 +1,5 @@
 import { test, expect, type Page } from "@playwright/test";
+import { chooseOption } from "./support/controls";
 
 /**
  * Component activation proof over an explicitly authored scenario. It proves
@@ -27,9 +28,10 @@ test("CIVIL-AUTHORITY13 discharge, filing, appeal and commissioner decision by p
     name: /, Records specialist$/,
   });
   await expect(employee.getByRole("textbox")).toHaveCount(0);
-  await employee
-    .getByRole("combobox", { name: "Episode to discuss" })
-    .selectOption({ index: 1 });
+  await chooseOption(
+    employee.getByRole("combobox", { name: "Episode to discuss" }),
+    { index: 1 },
+  );
   await employee
     .getByRole("button", { name: /Hold an informal resolution/ })
     .click();
@@ -42,15 +44,17 @@ test("CIVIL-AUTHORITY13 discharge, filing, appeal and commissioner decision by p
   );
   await expect(matters).toContainText("subd. 3(c)");
 
-  await employee
-    .getByRole("combobox", { name: "Action" })
-    .selectOption("discharge");
-  await employee
-    .getByRole("combobox", { name: "Just cause" })
-    .selectOption({ label: "Insubordination" });
-  await employee
-    .getByRole("combobox", { name: "Supporting record" })
-    .selectOption({ index: 1 });
+  await chooseOption(
+    employee.getByRole("combobox", { name: "Action" }),
+    "discharge",
+  );
+  await chooseOption(employee.getByRole("combobox", { name: "Just cause" }), {
+    label: "Insubordination",
+  });
+  await chooseOption(
+    employee.getByRole("combobox", { name: "Supporting record" }),
+    { index: 1 },
+  );
   await expect(
     employee.getByRole("region", { name: "Generated notice preview" }),
   ).toContainText(

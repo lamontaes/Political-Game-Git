@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { chooseOption } from "./support/controls";
 test("LIFE-PATHS2 pointer, keyboard, period, interruption and reload proof", async ({
   page,
 }) => {
@@ -40,9 +41,10 @@ test("LIFE-PATHS2 pointer, keyboard, period, interruption and reload proof", asy
       .getByRole("region", { name: "Education and work", exact: true })
       .locator(":scope > [role=status]"),
   ).toContainText("returned");
-  await page
-    .getByRole("combobox", { name: "Person", exact: true })
-    .selectOption({ index: 1 });
+  await chooseOption(
+    page.getByRole("combobox", { name: "Person", exact: true }),
+    { index: 1 },
+  );
   await page.getByRole("button", { name: "Make offer", exact: true }).click();
   await expect(
     page

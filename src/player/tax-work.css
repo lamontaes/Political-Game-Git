@@ -68,3 +68,14 @@
   padding: 0.7rem;
   border: 1px solid var(--run-a-line);
 }
+.tax-work-step {
+  margin: 0 0 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.3rem;
+  min-inline-size: 0;
+}
+.tax-work-step legend {
+  padding-inline: 0.25rem;
+  font-weight: 650;
+}

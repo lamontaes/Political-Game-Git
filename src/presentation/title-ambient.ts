@@ -160,3 +160,24 @@ export function ambientPresentation(
     reasons: ["Ambient title cycle."],
   };
 }
+
+export type TitleStageRole = "showing" | "arriving" | "leaving";
+
+/**
+ * Whether a stage's image drifts. Every role follows the viewer's motion
+ * preference: the leaving stage keeps its drift class so its animation keeps
+ * running through the crossfade instead of snapping back to rest, and the
+ * arriving stage starts its own. Reduced motion keeps every stage still.
+ */
+export function titleStageDrifts(
+  _role: TitleStageRole,
+  motionAllowed: boolean,
+): boolean {
+  return motionAllowed;
+}
+
+export function titleCameraClassName(drifting: boolean): string {
+  return drifting
+    ? "scene-camera title-tableau-camera title-tableau-camera--drift"
+    : "scene-camera title-tableau-camera";
+}

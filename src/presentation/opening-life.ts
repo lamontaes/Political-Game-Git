@@ -21,6 +21,7 @@ import {
 } from "../simulation/macro-economy";
 import type { World, EntityId } from "../simulation";
 import { createNewGameWorld } from "./new-game";
+import { proseDate } from "./prose-dates";
 import type { NewGameSetup, NewGame } from "./new-game";
 import { buildLifeIntroduction } from "./life-introduction";
 import {
@@ -121,7 +122,7 @@ export function projectOpeningLife(world: World, personId: EntityId) {
   return {
     name: personName(person),
     age: ageOnDate(person.birthDate, world.currentDate),
-    date: world.currentDate,
+    date: proseDate(world.currentDate),
     place: household.placeName,
     household,
     officeholders: openingOfficeholders(world),

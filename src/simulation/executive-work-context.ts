@@ -2,6 +2,8 @@ import { activeLifePathWorkers } from "./life-paths2-workers";
 import { isPersonAliveAt } from "./vitality-integrity";
 /** EXEC-WORK2: read canonical office/work/evidence, never caller authority. */
 import { EXECUTIVE_AUTHORITY_RULE_PACKS } from "./executive-authority-rule-packs";
+import type { ExecutiveAuthorityRulePack } from "./executive-authority-rules";
+import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
 import { electionContestResult } from "./election-contests";
 import {
   activeWorkRelationshipsAt,
@@ -126,6 +128,46 @@ export function resolveExecutiveOffice(world: World) {
   return offices.length === 1 ? offices[0]! : null;
 }
 
+/**
+ * The elected executive office an office key names: an accepted authority
+ * pack's office, or a state's governorship without one. A missing pack means
+ * the office's advanced legal powers are not compiled; it does not mean the
+ * office cannot be won, entered or worked.
+ */
+export interface ElectedExecutiveOfficeIdentity {
+  readonly officeKey: string;
+  readonly title: string;
+  readonly jurisdictionKey: string;
+  /** The stable key of the office body organization. */
+  readonly bodyKey: string;
+  readonly pack: ExecutiveAuthorityRulePack | null;
+}
+
+export function electedExecutiveOfficeForKey(
+  officeKey: string,
+): ElectedExecutiveOfficeIdentity | null {
+  const pack = EXECUTIVE_AUTHORITY_RULE_PACKS.find(
+    (candidate) => candidate.office.officeKey === officeKey,
+  );
+  if (pack)
+    return {
+      officeKey,
+      title: pack.office.title,
+      jurisdictionKey: pack.jurisdictionKey,
+      bodyKey: `executive-office:${pack.packId}`,
+      pack,
+    };
+  const identity = stateExecutiveIdentityForOfficeKey(officeKey);
+  if (!identity) return null;
+  return {
+    officeKey,
+    title: identity.title,
+    jurisdictionKey: identity.jurisdictionKey,
+    bodyKey: `executive-office:${identity.officeKey}`,
+    pack: null,
+  };
+}
+
 /** Frozen dates live on expected work and future-due records; no second office store. */
 export function electedExecutiveTermForRelationship(
   world: World,
@@ -151,12 +193,9 @@ export function electedExecutiveTermForRelationship(
   const outcome =
     result &&
     world.history.events.find((event) => event.id === result.outcomeEventId);
-  const pack =
-    contest &&
-    EXECUTIVE_AUTHORITY_RULE_PACKS.find(
-      (candidate) => candidate.office.officeKey === contest.office.officeKey,
-    );
-  const governing = pack && stateJurisdictionForKey(pack.jurisdictionKey);
+  const office =
+    contest && electedExecutiveOfficeForKey(contest.office.officeKey);
+  const governing = office && stateJurisdictionForKey(office.jurisdictionKey);
   if (
     !entry ||
     !expiry ||
@@ -164,7 +203,7 @@ export function electedExecutiveTermForRelationship(
     !contest ||
     !result ||
     !outcome ||
-    !pack ||
+    !office ||
     !governing ||
     relationship.kind !== "employment:executive-office" ||
     relationship.personId !== result.winnerPersonId ||
@@ -191,7 +230,8 @@ export function electedExecutiveTermForRelationship(
     contest,
     result,
     outcome,
-    pack,
+    office,
+    pack: office.pack,
     governing,
     entry,
     expiry,

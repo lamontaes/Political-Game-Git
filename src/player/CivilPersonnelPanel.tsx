@@ -32,6 +32,7 @@ import {
   PERSONNEL_GROUND_LABELS,
   type PersonnelEvidenceOption,
 } from "../presentation/civil-personnel-evidence";
+import { GameSelect } from "./controls/GameSelect";
 
 /** Feature-local containment only; the UI owner supplies visual style. */
 const FIT = { maxWidth: "100%", boxSizing: "border-box" } as const;
@@ -102,7 +103,7 @@ export function CivilPersonnelPanel({
       </p>
       <label>
         Employer you know
-        <select
+        <GameSelect
           style={FIT}
           value={employerId}
           onChange={(event) => setEmployerId(event.target.value as EntityId)}
@@ -113,11 +114,11 @@ export function CivilPersonnelPanel({
               {employer.name}
             </option>
           ))}
-        </select>
+        </GameSelect>
       </label>
       <label>
         Your employment
-        <select
+        <GameSelect
           style={FIT}
           value={employmentId}
           onChange={(event) => setEmploymentId(event.target.value as EntityId)}
@@ -131,7 +132,7 @@ export function CivilPersonnelPanel({
               {employment.title} — {employment.organizationName}
             </option>
           ))}
-        </select>
+        </GameSelect>
       </label>
       <label>
         Questions to prepare
@@ -303,7 +304,7 @@ function PersonnelMatter({
         <>
           <label>
             Action
-            <select
+            <GameSelect
               style={FIT}
               value={action}
               onChange={(event) =>
@@ -312,11 +313,11 @@ function PersonnelMatter({
             >
               <option value="reprimand">Reprimand</option>
               <option value="discharge">Discharge</option>
-            </select>
+            </GameSelect>
           </label>
           <label>
             Just cause
-            <select
+            <GameSelect
               style={FIT}
               value={ground}
               onChange={(event) =>
@@ -328,14 +329,14 @@ function PersonnelMatter({
                   {PERSONNEL_GROUND_LABELS[g]}
                 </option>
               ))}
-            </select>
+            </GameSelect>
           </label>
         </>
       ) : null}
       {informal ? (
         <label>
           Episode to discuss
-          <select
+          <GameSelect
             style={FIT}
             value={informalEvidenceId}
             onChange={(event) =>
@@ -348,7 +349,7 @@ function PersonnelMatter({
                 {entry.label}
               </option>
             ))}
-          </select>
+          </GameSelect>
         </label>
       ) : null}
       {informal && informalEvidence.length === 0 ? (
@@ -360,7 +361,7 @@ function PersonnelMatter({
         <>
           <label>
             Supporting record
-            <select
+            <GameSelect
               style={FIT}
               value={disciplineEvidenceId}
               onChange={(event) =>
@@ -373,7 +374,7 @@ function PersonnelMatter({
                   {entry.label}
                 </option>
               ))}
-            </select>
+            </GameSelect>
           </label>
           {selectedDisciplineEvidence ? (
             <section aria-label="Generated notice preview">
@@ -469,7 +470,7 @@ function ReinstatementForm({
       </p>
       <label>
         Former employee
-        <select
+        <GameSelect
           style={FIT}
           value={personId}
           onChange={(event) => {
@@ -482,7 +483,7 @@ function ReinstatementForm({
               {c.name}
             </option>
           ))}
-        </select>
+        </GameSelect>
       </label>
       <label>
         <input

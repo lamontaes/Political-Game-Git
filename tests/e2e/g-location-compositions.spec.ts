@@ -68,7 +68,7 @@ test("ordinary campaign action paints the storefront only in isolated candidate 
     household: "shares-a-home",
   });
   await enterLife(page);
-  await openElsewhere(page, "work");
+  await openElsewhere(page, "campaign");
   await expect(page.getByTestId("file-candidacy")).toBeVisible();
   await expect(page.getByTestId("file-candidacy")).toBeDisabled();
   const office = page

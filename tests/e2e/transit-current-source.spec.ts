@@ -186,6 +186,8 @@ test("current-source transit component enacts two choices and preserves unpaid c
       exact: true,
     });
     for (let day = 0; day < 90; day++) {
+      // A running time command marks the control busy; one press per day.
+      await expect(continueDay).toBeEnabled();
       if (index) {
         await continueDay.focus();
         await page.keyboard.press("Enter");

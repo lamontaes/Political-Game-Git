@@ -1,4 +1,6 @@
 import { SocialInvitationPanel } from "../presentation/SocialInvitationPanel";
+import { proseDate } from "../presentation/prose-dates";
+import { formatMinute } from "../presentation/player-calendar";
 import { useState } from "react";
 import { CareerPathsPanel } from "./CareerPathsPanel";
 import { EducationOptionsPanel } from "./EducationOptionsPanel";
@@ -52,6 +54,7 @@ import {
   studyProgramCostLabel,
   studyUsesPeriodUi,
 } from "./education-study-display";
+import { GameSelect } from "./controls/GameSelect";
 
 /** Feature-local adapter. UI-CORE owns opening/closing this panel and the World. */
 export interface LifePathsPanelProps {
@@ -373,9 +376,8 @@ export function LifePathsPanel({
               return (
                 <div key={a.id}>
                   <p>
-                    {state.start.date},{" "}
-                    {Math.floor(state.start.minuteOfDay / 60)}:
-                    {String(state.start.minuteOfDay % 60).padStart(2, "0")} —{" "}
+                    {proseDate(state.start.date)},{" "}
+                    {formatMinute(state.start.minuteOfDay)} —{" "}
                     {path.sessionMinutes / 60} hours. Attending advances the
                     clock to the end of this session.
                   </p>
@@ -400,7 +402,7 @@ export function LifePathsPanel({
       </p>
       <label>
         Person{" "}
-        <select
+        <GameSelect
           value={person}
           onChange={(e) => setPerson(e.target.value as EntityId)}
         >
@@ -410,11 +412,11 @@ export function LifePathsPanel({
               {name(id)}
             </option>
           ))}
-        </select>
+        </GameSelect>
       </label>
       <label>
         Work{" "}
-        <select
+        <GameSelect
           value={role}
           onChange={(e) => {
             setRole(e.target.value);
@@ -431,7 +433,7 @@ export function LifePathsPanel({
               {p.title} ({p.scope})
             </option>
           ))}
-        </select>
+        </GameSelect>
       </label>
       <label>
         Dollars per completed assignment{" "}
