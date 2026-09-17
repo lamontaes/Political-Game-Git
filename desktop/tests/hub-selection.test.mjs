@@ -5,6 +5,7 @@ import { setTimeout as delay } from "node:timers/promises";
 import { fileURLToPath, URL } from "node:url";
 
 import {
+  barPill,
   cleanChecks,
   cleanHubState,
   createGeneration,
@@ -262,4 +263,49 @@ test("openPlay validates and builds the incoming view before closing any preview
   assert.ok(close < register);
   // selectTrack hands its liveness check down, so a stale open is refused.
   assert.match(source, /openPlay\(id, current\)/);
+});
+
+test("a missing payload takes the pill away from a verified reading", () => {
+  const status = { kind: "current", text: "Up to date" };
+  const present = barPill({
+    update: status,
+    selectedBuilt: true,
+    track: { currentPresent: true, label: { kind: "latest" } },
+  });
+  assert.deepEqual(present, status);
+  const absent = barPill({
+    update: status,
+    selectedBuilt: true,
+    track: { currentPresent: false, currentAbsentReason: "missing-client" },
+  });
+  assert.equal(absent.kind, "needs-rebuild");
+  assert.match(absent.text, /missing from disk/);
+  assert.notEqual(absent.text, "Up to date");
+  // A track with nothing built yet keeps the check's own reading.
+  assert.deepEqual(
+    barPill({
+      update: status,
+      selectedBuilt: false,
+      track: { currentPresent: false },
+    }),
+    status,
+  );
+});
+
+test("the hub resolves the pill and marks a superseded selection", () => {
+  const source = readFileSync(
+    fileURLToPath(new URL("../private-controller/main.mjs", import.meta.url)),
+    "utf8",
+  );
+  // publicState must hand the renderer an already-resolved pill.
+  assert.match(source, /barPill\(\{\s*update: status/);
+  // A superseded selection is flagged so no renderer paints it as a failure.
+  assert.match(source, /superseded: true/);
+  const chrome = readFileSync(
+    fileURLToPath(new URL("../private-controller/chrome.mjs", import.meta.url)),
+    "utf8",
+  );
+  assert.match(chrome, /token !== selectRequest \|\| result\?\.superseded/);
+  // The renderer paints the pill it was given; it does not re-derive one.
+  assert.ok(!/pill needs-rebuild/.test(chrome));
 });

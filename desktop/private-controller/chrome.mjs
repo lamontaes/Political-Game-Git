@@ -9,6 +9,8 @@ let chooser = null;
 // Chooser listings are requested on every focus; only the newest response is
 // allowed to paint, so a slow earlier one cannot replace it.
 let chooserRequest = 0;
+// Play selections are answered asynchronously; only the newest may paint.
+let selectRequest = 0;
 let showTechnical = false;
 let showDetails = false;
 let last = null;
@@ -106,6 +108,9 @@ function render(state) {
   const item = selectedItem(state);
   const selected = state.tracks[state.selectedTrack];
   const update = state.update ?? { kind: "unchecked", text: "" };
+  // The hub already resolved the pill against disk evidence, so a recorded
+  // build whose payload is gone never paints as "Up to date" here.
+  const missing = update.kind === "needs-rebuild";
   const pill = `<span class="pill ${esc(update.kind)}">${esc(update.text)}</span>`;
   let html = pill;
   if (showDetails) {
@@ -125,12 +130,17 @@ function render(state) {
   } else {
     html += `<strong>${esc(item.title)}</strong>`;
     // A recorded build whose payload is gone says so here, not "verified".
-    if (selected?.currentPresent === false)
-      html += ` · ${esc(selected.label.text)}`;
+    // The pill above already carries the needs-rebuild wording, so the
+    // sentence names the reason instead of repeating it.
+    if (missing)
+      html += ` · ${esc(selected.currentAbsentReason ?? "not on disk")}`;
     // After a hub restart there is no in-memory phase; the persisted check
     // message is what actually happened, so it stays visible.
+    // A stale "already the current build" message must not sit beside a
+    // missing payload; the reason above is the only true reading then.
     const note = state.phase?.message ?? update.detail ?? update.message;
-    if (note && update.kind !== "current") html += ` · ${esc(note)}`;
+    if (note && !missing && update.kind !== "current")
+      html += ` · ${esc(note)}`;
   }
   const checked = timeText(update.lastSuccessAt);
   if (!showDetails)
@@ -212,7 +222,11 @@ track.addEventListener("change", async () => {
     if (last) render(last);
     return;
   }
+  const token = ++selectRequest;
   const result = await hub.selectTrack(track.value);
+  // A response for a choice the owner has already moved past never paints:
+  // neither a later request here nor a selection superseded in the hub.
+  if (token !== selectRequest || result?.superseded) return;
   if (result && result.ok === false && result.message)
     status.textContent = result.message;
 });

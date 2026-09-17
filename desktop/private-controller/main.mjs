@@ -54,6 +54,7 @@ import {
 import {
   MAIN_TRACK,
   activatePending,
+  barPill,
   cleanChecks,
   cleanHubState,
   createGeneration,
@@ -430,12 +431,25 @@ function publicState() {
         }
       : null,
     update: {
-      ...updateStatus({
-        phase: hub.phase[selected] ?? null,
-        check: checks[selected] ?? null,
-        build: selectedBuild,
-        building: hub.workerTrack === selected,
-      }),
+      ...(() => {
+        const status = updateStatus({
+          phase: hub.phase[selected] ?? null,
+          check: checks[selected] ?? null,
+          build: selectedBuild,
+          building: hub.workerTrack === selected,
+        });
+        // A remote check says nothing about the disk: the pill is resolved
+        // here against the payload evidence above, so no renderer can paint
+        // "Up to date" for a build that is not there.
+        return {
+          ...status,
+          ...barPill({
+            update: status,
+            selectedBuilt: Boolean(selectedBuild),
+            track: tracks[selected],
+          }),
+        };
+      })(),
       checkedAt: checks[selected]?.at ?? null,
       lastSuccessAt: checks[selected]?.lastSuccessAt ?? null,
       message: checks[selected]?.message ?? null,
@@ -536,6 +550,8 @@ function logLine(message) {
  */
 const selection = createGeneration();
 const SUPERSEDED = "A newer choice replaced this one; nothing was changed.";
+/** A refusal the owner never needs to see: it is marked, logged, not painted. */
+const superseded = () => ({ ok: false, superseded: true, message: SUPERSEDED });
 
 const contentRoots = new Map(); // track id -> client directory
 const configuredSessions = new Set();
@@ -604,7 +620,7 @@ async function openPlay(id, stillWanted = () => true) {
       message:
         "The standalone game is running with the same save profile. Close it first; its own save guard stays in control.",
     };
-  if (!stillWanted()) return { ok: false, message: SUPERSEDED };
+  if (!stillWanted()) return superseded();
   // The incoming payload is validated and its view built BEFORE anything on
   // screen is disturbed: a build that cannot open leaves the previous preview
   // exactly where it was.
@@ -665,7 +681,7 @@ async function openPlay(id, stillWanted = () => true) {
     }
   if (!stillWanted()) {
     contents.close();
-    return { ok: false, message: SUPERSEDED };
+    return superseded();
   }
   contentRoots.set(id, clientRoot);
   hub.play.set(id, { view, revision: track.current.revision });
@@ -1058,7 +1074,12 @@ async function selectTrack(branch) {
   hub.queue.splice(0, hub.queue.length, ...kept);
   if (state.tracks[id]) {
     const opened = await openPlay(id, current);
-    if (!current()) return { ok: false, message: SUPERSEDED };
+    if (!current()) {
+      // The owner's log is where an abandoned choice is accounted for; the
+      // bar belongs to the choice that won.
+      logLine(`${branch}: ${SUPERSEDED}`);
+      return superseded();
+    }
     if (!opened.ok) logLine(opened.message);
   }
   // Explicitly selecting an owner-repository branch authorizes preparing it.

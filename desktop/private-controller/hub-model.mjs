@@ -391,6 +391,21 @@ export function updateStatus({ phase, check, build, building }) {
   }
 }
 
+/**
+ * The single pill shown at the left of the bar. A remote check says nothing
+ * about the disk, so a recorded build whose payload is gone takes the pill
+ * away from "Up to date": the owner never reads a verified claim beside a
+ * sentence saying the build is missing.
+ */
+export const NEEDS_REBUILD_TEXT =
+  "Cached build missing from disk — needs rebuilding";
+
+export function barPill({ update, selectedBuilt, track }) {
+  if (selectedBuilt && track?.currentPresent === false)
+    return { kind: "needs-rebuild", text: NEEDS_REBUILD_TEXT };
+  return { kind: update?.kind ?? "unchecked", text: update?.text ?? "" };
+}
+
 /* ------------------------------------------------- superseded requests */
 
 /**
