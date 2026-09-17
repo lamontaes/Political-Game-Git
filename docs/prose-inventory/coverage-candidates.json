@@ -3,7 +3,7 @@
     "INVENTORIED": 2858,
     "INTENTIONALLY_NON_PLAYER_FACING": 6424,
     "DIAGNOSTIC_OR_TEST": 6322,
-    "NEEDS_CLASSIFICATION": 8136
+    "NEEDS_CLASSIFICATION": 8138
   },
   "needsClassification": [
     {
@@ -10400,8 +10400,24 @@
     },
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "enclosingSymbol": "officePhrase",
+      "enclosingSymbol": "seeYou",
       "line": 88,
+      "text": "See you then",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "enclosingSymbol": "seeYou",
+      "line": 88,
+      "text": "See you {day}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "enclosingSymbol": "officePhrase",
+      "line": 93,
       "text": "a {lowerFirst(title)}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10409,7 +10425,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "homeRoom",
-      "line": 116,
+      "line": 121,
       "text": "Another housemate is home, and the rooms here do not really close.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10417,7 +10433,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "briefing",
-      "line": 248,
+      "line": 253,
       "text": "{context.fullName} saw you leave for the {context.fact(\"activityTitle\")} after you said you would be home.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10425,7 +10441,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "when",
-      "line": 250,
+      "line": 255,
       "text": "{proseDate(binding.date!)} at {context.fact(\"startTime\")}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10433,7 +10449,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "briefing",
-      "line": 252,
+      "line": 257,
       "text": "{context.fullName} is asking about that evening. You said you would go to the {context.fact(\"activityTitle\")}, {when}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10441,7 +10457,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "briefing",
-      "line": 253,
+      "line": 258,
       "text": "{context.fullName} is asking about that evening. You have an unanswered invitation to the {context.fact(\"activityTitle\")}, {when}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10449,7 +10465,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "opening",
-      "line": 259,
+      "line": 264,
       "text": "“You told me you’d be home that night. Then I watched you head out to the {context.fact(\"activityTitle\")},” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10457,7 +10473,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "opening",
-      "line": 260,
+      "line": 265,
       "text": "“You said you had nothing on. I saw you leave for the {context.fact(\"activityTitle\")},” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10465,7 +10481,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "opening",
-      "line": 266,
+      "line": 271,
       "text": "“Are you around {evening}, or do you have something on?” {name} asks.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10473,7 +10489,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "opening",
-      "line": 267,
+      "line": 272,
       "text": "“What does {evening} look like for you?” {name} asks.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10481,7 +10497,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "opening",
-      "line": 270,
+      "line": 275,
       "text": "“Will you be in {evening}?” {name} asks.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10489,7 +10505,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "opening",
-      "line": 271,
+      "line": 276,
       "text": "“Are you home {evening}, or out?” {name} asks.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10497,7 +10513,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 281,
+      "line": 286,
       "text": "You’re right. I knew about it when I said that. I’m sorry.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10505,7 +10521,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 283,
+      "line": 288,
       "text": "“Thank you for saying it. Just tell me next time,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10513,7 +10529,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 284,
+      "line": 289,
       "text": "“Okay. I’d rather hear the real plan, even if I don’t like it,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10521,7 +10537,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 288,
+      "line": 293,
       "text": "I never said I’d be home. You must have misheard.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10529,7 +10545,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 290,
+      "line": 295,
       "text": "“I know what I heard,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10537,7 +10553,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 291,
+      "line": 296,
       "text": "“Don’t do that. I heard you,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10545,7 +10561,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "onDate",
-      "line": 300,
+      "line": 305,
       "text": "on {proseDate(binding.date!)}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10553,7 +10569,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "attends",
-      "line": 303,
+      "line": 308,
       "text": "The player will go to the {title} {onDate}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10561,7 +10577,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "askWhy",
-      "line": 310,
+      "line": 315,
       "text": "Ask why {context.name} wants to know",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10569,16 +10585,8 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "askWhy",
-      "line": 311,
+      "line": 316,
       "text": "Find out before you answer.",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "enclosingSymbol": "askWhy",
-      "line": 313,
-      "text": "Why do you ask?",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -10586,23 +10594,7 @@
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "askWhy",
       "line": 318,
-      "text": "“No reason. I just wondered if you’d be around,” {name} says.",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "enclosingSymbol": "askWhy",
-      "line": 319,
-      "text": "“Just checking. I like knowing when you’ll be home,” {name} says.",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "enclosingSymbol": "askWhy",
-      "line": 322,
-      "text": "“No reason. Just wondering whether you’ll be around,” {name} says.",
+      "text": "Why do you ask?",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -10610,6 +10602,30 @@
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "askWhy",
       "line": 323,
+      "text": "“No reason. I just wondered if you’d be around,” {name} says.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "enclosingSymbol": "askWhy",
+      "line": 324,
+      "text": "“Just checking. I like knowing when you’ll be home,” {name} says.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "enclosingSymbol": "askWhy",
+      "line": 327,
+      "text": "“No reason. Just wondering whether you’ll be around,” {name} says.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "enclosingSymbol": "askWhy",
+      "line": 328,
       "text": "“Just so I know whether to expect you,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10617,7 +10633,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "askWhy",
-      "line": 326,
+      "line": 331,
       "text": "The player asked {context.name}, “Why do you ask?”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10625,7 +10641,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "inviteAlong",
-      "line": 332,
+      "line": 337,
       "text": "Ask {context.name} to come along",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10633,7 +10649,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "inviteAlong",
-      "line": 333,
+      "line": 338,
       "text": "The {title} is open to anyone.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10641,7 +10657,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "inviteAlong",
-      "line": 334,
+      "line": 339,
       "text": "It’s open to anyone. Do you want to come with me?",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10649,7 +10665,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "inviteAlong",
-      "line": 336,
+      "line": 341,
       "text": "“Not this time. But thanks for asking,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10657,7 +10673,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "inviteAlong",
-      "line": 337,
+      "line": 342,
       "text": "“I’ll pass. Tell me how it goes,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10665,7 +10681,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "inviteAlong",
-      "line": 339,
+      "line": 344,
       "text": "The player asked {context.name} to come to the {title}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10673,7 +10689,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "inviteAlong",
-      "line": 345,
+      "line": 350,
       "text": "{playerName} asked {otherName} to come along to the {title}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10681,7 +10697,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 355,
+      "line": 360,
       "text": "Say you might go to the {title}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10689,7 +10705,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 356,
+      "line": 361,
       "text": "You haven’t answered the invitation yet.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10697,7 +10713,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 357,
+      "line": 362,
       "text": "I might go to the {title}. I haven’t decided.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10705,7 +10721,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 359,
+      "line": 364,
       "text": "“Okay. Let me know when you do,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10713,7 +10729,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 360,
+      "line": 365,
       "text": "“Fair enough. Tell me once you know,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10721,7 +10737,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 362,
+      "line": 367,
       "text": "The player told {context.name}, “I might go to the {title}. I haven’t decided.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10729,7 +10745,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 366,
+      "line": 371,
       "text": "Say you’ll probably stay in",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10737,7 +10753,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 368,
+      "line": 373,
       "text": "An intention, not an answer: the invitation stays open until you decline it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10745,7 +10761,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 369,
+      "line": 374,
       "text": "I’ll probably stay in {evening}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10753,7 +10769,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 371,
+      "line": 376,
       "text": "“Okay. Good to know,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10761,7 +10777,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 372,
+      "line": 377,
       "text": "“A quiet night, then,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10769,7 +10785,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 374,
+      "line": 379,
       "text": "The player told {context.name}, “I’ll probably stay in {evening}.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10777,32 +10793,8 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "explain",
-      "line": 384,
-      "text": "Explain why you’re going",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "enclosingSymbol": "explain",
-      "line": 385,
-      "text": "Tell {context.name} you said yes to {context.fact(\"organizer\")} and want to keep your word.",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "enclosingSymbol": "explain",
-      "line": 387,
-      "text": "I told {context.fact(\"organizer\")} I’d come to the {title}. I want to keep my word.",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "enclosingSymbol": "explain",
       "line": 389,
-      "text": "“Then go. We can do something another night,” {name} says.",
+      "text": "Explain why you’re going",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -10810,7 +10802,7 @@
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "explain",
       "line": 390,
-      "text": "“That’s fair. Tell me how it goes,” {name} says.",
+      "text": "Tell {context.name} you said yes to {context.fact(\"organizer\")} and want to keep your word.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -10818,46 +10810,22 @@
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "explain",
       "line": 392,
-      "text": "The player told {context.name}, “I told {context.fact(\"organizer\")} I’d come to the {title}. I want to keep my word.”",
+      "text": "I told {context.fact(\"organizer\")} I’d come to the {title}. I want to keep my word.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "explain",
-      "line": 404,
-      "text": "{playerName} explained to {otherName} why the {title} mattered.",
+      "line": 394,
+      "text": "“Then go. We can do something another night,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "explain",
-      "line": 409,
-      "text": "Explain why you’re going",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "enclosingSymbol": "explain",
-      "line": 410,
-      "text": "Say you already said yes and mean to follow through.",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "enclosingSymbol": "explain",
-      "line": 412,
-      "text": "I said I’d go to the {title}, and I want to follow through.",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "enclosingSymbol": "explain",
-      "line": 414,
+      "line": 395,
       "text": "“That’s fair. Tell me how it goes,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10865,8 +10833,32 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "explain",
+      "line": 397,
+      "text": "The player told {context.name}, “I told {context.fact(\"organizer\")} I’d come to the {title}. I want to keep my word.”",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "enclosingSymbol": "explain",
+      "line": 409,
+      "text": "{playerName} explained to {otherName} why the {title} mattered.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "enclosingSymbol": "explain",
+      "line": 414,
+      "text": "Explain why you’re going",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "enclosingSymbol": "explain",
       "line": 415,
-      "text": "“Okay. Go,” {name} says.",
+      "text": "Say you already said yes and mean to follow through.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -10874,6 +10866,30 @@
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "explain",
       "line": 417,
+      "text": "I said I’d go to the {title}, and I want to follow through.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "enclosingSymbol": "explain",
+      "line": 419,
+      "text": "“That’s fair. Tell me how it goes,” {name} says.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "enclosingSymbol": "explain",
+      "line": 420,
+      "text": "“Okay. Go,” {name} says.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "enclosingSymbol": "explain",
+      "line": 422,
       "text": "The player told {context.name}, “I said I’d go to the {title}, and I want to follow through.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10881,7 +10897,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 429,
+      "line": 434,
       "text": "Tell {context.name} about the {title}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10889,7 +10905,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 430,
+      "line": 435,
       "text": "Say you’ll be there from {start}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10897,7 +10913,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 432,
+      "line": 437,
       "text": "I’ll be at the {title} {evening}. It starts at {start}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10905,7 +10921,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 434,
+      "line": 439,
       "text": "“Okay. Thanks for letting me know,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10913,7 +10929,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 435,
+      "line": 440,
       "text": "“Got it. I’ll see you after,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10921,7 +10937,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 437,
+      "line": 442,
       "text": "The player told {context.name} about the {title} {onDate}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10929,7 +10945,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 449,
+      "line": 454,
       "text": "{playerName} told {otherName} where they would be that evening.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10937,7 +10953,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 456,
+      "line": 461,
       "text": "Say you’ll be home {evening}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10945,7 +10961,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 457,
+      "line": 462,
       "text": "Leave out the {title}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10953,7 +10969,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 459,
+      "line": 464,
       "text": "No, nothing. I’ll be home {evening}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10961,7 +10977,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 461,
+      "line": 466,
       "text": "“Good. See you then,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10969,7 +10985,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 462,
+      "line": 467,
       "text": "“Okay. I’ll count on it,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10977,7 +10993,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 464,
+      "line": 469,
       "text": "{context.player.givenName} said they would be home {onDate}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10985,7 +11001,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 465,
+      "line": 470,
       "text": "The player told {context.name}, “No, nothing. I’ll be home {evening},” with the {title} already on the calendar for {proseDate(binding.date!)}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10993,7 +11009,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 478,
+      "line": 483,
       "text": "“Have a good time at the {context.has(\"activityTitle\")?context.fact(\"activityTitle\"):\"meeting\"},” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11001,7 +11017,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 479,
+      "line": 484,
       "text": "“Go. I’ll see you after,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11009,7 +11025,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 480,
+      "line": 485,
       "text": "“Maybe next time,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11017,7 +11033,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 481,
+      "line": 486,
       "text": "“See you then,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11025,7 +11041,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 482,
+      "line": 487,
       "text": "“Let me know,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11033,7 +11049,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 483,
+      "line": 488,
       "text": "“Okay,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11041,7 +11057,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 484,
+      "line": 489,
       "text": "“Okay,” {name} says. “Let’s leave it there.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11049,7 +11065,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 485,
+      "line": 490,
       "text": "{name} doesn’t answer that.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11057,7 +11073,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "settled",
-      "line": 487,
+      "line": 492,
       "text": "“Okay,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11065,7 +11081,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "who",
-      "line": 535,
+      "line": 540,
       "text": "{context.fullName}, {context.relationship},",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11073,7 +11089,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "briefing",
-      "line": 538,
+      "line": 543,
       "text": "{who} is asking whether you can {context.fact(\"task\")}. Pay and the date are not settled.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11081,7 +11097,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "minutes",
-      "line": 541,
+      "line": 546,
       "text": " It would take about {context.fact(\"minutes\")} minutes, done separately; answering takes no time.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11089,7 +11105,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "briefing",
-      "line": 543,
+      "line": 548,
       "text": "{who} is asking you to {context.fact(\"task\")}.{minutes}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11097,23 +11113,23 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "opening",
-      "line": 548,
-      "text": "“{opening}” {name} asks.",
+      "line": 554,
+      "text": "“{opening}” {name} {verb}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "opening",
-      "line": 549,
-      "text": "“Do you have a minute? {opening}” {name} asks.",
+      "line": 555,
+      "text": "“Do you have a minute? {opening}” {name} {verb}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 562,
+      "line": 568,
       "text": "Ask what it pays",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11121,7 +11137,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 563,
+      "line": 569,
       "text": "Find out before you agree.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11129,7 +11145,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 565,
+      "line": 571,
       "text": "What would it pay?",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11137,7 +11153,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 567,
+      "line": 573,
       "text": "“We still have to work that out, and the date too,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11145,7 +11161,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 569,
+      "line": 575,
       "text": "The player asked {context.name} what the extra hour would pay.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11153,7 +11169,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 574,
+      "line": 580,
       "text": "Ask how long it will take",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11161,7 +11177,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 575,
+      "line": 581,
       "text": "Find out before you agree.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11169,7 +11185,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 577,
+      "line": 583,
       "text": "How long do you think it’ll take?",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11177,7 +11193,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 579,
+      "line": 585,
       "text": "“About {context.fact(\"minutes\")} minutes, I’d guess,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11185,7 +11201,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 581,
+      "line": 587,
       "text": "The player asked {context.name} how long it would take.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11193,7 +11209,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 590,
+      "line": 596,
       "text": "Say you’ll stay the extra hour",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11201,7 +11217,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 591,
+      "line": 597,
       "text": "The date and pay still need agreeing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11209,7 +11225,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 593,
+      "line": 599,
       "text": "Yes, I can stay the extra hour. Let’s settle the date and pay.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11217,7 +11233,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 595,
+      "line": 601,
       "text": "“Thanks. I’ll check the schedule and get back to you,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11225,7 +11241,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 596,
+      "line": 602,
       "text": "“Great. We’ll sort out the details,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11233,7 +11249,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 598,
+      "line": 604,
       "text": "The player agreed to {context.fact(\"task\")} for {context.name}, date and pay still to be agreed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11241,7 +11257,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 603,
+      "line": 609,
       "text": "Offer part of the hour",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11249,7 +11265,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 604,
+      "line": 610,
       "text": "Say you can stay, but not the whole hour.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11257,7 +11273,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 605,
+      "line": 611,
       "text": "I can stay a bit, but not the full hour.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11265,7 +11281,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 607,
+      "line": 613,
       "text": "“Some is better than none. Thanks,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11273,7 +11289,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 608,
+      "line": 614,
       "text": "“I’ll take what I can get,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11281,7 +11297,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 610,
+      "line": 616,
       "text": "The player offered {context.name} part of the extra hour.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11289,7 +11305,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 615,
+      "line": 621,
       "text": "Say you can’t",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11297,7 +11313,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 616,
+      "line": 622,
       "text": "Turn down the extra hour.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11305,7 +11321,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 617,
+      "line": 623,
       "text": "I can’t add an hour to my next shift.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11313,7 +11329,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 619,
+      "line": 625,
       "text": "“Understood. I’ll ask around,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11321,7 +11337,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 620,
+      "line": 626,
       "text": "“Okay. Thanks for telling me straight,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11329,7 +11345,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 622,
+      "line": 628,
       "text": "The player turned down {context.name}’s request for an extra hour.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11337,7 +11353,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "limited",
-      "line": 633,
+      "line": 639,
       "text": "Agree, with a limit",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11345,7 +11361,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "limited",
-      "line": 635,
+      "line": 641,
       "text": "I can help. {context.fact(\"condition\")}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11353,7 +11369,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "limited",
-      "line": 637,
+      "line": 643,
       "text": "“That’s all I need,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11361,7 +11377,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "limited",
-      "line": 638,
+      "line": 644,
       "text": "“Fair enough. I’ll handle the rest,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11369,7 +11385,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "limited",
-      "line": 640,
+      "line": 646,
       "text": "The player agreed to help {context.name}, on the condition: {lowerFirst(context.fact(\"condition\"))}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11377,7 +11393,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 648,
+      "line": 654,
       "text": "Agree to {context.fact(\"task\")}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11385,7 +11401,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 649,
+      "line": 655,
       "text": "You’ll do it separately.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11393,7 +11409,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 650,
+      "line": 656,
       "text": "Sure. Send it over and I’ll take a look.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11401,7 +11417,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 652,
+      "line": 658,
       "text": "“Thank you. I’ll send it over,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11409,7 +11425,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 653,
+      "line": 659,
       "text": "“You’re a lifesaver. It’s coming your way,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11417,7 +11433,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 655,
+      "line": 661,
       "text": "The player agreed to {context.fact(\"task\")} for {context.name}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11425,7 +11441,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 661,
+      "line": 667,
       "text": "Say you can’t this time",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11433,7 +11449,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 662,
+      "line": 668,
       "text": "Turn down the request.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11441,7 +11457,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 663,
+      "line": 669,
       "text": "I’m sorry, I can’t take this on right now.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11449,7 +11465,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 665,
+      "line": 671,
       "text": "“Okay. I’ll ask someone else,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11457,7 +11473,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 666,
+      "line": 672,
       "text": "“No problem. I figured I’d ask,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11465,7 +11481,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 668,
+      "line": 674,
       "text": "The player turned down {context.name}’s request to {context.fact(\"task\")}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11473,7 +11489,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "done",
-      "line": 676,
+      "line": 682,
       "text": "“Thanks again,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11481,7 +11497,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "done",
-      "line": 677,
+      "line": 683,
       "text": "“Thanks. That helps,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11489,7 +11505,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "done",
-      "line": 678,
+      "line": 684,
       "text": "“It’s fine, really,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11497,7 +11513,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "done",
-      "line": 679,
+      "line": 685,
       "text": "“I’ll let you know about the date,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11505,7 +11521,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "done",
-      "line": 680,
+      "line": 686,
       "text": "“Thanks for helping where you can,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11513,7 +11529,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "done",
-      "line": 681,
+      "line": 687,
       "text": "“No hard feelings,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11521,7 +11537,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "settled",
-      "line": 683,
+      "line": 689,
       "text": "“Okay,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11529,7 +11545,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "briefing",
-      "line": 721,
+      "line": 727,
       "text": "{context.fullName} organizes the {context.fact(\"chapterName\")}. The open meeting is on {proseDate(context.binding.date!)}, {context.fact(\"startTime\")} to {context.fact(\"endTime\")}, in the community room. Coming is optional, and it doesn’t make you a member.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11537,7 +11553,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "opening",
-      "line": 728,
+      "line": 734,
       "text": "“Hi, this is {context.fullName}. I organize the {chapter}. We have an open meeting {day} at {start} in the community room, and anyone can come. Would you like to?”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11545,7 +11561,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "opening",
-      "line": 729,
+      "line": 735,
       "text": "“Hello, {context.fullName} with the {chapter}. We’re meeting {day} at {start} at the community room. It’s open to everyone. Any interest?”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11553,7 +11569,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "question",
-      "line": 738,
+      "line": 744,
       "text": "Ask what the meeting is like",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11561,7 +11577,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "question",
-      "line": 739,
+      "line": 745,
       "text": "Find out before you answer.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11569,7 +11585,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "question",
-      "line": 741,
+      "line": 747,
       "text": "What happens at one of these?",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11577,7 +11593,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "question",
-      "line": 743,
+      "line": 749,
       "text": "“It’s an open meeting. Anyone can come, and coming doesn’t sign you up for anything. It runs {context.fact(\"startTime\")} to {context.fact(\"endTime\")},” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11585,7 +11601,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "question",
-      "line": 745,
+      "line": 751,
       "text": "The player asked {context.name} what the meeting would be like.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11593,7 +11609,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 753,
+      "line": 759,
       "text": "Tell {context.name} you’ll come",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11601,7 +11617,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 754,
+      "line": 760,
       "text": "This puts the meeting on your calendar as a commitment.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11609,7 +11625,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 755,
+      "line": 761,
       "text": "Yes, I’ll be there.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11617,7 +11633,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 757,
+      "line": 763,
       "text": "“Great. I’ll look for you,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11625,15 +11641,15 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 758,
-      "text": "“Good. See you {day},” {name} says.",
+      "line": 764,
+      "text": "“Good. {seeYou(day)},” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 760,
+      "line": 766,
       "text": "The player accepted {context.name}’s invitation to the {context.fact(\"chapterName\")} meeting.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11641,7 +11657,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 767,
+      "line": 773,
       "text": "{playerName} accepted {otherName}’s invitation to the open meeting.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11649,7 +11665,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 772,
+      "line": 778,
       "text": "Say you’re not sure yet",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11657,7 +11673,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 773,
+      "line": 779,
       "text": "The invitation stays open; nothing is decided.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11665,7 +11681,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 774,
+      "line": 780,
       "text": "I’m not sure yet. Can I let you know?",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11673,7 +11689,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 776,
+      "line": 782,
       "text": "“Of course. The invitation stands,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11681,7 +11697,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 777,
+      "line": 783,
       "text": "“Sure. No pressure,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11689,7 +11705,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 779,
+      "line": 785,
       "text": "The player left {context.name}’s invitation open.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11697,7 +11713,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 783,
+      "line": 789,
       "text": "Say no thanks",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11705,7 +11721,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 784,
+      "line": 790,
       "text": "Turn down this meeting.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11713,7 +11729,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 785,
+      "line": 791,
       "text": "Thanks, but I’ll pass on this one.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11721,7 +11737,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 787,
+      "line": 793,
       "text": "“No problem. Maybe another time,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11729,7 +11745,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 788,
+      "line": 794,
       "text": "“That’s fine. Thanks for picking up,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11737,7 +11753,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 790,
+      "line": 796,
       "text": "The player turned down {context.name}’s invitation to the meeting.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11745,15 +11761,15 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 800,
-      "text": "“See you {day},” {name} says.",
+      "line": 806,
+      "text": "“{seeYou(day)},” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 801,
+      "line": 807,
       "text": "“Call me if you decide,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11761,7 +11777,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 802,
+      "line": 808,
       "text": "“Take care,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11769,7 +11785,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "settled",
-      "line": 804,
+      "line": 810,
       "text": "“Okay,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11777,7 +11793,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "briefing",
-      "line": 832,
+      "line": 838,
       "text": "You lost the election for {office}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11785,7 +11801,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "briefing",
-      "line": 835,
+      "line": 841,
       "text": "You won the election for {office}. The term begins on {proseDate(context.fact(\"termStart\"))}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11793,7 +11809,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "briefing",
-      "line": 836,
+      "line": 842,
       "text": "You won the election for {office}. The record does not yet give a start date for the term.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11801,7 +11817,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "opening",
-      "line": 841,
+      "line": 847,
       "text": "“I’m sorry about the result. How are you doing?” {name} asks.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11809,7 +11825,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "opening",
-      "line": 842,
+      "line": 848,
       "text": "“I saw the result. Are you okay?” {name} asks.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11817,7 +11833,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "opening",
-      "line": 846,
+      "line": 852,
       "text": "“Congratulations. When do you take office?” {name} asks.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11825,7 +11841,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "opening",
-      "line": 847,
+      "line": 853,
       "text": "“You actually won. When does it start?” {name} asks.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11833,7 +11849,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 855,
+      "line": 861,
       "text": "Say it hurts",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11841,7 +11857,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 856,
+      "line": 862,
       "text": "Be honest about how it feels.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11849,7 +11865,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 857,
+      "line": 863,
       "text": "Honestly? It stings.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11857,7 +11873,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 859,
+      "line": 865,
       "text": "“It would sting anyone. I’m glad you ran,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11865,7 +11881,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 860,
+      "line": 866,
       "text": "“Of course it does. You put a lot into it,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11873,7 +11889,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 862,
+      "line": 868,
       "text": "The player told {context.name}, “Honestly? It stings.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11881,7 +11897,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 868,
+      "line": 874,
       "text": "{otherName} comforted {playerName} after the election.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11889,7 +11905,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 873,
+      "line": 879,
       "text": "Say you’re thinking about what’s next",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11897,7 +11913,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 874,
+      "line": 880,
       "text": "Look ahead rather than back.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11905,7 +11921,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 875,
+      "line": 881,
       "text": "I’ll be okay. I want to figure out what comes next.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11913,7 +11929,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 877,
+      "line": 883,
       "text": "“Take a few days before you decide anything,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11921,7 +11937,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 878,
+      "line": 884,
       "text": "“There’s time. You don’t have to know tonight,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11929,7 +11945,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 880,
+      "line": 886,
       "text": "The player told {context.name}, “I want to figure out what comes next.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11937,7 +11953,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 884,
+      "line": 890,
       "text": "Ask to talk about it later",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11945,7 +11961,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 885,
+      "line": 891,
       "text": "Not now.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11953,7 +11969,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 886,
+      "line": 892,
       "text": "Can we talk about it later?",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11961,7 +11977,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 888,
+      "line": 894,
       "text": "“Of course,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11969,7 +11985,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 889,
+      "line": 895,
       "text": "“Whenever you’re ready,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11977,7 +11993,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 891,
+      "line": 897,
       "text": "The player asked {context.name} to talk about the election later.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11985,7 +12001,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "date",
-      "line": 899,
+      "line": 905,
       "text": "Say the term starts {proseDate(context.fact(\"termStart\"))}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11993,7 +12009,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "date",
-      "line": 900,
+      "line": 906,
       "text": "The date on record for the new term.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12001,7 +12017,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "date",
-      "line": 902,
+      "line": 908,
       "text": "The term starts {proseDate(context.fact(\"termStart\"))}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12009,7 +12025,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "date",
-      "line": 904,
+      "line": 910,
       "text": "“I’ll put it on the calendar,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12017,7 +12033,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "date",
-      "line": 905,
+      "line": 911,
       "text": "“{proseDate(context.fact(\"termStart\"))}. Okay. Congratulations again,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12025,7 +12041,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "date",
-      "line": 907,
+      "line": 913,
       "text": "The player told {context.name} the term starts on {proseDate(context.fact(\"termStart\"))}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12033,7 +12049,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "date",
-      "line": 910,
+      "line": 916,
       "text": "The term starts on {proseDate(context.fact(\"termStart\"))}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12041,7 +12057,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "date",
-      "line": 921,
+      "line": 927,
       "text": "Say you don’t know the date yet",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12049,7 +12065,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "date",
-      "line": 922,
+      "line": 928,
       "text": "The record does not give one.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12057,7 +12073,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "date",
-      "line": 923,
+      "line": 929,
       "text": "I don’t know yet. I need to find out.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12065,7 +12081,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "date",
-      "line": 925,
+      "line": 931,
       "text": "“Find out soon. I want to be there,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12073,7 +12089,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "date",
-      "line": 926,
+      "line": 932,
       "text": "“Well, let me know when you do,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12081,7 +12097,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "date",
-      "line": 928,
+      "line": 934,
       "text": "The player told {context.name}, “I don’t know yet. I need to find out.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12089,7 +12105,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 934,
+      "line": 940,
       "text": "Thank {context.name}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12097,7 +12113,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 935,
+      "line": 941,
       "text": "Take the congratulations.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12105,7 +12121,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 936,
+      "line": 942,
       "text": "Thank you. It hasn’t sunk in yet.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12113,7 +12129,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 938,
+      "line": 944,
       "text": "“It will,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12121,7 +12137,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 939,
+      "line": 945,
       "text": "“Give it a day,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12129,7 +12145,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 941,
+      "line": 947,
       "text": "The player thanked {context.name} for the congratulations.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12137,7 +12153,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 947,
+      "line": 953,
       "text": "{otherName} congratulated {playerName} on the election.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12145,7 +12161,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 954,
+      "line": 960,
       "text": "“I’m proud of you,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12153,7 +12169,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 955,
+      "line": 961,
       "text": "“Either way, congratulations,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12161,7 +12177,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 956,
+      "line": 962,
       "text": "“Enjoy it,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12169,7 +12185,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 957,
+      "line": 963,
       "text": "“Come here,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12177,7 +12193,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 958,
+      "line": 964,
       "text": "“One step at a time,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12185,7 +12201,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 959,
+      "line": 965,
       "text": "“I’m here when you want to,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12193,7 +12209,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "settled",
-      "line": 961,
+      "line": 967,
       "text": "“Okay,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12201,7 +12217,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "briefing",
-      "line": 981,
+      "line": 987,
       "text": "{context.fullName}, your {lowerFirst(context.fact(\"staffTitle\"))}, is asking what you want done about {context.fact(\"designation\")}, {context.fact(\"shortTitle\")}. It is still pending.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12209,7 +12225,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "opening",
-      "line": 986,
+      "line": 992,
       "text": "“{bill} is still pending. Do you want the short summary, or should I keep tracking it for you?” {name} asks.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12217,7 +12233,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "opening",
-      "line": 987,
+      "line": 993,
       "text": "“Quick question on {bill}. Do you want to go through it yourself, or should I watch it and tell you when it moves?” {name} asks.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12225,7 +12241,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 995,
+      "line": 1001,
       "text": "Ask for the short version",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12233,7 +12249,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 996,
+      "line": 1002,
       "text": "What {bill} does, in a sentence.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12241,7 +12257,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 998,
+      "line": 1004,
       "text": "Give me the short version.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12249,7 +12265,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 999,
+      "line": 1005,
       "text": "“{context.fact(\"summary\")}” {context.name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12257,7 +12273,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1000,
+      "line": 1006,
       "text": "The player asked {context.name} for a summary of {bill}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12265,7 +12281,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1004,
+      "line": 1010,
       "text": "Ask {context.name} to keep tracking it",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12273,7 +12289,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1005,
+      "line": 1011,
       "text": "{context.name} follows it and tells you when it moves.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12281,7 +12297,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1006,
+      "line": 1012,
       "text": "Keep an eye on it and tell me when it moves.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12289,7 +12305,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1008,
+      "line": 1014,
       "text": "“Will do,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12297,7 +12313,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1009,
+      "line": 1015,
       "text": "“I’ll let you know as soon as it does,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12305,7 +12321,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1011,
+      "line": 1017,
       "text": "The player asked {context.name} to track {bill}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12313,7 +12329,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1015,
+      "line": 1021,
       "text": "tracking {bill}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12321,7 +12337,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1021,
+      "line": 1027,
       "text": "Say you’ll read it yourself",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12329,7 +12345,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1022,
+      "line": 1028,
       "text": "You take on the reading this week.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12337,7 +12353,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1023,
+      "line": 1029,
       "text": "I’ll read the full text myself this week.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12345,7 +12361,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1025,
+      "line": 1031,
       "text": "“Okay. Tell me if you want notes,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12353,7 +12369,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1026,
+      "line": 1032,
       "text": "“Sounds good. I’m around if you have questions,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12361,7 +12377,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1028,
+      "line": 1034,
       "text": "The player told {context.name}, “I’ll read the full text myself this week.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12369,7 +12385,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1032,
+      "line": 1038,
       "text": "reading {bill}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12377,7 +12393,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1039,
+      "line": 1045,
       "text": "Nobody takes it on yet.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12385,7 +12401,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1040,
+      "line": 1046,
       "text": "Let’s leave it for now.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12393,7 +12409,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1041,
+      "line": 1047,
       "text": "“Understood,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12401,7 +12417,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1042,
+      "line": 1048,
       "text": "The player left {bill} alone for now.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12409,7 +12425,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 1048,
+      "line": 1054,
       "text": "“I’m on it,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12417,7 +12433,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 1049,
+      "line": 1055,
       "text": "“It’s all yours,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12425,7 +12441,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 1050,
+      "line": 1056,
       "text": "“I’ll hold off,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12433,7 +12449,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "settled",
-      "line": 1052,
+      "line": 1058,
       "text": "“Okay,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12441,7 +12457,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "outlet",
-      "line": 1079,
+      "line": 1085,
       "text": " with {context.fact(\"outlet\")}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12449,7 +12465,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "of",
-      "line": 1080,
+      "line": 1086,
       "text": " of {context.fact(\"outlet\")}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12457,7 +12473,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "briefing",
-      "line": 1136,
+      "line": 1142,
       "text": "{context.fullName} has {context.fact(\"sourceName\")}’s account, which contradicts what you told them.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12465,7 +12481,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "briefing",
-      "line": 1139,
+      "line": 1145,
       "text": "{context.fullName} found that an answer you gave from memory was wrong.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12473,7 +12489,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "opening",
-      "line": 1147,
+      "line": 1153,
       "text": "“You told me that wasn’t so. {source} says it was. Do you want to respond?” {name} asks.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12481,7 +12497,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "opening",
-      "line": 1148,
+      "line": 1154,
       "text": "“I checked with {source}, and it isn’t what you told me. Anything to add?” {name} asks.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12489,7 +12505,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "opening",
-      "line": 1153,
+      "line": 1159,
       "text": "“I checked what you told me, and it doesn’t match the record,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12497,7 +12513,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1165,
+      "line": 1171,
       "text": "You’re right. I shouldn’t have told you otherwise.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12505,7 +12521,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1167,
+      "line": 1173,
       "text": "“Thanks for setting it straight,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12513,7 +12529,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1168,
+      "line": 1174,
       "text": "“I appreciate the correction,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12521,7 +12537,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1172,
+      "line": 1178,
       "text": "I stand by what I told you.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12529,7 +12545,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1174,
+      "line": 1180,
       "text": "“Noted,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12537,7 +12553,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1175,
+      "line": 1181,
       "text": "“Then we disagree about what happened,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12545,7 +12561,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1181,
+      "line": 1187,
       "text": "Decline to comment",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12553,7 +12569,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1182,
+      "line": 1188,
       "text": "Say nothing more about it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12561,7 +12577,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1183,
+      "line": 1189,
       "text": "I have nothing more to say about that.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12569,7 +12585,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1185,
+      "line": 1191,
       "text": "“Then I’ll note that you declined to comment,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12577,7 +12593,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1187,
+      "line": 1193,
       "text": "The player declined to comment further to {context.name}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12585,7 +12601,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1207,
+      "line": 1213,
       "text": "Answer the question truthfully.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12593,7 +12609,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1211,
+      "line": 1217,
       "text": "“Thank you. That’s what I needed,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12601,7 +12617,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1212,
+      "line": 1218,
       "text": "“I appreciate the straight answer,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12609,7 +12625,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1214,
+      "line": 1220,
       "text": "The player told {context.name}, “{question.confirm}”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12617,7 +12633,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1219,
+      "line": 1225,
       "text": "Decline to comment",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12625,7 +12641,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1220,
+      "line": 1226,
       "text": "Neither confirm nor deny.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12633,7 +12649,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1223,
+      "line": 1229,
       "text": "“Understood. I’ll say you declined to comment,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12641,7 +12657,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1224,
+      "line": 1230,
       "text": "“All right. I’ll note that you wouldn’t say,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12649,7 +12665,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1226,
+      "line": 1232,
       "text": "The player declined to answer {context.name}’s question.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12657,7 +12673,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1232,
+      "line": 1238,
       "text": "Say it isn’t so.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12665,7 +12681,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1236,
+      "line": 1242,
       "text": "“Okay. I’ll note that you deny it,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12673,7 +12689,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1237,
+      "line": 1243,
       "text": "“That’s not what I heard, but I’ll note your answer,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12681,7 +12697,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "answers",
-      "line": 1239,
+      "line": 1245,
       "text": "{context.player.givenName} denied it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12689,7 +12705,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 1247,
+      "line": 1253,
       "text": "“Thanks for your time,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12697,7 +12713,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 1248,
+      "line": 1254,
       "text": "“If you change your mind, call me,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12705,7 +12721,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 1249,
+      "line": 1255,
       "text": "“Thanks for your time,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12713,7 +12729,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 1250,
+      "line": 1256,
       "text": "“Thanks for being straight with me now,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12721,7 +12737,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 1251,
+      "line": 1257,
       "text": "“We’ll see,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12729,7 +12745,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 1252,
+      "line": 1258,
       "text": "“Understood,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12737,7 +12753,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "lines",
-      "line": 1253,
+      "line": 1259,
       "text": "“No problem,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12745,7 +12761,7 @@
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "settled",
-      "line": 1255,
+      "line": 1261,
       "text": "“Okay,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."

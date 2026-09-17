@@ -83,6 +83,11 @@ function says(context: SceneContext, lines: readonly string[]): string[] {
   return lines.map((line) => fill(line, { name: context.name }));
 }
 
+/** "See you Tuesday"; a date weeks away is just "See you then". */
+function seeYou(day: string): string {
+  return day.startsWith("on ") ? "See you then" : `See you ${day}`;
+}
+
 /** "a seat in the House of Representatives", "Governor of Washington". */
 function officePhrase(title: string): string {
   return /^seat in /i.test(title) ? `a ${lowerFirst(title)}` : title;
@@ -544,9 +549,10 @@ const favor: SceneFamilyDefinition = {
   },
   opening(context) {
     const opening = context.fact("opening");
+    const verb = opening.trim().endsWith("?") ? "asks" : "says";
     return says(context, [
-      `“${opening}” {name} asks.`,
-      `“Do you have a minute? ${opening}” {name} asks.`,
+      `“${opening}” {name} ${verb}.`,
+      `“Do you have a minute? ${opening}” {name} ${verb}.`,
     ]);
   },
   answers(context) {
@@ -755,7 +761,7 @@ const partyInvite: SceneFamilyDefinition = {
         statement: "Yes, I’ll be there.",
         replies: says(context, [
           "“Great. I’ll look for you,” {name} says.",
-          `“Good. See you ${day},” {name} says.`,
+          `“Good. ${seeYou(day)},” {name} says.`,
         ]),
         record: `The player accepted ${context.name}’s invitation to the ${context.fact("chapterName")} meeting.`,
         apply: (world) => acceptChapterInvitation(world, playerId, activityId!),
@@ -797,7 +803,7 @@ const partyInvite: SceneFamilyDefinition = {
   settled(context, answer) {
     const day = spokenDay(context.binding.date!, context.world.currentDate);
     const lines: Record<string, string> = {
-      "say-yes": `“See you ${day},” {name} says.`,
+      "say-yes": `“${seeYou(day)},” {name} says.`,
       "not-sure": "“Call me if you decide,” {name} says.",
       "no-thanks": "“Take care,” {name} says.",
     };
