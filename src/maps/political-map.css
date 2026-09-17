@@ -258,6 +258,10 @@
   dominant-baseline: central;
   font-weight: 600;
 }
+/* Markers never take a click meant for the region beneath them. */
+.pg-map-marker {
+  pointer-events: none;
+}
 .pg-map-marker path,
 .pg-map-marker circle {
   stroke: #0b0f17;

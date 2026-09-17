@@ -1028,7 +1028,7 @@ export function PoliticalMap(props: PoliticalMapProps) {
               <h3>{selection.name}</h3>
               <p className="pg-map-muted">
                 {selection.layer === "state"
-                  ? stateNameForUsps(selection.stateUsps)
+                  ? `${selection.stateUsps === "DC" ? "Federal district" : "State"} · Census GEOID ${selection.geoid}`
                   : `${stateNameForUsps(selection.stateUsps)} · Census GEOID ${selection.geoid}`}
                 {selectionFeature?.sessionYear
                   ? ` · districts as of ${selectionFeature.sessionYear}`
