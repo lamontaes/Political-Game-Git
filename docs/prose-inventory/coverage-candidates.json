@@ -2385,7 +2385,7 @@
     {
       "sourcePath": "src/player/CampaignWorkspace.tsx",
       "enclosingSymbol": "money",
-      "line": 57,
+      "line": 58,
       "text": "{amount.currency} {(amount.minorUnits/100).toFixed(2)}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2393,7 +2393,7 @@
     {
       "sourcePath": "src/player/CampaignWorkspace.tsx",
       "enclosingSymbol": "readableCampaignDate",
-      "line": 81,
+      "line": 82,
       "text": "{month} {Number(d)}, {y}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2401,7 +2401,7 @@
     {
       "sourcePath": "src/player/CampaignWorkspace.tsx",
       "enclosingSymbol": "doNow",
-      "line": 213,
+      "line": 218,
       "text": "Something already on the calendar has to happen first.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2409,7 +2409,7 @@
     {
       "sourcePath": "src/player/CampaignWorkspace.tsx",
       "enclosingSymbol": "CampaignWorkspace",
-      "line": 316,
+      "line": 321,
       "text": "You can't file for this office right now. The reason is under Sources and detail.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2417,7 +2417,7 @@
     {
       "sourcePath": "src/player/CampaignWorkspace.tsx",
       "enclosingSymbol": "CampaignWorkspace",
-      "line": 320,
+      "line": 325,
       "text": "Election: {readableCampaignDate(electionOn??\"\")}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2425,7 +2425,7 @@
     {
       "sourcePath": "src/player/CampaignWorkspace.tsx",
       "enclosingSymbol": "CampaignWorkspace",
-      "line": 366,
+      "line": 371,
       "text": "There is no office here you can file for right now.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2433,7 +2433,7 @@
     {
       "sourcePath": "src/player/CampaignWorkspace.tsx",
       "enclosingSymbol": "CampaignWorkspace",
-      "line": 385,
+      "line": 390,
       "text": "There is a {selectedOffice.title} to be filled{view.placeName?`in${view.placeName}`:\"\"}. Nobody has asked {view.candidateName} to stand for it. That is not usually how it starts.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2441,7 +2441,7 @@
     {
       "sourcePath": "src/player/CampaignWorkspace.tsx",
       "enclosingSymbol": "CampaignWorkspace",
-      "line": 386,
+      "line": 391,
       "text": "Choose one of the offices above to see whether you can file for it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2449,7 +2449,7 @@
     {
       "sourcePath": "src/player/CampaignWorkspace.tsx",
       "enclosingSymbol": "CampaignWorkspace",
-      "line": 401,
+      "line": 406,
       "text": "game-campaign-gaps game-campaign-detail",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2457,7 +2457,7 @@
     {
       "sourcePath": "src/player/CampaignWorkspace.tsx",
       "enclosingSymbol": "CampaignWorkspace",
-      "line": 418,
+      "line": 423,
       "text": " · {view.daysLeft} {view.daysLeft===1?\"day\":\"days\"} to go",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2465,7 +2465,7 @@
     {
       "sourcePath": "src/player/CampaignWorkspace.tsx",
       "enclosingSymbol": "CampaignWorkspace",
-      "line": 419,
+      "line": 424,
       "text": " · decided {readableCampaignDate(view.electionDate??\"\")}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2473,7 +2473,7 @@
     {
       "sourcePath": "src/player/CampaignWorkspace.tsx",
       "enclosingSymbol": "CampaignWorkspace",
-      "line": 556,
+      "line": 553,
       "text": "Proposed. {offer.cost}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
