@@ -2,7 +2,7 @@ import { canonicalJson } from "../canonical-json";
 import { ELECTORAL_ALLOCATION } from "../national-election-rules";
 import { sha256Hex } from "../sha256";
 import type { World } from "../types";
-import calibrationJson from "./electoral-calibration.generated.json";
+import calibrationJson from "./electoral-calibration.generated.json" with { type: "json" };
 import {
   CENSUS_REGION_ORDER,
   censusRegionOf,
