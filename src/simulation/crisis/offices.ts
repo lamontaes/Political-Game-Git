@@ -115,7 +115,8 @@ export function publicOfficesHeldBy(
           seat.occupant.member.personId === personId
         )
           refs.push({
-            officeKey: `${chamber.chamberKey}:${seat.seatKey}`,
+            // Seat keys already carry the chamber: us-house:KY-03, us-senate:KY:class-2.
+            officeKey: seat.seatKey,
             title: seat.occupant.member.title,
             organizationId: chamber.organizationId,
             termEvidenceId: seat.occupant.member.termId,
