@@ -333,9 +333,8 @@ function PressRequestItem({
               checked={choice === option.choice}
               onChange={() => setChoice(option.choice)}
             />
-            <span>
-              {option.label}
-              {option.isLie ? <em> (this is a lie)</em> : null}
+            <span data-lie={option.isLie ? "true" : undefined}>
+              {option.isLie ? <em>{option.label}</em> : option.label}
             </span>
           </label>
         ))}
@@ -436,8 +435,10 @@ function PersonalUseSection({
   const [understood, setUnderstood] = useState(false);
   const [problem, setProblem] = useState<string | null>(null);
   const parsed = Number(amount);
+  // Not clamped to the balance: an amount over it is refused by the writer,
+  // with its own reason, rather than quietly becoming a different amount.
   const amountMinorUnits = Number.isFinite(parsed)
-    ? Math.min(Math.round(parsed * 100), balanceMinorUnits)
+    ? Math.round(parsed * 100)
     : 0;
   const ready = understood && amountMinorUnits > 0 && purpose.trim() !== "";
   function spend() {
