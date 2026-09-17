@@ -1,0 +1,339 @@
+/*
+ * The game's form controls (UI DECISION FOLLOW-THROUGH).
+ *
+ * Nothing in play should look like the operating system's default widgets.
+ * `GameSelect` draws its own list; the rules below skin the native inputs
+ * that stay native underneath (checkboxes, radios, sliders, number and text
+ * fields) so their semantics, typing, clipboard and assistive technology are
+ * untouched. Everything is scoped to `.pg-game`, which PlayerGame puts on the
+ * body while the game is mounted, so developer tools keep their own look.
+ */
+
+:root {
+  --pg-control-bg: linear-gradient(
+    180deg,
+    rgb(24 37 58 / 94%),
+    rgb(13 20 32 / 96%)
+  );
+  --pg-control-bg-flat: rgb(15 24 38 / 96%);
+  --pg-control-ink: var(--run-a-ink, #f5ebd4);
+  --pg-control-muted: var(--run-a-muted, #c8b997);
+  --pg-control-line: var(--run-a-line, rgb(218 198 153 / 56%));
+  --pg-control-accent: var(--run-a-gold, #c29b48);
+  --pg-control-focus: var(--run-a-focus, #f6c75a);
+  --pg-control-radius: 0.45rem;
+}
+
+/* ------------------------------------------------------------ GameSelect */
+
+.pg-select {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  min-width: 8rem;
+  min-height: 2.25rem;
+  max-width: 100%;
+  padding: 0.35rem 0.6rem 0.35rem 0.7rem;
+  border: 1px solid var(--pg-control-line);
+  border-radius: var(--pg-control-radius);
+  background: var(--pg-control-bg);
+  color: var(--pg-control-ink);
+  font: inherit;
+  font-family: var(--pg-font-ui, inherit);
+  font-size: 0.92rem;
+  font-weight: 500;
+  line-height: 1.25;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.pg-select:hover:not(:disabled),
+.pg-select[aria-expanded="true"] {
+  border-color: var(--pg-control-accent);
+  background: var(--pg-control-bg);
+  color: var(--pg-control-ink);
+}
+
+.pg-select:focus-visible {
+  outline: 3px solid var(--pg-control-focus);
+  outline-offset: 2px;
+}
+
+.pg-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pg-select-value {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pg-select-value[data-placeholder="true"] {
+  color: var(--pg-control-muted);
+  font-style: italic;
+}
+
+.pg-select-caret {
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-top: -0.2rem;
+  border-right: 2px solid var(--pg-control-accent);
+  border-bottom: 2px solid var(--pg-control-accent);
+  transform: rotate(45deg);
+  transition: transform 0.15s ease;
+}
+
+.pg-select[aria-expanded="true"] .pg-select-caret {
+  margin-top: 0.2rem;
+  transform: rotate(-135deg);
+}
+
+.pg-select-list {
+  position: fixed;
+  z-index: 2147483000;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0.3rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  list-style: none;
+  border: 1px solid var(--pg-control-accent);
+  border-radius: var(--pg-control-radius);
+  background: rgb(11 19 32 / 98%);
+  box-shadow: 0 18px 44px rgb(0 0 0 / 48%);
+  color: var(--pg-control-ink);
+  font-family: var(--pg-font-ui, Georgia, serif);
+  font-size: 0.92rem;
+  scrollbar-color: var(--pg-control-accent) transparent;
+  scrollbar-width: thin;
+}
+
+.pg-select-option {
+  position: relative;
+  padding: 0.45rem 1.6rem 0.45rem 0.6rem;
+  border-radius: 0.3rem;
+  line-height: 1.25;
+  cursor: pointer;
+}
+
+.pg-select-option[data-grouped="true"] {
+  padding-left: 1.1rem;
+}
+
+.pg-select-option[data-active="true"] {
+  background: rgb(194 155 72 / 22%);
+}
+
+.pg-select-option[aria-selected="true"] {
+  color: var(--pg-control-focus);
+  font-weight: 650;
+}
+
+.pg-select-option[aria-selected="true"]::after {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.55rem;
+  content: "✓";
+}
+
+.pg-select-option[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.pg-select-group {
+  padding: 0.45rem 0.6rem 0.2rem;
+  color: var(--pg-control-muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@media (pointer: coarse) {
+  .pg-select {
+    min-height: 2.75rem;
+  }
+
+  .pg-select-option {
+    padding-block: 0.7rem;
+  }
+}
+
+/* --------------------------------------------------------- GameDateField */
+
+.pg-date-field {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  vertical-align: middle;
+}
+
+.pg-date-field .pg-select {
+  min-width: 5.5rem;
+}
+
+/* ------------------------------------------------- native inputs, skinned */
+
+.pg-game
+  :where(
+    input[type="text"],
+    input[type="search"],
+    input[type="number"],
+    input[type="email"],
+    textarea
+  ) {
+  border: 1px solid var(--pg-control-line);
+  border-radius: var(--pg-control-radius);
+  background: var(--pg-control-bg-flat);
+  color: var(--pg-control-ink);
+  font: inherit;
+  color-scheme: dark;
+}
+
+.pg-game :where(input[type="number"]) {
+  appearance: textfield;
+}
+
+.pg-game :where(input[type="number"])::-webkit-inner-spin-button,
+.pg-game :where(input[type="number"])::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
+}
+
+.pg-game :where(input[type="search"])::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.pg-game :where(input[type="checkbox"], input[type="radio"]) {
+  display: inline-grid;
+  flex: none;
+  place-content: center;
+  width: 1.15rem;
+  height: 1.15rem;
+  margin: 0 0.45rem 0 0;
+  border: 1.5px solid var(--pg-control-line);
+  background: var(--pg-control-bg-flat);
+  vertical-align: -0.2rem;
+  cursor: pointer;
+  appearance: none;
+}
+
+.pg-game :where(input[type="checkbox"]) {
+  border-radius: 0.25rem;
+}
+
+.pg-game :where(input[type="radio"]) {
+  border-radius: 50%;
+}
+
+.pg-game :where(input[type="checkbox"])::before {
+  width: 0.62rem;
+  height: 0.62rem;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  background: var(--pg-control-focus);
+  content: "";
+  transform: scale(0);
+  transition: transform 0.12s ease;
+}
+
+.pg-game :where(input[type="radio"])::before {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--pg-control-focus);
+  content: "";
+  transform: scale(0);
+  transition: transform 0.12s ease;
+}
+
+.pg-game :where(input[type="checkbox"], input[type="radio"]):checked {
+  border-color: var(--pg-control-accent);
+}
+
+.pg-game :where(input[type="checkbox"], input[type="radio"]):checked::before {
+  transform: scale(1);
+}
+
+.pg-game :where(input[type="checkbox"]):indeterminate::before {
+  clip-path: inset(40% 0);
+  transform: scale(1);
+}
+
+.pg-game
+  :where(
+    input[type="checkbox"],
+    input[type="radio"],
+    input[type="range"]
+  ):focus-visible {
+  outline: 3px solid var(--pg-control-focus);
+  outline-offset: 2px;
+}
+
+.pg-game
+  :where(
+    input[type="checkbox"],
+    input[type="radio"],
+    input[type="range"]
+  ):disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.pg-game :where(input[type="range"]) {
+  height: 1.4rem;
+  background: transparent;
+  cursor: pointer;
+  appearance: none;
+}
+
+.pg-game :where(input[type="range"])::-webkit-slider-runnable-track {
+  height: 0.3rem;
+  border-radius: 999px;
+  background: var(--pg-control-line);
+}
+
+.pg-game :where(input[type="range"])::-moz-range-track {
+  height: 0.3rem;
+  border-radius: 999px;
+  background: var(--pg-control-line);
+}
+
+.pg-game :where(input[type="range"])::-webkit-slider-thumb {
+  width: 1.05rem;
+  height: 1.05rem;
+  margin-top: -0.375rem;
+  border: 2px solid var(--pg-control-focus);
+  border-radius: 50%;
+  background: var(--run-a-navy, #0b1320);
+  appearance: none;
+}
+
+.pg-game :where(input[type="range"])::-moz-range-thumb {
+  width: 1.05rem;
+  height: 1.05rem;
+  border: 2px solid var(--pg-control-focus);
+  border-radius: 50%;
+  background: var(--run-a-navy, #0b1320);
+}
+
+.pg-game :where(input[type="range"])::-moz-range-progress {
+  height: 0.3rem;
+  border-radius: 999px;
+  background: var(--pg-control-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pg-select,
+  .pg-select-caret,
+  .pg-game :where(input[type="checkbox"], input[type="radio"])::before {
+    transition: none;
+  }
+}
