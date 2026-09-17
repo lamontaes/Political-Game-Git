@@ -535,11 +535,12 @@ export function PlayerGame() {
     );
     pendingAppearance.current = null;
     setSession({
-      // A world being observed has nobody whose life could be opened.
-      world:
-        prepared.control.kind === "person"
-          ? openOrdinaryLife(prepared, personId)
-          : prepared,
+      // A world being observed, or a played life that ended before anything
+      // followed it, has nobody whose week could be opened: loading such a
+      // save must not write new work for the retired or dead character.
+      world: shellReadOnly(prepared)
+        ? prepared
+        : openOrdinaryLife(prepared, personId),
       personId,
       unsavedSeed: seed,
       saveId,
@@ -918,19 +919,21 @@ export function PlayerGame() {
           recordStaleWorldChange(base, world);
           return;
         }
+        // Computed here, not inside the state update, so a refusal throws
+        // back to the command's caller (which says why) and nothing changes.
+        const next =
+          change.kind === "continued"
+            ? applyExecutivePlayTransition(
+                base,
+                openOrdinaryLife(world, change.personId),
+              )
+            : world;
         setNotice(null);
         setSession((current) => {
           if (!current) return current;
-          if (change.kind !== "continued") return { ...current, world };
+          if (change.kind !== "continued") return { ...current, world: next };
           // The same World and save; only who is played has moved.
-          return {
-            ...current,
-            personId: change.personId,
-            world: applyExecutivePlayTransition(
-              current.world,
-              openOrdinaryLife(world, change.personId),
-            ),
-          };
+          return { ...current, personId: change.personId, world: next };
         });
       }}
       onKeep={(shellState) => void keepThisWorld(shellState)}
