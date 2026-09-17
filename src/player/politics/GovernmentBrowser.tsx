@@ -244,6 +244,13 @@ function Roster({
              * A seat title that IS a term gets its explanation; every other
              * title renders exactly as it did. Matching is the whole label
              * against the catalog, never a scan of the words inside it.
+             *
+             * Every seat title recorded today reads "<State>, district 3" or
+             * "<State>, Class II seat", so nothing here matches yet and the
+             * roster renders exactly as it always has. This stays because the
+             * match is on the whole label: a body that later records a seat
+             * titled with a term the Guide holds gains its explanation without
+             * this surface being touched again.
              */}
             <GuideTerm label={row.seatLabel}>{row.seatLabel}</GuideTerm>
           </span>

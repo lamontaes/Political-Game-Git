@@ -2978,6 +2978,8 @@ function PlayingScreen({
     goToTheFloor,
     goToTheFloorFor,
     workHint,
+    guideTermKey,
+    onOpenGuideTerm: setGuideTermKey,
     returnToTitle: (
       <ReturnToTitleAction
         needsConfirmation={needsLeaveConfirmation}
@@ -3364,6 +3366,8 @@ function renderWorkspace({
   goToTheFloor,
   goToTheFloorFor,
   workHint,
+  guideTermKey,
+  onOpenGuideTerm,
   returnToTitle,
 }: {
   readonly view: ReturnType<typeof activeView>;
@@ -3384,6 +3388,15 @@ function renderWorkspace({
   readonly goToTheFloor: () => void;
   readonly goToTheFloorFor: (bill: DocketBill) => void;
   readonly workHint: string;
+  /**
+   * The term the Guide should open on, and how inline help asks for one.
+   *
+   * The shell owns this rather than the Guide, because inline help lives on
+   * every other workspace and has to say which entry it meant before the
+   * Guide is the open surface. It is presentation only and is not saved.
+   */
+  readonly guideTermKey: string | null;
+  readonly onOpenGuideTerm: (semanticKey: string) => void;
   /** The in-game Options way back to the title screen. */
   readonly returnToTitle: ReactNode;
 }): ReactNode {
@@ -3624,7 +3637,7 @@ function renderWorkspace({
           setLearned: (semanticKey, learned) =>
             dispatch({ type: "set-guide-term-learned", semanticKey, learned }),
           openGuide: (semanticKey) => {
-            setGuideTermKey(semanticKey);
+            onOpenGuideTerm(semanticKey);
             dispatch({ type: "go-to-surface", surface: "guide" });
           },
         }}

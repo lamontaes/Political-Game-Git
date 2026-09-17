@@ -49,6 +49,13 @@
   cursor: pointer;
 }
 
+.pg-guide-result:focus-visible,
+.pg-guide-entry:focus-visible,
+.pg-guide-term-trigger:focus-visible {
+  outline: 3px solid var(--run-a-focus);
+  outline-offset: 2px;
+}
+
 .pg-guide-result:hover,
 .pg-guide-result[aria-pressed="true"] {
   border-color: var(--pg-hairline);
