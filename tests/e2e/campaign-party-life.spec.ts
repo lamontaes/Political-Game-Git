@@ -121,6 +121,8 @@ test("party work, a week's plan and the other side's public activity", async ({
 
   /* File, then plan a week with no staff. */
   await fileCandidacy(page);
+  // The weekly plan is a secondary, collapsible block (UI decision).
+  await page.getByTestId("campaign-week-toggle").click();
   const week = page.getByTestId("campaign-week");
   await expect(week).toBeVisible();
   await expect(page.getByTestId("campaign-week-attribution")).toHaveText(
