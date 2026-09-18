@@ -49,14 +49,14 @@ test("the quiet stretch discloses its end date and lands there once", async ({
     const target = page.getByTestId("story-let-time-pass-target");
     await expect(target).toContainText(MONTH_DATE);
     const disclosed = (await target.innerText()).match(MONTH_DATE)![1]!;
-    const before = await story.getByTestId("story-when").innerText();
+    const before = await story.getByTestId("moment-when").innerText();
     await page.getByTestId("story-let-time-pass").click();
     // The clock's own idle signal, the way every other time proof waits. The
     // panel re-renders while the command is in flight, so "the text changed"
     // can be true of a frame the command has not finished writing.
     await waitForClockIdle(page);
-    await expect(story.getByTestId("story-when")).not.toHaveText(before);
-    const after = await story.getByTestId("story-when").innerText();
+    await expect(story.getByTestId("moment-when")).not.toHaveText(before);
+    const after = await story.getByTestId("moment-when").innerText();
     const reached = Date.parse(after.split(" · ")[0]!);
     const before_ = Date.parse(before.split(" · ")[0]!);
     // One click moves forward once, and never past the disclosed date. It

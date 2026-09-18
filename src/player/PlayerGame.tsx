@@ -4707,11 +4707,21 @@ function StoryView({
         className="game-scene-header life-moment-head"
         data-testid="story-where"
       >
-        <h2 className="life-identity" data-testid="story-who">
+        {/*
+          The panel's own identity, under its own ids.
+
+          These were story-who and story-when, which the corner cluster has
+          carried since it became the shell's identity line (ShellNav.tsx).
+          While the moment lived under Personal the two were never on screen
+          together; in the room they are, and every proof asking for either id
+          then matched two elements. The cluster keeps the names it had — it is
+          the shell, and more specs mean it — and the panel takes its own.
+        */}
+        <h2 className="life-identity" data-testid="moment-who">
           <span className="life-identity-name">{moment.personName}</span>
           <span className="life-identity-age">{moment.age}</span>
         </h2>
-        <p className="game-band" data-testid="story-when">
+        <p className="game-band" data-testid="moment-when">
           {moment.dateLabel}
           {moment.placeName ? ` · ${moment.placeName}` : ""}
         </p>
