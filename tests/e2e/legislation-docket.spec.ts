@@ -349,9 +349,9 @@ test("saves compatible proposed changes through ordinary Work without rewriting 
   await enterLife(page);
   await openElsewhere(page, "work");
   await page.getByTestId("docket-composition").locator("summary").click();
-  await expect(page.getByTestId("amend-param-operative-choice")).toHaveValue(
-    "prevent-closure",
-  );
+  expect(
+    await chosenValue(page.getByTestId("amend-param-operative-choice")),
+  ).toBe("prevent-closure");
   await expect(
     page.getByTestId("composition-comparison").locator("section"),
   ).toHaveCount(2);
@@ -390,7 +390,7 @@ test("new service clauses, saved selection and unavailable scenario refusal work
   await commencement.focus();
   await commencement.press("t");
   await commencement.press("Tab");
-  await expect(commencement).toHaveValue("next-calendar-year");
+  expect(await chosenValue(commencement)).toBe("next-calendar-year");
   await expect(page.getByTestId("drafting-compare")).toContainText("January 1");
   await page.getByTestId("file-the-draft").focus();
   await page.keyboard.press("Enter");
