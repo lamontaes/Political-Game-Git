@@ -8,13 +8,13 @@ import {
 } from "./support/creator";
 import {
   expectRecordedMember,
-  reachMemberOffice,
+  enterRecordedMemberTerm,
   readSavedLegislativeWorld as savedWorld,
 } from "./support/legislative-entry";
 import type { Page } from "@playwright/test";
 
 async function publishFirstBill(page: Page) {
-  await reachMemberOffice(page);
+  await enterRecordedMemberTerm(page);
   await page.getByTestId("open-drafting-table").click();
   await page.locator('[data-testid^="drafting-option-"]').first().click();
   await page.getByTestId("file-the-draft").press("Enter");

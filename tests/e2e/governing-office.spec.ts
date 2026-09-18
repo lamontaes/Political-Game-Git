@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "./fixtures";
+import { expect, test, type Locator, type Page } from "./fixtures";
 import {
   enterLife,
   goTo,
@@ -51,6 +51,54 @@ async function passWeeksUntil(
   expect(await done()).toBe(true);
 }
 
+/**
+ * Pass weeks and do the campaign's own work each week, through the ordinary
+ * controls, until the contest is decided.
+ *
+ * This case used to file and then do NOTHING, on the premise that some seed
+ * would win anyway. That premise is gone: the rival campaigns weekly since
+ * d60b2975, and measured headlessly a Colorado life that files and does not
+ * campaign loses on all eight of this case's own seeds — on three of them it
+ * was the projected winner at filing and still lost by election day, because
+ * the rival kept working for ten months and the player did not. No ninth seed
+ * fixes that; the win rate is zero for the right reason.
+ *
+ * So the life campaigns. Nothing is supplied to the election — this case
+ * exists to prove the ordinary route — and the work is whatever the campaign
+ * offers that week, which cannot go stale the way a fixed number of days can.
+ */
+async function campaignEachWeekUntilDecided(
+  page: Page,
+  status: Locator,
+  limit: number,
+) {
+  let worked = 0;
+  for (let week = 0; week < limit; week += 1) {
+    if ((await status.getAttribute("data-status")) !== "pending-election")
+      break;
+    for (const kind of ["campaign-outreach", "campaign-fundraising"]) {
+      const control = page.getByTestId(kind);
+      if (
+        (await control.isVisible().catch(() => false)) &&
+        (await control.isEnabled().catch(() => false))
+      ) {
+        await control.click();
+        worked += 1;
+        break;
+      }
+    }
+    await page.getByTestId("shell-pass-week").click();
+    await page.waitForTimeout(50);
+  }
+  // A silent no-op must not look like an unwinnable model. If this route
+  // offers the player no ordinary way to work their own campaign, that is a
+  // gap in the route and this case should say so rather than losing quietly.
+  expect(
+    worked,
+    "The state-executive route offered no enabled campaign control in any week, so the life could not campaign at all. That is a gap in the route, not a seed to retry.",
+  ).toBeGreaterThan(0);
+}
+
 test("a Colorado life wins the governorship, takes office and governs", async ({
   page,
 }, testInfo) => {
@@ -58,45 +106,34 @@ test("a Colorado life wins the governorship, takes office and governs", async ({
   // A seed on which this ordinary life wins without campaigning. The creator
   // decides the rest of the life, so a few seeds are tried; nothing is
   // supplied to the election.
-  let status = page.getByTestId("state-executive-status");
-  let won = false;
-  for (const seed of [1, 2, 3, 4, 5, 6, 7, 8].map((n) => `gov-win-CO-${n}`)) {
-    await freshBrowser(page);
-    await page.goto(`/?seed=${seed}`);
-    await walkCreator(page, {
-      place: "Acres Green",
-      state: "Colorado",
-      age: 40,
-    });
-    await enterLife(page);
+  // One seed, not eight. The seeds were a search for a life that wins without
+  // campaigning, and no such life exists any more; the life campaigns instead.
+  await freshBrowser(page);
+  await page.goto("/?seed=gov-win-CO-1");
+  await walkCreator(page, {
+    place: "Acres Green",
+    state: "Colorado",
+    age: 40,
+  });
+  await enterLife(page);
 
-    await goTo(page, "nav-politics-candidacy");
-    const candidacy = page.getByTestId("state-executive-candidacy");
-    await expect(candidacy).toHaveAttribute(
-      "data-office-key",
-      "us-co-governor",
-    );
-    const calendar = page.getByTestId("state-executive-calendar");
-    await expect(calendar).toHaveAttribute("data-basis", "game-profile");
-    await expect(page.getByTestId("file-state-executive")).toContainText(
-      "November 3, 2026",
-    );
-    await page.getByTestId("file-state-executive").click();
-    status = page.getByTestId("state-executive-status");
-    await expect(status).toHaveAttribute("data-status", "pending-election");
+  await goTo(page, "nav-politics-candidacy");
+  const candidacy = page.getByTestId("state-executive-candidacy");
+  await expect(candidacy).toHaveAttribute("data-office-key", "us-co-governor");
+  const calendar = page.getByTestId("state-executive-calendar");
+  await expect(calendar).toHaveAttribute("data-basis", "game-profile");
+  await expect(page.getByTestId("file-state-executive")).toContainText(
+    "November 3, 2026",
+  );
+  await page.getByTestId("file-state-executive").click();
+  const status = page.getByTestId("state-executive-status");
+  await expect(status).toHaveAttribute("data-status", "pending-election");
 
-    await passWeeksUntil(
-      page,
-      async () =>
-        (await status.getAttribute("data-status")) !== "pending-election",
-      60,
-    );
-    if ((await status.getAttribute("data-status")) !== "lost") {
-      won = true;
-      break;
-    }
-  }
-  expect(won).toBe(true);
+  await campaignEachWeekUntilDecided(page, status, 60);
+  await expect(
+    status,
+    "The life filed and campaigned every week the controls offered and still lost. That is a statement about the campaign model, not a seed to retry.",
+  ).not.toHaveAttribute("data-status", "lost");
   await expect(status).toHaveAttribute("data-status", "awaiting-qualification");
   await expect(status).toContainText("January 4, 2027");
   await page.getByTestId("qualify-state-executive").click();

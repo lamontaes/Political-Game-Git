@@ -1,7 +1,7 @@
-import { fileCandidacy, workOfferedOutreach } from "./support/campaign";
 import { programConfigurations } from "../../src/simulation/legislation-program-families";
 import { shotPath } from "./support/shot-path";
 import { expect, test, type Page } from "@playwright/test";
+import { enterRecordedMemberTerm } from "./support/legislative-entry";
 
 import {
   enterLife,
@@ -9,7 +9,6 @@ import {
   goTo,
   openElsewhere,
   openShellMenu,
-  startLife,
 } from "./support/creator";
 
 /**
@@ -77,61 +76,22 @@ async function freshBrowser(page: Page) {
 }
 
 /** Running for office lives in Politics → Campaigns, beside the time control. */
-async function openCampaign(page: Page) {
-  await openElsewhere(page, "campaign");
-  await expect(page.getByTestId("work-section-campaign")).toBeVisible();
-}
-
-async function liveUntilDecided(page: Page, maxDays = 45) {
-  for (let day = 0; day < maxDays; day += 1) {
-    if (await page.getByTestId("campaign-result").isVisible()) return true;
-    await page.getByTestId("pass-day").click();
-  }
-  return page.getByTestId("campaign-result").isVisible();
-}
 
 /** A won Kentucky seat, with Work open, reached the way a player reaches it. */
+/**
+ * A seated member with Work open, constructed rather than campaigned for.
+ *
+ * These cases are about the DOCKET. Reaching the seat the ordinary way costs a
+ * won campaign plus the walk from a February result to the term's January
+ * start — an election result is not office authority — and that walk is what
+ * these thirty-second budgets die on, not a wrong assertion. The ordinary
+ * route is still proven by office-onboarding-ordinary, pr79f and
+ * campaign-first-election, which keep the real campaign and have the budget.
+ */
 async function wonSeatWithWorkOpen(page: Page) {
   await freshBrowser(page);
-  await page.goto("/?seed=p85c-owner-0");
-  await startLife(page, {
-    age: 34,
-    place: "Lexington",
-    state: "Kentucky",
-    gender: "male",
-  });
-  await enterLife(page);
-  await openCampaign(page);
-  await fileCandidacy(page);
-  await page.getByTestId("campaign-fundraising").click();
-  // Work every day the control is offered, rather than for a fixed number of
-  // days. Three was true when this was written and is not now: the rival
-  // campaigns weekly since d60b2975, and measured headlessly on this route
-  // three outreach days LOSE, six also LOSE — only five actions were even
-  // available — and working every offered day WINS with 26 actions. Any day
-  // count is a guess about a model that has already changed once; "do the
-  // work the game offers" cannot go stale the same way, and if the player
-  // does everything available and still loses, that is a finding worth a
-  // failure rather than a premise to re-tune.
-  for (let day = 0; day < 48; day += 1) {
-    if (await page.getByTestId("campaign-result").isVisible()) break;
-    await page.getByTestId("pass-day").click();
-    await workOfferedOutreach(page);
-  }
-  expect(await liveUntilDecided(page)).toBe(true);
-  await expect(page.getByTestId("campaign-afterword")).toContainText("won.");
-  await openElsewhere(page, "work");
-  // The election result is not office authority: the winner enters the
-  // supported term on its start date, so the shell clock moves week by week
-  // until the legislative office exists, as pr79f does.
-  for (let week = 0; week < 52; week += 1) {
-    if (await page.getByTestId("office-section").isVisible()) break;
-    await page.getByTestId("shell-pass-week").click();
-    await expect(page.getByTestId("shell-pass-week")).not.toHaveAttribute(
-      "aria-busy",
-      "true",
-    );
-  }
+  await page.goto("/");
+  await enterRecordedMemberTerm(page);
   await expect(page.getByTestId("office-section")).toBeVisible();
 }
 
@@ -333,7 +293,11 @@ test("saves compatible proposed changes through ordinary Work without rewriting 
   await wonSeatWithWorkOpen(page);
   const office = page.getByTestId("docket-office-record");
   await office.locator("summary").click();
-  await expect(office).toContainText("No committee appointment record");
+  // The office record says this in the player's own words now; "No committee
+  // appointment record" was database wording, which the copy guard forbids.
+  await expect(office).toContainText(
+    "You have not been appointed to a committee",
+  );
   await page.getByTestId("open-drafting-table").click();
   await page
     .getByTestId(

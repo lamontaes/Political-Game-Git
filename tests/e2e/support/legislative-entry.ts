@@ -1,6 +1,6 @@
 import { expect, type Page } from "@playwright/test";
 import { workOfferedOutreach } from "./campaign";
-import { goTo } from "./creator";
+import { enterLife, goTo } from "./creator";
 import { resolveActiveMemberSeat } from "../../../src/presentation/legislative-member-seat";
 import type { World } from "../../../src/simulation";
 
@@ -48,6 +48,55 @@ export async function reachMemberOffice(page: Page) {
     );
   }
   await expect(page.getByTestId("office-section")).toBeVisible();
+  await expect(page.getByTestId("docket")).toBeVisible();
+}
+
+/**
+ * A seated member, constructed rather than campaigned for.
+ *
+ * `reachMemberOffice` above keeps its contract — it replays the ordinary route
+ * and injects nothing — and office-onboarding-ordinary, pr79f and
+ * campaign-first-election keep using it, because proving that route IS what
+ * those cases are for.
+ *
+ * This is for the cases DOWNSTREAM of a seat, which are about a docket, a news
+ * feed or an adapter and only need somebody sitting in the chamber. Reaching
+ * that seat the ordinary way costs a won campaign plus a walk from the
+ * February result to the term's January start — an election result is not
+ * office authority, and the office does not open until the supported term
+ * begins — which is roughly forty-eight weekly clicks. Those cases carry
+ * thirty-second budgets and die on the walk, not on a wrong assertion.
+ *
+ * So the setup is controlled, which is the director's rule for a downstream
+ * office test: the same recorded-term seam rest37-n uses, moved to the term's
+ * own start date so entry resolves on the clock rather than being asserted
+ * into place. The campaign and the entry are still the simulation's own; only
+ * the waiting is skipped.
+ */
+export async function enterRecordedMemberTerm(page: Page) {
+  await expect(page.getByTestId("new-game")).toBeVisible();
+  await page.evaluate(async () => {
+    // Paths through variables: these resolve in the browser at runtime, and a
+    // literal would send tsc looking for a module that is not on disk here.
+    const fixturePath = "/tests/fixtures/recorded-legislative-term.ts";
+    const storePath = "/src/presentation/browser-world-repository.ts";
+    const { recordedTermFixture, moveToTermDate } = await import(
+      /* @vite-ignore */ fixturePath
+    );
+    const { BrowserSaveStore } = await import(/* @vite-ignore */ storePath);
+    const fixture = recordedTermFixture();
+    // The term's own first day: moveToTermDate walks day by day, so the
+    // entry transition resolves the way it would in ordinary play.
+    const world = moveToTermDate(fixture.world, "2027-01-02");
+    const store = new BrowserSaveStore();
+    const saved = await store.save(world, store.newSaveId(world));
+    if (saved.status !== "saved")
+      throw new Error(`Recorded-term fixture refused: ${saved.status}`);
+  });
+  await page.reload();
+  await page.getByTestId("continue").click();
+  await enterLife(page);
+  await goTo(page, "elsewhere-work");
   await expect(page.getByTestId("docket")).toBeVisible();
 }
 
