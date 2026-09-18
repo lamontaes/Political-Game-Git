@@ -374,12 +374,15 @@ export function ShellNav({
     </button>
   );
 
+  // The open submenu IS the navigation level, for every group that can nest.
+  // Listing the levels by hand is how "options" opened nothing at all once the
+  // Guide gave that group a second member.
   const submenuGroup: ShellDestinationGroup | null =
-    state.navigation === "personal"
-      ? "personal"
-      : state.navigation === "politics"
-        ? "politics"
-        : null;
+    state.navigation === "personal" ||
+    state.navigation === "politics" ||
+    state.navigation === "options"
+      ? state.navigation
+      : null;
 
   const primaryGroups = GROUP_ORDER.flatMap((group) => {
     const entries = destinations.filter((entry) => entry.group === group);
