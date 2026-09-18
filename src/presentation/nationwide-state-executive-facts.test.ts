@@ -348,4 +348,3 @@ describe("GOVERNING all-fifty-state campaign -> office -> work (supplied win fix
 });
 
 /** A campaign actually won on the shared clock; seeds are tried, results are never supplied. */
-
