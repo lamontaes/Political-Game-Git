@@ -33,7 +33,9 @@ test("Today links into Work instead of carrying it, and reading them costs no ti
   await expect(page.getByTestId("nav-politics")).toContainText("Politics");
   await expect(page.getByTestId("nav-places")).toContainText("Travel");
   await expect(page.getByTestId("nav-journal-entry")).toContainText("Journal");
-  await expect(page.getByTestId("nav-group-personal")).toContainText("Personal");
+  await expect(page.getByTestId("nav-group-personal")).toContainText(
+    "Personal",
+  );
   await expect(page.getByTestId("nav-life-scenes")).toHaveCount(0);
   await expect(flyout).not.toContainText("Life scenes");
   await expect(flyout).not.toContainText("The room");

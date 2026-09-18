@@ -90,7 +90,7 @@
   margin: 0.2rem 0 0;
   padding: 0;
   background: #142033;
-  box-shadow: 0 -10px 18px -10px rgb(0 0 0 / 75%);
+  box-shadow: 0 -10px 18px -10px rgba(0, 0, 0, 0.75);
   justify-content: flex-start;
 }
 .title-tableau--art.front-door
