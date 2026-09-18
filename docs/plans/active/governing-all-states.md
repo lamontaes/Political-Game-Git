@@ -201,3 +201,145 @@ remaining candidate is validating once at the boundary of a composite command
 rather than at every nested transition; that changes when the integrity
 contract fires, so it is a LIVE QUESTIONS item and not an implementation
 decision.
+
+## D1 — an office's positions, and who sits on its committees
+
+Two shortcuts closed. Both are written and typecheck; neither is tested yet, so
+neither is claimed as working. (Host was held for A's browser verification.)
+
+**Staff at seating.** An office's positions are now authorized when the office
+is seated, whether or not anybody is hired into them. Three positions, each one
+the game can exercise — chief of staff, legislative director, constituent
+services — because a staffing table longer than the game can use would be
+decoration.
+
+The first attempt put these in the civil personnel domain's own position
+family, and its integrity rule refused every one of them: "must be an authored
+position of an authored state agency." That rule is correct and the reuse was
+the error. A probe confirmed it from the data rather than from reading —
+`us-ky-governor` has `provenance=generated` and classification
+`service:us-ky-governor`, so it is neither authored nor an agency. That family
+models authored civil-service scenarios; it is not a nationwide generated
+staffing substrate. Loosening `charterable` to admit a generated office would
+have weakened a contract that is doing its job, so governing keeps its own
+records — `officeStaffPositions` and `officeStaffIncumbencies` — and still
+reads the personnel domain's boundary for the one fact it does establish.
+
+Worth recording separately: the failure was only visible because the tests ran.
+The design typechecked, read plausibly, and was wrong.
+
+What is sourced and what is not is kept apart in the record itself. WHICH
+positions an office has is `governing-office-staffing/v1`, an authored profile,
+and every position's basis note says so. The civil-service CLASS comes from
+`executiveOfficeStaffBoundary`, which is compiled for Minnesota (unclassified)
+and Alaska (exempt) and for nowhere else; elsewhere the class is recorded
+`unknown` with the reason, not guessed. Neither compiled boundary establishes
+bargaining or agreement coverage, so both stay `unknown` rather than being
+inferred from the class.
+
+This is also what CHANGE's education reconnect needs: an authorized position
+nobody holds is a real opening, readable through `openOfficePositions`, and it
+exists because an office was seated rather than because a job was invented for
+somebody who finished a course.
+
+**Committee rosters.** `committeeMembers(body, size)` returned
+`body.members.slice(0, size)`. That put the same handful of members on every
+committee of a chamber, and it could never seat anybody far down the list — a
+player joining a body is appended to it, so a player was on no committee
+however many committees existed. Replaced by
+`governing-committee-assignment/v1`: committees are dealt from a seeded
+ordering of the chamber so everybody serves before anybody serves twice, a
+committee larger than its chamber seats the chamber once, and the roster is a
+pure function of facts already recorded (the seated body, the compiled
+committee list and its compiled size). It stores nothing, so it cannot drift
+from a save, and `committeesForPerson` answers what the player sits on.
+
+A second thing the probe settled: `currentGoverningOffices` returns only the
+governorships a World has MATERIALIZED, which at opening is one. A test that
+wanted Minnesota and Alaska offices could not have them. The class reading is a
+pure function of the state code and the date, so it is asked about a state
+rather than about an office, and needs no office to exist.
+
+**Still open in D1.** Casework against the constituent-services position, and
+bargaining beyond HB214.
+
+**The MN/MO/NE/OH filing item, stated precisely.** Traced rather than left
+vague. Qualification facts ARE compiled for Minnesota, Missouri, Nebraska,
+Nevada and Ohio — 63 office facts promoted only where the cited first-party
+provision was acquired, hashed and found to contain the transcribed words. What
+is not compiled for any of them is FILING, and `candidacy-packs.ts` says why in
+the rule itself: "The qualification source establishes who may serve, not a
+filing deadline or filing authority." So a player in those states can be told
+who may serve and not how to stand.
+
+Two things follow, and the second changes the item's size:
+
+- No accepted source in the repository states a filing deadline, filing
+  officer, primary, nomination or ballot-access procedure for ANY office. This
+  is an acquisition task — reading and hashing first-party provisions — not a
+  coding task, and nothing may be written toward it that guesses.
+- It is NOT a blocked path. `filing` is display-only: no consumer in
+  `candidacy.ts` gates on it, so an unknown filing rule does not stop a player
+  filing. The dead end is informational, not mechanical.
+
+That makes it lower priority than it read as, and it makes the honest fix
+acquisition rather than code. Recorded so nobody later reads "filing dead end"
+as a bug in the campaign path.
+
+## Q47-006 — where the remaining cost actually is
+
+C's per-family profile (one 30-day click, player-path before-state, repaired
+tree) localised it. Per click: 1,924 family passes, 1,353 proofs reused, 22,499
+records walked to append 68 — and events alone is 18,468 of that 22,499, 82% of
+all walking. Decision trace and publication are another 16% between them. Every
+other family reuses its memoized proof on 50 or 51 of its 52 passes and walks
+nothing, so the array-identity repair is doing what it was built to do. Events
+keeps re-walking because events change on nearly every write, which is exactly
+the case an identity memo cannot help.
+
+Read the WALKED column, not the share column: C flagged that their own
+instrument reports 12.1% for a family that walked zero records and reused zero
+proofs, which is timing noise on an empty array. Walked is a count.
+
+**An events suffix proof is sound. Prove-once was not. The difference is
+direction, not immutability.**
+
+Prove-once failed because seventeen of twenty-two life families read state that
+can move in BOTH directions — a later-recorded death, a changed birth date — so
+a record that had passed could genuinely start failing, and a memo keyed on the
+record would skip a check whose answer had moved.
+
+Every read in the events pass is monotone in the SAFE direction:
+
+- `occurredAt > recordedAt` — frozen fields of an immutable appended record;
+- `recordedAt > world.currentDate` throws, and currentDate only increases, so
+  an event that passed cannot start failing. The mutable read is real; its
+  direction is harmless;
+- `world.jurisdictions[...]` and `world.people[...]` — existence only, and both
+  maps are written by spread-and-add with no delete anywhere;
+- the nineteen `*EntityExists` checks — append-only history, so once true,
+  always true;
+- `*AvailableAt(world, id, event.occurredAt, event.sequence)` — the one
+  expected to break it, and it does not. `resource-integrity.ts:75` is true iff
+  some record with that id has `date <= date` and `sequence <
+  historySequenceExclusive`; both coordinates come from the event and are
+  frozen, and the record found is immutable, so no later append can narrow it;
+- `validateEventContext` — jurisdiction existence plus string checks on frozen
+  fields.
+
+**The precondition is load-bearing and must not be left as prose.** This
+soundness is a property of the checks as they stand, not of the design. One
+non-monotone check added to that loop later makes a suffix proof silently
+wrong, with no test failing. Any implementation carries that guard as part of
+the work.
+
+**Not built.** This is not boundary validation — it changes how one family
+proves itself between two writes, not when validation fires — but it is write
+path performance work during LAND's hold, so it waits on their ruling rather
+than on my reading of it.
+
+**The 45-minute CI timeout is not evidence about this.** C measured the import
+question: generated data is cheap (the four largest generated modules are
+214–582ms), and the cost is TypeScript transformation of a large module graph —
+a bare vitest file imports in 12ms against 3.85s for the simulation barrel, of
+which 3.19s is transform. Nothing in the write path can reach it.
