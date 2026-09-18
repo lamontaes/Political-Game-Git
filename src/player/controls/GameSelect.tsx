@@ -137,7 +137,12 @@ export function optionsFromChildren(
  * fallback only keeps the control usable and non-silent until they do.
  */
 export function optionAccessibleName(
-  option: { readonly label?: string; readonly group?: string | null },
+  // The catalog id may travel with the option; it is never read for a name.
+  option: {
+    readonly value?: string;
+    readonly label?: string;
+    readonly group?: string | null;
+  },
   index: number,
   groupName?: string,
 ): string {
