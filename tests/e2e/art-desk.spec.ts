@@ -147,6 +147,20 @@ const QA_REQUEST = {
   acceptanceCriteria: ["Preview decodes after reload."],
   dependsOn: [],
 };
+/**
+ * Where a disposable test request actually is, by its own visible controls:
+ * Library (a request with no candidate to judge is not review work, so it is
+ * not on the Needs review tab the desk opens on), then More filters, then
+ * "Show test requests". None of this is a shortcut — it is the route.
+ */
+async function showTestRequests(page: Page): Promise<void> {
+  await page.getByTestId("art-desk-tab-library").click();
+  const showQa = page.getByTestId("art-desk-show-qa");
+  if ((await showQa.count()) === 0)
+    await page.getByTestId("art-desk-more-filters").click();
+  await showQa.check();
+}
+
 const QA_SIDECAR = "art/generated/candidates/art-desk/qa-requests.json";
 const CANDIDATE_SIDECAR = "art/generated/candidates/art-desk/candidates.json";
 const EXISTING_RASTER =
@@ -216,11 +230,13 @@ test("an existing raster round-trips upload → reload → same candidate → fu
      * control that asks, rather than expecting the desk to volunteer a row it
      * is right to keep back.
      */
-    await expect(qaRow).toHaveCount(0);
-    await page.getByTestId("art-desk-tab-library").click();
-    await page.getByTestId("art-desk-show-qa").check();
+    await showTestRequests(page);
     await expect(qaRow).toBeVisible();
-    await expect(qaRow).toContainText("QA, disposable");
+    // The word this list uses, and the same word as the control that reveals
+    // it: "Show test requests". "QA, disposable" is the delivery list's
+    // phrasing, not the request list's. The detail panel below still has to
+    // say it in full.
+    await expect(qaRow).toContainText("· test");
     await qaRow.click();
     await expect(page.getByTestId("art-desk-detail")).toContainText(
       "Disposable QA request",
@@ -251,7 +267,7 @@ test("an existing raster round-trips upload → reload → same candidate → fu
     await expect(page.getByTestId("art-desk-inputs")).toBeVisible();
     // The desk remembers the tab across a reload but not the request to show
     // test rows, so this asks again, the way the player of this desk would.
-    await page.getByTestId("art-desk-show-qa").check();
+    await showTestRequests(page);
     await page.getByTestId(`art-desk-row-${QA_REQUEST.requestId}`).click();
     const uploadedId = await page.evaluate(async (prefix) => {
       const state = (await (
