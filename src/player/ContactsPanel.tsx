@@ -75,6 +75,15 @@ export function ContactsPanel({
         A way of reaching somebody is not a promise that they will say yes.
         Asking costs no time; the meeting itself will.
       </p>
+      {/*
+       * The window said the way a person says it. The seam also carries the
+       * two ISO dates; those stay out of the player's sight, and the refusal
+       * sentence from the simulation states the rule rather than a date.
+       */}
+      <p className="game-note" data-testid="contacts-meeting-window">
+        A meeting can be arranged between {view.earliestMeetingSpoken} and{" "}
+        {view.latestMeetingSpoken}.
+      </p>
       {view.contacts.length === 0 ? (
         <p data-testid="contacts-empty">
           There is nobody you have a recorded way of reaching yet.
