@@ -2,11 +2,11 @@ import { programConfigurations } from "../../src/simulation/legislation-program-
 import { shotPath } from "./support/shot-path";
 import { expect, test, type Page } from "@playwright/test";
 import { enterRecordedMemberTerm } from "./support/legislative-entry";
+import { chosenValue } from "./support/controls";
 
 import {
   enterLife,
-  expectNoDestination,
-  goTo,
+  saveLife,
   openElsewhere,
   openShellMenu,
 } from "./support/creator";
@@ -254,9 +254,11 @@ test.describe("the docket, from the ordinary route", () => {
     await page.getByTestId("file-the-draft").click();
     await expect(page.getByTestId("docket-bill")).toBeVisible();
 
-    // Keep lives in the corner menu; it is opened the way a player opens it.
-    await goTo(page, "keep-world");
-    await expectNoDestination(page, "keep-world");
+    // Keep or Save, depending on whether this life already has a slot. The
+    // constructed seat arrives from a world that was already written once, so
+    // the menu offers Save rather than Keep; saveLife() takes either and
+    // asserts Keep is gone afterwards.
+    await saveLife(page);
     await page.reload();
     await page.getByTestId("continue").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
@@ -320,7 +322,10 @@ test("saves compatible proposed changes through ordinary Work without rewriting 
   await choice.focus();
   await choice.press("p");
   await choice.press("Tab");
-  await expect(choice).toHaveValue("prevent-closure");
+  // The operative choice is a GameSelect now — a combobox button carrying its
+  // choice in data-value — not a native <select>, so toHaveValue() reads an
+  // input that is not there. chosenValue() answers for either kind.
+  expect(await chosenValue(choice)).toBe("prevent-closure");
   const money = page.getByTestId("amend-param-programme-ceiling");
   await money.focus();
   await money.press("Home");
@@ -336,9 +341,9 @@ test("saves compatible proposed changes through ordinary Work without rewriting 
       .filter({ hasText: "Proposed changes saved" }),
   ).toContainText("Proposed changes saved");
   expect(await clauses.innerText()).toBe(originalText);
-  // Keep lives in the corner menu; it is opened the way a player opens it.
-  await goTo(page, "keep-world");
-  await expectNoDestination(page, "keep-world");
+  // Keep or Save, depending on whether this life already has a slot; the
+  // constructed seat arrives already written once, so it is Save.
+  await saveLife(page);
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
@@ -377,7 +382,10 @@ test("new service clauses, saved selection and unavailable scenario refusal work
   await choice.focus();
   await choice.press("p");
   await choice.press("Tab");
-  await expect(choice).toHaveValue("prevent-closure");
+  // The operative choice is a GameSelect now — a combobox button carrying its
+  // choice in data-value — not a native <select>, so toHaveValue() reads an
+  // input that is not there. chosenValue() answers for either kind.
+  expect(await chosenValue(choice)).toBe("prevent-closure");
   const commencement = page.getByTestId("draft-param-commencement");
   await commencement.focus();
   await commencement.press("t");
@@ -419,9 +427,9 @@ test("new service clauses, saved selection and unavailable scenario refusal work
   await page
     .getByTestId("docket-open-legislative-docket:kentucky:bill-001")
     .click();
-  // Keep lives in the corner menu; it is opened the way a player opens it.
-  await goTo(page, "keep-world");
-  await expectNoDestination(page, "keep-world");
+  // Keep or Save, depending on whether this life already has a slot; the
+  // constructed seat arrives already written once, so it is Save.
+  await saveLife(page);
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);

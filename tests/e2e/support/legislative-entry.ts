@@ -61,7 +61,16 @@ export async function reachMemberOffice(page: Page) {
  * the waiting is skipped.
  */
 export async function enterRecordedMemberTerm(page: Page) {
-  await expect(page.getByTestId("new-game")).toBeVisible();
+  // Callers reach this from wherever they already are — the front door, mid
+  // life, or after their own seeded goto — so the helper opens the door
+  // itself rather than demanding one. It writes a save and then loads it, so
+  // whatever life the caller had set up is deliberately replaced; the cases
+  // that use this are about what happens AFTER a seat, not about the life
+  // that reached it.
+  await page.goto("/");
+  await expect(
+    page.getByTestId("new-game").or(page.getByTestId("continue")),
+  ).toBeVisible();
   await page.evaluate(async () => {
     // Paths through variables: these resolve in the browser at runtime, and a
     // literal would send tsc looking for a module that is not on disk here.

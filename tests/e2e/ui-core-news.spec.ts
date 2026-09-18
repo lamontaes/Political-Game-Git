@@ -3,6 +3,7 @@ import { expect, test } from "./fixtures";
 import { enterLife, goTo, openNewsContext, startLife } from "./support/creator";
 import {
   enterRecordedMemberTerm,
+  reachMemberOffice,
   readSavedLegislativeWorld as savedWorld,
   expectRecordedMember,
 } from "./support/legislative-entry";
@@ -180,7 +181,7 @@ test("the office names the bill being worked on and who has it next", async ({
     route: "normal",
   });
   await enterLife(page);
-  await enterRecordedMemberTerm(page);
+  await reachMemberOffice(page);
 
   await page.getByTestId("open-drafting-table").click();
   await page.locator('[data-testid^="drafting-option-"]').first().click();
