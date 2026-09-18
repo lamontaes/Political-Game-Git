@@ -7313,6 +7313,21 @@ body:where(.pg-game) .game-campaign-tallies {
   backdrop-filter: blur(2px);
 }
 
+/*
+ * The name as a control: the same plate, with a button's defaults undone and
+ * a visible hover and focus so it reads as something you can press.
+ */
+.scene-person-plate--selectable {
+  font: inherit;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.scene-person-plate--selectable:hover {
+  border-color: var(--run-a-gold);
+  background: rgb(11 19 32 / 92%);
+}
+
 .scene-person-plate strong {
   font-size: 0.85rem;
 }
