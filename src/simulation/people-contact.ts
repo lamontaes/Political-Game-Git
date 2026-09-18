@@ -80,12 +80,21 @@ const MEETING_MINUTES = 90;
 export type ContactChannelKind =
   "in-person" | "call" | "through-work" | "through-group";
 
+/**
+ * How this person could be reached — a description, not a control.
+ *
+ * A channel is not access and it is not a command: there is no "call them"
+ * writer behind it, and there was never meant to be. It used to carry an
+ * imperative label and an `available` flag, which read exactly like a button
+ * and invited one to be wired to nothing. What can actually be done is on the
+ * contact's `actions`, where the reason it cannot be done also lives.
+ */
 export interface ContactChannel {
   readonly kind: ContactChannelKind;
+  /** A noun phrase: "By phone", "At home". Never an instruction. */
   readonly label: string;
-  readonly available: boolean;
-  /** Said plainly when the channel exists but cannot be used now. */
-  readonly unavailableReason: string | null;
+  /** A plain fact about reaching them this way now, when there is one. */
+  readonly note: string | null;
 }
 
 export interface ContactBasis {
@@ -193,35 +202,19 @@ function contactChannels(
     ? "You have already asked, and they have not answered yet."
     : null;
   const channels: ContactChannel[] = [
-    {
-      kind: "call",
-      label: "Call them",
-      available: !open,
-      unavailableReason: waiting,
-    },
+    { kind: "call", label: "By phone", note: waiting },
   ];
   if (basis.includes("shares your home")) {
-    channels.push({
-      kind: "in-person",
-      label: "Talk at home",
-      available: true,
-      unavailableReason: null,
-    });
+    channels.push({ kind: "in-person", label: "At home", note: null });
   }
   if (basis.includes("works where you work")) {
-    channels.push({
-      kind: "through-work",
-      label: "Catch them at work",
-      available: !open,
-      unavailableReason: waiting,
-    });
+    channels.push({ kind: "through-work", label: "At work", note: waiting });
   }
   if (basis.includes("in the same group as you")) {
     channels.push({
       kind: "through-group",
-      label: "Speak to them at the group",
-      available: !open,
-      unavailableReason: waiting,
+      label: "Through the group",
+      note: waiting,
     });
   }
   return channels;

@@ -65,7 +65,6 @@ export function projectRecallCards(
   for (const entry of recalledRequests(world, personId)) {
     const other = world.people[entry.counterpartPersonId];
     const gone = died(entry.counterpartPersonId);
-    const standing = STATUS_LINE[entry.status];
     cards.push({
       kind: "request",
       eventId: entry.requestEventId,
@@ -73,10 +72,10 @@ export function projectRecallCards(
       onSpoken: proseDate(entry.askedOn),
       title: `${entry.counterpartName} asked you to ${entry.task}`,
       detail: gone
-        ? `${standing} ${entry.counterpartName} has since died.`
+        ? `${STATUS_LINE[entry.status]} ${entry.counterpartName} has since died.`
         : entry.conditions
-          ? `${standing} You said: ${entry.conditions}`
-          : standing,
+          ? `${STATUS_LINE[entry.status]} You said: ${entry.conditions}`
+          : STATUS_LINE[entry.status],
       otherPersonId: entry.counterpartPersonId,
       otherPersonName: other ? personName(other) : entry.counterpartName,
       status: entry.status,
