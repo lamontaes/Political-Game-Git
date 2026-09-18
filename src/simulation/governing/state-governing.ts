@@ -213,8 +213,20 @@ import {
   commitPublicProgram,
   forecastProgramAlternative,
 } from "./public-program";
+import {
+  establishOfficeStaffPositions,
+  recordOfficeStaffIncumbency,
+} from "./office-staffing";
 
 export { PROGRAM_FAMILIES, programFamilyTitle } from "./program-families";
+export {
+  OFFICE_STAFFING_PROFILE,
+  OFFICE_STAFF_POSITIONS,
+  establishOfficeStaffPositions,
+  officeStaffClass,
+  officeStaffPositions,
+  openOfficePositions,
+} from "./office-staffing";
 export type { StaffAssessment } from "./staff-evidence";
 export {
   staffAssessment,
@@ -909,7 +921,10 @@ export function openTransitionMatters(world: World, officeKey: string): World {
   const key = matterStableKey(office, "chief-of-staff", "transition");
   if (world.history.events.some((event) => event.stableKey === key))
     return world;
-  const candidates = createCandidates(world, office, key, 3);
+  // The office's positions exist before anybody is hired into them: that is
+  // what makes an unfilled one findable by somebody looking for the work.
+  const staffed = establishOfficeStaffPositions(world, office);
+  const candidates = createCandidates(staffed.world, office, key, 3);
   let next = openMatter(candidates.world, office, {
     family: "chief-of-staff",
     instance: "transition",
@@ -1102,8 +1117,9 @@ function applyConsequence(
   switch (matter.family) {
     case "chief-of-staff": {
       if (!option.personId || !world.people[option.personId]) return world;
-      return createWorkRelationship(world, {
-        stableKey: `${matter.stableKey}:hire`,
+      const workStableKey = `${matter.stableKey}:hire`;
+      const employed = createWorkRelationship(world, {
+        stableKey: workStableKey,
         personId: option.personId,
         organizationId: office.organizationId,
         startedAt: world.currentDate,
@@ -1128,6 +1144,19 @@ function applyConsequence(
           },
         },
       });
+      // The employment is the job; the incumbency is which authorized
+      // position it fills. An office whose positions were never authorized
+      // keeps the employment and records no incumbency.
+      const work = employed.history.workRelationships.find(
+        (relationship) => relationship.stableKey === workStableKey,
+      );
+      return work
+        ? recordOfficeStaffIncumbency(employed, office, {
+            classKey: "office-chief-of-staff",
+            workRelationshipId: work.id,
+            note: "Hired into the office's chief of staff position at the transition.",
+          }).world
+        : employed;
     }
     case "agenda": {
       if (option.key === "priority:none") return world;

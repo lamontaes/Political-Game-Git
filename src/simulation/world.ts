@@ -1648,6 +1648,8 @@ function validateHistoryIntegrity(world: World): void {
     ...publicProgramRecords(world),
     ...(history.districtResidenceIntervals ?? []),
     ...(history.officeWorkflowPreferences ?? []),
+    ...(history.officeStaffPositions ?? []),
+    ...(history.officeStaffIncumbencies ?? []),
     ...(history.officeVoteInstructions ?? []),
     ...(history.officeBriefingInspections ?? []),
     ...history.events,
