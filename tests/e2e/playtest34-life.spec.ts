@@ -112,7 +112,10 @@ for (const width of [1440, 1200]) {
     const request = page.getByTestId("life-favor");
     await request.locator(":scope > summary").click();
     await expect(request).toContainText("picnic");
-    await expect(request).toContainText("your mom");
+    // The favor comes from the parent the player shares a home with; which
+    // parent is the seeded household's business (CRUNCH46 seeds it as the
+    // dad), and the case is about the favor, not the parent.
+    await expect(request).toContainText(/your (?:mom|dad)/);
     const id = await request.getAttribute("data-request-id");
     const before = await save(page);
     await request.getByTestId("favor-condition").click();

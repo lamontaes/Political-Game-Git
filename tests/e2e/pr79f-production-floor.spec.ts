@@ -1,4 +1,4 @@
-import { fileCandidacy } from "./support/campaign";
+import { campaignOutreachDays, fileCandidacy } from "./support/campaign";
 import { expect, test, type Page } from "./fixtures";
 
 import {
@@ -97,10 +97,9 @@ test("a winner reaches real bargaining from normal play, and keeps it through a 
   await openCampaign(page);
   await fileCandidacy(page);
   await page.getByTestId("campaign-fundraising").click();
-  for (let day = 0; day < 3; day += 1) {
-    await page.getByTestId("pass-day").click();
-    await page.getByTestId("campaign-outreach").click();
-  }
+  await campaignOutreachDays(page, (page) =>
+    page.getByTestId("pass-day").click(),
+  );
   expect(await liveUntilDecided(page)).toBe(true);
   await expect(page.getByTestId("campaign-afterword")).toContainText("won.");
 

@@ -1,4 +1,4 @@
-import { fileCandidacy } from "./support/campaign";
+import { campaignOutreachDays, fileCandidacy } from "./support/campaign";
 import { expect, test, type Page } from "./fixtures";
 
 import {
@@ -505,10 +505,7 @@ test.describe("P85D integration through ordinary player controls", () => {
     await openCampaign(page);
     await fileCandidacy(page);
     await page.getByTestId("campaign-fundraising").click();
-    for (let day = 0; day < 3; day += 1) {
-      await pressTime(page, "pass-day");
-      await page.getByTestId("campaign-outreach").click();
-    }
+    await campaignOutreachDays(page, (page) => pressTime(page, "pass-day"));
     expect(await liveUntilDecided(page)).toBe(true);
     await expect(page.getByTestId("campaign-afterword")).toContainText("won.");
     // The office is its own Politics tab, apart from the campaign.

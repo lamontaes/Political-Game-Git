@@ -10,6 +10,7 @@ import type { Page } from "@playwright/test";
 import type { World } from "../../src/simulation";
 import { searchLifePlaces } from "../../src/simulation";
 import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
+import { proseDate } from "../../src/presentation/prose-dates";
 import { replayDescriptorUrl } from "../../src/presentation/new-game-identity";
 import { expect, test } from "./fixtures";
 import { goTo, startLife } from "./support/creator";
@@ -372,7 +373,9 @@ for (const place of ["Lexington, Kentucky", "Carson City, Nevada"]) {
     const panel = page.getByTestId("economic-context-panel");
     if (place === "Lexington, Kentucky") {
       await expect(panel).toBeVisible();
-      await expect(panel).toContainText(initial.currentDate);
+      // UI46 R18: the panel says the saved world's date the way play says
+      // dates ("January 5, 2026"), not as the ISO string the World stores.
+      await expect(panel).toContainText(proseDate(initial.currentDate));
       const sources = panel
         .locator("summary")
         .filter({ hasText: "Sources and scope" });
@@ -399,7 +402,7 @@ for (const place of ["Lexington, Kentucky", "Carson City, Nevada"]) {
     await goTo(page, "nav-group-personal");
     await goTo(page, "nav-personal");
     if (place === "Lexington, Kentucky") {
-      await expect(panel).toContainText(initial.currentDate);
+      await expect(panel).toContainText(proseDate(initial.currentDate));
     } else {
       await expect(panel).toHaveCount(0);
     }
