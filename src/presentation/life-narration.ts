@@ -1,4 +1,9 @@
 import {
+  CONTACT_COUNTERED_EVENT,
+  CONTACT_DECLINED_EVENT,
+  CONTACT_PROPOSED_EVENT,
+} from "../simulation/people-contact";
+import {
   ageOnDate,
   activeEducationEnrollmentsAt,
   activeLifeCommitmentsAt,
@@ -242,7 +247,12 @@ export function composeConnectiveNarration(
       (anchor) =>
         anchor.role !== "context" && anchor.at > since && anchor.at <= until,
     );
-    const sentence = threadMovementSentence(world, thread, moving.length);
+    const sentence = threadMovementSentence(
+      world,
+      thread,
+      moving.length,
+      moving,
+    );
     if (sentence === null) continue;
     movements.push({
       sentence,
@@ -284,6 +294,38 @@ export function composeConnectiveNarration(
   };
 }
 
+/** The event behind an anchor, when the anchor names one. */
+function anchorEvent(world: World, anchor: ThreadAnchor) {
+  return world.history.events.find((entry) => entry.id === anchor.recordId);
+}
+
+/**
+ * Whether this anchor is an attempt to make contact rather than contact.
+ *
+ * A proposal, a counter-offer, a refusal and a proposal nobody answered are
+ * all records that somebody tried. None of them is a record that the two
+ * people were together, and no sentence built on them may say that they were.
+ */
+function isContactAttempt(world: World, anchor: ThreadAnchor): boolean {
+  const event = anchorEvent(world, anchor);
+  return (
+    !!event &&
+    (event.type === CONTACT_PROPOSED_EVENT ||
+      event.type === CONTACT_COUNTERED_EVENT ||
+      event.type === CONTACT_DECLINED_EVENT)
+  );
+}
+
+/** Whether nobody ever answered this one — asked, or asked and left. */
+function isUnanswered(world: World, anchor: ThreadAnchor): boolean {
+  const event = anchorEvent(world, anchor);
+  return (
+    !!event &&
+    (event.type === CONTACT_PROPOSED_EVENT ||
+      event.tags.includes("contact.lapsed"))
+  );
+}
+
 /**
  * What one moved thread contributes to the bridge, or null.
  *
@@ -297,8 +339,28 @@ function threadMovementSentence(
   world: World,
   thread: NarrativeThread,
   moved: number,
+  moving: readonly ThreadAnchor[] = [],
 ): string | null {
   const subject = thread.title;
+  // Somebody asking to meet, and never being answered, is not somebody you
+  // saw. When everything that moved on this thread is an attempt to make
+  // contact, the sentence says that and nothing more.
+  if (
+    moving.length > 0 &&
+    moving.every((anchor) => isContactAttempt(world, anchor))
+  ) {
+    // Never answered is a different thing from answered and not met: the first
+    // is somebody trying, the second is the two of them settling it between
+    // them. Neither is a meeting, and they do not share a sentence.
+    if (moving.every((anchor) => isUnanswered(world, anchor))) {
+      return moved > 1
+        ? `${subject} tried to reach you more than once.`
+        : `${subject} tried to reach you.`;
+    }
+    return moved > 1
+      ? `You and ${subject} went back and forth about meeting.`
+      : `${subject} asked about meeting.`;
+  }
   switch (thread.family) {
     case "household":
       return moved > 1

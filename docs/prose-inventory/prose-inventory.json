@@ -1,14 +1,14 @@
 {
-  "digest": "f83252de30f535fd",
+  "digest": "542e2c2540cd9f37",
   "counts": {
-    "total": 3263,
+    "total": 3267,
     "byDomain": {
       "campaign": 24,
       "conversation": 455,
       "governing": 193,
       "legislative": 94,
       "life": 1763,
-      "narration": 75,
+      "narration": 79,
       "ordinary": 4,
       "setup": 618,
       "shell": 37
@@ -25,19 +25,19 @@
       "prompt": 130,
       "scene-line": 219,
       "status": 647,
-      "thread-recap": 32
+      "thread-recap": 36
     },
     "byReachability": {
       "CURRENTLY_UNREACHABLE": 395,
       "DEV_FIXTURE_ONLY": 110,
       "LEGACY_OR_WITHDRAWN": 90,
-      "PLAYER_REACHABLE": 2241,
+      "PLAYER_REACHABLE": 2245,
       "UNKNOWN": 69,
       "WITHHELD_BY_GROUNDING": 358
     },
     "byRealization": {
       "static": 2578,
-      "templated": 685
+      "templated": 689
     }
   },
   "records": [
@@ -107300,6 +107300,142 @@
         "computed"
       ],
       "textRevision": "7aff55d123e1",
+      "contextRevision": "b48bf56644ff"
+    },
+    {
+      "id": "prose:narration:thread-recap:threadMovementSentence-0017#text",
+      "domain": "narration",
+      "bank": "thread-recap",
+      "stableKey": "threadMovementSentence-0017",
+      "field": "text",
+      "surface": "thread-recap",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "sourceSymbol": "threadMovementSentence",
+      "text": "You and {subject} went back and forth about meeting.",
+      "realization": "templated",
+      "slots": [
+        "subject"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Open threads are recapped beside the scene whenever any are open.",
+      "grounding": [
+        {
+          "key": "open-thread",
+          "description": "A narrative thread the record shows is open, and its last movement.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "threadMovementSentence",
+        "anchor": "threadMovementSentence-0017"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "2700240eabb7",
+      "contextRevision": "b48bf56644ff"
+    },
+    {
+      "id": "prose:narration:thread-recap:threadMovementSentence-0018#text",
+      "domain": "narration",
+      "bank": "thread-recap",
+      "stableKey": "threadMovementSentence-0018",
+      "field": "text",
+      "surface": "thread-recap",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "sourceSymbol": "threadMovementSentence",
+      "text": "{subject} asked about meeting.",
+      "realization": "templated",
+      "slots": [
+        "subject"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Open threads are recapped beside the scene whenever any are open.",
+      "grounding": [
+        {
+          "key": "open-thread",
+          "description": "A narrative thread the record shows is open, and its last movement.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "threadMovementSentence",
+        "anchor": "threadMovementSentence-0018"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "10e2c427a357",
+      "contextRevision": "b48bf56644ff"
+    },
+    {
+      "id": "prose:narration:thread-recap:threadMovementSentence-0019#text",
+      "domain": "narration",
+      "bank": "thread-recap",
+      "stableKey": "threadMovementSentence-0019",
+      "field": "text",
+      "surface": "thread-recap",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "sourceSymbol": "threadMovementSentence",
+      "text": "{subject} tried to reach you more than once.",
+      "realization": "templated",
+      "slots": [
+        "subject"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Open threads are recapped beside the scene whenever any are open.",
+      "grounding": [
+        {
+          "key": "open-thread",
+          "description": "A narrative thread the record shows is open, and its last movement.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "threadMovementSentence",
+        "anchor": "threadMovementSentence-0019"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "bc54a0a11b3f",
+      "contextRevision": "b48bf56644ff"
+    },
+    {
+      "id": "prose:narration:thread-recap:threadMovementSentence-0020#text",
+      "domain": "narration",
+      "bank": "thread-recap",
+      "stableKey": "threadMovementSentence-0020",
+      "field": "text",
+      "surface": "thread-recap",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "sourceSymbol": "threadMovementSentence",
+      "text": "{subject} tried to reach you.",
+      "realization": "templated",
+      "slots": [
+        "subject"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Open threads are recapped beside the scene whenever any are open.",
+      "grounding": [
+        {
+          "key": "open-thread",
+          "description": "A narrative thread the record shows is open, and its last movement.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "threadMovementSentence",
+        "anchor": "threadMovementSentence-0020"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "c27d58f3d695",
       "contextRevision": "b48bf56644ff"
     },
     {

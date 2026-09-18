@@ -1,6 +1,6 @@
 {
   "counts": {
-    "INVENTORIED": 3162,
+    "INVENTORIED": 3166,
     "INTENTIONALLY_NON_PLAYER_FACING": 7074,
     "DIAGNOSTIC_OR_TEST": 7605,
     "NEEDS_CLASSIFICATION": 10277
@@ -44641,7 +44641,7 @@
     {
       "sourcePath": "src/simulation/governing/office-staffing.ts",
       "enclosingSymbol": "profileNote",
-      "line": 114,
+      "line": 113,
       "text": "Which positions this office has is {OFFICE_STAFFING_PROFILE}, an authored gameplay profile, not sourced law.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -44649,7 +44649,7 @@
     {
       "sourcePath": "src/simulation/governing/office-staffing.ts",
       "enclosingSymbol": "officeStaffClass",
-      "line": 118,
+      "line": 117,
       "text": "{boundary.statement} ({boundary.citation}). {profileNote}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -44657,7 +44657,7 @@
     {
       "sourcePath": "src/simulation/governing/office-staffing.ts",
       "enclosingSymbol": "officeStaffClass",
-      "line": 122,
+      "line": 121,
       "text": "{boundary.reason} The class is recorded unknown rather than guessed. {profileNote}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68049,7 +68049,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "daysNotice",
-      "line": 68,
+      "line": 69,
       "text": "1 day's",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68057,7 +68057,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "daysNotice",
-      "line": 68,
+      "line": 69,
       "text": "{count} days'",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68065,7 +68065,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "daysAhead",
-      "line": 71,
+      "line": 72,
       "text": "{count} days",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68073,7 +68073,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "contactBases",
-      "line": 138,
+      "line": 139,
       "text": "shares your home",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68081,7 +68081,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "contactBases",
-      "line": 152,
+      "line": 153,
       "text": "works where you work",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68089,7 +68089,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "contactBases",
-      "line": 162,
+      "line": 163,
       "text": "in the same group as you",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68097,7 +68097,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "contactBases",
-      "line": 173,
+      "line": 174,
       "text": "somebody you know",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68105,7 +68105,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "waiting",
-      "line": 202,
+      "line": 203,
       "text": "You have already asked, and they have not answered yet.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68113,7 +68113,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "channels",
-      "line": 205,
+      "line": 206,
       "text": "By phone",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68121,7 +68121,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "contactChannels",
-      "line": 207,
+      "line": 208,
       "text": "shares your home",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68129,7 +68129,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "contactChannels",
-      "line": 208,
+      "line": 209,
       "text": "At home",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68137,7 +68137,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "contactChannels",
-      "line": 210,
+      "line": 211,
       "text": "works where you work",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68145,7 +68145,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "contactChannels",
-      "line": 211,
+      "line": 212,
       "text": "At work",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68153,7 +68153,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "contactChannels",
-      "line": 213,
+      "line": 214,
       "text": "in the same group as you",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68161,7 +68161,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "contactChannels",
-      "line": 216,
+      "line": 217,
       "text": "Through the group",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68169,7 +68169,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "next",
-      "line": 364,
+      "line": 365,
       "text": "Was asked to meet",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68177,7 +68177,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "next",
-      "line": 370,
+      "line": 371,
       "text": "{personName(asker)} asked {personName(asked)} to meet on {input.on}: {input.purpose}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68185,7 +68185,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "next",
-      "line": 373,
+      "line": 374,
       "text": "One person asking another for their time.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68193,7 +68193,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "proposeContact",
-      "line": 390,
+      "line": 391,
       "text": "{personName(asker)} asked to meet on {input.on}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68201,7 +68201,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "summary",
-      "line": 494,
+      "line": 495,
       "text": "{personName(asked)} agreed to meet {personName(asker)} on {on}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68209,7 +68209,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "summary",
-      "line": 496,
+      "line": 497,
       "text": "{personName(asked)} could not do {on} and offered {counterOn} instead.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68217,7 +68217,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "summary",
-      "line": 497,
+      "line": 498,
       "text": "{personName(asked)} could not meet {personName(asker)} on {on}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68225,7 +68225,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "next",
-      "line": 511,
+      "line": 512,
       "text": "Had asked to meet",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68233,7 +68233,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "next",
-      "line": 523,
+      "line": 524,
       "text": "An answer to a request for somebody's time.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68241,7 +68241,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "answerContact",
-      "line": 554,
+      "line": 555,
       "text": "Meeting with {personName(asker)}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68249,7 +68249,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "answerContact",
-      "line": 563,
+      "line": 564,
       "text": "Arranged in person",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68257,7 +68257,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "npcContactAnswer",
-      "line": 623,
+      "line": 624,
       "text": "The last thing between them did not go well.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68265,7 +68265,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "npcContactAnswer",
-      "line": 624,
+      "line": 625,
       "text": "What is between them has been good.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68273,7 +68273,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "npcContactAnswer",
-      "line": 644,
+      "line": 645,
       "text": "They already have something that evening.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68281,7 +68281,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "npcContactAnswer",
-      "line": 655,
+      "line": 656,
       "text": "They like seeing people.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68289,7 +68289,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "npcContactAnswer",
-      "line": 661,
+      "line": 662,
       "text": "They keep to themselves.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68297,7 +68297,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "npcContactAnswer",
-      "line": 667,
+      "line": 668,
       "text": "They would rather sort it out now than leave it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68305,7 +68305,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "npcContactAnswer",
-      "line": 673,
+      "line": 674,
       "text": "They keep the plans they make.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68313,7 +68313,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "evaluation",
-      "line": 687,
+      "line": 688,
       "text": "Meet them that day.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68321,7 +68321,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "evaluation",
-      "line": 690,
+      "line": 691,
       "text": "Offer another day",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68329,7 +68329,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "evaluation",
-      "line": 691,
+      "line": 692,
       "text": "Say when they could instead.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68337,7 +68337,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "evaluation",
-      "line": 696,
+      "line": 697,
       "text": "Leave it for another time.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68345,7 +68345,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "lapseStaleProposals",
-      "line": 795,
+      "line": 796,
       "text": "Never answered",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68353,7 +68353,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "lapseStaleProposals",
-      "line": 797,
+      "line": 798,
       "text": "Had asked to meet",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68361,7 +68361,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "lapseStaleProposals",
-      "line": 802,
+      "line": 803,
       "text": "The day {personName(next.people[from]!)} suggested passed without an answer.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68369,7 +68369,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "lapseStaleProposals",
-      "line": 805,
+      "line": 806,
       "text": "A plan that was never answered either way.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68377,7 +68377,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "considerations",
-      "line": 865,
+      "line": 943,
       "text": "They are the one who picks up the phone.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68385,7 +68385,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "considerations",
-      "line": 871,
+      "line": 949,
       "text": "They wait to be called.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68393,7 +68393,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "considerations",
-      "line": 877,
+      "line": 955,
       "text": "They keep up with people.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68401,7 +68401,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "evaluation",
-      "line": 895,
+      "line": 973,
       "text": "Get in touch",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68409,7 +68409,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "evaluation",
-      "line": 896,
+      "line": 974,
       "text": "Ask whether they want to meet.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68417,7 +68417,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "evaluation",
-      "line": 901,
+      "line": 979,
       "text": "Another time, maybe.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -68425,7 +68425,7 @@
     {
       "sourcePath": "src/simulation/people-contact.ts",
       "enclosingSymbol": "produceReachingOut",
-      "line": 916,
+      "line": 994,
       "text": "Catch up, after a long while",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."

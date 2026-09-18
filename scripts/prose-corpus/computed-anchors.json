@@ -8323,6 +8323,38 @@
       "textRevision": "7aff55d123e1"
     },
     {
+      "anchor": "threadMovementSentence-0017",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "threadMovementSentence",
+      "text": "You and {subject} went back and forth about meeting.",
+      "occurrence": 0,
+      "textRevision": "2700240eabb7"
+    },
+    {
+      "anchor": "threadMovementSentence-0018",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "threadMovementSentence",
+      "text": "{subject} asked about meeting.",
+      "occurrence": 0,
+      "textRevision": "10e2c427a357"
+    },
+    {
+      "anchor": "threadMovementSentence-0019",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "threadMovementSentence",
+      "text": "{subject} tried to reach you more than once.",
+      "occurrence": 0,
+      "textRevision": "bc54a0a11b3f"
+    },
+    {
+      "anchor": "threadMovementSentence-0020",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "threadMovementSentence",
+      "text": "{subject} tried to reach you.",
+      "occurrence": 0,
+      "textRevision": "c27d58f3d695"
+    },
+    {
       "anchor": "unavailable-0001",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "unavailable",
