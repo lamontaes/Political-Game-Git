@@ -524,7 +524,7 @@ export interface DraftAuthorityOption {
   readonly authorityKey: string;
   readonly kind: "standing-statute" | "docket-measure";
   readonly citationLabel: string;
-  readonly programmeLabel: string;
+  readonly programLabel: string;
   /** Whether an appropriation can be written against it at all. */
   readonly authorizesSpending: boolean;
   readonly authorizedCeilingMinorUnits: number | null;
@@ -561,7 +561,7 @@ export function availableAuthorities(
     authorityKey: authority.authorityKey,
     kind: "standing-statute" as const,
     citationLabel: authority.citationLabel,
-    programmeLabel: authority.programmeLabel,
+    programLabel: authority.programLabel,
     authorizesSpending: authority.authorizesSpending,
     authorizedCeilingMinorUnits: authority.authorizedCeilingMinorUnits,
     authorizedCeilingLabel:
@@ -588,7 +588,7 @@ export function availableAuthorities(
       authorityKey: `${DOCKET_AUTHORITY_PREFIX}${bill.docketKey}`,
       kind: "docket-measure",
       citationLabel: `${bill.designation} (${bill.shortTitle})`,
-      programmeLabel: `the program described in ${bill.designation}`,
+      programLabel: `the program described in ${bill.designation}`,
       authorizesSpending:
         rule.mayAuthorizeAppropriation && reading !== null && reading > 0,
       authorizedCeilingMinorUnits: reading,
@@ -666,7 +666,7 @@ export function resolveAuthority(
         : "proposed",
     authorityKey,
     citationLabel: `${bill.designation} (${bill.shortTitle})`,
-    programmeLabel: `the program described in ${bill.designation}`,
+    programLabel: `the program described in ${bill.designation}`,
     authorizesSpending:
       rule.mayAuthorizeAppropriation && ceiling !== null && ceiling > 0,
     authorizedCeilingMinorUnits: ceiling,

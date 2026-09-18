@@ -90,7 +90,7 @@ const HOUSEHOLD_ASSISTANCE_ACT: PredicateAuthority = {
   kind: "standing-statute",
   authorityKey: "standing:household-assistance",
   citationLabel: "the Household Utility Assistance Act",
-  programmeLabel: "the household utility assistance program",
+  programLabel: "the household utility assistance program",
   authorizesSpending: true,
   authorizedCeilingMinorUnits: 1_800_000_000,
   currency: "USD",
@@ -221,7 +221,7 @@ const ASSISTANCE_ELIGIBILITY: ProgramFamily = {
               );
             }
             return {
-              text: `This Act amends the eligibility requirements of ${authority.citationLabel}. It makes no other change to ${authority.programmeLabel}, and appropriates nothing.`,
+              text: `This Act amends the eligibility requirements of ${authority.citationLabel}. It makes no other change to ${authority.programLabel}, and appropriates nothing.`,
               beneficiary: {
                 kind: "general-application",
                 appliesToLabel: `everyone applying under ${authority.citationLabel}`,
