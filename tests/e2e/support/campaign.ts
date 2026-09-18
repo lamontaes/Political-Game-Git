@@ -48,5 +48,8 @@ export async function workOfferedOutreach(page: Page) {
     "true",
   );
   const outreach = page.getByTestId("campaign-outreach");
-  if (await outreach.isEnabled()) await outreach.click();
+  // isEnabled() waits for the control to exist; on a day the campaign offers
+  // nothing there is none, and that is a day to pass, not a wait.
+  if ((await outreach.count()) > 0 && (await outreach.isEnabled()))
+    await outreach.click();
 }

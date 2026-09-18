@@ -35,6 +35,19 @@ export async function reachMemberOffice(page: Page) {
   await expect(page.getByTestId("campaign-result")).toBeVisible();
   await expect(page.getByTestId("campaign-afterword")).toContainText("won.");
   await goTo(page, "elsewhere-work");
+  // The election result is not office authority: the recorded winner enters
+  // the supported term on its start date, so the ordinary shell clock moves
+  // week by week until the legislative office exists, as pr79f does. A winner
+  // who never enters within a year is a finding, not a longer wait.
+  for (let week = 0; week < 52; week += 1) {
+    if (await page.getByTestId("office-section").isVisible()) break;
+    await page.getByTestId("shell-pass-week").click();
+    await expect(page.getByTestId("shell-pass-week")).not.toHaveAttribute(
+      "aria-busy",
+      "true",
+    );
+  }
+  await expect(page.getByTestId("office-section")).toBeVisible();
   await expect(page.getByTestId("docket")).toBeVisible();
 }
 
