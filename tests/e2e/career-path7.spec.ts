@@ -73,15 +73,19 @@ test("normal civilian career offer, keyboard consent, work, resignation and save
     .getByRole("button", { name: "Wait one day", exact: true })
     .click();
   /*
-    "Wait one day" submits the shell's one time command now instead of calling
-    the simulation itself, so the refusal is the command's own receipt, which
-    names the commitment rather than saying only that one exists. The two
-    assertions together are what the old single string said: no time passed,
-    and the commitment is why.
+    OPEN QUESTION, deliberately left failing rather than weakened. This panel
+    now submits the shell's one time command instead of advancing the world
+    itself, which is the accepted contract. But the command's receipt here
+    reads "21 hours, 50 minutes passed (1310 minutes). Now 2026-01-06 at
+    07:00." — it moved past an unresolved commitment on the evening of the
+    5th instead of stopping at it. Either the command must stop at a
+    protected commitment (GOVERNING's interruption semantics) or this panel
+    must refuse before submitting (mine). The assertion below is the original
+    substance: waiting must not carry the player past an obligation they have
+    not resolved.
   */
-  await expect(career.getByRole("status")).toContainText("No time passed.");
   await expect(career.getByRole("status")).toContainText(
-    "resolve this commitment before continuing",
+    "Resolve your current calendar commitment before waiting.",
   );
   // The normal start has a real commitment; fulfill it through Day.
   await openElsewhere(page, "day");
