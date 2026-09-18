@@ -1934,7 +1934,38 @@ function validateHistoryIntegrity(world: World): void {
   const memoryById = new Map(
     history.memories.map((memory) => [memory.id, memory]),
   );
+  // GOVERNING Q47-006: events is the one family an array-identity memo cannot
+  // help, because it changes on nearly every write — 82% of all record-walking
+  // per click was here. So this proves only the suffix appended since the last
+  // proof. Soundness rests on EVENT_PROOF_MONOTONE_CHECKS below: every check in
+  // this loop must be monotone in the safe direction, so an event that passed
+  // cannot start failing. `events-suffix-proof.test.ts` fails if this loop
+  // gains a call outside that declared list, so a later non-monotone check
+  // cannot make the memo silently wrong.
+  //
+  // A world that was loaded, imported or migrated carries fresh event objects
+  // that are in no WeakSet, so none of them is skipped and it is proved in
+  // full. No memo survives serialization.
+  //
+  // Each event is remembered individually, and skipped only if THAT OBJECT was
+  // proved. An earlier attempt remembered a proved prefix LENGTH and trusted
+  // position, which was unsound: a new array with the same length and the same
+  // last event, but a different object at index 2, would have been accepted
+  // whole. Nothing positional is trusted here, so this rests on the same
+  // assumption the existing memos already rest on — a history record is
+  // replaced, never edited in place — and on nothing further.
+  //
+  // The pass still visits every event, because id uniqueness has to be, but it
+  // pays a WeakSet lookup for one already proved instead of the per-record
+  // work, which is where the cost actually was.
   for (const event of history.events) {
+    if (EVENT_PROVED.has(event)) {
+      // Proved already. Its id still enters the shared uniqueness set, because
+      // that check is about the whole history and not about this record: a new
+      // event duplicating an old event's id must still be caught.
+      assertUniqueId(ids, event.id);
+      continue;
+    }
     assertHistoryIdentity(ids, world, event, "event");
     makeIsoDate(event.occurredAt);
     makeIsoDate(event.recordedAt);
@@ -2263,6 +2294,10 @@ function validateHistoryIntegrity(world: World): void {
       }
     }
   }
+  // Everything in this array has now passed, so remember each one. Marking
+  // only here, after the whole pass, means a validation that threw partway
+  // leaves nothing marked and the next pass re-proves in full.
+  for (const event of history.events) EVENT_PROVED.add(event);
   for (const person of world.personOrder.map((id) => world.people[id])) {
     if (!person) continue;
     for (const fact of [
@@ -3475,6 +3510,101 @@ function validateEventContext(world: World, context: EventContext): void {
  * an object that has already been walked stays safe: it is remembered and not
  * walked again, and a write pays only for what it actually added.
  */
+/*
+ * GOVERNING Q47-006: the events suffix proof.
+ *
+ * Events is the family an array-identity memo cannot help. The array is
+ * replaced on nearly every write, so ARRAY identity never matches, and
+ * re-proving it accounted for 82% of all record-walking in a click (18,468 of
+ * 22,499 records walked to append 68). RECORD identity does match, because a
+ * history record is replaced rather than edited, so each event is remembered
+ * once and a later pass pays a WeakSet lookup instead of the per-record work.
+ *
+ * WHY THIS IS SOUND WHEN PROVING EACH RECORD ONCE WAS NOT. The rejected
+ * per-record memo failed because most life families read state that can move in
+ * BOTH directions — a later-recorded death, a changed birth date — so a record
+ * that passed could genuinely start failing. Every check in the events loop is
+ * monotone in the SAFE direction instead:
+ *
+ *   - an event's own fields are frozen once appended;
+ *   - `recordedAt > world.currentDate` throws, and currentDate only increases,
+ *     so an event that passed cannot start failing;
+ *   - `world.jurisdictions` and `world.people` are read for EXISTENCE only, and
+ *     both maps are written by spread-and-add with no delete;
+ *   - the `*EntityExists` checks read append-only history: once true, always;
+ *   - the `*AvailableAt` checks are evaluated at the EVENT's own frozen
+ *     `occurredAt` and `sequence` against immutable records, so no later append
+ *     can narrow one.
+ *
+ * The uniqueness of an event's id is NOT monotone in this sense — it is a fact
+ * about the whole history — so a proved event still registers its id on every
+ * pass. Only the per-record work is skipped.
+ *
+ * THE PRECONDITION IS LOAD-BEARING. This soundness is a property of the checks
+ * as they stand, not of the design. A non-monotone check added to that loop
+ * would make the memo silently wrong with nothing failing, so the list below is
+ * declared and `events-suffix-proof.test.ts` fails if the loop calls anything
+ * outside it. Adding a check means adding it here deliberately, having decided
+ * it is monotone.
+ */
+const EVENT_PROVED = new WeakSet<object>();
+
+/** Every call the events loop is allowed to make, each one monotone-safe. */
+export const EVENT_PROOF_MONOTONE_CHECKS: readonly string[] = [
+  // Pure checks on the event's own frozen fields.
+  "makeIsoDate",
+  "assertDottedContentKey",
+  "assertNonEmptyString",
+  "validateOptionalString",
+  "validateTags",
+  "isOpenTaxonomyKey",
+  "validateEventContext",
+  // Identity. `assertUniqueId` is NOT monotone — it is a fact about the whole
+  // history — which is why a proved event still registers its id every pass.
+  // It is listed because the loop calls it, not because skipping it is safe.
+  "assertHistoryIdentity",
+  "assertUniqueId",
+  // Existence against append-only history and additive maps: once true, always.
+  "taxEntityExists",
+  "lifeEntityExists",
+  "resourceHousingEntityExists",
+  "worldMetricEntityExists",
+  "causalEffectEntityExists",
+  "incidentEntityExists",
+  "policySemanticsEntityExists",
+  "vitalityEntityExists",
+  "evidenceEntityExists",
+  "timeWorkEntityExists",
+  "futureTransitionEntityExists",
+  "electionContestEntityExists",
+  "nationalEntityExists",
+  "campaignEntityExists",
+  "constitutionalEntityExists",
+  "legislationEntityExists",
+  "legislativePoliticsEntityExists",
+  "publicInformationEntityExists",
+  // Availability decided at the EVENT's own frozen occurredAt and sequence
+  // against immutable records, so no later append can narrow one.
+  "taxEntityAvailableAt",
+  "lifeEntityAvailableAt",
+  "resourceHousingEntityAvailableAt",
+  "worldMetricEntityAvailableAt",
+  "causalEffectEntityAvailableAt",
+  "incidentEntityAvailableAt",
+  "policySemanticsEntityAvailableAt",
+  "vitalityEntityAvailableAt",
+  "evidenceEntityAvailableAt",
+  "timeWorkEntityAvailableAt",
+  "futureTransitionEntityAvailableAt",
+  "electionContestEntityAvailableAt",
+  "nationalEntityAvailableAt",
+  "campaignEntityAvailableAt",
+  "constitutionalEntityAvailableAt",
+  "legislationEntityAvailableAt",
+  "legislativePoliticsReferenceAvailableAt",
+  "publicInformationEntityAvailableAt",
+];
+
 const JSON_SAFE = new WeakSet<object>();
 
 function assertJsonSafe(
