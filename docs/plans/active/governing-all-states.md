@@ -286,3 +286,61 @@ Two things follow, and the second changes the item's size:
 That makes it lower priority than it read as, and it makes the honest fix
 acquisition rather than code. Recorded so nobody later reads "filing dead end"
 as a bug in the campaign path.
+
+## Q47-006 — where the remaining cost actually is
+
+C's per-family profile (one 30-day click, player-path before-state, repaired
+tree) localised it. Per click: 1,924 family passes, 1,353 proofs reused, 22,499
+records walked to append 68 — and events alone is 18,468 of that 22,499, 82% of
+all walking. Decision trace and publication are another 16% between them. Every
+other family reuses its memoized proof on 50 or 51 of its 52 passes and walks
+nothing, so the array-identity repair is doing what it was built to do. Events
+keeps re-walking because events change on nearly every write, which is exactly
+the case an identity memo cannot help.
+
+Read the WALKED column, not the share column: C flagged that their own
+instrument reports 12.1% for a family that walked zero records and reused zero
+proofs, which is timing noise on an empty array. Walked is a count.
+
+**An events suffix proof is sound. Prove-once was not. The difference is
+direction, not immutability.**
+
+Prove-once failed because seventeen of twenty-two life families read state that
+can move in BOTH directions — a later-recorded death, a changed birth date — so
+a record that had passed could genuinely start failing, and a memo keyed on the
+record would skip a check whose answer had moved.
+
+Every read in the events pass is monotone in the SAFE direction:
+
+- `occurredAt > recordedAt` — frozen fields of an immutable appended record;
+- `recordedAt > world.currentDate` throws, and currentDate only increases, so
+  an event that passed cannot start failing. The mutable read is real; its
+  direction is harmless;
+- `world.jurisdictions[...]` and `world.people[...]` — existence only, and both
+  maps are written by spread-and-add with no delete anywhere;
+- the nineteen `*EntityExists` checks — append-only history, so once true,
+  always true;
+- `*AvailableAt(world, id, event.occurredAt, event.sequence)` — the one
+  expected to break it, and it does not. `resource-integrity.ts:75` is true iff
+  some record with that id has `date <= date` and `sequence <
+  historySequenceExclusive`; both coordinates come from the event and are
+  frozen, and the record found is immutable, so no later append can narrow it;
+- `validateEventContext` — jurisdiction existence plus string checks on frozen
+  fields.
+
+**The precondition is load-bearing and must not be left as prose.** This
+soundness is a property of the checks as they stand, not of the design. One
+non-monotone check added to that loop later makes a suffix proof silently
+wrong, with no test failing. Any implementation carries that guard as part of
+the work.
+
+**Not built.** This is not boundary validation — it changes how one family
+proves itself between two writes, not when validation fires — but it is write
+path performance work during LAND's hold, so it waits on their ruling rather
+than on my reading of it.
+
+**The 45-minute CI timeout is not evidence about this.** C measured the import
+question: generated data is cheap (the four largest generated modules are
+214–582ms), and the cost is TypeScript transformation of a large module graph —
+a bare vitest file imports in 12ms against 3.85s for the simulation barrel, of
+which 3.19s is transform. Nothing in the write path can reach it.
