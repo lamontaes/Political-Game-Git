@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it } from "vitest";
 import {
   US_STATE_USPS,
+  addDays,
   bindRuleCapabilityResolver,
   candidacyEligibility,
   deserializeWorld,
@@ -9,6 +10,7 @@ import {
   stateExecutiveIdentity,
   isPersonAliveAt,
   recordPersonDeath,
+  evaluateCampaignAwareOutcome,
   stateJurisdictionForKey,
   unadmittedRuleCapabilityResolver,
 } from "../simulation";
@@ -155,7 +157,11 @@ const FIXTURE_TERM_FACTS: RuleCapabilityResolver = (request) => ({
               ? 4
               : {
                   kind: "reference-start",
-                  referenceStart: "2022-03-01",
+                  // Chosen so the cycle's next start falls just after the
+                  // 2026 general rather than in 2030. The cases below advance
+                  // to it twice, and three years of simulated time proves
+                  // nothing the first ten weeks do not. Fixture data, not law.
+                  referenceStart: "2023-01-15",
                   cycleYears: 4,
                 },
           ruleScope: "state-constitution" as const,
@@ -394,15 +400,28 @@ describe("GOVERNING all-fifty-state campaign -> office -> work (supplied win fix
     // head where that lane is composed — and silently proves nothing
     // anywhere else. Recording it directly proves the rule on every head.
     const dying = passUntil(qualified, "2026-12-24");
-    const buried = recordPersonDeath(dying, {
-      stableKey: `${usps}:winner-dies-before-entry`,
-      personId,
-      diedAt: dying.currentDate,
-      causeKey: "cause:external-fixture",
-      sourceEntityIds: [dying.id],
-      summary: "The governor-elect died before the term began.",
-      provenance: { kind: "authored", note: "Authored entry-refusal fixture." },
-    });
+    // On a head that composes a mortality producer the winner may ALREADY be
+    // dead by now — that is how this rule was found. A second death record is
+    // refused, so record one only if nobody has. Either way the rule under
+    // test is the same, and it is tested on every head rather than only where
+    // some other lane happens to kill somebody.
+    const buried = isPersonAliveAt(dying, personId, {
+      asOfDate: dying.currentDate,
+      historySequenceExclusive: dying.history.nextSequence,
+    })
+      ? recordPersonDeath(dying, {
+          stableKey: `${usps}:winner-dies-before-entry`,
+          personId,
+          diedAt: dying.currentDate,
+          causeKey: "cause:external-fixture",
+          sourceEntityIds: [dying.id],
+          summary: "The governor-elect died before the term began.",
+          provenance: {
+            kind: "authored",
+            note: "Authored entry-refusal fixture.",
+          },
+        })
+      : dying;
     expect(buried.currentDate < planned.startsAt).toBe(true);
 
     const atStart = passUntil(buried, planned.startsAt);
@@ -480,40 +499,70 @@ describe("GOVERNING all-fifty-state campaign -> office -> work (supplied win fix
 });
 
 /** A campaign actually won on the shared clock; seeds are tried, results are never supplied. */
+/**
+ * A campaign actually won on the shared clock — earned, never supplied.
+ *
+ * This used to try twelve seeds and keep whichever happened to win. That was
+ * always a hunt rather than a construction, and once a recorded contest
+ * decided the seat it stopped finding one at all: three afternoons do not beat
+ * a real opponent, and `fileCampaign` refuses an uncontested filing outright
+ * ("requires at least one distinct rival"), so there is no cheap way past it.
+ *
+ * So the win is built through the model's own arithmetic instead. A result is
+ * support plus a seeded swing, and `evaluateCampaignAwareOutcome` reports who
+ * WOULD win without resolving anything. The campaign works until that says the
+ * player leads, and then the ORDINARY election handler resolves it on the
+ * shared clock. Nothing is supplied; the win is earned, and it stops the
+ * moment real work has earned it rather than after a fixed guess.
+ */
 function wonKentuckyCampaign() {
-  for (let attempt = 0; attempt < 12; attempt += 1) {
-    const { world, personId } = adultLifeIn(
-      "KY",
-      `nationwide-dated-${attempt}`,
-    );
-    let next = fileForStateExecutiveOffice(world, personId);
-    next = spendAnAfternoon(next, personId, "fundraising");
-    for (let day = 0; day < 3; day += 1) {
-      next = passOrdinaryDays(next);
-      next = spendAnAfternoon(next, personId, "outreach");
-    }
-    next = runToElection(next, personId);
-    if (projectCampaign(next, personId).phase === "won")
-      return { world: next, personId, attempt };
+  const { world, personId } = adultLifeIn("KY", "nationwide-dated");
+  let next = fileForStateExecutiveOffice(world, personId);
+  const contest = next.history.electionContests!.at(-1)!;
+  // Campaign in the run-up, not months out. A lead built early is not a lead
+  // on election day: support moves on both sides while the clock runs, and an
+  // earlier version of this worked until the projection said "winner", then
+  // advanced ten months and lost. Work where the votes are counted.
+  next = passUntil(next, addDays(contest.electionDate, -90));
+  next = spendAnAfternoon(next, personId, "fundraising");
+  // Work every remaining day rather than stopping the moment the projection
+  // turns favourable. Stopping early leaves a gap for support to move back —
+  // the first version of this stopped 45 days out with the projection saying
+  // "winner" and lost the election, because the opponent kept running while
+  // the player did not.
+  let rounds = 0;
+  while (next.currentDate < addDays(contest.electionDate, -1)) {
+    rounds += 1;
+    next = passOrdinaryDays(next);
+    next = spendAnAfternoon(next, personId, "outreach");
   }
-  throw new Error("No tried seed produced a simulated Kentucky win.");
+  if (
+    evaluateCampaignAwareOutcome(next, contest.id).winnerPersonId !== personId
+  )
+    throw new Error(
+      `Ninety days of real campaign work never made the player the projected winner in ${contest.electionDate}'s contest. That is a finding about the campaign model, not a seed to retry: either work no longer moves support enough to beat one opponent, or the swing band has outgrown what work can cover.`,
+    );
+  next = runToElection(next, personId);
+  return { world: next, personId, rounds };
 }
 
 describe("NATIONWIDE ordinary state executive entry once term facts are admitted (test fixture, not law)", () => {
   it("won contest -> dated term -> qualification -> entry -> governed action -> reopen", () => {
     bindRuleCapabilityResolver(FIXTURE_TERM_FACTS);
-    const { world, personId, attempt } = wonKentuckyCampaign();
+    const { world, personId, rounds } = wonKentuckyCampaign();
     console.info(
-      `[nationwide-entry dated route] won on seed attempt ${attempt}`,
+      `[nationwide-entry dated route] won after ${rounds} rounds of campaign work`,
     );
+    // Earned on the ordinary path, not supplied by a fixture handler.
+    expect(projectCampaign(world, personId).phase).toBe("won");
     const kentucky = stateExecutiveIdentity("KY")!;
 
     const planned = stateExecutiveEntryStatus(world, personId);
     expect(planned.kind).toBe("awaiting-qualification");
     if (planned.kind !== "awaiting-qualification") return;
     // The admitted fixture's reference start follows the regular election.
-    expect(planned.startsAt).toBe("2030-03-01");
-    expect(planned.endsAt).toBe("2034-03-01");
+    expect(planned.startsAt).toBe("2027-01-15");
+    expect(planned.endsAt).toBe("2031-01-15");
     expect(planned.qualificationBlocks).toEqual([]);
     expect(resolveExecutiveOffice(world)).toBeNull();
 
@@ -584,23 +633,20 @@ describe("NATIONWIDE ordinary state executive entry once term facts are admitted
 
   it("a lost contest never produces a term for the loser", () => {
     bindRuleCapabilityResolver(FIXTURE_TERM_FACTS);
-    for (let attempt = 0; attempt < 12; attempt += 1) {
-      const { world, personId } = adultLifeIn(
-        "KY",
-        `nationwide-lost-${attempt}`,
-      );
+    // Losing needs no search: not campaigning is how a filing loses. One life,
+    // one filing, no work, and the ordinary handler decides it.
+    {
+      const { world, personId } = adultLifeIn("KY", "nationwide-lost");
       const decided = runToElection(
         fileForStateExecutiveOffice(world, personId),
         personId,
       );
-      if (projectCampaign(decided, personId).phase !== "lost") continue;
+      expect(projectCampaign(decided, personId).phase).toBe("lost");
       expect(stateExecutiveEntryStatus(decided, personId).kind).toBe("lost");
       expect(() => qualifyForStateExecutiveTerm(decided, personId)).toThrow();
       expect(
-        resolveExecutiveOffice(passUntil(decided, "2030-03-02")),
+        resolveExecutiveOffice(passUntil(decided, "2027-01-16")),
       ).toBeNull();
-      return;
     }
-    throw new Error("No tried seed produced a simulated Kentucky loss.");
   }, 240_000);
 });
