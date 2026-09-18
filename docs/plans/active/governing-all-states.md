@@ -162,3 +162,43 @@ Gaps to close, in order:
   - Senate appointments, governors' successors and the 3 U.S.C. §19 line.
   - The special-election interval is the labelled game profile
     `ocd-house-special-election-game-profile/v1`.
+
+## Q47-006 — what the write path cost, and what was done (2026-09-17)
+
+Measured on frozen #268 `e471a521` with C's harness and C's player-path
+two-year before-state, under PERFORMANCE-CHECK.md. Counters and one CPU trace
+are GOVERNING's; the timing arms are C's, because a repair should not be
+scored by the lane that wrote it.
+
+**Cause.** One 30-day click on a two-year save ran 52 full-world validations,
+each scanning 4,421 records — 238,725 record visits — to execute 12 due items
+and append 73 records. The trace put the cost in `validateHistoryIntegrity`
+itself, then in existence checks that scanned all of history per record.
+Begin is not implicated: `createNewGameWorld` is 43 ms and a fresh one-week
+click is under a quarter of a second.
+
+**Repaired** (`52d3d676`, `96d835f0`, `050ebda6`):
+
+- contiguity proved with a seen-list instead of sorting every record per write;
+- per-family ordering and stable-key proofs remembered by array identity, so a
+  write re-proves only the families it changed;
+- life and press existence checks indexed once a history is long enough for the
+  index to pay for itself, and scanning below that;
+- the due resolver listing the schedule once rather than per resolved item, and
+  comparing record references instead of serializing both due prefixes.
+
+**Rejected: proving each record once.** A per-record memo would have been the
+larger win, and it is unsound here. Seventeen of the twenty-two validated life
+families read state that can change without the record changing —
+`world.currentDate`, `world.people` and a person's birth date,
+`world.jurisdictions`. "A record that passed cannot stop passing" holds for
+references into append-only history and not for those, so a memo keyed on the
+record would skip a check whose answer had moved. The five clean families are
+not where the cost is. Recorded here because it is the reason the second lever
+is not available on these terms.
+
+**Still open.** The evolved quarter-year click remains tens of seconds. The
+remaining candidate is validating once at the boundary of a composite command
+rather than at every nested transition; that changes when the integrity
+contract fires, so it is a LIVE QUESTIONS item and not an implementation
+decision.
