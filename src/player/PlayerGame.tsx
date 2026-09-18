@@ -3269,6 +3269,23 @@ function PlayingScreen({
                 });
               }}
             >
+              {/*
+                The compact panel the room comment above promises, in the dock
+                the stylesheet built for it: scene-backdrop-content, fixed at
+                the bottom centre, pointer-events:none so the room stays
+                clickable and auto on the panel itself. Mounted as a sibling of
+                the backdrop instead, it was a full-width block in normal flow
+                and its own prose sat over the people, swallowing a press meant
+                for a plate. A conversation and the first orientation are full
+                surfaces of their own, so the moment waits behind them.
+              */}
+              {view.surface === "scene" && !conversation && !showOrientation ? (
+                <StoryView
+                  session={session}
+                  moment={projectStoryMoment(session.world, session.personId)}
+                  onWorldChange={onWorldChange}
+                />
+              ) : null}
               {view.surface === "scene" && !readOnly ? (
                 <OpeningLifeFlow
                   key={`${session.world.id}:${session.personId}`}
@@ -3325,23 +3342,6 @@ function PlayingScreen({
                 />
               ) : null}
             </SceneBackdrop>
-
-            {/*
-              The compact panel the room comment above promises. The moment is
-              the room's own narration and its choices, so it belongs over the
-              scene and not inside Personal's "Your day" disclosure, where a
-              merge had left it closed and unreachable. It is mounted once,
-              here. A conversation and the first orientation are full surfaces
-              of their own, so the moment waits behind them rather than
-              talking over them.
-            */}
-            {conversation || showOrientation ? null : (
-              <StoryView
-                session={session}
-                moment={projectStoryMoment(session.world, session.personId)}
-                onWorldChange={onWorldChange}
-              />
-            )}
 
             {selectedDossier ? (
               <QuickDossier
