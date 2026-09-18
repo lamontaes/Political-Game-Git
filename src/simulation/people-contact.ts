@@ -31,7 +31,7 @@ import type {
   FutureTransitionHandlerResult,
   IsoDate,
   World,
-  WorldEvent,
+  HistoricalEvent,
 } from "./types";
 
 /**
@@ -855,7 +855,7 @@ function proposalsFrom(
   world: World,
   playerPersonId: EntityId,
   otherPersonId: EntityId,
-): readonly WorldEvent[] {
+): readonly HistoricalEvent[] {
   return world.history.events.filter(
     (event) =>
       event.type === CONTACT_PROPOSED_EVENT &&
