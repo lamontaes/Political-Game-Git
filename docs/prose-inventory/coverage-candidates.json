@@ -47498,7 +47498,7 @@
       "sourcePath": "src/simulation/legislation-administration-families.ts",
       "enclosingSymbol": "ASSISTANCE_ELIGIBILITY",
       "line": 224,
-      "text": "This Act amends the eligibility requirements of {authority.citationLabel}. It makes no other change to {authority.programmeLabel}, and appropriates nothing.",
+      "text": "This Act amends the eligibility requirements of {authority.citationLabel}. It makes no other change to {authority.programLabel}, and appropriates nothing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -50434,7 +50434,7 @@
       "sourcePath": "src/simulation/legislation-fiscal-families.ts",
       "enclosingSymbol": "APPROPRIATIONS",
       "line": 228,
-      "text": "The appropriation made by this Act is for {authority.programmeLabel} as authorized by {authority.citationLabel}. This Act establishes no program and changes no requirement of {authority.citationLabel}.",
+      "text": "The appropriation made by this Act is for {authority.programLabel} as authorized by {authority.citationLabel}. This Act establishes no program and changes no requirement of {authority.citationLabel}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -50706,7 +50706,7 @@
       "sourcePath": "src/simulation/legislation-fiscal-families.ts",
       "enclosingSymbol": "APPROPRIATIONS",
       "line": 400,
-      "text": "This Act makes a supplemental appropriation for {authority.programmeLabel} as authorized by {authority.citationLabel}. It is supplemental to, and not in substitution for, any amount already provided for that purpose.",
+      "text": "This Act makes a supplemental appropriation for {authority.programLabel} as authorized by {authority.citationLabel}. It is supplemental to, and not in substitution for, any amount already provided for that purpose.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -50946,7 +50946,7 @@
       "sourcePath": "src/simulation/legislation-fiscal-families.ts",
       "enclosingSymbol": "APPROPRIATIONS",
       "line": 559,
-      "text": "The appropriation made by this Act is for {authority.programmeLabel} as authorized by {authority.citationLabel}, and is subject to the condition stated in this Act.",
+      "text": "The appropriation made by this Act is for {authority.programLabel} as authorized by {authority.citationLabel}, and is subject to the condition stated in this Act.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -51266,7 +51266,7 @@
       "sourcePath": "src/simulation/legislation-fiscal-families.ts",
       "enclosingSymbol": "PROGRAM_SUNSET",
       "line": 765,
-      "text": "This Act applies to {authority.citationLabel} and to {authority.programmeLabel} established under it. Nothing in this Act affects an obligation lawfully entered into before the date stated in Section 2.",
+      "text": "This Act applies to {authority.citationLabel} and to {authority.programLabel} established under it. Nothing in this Act affects an obligation lawfully entered into before the date stated in Section 2.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -51498,7 +51498,7 @@
       "sourcePath": "src/simulation/legislation-fiscal-families.ts",
       "enclosingSymbol": "PROGRAM_SUNSET",
       "line": 905,
-      "text": "This Act replaces the expiration date of {authority.citationLabel}. Except for the conditions stated in this Act, it makes no other change to that Act, to {authority.programmeLabel}, or to who may draw on it.",
+      "text": "This Act replaces the expiration date of {authority.citationLabel}. Except for the conditions stated in this Act, it makes no other change to that Act, to {authority.programLabel}, or to who may draw on it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -51722,7 +51722,7 @@
       "sourcePath": "src/simulation/legislation-fiscal-families.ts",
       "enclosingSymbol": "PROGRAM_SUNSET",
       "line": 1046,
-      "text": "{authority.citationLabel} is repealed, and {authority.programmeLabel} is discontinued, on the date stated in Section 2.",
+      "text": "{authority.citationLabel} is repealed, and {authority.programLabel} is discontinued, on the date stated in Section 2.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -58642,7 +58642,7 @@
       "sourcePath": "src/simulation/legislation-transit-families.ts",
       "enclosingSymbol": "TRANSIT_SERVICE_VARIANT",
       "line": 88,
-      "text": "This appropriation funds {r.authority?.programmeLabel} under {r.authority?.citationLabel}. It changes no eligibility rule of that program.",
+      "text": "This appropriation funds {r.authority?.programLabel} under {r.authority?.citationLabel}. It changes no eligibility rule of that program.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
