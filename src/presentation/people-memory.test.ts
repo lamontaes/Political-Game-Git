@@ -107,6 +107,12 @@ function toRecalledRequest(seed: string, answer: "decline" | "agree") {
  * describe scope happens during collection.
  */
 const declinedRequest = toRecalledRequest("people-memory-a", "decline");
+/**
+ * The agreed case, built once for the same reason: two tests need somebody who
+ * said yes and was asked again, and building that twice walked a year of
+ * simulated life a second time for nothing.
+ */
+const agreedRequest = toRecalledRequest("people-memory-b", "agree");
 
 describe("PEOPLE P4: a request raised again", () => {
   const declined = declinedRequest;
@@ -210,11 +216,8 @@ describe("PEOPLE P4: a request raised again", () => {
     );
   });
 
-  // These two build and advance a real life at test time; on the hosted runner
-  // they take 8-9 s against vitest's 5 s default (unit shard 6, 11b34234).
-  // The budget is the receiver's; the cheaper fixture is B's owed work.
   it("an answer that matches the record is never contradicted", () => {
-    const agreed = toRecalledRequest("people-memory-b", "agree");
+    const agreed = agreedRequest;
     expect(variantOf(agreed.later, agreed.player)).toBe("recalled");
     const view = openView(agreed.later, agreed.player, "scene-favor")!;
     // Nobody is offered a lie about a promise they actually made; the guess
@@ -235,7 +238,7 @@ describe("PEOPLE P4: a request raised again", () => {
         (event) => event.type === CLAIM_CONTRADICTION_EVENT,
       ),
     ).toHaveLength(0);
-  }, 60_000);
+  });
 
   /**
    * CRUNCH47, cargo family life-promise. Asking to change an arrangement is
@@ -243,7 +246,7 @@ describe("PEOPLE P4: a request raised again", () => {
    * still stands, and the asking is on the record either way.
    */
   it("asking to change an arrangement moves it only if they agree", () => {
-    const agreed = toRecalledRequest("people-memory-c", "agree");
+    const agreed = agreedRequest;
     const request = recalledRequests(agreed.later, agreed.player)[0]!;
     const counterpart = request.counterpartPersonId;
     // Decided before any wording, and the same answer whichever words carry it.
@@ -282,7 +285,7 @@ describe("PEOPLE P4: a request raised again", () => {
       ),
     ).toHaveLength(1);
     assertWorldIntegrity(asked);
-  }, 60_000);
+  });
 
   /**
    * The cargo's own negative controls for this family.
