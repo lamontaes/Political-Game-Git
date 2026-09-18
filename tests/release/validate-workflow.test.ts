@@ -49,6 +49,17 @@ describe("deterministic validation workflow capacity", () => {
     expect(unit).toContain("timeout-minutes: 45");
     expect(unit).not.toContain("npm run validate");
     expect(validate).toContain("assert-unit-shard-union.ts");
+    // The sharded chain is the full validate chain with only the unit step
+    // removed, so the two cannot drift apart.
+    const scripts = (
+      JSON.parse(readFileSync("package.json", "utf8")) as {
+        scripts: Record<string, string>;
+      }
+    ).scripts;
+    expect(scripts.validate).toContain("npm run test && ");
+    expect(scripts["validate:ci-sharded"]).toBe(
+      scripts.validate.replace("npm run test && ", ""),
+    );
     expect(browser).toContain("npx playwright test --shard=");
     expect(browser).not.toContain("npm run validate");
     expect(browser).toContain("timeout-minutes: 75");
