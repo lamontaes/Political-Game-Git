@@ -1,5 +1,5 @@
 import {
-  reachMemberOffice,
+  enterRecordedMemberTerm,
   readSavedLegislativeWorld,
   expectRecordedMember,
 } from "./support/legislative-entry";
@@ -318,7 +318,7 @@ test("frozen docket uses the normal Work shell and keeps its selected document o
     route: "normal",
   });
   await enterLife(page);
-  await reachMemberOffice(page);
+  await enterRecordedMemberTerm(page);
   await page.getByTestId("open-drafting-table").click();
   await page.locator('[data-testid^="drafting-option-"]').first().click();
   await page.getByTestId("file-the-draft").press("Enter");

@@ -2,7 +2,7 @@ import { saveLife } from "./support/creator";
 import { expect, test } from "./fixtures";
 import { enterLife, goTo, openNewsContext, startLife } from "./support/creator";
 import {
-  reachMemberOffice,
+  enterRecordedMemberTerm,
   readSavedLegislativeWorld as savedWorld,
   expectRecordedMember,
 } from "./support/legislative-entry";
@@ -31,7 +31,7 @@ test("normal completed legislative action publishes News with person Back and un
     .getByRole("button", { name: "Close public information" })
     .press("Escape");
   await expect(page.getByTestId("shell-nav-cluster")).toBeFocused();
-  await reachMemberOffice(page);
+  await enterRecordedMemberTerm(page);
   await page.getByTestId("open-drafting-table").click();
   await page.locator('[data-testid^="drafting-option-"]').first().click();
   await page.getByTestId("file-the-draft").press("Enter");
@@ -180,7 +180,7 @@ test("the office names the bill being worked on and who has it next", async ({
     route: "normal",
   });
   await enterLife(page);
-  await reachMemberOffice(page);
+  await enterRecordedMemberTerm(page);
 
   await page.getByTestId("open-drafting-table").click();
   await page.locator('[data-testid^="drafting-option-"]').first().click();
