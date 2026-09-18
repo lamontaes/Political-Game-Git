@@ -25,13 +25,11 @@ import path from "node:path";
 import { _electron as electron } from "playwright";
 
 import { chooseStartAge } from "./creator-drive.mjs";
-
 import {
   readSavedRecords,
   sameSavedIdentity,
   savedIdentity,
 } from "./saved-identity-proof.mjs";
-import { chooseStartAge } from "./creator-drive.mjs";
 
 const args = process.argv.slice(2);
 const value = (name) => {
