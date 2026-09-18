@@ -36,7 +36,6 @@ import {
 } from "../legislation";
 import {
   authoredScenarioSeatCount,
-  committeeMembers,
   dispositionsFromCounts,
   legislativeBlueprint,
   legislativeScenarioKeysForPlace,
@@ -47,6 +46,7 @@ import {
   type LegislativeBlueprint,
   type SeatedBody,
 } from "../legislation-scenarios";
+import { committeeRoster } from "./committee-assignment";
 import {
   chamberByKey,
   defaultOriginChamber,
@@ -390,7 +390,14 @@ export function applyInstitutionStep(
       committee && body
         ? votes(
             blueprint,
-            committeeMembers(body, committee.appointedMembers),
+            // The committee's own roster, not whoever happens to be listed
+            // first in the chamber.
+            committeeRoster(
+              body,
+              chamber.committees,
+              committee.committeeKey,
+              `${pack.packId}:${chamberKey}`,
+            ),
             votePlanKeyForCommittee(committee.committeeKey),
           )
         : null;
