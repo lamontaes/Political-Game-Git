@@ -6379,6 +6379,14 @@
       "textRevision": "626eb505db83"
     },
     {
+      "anchor": "projectRecallCards-0005",
+      "sourcePath": "src/presentation/people-recall-cards.ts",
+      "symbol": "projectRecallCards",
+      "text": "{STATUS_LINE[entry.status]} {entry.counterpartName} has since died.",
+      "occurrence": 0,
+      "textRevision": "faadebb9ddb5"
+    },
+    {
       "anchor": "promisedExplain-0001",
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "symbol": "promisedExplain",
@@ -7961,6 +7969,182 @@
       "text": "“Understood. See you in class,” {name} says.",
       "occurrence": 0,
       "textRevision": "8ada371b6249"
+    },
+    {
+      "anchor": "studyPlan-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPlan",
+      "text": "Before the work starts",
+      "occurrence": 0,
+      "textRevision": "eb0834ff7714"
+    },
+    {
+      "anchor": "studyPlan-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPlan",
+      "text": "How to do the work with {binding.facts.peerGiven??\"somebody\"}",
+      "occurrence": 0,
+      "textRevision": "8a9692fbdbe3"
+    },
+    {
+      "anchor": "studyPlan-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPlan",
+      "text": "Settle how the shared work gets done.",
+      "occurrence": 0,
+      "textRevision": "54873edff97c"
+    },
+    {
+      "anchor": "studyPlan-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPlan",
+      "text": "Two people who agreed to work together, deciding how.",
+      "occurrence": 0,
+      "textRevision": "93d3b7922a81"
+    },
+    {
+      "anchor": "studyPlanAnswers-0001",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPlanAnswers",
+      "text": "Can we walk through what each approach would require?",
+      "occurrence": 0,
+      "textRevision": "33b7789b49ce"
+    },
+    {
+      "anchor": "studyPlanAnswers-0002",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPlanAnswers",
+      "text": "Compare the two approaches",
+      "occurrence": 0,
+      "textRevision": "499ee2825eb5"
+    },
+    {
+      "anchor": "studyPlanAnswers-0003",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPlanAnswers",
+      "text": "Find out what each would actually require.",
+      "occurrence": 0,
+      "textRevision": "bf61d7600fe2"
+    },
+    {
+      "anchor": "studyPlanAnswers-0004",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPlanAnswers",
+      "text": "I still think we should {mine.label}.",
+      "occurrence": 0,
+      "textRevision": "37aef3c7d52f"
+    },
+    {
+      "anchor": "studyPlanAnswers-0005",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPlanAnswers",
+      "text": "I still think we should {mine.label}. What worries me about the other way is that {theirs.concern}.",
+      "occurrence": 0,
+      "textRevision": "4d16f9239357"
+    },
+    {
+      "anchor": "studyPlanAnswers-0006",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPlanAnswers",
+      "text": "I think we should {mine.label}.",
+      "occurrence": 0,
+      "textRevision": "c14740a92287"
+    },
+    {
+      "anchor": "studyPlanAnswers-0007",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPlanAnswers",
+      "text": "Keep your proposal",
+      "occurrence": 0,
+      "textRevision": "0206b10f72b8"
+    },
+    {
+      "anchor": "studyPlanAnswers-0008",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPlanAnswers",
+      "text": "Say what worries you about theirs. Nothing is settled by saying it.",
+      "occurrence": 0,
+      "textRevision": "6729a0065628"
+    },
+    {
+      "anchor": "studyPlanAnswers-0009",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPlanAnswers",
+      "text": "Say you would {mine.label}",
+      "occurrence": 0,
+      "textRevision": "97a3867252ea"
+    },
+    {
+      "anchor": "studyPlanAnswers-0010",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPlanAnswers",
+      "text": "Suggest you {revision.label}",
+      "occurrence": 0,
+      "textRevision": "10788a222dd1"
+    },
+    {
+      "anchor": "studyPlanAnswers-0011",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPlanAnswers",
+      "text": "The player asked {context.name} to compare the two approaches.",
+      "occurrence": 0,
+      "textRevision": "e6cfefecdbb7"
+    },
+    {
+      "anchor": "studyPlanAnswers-0012",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPlanAnswers",
+      "text": "The player kept their own proposal.",
+      "occurrence": 0,
+      "textRevision": "433613e93780"
+    },
+    {
+      "anchor": "studyPlanAnswers-0013",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPlanAnswers",
+      "text": "The player said they would {mine.label}.",
+      "occurrence": 0,
+      "textRevision": "9537da745c05"
+    },
+    {
+      "anchor": "studyPlanAnswers-0014",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPlanAnswers",
+      "text": "The player suggested they {revision.label}.",
+      "occurrence": 0,
+      "textRevision": "7ddb858641a6"
+    },
+    {
+      "anchor": "studyPlanAnswers-0015",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPlanAnswers",
+      "text": "What about this — we {revision.label}?",
+      "occurrence": 0,
+      "textRevision": "164128eb73ed"
+    },
+    {
+      "anchor": "studyPlanAnswers-0016",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPlanAnswers",
+      "text": "“If we {mine.label}: {mine.requires} If we {theirs.label}: {theirs.requires}”",
+      "occurrence": 0,
+      "textRevision": "e21b758f6917"
+    },
+    {
+      "anchor": "studyPlanAnswers-0017",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPlanAnswers",
+      "text": "“I’d rather we {theirs.label},” {name} says.",
+      "occurrence": 0,
+      "textRevision": "b1ee65d2e943"
+    },
+    {
+      "anchor": "studyPlanAnswers-0018",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "studyPlanAnswers",
+      "text": "“That’s what I was going to say,” {name} says. “Good.”",
+      "occurrence": 0,
+      "textRevision": "d9df7b24f904"
     },
     {
       "anchor": "threadMovementSentence-0001",

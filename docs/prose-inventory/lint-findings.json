@@ -98,6 +98,13 @@
     "evidence": "somebody"
   },
   {
+    "id": "prose:conversation:contextual-scene:studyPlan-0002#text",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "somebody"
+  },
+  {
     "id": "prose:conversation:conversation-subject:describeBriefing-0007#text",
     "severity": "REVIEW_WARNING",
     "family": "and-it-scaffold",

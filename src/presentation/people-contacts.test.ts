@@ -61,8 +61,12 @@ describe("PEOPLE P3: reaching somebody", () => {
       expect(world.people[contact.personId]).toBeTruthy();
       expect(contact.basis.length).toBeGreaterThan(0);
       expect(contact.channels.length).toBeGreaterThan(0);
+      // A channel describes how they could be reached. It is never phrased as
+      // an instruction, because there is no command behind it — what can be
+      // done is on `actions`.
       for (const channel of contact.channels) {
-        if (!channel.available) expect(channel.unavailableReason).toBeTruthy();
+        expect(channel.label).not.toMatch(/^(Call|Talk|Catch|Speak|Ask|Meet) /);
+        expect(channel).not.toHaveProperty("available");
       }
     }
     // The projection writes nothing.

@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 3128 |
-| INTENTIONALLY_NON_PLAYER_FACING | 7058 |
-| DIAGNOSTIC_OR_TEST | 7465 |
-| **NEEDS_CLASSIFICATION** | **10124** |
+| INVENTORIED | 3153 |
+| INTENTIONALLY_NON_PLAYER_FACING | 7065 |
+| DIAGNOSTIC_OR_TEST | 7484 |
+| **NEEDS_CLASSIFICATION** | **10216** |
 
-Scanned 1127 files holding 110488 string
+Scanned 1129 files holding 110895 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -32,7 +32,7 @@ literals in total; the table counts only those that read like a sentence.
 
 | Candidates | File |
 | --- | --- |
-| 484 | `src/presentation/contextual-scene-families.ts` |
+| 506 | `src/presentation/contextual-scene-families.ts` |
 | 341 | `src/simulation/legislation-administration-families.ts` |
 | 290 | `src/simulation/legislation-infrastructure-families.ts` |
 | 269 | `src/simulation/legislation-fiscal-families.ts` |
@@ -56,9 +56,10 @@ literals in total; the table counts only those that read like a sentence.
 | 74 | `src/simulation/press-interview-producers.ts` |
 | 71 | `src/player/PersonAppearanceControls.tsx` |
 | 69 | `src/simulation/character-history.ts` |
+| 67 | `src/presentation/contextual-scene-producers.ts` |
 | 65 | `src/simulation/campaign-opponents.ts` |
 | 64 | `src/simulation/press/desk.ts` |
-| 63 | `src/presentation/contextual-scene-producers.ts` |
+| 62 | `src/simulation/people-study-plan.ts` |
 | 61 | `src/simulation/press-interviews.ts` |
 | 59 | `src/presentation/legislative-dialogue-motifs.ts` |
 | 54 | `src/presentation/run-c-working-document.ts` |
@@ -74,13 +75,13 @@ literals in total; the table counts only those that read like a sentence.
 | 48 | `src/simulation/life-episodes.ts` |
 | 48 | `src/simulation/life-sources.ts` |
 | 48 | `src/simulation/living-world/party-evolution.ts` |
+| 48 | `src/simulation/people-contact.ts` |
 | 45 | `src/content/content-export.ts` |
 | 45 | `src/simulation/legislative-politics.ts` |
 | 45 | `src/simulation/time-work.ts` |
 | 44 | `src/player/ShellWorkspaces.tsx` |
 | 44 | `src/presentation/campaign-life-surface.ts` |
 | 44 | `src/presentation/crisis-shell.ts` |
-| 44 | `src/simulation/people-contact.ts` |
 | 43 | `src/presentation/funded-service-capability.ts` |
 | 43 | `src/presentation/legislative-bargaining-brief.ts` |
 | 43 | `src/presentation/scene-consumers.ts` |
