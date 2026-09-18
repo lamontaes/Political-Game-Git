@@ -9041,7 +9041,7 @@
     {
       "sourcePath": "src/player/PublicInformationPanel.tsx",
       "enclosingSymbol": "PublicInformationPanel",
-      "line": 104,
+      "line": 105,
       "text": "public-information-panel civic-glass",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9049,7 +9049,7 @@
     {
       "sourcePath": "src/player/PublicInformationPanel.tsx",
       "enclosingSymbol": "PublicInformationPanel",
-      "line": 127,
+      "line": 128,
       "text": "Close public information",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9057,7 +9057,7 @@
     {
       "sourcePath": "src/player/PublicInformationPanel.tsx",
       "enclosingSymbol": "PublicInformationPanel",
-      "line": 141,
+      "line": 142,
       "text": "News views",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9065,7 +9065,7 @@
     {
       "sourcePath": "src/player/PublicInformationPanel.tsx",
       "enclosingSymbol": "PublicInformationPanel",
-      "line": 224,
+      "line": 225,
       "text": "Clear search",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9073,7 +9073,7 @@
     {
       "sourcePath": "src/player/PublicInformationPanel.tsx",
       "enclosingSymbol": "PublicInformationPanel",
-      "line": 247,
+      "line": 248,
       "text": "Showing {filteredItems.length} of {viewItems.length} published stories.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9081,7 +9081,7 @@
     {
       "sourcePath": "src/player/PublicInformationPanel.tsx",
       "enclosingSymbol": "PublicInformationPanel",
-      "line": 248,
+      "line": 249,
       "text": "{viewItems.length} published {viewItems.length===1?\"story\":\"stories\"}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9089,7 +9089,7 @@
     {
       "sourcePath": "src/player/PublicInformationPanel.tsx",
       "enclosingSymbol": "PublicInformationPanel",
-      "line": 307,
+      "line": 308,
       "text": "Close {activeConcept.label} explanation",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9097,7 +9097,7 @@
     {
       "sourcePath": "src/player/PublicInformationPanel.tsx",
       "enclosingSymbol": "PublicInformationArticle",
-      "line": 345,
+      "line": 351,
       "text": " · {item.jurisdictionName}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9105,7 +9105,7 @@
     {
       "sourcePath": "src/player/PublicInformationPanel.tsx",
       "enclosingSymbol": "PublicInformationArticle",
-      "line": 363,
+      "line": 369,
       "text": "Civic explanations",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9113,7 +9113,7 @@
     {
       "sourcePath": "src/player/PublicInformationPanel.tsx",
       "enclosingSymbol": "PublicInformationArticle",
-      "line": 370,
+      "line": 376,
       "text": "Explain {entry.label}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9121,7 +9121,7 @@
     {
       "sourcePath": "src/player/PublicInformationPanel.tsx",
       "enclosingSymbol": "PublicInformationArticle",
-      "line": 383,
+      "line": 389,
       "text": "People in this event",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
