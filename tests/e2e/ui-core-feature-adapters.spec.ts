@@ -4,7 +4,13 @@ import {
   expectRecordedMember,
 } from "./support/legislative-entry";
 import { expect, test } from "./fixtures";
-import { enterLife, fillCreator, goTo, startLife } from "./support/creator";
+import {
+  enterLife,
+  fillCreator,
+  goTo,
+  saveLife,
+  startLife,
+} from "./support/creator";
 
 test("normal Day exposes the frozen study/work adapter and scheduled sessions reach Calendar", async ({
   page,
@@ -331,8 +337,10 @@ test("frozen docket uses the normal Work shell and keeps its selected document o
   await page.screenshot({
     path: testInfo.outputPath("normal-work-docket.png"),
   });
-  await goTo(page, "keep-world");
-  await expect(page.getByText("Saved.", { exact: true })).toBeVisible();
+  // The constructed seat arrives from a world already written once, so the
+  // menu offers Save rather than Keep; saveLife() takes either and asserts
+  // Keep is gone afterwards.
+  await saveLife(page);
   const filed = await readSavedLegislativeWorld(page);
   expectRecordedMember(filed);
   await page.reload();

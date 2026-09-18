@@ -68,9 +68,10 @@ export async function enterRecordedMemberTerm(page: Page) {
   // that use this are about what happens AFTER a seat, not about the life
   // that reached it.
   await page.goto("/");
-  await expect(
-    page.getByTestId("new-game").or(page.getByTestId("continue")),
-  ).toBeVisible();
+  // The front door always offers New game; Continue is rendered beside it and
+  // is disabled when there is nothing to continue, so matching either one
+  // resolves to two elements and trips strict mode.
+  await expect(page.getByTestId("new-game")).toBeVisible();
   await page.evaluate(async () => {
     // Paths through variables: these resolve in the browser at runtime, and a
     // literal would send tsc looking for a module that is not on disk here.
