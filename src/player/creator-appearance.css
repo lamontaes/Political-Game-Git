@@ -39,11 +39,21 @@
   }
 }
 
+/*
+ * The panel is bounded by the frame it sits in, not by the nominal display.
+ *
+ * `calc(100dvh - 72px)` guessed at the tableau's padding. The tableau is
+ * exactly one viewport tall and pads itself with its own viewport-relative
+ * clamp, so a panel that budgets for a padding nobody promised starts below
+ * where it thought it did and ends below the fold — which is how the standing
+ * figure's new height pushed Back to 933.8px in a 900px window. `100%` is the
+ * room the frame actually has, measured by the frame.
+ */
 .title-tableau--art.front-door
   .game-title.game-creator.game-creator--appearance {
   width: min(1120px, calc(100vw - 64px));
   max-width: none;
-  max-height: calc(100dvh - 72px);
+  max-height: 100%;
   padding: 18px;
   overflow: auto;
   background: #142033;
@@ -61,9 +71,33 @@
   .creator-summary-edit {
   margin-left: 0.6rem;
 }
+/*
+ * Back rides the bottom of the panel, not the bottom of the content.
+ *
+ * Back is the step's own control and sits above the appearance section, so a
+ * tall preview scrolled it out of the window entirely — the reviewer measured
+ * its bottom edge at 933.8px in a 900px one. It is pinned to the panel's edge
+ * now, directly under Reset and Begin, which are pinned to the same edge from
+ * inside the section. The height here is declared rather than left to the
+ * text, so the row above it can clear it exactly instead of guessing.
+ */
 .title-tableau--art.front-door .game-creator--appearance > .game-setup-actions {
-  margin: 0.2rem 0;
+  position: sticky;
+  bottom: 0;
+  z-index: 4;
+  align-items: center;
+  height: 2.6rem;
+  margin: 0.2rem 0 0;
+  padding: 0;
+  background: #142033;
+  box-shadow: 0 -10px 18px -10px rgb(0 0 0 / 75%);
   justify-content: flex-start;
+}
+.title-tableau--art.front-door
+  .game-creator--appearance
+  .kit41-creator
+  .game-setup-actions {
+  bottom: 2.6rem;
 }
 .title-tableau--art.front-door
   .game-creator--appearance
@@ -104,6 +138,15 @@
 .title-tableau--art.front-door
   .game-title.game-creator.game-creator--appearance {
   scroll-padding-block-end: 4.4rem;
+}
+/* Two pinned rows on the front door, so the reserve and the scroll padding
+   both clear Back as well as Reset and Begin. */
+.title-tableau--art.front-door .kit41-creator-layout {
+  padding-bottom: 6rem;
+}
+.title-tableau--art.front-door
+  .game-title.game-creator.game-creator--appearance {
+  scroll-padding-block-end: 7rem;
 }
 .kit41-creator .game-setup-actions button {
   width: auto;
