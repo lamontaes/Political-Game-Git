@@ -104,9 +104,20 @@ async function wonSeatWithWorkOpen(page: Page) {
   await openCampaign(page);
   await fileCandidacy(page);
   await page.getByTestId("campaign-fundraising").click();
-  for (let day = 0; day < 3; day += 1) {
+  // Work every day the control is offered, rather than for a fixed number of
+  // days. Three was true when this was written and is not now: the rival
+  // campaigns weekly since d60b2975, and measured headlessly on this route
+  // three outreach days LOSE, six also LOSE — only five actions were even
+  // available — and working every offered day WINS with 26 actions. Any day
+  // count is a guess about a model that has already changed once; "do the
+  // work the game offers" cannot go stale the same way, and if the player
+  // does everything available and still loses, that is a finding worth a
+  // failure rather than a premise to re-tune.
+  for (let day = 0; day < 48; day += 1) {
+    if (await page.getByTestId("campaign-result").isVisible()) break;
     await page.getByTestId("pass-day").click();
-    await page.getByTestId("campaign-outreach").click();
+    const outreach = page.getByTestId("campaign-outreach");
+    if (await outreach.isVisible().catch(() => false)) await outreach.click();
   }
   expect(await liveUntilDecided(page)).toBe(true);
   await expect(page.getByTestId("campaign-afterword")).toContainText("won.");
