@@ -14,7 +14,7 @@ declare is reported as undeclared rather than filled in from a guess.
 | --- | --- | --- | --- | --- |
 | `campaign/campaign-status` | 24 | 0 | 0 | candidacy |
 | `conversation/commit-contract` | 110 | 0 | 0 | — |
-| `conversation/contextual-scene` | 248 | 0 | 0 | — |
+| `conversation/contextual-scene` | 257 | 0 | 0 | — |
 | `conversation/conversation-subject` | 64 | 0 | 0 | — |
 | `conversation/conversation-turn` | 24 | 0 | 0 | — |
 | `governing/municipal-attendance-and-work` | 40 | 0 | 0 | activity-evidence, work-standing |

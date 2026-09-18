@@ -22,7 +22,7 @@ defect than the one it was aimed at.
 
 ## Repetition
 
-- 3254 templates, 3036 distinct texts.
+- 3263 templates, 3045 distinct texts.
 - 84 exact duplicate groups.
 - 94 normalized duplicate groups.
 - 37 near-duplicate clusters (Jaccard ≥ 0.72).
@@ -37,7 +37,7 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `no time passes` | 111 | 1 |
 | `in front of` | 24 | 7 |
 | `no instrument read` | 22 | 1 |
-| `the player asked` | 20 | 2 |
+| `the player asked` | 21 | 2 |
 | `there is a` | 20 | 4 |
 | `it is not` | 18 | 4 |
 | `out of the` | 18 | 5 |
@@ -66,7 +66,7 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | --- | --- |
 | `no time passes` | 111 |
 | `no instrument read` | 21 |
-| `the player asked` | 20 |
+| `the player asked` | 21 |
 | `you tell you` | 16 |
 | `there is a` | 12 |
 | `the bill is` | 10 |
