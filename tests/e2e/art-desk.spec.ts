@@ -207,6 +207,18 @@ test("an existing raster round-trips upload → reload → same candidate → fu
     expect(copyBox?.width ?? 0).toBeGreaterThan(160);
 
     const qaRow = page.getByTestId(`art-desk-row-${QA_REQUEST.requestId}`);
+    /*
+     * A disposable QA request is hidden from the desk twice over, and the desk
+     * is right both times. It is not review work — with no candidate to judge
+     * it belongs to Library, not the Needs review tab the desk opens on — and
+     * test rows stay out of the real list until "Show test requests" asks for
+     * them. So this proof goes where the request actually is and presses the
+     * control that asks, rather than expecting the desk to volunteer a row it
+     * is right to keep back.
+     */
+    await expect(qaRow).toHaveCount(0);
+    await page.getByTestId("art-desk-tab-library").click();
+    await page.getByTestId("art-desk-show-qa").check();
     await expect(qaRow).toBeVisible();
     await expect(qaRow).toContainText("QA, disposable");
     await qaRow.click();
@@ -237,6 +249,9 @@ test("an existing raster round-trips upload → reload → same candidate → fu
     await page.reload();
     await openAdvanced(page);
     await expect(page.getByTestId("art-desk-inputs")).toBeVisible();
+    // The desk remembers the tab across a reload but not the request to show
+    // test rows, so this asks again, the way the player of this desk would.
+    await page.getByTestId("art-desk-show-qa").check();
     await page.getByTestId(`art-desk-row-${QA_REQUEST.requestId}`).click();
     const uploadedId = await page.evaluate(async (prefix) => {
       const state = (await (
