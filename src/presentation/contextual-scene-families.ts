@@ -14,6 +14,12 @@ import {
 } from "../simulation/people-contact";
 import { recalledRequest } from "../simulation/people-recall";
 import {
+  PROMISE_REVISIONS,
+  decidePromiseRenegotiation,
+  recordPromiseRenegotiation,
+  renegotiationAsked,
+} from "../simulation/people-promise";
+import {
   decideStudyPeerOutcome,
   recordStudyAnswer,
   studyAnswered,
@@ -1024,6 +1030,59 @@ function recalledAnswers(context: SceneContext): SceneAnswer[] {
         worldTruth: "unknown",
       },
     },
+    // Asking to change it is not dropping it (cargo family life-promise). The
+    // obligation stays exactly where it is unless they actually agree to move
+    // it, and what they mean is decided before the words are chosen.
+    ...(agreed && !renegotiationAsked(context.world, requestEventId)
+      ? PROMISE_REVISIONS.map((revision) => {
+          const decided = decidePromiseRenegotiation(context.world, {
+            personId: context.binding.playerPersonId,
+            counterpartPersonId: context.binding.speakerPersonId,
+            requestEventId,
+            revisionId: revision.id,
+          }).outcome;
+          const spoken =
+            decided === "accepts-change"
+              ? `Let’s use ${revision.label} instead.`
+              : decided === "needs-answer"
+                ? `I still need an answer about ${lowerFirst(task)}.`
+                : "I’m still relying on the arrangement we made.";
+          return {
+            key: `ask-for-${revision.id}`,
+            label: `Ask for ${revision.label}`,
+            description: revision.meaning,
+            statement: `I need to discuss a different arrangement for ${lowerFirst(task)} — could we say ${revision.label}?`,
+            replies: says(
+              context,
+              decided === "accepts-change"
+                ? [
+                    `“I can agree to ${revision.label},” {name} says.`,
+                    `“Let’s use ${revision.label} instead,” {name} says.`,
+                  ]
+                : decided === "needs-answer"
+                  ? [
+                      `“I still need an answer about ${lowerFirst(task)},” {name} says.`,
+                      "“Please let me know once you have checked,” {name} says.",
+                    ]
+                  : [
+                      "“I’m still relying on the arrangement we made,” {name} says.",
+                      "“I can’t take that responsibility over,” {name} says.",
+                    ],
+            ),
+            record: `The player asked ${context.name} for ${revision.label} on the ${lowerFirst(task)}.`,
+            apply: (world: World) =>
+              recordPromiseRenegotiation(world, {
+                personId: context.binding.playerPersonId,
+                counterpartPersonId: context.binding.speakerPersonId,
+                requestEventId,
+                revisionId: revision.id,
+                outcome: decided,
+                task,
+                statement: spoken,
+              }).world,
+          };
+        })
+      : []),
   ];
 }
 

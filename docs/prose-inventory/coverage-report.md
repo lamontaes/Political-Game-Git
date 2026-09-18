@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 3153 |
-| INTENTIONALLY_NON_PLAYER_FACING | 7065 |
-| DIAGNOSTIC_OR_TEST | 7484 |
-| **NEEDS_CLASSIFICATION** | **10216** |
+| INVENTORIED | 3162 |
+| INTENTIONALLY_NON_PLAYER_FACING | 7068 |
+| DIAGNOSTIC_OR_TEST | 7487 |
+| **NEEDS_CLASSIFICATION** | **10240** |
 
-Scanned 1129 files holding 110895 string
+Scanned 1130 files holding 111020 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -32,7 +32,7 @@ literals in total; the table counts only those that read like a sentence.
 
 | Candidates | File |
 | --- | --- |
-| 506 | `src/presentation/contextual-scene-families.ts` |
+| 509 | `src/presentation/contextual-scene-families.ts` |
 | 341 | `src/simulation/legislation-administration-families.ts` |
 | 290 | `src/simulation/legislation-infrastructure-families.ts` |
 | 269 | `src/simulation/legislation-fiscal-families.ts` |
@@ -154,6 +154,7 @@ literals in total; the table counts only those that read like a sentence.
 | 21 | `src/presentation/title-tableau.ts` |
 | 21 | `src/simulation/legislation-content-contracts.ts` |
 | 21 | `src/simulation/life-favors.ts` |
+| 21 | `src/simulation/people-promise.ts` |
 | 20 | `src/player/LifePathsPanel.tsx` |
 | 20 | `src/player/TaxWorkWorkspace.tsx` |
 | 20 | `src/presentation/economic-context-browser.ts` |

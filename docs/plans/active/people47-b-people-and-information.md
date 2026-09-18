@@ -127,6 +127,7 @@ names already exist. What is landed:
 | `edu-working-together` | Landed as the `study-peer` family: a real classmate on a real enrollment, the answer decided before the wording, agreement or refusal, and no academic cost for turning it down. |
 | `edu-disagreement`  | Landed as the `study-plan` family, in two variants: each of them says how they would work, and if they want different things, whether either moves. |
 | `edu-time-choice`   | **Not bindable.** See below.                                                                 |
+| `life-promise`      | Landed as the renegotiation route on the recalled-request scene: an arrangement can be changed by agreement, and asking is not dropping. |
 | `edu-reconnect`     | **Not bindable.** Needs a canonical open position under a real authority. GOVERNING has it noted as a consumer of their committee-and-staff work; nothing is faked in the meantime. |
 
 ### Why `edu-time-choice` is not bound

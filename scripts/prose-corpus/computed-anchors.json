@@ -6763,6 +6763,78 @@
       "textRevision": "6601ff0fc399"
     },
     {
+      "anchor": "recalledAnswers-0021",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "Ask for {revision.label}",
+      "occurrence": 0,
+      "textRevision": "014a50c1f19a"
+    },
+    {
+      "anchor": "recalledAnswers-0022",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "I need to discuss a different arrangement for {lowerFirst(task)} — could we say {revision.label}?",
+      "occurrence": 0,
+      "textRevision": "4a2b27f4d394"
+    },
+    {
+      "anchor": "recalledAnswers-0023",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "The player asked {context.name} for {revision.label} on the {lowerFirst(task)}.",
+      "occurrence": 0,
+      "textRevision": "87c2fbbdfab2"
+    },
+    {
+      "anchor": "recalledAnswers-0024",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "“I can agree to {revision.label},” {name} says.",
+      "occurrence": 0,
+      "textRevision": "8b005c3bdd34"
+    },
+    {
+      "anchor": "recalledAnswers-0025",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "“I can’t take that responsibility over,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "1421f2c7a089"
+    },
+    {
+      "anchor": "recalledAnswers-0026",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "“I still need an answer about {lowerFirst(task)},” {name} says.",
+      "occurrence": 0,
+      "textRevision": "8aa19ab46cfc"
+    },
+    {
+      "anchor": "recalledAnswers-0027",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "“I’m still relying on the arrangement we made,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "7eb6d9717398"
+    },
+    {
+      "anchor": "recalledAnswers-0028",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "“Let’s use {revision.label} instead,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "8cc1f0b126bc"
+    },
+    {
+      "anchor": "recalledAnswers-0029",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "recalledAnswers",
+      "text": "“Please let me know once you have checked,” {name} says.",
+      "occurrence": 0,
+      "textRevision": "34cb358da616"
+    },
+    {
       "anchor": "recapSentence-0001",
       "sourcePath": "src/presentation/life-narration.ts",
       "symbol": "recapSentence",

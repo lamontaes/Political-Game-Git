@@ -8,7 +8,15 @@ import {
 } from "../simulation/claim-stances";
 import { CLAIM_CONTRADICTION_TRANSITION_KEY } from "../simulation/claim-contradictions";
 import { LIFE_CALLBACK_EVENT } from "../simulation/life-callbacks";
+import { assertWorldIntegrity } from "../simulation";
 import { recalledRequests } from "../simulation/people-recall";
+import {
+  REVISION_ASKED_EVENT,
+  agreedRevision,
+  decidePromiseRenegotiation,
+  renegotiationAsked,
+} from "../simulation/people-promise";
+import { TRAIT_SHAPES } from "../simulation/people-trait-definitions";
 import { sceneBindingsFor } from "../simulation/scene-bindings";
 import { letAdultTimePass } from "./adult-life";
 import type { ContextualSceneSubject } from "./contextual-scenes";
@@ -212,6 +220,9 @@ describe("PEOPLE P4: a request raised again", () => {
       "said-yes",
       "think-so",
       "rather-not",
+      // Something actually agreed can also be renegotiated (life-promise).
+      "ask-for-more-time",
+      "ask-for-smaller-part",
     ]);
     const guessed = settle(
       say(agreed.later, agreed.player, "scene-favor", "think-so"),
@@ -221,6 +232,77 @@ describe("PEOPLE P4: a request raised again", () => {
         (event) => event.type === CLAIM_CONTRADICTION_EVENT,
       ),
     ).toHaveLength(0);
+  });
+
+  /**
+   * CRUNCH47, cargo family life-promise. Asking to change an arrangement is
+   * not dropping it: unless the other person actually agrees, what was agreed
+   * still stands, and the asking is on the record either way.
+   */
+  it("asking to change an arrangement moves it only if they agree", () => {
+    const agreed = toRecalledRequest("people-memory-c", "agree");
+    const request = recalledRequests(agreed.later, agreed.player)[0]!;
+    const counterpart = request.counterpartPersonId;
+    // Decided before any wording, and the same answer whichever words carry it.
+    const decided = decidePromiseRenegotiation(agreed.later, {
+      personId: agreed.player,
+      counterpartPersonId: counterpart,
+      requestEventId: request.requestEventId,
+      revisionId: "more-time",
+    }).outcome;
+    expect(["accepts-change", "needs-answer", "holds-boundary"]).toContain(
+      decided,
+    );
+    const asked = say(
+      agreed.later,
+      agreed.player,
+      "scene-favor",
+      "ask-for-more-time",
+    );
+    // The asking is always recorded; the change is a separate record that
+    // exists only if they agreed to it.
+    expect(renegotiationAsked(asked, request.requestEventId)).toBe(true);
+    const revised = agreedRevision(asked, request.requestEventId);
+    if (decided === "accepts-change") {
+      expect(revised?.id).toBe("more-time");
+    } else {
+      expect(revised).toBeUndefined();
+      // Refused or deferred, the original arrangement is untouched.
+      expect(recalledRequests(asked, agreed.player)[0]!.status).toBe(
+        request.status,
+      );
+    }
+    // And it is asked once.
+    expect(
+      asked.history.events.filter(
+        (event) => event.type === REVISION_ASKED_EVENT,
+      ),
+    ).toHaveLength(1);
+    assertWorldIntegrity(asked);
+  });
+
+  /**
+   * The cargo's own negative controls for this family.
+   */
+  it("keeps its own negative controls", () => {
+    const declined = declinedRequest;
+    // There is nothing to renegotiate about something you refused, so it is
+    // not offered — no obligation is invented in order to move it.
+    const view = openView(declined.later, declined.player, "scene-favor")!;
+    expect(
+      view.intents.some((intent) => intent.key.startsWith("ask-for-")),
+    ).toBe(false);
+    // "Options can be reordered without meaning changing": every choice is
+    // identified by its key, and no meaning is carried by position.
+    const keys = view.intents.map((intent) => intent.key);
+    expect(new Set(keys).size).toBe(keys.length);
+    // "Not opening People is not breach": reading changes nothing at all.
+    expect(serializeWorld(declined.later)).toBe(serializeWorld(declined.later));
+    // "Reliability low means follows-through under the saved catalog": the
+    // trait's saved words decide what it means, and the consumer that holds an
+    // arrangement reads the dependable end as the high one (Q47-004).
+    expect(TRAIT_SHAPES.reliability.high.key).toBe("dependable");
+    expect(TRAIT_SHAPES.reliability.low.key).toBe("lets-things-slip");
   });
 });
 
