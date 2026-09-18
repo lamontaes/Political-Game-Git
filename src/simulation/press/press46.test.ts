@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { recordPersonDeath } from "../vitality";
 
 import {
   GAME_ADULT_CANDIDACY_AGE,
@@ -216,6 +217,38 @@ describe("PRESS46 M1 media seed pack", () => {
     projectPublicInformationDigest(fixture.world);
     projectPressDesk(fixture.world, fixture.playerId);
     expect(serializeWorld(fixture.world)).toBe(before);
+  });
+
+  /**
+   * CRUNCH47: a journalism role outlives the person who held it, and a current
+   * opening now carries the mortality model from the moment it is built. The
+   * desk says who could take a call today, so somebody who has died is not on
+   * it — while their role record stays exactly where it was.
+   */
+  it("does not offer a reporter who has died", () => {
+    const outlet = mediaOutlets(fixture.world)[0]!;
+    const role = reporterRoles(fixture.world, outlet.id)[0]!;
+    const listed = (world: World) =>
+      projectPressDesk(world, fixture.playerId)
+        .outlets.flatMap((entry) => entry.reporters)
+        .map((reporter) => reporter.personId);
+    expect(listed(fixture.world)).toContain(role.personId);
+    const bereaved = recordPersonDeath(fixture.world, {
+      stableKey: "press46-test:reporter-death",
+      personId: role.personId,
+      diedAt: fixture.world.currentDate,
+      causeKey: "cause:press-fixture",
+      sourceEntityIds: [fixture.world.id],
+      summary: "Died between editions.",
+      provenance: { kind: "authored", note: "PRESS mortality fixture." },
+    });
+    expect(listed(bereaved)).not.toContain(role.personId);
+    // The record is not rewritten; only who the desk offers changes.
+    expect(reporterRoles(bereaved, outlet.id).map((entry) => entry.id)).toEqual(
+      reporterRoles(fixture.world, outlet.id).map((entry) => entry.id),
+    );
+    // Everyone still living is still there.
+    expect(listed(bereaved).length).toBe(listed(fixture.world).length - 1);
   });
 });
 

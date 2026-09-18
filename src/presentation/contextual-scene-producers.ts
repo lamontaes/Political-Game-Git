@@ -29,7 +29,19 @@ import {
   produceReachingOut,
 } from "../simulation/people-contact";
 import { requestBehindCallback } from "../simulation/people-recall";
-import { studyAnswered, studyPeers } from "../simulation/people-study";
+import {
+  studyAnswered,
+  studyCollaborators,
+  studyPeers,
+} from "../simulation/people-study";
+import {
+  lastStudyPlanOpenEventId,
+  studyApproach,
+  studyCollaborationEventId,
+  studyPlanProposals,
+  studyPlanResting,
+  studyPlanSettled,
+} from "../simulation/people-study-plan";
 import {
   LIFE_OPPORTUNITY_TAG_PREFIX,
   lifeOpportunitiesFor,
@@ -115,6 +127,7 @@ export function refreshContextualScenes(
     produceHomeEvening,
     produceRecalledRequest,
     produceStudyPeer,
+    produceStudyPlan,
     produceFavor,
     // Last of the request scenes: while somebody is waiting on an answer about
     // meeting, that is the conversation this family is holding.
@@ -599,6 +612,104 @@ function produceStudyPeer(world: World, personId: EntityId): World {
         expiresAt: addDays(world.currentDate, 30),
       },
       `${peer.name} asked about working together.`,
+    );
+  }
+  return world;
+}
+
+/**
+ * Having agreed to work together, deciding how (F47.1, edu-disagreement).
+ *
+ * Two bindings from the same records. First, neither of them has said how they
+ * want to work. Then, if they want different things, the disagreement itself —
+ * bound from the two proposals that are actually on the record, never from a
+ * difference invented for the occasion.
+ *
+ * A question they left open comes back on its own once it has rested, and each
+ * time it comes back it is bound against the record of it being left open, so
+ * the same argument is never offered twice in the same week.
+ */
+function produceStudyPlan(world: World, personId: EntityId): World {
+  for (const peerId of studyCollaborators(world, personId)) {
+    if (studyPlanSettled(world, personId, peerId)) continue;
+    const collaborationId = studyCollaborationEventId(world, personId, peerId);
+    if (!collaborationId) continue;
+    const peer = world.people[peerId];
+    if (!peer) continue;
+    const proposals = studyPlanProposals(world, personId, peerId);
+    if (!proposals) {
+      if (
+        sceneAlreadyBound(
+          world,
+          personId,
+          "study-plan",
+          "proposal",
+          collaborationId,
+        )
+      ) {
+        continue;
+      }
+      return recordSceneBinding(
+        world,
+        {
+          version: 1,
+          family: "study-plan",
+          variant: "proposal",
+          playerPersonId: personId,
+          speakerPersonId: peerId,
+          relationship: relationshipLabel(world, personId, peerId),
+          place: "Before the work starts",
+          jurisdictionId: world.people[personId]!.homeJurisdictionId,
+          request: `How to do the shared work with ${personName(peer)}.`,
+          sourceEntityIds: [collaborationId],
+          facts: { peerGiven: peer.givenName },
+          knownRecordIds: [collaborationId],
+          target: null,
+          date: null,
+          expiresAt: addDays(world.currentDate, 30),
+        },
+        `${personName(peer)} asked how you want to do the work.`,
+      );
+    }
+    // The same approach twice is not a disagreement, and is not offered as one.
+    if (proposals.mine === proposals.theirs) continue;
+    if (studyPlanResting(world, personId, peerId)) continue;
+    const mine = studyApproach(proposals.mine);
+    const theirs = studyApproach(proposals.theirs);
+    if (!mine || !theirs) continue;
+    // Each return to the question is bound against the record of leaving it
+    // open, so it is a later follow-up rather than the same scene again.
+    const openedId = lastStudyPlanOpenEventId(world, personId, peerId);
+    const against = openedId ?? collaborationId;
+    if (
+      sceneAlreadyBound(world, personId, "study-plan", "disagreement", against)
+    ) {
+      continue;
+    }
+    return recordSceneBinding(
+      world,
+      {
+        version: 1,
+        family: "study-plan",
+        variant: "disagreement",
+        playerPersonId: personId,
+        speakerPersonId: peerId,
+        relationship: relationshipLabel(world, personId, peerId),
+        place: "Before the work starts",
+        jurisdictionId: world.people[personId]!.homeJurisdictionId,
+        request: `Whether to ${mine.label} or ${theirs.label}.`,
+        sourceEntityIds: [against, collaborationId],
+        facts: {
+          peerGiven: peer.givenName,
+          myApproach: mine.label,
+          theirApproach: theirs.label,
+        },
+        knownRecordIds: [collaborationId],
+        target: null,
+        date: null,
+        expiresAt: addDays(world.currentDate, 30),
+      },
+      `${personName(peer)} wants to ${theirs.label}.`,
     );
   }
   return world;

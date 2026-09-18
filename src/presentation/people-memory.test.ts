@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { recordPersonDeath } from "../simulation/vitality";
 import { deserializeWorld, serializeWorld } from "../simulation";
 import type { EntityId, World } from "../simulation";
 import {
@@ -242,6 +243,43 @@ describe("PEOPLE P4: recall cards", () => {
       ).toBe(true);
     }
     expect(projectRecallCards(answered, declined.player)).toEqual(cards);
+  });
+
+  /**
+   * CRUNCH47: somebody asking you something is not undone by their death, so
+   * the card stays. But there is nobody left to answer, so it stops being an
+   * open question, and the card says why rather than going quiet.
+   */
+  it("keep the memory when the person who asked has died, without keeping the question open", () => {
+    const player = declined.player;
+    const counterpart = declined.request.counterpartPersonId;
+    const before = projectRecallCards(declined.later, player).find(
+      (card) => card.eventId === declined.request.requestEventId,
+    )!;
+    expect(before.otherPersonDied).toBe(false);
+    const bereaved = recordPersonDeath(declined.later, {
+      stableKey: "people-memory-test:asker-death",
+      personId: counterpart,
+      diedAt: declined.later.currentDate,
+      causeKey: "cause:people-fixture",
+      sourceEntityIds: [declined.later.id],
+      summary: "Died of a privately disclosed illness.",
+      provenance: { kind: "authored", note: "PEOPLE mortality fixture." },
+    });
+    const after = projectRecallCards(bereaved, player).find(
+      (card) => card.eventId === declined.request.requestEventId,
+    )!;
+    // The memory is untouched: same record, same date, same words.
+    expect(after.eventId).toBe(before.eventId);
+    expect(after.on).toBe(before.on);
+    expect(after.title).toBe(before.title);
+    // What changed is only what is still being asked of the player.
+    expect(after.otherPersonDied).toBe(true);
+    expect(after.openQuestion).toBe(false);
+    expect(after.detail).toContain("has since died");
+    expect(
+      projectRecallCards(bereaved, player).some((card) => card.openQuestion),
+    ).toBe(false);
   });
 
   it("say plainly when the player has not answered yet", () => {

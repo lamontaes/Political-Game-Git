@@ -1,6 +1,8 @@
 import { personName } from "../simulation";
 import type { EntityId, IsoDate, World } from "../simulation";
 import { claimStancesBy } from "../simulation/claim-stances";
+import { currentLifeCutoff } from "../simulation/life-queries";
+import { isPersonAliveAt } from "../simulation/vitality-integrity";
 import { recalledRequests } from "../simulation/people-recall";
 import type { RecalledRequestStatus } from "../simulation/people-recall";
 import { proseDate } from "./prose-dates";
@@ -34,6 +36,14 @@ export interface RecallCard {
   readonly status: RecalledRequestStatus | null;
   /** True when the player's own answer is still outstanding. */
   readonly openQuestion: boolean;
+  /**
+   * True when the person on the other side of this memory has died.
+   *
+   * The memory stands — somebody asking you something is not undone by their
+   * death — but there is nobody left to answer, so it is never an open
+   * question.
+   */
+  readonly otherPersonDied: boolean;
 }
 
 const STATUS_LINE: Readonly<Record<RecalledRequestStatus, string>> = {
@@ -49,21 +59,30 @@ export function projectRecallCards(
   personId: EntityId,
 ): readonly RecallCard[] {
   const cards: RecallCard[] = [];
+  const cutoff = currentLifeCutoff(world);
+  const died = (id: EntityId | null): boolean =>
+    id !== null && !!world.people[id] && !isPersonAliveAt(world, id, cutoff);
   for (const entry of recalledRequests(world, personId)) {
     const other = world.people[entry.counterpartPersonId];
+    const gone = died(entry.counterpartPersonId);
+    const standing = STATUS_LINE[entry.status];
     cards.push({
       kind: "request",
       eventId: entry.requestEventId,
       on: entry.askedOn,
       onSpoken: proseDate(entry.askedOn),
       title: `${entry.counterpartName} asked you to ${entry.task}`,
-      detail: entry.conditions
-        ? `${STATUS_LINE[entry.status]} You said: ${entry.conditions}`
-        : STATUS_LINE[entry.status],
+      detail: gone
+        ? `${standing} ${entry.counterpartName} has since died.`
+        : entry.conditions
+          ? `${standing} You said: ${entry.conditions}`
+          : standing,
       otherPersonId: entry.counterpartPersonId,
       otherPersonName: other ? personName(other) : entry.counterpartName,
       status: entry.status,
-      openQuestion: entry.status === "asked",
+      // Still unanswered, but there is nobody to answer to.
+      openQuestion: entry.status === "asked" && !gone,
+      otherPersonDied: gone,
     });
   }
   for (const recorded of claimStancesBy(world, personId)) {
@@ -82,6 +101,7 @@ export function projectRecallCards(
       otherPersonName: other ? personName(other) : null,
       status: null,
       openQuestion: false,
+      otherPersonDied: died(heard),
     });
   }
   return cards.sort((left, right) =>

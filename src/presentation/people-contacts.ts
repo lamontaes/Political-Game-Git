@@ -61,6 +61,9 @@ export interface ContactsView {
   readonly personId: EntityId;
   readonly earliestMeetingOn: IsoDate;
   readonly latestMeetingOn: IsoDate;
+  /** The same two dates said the way a person says them. */
+  readonly earliestMeetingSpoken: string;
+  readonly latestMeetingSpoken: string;
   readonly contacts: readonly ContactEntry[];
 }
 
@@ -119,6 +122,14 @@ export function projectContacts(
     personId,
     earliestMeetingOn: addDays(world.currentDate, CONTACT_MINIMUM_NOTICE_DAYS),
     latestMeetingOn: addDays(world.currentDate, CONTACT_MAXIMUM_NOTICE_DAYS),
+    // The same two dates said the way a person says them, so a screen never
+    // has to print an ISO string at somebody.
+    earliestMeetingSpoken: proseDate(
+      addDays(world.currentDate, CONTACT_MINIMUM_NOTICE_DAYS),
+    ),
+    latestMeetingSpoken: proseDate(
+      addDays(world.currentDate, CONTACT_MAXIMUM_NOTICE_DAYS),
+    ),
     contacts,
   };
 }

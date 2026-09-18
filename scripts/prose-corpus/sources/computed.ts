@@ -467,6 +467,8 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
       "meetUpAnswers",
       "studyPeerAnswers",
       "studyPeer",
+      "studyPlanAnswers",
+      "studyPlan",
       "partyInvitationAnswers",
       "partyJoinAnswers",
       "partyAfterDeclineAnswers",

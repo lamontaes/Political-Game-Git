@@ -78,7 +78,7 @@ describe("PEOPLE P3: reaching somebody", () => {
     ]) {
       expect(() =>
         askToMeet(world, { personId: player, otherPersonId: other, on }),
-      ).toThrow(/can be proposed between/);
+      ).toThrow(/needs at least 2 days' notice/);
     }
     expect(() =>
       askToMeet(world, {
@@ -87,6 +87,22 @@ describe("PEOPLE P3: reaching somebody", () => {
         on: addDays(world.currentDate, 5),
       }),
     ).toThrow(/being played/);
+    // The refusal is shown to the player word for word, so it states the rule
+    // and never an ISO date. The spoken dates live on the view instead.
+    try {
+      askToMeet(world, {
+        personId: player,
+        otherPersonId: other,
+        on: world.currentDate,
+      });
+      throw new Error("Expected a refusal.");
+    } catch (error) {
+      const said = (error as Error).message;
+      expect(said).not.toMatch(/\d{4}-\d{2}-\d{2}/);
+      expect(said).toContain("45 days ahead");
+    }
+    expect(view.earliestMeetingSpoken).not.toMatch(/\d{4}-\d{2}-\d{2}/);
+    expect(view.latestMeetingSpoken).not.toMatch(/\d{4}-\d{2}-\d{2}/);
   });
 
   const other = view.contacts[0]!.personId;
