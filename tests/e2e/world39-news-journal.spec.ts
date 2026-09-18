@@ -8,9 +8,18 @@ import {
   openNewsContext,
 } from "./support/creator";
 
-/** Wording that describes the save or the engine instead of the place or the life. */
+/**
+ * Wording that describes the save or the engine instead of the place or the life.
+ *
+ * The three identifier alternations require an id-length hex run. Written as a
+ * single hex character they matched any word beginning with a, b, c, d, e or f
+ * under /i — "Publication details" is a control label, not a leaked id, and it
+ * failed this guard eight times in one page. Asking for an identifier is what
+ * the guard always meant; asking for one hex letter was an accident of how it
+ * was written.
+ */
 const DATABASE_WORDING =
-  /\brecorded\b|in this save|saved-world|No incumbent|Reading does not|Assembled|\d{4}-\d{2}-\d{2}|Tenure [0-9a-f]|Event [0-9a-f]|Publication [0-9a-f]/i;
+  /\brecorded\b|in this save|saved-world|No incumbent|Reading does not|Assembled|\d{4}-\d{2}-\d{2}|Tenure [0-9a-f]{6,}|Event [0-9a-f]{6,}|Publication [0-9a-f]{6,}/i;
 
 test("News speaks about the place and the Journal tells the life through save (Aurora, Colorado)", async ({
   page,
@@ -40,9 +49,16 @@ test("News speaks about the place and the Journal tells the life through save (A
   expect(newsText).not.toMatch(/war broke out|secret motive|you chose to/i);
   expect(newsText).not.toMatch(DATABASE_WORDING);
   expect(newsText).not.toMatch(/Fictional saved-world|reading here does not/i);
-  await expect(page.getByTestId("world39-no-reporting")).toHaveText(
-    "No stories have been published here yet.",
+  // A seeded opening carries outlets that have already filed, so News has
+  // reporting rather than the empty line this once asserted. What matters is
+  // still what it says about the place: a named outlet and a story that reads
+  // as reporting, not as a record.
+  const reporting = news.locator("[data-publication-id]");
+  await expect(reporting.first()).toBeVisible();
+  await expect(reporting.first()).toContainText(
+    /Published [A-Z][a-z]+ \d{1,2}, \d{4}/,
   );
+  await expect(page.getByTestId("world39-no-reporting")).toHaveCount(0);
 
   await goTo(page, "nav-journal-entry");
   const journal = page.getByTestId("world39-journal");

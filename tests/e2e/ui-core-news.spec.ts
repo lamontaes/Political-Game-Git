@@ -27,7 +27,14 @@ test("normal completed legislative action publishes News with person Back and un
   await enterLife(page);
   await goTo(page, "nav-news");
   await openNewsContext(page, "directory");
-  await expect(page.getByTestId("public-information-empty")).toBeVisible();
+  // A seeded opening already carries published reporting, so the directory
+  // opens with stories rather than the empty line. What each of these cases is
+  // really about is what the player's own action adds to it, which is asserted
+  // where that happens.
+  await expect(page.getByTestId("public-information-empty")).toHaveCount(0);
+  await expect(
+    page.locator(".public-information-article").first(),
+  ).toBeVisible();
   await page
     .getByRole("button", { name: "Close public information" })
     .press("Escape");
@@ -117,7 +124,14 @@ test("legislative staff can preview but cannot file or publish a member bill", a
   expect(await savedWorld(page)).toEqual(before);
   await goTo(page, "nav-news");
   await openNewsContext(page, "directory");
-  await expect(page.getByTestId("public-information-empty")).toBeVisible();
+  // A seeded opening already carries published reporting, so the directory
+  // opens with stories rather than the empty line. What each of these cases is
+  // really about is what the player's own action adds to it, which is asserted
+  // where that happens.
+  await expect(page.getByTestId("public-information-empty")).toHaveCount(0);
+  await expect(
+    page.locator(".public-information-article").first(),
+  ).toBeVisible();
 });
 
 test("opening the normal press request form creates no request or consent", async ({
