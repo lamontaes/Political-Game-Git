@@ -210,6 +210,9 @@ describe("PEOPLE P4: a request raised again", () => {
     );
   });
 
+  // These two build and advance a real life at test time; on the hosted runner
+  // they take 8-9 s against vitest's 5 s default (unit shard 6, 11b34234).
+  // The budget is the receiver's; the cheaper fixture is B's owed work.
   it("an answer that matches the record is never contradicted", () => {
     const agreed = toRecalledRequest("people-memory-b", "agree");
     expect(variantOf(agreed.later, agreed.player)).toBe("recalled");
@@ -232,7 +235,7 @@ describe("PEOPLE P4: a request raised again", () => {
         (event) => event.type === CLAIM_CONTRADICTION_EVENT,
       ),
     ).toHaveLength(0);
-  });
+  }, 60_000);
 
   /**
    * CRUNCH47, cargo family life-promise. Asking to change an arrangement is
@@ -279,7 +282,7 @@ describe("PEOPLE P4: a request raised again", () => {
       ),
     ).toHaveLength(1);
     assertWorldIntegrity(asked);
-  });
+  }, 60_000);
 
   /**
    * The cargo's own negative controls for this family.
