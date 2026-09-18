@@ -73,19 +73,22 @@ test("normal civilian career offer, keyboard consent, work, resignation and save
     .getByRole("button", { name: "Wait one day", exact: true })
     .click();
   /*
-    OPEN QUESTION, deliberately left failing rather than weakened. This panel
-    now submits the shell's one time command instead of advancing the world
-    itself, which is the accepted contract. But the command's receipt here
-    reads "21 hours, 50 minutes passed (1310 minutes). Now 2026-01-06 at
-    07:00." — it moved past an unresolved commitment on the evening of the
-    5th instead of stopping at it. Either the command must stop at a
-    protected commitment (GOVERNING's interruption semantics) or this panel
-    must refuse before submitting (mine). The assertion below is the original
-    substance: waiting must not carry the player past an obligation they have
-    not resolved.
+    The settled contract (GOVERNING owns the semantics; interruption-policy.ts
+    says a confirmed commitment is a stop, not a preference): waiting goes
+    through the shell's one time command, and the skip STOPS AT the
+    commitment. The panel must NOT re-impose a blanket refusal on top — the
+    old refusal was only advanceWorldMinutes' no-registry branch, and
+    stopping at the obligation is better than refusing to move at all.
+    So the promise is about the clock, not about a message: the day the
+    player is on does not advance past the obligation they have not resolved.
+    This currently FAILS — the receipt reads "21 hours, 50 minutes passed
+    (1310 minutes). Now 2026-01-06 at 07:00" — and it is left failing on
+    purpose. GOVERNING is establishing whether the blocker is not the
+    activity the Calendar shows, or whether "Wait one day" targets 07:00
+    rather than +24h; those have different fixes and neither is mine.
   */
-  await expect(career.getByRole("status")).toContainText(
-    "Resolve your current calendar commitment before waiting.",
+  await expect(page.getByTestId("shell-nav-cluster")).toContainText(
+    "January 5, 2026",
   );
   // The normal start has a real commitment; fulfill it through Day.
   await openElsewhere(page, "day");

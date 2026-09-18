@@ -10,6 +10,7 @@ import {
 import {
   compareSimulationMoments,
   type EntityId,
+  type FutureTransitionHandlerRegistry,
   type SimulationMoment,
   type World,
 } from "../simulation";
@@ -24,6 +25,7 @@ import {
   type InterruptionPreferences,
 } from "../presentation/shell-navigation";
 import { stoppedEarlyLabel } from "../presentation/time-target-label";
+import { interruptionHandlers } from "../presentation/interruption-policy";
 
 /**
  * Every time control on the player shell submits through here.
@@ -60,7 +62,17 @@ export interface TimeCommandRunner {
    * and is refused when the World moved since the control was shown.
    */
   readonly perform: (
-    run: (world: World) => TimeActionResult,
+    /*
+     * The runner supplies the handler registry built from the player's own
+     * interruption preferences. A caller that composes its own cannot see
+     * them, which is how the press desk's quarter hour ran through a work
+     * shift the player had asked to be stopped for while the Calendar's day
+     * stopped for it — one clock, two answers, a level below the submission.
+     */
+    run: (
+      world: World,
+      handlers: FutureTransitionHandlerRegistry,
+    ) => TimeActionResult,
     onReport?: (report: TimeCommandReport) => void,
   ) => void;
 }
@@ -139,7 +151,10 @@ export function createTimeCommandCore(options: {
             target: null,
             stoppedEarly: false,
           };
-        const result = run(target.world);
+        const result = run(
+          target.world,
+          interruptionHandlers(target.interruptions),
+        );
         if (result.world !== target.world) target.onWorldChange(result.world);
         return {
           status: "accepted",
