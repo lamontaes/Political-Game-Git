@@ -92,6 +92,18 @@ export function CreatorAppearanceStep({
                       )
                     : undefined
                 }
+                renderHairThumbnail={
+                  libraries
+                    ? (appearance) => (
+                        <PersonPortrait
+                          world={draft}
+                          personId={person.id}
+                          visualLibraries={libraries}
+                          previewAppearance={appearance}
+                        />
+                      )
+                    : undefined
+                }
               />
             ) : (
               <p role="status">

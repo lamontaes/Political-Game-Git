@@ -3,7 +3,7 @@ import {
   sceneConversationFrame,
   type SceneConversationFrame,
 } from "../presentation/scene-conversation-frame";
-import { MaterialImage } from "./ModularCharacter";
+import { MaterialGroup, MaterialImage } from "./ModularCharacter";
 import {
   useLayoutEffect,
   useMemo,
@@ -475,29 +475,32 @@ export function SceneBackdrop({
                   />
                 ) : null}
                 {person.hasArt ? (
-                  person.layers.map((layer, index) => (
-                    <MaterialImage
-                      key={`${person.personId}-${index}`}
-                      assetId={layer.assetId ?? ""}
-                      material={layer.material}
-                      drawnIds={person.layers.flatMap((l) =>
-                        l.assetId ? [l.assetId] : [],
-                      )}
-                      data-asset-id={layer.assetId}
-                      data-kind={layer.kind}
-                      className="scene-person-art"
-                      src={layer.url}
-                      alt=""
-                      draggable="false"
-                      style={{
-                        position: "absolute",
-                        left: `${((layer.leftPercent - person.leftPercent) / person.widthPercent) * 100}%`,
-                        top: `${((layer.topPercent - person.topPercent) / person.heightPercent) * 100}%`,
-                        width: `${(layer.widthPercent / person.widthPercent) * 100}%`,
-                        height: `${(layer.heightPercent / person.heightPercent) * 100}%`,
-                      }}
-                    />
-                  ))
+                  <MaterialGroup layers={person.layers}>
+                    {person.layers.map((layer, index) => (
+                      <MaterialImage
+                        key={`${person.personId}-${index}`}
+                        assetId={layer.assetId ?? ""}
+                        material={layer.material}
+                        drawnIds={person.layers.flatMap((l) =>
+                          l.assetId ? [l.assetId] : [],
+                        )}
+                        data-asset-id={layer.assetId}
+                        data-kind={layer.kind}
+                        className="scene-person-art"
+                        src={layer.url}
+                        alt=""
+                        draggable="false"
+                        style={{
+                          position: "absolute",
+                          zIndex: layer.layer,
+                          left: `${((layer.leftPercent - person.leftPercent) / person.widthPercent) * 100}%`,
+                          top: `${((layer.topPercent - person.topPercent) / person.heightPercent) * 100}%`,
+                          width: `${(layer.widthPercent / person.widthPercent) * 100}%`,
+                          height: `${(layer.heightPercent / person.heightPercent) * 100}%`,
+                        }}
+                      />
+                    ))}
+                  </MaterialGroup>
                 ) : (
                   <span
                     className={`scene-person-figure${person.seated ? " scene-person-figure--seated" : ""}`}
