@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { enterLife, saveLife, startLife } from "./support/creator";
+import { enterLife, openMoment, saveLife, startLife } from "./support/creator";
 
 test("P2R1 retained adult choices activate by pointer and keyboard on the player surface", async ({
   page,
@@ -16,6 +16,7 @@ test("P2R1 retained adult choices activate by pointer and keyboard on the player
     calibration: "skipped",
   });
   await enterLife(page);
+  await openMoment(page);
   await expect(page.getByTestId("play-screen")).toBeVisible();
   const records: { activation: string; prose: string; choice: string }[] = [];
   for (const activation of ["pointer", "keyboard"]) {
@@ -81,6 +82,7 @@ test("P2R1 preserves and reloads the old age-32 calibrated fixture when its next
   }
   await expect(page.getByTestId("questionnaire-screen")).toHaveCount(0);
   await enterLife(page);
+  await openMoment(page);
   let reachedQuiet = false;
   for (let beat = 0; beat < 40; beat += 1) {
     if ((await page.getByTestId("story-prose").count()) === 0) {
@@ -99,6 +101,7 @@ test("P2R1 preserves and reloads the old age-32 calibrated fixture when its next
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
+  await openMoment(page);
   await expect(page.getByTestId("story-prose")).toHaveCount(0);
   expect(await page.getByTestId("story-section").innerText()).toBe(before);
   await page.getByTestId("open-journal").click();

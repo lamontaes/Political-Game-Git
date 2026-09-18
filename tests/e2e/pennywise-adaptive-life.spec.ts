@@ -1,15 +1,16 @@
 import { expect, test, type Page } from "./fixtures";
 
 import {
+  chooseCreatorLocation,
+  completeCharacterStep,
   enterLife,
   expectNoDestination,
   fillCreator,
   goTo,
   openCreator,
   openElsewhere,
+  openMoment,
   startLife as walkCreator,
-  chooseCreatorLocation,
-  completeCharacterStep,
 } from "./support/creator";
 
 /**
@@ -109,6 +110,7 @@ async function takeOneBeat(page: Page, index = 0): Promise<string> {
   // A life that has just finished its calibration opens on the family the
   // generator wrote. Stepping past it here keeps every caller from having to.
   await enterLife(page);
+  await openMoment(page);
   const section = page.getByTestId("story-section");
   await expect(section).toBeVisible();
   const prose =
@@ -368,6 +370,7 @@ test.describe("A life is kept, and comes back adapting the same way", () => {
     await expect(page.getByTestId("play-screen")).toBeVisible();
     // A reload opens on the room's scene; the continuing life is one step in.
     await enterLife(page);
+    await openMoment(page);
 
     // Same record, and the same next situation — which is the claim that
     // matters, because the next situation is chosen from the calibration and

@@ -1,13 +1,14 @@
 import { expect, test, type Page } from "./fixtures";
 import {
+  answerCharacterBasics,
+  chooseCreatorLocation,
+  chooseStartAge,
   enterLife,
   expectNoDestination,
   goTo,
   openCreator,
+  openMoment,
   startLife as walkCreator,
-  chooseCreatorLocation,
-  chooseStartAge,
-  answerCharacterBasics,
 } from "./support/creator";
 
 /**
@@ -182,6 +183,7 @@ test.describe("The page says whose life this is", () => {
     await expect(page.getByTestId("play-screen")).toBeVisible();
     // The generated household is introduced before the first beat now.
     await enterLife(page);
+    await openMoment(page);
   }
 
   test("names the character, the date and the place before the scene", async ({
@@ -246,6 +248,7 @@ test.describe("The page says whose life this is", () => {
     await page.getByTestId("begin").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await enterLife(page);
+    await openMoment(page);
     const who = page.getByTestId("moment-who").locator(".life-identity-name");
     const named = await who.innerText();
 
@@ -260,6 +263,7 @@ test.describe("The page says whose life this is", () => {
     // scene; the continuing life, where the name is read, is one step in.
     await expect(page.getByTestId("opening-life-scene")).toBeVisible();
     await enterLife(page);
+    await openMoment(page);
     await expect(who).toHaveText(named);
   });
 });

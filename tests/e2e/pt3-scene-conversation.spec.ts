@@ -1,5 +1,10 @@
 import { expect, test, type Locator, type Page } from "./fixtures";
-import { enterLife, openElsewhere, startLife } from "./support/creator";
+import {
+  enterLife,
+  openElsewhere,
+  openMoment,
+  startLife,
+} from "./support/creator";
 
 /**
  * PT3: one conversation box, in the room, that never needs a scrollbar.
@@ -23,6 +28,7 @@ import { enterLife, openElsewhere, startLife } from "./support/creator";
  */
 async function stepIntoTheScene(page: Page) {
   await enterLife(page);
+  await openMoment(page);
   const opening = page.getByTestId("opening-life-panel");
   const scene = page.getByTestId("opening-life-scene");
   if ((await opening.count()) > 0) {

@@ -1,9 +1,10 @@
 import { expect, test, type Page } from "./fixtures";
 import {
+  completeCharacterStep,
   enterLife,
   openCreator,
+  openMoment,
   startLife as walkCreator,
-  completeCharacterStep,
 } from "./support/creator";
 
 /**
@@ -82,6 +83,7 @@ async function startLife(page: Page, age: number, childhood = false) {
   });
   await expect(page.getByTestId("play-screen")).toBeVisible();
   await enterLife(page);
+  await openMoment(page);
 }
 
 interface Beat {
@@ -309,6 +311,7 @@ test.describe("Setting up a life reads like a game, not a form", () => {
     await expect(page.getByTestId("begin")).toBeEnabled();
     await page.getByTestId("begin").press("Enter");
     await enterLife(page);
+    await openMoment(page);
     await expect(page.getByTestId("story-section")).toBeVisible();
   });
 
@@ -360,6 +363,7 @@ test.describe("Setting up a life reads like a game, not a form", () => {
     await expect(page.getByTestId("begin")).toBeEnabled();
     await page.getByTestId("begin").press("Enter");
     await enterLife(page);
+    await openMoment(page);
     await expect(page.getByTestId("story-section")).toBeVisible();
   });
 });

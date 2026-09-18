@@ -257,6 +257,23 @@ export async function enterLife(page: Page): Promise<void> {
  * and translucent until it is reached for, so every test that wants a
  * destination opens the cluster first — the same two moves a player makes.
  */
+/**
+ * The moment, opened the way the room offers it.
+ *
+ * The room is the surface and the moment is a layer over it, so a proof that
+ * wants the moment asks for it. Tolerant on purpose: when the room offers no
+ * moment there is nothing to open, and the caller's own assertions still have
+ * to hold. It never closes one that is already open.
+ */
+export async function openMoment(page: Page): Promise<void> {
+  const panel = page.getByTestId("story-section");
+  if ((await panel.count()) > 0) return;
+  const opener = page.getByTestId("open-moment");
+  if ((await opener.count()) === 0) return;
+  await opener.click();
+  await expect(panel).toBeVisible();
+}
+
 export async function openShellMenu(page: Page): Promise<void> {
   const cluster = page.getByTestId("shell-nav-cluster");
   const flyout = page.getByTestId("shell-nav-flyout");
