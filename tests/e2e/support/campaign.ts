@@ -13,24 +13,25 @@ export async function fileCandidacy(
 }
 
 /**
- * The afternoons a Lexington House filer on the `p85c-owner-*` seeds needs
- * to carry the seat. Since CRUNCH46 (d60b2975) the rival campaigns every
- * week too, so the three outreach afternoons these journeys used to spend no
- * longer win; `campaign-integration.test.ts` measured six as the fewest that
- * still do (five lose) and this is the browser form of the same premise.
- * A day whose afternoon is already spoken for renders the offer disabled and
- * is simply skipped, as the unit test skips it.
+ * Campaigns the ordinary way until the contest is decided: every day the
+ * outreach control is offered it is taken, then the day passes. Since
+ * CRUNCH46 (d60b2975) the rival campaigns weekly, so the three outreach
+ * afternoons these journeys used to spend no longer carry the seat, and no
+ * fixed number does durably either — GOVERNING's probe on p85c-owner-0 found
+ * six days still losing while working every offered day wins. A day whose
+ * afternoon is already spoken for renders the offer disabled and is skipped.
+ * Returns whether the result surface appeared within `maxDays`.
  */
-export const WINNING_OUTREACH_DAYS = 6;
-
-export async function campaignOutreachDays(
+export async function campaignUntilDecided(
   page: Page,
   passDay: (page: Page) => Promise<void>,
-  days = WINNING_OUTREACH_DAYS,
+  maxDays = 45,
 ) {
-  for (let day = 0; day < days; day += 1) {
-    await passDay(page);
+  for (let day = 0; day < maxDays; day += 1) {
+    if (await page.getByTestId("campaign-result").isVisible()) return true;
     const outreach = page.getByTestId("campaign-outreach");
     if (await outreach.isEnabled()) await outreach.click();
+    await passDay(page);
   }
+  return page.getByTestId("campaign-result").isVisible();
 }

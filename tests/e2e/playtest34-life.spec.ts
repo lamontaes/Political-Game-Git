@@ -114,8 +114,10 @@ for (const width of [1440, 1200]) {
     await expect(request).toContainText("picnic");
     // The favor comes from the parent the player shares a home with; which
     // parent is the seeded household's business (CRUNCH46 seeds it as the
-    // dad), and the case is about the favor, not the parent.
-    await expect(request).toContainText(/your (?:mom|dad)/);
+    // dad), and the case is about the favor, not the parent. The word is
+    // derived from the counterpart's recorded pronouns (person-context.ts
+    // parentWord: mom / dad / parent), never chosen beside the sender.
+    await expect(request).toContainText(/your (?:mom|dad|parent)/);
     const id = await request.getAttribute("data-request-id");
     const before = await save(page);
     await request.getByTestId("favor-condition").click();
