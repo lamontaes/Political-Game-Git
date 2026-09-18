@@ -522,7 +522,10 @@ test.describe("the deliberate workspaces", () => {
     await beginOrdinaryLife(page);
 
     const corner = await page.getByTestId("shell-version").textContent();
-    await goTo(page, "nav-patch-notes");
+    /* Patch notes are not a menu entry: they live under Options, on the
+       Options workspace, which is the route a player has to them. */
+    await goTo(page, "nav-options");
+    await page.getByTestId("nav-patch-notes").click();
     const heading = await page.getByTestId("patch-notes-version").textContent();
     /* One source. The corner and the screen cannot disagree. */
     expect(heading).toContain(corner!.replace(/^v/, ""));

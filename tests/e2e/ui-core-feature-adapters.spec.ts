@@ -44,7 +44,7 @@ test("normal Day exposes the frozen study/work adapter and scheduled sessions re
   // two destinations now instead of one page holding both.
   await goTo(page, "elsewhere-day");
   await page
-    .getByTestId("day-overlay")
+    .getByTestId("calendar-workspace")
     .getByTestId("venue-activities")
     .getByRole("button", { name: "Carry out activity", exact: true })
     .first()
@@ -147,7 +147,7 @@ test("mixed person, session and measure pins preserve identity and clear workspa
   );
   await goTo(page, "elsewhere-day");
   await page
-    .getByTestId("day-overlay")
+    .getByTestId("calendar-workspace")
     .getByTestId("venue-activities")
     .getByRole("button", { name: "Carry out activity", exact: true })
     .first()
@@ -246,10 +246,10 @@ test("normal activity completion replaces household presence without a second cl
     .first()
     .press("Enter");
   await expect(page.getByTestId("day-opening")).toHaveCount(0);
-  await expect(page.getByTestId("day-overlay")).toContainText(
+  await expect(page.getByTestId("calendar-workspace")).toContainText(
     "You have finished",
   );
-  await page.getByTestId("day-overlay-close").click();
+  await page.getByTestId("calendar-workspace-close").click();
   await expect(page.getByTestId("activity-aftermath")).toBeVisible();
   await expect(page.getByTestId("story-people")).toHaveCount(0);
   await expect(page.getByTestId("story-options")).toHaveCount(0);

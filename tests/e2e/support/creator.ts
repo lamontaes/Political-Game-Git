@@ -370,9 +370,36 @@ async function revealShellDestination(page: Page, testid: string) {
   return destination;
 }
 
+/**
+ * Day surfaces that are tabs of the Calendar.
+ *
+ * Today stopped being a destination of its own (UI DECISION FOLLOW-THROUGH):
+ * the menu carries one Calendar entry, and "Today and upcoming" is the first
+ * tab of the workspace that opens. A test that asks for the older name reaches
+ * the same screen the way a player now does — Calendar, then the tab.
+ */
+const CALENDAR_TABS: Readonly<Record<string, string>> = {
+  "elsewhere-day": "calendar-tab-today",
+};
+
+/** Calendar from the menu, then the tab that holds `testid`. */
+export async function openCalendarTab(
+  page: Page,
+  testid: string,
+): Promise<void> {
+  const tabId = CALENDAR_TABS[testid];
+  if (!tabId) throw new Error(`${testid} is not a Calendar tab`);
+  await (await revealShellDestination(page, "nav-calendar")).click();
+  const tab = page.getByTestId(tabId);
+  await expect(tab).toBeVisible();
+  if ((await tab.getAttribute("aria-selected")) !== "true") await tab.click();
+  await expect(tab).toHaveAttribute("aria-selected", "true");
+}
+
 /** Opens the cluster and presses one of its destinations. */
 export async function goTo(page: Page, testid: string): Promise<void> {
   if (isPoliticsHubDestination(testid)) return openPoliticsHub(page, testid);
+  if (testid in CALENDAR_TABS) return openCalendarTab(page, testid);
   await (await revealShellDestination(page, testid)).click();
 }
 

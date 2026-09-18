@@ -22,16 +22,24 @@ test("Today links into Work instead of carrying it, and reading them costs no ti
   await page.keyboard.press("Enter");
   const flyout = page.getByTestId("shell-nav-flyout");
   await expect(flyout).toBeVisible();
-  await expect(page.getByTestId("nav-group-now")).toContainText("Today");
-  await expect(page.getByTestId("nav-group-now")).toContainText("Work");
-  await expect(page.getByTestId("nav-group-world")).toContainText("Places");
-  await expect(page.getByTestId("nav-group-you")).toContainText("Journal");
+  /*
+   * The grouping the menu actually has. A top-level group holding exactly one
+   * destination opens it directly rather than as a group button, so Calendar
+   * (which carries Today), Politics (the office and the work that goes with
+   * it), Travel and Journal are each one entry, and Personal, which holds
+   * several, is a group. None of them is a second route back to the room.
+   */
+  await expect(page.getByTestId("nav-calendar")).toContainText("Calendar");
+  await expect(page.getByTestId("nav-politics")).toContainText("Politics");
+  await expect(page.getByTestId("nav-places")).toContainText("Travel");
+  await expect(page.getByTestId("nav-journal-entry")).toContainText("Journal");
+  await expect(page.getByTestId("nav-group-personal")).toContainText("Personal");
   await expect(page.getByTestId("nav-life-scenes")).toHaveCount(0);
   await expect(flyout).not.toContainText("Life scenes");
   await expect(flyout).not.toContainText("The room");
 
-  await page.getByTestId("elsewhere-day").press("Enter");
-  const today = page.getByTestId("day-overlay");
+  await page.getByTestId("nav-calendar").press("Enter");
+  const today = page.getByTestId("calendar-workspace");
   await expect(today).toBeVisible();
   const clock = (await page.getByTestId("day-date").textContent()) ?? "";
 
@@ -45,7 +53,9 @@ test("Today links into Work instead of carrying it, and reading them costs no ti
   await expect(
     today.getByRole("region", { name: "Education and work", exact: true }),
   ).toHaveCount(0);
-  await expect(today.getByTestId("pass-day")).toBeVisible();
+  /* Getting on with the day is offered here; inside the Calendar that is the
+     calendar's own skip rather than a second copy of the day control. */
+  await expect(today.getByTestId("calendar-simulate-day")).toBeVisible();
 
   // Its Work link opens the one Work surface, by keyboard.
   await today.getByTestId("day-open-work").focus();
@@ -75,7 +85,7 @@ test("Today links into Work instead of carrying it, and reading them costs no ti
 
   // Close returns to the room.
   await today.getByRole("button", { name: "Close", exact: true }).click();
-  await expect(page.getByTestId("day-overlay")).toHaveCount(0);
+  await expect(page.getByTestId("calendar-workspace")).toHaveCount(0);
   await expect(
     page
       .getByTestId("opening-life-scene")
