@@ -400,7 +400,7 @@ export type PredicateAuthority =
       readonly authorityKey: string;
       /** How the Act names it in its own operative text. */
       readonly citationLabel: string;
-      readonly programmeLabel: string;
+      readonly programLabel: string;
       readonly authorizesSpending: boolean;
       /** The ceiling that authority set, where it set one. */
       readonly authorizedCeilingMinorUnits: number | null;
@@ -411,7 +411,7 @@ export type PredicateAuthority =
       readonly kind: "docket-measure";
       readonly authorityKey: string;
       readonly citationLabel: string;
-      readonly programmeLabel: string;
+      readonly programLabel: string;
       readonly authorizesSpending: boolean;
       readonly authorizedCeilingMinorUnits: number | null;
       readonly currency: string;

@@ -46,7 +46,7 @@ function checkCopy(value: unknown): void {
         "clausePhrase",
         "appliesToLabel",
         "fiscalExposureLabel",
-        "programmeLabel",
+        "programLabel",
         "unavailableReason",
         "placeLabel",
         "beneficiaryLabel",
