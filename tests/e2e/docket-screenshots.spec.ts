@@ -66,7 +66,7 @@ test("captures the five-minute click path", async ({ page }) => {
     if (await page.getByTestId("campaign-result").isVisible()) break;
     await page.getByTestId("pass-day").click();
     const outreach = page.getByTestId("campaign-outreach");
-    if (await outreach.isVisible().catch(() => false)) await outreach.click();
+    if (await outreach.isEnabled().catch(() => false)) await outreach.click();
   }
   expect(await liveUntilDecided(page)).toBe(true);
   await openElsewhere(page, "work");

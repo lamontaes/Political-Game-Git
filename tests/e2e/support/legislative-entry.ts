@@ -30,7 +30,7 @@ export async function reachMemberOffice(page: Page) {
     if (await page.getByTestId("campaign-result").isVisible()) break;
     await page.getByTestId("pass-day").click();
     const outreach = page.getByTestId("campaign-outreach");
-    if (await outreach.isVisible().catch(() => false)) await outreach.click();
+    if (await outreach.isEnabled().catch(() => false)) await outreach.click();
   }
   await expect(page.getByTestId("campaign-result")).toBeVisible();
   await expect(page.getByTestId("campaign-afterword")).toContainText("won.");
