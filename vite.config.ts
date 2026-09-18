@@ -17,6 +17,7 @@ const buildIdentity = resolveBuildIdentity(process.cwd());
 import { identifiedBuild } from "./scripts/dev-lab/vite-identity";
 import { artDeskBridge } from "./scripts/dev-lab/art-desk-bridge";
 import { artbenchBridge } from "./scripts/dev-lab/artbench-bridge";
+import { RoundRobinSequencer } from "./scripts/dev-lab/round-robin-sequencer";
 
 export default defineConfig({
   cacheDir:
@@ -35,6 +36,9 @@ export default defineConfig({
     rolldownOptions: { input: { app: "index.html", review: "review.html" } },
   },
   test: {
+    // Hosted shards deal the path-sorted suite out one file per shard so
+    // expensive alphabetical clusters do not land on one runner.
+    sequence: { sequencer: RoundRobinSequencer },
     exclude: [
       ...configDefaults.exclude,
       "tests/e2e/**",
