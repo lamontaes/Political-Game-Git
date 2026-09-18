@@ -5172,20 +5172,6 @@ function StoryView({
   );
   const crisisStop = useCrisisStop(session.world);
 
-  if (completedActivityHere(session.world, session.personId))
-    return (
-      <section
-        className="game-story life-moment"
-        data-testid="activity-aftermath"
-      >
-        <VenueActivityPanel
-          world={session.world}
-          personId={session.personId}
-          onWorldChange={onWorldChange}
-        />
-      </section>
-    );
-
   return (
     <section className="game-story life-moment" data-testid="story-section">
       {/*
@@ -5210,6 +5196,23 @@ function StoryView({
           {moment.placeName ? ` · ${moment.placeName}` : ""}
         </p>
       </header>
+
+      {/*
+        What just happened here, inside the surface rather than in place of it.
+        This used to return early and replace the whole story section, so after
+        an activity the room's own narration and its choices were gone and
+        every spec waiting for story-section waited for something that could
+        not appear. The aftermath keeps its own id and sits above the moment.
+      */}
+      {completedActivityHere(session.world, session.personId) ? (
+        <div data-testid="activity-aftermath">
+          <VenueActivityPanel
+            world={session.world}
+            personId={session.personId}
+            onWorldChange={onWorldChange}
+          />
+        </div>
+      ) : null}
 
       {moment.connective.sentences.length > 0 ? (
         <p className="game-passage" data-testid="story-passage">
