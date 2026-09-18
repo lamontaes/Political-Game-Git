@@ -196,3 +196,29 @@ The only edits outside `src/simulation/crisis/` are registrations: the
 sources (`vitality-integrity.ts`); the production handler registry
 (`campaigns.ts`); the simulation barrel; and starting the model in
 `passOrdinaryDays`.
+
+## The availability index is last-wins, and that is not monotone
+
+`crisisEntityExists` answers presence over an append-only array: once an id is
+there it stays there, so the answer can only move from false to true. It is
+safe for any check that must never flip from passing to failing.
+
+`crisisEntityAvailableAt` is not. Its index keeps the LAST record seen for an
+id, so a later record for the same id can carry a later `effectiveAt` and turn
+an availability that passed into one that fails. That is the opposite property,
+behind a function of the same shape and nearly the same name, which is why it
+has to be written down rather than inferred at a call site.
+
+It matters because the event validation loop proves each event once and skips
+one it has already proved. A check that can go from passing to failing makes
+that proof unsound: the event that would newly fail is exactly the one never
+re-checked, and the World would accept history it should reject. So
+`crisisEntityAvailableAt` must not enter that loop without first being made
+monotone — for example by keeping the earliest entry for an id, as the press
+availability index already does — or by excluding the events that depend on it.
+
+Nothing calls it there today. The guard in `events-suffix-proof.test.ts` fails
+if anything starts to, and `EVENT_PROOF_MONOTONE_CHECKS_COMPOSED` carries the
+same warning at the declaration. This paragraph exists because the guard and
+the comment both live where somebody already editing that code will see them,
+and the person who needs this is the one deciding whether to call it at all.
