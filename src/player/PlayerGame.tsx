@@ -3821,13 +3821,14 @@ function renderWorkspace({
               onOpenCommitment={(activityId) =>
                 openEntity({ kind: "commitment", id: activityId })
               }
-              onGoTo={(surface) =>
-                dispatch({
-                  type: "go-to-surface",
-                  surface,
-                  ...(surface === "work" ? { section: "office" } : {}),
-                })
-              }
+              /*
+                The same link the standalone Today has, going the same place.
+                This copy forced section: "office", so the one control landed
+                on the whole Work record from Today and on the office half
+                from the Calendar's Today — and a life with no office got the
+                empty half, with its jobs and hiring hidden behind a tab.
+              */
+              onGoTo={(surface) => dispatch({ type: "go-to-surface", surface })}
             />
           }
         />,
