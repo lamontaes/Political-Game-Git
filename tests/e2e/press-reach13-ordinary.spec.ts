@@ -4,7 +4,7 @@ import { expect, test } from "./fixtures";
 import { enterLife, goTo, openNewsContext, startLife } from "./support/creator";
 import { readSavedLegislativeWorld as savedWorld } from "./support/legislative-entry";
 
-test("ordinary News press route establishes a reporter, records the NPC decision, publishes, and reloads", async ({
+test("ordinary News press route reaches a seeded reporter, records the NPC decision, publishes, and reloads", async ({
   page,
 }, info) => {
   test.setTimeout(180_000);
@@ -26,10 +26,18 @@ test("ordinary News press route establishes a reporter, records the NPC decision
   await form.locator("summary").click();
   await expect(form).toHaveAttribute("open", "");
 
-  const establish = page.getByTestId("press-seek-reporter");
-  await expect(establish).toBeVisible();
-  await establish.click();
-  await expect(establish).toHaveCount(0);
+  // A current opening is staffed before the player reaches News: the press
+  // media seed pack gives each seeded reporter a work role classified
+  // "profession:journalism", which is exactly what currentJournalists counts.
+  // So the reporter is already there and there is nothing to establish — the
+  // control for that is for a legacy descriptor, whose opening ran before the
+  // seed pack existed, and it is proven against that world in
+  // src/simulation/press-reach.test.ts rather than here. Asserted as the
+  // positive fact rather than as an absence of a control.
+  await expect(
+    form.getByText("No current journalism role is recorded in this life."),
+  ).toHaveCount(0);
+  await expect(page.getByTestId("press-seek-reporter")).toHaveCount(0);
 
   const development = form.getByTestId("press-basis-select");
   await expect
