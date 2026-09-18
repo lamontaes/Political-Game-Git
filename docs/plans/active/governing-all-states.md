@@ -439,3 +439,37 @@ drafts their own bill in a non-Kentucky legislature actually finds that route,
 rather than authoring briefs. Not started, and not assumed to be needed —
 recorded so the next person does not read "bargaining beyond HB214" as an
 engineering gap and start writing the wrong thing.
+
+## Deferred to after the candidate: the office record contradicts the roster
+
+Named in LAND's receipt as "office record says 'not appointed' for a member the
+roster seats". Under the freeze because it changes player-facing copy; it lands
+as its own change with its own verification once the candidate publishes.
+
+`fdca58fb` gave every chamber's committees a deterministic roster, and
+`committeesForPerson` answers which ones a given member sits on. But
+`legislative-office-context.ts` still tells a seated member:
+
+> You have not been appointed to a committee. Sponsoring a bill does not put
+> you on the one that hears it.
+
+For a member the roster seats, that sentence is false. The record and the
+roster disagree, and the record is the one the player reads. The second half of
+it stays true and worth keeping — sponsoring a bill really does not put you on
+the committee that hears it — so this is a wiring job, not a rewrite: read
+`committeesForPerson` and say which committees the member actually sits on,
+keeping the "unavailable" branch for a chamber whose committees are not
+compiled.
+
+Worth noting how it surfaced: not from the roster work, and not from a review.
+`legislation-docket` asserted old database wording, B attributed the copy
+change, and only then did the contradiction between two things I had written
+myself become visible. The committee rosters and the office record were both
+mine and neither knew about the other.
+
+## What is still open in D1
+
+- The committee-roster wiring above.
+- Casework against the constituent-services position authorized at seating.
+- The MN/MO/NE/OH filing facts, which need acquired law rather than code, and
+  are informational rather than a blocked path.
