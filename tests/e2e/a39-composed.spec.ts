@@ -100,7 +100,7 @@ test("A39 composed readers, municipal and constitutional routes preserve saved l
     .locator("summary")
     .press("Enter");
   await expect(page.getByTestId("municipal-governing")).toContainText(
-    "Virginia Code",
+    /(?:Virginia|Va\.) Code § 15\.2-1420\b/,
   );
   await navigate(page, "nav-politics-budget", "politics");
   await page

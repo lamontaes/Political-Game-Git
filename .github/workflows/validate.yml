@@ -197,6 +197,21 @@ jobs:
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
+      - name: Prepare isolated Artbench test storage and identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Both the test worker and its identified server inherit these values.
+          # Keep QA events out of the owner's durable store and Drive mirror.
+          bench_root="$(mktemp -d "${RUNNER_TEMP:?}/ocd-artbench-XXXXXXXX")"
+          mkdir -m 700 "$bench_root/data"
+          {
+            printf 'PG_ARTBENCH_DATA_ROOT=%s\n' "$bench_root/data"
+            # An explicit absent mirror prevents fallback to an owner's mirror.
+            printf 'PG_ARTBENCH_DRIVE_ROOT=%s\n' "$bench_root/drive-mirror"
+            printf 'PG_ARTBENCH_OWNER_ID=%s\n' 'e2e-fixture-owner'
+          } >> "${GITHUB_ENV:?}"
+
       - name: Enumerate this browser shard
         run: node --import tsx scripts/dev-lab/write-e2e-shard-inventory.ts ${{ matrix.shard }} ${{ matrix.total }}
 
