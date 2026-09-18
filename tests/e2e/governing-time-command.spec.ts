@@ -1,6 +1,7 @@
 import { expect, test, type Page } from "./fixtures";
 import {
   enterLife,
+  openMoment,
   startLife as walkCreator,
   waitForClockIdle,
 } from "./support/creator";
@@ -43,6 +44,7 @@ test("the quiet stretch discloses its end date and lands there once", async ({
   await walkCreator(page, { place: "Lexington", state: "Kentucky", age: 41 });
   await expect(page.getByTestId("play-screen")).toBeVisible();
   await enterLife(page);
+  await openMoment(page);
   // The moment is the room's own panel, so this reads it where the player
   // sees it. It used to open Personal's "Your day" disclosure to reach it.
   const story = page.getByTestId("story-section");

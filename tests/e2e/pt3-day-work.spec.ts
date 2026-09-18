@@ -1,5 +1,10 @@
 import { expect, test } from "./fixtures";
-import { enterLife, openShellMenu, startLife } from "./support/creator";
+import {
+  enterLife,
+  openMoment,
+  openShellMenu,
+  startLife,
+} from "./support/creator";
 
 /**
  * PT3: Today and Work are two different places, and each says what it is.
@@ -15,6 +20,7 @@ test("Today links into Work instead of carrying it, and reading them costs no ti
   await page.goto("/?seed=pt3-owner-22");
   await startLife(page, { age: 22, place: "Lexington", state: "Kentucky" });
   await enterLife(page);
+  await openMoment(page);
 
   // The menu, opened from the keyboard, is grouped and has no duplicate route
   // back to the scene.

@@ -322,6 +322,16 @@ export interface ShellState {
   readonly quickDossierPersonId: EntityId | null;
   /** The "save before quitting?" question, while it is being asked. */
   readonly confirmingLeave: boolean;
+  /**
+   * Whether the moment's panel is open over the room.
+   *
+   * The room is the surface and the moment is opened from it, not standing on
+   * it: a panel docked permanently over a full room covers whoever is standing
+   * where it lands, and the people are how a life is played. An active
+   * authored scene is unaffected — it still shows its own choices in the room
+   * through LifeScenePanel, so nothing a player must decide waits behind this.
+   */
+  readonly momentOpen: boolean;
   readonly pins: readonly ShellPin[];
   readonly activePinMenuKey: string | null;
   readonly peopleCategory: string;
@@ -349,6 +359,7 @@ export const INITIAL_SHELL_STATE: ShellState = {
   navigation: "closed",
   quickDossierPersonId: null,
   confirmingLeave: false,
+  momentOpen: false,
   pins: [],
   activePinMenuKey: null,
   peopleCategory: "all",
@@ -424,6 +435,9 @@ export type ShellAction =
   | { readonly type: "back" }
   | { readonly type: "open-quick-dossier"; readonly personId: EntityId }
   | { readonly type: "close-quick-dossier" }
+  /** The moment, opened from the room and closed back to it. */
+  | { readonly type: "open-moment" }
+  | { readonly type: "close-moment" }
   | { readonly type: "ask-leave" }
   | { readonly type: "cancel-leave" }
   | {
@@ -522,6 +536,9 @@ function settled(state: ShellState): ShellState {
     quickDossierPersonId: null,
     confirmingLeave: false,
     activePinMenuKey: null,
+    // The moment is a layer over the room, so anything that settles the shell
+    // — going somewhere, coming back, turning to talk — closes it.
+    momentOpen: false,
   };
 }
 
@@ -746,6 +763,19 @@ export function shellReducer(
 
     case "close-quick-dossier":
       return { ...state, quickDossierPersonId: null };
+
+    /* One thing over the room at a time: the moment closes the person card. */
+    case "open-moment":
+      return {
+        ...state,
+        momentOpen: true,
+        navigation: "closed",
+        quickDossierPersonId: null,
+        activePinMenuKey: null,
+      };
+
+    case "close-moment":
+      return { ...state, momentOpen: false };
 
     /* The question replaces the menu; one thing to answer, not two open. */
     case "ask-leave":

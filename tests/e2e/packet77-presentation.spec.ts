@@ -6,6 +6,7 @@ import {
   fillCreator,
   goTo,
   openCreator,
+  openMoment,
   startLife,
 } from "./support/creator";
 
@@ -219,6 +220,7 @@ test.describe("The title is a room with a menu on it", () => {
     // PT3: the intro is two beats and then the scene; the life moment is
     // reached the way a player reaches it.
     await enterLife(page);
+    await openMoment(page);
     const immediately = await page.getByTestId("moment-who").innerText();
 
     await freshBrowser(page);
@@ -232,6 +234,7 @@ test.describe("The title is a room with a menu on it", () => {
     // PT3: the intro is two beats and then the scene; the life moment is
     // reached the way a player reaches it.
     await enterLife(page);
+    await openMoment(page);
     expect(await page.getByTestId("moment-who").innerText()).toBe(immediately);
   });
 
@@ -382,6 +385,7 @@ test.describe("A life happens in the room the records put it in", () => {
     // PT3: the intro is two beats and then the scene; the life moment is
     // reached the way a player reaches it.
     await enterLife(page);
+    await openMoment(page);
 
     // THE ROOM. A canonical household resolves to a released domestic plate,
     // and the plate actually decodes.
@@ -428,6 +432,7 @@ test.describe("A life happens in the room the records put it in", () => {
     await freshBrowser(page);
     await startLife(page, { place: "Lexington", state: "Kentucky", age: 36 });
     await enterLife(page);
+    await openMoment(page);
     const room = await page
       .getByTestId("scene-backdrop")
       .getAttribute("data-scene-id");
@@ -440,6 +445,7 @@ test.describe("A life happens in the room the records put it in", () => {
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await expect(page.getByTestId("opening-life-panel")).toHaveCount(0);
     await enterLife(page);
+    await openMoment(page);
     await expect(page.getByTestId("scene-backdrop")).toHaveAttribute(
       "data-scene-id",
       room ?? "",

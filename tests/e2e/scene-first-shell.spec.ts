@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "./fixtures";
 
-import { enterLife, startLife } from "./support/creator";
+import { enterLife, openMoment, startLife } from "./support/creator";
 
 /**
  * The scene-first life shell (fourth human play FAIL / convergence).
@@ -81,12 +81,31 @@ test.describe("A life is played in the room, not on a card", () => {
     // And nothing populates a roster for the player any more.
     await expect(page.getByTestId("people-rail")).toHaveCount(0);
 
-    // The moment is a compact panel, not a page-sized card.
+    /*
+     * What is visible on arrival is the way IN to the moment, not the moment.
+     * A panel standing permanently over the room covers whoever is standing
+     * where it lands — measured, there is no viewport where it leaves every
+     * person reachable — so the room offers the moment and the player opens
+     * it, and it closes back to the room. An active authored scene is
+     * unaffected: it still shows its own choices in the room.
+     */
+    const opener = page.getByTestId("open-moment");
+    await expect(opener).toBeVisible();
+    await expect(page.getByTestId("story-section")).toHaveCount(0);
+
+    await openMoment(page);
+
+    // Opened, it is still a compact panel and not a page-sized card.
     const moment = page.getByTestId("story-section");
     await expect(moment).toBeVisible();
     const momentBox = await moment.boundingBox();
     expect(momentBox).not.toBeNull();
     expect(momentBox!.width).toBeLessThan(1440 * 0.62);
+
+    // And it closes back to the room, leaving the way in behind it.
+    await page.getByTestId("pending-life-return").click();
+    await expect(page.getByTestId("story-section")).toHaveCount(0);
+    await expect(opener).toBeVisible();
 
     // The corner cluster carries who, where and when, and the way to
     // everything else. At rest it is small and translucent, and it is still on
@@ -126,19 +145,12 @@ test.describe("A life is played in the room, not on a card", () => {
      * click falls through it to the backdrop.
      */
     /*
-     * By pointer, on the name — which is what a player aims at, and in this
-     * fixture the only thing drawn for them, their art being refused. The
-     * moment panel docks over the room and in a full room it covers somebody's
-     * token whatever dock it picks; the name sits at the figure's feet, below
-     * the panel, and opens the same person.
+     * With the moment closed — which is how the room rests — the figure's own
+     * token is reachable again, so this is the ordinary press on the person.
+     * The name beside them opens the same person, and is checked below.
      */
-    const personId = (await person.getAttribute("data-testid"))!.replace(
-      "scene-person-",
-      "",
-    );
-    const name = page.getByTestId(`scene-name-${personId}`);
-    await expect(name).toBeVisible();
-    await name.click();
+    await expect(page.getByTestId("story-section")).toHaveCount(0);
+    await person.click();
     const menu = page.getByTestId("quick-dossier");
     await expect(menu).toBeVisible();
     await expect(menu.getByTestId("dossier-talk")).toBeVisible();
@@ -160,6 +172,11 @@ test.describe("A life is played in the room, not on a card", () => {
      * hidden from assistive technology: tabbing on from the token reaches
      * something else, and the name is never the focused element.
      */
+    const personId = (await person.getAttribute("data-testid"))!.replace(
+      "scene-person-",
+      "",
+    );
+    const name = page.getByTestId(`scene-name-${personId}`);
     await expect(name).toHaveAttribute("aria-hidden", "true");
     await expect(name).toHaveAttribute("tabindex", "-1");
     await page.keyboard.press("Escape");
@@ -175,6 +192,7 @@ test.describe("A life is played in the room, not on a card", () => {
     await freshBrowser(page);
     await startLife(page, { place: "Lexington", state: "Kentucky", age: 10 });
     await enterLife(page);
+    await openMoment(page);
 
     const before = await page.getByTestId("story-prose").innerText();
     await page.getByTestId("story-options").getByRole("button").first().click();

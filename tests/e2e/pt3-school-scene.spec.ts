@@ -3,6 +3,7 @@ import {
   enterLife,
   expectNoDestination,
   goTo,
+  openMoment,
   startLife as walkCreator,
 } from "./support/creator";
 
@@ -158,6 +159,7 @@ test.describe("PT3 — the corridor scene on the screen", () => {
         childhood: true,
       });
       await enterLife(page);
+      await openMoment(page);
 
       const beat = await playToCorridor(page);
 
@@ -234,6 +236,7 @@ test.describe("PT3 — the corridor scene on the screen", () => {
       await page.getByTestId("continue").click();
       await expect(page.getByTestId("play-screen")).toBeVisible();
       await enterLife(page);
+      await openMoment(page);
       await page.getByTestId("open-journal").click();
       await expect(page.getByTestId("journal")).toBeVisible();
       const reloaded = await page.getByTestId("journal").innerText();

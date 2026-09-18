@@ -3269,26 +3269,31 @@ function PlayingScreen({
                 });
               }}
             >
-              {/*
-                The compact panel the room comment above promises, in the dock
-                the stylesheet built for it: scene-backdrop-content, fixed at
-                the bottom centre, pointer-events:none so the room stays
-                clickable and auto on the panel itself. Mounted as a sibling of
-                the backdrop instead, it was a full-width block in normal flow
-                and its own prose sat over the people, swallowing a press meant
-                for a plate. A conversation and the first orientation are full
-                surfaces of their own, so the moment waits behind them.
-              */}
-              {view.surface === "scene" && !conversation && !showOrientation ? (
-                <StoryView
-                  session={session}
-                  moment={projectStoryMoment(session.world, session.personId)}
-                  onWorldChange={onWorldChange}
-                />
-              ) : null}
               {view.surface === "scene" && !readOnly ? (
                 <OpeningLifeFlow
                   key={`${session.world.id}:${session.personId}`}
+                  /*
+                    The room's own seam, wired at last. The moment is the
+                    panel's body; the room offers it and the player opens it,
+                    because a panel standing permanently over a full room
+                    covers whoever is standing where it lands. A conversation
+                    and the first orientation are full surfaces of their own,
+                    so the moment is not offered underneath them.
+                  */
+                  pendingAvailable={!conversation && !showOrientation}
+                  pendingOpen={shell.momentOpen}
+                  pendingLife={
+                    <StoryView
+                      session={session}
+                      moment={projectStoryMoment(
+                        session.world,
+                        session.personId,
+                      )}
+                      onWorldChange={onWorldChange}
+                    />
+                  }
+                  onOpenPending={() => dispatch({ type: "open-moment" })}
+                  onClosePending={() => dispatch({ type: "close-moment" })}
                   world={session.world}
                   playerPersonId={session.personId}
                   onWorldChange={onWorldChange}

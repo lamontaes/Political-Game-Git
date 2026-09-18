@@ -1,6 +1,6 @@
 import { expect, test } from "./fixtures";
 import type { Page } from "@playwright/test";
-import { enterLife, fillCreator, goTo } from "./support/creator";
+import { enterLife, fillCreator, goTo, openMoment } from "./support/creator";
 
 async function personnel(page: Page) {
   await goTo(page, "elsewhere-work");
@@ -52,6 +52,7 @@ test("current Custom Start reaches dated personnel work, an NPC answer, and save
   await page.getByTestId("whoareyou-play").click();
   await page.getByTestId("begin").click();
   await enterLife(page);
+  await openMoment(page);
 
   let panel = await personnel(page);
   const employee = panel.getByRole("article", {
@@ -95,6 +96,7 @@ test("current Custom Start reaches dated personnel work, an NPC answer, and save
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
+  await openMoment(page);
   panel = await personnel(page);
   await expect(panel.getByRole("article", { name: heading! })).toContainText(
     /answer on receiving it: (accepted|declined)/,

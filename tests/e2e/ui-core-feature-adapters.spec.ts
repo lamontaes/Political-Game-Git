@@ -4,7 +4,13 @@ import {
   expectRecordedMember,
 } from "./support/legislative-entry";
 import { expect, test } from "./fixtures";
-import { enterLife, fillCreator, goTo, startLife } from "./support/creator";
+import {
+  enterLife,
+  fillCreator,
+  goTo,
+  openMoment,
+  startLife,
+} from "./support/creator";
 
 test("normal Day exposes the frozen study/work adapter and scheduled sessions reach Calendar", async ({
   page,
@@ -18,6 +24,7 @@ test("normal Day exposes the frozen study/work adapter and scheduled sessions re
     household: "shares-a-home",
   });
   await enterLife(page);
+  await openMoment(page);
   /*
    * UI9-01: the day no longer mounts a second copy of the study-and-work
    * stack; it links into the one workspace that owns it. Following that link
@@ -84,6 +91,7 @@ test("Custom judicial workplace uses the normal World, Work and save route", asy
   await page.getByTestId("whoareyou-play").click();
   await page.getByTestId("begin").click();
   await enterLife(page);
+  await openMoment(page);
   await goTo(page, "elsewhere-work");
   await page
     .getByRole("button", { name: "Check office correspondence", exact: true })
@@ -103,6 +111,7 @@ test("Custom judicial workplace uses the normal World, Work and save route", asy
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
+  await openMoment(page);
   await goTo(page, "elsewhere-work");
   await expect(
     page.getByRole("button", {
@@ -125,6 +134,7 @@ test("mixed person, session and measure pins preserve identity and clear workspa
     household: "shares-a-home",
   });
   await enterLife(page);
+  await openMoment(page);
   // Pinning is on the person in the room now, in their own action menu.
   await page.locator('[data-testid^="scene-person-"]').first().click();
   await page.getByTestId("quick-dossier-pin").click();
@@ -214,6 +224,7 @@ test("mixed person, session and measure pins preserve identity and clear workspa
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
+  await openMoment(page);
   await expect(pins).toHaveCount(3);
   expect(
     await pins.evaluateAll((nodes) =>
@@ -239,6 +250,7 @@ test("normal activity completion replaces household presence without a second cl
     household: "shares-a-home",
   });
   await enterLife(page);
+  await openMoment(page);
   await goTo(page, "elsewhere-day");
   await page
     .getByTestId("venue-activities")
@@ -296,6 +308,7 @@ test("normal activity completion replaces household presence without a second cl
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
+  await openMoment(page);
   await expect(page.getByTestId("activity-aftermath")).toBeVisible();
   await expect(page.getByTestId("scene-backdrop")).toHaveAttribute(
     "data-scene-id",
@@ -338,6 +351,7 @@ test("frozen docket uses the normal Work shell and keeps its selected document o
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
+  await openMoment(page);
   await goTo(page, "elsewhere-work");
   await expect(page.getByTestId("docket-lineage")).toHaveText(lineage);
   await expect(page.getByTestId(`pin-measure:${measureId}`)).toBeVisible();

@@ -1,11 +1,12 @@
 import { expect, test, type Page } from "./fixtures";
 
 import {
+  completeCharacterStep,
   enterLife,
   goTo,
   openCreator,
+  openMoment,
   startLife,
-  completeCharacterStep,
 } from "./support/creator";
 
 /**
@@ -99,6 +100,7 @@ test.describe("People surfaces have an obvious way out", () => {
     await freshBrowser(page);
     await startLife(page, { place: "Lexington", state: "Kentucky", age: 10 });
     await enterLife(page);
+    await openMoment(page);
 
     const momentBefore = await page.getByTestId("story-prose").innerText();
 
