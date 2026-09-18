@@ -43,9 +43,12 @@ test("normal legislative publication supports search, clear, help, person, Back,
   await expect(
     page.getByTestId("public-information-for-you-empty"),
   ).toBeVisible();
-  await page
-    .getByRole("button", { name: "Close public information" })
-    .press("Escape");
+  // The directory context mounts the panel with showClose={false}, so there is
+  // no close button here and there has not been since the composition landed —
+  // this step only became reachable once the assertion above stopped failing
+  // first. Escape is handled on the panel itself, so it still closes from any
+  // control inside it.
+  await page.getByTestId("news-view-all").press("Escape");
 
   await publishFirstBill(page);
   await saveLife(page);
