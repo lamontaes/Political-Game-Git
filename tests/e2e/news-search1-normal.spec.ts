@@ -34,7 +34,14 @@ test("normal legislative publication supports search, clear, help, person, Back,
   await enterLife(page);
   await goTo(page, "nav-news");
   await openNewsContext(page, "directory");
-  await expect(page.getByTestId("public-information-empty")).toBeVisible();
+  // A seeded opening already carries published reporting, so the directory
+  // opens with stories rather than the empty line. What each of these cases is
+  // really about is what the player's own action adds to it, which is asserted
+  // where that happens.
+  await expect(page.getByTestId("public-information-empty")).toHaveCount(0);
+  await expect(
+    page.locator(".public-information-article").first(),
+  ).toBeVisible();
   await page
     .getByRole("button", { name: "Close public information" })
     .press("Escape");

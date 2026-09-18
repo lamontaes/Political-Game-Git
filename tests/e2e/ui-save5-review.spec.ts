@@ -104,12 +104,18 @@ test("the rest of the named owner visual set renders on a normal start", async (
   });
 
   // The newspaper on a normal start, in the state a normal start actually
-  // reaches it: nothing has been published yet, and the surface says so rather
-  // than inventing a reporter or a story to fill itself. Publishing into it
-  // requires a member seat, which this journey does not have.
+  // reaches it. A seeded opening now carries outlets that have already filed,
+  // so this is no longer empty — but the thing the emptiness was guarding is
+  // still asserted, and more directly: every story present names the event it
+  // reports, so none of it was invented to fill the surface. Publishing into
+  // it requires a member seat, which this journey does not have.
   await goTo(page, "nav-news");
   await openNewsContext(page, "directory");
-  await expect(page.getByTestId("public-information-empty")).toBeVisible();
+  const articles = page.locator(".public-information-article");
+  await expect(articles.first()).toBeVisible();
+  for (const article of await articles.all()) {
+    await expect(article).toHaveAttribute("data-source-event-id", /.+/);
+  }
   await page.screenshot({
     path: info.outputPath("normal-news.png"),
     fullPage: true,
