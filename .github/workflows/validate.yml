@@ -151,21 +151,31 @@ jobs:
     name: browser
     runs-on: ubuntu-latest
     # Two shards reached the 75-minute cap on the composed landing without a
-    # gameplay assertion. Four keep the same complete-suite/union contract
-    # while giving each isolated runner a bounded share of the browser work.
+    # gameplay assertion, and with four, three shards did the same on the
+    # CRUNCH47 composition (shard 1 alone took 48 minutes). Eight keep the same
+    # complete-suite/union contract while giving each isolated runner a
+    # bounded share of the browser work.
     timeout-minutes: 75
     strategy:
       fail-fast: false
       matrix:
         include:
           - shard: 1
-            total: 4
+            total: 8
           - shard: 2
-            total: 4
+            total: 8
           - shard: 3
-            total: 4
+            total: 8
           - shard: 4
-            total: 4
+            total: 8
+          - shard: 5
+            total: 8
+          - shard: 6
+            total: 8
+          - shard: 7
+            total: 8
+          - shard: 8
+            total: 8
     env:
       PG_RUN_ID: gha-${{ github.run_id }}-s${{ matrix.shard }}of${{ matrix.total }}
     steps:
