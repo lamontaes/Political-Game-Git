@@ -74,14 +74,18 @@
 /*
  * Back rides the bottom of the panel, not the bottom of the content.
  *
- * Back is the step's own control and sits above the appearance section, so a
- * tall preview scrolled it out of the window entirely — the reviewer measured
- * its bottom edge at 933.8px in a 900px one. It is pinned to the panel's edge
- * now, directly under Reset and Begin, which are pinned to the same edge from
- * inside the section. The height here is declared rather than left to the
- * text, so the row above it can clear it exactly instead of guessing.
+ * Back is the step's own control, so a tall step scrolled it out of the window
+ * entirely — measured at 933.8px in a 900px one. It is pinned to the panel's
+ * edge now, directly under Reset and Begin, which are pinned to the same edge
+ * from inside the appearance section. The height here is declared rather than
+ * left to the text, so the row above it can clear it exactly.
+ *
+ * Every creator step, not only the appearance one. Pinned to
+ * `.game-creator--appearance` alone, this left the character step — the same
+ * scrolling panel, the same Back at the end of its content — with its Back at
+ * 923.4px in an 844px window, which is the state a player meets first.
  */
-.title-tableau--art.front-door .game-creator--appearance > .game-setup-actions {
+.title-tableau--art.front-door .game-creator > .game-setup-actions {
   position: sticky;
   bottom: 0;
   z-index: 4;

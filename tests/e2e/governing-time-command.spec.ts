@@ -1,5 +1,9 @@
 import { expect, test, type Page } from "./fixtures";
-import { enterLife, startLife as walkCreator } from "./support/creator";
+import {
+  enterLife,
+  startLife as walkCreator,
+  waitForClockIdle,
+} from "./support/creator";
 
 /**
  * GOVERNING increment 1: the generic "Let time pass" control says where it
@@ -47,6 +51,10 @@ test("the quiet stretch discloses its end date and lands there once", async ({
     const disclosed = (await target.innerText()).match(MONTH_DATE)![1]!;
     const before = await story.getByTestId("story-when").innerText();
     await page.getByTestId("story-let-time-pass").click();
+    // The clock's own idle signal, the way every other time proof waits. The
+    // panel re-renders while the command is in flight, so "the text changed"
+    // can be true of a frame the command has not finished writing.
+    await waitForClockIdle(page);
     await expect(story.getByTestId("story-when")).not.toHaveText(before);
     const after = await story.getByTestId("story-when").innerText();
     const reached = Date.parse(after.split(" · ")[0]!);
