@@ -1205,6 +1205,10 @@ async function buildChooser() {
     commitTimes,
     merged,
     unsupported,
+    recorded: Object.entries(readState()?.tracks ?? {}).map(([id, track]) => ({
+      branch: track?.branch ?? id.replace(/^branch:/, ""),
+      revision: track?.current?.revision ?? null,
+    })),
   });
   const decorate = (item) => ({ ...item, label: chooserLabel(item) });
   return {

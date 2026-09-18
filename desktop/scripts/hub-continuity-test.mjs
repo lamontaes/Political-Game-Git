@@ -14,7 +14,7 @@
  * Usage:
  *   node scripts/hub-continuity-test.mjs --hub <hub executable>
  *     --build-a <Internal Art Review.app> --build-b <Internal Art Review.app>
- *     [--data-root <dir>] [--screenshot-dir <dir>]
+ *     [--pack <private pack dir>] [--data-root <dir>] [--screenshot-dir <dir>]
  */
 
 import assert from "node:assert/strict";
@@ -23,6 +23,8 @@ import os from "node:os";
 import path from "node:path";
 
 import { _electron as electron } from "playwright";
+
+import { chooseStartAge } from "./creator-drive.mjs";
 
 import {
   readSavedRecords,
@@ -41,7 +43,7 @@ const buildA = value("--build-a");
 const buildB = value("--build-b");
 if (!hubExecutable || !buildA || !buildB) {
   console.error(
-    "Usage: node scripts/hub-continuity-test.mjs --hub <exe> --build-a <app> --build-b <app> [--data-root <dir>] [--screenshot-dir <dir>]",
+    "Usage: node scripts/hub-continuity-test.mjs --hub <exe> --build-a <app> --build-b <app> [--pack <dir>] [--data-root <dir>] [--screenshot-dir <dir>]",
   );
   process.exit(2);
 }
@@ -60,6 +62,22 @@ const identityOf = (app) =>
       "utf8",
     ),
   );
+/*
+ * The pack the delivery claims, stamped into the record: L2 asks that a
+ * staged build prove code revision and pack identity from the record alone,
+ * so a proof that leaves it null cannot demonstrate the promise.
+ */
+const packPath = value("--pack");
+const packRecord = packPath
+  ? JSON.parse(readFileSync(path.join(packPath, "pack.json"), "utf8"))
+  : null;
+const packStamp = packRecord
+  ? {
+      packId: String(packRecord.packId),
+      manifestSha256: String(packRecord.manifestSha256),
+    }
+  : null;
+
 const record = (app) => {
   const identity = identityOf(app);
   return {
@@ -70,7 +88,7 @@ const record = (app) => {
     architecture: "arm64 (fixture record)",
     installedAt: new Date().toISOString(),
     clientTreeSha256: identity.clientTreeSha256 ?? "unknown",
-    privatePack: null,
+    privatePack: packStamp,
   };
 };
 const A = record(buildA);
@@ -248,17 +266,37 @@ let expected;
       sameSavedIdentity(expected, savedIdentity(records.worlds[0])),
     JSON.stringify({ worldId: expected.worldId, personId: expected.personId }),
   );
+  if (packStamp) {
+    const stamped = JSON.parse(readFileSync(statePath, "utf8")).tracks?.main
+      ?.current?.privatePack;
+    check(
+      "B: the activated record names the pack it was built with",
+      stamped?.packId === packStamp.packId &&
+        stamped?.manifestSha256 === packStamp.manifestSha256,
+      JSON.stringify(stamped),
+    );
+  }
   check(
     "B: Play made no request outside the packaged origin",
     foreign.length === 0,
     foreign.slice(0, 3).join(", "),
   );
+  // The collapsed bar names the build in words; the exact SHA lives behind
+  // the technical-detail toggle (CRUNCH47 A2: readable title, SHA separately).
+  const collapsed = await chrome.locator("#status").textContent();
+  check(
+    "B: the bar names the playing build in words",
+    collapsed.includes("Main game"),
+    collapsed,
+  );
+  await chrome.locator("#build-details").click();
   const status = await chrome.locator("#status").textContent();
   check(
-    "B: chrome names the playing build",
+    "B: the technical detail carries the exact revision",
     status.includes(B.revision.slice(0, 12)),
     status,
   );
+  await chrome.locator("#build-details").click();
   if (shots) await play.screenshot({ path: path.join(shots, "b-play.png") });
   // Current private people: open the saved person's wardrobe figure.
   await play.getByTestId("shell-nav-cluster").click();
@@ -313,6 +351,16 @@ let expected;
   writeFileSync(statePath, `${JSON.stringify(state, null, 2)}\n`);
   const { app, chrome, pageFor } = await launchHub();
   const combo = chrome.getByRole("combobox", { name: "Game build" });
+  // A build made here with no branch on the remote is a technical entry, so
+  // the owner asks for those first; this proves it is still reachable.
+  await waitFor(
+    async () =>
+      (await combo.locator("option").allTextContents()).some((t) =>
+        /technical branches/i.test(t),
+      ),
+    "technical toggle",
+  );
+  await combo.selectOption("__technical__");
   await waitFor(
     async () =>
       (await combo.locator("option").allTextContents()).some((t) =>
@@ -337,6 +385,8 @@ let expected;
   await branchPage.getByTestId("setup-screen").waitFor();
   await branchPage.getByTestId("start-normal").click();
   await branchPage.getByTestId("creator-stage-character").waitFor();
+  // The accepted creator derives age from the full birthday, so the proof
+  // answers gender, name and birthday the way a player does.
   await chooseStartAge(branchPage, 29);
   await branchPage.getByTestId("creator-continue-character").click();
   await branchPage.getByTestId("state-search").fill("Kentucky");
@@ -370,11 +420,13 @@ let expected;
       height: img.naturalHeight,
     })),
   );
+  // Private-pack people, whatever generation the staged pack carries: the
+  // point is that the creator draws decoded pack art, not that it is ep4x.
   const currentPeople = creatorLayers.filter((layer) =>
-    /^ep4\d-/.test(layer.assetId ?? ""),
+    /^(ep\d+[-_]|pv\d+_|wave_a_)/.test(layer.assetId ?? ""),
   );
   check(
-    "B: creator draws decoded current private people (ep4x) layers",
+    "B: creator draws decoded private-pack people layers",
     currentPeople.length > 0 && currentPeople.every((layer) => layer.decoded),
     currentPeople
       .map((layer) => `${layer.assetId} ${layer.width}x${layer.height}`)
@@ -382,7 +434,7 @@ let expected;
   );
   if (shots)
     await stage.screenshot({ path: path.join(shots, "b-creator.png") });
-  await chrome.getByRole("button", { name: "Return to main" }).click();
+  await chrome.getByRole("button", { name: "Back to main game" }).click();
   const mainPage = pageFor(/^app:\/\/game\//);
   const mainRecords = await readSavedRecords(mainPage, DATABASE);
   check(

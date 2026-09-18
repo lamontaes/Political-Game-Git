@@ -113,6 +113,36 @@ test("a failed check keeps the last success and never reads as up to date", () =
   );
 });
 
+test("a settled offline check outranks a worker still winding down", () => {
+  // The worker flag lingers while the process exits. Before this, the bar kept
+  // reading "Checking for updates…" after the check had already failed offline.
+  const check = cleanChecks(
+    recordCheck({}, "main", {
+      outcome: "offline",
+      at: "2026-09-17T02:00:00.000Z",
+      message: "Offline",
+    }),
+  ).main;
+  const status = updateStatus({
+    check,
+    build: build(SHA_A),
+    building: true,
+    phase: { phase: "fetching" },
+  });
+  assert.equal(status.kind, "offline");
+  assert.equal(status.text, OFFLINE_TEXT);
+  // A genuine in-flight check with nothing recorded still reads as checking.
+  assert.equal(
+    updateStatus({
+      check: null,
+      build: build(SHA_A),
+      building: true,
+      phase: { phase: "fetching" },
+    }).kind,
+    "checking",
+  );
+});
+
 test("up to date only when the checked revision is the loaded build", () => {
   const check = cleanChecks(
     recordCheck({}, "main", {

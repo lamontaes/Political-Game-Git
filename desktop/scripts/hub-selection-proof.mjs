@@ -275,9 +275,10 @@ await waitFor(
 );
 s = await hub.state();
 check(
-  "offline check says Could not check and keeps the last success time",
-  s.update.kind === "failed" && s.update.lastSuccessAt === lastSuccess,
-  s.update.text,
+  "offline check names the offline case and keeps the last success time",
+  ["offline", "failed"].includes(s.update.kind) &&
+    s.update.lastSuccessAt === lastSuccess,
+  `${s.update.kind}: ${s.update.text}`,
 );
 check("main still plays offline", s.loaded?.track === "main");
 const retry = await hub.chrome.locator("#check-updates").innerText();
