@@ -63,6 +63,14 @@ export const CONTACT_LOCATION_KEY = "people-contact:meeting";
 /** How long an unanswered proposal waits before the other person answers. */
 const ANSWER_DELAY_DAYS = 1;
 /** The earliest a proposal may be for: nobody is asked for the same hour. */
+/** For a sentence the player actually reads, in both shapes it needs. */
+function daysNotice(count: number): string {
+  return count === 1 ? "1 day's" : `${count} days'`;
+}
+function daysAhead(count: number): string {
+  return count === 1 ? "1 day" : `${count} days`;
+}
+
 export const CONTACT_MINIMUM_NOTICE_DAYS = 2;
 /** How far ahead a person will make a plan of this kind. */
 export const CONTACT_MAXIMUM_NOTICE_DAYS = 45;
@@ -321,8 +329,11 @@ export function proposeContact(
   const earliest = addDays(world.currentDate, CONTACT_MINIMUM_NOTICE_DAYS);
   const latest = addDays(world.currentDate, CONTACT_MAXIMUM_NOTICE_DAYS);
   if (input.on < earliest || input.on > latest) {
+    // Said as the rule rather than as two dates: this sentence is shown to the
+    // player verbatim, and simulation has no business speaking a date — that
+    // is presentation's, which is why the view carries the spoken ones.
     throw new Error(
-      `A meeting can be proposed between ${earliest} and ${latest}.`,
+      `A meeting needs at least ${daysNotice(CONTACT_MINIMUM_NOTICE_DAYS)} notice, and can be arranged up to ${daysAhead(CONTACT_MAXIMUM_NOTICE_DAYS)} ahead.`,
     );
   }
   if (!input.purpose.trim()) throw new Error("A meeting needs a reason.");

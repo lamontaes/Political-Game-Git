@@ -115,3 +115,84 @@ act creates misconduct today; reactions reach colleagues and chapter
 organizers only; there is no player leak form in the interface; the press
 panel has no test and no pointer or keyboard review; full validation and the
 browser suite never ran on that branch.
+
+## F47.1 education, family by family
+
+Education here is a setting where people meet, not a second school simulator.
+Each authored family is ported one at a time, and only when the records it
+names already exist. What is landed:
+
+| Cargo family        | State                                                                                       |
+| ------------------- | ------------------------------------------------------------------------------------------- |
+| `edu-working-together` | Landed as the `study-peer` family: a real classmate on a real enrollment, the answer decided before the wording, agreement or refusal, and no academic cost for turning it down. |
+| `edu-disagreement`  | Landed as the `study-plan` family, in two variants: each of them says how they would work, and if they want different things, whether either moves. |
+| `edu-time-choice`   | **Not bindable.** See below.                                                                 |
+| `edu-reconnect`     | **Not bindable.** Needs a canonical open position under a real authority. GOVERNING has it noted as a consumer of their committee-and-staff work; nothing is faked in the meantime. |
+
+### Why `edu-time-choice` is not bound
+
+The cargo requires a conflict between a study commitment and an employment or
+household commitment, an authorized counterpart, and concrete schedule
+alternatives. Two halves of that do not exist:
+
+- Every study path in the catalogue advances by period, not by session, so no
+  study hour is ever placed on the calendar. A calendar conflict involving
+  study is therefore not representable. A weekly time-demand range exists and
+  is disclosed, but it has no time of day.
+- No writer lets anybody authorize a change to an employment's terms, so the
+  family's `accepted` outcome has nothing to write. The only changeable thing
+  in the substrate is one scheduled activity with a movable window, and moving
+  a single hour does not resolve a weekly-hours overlap.
+
+Inventing either half would mean inventing free time or an admissions
+mechanic, which F47.1 forbids. The family waits for study time on the calendar
+or a supported change-of-terms writer, whichever arrives.
+
+### What `study-plan` proves
+
+An approach is an id in an authored registry, never a sentence composed for
+the moment; the revision a player may offer is written in advance and shown in
+the choice itself; and for two approaches with no authored half-way version,
+no revision is offered at all. The other person's approach is decided from
+their own temperament against the collaboration they already agreed to, so it
+is not a reaction to what the player picked. Wanting the same thing settles
+without staging an argument. Holding your own position writes no relationship
+record, and a question left open rests and then comes back against the record
+of it being left open — a later follow-up rather than the same scene repeating.
+
+## Q47-003b — observable expression: not produced today
+
+E asked for an explicit per-person observable expression cue on the
+conversation/scene projection. There is none, and E is right not to infer one.
+
+What the projections actually carry. `PlayerConversationView` has no such
+field. `ConversationExchangeTurn` carries `eventId`, `sequence`, `date`,
+`current`, `playerLine`, `speakerPersonId`, `speakerName`, `reply` (the
+other person's words as prose) and `heardByPersonIds` — nothing about a face.
+`SceneAnswer` carries `perception` and `landed`, which are about what the
+speaker now makes of the player and how an answer landed in the family's own
+words; neither is an observable expression and neither is per-onlooker.
+
+`expressionKey` exists in the codebase but is not this. It belongs to the
+personality catalogue — how a tendency expresses itself in conduct — and it is
+attached to a trait, not to a turn. Reading a face off it would not be a
+shortcut; it would be a category error, and the saved record would not support
+it.
+
+Recorded as **Q47-003b pending**: a missing producer, not a missing field.
+Not built tonight; this is not authorization to build it.
+
+When it is built, four constraints come from this lane and should be stated
+with the work rather than discovered during it:
+
+1. Decided before it is worded, like every other semantic an NPC has. The
+   expression is what they are observably doing, chosen once; the prose that
+   describes it follows.
+2. Neutral is the default and absence must be representable. Most people show
+   nothing in particular most of the time, and "no cue" is a real answer.
+3. It is what an onlooker could see, per person per turn — not the person's
+   inner state, and never their saved appearance, which is not mutated.
+4. It belongs on the turn's own record, written by the producer, and read back
+   by the projection. If it is recomputed at render time from live inputs, the
+   same saved turn can show a different face on reopening, which breaks replay
+   for something the player actually watched.

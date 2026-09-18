@@ -301,3 +301,25 @@ export function studyAnswered(
       event.involvedEntityIds.includes(peerPersonId),
   );
 }
+
+/** The people this person actually agreed to work with, in record order. */
+export function studyCollaborators(
+  world: World,
+  personId: EntityId,
+): readonly EntityId[] {
+  const peers: EntityId[] = [];
+  for (const event of world.history.events) {
+    if (
+      event.type !== STUDY_COLLABORATION_EVENT ||
+      !event.involvedEntityIds.includes(personId)
+    ) {
+      continue;
+    }
+    for (const other of event.involvedEntityIds) {
+      if (other !== personId && world.people[other] && !peers.includes(other)) {
+        peers.push(other);
+      }
+    }
+  }
+  return peers;
+}

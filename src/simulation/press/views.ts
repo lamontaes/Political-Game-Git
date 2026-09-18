@@ -124,12 +124,18 @@ export function projectPressDesk(
     name: outlet.name,
     scope: outlet.scope,
     beats: outlet.beats,
-    reporters: reporterRoles(world, outlet.id).map((role) => ({
-      personId: role.personId,
-      name: personName(world.people[role.personId]!),
-      title: role.title,
-      knownToYou: contacts.has(role.personId),
-    })),
+    // Only people who could actually take a call. A journalism role outlives
+    // the person who held it, and since a current opening now carries the
+    // mortality model from the moment it is built, a desk that listed every
+    // role ever recorded could offer a dead reporter on the first day.
+    reporters: reporterRoles(world, outlet.id)
+      .filter((role) => reporterIsCurrent(world, role))
+      .map((role) => ({
+        personId: role.personId,
+        name: personName(world.people[role.personId]!),
+        title: role.title,
+        knownToYou: contacts.has(role.personId),
+      })),
   }));
   const incomingRequests = storyLeads(world).flatMap((lead) => {
     if (!lead.subjectPersonIds.includes(personId)) return [];

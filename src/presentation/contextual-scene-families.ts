@@ -18,6 +18,21 @@ import {
   recordStudyAnswer,
   studyAnswered,
 } from "../simulation/people-study";
+import {
+  PROPOSABLE_APPROACHES,
+  decideStudyPlanOutcome,
+  peerStudyApproach,
+  recordStudyPlanAnswer,
+  recordStudyProposals,
+  studyApproach,
+  studyPlanProposals,
+  studyPlanResting,
+  studyPlanSettled,
+} from "../simulation/people-study-plan";
+import type {
+  StudyApproach,
+  StudyPlanOutcome,
+} from "../simulation/people-study-plan";
 import type { StudyPeerOutcome } from "../simulation/people-study";
 import { requestPropositionKey } from "../simulation/people-request-route";
 import type { BoundScene, SceneFamily } from "../simulation/scene-bindings";
@@ -2407,6 +2422,221 @@ const studyPeer: SceneFamilyDefinition = {
   room: withoutSpeakerOthers,
 };
 
+/* -------------------------------------------------------------------------- */
+/* Deciding how to do the work (F47.1, edu-disagreement)                       */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Having agreed to work together, they still have to agree how.
+ *
+ * Two variants, in the order they happen. In `proposal` each of them says what
+ * they would do; the other person's answer was decided from their own
+ * temperament and is not a reaction to the player's. In `disagreement` they
+ * want different things, and the question is whether either of them moves.
+ *
+ * Every approach is an id in the authored registry, and the revision a player
+ * can offer is one that was written in advance and shown to them in the choice
+ * itself. Nothing here builds a plan out of sentences.
+ */
+function studyPlanAnswers(context: SceneContext): readonly SceneAnswer[] {
+  const playerId = context.binding.playerPersonId;
+  const peerId = context.binding.speakerPersonId;
+  if (context.binding.variant === "proposal") {
+    // Theirs is settled before the player picks anything; the same approach
+    // comes back whichever choice is taken.
+    const theirs = studyApproach(
+      peerStudyApproach(context.world, {
+        personId: playerId,
+        peerPersonId: peerId,
+      }).approachId,
+    )!;
+    return PROPOSABLE_APPROACHES.map((id) => {
+      const mine = studyApproach(id)!;
+      const same = mine.id === theirs.id;
+      return {
+        key: id,
+        label: `Say you would ${mine.label}`,
+        description: mine.requires,
+        statement: `I think we should ${mine.label}.`,
+        replies: says(
+          context,
+          same
+            ? [`“That’s what I was going to say,” {name} says. “Good.”`]
+            : [`“I’d rather we ${theirs.label},” {name} says.`],
+        ),
+        record: `The player said they would ${mine.label}.`,
+        apply: (world: World) =>
+          recordStudyProposals(world, {
+            personId: playerId,
+            peerPersonId: peerId,
+            approachId: id,
+          }).world,
+      };
+    });
+  }
+  const proposals = studyPlanProposals(context.world, playerId, peerId)!;
+  const mine = studyApproach(proposals.mine)!;
+  const theirs = studyApproach(proposals.theirs)!;
+  const revision = proposals.revision;
+  // Coming round to a revision and coming round to the player's own proposal
+  // are different things, and are never said in the same words.
+  const lines = (
+    outcome: StudyPlanOutcome,
+    part: StudyApproach | undefined,
+    answer: "compromise" | "hold",
+  ): readonly string[] => {
+    switch (outcome) {
+      case "agrees":
+        return answer === "compromise"
+          ? [
+              "“That addresses my concern. I’m comfortable with that,” {name} says.",
+              "“Yes. That gives us a way to proceed,” {name} says.",
+            ]
+          : [
+              "“All right. We’ll do it your way,” {name} says.",
+              "“Fair enough. Your way, then,” {name} says.",
+            ];
+      case "counterproposes":
+        return [
+          `“I can agree to ${part?.agreedPart ?? "part of it"}, but I still want to change ${part?.disputedPart ?? "the rest"},” {name} says.`,
+        ];
+      case "unresolved":
+        return [
+          "“We may need to leave this open until we have more information,” {name} says.",
+          "“I understand your reasoning. I’m not persuaded yet,” {name} says.",
+        ];
+    }
+  };
+  const spoken = (
+    outcome: StudyPlanOutcome,
+    part: StudyApproach | undefined,
+    answer: "compromise" | "hold",
+  ): string =>
+    outcome === "agrees"
+      ? answer === "compromise"
+        ? "That addresses my concern. I’m comfortable with that."
+        : "All right. We’ll do it your way."
+      : outcome === "counterproposes"
+        ? `I can agree to ${part?.agreedPart ?? "part of it"}, but I still want to change ${part?.disputedPart ?? "the rest"}.`
+        : "I understand your reasoning. I’m not persuaded yet.";
+  const settle =
+    (answer: "compromise" | "hold", outcome: StudyPlanOutcome) =>
+    (world: World) =>
+      recordStudyPlanAnswer(world, {
+        personId: playerId,
+        peerPersonId: peerId,
+        answer,
+        outcome,
+        statement: spoken(outcome, revision, answer),
+      }).world;
+  // Decided here, once each, before any wording is chosen.
+  const onCompromise = revision
+    ? decideStudyPlanOutcome(context.world, {
+        personId: playerId,
+        peerPersonId: peerId,
+        answer: "compromise",
+      }).outcome
+    : null;
+  const onHold = decideStudyPlanOutcome(context.world, {
+    personId: playerId,
+    peerPersonId: peerId,
+    answer: "hold",
+  }).outcome;
+  return [
+    {
+      key: "compare",
+      label: "Compare the two approaches",
+      description: "Find out what each would actually require.",
+      followUp: true,
+      statement: "Can we walk through what each approach would require?",
+      replies: says(context, [
+        `“If we ${mine.label}: ${mine.requires} If we ${theirs.label}: ${theirs.requires}”`,
+      ]),
+      record: `The player asked ${context.name} to compare the two approaches.`,
+    },
+    ...(revision && onCompromise
+      ? [
+          {
+            key: "compromise",
+            label: `Suggest you ${revision.label}`,
+            description: revision.requires,
+            statement: `What about this — we ${revision.label}?`,
+            replies: says(context, lines(onCompromise, revision, "compromise")),
+            record: `The player suggested they ${revision.label}.`,
+            apply: settle("compromise", onCompromise),
+          },
+        ]
+      : []),
+    {
+      key: "hold",
+      label: "Keep your proposal",
+      description:
+        "Say what worries you about theirs. Nothing is settled by saying it.",
+      statement: theirs.concern
+        ? `I still think we should ${mine.label}. What worries me about the other way is that ${theirs.concern}.`
+        : `I still think we should ${mine.label}.`,
+      replies: says(context, lines(onHold, revision, "hold")),
+      record: `The player kept their own proposal.`,
+      apply: settle("hold", onHold),
+    },
+  ];
+}
+
+const studyPlan: SceneFamilyDefinition = {
+  family: "study-plan",
+  eventType: "conversation.study-plan-turn",
+  setting: "Before the work starts",
+  socialContext: "Two people who agreed to work together, deciding how.",
+  motivation: "Settle how the shared work gets done.",
+  interactionTags: ["conversation.study", "relationship.shared-work"],
+  topic: (binding) =>
+    `How to do the work with ${binding.facts.peerGiven ?? "somebody"}`,
+  briefing(context) {
+    return context.binding.variant === "proposal"
+      ? `${context.fullName} agreed to work with you. Neither of you has said how yet.`
+      : `${context.fullName} wants a different approach from the one you proposed. Nothing has been settled, and neither of you has to give way.`;
+  },
+  opening(context) {
+    if (context.binding.variant === "proposal") {
+      return says(context, [
+        "“So how do you want to go about it?” {name} asks.",
+        "“Before we start — how do you want to do this?” {name} says.",
+      ]);
+    }
+    const theirs = context.has("theirApproach")
+      ? context.fact("theirApproach")
+      : "their own approach";
+    const ours = context.has("myApproach")
+      ? context.fact("myApproach")
+      : "yours";
+    return says(context, [
+      `{name} wants to ${theirs}. You had said you would ${ours}. Neither of you has moved.`,
+      `“I understand what you’re suggesting,” {name} says. “I still think we should ${theirs}.”`,
+    ]);
+  },
+  answers: studyPlanAnswers,
+  settled(context, answer) {
+    const lines: Record<string, string> = {
+      compare: "“Think about it and tell me,” {name} says.",
+      compromise: "“We’ll speak again,” {name} says.",
+      hold: "“We’ll speak again,” {name} says.",
+    };
+    return fill(lines[answer ?? ""] ?? "“Okay,” {name} says.", {
+      name: context.name,
+    });
+  },
+  relevant: (world, bound) => {
+    const player = bound.binding.playerPersonId;
+    const peer = bound.binding.speakerPersonId;
+    if (studyPlanSettled(world, player, peer)) return false;
+    return bound.binding.variant === "proposal"
+      ? !studyPlanProposals(world, player, peer)
+      : !!studyPlanProposals(world, player, peer) &&
+          !studyPlanResting(world, player, peer);
+  },
+  room: withoutSpeakerOthers,
+};
+
 export const SCENE_FAMILY_DEFINITIONS: Readonly<
   Record<SceneFamily, SceneFamilyDefinition>
 > = {
@@ -2417,6 +2647,7 @@ export const SCENE_FAMILY_DEFINITIONS: Readonly<
   "staff-followup": staffFollowup,
   "reporter-question": reporterQuestion,
   "study-peer": studyPeer,
+  "study-plan": studyPlan,
 };
 
 /** When a situation stops being offered, counted from a date. */

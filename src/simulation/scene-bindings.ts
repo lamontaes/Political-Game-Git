@@ -32,6 +32,8 @@ export const SCENE_FAMILIES = [
   // CRUNCH47 F47.1: study is its own setting, not a favor with a classroom in
   // it. The education scenes are about people met through shared work.
   "study-peer",
+  // The second education question: having agreed to work together, how.
+  "study-plan",
 ] as const;
 export type SceneFamily = (typeof SCENE_FAMILIES)[number];
 
