@@ -125,7 +125,20 @@ test.describe("A life is played in the room, not on a card", () => {
      * can come apart: a token can take keyboard focus perfectly while every
      * click falls through it to the backdrop.
      */
-    await person.click();
+    /*
+     * By pointer, on the name — which is what a player aims at, and in this
+     * fixture the only thing drawn for them, their art being refused. The
+     * moment panel docks over the room and in a full room it covers somebody's
+     * token whatever dock it picks; the name sits at the figure's feet, below
+     * the panel, and opens the same person.
+     */
+    const personId = (await person.getAttribute("data-testid"))!.replace(
+      "scene-person-",
+      "",
+    );
+    const name = page.getByTestId(`scene-name-${personId}`);
+    await expect(name).toBeVisible();
+    await name.click();
     const menu = page.getByTestId("quick-dossier");
     await expect(menu).toBeVisible();
     await expect(menu.getByTestId("dossier-talk")).toBeVisible();
@@ -140,6 +153,19 @@ test.describe("A life is played in the room, not on a card", () => {
     await expect(person).toBeFocused();
     await page.keyboard.press("Enter");
     await expect(page.getByTestId("quick-dossier")).toBeVisible();
+
+    /*
+     * And the name is not a second stop on the way there. It is a pointer
+     * shortcut to the token that labels it, so it is out of the tab order and
+     * hidden from assistive technology: tabbing on from the token reaches
+     * something else, and the name is never the focused element.
+     */
+    await expect(name).toHaveAttribute("aria-hidden", "true");
+    await expect(name).toHaveAttribute("tabindex", "-1");
+    await page.keyboard.press("Escape");
+    await person.focus();
+    await page.keyboard.press("Tab");
+    await expect(name).not.toBeFocused();
   });
 
   test("advances the life from a choice on the moment panel", async ({
