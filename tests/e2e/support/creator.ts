@@ -258,11 +258,24 @@ export async function enterLife(page: Page): Promise<void> {
  * destination opens the cluster first — the same two moves a player makes.
  */
 export async function openShellMenu(page: Page): Promise<void> {
+  const cluster = page.getByTestId("shell-nav-cluster");
   const flyout = page.getByTestId("shell-nav-flyout");
-  if (!(await flyout.isVisible())) {
-    await page.getByTestId("shell-nav-cluster").click();
-    await expect(flyout).toBeVisible();
+  /*
+   * Whether the menu is open is asked of the cluster, not of the flyout.
+   *
+   * The cluster is always on the page; the flyout exists only while the menu
+   * is open, and the two questions behave differently when it is not there.
+   * `isVisible` on a flyout that has gone answers false at once, so the helper
+   * presses a toggle it may not need to press; every other question put to it
+   * waits for it to come back instead of answering, which is a wait nothing
+   * ends. The cluster's own aria-expanded is the state the shell keeps, it is
+   * always there to be read, and it is what this decides and waits on.
+   */
+  if ((await cluster.getAttribute("aria-expanded")) !== "true") {
+    await cluster.click();
   }
+  await expect(cluster).toHaveAttribute("aria-expanded", "true");
+  await expect(flyout).toBeVisible();
   /*
    * The menu has one submenu level, and a submenu REPLACES the top-level
    * entries rather than sitting beside them. "The menu is open" is therefore

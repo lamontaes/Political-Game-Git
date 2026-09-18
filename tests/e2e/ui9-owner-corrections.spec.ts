@@ -58,9 +58,13 @@ test("UI9-04, UI9-02: a government pins, and Personal has two real destinations"
   );
   await page.getByTestId("municipal-workspace-close").click();
 
-  // UI9-02: the two Personal entries are different destinations.
-  await goTo(page, "nav-group-personal");
-  await page.getByTestId("nav-finances").click();
+  /*
+   * UI9-02: the two Personal entries are different destinations. Each is
+   * reached with the one shared walk rather than by pressing the group and
+   * then the entry by hand, so the menu is never left standing open on a
+   * submenu that the next walk has to climb back out of.
+   */
+  await goTo(page, "nav-finances");
   await expect(page.getByTestId("personal-finances")).toHaveAttribute(
     "data-landed",
     "true",
@@ -70,8 +74,7 @@ test("UI9-04, UI9-02: a government pins, and Personal has two real destinations"
   );
   await page.getByTestId("personal-workspace-close").click();
 
-  await goTo(page, "nav-group-personal");
-  await page.getByTestId("nav-personal").click();
+  await goTo(page, "nav-personal");
   await expect(page.getByTestId("personal-finances")).not.toHaveAttribute(
     "data-landed",
     "true",
