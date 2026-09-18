@@ -1,5 +1,3 @@
-import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
-import { LIFE_PATHS2_HANDLERS } from "../simulation/life-paths2";
 import { useState } from "react";
 import {
   projectEligiblePressAdvisers,
@@ -10,7 +8,6 @@ import {
   producePressAdviserFeedback,
   addSimulationMinutes,
   advanceWorldMinutes,
-  createCampaignElectionTransitionRegistry,
   type HistoricalEvent,
   projectEligiblePressReporters,
   recordPressRequest,
@@ -96,14 +93,13 @@ export function PressPreparationTimeControl({
             aria-describedby="press-quarter-hour-target"
             onClick={() =>
               runner.perform(
-                (current) => {
+                (current, handlers) => {
+                  // The runner's registry carries the player's interruption
+                  // preferences; composing a fresh one here could not see them.
                   const next = advanceWorldMinutes(
                     current,
                     PRESS_PREPARATION_STEP_MINUTES,
-                    composeFutureTransitionHandlerRegistries(
-                      LIFE_PATHS2_HANDLERS,
-                      createCampaignElectionTransitionRegistry(),
-                    ),
+                    handlers,
                   );
                   const elapsed = simulationMinutesBetween(
                     current.currentMoment,
