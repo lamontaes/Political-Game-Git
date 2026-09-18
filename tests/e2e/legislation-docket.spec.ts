@@ -121,6 +121,17 @@ async function wonSeatWithWorkOpen(page: Page) {
   expect(await liveUntilDecided(page)).toBe(true);
   await expect(page.getByTestId("campaign-afterword")).toContainText("won.");
   await openElsewhere(page, "work");
+  // The election result is not office authority: the winner enters the
+  // supported term on its start date, so the shell clock moves week by week
+  // until the legislative office exists, as pr79f does.
+  for (let week = 0; week < 52; week += 1) {
+    if (await page.getByTestId("office-section").isVisible()) break;
+    await page.getByTestId("shell-pass-week").click();
+    await expect(page.getByTestId("shell-pass-week")).not.toHaveAttribute(
+      "aria-busy",
+      "true",
+    );
+  }
   await expect(page.getByTestId("office-section")).toBeVisible();
 }
 
