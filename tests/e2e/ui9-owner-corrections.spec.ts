@@ -104,9 +104,11 @@ test("UI9-06, UI9-07: a child is told why a walk is refused, and what a walk cos
    */
   await goTo(page, "nav-personal");
   const personal = page.getByTestId("personal-workspace");
+  /* The section's own disclosure, not one of the summaries inside it: the
+     panels it holds carry disclosures of their own. */
   await personal
     .getByTestId("personal-life-choices")
-    .locator("summary")
+    .locator(":scope > summary")
     .click();
 
   const scene = personal.getByTestId("opening-life-scene");
