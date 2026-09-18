@@ -1,4 +1,5 @@
 import { makeIsoDate } from "../dates";
+import { addAvailability, type AvailabilityEntry } from "../history-index";
 import { createStableId } from "../ids";
 import type { EntityId, IsoDate, World } from "../types";
 import {
@@ -43,8 +44,41 @@ export function pressHistoryRecords(world: World): readonly PressRecord[] {
   return world.history.pressRecords ?? [];
 }
 
+/**
+ * Below this many records a scan is cheaper than an index that would be
+ * rebuilt more often than it is read. The same threshold, for the same
+ * measured reason, as the life-history index.
+ */
+const INDEX_THRESHOLD = 400;
+
+const PRESS_INDEX = new WeakMap<
+  readonly PressRecord[],
+  Map<EntityId, AvailabilityEntry>
+>();
+
+function pressEntry(
+  world: World,
+  entityId: EntityId,
+): AvailabilityEntry | undefined {
+  const records = pressHistoryRecords(world);
+  if (records.length < INDEX_THRESHOLD) {
+    const found = records.find((record) => record.id === entityId);
+    return found
+      ? { date: found.recordedAt, sequence: found.sequence }
+      : undefined;
+  }
+  let index = PRESS_INDEX.get(records);
+  if (!index) {
+    index = new Map<EntityId, AvailabilityEntry>();
+    for (const record of records)
+      addAvailability(index, record.id, record.recordedAt, record.sequence);
+    PRESS_INDEX.set(records, index);
+  }
+  return index.get(entityId);
+}
+
 export function pressEntityExists(world: World, entityId: EntityId): boolean {
-  return pressHistoryRecords(world).some((record) => record.id === entityId);
+  return pressEntry(world, entityId) !== undefined;
 }
 
 export function pressEntityAvailableAt(
@@ -53,11 +87,11 @@ export function pressEntityAvailableAt(
   asOfDate: IsoDate,
   historySequenceExclusive: number,
 ): boolean {
-  return pressHistoryRecords(world).some(
-    (record) =>
-      record.id === entityId &&
-      record.recordedAt <= asOfDate &&
-      record.sequence < historySequenceExclusive,
+  const entry = pressEntry(world, entityId);
+  return (
+    entry !== undefined &&
+    entry.date <= asOfDate &&
+    entry.sequence < historySequenceExclusive
   );
 }
 
