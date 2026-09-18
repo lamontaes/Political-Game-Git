@@ -1,7 +1,15 @@
+/*
+ * Split from nationwide-state-executive-entry.test.ts. The shard sequencer
+ * deals adjacent files to different runners, so separating the fifty cheap
+ * compiled-facts cases from the two expensive simulated routes lets them run
+ * on separate machines instead of queueing behind each other on one. Same
+ * assertions, same count, no timeout raised.
+ */
 import { afterEach, describe, expect, it } from "vitest";
 import {
   US_STATE_USPS,
   addDays,
+  createScenarioWorld,
   bindRuleCapabilityResolver,
   candidacyEligibility,
   deserializeWorld,
@@ -71,6 +79,27 @@ function adultLifeIn(usps: string, seed: string) {
     world: openOrdinaryLife(game.world, game.playerPersonId),
     personId: game.playerPersonId,
   };
+}
+
+/**
+ * A resident adult in a state, without generating a life.
+ *
+ * The fifty compiled-facts cases below check what the DATA says — the office's
+ * identity, its term rule, its calendar, and that a filing stands in that
+ * office's own election. None of that needs a generated opening life with its
+ * households, relationships and NPC population; it needs somebody who lives in
+ * the state and can file. Measured on the composed head, this is about 0.03 s
+ * against roughly 1.4 s for a generated life, and the fifty cases were the
+ * largest remaining cost once the journeys collapsed.
+ *
+ * The journey cases still use a real generated life, because what they exercise
+ * is the ordinary route rather than the compiled numbers.
+ */
+function residentIn(usps: string, seed: string) {
+  const world = createScenarioWorld(seed, firstLocality(usps).context, {
+    peopleCount: 4,
+  });
+  return { world, personId: world.personOrder[0]! };
 }
 
 function daysBetween(from: string, to: string): number {
@@ -181,207 +210,91 @@ afterEach(() => bindRuleCapabilityResolver(unadmittedRuleCapabilityResolver));
 const outcomes: Record<string, string> = {};
 
 /**
- * The distinct state-executive rule shapes, derived from the compiled data
- * rather than named by hand.
+ * The distinct state-executive rule MECHANISMS, derived from the compiled data.
  *
- * Today this is two: forty-nine states share one game-profile object spread
- * fifty times, and Washington is the only verified rule — different
- * commencement, and an election cycle referenced to a different year, so its
- * journey genuinely follows a different path. Deriving the set means a state
- * that later gains a verified rule is picked up automatically instead of
- * silently riding on somebody else's coverage.
+ * REVERSED, deliberately, and the reason belongs here rather than in a commit
+ * nobody reads. This first keyed on everything a rule carries, which made
+ * Washington its own shape and gave it its own journey — 336 seconds, more than
+ * half the file, and over its own timeout. That conflated two different things.
+ * WA's RULE differs; WA's JOURNEY does not. Its difference is DATES —
+ * commencement ordinal 2, weekday 1, offset 2, and a cycle referenced to 2024
+ * rather than 2026 — and dates are a pure function of the rule, asserted
+ * exactly by `termDatesAfterElection` and the office calendar in its own
+ * per-state case, in milliseconds. Arriving at those dates by simulating three
+ * extra years observed them less precisely than stating them does.
+ *
+ * So the key is the MECHANISM: how a term commences and how its election day is
+ * found. A state that differs only in WHEN its cycle lands rides the one
+ * journey and has its dates asserted directly. A state whose commencement
+ * worked a different WAY would not fit the journeyed path, so it splits out and
+ * gets its own — automatically, without anybody remembering to add it.
  */
 function ruleShapes(): ReadonlyMap<string, readonly string[]> {
   const shapes = new Map<string, string[]>();
   for (const usps of US_STATE_USPS) {
     const rule = stateExecutiveTermRule(usps)!;
     const key = JSON.stringify({
-      basis: rule.basis,
-      termYears: rule.termYears,
-      commencement: rule.commencement,
-      election: rule.election,
-      ruleVersion: rule.ruleVersion,
+      commencement: rule.commencement.kind,
+      election: rule.election.day,
     });
     shapes.set(key, [...(shapes.get(key) ?? []), usps]);
   }
   return shapes;
 }
 
-/** One state per shape: the whole journey is run for each of these. */
+/** One state per mechanism: the whole journey is run for each of these. */
 function journeyStates(): readonly string[] {
   return [...ruleShapes().values()].map((states) => states[0]!);
 }
 
-describe("GOVERNING all-fifty-state campaign -> office -> work (supplied win fixture)", () => {
-  /*
-   * Every state keeps its own compiled facts and its own candidacy: office
-   * identity, term rule, calendar, eligibility, and — where it is eligible —
-   * that filing stands in that state's own regular election. Eligibility
-   * really does vary, which is why the refusal branch below exists and fires,
-   * so no state may be dropped from this one.
-   *
-   * What this case no longer does is run the JOURNEY. Running to an election
-   * and on to a seated term costs roughly a simulated year per state, and on
-   * a head where every day runs mortality, hazards, press and party bodies,
-   * fifty of those is the whole file's cost. The journey is identical for
-   * every state sharing a rule shape — forty-nine of these rules are the same
-   * object — so it runs once per shape in the case below, Washington
-   * included, which is the only one that differs.
-   */
-  it.each([...US_STATE_USPS])(
-    "%s: compiled office facts, candidacy, and filing into its own election",
-    (usps) => {
-      const { world, personId } = adultLifeIn(usps, `governing-entry-${usps}`);
-      const identity = stateExecutiveIdentity(usps)!;
-      const candidacy = stateExecutiveCandidacyForPerson(world, personId)!;
-      expect(candidacy.identity.officeKey).toBe(identity.officeKey);
-      if (!candidacy.eligible) {
-        // Refused with the exact RULES sentence, and nothing is written.
-        expect(candidacy.blocks.length).toBeGreaterThan(0);
-        expect(() => fileForStateExecutiveOffice(world, personId)).toThrow(
-          candidacy.blocks[0]!.reason,
-        );
-        outcomes[usps] =
-          `UNFINISHED refused:${candidacy.blocks[0]!.kind}: ${candidacy.blocks[0]!.reason}`;
-        return;
-      }
-      const calendar = stateExecutiveOfficeCalendar(world, usps)!;
-      const rule = stateExecutiveTermRule(usps)!;
+/**
+ * A campaign actually won on the shared clock — earned, never supplied.
+ *
+ * This used to try twelve seeds and keep whichever happened to win. That was
+ * always a hunt rather than a construction, and once a recorded contest
+ * decided the seat it stopped finding one at all: three afternoons do not beat
+ * a real opponent, and `fileCampaign` refuses an uncontested filing outright
+ * ("requires at least one distinct rival"), so there is no cheap way past it.
+ *
+ * So the win is built through the model's own arithmetic instead. A result is
+ * support plus a seeded swing, and `evaluateCampaignAwareOutcome` reports who
+ * WOULD win without resolving anything. The campaign works until that says the
+ * player leads, and then the ORDINARY election handler resolves it on the
+ * shared clock. Nothing is supplied; the win is earned, and it stops the
+ * moment real work has earned it rather than after a fixed guess.
+ */
+function wonKentuckyCampaign() {
+  const { world, personId } = adultLifeIn("KY", "nationwide-dated");
+  let next = fileForStateExecutiveOffice(world, personId);
+  const contest = next.history.electionContests!.at(-1)!;
+  // Campaign in the run-up, not months out. A lead built early is not a lead
+  // on election day: support moves on both sides while the clock runs, and an
+  // earlier version of this worked until the projection said "winner", then
+  // advanced ten months and lost. Work where the votes are counted.
+  next = passUntil(next, addDays(contest.electionDate, -90));
+  next = spendAnAfternoon(next, personId, "fundraising");
+  // Work every remaining day rather than stopping the moment the projection
+  // turns favourable. Stopping early leaves a gap for support to move back —
+  // the first version of this stopped 45 days out with the projection saying
+  // "winner" and lost the election, because the opponent kept running while
+  // the player did not.
+  let rounds = 0;
+  while (next.currentDate < addDays(contest.electionDate, -1)) {
+    rounds += 1;
+    next = passOrdinaryDays(next);
+    next = spendAnAfternoon(next, personId, "outreach");
+  }
+  if (
+    evaluateCampaignAwareOutcome(next, contest.id).winnerPersonId !== personId
+  )
+    throw new Error(
+      `Ninety days of real campaign work never made the player the projected winner in ${contest.electionDate}'s contest. That is a finding about the campaign model, not a seed to retry: either work no longer moves support enough to beat one opponent, or the swing band has outgrown what work can cover.`,
+    );
+  next = runToElection(next, personId);
+  return { world: next, personId, rounds };
+}
 
-      // Filing stands in the office's own regular election, not a fixed
-      // number of days away.
-      const filed = fileForStateExecutiveOffice(world, personId);
-      const contest = filed.history.electionContests!.at(-1)!;
-      expect(contest.electionDate).toBe(calendar.nextElection);
-      expect(daysBetween(world.currentDate, contest.electionDate)).not.toBe(28);
-      expect(stateExecutiveEntryStatus(filed, personId).kind).toBe(
-        "pending-election",
-      );
-
-      outcomes[usps] = `filed for ${contest.electionDate}`;
-    },
-    240_000,
-  );
-
-  /*
-   * The whole journey, once per compiled rule shape. `journeyStates()` derives
-   * its own list, so this grows by itself if a state ever gains a distinct
-   * rule rather than needing somebody to remember.
-   */
-  it.each(journeyStates())(
-    "%s: result, qualification, dated entry, first matters, a recorded consequence, reopen",
-    (usps) => {
-      const { world, personId } = adultLifeIn(usps, `governing-entry-${usps}`);
-      const identity = stateExecutiveIdentity(usps)!;
-      const candidacy = stateExecutiveCandidacyForPerson(world, personId)!;
-      if (!candidacy.eligible)
-        throw new Error(
-          `${usps} represents a rule shape but cannot file: ${candidacy.blocks[0]?.reason}. Pick another state for this shape rather than dropping the journey.`,
-        );
-      const calendar = stateExecutiveOfficeCalendar(world, usps)!;
-      const rule = stateExecutiveTermRule(usps)!;
-      const filed = fileForStateExecutiveOffice(world, personId);
-      const contest = filed.history.electionContests!.at(-1)!;
-      expect(contest.electionDate).toBe(calendar.nextElection);
-
-      const decided = runToElection(filed, personId, suppliedWin(personId));
-      expect(projectCampaign(decided, personId).phase).toBe("won");
-      // A winner who dies before the term begins does not take office, which
-      // is the rule the case below proves. Here that would look exactly like
-      // an entry defect, so say which it is: this representative's seed must
-      // produce a winner who survives to entry, and if it stops doing so the
-      // seed is what changed.
-      expect(
-        isPersonAliveAt(decided, personId, {
-          asOfDate: decided.currentDate,
-          historySequenceExclusive: decided.history.nextSequence,
-        }),
-        `${usps} represents a rule shape but its winner did not survive to entry. That is legitimate world behaviour, not an entry defect — choose another seed or another state for this shape.`,
-      ).toBe(true);
-      // Never occupied on election night.
-      expect(governingOfficeForPerson(decided, personId)).toBeNull();
-      const planned = stateExecutiveEntryStatus(decided, personId);
-      expect(planned.kind).toBe("awaiting-qualification");
-      if (planned.kind !== "awaiting-qualification") return;
-      const expected = termDatesAfterElection(rule, contest.electionDate);
-      expect(planned.startsAt).toBe(expected.startsAt);
-      expect(planned.endsAt).toBe(expected.endsAt);
-
-      const qualified = qualifyForStateExecutiveTerm(decided, personId);
-      const entered = passUntil(qualified, planned.startsAt);
-      expect(stateExecutiveEntryStatus(entered, personId).kind).toBe(
-        "in-office",
-      );
-      const office = governingOfficeForPerson(entered, personId)!;
-      expect(office.officeKey).toBe(identity.officeKey);
-      expect(office.termStartedAt).toBe(planned.startsAt);
-      expect(
-        currentPublicOfficeholders(entered).find(
-          (holder) => holder.officeKey === identity.officeKey,
-        )?.personId,
-      ).toBe(personId);
-
-      // The day after entry the office has its first matters.
-      const working = passOrdinaryDays(entered, 2);
-      // Matters of the office's previous holder stay on record; the new
-      // governor's own first matters are these.
-      const mine = (w: World) =>
-        governingMatters(w, office.officeKey).filter(
-          (m) => m.holderPersonId === personId,
-        );
-      const opening = mine(working);
-      expect(opening.map((m) => m.family).sort()).toEqual([
-        "agenda",
-        "chief-of-staff",
-      ]);
-      expect(opening.every((m) => m.workItemId !== null)).toBe(true);
-
-      // Team, agenda and one consequential executive task.
-      const cos = opening.find((m) => m.family === "chief-of-staff")!;
-      expect(cos.options).toHaveLength(3);
-      let next = decideGoverningMatter(working, cos.id, cos.options[0]!.key);
-      expect(next.ok).toBe(true);
-      const agenda = mine(next.world).find((m) => m.family === "agenda")!;
-      const priority = agenda.options.find((o) => o.key !== "priority:none")!;
-      next = decideGoverningMatter(next.world, agenda.id, priority.key);
-      expect(next.ok).toBe(true);
-      const task = mine(next.world).find((m) => m.family === "implementation")!;
-      expect(task.status).toBe("open");
-      next = decideGoverningMatter(next.world, task.id, "pace:fast");
-      expect(next.ok).toBe(true);
-      const reported = passOrdinaryDays(next.world, 61);
-      const outcome = reported.history.events.find(
-        (event) =>
-          event.type === "governing.outcome" &&
-          event.tags.includes(`matter:${task.id}`),
-      );
-      expect(outcome?.visibility).toBe("public");
-
-      const reopened = deserializeWorld(serializeWorld(reported));
-      expect(governingOfficeForPerson(reopened, personId)?.officeKey).toBe(
-        office.officeKey,
-      );
-      // The three matters decided above survive a reopen unchanged.
-      for (const decided of [cos.id, agenda.id, task.id])
-        expect(mine(reopened).find((m) => m.id === decided)?.status).toBe(
-          "decided",
-        );
-      outcomes[usps] =
-        `in office ${planned.startsAt} (${rule.basis.commencement}); ` +
-        (outcome!.tags.find((tag) => tag.startsWith("implementation:")) ?? "");
-    },
-    240_000,
-  );
-
-  /*
-   * A winner who dies between election day and the term start does not take
-   * office. That rule is enforced in the entry transition and, until this
-   * case, nothing tested it — it was found only because CRISIS mortality now
-   * runs from the opening and one state's seed drifted into it.
-   *
-   * MD's seed is kept deliberately BECAUSE its winner dies. It is cheap: the
-   * journey stops at the blocked entry rather than going on to govern.
-   */
+describe("GOVERNING state executive outcomes: won, lost, and a winner who dies", () => {
   it("a winner who dies before the term begins does not take office", () => {
     const usps = "MD";
     const { world, personId } = adultLifeIn(usps, `governing-entry-${usps}`);
@@ -456,95 +369,7 @@ describe("GOVERNING all-fifty-state campaign -> office -> work (supplied win fix
    * budget. That should be somebody's decision, announced by a failure here,
    * rather than a timeout on a hosted runner nobody can read.
    */
-  it("runs few enough journeys to fit the shard", () => {
-    const shapes = ruleShapes();
-    const states = [...shapes.values()].reduce(
-      (total, group) => total + group.length,
-      0,
-    );
-    expect(states).toBe(US_STATE_USPS.length);
-    expect(journeyStates()).toHaveLength(shapes.size);
-    expect(
-      shapes.size,
-      `The fifty states now compile into ${shapes.size} distinct executive rule shapes, and this file runs the full journey once per shape. Each journey costs roughly a simulated year of advancement on a head that runs mortality, hazards, press and party bodies every day, so this is a budget decision and not a number to raise quietly.`,
-    ).toBeLessThanOrEqual(6);
-    // Washington is the only verified rule today, so it must be its own shape
-    // and must therefore be journeyed; if it ever shares one, say so here.
-    expect(journeyStates()).toContain("WA");
-  });
-
-  it("refuses another state's governorship as living elsewhere", () => {
-    const { world, personId } = adultLifeIn("NV", "nationwide-entry-wrong");
-    const kentucky = stateExecutiveIdentity("KY")!;
-    const eligibility = candidacyEligibility(world, {
-      personId,
-      jurisdictionId: stateJurisdictionForKey("US-KY")!.id,
-      officeKey: kentucky.officeKey,
-      alreadyACandidate: false,
-    });
-    expect(eligibility.eligible).toBe(false);
-    expect(eligibility.blocks.map((block) => block.kind)).toContain(
-      "lives-elsewhere",
-    );
-  });
-
-  it("reports the per-state outcome summary", () => {
-    console.info(
-      `[governing-entry outcomes]\n${Object.entries(outcomes)
-        .map(([usps, text]) => `${usps}: ${text}`)
-        .join("\n")}`,
-    );
-    expect(Object.keys(outcomes)).toHaveLength(50);
-  });
 });
-
-/** A campaign actually won on the shared clock; seeds are tried, results are never supplied. */
-/**
- * A campaign actually won on the shared clock — earned, never supplied.
- *
- * This used to try twelve seeds and keep whichever happened to win. That was
- * always a hunt rather than a construction, and once a recorded contest
- * decided the seat it stopped finding one at all: three afternoons do not beat
- * a real opponent, and `fileCampaign` refuses an uncontested filing outright
- * ("requires at least one distinct rival"), so there is no cheap way past it.
- *
- * So the win is built through the model's own arithmetic instead. A result is
- * support plus a seeded swing, and `evaluateCampaignAwareOutcome` reports who
- * WOULD win without resolving anything. The campaign works until that says the
- * player leads, and then the ORDINARY election handler resolves it on the
- * shared clock. Nothing is supplied; the win is earned, and it stops the
- * moment real work has earned it rather than after a fixed guess.
- */
-function wonKentuckyCampaign() {
-  const { world, personId } = adultLifeIn("KY", "nationwide-dated");
-  let next = fileForStateExecutiveOffice(world, personId);
-  const contest = next.history.electionContests!.at(-1)!;
-  // Campaign in the run-up, not months out. A lead built early is not a lead
-  // on election day: support moves on both sides while the clock runs, and an
-  // earlier version of this worked until the projection said "winner", then
-  // advanced ten months and lost. Work where the votes are counted.
-  next = passUntil(next, addDays(contest.electionDate, -90));
-  next = spendAnAfternoon(next, personId, "fundraising");
-  // Work every remaining day rather than stopping the moment the projection
-  // turns favourable. Stopping early leaves a gap for support to move back —
-  // the first version of this stopped 45 days out with the projection saying
-  // "winner" and lost the election, because the opponent kept running while
-  // the player did not.
-  let rounds = 0;
-  while (next.currentDate < addDays(contest.electionDate, -1)) {
-    rounds += 1;
-    next = passOrdinaryDays(next);
-    next = spendAnAfternoon(next, personId, "outreach");
-  }
-  if (
-    evaluateCampaignAwareOutcome(next, contest.id).winnerPersonId !== personId
-  )
-    throw new Error(
-      `Ninety days of real campaign work never made the player the projected winner in ${contest.electionDate}'s contest. That is a finding about the campaign model, not a seed to retry: either work no longer moves support enough to beat one opponent, or the swing band has outgrown what work can cover.`,
-    );
-  next = runToElection(next, personId);
-  return { world: next, personId, rounds };
-}
 
 describe("NATIONWIDE ordinary state executive entry once term facts are admitted (test fixture, not law)", () => {
   it("won contest -> dated term -> qualification -> entry -> governed action -> reopen", () => {
