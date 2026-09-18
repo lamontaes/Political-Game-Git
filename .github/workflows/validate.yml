@@ -57,7 +57,23 @@ jobs:
           RELEASE_DECLARATION_BASE="$declaration_base" \
           RELEASE_DECLARATION_HEAD="$VALIDATED_HEAD_SHA" \
           RELEASE_DECLARATION_MODE="$declaration_mode" \
-            npm run validate
+            npm run validate:ci-sharded
+
+      # The unit suite runs in the `unit` shards below. This job records the
+      # whole suite's file list so `validate` can prove the shards partition it.
+      - name: Record the baseline unit suite
+        run: |
+          mkdir -p test-results/unit-baseline
+          npx vitest list --filesOnly > test-results/unit-baseline/files.txt
+          wc -l test-results/unit-baseline/files.txt
+
+      - name: Upload the baseline unit suite
+        uses: actions/upload-artifact@v7
+        with:
+          name: unit-suite-baseline
+          path: test-results/unit-baseline/files.txt
+          if-no-files-found: error
+          retention-days: 14
 
       - name: Record the baseline Playwright suite
         env:
@@ -69,6 +85,61 @@ jobs:
         with:
           name: playwright-suite-baseline
           path: test-results/runs/gha-${{ github.run_id }}-baseline/baseline-inventory.json
+          if-no-files-found: error
+          retention-days: 14
+
+  unit:
+    name: unit
+    runs-on: ubuntu-latest
+    # The composed unit suite passed the single repository job's 45-minute cap
+    # on three consecutive heads (the suite alone took over 42 minutes on the
+    # hosted runner; 17 minutes before the CRUNCH46 lanes joined). Four shards
+    # keep the complete-suite/union contract the browser job already uses
+    # while giving each runner a bounded share; no test is skipped or given
+    # more time, and `validate` refuses a run whose shards do not partition
+    # the whole suite.
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - shard: 1
+            total: 4
+          - shard: 2
+            total: 4
+          - shard: 3
+            total: 4
+          - shard: 4
+            total: 4
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Use Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.13.0
+          cache: npm
+
+      - name: Install deterministic dependencies
+        run: npm ci
+
+      - name: Run unit shard ${{ matrix.shard }} of ${{ matrix.total }}
+        run: |
+          mkdir -p test-results/unit-shards
+          npx vitest run --shard=${{ matrix.shard }}/${{ matrix.total }} \
+            --reporter=default --reporter=json \
+            --outputFile.json=test-results/unit-shards/shard-${{ matrix.shard }}-of-${{ matrix.total }}.json
+
+      - name: Upload this shard's report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: unit-shard-report-${{ matrix.shard }}-of-${{ matrix.total }}
+          path: test-results/unit-shards/shard-${{ matrix.shard }}-of-${{ matrix.total }}.json
           if-no-files-found: error
           retention-days: 14
 
@@ -142,6 +213,7 @@ jobs:
     if: always()
     needs:
       - repository
+      - unit
       - browser
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -154,10 +226,12 @@ jobs:
         run: |
           set -euo pipefail
           repository='${{ needs.repository.result }}'
+          unit='${{ needs.unit.result }}'
           browser='${{ needs.browser.result }}'
           echo "repository=$repository"
+          echo "unit=$unit"
           echo "browser=$browser"
-          if [[ "$repository" != "success" || "$browser" != "success" ]]; then
+          if [[ "$repository" != "success" || "$unit" != "success" || "$browser" != "success" ]]; then
             echo "Aggregate validate succeeds only when every mandatory job succeeded."
             exit 1
           fi
@@ -176,6 +250,21 @@ jobs:
 
       - name: Install deterministic dependencies
         run: npm ci
+
+      - name: Download the baseline unit suite
+        uses: actions/download-artifact@v7
+        with:
+          name: unit-suite-baseline
+          path: /tmp/unit-suite-baseline
+
+      - name: Download unit shard reports
+        uses: actions/download-artifact@v7
+        with:
+          pattern: unit-shard-report-*
+          path: /tmp/unit-shard-reports
+
+      - name: Confirm unit shard union equals the baseline suite
+        run: node --import tsx scripts/dev-lab/assert-unit-shard-union.ts /tmp/unit-suite-baseline/files.txt /tmp/unit-shard-reports
 
       - name: Download the baseline Playwright suite
         uses: actions/download-artifact@v7
