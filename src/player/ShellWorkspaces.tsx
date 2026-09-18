@@ -61,6 +61,10 @@ import {
   playCalendarActivity,
   simulateAuthorizedCalendarActivity,
 } from "../presentation/calendar-time-control";
+import {
+  attendCalendarCampaignLifeActivity,
+  calendarCampaignLifeEntry,
+} from "../presentation/calendar-campaign-life";
 import { previewTimeCommand } from "../presentation/time-command";
 import { venueActivities } from "../presentation/venue-activity";
 import { proseWeekdayDate } from "../presentation/prose-dates";
@@ -490,7 +494,11 @@ export function CalendarWorkspaceSurface({
                     className="pg-calendar-selection"
                     data-testid="calendar-selection"
                   >
-                    <CalendarEntryDetail entry={entry} />
+                    <CalendarEntryDetail
+                      entry={entry}
+                      world={world}
+                      personId={personId}
+                    />
                     {horizon !== "history" ? (
                       <CalendarEventActions
                         selected={entry}
@@ -740,8 +748,27 @@ export function CalendarWorkspaceSurface({
 }
 
 /** What a selected entry is, read-only, before anything can be done to it. */
-function CalendarEntryDetail({ entry }: { readonly entry: CalendarEntry }) {
+function CalendarEntryDetail({
+  entry,
+  world,
+  personId,
+}: {
+  readonly entry: CalendarEntry;
+  readonly world: World;
+  readonly personId: EntityId;
+}) {
   const sameDay = entry.start.date === entry.end.date;
+  /*
+   * What a party or campaign activity came to, once it has been worked. This
+   * only projects — reading a result never records one. An activity whose hold
+   * has passed with nothing recorded shows no outcome here, because there is
+   * none yet; Attend is what records it.
+   */
+  const campaignLife = calendarCampaignLifeEntry(
+    world,
+    personId,
+    entry.activityId,
+  );
   return (
     <dl
       className="pg-calendar-detail"
@@ -774,6 +801,14 @@ function CalendarEntryDetail({ entry }: { readonly entry: CalendarEntry }) {
         {sameDay ? "" : `${proseWeekdayDate(entry.end.date)}, `}
         {formatMinute(entry.end.minuteOfDay)}
       </dd>
+      {campaignLife && campaignLife.outcomeLines.length > 0 ? (
+        <>
+          <dt>How it went</dt>
+          <dd data-testid="calendar-event-outcome">
+            {campaignLife.outcomeLines.join(" ")}
+          </dd>
+        </>
+      ) : null}
     </dl>
   );
 }
@@ -813,11 +848,26 @@ function CalendarEventActions({
   const venue = venueActivities(world, personId).find(
     (candidate) => candidate.activity.id === selected.activityId,
   );
-  const attendNote = venue?.refusal
-    ? venue.refusal
-    : venue?.journey
-      ? `Includes the ${describeInterval(venue.journey.journeyMinutes)} journey to ${selected.locationLabel}. ${venue.journey.costDisclosure}`
-      : null;
+  /*
+   * A party or campaign activity with no scene venue — the phone shift worked
+   * from home — is invisible to the venue route, so Attend used to be able to
+   * say only that it could not be played. One Attend button still, routed to
+   * CAMPAIGN's own writer where the venue route cannot reach. Read-only: this
+   * projects, and records nothing.
+   */
+  const campaignLife = calendarCampaignLifeEntry(
+    world,
+    personId,
+    selected.activityId,
+  );
+  const laneRoute = campaignLife?.needsLaneRoute ? campaignLife : null;
+  const attendNote = laneRoute
+    ? (laneRoute.blockedReason ?? laneRoute.stateLabel)
+    : venue?.refusal
+      ? venue.refusal
+      : venue?.journey
+        ? `Includes the ${describeInterval(venue.journey.journeyMinutes)} journey to ${selected.locationLabel}. ${venue.journey.costDisclosure}`
+        : null;
   const busy = runner.pending || undefined;
   return (
     <div
@@ -861,11 +911,18 @@ function CalendarEventActions({
         type="button"
         className="ui-action"
         data-testid="calendar-play-event"
+        data-route={laneRoute ? "campaign-life" : "venue"}
         aria-disabled={busy}
         onClick={() =>
           runner.perform(
             (current) =>
-              playCalendarActivity(current, personId, selected.activityId),
+              laneRoute
+                ? attendCalendarCampaignLifeActivity(
+                    current,
+                    personId,
+                    selected.activityId,
+                  )
+                : playCalendarActivity(current, personId, selected.activityId),
             onReport,
           )
         }

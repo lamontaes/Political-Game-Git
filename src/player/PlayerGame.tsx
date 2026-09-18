@@ -88,6 +88,7 @@ import { CivilPersonnelPanel } from "./CivilPersonnelPanel";
 import { JudicialOfficeWork } from "./JudicialOfficeWork";
 import { judicialOfficeContexts } from "../simulation/judicial-office-work";
 import { ExecutiveWorkWorkspace } from "./ExecutiveWorkWorkspace";
+import { CampaignLifePanel } from "./CampaignLifePanel";
 import { resolveExecutiveOffice } from "../simulation/executive-work-context";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import {
@@ -3656,7 +3657,7 @@ function renderWorkspace({
           },
         }}
       >
-      {body}
+        {body}
       </GuideHelpProvider>
     </WorkspaceFrame>
   );
@@ -3923,6 +3924,19 @@ function renderWorkspace({
         "parties-workspace",
         <>
           {politicsTabs("parties")}
+          {/*
+            Party and community work reads as party business, so it sits at the
+            top of Politics > Parties, above the chapters it is transacted with.
+            The Campaigns surface mounts the same panel for a candidate who is
+            already running; the two are never on screen together, because
+            renderWorkspace draws one workspace at a time.
+          */}
+          <CampaignLifePanel
+            world={session.world}
+            personId={session.personId}
+            onWorldChange={onWorldChange}
+            transitionHandlers={createCampaignElectionTransitionRegistry()}
+          />
           {chapters.length > 0 ? (
             <>{chapters.map(chapterSurface)}</>
           ) : (
