@@ -77,12 +77,27 @@ function city(seed: string, cash: number) {
   const government = municipalGovernmentForLifePlace(place)!;
   const jurisdictionId = place.context.jurisdiction.id;
   let world = createScenarioWorld(seed, place.context, { peopleCount: 8 });
-  const [mayor, member] = world.personOrder as [EntityId, EntityId];
+  const [manager, mayor, member] = world.personOrder as [
+    EntityId,
+    EntityId,
+    EntityId,
+  ];
   world = { ...world, control: { kind: "person", personId: mayor } };
   world = installMunicipalGovernment(world, {
     governmentKey: government.key,
     jurisdictionId,
     formedAt: world.currentDate,
+  });
+  // This city's compiled record is manager-led, so the officer who administers
+  // the adopted budget is the appointed manager. Seating one is what lets the
+  // fixture commit through GOVERNING's authority rule instead of around it;
+  // committing as the mayor is refused, and refusing is correct.
+  world = seatMunicipalMember(world, {
+    governmentKey: government.key,
+    personId: manager,
+    startedAt: world.currentDate,
+    role: "professional-manager",
+    seatLabel: "Authored test manager",
   });
   world = seatMunicipalMember(world, {
     governmentKey: government.key,
@@ -164,6 +179,7 @@ function city(seed: string, cash: number) {
   }).world;
   return {
     world,
+    manager,
     mayor,
     member,
     operator,
@@ -216,16 +232,23 @@ function commit(
   g: ReturnType<typeof city>,
   alternative: PublicProgramAlternative,
 ) {
+  // The committing officer is the sitting APPLICABLE executive, which in this
+  // city's compiled record is the appointed manager: it is manager-led, so the
+  // manager administers the adopted budget and the mayor does not. Committing
+  // as the mayor is refused, correctly — a mayor title alone is not universal
+  // expenditure authority — so the fixture goes through that precondition
+  // rather than around it. What CHANGE asserts below is unchanged.
   const committed = commitPublicProgram(g.world, {
     appropriationId: g.appropriationId,
     alternative,
-    personId: g.mayor,
+    personId: g.manager,
     office: { kind: "municipal", governmentKey: g.governmentKey },
     recipientOrganizationId: alternative.installments.length
       ? g.operator
       : null,
   });
-  if (!committed.ok) throw new Error("fixture commitment refused");
+  if (!committed.ok)
+    throw new Error(`fixture commitment refused: ${committed.reason}`);
   return committed.world;
 }
 
