@@ -18,7 +18,8 @@ import { passOrdinaryDays } from "./ordinary-life";
 import { addDays } from "../simulation/dates";
 import { serializeWorld, deserializeWorld } from "../simulation/serialization";
 import { assertWorldIntegrity } from "../simulation/world";
-import type { World, EntityId, MeasureStepKey } from "../simulation/types";
+import type { World, EntityId } from "../simulation/types";
+import type { MeasureStepKey } from "../simulation/legislation";
 
 // Supplied recorded-seat boundary only. Filing and enacted appropriation are
 // produced by their ordinary adapters. No public balance or tax law is supplied.
