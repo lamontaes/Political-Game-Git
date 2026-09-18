@@ -84,6 +84,11 @@ import {
   type StoredShellState,
 } from "../presentation/browser-shell-state";
 import { LifePathsPanel } from "./LifePathsPanel";
+/* PEOPLE/PRESS seam mounts (CRUNCH47 B1/B2). */
+import { ChildhoodMomentPanel } from "./ChildhoodMomentPanel";
+import { ContactsPanel } from "./ContactsPanel";
+import { PressSourceDesk } from "./PressSourceDesk";
+import { RecallCardsPanel } from "./RecallCardsPanel";
 import { CivilPersonnelPanel } from "./CivilPersonnelPanel";
 import { JudicialOfficeWork } from "./JudicialOfficeWork";
 import { judicialOfficeContexts } from "../simulation/judicial-office-work";
@@ -3830,6 +3835,23 @@ function renderWorkspace({
             dispatch={dispatch}
           />
           {/*
+            PEOPLE's two reading seams, on the surface People already means:
+            who this life can reach and what is outstanding between them, and
+            what they can be expected to remember. A recall card opens the
+            person through the same `openEntity` everything else uses, so Back
+            returns to the card.
+          */}
+          <ContactsPanel
+            world={session.world}
+            personId={session.personId}
+            onWorldChange={onWorldChange}
+          />
+          <RecallCardsPanel
+            world={session.world}
+            personId={session.personId}
+            onOpenEntity={openEntity}
+          />
+          {/*
             What this life can actually talk about, in the room it is in — as
             ways to START a conversation. They used to be every conversation
             drawn in full, one under another; choosing one now opens it in the
@@ -3869,6 +3891,17 @@ function renderWorkspace({
           />
           <details data-testid="personal-life-choices">
             <summary>Your day, choices and pending favors</summary>
+            {/*
+              Childhood is part of the day, not a place to go, so it mounts
+              inside this existing section rather than on a surface of its own.
+              It draws nothing outside the formative years; the producer gates
+              that, and no age logic is decided here.
+            */}
+            <ChildhoodMomentPanel
+              world={session.world}
+              personId={session.personId}
+              onWorldChange={onWorldChange}
+            />
             <LifeScenePanel
               world={session.world}
               playerPersonId={session.personId}
@@ -4001,11 +4034,24 @@ function renderWorkspace({
             />
           }
           press={
-            <PressWorkspace
-              world={session.world}
-              onWorldChange={onWorldChange}
-              onOpenPerson={openPerson}
-            />
+            <>
+              <PressWorkspace
+                world={session.world}
+                onWorldChange={onWorldChange}
+                onOpenPerson={openPerson}
+              />
+              {/*
+                Being a source is press-office business, so it mounts in this
+                separate context and never on the News front page: reading the
+                news and talking to a reporter are different things, and a
+                disclosure control beside the headlines would blur them.
+              */}
+              <PressSourceDesk
+                world={session.world}
+                personId={session.personId}
+                onWorldChange={onWorldChange}
+              />
+            </>
           }
         />,
       );
