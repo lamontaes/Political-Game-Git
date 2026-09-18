@@ -3326,6 +3326,23 @@ function PlayingScreen({
               ) : null}
             </SceneBackdrop>
 
+            {/*
+              The compact panel the room comment above promises. The moment is
+              the room's own narration and its choices, so it belongs over the
+              scene and not inside Personal's "Your day" disclosure, where a
+              merge had left it closed and unreachable. It is mounted once,
+              here. A conversation and the first orientation are full surfaces
+              of their own, so the moment waits behind them rather than
+              talking over them.
+            */}
+            {conversation || showOrientation ? null : (
+              <StoryView
+                session={session}
+                moment={projectStoryMoment(session.world, session.personId)}
+                onWorldChange={onWorldChange}
+              />
+            )}
+
             {selectedDossier ? (
               <QuickDossier
                 world={session.world}
@@ -4122,13 +4139,14 @@ function renderWorkspace({
               onOpenCommitment={(activityId) =>
                 openEntity({ kind: "commitment", id: activityId })
               }
-              onGoTo={(surface) =>
-                dispatch({
-                  type: "go-to-surface",
-                  surface,
-                  ...(surface === "work" ? { section: "office" } : {}),
-                })
-              }
+              /*
+                The same link the standalone Today has, going the same place.
+                This copy forced section: "office", so the one control landed
+                on the whole Work record from Today and on the office half
+                from the Calendar's Today — and a life with no office got the
+                empty half, with its jobs and hiring hidden behind a tab.
+              */
+              onGoTo={(surface) => dispatch({ type: "go-to-surface", surface })}
             />
           }
         />,
@@ -4253,11 +4271,6 @@ function renderWorkspace({
               onTalkTo={(personId) => talkTo(personId)}
               transitionHandlers={createCampaignElectionTransitionRegistry()}
               variant="workspace"
-            />
-            <StoryView
-              session={session}
-              moment={projectStoryMoment(session.world, session.personId)}
-              onWorldChange={onWorldChange}
             />
           </details>
         </>,
