@@ -5,7 +5,7 @@ import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
 import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
 import { daysBetween } from "./dates";
 import { recordWorldEvent } from "./world";
-import type { DecisionConsideration, EntityId, World } from "./types";
+import type { DecisionConsideration, EntityId, IsoDate, World } from "./types";
 
 /**
  * Deciding how to do the work you agreed to do (CRUNCH47 F47.1).
@@ -188,7 +188,7 @@ export function peerStudyApproach(
     throw new Error("There is no agreed collaboration between these two.");
   }
   const withTraits = ensurePeopleTraits(world, [input.peerPersonId]);
-  const considerations: DecisionConsideration[] = traitConsiderations(
+  const considerations: readonly DecisionConsideration[] = traitConsiderations(
     withTraits,
     input.peerPersonId,
     `study-plan:${collaborationId}`,
@@ -515,7 +515,7 @@ export function decideStudyPlanOutcome(
   }
   const withTraits = ensurePeopleTraits(world, [input.peerPersonId]);
   const basis = `study-plan-answer:${input.personId}:${input.answer}`;
-  const considerations: DecisionConsideration[] = traitConsiderations(
+  const considerations: readonly DecisionConsideration[] = traitConsiderations(
     withTraits,
     input.peerPersonId,
     basis,
@@ -757,7 +757,7 @@ export function studyPlanLeftOpenOn(
   world: World,
   personId: EntityId,
   peerPersonId: EntityId,
-): string | null {
+): IsoDate | null {
   return (
     [...world.history.events]
       .reverse()
