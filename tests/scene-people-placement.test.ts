@@ -7,7 +7,8 @@ import {
 } from "../src/presentation/scene-registry";
 import { createNewGameWorld } from "../src/presentation/new-game";
 import type { ScenePerson } from "../src/presentation/life-story";
-import type { EntityId, NewGameSetup } from "../src/simulation";
+import type { EntityId } from "../src/simulation";
+import type { NewGameSetup } from "../src/presentation/new-game";
 
 /**
  * Standing the generated people in the room (Packet 88+ scene-first shell).

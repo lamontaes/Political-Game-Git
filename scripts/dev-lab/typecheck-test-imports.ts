@@ -44,19 +44,23 @@ const node = project("tsconfig.node.json");
 // Every test under src/ that neither project's include/exclude globs reach.
 // Counted, not assumed: a new top-level src directory inherits the gap.
 const covered = new Set([...app.fileNames, ...node.fileNames]);
-const testFiles = ts.sys
-  .readDirectory(resolve(root, "src"), [".ts", ".tsx"], undefined, [
+const testFiles = [
+  ...ts.sys.readDirectory(resolve(root, "src"), [".ts", ".tsx"], undefined, [
     "**/*.test.ts",
     "**/*.test.tsx",
-  ])
-  .filter((file) => !covered.has(file));
+  ]),
+  // Root-level tests outside the directories tsconfig.node.json names
+  // (tests/e2e, fixtures, release, source) are just as unchecked.
+  ...ts.sys.readDirectory(resolve(root, "tests"), [".ts", ".tsx"], undefined, [
+    "**/*.test.ts",
+    "**/*.test.tsx",
+  ]),
+].filter((file) => !covered.has(file));
 const byDirectory = new Map<string, number>();
 for (const file of testFiles) {
-  const directory = file
-    .slice(root.length + 1)
-    .split("/")
-    .slice(0, 2)
-    .join("/");
+  const parts = file.slice(root.length + 1).split("/");
+  const directory =
+    parts[0] === "tests" ? "tests" : parts.slice(0, 2).join("/");
   byDirectory.set(directory, (byDirectory.get(directory) ?? 0) + 1);
 }
 
