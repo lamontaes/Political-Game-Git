@@ -202,3 +202,87 @@ remaining candidate is validating once at the boundary of a composite command
 rather than at every nested transition; that changes when the integrity
 contract fires, so it is a LIVE QUESTIONS item and not an implementation
 decision.
+
+## D1 — an office's positions, and who sits on its committees
+
+Two shortcuts closed. Both are written and typecheck; neither is tested yet, so
+neither is claimed as working. (Host was held for A's browser verification.)
+
+**Staff at seating.** An office's positions are now authorized when the office
+is seated, whether or not anybody is hired into them. Three positions, each one
+the game can exercise — chief of staff, legislative director, constituent
+services — because a staffing table longer than the game can use would be
+decoration.
+
+The first attempt put these in the civil personnel domain's own position
+family, and its integrity rule refused every one of them: "must be an authored
+position of an authored state agency." That rule is correct and the reuse was
+the error. A probe confirmed it from the data rather than from reading —
+`us-ky-governor` has `provenance=generated` and classification
+`service:us-ky-governor`, so it is neither authored nor an agency. That family
+models authored civil-service scenarios; it is not a nationwide generated
+staffing substrate. Loosening `charterable` to admit a generated office would
+have weakened a contract that is doing its job, so governing keeps its own
+records — `officeStaffPositions` and `officeStaffIncumbencies` — and still
+reads the personnel domain's boundary for the one fact it does establish.
+
+Worth recording separately: the failure was only visible because the tests ran.
+The design typechecked, read plausibly, and was wrong.
+
+What is sourced and what is not is kept apart in the record itself. WHICH
+positions an office has is `governing-office-staffing/v1`, an authored profile,
+and every position's basis note says so. The civil-service CLASS comes from
+`executiveOfficeStaffBoundary`, which is compiled for Minnesota (unclassified)
+and Alaska (exempt) and for nowhere else; elsewhere the class is recorded
+`unknown` with the reason, not guessed. Neither compiled boundary establishes
+bargaining or agreement coverage, so both stay `unknown` rather than being
+inferred from the class.
+
+This is also what CHANGE's education reconnect needs: an authorized position
+nobody holds is a real opening, readable through `openOfficePositions`, and it
+exists because an office was seated rather than because a job was invented for
+somebody who finished a course.
+
+**Committee rosters.** `committeeMembers(body, size)` returned
+`body.members.slice(0, size)`. That put the same handful of members on every
+committee of a chamber, and it could never seat anybody far down the list — a
+player joining a body is appended to it, so a player was on no committee
+however many committees existed. Replaced by
+`governing-committee-assignment/v1`: committees are dealt from a seeded
+ordering of the chamber so everybody serves before anybody serves twice, a
+committee larger than its chamber seats the chamber once, and the roster is a
+pure function of facts already recorded (the seated body, the compiled
+committee list and its compiled size). It stores nothing, so it cannot drift
+from a save, and `committeesForPerson` answers what the player sits on.
+
+A second thing the probe settled: `currentGoverningOffices` returns only the
+governorships a World has MATERIALIZED, which at opening is one. A test that
+wanted Minnesota and Alaska offices could not have them. The class reading is a
+pure function of the state code and the date, so it is asked about a state
+rather than about an office, and needs no office to exist.
+
+**Still open in D1.** Casework against the constituent-services position, and
+bargaining beyond HB214.
+
+**The MN/MO/NE/OH filing item, stated precisely.** Traced rather than left
+vague. Qualification facts ARE compiled for Minnesota, Missouri, Nebraska,
+Nevada and Ohio — 63 office facts promoted only where the cited first-party
+provision was acquired, hashed and found to contain the transcribed words. What
+is not compiled for any of them is FILING, and `candidacy-packs.ts` says why in
+the rule itself: "The qualification source establishes who may serve, not a
+filing deadline or filing authority." So a player in those states can be told
+who may serve and not how to stand.
+
+Two things follow, and the second changes the item's size:
+
+- No accepted source in the repository states a filing deadline, filing
+  officer, primary, nomination or ballot-access procedure for ANY office. This
+  is an acquisition task — reading and hashing first-party provisions — not a
+  coding task, and nothing may be written toward it that guesses.
+- It is NOT a blocked path. `filing` is display-only: no consumer in
+  `candidacy.ts` gates on it, so an unknown filing rule does not stop a player
+  filing. The dead end is informational, not mechanical.
+
+That makes it lower priority than it read as, and it makes the honest fix
+acquisition rather than code. Recorded so nobody later reads "filing dead end"
+as a bug in the campaign path.
