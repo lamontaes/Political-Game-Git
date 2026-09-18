@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import { proseDate } from "../presentation/prose-dates";
 import type { EntityId } from "../simulation";
 import type {
   PublicInformationPanelItem,
@@ -341,7 +342,12 @@ function PublicInformationArticle({
     >
       <header>
         <p>
-          Event {item.eventTime} · Published {item.publicationTime}
+          Event{" "}
+          <time dateTime={item.eventTime}>{proseDate(item.eventTime)}</time> ·
+          Published{" "}
+          <time dateTime={item.publicationTime}>
+            {proseDate(item.publicationTime)}
+          </time>
           {item.jurisdictionName ? ` · ${item.jurisdictionName}` : ""}
         </p>
         <h3>{item.headline}</h3>

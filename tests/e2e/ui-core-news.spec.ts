@@ -28,13 +28,14 @@ test("normal completed legislative action publishes News with person Back and un
   await enterLife(page);
   await goTo(page, "nav-news");
   await openNewsContext(page, "directory");
-  // A seeded opening already carries published reporting, so the directory
-  // opens with stories rather than the empty line. What each of these cases is
-  // really about is what the player's own action adds to it, which is asserted
-  // where that happens.
+  // A seeded opening carries published reporting, so the directory is not
+  // empty — but it opens on For You, and nothing has been published about this
+  // player yet. That is the honest modern form of what this once asserted:
+  // not "nothing exists" but "nothing about you". The full record stays one
+  // click away under All.
   await expect(page.getByTestId("public-information-empty")).toHaveCount(0);
   await expect(
-    page.locator(".public-information-article").first(),
+    page.getByTestId("public-information-for-you-empty"),
   ).toBeVisible();
   await page
     .getByRole("button", { name: "Close public information" })
@@ -125,13 +126,14 @@ test("legislative staff can preview but cannot file or publish a member bill", a
   expect(await savedWorld(page)).toEqual(before);
   await goTo(page, "nav-news");
   await openNewsContext(page, "directory");
-  // A seeded opening already carries published reporting, so the directory
-  // opens with stories rather than the empty line. What each of these cases is
-  // really about is what the player's own action adds to it, which is asserted
-  // where that happens.
+  // A seeded opening carries published reporting, so the directory is not
+  // empty — but it opens on For You, and nothing has been published about this
+  // player yet. That is the honest modern form of what this once asserted:
+  // not "nothing exists" but "nothing about you". The full record stays one
+  // click away under All.
   await expect(page.getByTestId("public-information-empty")).toHaveCount(0);
   await expect(
-    page.locator(".public-information-article").first(),
+    page.getByTestId("public-information-for-you-empty"),
   ).toBeVisible();
 });
 

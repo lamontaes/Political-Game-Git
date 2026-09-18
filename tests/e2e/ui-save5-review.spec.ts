@@ -111,6 +111,11 @@ test("the rest of the named owner visual set renders on a normal start", async (
   // it requires a member seat, which this journey does not have.
   await goTo(page, "nav-news");
   await openNewsContext(page, "directory");
+  await expect(
+    page.getByTestId("public-information-for-you-empty"),
+  ).toBeVisible();
+  // The full record is under All, and that is where the guarantee is checked.
+  await page.getByTestId("news-view-all").click();
   const articles = page.locator(".public-information-article");
   await expect(articles.first()).toBeVisible();
   for (const article of await articles.all()) {
