@@ -65,7 +65,10 @@ describe("an event that proved once keeps proving", () => {
         // invalid, this throws — which is the failure a suffix proof would
         // silently skip.
         expect(() => assertWorldIntegrity(world)).not.toThrow();
-        checkpoints.push({ day: step * 45, events: world.history.events.length });
+        checkpoints.push({
+          day: step * 45,
+          events: world.history.events.length,
+        });
       }
 
       // The earlier events are not merely still valid, they are untouched:

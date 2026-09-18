@@ -322,7 +322,7 @@ Every read in the events pass is monotone in the SAFE direction:
 - `*AvailableAt(world, id, event.occurredAt, event.sequence)` — the one
   expected to break it, and it does not. `resource-integrity.ts:75` is true iff
   some record with that id has `date <= date` and `sequence <
-  historySequenceExclusive`; both coordinates come from the event and are
+historySequenceExclusive`; both coordinates come from the event and are
   frozen, and the record found is immutable, so no later append can narrow it;
 - `validateEventContext` — jurisdiction existence plus string checks on frozen
   fields.

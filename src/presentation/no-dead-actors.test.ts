@@ -153,7 +153,8 @@ describe("no surface offers a dead person as an actor", () => {
           .map(([name]) => name);
         if (live.length > 0) offered[personId] = live;
       }
-      if (Object.keys(offered).length > 0) console.info(JSON.stringify(offered));
+      if (Object.keys(offered).length > 0)
+        console.info(JSON.stringify(offered));
       expect(offered).toEqual({});
     },
     LONG,

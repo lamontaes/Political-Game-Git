@@ -63,9 +63,8 @@ export function officeStaffPositionProfile(
   classKey: string,
 ): OfficeStaffPositionProfile | null {
   return (
-    OFFICE_STAFF_POSITIONS.find(
-      (position) => position.classKey === classKey,
-    ) ?? null
+    OFFICE_STAFF_POSITIONS.find((position) => position.classKey === classKey) ??
+    null
   );
 }
 
@@ -174,8 +173,7 @@ export function establishOfficeStaffPositions(
     established.push(position.classKey);
     sequence += 1;
   }
-  if (added.length === 0)
-    return { world, established, alreadyAuthorized };
+  if (added.length === 0) return { world, established, alreadyAuthorized };
   const next: World = {
     ...world,
     history: {
@@ -326,10 +324,7 @@ export function recordOfficeStaffIncumbency(
     history: {
       ...world.history,
       nextSequence: world.history.nextSequence + 1,
-      officeStaffIncumbencies: [
-        ...officeStaffIncumbencyRecords(world),
-        record,
-      ],
+      officeStaffIncumbencies: [...officeStaffIncumbencyRecords(world), record],
     },
   };
   assertWorldIntegrity(next);

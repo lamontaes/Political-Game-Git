@@ -17,17 +17,14 @@ import {
   assertWorldIntegrity,
 } from "./world";
 
-const WORLD_SOURCE = join(
-  dirname(fileURLToPath(import.meta.url)),
-  "world.ts",
-);
+const WORLD_SOURCE = join(dirname(fileURLToPath(import.meta.url)), "world.ts");
 
 /** The body of the per-event loop, taken from the source by brace matching. */
 function eventLoopBody(): string {
   const source = readFileSync(WORLD_SOURCE, "utf8");
   const lines = source.split("\n");
-  const start = lines.findIndex((line) =>
-    line === "  for (const event of history.events) {",
+  const start = lines.findIndex(
+    (line) => line === "  for (const event of history.events) {",
   );
   if (start < 0) {
     throw new Error(

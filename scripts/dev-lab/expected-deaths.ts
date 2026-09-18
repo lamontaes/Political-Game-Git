@@ -53,8 +53,7 @@ for (const personId of world.personOrder) {
   // part of the population the rate applied to.
   const age = ageOn(person.birthDate, asOf);
   const category = mortalityCalibrationOf(world, personId as EntityId);
-  const q = (c: "male" | "female") =>
-    Number(ssa2023AnnualProbability(age, c));
+  const q = (c: "male" | "female") => Number(ssa2023AnnualProbability(age, c));
   const probability =
     category === "equal-mixture"
       ? (q("male") + q("female")) / 2

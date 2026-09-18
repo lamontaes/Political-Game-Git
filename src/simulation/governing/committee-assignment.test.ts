@@ -80,12 +80,22 @@ describe("GOVERNING D1: committees have rosters, not the first names on the list
     expect([...seated].sort()).not.toEqual([...slice].sort());
     // And the same seat is reachable by the person who holds it.
     expect(
-      committeesForPerson(body, seatsForAll, "person-last" as EntityId, "pack:house"),
+      committeesForPerson(
+        body,
+        seatsForAll,
+        "person-last" as EntityId,
+        "pack:house",
+      ),
     ).toEqual(
       committeesForMember(body, seatsForAll, last.memberKey, "pack:house"),
     );
     expect(
-      committeesForPerson(body, COMMITTEES, "nobody-here" as EntityId, "pack:house"),
+      committeesForPerson(
+        body,
+        COMMITTEES,
+        "nobody-here" as EntityId,
+        "pack:house",
+      ),
     ).toEqual([]);
   });
 
@@ -126,9 +136,9 @@ describe("GOVERNING D1: committees have rosters, not the first names on the list
       chamberName: "House",
       members: [],
     };
-    expect(committeeRoster(empty, COMMITTEES, "judiciary", "pack:house")).toEqual(
-      [],
-    );
+    expect(
+      committeeRoster(empty, COMMITTEES, "judiciary", "pack:house"),
+    ).toEqual([]);
     expect(
       committeeRoster(chamber(20), COMMITTEES, "not-a-committee", "pack:house"),
     ).toEqual([]);
