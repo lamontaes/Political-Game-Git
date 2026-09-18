@@ -78,12 +78,32 @@
   margin: 0;
   overflow: visible;
 }
+/*
+ * Reset and Begin stay reachable without covering a choice.
+ *
+ * The row is pinned to the bottom of the scrolling panel so Begin is never
+ * off-screen. Pinned at `bottom: -18px` it hung past the panel's edge and its
+ * opaque background sat over the first row of hairstyle cards, so a real
+ * control was hidden behind a bar rather than merely scrolled under it. It now
+ * rests on the panel's own edge, the layout above it reserves the row's
+ * height so the last card can always be scrolled clear, and the scroll
+ * container keeps that much padding when it brings something into view.
+ */
 .kit41-creator .game-setup-actions {
   position: sticky;
-  bottom: -18px;
+  bottom: 0;
   padding: 0.65rem 0;
   background: #142033;
+  box-shadow: 0 -10px 18px -10px rgba(0, 0, 0, 0.75);
   z-index: 2;
+}
+.kit41-creator-layout {
+  padding-bottom: 3.4rem;
+}
+.kit41-creator,
+.title-tableau--art.front-door
+  .game-title.game-creator.game-creator--appearance {
+  scroll-padding-block-end: 4.4rem;
 }
 .kit41-creator .game-setup-actions button {
   width: auto;
@@ -139,9 +159,21 @@
   min-height: 0;
   padding: 6px 16px;
 }
+/*
+ * The standing preview is the point of this step, so give it the column.
+ *
+ * A fixed 400x214 stage left the figure a fraction of a 280px column and a
+ * panel nearly 800px tall: the reviewer measured the drawn person at about
+ * 110x265 with a head around 30px, which is not a preview anybody can judge
+ * an appearance from. The stage now takes the height the panel actually has
+ * and derives its width from the figure's own ratio, and it still never
+ * exceeds the column. How much of the stage the artwork fills is the figure
+ * lane's; this is only how much room it is given.
+ */
 .title-tableau--art.front-door .kit41-creator .wardrobe-figure-stage {
-  height: 400px;
-  width: 214px;
+  height: clamp(320px, 56dvh, 30rem);
+  width: auto;
+  max-width: 100%;
 }
 .title-tableau--art.front-door .kit41-creator-preview .wardrobe-figure p {
   margin: 4px 0;

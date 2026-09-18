@@ -2,6 +2,11 @@ import { useState } from "react";
 import { createRoot } from "react-dom/client";
 import { LifePathsPanel } from "../player/LifePathsPanel";
 import {
+  TimeCommandProvider,
+  useTimeCommandRunner,
+} from "../player/time-command-runner";
+import { DEFAULT_INTERRUPTIONS } from "../presentation/shell-navigation";
+import {
   createDemoWorld,
   createWorld,
   createResourcePosition,
@@ -63,31 +68,47 @@ function initial(): World {
     supersedesGoalStateId: null,
   });
 }
+/*
+  The panel's day control is a caller of the shell's one time command, not a
+  clock of its own: with no runner above it, it states that it is unavailable
+  rather than advancing the World itself. This diagnostic therefore mounts the
+  same runner the play shell mounts, so the proof exercises the real command
+  path instead of a shortcut that only exists here.
+*/
 function Proof() {
   const [world, setWorld] = useState(initial);
+  const commit = (next: World) => {
+    setWorld(next);
+    localStorage.setItem(namespace, serializeWorld(next));
+  };
+  const runner = useTimeCommandRunner({
+    world,
+    personId:
+      world.control.kind === "person"
+        ? world.control.personId
+        : world.personOrder[0]!,
+    interruptions: DEFAULT_INTERRUPTIONS,
+    onWorldChange: commit,
+  });
   return (
-    <main
-      style={{
-        maxWidth: 900,
-        margin: "2rem auto",
-        padding: "1rem",
-        fontFamily: "system-ui",
-      }}
-    >
-      <h1>LIFE-PATHS2 isolated proof</h1>
-      <p>
-        Synthetic proof, separate save. Normal navigation awaits UI-CORE-RELEASE
-        integration.
-      </p>
-      <p data-testid="clock">{world.currentDate}</p>
-      <LifePathsPanel
-        world={world}
-        onWorldChange={(w) => {
-          setWorld(w);
-          localStorage.setItem(namespace, serializeWorld(w));
+    <TimeCommandProvider runner={runner}>
+      <main
+        style={{
+          maxWidth: 900,
+          margin: "2rem auto",
+          padding: "1rem",
+          fontFamily: "system-ui",
         }}
-      />
-    </main>
+      >
+        <h1>LIFE-PATHS2 isolated proof</h1>
+        <p>
+          Synthetic proof, separate save. Normal navigation awaits
+          UI-CORE-RELEASE integration.
+        </p>
+        <p data-testid="clock">{world.currentDate}</p>
+        <LifePathsPanel world={world} onWorldChange={commit} />
+      </main>
+    </TimeCommandProvider>
   );
 }
 createRoot(document.getElementById("root")!).render(<Proof />);

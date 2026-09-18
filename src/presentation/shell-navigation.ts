@@ -284,7 +284,7 @@ export const LEGACY_INTERFACE_PROGRESS: InterfaceProgress = {
 };
 
 export type ShellNavigationLevel =
-  "closed" | "primary" | "personal" | "politics";
+  "closed" | "primary" | "personal" | "politics" | "options";
 
 /**
  * The conversation on the table, wherever the player has browsed to since.
@@ -374,7 +374,7 @@ export type ShellAction =
   | { readonly type: "toggle-navigation" }
   | {
       readonly type: "open-nav-submenu";
-      readonly submenu: "personal" | "politics";
+      readonly submenu: "personal" | "politics" | "options";
     }
   | { readonly type: "open-nav-primary" }
   | { readonly type: "close-navigation" }

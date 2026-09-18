@@ -36,11 +36,8 @@ import {
   workRoleAt,
 } from "../simulation/life-queries";
 import { resourceFlowTermsAt } from "../simulation/resource-queries";
-import {
-  scheduledActivityState,
-  workItemState,
-  advanceWorldMinutes,
-} from "../simulation/time-work";
+import { scheduledActivityState, workItemState } from "../simulation/time-work";
+import { InlineDayControl } from "./controls/InlineDayControl";
 import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
 import {
   studyUsesPeriodModel,
@@ -116,7 +113,8 @@ export function LifePathsPanel({
         region keeps its accessible name either way.
       */}
       {headed ? <h2>Education and work</h2> : null}
-      <p role="status" aria-live="polite">
+      {/* The clock's own report is several lines; keep them as lines. */}
+      <p role="status" aria-live="polite" style={{ whiteSpace: "pre-line" }}>
         {notice}
       </p>
       <CareerPathsPanel
@@ -224,23 +222,28 @@ export function LifePathsPanel({
           );
         },
       )}
+      {/*
+        One clock. This panel used to call `advanceWorldMinutes(world, 1440)`
+        from its own onClick, which skipped the shared command's disclosure,
+        its pending state and its stale-World guard. Every current mount — the
+        shell's "Jobs and study" and "School" sections, `PersonalRoutinePanel`,
+        and the developer proofs `src/ui/LifePaths2Proof.tsx` and
+        `src/ui/EducationPathProof.tsx` — now renders inside a time-command
+        provider. `InlineDayControl` still states why the day is not offered
+        where none is mounted, so a future mount degrades to an honest sentence
+        rather than crashing on a missing runner or starting a clock of its own.
+      */}
       {showTimeControl ? (
-        <button
-          onClick={() => {
-            const next = advanceWorldMinutes(world, 1440, handlers);
-            act(
-              next === world
-                ? {
-                    ok: false,
-                    world,
-                    message: "A calendar commitment must be resolved first.",
-                  }
-                : { ok: true, world: next, message: "One day passed." },
-            );
-          }}
-        >
-          Continue one day
-        </button>
+        <div className="game-choices">
+          <InlineDayControl
+            world={world}
+            personId={actor}
+            label="Continue one day"
+            testid="life-paths-pass-day"
+            onOutcome={setNotice}
+            unavailableNote="Continuing a day is not offered here: this panel is open outside the play shell, which owns the one clock."
+          />
+        </div>
       ) : null}
       <h3>Your paths</h3>
       {world.history.educationEnrollments

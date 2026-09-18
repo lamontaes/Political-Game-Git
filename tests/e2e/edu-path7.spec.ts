@@ -5,7 +5,26 @@ async function continueDays(page: Page, days: number) {
     name: "Continue one day",
     exact: true,
   });
-  for (let i = 0; i < days; i++) await button.click();
+  /*
+    A day is one submission to the shell's time command, and while one runs
+    every control reading that runner is busy and further presses are ignored
+    — that is the double-submission repair. So each day waits for the previous
+    one to finish rather than assuming every click lands.
+
+    Waiting on `aria-busy` alone would race: the attribute reads "false" both
+    before the pending state paints and after the command finishes, so a poll
+    that happened to run early would pass without a day having passed. The
+    disclosed-destination line changes either way — to "Time is passing…"
+    while the command runs, and to the next morning once it lands — so this
+    waits for that line to move before it calls the day done.
+  */
+  const destination = page.locator("#life-paths-pass-day-target");
+  for (let i = 0; i < days; i++) {
+    const before = (await destination.textContent()) ?? "";
+    await button.click();
+    await expect(destination).not.toHaveText(before);
+    await expect(button).toHaveAttribute("aria-busy", "false");
+  }
 }
 
 test("EDU real institution search, explicit offer, period study, interruption and save", async ({

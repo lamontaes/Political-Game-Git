@@ -259,9 +259,45 @@ export async function enterLife(page: Page): Promise<void> {
  */
 export async function openShellMenu(page: Page): Promise<void> {
   const flyout = page.getByTestId("shell-nav-flyout");
-  if (await flyout.isVisible()) return;
-  await page.getByTestId("shell-nav-cluster").click();
-  await expect(flyout).toBeVisible();
+  if (!(await flyout.isVisible())) {
+    await page.getByTestId("shell-nav-cluster").click();
+    await expect(flyout).toBeVisible();
+  }
+  /*
+   * The menu has one submenu level, and a submenu REPLACES the top-level
+   * entries rather than sitting beside them. "The menu is open" is therefore
+   * not enough: a flyout left open on Personal holds no Politics entry at
+   * all, and waiting for one there waits for something the player cannot see
+   * either. Come back up the way a player does, with the menu's own Back.
+   */
+  if ((await flyout.getAttribute("data-level")) === "submenu") {
+    await page.getByTestId("nav-submenu-back").click();
+    await expect(flyout).toHaveAttribute("data-level", "primary");
+  }
+}
+
+/**
+ * Waits for the shell clock to be idle, so the next press is not swallowed.
+ *
+ * The corner Day and Week controls keep focus while a command runs rather than
+ * disabling themselves, and the runner ignores a submit while one is in
+ * flight, so one press can never move the clock twice. A loop that presses
+ * without looking therefore counts days it never advanced. The game already
+ * says when time is passing; that status is what a player waits for, and it
+ * is what this waits for.
+ */
+export async function waitForClockIdle(page: Page): Promise<void> {
+  await expect(page.getByTestId("shell-time-pending")).toHaveCount(0);
+}
+
+/** One press of the corner clock, with the press actually taken. */
+export async function passShellTime(
+  page: Page,
+  unit: "day" | "week" = "day",
+): Promise<void> {
+  await waitForClockIdle(page);
+  await page.getByTestId(`shell-pass-${unit}`).click();
+  await waitForClockIdle(page);
 }
 
 /**
@@ -327,7 +363,9 @@ async function revealShellDestination(page: Page, testid: string) {
   if (await destination.isVisible()) return destination;
   const group = ["nav-finances", "nav-jobs", "nav-personal"].includes(testid)
     ? "personal"
-    : null;
+    : ["nav-guide", "nav-options"].includes(testid)
+      ? "options"
+      : null;
   if (group) {
     const back = page.getByTestId("nav-submenu-back");
     if (await back.isVisible()) await back.click();

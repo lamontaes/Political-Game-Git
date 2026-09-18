@@ -1,5 +1,28 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 import { chooseOption } from "./support/controls";
+
+/*
+  The day is one submission to the shell's time command now, not a direct call
+  into the simulation, so the control is busy until the command finishes and a
+  second press while it runs is ignored. Waiting for that is the honest way to
+  drive it.
+
+  `aria-busy` reads "false" both before the pending state paints and after the
+  command lands, so polling it alone could pass without a day having passed.
+  This proof has the clock on the page, so it waits for the date itself to
+  move and only then for the control to be idle again.
+*/
+async function passOneDay(page: Page) {
+  const day = page.getByRole("button", {
+    name: "Continue one day",
+    exact: true,
+  });
+  const clock = page.getByTestId("clock");
+  const before = (await clock.textContent()) ?? "";
+  await day.click();
+  await expect(clock).not.toHaveText(before);
+  await expect(day).toHaveAttribute("aria-busy", "false");
+}
 test("LIFE-PATHS2 pointer, keyboard, period, interruption and reload proof", async ({
   page,
 }) => {
@@ -51,9 +74,7 @@ test("LIFE-PATHS2 pointer, keyboard, period, interruption and reload proof", asy
       .getByRole("region", { name: "Education and work", exact: true })
       .locator(":scope > [role=status]"),
   ).toContainText("Accepted");
-  await page
-    .getByRole("button", { name: "Continue one day", exact: true })
-    .click();
+  await passOneDay(page);
   await page
     .getByRole("button", { name: "Start engagement", exact: true })
     .focus();
@@ -64,9 +85,7 @@ test("LIFE-PATHS2 pointer, keyboard, period, interruption and reload proof", asy
       .locator(":scope > [role=status]"),
   ).toContainText("started");
   await page.getByRole("button", { name: "Assign work", exact: true }).click();
-  await page
-    .getByRole("button", { name: "Continue one day", exact: true })
-    .click();
+  await passOneDay(page);
   await expect(page.getByText(/Ready for review/)).toBeVisible();
   await page
     .getByRole("button", { name: "End engagement", exact: true })

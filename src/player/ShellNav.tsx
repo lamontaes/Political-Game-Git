@@ -110,7 +110,10 @@ const GROUP_LABELS: Readonly<
   journal: { label: "Journal", hint: "Your private notes and chapters" },
   personal: { label: "Personal", hint: "You, work and study, money" },
   travel: { label: "Travel", hint: "Where you are and where you can go" },
-  options: { label: "Options", hint: "Settings and this build" },
+  options: {
+    label: "Guide and options",
+    hint: "What the words mean, settings and this build",
+  },
 };
 
 const GROUP_ORDER: readonly ShellDestinationGroup[] = [
@@ -196,8 +199,15 @@ const MENU_KEYS: Readonly<Record<string, -1 | 1 | "first" | "last">> = {
 };
 
 /** Which submenu a group opens when it holds several destinations. */
-function submenuFor(group: ShellDestinationGroup): "personal" | "politics" {
-  return group === "politics" ? "politics" : "personal";
+function submenuFor(
+  group: ShellDestinationGroup,
+): "personal" | "politics" | "options" {
+  // The submenu shows the group the player pressed. Folding every group but
+  // Politics into "personal" was how the Guide's arrival silently sent the
+  // Options chip to the Personal list.
+  if (group === "politics") return "politics";
+  if (group === "options") return "options";
+  return "personal";
 }
 
 /**
@@ -298,12 +308,45 @@ export function ShellNav({
    * only by hovering.
    */
   const flyoutRef = useRef<HTMLDivElement>(null);
+  const clusterRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     if (!open) return;
     const first =
       flyoutRef.current?.querySelector<HTMLElement>('[role="menuitem"]');
     first?.focus();
   }, [open, state.navigation]);
+
+  /*
+   * Escape leaves the layer the keyboard is actually in.
+   *
+   * The menu opens over the room and puts the keyboard inside itself, and
+   * there was no way back out of it from the keyboard at all: the only thing
+   * that closed it was clicking the portrait again. From a submenu Escape
+   * goes up one level, which is the same move as its own Back; from the top
+   * level it closes the menu and gives the portrait the focus it took, so
+   * the keyboard is left somewhere rather than nowhere. It is handled on this
+   * element rather than on the document, so Escape anywhere else in the game
+   * still belongs to whatever layer the player is in.
+   */
+  const onNavKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    if (event.key !== "Escape") return;
+    if (state.confirmingLeave) {
+      event.preventDefault();
+      event.stopPropagation();
+      dispatch({ type: "cancel-leave" });
+      clusterRef.current?.focus();
+      return;
+    }
+    if (!open) return;
+    event.preventDefault();
+    event.stopPropagation();
+    if (state.navigation === "primary") {
+      dispatch({ type: "toggle-navigation" });
+      clusterRef.current?.focus();
+      return;
+    }
+    dispatch({ type: "open-nav-primary" });
+  };
 
   const go = (entry: ShellDestination) =>
     dispatch({
@@ -331,12 +374,15 @@ export function ShellNav({
     </button>
   );
 
+  // The open submenu IS the navigation level, for every group that can nest.
+  // Listing the levels by hand is how "options" opened nothing at all once the
+  // Guide gave that group a second member.
   const submenuGroup: ShellDestinationGroup | null =
-    state.navigation === "personal"
-      ? "personal"
-      : state.navigation === "politics"
-        ? "politics"
-        : null;
+    state.navigation === "personal" ||
+    state.navigation === "politics" ||
+    state.navigation === "options"
+      ? state.navigation
+      : null;
 
   const primaryGroups = GROUP_ORDER.flatMap((group) => {
     const entries = destinations.filter((entry) => entry.group === group);
@@ -381,11 +427,13 @@ export function ShellNav({
       aria-label="Time, place and navigation"
       data-state={open ? "open" : raised ? "near" : "rest"}
       data-testid="shell-nav"
+      onKeyDown={onNavKeyDown}
     >
       <div className="pg-nav-row" ref={rowRef}>
         <button
           type="button"
           className="pg-nav-cluster"
+          ref={clusterRef}
           data-testid="shell-nav-cluster"
           aria-expanded={open}
           aria-controls={open ? "pg-nav-flyout" : undefined}
