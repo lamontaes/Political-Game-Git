@@ -10,9 +10,9 @@ needs a person's judgement is the honest state of the check.
 | INVENTORIED | 3166 |
 | INTENTIONALLY_NON_PLAYER_FACING | 7074 |
 | DIAGNOSTIC_OR_TEST | 7603 |
-| **NEEDS_CLASSIFICATION** | **10277** |
+| **NEEDS_CLASSIFICATION** | **10276** |
 
-Scanned 1151 files holding 111784 string
+Scanned 1151 files holding 111782 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -40,7 +40,7 @@ literals in total; the table counts only those that read like a sentence.
 | 222 | `src/presentation/run-b-conversation.ts` |
 | 214 | `src/simulation/executive-authority-rule-packs.ts` |
 | 199 | `src/simulation/legislation-service-families.ts` |
-| 149 | `src/player/PlayerGame.tsx` |
+| 148 | `src/player/PlayerGame.tsx` |
 | 128 | `src/simulation/legislation.ts` |
 | 121 | `src/ui/ArtDeskView.tsx` |
 | 119 | `src/simulation/opening-life-content.ts` |
