@@ -115,6 +115,8 @@ export type EntityKind =
   | "office-briefing-inspection"
   | "office-vote-instruction"
   | "office-workflow-preference"
+  | "office-staff-position"
+  | "office-staff-incumbency"
   | "person"
   | "person-death"
   | "person-functional-capacity"
@@ -3689,6 +3691,8 @@ export interface HistoryStore {
    * person and an office work relationship, never a browser store.
    */
   readonly officeWorkflowPreferences?: readonly OfficeWorkflowPreferenceRecord[];
+  readonly officeStaffPositions?: readonly OfficeStaffPositionRecord[];
+  readonly officeStaffIncumbencies?: readonly OfficeStaffIncumbencyRecord[];
   /**
    * Standing vote instructions for one measure version. Optional on old
    * saves. Not a recorded floor vote.
@@ -4016,6 +4020,52 @@ export type OfficeCaseworkWorkflowMode =
   | "player-handles-all"
   | "staff-routine-player-exceptions"
   | "staff-handles-and-briefs";
+
+/**
+ * An authorized staff position of an elected office.
+ *
+ * WHICH positions an office has is an authored gameplay profile — no acquired
+ * source establishes a staffing table for an elected office — and every record
+ * names the profile it came from. The civil-service CLASS is separate: it is
+ * taken from the civil personnel domain's compiled boundary where one exists
+ * for the state, and recorded `unknown` with the reason where none does.
+ *
+ * These are deliberately NOT the civil personnel domain's own position
+ * records. That family charters positions of authored state agencies; an
+ * elected office generated for one of fifty states is neither authored nor an
+ * agency, and widening its rule to admit one would have weakened a contract
+ * that is doing its job.
+ */
+export interface OfficeStaffPositionRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly officeKey: string;
+  readonly organizationId: EntityId;
+  readonly classKey: string;
+  readonly title: string;
+  /** What the office gets from filling it, in the player's terms. */
+  readonly duty: string;
+  readonly civilClass: PersonnelCivilClass;
+  /** Where the class came from, or why it is unknown. Never empty. */
+  readonly civilClassBasis: string;
+  /** The authored profile that says this office has this position. */
+  readonly profile: string;
+}
+
+/** Which employment fills an authorized position, while that work lasts. */
+export interface OfficeStaffIncumbencyRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly positionId: EntityId;
+  readonly workRelationshipId: EntityId;
+  readonly personId: EntityId;
+  readonly startedAt: IsoDate;
+  readonly note: string;
+}
 
 export interface OfficeWorkflowPreferenceRecord {
   readonly id: EntityId;
