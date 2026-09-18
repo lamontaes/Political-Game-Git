@@ -3680,6 +3680,35 @@ export const EVENT_PROOF_MONOTONE_CHECKS: readonly string[] = [
   "publicInformationEntityAvailableAt",
 ];
 
+/**
+ * The same, for calls the loop makes only where another lane's module is
+ * composed in. They are absent from this tree and present on the receiver, so
+ * the loop cannot be required to call them here — but the suffix proof still
+ * has to have cleared them, because the head that SHIPS is the composed one.
+ *
+ * This list exists because the guard caught its own author: the monotone
+ * argument above was derived on a tree missing PRESS and CRISIS, so it was a
+ * true statement about this branch and an incomplete one about the head that
+ * runs. A declared name the loop does not call cannot make the proof unsound;
+ * a call the list does not name can.
+ */
+export const EVENT_PROOF_MONOTONE_CHECKS_COMPOSED: readonly string[] = [
+  // press/integrity.ts — pressEntry reads one append-only array and returns
+  // the record's frozen recordedAt and sequence. Its index keeps the EARLIEST
+  // entry for an id and never replaces it, so an entry cannot move later and
+  // flip an availability that already passed.
+  "pressEntityExists",
+  "pressEntityAvailableAt",
+  // crisis/records.ts — existence only. Its index is last-wins on a duplicate
+  // id, which would matter for an availability check but cannot affect
+  // presence: an append-only array that contains an id keeps containing it.
+  // NOTE for whoever adds one: crisisEntityAvailableAt is NOT cleared. Its
+  // index is last-wins, so a later record for the same id could carry a later
+  // effectiveAt and turn an availability that passed into one that fails. It
+  // must not enter this loop without being fixed or excluded.
+  "crisisEntityExists",
+];
+
 const JSON_SAFE = new WeakSet<object>();
 
 function assertJsonSafe(

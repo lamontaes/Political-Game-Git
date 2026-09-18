@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -10,7 +10,12 @@ import {
 } from "../presentation/opening-life";
 import { openOrdinaryLife } from "../presentation/ordinary-life";
 import { deserializeWorld, serializeWorld } from "./serialization";
-import { EVENT_PROOF_MONOTONE_CHECKS, assertWorldIntegrity } from "./world";
+import type { EntityId } from "./types";
+import {
+  EVENT_PROOF_MONOTONE_CHECKS,
+  EVENT_PROOF_MONOTONE_CHECKS_COMPOSED,
+  assertWorldIntegrity,
+} from "./world";
 
 const WORLD_SOURCE = join(
   dirname(fileURLToPath(import.meta.url)),
@@ -70,7 +75,10 @@ describe("Q47-006: the events suffix proof cannot go quietly unsound", () => {
    * the memo wrong with no other test failing. This is the test that fails.
    */
   it("calls nothing outside the declared monotone list", () => {
-    const declared = new Set(EVENT_PROOF_MONOTONE_CHECKS);
+    const declared = new Set([
+      ...EVENT_PROOF_MONOTONE_CHECKS,
+      ...EVENT_PROOF_MONOTONE_CHECKS_COMPOSED,
+    ]);
     const undeclared = callsIn(eventLoopBody()).filter(
       (name) => !declared.has(name),
     );
@@ -88,6 +96,36 @@ describe("Q47-006: the events suffix proof cannot go quietly unsound", () => {
       (name) => !called.has(name),
     );
     expect(unused).toEqual([]);
+  });
+
+  /*
+   * "The list is complete" is itself a head-relative claim, and that is how the
+   * gap got in: the monotone argument was written on a tree with no PRESS and
+   * no CRISIS, so it was true here and incomplete on the head that ships.
+   *
+   * A composed name is therefore allowed to be absent from this loop ONLY
+   * while the module it comes from is absent from this tree. Compose that lane
+   * in and the call appears, and the check above covers it; take the call away
+   * for real and this fails rather than leaving a stale name that would wave
+   * some future check through.
+   */
+  it("keeps each cross-lane entry tied to the module it comes from", () => {
+    const called = new Set(callsIn(eventLoopBody()));
+    const sources: Readonly<Record<string, string>> = {
+      pressEntityExists: "press/integrity.ts",
+      pressEntityAvailableAt: "press/integrity.ts",
+      crisisEntityExists: "crisis/records.ts",
+    };
+    const here = dirname(fileURLToPath(import.meta.url));
+    for (const name of EVENT_PROOF_MONOTONE_CHECKS_COMPOSED) {
+      const source = sources[name];
+      expect(source, `${name} declares no source module`).toBeTruthy();
+      const present = existsSync(join(here, source!));
+      expect(
+        called.has(name) || !present,
+        `${name} is declared for composed heads, but ${source} IS in this tree and the loop does not call it. Either the call was removed — in which case drop the entry — or this tree composes that lane differently than the declaration assumes.`,
+      ).toBe(true);
+    }
   });
 
   /*
@@ -168,7 +206,13 @@ describe("Q47-006: the events suffix proof cannot go quietly unsound", () => {
         nextSequence: world.history.nextSequence + 1,
         events: [
           ...world.history.events,
-          { ...last, id: `${last.id}-copy`, sequence: last.sequence + 1 },
+          {
+            ...last,
+            // Branded: a template literal is a plain string, which widens the
+            // element type and stops the whole World matching.
+            id: `${last.id}-copy` as EntityId,
+            sequence: last.sequence + 1,
+          },
         ],
       },
     };

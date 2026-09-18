@@ -343,3 +343,51 @@ question: generated data is cheap (the four largest generated modules are
 214–582ms), and the cost is TypeScript transformation of a large module graph —
 a bare vitest file imports in 12ms against 3.85s for the simulation barrel, of
 which 3.19s is transform. Nothing in the write path can reach it.
+
+## What went wrong with checking, and the rule that came out of it
+
+Five failures in one session, all the same species: a check that reported
+success about something it was not looking at, believed because it was green.
+
+1. `npx tsc --noEmit -p tsconfig.json` run about eight times and reported as
+   evidence to three lanes. `tsconfig.json` here is a solution file —
+   `{"files": [], "references": [...]}` — so without `--build` it typechecks
+   ZERO files and exits 0. Not a weak check; no check. It shipped two type
+   errors (`EntityKind` had no member for either new office-staff kind).
+2. Vitest green treated as covering types. 1,294 passing tests do not
+   typecheck anything.
+3. `tsc -p tsconfig.app.json` reported as "both SHAs typecheck". True, and
+   useless: the app project EXCLUDES test files, so it was aimed away from the
+   file that had just been written. The real gate caught a branded-`EntityId`
+   error in `events-suffix-proof.test.ts`.
+4. A memo design that typechecked and read well and was unsound — a proved
+   prefix LENGTH trusted by position. Its own test killed it.
+5. A confident correction of another lane's measurement, not reproduced on
+   their head. The `.test.tsx` glob reading was right; the count difference was
+   never extensions, it was two different trees.
+
+**Which directory a file sits in decided whether tonight's bug was found.**
+`events-suffix-proof.test.ts` is in `src/simulation`, which the node project
+covers, so the gate caught it. The identical file in `src/presentation` — 241
+test files no project covers on the receiver head — would have passed silently,
+and a test written to protect the repair would have been sitting inside a file
+nothing typechecks.
+
+**Rules adopted.**
+
+- Name the project. Never say "it typechecks" without saying which config, and
+  prefer `npm run typecheck`, which is the gate.
+- Cite the symbol AND the head. A line number is true in one workspace; so is a
+  COUNT. 230 and 268 were both correct measurements of different trees, and
+  three messages went into debugging compiler semantics that were never in
+  dispute. A SHA beside each number would have dissolved it on sight. This
+  applies to record counts, timings and test totals, not only file counts.
+- Measure before correcting somebody else's measurement, on their head.
+- Attach the falsifier. A confident claim with the command that would settle it
+  is a different object from a confident claim: it invites the check instead of
+  closing it off. That is why the count disagreement resolved in ten seconds.
+
+The single failure mode behind all five is reasoning where measuring was
+available. The costume changes every time; what separates a cheap instance from
+an expensive one is not care, it is whether somebody looked before anybody
+acted.

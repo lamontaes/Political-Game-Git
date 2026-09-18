@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import type { SeatedBody } from "../legislation-scenarios";
+import type { EntityId } from "../types";
 import {
   committeeRoster,
   committeeRosters,
@@ -16,7 +17,7 @@ function chamber(size: number): SeatedBody {
     members: Array.from({ length: size }, (_, index) => ({
       memberKey: `member-${index}`,
       name: `Member ${index}`,
-      personId: index === size - 1 ? "person-last" : null,
+      personId: index === size - 1 ? ("person-last" as EntityId) : null,
       caucusLabel: index % 2 === 0 ? "Blue" : "Green",
     })),
   };
@@ -79,12 +80,12 @@ describe("GOVERNING D1: committees have rosters, not the first names on the list
     expect([...seated].sort()).not.toEqual([...slice].sort());
     // And the same seat is reachable by the person who holds it.
     expect(
-      committeesForPerson(body, seatsForAll, "person-last", "pack:house"),
+      committeesForPerson(body, seatsForAll, "person-last" as EntityId, "pack:house"),
     ).toEqual(
       committeesForMember(body, seatsForAll, last.memberKey, "pack:house"),
     );
     expect(
-      committeesForPerson(body, COMMITTEES, "nobody-here", "pack:house"),
+      committeesForPerson(body, COMMITTEES, "nobody-here" as EntityId, "pack:house"),
     ).toEqual([]);
   });
 
