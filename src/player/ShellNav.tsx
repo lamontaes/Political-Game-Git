@@ -110,7 +110,10 @@ const GROUP_LABELS: Readonly<
   journal: { label: "Journal", hint: "Your private notes and chapters" },
   personal: { label: "Personal", hint: "You, work and study, money" },
   travel: { label: "Travel", hint: "Where you are and where you can go" },
-  options: { label: "Options", hint: "Settings and this build" },
+  options: {
+    label: "Guide and options",
+    hint: "What the words mean, settings and this build",
+  },
 };
 
 const GROUP_ORDER: readonly ShellDestinationGroup[] = [
@@ -196,8 +199,15 @@ const MENU_KEYS: Readonly<Record<string, -1 | 1 | "first" | "last">> = {
 };
 
 /** Which submenu a group opens when it holds several destinations. */
-function submenuFor(group: ShellDestinationGroup): "personal" | "politics" {
-  return group === "politics" ? "politics" : "personal";
+function submenuFor(
+  group: ShellDestinationGroup,
+): "personal" | "politics" | "options" {
+  // The submenu shows the group the player pressed. Folding every group but
+  // Politics into "personal" was how the Guide's arrival silently sent the
+  // Options chip to the Personal list.
+  if (group === "politics") return "politics";
+  if (group === "options") return "options";
+  return "personal";
 }
 
 /**

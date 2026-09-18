@@ -358,7 +358,9 @@ async function revealShellDestination(page: Page, testid: string) {
   if (await destination.isVisible()) return destination;
   const group = ["nav-finances", "nav-jobs", "nav-personal"].includes(testid)
     ? "personal"
-    : null;
+    : ["nav-guide", "nav-options"].includes(testid)
+      ? "options"
+      : null;
   if (group) {
     const back = page.getByTestId("nav-submenu-back");
     if (await back.isVisible()) await back.click();
