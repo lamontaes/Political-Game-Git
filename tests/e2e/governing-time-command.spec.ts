@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "./fixtures";
-import { enterLife, goTo, startLife as walkCreator } from "./support/creator";
+import { enterLife, startLife as walkCreator } from "./support/creator";
 
 /**
  * GOVERNING increment 1: the generic "Let time pass" control says where it
@@ -37,12 +37,10 @@ test("the quiet stretch discloses its end date and lands there once", async ({
   await walkCreator(page, { place: "Lexington", state: "Kentucky", age: 41 });
   await expect(page.getByTestId("play-screen")).toBeVisible();
   await enterLife(page);
-  await goTo(page, "nav-personal");
-  const choices = page.getByTestId("personal-life-choices");
-  if (!(await choices.evaluate((node) => (node as HTMLDetailsElement).open)))
-    await choices.locator(":scope > summary").click();
-
+  // The moment is the room's own panel, so this reads it where the player
+  // sees it. It used to open Personal's "Your day" disclosure to reach it.
   const story = page.getByTestId("story-section");
+  await expect(story).toBeVisible();
   for (let step = 0; step < 3; step += 1) {
     const target = page.getByTestId("story-let-time-pass-target");
     await expect(target).toContainText(MONTH_DATE);

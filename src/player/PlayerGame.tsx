@@ -3122,6 +3122,23 @@ function PlayingScreen({
               ) : null}
             </SceneBackdrop>
 
+            {/*
+              The compact panel the room comment above promises. The moment is
+              the room's own narration and its choices, so it belongs over the
+              scene and not inside Personal's "Your day" disclosure, where a
+              merge had left it closed and unreachable. It is mounted once,
+              here. A conversation and the first orientation are full surfaces
+              of their own, so the moment waits behind them rather than
+              talking over them.
+            */}
+            {conversation || showOrientation ? null : (
+              <StoryView
+                session={session}
+                moment={projectStoryMoment(session.world, session.personId)}
+                onWorldChange={onWorldChange}
+              />
+            )}
+
             {selectedDossier ? (
               <QuickDossier
                 world={session.world}
@@ -3874,11 +3891,6 @@ function renderWorkspace({
               onTalkTo={(personId) => talkTo(personId)}
               transitionHandlers={createCampaignElectionTransitionRegistry()}
               variant="workspace"
-            />
-            <StoryView
-              session={session}
-              moment={projectStoryMoment(session.world, session.personId)}
-              onWorldChange={onWorldChange}
             />
           </details>
         </>,
