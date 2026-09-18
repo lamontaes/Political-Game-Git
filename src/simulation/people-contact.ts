@@ -31,6 +31,7 @@ import type {
   FutureTransitionHandlerResult,
   IsoDate,
   World,
+  WorldEvent,
 } from "./types";
 
 /**
@@ -822,6 +823,22 @@ export function lapseStaleProposals(world: World): World {
 
 /** Days between one NPC reaching out and the next one doing so. */
 const REACH_OUT_SPACING_DAYS = 45;
+/**
+ * How long the same person leaves it before asking again.
+ *
+ * Somebody who called in the spring does not call again in the summer to ask
+ * the same thing. The global spacing keeps the player's life from filling up
+ * with invitations; this keeps one person from being the one who fills it.
+ */
+const REACH_OUT_PAIR_SPACING_DAYS = 240;
+/**
+ * After this many unanswered attempts, they stop asking.
+ *
+ * Not a decayed friendship — nothing here decays, and they would still answer
+ * if the player called tomorrow. It is the ordinary fact that people stop
+ * being the one who rings when the ringing is never returned.
+ */
+const REACH_OUT_UNANSWERED_LIMIT = 2;
 /** How far ahead somebody suggests meeting when they call. */
 const REACH_OUT_NOTICE_DAYS = 9;
 
@@ -833,6 +850,65 @@ const REACH_OUT_NOTICE_DAYS = 9;
  * the same way any NPC decision is made, and it happens while ordinary time
  * passes — the player never has to open their page for it to occur.
  */
+/** Proposals this person made to the player, oldest first. */
+function proposalsFrom(
+  world: World,
+  playerPersonId: EntityId,
+  otherPersonId: EntityId,
+): readonly WorldEvent[] {
+  return world.history.events.filter(
+    (event) =>
+      event.type === CONTACT_PROPOSED_EVENT &&
+      event.involvedEntityIds.includes(playerPersonId) &&
+      event.participants.some(
+        (entry) =>
+          entry.role === "agency:asked" && entry.personId === otherPersonId,
+      ),
+  );
+}
+
+/** Whether this same person has asked recently enough to leave it alone. */
+function askedRecently(
+  world: World,
+  playerPersonId: EntityId,
+  otherPersonId: EntityId,
+): boolean {
+  const last = proposalsFrom(world, playerPersonId, otherPersonId).at(-1);
+  return (
+    !!last &&
+    last.occurredAt > addDays(world.currentDate, -REACH_OUT_PAIR_SPACING_DAYS)
+  );
+}
+
+/**
+ * Whether they have stopped being the one who asks.
+ *
+ * Counts only attempts that went unanswered and were never followed by the two
+ * of them actually arranging something, so a person who is answered is never
+ * silenced by their own history.
+ */
+function stoppedAsking(
+  world: World,
+  playerPersonId: EntityId,
+  otherPersonId: EntityId,
+): boolean {
+  const proposals = proposalsFrom(world, playerPersonId, otherPersonId);
+  if (proposals.length < REACH_OUT_UNANSWERED_LIMIT) return false;
+  const answered = world.history.events.some(
+    (event) =>
+      event.type === CONTACT_ACCEPTED_EVENT &&
+      event.involvedEntityIds.includes(playerPersonId) &&
+      event.involvedEntityIds.includes(otherPersonId),
+  );
+  if (answered) return false;
+  const lapsed = proposals.filter((proposal) =>
+    world.history.events.some(
+      (event) => event.stableKey === `contact:${proposal.id}:lapsed`,
+    ),
+  );
+  return lapsed.length >= REACH_OUT_UNANSWERED_LIMIT;
+}
+
 export function produceReachingOut(
   inputWorld: World,
   playerPersonId: EntityId,
@@ -851,6 +927,8 @@ export function produceReachingOut(
     if (basis.gap !== "long-gap" && basis.gap !== "reconnected") continue;
     if (!basis.lastContactOn) continue;
     if (openProposal(world, playerPersonId, basis.personId)) continue;
+    if (askedRecently(world, playerPersonId, basis.personId)) continue;
+    if (stoppedAsking(world, playerPersonId, basis.personId)) continue;
     const withTraits = ensurePeopleTraits(world, [basis.personId]);
     const considerations: DecisionConsideration[] = [
       ...traitConsiderations(

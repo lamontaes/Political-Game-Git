@@ -37,7 +37,7 @@ declare is reported as undeclared rather than filled in from a guess.
 | `life/press-disclosure` | 5 | 0 | 0 | — |
 | `life/recall-cards` | 10 | 0 | 0 | — |
 | `narration/connective` | 43 | 0 | 0 | elapsed-time |
-| `narration/thread-recap` | 32 | 0 | 0 | — |
+| `narration/thread-recap` | 36 | 0 | 0 | — |
 | `ordinary/work-item` | 4 | 0 | 4 | — |
 | `setup/questionnaire` | 618 | 0 | 0 | — |
 | `shell/art-preview` | 2 | 0 | 0 | — |
