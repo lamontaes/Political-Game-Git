@@ -9,6 +9,7 @@ import {
   discloseToReporter,
   mediaOutlets,
   negotiateGroundRules,
+  peopleSpokenWith,
   reporterRoles,
   sourceTermsAttributable,
   sourceTermsPubliclyUsable,
@@ -63,6 +64,14 @@ export interface ReporterContact {
   readonly terms: readonly DisclosureTerms[];
   /** An arrangement these two already have, if any. */
   readonly existingAgreementId: EntityId | null;
+  /**
+   * Whether anything is recorded between these two already.
+   *
+   * Not a condition of talking to them: anybody can write to a newspaper, and
+   * the list is every reporter at every outlet for that reason. This only says
+   * which of them the character has actually met.
+   */
+  readonly knownToYou: boolean;
 }
 
 export interface DisclosureView {
@@ -86,6 +95,7 @@ export function projectDisclosure(
   personId: EntityId,
 ): DisclosureView {
   const agreements = agreementsKnownTo(world, personId);
+  const spokenWith = peopleSpokenWith(world, personId);
   const contacts = mediaOutlets(world).flatMap((outlet) =>
     reporterRoles(world, outlet.id).flatMap((role) => {
       const reporter = world.people[role.personId];
@@ -103,6 +113,7 @@ export function projectDisclosure(
           outletName: outlet.name,
           beats: [...role.beats],
           existingAgreementId: existing?.id ?? null,
+          knownToYou: spokenWith.has(role.personId),
           terms: SOURCE_TERMS.map((terms): DisclosureTerms => {
             const refused =
               terms === "deep-background" && !outlet.acceptsDeepBackground;

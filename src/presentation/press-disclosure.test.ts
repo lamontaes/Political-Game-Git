@@ -1,7 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { assertWorldIntegrity, serializeWorld } from "../simulation";
 import type { EntityId, World } from "../simulation";
-import { agreementsKnownTo, pressRecordsOfKind } from "../simulation/press";
+import {
+  agreementsKnownTo,
+  mediaOutlets,
+  peopleSpokenWith,
+  pressRecordsOfKind,
+  reporterRoles,
+} from "../simulation/press";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife } from "./ordinary-life";
@@ -29,6 +35,30 @@ function life(seed: string) {
 describe("PEOPLE B2: the player's side of a disclosure", () => {
   const { player, world } = life("press-disclose-a");
   const view = projectDisclosure(world, player);
+
+  /**
+   * CRUNCH47, answering A: the list is every reporter at every outlet, because
+   * anybody can write to a newspaper and requiring an acquaintance would model
+   * the world worse. Having met one is a fact shown about them, never a
+   * condition of reaching them.
+   */
+  it("lists every reporter, and says which of them the character has met", () => {
+    expect(view.contacts.length).toBeGreaterThan(0);
+    // Nobody is filtered out for being a stranger.
+    const listed = view.contacts.map((contact) => contact.reporterPersonId);
+    const everyReporter = mediaOutlets(world)
+      .flatMap((outlet) => reporterRoles(world, outlet.id))
+      .map((role) => role.personId)
+      .filter((id) => id !== player);
+    for (const reporterId of everyReporter) {
+      expect(listed).toContain(reporterId);
+    }
+    // The flag is the same fact the desk shows, computed the same way.
+    const spokenWith = peopleSpokenWith(world, player);
+    for (const contact of view.contacts) {
+      expect(contact.knownToYou).toBe(spokenWith.has(contact.reporterPersonId));
+    }
+  });
 
   it("names real reporters and says what each arrangement means", () => {
     expect(view.contacts.length).toBeGreaterThan(0);

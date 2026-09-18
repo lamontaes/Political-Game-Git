@@ -109,15 +109,29 @@ export interface PressDeskView {
   };
 }
 
-export function projectPressDesk(
+/**
+ * Everybody this person has anything recorded between them and.
+ *
+ * One definition, because two surfaces answer "have you spoken to them" — the
+ * desk and the disclosure list — and two copies of this would drift into two
+ * different answers to the same question.
+ */
+export function peopleSpokenWith(
   world: World,
   personId: EntityId,
-): PressDeskView {
-  const contacts = new Set(
+): ReadonlySet<EntityId> {
+  return new Set(
     world.history.relationshipInteractions
       .filter((interaction) => interaction.personIds.includes(personId))
       .flatMap((interaction) => interaction.personIds),
   );
+}
+
+export function projectPressDesk(
+  world: World,
+  personId: EntityId,
+): PressDeskView {
+  const contacts = peopleSpokenWith(world, personId);
   const outlets = mediaOutlets(world).map((outlet) => ({
     outletId: outlet.id,
     outletKey: `media:${outlet.id}`,

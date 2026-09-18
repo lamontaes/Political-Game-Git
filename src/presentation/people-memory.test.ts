@@ -92,8 +92,16 @@ function toRecalledRequest(seed: string, answer: "decline" | "agree") {
   return { player, answered, later, request: asked };
 }
 
+/**
+ * Built once for the whole file. This walks real months of simulated time, and
+ * it used to be built twice with identical arguments — once per describe —
+ * which vitest counts under `import` rather than `tests`, because work at
+ * describe scope happens during collection.
+ */
+const declinedRequest = toRecalledRequest("people-memory-a", "decline");
+
 describe("PEOPLE P4: a request raised again", () => {
-  const declined = toRecalledRequest("people-memory-a", "decline");
+  const declined = declinedRequest;
 
   it("comes back only because the person who asked raised it", () => {
     expect(variantOf(declined.later, declined.player)).toBe("recalled");
@@ -217,7 +225,7 @@ describe("PEOPLE P4: a request raised again", () => {
 });
 
 describe("PEOPLE P4: recall cards", () => {
-  const declined = toRecalledRequest("people-memory-a", "decline");
+  const declined = declinedRequest;
 
   it("summarize the request and what was said, each with its own record", () => {
     const answered = say(
