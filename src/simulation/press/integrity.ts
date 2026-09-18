@@ -48,6 +48,13 @@ export function pressHistoryRecords(world: World): readonly PressRecord[] {
  * Below this many records a scan is cheaper than an index that would be
  * rebuilt more often than it is read. The same threshold, for the same
  * measured reason, as the life-history index.
+ *
+ * What makes the index equivalent to the scan it replaced: a press record's id
+ * is a pure function of its stable key, and a duplicate stable key is refused
+ * both at the append boundary and again by validatePressRecords below. One id
+ * is therefore one record, so keeping the first entry keeps the only entry.
+ * If press records ever gain non-unique ids, or are ever appended in place,
+ * this diverges from a scan silently — no error, just a wrong answer.
  */
 const INDEX_THRESHOLD = 400;
 
