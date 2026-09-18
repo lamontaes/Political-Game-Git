@@ -2,7 +2,7 @@
   "counts": {
     "INVENTORIED": 3166,
     "INTENTIONALLY_NON_PLAYER_FACING": 7074,
-    "DIAGNOSTIC_OR_TEST": 7605,
+    "DIAGNOSTIC_OR_TEST": 7608,
     "NEEDS_CLASSIFICATION": 10277
   },
   "needsClassification": [
@@ -86062,7 +86062,7 @@
       "sourcePath": "src/presentation/public-service-conditions.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 16
+      "count": 17
     },
     {
       "sourcePath": "src/presentation/pt3-first-session.test.ts",
@@ -87628,7 +87628,7 @@
       "sourcePath": "src/presentation/congress-continuity.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 2
+      "count": 4
     },
     {
       "sourcePath": "src/presentation/component-masters.ts",
