@@ -23,6 +23,7 @@ import {
   DEFAULT_INTERRUPTIONS,
   type InterruptionPreferences,
 } from "../presentation/shell-navigation";
+import { stoppedEarlyLabel } from "../presentation/time-target-label";
 
 /**
  * Every time control on the player shell submits through here.
@@ -189,6 +190,42 @@ export function TimeCommandProvider({
       {children}
     </TimeCommandContext.Provider>
   );
+}
+
+/**
+ * The shell's runner, or null when this surface is mounted outside the
+ * provider.
+ *
+ * A day control inside a feature panel reads this rather than
+ * `useTimeCommand`: if there is no shared runner there is no one clock to
+ * submit to, and the honest answer is to hide the control and say why instead
+ * of opening a runner of its own on a developer proof page.
+ */
+export function useSharedTimeCommand(): TimeCommandRunner | null {
+  return useContext(TimeCommandContext);
+}
+
+/**
+ * The wording a control shows after the clock answers.
+ *
+ * Panels used to compare two Worlds themselves and print "A calendar
+ * commitment must be resolved first." The runner reports the real reason, and
+ * it names the commitment, so that is what a player reads; the older sentence
+ * stays as the fallback for a report that carries no detail of its own, so the
+ * meaning never goes missing.
+ */
+export const CALENDAR_COMMITMENT_NOTE =
+  "A calendar commitment must be resolved first.";
+
+export function describeTimeCommandReport(report: TimeCommandReport): string {
+  const said = report.outcome.trim();
+  const detail =
+    said === "" || said === "No time passed."
+      ? `${said ? `${said}\n` : ""}${CALENDAR_COMMITMENT_NOTE}`
+      : report.outcome;
+  return report.stoppedEarly && report.target
+    ? `${stoppedEarlyLabel(report.target)}\n${detail}`
+    : detail;
 }
 
 /**

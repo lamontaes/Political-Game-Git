@@ -45,6 +45,121 @@ import {
 import { GameSelect } from "./controls/GameSelect";
 import { proseDate } from "../presentation/prose-dates";
 import { formatMinute } from "../presentation/player-calendar";
+import { simulationMinutesBetween } from "../simulation/dates";
+import {
+  describeInterval,
+  describeTimeTarget,
+  PROTECTED_STOP_NOTE,
+} from "../presentation/time-target-label";
+import {
+  CALENDAR_COMMITMENT_NOTE,
+  useSharedTimeCommand,
+} from "./time-command-runner";
+
+/** The authored step the preparation control offers, disclosed before it runs. */
+const PRESS_PREPARATION_STEP_MINUTES = 15;
+
+/**
+ * Letting preparation time pass, on the one clock.
+ *
+ * The desk used to call `advanceWorldMinutes(world, 15)` straight from its
+ * onClick: no disclosed destination, no pending state, no stale-World check,
+ * and a second press could spend a second quarter hour on top of the first.
+ * A quarter hour is not a whole day, so this is not a `days` command — it goes
+ * through the runner's `perform`, which shares the same pending flag, refuses
+ * a World that moved since this was drawn, and commits through the shell.
+ *
+ * Where no runner is mounted above this desk there is no shared clock to
+ * submit to, so it states why the step is not offered rather than opening a
+ * second clock of its own.
+ */
+export function PressPreparationTimeControl({
+  world,
+}: {
+  readonly world: World;
+}) {
+  const [notice, setNotice] = useState<string | null>(null);
+  const runner = useSharedTimeCommand();
+  return (
+    <div>
+      <p>
+        Preparation progresses as time passes and the assigned adviser’s
+        available capacity.
+      </p>
+      {runner ? (
+        <>
+          <button
+            type="button"
+            data-testid="press-continue-quarter-hour"
+            aria-disabled={runner.pending || undefined}
+            aria-busy={runner.pending}
+            aria-describedby="press-quarter-hour-target"
+            onClick={() =>
+              runner.perform(
+                (current) => {
+                  const next = advanceWorldMinutes(
+                    current,
+                    PRESS_PREPARATION_STEP_MINUTES,
+                    composeFutureTransitionHandlerRegistries(
+                      LIFE_PATHS2_HANDLERS,
+                      createCampaignElectionTransitionRegistry(),
+                    ),
+                  );
+                  const elapsed = simulationMinutesBetween(
+                    current.currentMoment,
+                    next.currentMoment,
+                  );
+                  return {
+                    world: next,
+                    outcome:
+                      elapsed === 0
+                        ? CALENDAR_COMMITMENT_NOTE
+                        : elapsed < PRESS_PREPARATION_STEP_MINUTES
+                          ? `${describeInterval(elapsed)} passed, stopping short of ${describeInterval(
+                              PRESS_PREPARATION_STEP_MINUTES,
+                            )} for something protected. It is now ${describeTimeTarget(
+                              next.currentMoment,
+                            )}.`
+                          : `${describeInterval(elapsed)} passed. It is now ${describeTimeTarget(
+                              next.currentMoment,
+                            )}.`,
+                  };
+                },
+                (report) => setNotice(report.outcome),
+              )
+            }
+          >
+            Continue 15 minutes
+          </button>
+          <p id="press-quarter-hour-target">
+            {runner.pending
+              ? "Time is passing…"
+              : `${describeInterval(PRESS_PREPARATION_STEP_MINUTES)}, to ${describeTimeTarget(
+                  addSimulationMinutes(
+                    world.currentMoment,
+                    PRESS_PREPARATION_STEP_MINUTES,
+                  ),
+                )}. ${PROTECTED_STOP_NOTE}`}
+          </p>
+          {notice && !runner.pending ? (
+            <p
+              role="status"
+              data-testid="press-continue-outcome"
+              style={{ whiteSpace: "pre-line" }}
+            >
+              {notice}
+            </p>
+          ) : null}
+        </>
+      ) : (
+        <p data-testid="press-continue-quarter-hour-unavailable">
+          Letting preparation time pass is not offered here: this desk is open
+          outside the play shell, which owns the one clock.
+        </p>
+      )}
+    </div>
+  );
+}
 
 /** Normal saved-world consumer; arrangements and adviser content remain domain-owned. */
 export function PressWorkspace({
@@ -380,31 +495,7 @@ export function PressWorkspace({
           </ul>
         </section>
       ) : null}
-      {view ? (
-        <div>
-          <p>
-            Preparation progresses as time passes and the assigned adviser’s
-            available capacity.
-          </p>
-          <button
-            type="button"
-            onClick={() =>
-              change(() =>
-                advanceWorldMinutes(
-                  world,
-                  15,
-                  composeFutureTransitionHandlerRegistries(
-                    LIFE_PATHS2_HANDLERS,
-                    createCampaignElectionTransitionRegistry(),
-                  ),
-                ),
-              )
-            }
-          >
-            Continue 15 minutes
-          </button>
-        </div>
-      ) : null}
+      {view ? <PressPreparationTimeControl world={world} /> : null}
       {view ? (
         <PressInterviewPanel
           view={view}

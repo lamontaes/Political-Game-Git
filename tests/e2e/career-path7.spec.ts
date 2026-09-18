@@ -72,8 +72,16 @@ test("normal civilian career offer, keyboard consent, work, resignation and save
   await career
     .getByRole("button", { name: "Wait one day", exact: true })
     .click();
-  await expect(career.getByRole("status")).toHaveText(
-    "Resolve your current calendar commitment before waiting.",
+  /*
+    "Wait one day" submits the shell's one time command now instead of calling
+    the simulation itself, so the refusal is the command's own receipt, which
+    names the commitment rather than saying only that one exists. The two
+    assertions together are what the old single string said: no time passed,
+    and the commitment is why.
+  */
+  await expect(career.getByRole("status")).toContainText("No time passed.");
+  await expect(career.getByRole("status")).toContainText(
+    "resolve this commitment before continuing",
   );
   // The normal start has a real commitment; fulfill it through Day.
   await openElsewhere(page, "day");
@@ -92,7 +100,14 @@ test("normal civilian career offer, keyboard consent, work, resignation and save
   await career
     .getByRole("button", { name: "Wait one day", exact: true })
     .click();
-  await expect(career.getByRole("status")).toHaveText("One day passed.");
+  // The command's receipt reports the clock it actually moved, and this time
+  // nothing stopped it.
+  await expect(career.getByRole("status")).toContainText(
+    /passed \(\d+ minutes\)/,
+  );
+  await expect(career.getByRole("status")).not.toContainText(
+    "resolve this commitment before continuing",
+  );
   await career
     .getByRole("button", { name: "Begin accepted work", exact: true })
     .click();
