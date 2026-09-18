@@ -66,7 +66,27 @@ describe("GOVERNING 3: Congress continues across term boundaries", () => {
     const first = projectCongress(seated)!;
     expect(count(first.house, "no-current-record")).toBe(0);
     expect(count(first.senate, "no-current-record")).toBe(0);
-    expect(count(first.house, "member")).toBe(435);
+    // Every one of the 435 seats is accounted for, and a seat is only vacant
+    // because somebody died AFTER the new Congress was seated — never because
+    // the election failed to fill it. CRISIS mortality runs from the opening,
+    // so members and members-elect do die across these two years; a chamber
+    // that always reads exactly 435 living members would mean the roll was
+    // ignoring them. What must hold is that no vacancy predates the term.
+    const TERM_BEGAN = "2027-01-03";
+    const vacancies = first.house.seats.filter(
+      (seat) => seat.occupant.kind === "vacancy",
+    );
+    expect(count(first.house, "member") + vacancies.length).toBe(435);
+    for (const seat of vacancies) {
+      const occupant = seat.occupant;
+      if (occupant.kind !== "vacancy") throw new Error("filtered above");
+      expect(
+        occupant.since >= TERM_BEGAN,
+        `${seat.seatKey} was vacant from ${occupant.since}, before the term began on ${TERM_BEGAN} — the election did not fill it`,
+      ).toBe(true);
+      // A vacancy names the event that caused it, so it can be explained.
+      expect(occupant.eventId).toBeTruthy();
+    }
     // Some seats change hands and some members return; nobody is extended
     // without an election.
     const changed = first.house.seats.filter(
