@@ -2443,23 +2443,23 @@ const studyPeer: SceneFamilyDefinition = {
   family: "study-peer",
   eventType: "conversation.study-turn",
   setting: "After a class",
-  socialContext: "Two people on the same programme, talking about the work.",
+  socialContext: "Two people on the same program, talking about the work.",
   motivation: "Decide whether to work on the coursework together.",
   interactionTags: ["conversation.study", "relationship.shared-work"],
   topic: (binding) => `Working with ${binding.facts.peerGiven ?? "somebody"}`,
   briefing(context) {
-    const programme = context.has("programName")
+    const program = context.has("programName")
       ? ` on ${context.fact("programName")}`
       : "";
-    return `${context.fullName} is on the same programme${programme}. Nothing has been agreed; answering takes no time, and the work itself would have its own hours.`;
+    return `${context.fullName} is on the same program${program}. Nothing has been agreed; answering takes no time, and the work itself would have its own hours.`;
   },
   opening(context) {
-    const programme = context.has("programName")
+    const program = context.has("programName")
       ? context.fact("programName")
-      : "the programme";
+      : "the program";
     return says(context, [
-      `You recognize {name} from ${programme}. They ask whether you have chosen a project group.`,
-      `{name} catches you after ${programme}. \u201cHave you found anyone to work with yet?\u201d`,
+      `You recognize {name} from ${program}. They ask whether you have chosen a project group.`,
+      `{name} catches you after ${program}. \u201cHave you found anyone to work with yet?\u201d`,
     ]);
   },
   answers: studyPeerAnswers,

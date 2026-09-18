@@ -18,7 +18,7 @@ import type { DecisionConsideration, EntityId, World } from "./types";
  * Education here is a place where people meet, not a second school simulator.
  * What this owns is the decision and the record: whether the other person
  * takes the collaboration on, and what passed between the two of them if they
- * did. The programme, the enrollment and the timetable stay with the education
+ * did. The program, the enrollment and the timetable stay with the education
  * owner; nothing here creates a class, a place in a group or a qualification.
  *
  * The order matters, and the authoring brief is explicit about it: the other
@@ -42,7 +42,7 @@ export interface StudyPeer {
   readonly name: string;
   readonly givenName: string;
   readonly organizationId: EntityId;
-  /** The programme they share, in the record's own words. */
+  /** The program they share, in the record's own words. */
   readonly programName: string;
   /** True when this person already took on shared work with somebody else. */
   readonly committedElsewhere: boolean;
@@ -56,7 +56,7 @@ function alive(world: World, personId: EntityId): boolean {
 }
 
 /**
- * People studying the same programme as this person, right now.
+ * People studying the same program as this person, right now.
  *
  * Read from enrollments, so a classmate is somebody the world actually
  * enrolled, never somebody invented to fill a scene.
@@ -85,7 +85,7 @@ export function studyPeers(
       givenName: world.people[other]!.givenName,
       organizationId,
       programName:
-        organizationProfileAt(world, organizationId)?.name ?? "the programme",
+        organizationProfileAt(world, organizationId)?.name ?? "the program",
       committedElsewhere: hasCollaboration(world, other, personId),
     });
   }

@@ -29,13 +29,13 @@ import { commitConversationTurn } from "./run-b-conversation";
 
 /**
  * CRUNCH47 F47.1: one complete education route, ported from the authored
- * cargo. Somebody on the same programme asks about working together, and what
+ * cargo. Somebody on the same program asks about working together, and what
  * they answer is decided before a word of it is chosen.
  */
 
 /**
- * An adult on a supported programme, enrolled through the accepted route, with
- * one other person on the same programme.
+ * An adult on a supported program, enrolled through the accepted route, with
+ * one other person on the same program.
  *
  * The enrollment is the education owner's own writer; nothing here invents a
  * class. The classmate is enrolled the same way, which is exactly what the
@@ -57,7 +57,7 @@ function studyingLife(seed: string, startAge = 30) {
   return { player, world: entered.world, entered: entered.world !== funded };
 }
 
-/** Puts one other adult on the same programme, through the same writer. */
+/** Puts one other adult on the same program, through the same writer. */
 function withClassmate(
   world: World,
   player: EntityId,
@@ -102,7 +102,7 @@ function say(world: World, player: EntityId, intent: string): World {
   }).world;
 }
 
-describe("F47.1: somebody on your programme", () => {
+describe("F47.1: somebody on your program", () => {
   const life = studyingLife("study-peer-a");
   const player = life.player;
   const classroom = withClassmate(life.world, player, "study-peer-a");
@@ -151,7 +151,7 @@ describe("F47.1: somebody on your programme", () => {
     ).toEqual([]);
   });
 
-  it("opens in the programme's own words and offers the three authored choices", () => {
+  it("opens in the program's own words and offers the three authored choices", () => {
     expect(open(world, player)).toBe(true);
     const view = projectPlayerConversation(world, player, "scene-study-peer")!;
     expect(view.openingLine).toMatch(

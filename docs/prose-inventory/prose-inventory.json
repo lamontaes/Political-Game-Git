@@ -1,5 +1,5 @@
 {
-  "digest": "542e2c2540cd9f37",
+  "digest": "cb6f76e08cd110bf",
   "counts": {
     "total": 3267,
     "byDomain": {
@@ -12799,7 +12799,7 @@
       "surface": "status",
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "sourceSymbol": "studyPeer",
-      "text": "Two people on the same programme, talking about the work.",
+      "text": "Two people on the same program, talking about the work.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -12824,7 +12824,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "90c534a140a0",
+      "textRevision": "c5f25927ac20",
       "contextRevision": "ca7b14b8141d"
     },
     {

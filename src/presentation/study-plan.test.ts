@@ -41,7 +41,7 @@ import { commitConversationTurn } from "./run-b-conversation";
  * that wanting different things is allowed to stay that way.
  */
 
-/** Two adults on the same programme who have agreed to work together. */
+/** Two adults on the same program who have agreed to work together. */
 function collaborators(seed: string) {
   const game = generateOpeningLife(
     prepareOpeningLife({ ...DEFAULT_NEW_GAME_SETUP, seed, startAge: 30 }),
