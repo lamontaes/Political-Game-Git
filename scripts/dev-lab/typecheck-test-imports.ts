@@ -2,9 +2,10 @@ import ts from "typescript";
 import { resolve } from "node:path";
 
 /**
- * Presentation and authoring tests are excluded from both typecheck projects
- * (tsconfig.node.json excludes them; the app project excludes every test), so
- * `npm run typecheck` says nothing about them and vitest does not typecheck.
+ * The app project excludes every test under src, and the node project picks
+ * up tests only for the src directories it names, so tests in any other src
+ * directory (presentation, authoring, player today; any new directory
+ * tomorrow) are typechecked by nothing, and vitest does not typecheck.
  * A test importing a module or member that does not exist on its own branch
  * passed the gate that way on 2026-09-18. Lifting the exclusion outright
  * surfaces 184 pre-existing type errors across those files, so until that is
@@ -20,27 +21,48 @@ const MODULE_RESOLUTION_CODES = new Set([
 ]);
 
 const root = process.cwd();
-const config = ts.getParsedCommandLineOfConfigFile(
-  resolve(root, "tsconfig.node.json"),
-  { noEmit: true, composite: false, incremental: false },
-  {
-    ...ts.sys,
-    onUnRecoverableConfigFileDiagnostic: (diagnostic) => {
-      throw new Error(
-        ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n"),
-      );
-    },
+const host = {
+  ...ts.sys,
+  onUnRecoverableConfigFileDiagnostic: (diagnostic: ts.Diagnostic) => {
+    throw new Error(
+      ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n"),
+    );
   },
-);
-if (!config) throw new Error("tsconfig.node.json could not be read");
+};
+function project(name: string) {
+  const parsed = ts.getParsedCommandLineOfConfigFile(
+    resolve(root, name),
+    { noEmit: true, composite: false, incremental: false },
+    host,
+  );
+  if (!parsed) throw new Error(`${name} could not be read`);
+  return parsed;
+}
+const app = project("tsconfig.app.json");
+const node = project("tsconfig.node.json");
 
-const testFiles = ts.sys.readDirectory(root, [".ts", ".tsx"], undefined, [
-  "src/presentation/**/*.test.ts",
-  "src/authoring/**/*.test.ts",
-]);
+// Every test under src/ that neither project's include/exclude globs reach.
+// Counted, not assumed: a new top-level src directory inherits the gap.
+const covered = new Set([...app.fileNames, ...node.fileNames]);
+const testFiles = ts.sys
+  .readDirectory(resolve(root, "src"), [".ts", ".tsx"], undefined, [
+    "**/*.test.ts",
+    "**/*.test.tsx",
+  ])
+  .filter((file) => !covered.has(file));
+const byDirectory = new Map<string, number>();
+for (const file of testFiles) {
+  const directory = file
+    .slice(root.length + 1)
+    .split("/")
+    .slice(0, 2)
+    .join("/");
+  byDirectory.set(directory, (byDirectory.get(directory) ?? 0) + 1);
+}
+
 const program = ts.createProgram({
   rootNames: testFiles,
-  options: { ...config.options, tsBuildInfoFile: undefined },
+  options: { ...node.options, tsBuildInfoFile: undefined },
 });
 const failures = program
   .getSemanticDiagnostics()
@@ -60,6 +82,6 @@ for (const diagnostic of failures) {
   );
 }
 console.log(
-  `typecheck-test-imports: ${testFiles.length} excluded test files, ${failures.length} unresolved import(s).`,
+  `typecheck-test-imports: ${testFiles.length} test files no typecheck project covers (${[...byDirectory].map(([d, n]) => `${d} ${n}`).join(", ")}), ${failures.length} unresolved import(s).`,
 );
 process.exitCode = failures.length === 0 ? 0 : 1;
