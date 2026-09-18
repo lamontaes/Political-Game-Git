@@ -250,6 +250,14 @@ await chooser.setFiles(filePath);
 await page
   .getByText(/Imported as a new save of the same life/)
   .waitFor({ timeout: 15000 });
+// The confirmation is written before the list re-renders; on the Windows
+// runner a single sample read the old count while the later checks already
+// saw both slots. Wait for the list itself, bounded, rather than sample once.
+await page
+  .getByTestId("save-entry")
+  .nth(beforeCount)
+  .waitFor({ timeout: 15000 })
+  .catch(() => undefined);
 const afterCount = await page.getByTestId("save-entry").count();
 check(
   "transfer: import created a new slot beside the original",
