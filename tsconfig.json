@@ -1,5 +1,9 @@
 {
-  "files": [],
+  // A solution file: the projects below are the real ones, checked by
+  // `npm run typecheck` (tsc -b on both, then the excluded tests' imports).
+  // Running `npx tsc --noEmit` here used to check NOTHING and exit 0; the
+  // guard file makes that command fail instead of reporting an empty pass.
+  "files": ["tooling/root-tsconfig-guard.ts"],
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
