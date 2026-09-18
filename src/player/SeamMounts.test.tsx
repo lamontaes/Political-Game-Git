@@ -102,7 +102,7 @@ describe("Getting in touch", () => {
       .flatMap((contact) =>
         contact.channels.map((channel) => ({ contact, channel })),
       )
-      .filter((pair) => pair.channel.available);
+      .filter((pair) => pair.channel.note === null);
     expect(usable.length).toBeGreaterThan(0);
     for (const { contact, channel } of usable) {
       const id = `contact-channel-${contact.personId}-${channel.kind}`;
@@ -128,14 +128,14 @@ describe("Getting in touch", () => {
       .flatMap((contact) =>
         contact.channels.map((channel) => ({ contact, channel })),
       )
-      .filter((pair) => !pair.channel.available);
+      .filter((pair) => pair.channel.note !== null);
     expect(blocked.length).toBeGreaterThan(0);
     const html = contacts(asked);
     for (const { contact, channel } of blocked) {
       const id = `contact-channel-${contact.personId}-${channel.kind}`;
       expect(html).toContain(`data-testid="${id}"`);
-      expect(channel.unavailableReason).toBeTruthy();
-      expect(html).toContain(channel.unavailableReason!);
+      expect(channel.note).toBeTruthy();
+      expect(html).toContain(channel.note!);
       // Its reason, not a control that would fail if pressed.
       expect(html).not.toContain(`<button type="button" data-testid="${id}"`);
     }
@@ -185,9 +185,9 @@ describe("What you remember", () => {
   it("shows a card with the day said the way a person says it", () => {
     // An ordinary life opens with somebody having asked for something, so
     // there is a real request to remember rather than a built one.
-    expect(recalledRequests(adult.world, adult.personId).length).toBeGreaterThan(
-      0,
-    );
+    expect(
+      recalledRequests(adult.world, adult.personId).length,
+    ).toBeGreaterThan(0);
     const cards = projectRecallCards(adult.world, adult.personId);
     expect(cards.length).toBeGreaterThan(0);
     const html = renderToStaticMarkup(

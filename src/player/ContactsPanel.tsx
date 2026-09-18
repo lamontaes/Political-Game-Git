@@ -183,11 +183,10 @@ function ContactRow({
           <li
             key={channel.kind}
             data-testid={`contact-channel-${contact.personId}-${channel.kind}`}
-            data-available={channel.available ? "true" : "false"}
           >
-            {channel.available
-              ? channel.label
-              : `${channel.label} — ${channel.unavailableReason ?? ""}`}
+            {channel.note
+              ? `${channel.label} — ${channel.note}`
+              : channel.label}
           </li>
         ))}
       </ul>

@@ -122,12 +122,12 @@ Education here is a setting where people meet, not a second school simulator.
 Each authored family is ported one at a time, and only when the records it
 names already exist. What is landed:
 
-| Cargo family        | State                                                                                       |
-| ------------------- | ------------------------------------------------------------------------------------------- |
-| `edu-working-together` | Landed as the `study-peer` family: a real classmate on a real enrollment, the answer decided before the wording, agreement or refusal, and no academic cost for turning it down. |
-| `edu-disagreement`  | Landed as the `study-plan` family, in two variants: each of them says how they would work, and if they want different things, whether either moves. |
-| `edu-time-choice`   | **Not bindable.** See below.                                                                 |
-| `edu-reconnect`     | **Not bindable.** Needs a canonical open position under a real authority. GOVERNING has it noted as a consumer of their committee-and-staff work; nothing is faked in the meantime. |
+| Cargo family           | State                                                                                                                                                                               |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `edu-working-together` | Landed as the `study-peer` family: a real classmate on a real enrollment, the answer decided before the wording, agreement or refusal, and no academic cost for turning it down.    |
+| `edu-disagreement`     | Landed as the `study-plan` family, in two variants: each of them says how they would work, and if they want different things, whether either moves.                                 |
+| `edu-time-choice`      | **Not bindable.** See below.                                                                                                                                                        |
+| `edu-reconnect`        | **Not bindable.** Needs a canonical open position under a real authority. GOVERNING has it noted as a consumer of their committee-and-staff work; nothing is faked in the meantime. |
 
 ### Why `edu-time-choice` is not bound
 

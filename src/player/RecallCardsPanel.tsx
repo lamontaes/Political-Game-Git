@@ -43,8 +43,8 @@ export function RecallCardsPanel({
       <h3 id="recall-cards-title">What you remember</h3>
       {cards.length === 0 ? (
         <p data-testid="recall-cards-empty">
-          Nothing has been asked of you yet, and you have not gone on the
-          record with anybody.
+          Nothing has been asked of you yet, and you have not gone on the record
+          with anybody.
         </p>
       ) : (
         <ul className="pg-recall-list">
