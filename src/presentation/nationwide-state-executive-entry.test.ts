@@ -7,6 +7,8 @@ import {
   searchLifePlaces,
   serializeWorld,
   stateExecutiveIdentity,
+  isPersonAliveAt,
+  recordPersonDeath,
   stateJurisdictionForKey,
   unadmittedRuleCapabilityResolver,
 } from "../simulation";
@@ -172,9 +174,56 @@ afterEach(() => bindRuleCapabilityResolver(unadmittedRuleCapabilityResolver));
 
 const outcomes: Record<string, string> = {};
 
+/**
+ * The distinct state-executive rule shapes, derived from the compiled data
+ * rather than named by hand.
+ *
+ * Today this is two: forty-nine states share one game-profile object spread
+ * fifty times, and Washington is the only verified rule — different
+ * commencement, and an election cycle referenced to a different year, so its
+ * journey genuinely follows a different path. Deriving the set means a state
+ * that later gains a verified rule is picked up automatically instead of
+ * silently riding on somebody else's coverage.
+ */
+function ruleShapes(): ReadonlyMap<string, readonly string[]> {
+  const shapes = new Map<string, string[]>();
+  for (const usps of US_STATE_USPS) {
+    const rule = stateExecutiveTermRule(usps)!;
+    const key = JSON.stringify({
+      basis: rule.basis,
+      termYears: rule.termYears,
+      commencement: rule.commencement,
+      election: rule.election,
+      ruleVersion: rule.ruleVersion,
+    });
+    shapes.set(key, [...(shapes.get(key) ?? []), usps]);
+  }
+  return shapes;
+}
+
+/** One state per shape: the whole journey is run for each of these. */
+function journeyStates(): readonly string[] {
+  return [...ruleShapes().values()].map((states) => states[0]!);
+}
+
 describe("GOVERNING all-fifty-state campaign -> office -> work (supplied win fixture)", () => {
+  /*
+   * Every state keeps its own compiled facts and its own candidacy: office
+   * identity, term rule, calendar, eligibility, and — where it is eligible —
+   * that filing stands in that state's own regular election. Eligibility
+   * really does vary, which is why the refusal branch below exists and fires,
+   * so no state may be dropped from this one.
+   *
+   * What this case no longer does is run the JOURNEY. Running to an election
+   * and on to a seated term costs roughly a simulated year per state, and on
+   * a head where every day runs mortality, hazards, press and party bodies,
+   * fifty of those is the whole file's cost. The journey is identical for
+   * every state sharing a rule shape — forty-nine of these rules are the same
+   * object — so it runs once per shape in the case below, Washington
+   * included, which is the only one that differs.
+   */
   it.each([...US_STATE_USPS])(
-    "%s: cycle filing, result, qualification, dated entry, first matters, a recorded consequence, reopen",
+    "%s: compiled office facts, candidacy, and filing into its own election",
     (usps) => {
       const { world, personId } = adultLifeIn(usps, `governing-entry-${usps}`);
       const identity = stateExecutiveIdentity(usps)!;
@@ -203,8 +252,46 @@ describe("GOVERNING all-fifty-state campaign -> office -> work (supplied win fix
         "pending-election",
       );
 
+      outcomes[usps] = `filed for ${contest.electionDate}`;
+    },
+    240_000,
+  );
+
+  /*
+   * The whole journey, once per compiled rule shape. `journeyStates()` derives
+   * its own list, so this grows by itself if a state ever gains a distinct
+   * rule rather than needing somebody to remember.
+   */
+  it.each(journeyStates())(
+    "%s: result, qualification, dated entry, first matters, a recorded consequence, reopen",
+    (usps) => {
+      const { world, personId } = adultLifeIn(usps, `governing-entry-${usps}`);
+      const identity = stateExecutiveIdentity(usps)!;
+      const candidacy = stateExecutiveCandidacyForPerson(world, personId)!;
+      if (!candidacy.eligible)
+        throw new Error(
+          `${usps} represents a rule shape but cannot file: ${candidacy.blocks[0]?.reason}. Pick another state for this shape rather than dropping the journey.`,
+        );
+      const calendar = stateExecutiveOfficeCalendar(world, usps)!;
+      const rule = stateExecutiveTermRule(usps)!;
+      const filed = fileForStateExecutiveOffice(world, personId);
+      const contest = filed.history.electionContests!.at(-1)!;
+      expect(contest.electionDate).toBe(calendar.nextElection);
+
       const decided = runToElection(filed, personId, suppliedWin(personId));
       expect(projectCampaign(decided, personId).phase).toBe("won");
+      // A winner who dies before the term begins does not take office, which
+      // is the rule the case below proves. Here that would look exactly like
+      // an entry defect, so say which it is: this representative's seed must
+      // produce a winner who survives to entry, and if it stops doing so the
+      // seed is what changed.
+      expect(
+        isPersonAliveAt(decided, personId, {
+          asOfDate: decided.currentDate,
+          historySequenceExclusive: decided.history.nextSequence,
+        }),
+        `${usps} represents a rule shape but its winner did not survive to entry. That is legitimate world behaviour, not an entry defect — choose another seed or another state for this shape.`,
+      ).toBe(true);
       // Never occupied on election night.
       expect(governingOfficeForPerson(decided, personId)).toBeNull();
       const planned = stateExecutiveEntryStatus(decided, personId);
@@ -279,6 +366,93 @@ describe("GOVERNING all-fifty-state campaign -> office -> work (supplied win fix
     },
     240_000,
   );
+
+  /*
+   * A winner who dies between election day and the term start does not take
+   * office. That rule is enforced in the entry transition and, until this
+   * case, nothing tested it — it was found only because CRISIS mortality now
+   * runs from the opening and one state's seed drifted into it.
+   *
+   * MD's seed is kept deliberately BECAUSE its winner dies. It is cheap: the
+   * journey stops at the blocked entry rather than going on to govern.
+   */
+  it("a winner who dies before the term begins does not take office", () => {
+    const usps = "MD";
+    const { world, personId } = adultLifeIn(usps, `governing-entry-${usps}`);
+    const filed = fileForStateExecutiveOffice(world, personId);
+    const decided = runToElection(filed, personId, suppliedWin(personId));
+    expect(projectCampaign(decided, personId).phase).toBe("won");
+    const planned = stateExecutiveEntryStatus(decided, personId);
+    expect(planned.kind).toBe("awaiting-qualification");
+    if (planned.kind !== "awaiting-qualification") return;
+
+    const qualified = qualifyForStateExecutiveTerm(decided, personId);
+
+    // The death is CAUSED here rather than waited for. It was found because a
+    // seed drifted into it once CRISIS mortality ran from the opening, but a
+    // test that depends on another lane's producer only proves the rule on a
+    // head where that lane is composed — and silently proves nothing
+    // anywhere else. Recording it directly proves the rule on every head.
+    const dying = passUntil(qualified, "2026-12-24");
+    const buried = recordPersonDeath(dying, {
+      stableKey: `${usps}:winner-dies-before-entry`,
+      personId,
+      diedAt: dying.currentDate,
+      causeKey: "cause:external-fixture",
+      sourceEntityIds: [dying.id],
+      summary: "The governor-elect died before the term began.",
+      provenance: { kind: "authored", note: "Authored entry-refusal fixture." },
+    });
+    expect(buried.currentDate < planned.startsAt).toBe(true);
+
+    const atStart = passUntil(buried, planned.startsAt);
+    expect(atStart.currentDate).toBe(planned.startsAt);
+    expect(
+      isPersonAliveAt(atStart, personId, {
+        asOfDate: planned.startsAt,
+        historySequenceExclusive: atStart.history.nextSequence,
+      }),
+    ).toBe(false);
+
+    // So the office is not taken up, and the refusal is recorded with a
+    // reason rather than the term quietly failing to appear.
+    expect(stateExecutiveEntryStatus(atStart, personId).kind).toBe(
+      "term-over-or-not-entered",
+    );
+    expect(governingOfficeForPerson(atStart, personId)).toBeNull();
+    const entry = atStart.history.futureDueItems.find(
+      (item) => item.transitionKey === "election:executive-term-entry",
+    );
+    const state = (atStart.history.futureDueItemStates ?? [])
+      .filter((row) => row.dueItemId === entry?.id)
+      .at(-1);
+    expect(state?.status).toBe("blocked");
+    expect(state?.context).toMatch(/not alive/i);
+  }, 240_000);
+
+  /*
+   * The file's runtime rests on there being few rule shapes. If the compiled
+   * data ever fragments — a wave of states gaining verified rules, say — the
+   * journey count rises with it and this file goes back over the shard's
+   * budget. That should be somebody's decision, announced by a failure here,
+   * rather than a timeout on a hosted runner nobody can read.
+   */
+  it("runs few enough journeys to fit the shard", () => {
+    const shapes = ruleShapes();
+    const states = [...shapes.values()].reduce(
+      (total, group) => total + group.length,
+      0,
+    );
+    expect(states).toBe(US_STATE_USPS.length);
+    expect(journeyStates()).toHaveLength(shapes.size);
+    expect(
+      shapes.size,
+      `The fifty states now compile into ${shapes.size} distinct executive rule shapes, and this file runs the full journey once per shape. Each journey costs roughly a simulated year of advancement on a head that runs mortality, hazards, press and party bodies every day, so this is a budget decision and not a number to raise quietly.`,
+    ).toBeLessThanOrEqual(6);
+    // Washington is the only verified rule today, so it must be its own shape
+    // and must therefore be journeyed; if it ever shares one, say so here.
+    expect(journeyStates()).toContain("WA");
+  });
 
   it("refuses another state's governorship as living elsewhere", () => {
     const { world, personId } = adultLifeIn("NV", "nationwide-entry-wrong");
