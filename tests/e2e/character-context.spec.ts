@@ -192,9 +192,9 @@ test.describe("The page says whose life this is", () => {
     await expect(where).toBeVisible();
     // Identity is a deliberate name + age display now, not "Name, 10" prose.
     await expect(
-      page.getByTestId("story-who").locator(".life-identity-age"),
+      page.getByTestId("moment-who").locator(".life-identity-age"),
     ).toHaveText("10");
-    const when = await page.getByTestId("story-when").innerText();
+    const when = await page.getByTestId("moment-when").innerText();
     expect(when.length).toBeGreaterThan(4);
     expect(when).not.toMatch(MACHINERY);
   });
@@ -246,7 +246,7 @@ test.describe("The page says whose life this is", () => {
     await page.getByTestId("begin").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await enterLife(page);
-    const who = page.getByTestId("story-who").locator(".life-identity-name");
+    const who = page.getByTestId("moment-who").locator(".life-identity-name");
     const named = await who.innerText();
 
     await goTo(page, "keep-world");

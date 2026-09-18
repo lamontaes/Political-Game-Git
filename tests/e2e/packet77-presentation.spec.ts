@@ -219,7 +219,7 @@ test.describe("The title is a room with a menu on it", () => {
     // PT3: the intro is two beats and then the scene; the life moment is
     // reached the way a player reaches it.
     await enterLife(page);
-    const immediately = await page.getByTestId("story-who").innerText();
+    const immediately = await page.getByTestId("moment-who").innerText();
 
     await freshBrowser(page);
     await page.clock.fastForward(120_000);
@@ -232,7 +232,7 @@ test.describe("The title is a room with a menu on it", () => {
     // PT3: the intro is two beats and then the scene; the life moment is
     // reached the way a player reaches it.
     await enterLife(page);
-    expect(await page.getByTestId("story-who").innerText()).toBe(immediately);
+    expect(await page.getByTestId("moment-who").innerText()).toBe(immediately);
   });
 
   test("holds still for a viewer who asked for less motion", async ({

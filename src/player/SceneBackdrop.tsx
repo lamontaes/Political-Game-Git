@@ -532,15 +532,15 @@ export function SceneBackdrop({
                 ),
                 transform: "translateX(-50%)",
                 /*
-                 * Above the moment panel, not merely above the depth stack.
-                 * The panel docks over the room and in a full room it covers
-                 * somebody wherever it goes; a name is how the player knows
-                 * who is there and, since the name opens them, a name hidden
-                 * under the panel is a control that cannot be pressed. It is
-                 * a small plate over the panel's edge, not a second surface.
+                 * Above the physical depth stack, and no higher. Raising this
+                 * to clear the moment panel does not work and the measurement
+                 * says so: the panel's dock is position:fixed inside the same
+                 * stacking context, so a name at a figure's feet still reads
+                 * back as story-options underneath it. Lifting the whole label
+                 * layer over the panel would put names across its prose, which
+                 * is a composition decision and not one to smuggle in here.
                  */
-                zIndex: Math.max(
-                  3,
+                zIndex:
                   Math.max(
                     0,
                     ...occluders.map((o) => o.zOrder),
@@ -549,7 +549,6 @@ export function SceneBackdrop({
                       (a) => a.zOrder,
                     ),
                   ) + 1,
-                ),
               }}
             >
               {/*

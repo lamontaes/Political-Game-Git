@@ -189,14 +189,14 @@ test.describe("Opening the game opens a game", () => {
     await page.getByTestId("begin").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await enterLife(page);
-    const before = await page.getByTestId("story-who").innerText();
+    const before = await page.getByTestId("moment-who").innerText();
     await saveLife(page);
     const original = await savedWorlds(page);
 
     await page.goto(replay);
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await enterLife(page);
-    await expect(page.getByTestId("story-who")).toHaveText(before, {
+    await expect(page.getByTestId("moment-who")).toHaveText(before, {
       useInnerText: true,
     });
     await saveLife(page);
@@ -269,7 +269,7 @@ test.describe("A life is kept, and comes back", () => {
     await freshBrowser(page);
     await startLife(page, { place: "Lexington", state: "Kentucky", age: 27 });
     await enterLife(page);
-    const before = await page.getByTestId("story-who").innerText();
+    const before = await page.getByTestId("moment-who").innerText();
 
     await keepAndWait(page);
 
@@ -279,7 +279,7 @@ test.describe("A life is kept, and comes back", () => {
     // The same person, the same age, the same place — the notice line above
     // them is session chrome and is allowed to differ.
     await enterLife(page);
-    await expect(page.getByTestId("story-who")).toHaveText(before, {
+    await expect(page.getByTestId("moment-who")).toHaveText(before, {
       useInnerText: true,
     });
   });
