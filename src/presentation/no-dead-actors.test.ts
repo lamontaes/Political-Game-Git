@@ -11,6 +11,12 @@ import { projectPlacesWorkspace } from "./player-places";
 import { projectLegislativeOfficeContext } from "./legislative-office-context";
 import { projectOfficeOnboarding } from "./office-onboarding";
 import { projectWorldOrientation } from "./living-world-orientation";
+import { projectCampaignStrategy } from "./campaign-strategy";
+import {
+  projectPartyInitiatives,
+  projectPartyBodyQuestions,
+} from "./party-initiatives";
+import { projectPersonContact } from "./person-contact";
 
 /**
  * CRUNCH47: nothing offers a dead person as somebody you can deal with now.
@@ -51,6 +57,9 @@ const CAN_ACT_NOW: readonly {
     name: "office-onboarding",
     project: (world, personId) => projectOfficeOnboarding(world, personId),
   },
+  { name: "campaign-strategy", project: projectCampaignStrategy },
+  { name: "party-initiatives", project: projectPartyInitiatives },
+  { name: "party-body-questions", project: projectPartyBodyQuestions },
 ];
 
 function playedForward(seed: string, days: number) {
@@ -112,6 +121,40 @@ describe("no surface offers a dead person as an actor", () => {
       // Report before asserting, so a failure names the surface and person.
       if (Object.keys(hits).length > 0) console.info(JSON.stringify(hits));
       expect(hits).toEqual({});
+    },
+    LONG,
+  );
+
+  it(
+    "no action is offered for reaching somebody who has died",
+    () => {
+      const { world, playerPersonId } = playedForward("no-dead-contacts", 365);
+      const dead = world.history.personDeaths
+        .filter((death) => death.diedAt <= world.currentDate)
+        .map((death) => death.personId);
+      expect(dead.length).toBeGreaterThan(0);
+
+      // The sharpest case in the class: a contact card names one person, so
+      // an id check cannot judge it — a dead person's own card legitimately
+      // carries their id. What must not happen is an OFFER to reach them.
+      const offered: Record<string, string[]> = {};
+      for (const personId of dead) {
+        if (!world.people[personId]) continue;
+        const card = projectPersonContact(world, playerPersonId, personId);
+        const live = (
+          [
+            ["talk", card.talk],
+            ["contact", card.contact],
+            ["meet", card.meet],
+            ["travel", card.travel],
+          ] as const
+        )
+          .filter(([, action]) => action.available)
+          .map(([name]) => name);
+        if (live.length > 0) offered[personId] = live;
+      }
+      if (Object.keys(offered).length > 0) console.info(JSON.stringify(offered));
+      expect(offered).toEqual({});
     },
     LONG,
   );
