@@ -1,4 +1,4 @@
-import { fileCandidacy } from "./support/campaign";
+import { fileCandidacy, workOfferedOutreach } from "./support/campaign";
 import { programConfigurations } from "../../src/simulation/legislation-program-families";
 import { shotPath } from "./support/shot-path";
 import { expect, test, type Page } from "@playwright/test";
@@ -116,8 +116,7 @@ async function wonSeatWithWorkOpen(page: Page) {
   for (let day = 0; day < 48; day += 1) {
     if (await page.getByTestId("campaign-result").isVisible()) break;
     await page.getByTestId("pass-day").click();
-    const outreach = page.getByTestId("campaign-outreach");
-    if (await outreach.isEnabled().catch(() => false)) await outreach.click();
+    await workOfferedOutreach(page);
   }
   expect(await liveUntilDecided(page)).toBe(true);
   await expect(page.getByTestId("campaign-afterword")).toContainText("won.");

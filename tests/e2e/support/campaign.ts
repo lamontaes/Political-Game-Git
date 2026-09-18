@@ -1,4 +1,4 @@
-import type { Page } from "../fixtures";
+import { expect, type Page } from "../fixtures";
 
 /** Deliberate office selection in the existing Kentucky campaign scenarios. */
 export async function fileCandidacy(
@@ -29,9 +29,24 @@ export async function campaignUntilDecided(
 ) {
   for (let day = 0; day < maxDays; day += 1) {
     if (await page.getByTestId("campaign-result").isVisible()) return true;
-    const outreach = page.getByTestId("campaign-outreach");
-    if (await outreach.isEnabled()) await outreach.click();
+    await workOfferedOutreach(page);
     await passDay(page);
   }
   return page.getByTestId("campaign-result").isVisible();
+}
+
+/**
+ * Takes the outreach offer if the day still has room for it. The day control
+ * reports aria-busy while a time command settles, and the offer can flip to
+ * disabled as the new day renders; checking before the clock is idle raced
+ * that flip and click() then waited on a disabled control until the test
+ * timed out.
+ */
+export async function workOfferedOutreach(page: Page) {
+  await expect(page.getByTestId("pass-day")).not.toHaveAttribute(
+    "aria-busy",
+    "true",
+  );
+  const outreach = page.getByTestId("campaign-outreach");
+  if (await outreach.isEnabled()) await outreach.click();
 }

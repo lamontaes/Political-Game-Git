@@ -1,4 +1,5 @@
 import { expect, type Page } from "@playwright/test";
+import { workOfferedOutreach } from "./campaign";
 import { goTo } from "./creator";
 import { resolveActiveMemberSeat } from "../../../src/presentation/legislative-member-seat";
 import type { World } from "../../../src/simulation";
@@ -29,8 +30,7 @@ export async function reachMemberOffice(page: Page) {
   for (let day = 0; day < 48; day += 1) {
     if (await page.getByTestId("campaign-result").isVisible()) break;
     await page.getByTestId("pass-day").click();
-    const outreach = page.getByTestId("campaign-outreach");
-    if (await outreach.isEnabled().catch(() => false)) await outreach.click();
+    await workOfferedOutreach(page);
   }
   await expect(page.getByTestId("campaign-result")).toBeVisible();
   await expect(page.getByTestId("campaign-afterword")).toContainText("won.");

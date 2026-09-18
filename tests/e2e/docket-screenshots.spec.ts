@@ -1,4 +1,4 @@
-import { fileCandidacy } from "./support/campaign";
+import { fileCandidacy, workOfferedOutreach } from "./support/campaign";
 import { expect, test, type Page } from "@playwright/test";
 
 import { enterLife, openElsewhere, startLife } from "./support/creator";
@@ -65,8 +65,7 @@ test("captures the five-minute click path", async ({ page }) => {
   for (let day = 0; day < 48; day += 1) {
     if (await page.getByTestId("campaign-result").isVisible()) break;
     await page.getByTestId("pass-day").click();
-    const outreach = page.getByTestId("campaign-outreach");
-    if (await outreach.isEnabled().catch(() => false)) await outreach.click();
+    await workOfferedOutreach(page);
   }
   expect(await liveUntilDecided(page)).toBe(true);
   await openElsewhere(page, "work");
