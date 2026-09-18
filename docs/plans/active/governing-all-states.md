@@ -392,3 +392,50 @@ The single failure mode behind all five is reasoning where measuring was
 available. The costume changes every time; what separates a cheap instance from
 an expensive one is not care, it is whether somebody looked before anybody
 acted.
+
+## "Bargaining beyond HB214", stated precisely
+
+Traced rather than left as a slogan, the way the filing item was.
+
+The bargaining MACHINERY is already general. `legislative-politics.ts` carries
+filed provisions and revisions, commitments with conditions, obligations and
+standing assessment, and recorded negotiations with exchange character — none
+of it tied to one bill. `legislative-bargaining-world.ts` builds its facts from
+whatever measure the world filed (`measure.designation`, `measure.shortTitle`),
+not from a bank.
+
+The gate is content, and it is one line:
+`bargainingBriefSupports(scenarioKey)` is `scenarioKey === "kentucky"`.
+
+But read the condition it sits in:
+
+```
+if (docketKey === null && !bargainingBriefSupports(scenarioKey))
+```
+
+A DOCKET bill — one the player drafted and saved — bypasses the brief entirely,
+because it carries its own content and the sitting is about whichever bill that
+is. So a player's own bill can already be bargained in any compiled rule-pack
+legislature. What is Kentucky-only is bargaining over the AUTHORED SCENARIO
+bill, because an authored deliberation brief exists for exactly one of them.
+
+**So this is not primarily an engineering item, and treating it as one would
+produce the wrong work.** Generalising it means authoring a deliberation brief
+per legislature — filed sections, beneficiaries, fiscal exposure, the analyst
+and advocate and guardian positions. That is gameplay content authoring at
+49x, and it is the kind of content that must not be improvised: a brief is
+authored game material about an authored game bill, so it is legitimate to
+write, but writing forty-nine of them is not a repair and should not be
+smuggled in as one.
+
+A separate and smaller tier: scenario keys beginning `institution:` refuse with
+"no supplied deliberation brief or recorded member decisions for this bill",
+and say that the institution's supported procedural actions remain available in
+the office. That refusal is accurate and leaves the player somewhere to go.
+
+**What is worth doing here, if anything, is the docket path.** It already
+generalises, which means the reachable improvement is making sure a player who
+drafts their own bill in a non-Kentucky legislature actually finds that route,
+rather than authoring briefs. Not started, and not assumed to be needed —
+recorded so the next person does not read "bargaining beyond HB214" as an
+engineering gap and start writing the wrong thing.
