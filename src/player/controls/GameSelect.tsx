@@ -121,6 +121,32 @@ export function optionsFromChildren(
   return found;
 }
 
+/**
+ * The name a choice exposes to a screen reader.
+ *
+ * It is the option's visible label, and it is never the option's `value`: a
+ * value is an internal id — `m47-face-ellis`, `m47-hair-coily-crop`, `skin-6`
+ * — and reading one aloud tells a player nothing, while the eye beside it
+ * reads "Long mature face", "Coily crop", "Brown". The contract is that the
+ * accessible name IS the readable label.
+ *
+ * When a label is missing this says honestly where the choice sits in its
+ * group rather than inventing wording from the id. Un-slugging
+ * `hair-coily-crop` into "Coily crop" would fabricate authored wording, so we
+ * do not: a missing label is the appearance-data owner's to supply, and this
+ * fallback only keeps the control usable and non-silent until they do.
+ */
+export function optionAccessibleName(
+  option: { readonly label?: string; readonly group?: string | null },
+  index: number,
+  groupName?: string,
+): string {
+  const label = option.label?.trim();
+  if (label) return label;
+  const within = option.group?.trim() || groupName?.trim();
+  return within ? `${within} choice ${index + 1}` : `Choice ${index + 1}`;
+}
+
 interface Placement {
   readonly left: number;
   readonly top: number;
@@ -202,10 +228,14 @@ export function GameSelect({
   );
   const current = value !== undefined ? String(value) : inner;
   const selectedIndex = options.findIndex((option) => option.value === current);
+  // The group's own name, used only to place an unlabelled choice honestly.
+  const groupName = rest["aria-label"];
+  const nameOf = (option: GameSelectOption, index: number) =>
+    optionAccessibleName(option, index, groupName);
   const shownLabel =
     selectedIndex >= 0
-      ? options[selectedIndex]!.label
-      : (placeholder ?? options[0]?.label ?? "");
+      ? nameOf(options[selectedIndex]!, selectedIndex)
+      : (placeholder ?? (options[0] ? nameOf(options[0], 0) : ""));
 
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(-1);
@@ -465,6 +495,8 @@ export function GameSelect({
                   </li>
                 ) : null;
               lastGroup = option.group;
+              // One name, read and seen: never `option.value`.
+              const readable = nameOf(option, index);
               return (
                 <Fragment key={`${option.value}-${index}`}>
                   {heading}
@@ -472,6 +504,7 @@ export function GameSelect({
                     id={optionId(index)}
                     role="option"
                     className="pg-select-option"
+                    aria-label={readable}
                     aria-selected={index === selectedIndex}
                     aria-disabled={option.disabled || undefined}
                     data-value={option.value}
@@ -488,7 +521,7 @@ export function GameSelect({
                       triggerRef.current?.focus();
                     }}
                   >
-                    {option.label}
+                    {readable}
                   </li>
                 </Fragment>
               );
