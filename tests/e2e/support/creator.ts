@@ -258,11 +258,24 @@ export async function enterLife(page: Page): Promise<void> {
  * destination opens the cluster first — the same two moves a player makes.
  */
 export async function openShellMenu(page: Page): Promise<void> {
+  const cluster = page.getByTestId("shell-nav-cluster");
   const flyout = page.getByTestId("shell-nav-flyout");
-  if (!(await flyout.isVisible())) {
-    await page.getByTestId("shell-nav-cluster").click();
-    await expect(flyout).toBeVisible();
+  /*
+   * Whether the menu is open is asked of the cluster, not of the flyout.
+   *
+   * The cluster is always on the page; the flyout exists only while the menu
+   * is open, and the two questions behave differently when it is not there.
+   * `isVisible` on a flyout that has gone answers false at once, so the helper
+   * presses a toggle it may not need to press; every other question put to it
+   * waits for it to come back instead of answering, which is a wait nothing
+   * ends. The cluster's own aria-expanded is the state the shell keeps, it is
+   * always there to be read, and it is what this decides and waits on.
+   */
+  if ((await cluster.getAttribute("aria-expanded")) !== "true") {
+    await cluster.click();
   }
+  await expect(cluster).toHaveAttribute("aria-expanded", "true");
+  await expect(flyout).toBeVisible();
   /*
    * The menu has one submenu level, and a submenu REPLACES the top-level
    * entries rather than sitting beside them. "The menu is open" is therefore
@@ -375,9 +388,36 @@ async function revealShellDestination(page: Page, testid: string) {
   return destination;
 }
 
+/**
+ * Day surfaces that are tabs of the Calendar.
+ *
+ * Today stopped being a destination of its own (UI DECISION FOLLOW-THROUGH):
+ * the menu carries one Calendar entry, and "Today and upcoming" is the first
+ * tab of the workspace that opens. A test that asks for the older name reaches
+ * the same screen the way a player now does — Calendar, then the tab.
+ */
+const CALENDAR_TABS: Readonly<Record<string, string>> = {
+  "elsewhere-day": "calendar-tab-today",
+};
+
+/** Calendar from the menu, then the tab that holds `testid`. */
+export async function openCalendarTab(
+  page: Page,
+  testid: string,
+): Promise<void> {
+  const tabId = CALENDAR_TABS[testid];
+  if (!tabId) throw new Error(`${testid} is not a Calendar tab`);
+  await (await revealShellDestination(page, "nav-calendar")).click();
+  const tab = page.getByTestId(tabId);
+  await expect(tab).toBeVisible();
+  if ((await tab.getAttribute("aria-selected")) !== "true") await tab.click();
+  await expect(tab).toHaveAttribute("aria-selected", "true");
+}
+
 /** Opens the cluster and presses one of its destinations. */
 export async function goTo(page: Page, testid: string): Promise<void> {
   if (isPoliticsHubDestination(testid)) return openPoliticsHub(page, testid);
+  if (testid in CALENDAR_TABS) return openCalendarTab(page, testid);
   await (await revealShellDestination(page, testid)).click();
 }
 

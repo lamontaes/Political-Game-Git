@@ -10,9 +10,15 @@ import {
   chooseStartAge,
 } from "./support/creator";
 
-/* The corner cluster draws the player's own portrait; these look at another. */
-const OUTSIDE_NAV_PORTRAIT =
-  '[data-testid="person-portrait"]:not([data-testid="shell-nav"] *)';
+/*
+ * The corner cluster draws the player's own portrait, and a workspace can draw
+ * more than one of somebody else — a dossier's head-and-shoulders and the
+ * preview beside the wardrobe controls are both portraits. Naming the portrait
+ * by test id alone therefore names several elements, so each case scopes to
+ * the workspace it is about and takes that surface's first. What is checked is
+ * unchanged: the surface under review draws a portrait.
+ */
+const PORTRAIT = '[data-testid="person-portrait"]';
 
 test("current normal scene and saved-person dossier remain available for owner review", async ({
   page,
@@ -35,7 +41,9 @@ test("current normal scene and saved-person dossier remain available for owner r
   await expect(page.getByTestId("quick-dossier")).toBeVisible();
   await page.getByTestId("quick-dossier-full").click();
   await expect(page.getByTestId("saved-appearance-controls")).toHaveCount(0);
-  await expect(page.locator(OUTSIDE_NAV_PORTRAIT)).toBeVisible();
+  await expect(
+    page.getByTestId("person-workspace").locator(PORTRAIT).first(),
+  ).toBeVisible();
   await page.screenshot({
     path: info.outputPath("normal-npc-dossier.png"),
     fullPage: true,
@@ -48,7 +56,9 @@ test("current normal scene and saved-person dossier remain available for owner r
   await controls.locator("summary").focus();
   await controls.locator("summary").press("Enter");
   await expect(controls).toHaveAttribute("open", "");
-  await expect(page.locator(OUTSIDE_NAV_PORTRAIT)).toBeVisible();
+  await expect(
+    page.getByTestId("personal-workspace").locator(PORTRAIT).first(),
+  ).toBeVisible();
   await page.screenshot({
     path: info.outputPath("normal-own-wardrobe.png"),
     fullPage: true,

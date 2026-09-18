@@ -368,7 +368,9 @@ for (const place of ["Lexington, Kentucky", "Carson City, Nevada"]) {
     await enterOpening(page);
     await save(page);
     const initial = await savedWorld(page);
-    await goTo(page, "nav-group-personal");
+    /* One shared walk to the entry itself: pressing the group and then the
+       entry leaves the menu standing open on a submenu, which the next walk
+       then has to climb back out of. */
     await goTo(page, "nav-personal");
     const panel = page.getByTestId("economic-context-panel");
     if (place === "Lexington, Kentucky") {
@@ -399,7 +401,6 @@ for (const place of ["Lexington, Kentucky", "Carson City, Nevada"]) {
     await save(page);
     expect(await savedWorld(page)).toEqual(initial);
     await continueSaved(page);
-    await goTo(page, "nav-group-personal");
     await goTo(page, "nav-personal");
     if (place === "Lexington, Kentucky") {
       await expect(panel).toContainText(proseDate(initial.currentDate));

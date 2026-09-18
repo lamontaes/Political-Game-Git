@@ -58,9 +58,13 @@ test("UI9-04, UI9-02: a government pins, and Personal has two real destinations"
   );
   await page.getByTestId("municipal-workspace-close").click();
 
-  // UI9-02: the two Personal entries are different destinations.
-  await goTo(page, "nav-group-personal");
-  await page.getByTestId("nav-finances").click();
+  /*
+   * UI9-02: the two Personal entries are different destinations. Each is
+   * reached with the one shared walk rather than by pressing the group and
+   * then the entry by hand, so the menu is never left standing open on a
+   * submenu that the next walk has to climb back out of.
+   */
+  await goTo(page, "nav-finances");
   await expect(page.getByTestId("personal-finances")).toHaveAttribute(
     "data-landed",
     "true",
@@ -70,8 +74,7 @@ test("UI9-04, UI9-02: a government pins, and Personal has two real destinations"
   );
   await page.getByTestId("personal-workspace-close").click();
 
-  await goTo(page, "nav-group-personal");
-  await page.getByTestId("nav-personal").click();
+  await goTo(page, "nav-personal");
   await expect(page.getByTestId("personal-finances")).not.toHaveAttribute(
     "data-landed",
     "true",
@@ -101,9 +104,11 @@ test("UI9-06, UI9-07: a child is told why a walk is refused, and what a walk cos
    */
   await goTo(page, "nav-personal");
   const personal = page.getByTestId("personal-workspace");
+  /* The section's own disclosure, not one of the summaries inside it: the
+     panels it holds carry disclosures of their own. */
   await personal
     .getByTestId("personal-life-choices")
-    .locator("summary")
+    .locator(":scope > summary")
     .click();
 
   const scene = personal.getByTestId("opening-life-scene");
