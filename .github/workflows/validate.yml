@@ -104,13 +104,17 @@ jobs:
       matrix:
         include:
           - shard: 1
-            total: 4
+            total: 6
           - shard: 2
-            total: 4
+            total: 6
           - shard: 3
-            total: 4
+            total: 6
           - shard: 4
-            total: 4
+            total: 6
+          - shard: 5
+            total: 6
+          - shard: 6
+            total: 6
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
