@@ -17256,7 +17256,7 @@
     },
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "enclosingSymbol": "programme",
+      "enclosingSymbol": "program",
       "line": 2452,
       "text": " on {context.fact(\"programName\")}",
       "verdict": "NEEDS_CLASSIFICATION",
@@ -17266,15 +17266,15 @@
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "briefing",
       "line": 2454,
-      "text": "{context.fullName} is on the same programme{programme}. Nothing has been agreed; answering takes no time, and the work itself would have its own hours.",
+      "text": "{context.fullName} is on the same program{program}. Nothing has been agreed; answering takes no time, and the work itself would have its own hours.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "enclosingSymbol": "programme",
+      "enclosingSymbol": "program",
       "line": 2459,
-      "text": "the programme",
+      "text": "the program",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -17282,7 +17282,7 @@
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "opening",
       "line": 2461,
-      "text": "You recognize {name} from {programme}. They ask whether you have chosen a project group.",
+      "text": "You recognize {name} from {program}. They ask whether you have chosen a project group.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -17290,7 +17290,7 @@
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "enclosingSymbol": "opening",
       "line": 2462,
-      "text": "{name} catches you after {programme}. “Have you found anyone to work with yet?”",
+      "text": "{name} catches you after {program}. “Have you found anyone to work with yet?”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -69386,7 +69386,7 @@
       "sourcePath": "src/simulation/people-study.ts",
       "enclosingSymbol": "studyPeers",
       "line": 88,
-      "text": "the programme",
+      "text": "the program",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
