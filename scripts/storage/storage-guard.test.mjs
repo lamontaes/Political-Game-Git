@@ -280,6 +280,23 @@ describe("retirement protection", () => {
     expect(existsSync(clone)).toBe(false);
   });
 
+  it("refuses a folder another checkout reaches through a symlink", () => {
+    const provider = publishedClone("PG-INSTALL");
+    mkdirSync(path.join(provider, "node_modules"));
+    const borrower = path.join(sandbox, "PG-BORROWER");
+    mkdirSync(borrower);
+    symlinkSync(
+      path.join("..", "PG-INSTALL", "node_modules"),
+      path.join(borrower, "node_modules"),
+    );
+    const result = guardWith().retire(
+      [{ path: provider, acknowledged: ["symlink-target", "untracked-files"] }],
+      { ...roots(), apply: true },
+    );
+    expect(codes(result[0].blockers)).toContain("symlink-target");
+    expect(existsSync(path.join(provider, "node_modules"))).toBe(true);
+  });
+
   it("does not count a remote that is a folder on this machine as published", () => {
     const clone = publishedClone("PG-PATH-REMOTE");
     git(

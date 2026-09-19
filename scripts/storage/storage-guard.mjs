@@ -33,6 +33,7 @@ import {
   mkdirSync,
   readFileSync,
   readdirSync,
+  readlinkSync,
   realpathSync,
   renameSync,
   rmSync,
@@ -88,6 +89,7 @@ const HARD_BLOCKERS = new Set([
   "live-reservation",
   "alternates-provider",
   "common-git-dir",
+  "symlink-target",
   "unpublished-commits",
   "stash",
   "changed-since-approval",
@@ -412,6 +414,44 @@ export function createStorageGuard(options = {}) {
     });
   }
 
+  /**
+   * Sibling folders that reach into this one through a symlink — a shared
+   * `node_modules` is the usual case. Removing the target breaks them.
+   */
+  function symlinkDependents(folder, searchRoots) {
+    const inside = real(folder) + path.sep;
+    const dependents = [];
+    for (const root of searchRoots) {
+      let entries = [];
+      try {
+        entries = readdirSync(root);
+      } catch {
+        continue;
+      }
+      for (const name of entries) {
+        const sibling = path.join(root, name);
+        if ((real(sibling) + path.sep).startsWith(inside)) continue;
+        for (const holder of [sibling, path.join(sibling, "desktop")]) {
+          let links = [];
+          try {
+            links = readdirSync(holder, { withFileTypes: true }).filter(
+              (entry) => entry.isSymbolicLink(),
+            );
+          } catch {
+            continue;
+          }
+          for (const link of links) {
+            const at = path.join(holder, link.name);
+            const to = path.resolve(holder, readlinkSync(at));
+            if ((real(to) + path.sep).startsWith(inside))
+              dependents.push(`${at} → ${to}`);
+          }
+        }
+      }
+    }
+    return dependents;
+  }
+
   /** Git stores that borrow objects from this one through alternates. */
   function alternatesDependents(folder, searchRoots) {
     const store = real(path.join(folder, ".git", "objects"));
@@ -524,6 +564,13 @@ export function createStorageGuard(options = {}) {
           code: "live-reservation",
           detail: `${entry.operation} by ${entry.owner}`,
         });
+
+    const linkedFrom = symlinkDependents(target, searchRoots);
+    if (linkedFrom.length > 0)
+      blockers.push({
+        code: "symlink-target",
+        detail: `used through ${linkedFrom.join(", ")}`,
+      });
 
     const dotGit = path.join(target, ".git");
     let gitKind = "none";
