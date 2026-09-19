@@ -1,3 +1,10 @@
+import { createScenarioWorld } from "../simulation/demo";
+import { requireLifePlace } from "../simulation/life-places";
+import { municipalGovernmentForLifePlace } from "../simulation/municipal-government";
+import {
+  installMunicipalGovernment,
+  seatMunicipalMember,
+} from "../simulation/municipal-public-work";
 import { describe, expect, it } from "vitest";
 
 import { lifePlaceSearch } from "../simulation";
@@ -26,16 +33,17 @@ function newLife(seed: string) {
 }
 
 describe("Politics hub government browser", () => {
-  it("gives every scope exactly its three branches, each recorded or plainly absent", () => {
+  it("keeps state and federal branches while showing only recorded local institutions", () => {
     const { world, personId } = newLife("ui-follow-government");
     for (const scope of GOVERNMENT_SCOPES) {
       const view = projectGovernmentBrowser(world, personId, { scope });
       expect(view.scope).toBe(scope);
-      expect(view.branches.map((branch) => branch.branch)).toEqual([
-        "legislative",
-        "executive",
-        "judicial",
-      ]);
+      if (scope !== "local")
+        expect(view.branches.map((branch) => branch.branch)).toEqual([
+          "legislative",
+          "executive",
+          "judicial",
+        ]);
       for (const branch of view.branches) {
         expect(branch.entries.length > 0).toBe(branch.absent === null);
         const text = [
@@ -54,6 +62,66 @@ describe("Politics hub government browser", () => {
         }
       }
     }
+  });
+
+  it("keeps Buchanan's government identity out of legislative and executive branches", () => {
+    const { world, personId } = newLife("w65-buchanan-government");
+    const place = lifePlaceSearch("Buchanan", 10, {
+      stateJurisdictionKey: "US-MI",
+      scope: "locality",
+    }).find((row) => row.displayName.includes("Buchanan"))!;
+    expect(place).toBeDefined();
+    const before = JSON.stringify(world);
+    const view = projectGovernmentBrowser(world, personId, {
+      jurisdictionId: place.context.jurisdiction.id,
+    });
+    expect(view.localGovernments.length).toBeGreaterThan(0);
+    expect(
+      view.localGovernments.some((row) => /Buchanan/.test(row.title)),
+    ).toBe(true);
+    expect(view.branches).toEqual([]);
+    expect(JSON.stringify(world)).toBe(before);
+  });
+
+  it("shows saved municipal members and managers without inventing missing seats", () => {
+    const place = requireLifePlace("5114968");
+    const government = municipalGovernmentForLifePlace(place)!;
+    let world = createScenarioWorld("w65-saved-local-roster", place.context, {
+      peopleCount: 8,
+    });
+    const personId = world.personOrder[0]!;
+    world = installMunicipalGovernment(world, {
+      governmentKey: government.key,
+      jurisdictionId: place.context.jurisdiction.id,
+      formedAt: world.currentDate,
+    });
+    for (const [index, role] of (
+      ["member", "professional-manager"] as const
+    ).entries()) {
+      world = seatMunicipalMember(world, {
+        governmentKey: government.key,
+        personId: world.personOrder[index + 1]!,
+        startedAt: world.currentDate,
+        role,
+        seatLabel: role === "member" ? "Seat 1" : "City Manager",
+      });
+    }
+    const before = JSON.stringify(world);
+    const view = projectGovernmentBrowser(world, personId, {
+      jurisdictionId: place.context.jurisdiction.id,
+    });
+    const body = view.branches.find((row) => row.branch === "legislative")!;
+    expect(body.entries[0]!.roster?.map((row) => row.holderPersonId)).toEqual([
+      world.personOrder[1],
+    ]);
+    expect(body.entries[0]!.rosterNote).toBeUndefined();
+    expect(
+      view.branches.find((row) => row.branch === "executive")!.entries[0]!
+        .holderPersonId,
+    ).toBe(world.personOrder[2]);
+    expect(view.branches.some((row) => row.branch === "judicial")).toBe(false);
+    expect(view.localGovernments).toEqual([]);
+    expect(JSON.stringify(world)).toBe(before);
   });
 
   it("defaults to where the character is and labels any other chosen place", () => {

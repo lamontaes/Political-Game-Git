@@ -1,10 +1,15 @@
+import { personName } from "../simulation";
 import type { EntityId, World } from "../simulation";
+import { municipalSeats } from "../simulation/municipal-public-work";
 import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
 } from "../simulation/life-places";
 import { governmentUnitsForPlace } from "../simulation/government-units";
-import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
+import {
+  homeLocalGovernmentUnits,
+  localGovernmentDisplayName,
+} from "../simulation/nationwide-world/local-governments";
 import {
   municipalGovernmentForLifePlace,
   primaryReading,
@@ -147,6 +152,8 @@ export interface GovernmentBrowserView {
   /** "Nevada", "Alamo, Nevada", "United States" — what this scope governs. */
   readonly governs: string | null;
   readonly branches: readonly GovernmentBranchView[];
+  /** Government identities without a recorded institution profile. */
+  readonly localGovernments: readonly GovernmentEntry[];
   /**
    * Other general-purpose governments that serve this place (a county, for
    * instance), listed as the Census Bureau records them rather than forced
@@ -205,99 +212,91 @@ function holderEntry(
 }
 
 function localBranches(
+  world: World,
   place: ReturnType<typeof lifePlaceByJurisdictionId>,
-  name: string,
-): { governs: string | null; branches: GovernmentBranchView[] } {
+): {
+  governs: string | null;
+  branches: GovernmentBranchView[];
+  localGovernments: GovernmentEntry[];
+} {
   if (!place || place.scope === "state") {
-    const none = `No local government is recorded for ${name}.`;
-    return {
-      governs: null,
-      branches: [
-        branch("legislative", [], none),
-        branch("executive", [], none),
-        branch("judicial", [], none),
-      ],
-    };
+    return { governs: null, branches: [], localGovernments: [] };
   }
   const government = municipalGovernmentForLifePlace(place);
-  let bodyName: string | null = null;
-  let form: string | null = null;
-  if (government) {
-    try {
-      const reading = primaryReading(government);
-      bodyName = reading.bodyName;
-      form = reading.form;
-    } catch {
-      /* a government with no reading carries no body or form to show */
-    }
-  }
-  const legislative: GovernmentEntry[] = [];
-  if (government && bodyName) {
-    legislative.push({
-      key: `local-body:${government.key}`,
-      title: bodyName,
-      holderName: null,
-      holderPersonId: null,
-      detail: government.displayName,
-      rosterNote: "No current record of its members is kept in this save.",
+  const reading = government?.readings.length
+    ? primaryReading(government)
+    : null;
+  const seats = government ? municipalSeats(world, government.key) : [];
+  const branches: GovernmentBranchView[] = [];
+  if (government && reading?.bodyName) {
+    const roster: GovernmentSeatRow[] = seats
+      .filter(
+        (seat) => seat.role === "member" || seat.role === "presiding-member",
+      )
+      .map((seat) => ({
+        key: `municipal-seat:${government.key}:${seat.personId}`,
+        seatLabel: seat.seatLabel ?? "Member",
+        stateUsps: null,
+        status: "member",
+        holderName: personName(world.people[seat.personId]!),
+        holderPersonId: seat.personId,
+        note: null,
+      }));
+    branches.push({
+      branch: "legislative",
+      label: reading.bodyName,
+      entries: [
+        {
+          key: `local-body:${government.key}`,
+          title: reading.bodyName,
+          holderName: null,
+          holderPersonId: null,
+          detail: government.displayName,
+          ...(roster.length
+            ? { roster }
+            : { rosterNote: "Member details are limited." }),
+        },
+      ],
+      absent: null,
     });
-  } else {
-    const units = place.sourceGeoid
-      ? governmentUnitsForPlace(place.sourceGeoid)
-      : [];
-    for (const unit of units) {
-      legislative.push({
-        key: `unit:${unit.id}`,
-        title: unit.name,
-        holderName: null,
-        holderPersonId: null,
-        detail: "Local government listed by the Census Bureau",
-      });
-    }
   }
-  const executive: GovernmentEntry[] =
-    government && form
-      ? [
-          {
-            key: `local-executive:${government.key}`,
-            title: `${government.displayName} — ${formLabel(form)}`,
-            holderName: null,
-            holderPersonId: null,
-            detail: "No current officeholder is recorded in this save.",
-          },
-        ]
-      : [];
+  // A form label alone does not establish an executive office. A mayor may
+  // preside over the body; do not turn that role into a separate executive.
+  if (government && reading?.manager) {
+    const manager = seats.find((seat) => seat.role === "professional-manager");
+    branches.push({
+      branch: "executive",
+      label: reading.manager.title,
+      entries: [
+        {
+          key: `local-executive:${government.key}`,
+          title: reading.manager.title,
+          holderName: manager
+            ? personName(world.people[manager.personId]!)
+            : null,
+          holderPersonId: manager?.personId ?? null,
+          detail: reading.manager.statedRole || null,
+        },
+      ],
+      absent: null,
+    });
+  }
+  const localGovernments: GovernmentEntry[] = branches.length
+    ? []
+    : (place.sourceGeoid ? governmentUnitsForPlace(place.sourceGeoid) : []).map(
+        (unit) => ({
+          key: `unit:${unit.id}`,
+          title: localGovernmentDisplayName(unit),
+          holderName: null,
+          holderPersonId: null,
+          detail: "Government details are limited.",
+        }),
+      );
   return {
     governs: government?.displayName ?? place.displayName,
-    branches: [
-      branch(
-        "legislative",
-        legislative,
-        `No local legislative body is recorded for ${name}.`,
-      ),
-      branch(
-        "executive",
-        executive,
-        `No local executive office is recorded for ${name}.`,
-      ),
-      branch("judicial", [], `No local court is recorded for ${name}.`),
-    ],
+    branches,
+    localGovernments,
   };
-}
-
-const FORM_LABELS: Readonly<Record<string, string>> = {
-  MAYOR_COUNCIL: "mayor and council",
-  COUNCIL_MANAGER: "council with an appointed manager",
-  COMMISSION_MANAGER: "commission with an appointed manager",
-  CITY_MANAGER: "appointed city manager",
-  TOWN_MEETING: "town meeting",
-  URBAN_COUNTY_CONSOLIDATED: "consolidated city and county",
-  CITY_COUNTY_CONSOLIDATED: "consolidated city and county",
-  CONSOLIDATED_CITY_COUNTY: "consolidated city and county",
-};
-
-function formLabel(form: string): string {
-  return FORM_LABELS[form] ?? form.toLowerCase().replace(/_/g, " ");
 }
 
 function stateBranches(
@@ -608,18 +607,18 @@ export function projectGovernmentBrowser(
     scope === "local" && browsingId !== null && browsingId === homeId
       ? homeLocalGovernmentUnits(world, personId).counties.map((unit) => ({
           key: `county:${unit.id}`,
-          title: unit.name,
+          title: localGovernmentDisplayName(unit),
           holderName: null,
           holderPersonId: null,
-          detail: "County government listed by the Census Bureau",
+          detail: null,
         }))
       : [];
-  const resolved =
-    scope === "local"
-      ? localBranches(browsingPlace, browsingName)
-      : scope === "state"
-        ? stateBranches(world, browsingStateKey)
-        : federalBranches(world);
+  const local = scope === "local" ? localBranches(world, browsingPlace) : null;
+  const resolved = local
+    ? local
+    : scope === "state"
+      ? stateBranches(world, browsingStateKey)
+      : federalBranches(world);
   return {
     here,
     home,
@@ -633,6 +632,7 @@ export function projectGovernmentBrowser(
     scopeLabel: SCOPE_LABELS[scope],
     governs: resolved.governs,
     branches: resolved.branches,
+    localGovernments: local?.localGovernments ?? [],
     alsoGoverning,
     browsingState: browsingUsps
       ? { usps: browsingUsps, name: stateNameFor(browsingUsps) }
