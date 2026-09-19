@@ -1697,7 +1697,7 @@ function RequestDetail({
                     <strong>
                       rev {candidate.revision}
                       {request.selectedCandidateId === candidateId
-                        ? " · selected"
+                        ? " · preferred"
                         : ""}
                     </strong>
                     <span className="art-desk-meta">

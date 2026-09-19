@@ -160,9 +160,9 @@ const view = async (desk, id) => {
 };
 try {
   let { chrome, desk } = await launch();
-  await chrome.locator("#track").waitFor({ state: "attached" });
-  assert((await chrome.locator("#track option").count()) > 0);
   await chrome.getByRole("tab", { name: "Play", exact: true }).click();
+  await chrome.locator("#track").waitFor();
+  assert((await chrome.locator("#track option").count()) > 0);
   assert(
     await wait(
       () => app.windows().find((p) => p.url().startsWith("app://game/")),
