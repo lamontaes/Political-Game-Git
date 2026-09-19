@@ -197,3 +197,30 @@ with the work rather than discovered during it:
    by the projection. If it is recomputed at render time from live inputs, the
    same saved turn can show a different face on reopening, which breaks replay
    for something the player actually watched.
+
+## Cargo for the next candidate: pin the contextual-scenes spec
+
+`tests/e2e/prose-contextual-scenes.spec.ts` is flaky by construction, and it
+has been since it was written. It opens with `page.goto("/")` — the only spec
+in the suite that pins no seed — and then waits on world content twice: forty
+days for `scene-party-invite`, ten for `scene-home-evening`. It failed for the
+first time on a head where only two unrelated spec files had changed, which is
+what an unpinned world looks like: nothing in the production source moved and
+the outcome moved anyway.
+
+It is not the on-demand moment change. Contextual scenes refresh inside
+`passOrdinaryDays` and `adult-life`, both on time passing, and the shell's
+pass-day reaches them through `passDays` → `submitTime`. Nothing has to be
+opened for the binding to happen, and the spec already presses pass-day and
+opens starters on every iteration.
+
+What the wait actually depends on: `produceChapterInvitation` binds only where
+`projectPartyEncounters` reports a chapter activity in state `"offered"`. That
+cadence belongs to the seeded party chapters, so the spec is waiting on another
+lane's content inside a window it never pinned the world for.
+
+The fix, after the current candidate: pin one seed named for the case, the way
+every sibling does, and run it once. **If the invitation does not arrive within
+forty days on that pinned world, the repair is the bound or the producer — not
+another seed.** Choosing a seed because it passes would be fitting the test to
+the world, which is the thing this plan has refused three times already.
