@@ -348,3 +348,22 @@
   list-style: none;
   padding: 0;
 }
+
+.pg-opening-president {
+  display: grid;
+  grid-template-columns: minmax(120px, 40%) minmax(0, 1fr);
+  align-items: end;
+  gap: 1rem;
+}
+.pg-opening-figure {
+  width: min(100%, 190px);
+  justify-self: center;
+}
+.pg-opening-vice-president {
+  padding: 1rem;
+  border-radius: 0.6rem;
+  background: rgb(11 19 32 / 86%);
+}
+.pg-opening-president .pg-orientation-person {
+  background: rgb(11 19 32 / 90%);
+}

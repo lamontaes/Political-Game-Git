@@ -11,6 +11,8 @@ import type {
 } from "../presentation/world-orientation";
 import type { EntityId, World } from "../simulation";
 import { GameSelect } from "./controls/GameSelect";
+import { SavedPersonFigure } from "./SavedPersonFigure";
+import { PersonPortrait } from "./PersonPortrait";
 
 /**
  * Four short panels introducing the public world: White House, Congress, the
@@ -138,7 +140,22 @@ export function WorldOrientationPanel({
                       : "pg-opening-vice-president"
                   }
                 >
-                  {renderFigure?.(person.personId)}
+                  {renderFigure?.(person.personId) ??
+                    (world ? (
+                      position === 0 ? (
+                        <SavedPersonFigure
+                          world={world}
+                          personId={person.personId}
+                          className="pg-opening-figure"
+                        />
+                      ) : (
+                        <PersonPortrait
+                          world={world}
+                          personId={person.personId}
+                          size="large"
+                        />
+                      )
+                    ) : null)}
                   <PersonButton person={person} onOpenPerson={onOpenPerson} />
                 </article>
               ))}
@@ -175,7 +192,7 @@ export function WorldOrientationPanel({
                     className="ui-action"
                     onClick={() => onOpenPerson(person.personId)}
                   >
-                    {person.name}
+                    {person.introduction}
                   </button>
                 </li>
               ))}

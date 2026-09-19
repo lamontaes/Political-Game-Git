@@ -10,7 +10,11 @@ import { resolvePersonWardrobeContext } from "../presentation/person-visual-sele
 import { appearanceAgeState } from "../presentation/appearance-lifecycle";
 import { useSavedRenderSnapshot, useSavedWardrobe } from "./SavedAppearance";
 import { ModularCharacter } from "./ModularCharacter";
-import { artPreviewLibraries, artPreviewMode, previewArtRefusal } from "../presentation/art-preview";
+import {
+  artPreviewLibraries,
+  artPreviewMode,
+  previewArtRefusal,
+} from "../presentation/art-preview";
 import { gameBuildProfile } from "../presentation/build-profile";
 
 /** Full-body record leaf. Reads the same saved appearance and wardrobe as the
@@ -29,17 +33,25 @@ export function SavedPersonFigure({
   const snapshot = useSavedRenderSnapshot(personId);
   const preference = useSavedWardrobe(personId);
   const preview = artPreviewLibraries(
-    artPreviewMode(typeof window === "undefined" ? "" : window.location.search, {
-      development: import.meta.env.DEV,
-      profile: gameBuildProfile(),
-    }),
+    artPreviewMode(
+      typeof window === "undefined" ? "" : window.location.search,
+      {
+        development: import.meta.env.DEV,
+        profile: gameBuildProfile(),
+      },
+    ),
   );
   const person = world.people[personId];
   if (!person) return null;
-  const previewRefusal = preview && !explicitLibraries
-    ? previewArtRefusal(person, world.currentDate) : null;
-  const libraries = explicitLibraries ?? (preview && !previewRefusal
-    ? { characters: preview.characters, visuals: preview.visuals } : undefined);
+  const previewRefusal =
+    preview && !explicitLibraries
+      ? previewArtRefusal(person, world.currentDate)
+      : null;
+  const libraries =
+    explicitLibraries ??
+    (preview && !previewRefusal
+      ? { characters: preview.characters, visuals: preview.visuals }
+      : undefined);
   // Saved snapshots are bound to production, never to a candidate catalogue.
   const usingReviewLibraries = Boolean(explicitLibraries) || Boolean(preview);
   const name = personName(person);

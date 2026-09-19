@@ -13,6 +13,7 @@ import type { ShellRef } from "../presentation/shell-navigation";
 import type { EntityId, World } from "../simulation";
 import { pinKindLabel } from "./ShellPinRail";
 import { PersonPortrait } from "./PersonPortrait";
+import { SavedPersonFigure } from "./SavedPersonFigure";
 import { projectPersonContact } from "../presentation/person-contact";
 import { personTraits } from "../simulation/people-traits";
 import "./people-web.css";
@@ -338,130 +339,142 @@ export function PersonCard({
       </header>
 
       <div className="pg-person-card-body">
-        <section className="pg-dossier-section" aria-label="What you know">
-          <p
-            className="pg-person-card-read"
-            data-testid={
-              expanded ? "dossier-last-interaction" : "quick-last-interaction"
-            }
-          >
-            {dossier.lastInteraction}
-          </p>
-          {dossier.howYouKnowThem &&
-          dossier.howYouKnowThem !== dossier.relationship ? (
-            <p>{dossier.howYouKnowThem}</p>
-          ) : null}
-          <FactList
-            facts={facts}
-            testId={expanded ? "dossier-facts" : "quick-facts"}
+        {expanded ? (
+          <SavedPersonFigure
+            world={world}
+            personId={dossier.personId}
+            className="pg-record-figure"
           />
-          {facts.length === 0 ? (
+        ) : null}
+        <div className="pg-person-card-reading">
+          <section className="pg-dossier-section" aria-label="What you know">
             <p
-              className="pg-person-card-note"
+              className="pg-person-card-read"
               data-testid={
-                expanded ? "dossier-facts-empty" : "quick-facts-empty"
+                expanded ? "dossier-last-interaction" : "quick-last-interaction"
               }
             >
-              You don&rsquo;t know much about {dossier.shortName} yet.
+              {dossier.lastInteraction}
             </p>
+            {dossier.howYouKnowThem &&
+            dossier.howYouKnowThem !== dossier.relationship ? (
+              <p>{dossier.howYouKnowThem}</p>
+            ) : null}
+            <FactList
+              facts={facts}
+              testId={expanded ? "dossier-facts" : "quick-facts"}
+            />
+            {facts.length === 0 ? (
+              <p
+                className="pg-person-card-note"
+                data-testid={
+                  expanded ? "dossier-facts-empty" : "quick-facts-empty"
+                }
+              >
+                You don&rsquo;t know much about {dossier.shortName} yet.
+              </p>
+            ) : null}
+            {!expanded && onExpand && (dossier.details.length > 3 || true) ? (
+              <button
+                type="button"
+                className="ui-action ui-action--subtle pg-person-card-more"
+                data-testid="quick-dossier-full"
+                onClick={onExpand}
+              >
+                More details
+              </button>
+            ) : null}
+          </section>
+
+          {expanded && dossier.publicCareer.length > 0 ? (
+            <section className="pg-dossier-section" aria-label="Public career">
+              <h3>Public career</h3>
+              <div className="pg-person-chronology">
+                {dossier.publicCareer.map((entry) => (
+                  <p key={entry.eventId}>
+                    <time>{entry.date}</time> · {entry.summary}
+                  </p>
+                ))}
+              </div>
+            </section>
           ) : null}
-          {!expanded && onExpand && (dossier.details.length > 3 || true) ? (
-            <button
-              type="button"
-              className="ui-action ui-action--subtle pg-person-card-more"
-              data-testid="quick-dossier-full"
-              onClick={onExpand}
+          {expanded && dossier.sharedHistory.length > 0 ? (
+            <section
+              className="pg-dossier-section"
+              aria-label="Your shared history"
             >
-              More details
-            </button>
+              <h3>Your shared history</h3>
+              <div className="pg-person-chronology">
+                {dossier.sharedHistory.map((entry) => (
+                  <p key={entry.id}>
+                    <time>{entry.date}</time> · {entry.summary}
+                  </p>
+                ))}
+              </div>
+            </section>
           ) : null}
-        </section>
 
-        {expanded && dossier.publicCareer.length > 0 ? (
-          <section className="pg-dossier-section" aria-label="Public career">
-            <h3>Public career</h3>
-            <div className="pg-person-chronology">
-              {dossier.publicCareer.map((entry) => (
-                <p key={entry.eventId}>
-                  <time>{entry.date}</time> · {entry.summary}
-                </p>
-              ))}
-            </div>
-          </section>
-        ) : null}
-        {expanded && dossier.sharedHistory.length > 0 ? (
-          <section
-            className="pg-dossier-section"
-            aria-label="Your shared history"
-          >
-            <h3>Your shared history</h3>
-            <div className="pg-person-chronology">
-              {dossier.sharedHistory.map((entry) => (
-                <p key={entry.id}>
-                  <time>{entry.date}</time> · {entry.summary}
-                </p>
-              ))}
-            </div>
-          </section>
-        ) : null}
-
-        {connections.length > 0 ? (
-          <section className="pg-dossier-section" aria-label="Connected people">
-            <h3>Connected people</h3>
-            <div
-              className="pg-person-card-connections"
-              data-testid="person-card-connections"
+          {connections.length > 0 ? (
+            <section
+              className="pg-dossier-section"
+              aria-label="Connected people"
             >
-              {connections.map((connection) => (
-                <button
-                  key={connection.personId}
-                  type="button"
-                  className="pg-person-card-connection"
-                  data-testid={`person-card-connection-${connection.personId}`}
-                  onClick={() => onOpenPerson(connection.personId)}
-                >
-                  <PersonPortrait
-                    world={world}
-                    personId={connection.personId}
-                    size="small"
-                  />
-                  <span className="pg-person-card-connection-text">
-                    <strong>{connection.name}</strong>
-                    <small>
-                      {connection.label}
-                      {/* "On the record together…" already names its kind. */}
-                      {connection.kind === "acquaintance"
-                        ? ""
-                        : ` · ${EDGE_KIND_LABELS[connection.kind]}`}
-                    </small>
-                  </span>
-                </button>
-              ))}
-            </div>
-          </section>
-        ) : null}
-
-        {dossier.links.filter((link) => link.kind !== "person").length > 0 ? (
-          <section className="pg-dossier-section" aria-label="Also connected">
-            <h3>Also connected</h3>
-            <div className="pg-dossier-actions" data-testid="dossier-links">
-              {dossier.links
-                .filter((link) => link.kind !== "person")
-                .map((link) => (
+              <h3>Connected people</h3>
+              <div
+                className="pg-person-card-connections"
+                data-testid="person-card-connections"
+              >
+                {connections.map((connection) => (
                   <button
-                    key={`${link.kind}:${link.id}`}
+                    key={connection.personId}
                     type="button"
-                    className="ui-action ui-action--rail"
-                    data-testid={`dossier-link-${link.kind}-${link.id}`}
-                    onClick={() => onOpenLink(link)}
+                    className="pg-person-card-connection"
+                    data-testid={`person-card-connection-${connection.personId}`}
+                    onClick={() => onOpenPerson(connection.personId)}
                   >
-                    {labelForRef(world, link) ?? "Unavailable"}
-                    <small>{pinKindLabel(link.kind)}</small>
+                    <PersonPortrait
+                      world={world}
+                      personId={connection.personId}
+                      size="small"
+                    />
+                    <span className="pg-person-card-connection-text">
+                      <strong>{connection.name}</strong>
+                      <small>
+                        {connection.label}
+                        {/* "On the record together…" already names its kind. */}
+                        {connection.kind === "acquaintance"
+                          ? ""
+                          : ` · ${EDGE_KIND_LABELS[connection.kind]}`}
+                      </small>
+                    </span>
                   </button>
                 ))}
-            </div>
-          </section>
-        ) : null}
+              </div>
+            </section>
+          ) : null}
+
+          {dossier.links.filter((link) => link.kind !== "person").length > 0 ? (
+            <section className="pg-dossier-section" aria-label="Also connected">
+              <h3>Also connected</h3>
+              <div className="pg-dossier-actions" data-testid="dossier-links">
+                {dossier.links
+                  .filter((link) => link.kind !== "person")
+                  .map((link) => (
+                    <button
+                      key={`${link.kind}:${link.id}`}
+                      type="button"
+                      className="ui-action ui-action--rail"
+                      data-testid={`dossier-link-${link.kind}-${link.id}`}
+                      onClick={() => onOpenLink(link)}
+                    >
+                      {labelForRef(world, link) ?? "Unavailable"}
+                      <small>{pinKindLabel(link.kind)}</small>
+                    </button>
+                  ))}
+              </div>
+            </section>
+          ) : null}
+        </div>
       </div>
 
       <footer
