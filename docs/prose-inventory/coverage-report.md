@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 3166 |
 | INTENTIONALLY_NON_PLAYER_FACING | 7102 |
-| DIAGNOSTIC_OR_TEST | 7693 |
-| **NEEDS_CLASSIFICATION** | **10308** |
+| DIAGNOSTIC_OR_TEST | 7697 |
+| **NEEDS_CLASSIFICATION** | **10311** |
 
-Scanned 1173 files holding 112776 string
+Scanned 1174 files holding 112794 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -296,6 +296,7 @@ literals in total; the table counts only those that read like a sentence.
 | 8 | `src/player/PinRail.tsx` |
 | 8 | `src/player/PlayerOffice.tsx` |
 | 8 | `src/player/UX39CalendarGrid.tsx` |
+| 8 | `src/presentation/complete-outfit.ts` |
 | 8 | `src/presentation/housing-conditions.ts` |
 | 8 | `src/presentation/legislative-bargaining-world.ts` |
 | 8 | `src/presentation/legislative-office-context.ts` |
@@ -321,7 +322,6 @@ literals in total; the table counts only those that read like a sentence.
 | 7 | `src/player/PressDeskPanel.tsx` |
 | 7 | `src/player/QuickDossier.tsx` |
 | 7 | `src/player/SceneBackdrop.tsx` |
-| 7 | `src/player/WardrobeFigure.tsx` |
 | 7 | `src/player/education-study-display.ts` |
 | 7 | `src/presentation/candidate-review.ts` |
 | 7 | `src/presentation/civil-personnel-evidence.ts` |
@@ -344,10 +344,10 @@ literals in total; the table counts only those that read like a sentence.
 | 6 | `src/player/PressSourceDesk.tsx` |
 | 6 | `src/player/TitleScreen.tsx` |
 | 6 | `src/player/VenueActivityPanel.tsx` |
+| 6 | `src/player/WardrobeFigure.tsx` |
 | 6 | `src/player/opening-life/OpeningLifePanel.tsx` |
 | 6 | `src/presentation/calendar-time-control.ts` |
 | 6 | `src/presentation/campaign-office-discovery.ts` |
-| 6 | `src/presentation/complete-outfit.ts` |
 | 6 | `src/presentation/component-masters.ts` |
 | 6 | `src/presentation/day-overview.ts` |
 | 6 | `src/presentation/formative-context.ts` |
@@ -463,6 +463,7 @@ literals in total; the table counts only those that read like a sentence.
 | 2 | `src/presentation/campaign-projection.ts` |
 | 2 | `src/presentation/character-proof.ts` |
 | 2 | `src/presentation/contextual-scenes.ts` |
+| 2 | `src/presentation/engine-people29-data.ts` |
 | 2 | `src/presentation/governing-briefing.ts` |
 | 2 | `src/presentation/legislation-docket-selection.ts` |
 | 2 | `src/presentation/life-continuation-shell.ts` |
