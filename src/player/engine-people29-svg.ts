@@ -341,14 +341,95 @@ interface Entry {
   refs: number;
   url: Promise<string>;
   touched: number;
+  bytes: number;
+  ready: boolean;
 }
 const cache = new Map<string, Entry>();
 let sequence = 0;
+const IDLE_VARIANT_BYTES = 24 * 1024 * 1024;
+const IDLE_VARIANT_COUNT = 24;
 function revoke(entry: Entry) {
   void entry.url.then(
     (url) => URL.revokeObjectURL(url),
     () => {},
   );
+}
+function trimIdleVariants() {
+  const idle = [...cache.values()]
+    .filter((e) => e.refs === 0 && e.ready)
+    .sort((a, b) => a.touched - b.touched);
+  let bytes = idle.reduce((sum, e) => sum + e.bytes, 0);
+  while (idle.length > IDLE_VARIANT_COUNT || bytes > IDLE_VARIANT_BYTES) {
+    const oldest = idle.shift()!;
+    bytes -= oldest.bytes;
+    if (cache.get(oldest.key) === oldest) cache.delete(oldest.key);
+    revoke(oldest);
+  }
+}
+/** Key the inputs consumed by this layer. A hair color change must not
+ * invalidate pants, and a new head must not invalidate the shirt. */
+export function preparedVariantKey(
+  assetId: string,
+  material: AppearanceMaterial,
+  drawnIds: readonly string[],
+  expression: "neutral" | "smile" = "neutral",
+) {
+  const template = ENGINE_PEOPLE29_TEMPLATES[assetId];
+  const family = PREPARED_FAMILIES.find((f) => f.id === material.familyId);
+  if (!template || !family || family.id !== template.familyId)
+    return JSON.stringify([
+      assetId,
+      material,
+      [...drawnIds].sort(),
+      expression,
+    ]);
+  const original = family.parts.find((p) => p.id === template.partIds[0]);
+  const drawn = drawnIds.flatMap(
+    (id) => ENGINE_PEOPLE29_TEMPLATES[id]?.partIds ?? [id],
+  );
+  const dependencies = family.parts.filter(
+    (p) =>
+      drawn.includes(p.id) &&
+      ((original?.kind === "body" && p.anatomyOverride) ||
+        ((original?.kind === "body" || original?.kind === "head") &&
+          p.coverageMaskPath)),
+  );
+  const ids = new Set([
+    ...template.partIds,
+    ...(original?.kind === "head"
+      ? Object.values(material.features).map((f) => f.variant)
+      : []),
+    ...dependencies.flatMap((p) => p.anatomyOverride ?? []),
+  ]);
+  const parts = family.parts.filter((p) => ids.has(p.id));
+  const channels = [
+    ...new Set(parts.flatMap((p) => p.materials.map((m) => m.channel))),
+  ].sort();
+  return JSON.stringify([
+    "prepared-variant-v3",
+    assetId,
+    template.sourceSha256,
+    family.id,
+    parts.map((p) => [
+      p.id,
+      p.sha256,
+      p.expressionVariants?.[expression]?.sha256,
+    ]),
+    channels.map((c) => [c, material.palettes[c]]),
+    parts.some((p) => p.features?.length) || original?.kind === "head"
+      ? material.features
+      : null,
+    dependencies.map((p) => [p.id, p.coverageMaskPath, p.anatomyOverride]),
+  ]);
+}
+export function preparedVariantDiagnostics() {
+  const idle = [...cache.values()].filter((e) => e.refs === 0);
+  return {
+    entries: cache.size,
+    active: cache.size - idle.length,
+    idleBytes: idle.reduce((n, e) => n + e.bytes, 0),
+    idleEntries: idle.length,
+  };
 }
 export function acquirePreparedVariant(
   assetId: string,
@@ -356,25 +437,23 @@ export function acquirePreparedVariant(
   drawnIds: readonly string[],
   expression: "neutral" | "smile" = "neutral",
 ) {
-  const key = JSON.stringify([
-    "engine-people29-v2",
-    assetId,
-    ENGINE_PEOPLE29_TEMPLATES[assetId]?.sourceSha256,
-    material,
-    expression,
-    [...drawnIds].sort(),
-  ]);
+  const key = preparedVariantKey(assetId, material, drawnIds, expression);
   let entry = cache.get(key);
   if (!entry) {
-    // Only mounted demand is retained. A fixed per-layer cap silently removed
-    // parts of the eleventh person; release below frees every idle entry.
+    // Mounted demand is never evicted. Only completed idle entries are bounded.
     entry = {
       key,
       refs: 0,
       touched: ++sequence,
+      bytes: 0,
+      ready: false,
       url: renderPreparedSvg(assetId, material, drawnIds, expression).then(
-        (svg) =>
-          URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" })),
+        (svg) => {
+          const blob = new Blob([svg], { type: "image/svg+xml" });
+          entry!.bytes = blob.size;
+          entry!.ready = true;
+          return URL.createObjectURL(blob);
+        },
       ),
     };
     cache.set(key, entry);
@@ -395,8 +474,10 @@ export function acquirePreparedVariant(
       owned.refs--;
       owned.touched = ++sequence;
       if (owned.refs === 0) {
-        if (cache.get(key) === owned) cache.delete(key);
-        revoke(owned);
+        if (!owned.ready || cache.get(key) !== owned) {
+          if (cache.get(key) === owned) cache.delete(key);
+          revoke(owned);
+        } else trimIdleVariants();
       }
     },
   };

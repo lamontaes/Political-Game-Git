@@ -2,6 +2,8 @@ import {
   createContext,
   useContext,
   useEffect,
+  useLayoutEffect,
+  useRef,
   useState,
   type CSSProperties,
   type ReactNode,
@@ -157,7 +159,11 @@ export function MaterialGroup({
     request: string;
     urls: Map<string, string>;
     error?: string;
+    children: ReactNode;
+    release: () => void;
   }>();
+  // A displayed bundle owns its URLs until its replacement has committed.
+  useEffect(() => () => result?.release(), [result]);
   useEffect(() => {
     const [members, faceExpression] = JSON.parse(request) as [
       MaterialGroupLayer[],
@@ -165,6 +171,8 @@ export function MaterialGroup({
     ];
     let active = true;
     const leases: ReturnType<typeof acquirePreparedVariant>[] = [];
+    let transferred = false;
+    const release = () => leases.forEach((lease) => lease.release());
     const ids = members.flatMap((layer) =>
       layer.assetId ? [layer.assetId] : [],
     );
@@ -196,24 +204,45 @@ export function MaterialGroup({
       }),
     ).then(
       (values) => {
-        if (active)
+        if (active) {
+          transferred = true;
           setResult({
             request,
             urls: new Map(values.filter((value) => value !== undefined)),
+            children,
+            release,
           });
+        }
       },
       (error) => {
         if (active)
-          setResult({ request, urls: new Map(), error: String(error) });
+          setResult({
+            request,
+            urls: new Map(),
+            error: String(error),
+            children,
+            release,
+          });
       },
     );
     return () => {
       active = false;
-      leases.forEach((lease) => lease.release());
+      if (!transferred) release();
     };
+    // The request contains every input that can alter pixels. Captured children
+    // are the geometry/identity snapshot for those pixels while a newer request loads.
   }, [request]);
   const current = result?.request === request ? result : undefined;
-  if (!current || current.error)
+  const displayed = useRef<
+    { request: string; children: ReactNode } | undefined
+  >(undefined);
+  useLayoutEffect(() => {
+    // Geometry can change without changing material pixels. Retain the latest
+    // committed view, not the children captured when those pixels first loaded.
+    if (current && !current.error)
+      displayed.current = { request: current.request, children };
+  }, [current, children]);
+  if ((!current && (!result || result.error)) || current?.error)
     return (
       <span
         data-material-group-state={current?.error ? "unavailable" : "loading"}
@@ -225,9 +254,19 @@ export function MaterialGroup({
       </span>
     );
   return (
-    <MaterialGroupContext.Provider value={current.urls}>
-      {children}
-    </MaterialGroupContext.Provider>
+    <span
+      style={{ display: "contents" }}
+      data-material-group-state={current ? "ready" : "pending"}
+      aria-busy={!current}
+    >
+      <MaterialGroupContext.Provider value={(current ?? result!).urls}>
+        {current
+          ? children
+          : displayed.current?.request === result!.request
+            ? displayed.current.children
+            : result!.children}
+      </MaterialGroupContext.Provider>
+    </span>
   );
 }
 

@@ -4,7 +4,7 @@ import tempfile
 from pathlib import Path
 from PIL import Image, ImageDraw
 from intake import fit_head, digest
-from rig import JOINTS, OWNERS, validate_profile, body_descriptor
+from rig import JOINTS, JOINTS_V2, OWNERS, validate_profile, body_descriptor
 from intake import IntakeError
 
 class ProfileTests(unittest.TestCase):
@@ -15,6 +15,27 @@ class ProfileTests(unittest.TestCase):
                 'headSize':{'heightRange':[140,170],'widthRange':[90,150],'preferredHeight':153},
                 'poses':{'standing-neutral':{'view':'front','landmarks':{k:[300,600] for k in JOINTS},
                     'sourceTransform':{'scale':.78,'dx':-99.36,'dy':12}}}}
+
+    def test_directional_profile_requires_authored_source_and_explicit_pose(self):
+        p=self.profile();p['schema']='modular-body-profile-v2'
+        pose=p['poses'].pop('standing-neutral');p['poses']['seated-left']=pose
+        pose.update(view='three-quarter-left', supportedHeadViews=['three-quarter-left'],
+          landmarks={k:[300,600] for k in JOINTS_V2},
+          source={'path':'new-view.png','sha256':'authored'},sourceCanvas=[1200,2400],
+          compatibleSourcePoses=['seated-left'],contacts={'feet':[300,1100],'leftFoot':[220,1100],'rightFoot':[380,1100],'seat':[300,700],'hands':{'left':[210,660],'right':[370,660]}})
+        b=body_descriptor(p,'seated-left')
+        self.assertEqual(b['view'],'three-quarter-left')
+        self.assertEqual(b['compatibleSourcePoses'],['seated-left'])
+        for hands in ('on thighs', {'left': [210, 660]}, {'left': [True, 660], 'right': None}, {'left': [610, 660], 'right': None}):
+            invalid=copy.deepcopy(p)
+            invalid['poses']['seated-left']['contacts']['hands']=hands
+            with self.subTest(hands=hands), self.assertRaises(IntakeError):
+                validate_profile(invalid)
+        standing=copy.deepcopy(p)
+        standing['poses']['seated-left']['contacts']['hands']={'left':None,'right':None}
+        validate_profile(standing)
+        del pose['source']
+        with self.assertRaises(IntakeError):validate_profile(p)
 
     def test_unseen_profile_maps_without_name_rules(self):
         p=self.profile(); b=body_descriptor(p,'standing-neutral')
