@@ -6,10 +6,13 @@
  *   workspace --owner X            the owner's registered folder (never a new one)
  *   register --owner X --path P [--role R]
  *   protect --path P --reason "…"
- *   gate <operation>               refuse or reserve (used by entry points)
- *   outputs [--root P] [--apply]   pin-aware retention of disposable runs
+ *   run <operation> -- <command>   hold the reservation until the command ends
+ *   gate <operation>               admission check only; holds nothing afterwards
+ *   output-root --path P [--owner X] [--historical-disposable]
+ *                                  name one exact directory as disposable output
+ *   outputs [--root P] [--apply]   retention; removes only in a registered root
  *   check --path P                 every reason a folder may not be retired
- *   record --plan FILE             write each path's exact contents into the plan
+ *   record --plan FILE             write each path's content manifest into the plan
  *   retire --plan FILE [--apply]   remove exactly an approved list
  */
 import { readFileSync, writeFileSync } from "node:fs";
@@ -19,8 +22,9 @@ import {
   StorageRefusal,
   createStorageGuard,
   formatBytes,
+  contentManifest,
   isEphemeralHost,
-  recordedState,
+  runManaged,
 } from "./storage-guard.mjs";
 
 const [command, ...rest] = process.argv.slice(2);
@@ -53,8 +57,12 @@ try {
       console.log(
         `workspace ${entry.owner.padEnd(6)} ${entry.role.padEnd(14)} ${entry.state.padEnd(8)} ${formatBytes(entry.measuredBytes ?? 0).padStart(9)}  ${entry.path}`,
       );
-    for (const entry of registry.protectedEntries ?? [])
+    for (const entry of guard.protectedList())
       console.log(`protected ${entry.path} — ${entry.reason}`);
+    for (const entry of registry.outputRoots ?? [])
+      console.log(
+        `output    ${entry.path} (${entry.owner}; earlier contents: ${entry.historical})`,
+      );
     for (const entry of guard.liveReservations())
       console.log(
         `reserved  ${formatBytes(entry.bytes)} ${entry.operation} by ${entry.owner}`,
@@ -76,9 +84,31 @@ try {
   } else if (command === "protect") {
     guard.protect(flag("path"), flag("reason") ?? "protected");
     console.log(`protected ${flag("path")}`);
+  } else if (command === "run") {
+    const split = rest.indexOf("--");
+    if (split < 1 || split === rest.length - 1) {
+      console.error("usage: storage run <operation> -- <command> [args...]");
+      process.exitCode = 1;
+    } else {
+      process.exitCode = await runManaged({
+        operation: rest[0],
+        command: rest[split + 1],
+        args: rest.slice(split + 2),
+        outputRoots: [path.join(process.cwd(), "test-results", "runs")],
+      });
+    }
+  } else if (command === "output-root") {
+    const record = guard.registerOutputRoot({
+      root: flag("path"),
+      owner: flag("owner"),
+      historical: has("historical-disposable") ? "disposable" : "keep",
+    });
+    console.log(
+      `output root ${record.path} (${record.owner}); contents older than now are ${record.historical === "keep" ? "kept until a disposition is recorded" : "disposable"}`,
+    );
   } else if (command === "gate" && isEphemeralHost()) {
     console.log(
-      `ok: ${rest[0]} — hosted runner (CI), the workstation reserve does not apply`,
+      `ok: ${rest[0]} — GitHub-hosted runner, the workstation reserve does not apply`,
     );
   } else if (command === "gate" && process.env.OCD_STORAGE_OVERRIDE) {
     console.log(`OVERRIDDEN ${rest[0]}: ${process.env.OCD_STORAGE_OVERRIDE}`);
@@ -100,8 +130,13 @@ try {
       flag("root") ?? path.join(process.cwd(), "test-results", "runs");
     const report = guard.pruneOutputs(root, { apply: has("apply") });
     console.log(
-      `${report.root}: ${formatBytes(report.totalBytes)} in ${report.kept.length + report.removed.length} run(s); budget ${formatBytes(guard.policy.outputBudgetBytes)}`,
+      `${report.root}: ${formatBytes(report.totalBytes)} in ${report.kept.length + report.removed.length} run(s); budget ${formatBytes(guard.policy.outputBudgetBytes)}; ${report.registered ? "registered output root" : "NOT a registered output root — read-only"}`,
     );
+    for (const run of report.kept)
+      if (!["recent", "within budget"].includes(run.reason))
+        console.log(
+          `kept ${formatBytes(run.bytes).padStart(9)} ${run.path} — ${run.reason}`,
+        );
     for (const run of report.removed)
       console.log(
         `${has("apply") ? "removed" : "would remove"} ${formatBytes(run.bytes).padStart(9)} ${run.path}`,
@@ -118,9 +153,12 @@ try {
   } else if (command === "record") {
     const plan = JSON.parse(readFileSync(flag("plan"), "utf8"));
     for (const item of plan.items) {
-      item.expectedState = recordedState(item.path, item.identicalTo);
+      item.expectedManifest = contentManifest(item.path, {
+        identicalTo: item.identicalTo,
+        disposableRoots: item.disposableRoots ?? [],
+      });
       console.log(
-        `${item.expectedState === null ? "UNREADABLE" : `${String(item.expectedState.length - 1).padStart(3)} difference(s)`} ${item.path}`,
+        `${item.expectedManifest === null ? "UNREADABLE" : `${String(item.expectedManifest.filter((line) => /^(FILE|LINK|ABSENT|EMPTYDIR|SPECIAL) /.test(line)).length).padStart(5)} digested path(s)`} ${item.path}`,
       );
     }
     writeFileSync(flag("plan"), `${JSON.stringify(plan, null, 1)}\n`);

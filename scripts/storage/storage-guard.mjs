@@ -1,4 +1,4 @@
-/* global process */
+/* global process, Buffer */
 /**
  * STORAGE GUARD — workspace reuse, reserved headroom and bounded output.
  *
@@ -26,13 +26,17 @@
  * their caller names, only in apply mode, and re-check every condition
  * immediately before each removal.
  */
-import { execFileSync } from "node:child_process";
+import { execFileSync, spawn } from "node:child_process";
+import { createHash } from "node:crypto";
 import {
+  closeSync,
   existsSync,
   lstatSync,
   mkdirSync,
   mkdtempSync,
+  openSync,
   readFileSync,
+  readSync,
   readdirSync,
   readlinkSync,
   realpathSync,
@@ -94,6 +98,7 @@ const HARD_BLOCKERS = new Set([
   "unpublished-commits",
   "stash",
   "changed-since-approval",
+  "no-approved-manifest",
 ]);
 
 export function defaultStateDir(env = process.env) {
@@ -134,6 +139,58 @@ function writeJsonAtomic(file, value) {
   const temporary = `${file}.${process.pid}.tmp`;
   writeFileSync(temporary, `${JSON.stringify(value, null, 2)}\n`);
   renameSync(temporary, file);
+}
+
+/**
+ * One writer at a time. An atomic rename keeps a reader from seeing half a
+ * file; it does not stop two processes reading the same old state and each
+ * writing back its own addition. Every read-modify-write of the registry or
+ * the reservations happens inside this lock.
+ */
+function withLock(stateDir, action) {
+  mkdirSync(stateDir, { recursive: true });
+  const lock = path.join(stateDir, "storage.lock");
+  const sleeper = new Int32Array(new SharedArrayBuffer(4));
+  const deadline = Date.now() + 15_000;
+  for (;;) {
+    try {
+      mkdirSync(lock);
+      writeFileSync(path.join(lock, "owner"), String(process.pid));
+      break;
+    } catch (error) {
+      if (error.code !== "EEXIST") throw error;
+      let holder = NaN;
+      let age = 0;
+      try {
+        holder = Number(readFileSync(path.join(lock, "owner"), "utf8"));
+        age = Date.now() - lstatSync(lock).mtimeMs;
+      } catch {
+        /* the holder is between mkdir and write, or just released */
+      }
+      const dead = Number.isInteger(holder) && !processAlive(holder);
+      if (dead || age > 60_000) rmSync(lock, { recursive: true, force: true });
+      else if (Date.now() > deadline)
+        throw new StorageRefusal(
+          "lock-timeout",
+          `Storage state is locked by process ${holder}; nothing was changed.`,
+        );
+      else Atomics.wait(sleeper, 0, 0, 25);
+    }
+  }
+  try {
+    return action();
+  } finally {
+    rmSync(lock, { recursive: true, force: true });
+  }
+}
+
+function processAlive(pid) {
+  try {
+    process.kill(pid, 0);
+    return true;
+  } catch (error) {
+    return error.code === "EPERM";
+  }
 }
 
 /** Real path of something that exists; the lexical path otherwise. */
@@ -210,58 +267,201 @@ function notOnOffDeviceRemote(cwd, revisions) {
   ]);
 }
 
-/**
- * The exact recorded contents an approval covers: HEAD (when readable) plus
- * every tracked difference and untracked path. A broken-linked worktree has no
- * Git of its own, so it is compared, read-only and through a throwaway index,
- * with the commit in a surviving store it was found identical to.
- */
-export function recordedState(target, identicalTo) {
-  if (!identicalTo) {
-    const head = git(target, ["rev-parse", "HEAD"]);
-    const status = git(target, [
-      "status",
-      "--porcelain",
-      "--untracked-files=all",
-    ]);
-    if (head === null || status === null) return null;
-    return [`HEAD ${head}`, ...status.split("\n").filter(Boolean).sort()];
-  }
-  const scratch = mkdtempSync(path.join(tmpdir(), "ocd-storage-index-"));
+function sha256File(file) {
+  const hash = createHash("sha256");
+  const handle = openSync(file, "r");
   try {
-    const run = (args) => {
-      try {
-        return execFileSync("git", args, {
-          cwd: identicalTo.store,
-          env: { ...process.env, GIT_INDEX_FILE: path.join(scratch, "index") },
+    const buffer = Buffer.allocUnsafe(1024 * 1024);
+    for (;;) {
+      const read = readSync(handle, buffer, 0, buffer.length, null);
+      if (read === 0) break;
+      hash.update(buffer.subarray(0, read));
+    }
+  } finally {
+    closeSync(handle);
+  }
+  return hash.digest("hex");
+}
+
+/**
+ * A plan names its disposable roots explicitly. `node_modules` (no slash)
+ * matches that name at any depth; `desktop/staged` matches that exact
+ * relative path and everything under it.
+ */
+function isDisposable(relative, disposableRoots) {
+  const segments = relative.split("/");
+  return disposableRoots.some((root) =>
+    root.includes("/")
+      ? relative === root || relative.startsWith(`${root}/`)
+      : segments.includes(root),
+  );
+}
+
+/** One manifest line for whatever is at `relative`: bytes, link or absence. */
+function describePath(base, relative, lines, disposableRoots) {
+  if (isDisposable(relative, disposableRoots)) {
+    lines.add(`DISPOSABLE ${relative}`);
+    return;
+  }
+  const absolute = path.join(base, relative);
+  let stats;
+  try {
+    stats = lstatSync(absolute);
+  } catch {
+    lines.add(`ABSENT ${relative}`);
+    return;
+  }
+  if (stats.isSymbolicLink())
+    lines.add(`LINK ${relative} -> ${readlinkSync(absolute)}`);
+  else if (stats.isDirectory()) {
+    const entries = readdirSync(absolute).sort();
+    if (entries.length === 0) lines.add(`EMPTYDIR ${relative}`);
+    for (const entry of entries)
+      describePath(base, `${relative}/${entry}`, lines, disposableRoots);
+  } else if (stats.isFile())
+    lines.add(
+      `FILE ${sha256File(absolute)} ${stats.mode & 0o111 ? "x" : "-"} ${relative}`,
+    );
+  else lines.add(`SPECIAL ${relative}`);
+}
+
+/** NUL-separated porcelain v1: a rename or copy carries its origin next. */
+function parsePorcelainZ(output) {
+  const fields = output.split("\0").filter((field) => field !== "");
+  const entries = [];
+  for (let index = 0; index < fields.length; index += 1) {
+    const code = fields[index].slice(0, 2);
+    const entry = { code, path: fields[index].slice(3) };
+    if (code.includes("R") || code.includes("C")) {
+      index += 1;
+      entry.from = fields[index];
+    }
+    entries.push(entry);
+  }
+  return entries;
+}
+
+/**
+ * THE CONTENT AN APPROVAL COVERS. Source identity (HEAD, or the commit a
+ * broken-linked worktree was matched to) plus a digest of every byte Git would
+ * not give back: tracked files that differ from that commit (staged or not),
+ * untracked files, ignored files outside the plan's named disposable roots,
+ * and paths the index is told to skip. Symlinks are bound by their target
+ * text, never followed. Unchanged tracked files are covered by the commit id
+ * and are not re-hashed. A name or a size is never the evidence.
+ *
+ * @param {string} target
+ * @param {{ identicalTo?: { store: string, commit: string },
+ *           disposableRoots?: string[] }} [options]
+ * @returns {string[] | null} sorted manifest lines, or null when unreadable
+ */
+export function contentManifest(target, options = {}) {
+  const { identicalTo, disposableRoots = [] } = options;
+  const base = real(target);
+  const lines = new Set([`ROOT ${base}`]);
+  for (const root of disposableRoots) lines.add(`DISPOSABLE-ROOT ${root}`);
+  let dotGit;
+  try {
+    dotGit = lstatSync(path.join(base, ".git"));
+  } catch {
+    dotGit = null;
+  }
+  if (dotGit === null) {
+    // Not a checkout: every byte outside the disposable roots is the content.
+    lines.add("SOURCE none");
+    for (const entry of readdirSync(base).sort())
+      describePath(base, entry, lines, disposableRoots);
+    return [...lines].sort();
+  }
+  lines.add(
+    dotGit.isDirectory()
+      ? "GIT store"
+      : `GIT ${readFileSync(path.join(base, ".git"), "utf8").trim()}`,
+  );
+
+  const scratch = identicalTo
+    ? mkdtempSync(path.join(tmpdir(), "ocd-storage-index-"))
+    : null;
+  const run = (args) => {
+    try {
+      return execFileSync(
+        "git",
+        identicalTo ? [`--work-tree=${base}`, ...args] : args,
+        {
+          cwd: identicalTo ? identicalTo.store : base,
+          env: scratch
+            ? { ...process.env, GIT_INDEX_FILE: path.join(scratch, "index") }
+            : process.env,
           encoding: "utf8",
           stdio: ["ignore", "pipe", "ignore"],
-          maxBuffer: 64 * MiB,
-        }).trim();
+          maxBuffer: 256 * MiB,
+        },
+      );
+    } catch {
+      return null;
+    }
+  };
+  try {
+    let commit;
+    if (identicalTo) {
+      commit = identicalTo.commit;
+      try {
+        execFileSync("git", ["read-tree", commit], {
+          cwd: identicalTo.store,
+          env: { ...process.env, GIT_INDEX_FILE: path.join(scratch, "index") },
+          stdio: "ignore",
+        });
       } catch {
         return null;
       }
-    };
-    if (run(["read-tree", identicalTo.commit]) === null) return null;
-    const tree = [`--work-tree=${target}`];
-    const tracked = run([...tree, "diff", "--name-status", identicalTo.commit]);
+      lines.add(`SOURCE identical-to ${commit}`);
+    } else {
+      commit = run(["rev-parse", "HEAD"])?.trim();
+      if (!commit) return null;
+      lines.add(`SOURCE HEAD ${commit}`);
+    }
+    // Working tree against the commit: catches staged and unstaged alike.
+    const tracked = run(["diff", "--name-only", "-z", commit]);
     const status = run([
-      ...tree,
       "status",
-      "--porcelain",
+      "--porcelain=v1",
+      "-z",
       "--untracked-files=all",
+      "--ignored=matching",
     ]);
     if (tracked === null || status === null) return null;
-    return [
-      `IDENTICAL-TO ${identicalTo.commit}`,
-      ...tracked.split("\n").filter(Boolean).sort(),
-      ...status
-        .split("\n")
-        .filter((line) => line.startsWith("??"))
-        .sort(),
-    ];
+    for (const relative of tracked.split("\0").filter(Boolean))
+      describePath(base, relative, lines, []);
+    for (const entry of parsePorcelainZ(status)) {
+      const relative = entry.path.replace(/\/$/, "");
+      if (entry.code === "??") describePath(base, relative, lines, []);
+      else if (entry.code === "!!")
+        describePath(base, relative, lines, disposableRoots);
+      else if (!identicalTo) {
+        // The index itself is content when something is staged.
+        const staged = run(["ls-files", "--stage", "-z", "--", entry.path]);
+        lines.add(
+          `INDEX ${entry.code.trim()} ${relative} ${(staged ?? "").split("\0").filter(Boolean).join(",") || "removed"}`,
+        );
+        describePath(base, relative, lines, []);
+      }
+    }
+    if (!identicalTo) {
+      // assume-unchanged (lower-case tag) and skip-worktree (S) hide edits
+      // from status, so those paths are digested explicitly.
+      const flagged = run(["ls-files", "-v", "-z"]);
+      if (flagged === null) return null;
+      for (const field of flagged.split("\0").filter(Boolean)) {
+        const tag = field[0];
+        if (tag === "S" || tag !== tag.toUpperCase()) {
+          lines.add(`INDEX-SPECIAL ${tag} ${field.slice(2)}`);
+          describePath(base, field.slice(2), lines, []);
+        }
+      }
+    }
+    return [...lines].sort();
   } finally {
-    rmSync(scratch, { recursive: true, force: true });
+    if (scratch) rmSync(scratch, { recursive: true, force: true });
   }
 }
 
@@ -279,6 +479,13 @@ export function createStorageGuard(options = {}) {
   const freeBytes =
     options.freeBytes ??
     ((target) => {
+      // Fixture-only: honoured solely beside an explicit fixture state
+      // directory, so it can never loosen the limits on the real registry.
+      if (
+        process.env.OCD_STORAGE_STATE_DIR &&
+        process.env.OCD_STORAGE_FIXTURE_FREE_BYTES
+      )
+        return Number(process.env.OCD_STORAGE_FIXTURE_FREE_BYTES);
       const stats = statfsSync(existsSync(target) ? target : homedir());
       return stats.bavail * stats.bsize;
     });
@@ -297,17 +504,49 @@ export function createStorageGuard(options = {}) {
   const registry = () =>
     readJson(registryFile, { version: 1, workspaces: [], protectedPaths: [] });
   const saveRegistry = (value) => writeJsonAtomic(registryFile, value);
+  const locked = (action) => withLock(stateDir, action);
+
+  /**
+   * ONE protection contract. `protect` records a path with its reason and
+   * `register({ protect })` records bare paths; retirement and output cleanup
+   * both read this merged list, so neither form is invisible to either.
+   */
+  function protectedList(current = registry()) {
+    return [
+      ...(current.protectedEntries ?? []),
+      ...(current.protectedPaths ?? []).map((entry) => ({
+        path: entry,
+        reason: "protected when its workspace was registered",
+      })),
+    ];
+  }
 
   function liveReservations() {
     const all = readJson(reservationsFile, { reservations: [] }).reservations;
-    return all.filter((entry) => entry.expiresAt > now());
+    return all.filter(
+      (entry) =>
+        entry.expiresAt > now() &&
+        // A holder that died without releasing must not block for hours.
+        (entry.pid === undefined || processAlive(entry.pid)),
+    );
   }
 
   /**
    * Take headroom BEFORE the write. Refuses with the numbers; a refusal
    * changes nothing on disk except never having started.
    */
-  function reserve({ operation, target, estimateBytes, owner = "unknown" }) {
+  function reserve(request) {
+    return locked(() => reserveUnlocked(request));
+  }
+
+  function reserveUnlocked({
+    operation,
+    target,
+    estimateBytes,
+    owner = "unknown",
+    outputPaths = [],
+    pid = process.pid,
+  }) {
     const estimate = estimateBytes ?? policy.estimatesBytes[operation];
     if (!Number.isFinite(estimate) || estimate <= 0)
       throw new StorageRefusal(
@@ -341,6 +580,10 @@ export function createStorageGuard(options = {}) {
       // (/var and /private/var are the same directory on macOS).
       target: real(target),
       bytes: estimate,
+      // The run directories this operation is writing; output cleanup keeps
+      // them while the holder lives, however old they look.
+      outputPaths: outputPaths.map(real),
+      pid,
       createdAt: now(),
       expiresAt: now() + policy.reservationTtlMs,
     };
@@ -351,9 +594,11 @@ export function createStorageGuard(options = {}) {
   }
 
   function release(id) {
-    writeJsonAtomic(reservationsFile, {
-      reservations: liveReservations().filter((entry) => entry.id !== id),
-    });
+    locked(() =>
+      writeJsonAtomic(reservationsFile, {
+        reservations: liveReservations().filter((entry) => entry.id !== id),
+      }),
+    );
   }
 
   /**
@@ -363,6 +608,10 @@ export function createStorageGuard(options = {}) {
    * condition, and still has to fit the budget.
    */
   function ensureWorkspace(request) {
+    return locked(() => ensureWorkspaceUnlocked(request));
+  }
+
+  function ensureWorkspaceUnlocked(request) {
     const { owner, role = "implementation", create } = request;
     if (!owner)
       throw new StorageRefusal("no-owner", "A workspace has an owner.");
@@ -413,7 +662,7 @@ export function createStorageGuard(options = {}) {
         "workspace-budget",
         `Refused: registered workspaces hold ${formatBytes(managed)}; one more (${formatBytes(estimate)}) would pass the ${formatBytes(policy.managedWorkspaceBudgetBytes)} budget.`,
       );
-    const reservation = reserve({
+    const reservation = reserveUnlocked({
       operation: "workspace-create",
       target: path.dirname(target),
       owner,
@@ -435,7 +684,16 @@ export function createStorageGuard(options = {}) {
   }
 
   /** Put an existing folder on the map without creating or moving anything. */
-  function register({ owner, role = "implementation", folder, protect = [] }) {
+  function register(request) {
+    return locked(() => registerUnlocked(request));
+  }
+
+  function registerUnlocked({
+    owner,
+    role = "implementation",
+    folder,
+    protect = [],
+  }) {
     const target = real(folder);
     if (!existsSync(target))
       throw new StorageRefusal("missing", `${target} does not exist.`);
@@ -460,13 +718,75 @@ export function createStorageGuard(options = {}) {
   }
 
   function protect(folder, reason) {
-    const current = registry();
-    const entries = (current.protectedEntries ?? []).filter(
-      (entry) => entry.path !== real(folder),
-    );
-    saveRegistry({
-      ...current,
-      protectedEntries: [...entries, { path: real(folder), reason }],
+    locked(() => {
+      const current = registry();
+      const entries = (current.protectedEntries ?? []).filter(
+        (entry) => entry.path !== real(folder),
+      );
+      saveRegistry({
+        ...current,
+        protectedEntries: [...entries, { path: real(folder), reason }],
+      });
+    });
+  }
+
+  /**
+   * Name one exact directory as disposable run output. Only such a root can
+   * ever be pruned. It must sit inside a registered workspace and must not be,
+   * contain, or lie within anything that holds source, assets, saves or
+   * recovery material. What was already there when it was registered is
+   * HISTORICAL: kept until its disposition is recorded, because nobody has
+   * said that old evidence is disposable.
+   */
+  function registerOutputRoot({ root, owner, historical = "keep" }) {
+    return locked(() => {
+      const lexical = path.resolve(root);
+      let stats;
+      try {
+        stats = lstatSync(lexical);
+      } catch {
+        throw new StorageRefusal("missing", `${lexical} does not exist.`);
+      }
+      if (stats.isSymbolicLink() || !stats.isDirectory())
+        throw new StorageRefusal(
+          "not-a-directory",
+          `${lexical} is a symlink or not a directory; an output root is an exact real directory.`,
+        );
+      const target = real(lexical);
+      const current = registry();
+      const home = current.workspaces.find(
+        (entry) =>
+          entry.state === "active" &&
+          isInside(target, entry.path) &&
+          target !== entry.path,
+      );
+      if (!home)
+        throw new StorageRefusal(
+          "outside-workspace",
+          `${target} is not inside a registered workspace (or is the workspace itself, which is source).`,
+        );
+      if (existsSync(path.join(target, ".git")))
+        throw new StorageRefusal(
+          "holds-source",
+          `${target} is a Git checkout, not run output.`,
+        );
+      for (const entry of protectedList(current))
+        if (isInside(target, entry.path) || isInside(entry.path, target))
+          throw new StorageRefusal(
+            "protected",
+            `${target} overlaps protected ${entry.path} (${entry.reason}).`,
+          );
+      const others = (current.outputRoots ?? []).filter(
+        (entry) => entry.path !== target,
+      );
+      const record = {
+        path: target,
+        owner: owner ?? home.owner,
+        registeredAt: now(),
+        historical,
+      };
+      saveRegistry({ ...current, outputRoots: [...others, record] });
+      return record;
     });
   }
 
@@ -608,7 +928,7 @@ export function createStorageGuard(options = {}) {
         code: "active-workspace",
         detail: `registered to ${active.owner} (${active.role})`,
       });
-    for (const entry of current.protectedEntries ?? [])
+    for (const entry of protectedList(current))
       if (isInside(target, entry.path) || isInside(entry.path, target))
         blockers.push({
           code: "protected",
@@ -748,18 +1068,38 @@ export function createStorageGuard(options = {}) {
           code: "changed-since-approval",
           detail: `measured ${formatBytes(bytes)}, approved at ${formatBytes(item.expectedBytes)}`,
         });
-      if (item.expectedState !== undefined) {
-        const now = recordedState(item.path, item.identicalTo);
-        if (
-          now === null ||
-          JSON.stringify(now) !== JSON.stringify(item.expectedState)
-        )
+      // Approval binds bytes. Without a manifest there is nothing the owner
+      // can be said to have approved, so apply refuses; with one, any
+      // difference refuses — including a rewrite that leaves status unchanged.
+      if (item.expectedManifest === undefined) {
+        if (apply)
+          blockers.push({
+            code: "no-approved-manifest",
+            detail:
+              "the plan has no content manifest for this path; run `storage record` and have that plan approved",
+          });
+      } else if (existsSync(item.path)) {
+        const current = contentManifest(item.path, {
+          identicalTo: item.identicalTo,
+          disposableRoots: item.disposableRoots ?? [],
+        });
+        const approved = new Set(item.expectedManifest);
+        const changed =
+          current === null
+            ? null
+            : [
+                ...current.filter((line) => !approved.has(line)),
+                ...item.expectedManifest.filter(
+                  (line) => !current.includes(line),
+                ),
+              ];
+        if (changed === null || changed.length > 0)
           blockers.push({
             code: "changed-since-approval",
             detail:
-              now === null
-                ? "recorded contents can no longer be read"
-                : `contents differ from the approved record (${now.filter((line) => !item.expectedState.includes(line)).length} new, ${item.expectedState.filter((line) => !now.includes(line)).length} gone)`,
+              changed === null
+                ? "contents can no longer be read"
+                : `contents differ from the approved manifest: ${changed.slice(0, 3).join("; ")}${changed.length > 3 ? ` (+${changed.length - 3} more)` : ""}`,
           });
       }
       if (blockers.length > 0) {
@@ -772,19 +1112,77 @@ export function createStorageGuard(options = {}) {
     return results;
   }
 
+  /** Does anything under this run carry a `.pin`, at any depth? */
+  function holdsPin(folder) {
+    let entries = [];
+    try {
+      entries = readdirSync(folder, { withFileTypes: true });
+    } catch {
+      return false;
+    }
+    return entries.some(
+      (entry) =>
+        entry.name === ".pin" ||
+        (entry.isDirectory() &&
+          !entry.isSymbolicLink() &&
+          holdsPin(path.join(folder, entry.name))),
+    );
+  }
+
+  /** Why one run directory must stay, or null when it is eligible. */
+  function keepReason(run, registration) {
+    if (holdsPin(run.path)) return "pinned";
+    for (const entry of protectedList())
+      if (isInside(entry.path, run.path) || isInside(run.path, entry.path))
+        return `protected: ${entry.path}`;
+    for (const entry of liveReservations()) {
+      if ((entry.outputPaths ?? []).some((held) => isInside(held, run.path)))
+        return `live: ${entry.operation} by ${entry.owner} is writing it`;
+      if (isInside(run.path, entry.target) && run.mtimeMs >= entry.createdAt)
+        return `live: written since ${entry.operation} by ${entry.owner} began`;
+    }
+    if (
+      registration &&
+      registration.historical !== "disposable" &&
+      run.mtimeMs < registration.registeredAt
+    )
+      return "historical: older than this root's registration, no disposition recorded";
+    return null;
+  }
+
   /**
-   * Disposable run output in a registered root: keep pinned runs, keep the
-   * most recent few, and report (or remove, in apply mode) the rest once the
-   * root is over budget. A run is pinned by a `.pin` file inside it.
+   * Disposable run output. Measuring any directory is read-only and always
+   * allowed (the gate needs the number). REMOVING is allowed only in an exact
+   * registered output root, and never a run that is pinned anywhere inside,
+   * overlaps a protected path, belongs to a live operation, or predates the
+   * root's registration without a recorded disposition. Every keep condition
+   * is evaluated again immediately before each removal.
    */
   function pruneOutputs(root, { apply = false } = {}) {
-    const base = real(root);
+    const lexical = path.resolve(root);
+    const base = real(lexical);
+    const registration =
+      (registry().outputRoots ?? []).find((entry) => entry.path === base) ??
+      null;
+    let lexicalIsLink = false;
+    try {
+      lexicalIsLink = lstatSync(lexical).isSymbolicLink();
+    } catch {
+      lexicalIsLink = false;
+    }
+    if (apply && (!registration || lexicalIsLink))
+      throw new StorageRefusal(
+        "unregistered-output-root",
+        `Refused: ${lexical} is not an exact registered disposable output root${lexicalIsLink ? " (it is a symlink)" : ""}. Nothing was removed. Register it with \`storage output-root --path\` if it really is run output.`,
+        { root: base },
+      );
     let names = [];
     try {
       names = readdirSync(base);
     } catch {
       return {
         root: base,
+        registered: Boolean(registration),
         totalBytes: 0,
         kept: [],
         removed: [],
@@ -799,7 +1197,6 @@ export function createStorageGuard(options = {}) {
       })
       .map((entry) => ({
         path: entry,
-        pinned: existsSync(path.join(entry, ".pin")),
         mtimeMs: lstatSync(entry).mtimeMs,
         bytes: measure(entry),
       }))
@@ -810,25 +1207,37 @@ export function createStorageGuard(options = {}) {
     let recent = 0;
     let running = 0;
     for (const run of runs) {
-      const keepRecent = !run.pinned && recent < policy.outputKeepRecent;
-      if (run.pinned || keepRecent) {
-        if (!run.pinned) recent += 1;
-        running += run.bytes;
-        kept.push(run);
-      } else if (
+      const reason = keepReason(run, registration);
+      const keepRecent = reason === null && recent < policy.outputKeepRecent;
+      const fits =
         running + run.bytes <= policy.outputBudgetBytes &&
-        totalBytes <= policy.outputBudgetBytes
-      ) {
+        totalBytes <= policy.outputBudgetBytes;
+      if (reason !== null || keepRecent || fits) {
+        if (keepRecent) recent += 1;
         running += run.bytes;
-        kept.push(run);
-      } else {
-        if (apply && isInside(real(run.path), base))
-          rmSync(run.path, { recursive: true, force: false });
-        removed.push(run);
+        kept.push({
+          ...run,
+          pinned: reason === "pinned",
+          reason: reason ?? (keepRecent ? "recent" : "within budget"),
+        });
+        continue;
       }
+      if (apply) {
+        // Recheck at the moment of removal: a pin, a protection or a live
+        // producer may have appeared since the listing above.
+        const late = keepReason(run, registration);
+        const still = real(run.path);
+        if (late !== null || !isInside(still, base) || still === base) {
+          kept.push({ ...run, pinned: late === "pinned", reason: late });
+          continue;
+        }
+        rmSync(still, { recursive: true, force: false });
+      }
+      removed.push(run);
     }
     return {
       root: base,
+      registered: Boolean(registration),
       totalBytes,
       kept,
       removed,
@@ -837,7 +1246,14 @@ export function createStorageGuard(options = {}) {
   }
 
   /** The gate an entry point calls: outputs bounded, then headroom reserved. */
-  function gate({ operation, target, owner, outputRoots = [] }) {
+  function gate({
+    operation,
+    target,
+    owner,
+    outputRoots = [],
+    outputPaths = [],
+    pid,
+  }) {
     for (const root of outputRoots) {
       const report = pruneOutputs(root, { apply: false });
       if (report.overBudget)
@@ -847,7 +1263,7 @@ export function createStorageGuard(options = {}) {
           { root: report.root, totalBytes: report.totalBytes },
         );
     }
-    return reserve({ operation, target, owner });
+    return reserve({ operation, target, owner, outputPaths, pid });
   }
 
   return {
@@ -860,6 +1276,8 @@ export function createStorageGuard(options = {}) {
     ensureWorkspace,
     register,
     protect,
+    registerOutputRoot,
+    protectedList,
     retirementBlockers,
     retire,
     pruneOutputs,
@@ -868,28 +1286,45 @@ export function createStorageGuard(options = {}) {
 }
 
 /**
- * A hosted CI runner is a fresh, discarded disk with less free space than
- * the workstation reserve; the limits protect the owner's machine, so they
- * are not applied there. Anything else is a workstation.
+ * The workstation limits are skipped on exactly one route: a GitHub-HOSTED
+ * Actions runner, whose disk is created for the job and discarded after it.
+ * `CI=true` alone proves nothing — anyone can export it on the owner's Mac,
+ * and a self-hosted runner is somebody's real disk — so both of those stay
+ * guarded.
  */
 export function isEphemeralHost(env = process.env) {
-  return env.CI === "true" && env.OCD_STORAGE_ENFORCE_IN_CI !== "1";
+  return (
+    env.CI === "true" &&
+    env.GITHUB_ACTIONS === "true" &&
+    env.RUNNER_ENVIRONMENT === "github-hosted" &&
+    env.OCD_STORAGE_ENFORCE_IN_CI !== "1"
+  );
+}
+
+/** Is this process already running under a live managed reservation? */
+function coveringReservation(guard, env = process.env) {
+  const id = env.OCD_STORAGE_RESERVATION;
+  if (!id) return null;
+  return guard.liveReservations().find((entry) => entry.id === id) ?? null;
 }
 
 /**
- * For an entry point: refuse (exit 3) or reserve and release when the
- * process ends. `OCD_STORAGE_OVERRIDE="reason"` records a deliberate bypass
- * instead of silently skipping the check.
+ * For an entry point that IS the operation (Playwright, desktop stage and
+ * package): refuse (exit 3), or reserve and hold until this process ends.
+ * Under `runManaged` the wrapper already holds the headroom, verified against
+ * the reservations file rather than trusted from the environment.
+ * `OCD_STORAGE_OVERRIDE="reason"` records a deliberate bypass.
  */
 export function gateEntryPoint({
   operation,
   target = process.cwd(),
   outputRoots = [],
+  outputPaths = [],
   log = (line) => process.stderr.write(`${line}\n`),
 }) {
   if (isEphemeralHost()) {
     log(
-      `[storage-guard] ${operation}: hosted runner (CI) — ephemeral disk, the workstation reserve does not apply.`,
+      `[storage-guard] ${operation}: GitHub-hosted runner — discarded disk, the workstation reserve does not apply.`,
     );
     return null;
   }
@@ -900,18 +1335,29 @@ export function gateEntryPoint({
     return null;
   }
   const guard = createStorageGuard();
+  const covering = coveringReservation(guard);
+  if (covering) {
+    log(
+      `[storage-guard] ${operation}: inside ${covering.operation} reservation ${covering.id} (${formatBytes(covering.bytes)} held by its wrapper).`,
+    );
+    return covering;
+  }
   try {
     const reservation = guard.gate({
       operation,
       target,
       owner: process.env.OCD_WORKSPACE_OWNER ?? "unregistered",
       outputRoots,
+      outputPaths,
     });
+    // Children of this entry point (stage --rebuild runs the build) are
+    // covered by this reservation instead of taking a second one.
+    process.env.OCD_STORAGE_RESERVATION = reservation.id;
     process.on("exit", () => {
       try {
         guard.release(reservation.id);
       } catch {
-        /* a lost reservation expires on its own */
+        /* a dead holder's reservation is dropped by the next reader */
       }
     });
     log(
@@ -925,4 +1371,105 @@ export function gateEntryPoint({
     }
     throw error;
   }
+}
+
+/**
+ * MANAGED COMMAND: reservation → child → completion, error or signal →
+ * release. The headroom stays reserved for as long as the child runs, so a
+ * second operation is admitted against what is really left. Resolves to the
+ * exit code the caller should use; it never throws for a refusal.
+ *
+ * This is admission control on an ESTIMATE, not a byte quota: nothing stops
+ * the child writing more than was reserved. The reserve kept free, and the
+ * output budget checked at the next gate, are what bound the damage.
+ *
+ * @returns {Promise<number>}
+ */
+export function runManaged({
+  operation,
+  command,
+  args = [],
+  target = process.cwd(),
+  outputRoots = [],
+  owner = process.env.OCD_WORKSPACE_OWNER ?? "unregistered",
+  env = process.env,
+  stdio = "inherit",
+  log = (line) => process.stderr.write(`${line}\n`),
+}) {
+  return new Promise((resolve) => {
+    const launch = (reservation, guard) => {
+      let released = false;
+      const release = () => {
+        if (released || !reservation) return;
+        released = true;
+        try {
+          guard.release(reservation.id);
+        } catch {
+          /* a dead holder's reservation is dropped by the next reader */
+        }
+      };
+      const forward = (signal) => child.kill(signal);
+      const signals = ["SIGINT", "SIGTERM", "SIGHUP"];
+      const settle = (code) => {
+        for (const signal of signals) process.off(signal, handlers[signal]);
+        process.off("exit", release);
+        release();
+        resolve(code);
+      };
+      const handlers = Object.fromEntries(
+        signals.map((signal) => [signal, () => forward(signal)]),
+      );
+      const child = spawn(command, args, {
+        stdio,
+        // `npm` is npm.cmd on Windows, which only a shell resolves.
+        shell: process.platform === "win32",
+        env: reservation
+          ? { ...env, OCD_STORAGE_RESERVATION: reservation.id }
+          : env,
+      });
+      for (const signal of signals) process.on(signal, handlers[signal]);
+      process.on("exit", release);
+      // A command that never started still gives its headroom back.
+      child.on("error", (error) => {
+        log(
+          `[storage-guard] ${operation}: could not start ${command}: ${error.message}`,
+        );
+        settle(127);
+      });
+      child.on("close", (code, signal) =>
+        settle(code ?? (signal ? 128 + (signalNumber(signal) ?? 0) : 1)),
+      );
+    };
+
+    if (isEphemeralHost(env)) {
+      log(
+        `[storage-guard] ${operation}: GitHub-hosted runner — discarded disk, the workstation reserve does not apply.`,
+      );
+      return launch(null, null);
+    }
+    if (env.OCD_STORAGE_OVERRIDE) {
+      log(
+        `[storage-guard] OVERRIDDEN for ${operation}: ${env.OCD_STORAGE_OVERRIDE}`,
+      );
+      return launch(null, null);
+    }
+    const guard = createStorageGuard();
+    if (coveringReservation(guard, env)) return launch(null, null);
+    let reservation;
+    try {
+      reservation = guard.gate({ operation, target, owner, outputRoots });
+    } catch (error) {
+      if (!(error instanceof StorageRefusal)) throw error;
+      log(`[storage-guard] ${error.message}`);
+      return resolve(3);
+    }
+    log(
+      `[storage-guard] ${operation}: holding ${formatBytes(reservation.bytes)} until the command ends; ${formatBytes(guard.policy.freeSpaceReserveBytes)} reserve kept free.`,
+    );
+    return launch(reservation, guard);
+  });
+}
+
+function signalNumber(signal) {
+  return { SIGHUP: 1, SIGINT: 2, SIGTERM: 15, SIGKILL: 9 }[signal];
 }

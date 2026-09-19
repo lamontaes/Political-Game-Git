@@ -23,6 +23,8 @@ if (process.env.TEST_WORKER_INDEX === undefined)
   gateEntryPoint({
     operation: "e2e-capture",
     outputRoots: [dirname(run.artifacts)],
+    // This run's own directory: output cleanup keeps it while we are alive.
+    outputPaths: [run.artifacts],
   });
 process.env.PG_RUN_ID = run.runId;
 const expectedIdentity = sourceIdentity();

@@ -1,5 +1,5 @@
-/* global process, Buffer */
-import { execFileSync } from "node:child_process";
+/* global process, Buffer, setTimeout */
+import { execFileSync, spawn, spawnSync } from "node:child_process";
 import {
   existsSync,
   mkdirSync,
@@ -12,11 +12,12 @@ import {
 } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
   StorageRefusal,
+  contentManifest,
   createStorageGuard,
-  recordedState,
 } from "./storage-guard.mjs";
 
 const GiB = 1024 ** 3;
@@ -226,7 +227,8 @@ describe("bounded, pin-aware output", () => {
   }
 
   it("keeps pinned and recent runs, removes the rest only in apply mode, and never leaves the root", () => {
-    const root = path.join(sandbox, "test-results", "runs");
+    const workspace = path.join(sandbox, "PG-WS");
+    const root = path.join(workspace, "test-results", "runs");
     const pinned = run(root, "old-pinned", 500, {
       pin: true,
       bytes: 64 * 1024,
@@ -243,6 +245,8 @@ describe("bounded, pin-aware output", () => {
     const guard = guardWith({
       policy: { outputBudgetBytes: 96 * 1024, outputKeepRecent: 2 },
     });
+    guard.register({ owner: "A", folder: workspace });
+    guard.registerOutputRoot({ root });
     const dry = guard.pruneOutputs(root);
     expect(dry.overBudget).toBe(true);
     expect(
@@ -279,7 +283,14 @@ describe("retirement protection", () => {
     const clone = publishedClone("PG-DONE");
     const guard = guardWith();
     expect(guard.retirementBlockers(clone, roots())).toEqual([]);
-    const result = guard.retire([{ path: clone }], { ...roots(), apply: true });
+    // No manifest, no removal: there is nothing the owner could have approved.
+    const bare = guard.retire([{ path: clone }], { ...roots(), apply: true });
+    expect(codes(bare[0].blockers)).toEqual(["no-approved-manifest"]);
+    expect(existsSync(clone)).toBe(true);
+    const result = guard.retire(
+      [{ path: clone, expectedManifest: contentManifest(clone) }],
+      { ...roots(), apply: true },
+    );
     expect(result[0].removed).toBe(true);
     expect(existsSync(clone)).toBe(false);
   });
@@ -290,7 +301,7 @@ describe("retirement protection", () => {
     const item = {
       path: clone,
       acknowledged: ["untracked-files"],
-      expectedState: recordedState(clone),
+      expectedManifest: contentManifest(clone),
     };
     const guard = guardWith();
     expect(guard.retire([item], roots())[0].blockers).toEqual([]);
@@ -314,9 +325,14 @@ describe("retirement protection", () => {
       path: broken,
       acknowledged: ["unknown-git-state"],
       identicalTo: { store, commit },
-      expectedState: recordedState(broken, { store, commit }),
+      expectedManifest: contentManifest(broken, {
+        identicalTo: { store, commit },
+      }),
     };
-    expect(item.expectedState).toEqual([`IDENTICAL-TO ${commit}`]);
+    expect(item.expectedManifest).toContain(`SOURCE identical-to ${commit}`);
+    expect(
+      item.expectedManifest.filter((line) => line.startsWith("FILE ")),
+    ).toEqual([]);
     const guard = guardWith();
     expect(guard.retire([item], roots())[0].blockers).toEqual([]);
     writeFileSync(path.join(broken, "source.txt"), "edited since\n");
@@ -515,6 +531,8 @@ describe("repeated operations do not grow the footprint", () => {
     mkdirSync(folder);
     guard.register({ owner: "A", folder });
     const root = path.join(folder, "test-results", "runs");
+    mkdirSync(root, { recursive: true });
+    guard.registerOutputRoot({ root });
     for (let index = 0; index < 10; index += 1) {
       const { workspace } = guard.ensureWorkspace({
         owner: "A",
@@ -544,5 +562,518 @@ describe("repeated operations do not grow the footprint", () => {
     expect(guard.pruneOutputs(root).kept.length).toBeLessThanOrEqual(2);
     for (let index = 0; index < 10; index += 1)
       expect(existsSync(path.join(sandbox, `PG-LOOP-${index}`))).toBe(false);
+  });
+});
+
+describe("G1 — approval binds bytes, not status lines", () => {
+  const roots = () => ({ managedRoot: sandbox, searchRoots: [sandbox] });
+  const codes = (blockers) => blockers.map((blocker) => blocker.code);
+  const soft = ["tracked-modifications", "untracked-files"];
+
+  function dirtyClone(name) {
+    const clone = publishedClone(name);
+    writeFileSync(path.join(clone, ".gitignore"), "cache/\nprivate/\n");
+    git(clone, "add", ".gitignore");
+    git(clone, "commit", "--quiet", "-m", "ignore rules");
+    git(
+      clone,
+      "push",
+      "--quiet",
+      path.join(sandbox, `${name}-remote.git`),
+      "HEAD",
+    );
+    git(
+      clone,
+      "fetch",
+      "--quiet",
+      path.join(sandbox, `${name}-remote.git`),
+      "+HEAD:refs/remotes/origin/HEAD-copy",
+    );
+    writeFileSync(path.join(clone, "source.txt"), "edited AAAA\n"); // tracked, modified
+    writeFileSync(path.join(clone, "notes.txt"), "untracked AAAA\n");
+    mkdirSync(path.join(clone, "private"));
+    writeFileSync(path.join(clone, "private", "input.svg"), "<svg id='AAAA'/>");
+    mkdirSync(path.join(clone, "cache"));
+    writeFileSync(path.join(clone, "cache", "blob.bin"), "cache AAAA");
+    return clone;
+  }
+  const status = (clone) =>
+    git(clone, "status", "--porcelain", "--untracked-files=all", "--ignored");
+
+  it("refuses when an already-modified tracked file is rewritten to different bytes of the same length", () => {
+    const clone = dirtyClone("PG-G1-TRACKED");
+    const guard = guardWith();
+    const item = {
+      path: clone,
+      acknowledged: soft,
+      disposableRoots: ["cache"],
+      expectedManifest: contentManifest(clone, { disposableRoots: ["cache"] }),
+    };
+    expect(guard.retire([item], roots())[0].blockers).toEqual([]); // control
+    const before = status(clone);
+    writeFileSync(path.join(clone, "source.txt"), "edited BBBB\n");
+    expect(status(clone)).toBe(before); // porcelain cannot see it
+    const dry = guard.retire([item], roots());
+    expect(codes(dry[0].blockers)).toEqual(["changed-since-approval"]);
+    expect(dry[0].blockers[0].detail).toMatch(/source\.txt/);
+    expect(guard.retire([item], { ...roots(), apply: true })[0].removed).toBe(
+      false,
+    );
+    expect(readFileSync(path.join(clone, "source.txt"), "utf8")).toBe(
+      "edited BBBB\n",
+    );
+  });
+
+  it("refuses when an existing untracked file is rewritten to different bytes of the same length", () => {
+    const clone = dirtyClone("PG-G1-UNTRACKED");
+    const guard = guardWith();
+    const item = {
+      path: clone,
+      acknowledged: soft,
+      disposableRoots: ["cache"],
+      expectedManifest: contentManifest(clone, { disposableRoots: ["cache"] }),
+    };
+    const before = status(clone);
+    writeFileSync(path.join(clone, "notes.txt"), "untracked BBBB\n");
+    expect(status(clone)).toBe(before);
+    const dry = guard.retire([item], roots());
+    expect(codes(dry[0].blockers)).toEqual(["changed-since-approval"]);
+    expect(dry[0].blockers[0].detail).toMatch(/notes\.txt/);
+  });
+
+  it("covers ignored non-disposable input, and leaves a named disposable cache out", () => {
+    const clone = dirtyClone("PG-G1-IGNORED");
+    const guard = guardWith();
+    const item = {
+      path: clone,
+      acknowledged: soft,
+      disposableRoots: ["cache"],
+      expectedManifest: contentManifest(clone, { disposableRoots: ["cache"] }),
+    };
+    expect(
+      item.expectedManifest.some((line) =>
+        /^FILE \S+ - private\/input\.svg$/.test(line),
+      ),
+    ).toBe(true);
+    expect(item.expectedManifest).toContain("DISPOSABLE cache");
+    expect(
+      item.expectedManifest.some((line) => line.includes("blob.bin")),
+    ).toBe(false);
+    // Control: the disposable cache may churn without voiding the approval.
+    writeFileSync(path.join(clone, "cache", "blob.bin"), "cache BBBB");
+    expect(guard.retire([item], roots())[0].blockers).toEqual([]);
+    // The ignored private input may not.
+    writeFileSync(path.join(clone, "private", "input.svg"), "<svg id='BBBB'/>");
+    const dry = guard.retire([item], roots());
+    expect(codes(dry[0].blockers)).toEqual(["changed-since-approval"]);
+    expect(dry[0].blockers[0].detail).toMatch(/private\/input\.svg/);
+    // Without the exclusion the cache is content like anything else.
+    expect(
+      contentManifest(clone).some((line) => line.endsWith("cache/blob.bin")),
+    ).toBe(true);
+  });
+
+  it("binds a symlink by its target and type, and sees edits the index was told to skip", () => {
+    const clone = dirtyClone("PG-G1-LINKS");
+    symlinkSync("private/input.svg", path.join(clone, "current.svg"));
+    git(clone, "update-index", "--skip-worktree", ".gitignore");
+    const options = { disposableRoots: ["cache"] };
+    const approved = contentManifest(clone, options);
+    expect(approved).toContain("LINK current.svg -> private/input.svg");
+    expect(approved).toContain("INDEX-SPECIAL S .gitignore");
+
+    rmSync(path.join(clone, "current.svg"));
+    symlinkSync("notes.txt", path.join(clone, "current.svg")); // same name, new target
+    expect(contentManifest(clone, options)).not.toEqual(approved);
+    rmSync(path.join(clone, "current.svg"));
+    writeFileSync(path.join(clone, "current.svg"), "private/input.svg"); // link became a file
+    expect(contentManifest(clone, options)).not.toEqual(approved);
+    rmSync(path.join(clone, "current.svg"));
+    symlinkSync("private/input.svg", path.join(clone, "current.svg"));
+    expect(contentManifest(clone, options)).toEqual(approved); // restored
+
+    writeFileSync(path.join(clone, ".gitignore"), "cache/\nprivate/\n# x\n");
+    expect(status(clone)).not.toMatch(/ M \.gitignore/); // hidden from status
+    expect(contentManifest(clone, options)).not.toEqual(approved);
+  });
+});
+
+describe("G2 — output cleanup honours the protected boundary", () => {
+  function run(root, name, ageMinutes, extra = () => {}) {
+    const folder = path.join(root, name);
+    mkdirSync(folder, { recursive: true });
+    writeFileSync(path.join(folder, "trace.bin"), Buffer.alloc(64 * 1024, 1));
+    extra(folder);
+    const when = new Date(Date.now() - ageMinutes * 60_000);
+    utimesSync(folder, when, when);
+    return folder;
+  }
+  const policy = { outputBudgetBytes: 96 * 1024, outputKeepRecent: 1 };
+
+  it("removes only eligible runs in a registered root; protected, nested-pinned and live runs stay", () => {
+    const workspace = path.join(sandbox, "PG-WS");
+    const root = path.join(workspace, "test-results", "runs");
+    const recent = run(root, "recent", 1);
+    const disposable = run(root, "old-disposable", 300);
+    const protectedChild = run(root, "old-protected", 400);
+    const nested = run(root, "old-nested", 500, (folder) => {
+      mkdirSync(path.join(folder, "review", "kept"), { recursive: true });
+      writeFileSync(
+        path.join(folder, "review", "kept", ".pin"),
+        "R1 evidence\n",
+      );
+    });
+    const nestedProtected = run(root, "old-nested-protected", 600, (folder) => {
+      mkdirSync(path.join(folder, "saves"), { recursive: true });
+      writeFileSync(path.join(folder, "saves", "life.db"), "saved life");
+    });
+    const live = run(root, "old-live", 700);
+
+    // Real clock: run ages and the reservation's start are compared in earnest.
+    const guard = createStorageGuard({
+      stateDir: path.join(sandbox, "state"),
+      freeBytes: () => 200 * GiB,
+      policy,
+    });
+    guard.register({ owner: "A", folder: workspace });
+    guard.registerOutputRoot({ root, historical: "disposable" });
+    // Protection that arrives AFTER the root was registered still holds, and
+    // both representations (register's bare paths, protect's entries) count.
+    guard.register({
+      owner: "A",
+      folder: workspace,
+      protect: [protectedChild],
+    });
+    guard.protect(path.join(nestedProtected, "saves"), "owner save");
+    // A root that already holds protected material cannot be registered at all.
+    expect(() => guard.registerOutputRoot({ root })).toThrowError(
+      /overlaps protected/,
+    );
+    const reservation = guard.reserve({
+      operation: "e2e-capture",
+      target: workspace,
+      owner: "A",
+      outputPaths: [live],
+    });
+
+    const dry = guard.pruneOutputs(root);
+    expect(dry.removed.map((entry) => path.basename(entry.path))).toEqual([
+      "old-disposable",
+    ]);
+    const reasons = Object.fromEntries(
+      dry.kept.map((entry) => [path.basename(entry.path), entry.reason]),
+    );
+    expect(reasons["old-protected"]).toMatch(/^protected/);
+    expect(reasons["old-nested"]).toBe("pinned");
+    expect(reasons["old-nested-protected"]).toMatch(/^protected/);
+    expect(reasons["old-live"]).toMatch(/^live/);
+
+    guard.pruneOutputs(root, { apply: true });
+    expect(existsSync(disposable)).toBe(false); // the valid disposable output went
+    for (const folder of [
+      recent,
+      protectedChild,
+      nested,
+      nestedProtected,
+      live,
+    ])
+      expect(existsSync(folder)).toBe(true);
+    expect(
+      readFileSync(path.join(nestedProtected, "saves", "life.db"), "utf8"),
+    ).toBe("saved life");
+
+    // Once its producer is done, the formerly live run is ordinary output.
+    guard.release(reservation.id);
+    expect(
+      guard
+        .pruneOutputs(root)
+        .removed.map((entry) => path.basename(entry.path)),
+    ).toEqual(["old-live"]);
+  });
+
+  it("refuses to delete in an arbitrary, source, protected or symlinked root", () => {
+    const workspace = publishedClone("PG-WS-SRC");
+    const guard = guardWith({ policy });
+    guard.register({ owner: "A", folder: workspace });
+    const arbitrary = path.join(sandbox, "somewhere");
+    const old = run(arbitrary, "old", 900);
+    run(arbitrary, "older", 901);
+    run(arbitrary, "oldest", 902);
+    expect(guard.pruneOutputs(arbitrary).registered).toBe(false); // measuring is fine
+    expect(() => guard.pruneOutputs(arbitrary, { apply: true })).toThrowError(
+      /not an exact registered disposable output root/,
+    );
+    expect(existsSync(old)).toBe(true);
+
+    const refusal = (root) => {
+      try {
+        guard.registerOutputRoot({ root });
+        return "registered";
+      } catch (error) {
+        return error.code;
+      }
+    };
+    expect(refusal(arbitrary)).toBe("outside-workspace");
+    expect(refusal(workspace)).toBe("outside-workspace"); // the workspace itself is source
+    const art = path.join(workspace, "art");
+    mkdirSync(art);
+    guard.protect(art, "private artwork");
+    expect(refusal(art)).toBe("protected");
+    expect(refusal(path.join(art, "nowhere"))).toBe("missing");
+    mkdirSync(path.join(art, "generated"));
+    expect(refusal(path.join(art, "generated"))).toBe("protected");
+    const nestedClone = path.join(workspace, "vendored");
+    git(workspace, "init", "--quiet", nestedClone);
+    expect(refusal(nestedClone)).toBe("holds-source");
+
+    const real = path.join(workspace, "test-results", "runs");
+    mkdirSync(real, { recursive: true });
+    guard.registerOutputRoot({ root: real });
+    const alias = path.join(sandbox, "runs-alias");
+    symlinkSync(real, alias);
+    expect(refusal(alias)).toBe("not-a-directory");
+    expect(() => guard.pruneOutputs(alias, { apply: true })).toThrowError(
+      /symlink/,
+    );
+  });
+
+  it("keeps evidence older than the root's registration until a disposition is recorded", () => {
+    const workspace = path.join(sandbox, "PG-WS-HIST");
+    const root = path.join(workspace, "test-results", "runs");
+    const historical = [
+      run(root, "h1", 5000),
+      run(root, "h2", 5001),
+      run(root, "h3", 5002),
+    ];
+    const guard = createStorageGuard({
+      stateDir: path.join(sandbox, "state"),
+      freeBytes: () => 200 * GiB,
+      policy,
+    }); // real clock: registration is "now", the runs are days old
+    guard.register({ owner: "A", folder: workspace });
+    guard.registerOutputRoot({ root });
+    const kept = guard.pruneOutputs(root, { apply: true });
+    expect(kept.removed).toEqual([]);
+    expect(kept.kept.every((entry) => /^historical/.test(entry.reason))).toBe(
+      true,
+    );
+    for (const folder of historical) expect(existsSync(folder)).toBe(true);
+
+    guard.registerOutputRoot({ root, historical: "disposable" }); // disposition recorded
+    const after = guard.pruneOutputs(root, { apply: true });
+    expect(
+      after.removed.map((entry) => path.basename(entry.path)).sort(),
+    ).toEqual(["h2", "h3"]);
+  });
+});
+
+describe("G3 — the reservation is held through the actual child operation", () => {
+  const cli = path.join(
+    path.dirname(fileURLToPath(import.meta.url)),
+    "cli.mjs",
+  );
+  const X = 10 * GiB;
+  let env;
+  beforeEach(() => {
+    const stateDir = path.join(sandbox, "state");
+    mkdirSync(stateDir, { recursive: true });
+    writeFileSync(
+      path.join(stateDir, "storage-policy.json"),
+      JSON.stringify({
+        freeSpaceReserveBytes: 25 * GiB,
+        estimatesBytes: { build: X },
+      }),
+    );
+    env = {
+      ...process.env,
+      OCD_STORAGE_STATE_DIR: stateDir,
+      // Room for exactly one 10 GiB build above the 25 GiB reserve.
+      OCD_STORAGE_FIXTURE_FREE_BYTES: String(25 * GiB + 1.5 * X),
+      OCD_WORKSPACE_OWNER: "fixture",
+    };
+    for (const name of [
+      "CI",
+      "GITHUB_ACTIONS",
+      "OCD_STORAGE_OVERRIDE",
+      "OCD_STORAGE_RESERVATION",
+    ])
+      delete env[name];
+  });
+  const held = () => {
+    try {
+      return JSON.parse(
+        readFileSync(path.join(sandbox, "state", "reservations.json"), "utf8"),
+      ).reservations;
+    } catch {
+      return [];
+    }
+  };
+  const until = async (condition, ms = 8000) => {
+    const end = Date.now() + ms;
+    while (!condition()) {
+      if (Date.now() > end)
+        throw new Error("timed out waiting for the fixture process");
+      await new Promise((resolve) => setTimeout(resolve, 25));
+    }
+  };
+  const managed = (script, options = {}) =>
+    spawn(
+      process.execPath,
+      [cli, "run", "build", "--", process.execPath, "-e", script],
+      {
+        cwd: sandbox,
+        env,
+        stdio: "ignore",
+        ...options,
+      },
+    );
+  const exit = (child) => new Promise((resolve) => child.on("close", resolve));
+
+  it("keeps the first reservation visible until its child exits; a competitor cannot over-allocate", async () => {
+    const release = path.join(sandbox, "first-may-finish");
+    const first = managed(
+      `const fs=require("fs");const t=setInterval(()=>{if(fs.existsSync(${JSON.stringify(release)})){clearInterval(t)}},20)`,
+    );
+    const firstExit = exit(first);
+    await until(() => held().length === 1);
+    expect(held()[0]).toMatchObject({
+      operation: "build",
+      bytes: X,
+      pid: first.pid,
+    });
+
+    const marker = path.join(sandbox, "second-ran");
+    const script = `require("fs").writeFileSync(${JSON.stringify(marker)},"ran")`;
+    const refused = spawnSync(
+      process.execPath,
+      [cli, "run", "build", "--", process.execPath, "-e", script],
+      {
+        cwd: sandbox,
+        env,
+        encoding: "utf8",
+      },
+    );
+    expect(refused.status).toBe(3);
+    expect(refused.stderr).toMatch(/needs 10 GiB, but only 5\.0 GiB is usable/);
+    expect(existsSync(marker)).toBe(false); // the refused command never started
+    expect(held()).toHaveLength(1); // and the first child is still covered
+
+    writeFileSync(release, "");
+    expect(await firstExit).toBe(0);
+    expect(held()).toHaveLength(0);
+    const admitted = spawnSync(
+      process.execPath,
+      [cli, "run", "build", "--", process.execPath, "-e", script],
+      { cwd: sandbox, env },
+    );
+    expect(admitted.status).toBe(0);
+    expect(readFileSync(marker, "utf8")).toBe("ran");
+    expect(held()).toHaveLength(0);
+  });
+
+  it("releases on a failing child, on a command that cannot start, and on a signal", async () => {
+    const failing = spawnSync(
+      process.execPath,
+      [cli, "run", "build", "--", process.execPath, "-e", "process.exit(7)"],
+      { cwd: sandbox, env },
+    );
+    expect(failing.status).toBe(7);
+    expect(held()).toHaveLength(0);
+
+    const missing = spawnSync(
+      process.execPath,
+      [cli, "run", "build", "--", path.join(sandbox, "no-such-binary")],
+      { cwd: sandbox, env, encoding: "utf8" },
+    );
+    expect(missing.status).toBe(127);
+    expect(missing.stderr).toMatch(/could not start/);
+    expect(held()).toHaveLength(0);
+
+    const long = managed("setTimeout(()=>{},60000)");
+    const longExit = exit(long);
+    await until(() => held().length === 1);
+    long.kill("SIGTERM");
+    expect(await longExit).toBe(143);
+    expect(held()).toHaveLength(0);
+  });
+
+  it("serialises simultaneous admissions: six racers, room for one, exactly one admitted", async () => {
+    const release = path.join(sandbox, "racers-may-finish");
+    const script = `const fs=require("fs");const t=setInterval(()=>{if(fs.existsSync(${JSON.stringify(release)})){clearInterval(t)}},20)`;
+    const racers = Array.from({ length: 6 }, () => managed(script));
+    const exits = racers.map(exit);
+    await until(
+      () => racers.filter((racer) => racer.exitCode === 3).length === 5,
+    );
+    expect(held()).toHaveLength(1);
+    writeFileSync(release, "");
+    const results = await Promise.all(exits);
+    expect(results.filter((code) => code === 0)).toHaveLength(1);
+    expect(results.filter((code) => code === 3)).toHaveLength(5);
+    expect(held()).toHaveLength(0);
+  });
+
+  it("drops a reservation whose holder died, and does not treat CI=true alone as a discarded disk", async () => {
+    const dead = spawnSync(
+      process.execPath,
+      ["-e", "process.stdout.write(String(process.pid))"],
+      { encoding: "utf8" },
+    );
+    writeFileSync(
+      path.join(sandbox, "state", "reservations.json"),
+      JSON.stringify({
+        reservations: [
+          {
+            id: "crashed",
+            operation: "build",
+            owner: "x",
+            target: sandbox,
+            bytes: X,
+            pid: Number(dead.stdout),
+            createdAt: Date.now(),
+            expiresAt: Date.now() + 3_600_000,
+          },
+        ],
+      }),
+    );
+    const afterCrash = spawnSync(process.execPath, [cli, "gate", "build"], {
+      cwd: sandbox,
+      env,
+      encoding: "utf8",
+    });
+    expect(afterCrash.status).toBe(0);
+
+    const tooSmall = {
+      ...env,
+      OCD_STORAGE_FIXTURE_FREE_BYTES: String(26 * GiB),
+    };
+    const localCi = spawnSync(process.execPath, [cli, "gate", "build"], {
+      cwd: sandbox,
+      env: { ...tooSmall, CI: "true" },
+      encoding: "utf8",
+    });
+    expect(localCi.status).toBe(3); // a Mac with CI=true exported is still a Mac
+    const hosted = spawnSync(process.execPath, [cli, "gate", "build"], {
+      cwd: sandbox,
+      env: {
+        ...tooSmall,
+        CI: "true",
+        GITHUB_ACTIONS: "true",
+        RUNNER_ENVIRONMENT: "github-hosted",
+      },
+      encoding: "utf8",
+    });
+    expect(hosted.status).toBe(0);
+    const selfHosted = spawnSync(process.execPath, [cli, "gate", "build"], {
+      cwd: sandbox,
+      env: {
+        ...tooSmall,
+        CI: "true",
+        GITHUB_ACTIONS: "true",
+        RUNNER_ENVIRONMENT: "self-hosted",
+      },
+      encoding: "utf8",
+    });
+    expect(selfHosted.status).toBe(3);
   });
 });
