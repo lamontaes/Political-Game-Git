@@ -21,6 +21,8 @@ import {
 import { PRODUCTION_VISUAL_LIBRARY } from "../presentation/visual-integration";
 import { PlayerVersion } from "./PlayerVersion";
 import { TitleTableau } from "./TitleTableau";
+import { candidateEstablishingPlate } from "./candidate-establishing-plate";
+import { PLAYTEST65_WHITE_HOUSE_LAYOUT } from "../presentation/playtest65-visual-layout";
 
 /**
  * The title screen.
@@ -181,6 +183,11 @@ export function AmbientTableau({
 
   return (
     <TitleTableau
+      illustration={
+        !resolved?.heroName
+          ? candidateEstablishingPlate(PLAYTEST65_WHITE_HOUSE_LAYOUT.assetId)
+          : null
+      }
       presentation={presentation}
       leaving={leaving}
       drifting={!reducedMotion}

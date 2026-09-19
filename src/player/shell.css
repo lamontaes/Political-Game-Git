@@ -2526,3 +2526,15 @@
   color: var(--pg-muted);
   font-size: 0.85em;
 }
+
+.pg-workspace-head {
+  flex-wrap: wrap;
+}
+.pg-workspace-controls {
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+.pg-workspace-head[data-movable="true"],
+.pg-window-resize {
+  touch-action: none;
+}

@@ -236,9 +236,16 @@ export function TitleTableau({
   cycleKey = "still",
   leavingCycleKey = null,
   hero = null,
+  illustration = null,
   visualLibrary = PRODUCTION_VISUAL_LIBRARY,
 }: {
   readonly hero?: PlacedScenePerson | null;
+  readonly illustration?: {
+    readonly url: string;
+    readonly width: number;
+    readonly height: number;
+    readonly assetId: string;
+  } | null;
   readonly visualLibrary?: RuntimeVisualLibrary;
   readonly presentation: TitlePresentation;
   readonly children: ReactNode;
@@ -253,9 +260,10 @@ export function TitleTableau({
   readonly leavingCycleKey?: string | null;
 }) {
   const hasPlate =
-    !NO_PLATE_KINDS.has(presentation.kind) &&
-    presentation.scene?.raster !== null &&
-    presentation.scene?.raster !== undefined;
+    Boolean(illustration) ||
+    (!NO_PLATE_KINDS.has(presentation.kind) &&
+      presentation.scene?.raster !== null &&
+      presentation.scene?.raster !== undefined);
 
   return (
     <div
@@ -269,7 +277,23 @@ export function TitleTableau({
       data-title-kind={presentation.kind}
       data-motion={drifting ? "drift" : "reduced"}
     >
-      {leaving && !NO_PLATE_KINDS.has(leaving.kind) ? (
+      {illustration ? (
+        <div
+          className="title-tableau-stage title-tableau-stage--showing"
+          aria-hidden="true"
+        >
+          <img
+            className="pg-title-establishing"
+            src={illustration.url}
+            width={illustration.width}
+            height={illustration.height}
+            alt=""
+            data-asset-id={illustration.assetId}
+            data-testid="title-establishing-plate"
+          />
+        </div>
+      ) : null}
+      {!illustration && leaving && !NO_PLATE_KINDS.has(leaving.kind) ? (
         <TitleStage
           key={leavingCycleKey ?? `leaving:${cycleKey}`}
           visualLibrary={visualLibrary}
@@ -278,7 +302,7 @@ export function TitleTableau({
           drifting={titleStageDrifts("leaving", drifting)}
         />
       ) : null}
-      {NO_PLATE_KINDS.has(presentation.kind) ? null : (
+      {illustration || NO_PLATE_KINDS.has(presentation.kind) ? null : (
         <TitleStage
           key={cycleKey}
           visualLibrary={visualLibrary}

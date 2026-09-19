@@ -16,7 +16,12 @@ test("PLAYTEST65 creator, opening, map and movable Calendar preserve the life", 
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.setViewportSize({ width: 1280, height: 860 });
-  await page.goto("/?art-preview=candidate&seed=playtest65-u-ordinary");
+  await page.goto("/?art-preview=candidate&seed=playtest65-u-ordinary", {
+    waitUntil: "domcontentloaded",
+    timeout: 120_000,
+  });
+  await expect(page.getByTestId("title-establishing-plate")).toBeVisible();
+  await page.screenshot({ path: info.outputPath("title.png") });
   await fillCreator(page, {
     age: 34,
     state: "Kentucky",
@@ -25,6 +30,16 @@ test("PLAYTEST65 creator, opening, map and movable Calendar preserve the life", 
     familyName: "Montgomery-Washington",
   });
   const begin = page.getByTestId("begin");
+  await expect(
+    page.locator(
+      '.kit41-creator-preview [data-material-group-state="loading"]',
+    ),
+  ).toHaveCount(0, { timeout: 60_000 });
+  await expect(
+    page.locator(
+      '.kit41-creator-preview [data-material-group-state="unavailable"]',
+    ),
+  ).toHaveCount(0);
   for (const viewport of [
     { width: 1280, height: 860 },
     { width: 1280, height: 720 },
@@ -46,6 +61,8 @@ test("PLAYTEST65 creator, opening, map and movable Calendar preserve the life", 
   }
   await page.getByRole("button", { name: "Next Body", exact: true }).click();
   await expect(page.getByRole("dialog", { name: /outfit/i })).toHaveCount(0);
+  await page.getByTestId("creator-undo-appearance").click();
+  await page.getByRole("button", { name: "Next Body", exact: true }).click();
   await page.getByTestId("creator-reset-appearance").click();
   await begin.click();
   await expect(page.getByTestId("world-orientation")).toBeVisible({
@@ -54,6 +71,13 @@ test("PLAYTEST65 creator, opening, map and movable Calendar preserve the life", 
   await expect(page.getByTestId("orientation-step-executive")).toContainText(
     "White House",
   );
+  await expect(page.getByTestId("opening-establishing-plate")).toBeVisible();
+  await expect(
+    page.locator('.pg-opening-president [data-material-group-state="loading"]'),
+  ).toHaveCount(0, { timeout: 60_000 });
+  await expect(
+    page.locator('.pg-opening-president [data-figure-status="ready"]'),
+  ).toBeVisible();
   await page.screenshot({ path: info.outputPath("white-house.png") });
   const president = page.locator(
     ".pg-opening-president .pg-orientation-person",
@@ -115,6 +139,9 @@ test("PLAYTEST65 creator, opening, map and movable Calendar preserve the life", 
   await page.getByTestId("guide-workspace-close").click();
   await goTo(page, "nav-news");
   await page.screenshot({ path: info.outputPath("news.png") });
+  await page.locator(".pg-news-headline").first().click();
+  await expect(page.getByTestId("news-article")).toBeVisible();
+  await page.screenshot({ path: info.outputPath("news-article.png") });
   await page.getByTestId("news-workspace-close").click();
   await goTo(page, "nav-calendar");
   const calendar = page.getByTestId("calendar-workspace");

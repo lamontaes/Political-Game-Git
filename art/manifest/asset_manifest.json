@@ -4940,9 +4940,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_env_playtest65_white_house_north_wide_r1"
-      ],
+      "source_refs": ["prov_env_playtest65_white_house_north_wide_r1"],
       "rights_note": "Owner-supplied Firefly candidate; native corrections generated under the authorized included allowance. External reuse rights not independently assessed.",
       "fixed_or_modular": "fixed",
       "availability": "production-candidate",
@@ -4973,9 +4971,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_env_playtest65_resolute_desk_r1"
-      ],
+      "source_refs": ["prov_env_playtest65_resolute_desk_r1"],
       "rights_note": "Owner-supplied Firefly candidate; native corrections generated under the authorized included allowance. External reuse rights not independently assessed.",
       "fixed_or_modular": "fixed",
       "availability": "production-candidate",
@@ -5006,9 +5002,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_env_playtest65_civic_generic_r1"
-      ],
+      "source_refs": ["prov_env_playtest65_civic_generic_r1"],
       "rights_note": "Owner-supplied Firefly candidate; native corrections generated under the authorized included allowance. External reuse rights not independently assessed.",
       "fixed_or_modular": "fixed",
       "availability": "production-candidate",

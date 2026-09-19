@@ -1,6 +1,13 @@
 import "./world-orientation.css";
 
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+  type CSSProperties,
+} from "react";
 import { projectOpeningWorldSnapshot } from "../presentation/opening-world-snapshot";
 
 import type {
@@ -13,6 +20,8 @@ import type { EntityId, World } from "../simulation";
 import { GameSelect } from "./controls/GameSelect";
 import { SavedPersonFigure } from "./SavedPersonFigure";
 import { PersonPortrait } from "./PersonPortrait";
+import { candidateEstablishingPlate } from "./candidate-establishing-plate";
+import { PLAYTEST65_WHITE_HOUSE_LAYOUT } from "../presentation/playtest65-visual-layout";
 
 /**
  * Four short panels introducing the public world: White House, Congress, the
@@ -45,6 +54,9 @@ export function WorldOrientationPanel({
   readonly renderFigure?: (personId: EntityId) => ReactNode;
   readonly establishingPlate?: ReactNode;
 }) {
+  const plate = candidateEstablishingPlate(
+    PLAYTEST65_WHITE_HOUSE_LAYOUT.assetId,
+  );
   const snapshot = useMemo(
     () =>
       world && personId ? projectOpeningWorldSnapshot(world, personId) : null,
@@ -128,8 +140,32 @@ export function WorldOrientationPanel({
 
       <div className="pg-orientation-reading">
         {step.key === "executive" ? (
-          <div className="pg-white-house-presentation">
-            {establishingPlate}
+          <div
+            className="pg-white-house-presentation"
+            data-has-plate={Boolean(plate)}
+            style={
+              plate
+                ? ({
+                    aspectRatio: `${plate.width} / ${plate.height}`,
+                    "--pg-figure-x": `${(100 * PLAYTEST65_WHITE_HOUSE_LAYOUT.president.x) / plate.width}%`,
+                    "--pg-figure-y": `${(100 * PLAYTEST65_WHITE_HOUSE_LAYOUT.president.y) / plate.height}%`,
+                    "--pg-figure-width": `${(100 * PLAYTEST65_WHITE_HOUSE_LAYOUT.president.width) / plate.width}%`,
+                  } as CSSProperties)
+                : undefined
+            }
+          >
+            {establishingPlate ??
+              (plate ? (
+                <img
+                  className="pg-establishing-image"
+                  src={plate.url}
+                  width={plate.width}
+                  height={plate.height}
+                  alt="Illustrated White House exterior"
+                  data-asset-id={plate.assetId}
+                  data-testid="opening-establishing-plate"
+                />
+              ) : null)}
             <div className="pg-opening-officials">
               {step.people.map((person, position) => (
                 <article

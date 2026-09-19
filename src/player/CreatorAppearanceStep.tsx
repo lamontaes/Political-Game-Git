@@ -37,9 +37,11 @@ export function CreatorAppearanceStep({
     () => creatorAppearanceDraft(setup, library),
     [setup, library],
   );
-  const [edited, setEdited] = useState<{ source: World; world: World } | null>(
-    null,
-  );
+  const [edited, setEdited] = useState<{
+    source: World;
+    world: World;
+    previous: World[];
+  } | null>(null);
   const draft = edited?.source === initial ? edited.world : initial;
   const person = draft?.people[draft.personOrder[0]!];
   const refusal =
@@ -79,7 +81,14 @@ export function CreatorAppearanceStep({
                 library={library}
                 poseFamily="standing-neutral"
                 onWorldChange={(world) =>
-                  setEdited({ source: initial!, world })
+                  setEdited((current) => ({
+                    source: initial!,
+                    world,
+                    previous: [
+                      ...(current?.source === initial ? current.previous : []),
+                      draft,
+                    ].slice(-20),
+                  }))
                 }
                 onPreferenceChange={() => {}}
                 renderPreview={
@@ -130,10 +139,41 @@ export function CreatorAppearanceStep({
         <button
           type="button"
           data-testid="creator-reset-appearance"
-          onClick={() => setEdited(null)}
-          disabled={!edited}
+          onClick={() =>
+            setEdited((current) => ({
+              source: initial!,
+              world: initial!,
+              previous: [
+                ...(current?.source === initial ? current.previous : []),
+                draft!,
+              ].slice(-20),
+            }))
+          }
+          disabled={draft === initial}
         >
           Reset appearance
+        </button>
+        <button
+          type="button"
+          data-testid="creator-undo-appearance"
+          disabled={edited?.source !== initial || !edited?.previous.length}
+          onClick={() =>
+            setEdited((current) => {
+              if (
+                !current ||
+                current.source !== initial ||
+                !current.previous.length
+              )
+                return current;
+              return {
+                source: current.source,
+                world: current.previous.at(-1)!,
+                previous: current.previous.slice(0, -1),
+              };
+            })
+          }
+        >
+          Undo
         </button>
         <button
           type="button"

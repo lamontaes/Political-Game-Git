@@ -24,9 +24,18 @@ export const PLAYTEST65_RESOLUTE_LAYOUT = {
   canvas: { width: 1672, height: 941 },
   chairBounds: { x: 712, y: 335, width: 245, height: 145 },
   deskBounds: { x: 275, y: 474, width: 1117, height: 396 },
-  deskRearEdge: [{ x: 438, y: 477 }, { x: 1225, y: 477 }],
-  deskFrontEdge: [{ x: 282, y: 533 }, { x: 1385, y: 533 }],
-  proposedHandContacts: [{ x: 755, y: 500 }, { x: 910, y: 500 }],
+  deskRearEdge: [
+    { x: 438, y: 477 },
+    { x: 1225, y: 477 },
+  ],
+  deskFrontEdge: [
+    { x: 282, y: 533 },
+    { x: 1385, y: 533 },
+  ],
+  proposedHandContacts: [
+    { x: 755, y: 500 },
+    { x: 910, y: 500 },
+  ],
 } as const;
 
 export type RecordPoseRepertoire =
