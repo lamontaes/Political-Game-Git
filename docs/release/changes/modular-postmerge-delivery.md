@@ -9,3 +9,5 @@ Verification: canonical typecheck; focused private Python and TypeScript suites;
 LEARN: fixture-gated assertions must declare NOT_TESTED when their private input is absent, and required delivery mode must fail rather than count skips as coverage. Identity comparisons must assert nonzero coverage and distinguish pinned resolution from truthful refusal of unpinned later-generation data. The new shared private-test-input helper and regression assertions encode these rules.
 
 Candidate artwork remains subject to user visual acceptance.
+
+A's final source review: per-person MaterialGroup loading/refusal text retains its visible message and data-material-group-state/data-diagnostic attributes, but no longer creates a separate live status region for every person in a room. A two-person regression verifies this. Main nameplates, token controls, pointer structure and creator layout remain intact.

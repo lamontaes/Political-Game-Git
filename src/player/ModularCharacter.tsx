@@ -216,7 +216,6 @@ export function MaterialGroup({
   if (!current || current.error)
     return (
       <span
-        role="status"
         data-material-group-state={current?.error ? "unavailable" : "loading"}
         data-diagnostic={current?.error}
       >
